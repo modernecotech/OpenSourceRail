@@ -54,7 +54,7 @@ mode.
 |---|---|
 | Browser portal | [`operations-portal/README.md`](operations-portal/README.md) |
 | Ops Core model | [`operations-portal/ops-core.md`](operations-portal/ops-core.md) |
-| SQLite server | [`../scripts/ops-core-server.py`](../scripts/ops-core-server.py) |
+| SQLite server | [`../tools/automation/ops-core-server.py`](../tools/automation/ops-core-server.py) |
 | Generated operations data | `build/generated-operations/samawah/` after running the generator |
 | Acceptance status | [`certification/evidence-status.md`](certification/evidence-status.md) |
 | Gap analysis | [`operations-portal/gap-analysis.md`](operations-portal/gap-analysis.md) |

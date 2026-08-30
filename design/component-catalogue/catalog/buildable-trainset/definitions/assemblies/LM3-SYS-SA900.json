@@ -1,0 +1,190 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-CTRL-P010",
+    "LM3-CTRL-P020",
+    "LM3-CTRL-P030",
+    "LM3-CTRL-P040",
+    "LM3-CTRL-P050"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "network enumeration",
+    "firmware record",
+    "self-test",
+    "event-recorder write/read test"
+  ],
+  "id": "LM3-SYS-SA900",
+  "integration_steps": [
+    {
+      "child_id": "LM3-CTRL-P010",
+      "child_title": "T-ECU/S and T-ECU/A compute and safety-control cabinet kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "hardware BOM check",
+        "self-test",
+        "network enumeration",
+        "firmware record",
+        "safety-output test"
+      ]
+    },
+    {
+      "child_id": "LM3-CTRL-P020",
+      "child_title": "navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "SKU/firmware record",
+        "antenna VSWR",
+        "GNSS/IMU test",
+        "balise read",
+        "radio link test"
+      ]
+    },
+    {
+      "child_id": "LM3-CTRL-P030",
+      "child_title": "maintenance HMI, depot pendant, emergency controls, and safety-relay kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 3,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "key/guarded-control test",
+        "emergency input test",
+        "2oo2 relay test",
+        "stowage and access check"
+      ]
+    },
+    {
+      "child_id": "LM3-CTRL-P040",
+      "child_title": "pre-terminated LV trainline harness, DIN cabinet, and terminal-distribution kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "continuity/hipot",
+        "pinout check",
+        "label inspection",
+        "segregation survey",
+        "configuration record"
+      ]
+    },
+    {
+      "child_id": "LM3-CTRL-P050",
+      "child_title": "operational and crashworthy event-recorder storage kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "write/read test",
+        "retention configuration",
+        "crashworthy certificate",
+        "download/recovery test"
+      ]
+    }
+  ],
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail-rated electrical / control equipment, supplier-controlled external component, rail structural steel, supplier crash/coupler system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-SYS-SA900 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "network enumeration",
+      "firmware record",
+      "self-test",
+      "event-recorder write/read test",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-SYS-SA900, KIT-LM3-SYS-SA900, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 1,
+  "source_refs": [
+    "systems.py",
+    "control-electronics/rolling-stock-integration.md",
+    "LM3-ELC-300"
+  ],
+  "title": "train control, communication, and safety electronics assembly"
+}

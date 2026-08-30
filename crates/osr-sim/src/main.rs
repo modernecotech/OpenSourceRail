@@ -12,7 +12,7 @@ use std::process::ExitCode;
     long_about = "\
 Runs a time-stepped simulation of an urban rail network (stations, lines,
 fleet, schedule). Scenarios are TOML files emitted by `osr-design` (see
-designs/<region>/<country>/<city>/<slug>.toml). When --config is omitted,
+cities/catalogue/<region>/<country>/<city>/<slug>.toml). When --config is omitted,
 the bundled Samawah reference scenario is loaded.
 ",
     version
@@ -20,7 +20,7 @@ the bundled Samawah reference scenario is loaded.
 struct Cli {
     /// Path to a scenario TOML file. When omitted, falls back to the
     /// bundled Samawah reference scenario
-    /// (designs/west-asia/Iraq/Samawah/samawah.toml).
+    /// (cities/catalogue/west-asia/Iraq/Samawah/samawah.toml).
     #[arg(long)]
     config: Option<PathBuf>,
 

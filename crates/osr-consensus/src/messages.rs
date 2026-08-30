@@ -1,7 +1,7 @@
 //! Raft RPC message types.
 //!
 //! Names and field layouts deliberately mirror the TLA+ spec
-//! (`formal/tla/SMRaft.tla` §TYPES) for direct cross-checking.
+//! (`engineering/assurance/formal/tla/SMRaft.tla` §TYPES) for direct cross-checking.
 
 use serde::{Deserialize, Serialize};
 

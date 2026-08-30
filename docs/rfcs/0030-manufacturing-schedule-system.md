@@ -21,7 +21,7 @@ feeds QA and maintenance also feeds production work packages for:
 The authoritative template is
 [`lib/templates/manufacturing-schedule.toml`](../../lib/templates/manufacturing-schedule.toml).
 The generated, spreadsheet-friendly city outputs are created by
-[`scripts/generate-qa-maintenance-data.py`](../../scripts/generate-qa-maintenance-data.py).
+[`tools/automation/generate-qa-maintenance-data.py`](../../tools/automation/generate-qa-maintenance-data.py).
 They include the schedule, material/BOM control rows, and stage QA
 verification rows.
 

@@ -77,7 +77,7 @@ evaluator's restrictive path end-to-end.
 
 | Scenario | Fault kinds | What it demonstrates |
 |---|---|---|
-| `designs/west-asia/Iraq/Samawah/samawah.toml` | None | Nominal operation: zero spurious emergencies over multi-hour revenue sim |
+| `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml` | None | Nominal operation: zero spurious emergencies over multi-hour revenue sim |
 | Built-in dust-storm fixture (sim CLI) | PV dust, grid outage, charging-pad outage | Energy-system fault-tolerance |
 | Built-in obstacle-fault fixture (sim CLI) | LIDAR/radar/ultrasonic/peer-disagreement (RFC 0015) | O1–O5 all fire through `BrakeInputs::obstacle_emergency` |
 | Built-in wayside-intrusion fixture (sim CLI) | Present/Unknown on specific sections (RFC 0016) | Interlocking gate (d) withholds MA without a single train violating |
@@ -126,7 +126,7 @@ relies on.
 
 ## 7. Hardware-level evidence
 
-Per-board spec documents under `hardware/<class>/schematics/v2-spec/`:
+Per-board spec documents under `control-electronics/<class>/schematics/v2-spec/`:
 
 | Board | Complete spec |
 |---|---|

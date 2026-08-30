@@ -150,15 +150,15 @@ and rejects drift.
 
 ```bash
 # One city
-scripts/regenerate-city.sh samawah
+tools/automation/regenerate-city.sh samawah
 
 # Complete catalogue, using current caches
-scripts/regenerate-all.sh
+tools/automation/regenerate-all.sh
 
 # Documentation, links and generated drift
-python3 scripts/check-readmes.py
-python3 scripts/check-markdown-links.py
-python3 scripts/repo-health.py --quiet
+python3 tools/automation/check-readmes.py
+python3 tools/automation/check-markdown-links.py
+python3 tools/automation/repo-health.py --quiet
 ```
 
 Changes to common assumptions should normally touch one template or this page,

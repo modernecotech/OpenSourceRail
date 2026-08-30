@@ -210,8 +210,8 @@ and handled fail-restrictively.
 watchdog + supervisor (SR-21); ATECC608B trust anchor; per-rail
 power supervision; redundant 24 V input.
 
-**Evidence:** `hardware/t-ecu-s/schematics/v2-spec/safety-nets.md`;
-`hardware/t-obs/schematics/v2-spec/safety-nets.md`.
+**Evidence:** `control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md`;
+`control-electronics/t-obs/schematics/v2-spec/safety-nets.md`.
 
 ## §8 — Safety management
 
@@ -272,7 +272,7 @@ v2 wiring open).
 host class; zero-on-drop key wrappers (`osr-crypto`); per-
 deployment key registry (`osr-secbus`).
 
-**Evidence:** `hardware/t-ecu-s/schematics/v2-spec/`;
+**Evidence:** `control-electronics/t-ecu-s/schematics/v2-spec/`;
 `osr-crypto` + `osr-secbus` source.
 
 ## Summary

@@ -1,0 +1,84 @@
+{
+  "analysis_family": "OSR-AN-OPS-SUMO-CITY",
+  "analysis_id": "OSR-AN-OPS-SUMO-CITY:chimoio",
+  "arrived_services": 8,
+  "city": "chimoio",
+  "corridor_input": "cities/catalogue/east-africa/Mozambique/Chimoio/chimoio.corridor.geojson",
+  "corridor_sha256": "87aeb44ad1dc010d72e925ee6a23d2430f84fbfc824e7c3943a923b7892904dc",
+  "country": "MZ",
+  "design_input": "cities/catalogue/east-africa/Mozambique/Chimoio/design.toml",
+  "design_sha256": "b06759c152148c9ba2dcbaea7bd309c6418f6be2a255a16bc488294a250a74ff",
+  "generator_sha256": "eab156ed25017ee39abaa3d1162ebe1cbadb99617984e3dedb78eecac7e49913",
+  "geometry_mode": "canonical-corridor",
+  "input_issues": [],
+  "input_quality_passed": true,
+  "line_count": 2,
+  "lines": [
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 19241.459,
+      "corridor_geometry_to_declared_ratio": 0.964117,
+      "declared_length_m": 19957.6,
+      "end_station_gap_m": 0.0,
+      "line": "line-1",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 91.796,
+      "mean_trip_duration_s": 1244.5,
+      "modeled_length_m": 19957.6,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 7,
+      "station_ids": [
+        "line-1-0469-1000-s000000",
+        "line-1-0515-0844-s003501",
+        "line-1-0581-0706-s007007",
+        "line-1-0588-0618-s008991",
+        "line-1-0550-0551-s010961",
+        "line-1-0556-0468-s013046",
+        "line-1-0756-0267-s019958"
+      ],
+      "train_length_m": 49.5
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 14182.626,
+      "corridor_geometry_to_declared_ratio": 1.000079,
+      "declared_length_m": 14181.5,
+      "end_station_gap_m": 0.0,
+      "line": "line-2",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 7.096,
+      "mean_trip_duration_s": 847.5,
+      "modeled_length_m": 14181.5,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 5,
+      "station_ids": [
+        "line-2-0487-0999-s000000",
+        "line-2-0468-0841-s003507",
+        "line-2-0488-0674-s007012",
+        "line-2-0550-0551-s010619",
+        "line-2-0538-0417-s014181"
+      ],
+      "train_length_m": 49.5
+    }
+  ],
+  "local_coordinate_origin": {
+    "latitude": -19.115561526832952,
+    "longitude": 33.50424621885144
+  },
+  "missing_service_ids": [],
+  "passed": true,
+  "rolling_stock_input": "lib/templates/rolling-stock.toml",
+  "rolling_stock_sha256": "45ff142cba101cd319cc48acf07269638aadd21fc5ff3e8d775ec07296d9a3ad",
+  "scheduled_services": 8,
+  "simulation_passed": true,
+  "simulation_status": "completed",
+  "station_count": 12,
+  "tool": {
+    "name": "SUMO",
+    "version_output": "Eclipse SUMO sumo 1.27.1"
+  }
+}

@@ -14,7 +14,7 @@ FORBIDDEN_EVIDENCE = {".bmp", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("register", type=Path, nargs="?", default=Path("engineering/analysis-register.toml"))
+    parser.add_argument("register", type=Path, nargs="?", default=Path("engineering/analysis/analysis-register.toml"))
     args = parser.parse_args()
     root = Path.cwd()
     data = tomllib.loads(args.register.read_text(encoding="utf-8"))

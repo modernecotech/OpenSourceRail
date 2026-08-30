@@ -1,6 +1,6 @@
 # Fault-injection scenarios
 
-Reference simulation scenarios that stage specific failure modes for exercising the safety-critical subsystems. Each file is a **complete scenario** (currently built on top of the Samawah network in `designs/west-asia/Iraq/Samawah/samawah.toml`) with an additional `[[faults]]` / event-schedule section that the sim replays against the network.
+Reference simulation scenarios that stage specific failure modes for exercising the safety-critical subsystems. Each file is a **complete scenario** (currently built on top of the Samawah network in `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`) with an additional `[[faults]]` / event-schedule section that the sim replays against the network.
 
 | File | RFC | What it exercises |
 |---|---|---|

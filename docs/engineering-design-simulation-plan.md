@@ -18,7 +18,7 @@ following authority boundaries:
 
 | Design information | Authority | Review or analysis handoff |
 |---|---|---|
-| Parametric rolling-stock, component, station, and civil-kit geometry | `mechanical-py/src/osr_mech/` | Native FreeCAD `.FCStd`, STEP, drawings, solver meshes |
+| Parametric rolling-stock, component, station, and civil-kit geometry | `design/component-catalogue/src/osr_mech/` | Native FreeCAD `.FCStd`, STEP, drawings, solver meshes |
 | Surveyed route, levels, control, parcels, utilities, and terrain | Deployment GeoPackage in QGIS; approved OSR-ALN for railway alignment | LandXML, GeoJSON, GeoTIFF, LAS/LAZ/E57 |
 | Product structure, quantities, and assembly sequence | Generated repository BOMs, travelers, and assembly documents | IFC property sets and drawing schedules reference stable OSR part IDs |
 | Operational behavior and measured duty cycle | OSR Rust simulator and logged field evidence | CSV/Parquet or versioned JSON input decks for specialist tools |

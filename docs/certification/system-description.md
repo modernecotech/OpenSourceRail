@@ -3,7 +3,7 @@
 ## 1. What OSR is
 
 OpenSourceRail is an open-source urban-rail technology stack —
-software + hardware reference designs + operational rules — sized
+software + control-electronics reference designs + operational rules — sized
 for GoA 4 (Unattended Train Operation) light-metro and metro
 deployments. Each deployment follows the same
 [unified deployment model](../deployment-model.md): shared OSR stack,

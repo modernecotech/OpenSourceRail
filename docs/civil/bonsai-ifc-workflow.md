@@ -16,7 +16,7 @@ must not silently override its route or engineering rules.
 | Information | Authority | Bonsai role |
 |---|---|---|
 | Horizontal/vertical alignment, transitions, cant and rule checks | OSR-ALN plus accepted survey/GIS inputs | Inspect the exported `IfcAlignment` reference and coordinate issues |
-| Pier, girder, trackform, platform and canopy parameters | `mechanical-py/src/osr_mech/` | Federate, classify, inspect, annotate and develop deployment detail against stable IDs |
+| Pier, girder, trackform, platform and canopy parameters | `design/component-catalogue/src/osr_mech/` | Federate, classify, inspect, annotate and develop deployment detail against stable IDs |
 | Structural capacity, reinforcement, bearings, foundations and temporary works | Reviewed analysis decks and engineer-released drawings | Coordinate released results; never infer approval from visible geometry |
 | IFC object hierarchy, property sets, quantities and 4D task links | Generated IFC checked by IfcOpenShell schema/EXPRESS validation and IDS | Native GUI authoring/review environment |
 | Civil planning rates | Generated `lib/templates/civil-cost-model.toml` from CAD quantities and reviewed benchmark shares | Inspect the model hash, rate properties and quantity basis; do not treat them as a quote |
@@ -32,25 +32,25 @@ select engineering design parameters.
 Check the installed stack:
 
 ```bash
-scripts/bonsai-civil.sh --check
+tools/automation/bonsai-civil.sh --check
 ```
 
 Generate deterministic IFC and JSON evidence without opening Blender:
 
 ```bash
-scripts/bonsai-civil.sh --generate
+tools/automation/bonsai-civil.sh --generate
 ```
 
 Generate, import through Bonsai, save a native review scene, and render it:
 
 ```bash
-scripts/bonsai-civil.sh --render
+tools/automation/bonsai-civil.sh --render
 ```
 
 Render the normalized construction sequence as MP4 as well:
 
 ```bash
-scripts/bonsai-civil.sh --animate
+tools/automation/bonsai-civil.sh --animate
 ```
 
 To bind the federation to a City Studio line, use the **Generate Bonsai civil
@@ -60,7 +60,9 @@ same exporter. The civil settings panel can store an accepted map conversion
 per stable line ID; it is Git-visible, revision-hashed, shown in semantic
 revision comparison, and passed only when that line is regenerated.
 
-Outputs are written beneath `build/engineering/bonsai-civil/`:
+Ordinary jobs are written beneath `build/engineering/bonsai-civil/`. The same
+generator publishes the named GitHub-review set beneath
+[`engineering/models/bim/reference/`](../../engineering/models/bim/reference/README.md):
 
 - `civil-coordination.ifc` — native IFC4.3 model;
 - `civil-coordination.index.json` — object-aware browser index and authority boundary;
@@ -69,9 +71,11 @@ Outputs are written beneath `build/engineering/bonsai-civil/`:
 - `civil-information-requirements.report.json` — complete deterministic IDS audit evidence;
 - `civil-coordination-issues.bcf` — BCF 3.0 package with object-linked release issues;
 - `civil-coordination-issues.index.json` — browser-safe issue and IFC selection index;
-- `civil-coordination.validation.json` — reopen, IDS, BCF-link, and exact artifact-hash checks;
-- `civil-coordination.blend` — Bonsai scene retaining IFC links and the animation timeline;
-- `civil-coordination.png` and optional MP4 — reproducible visual review artifacts.
+- `civil-coordination.validation.json` — reopen, IDS, BCF-link, and exact artifact-hash checks.
+
+The tracked screenshot is under [`docs/screenshots/civil/`](../screenshots/civil/).
+Bonsai `.blend` scenes, animation frames and videos are reproducible review
+outputs and remain under `build/` or tagged GitHub Release storage.
 
 ## Model content
 

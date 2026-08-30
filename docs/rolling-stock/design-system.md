@@ -33,29 +33,29 @@ The rule of thumb is simple:
 The first implementation is deterministic and dependency-free:
 
 ```bash
-scripts/design-iterate.sh
+tools/automation/design-iterate.sh
 ```
 
 It exhausts the declared discrete design space for the default
 `light-metro-3car` family, evaluates every candidate, and writes:
 
-- `mechanical-py/catalog/design-system/design-iteration.json`
-- `mechanical-py/catalog/design-system/design-iteration-summary.md`
+- `design/component-catalogue/catalog/design-system/design-iteration.json`
+- `design/component-catalogue/catalog/design-system/design-iteration-summary.md`
 
 To turn the winning candidate into a buildable product tree and review
 the current CAD/BOM baseline against it:
 
 ```bash
-scripts/buildable-trainset.sh
+tools/automation/buildable-trainset.sh
 ```
 
 That writes the buildable manifest and buildability review under
-`mechanical-py/catalog/buildable-trainset/`.
+`design/component-catalogue/catalog/buildable-trainset/`.
 
 To run a bounded exploratory pass:
 
 ```bash
-scripts/design-iterate.sh --family metro-4car --max-iterations 250
+tools/automation/design-iterate.sh --family metro-4car --max-iterations 250
 ```
 
 The current scorecard is intentionally planning-grade. It is good enough
@@ -64,7 +64,7 @@ but it is not a certification result. As the project matures, replace
 or augment the simple metrics with:
 
 - FreeCAD-derived mass properties and package clearances;
-- CalculiX margins from `scripts/freecad-generate.sh --fem`;
+- CalculiX margins from `tools/automation/freecad-generate.sh --fem`;
 - supplier quotations and evidence status;
 - lifecycle energy and maintenance models;
 - risk penalties from the hazard log and compliance matrix.
@@ -74,12 +74,12 @@ or augment the simple metrics with:
 Use the generated best candidate as a design review input, then run:
 
 ```bash
-scripts/freecad-generate.sh --models --assemblies --fem
-scripts/freecad-generate.sh --screenshots --station-scenes
+tools/automation/freecad-generate.sh --models --assemblies --fem
+tools/automation/freecad-generate.sh --screenshots --station-scenes
 ```
 
 If CAD/FEM/supplier evidence rejects the candidate, update the component
 catalogue or constraints in `osr_mech.design_definition`, rerun
-`scripts/design-iterate.sh`, and promote the next best feasible
+`tools/automation/design-iterate.sh`, and promote the next best feasible
 candidate. That is the closed loop: requirements drive definitions,
 definitions drive CAD/FEM, evidence updates definitions.

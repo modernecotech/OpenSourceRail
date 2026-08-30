@@ -30,7 +30,7 @@ from bcf.v3.bcfxml import BcfXml
 from xsdata.models.datatype import XmlDateTime
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-MECHANICAL_SRC = REPO_ROOT / "mechanical-py/src"
+MECHANICAL_SRC = REPO_ROOT / "design/component-catalogue/src"
 if str(MECHANICAL_SRC) not in sys.path:
     sys.path.insert(0, str(MECHANICAL_SRC))
 
@@ -193,19 +193,19 @@ MATERIAL_FAMILIES = {
         "label": "Rail steel family",
         "category": "steel",
         "description": "Running-rail steel; grade, heat treatment, supplier, and certificate remain unresolved.",
-        "source_authority": "mechanical-py/src/osr_mech/track/rail.py",
+        "source_authority": "design/component-catalogue/src/osr_mech/track/rail.py",
     },
     "OSR-MAT-FAMILY-PRESTRESSED-CONCRETE": {
         "label": "Prestressed concrete family",
         "category": "concrete",
         "description": "Prestressed concrete beam family; mix, reinforcement, prestress, durability, and release remain unresolved.",
-        "source_authority": "mechanical-py/src/osr_mech/civil/decked_pi.py",
+        "source_authority": "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
     },
     "OSR-MAT-FAMILY-PRECAST-CONCRETE": {
         "label": "Precast concrete family",
         "category": "concrete",
         "description": "Precast platform-unit concrete family; grade, reinforcement, finish, and release remain unresolved.",
-        "source_authority": "mechanical-py/src/osr_mech/civil/platform_l_unit.py",
+        "source_authority": "design/component-catalogue/src/osr_mech/civil/platform_l_unit.py",
     },
 }
 
@@ -545,7 +545,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-CIVIL-INTEGRATION": {
         "name": "OSR civil systems integration source",
-        "path": "mechanical-py/src/osr_mech/civil_systems_integration.py",
+        "path": "design/component-catalogue/src/osr_mech/civil_systems_integration.py",
         "purpose": "Federation placement and interface source",
         "scope": "Project, all component occurrences, and reusable types",
         "intended_use": "Design-reference geometry orchestration",
@@ -553,7 +553,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-CLEARANCE": {
         "name": "OSR clearance envelope source",
-        "path": "mechanical-py/src/osr_mech/clearance/envelope.py",
+        "path": "design/component-catalogue/src/osr_mech/clearance/envelope.py",
         "purpose": "Clearance review geometry source",
         "scope": "Clearance-envelope occurrences and types",
         "intended_use": "Interface screening; not gauging release",
@@ -561,7 +561,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-DECKED-PI": {
         "name": "OSR decked Pi and walkway source",
-        "path": "mechanical-py/src/osr_mech/civil/decked_pi.py",
+        "path": "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
         "purpose": "Viaduct beam and walkway geometry source",
         "scope": "Decked-Pi and walkway occurrences and types",
         "intended_use": "Design-reference civil coordination",
@@ -569,7 +569,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-GUIDEWAY-EDGE": {
         "name": "OSR guideway edge source",
-        "path": "mechanical-py/src/osr_mech/civil/guideway_channel_edge.py",
+        "path": "design/component-catalogue/src/osr_mech/civil/guideway_channel_edge.py",
         "purpose": "Guideway edge geometry source",
         "scope": "Guideway-edge occurrences and types",
         "intended_use": "Design-reference platform and drainage coordination",
@@ -577,7 +577,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-PLATFORM": {
         "name": "OSR platform unit source",
-        "path": "mechanical-py/src/osr_mech/civil/platform_l_unit.py",
+        "path": "design/component-catalogue/src/osr_mech/civil/platform_l_unit.py",
         "purpose": "Platform unit geometry source",
         "scope": "Platform-unit occurrences and types",
         "intended_use": "Design-reference platform coordination",
@@ -585,7 +585,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-RAIL": {
         "name": "OSR rail profile and bar source",
-        "path": "mechanical-py/src/osr_mech/track/rail.py",
+        "path": "design/component-catalogue/src/osr_mech/track/rail.py",
         "purpose": "Rail profile and extrusion source",
         "scope": "Rail occurrences, types, and native profile",
         "intended_use": "Coordination profile; full mill profile remains required",
@@ -593,7 +593,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-ROLLING-STOCK": {
         "name": "OSR trainset geometry source",
-        "path": "mechanical-py/src/osr_mech/rolling_stock/trainset.py",
+        "path": "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py",
         "purpose": "Rolling-stock coordination geometry source",
         "scope": "Trainset occurrences and types",
         "intended_use": "Physical-envelope and interface review",
@@ -601,7 +601,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-SLAB": {
         "name": "OSR slab trackform source",
-        "path": "mechanical-py/src/osr_mech/civil/slab.py",
+        "path": "design/component-catalogue/src/osr_mech/civil/slab.py",
         "purpose": "At-grade and elevated trackform geometry source",
         "scope": "Trackform occurrences and types",
         "intended_use": "Design-reference civil coordination",
@@ -609,7 +609,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-STATION-CANOPY": {
         "name": "OSR station canopy source",
-        "path": "mechanical-py/src/osr_mech/station/canopy.py",
+        "path": "design/component-catalogue/src/osr_mech/station/canopy.py",
         "purpose": "Station canopy geometry source",
         "scope": "Canopy occurrences and types",
         "intended_use": "Design-reference station coordination",
@@ -617,7 +617,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-SUBSTRUCTURE": {
         "name": "OSR viaduct substructure source",
-        "path": "mechanical-py/src/osr_mech/civil/substructure.py",
+        "path": "design/component-catalogue/src/osr_mech/civil/substructure.py",
         "purpose": "Pier and foundation-interface geometry source",
         "scope": "Pier occurrences and types",
         "intended_use": "Interface review; foundation design remains unresolved",
@@ -625,7 +625,7 @@ DOCUMENT_SOURCES = {
     },
     "OSR-DOC-SOURCE-TURNOUT": {
         "name": "OSR turnout geometry source",
-        "path": "mechanical-py/src/osr_mech/track/turnout.py",
+        "path": "design/component-catalogue/src/osr_mech/track/turnout.py",
         "purpose": "Turnout coordination geometry source",
         "scope": "Turnout occurrences and types",
         "intended_use": "Design-reference track coordination",
@@ -2148,7 +2148,7 @@ def add_interface_constraints(
                 ),
                 "ConstraintGrade": "HARD",
                 "ConstraintSource": (
-                    "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                    "design/component-catalogue/src/osr_mech/civil_systems_integration.py"
                 ),
                 "CreationTime": FIXED_REVIEW_TIMESTAMP,
                 "ObjectiveQualifier": "DESIGNINTENT",
@@ -2180,7 +2180,7 @@ def add_interface_constraints(
                     ),
                     "ConstraintGrade": "HARD",
                     "ConstraintSource": (
-                        "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                        "design/component-catalogue/src/osr_mech/civil_systems_integration.py"
                     ),
                     "CreationTime": FIXED_REVIEW_TIMESTAMP,
                     "Benchmark": check.metric.benchmark,
@@ -2217,7 +2217,7 @@ def add_interface_constraints(
                 "constraint_grade": "HARD",
                 "objective_qualifier": "DESIGNINTENT",
                 "constraint_source": (
-                    "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                    "design/component-catalogue/src/osr_mech/civil_systems_integration.py"
                 ),
                 "scope": "IfcProject governance plus deterministic related evidence",
                 "association_intent": relationship.Intent,
@@ -2673,7 +2673,7 @@ def build_model(
             "AtGradeUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["at_grade"]),
             "ElevatedUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["elevated"]),
             "BridgeUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["bridge"]),
-            "Regeneration": "python3 scripts/generate-civil-cost-model.py",
+            "Regeneration": "python3 tools/automation/generate-civil-cost-model.py",
         },
     )
 
@@ -2806,7 +2806,7 @@ def build_model(
                                     "ProfileId": profile_id,
                                     "StandardDesignation": "UIC 60E1",
                                     "GeometryStatus": "simplified-straight-line-review-polygon",
-                                    "SourceAuthority": "mechanical-py/src/osr_mech/track/rail.py",
+                                    "SourceAuthority": "design/component-catalogue/src/osr_mech/track/rail.py",
                                     "FullMillProfileStatus": "required for procurement and detailed rail design",
                                     "PublishedLinearMassKgPerM": geometry.linear_mass_kg_per_m,
                                     "RevisionId": revision_id,
@@ -2836,7 +2836,7 @@ def build_model(
                                 "material_id": material_id,
                                 "standard_designation": "UIC 60E1",
                                 "geometry_status": "simplified-straight-line-review-polygon",
-                                "source_authority": "mechanical-py/src/osr_mech/track/rail.py",
+                                "source_authority": "design/component-catalogue/src/osr_mech/track/rail.py",
                                 "width_m": geometry.foot_width_mm / 1_000.0,
                                 "height_m": geometry.height_mm / 1_000.0,
                                 "area_m2": round(polygon_area(points_m), 9),
@@ -2863,7 +2863,7 @@ def build_model(
                                 "StandardDesignation": "UIC 60E1",
                                 "GeometryStatus": "simplified-straight-line-review-polygon",
                                 "OccurrenceUsage": "IfcMaterialProfileSetUsage; cardinal point 5",
-                                "SourceAuthority": "mechanical-py/src/osr_mech/track/rail.py",
+                                "SourceAuthority": "design/component-catalogue/src/osr_mech/track/rail.py",
                             },
                         )
                         profile_rows[profile_id]["assigned_type_count"] += 1

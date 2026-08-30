@@ -25,13 +25,13 @@ their revision, approved baseline, run and selected-asset references.
 ## Generate Data
 
 ```bash
-python3 scripts/generate-qa-maintenance-data.py
+python3 tools/automation/generate-qa-maintenance-data.py
 ```
 
 The default input is the generated Samawah design and scenario:
 
-- `designs/west-asia/Iraq/Samawah/design.toml`
-- `designs/west-asia/Iraq/Samawah/samawah.toml`
+- `cities/catalogue/west-asia/Iraq/Samawah/design.toml`
+- `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`
 
 Outputs land in `build/generated-operations/samawah/`:
 
@@ -76,7 +76,7 @@ Serve the repository root and persist Ops Core work orders, inspections,
 defects, and audit events to SQLite:
 
 ```bash
-python3 scripts/ops-core-server.py --port 8008
+python3 tools/automation/ops-core-server.py --port 8008
 ```
 
 The server creates the database and schema automatically if they do not

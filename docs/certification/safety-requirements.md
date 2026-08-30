@@ -239,7 +239,7 @@ Every brake command to the actuator shall pass through a 2oo2
 AND-gate relay driven by both RP2350 channels of the T-ECU/S.
 
 - **Implementation:** Hardware AND-gate relay stage per
-  `hardware/t-ecu-s/schematics/v2-spec/safety-nets.md`.
+  `control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md`.
 - **Evidence:** Safety-nets spec; DRC pass at board production
   (deployment-specific).
 
@@ -250,7 +250,7 @@ supervisor to reset that channel; concurrent loss of both
 heartbeats shall drop the EB relay directly (bypassing the
 AND gate).
 
-- **Implementation:** `hardware/t-ecu-s/schematics/v2-spec/safety-nets.md`
+- **Implementation:** `control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md`
   watchdog rules.
 - **Evidence:** Safety-nets spec.
 
@@ -311,7 +311,7 @@ be equipped with platform screen doors (PSDs) per RFC 0010
 | SR-11 | Derailment detection | 4 | Proptest |
 | SR-12 | Onboard fire detection | 4 | Proptest |
 | SR-13 | Hot-axle-box detection | 4 (wayside) / 2 (onboard) | Proptest |
-| SR-14 | Passenger emergency intercom | 2 | State machine + sim brake-path test; hardware/media evidence open |
+| SR-14 | Passenger emergency intercom | 2 | State machine + sim brake-path test; control-electronics/media evidence open |
 | SR-15 | EB dominates | 4 | Kani |
 | SR-16 | Evacuation on fire-EB | 2 | Rulebook + sim pending |
 | SR-17 | Dispatcher accountability | — | Rulebook S1.1 |

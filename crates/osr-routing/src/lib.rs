@@ -1,6 +1,6 @@
 //! Least-cost-path route solver for OpenSourceRail design generation.
 //!
-//! Inputs are produced by `design-py/osr_geo/` — three aligned rasters
+//! Inputs are produced by `design/city-generation/osr_geo/` — three aligned rasters
 //! (cost, demand, buildability) plus an anchors list — all landing on
 //! disk as raw byte arrays with a sidecar `grid.json` describing the
 //! geo-reference.

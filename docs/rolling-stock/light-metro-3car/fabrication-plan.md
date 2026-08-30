@@ -40,7 +40,7 @@ The first factory needs five cells, not a full legacy rolling-stock
 plant:
 
 The generated numeric sizing is controlled in
-[`factory-plan.md`](../../../mechanical-py/catalog/buildable-trainset/factory-plan.md):
+[`factory-plan.md`](../../../design/component-catalogue/catalog/buildable-trainset/factory-plan.md):
 3,515 m2 enclosed pilot factory, 2,200 m2 outside yard/test apron,
 13 working days for chassis/painted frame fabrication, 13 working days
 for bogie build and bogie-to-carbody integration, 14 working days for
@@ -126,7 +126,7 @@ rather than legacy carbody megajigs.
 | LM3-TL-INT-12 | Battery strake cover and hatch gauge | Checks under-seat FRP covers, service hatch removal, HV labels, and seat-base fairing clearances | Hatch removable without seat removal |
 | LM3-TL-INT-13 | Door/PRM transition trim fixture | Checks vestibule kick panels, step covers, threshold trims, anti-slip strips, and contrast nosing | PRM transition accepted by gauge |
 
-The current CAD manufacturing templates generated from `mechanical-py`
+The current CAD manufacturing templates generated from `design/component-catalogue`
 are tracked as parametric source and FreeCAD review artifacts:
 
 | Template/source | Use |
@@ -333,7 +333,7 @@ No primary steel member should be redesigned when a COTS supplier is
 changed. Supplier changes should require only adapter plates, harness
 tails, software configuration, and certification paperwork updates.
 The detailed envelopes and incoming-inspection evidence are maintained
-in the [`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md) catalogue.
+in the [`control-electronics/trainset-interiors.md`](../../../control-electronics/trainset-interiors.md) catalogue.
 
 ## Inspection gates
 

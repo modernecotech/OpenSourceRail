@@ -1,0 +1,109 @@
+{
+  "analysis_family": "OSR-AN-OPS-SUMO-CITY",
+  "analysis_id": "OSR-AN-OPS-SUMO-CITY:homs",
+  "arrived_services": 12,
+  "city": "homs",
+  "corridor_input": "cities/catalogue/west-asia/Syria/Homs/homs.corridor.geojson",
+  "corridor_sha256": "50b559ec5a2ec114a36b01543e8d25959694ae0c90af0cafcde6df0c48f77413",
+  "country": "SY",
+  "design_input": "cities/catalogue/west-asia/Syria/Homs/design.toml",
+  "design_sha256": "cee38b2dc919b341e1ba066fa288bfd4f7d3575a69eb50e18c73ed166e07e751",
+  "generator_sha256": "eab156ed25017ee39abaa3d1162ebe1cbadb99617984e3dedb78eecac7e49913",
+  "geometry_mode": "canonical-corridor",
+  "input_issues": [],
+  "input_quality_passed": true,
+  "line_count": 3,
+  "lines": [
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 13404.445,
+      "corridor_geometry_to_declared_ratio": 1.000227,
+      "declared_length_m": 13401.4,
+      "end_station_gap_m": 0.0,
+      "line": "line-1",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 11.7,
+      "mean_trip_duration_s": 987.0,
+      "modeled_length_m": 13401.4,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 7,
+      "station_ids": [
+        "line-1-0517-0336-s000000",
+        "line-1-0568-0338-s001954",
+        "line-1-0563-0423-s003928",
+        "line-1-0592-0495-s006007",
+        "line-1-0614-0565-s008069",
+        "line-1-0669-0645-s010737",
+        "line-1-0761-0719-s013401"
+      ],
+      "train_length_m": 49.5
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 11757.982,
+      "corridor_geometry_to_declared_ratio": 0.999837,
+      "declared_length_m": 11759.9,
+      "end_station_gap_m": 0.0,
+      "line": "line-2",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 1.014,
+      "mean_trip_duration_s": 830.0,
+      "modeled_length_m": 11759.9,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 6,
+      "station_ids": [
+        "line-2-0863-0415-s000000",
+        "line-2-0734-0429-s003018",
+        "line-2-0691-0483-s004630",
+        "line-2-0614-0565-s007472",
+        "line-2-0529-0610-s009613",
+        "line-2-0476-0688-s011760"
+      ],
+      "train_length_m": 49.5
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 14796.092,
+      "corridor_geometry_to_declared_ratio": 0.99954,
+      "declared_length_m": 14802.9,
+      "end_station_gap_m": 0.0,
+      "line": "line-3",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 12.242,
+      "mean_trip_duration_s": 865.5,
+      "modeled_length_m": 14802.9,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 5,
+      "station_ids": [
+        "line-3-0276-0370-s000000",
+        "line-3-0473-0484-s005686",
+        "line-3-0542-0523-s007703",
+        "line-3-0614-0565-s009710",
+        "line-3-0643-0792-s014803"
+      ],
+      "train_length_m": 49.5
+    }
+  ],
+  "local_coordinate_origin": {
+    "latitude": 34.732540202441946,
+    "longitude": 36.714817879561174
+  },
+  "missing_service_ids": [],
+  "passed": true,
+  "rolling_stock_input": "lib/templates/rolling-stock.toml",
+  "rolling_stock_sha256": "45ff142cba101cd319cc48acf07269638aadd21fc5ff3e8d775ec07296d9a3ad",
+  "scheduled_services": 12,
+  "simulation_passed": true,
+  "simulation_status": "completed",
+  "station_count": 18,
+  "tool": {
+    "name": "SUMO",
+    "version_output": "Eclipse SUMO sumo 1.27.1"
+  }
+}

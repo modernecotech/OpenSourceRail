@@ -11,7 +11,7 @@ use osr_city_studio::CityProject;
     about = "Deterministic, Git-backed OSR city design and service planning"
 )]
 struct Cli {
-    #[arg(long, default_value = "projects/samawah", global = true)]
+    #[arg(long, default_value = "cities/workspaces/samawah", global = true)]
     project: PathBuf,
     #[command(subcommand)]
     command: Command,

@@ -1,7 +1,7 @@
 //! OpenSourceRail Static-Membership Raft (SMRaft).
 //!
 //! This crate implements a Rust refinement of the TLA+ specification
-//! at [`formal/tla/SMRaft.tla`](../../../formal/tla/SMRaft.tla), per
+//! at [`engineering/assurance/formal/tla/SMRaft.tla`](../../../engineering/assurance/formal/tla/SMRaft.tla), per
 //! [RFC 0001 §8](../../../docs/rfcs/0001-track-state-consensus.md)
 //! and RFC 0005 §4.6. It is **Phase 2d, crate 1** — the wayside-side
 //! replication engine that maintains the authoritative track-state

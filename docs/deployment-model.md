@@ -17,7 +17,7 @@ limited to inputs and generated artifacts:
 - country, cost, finance, climate, regulatory, and workforce templates
   under `lib/templates/`;
 - optional recipe adjustments in `lib/recipes/`;
-- generated design outputs under `designs/<region>/<country>/<city>/`;
+- generated design outputs under `cities/catalogue/<region>/<country>/<city>/`;
 - deployment-specific survey, asset, operator, and assessor evidence.
 
 Everything else stays shared: train families, track geometry presets,
@@ -27,7 +27,7 @@ requirements, certification evidence structure, and regeneration tools.
 ## Pipeline
 
 1. Add or update the city record and country assumptions.
-2. Run `scripts/regenerate-city.sh <slug>`.
+2. Run `tools/automation/regenerate-city.sh <slug>`.
 3. Review the generated network, scenario, cost, energy, fleet, station,
    depot, and quality outputs.
 4. Export civil alignment from the generated design through OSR-ALN.
@@ -51,7 +51,7 @@ rather than kept as parallel plans.
 
 | Artifact | Role |
 |---|---|
-| `designs/west-asia/Iraq/Samawah/` | Authoritative generated city model and public planning numbers |
+| `cities/catalogue/west-asia/Iraq/Samawah/` | Authoritative generated city model and public planning numbers |
 | `docs/rfcs/0003-samawah-reference-deployment.md` | Context, pilot rationale, risks, and next steps |
 | `docs/stations/standard-archetype/` | Shared station-archetype worked example; city-specific station lists come from generated designs |
 
@@ -59,7 +59,7 @@ rather than kept as parallel plans.
 
 | Area | Shared source | City-specific output |
 |---|---|---|
-| City design | `osr-design`, `design-py`, `lib/templates/` | `designs/<region>/<country>/<city>/design.toml` and generated README |
+| City design | `osr-design`, `design/city-generation`, `lib/templates/` | `cities/catalogue/<region>/<country>/<city>/design.toml` and generated README |
 | Civil alignment | RFC 0009 + OSR-ALN tools | per-line `.aln.toml`, survey replacement, civil-class summary |
 | Rolling stock | RFC 0008 families + rolling-stock packages | selected family and fleet count |
 | Stations | RFC 0010 archetypes | station archetype assignments and site adaptations |

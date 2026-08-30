@@ -1,0 +1,1027 @@
+{
+  "schema": "org.opensourcerail.fabrication-assembly-twin.v1",
+  "title": "OpenSourceRail fabrication and assembly digital twin",
+  "status": "planning / first-article release control",
+  "scope": "representative track, station, viaduct, and LM3 trainset production routes",
+  "animation_duration_s": 48.0,
+  "streams": [
+    {
+      "id": "track",
+      "title": "Rail and track-panel fabrication",
+      "exemplar": "6 m direct-fixation track panel",
+      "quantity_basis": "two rails, ten seat pairs, alignment layer and plinths",
+      "stages": [
+        {
+          "id": "TRK-10",
+          "stream_id": "track",
+          "title": "Inspect and batch rails",
+          "work_center": "rail preparation cell",
+          "duration_days": 1,
+          "predecessor": null,
+          "inputs": [
+            "rail bars",
+            "mill certificates"
+          ],
+          "output": "released rail pair",
+          "qa_hold": "material and ultrasonic release",
+          "evidence": [
+            "mill certificates",
+            "rail identification",
+            "UT record"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "docs/civil/slab-trackforms.md",
+            "design/component-catalogue/src/osr_mech/track/panel.py"
+          ]
+        },
+        {
+          "id": "TRK-20",
+          "stream_id": "track",
+          "title": "Cast alignment layer and plinth modules",
+          "work_center": "precast trackform cell",
+          "duration_days": 2,
+          "predecessor": "TRK-10",
+          "inputs": [
+            "reinforcement",
+            "concrete",
+            "embedded inserts"
+          ],
+          "output": "surveyed 6 m trackform",
+          "qa_hold": "concrete strength and insert survey",
+          "evidence": [
+            "batch ticket",
+            "strength result",
+            "casting-bed survey"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "docs/civil/slab-trackforms.md",
+            "design/component-catalogue/src/osr_mech/track/panel.py"
+          ]
+        },
+        {
+          "id": "TRK-30",
+          "stream_id": "track",
+          "title": "Fit pads, baseplates and fasteners",
+          "work_center": "track panel fixture",
+          "duration_days": 1,
+          "predecessor": "TRK-20",
+          "inputs": [
+            "pads",
+            "adjustable baseplates",
+            "anchor kits"
+          ],
+          "output": "fastener-equipped trackform",
+          "qa_hold": "fastener identity and torque witness",
+          "evidence": [
+            "fastener lot",
+            "torque record",
+            "bonding record"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "docs/civil/slab-trackforms.md",
+            "design/component-catalogue/src/osr_mech/track/panel.py"
+          ]
+        },
+        {
+          "id": "TRK-40",
+          "stream_id": "track",
+          "title": "Place rails and close panel geometry",
+          "work_center": "track panel fixture",
+          "duration_days": 1,
+          "predecessor": "TRK-30",
+          "inputs": [
+            "released rail pair",
+            "fastener-equipped trackform"
+          ],
+          "output": "assembled track panel",
+          "qa_hold": "gauge, cant and rail-seat survey",
+          "evidence": [
+            "gauge survey",
+            "cant survey",
+            "as-built panel ID"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "docs/civil/slab-trackforms.md",
+            "design/component-catalogue/src/osr_mech/track/panel.py"
+          ]
+        },
+        {
+          "id": "TRK-50",
+          "stream_id": "track",
+          "title": "Trackform, rail, fasteners, welds, and geometry",
+          "work_center": "site track installation",
+          "duration_days": 4,
+          "predecessor": "TRK-40",
+          "inputs": [
+            "assembled panels",
+            "weld kit",
+            "survey control"
+          ],
+          "output": "installed and aligned running rail",
+          "qa_hold": "weld NDT and final geometry release",
+          "evidence": [
+            "weld record",
+            "NDT",
+            "final geometry car"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "docs/civil/slab-trackforms.md",
+            "design/component-catalogue/src/osr_mech/track/panel.py"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "station",
+      "title": "Station kit fabrication and assembly",
+      "exemplar": "standard 59.5 m twin-platform station",
+      "quantity_basis": "controlled standard station product tree and traveler",
+      "stages": [
+        {
+          "id": "STN-10",
+          "stream_id": "station",
+          "title": "Cast platform and foundation modules",
+          "work_center": "precast station cell",
+          "duration_days": 4,
+          "predecessor": null,
+          "inputs": [
+            "reinforcement cages",
+            "concrete",
+            "lifting inserts"
+          ],
+          "output": "released platform module kit",
+          "qa_hold": "strength, dimensions and lifting points",
+          "evidence": [
+            "concrete certificate",
+            "dimensional report",
+            "lifting-point inspection"
+          ],
+          "source_refs": [
+            "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "lib/templates/stations.toml",
+            "docs/rfcs/0010-station-design-standard.md"
+          ]
+        },
+        {
+          "id": "STN-20",
+          "stream_id": "station",
+          "title": "Fabricate canopy portal frames",
+          "work_center": "steel fabrication cell",
+          "duration_days": 3,
+          "predecessor": "STN-10",
+          "inputs": [
+            "structural sections",
+            "connection plates",
+            "coating system"
+          ],
+          "output": "numbered portal-frame kit",
+          "qa_hold": "weld/NDT and trial-fit release",
+          "evidence": [
+            "material heat trace",
+            "weld map",
+            "coating DFT",
+            "trial-fit record"
+          ],
+          "source_refs": [
+            "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "lib/templates/stations.toml",
+            "docs/rfcs/0010-station-design-standard.md"
+          ]
+        },
+        {
+          "id": "STN-30",
+          "stream_id": "station",
+          "title": "Build PV roof and MEP cassettes",
+          "work_center": "station systems cell",
+          "duration_days": 3,
+          "predecessor": "STN-20",
+          "inputs": [
+            "PV modules",
+            "roof panels",
+            "lighting and drainage looms"
+          ],
+          "output": "tested roof cassette kit",
+          "qa_hold": "electrical isolation and water test",
+          "evidence": [
+            "PV flash test",
+            "bond test",
+            "drainage flow test"
+          ],
+          "source_refs": [
+            "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "lib/templates/stations.toml",
+            "docs/rfcs/0010-station-design-standard.md"
+          ]
+        },
+        {
+          "id": "STN-40",
+          "stream_id": "station",
+          "title": "Station foundations, platform, canopy, and access structure",
+          "work_center": "station erection site",
+          "duration_days": 8,
+          "predecessor": "STN-30",
+          "inputs": [
+            "platform modules",
+            "portal frames",
+            "roof cassettes"
+          ],
+          "output": "structurally complete station",
+          "qa_hold": "350 mm platform/rail datum and structural survey",
+          "evidence": [
+            "foundation survey",
+            "bolt torque map",
+            "platform datum survey"
+          ],
+          "source_refs": [
+            "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "lib/templates/stations.toml",
+            "docs/rfcs/0010-station-design-standard.md"
+          ]
+        },
+        {
+          "id": "STN-50",
+          "stream_id": "station",
+          "title": "Station MEP, passenger systems, fare, and safety fit-out",
+          "work_center": "station commissioning",
+          "duration_days": 6,
+          "predecessor": "STN-40",
+          "inputs": [
+            "passenger systems",
+            "fare equipment",
+            "safety and communications kit"
+          ],
+          "output": "commissioned standard station",
+          "qa_hold": "integrated passenger and life-safety acceptance",
+          "evidence": [
+            "MEP test pack",
+            "accessibility checklist",
+            "fire and evacuation evidence"
+          ],
+          "source_refs": [
+            "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "lib/templates/stations.toml",
+            "docs/rfcs/0010-station-design-standard.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "viaduct",
+      "title": "Viaduct fabrication and erection",
+      "exemplar": "OSR-Pi25 twin-track erected bay",
+      "quantity_basis": "two <=75 t, 2.9 m wide decked pi-beams plus selected foundation, hollow cap, bearings, walkway cassettes and trackform",
+      "stages": [
+        {
+          "id": "VIA-05",
+          "stream_id": "viaduct",
+          "title": "Construct and test foundation, pier column and hollow cap",
+          "work_center": "substructure erection front",
+          "duration_days": 13,
+          "predecessor": null,
+          "inputs": [
+            "geotechnical zone",
+            "utility clearance",
+            "actual pile/shaft schedule",
+            "test plan",
+            "released column and cap design"
+          ],
+          "output": "tested foundation, completed pier column and erected hollow cap",
+          "qa_hold": "actual foundation length/cost, representative load-test release, column records and cap seat survey",
+          "evidence": [
+            "foundation schedule",
+            "actual installed lengths",
+            "test result",
+            "column concrete record",
+            "cap lifting record",
+            "bearing-seat as-built survey"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-10",
+          "stream_id": "viaduct",
+          "title": "Prepare Pi-beam mould, cage and tendons",
+          "work_center": "decked pi-beam precast yard",
+          "duration_days": 2,
+          "predecessor": "VIA-05",
+          "inputs": [
+            "surveyed Pi25 mould",
+            "reinforcement",
+            "prestress strand",
+            "cast-in items"
+          ],
+          "output": "released pre-pour assembly",
+          "qa_hold": "mould, cage, tendon and insert hold point",
+          "evidence": [
+            "bed survey",
+            "rebar and cover record",
+            "tendon calibration"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-20",
+          "stream_id": "viaduct",
+          "title": "Cast, cure and transfer prestress",
+          "work_center": "decked pi-beam precast yard",
+          "duration_days": 2,
+          "predecessor": "VIA-10",
+          "inputs": [
+            "released pre-pour assembly",
+            "concrete batch"
+          ],
+          "output": "demoulded OSR-Pi25 unit",
+          "qa_hold": "strength, maturity and transfer release",
+          "evidence": [
+            "batch records",
+            "cube strength",
+            "prestress elongation",
+            "transfer sequence"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-30",
+          "stream_id": "viaduct",
+          "title": "Survey and first-article proof",
+          "work_center": "precast QA bay",
+          "duration_days": 1,
+          "predecessor": "VIA-20",
+          "inputs": [
+            "demoulded Pi25",
+            "survey and NDT equipment"
+          ],
+          "output": "accepted Pi25 production unit",
+          "qa_hold": "dimensions, camber, cover, NDT and drainage",
+          "evidence": [
+            "dimensional report",
+            "camber survey",
+            "NDT",
+            "drain test"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-40",
+          "stream_id": "viaduct",
+          "title": "Transport and certify erection system",
+          "work_center": "controlled transport route",
+          "duration_days": 1,
+          "predecessor": "VIA-30",
+          "inputs": [
+            "<=75 t Pi25",
+            "modular transporter",
+            "portal launcher or crane load chart",
+            "certified rigging"
+          ],
+          "output": "beam and erection plant released inside envelope",
+          "qa_hold": "route, radius, rigging, wind and ground-bearing release",
+          "evidence": [
+            "route clearance",
+            "actual load chart",
+            "rigging certificate",
+            "wind-limit and ground-pressure record"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-50",
+          "stream_id": "viaduct",
+          "title": "Set bearings and erect two Pi-beams",
+          "work_center": "portal/short-launcher erection front",
+          "duration_days": 1,
+          "predecessor": "VIA-40",
+          "inputs": [
+            "tested pier and 7 m cap",
+            "four internal-support bearings",
+            "two Pi25 units",
+            "synchronized strand jacks"
+          ],
+          "output": "stable twin-track erected bay after two main lifts",
+          "qa_hold": "bearing identity/orientation, synchronization and one-line internal-support survey",
+          "evidence": [
+            "bearing schedule",
+            "strand-jack log",
+            "seat survey",
+            "beam level and gap survey"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-55",
+          "stream_id": "viaduct",
+          "title": "Connect short semi-continuous unit",
+          "work_center": "continuity connection front",
+          "duration_days": 1,
+          "predecessor": "VIA-50",
+          "inputs": [
+            "surveyed adjacent Pi spans",
+            "released link-slab or diaphragm cage",
+            "small closure or grouted-socket materials"
+          ],
+          "output": "four-span unit structurally connected at internal support",
+          "qa_hold": "CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
+          "evidence": [
+            "connection traveller",
+            "rebar and cover record",
+            "maturity/grout record",
+            "waterproofing and survey acceptance"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-60",
+          "stream_id": "viaduct",
+          "title": "Install trackform, egress and containment",
+          "work_center": "viaduct finishing front",
+          "duration_days": 2,
+          "predecessor": "VIA-55",
+          "inputs": [
+            "local plinths",
+            "track panels",
+            "walkway and containment kits"
+          ],
+          "output": "released operational viaduct bay",
+          "qa_hold": "track, drainage, earthing and egress release",
+          "evidence": [
+            "track geometry",
+            "drain test",
+            "1.0 m walkway gauge",
+            "1.4 m containment survey"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "design/component-catalogue/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "design/component-catalogue/src/osr_mech/civil/construction.py"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "train",
+      "title": "LM3 fabrication and final assembly",
+      "exemplar": "49.5 m three-car driverless LM3",
+      "quantity_basis": "83 product items, 20 controlled assemblies, one production traveler",
+      "stages": [
+        {
+          "id": "RS-10-MATERIAL-KIT",
+          "stream_id": "train",
+          "title": "Trainset material kit and production traveller",
+          "work_center": "rolling stock plant",
+          "duration_days": 3.0,
+          "predecessor": null,
+          "inputs": [
+            "Approved rolling-stock BOM",
+            "material certificates",
+            "software baseline"
+          ],
+          "output": "released kit, trainset traveller, serial traceability sheet",
+          "qa_hold": "qa-10-carbody-structure",
+          "evidence": [
+            "kit checklist",
+            "certificates",
+            "traveller signoff"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-20-CARBODY-BOGIE",
+          "stream_id": "train",
+          "title": "Carbody, bogie, wheelset, and brake build",
+          "work_center": "rolling stock plant",
+          "duration_days": 12.0,
+          "predecessor": "RS-10-MATERIAL-KIT",
+          "inputs": [
+            "Carbody kit",
+            "bogie kit",
+            "wheelsets",
+            "brake actuators",
+            "weld procedure"
+          ],
+          "output": "accepted carbody shell, bogie set, brake subsystem",
+          "qa_hold": "qa-11-bogie-wheelset",
+          "evidence": [
+            "dimensional report",
+            "weld pack",
+            "NDT report",
+            "torque record"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-23-MOULDED-BODY-MODULES",
+          "stream_id": "train",
+          "title": "Fabricate moulded one-metre glass-fibre body modules",
+          "work_center": "rolling stock composite moulding cell",
+          "duration_days": 5.0,
+          "predecessor": "RS-20-CARBODY-BOGIE",
+          "inputs": [
+            "GFRP fibre/resin/core/gelcoat kit",
+            "1 m module moulds",
+            "trim/drill gauges",
+            "insert/clip kits",
+            "EPDM seals",
+            "witness coupons"
+          ],
+          "output": "numbered moulded side and roof module kits released for three-car body installation",
+          "qa_hold": "qa-10-carbody-structure",
+          "evidence": [
+            "mould release record",
+            "laminate/cure record",
+            "witness coupons",
+            "CNC trim report",
+            "edge-seal record",
+            "insert pull-out lot",
+            "master-frame dry-fit report"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-25-CLIP-ON-BODY",
+          "stream_id": "train",
+          "title": "Install and release three-car clip-on fiberglass exterior body",
+          "work_center": "rolling stock clip-on body cell",
+          "duration_days": 1.0,
+          "predecessor": "RS-23-MOULDED-BODY-MODULES",
+          "inputs": [
+            "Released three-car frame set",
+            "numbered 1 m fiberglass modules",
+            "clip/retainer kits",
+            "EPDM seals",
+            "module map"
+          ],
+          "output": "three-car exterior body installed and released without production adhesive cure",
+          "qa_hold": "qa-10-carbody-structure",
+          "evidence": [
+            "frame survey",
+            "module/clip witness map",
+            "clip proof status",
+            "water test",
+            "rattle check",
+            "eight-hour route record"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-30-TRACTION-BATTERY-CONTROL",
+          "stream_id": "train",
+          "title": "Traction, battery, onboard control, and comms install",
+          "work_center": "rolling stock plant",
+          "duration_days": 10.0,
+          "predecessor": "RS-25-CLIP-ON-BODY",
+          "inputs": [
+            "Battery modules",
+            "inverter kit",
+            "T-ECU/SBC kit",
+            "signed firmware",
+            "key ceremony record"
+          ],
+          "output": "powered static trainset with accepted control stack",
+          "qa_hold": "qa-12-traction-brake-battery",
+          "evidence": [
+            "insulation test",
+            "BMS report",
+            "firmware hash",
+            "key-register entry"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-40-FITOUT-STATIC-TEST",
+          "stream_id": "train",
+          "title": "Passenger fit-out, doors, HVAC, and static acceptance",
+          "work_center": "rolling stock plant",
+          "duration_days": 8.0,
+          "predecessor": "RS-30-TRACTION-BATTERY-CONTROL",
+          "inputs": [
+            "Door kit",
+            "HVAC kit",
+            "interior kit",
+            "passenger systems kit"
+          ],
+          "output": "fit-out complete trainset ready for dynamic trial",
+          "qa_hold": "qa-13-passenger-systems",
+          "evidence": [
+            "door cycle test",
+            "HVAC test",
+            "accessibility checklist",
+            "snag closeout"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        },
+        {
+          "id": "RS-50-DYNAMIC-COMMISSIONING",
+          "stream_id": "train",
+          "title": "Trainset dynamic commissioning and release",
+          "work_center": "test track / depot",
+          "duration_days": 6.0,
+          "predecessor": "RS-40-FITOUT-STATIC-TEST",
+          "inputs": [
+            "commissioning script",
+            "test track path",
+            "charging interface",
+            "prior QA evidence"
+          ],
+          "output": "trainset released for integrated trial running",
+          "qa_hold": "qa-15-first-article-trainset",
+          "evidence": [
+            "dynamic test log",
+            "fault/NCR closeout",
+            "release certificate"
+          ],
+          "source_refs": [
+            "lib/templates/manufacturing-schedule.toml",
+            "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+            "docs/rolling-stock/light-metro-3car/assembly-plan.md"
+          ]
+        }
+      ]
+    }
+  ],
+  "integration_dependencies": [
+    {
+      "from": "VIA-55",
+      "to": "VIA-60",
+      "interface": "continuity-connection and deck-to-trackform"
+    },
+    {
+      "from": "STN-40",
+      "to": "TRK-50",
+      "interface": "350 mm platform/rail datum"
+    },
+    {
+      "from": "TRK-50",
+      "to": "RS-50-DYNAMIC-COMMISSIONING",
+      "interface": "released test-track geometry"
+    }
+  ],
+  "state_snapshots": {
+    "0": [
+      {
+        "stream_id": "track",
+        "stage_id": "TRK-10",
+        "stage_title": "Inspect and batch rails",
+        "status": "active",
+        "progress_percent": 0.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "station",
+        "stage_id": "STN-10",
+        "stage_title": "Cast platform and foundation modules",
+        "status": "active",
+        "progress_percent": 0.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "viaduct",
+        "stage_id": "VIA-05",
+        "stage_title": "Construct and test foundation, pier column and hollow cap",
+        "status": "active",
+        "progress_percent": 0.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "train",
+        "stage_id": "RS-10-MATERIAL-KIT",
+        "stage_title": "Trainset material kit and production traveller",
+        "status": "active",
+        "progress_percent": 0.0,
+        "qa_status": "hold-point-open"
+      }
+    ],
+    "12": [
+      {
+        "stream_id": "track",
+        "stage_id": "TRK-20",
+        "stage_title": "Cast alignment layer and plinth modules",
+        "status": "active",
+        "progress_percent": 62.5,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "station",
+        "stage_id": "STN-20",
+        "stage_title": "Fabricate canopy portal frames",
+        "status": "active",
+        "progress_percent": 66.7,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "viaduct",
+        "stage_id": "VIA-05",
+        "stage_title": "Construct and test foundation, pier column and hollow cap",
+        "status": "active",
+        "progress_percent": 44.2,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "train",
+        "stage_id": "RS-20-CARBODY-BOGIE",
+        "stage_title": "Carbody, bogie, wheelset, and brake build",
+        "status": "active",
+        "progress_percent": 68.8,
+        "qa_status": "hold-point-open"
+      }
+    ],
+    "24": [
+      {
+        "stream_id": "track",
+        "stage_id": "TRK-40",
+        "stage_title": "Place rails and close panel geometry",
+        "status": "active",
+        "progress_percent": 50.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "station",
+        "stage_id": "STN-40",
+        "stage_title": "Station foundations, platform, canopy, and access structure",
+        "status": "active",
+        "progress_percent": 25.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "viaduct",
+        "stage_id": "VIA-05",
+        "stage_title": "Construct and test foundation, pier column and hollow cap",
+        "status": "active",
+        "progress_percent": 88.5,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "train",
+        "stage_id": "RS-30-TRACTION-BATTERY-CONTROL",
+        "stage_title": "Traction, battery, onboard control, and comms install",
+        "status": "active",
+        "progress_percent": 15.0,
+        "qa_status": "hold-point-open"
+      }
+    ],
+    "36": [
+      {
+        "stream_id": "track",
+        "stage_id": "TRK-50",
+        "stage_title": "Trackform, rail, fasteners, welds, and geometry",
+        "status": "active",
+        "progress_percent": 43.7,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "station",
+        "stage_id": "STN-50",
+        "stage_title": "Station MEP, passenger systems, fare, and safety fit-out",
+        "status": "active",
+        "progress_percent": 0.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "viaduct",
+        "stage_id": "VIA-30",
+        "stage_title": "Survey and first-article proof",
+        "status": "active",
+        "progress_percent": 25.0,
+        "qa_status": "hold-point-open"
+      },
+      {
+        "stream_id": "train",
+        "stage_id": "RS-40-FITOUT-STATIC-TEST",
+        "stage_title": "Passenger fit-out, doors, HVAC, and static acceptance",
+        "status": "active",
+        "progress_percent": 34.4,
+        "qa_status": "hold-point-open"
+      }
+    ],
+    "48": [
+      {
+        "stream_id": "track",
+        "stage_id": "TRK-50",
+        "stage_title": "Trackform, rail, fasteners, welds, and geometry",
+        "status": "complete",
+        "progress_percent": 100.0,
+        "qa_status": "released"
+      },
+      {
+        "stream_id": "station",
+        "stage_id": "STN-50",
+        "stage_title": "Station MEP, passenger systems, fare, and safety fit-out",
+        "status": "complete",
+        "progress_percent": 100.0,
+        "qa_status": "released"
+      },
+      {
+        "stream_id": "viaduct",
+        "stage_id": "VIA-60",
+        "stage_title": "Install trackform, egress and containment",
+        "status": "complete",
+        "progress_percent": 100.0,
+        "qa_status": "released"
+      },
+      {
+        "stream_id": "train",
+        "stage_id": "RS-50-DYNAMIC-COMMISSIONING",
+        "stage_title": "Trainset dynamic commissioning and release",
+        "status": "complete",
+        "progress_percent": 100.0,
+        "qa_status": "released"
+      }
+    ]
+  },
+  "source_register": {
+    "docs/civil/slab-trackforms.md": {
+      "bytes": 5785,
+      "sha256": "7312bcdb9a7b06ab0671f9be42d4d9c835be0e90d3bd1cb2ce4866da391f01e2"
+    },
+    "docs/civil/viaduct-design-basis.md": {
+      "bytes": 4598,
+      "sha256": "c86cb7e5596b3621dcfb226fa9c40ec61d3ee2d0639ad1f86b252fd88b4f9517"
+    },
+    "docs/civil/viaduct-first-article-test-plan.md": {
+      "bytes": 2156,
+      "sha256": "379197f43d9621dbcd908f872146157f32d8801b5ec76715d33120bd20553057"
+    },
+    "docs/civil/viaduct-transport-and-erection-envelope.md": {
+      "bytes": 1712,
+      "sha256": "8a61c7d6063e6787e0dcf668fe8ea01b72e5e90f0860f65fb7fa44c1fd8513e1"
+    },
+    "docs/rfcs/0010-station-design-standard.md": {
+      "bytes": 23891,
+      "sha256": "bd107d5e25735cba87ae458fe53a88f38d08103445037305ebd5cf573de9e05c"
+    },
+    "docs/rolling-stock/light-metro-3car/assembly-plan.md": {
+      "bytes": 16381,
+      "sha256": "6957726c50c0d4b4717df8919e3cc685219bdb2e15bde87c25513fa92349ead6"
+    },
+    "lib/templates/civil-construction-systems.toml": {
+      "bytes": 2903,
+      "sha256": "865f179f8fd8e7a42b61d02e6d38a3ab2d4aff67f16a15c3af752019eef9d17c"
+    },
+    "lib/templates/foundation-catalog.toml": {
+      "bytes": 5534,
+      "sha256": "674a98c42719573830ffb3fdecd5f65b3a427fb92961d278c42ee2f37aad3939"
+    },
+    "lib/templates/manufacturing-schedule.toml": {
+      "bytes": 29907,
+      "sha256": "31fa6028039f1478aa452749c47c617e29fad55cd460c21bae3b10aadffa5812"
+    },
+    "lib/templates/stations.toml": {
+      "bytes": 4601,
+      "sha256": "fdb0283a5c88e5527c4091fa61c8aa596c000facf9ef18d0c6bce3c0987574bd"
+    },
+    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
+      "bytes": 271977,
+      "sha256": "2e98464ffc19566610d45bfabb963f8c19278fe7c034f3262e9b850b76c6a91c"
+    },
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
+      "bytes": 87845,
+      "sha256": "0ee77481a550a60fa3c4a6d6cd74f466202259e87abdb6ed7533404756f4cd55"
+    },
+    "design/component-catalogue/src/osr_mech/civil/construction.py": {
+      "bytes": 5197,
+      "sha256": "cf04a7ce7e25bc610685735b74414ed5620e0f21c7d8c83c9bd58158d68b719f"
+    },
+    "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
+      "bytes": 6700,
+      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298"
+    },
+    "design/component-catalogue/src/osr_mech/track/panel.py": {
+      "bytes": 3061,
+      "sha256": "1d1a606fc6b585d868da5a23854681b34b8620b89e7344c2ad913811115fa5b3"
+    }
+  },
+  "checks": [
+    {
+      "id": "four-product-streams",
+      "passed": true,
+      "observed": 4
+    },
+    {
+      "id": "unique-stage-identifiers",
+      "passed": true,
+      "observed": 25
+    },
+    {
+      "id": "predecessors-resolve",
+      "passed": true,
+      "observed": 25
+    },
+    {
+      "id": "qa-evidence-on-every-stage",
+      "passed": true,
+      "observed": 25
+    },
+    {
+      "id": "source-references-resolve",
+      "passed": true,
+      "observed": 15
+    },
+    {
+      "id": "station-product-tree-loaded",
+      "passed": true,
+      "observed": 7
+    },
+    {
+      "id": "train-product-tree-loaded",
+      "passed": true,
+      "observed": {
+        "items": 83,
+        "assemblies": 20
+      }
+    }
+  ],
+  "limitations": [
+    "planning twin, not released shop drawings or construction methodology",
+    "numeric weld procedures, torques, lift studies, temporary works, and supplier instructions remain release inputs",
+    "animation time is normalized; duration_days retains the production planning basis"
+  ],
+  "passed": true
+}

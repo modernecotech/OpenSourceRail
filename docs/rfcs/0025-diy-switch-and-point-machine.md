@@ -2,7 +2,7 @@
 
 **Status:** Draft — extends [RFC 0012 §4](0012-switches-and-crossings.md)
 **Date:** 2026-04-26
-**Depends on:** [RFC 0012 Switches & Crossings](0012-switches-and-crossings.md), [RFC 0007 Hardware Reference Designs](0007-hardware-reference-designs.md)
+**Depends on:** [RFC 0012 Switches & Crossings](0012-switches-and-crossings.md), [RFC 0007 Control Electronics Reference Designs](0007-control-electronics-reference-designs.md)
 
 ## 1. Summary
 
@@ -100,7 +100,7 @@ actuator alone.**
 Unchanged from [RFC 0012 §5](0012-switches-and-crossings.md#5-position-detection--integration)
 and [`osr-wayside-points`](../../crates/osr-wayside-points/). The
 DIY switch reports position over the same 2oo2 channel as a vendor
-switch; the W-SBC ([RFC 0007 §6](0007-hardware-reference-designs.md))
+switch; the W-SBC ([RFC 0007 §6](0007-control-electronics-reference-designs.md))
 sees no difference.
 
 ## 6. Qualification and safety

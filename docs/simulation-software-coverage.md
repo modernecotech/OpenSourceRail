@@ -76,16 +76,16 @@ repeated-probe fraud signalling.
 Run the inventory check with:
 
 ```bash
-python3 scripts/validate-simulation-components.py
+python3 tools/automation/validate-simulation-components.py
 ```
 
 To verify tick evidence as well:
 
 ```bash
 cargo run -p osr-sim --bin osr-sim -- \
-  --config designs/west-asia/Iraq/Samawah/samawah.toml \
+  --config cities/catalogue/west-asia/Iraq/Samawah/samawah.toml \
   --duration 3600 --status-every 0 --json-out /tmp/osr-result.json
-python3 scripts/validate-simulation-components.py --result /tmp/osr-result.json
+python3 tools/automation/validate-simulation-components.py --result /tmp/osr-result.json
 ```
 
 City acceptance additionally hashes the rolling-stock template, buildable

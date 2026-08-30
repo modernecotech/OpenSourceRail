@@ -892,8 +892,10 @@ mod tests {
     use super::*;
 
     fn samawah_project() -> CityProject {
-        CityProject::load(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah"))
-            .expect("load Samawah project")
+        CityProject::load(
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah"),
+        )
+        .expect("load Samawah project")
     }
 
     #[test]

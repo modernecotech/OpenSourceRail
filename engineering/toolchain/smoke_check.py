@@ -118,7 +118,7 @@ def check_pybamm() -> dict[str, object]:
 def check_swmm() -> dict[str, object]:
     from pyswmm import Simulation
 
-    fixture_source = Path("engineering/benchmarks/swmm/simple-runoff.inp")
+    fixture_source = Path("engineering/analysis/benchmarks/swmm/simple-runoff.inp")
     fixture = Path("build/engineering/toolchain/swmm/simple-runoff.inp")
     fixture.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(fixture_source, fixture)

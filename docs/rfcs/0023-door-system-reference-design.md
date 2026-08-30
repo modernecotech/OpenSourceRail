@@ -2,7 +2,7 @@
 
 **Status:** Current — v2A architecture, certification evidence open
 **Date:** 2026-04-26
-**Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0015 Driverless Operation](0015-driverless-operation.md), [RFC 0007 Hardware Reference Designs](0007-hardware-reference-designs.md)
+**Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0015 Driverless Operation](0015-driverless-operation.md), [RFC 0007 Control Electronics Reference Designs](0007-control-electronics-reference-designs.md)
 
 ## 1. Summary
 

@@ -1,18 +1,18 @@
 # Samawah with fault injection — dust storm during AM peak, then a late
 # afternoon grid outage at the depot.
 #
-# Same topology and fleet as designs/west-asia/Iraq/Samawah/samawah.toml. Demonstrates how the
+# Same topology and fleet as cities/catalogue/west-asia/Iraq/Samawah/samawah.toml. Demonstrates how the
 # same network behaves under stress events (RFC 0002 §5.4 dust resilience;
 # RFC 0001 §8 degraded-mode operation).
 #
 # Run:
-#   cargo run --release --bin osr-sim -- --config designs/west-asia/Iraq/Samawah/samawah-dust-storm.toml \
+#   cargo run --release --bin osr-sim -- --config cities/catalogue/west-asia/Iraq/Samawah/samawah-dust-storm.toml \
 #       --duration 54000 --status-every 3600
 
 # ===========================================================================
 # This file is an overlay example — copy the full content of samawah.toml
 # then append the [[faults]] section. For brevity the body is identical to
-# designs/west-asia/Iraq/Samawah/samawah.toml. In real use you would copy and edit a single file,
+# cities/catalogue/west-asia/Iraq/Samawah/samawah.toml. In real use you would copy and edit a single file,
 # not maintain two.
 # ===========================================================================
 
@@ -24,7 +24,7 @@ start_time = "06:00"
 ambient_c = 42.0
 peak_sun_hours = 6.0
 
-# --- Stations (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
+# --- Stations (same as cities/catalogue/west-asia/Iraq/Samawah/samawah.toml) ---
 [[stations]]
 id = "samawah-rws"
 name = "Samawah Railway Station"
@@ -193,7 +193,7 @@ schedule = [
     { from = "22:00", to = "23:30", headway_min = 15 },
 ]
 
-# --- Sites (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
+# --- Sites (same as cities/catalogue/west-asia/Iraq/Samawah/samawah.toml) ---
 [[sites]]
 station = "samawah-rws"
 pv_nameplate_kw = 500

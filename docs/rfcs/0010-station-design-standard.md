@@ -266,7 +266,7 @@ Adjacent bays share 22 m transverse frames: `N` roof modules use `N + 1`
 frames and `2 × (N + 1)` column foundations. The BOM rounds module count
 up, so installed shade/PV area never falls below the template target.
 Parametric review geometry and quantity functions live in
-[`mechanical-py/src/osr_mech/station/auxiliary_canopy.py`](../../mechanical-py/src/osr_mech/station/auxiliary_canopy.py).
+[`design/component-catalogue/src/osr_mech/station/auxiliary_canopy.py`](../../design/component-catalogue/src/osr_mech/station/auxiliary_canopy.py).
 
 Canopy design envelope:
 
@@ -275,15 +275,15 @@ Canopy design envelope:
   bay module (HEA 200 column + HEA 180 cantilever rafter + SHS 100
   bracing) replicates along the platform. Hot-dip galvanised in the
   fabrication shop. Detailed parametric geometry at
-  [`mechanical-py/src/osr_mech/station/portal.py`](../../mechanical-py/src/osr_mech/station/portal.py);
+  [`design/component-catalogue/src/osr_mech/station/portal.py`](../../design/component-catalogue/src/osr_mech/station/portal.py);
   FreeCAD/CAD-review artifacts under
-  [`mechanical-py/catalog/`](../../mechanical-py/catalog/).
+  [`design/component-catalogue/catalog/`](../../design/component-catalogue/catalog/).
 - **Solar-integrated roof sandwich panel.** One factory-bonded
   panel per bay: CIGS or lightweight c-Si PV on standing-seam
   galvanised steel, polyurethane foam core, white-coated underside.
   Delivered pre-terminated with MC4 connectors; bays plug into
   each other to form a single DC string. ~200 W/m², ~20 kg/m².
-  See [`mechanical-py/src/osr_mech/station/solar_roof.py`](../../mechanical-py/src/osr_mech/station/solar_roof.py).
+  See [`design/component-catalogue/src/osr_mech/station/solar_roof.py`](../../design/component-catalogue/src/osr_mech/station/solar_roof.py).
 - **Cantilever-from-rear geometry.** Columns sit at the platform
   rear edge only (no columns at the platform edge); the rafter
   cantilevers 3.5 m + 0.7 m eave over the platform. Middle third
@@ -311,7 +311,7 @@ on site — the deployment partner picks the kit size from the
 catalogue; load envelopes are published in the source docstrings.
 
 Canopy-PV sizing math lives in [RFC 0002](0002-energy-sizing.md);
-`mechanical-py/src/osr_mech/station/canopy.py` exposes
+`design/component-catalogue/src/osr_mech/station/canopy.py` exposes
 `canopy_kwp(archetype, consist)` which `osr-energy-site` can
 consume directly. One `standard × light-metro-3car` platform canopy
 (10 bays) produces ~43 kWp; a two-side-platform station therefore has
@@ -410,7 +410,7 @@ Mismatch fails the `design-quality.yaml` hard gate.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for the shared `standard` archetype at [`docs/stations/standard-archetype/`](../stations/standard-archetype/) (done 2026-04-22). Deployment station lists come from the generated city model before procurement. | RFC 0003 |
 | **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/standard-archetype/drawing-register.md`](../stations/standard-archetype/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
-| **v3** ✅ | Parametric prefab catalogue landed at [`mechanical-py/`](../../mechanical-py/): platform and auxiliary canopy modules, solar-roof panels, ground-level slab/guideway-channel edge modules, elevated L-units, and separate fare/TVM plinths all resolve into generated BOMs and travelers. `STANDARD × light-metro-3car` emits a 10-bay / ~43 kWp canopy per platform plus seven 187 m² auxiliary bays. Tracked CAD review artifacts use compact FreeCAD/PNG outputs; local neutral exports can be generated when a partner toolchain needs them. | v1 |
+| **v3** ✅ | Parametric prefab catalogue landed at [`design/component-catalogue/`](../../design/component-catalogue/): platform and auxiliary canopy modules, solar-roof panels, ground-level slab/guideway-channel edge modules, elevated L-units, and separate fare/TVM plinths all resolve into generated BOMs and travelers. `STANDARD × light-metro-3car` emits a 10-bay / ~43 kWp canopy per platform plus seven 187 m² auxiliary bays. Tracked CAD review artifacts use compact FreeCAD/PNG outputs; local neutral exports can be generated when a partner toolchain needs them. | v1 |
 | **v4** | Platform-flow simulator extension in `osr-sim` — peak-hour passenger flow against archetype capacity | v2 |
 | **v5** | First-article station for a deployment instance | v1, RFC 0003 §5 |
 

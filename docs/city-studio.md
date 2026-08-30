@@ -53,7 +53,7 @@ Open http://127.0.0.1:8090/.
 Use another project or port with:
 
     cargo run -p osr-city-studio -- \
-      --project projects/samawah serve --port 8091
+      --project cities/workspaces/samawah serve --port 8091
 
 The server binds only to localhost by default. The initial interface has no
 authentication and must not be exposed as a shared or public service.
@@ -73,7 +73,7 @@ Write a deterministic working snapshot under build/city-studio/samawah/:
 
     cargo run -p osr-city-studio -- compile
 
-Write projects/samawah/revisions/osr-<hash>.json:
+Write cities/workspaces/samawah/revisions/osr-<hash>.json:
 
     cargo run -p osr-city-studio -- revision
 
@@ -88,13 +88,13 @@ List immutable project revisions or compare one with the working candidate:
 
 Validate every committed city project:
 
-    python3 scripts/validate-city-projects.py
+    python3 tools/automation/validate-city-projects.py
 
 Install through the root [one-command setup](../README.md#one-command-linux-setup),
 then run every browser front end with `npm run test:frontend`.
 
 For the 122-check Studio-only workflow, use
-`node scripts/test-city-studio-gui.mjs`. Playwright uses one worker, a fixed
+`node tools/automation/test-city-studio-gui.mjs`. Playwright uses one worker, a fixed
 viewport, locale and timezone, and a disposable project. Its JSON report and
 screenshot are written to `build/gui-acceptance/`; committed Samawah inputs are
 not edited.
@@ -200,7 +200,7 @@ Next:
 
 The Git review panel can append an **Approved** or **Changes requested** record
 for an existing `osr-…` revision. Records are stored in
-`projects/<slug>/approvals/reviews.toml` and receive deterministic
+`cities/workspaces/<slug>/approvals/reviews.toml` and receive deterministic
 `approval-…` IDs. Submitting identical content is idempotent. Decisions cannot
 refer to a missing revision and are not edited or deleted through City Studio;
 a later decision is appended as additional history.
@@ -237,8 +237,8 @@ licensed local basemap extracts to the same locked project workflow; the
 included place anchors and planning surfaces are not survey evidence.
 
 The tracked Samawah context is regenerated from the pipeline's processed OSM
-snapshot with `python3 scripts/export-gis-context.py
-.cache/osr-pipeline/osm/samawah.json projects/samawah/gis`. The exporter writes
+snapshot with `python3 tools/automation/export-gis-context.py
+.cache/osr-pipeline/osm/samawah.json cities/workspaces/samawah/gis`. The exporter writes
 stable GeoJSON, ODbL attribution and fetch provenance, then refreshes the five
 matching entries in `sources.lock.json`.
 
@@ -256,7 +256,7 @@ passenger-rate changes.
 
 ## Demand planning
 
-`projects/<slug>/demand/od-matrix.toml` defines named periods by service day
+`cities/workspaces/<slug>/demand/od-matrix.toml` defines named periods by service day
 type and clock interval, followed by optional station-to-station passenger
 flows. The GUI creates a stable `od-…` ID from the period, origin, and
 destination, while passengers/hour remains editable without changing object
@@ -343,7 +343,7 @@ coordination view of deterministic object envelopes; Bonsai remains the native
 IFC geometry/detail environment.
 
 BCF review decisions are written to
-`projects/<slug>/coordination/issues.toml`, not into the selected job artifact.
+`cities/workspaces/<slug>/coordination/issues.toml`, not into the selected job artifact.
 One or more filtered IFC assets in the object inspector can seed a new topic
 with a title, description, assignee, and stable asset selection. City Studio
 derives a content-addressed `custom-…` issue ID; the civil exporter derives stable BCF

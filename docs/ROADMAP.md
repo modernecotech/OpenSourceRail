@@ -13,7 +13,7 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 | Documentation accessibility | One root front door and source registry are enforced; local READMEs retain only discipline/city evidence, with generated inventory and link/drift checks |
 | Rolling-stock detail package | Supplier-exact envelopes, weld maps, tolerance stacks, harness clamp locations, FEA-ready brackets, 2D drawings, and NC/flat-pattern outputs |
 | Mechanical CAD | Material-aware sheet-metal templates, COTS variants with selected SKUs, generated FreeCAD/PNG drift gates, and catalog manifests |
-| Hardware integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |
+| Control-electronics integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |
 | Custom-board release artifacts | KiCad capture, gerbers, board BOMs, DFM review, and assembly drawings only for deployments that choose OSR-specific carrier, power, safety-I/O, or sensor-interface boards |
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | Workbench context plus onboard, station, intrusion and T2G-to-depot CBM/historian/analytics software-in-loop are implemented; signed live actions, production transports, asset-specific points/crossing/fare-gate harnesses, HIL, and authenticated live GUI paths remain |
@@ -28,7 +28,7 @@ checklists rather than left as implicit TODOs.
 ## v0.2 Definition Of Done
 
 - All top-level domains have local READMEs and current status notes.
-- `python3 scripts/repo-health.py --quiet` passes on the release tree.
+- `python3 tools/automation/repo-health.py --quiet` passes on the release tree.
 - Rolling-stock documentation links to the current FreeCAD/PNG/COTS
   package and clearly separates envelope CAD from production drawings.
 - Hardware host classes have either pilot-ready COTS/DIY integration

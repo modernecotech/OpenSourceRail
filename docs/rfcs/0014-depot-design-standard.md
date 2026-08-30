@@ -159,7 +159,7 @@ parking every healthy set every night.
 Example (current generated Samawah output, 3-min peak headway):
 
 - The authoritative generated summary is
-  [`designs/west-asia/Iraq/Samawah/README.md`](../../designs/west-asia/Iraq/Samawah/README.md).
+  [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../../cities/catalogue/west-asia/Iraq/Samawah/README.md).
 - As of the current generated model: `line-1` is 25.6 km / 41
   trainsets, `line-2` is 21.8 km / 36 trainsets, and `line-3` is
   11.0 km / 19 trainsets, for 96 total 3-car trainsets: 86 peak,
@@ -346,7 +346,7 @@ these behaviours:
 | **v1** ✅ | [`lib/templates/depots.toml`](../../lib/templates/depots.toml) aligned with §§5–7 (PV canopy m², nominal kWp, battery kWh, workshop flags); §1 clarified "catalogue max" vs §4 formula (done 2026-04-22) | v0 |
 | **v2** ✅ | Emitter picks depot archetypes (main-heavy at depot-terminal, layup-minimal at other terminals) + writes `[[depots]]` with `fleet_stalls` from the §4 formula (done 2026-04-22) | v0, RFC 0010 v2 |
 | **v3** ✅ | `osr-sim` turnaround-service state (clean / inspect / diagnostics / recharge), explicit service-rotation fleet and event evidence (done 2026-08-12) | v2 |
-| **v4** | Generated site plan for the current Samawah depot and layup set from `designs/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
+| **v4** | Generated site plan for the current Samawah depot and layup set from `cities/catalogue/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
 | **v5** | Reference depot CAD under CERN-OHL-S v2 | v4 |
 
 ## 11. Relationship to existing work

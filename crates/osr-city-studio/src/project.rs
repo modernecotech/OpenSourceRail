@@ -3947,7 +3947,7 @@ mod tests {
 
     #[test]
     fn per_line_ifc_georeferencing_is_validated_revisioned_and_persisted() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         let baseline = project.compile().expect("compile baseline");
         let mut civil = project.civil().clone();
@@ -3978,7 +3978,8 @@ mod tests {
         assert!(saved.contains("[[civil.ifc_georeferencing]]"));
         assert!(saved.contains("crs_name = \"EPSG:9306\""));
 
-        project.root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        project.root =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let revised = project.compile().expect("compile georeferenced revision");
         assert_ne!(revised.revision_id, baseline.revision_id);
         assert_eq!(revised.civil.ifc_georeferencing.len(), 1);
@@ -4026,7 +4027,7 @@ mod tests {
 
     #[test]
     fn od_demand_uses_period_bottleneck_and_revision_semantics() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         let baseline = project.compile().expect("compile baseline");
         project.demand.flows.push(DemandFlow {
@@ -4071,7 +4072,7 @@ mod tests {
 
     #[test]
     fn approval_records_are_deterministic_append_only_revision_decisions() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(&root).expect("load Samawah project");
         let revision_source = std::fs::read_dir(root.join("revisions"))
             .expect("revision directory")
@@ -4158,7 +4159,7 @@ mod tests {
 
     #[test]
     fn bulk_service_headways_update_all_lines_atomically() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(&root).expect("load Samawah project");
         let temporary = tempfile::tempdir().expect("temporary project root");
         let service_path = temporary.path().join("service-plan.toml");
@@ -4216,7 +4217,7 @@ mod tests {
 
     #[test]
     fn station_move_regenerates_its_line_and_day_scenario() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         let station_id = "line-1-0581-0418-s012247";
         let source = project
@@ -4288,7 +4289,7 @@ mod tests {
 
     #[test]
     fn alignment_control_point_regenerates_line_geometry() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         project
             .overrides
@@ -4322,7 +4323,7 @@ mod tests {
 
     #[test]
     fn manual_station_updates_snapshot_and_simulator_topology() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         let line = project
             .corridor
@@ -4388,7 +4389,7 @@ mod tests {
 
     #[test]
     fn retiring_generated_station_rebuilds_simulator_topology() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
         let id = "line-2-0400-0417-s008456";
         project.overrides.stations.push(StationOverride {
@@ -4424,7 +4425,7 @@ mod tests {
 
     #[test]
     fn station_creation_persists_deterministic_manual_intent() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(&root).expect("load Samawah project");
         let temporary = tempfile::tempdir().expect("temporary project root");
         std::fs::copy(
@@ -4469,7 +4470,7 @@ mod tests {
 
     #[test]
     fn revision_comparison_includes_service_windows_and_alignment_controls() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let project = CityProject::load(root).expect("load Samawah project");
         let base = project.compile().expect("compile base");
         let mut candidate = base.clone();
@@ -4515,7 +4516,7 @@ mod tests {
 
     #[test]
     fn manual_line_creation_populates_network_services_and_simulator() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(&root).expect("load Samawah project");
         let base = project.compile().expect("compile baseline");
         let temporary = tempfile::tempdir().expect("temporary project root");
@@ -4634,7 +4635,7 @@ mod tests {
 
     #[test]
     fn demand_aware_line_uses_locked_rasters_deterministically() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(&root).expect("load Samawah project");
         let temporary = tempfile::tempdir().expect("temporary project root");
         std::fs::copy(

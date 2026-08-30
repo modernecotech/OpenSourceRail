@@ -18,20 +18,20 @@ __pycache__/
 # Every city publishes a compact engineering and operations review package.
 # Keep high-volume raw solver and manufacturing outputs local: they are
 # reproducible from the tracked design, summaries, manifests, and scripts.
-/designs/*/*/*/engineering/**/*.log
-/designs/*/*/*/engineering/**/*.gpkg
-/designs/*/*/*/engineering/energy/coordinated-daylight.json
-/designs/*/*/*/engineering/energy/peak-charge-grid-only.json
-/designs/*/*/*/engineering/sumo/*.xml
-/designs/*/*/*/operations/*-acceptance-evidence-matrix.csv
-/designs/*/*/*/operations/*-maintenance-schedule.csv
-/designs/*/*/*/operations/*-manufacturing-materials.csv
-/designs/*/*/*/operations/*-manufacturing-schedule.csv
-/designs/*/*/*/operations/*-manufacturing-verification.csv
-/designs/*/*/*/operations/*-operations.json.gz
-/designs/*/*/*/operations/*-qa-register.csv
-/designs/*/*/*/corridors.json
-/designs/*/*/*/diagnose.png
+/cities/catalogue/*/*/*/engineering/**/*.log
+/cities/catalogue/*/*/*/engineering/**/*.gpkg
+/cities/catalogue/*/*/*/engineering/energy/coordinated-daylight.json
+/cities/catalogue/*/*/*/engineering/energy/peak-charge-grid-only.json
+/cities/catalogue/*/*/*/engineering/sumo/*.xml
+/cities/catalogue/*/*/*/operations/*-acceptance-evidence-matrix.csv
+/cities/catalogue/*/*/*/operations/*-maintenance-schedule.csv
+/cities/catalogue/*/*/*/operations/*-manufacturing-materials.csv
+/cities/catalogue/*/*/*/operations/*-manufacturing-schedule.csv
+/cities/catalogue/*/*/*/operations/*-manufacturing-verification.csv
+/cities/catalogue/*/*/*/operations/*-operations.json.gz
+/cities/catalogue/*/*/*/operations/*-qa-register.csv
+/cities/catalogue/*/*/*/corridors.json
+/cities/catalogue/*/*/*/diagnose.png
 
 # Mosul and Samawah retain their previously tracked full acceptance payloads.
 # Ignore rules do not remove files already tracked by Git.
@@ -58,7 +58,8 @@ target_kani/
 # review documents and generated screenshots, not bulky STEP artifacts.
 *.step
 *.stp
-mechanical-py/catalog/render-meshes/
+*.FCBak
+design/component-catalogue/catalog/render-meshes/
 
 # CalculiX/SPOOLES creates an empty solver scratch file in each run folder.
 **/spooles.out

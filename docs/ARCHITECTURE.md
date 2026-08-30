@@ -314,13 +314,13 @@ Only I1–I3 are safety-critical. Everything else can fail without loss of safe 
 - **Ops server (O-SRV):** Commodity x86 or ARM64 server, Debian, standard datacenter gear. T3/T4.
 
 Reference hardware has two implementation tracks under
-[`hardware/`](../hardware/). The first-pilot track is the
+[`control-electronics/`](../control-electronics/). The first-pilot track is the
 [RFC 0019](rfcs/0019-diy-electronics.md) COTS/SBC assembly path:
 commodity compute modules, sensor boards, relay modules, power
 supplies, terminal blocks, DIN-rail enclosures, prepared firmware
 images, wiring/harness maps, and bench evidence. It does not require
 KiCad or gerbers when no custom PCB is used. The volume-production
-track is the [RFC 0007](rfcs/0007-hardware-reference-designs.md)
+track is the [RFC 0007](rfcs/0007-control-electronics-reference-designs.md)
 custom-board path: OSR-specific carrier, power, safety-I/O, or
 sensor-interface boards captured as schematics, BOMs, layouts, and
 Gerbers. Custom boards must remain manufacturable by a 4-layer PCB fab
@@ -335,15 +335,23 @@ inventory is checked by [simulation software coverage](simulation-software-cover
 
 ```
 OpenSourceRail/
-├── projects/                  # City Studio inputs and immutable revisions
-├── designs/                   # Generated city/national packages
-├── crates/                    # Runtime, simulation, control and browser apps
-├── design-py/                 # GIS and city engineering sidecars
-├── mechanical-py/             # Parametric rolling-stock/civil CAD
-├── engineering/               # IFC, schemas and engineering evidence
-├── hardware/                  # Host roles and bring-up/integration evidence
-├── formal/                    # Formal models and checks
-└── docs/                      # Shared decisions, operations and assurance
+├── crates/                         # Runtime, embedded, simulation and browser software
+├── control-electronics/            # ECUs, SBCs, power/I/O, wiring and enclosures
+├── design/
+│   ├── city-generation/            # GIS, network and scenario generation
+│   └── component-catalogue/        # Parametric train, track, station and civil products
+├── cities/
+│   ├── workspaces/                 # Editable City Studio sources and revisions
+│   └── catalogue/                  # Published city and national evidence
+├── engineering/
+│   ├── analysis/                   # Calculations and external-tool benchmarks
+│   ├── interchange/                # IFC and station exchange generators
+│   ├── models/                     # Public BIM and digital-twin review sets
+│   └── assurance/                  # Formal models and coverage evidence
+├── tools/                          # Automation and independent utilities
+├── lib/                            # Shared templates, recipes and schemas
+├── deployment/                     # Deployable host compositions
+└── docs/                           # Shared decisions, requirements and guidance
 ```
 
 ---
@@ -410,11 +418,11 @@ deeper architecture review, continue in this order:
 2. [`docs/GLOSSARY.md`](GLOSSARY.md) — rail-domain terms for software engineers and vice versa.
 3. [`docs/rfcs/0001-track-state-consensus.md`](rfcs/0001-track-state-consensus.md) — the distributed track-state log design.
 4. [`docs/rfcs/0002-energy-sizing.md`](rfcs/0002-energy-sizing.md) — quantitative sizing for the catenary-free, solar-first energy architecture.
-5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) - Samawah context, pilot rationale, and risks; generated city numbers live under `designs/west-asia/Iraq/Samawah/`.
+5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) - Samawah context, pilot rationale, and risks; generated city numbers live under `cities/catalogue/west-asia/Iraq/Samawah/`.
 6. [`docs/rfcs/0004-osr-interlocking-plan.md`](rfcs/0004-osr-interlocking-plan.md) — implementation plan for the Rust SIL-4 MA computer.
 7. [`docs/rfcs/0005-sbc-software-architecture.md`](rfcs/0005-sbc-software-architecture.md) — canonical SBC software architecture + crate map.
 8. [`crates/osr-core/proto/track_state.proto`](../crates/osr-core/proto/track_state.proto) — the interface definitions.
-9. [`formal/tla/SMRaft.tla`](../formal/tla/SMRaft.tla) — TLA+ spec of the consensus protocol.
+9. [`engineering/assurance/formal/tla/SMRaft.tla`](../engineering/assurance/formal/tla/SMRaft.tla) — TLA+ spec of the consensus protocol.
 
 ---
 

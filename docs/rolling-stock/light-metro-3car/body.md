@@ -22,7 +22,7 @@ they may stiffen local skins, but crashworthiness, jacking, lifting,
 coupler loads, and bogie loads are closed through the welded frame.
 
 The CAD implementation follows the same hierarchy in
-[`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py):
+[`car_body.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/car_body.py):
 
 | CAD subassembly | Included layers |
 |---|---|
@@ -183,7 +183,7 @@ HVAC, lighting, PIS, CCTV, intercom, seats, and grab rails are
 procurement modules. OSR fixes the envelope, fastener grid, power
 budget, data interface, fire rating, and maintainability clearance.
 Supplier-neutral envelopes and evidence requirements live in
-[`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md).
+[`control-electronics/trainset-interiors.md`](../../../control-electronics/trainset-interiors.md).
 
 The full interface map, including how the COTS modules join to the
 fabricated steel/composite body, is in

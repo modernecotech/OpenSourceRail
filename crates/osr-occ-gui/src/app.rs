@@ -943,15 +943,15 @@ fn validate_habd_reset(buffer: &HabdResetBuffer) -> Result<(), String> {
     Ok(())
 }
 
-/// Prefer the on-disk `designs/west-asia/Iraq/Samawah/samawah.toml`
+/// Prefer the on-disk `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`
 /// (so a fresh `osr-design` regeneration shows up immediately);
 /// fall back to the bundled snapshot when the binary is run from
 /// outside the repo. Same logic as [`osr_sim_gui`'s `_default_scenario`].
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
-        "designs/west-asia/Iraq/Samawah/samawah.toml",
-        "../designs/west-asia/Iraq/Samawah/samawah.toml",
-        "../../designs/west-asia/Iraq/Samawah/samawah.toml",
+        "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
+        "../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
+        "../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
     ];
     for c in candidates {
         let p = std::path::Path::new(c);
@@ -963,7 +963,8 @@ fn _default_scenario() -> (ScenarioConfig, String) {
     }
     (
         canonical_samawah_scenario(),
-        "Samawah (bundled; designs/west-asia/Iraq/Samawah/samawah.toml not on disk)".into(),
+        "Samawah (bundled; cities/catalogue/west-asia/Iraq/Samawah/samawah.toml not on disk)"
+            .into(),
     )
 }
 

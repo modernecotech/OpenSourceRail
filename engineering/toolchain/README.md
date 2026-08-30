@@ -22,14 +22,14 @@ accept the optional engineering applications when prompted.
 Run engineering workflows through the common launcher:
 
 ```bash
-./scripts/osr engineering --check
-./scripts/osr engineering --smoke
-./scripts/osr engineering --benchmarks
-./scripts/osr engineering --station-ifc
-./scripts/osr engineering --flesh-out
-./scripts/osr engineering --cities --city samawah,songea --jobs 2
-./scripts/osr engineering --cities --all --generate-only --allow-input-gaps --jobs 8
-./scripts/osr engineering --cities --all --allow-input-gaps --jobs 2 --resume
+./osr engineering --check
+./osr engineering --smoke
+./osr engineering --benchmarks
+./osr engineering --station-ifc
+./osr engineering --flesh-out
+./osr engineering --cities --city samawah,songea --jobs 2
+./osr engineering --cities --all --generate-only --allow-input-gaps --jobs 8
+./osr engineering --cities --all --allow-input-gaps --jobs 2 --resume
 ```
 
 `python-requirements.txt` pins direct engineering packages. The installer also
@@ -55,15 +55,15 @@ round-trips through IFC. These IFC files deliberately contain no geometry yet;
 the summary labels that limitation rather than presenting a coordination
 skeleton as a federated station model.
 
-[`../analysis-register.toml`](../analysis-register.toml) distinguishes planned,
+[`../analysis/analysis-register.toml`](../analysis/analysis-register.toml) distinguishes planned,
 screening, calibrated, independently checked, and accepted analyses. Its
 validator requires review metadata at higher maturity and refuses image-only
 result artifacts.
 
 ## Catalogue-wide city packages
 
-[`../../scripts/generate-city-engineering.py`](../../scripts/generate-city-engineering.py)
-discovers `designs/*/*/*/design.toml`; it does not maintain a second city list.
+[`../../tools/automation/generate-city-engineering.py`](../../tools/automation/generate-city-engineering.py)
+discovers `cities/catalogue/*/*/*/design.toml`; it does not maintain a second city list.
 For every selected city it writes:
 
 - a QGIS/GDAL GeoPackage plus GeoJSON review layers for corridors, stations,

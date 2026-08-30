@@ -83,7 +83,7 @@ Single vendor / single machine family across every deployment:
 | **Detection** | Dual-redundant position sensors (A + B, 2oo2 agreement) at the front stretcher bar. Integrated with [`osr-wayside-points`](../../crates/osr-wayside-points/)'s `SwitchObservation` reporting. |
 | **Locking** | Mechanical lock at the tip via the front stretcher bar; blade cannot move when locked. No electrical-only locking. |
 | **Heating** | 3 kW resistive heating strip along the slide chair + blade foot, thermostatically switched at +5 °C ambient. Powered from the trackside 230 V AC supply; dropped to LVDC aux in depot areas. |
-| **Cabinet** | IP67 aluminium enclosure matching the W-SBC form factor ([RFC 0007 §6](0007-hardware-reference-designs.md#6-class-w-sbc-wayside)). Motor + controller share the cabinet. |
+| **Cabinet** | IP67 aluminium enclosure matching the W-SBC form factor ([RFC 0007 §6](0007-control-electronics-reference-designs.md#6-class-w-sbc-wayside)). Motor + controller share the cabinet. |
 
 ### 4.3 Facing vs trailing
 

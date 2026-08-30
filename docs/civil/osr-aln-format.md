@@ -256,7 +256,7 @@ corridor GeoJSON into a deterministic per-line package. Such output is a
 traceability and interface artifact, not a surveyed rail-ready alignment. It
 must identify itself as planning-only and explicitly mark unfitted horizontal
 curves, placeholder vertical levels, and undesigned cant. The current example
-is the [three-line Samawah package](../../designs/west-asia/Iraq/Samawah/engineering/alignment/).
+is the [three-line Samawah package](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/).
 
 Passing the validator proves schema, catalogue compatibility, civil coverage,
 station/line references, and declared envelope limits. It does not replace
@@ -270,7 +270,7 @@ validates it against the current generated `design.toml` for that city:
 
 ```
 $ osr-aln-validate exports/survey/samawah-line-1.aln.toml \
-                   --design-toml designs/west-asia/Iraq/Samawah/design.toml
+                   --design-toml cities/catalogue/west-asia/Iraq/Samawah/design.toml
 2 soft-gate warning(s):
   ⚠ S3: grade between [[vertical]] #1 and #2 is 35.00 ‰ — within 80 %
        of preset maximum 40.0 ‰, flag for review

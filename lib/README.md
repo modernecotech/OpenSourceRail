@@ -15,12 +15,12 @@ intended to be edited, reviewed, and versioned alongside the code.
 | [`fault-injection-scenarios/`](fault-injection-scenarios/) | Scenario files for degraded-mode and safety-path demonstrations |
 
 The generated outputs from these inputs live under
-[`designs/`](../designs/), and the design synthesis crate is
+[`cities/catalogue/`](../cities/catalogue/), and the design synthesis crate is
 [`crates/osr-design`](../crates/osr-design/).
 
 Civil cost inputs are split deliberately: edit
 [`templates/civil-cost-calibration.toml`](templates/civil-cost-calibration.toml)
 and the parametric civil geometry, then run
-`python3 scripts/generate-civil-cost-model.py`. The generated
+`python3 tools/automation/generate-civil-cost-model.py`. The generated
 [`templates/civil-cost-model.toml`](templates/civil-cost-model.toml) is the
 contract used by city synthesis, finance, IFC provenance and documentation.

@@ -10,7 +10,7 @@
 //! separate test rig). They don't touch hardware peripherals
 //! (relays, sensors, trust anchors) directly — per-sensor
 //! hardware checks belong in the host-class-specific assembly
-//! runbook under `hardware/<class>/diy-assembly/`. This module
+//! runbook under `control-electronics/<class>/diy-assembly/`. This module
 //! validates that the *software* this unit is running is
 //! identical to the workspace the deployment expects.
 

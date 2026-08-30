@@ -44,9 +44,9 @@ an accepted station movement.
 
 ## 4. Project package
 
-Each city has a committed package under projects/<slug>/:
+Each city has a committed package under cities/workspaces/<slug>/:
 
-    projects/<slug>/
+    cities/workspaces/<slug>/
     ├── project.osr.toml
     ├── sources.lock.json
     ├── network/
@@ -141,10 +141,10 @@ than silently creating parallel issues.
     candidate snapshot in build/
         │ materialize revision
         ▼
-    projects/<slug>/revisions/osr-<hash>.json
+    cities/workspaces/<slug>/revisions/osr-<hash>.json
         │ branch + commit + pull request
         ▼
-    projects/<slug>/approvals/reviews.toml
+    cities/workspaces/<slug>/approvals/reviews.toml
         │ append reviewer decision + review reference
         ▼
     reviewed merge

@@ -311,8 +311,8 @@ install_python() {
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
     uv pip install --python "$ROOT/.venv/bin/python" pytest CairoSVG mistune Pillow reportlab \
-        --editable "$ROOT/design-py[geotiff,batch]" \
-        --editable "$ROOT/mechanical-py[test]" \
+        --editable "$ROOT/design/city-generation[geotiff,batch]" \
+        --editable "$ROOT/design/component-catalogue[test]" \
         --editable "$ROOT/tools/osr-aln-convert[test]" \
         --editable "$ROOT/tools/reference-ma"
 }
@@ -440,10 +440,10 @@ main() {
 
     printf '\nOpenSourceRail is ready.\n'
     if confirm "Start the Workbench now?" yes no; then
-        exec "$ROOT/scripts/osr"
+        exec "$ROOT/osr"
     fi
-    printf 'Start it later with: ./scripts/osr\n'
-    printf 'Regenerate the complete public system with: ./scripts/osr build\n'
+    printf 'Start it later with: ./osr\n'
+    printf 'Regenerate the complete public system with: ./osr build\n'
 }
 
 main "$@"

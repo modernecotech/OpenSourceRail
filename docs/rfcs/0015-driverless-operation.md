@@ -195,7 +195,7 @@ leading end's verdict is active; the trailing module
 self-tests and publishes an `Inactive` status.
 
 Detailed hardware spec lives at
-[`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/)
+[`control-electronics/t-obs/schematics/v2-spec/`](../../control-electronics/t-obs/schematics/v2-spec/)
 (scaffold only; v3 KiCad capture per RFC 0007 v3 rollout).
 
 ### 5.3 Passenger emergency intercom
@@ -446,7 +446,7 @@ driver-display crate, or dead-man controller in the workspace.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | `osr-obstacle-detect` crate at [`crates/osr-obstacle-detect/`](../../crates/osr-obstacle-detect/) — SIL-4 pure-function evaluator with O1/O2/O3/O4a/O4b/O5 Kani harnesses + 8 proptests (26 tests total); GSN safety-case goals G15–G19 at [`docs/safety-case/gsn/60-obstacle-detect.toml`](../safety-case/gsn/60-obstacle-detect.toml) close against real Kani + proptest evidence (done 2026-04-22). | v0 |
 | **v2** ✅ | `osr-sim` shadow onboard stack now calls `osr_obstacle_detect::evaluate` at every tick: each `OnboardShadow` carries an `obstacle_out` field, feeds an all-clear synthetic `SensorFrame` into the evaluator, threads `ObstacleVerdict::EmergencyBrake` through `BrakeInputs::obstacle_emergency`, and feeds `RestrictedSpeed` / `CrawlOnly` into the ATO cruise target as 40 km/h / 15 km/h caps. Per-verdict tick counters roll up in `OnboardSummary::total_obstacle_{restricted,crawl,emergency}_ticks`; the simulator summary prints them under "Onboard shadow stack". `BrakeInputs`, `EmergencySources` (in both `osr-brake` and `osr-tcms`), and the brake evaluator carry `obstacle_emergency` end-to-end. **v2.1 (2026-04-23):** scenario-driven sensor-fault injection — four new `FaultKind` variants (`LidarOffline`, `RadarOffline`, `UltrasonicChannelStale`, `ObstaclePeerDisagreement`) with per-train + fleet-wide scope; parser in `scenario_file.rs`; a demonstrator fault-injection scenario exercises every O-series path through the shadow stack. Run confirms RestrictedSpeed / EmergencyBrake verdicts fire without invariant violations. (done 2026-04-23) | v1 |
-| **v3** ✅ | T-OBS v2 schematic specification at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) — block diagram + per-rail power budget + safety-nets with 2oo2 AND-gate design + RP2350 A/B pinouts + 12-entry M12 connector table (done 2026-04-22). KiCad capture is v3.1, deferred alongside the RFC 0007 hardware KiCad rollout. | v0 |
+| **v3** ✅ | T-OBS v2 schematic specification at [`control-electronics/t-obs/schematics/v2-spec/`](../../control-electronics/t-obs/schematics/v2-spec/) — block diagram + per-rail power budget + safety-nets with 2oo2 AND-gate design + RP2350 A/B pinouts + 12-entry M12 connector table (done 2026-04-22). KiCad capture is v3.1, deferred alongside the RFC 0007 hardware KiCad rollout. | v0 |
 | **v4** ✅ (v1) | Type-certification pre-submission pack at [`docs/certification/`](../certification/) — README + system-description + safety-requirements (SR-01..SR-24) + hazard-log (17 hazards, 7 classes) + evidence-register + EN 62267 clause-by-clause compliance-matrix. Every SR cross-referenced to a Kani harness / proptest / GSN goal / rulebook rule. Remaining for v4.1 (open): residual-risk narrative, per-clause compliance prose for §5–§9, and independent-assessor review (deployment-partner scope). (done 2026-04-23) | v2, v3 |
 | **v5** | First driverless revenue service on an OSR deployment instance | v4 |
 
@@ -456,7 +456,7 @@ driver-display crate, or dead-man controller in the workspace.
   instantiate the GoA 4 operating model.
 - **RFC 0005 (SBC software architecture)** — crate map amended
   in §10.
-- **RFC 0007 (hardware reference designs)** — new T-OBS class in
+- **RFC 0007 (control-electronics reference designs)** — new T-OBS class in
   §9.
 - **RFC 0008 (rolling stock)** — cab elimination in §8.
 - **RFC 0010 (station design standard)** — PSDs become

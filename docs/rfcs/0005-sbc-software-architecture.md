@@ -35,8 +35,8 @@ transport evidence remains governed by the later RFCs and release checklists.
 ## 2. Non-goals
 
 - Not a hardware reference design. Schematics, BOMs, and ratings are the
-  domain of [RFC 0007](0007-hardware-reference-designs.md) and the
-  [`hardware/`](../../hardware/) directory. This RFC specifies *which
+  domain of [RFC 0007](0007-control-electronics-reference-designs.md) and the
+  [`control-electronics/`](../../control-electronics/) directory. This RFC specifies *which
   software targets which hardware class*, not what that hardware looks
   like.
 - Not a formal safety case. SIL targets here are *allocations*, not
@@ -57,7 +57,7 @@ transport evidence remains governed by the later RFCs and release checklists.
 Five hardware classes host OpenSourceRail software. Every crate is
 tagged with the class(es) it targets. The reference designs for
 each class — SoC, peripherals, baseboard, manufacturability — are
-in [RFC 0007](0007-hardware-reference-designs.md).
+in [RFC 0007](0007-control-electronics-reference-designs.md).
 
 | Class | Acronym | Environment | Typical SoC | Reference OS |
 |---|---|---|---|---|
@@ -179,7 +179,7 @@ Not safety-critical; streams telemetry to the depot for offline analysis.
 | **osr-balise** | W-SBC | 2 | Balise/transponder reader. Provides position fixes at fixed points (platform edges, switches) for `osr-odometry` to consume. Passive balises preferred; active balises used only where a data payload is needed. |
 | **osr-level-crossing** | W-SBC | 4 | Level-crossing controller. Same SBC family as the interlocking; crossings are consensus-log participants. |
 | **osr-hot-axle-wayside** | W-SBC | 4 | Wayside Hot Axle Box Detector (HABD). IR sensor array reads bearing temperatures on passing trains; publishes a speed-restriction entry or a stop-order if thresholds exceeded. |
-| **osr-consensus** | W-SBC & O-SRV | 4 | Raft implementation of the SMRaft spec (see [`formal/tla/SMRaft.tla`](../../formal/tla/SMRaft.tla)). Maintains the track-state log consumed by `osr-interlocking`. Separate crate because every safety-critical wayside node hosts a replica. |
+| **osr-consensus** | W-SBC & O-SRV | 4 | Raft implementation of the SMRaft spec (see [`engineering/assurance/formal/tla/SMRaft.tla`](../../engineering/assurance/formal/tla/SMRaft.tla)). Maintains the track-state log consumed by `osr-interlocking`. Separate crate because every safety-critical wayside node hosts a replica. |
 
 ### 4.7 D4 — Passenger services
 
@@ -436,7 +436,7 @@ Phase 2c.
   lands (Phase 2d) so that cross-language consumers (the Python
   reference interpreter, future tooling) can link the schema without
   linking domain logic.
-- [`formal/tla/SMRaft.tla`](../../formal/tla/SMRaft.tla) is the spec
+- [`engineering/assurance/formal/tla/SMRaft.tla`](../../engineering/assurance/formal/tla/SMRaft.tla) is the spec
   that `osr-consensus` implements. The TLA+ work is already done; only
   the Rust refinement is pending.
 

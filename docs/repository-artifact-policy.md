@@ -32,9 +32,11 @@ otherwise cannot inspect the system without installing specialist software.
 - One compact high-throughput architecture reference, Basra (`metro-6car`),
   adding a map and README without duplicating the complete acceptance bundles.
 - The Samawah OSR-ALN fixture used by converter tests.
-- Compact FreeCAD and Blender review assemblies, stable documentation images,
-  and the root `OpenSourceRail-Book.pdf` reader edition. These are published
-  review aids generated from the authoritative sources, not parallel inputs.
+- Compact FreeCAD and Blender review assemblies, the named IFC4.3/IDS/BCF
+  federation under `engineering/models/bim/reference/`, stable documentation
+  images, and the root `OpenSourceRail-Book.pdf` reader edition. These are
+  published review aids generated from authoritative sources, not parallel
+  inputs.
 
 ## Not tracked
 
@@ -50,15 +52,17 @@ otherwise cannot inspect the system without installing specialist software.
 
 | Output | Location |
 |---|---|
-| Full city package | `designs/` |
-| Simulation and engineering evidence | `build/engineering/` |
+| Full city package | `cities/catalogue/` |
+| Repeated simulation and engineering job output | `build/engineering/` |
+| Public CAD review set | `design/component-catalogue/models/cad/` |
+| Public BIM coordination review set | `engineering/models/bim/reference/` |
 | BOM exports | `build/bom/` |
 | Published reader book | `OpenSourceRail-Book.pdf` |
 | Release-only media | `build/releases/` before tagged release storage |
 | Tagged deliverables | Release storage with version and checksum |
 
-Use `scripts/regenerate-city.sh <slug>` for a full city package in the
-canonical `designs/` tree. Catalogue changes must include the corresponding
+Use `tools/automation/regenerate-city.sh <slug>` for a full city package in the
+canonical `cities/catalogue/` tree. Catalogue changes must include the corresponding
 current-generator scenario and pass the catalogue-completeness health check;
 generated engineering and operations directories remain tied to the city
 folder that produced them.

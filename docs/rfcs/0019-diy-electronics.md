@@ -2,7 +2,7 @@
 
 **Status:** accepted · 2026-04-23.
 **Authors:** OSR project.
-**Amends:** [RFC 0007](0007-hardware-reference-designs.md) (hardware
+**Amends:** [RFC 0007](0007-control-electronics-reference-designs.md) (hardware
 palette). **Complements:** [CHANGELOG.md](../../CHANGELOG.md).
 
 ## 1. Purpose
@@ -154,12 +154,12 @@ Per host class, the DIY assembly is:
 
 1. **Flash the SD card.** OSR ships a per-class image (native
    Rust binary + OS + pre-loaded feature flags). Documented
-   at [`hardware/diy-assembly/sd-card-images.md`](../../hardware/diy-assembly/sd-card-images.md).
+   at [`control-electronics/diy-assembly/sd-card-images.md`](../../control-electronics/diy-assembly/sd-card-images.md).
 2. **Snap modules onto DIN rail.** Pi + CM5 IO Board + HATs all
    fit standard DIN-rail enclosures.
 3. **Screw terminal blocks to field I/O.** Every field-side
    connection is a labelled screw terminal. Wiring map per
-   host class at `hardware/<class>/diy-assembly/wiring-map.md`.
+   host class at `control-electronics/<class>/diy-assembly/wiring-map.md`.
 4. **Power up.** 24 V DC in. Boot time ~ 15 s. LEDs on each
    Pico indicate 2oo2 self-test pass. CM5 boots Rust + the
    RFC 0005 crate image for its role.
@@ -202,9 +202,9 @@ factory DRC + flying-probe check substitutes; DIY builders run
 
 ## 8. Documentation deliverables
 
-Under `hardware/`:
+Under `control-electronics/`:
 
-- **[`diy-assembly/`](../../hardware/diy-assembly/)** — top-
+- **[`diy-assembly/`](../../control-electronics/diy-assembly/)** — top-
   level cookbook: parts catalogue, assembly order, tooling,
   SD-card build.
 - **`<class>/diy-bom.md`** — per-host-class specific BOM with

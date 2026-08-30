@@ -14,7 +14,7 @@ test("City Studio passes its isolated edit, adapter, restart, and persistence ac
   test.setTimeout(15 * 60_000);
   const { stdout, stderr } = await execFileAsync(
     process.execPath,
-    ["scripts/test-city-studio-gui.mjs"],
+    ["tools/automation/test-city-studio-gui.mjs"],
     {
       cwd: root,
       env: childEnv,

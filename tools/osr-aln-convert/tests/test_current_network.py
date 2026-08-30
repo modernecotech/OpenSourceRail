@@ -12,7 +12,7 @@ from osr_aln.validate import validate
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-SAMAWAH = REPO_ROOT / "designs/west-asia/Iraq/Samawah"
+SAMAWAH = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah"
 DESIGN = SAMAWAH / "design.toml"
 GEOJSON = SAMAWAH / "samawah.corridor.geojson"
 OUTPUT = SAMAWAH / "engineering/alignment"

@@ -2,7 +2,7 @@
 
 This note records the OSR planning-grade slab trackforms for urban
 at-grade and elevated sections. The parametric CAD source lives in
-[`mechanical-py/src/osr_mech/civil/slab.py`](../../mechanical-py/src/osr_mech/civil/slab.py).
+[`design/component-catalogue/src/osr_mech/civil/slab.py`](../../design/component-catalogue/src/osr_mech/civil/slab.py).
 
 The designs are reference envelopes for cost, clash, fabrication, and
 constructability review. Deployment partners still need local structural
@@ -81,9 +81,9 @@ rolling stock and the station access elements that affect civil cost.
 | ![At-grade ballastless station track with driverless train](../screenshots/stations/freecad-at-grade-station-track-train.png) | ![Elevated deck station track with driverless train](../screenshots/stations/freecad-elevated-station-track-train.png) |
 
 The source scene document is
-[`mechanical-py/catalog/freecad/station-scenes.FCStd`](../../mechanical-py/catalog/freecad/station-scenes.FCStd)
+[`design/component-catalogue/models/cad/station-scenes.FCStd`](../../design/component-catalogue/models/cad/station-scenes.FCStd)
 and is regenerated with
-[`mechanical-py/scripts/freecad_station_scenes.sh`](../../mechanical-py/scripts/freecad_station_scenes.sh).
+[`design/component-catalogue/scripts/freecad_station_scenes.sh`](../../design/component-catalogue/scripts/freecad_station_scenes.sh).
 
 ## Fabrication And Installation Rules
 

@@ -5,14 +5,14 @@ subassemblies actually connect, and how are they joined?
 
 The current product tree is connected by parent/child IDs in the
 generated buildable manifest:
-[`mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md).
+[`design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md`](../../../design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md).
 This document adds the missing single-page join doctrine: datum stack,
 joining method, sequence, and acceptance hold point for each
 subassembly and final-assembly interface.
 
 The machine-readable parent/child join classes, torque authority, and
 release state are generated in
-[`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md).
+[`joint-control-schedule.md`](../../../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md).
 
 It is still a v0.2/v2A planning document, not a released shop drawing.
 Every structural weld, bolted joint, adhesive bond, HV connection, and

@@ -32,7 +32,7 @@ Generated CSV outputs:
   adds low/base/high cost bands to every BOM line.
 - `build/bom/rolling_stock_cots_fitout_bom.csv`
   is generated directly from the source-shaped COTS fit-out catalogue
-  in `mechanical-py`.
+  in `design/component-catalogue`.
 
 Cost confidence:
 

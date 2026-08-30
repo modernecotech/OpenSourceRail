@@ -44,7 +44,7 @@ system.
 - Pass/watch/fail inspection evidence.
 - Automatic hold plus defect/NCR creation on failed evidence.
 - CSV export for work orders, defects, and audit events.
-- SQLite storage through `scripts/ops-core-server.py` for a simple
+- SQLite storage through `tools/automation/ops-core-server.py` for a simple
   owner-operator deployment.
 - Browser-local storage fallback when the portal is served as static
   files only.

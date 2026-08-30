@@ -51,24 +51,24 @@ behaviour is documented there only so it cannot drift between guides.
 Useful checks:
 
 ```bash
-python3 scripts/repo-health.py --quiet
-python3 scripts/check-markdown-links.py
-python3 scripts/generate-doc-index.py
+python3 tools/automation/repo-health.py --quiet
+python3 tools/automation/check-markdown-links.py
+python3 tools/automation/generate-doc-index.py
 cargo test --workspace
-pytest design-py/tests -q
-PYTHONPATH=mechanical-py/src pytest mechanical-py/tests -q
+pytest design/city-generation/tests -q
+PYTHONPATH=design/component-catalogue/src pytest design/component-catalogue/tests -q
 ```
 
 For Samawah/RFC consistency:
 
 ```bash
-PYTHONPATH=design-py/src pytest -q design-py/tests/test_rfc_drift.py
+PYTHONPATH=design/city-generation/src pytest -q design/city-generation/tests/test_rfc_drift.py
 ```
 
 For the reader edition:
 
 ```bash
-python3 scripts/build-doc-book.py
+python3 tools/automation/build-doc-book.py
 ```
 
 ## Generated Artifacts

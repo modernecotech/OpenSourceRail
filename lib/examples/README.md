@@ -46,7 +46,7 @@ at a glance.
 | [`minimal-city.toml`](minimal-city.toml) | Slightly richer fixture exercising every required block. |
 | Built-in `samawah` scenario (compiled into `osr-sim` — pass `--scenario samawah`) | Legacy compiled fixture retained for regression tests. Prefer generated city TOML via `--config` for deployment work. |
 | Built-in `samawah-line1` scenario | Line 1 only; useful for isolating radial-line behaviour. |
-| [`designs/west-asia/Iraq/Samawah/samawah.toml`](../../designs/west-asia/Iraq/Samawah/samawah.toml) | The auto-planned three-line `light-metro-3car` Samawah network emitted by `osr-design` from real OSM + WorldPop data. Pass via `--config` to `osr-sim`. |
+| [`cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`](../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml) | The auto-planned three-line `light-metro-3car` Samawah network emitted by `osr-design` from real OSM + WorldPop data. Pass via `--config` to `osr-sim`. |
 
 ## File format
 
@@ -380,7 +380,7 @@ a higher-power pad at each terminal.
 ### A ring
 
 See line-2 in the built-in `samawah` scenario, or any auto-planned
-megacity design at `designs/.../<City>/<slug>.toml` whose population
+megacity design at `cities/catalogue/.../<City>/<slug>.toml` whose population
 band carries a ring (e.g. Baghdad's line-9). Set `is_ring = true`
 and `ring_wrap_length_m` to close the loop. Typical ring fleets
 dispatch both clockwise and counterclockwise from 1–2 major

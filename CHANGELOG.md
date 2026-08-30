@@ -16,8 +16,8 @@ major subsystem is ready for.
 
 - **55 Rust crates** with Kani harnesses, proptests, and integration
   tests across the safety-critical software surface.
-- **Two Python sidecars**: `design-py` (GIS + network synthesis),
-  `mechanical-py` (parametric mechanical / civil / station
+- **Two Python sidecars**: `design/city-generation` (GIS + network synthesis),
+  `design/component-catalogue` (parametric mechanical / civil / station
   source geometry), plus two Python tools. The current audit collects 429
   Python/tool tests across their four suites (428 passing, 1 environment-
   dependent test skipped).

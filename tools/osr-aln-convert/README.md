@@ -29,7 +29,7 @@ pip install -e .
 # Convert a LandXML dump from Civil 3D / OpenRail / Trimble.
 landxml-to-osr-aln \
     --input  ./exports/samawah-line1.xml \
-    --output ./designs/west-asia/Iraq/Samawah/engineering/alignment/samawah-line1.aln.toml \
+    --output ./cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/samawah-line1.aln.toml \
     --line-id samawah-line1 \
     --preset standard-urban \
     --consist light-metro-3car \
@@ -49,9 +49,9 @@ artifacts:
 
 ```bash
 current-network-to-osr-aln \
-    --design ../../designs/west-asia/Iraq/Samawah/design.toml \
-    --geojson ../../designs/west-asia/Iraq/Samawah/samawah.corridor.geojson \
-    --output-dir ../../designs/west-asia/Iraq/Samawah/engineering/alignment \
+    --design ../../cities/catalogue/west-asia/Iraq/Samawah/design.toml \
+    --geojson ../../cities/catalogue/west-asia/Iraq/Samawah/samawah.corridor.geojson \
+    --output-dir ../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment \
     --design-date 2026-08-12
 ```
 
@@ -59,7 +59,7 @@ This path emits one file per current line, verifies line/station IDs and civil
 coverage against `design.toml`, and embeds input hashes for drift review. It is
 explicitly planning-only: the generated GIS trace has no fitted curves,
 surveyed vertical profile, or designed cant. See the
-[`Samawah package notice`](../../designs/west-asia/Iraq/Samawah/engineering/alignment/README.md)
+[`Samawah package notice`](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md)
 for the replacement gates.
 
 ## What the v1 converter reads

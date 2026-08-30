@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$ROOT/../.." && pwd)"
+source "$ROOT/scripts/headless_gui.sh"
+RUNNER="$ROOT/freecad_digital_twin_animation_runner.py"
+MODEL="$ROOT/models/cad/civil-systems-integration-test.FCStd"
+OUTPUT="$REPO_ROOT/docs/assets/digital-twin-animation.gif"
+GROUND_FRAMES=14
+ELEVATED_FRAMES=18
+WIDTH=960
+HEIGHT=540
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --model) MODEL="$2"; shift 2 ;;
+        --out) OUTPUT="$2"; shift 2 ;;
+        --ground-frames) GROUND_FRAMES="$2"; shift 2 ;;
+        --elevated-frames) ELEVATED_FRAMES="$2"; shift 2 ;;
+        --width) WIDTH="$2"; shift 2 ;;
+        --height) HEIGHT="$2"; shift 2 ;;
+        -h|--help)
+            echo "Usage: $0 [--model FILE] [--out GIF] [--ground-frames N] [--elevated-frames N] [--width PX] [--height PX]"
+            exit 0
+            ;;
+        *) echo "unknown option: $1" >&2; exit 2 ;;
+    esac
+done
+
+if ! command -v convert >/dev/null 2>&1; then
+    echo "ImageMagick 'convert' is required to encode the animated GIF." >&2
+    exit 127
+fi
+
+FRAME_DIR="$(mktemp -d /tmp/osr-digital-twin-frames.XXXXXX)"
+cleanup() {
+    rm -rf "$FRAME_DIR"
+}
+trap cleanup EXIT
+
+export OSR_TWIN_ANIMATION_RUN=1
+export OSR_TWIN_MODEL="$MODEL"
+export OSR_TWIN_FRAME_DIR="$FRAME_DIR"
+export OSR_TWIN_GROUND_FRAMES="$GROUND_FRAMES"
+export OSR_TWIN_ELEVATED_FRAMES="$ELEVATED_FRAMES"
+export OSR_TWIN_WIDTH="$WIDTH"
+export OSR_TWIN_HEIGHT="$HEIGHT"
+
+run_freecad() {
+    if command -v FreeCAD >/dev/null 2>&1; then
+        run_headless_gui FreeCAD "$RUNNER"
+    elif command -v freecad >/dev/null 2>&1; then
+        run_headless_gui freecad "$RUNNER"
+    elif command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; then
+        run_headless_gui flatpak run \
+            --filesystem="$REPO_ROOT" \
+            --filesystem="$FRAME_DIR" \
+            --env=OSR_TWIN_ANIMATION_RUN=1 \
+            --env=OSR_TWIN_MODEL="$MODEL" \
+            --env=OSR_TWIN_FRAME_DIR="$FRAME_DIR" \
+            --env=OSR_TWIN_GROUND_FRAMES="$GROUND_FRAMES" \
+            --env=OSR_TWIN_ELEVATED_FRAMES="$ELEVATED_FRAMES" \
+            --env=OSR_TWIN_WIDTH="$WIDTH" \
+            --env=OSR_TWIN_HEIGHT="$HEIGHT" \
+            --command=FreeCAD org.freecad.FreeCAD "$RUNNER"
+    else
+        echo "FreeCAD GUI was not found." >&2
+        exit 127
+    fi
+}
+
+run_freecad
+
+mapfile -t FRAMES < <(find "$FRAME_DIR" -maxdepth 1 -type f -name 'frame-*.png' | sort)
+EXPECTED_FRAMES=$((GROUND_FRAMES + ELEVATED_FRAMES))
+if [ "${#FRAMES[@]}" -ne "$EXPECTED_FRAMES" ]; then
+    echo "expected $EXPECTED_FRAMES frames, found ${#FRAMES[@]}" >&2
+    exit 1
+fi
+
+ANNOTATED_DIR="$FRAME_DIR/annotated"
+mkdir -p "$ANNOTATED_DIR"
+for frame in "${FRAMES[@]}"; do
+    name="$(basename "$frame")"
+    if [[ "$name" == *-ground.png ]]; then
+        caption="GROUND STATION → JUNCTION  •  LM3-001  •  DEPARTURE"
+    else
+        caption="VIADUCT → ELEVATED STATION  •  LM3-002  •  IN SERVICE"
+    fi
+    convert "$frame" \
+        -gravity South -background '#0f172a' -splice 0x48 \
+        -font DejaVu-Sans-Bold -pointsize 18 -fill white \
+        -annotate +0+14 "$caption" \
+        "$ANNOTATED_DIR/$name"
+done
+
+mkdir -p "$(dirname "$OUTPUT")"
+convert -delay 10 "$ANNOTATED_DIR"/frame-*.png -loop 0 \
+    -layers Optimize -colors 96 -dither FloydSteinberg "$OUTPUT"
+
+MAX_BYTES=20000000
+SIZE_BYTES="$(stat -c %s "$OUTPUT")"
+if [ "$SIZE_BYTES" -ge "$MAX_BYTES" ]; then
+    convert -delay 12 "$ANNOTATED_DIR"/frame-*.png -resize 85% -loop 0 \
+        -layers Optimize -colors 64 -dither FloydSteinberg "$OUTPUT"
+    SIZE_BYTES="$(stat -c %s "$OUTPUT")"
+fi
+if [ "$SIZE_BYTES" -ge "$MAX_BYTES" ]; then
+    echo "encoded GIF is $SIZE_BYTES bytes, at or above the 20 MB repository limit" >&2
+    exit 1
+fi
+
+identify "$OUTPUT" | tail -n 1
+echo "wrote $OUTPUT ($SIZE_BYTES bytes, ${#FRAMES[@]} frames)"

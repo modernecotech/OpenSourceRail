@@ -16,7 +16,7 @@ import ifcopenshell
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = REPO_ROOT / "mechanical-py/catalog/buildable-stations/station-kit-manifest.json"
+MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
 NAMESPACE = uuid.UUID("35015482-428c-52e0-9de7-7c4532bc7190")
 
 

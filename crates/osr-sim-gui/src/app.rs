@@ -127,7 +127,7 @@ impl SimApp {
                 }
             },
             // No explicit path given: prefer the on-disk
-            // designs/west-asia/Iraq/Samawah/samawah.toml; fall back
+            // cities/catalogue/west-asia/Iraq/Samawah/samawah.toml; fall back
             // to the bundled snapshot if it isn't there.
             None => _default_scenario(),
         };
@@ -707,14 +707,14 @@ fn draw_fault_badges(painter: &egui::Painter, rect: &Rect, result: &SimResult, a
     }
 }
 
-/// Attempt to load `designs/west-asia/Iraq/Samawah/samawah.toml` from the
+/// Attempt to load `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml` from the
 /// standard repo location; if the file isn't on disk the bundled
 /// `canonical_samawah_scenario` snapshot is used instead.
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
-        "designs/west-asia/Iraq/Samawah/samawah.toml",
-        "../designs/west-asia/Iraq/Samawah/samawah.toml",
-        "../../designs/west-asia/Iraq/Samawah/samawah.toml",
+        "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
+        "../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
+        "../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
     ];
     for c in candidates {
         let p = std::path::Path::new(c);
@@ -726,6 +726,7 @@ fn _default_scenario() -> (ScenarioConfig, String) {
     }
     (
         canonical_samawah_scenario(),
-        "Samawah (bundled; designs/west-asia/Iraq/Samawah/samawah.toml not on disk)".into(),
+        "Samawah (bundled; cities/catalogue/west-asia/Iraq/Samawah/samawah.toml not on disk)"
+            .into(),
     )
 }

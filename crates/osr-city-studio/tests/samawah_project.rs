@@ -3,7 +3,7 @@ use std::path::Path;
 use osr_city_studio::CityProject;
 
 fn samawah_project() -> CityProject {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
     CityProject::load(root).expect("load committed Samawah City Studio fixture")
 }
 

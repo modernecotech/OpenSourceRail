@@ -1391,7 +1391,7 @@ fn compute_costs(
     let rolling_stock_eur = eur_from_usd(rolling_stock_usd);
     // Trainset production is a national shared asset, not one factory per
     // city. City CAPEX therefore carries no production-plant setup charge;
-    // `scripts/generate-national-briefs.py` sizes one plant to the largest
+    // `tools/automation/generate-national-briefs.py` sizes one plant to the largest
     // city fleet programme and adds it once to the national capital plan.
     let production_plant_usd = 0.0;
     let production_plant_eur = 0.0;

@@ -13,7 +13,7 @@ without passenger-compartment intrusion. Because OSR is *cabless*
 impact-absorption zone that commercial cabbed designs put in the
 driver's cab has to live somewhere else. This RFC publishes the
 energy-absorption-zone allocation that replaces it — the values
-the mechanical-py parametric car body tracks and that vendors
+the design/component-catalogue parametric car body tracks and that vendors
 must meet when supplying an OSR-compatible shell.
 
 The v0.2 development baseline still does **not** ship a full
@@ -89,9 +89,9 @@ Each end of every consist must provide the summed per-end budget
 
 ## 6. Parametric geometry constraints
 
-The mechanical-py car body + sensor cowl enforce these constraints
+The design/component-catalogue car body + sensor cowl enforce these constraints
 via the `Crashworthiness` helper in
-[osr_mech.rolling_stock.car_body](../../mechanical-py/src/osr_mech/rolling_stock/car_body.py)
+[osr_mech.rolling_stock.car_body](../../design/component-catalogue/src/osr_mech/rolling_stock/car_body.py)
 (added in v0.1). The CAD geometry **reserves** the zone
 envelopes — vendor-supplied shells that fit in must meet the
 mechanical targets below.

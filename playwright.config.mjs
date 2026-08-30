@@ -40,13 +40,13 @@ export default defineConfig({
       timeout: 30_000,
     },
     {
-      command: "python3 scripts/ops-core-server.py --host 127.0.0.1 --port 4176 --db build/playwright/ops-core.sqlite3 --reset-db",
+      command: "python3 tools/automation/ops-core-server.py --host 127.0.0.1 --port 4176 --db build/playwright/ops-core.sqlite3 --reset-db",
       url: "http://127.0.0.1:4176/docs/operations-portal/",
       reuseExistingServer: false,
       timeout: 30_000,
     },
     {
-      command: "exec python3 scripts/workbench-server.py --host 127.0.0.1 --port 4177 --city-port 4178 --db build/playwright/workbench.sqlite3 --reset-db --isolated-project projects/samawah",
+      command: "exec python3 tools/automation/workbench-server.py --host 127.0.0.1 --port 4177 --city-port 4178 --db build/playwright/workbench.sqlite3 --reset-db --isolated-project cities/workspaces/samawah",
       url: "http://127.0.0.1:4177/",
       reuseExistingServer: false,
       timeout: 60_000,

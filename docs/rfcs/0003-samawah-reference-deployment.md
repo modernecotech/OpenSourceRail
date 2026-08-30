@@ -10,7 +10,7 @@ This RFC instantiates the [unified deployment model](../deployment-model.md)
 for **Samawah (As-Samawah), capital of Al-Muthanna Governorate,
 Iraq**. Samawah is a worked Iraq instance, not a special OSR fork. The
 current source of truth is
-[`designs/west-asia/Iraq/Samawah/design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml),
+[`cities/catalogue/west-asia/Iraq/Samawah/design.toml`](../../cities/catalogue/west-asia/Iraq/Samawah/design.toml),
 emitted by `osr-design` from the same OpenStreetMap, WorldPop, country,
 cost, finance, and template pipeline used by every generated city.
 This RFC is context and pilot rationale; it is not a second Samawah
@@ -126,13 +126,13 @@ per RFC 0027.
 
 Samawah sits on the Euphrates in southern Iraq. The city stretches roughly east–west along the river with residential suburbs fanning north and south. The mainline railway enters from the northwest, the city centre sits on the river bend, and the major newer developments (hospital, university campus, expanding residential districts) are south and east of the historic core.
 
-![Samawah network — 3 auto-planned lines on OpenStreetMap](../../designs/west-asia/Iraq/Samawah/samawah-network-map.png)
+![Samawah network — 3 auto-planned lines on OpenStreetMap](../../cities/catalogue/west-asia/Iraq/Samawah/samawah-network-map.png)
 
 *Three generated lines on OSM tiles. Station markers are coloured by
 archetype (red terminal, purple depot-terminal, blue major, orange
 interchange, white standard). Every polyline comes from the
 `osr-design` routing pipeline. Regenerate with
-`scripts/regenerate-city.sh samawah`; see
+`tools/automation/regenerate-city.sh samawah`; see
 [§3.5 Realism Notes](#35-realism-notes) for what surveying would
 still change.*
 
@@ -186,21 +186,21 @@ line-level ridership sketches.
 | Fleet (dedicated depot-service rotation) | 0 — off-peak uses surplus peak fleet |
 | Fleet (spare + cold-reserve) | 11 × 3-car trainsets |
 | Average inter-station spacing | Generated from [`SpacingConfig`](../../crates/osr-routing/src/station.rs): 1.6 km central, 3 km urban, and up to 7 km on suburban approaches and the lowest-demand outer fringe |
-| Demand surface | Anchor (POI) + WorldPop residential population blend per [`build_demand_surface`](../../design-py/src/osr_geo/rasterize.py) — lines reach population centres without mapped POIs |
+| Demand surface | Anchor (POI) + WorldPop residential population blend per [`build_demand_surface`](../../design/city-generation/src/osr_geo/rasterize.py) — lines reach population centres without mapped POIs |
 | Service hours | 05:30 – 02:00, ~20.5 hours |
 | Target annual paid trips (steady-state) | 73.3 M – 117.3 M passenger-trips, equal to 50–80% use of practical service capacity |
 
-> The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);
+> The table above is **derived from** [`design.toml`](../../cities/catalogue/west-asia/Iraq/Samawah/design.toml);
 > regenerate with `python -m osr_scenario.stats --format markdown`.
-> A drift test (`design-py/tests/test_rfc_drift.py`) fails CI if this
+> A drift test (`design/city-generation/tests/test_rfc_drift.py`) fails CI if this
 > table ever contradicts the design file. The full regeneration
 > pipeline is one command:
 >
 > ```bash
-> scripts/regenerate-city.sh samawah
+> tools/automation/regenerate-city.sh samawah
 > ```
 >
-> which emits the sim scenario (`designs/west-asia/Iraq/Samawah/samawah.toml`), the network
+> which emits the sim scenario (`cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`), the network
 > map PNG, runs the
 > drift + round-trip tests, and prints the summary stats above.
 
@@ -210,7 +210,7 @@ Honest assessment of the current generated 3-line design against real
 Samawah OSM data:
 
 **What's real.** Station coordinates in
-[`designs/west-asia/Iraq/Samawah/design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml)
+[`cities/catalogue/west-asia/Iraq/Samawah/design.toml`](../../cities/catalogue/west-asia/Iraq/Samawah/design.toml)
 are generated from the same OSM/WorldPop/country catalogue pipeline as
 every other city model. Named stations correspond to mapped anchors
 where the source has one; generated `line-*` IDs mark algorithmic
@@ -246,15 +246,15 @@ context are all catalogue/OSM-consistent.
 
 **How to take this to the next fidelity level:**
 
-1. Re-run the `design-py` routing + rendering pipeline with a
+1. Re-run the `design/city-generation` routing + rendering pipeline with a
    one-command refresh:
 
    ```bash
-   scripts/regenerate-city.sh samawah
+   tools/automation/regenerate-city.sh samawah
    ```
 
    which fetches Samawah OSM (cached), routes every line on the
-   road graph, emits `corridor.geojson` + `designs/west-asia/Iraq/Samawah/samawah.toml`
+   road graph, emits `corridor.geojson` + `cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`
    + the map PNGs, and runs the scenario + RFC drift tests.
 2. Feed the stationed alignment + `corridor.geojson` into
    [`osr-alignment-export`](../../crates/osr-alignment/src/main.rs)

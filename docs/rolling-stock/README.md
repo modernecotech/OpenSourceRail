@@ -27,12 +27,12 @@ operation routing, material/process control, and signoff templates.
 | Artifact | Location |
 |---|---|
 | Generated CAD screenshots | [`../screenshots/`](../screenshots/) |
-| Generated design iteration scorecards | [`../../mechanical-py/catalog/design-system/`](../../mechanical-py/catalog/design-system/) |
-| Generated buildable trainset manifest and review | [`../../mechanical-py/catalog/buildable-trainset/`](../../mechanical-py/catalog/buildable-trainset/) |
-| Product-tree definitions for drawing/RFQ/material/process specs | [`../../mechanical-py/catalog/buildable-trainset/definitions/index.md`](../../mechanical-py/catalog/buildable-trainset/definitions/index.md) |
-| Unsigned shop traveler templates with process controls | [`../../mechanical-py/catalog/buildable-trainset/travelers/index.md`](../../mechanical-py/catalog/buildable-trainset/travelers/index.md) |
-| Canonical parametric source | [`../../mechanical-py/src/osr_mech/rolling_stock/`](../../mechanical-py/src/osr_mech/rolling_stock/) |
-| Generated FreeCAD review artifacts | [`../../mechanical-py/catalog/freecad/`](../../mechanical-py/catalog/freecad/) |
+| Generated design iteration scorecards | [`../../design/component-catalogue/catalog/design-system/`](../../design/component-catalogue/catalog/design-system/) |
+| Generated buildable trainset manifest and review | [`../../design/component-catalogue/catalog/buildable-trainset/`](../../design/component-catalogue/catalog/buildable-trainset/) |
+| Product-tree definitions for drawing/RFQ/material/process specs | [`../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md`](../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md) |
+| Unsigned shop traveler templates with process controls | [`../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md`](../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md) |
+| Canonical parametric source | [`../../design/component-catalogue/src/osr_mech/rolling_stock/`](../../design/component-catalogue/src/osr_mech/rolling_stock/) |
+| Generated FreeCAD review artifacts | [`../../design/component-catalogue/models/cad/`](../../design/component-catalogue/models/cad/) |
 | Concept image | [`../assets/solar-metro-trainset.png`](../assets/solar-metro-trainset.png) |
-| Hardware integration matrix | [`../../hardware/rolling-stock-integration.md`](../../hardware/rolling-stock-integration.md) |
-| Interior COTS catalogue | [`../../hardware/trainset-interiors.md`](../../hardware/trainset-interiors.md) |
+| Control-electronics integration matrix | [`../../control-electronics/rolling-stock-integration.md`](../../control-electronics/rolling-stock-integration.md) |
+| Interior COTS catalogue | [`../../control-electronics/trainset-interiors.md`](../../control-electronics/trainset-interiors.md) |

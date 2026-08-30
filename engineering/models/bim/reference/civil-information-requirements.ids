@@ -1,0 +1,1021 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ids xmlns="http://standards.buildingsmart.org/IDS" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd">
+    <info>
+        <title>OSR IFC4.3 civil information requirements</title>
+        <version>1.0</version>
+        <description>Machine-checkable requirements for the OpenSourceRail design-reference civil coordination exchange. Passing does not constitute construction release.</description>
+        <date>2026-01-01</date>
+        <purpose>Civil BIM federation, coordination, and review</purpose>
+        <milestone>Design reference</milestone>
+    </info>
+    <specifications>
+        <specification name="Civil elements carry stable OSR identity and coordination quantities" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-CIV-001" description="Every exported physical or virtual asset remains traceable to its deterministic source." instructions="Do not accept untagged or revision-ambiguous objects into the civil federation.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCBEAM" />
+                            <xs:enumeration value="IFCBEARING" />
+                            <xs:enumeration value="IFCCOLUMN" />
+                            <xs:enumeration value="IFCELEMENTASSEMBLY" />
+                            <xs:enumeration value="IFCRAIL" />
+                            <xs:enumeration value="IFCROOF" />
+                            <xs:enumeration value="IFCSLAB" />
+                            <xs:enumeration value="IFCVEHICLE" />
+                            <xs:enumeration value="IFCVIRTUALELEMENT" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                </attribute>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>AssetId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>AssetClass</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>CoordinationGroupId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SourceSha256</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RevisionId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Asset</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>LifecycleState</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationEnvelopeQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OverallLength</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationEnvelopeQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OverallWidth</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationEnvelopeQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OverallHeight</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Rolling-stock references use native vehicle geometry quantities" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-VEHICLE-001" description="Each generated trainset is an IfcVehicle with the standard measured length, width, and height quantities derived from OSR geometry." instructions="Treat these as design-reference geometry dimensions only; capacity, mass, availability, serial identity, and operational release remain upstream.">
+            <applicability minOccurs="2" maxOccurs="2">
+                <entity>
+                    <name>
+                        <simpleValue>IFCVEHICLE</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>Qto_VehicleBaseQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Length</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>Qto_VehicleBaseQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Width</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>Qto_VehicleBaseQuantities</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Height</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Native bearings preserve source dimensions and unresolved release gates" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-BEARING-001" description="Each source bearing leaf is a native IfcBearing with deterministic dimensions and explicit supplier, loading, and movement boundaries." instructions="Do not treat the elastomeric/PTFE family label as a selected supplier product or an accepted bearing and movement schedule.">
+            <applicability minOccurs="36" maxOccurs="36">
+                <entity>
+                    <name>
+                        <simpleValue>IFCBEARING</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>BearingFamily</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>NominalLength</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>NominalWidth</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>NominalHeight</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SupplierSelectionStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>LoadScheduleStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>MovementScheduleStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingConnectivity</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RealizedConnectionCount</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingConnectivity</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ConnectedCapAssetId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingConnectivity</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ConnectedSuperstructureAssetIds</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_BearingConnectivity</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ConnectivityDerivation</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Foundation envelopes remain explicit virtual geotechnical interfaces" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-FOUNDATION-INTERFACE-001" description="The source foundation envelope is exported for coordination without misrepresenting it as a released shallow or deep foundation." instructions="Select and design the actual foundation from project geotechnical evidence before replacing this virtual interface.">
+            <applicability minOccurs="9" maxOccurs="9">
+                <entity>
+                    <name>
+                        <simpleValue>IFCVIRTUALELEMENT</simpleValue>
+                    </name>
+                </entity>
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="OSR-DT-1709B5EFE0-FND-01" />
+                            <xs:enumeration value="OSR-DT-4BF983C3C2-FND-01" />
+                            <xs:enumeration value="OSR-DT-53F2602009-FND-01" />
+                            <xs:enumeration value="OSR-DT-5691C3E709-FND-01" />
+                            <xs:enumeration value="OSR-DT-5E146B53EA-FND-01" />
+                            <xs:enumeration value="OSR-DT-7232CFCA37-FND-01" />
+                            <xs:enumeration value="OSR-DT-A6A0298D43-FND-01" />
+                            <xs:enumeration value="OSR-DT-BED8AE9824-FND-01" />
+                            <xs:enumeration value="OSR-DT-EFC56B8B6B-FND-01" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>InterfaceType</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ModelledDepth</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ActualFoundationType</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ActualFoundationDepth</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeotechnicalReleaseStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>IfcSemantics</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_FoundationInterfaceStatus</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseStatus</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Reusable component types carry deterministic OSR recipe identity" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-TYPE-001" description="Each safely typable component family exposes a reusable IFC type while occurrences retain their own geometry and placement." instructions="Use the exact source-recipe type for schedules and coordination; do not infer materials, profiles, or construction specifications from it.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCBEAMTYPE" />
+                            <xs:enumeration value="IFCBEARINGTYPE" />
+                            <xs:enumeration value="IFCCOLUMNTYPE" />
+                            <xs:enumeration value="IFCELEMENTASSEMBLYTYPE" />
+                            <xs:enumeration value="IFCRAILTYPE" />
+                            <xs:enumeration value="IFCROOFTYPE" />
+                            <xs:enumeration value="IFCSLABTYPE" />
+                            <xs:enumeration value="IFCVEHICLETYPE" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                </attribute>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>TypeId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>AssetClass</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SourceGeometry</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SourceSha256</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RevisionId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>LifecycleState</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Type</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryRole</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Declared material families remain explicit and procurement-unresolved" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-MAT-001" description="Only source-supported single-material families receive native IFC material associations; the family record explicitly withholds grade and design release." instructions="Do not substitute this family declaration for a project material grade, supplier certificate, structural design, or procurement release.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCBEAMTYPE" />
+                            <xs:enumeration value="IFCRAILTYPE" />
+                            <xs:enumeration value="IFCSLABTYPE" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="OSR-TYPE-6336CC3F3205" />
+                            <xs:enumeration value="OSR-TYPE-7406FA0925A0" />
+                            <xs:enumeration value="OSR-TYPE-D36A7871D9B7" />
+                            <xs:enumeration value="OSR-TYPE-EACE63284F07" />
+                            <xs:enumeration value="OSR-TYPE-F2832317E733" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <material cardinality="required">
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="OSR-MAT-FAMILY-PRECAST-CONCRETE" />
+                            <xs:enumeration value="OSR-MAT-FAMILY-PRECAST-CONCRETE" />
+                            <xs:enumeration value="OSR-MAT-FAMILY-PRESTRESSED-CONCRETE" />
+                            <xs:enumeration value="OSR-MAT-FAMILY-RAIL-STEEL" />
+                            <xs:enumeration value="OSR-MAT-FAMILY-RAIL-STEEL" />
+                        </xs:restriction>
+                    </value>
+                </material>
+            </requirements>
+        </specification>
+        <specification name="Profiled rail types declare their native review section and usage" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-PROFILE-001" description="Each straight UIC 60E1 rail type identifies the native material profile used by its occurrence extrusion." instructions="The straight-line polygon is coordination geometry only; use the full mill profile, tolerances, and released grade for procurement and detailed design.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCRAILTYPE" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="OSR-TYPE-EACE63284F07" />
+                            <xs:enumeration value="OSR-TYPE-F2832317E733" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProfileAssignment</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ProfileId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProfileAssignment</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProfileAssignment</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OccurrenceUsage</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Project declares a native hash-locked source-document register" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-DOC-001" description="The IFC carries repository-relative source locations, complete SHA-256 revisions, and direct document associations without implying a CDE issue." instructions="Resolve each native document reference against the accompanying Git revision before relying on the model for coordination.">
+            <applicability minOccurs="1" maxOccurs="1">
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROJECT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DocumentRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RegisterStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DocumentRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>DocumentCount</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DocumentRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>HashAlgorithm</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DocumentRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>AssociationPolicy</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Every civil asset carries its native OSR automation class" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-CLASS-001" description="OSR asset codes are represented as lightweight IFC classification references and inherited from reusable types where possible." instructions="Treat this as an internal automation classification. Do not claim a national or client mapping without an approved deployment crosswalk.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCBEAM" />
+                            <xs:enumeration value="IFCBEARING" />
+                            <xs:enumeration value="IFCCOLUMN" />
+                            <xs:enumeration value="IFCELEMENTASSEMBLY" />
+                            <xs:enumeration value="IFCRAIL" />
+                            <xs:enumeration value="IFCROOF" />
+                            <xs:enumeration value="IFCSLAB" />
+                            <xs:enumeration value="IFCVEHICLE" />
+                            <xs:enumeration value="IFCVIRTUALELEMENT" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <classification cardinality="required">
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="civil.bearing" />
+                            <xs:enumeration value="civil.decked-pi-beam" />
+                            <xs:enumeration value="civil.foundation-interface" />
+                            <xs:enumeration value="civil.jacking-interface" />
+                            <xs:enumeration value="civil.pier-cap" />
+                            <xs:enumeration value="civil.pier-column" />
+                            <xs:enumeration value="civil.station-deck-interface" />
+                            <xs:enumeration value="civil.trackform" />
+                            <xs:enumeration value="civil.walkway-cassette" />
+                            <xs:enumeration value="clearance.reference-envelope" />
+                            <xs:enumeration value="rolling-stock.trainset" />
+                            <xs:enumeration value="station.platform-interface" />
+                            <xs:enumeration value="station.solar-canopy" />
+                            <xs:enumeration value="track.rail" />
+                            <xs:enumeration value="track.turnout" />
+                        </xs:restriction>
+                    </value>
+                    <system>
+                        <simpleValue>OpenSourceRail Asset Classification</simpleValue>
+                    </system>
+                </classification>
+            </requirements>
+        </specification>
+        <specification name="Source review zones remain explicit non-spatial coordination groups" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-GROUP-001" description="Each source layout zone is represented by an IfcGroup with an explicit semantic boundary and deterministic membership." instructions="Use these groups for review filtering only; do not treat them as surveyed spatial zones or functional engineering systems.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCGROUP</simpleValue>
+                    </name>
+                </entity>
+                <attribute>
+                    <name>
+                        <simpleValue>ObjectType</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>OSR coordination review group</simpleValue>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationGroup</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GroupId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationGroup</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SourceZone</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationGroup</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GroupRole</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationGroup</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SpatialMeaning</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_CoordinationGroup</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SystemMeaning</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Civil assets form explicit native functional engineering systems" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-SYSTEM-001" description="Each authoritative OSR asset class maps to one functional IfcSystem, with complete and non-overlapping occurrence membership." instructions="Use these systems for functional design-reference filtering only; do not infer a surveyed spatial zone, commissioned system, or safety release.">
+            <applicability minOccurs="5" maxOccurs="5">
+                <entity>
+                    <name>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="IFCBUILTSYSTEM" />
+                            <xs:enumeration value="IFCSYSTEM" />
+                        </xs:restriction>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Description</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ObjectType</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Civil geometry exposes native presentation layers" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-LAYER-001" description="Each discipline layer has a stable identifier and human-readable name for simple geometry visibility control in CAD/BIM tools." instructions="Treat layers as presentation filters only; asset meaning remains in IFC objects, types, classification, and coordination groups.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCPRESENTATIONLAYERASSIGNMENT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Identifier</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Civil interface requirements are native objectives" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-CONSTRAINT-001" description="Each deterministic civil integration check is exposed as an IfcObjective with project governance and related asset evidence. Source-supported numeric checks carry nested IfcMetric benchmarks." instructions="Read the current evaluation from the accompanying index and validation report; the IFC objective records requirement intent and revision evidence.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCOBJECTIVE</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Description</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ConstraintGrade</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ConstraintSource</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>CreationTime</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ObjectiveQualifier</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Numeric civil interface checks use native IFC metrics" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-METRIC-001" description="Every source-supported numeric interface target is a nested IfcMetric using SI length values; multi-object derived checks do not claim a false single-attribute reference path." instructions="Compare DataValue with the structured observed value in the civil index and retain the source-document relationship during review.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCMETRIC</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Description</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ConstraintGrade</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ConstraintSource</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>CreationTime</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Benchmark</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ValueSource</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>DataValue</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="OSR property dictionaries are native IFC templates" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-PSET-TEMPLATE-001" description="Every custom OSR property or quantity set has a named native template with explicit applicability and template type." instructions="Treat OSR_ names as project-defined dictionaries, not buildingSMART standard Pset_ definitions.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROPERTYSETTEMPLATE</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>TemplateType</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ApplicableEntity</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="OSR template fields declare native property or quantity types" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-PROP-TEMPLATE-001" description="Each field in the embedded OSR dictionaries has a stable name and IfcSimplePropertyTemplate type." instructions="Use the declared single-value measure or quantity template type when editing the associated property and quantity sets.">
+            <applicability minOccurs="1" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCSIMPLEPROPERTYTEMPLATE</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>TemplateType</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Civil planning rates use a native IFC schedule of rates" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-COST-SCHEDULE-001" description="The generated cost contract is exposed as a schedule of unit rates, not a bill, tender, quotation, or project estimate.">
+            <applicability minOccurs="1" maxOccurs="1">
+                <entity>
+                    <name>
+                        <simpleValue>IFCCOSTSCHEDULE</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Identification</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>PredefinedType</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Status</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>UpdateDate</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Civil planning alternatives carry explicit native unit rates" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-COST-ITEM-001" description="Each at-grade, elevated, or bridge alternative is a named cost item with one generated cost value and no implied selected scope.">
+            <applicability minOccurs="3" maxOccurs="3">
+                <entity>
+                    <name>
+                        <simpleValue>IFCCOSTITEM</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Identification</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>PredefinedType</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>ObjectType</simpleValue>
+                    </name>
+                </attribute>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>CostValues</simpleValue>
+                    </name>
+                </attribute>
+            </requirements>
+        </specification>
+        <specification name="Alignment exposes authority and revision" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-ALN-001" description="The IFC axis declares that detailed alignment engineering remains upstream in OSR.">
+            <applicability minOccurs="1" maxOccurs="1">
+                <entity>
+                    <name>
+                        <simpleValue>IFCALIGNMENT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                </attribute>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AlignmentAuthority</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Authority</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AlignmentAuthority</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RevisionId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AlignmentAuthority</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryRole</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Project declares deterministic provenance and release status" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-PROV-001" description="The exchange identifies its source revision, canonical content hash, and maturity boundary.">
+            <applicability minOccurs="1" maxOccurs="1">
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROJECT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Provenance</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>CanonicalSourceSha256</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Provenance</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RevisionId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Provenance</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryAuthority</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Provenance</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_Georeferencing</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>CoordinateReferenceStatus</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+    </specifications>
+</ids>

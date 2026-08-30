@@ -8,7 +8,7 @@ update/rollback contract.
 - `hosts.toml` is the source of truth for host images.
 - `components.toml` gives every Cargo workspace package a disposition.
 - `config/*.toml` contains the non-secret configuration shipped in an image.
-- `scripts/validate-host-manifests.py` validates the model against Cargo
+- `tools/automation/validate-host-manifests.py` validates the model against Cargo
   metadata and rejects incomplete or legacy-contaminated default images.
 
 The current packages are linked evaluator/control libraries, not independently
@@ -25,7 +25,7 @@ assessment.
 ## Validation
 
 ```bash
-python3 scripts/validate-host-manifests.py
+python3 tools/automation/validate-host-manifests.py
 cargo test -p osr-trainset-image --all-targets
 ```
 

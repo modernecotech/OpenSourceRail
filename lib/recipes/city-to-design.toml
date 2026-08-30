@@ -16,7 +16,7 @@
 #       { type = "intercity-rail", weight = 0.6 },
 #     ]
 #
-# Output: a complete designs/<region>/<country>/<city>/design.toml that
+# Output: a complete cities/catalogue/<region>/<country>/<city>/design.toml that
 # references templates (no direct kW/kWh numbers), plus corridor.geojson
 # from the OSM step, plus a bom.yaml and plan.yaml.
 #
@@ -97,7 +97,7 @@ geometry        = "standard-metro"
 # Pick a topology archetype based on urban form and population.
 # Each archetype is a rule for synthesizing lines on the OSM corridor.
 #
-# The generator's OSM step (design-py/osr_osm/) computes:
+# The generator's OSM step (design/city-generation/osr_osm/) computes:
 #   - major arterials in the bbox
 #   - anchor locations (university, hospital, rail station, mall)
 #   - urban form (monocentric vs polycentric)
@@ -363,7 +363,7 @@ typical_phase_duration_mo = 30
 # ---- Output paths (generator writes these) -----------------------
 
 [recipe.output]
-design_path        = "designs/{continent}/{country_slug}/{city_slug}/design.toml"
-corridor_path      = "designs/{continent}/{country_slug}/{city_slug}/corridor.geojson"
-bom_path           = "designs/{continent}/{country_slug}/{city_slug}/bom.yaml"
-plan_path          = "designs/{continent}/{country_slug}/{city_slug}/plan.yaml"
+design_path        = "cities/catalogue/{continent}/{country_slug}/{city_slug}/design.toml"
+corridor_path      = "cities/catalogue/{continent}/{country_slug}/{city_slug}/corridor.geojson"
+bom_path           = "cities/catalogue/{continent}/{country_slug}/{city_slug}/bom.yaml"
+plan_path          = "cities/catalogue/{continent}/{country_slug}/{city_slug}/plan.yaml"

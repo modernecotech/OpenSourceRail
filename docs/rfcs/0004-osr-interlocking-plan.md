@@ -97,7 +97,7 @@ pipeline runs all harnesses on every PR.
 | State-machine bounded model check | Kani | Rust-native, strong Rust semantic support, SMT-backed. Already used in the consensus RFC's verification plan. |
 | Property-based testing | `proptest` | Scales to larger inputs than Kani; catches regressions cheaply. |
 | Differential testing | A companion Python reference interpreter | Independent implementation of the same state machine; differential fuzzing catches bugs in either direction. |
-| Formal model refinement | TLA+ (already stood up in `formal/tla/SMRaft.tla`) | The rail state machine is a refinement of the SMRaft-maintained log. Refinement proofs connect the two. |
+| Formal model refinement | TLA+ (already stood up in `engineering/assurance/formal/tla/SMRaft.tla`) | The rail state machine is a refinement of the SMRaft-maintained log. Refinement proofs connect the two. |
 | Contracts on pure functions | Creusot (optional, v2) | If Kani coverage is insufficient for some helpers, Creusot can discharge function contracts directly. |
 
 ## 6. Milestones

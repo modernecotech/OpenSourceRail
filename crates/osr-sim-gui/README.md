@@ -33,7 +33,7 @@ then animates the run at arbitrary playback speed.
 ```bash
 cargo run --release -p osr-sim-gui
 # or with a specific scenario
-cargo run --release -p osr-sim-gui -- --scenario designs/west-asia/Iraq/Samawah/samawah.toml
+cargo run --release -p osr-sim-gui -- --scenario cities/catalogue/west-asia/Iraq/Samawah/samawah.toml
 ```
 
 ## Run (WebAssembly)

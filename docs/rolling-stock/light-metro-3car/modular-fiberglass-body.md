@@ -26,11 +26,11 @@ method. CNC trimming creates the aperture variants after moulding.
 | End transition outside module grid | 250 mm at each car end |
 
 The parametric source is
-[`modular_fiberglass_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/modular_fiberglass_body.py).
+[`modular_fiberglass_body.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/modular_fiberglass_body.py).
 It generates side modules with the released door/window cuts, roof modules,
 clip hardware, anti-lift retention, and joint gaskets. The machine-readable
 module and assembly manifest is generated under
-[`mechanical-py/catalog/modular-fiberglass-body`](../../../mechanical-py/catalog/modular-fiberglass-body/).
+[`design/component-catalogue/catalog/modular-fiberglass-body`](../../../design/component-catalogue/catalog/modular-fiberglass-body/).
 
 ## Mould fabrication route
 

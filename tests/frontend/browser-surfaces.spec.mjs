@@ -99,7 +99,7 @@ for (const frontend of [
 
 test("operations portal loads every tab and persists an Ops Core work order", async ({ page }) => {
   const failures = capturePageFailures(page);
-  const data = "/designs/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz";
+  const data = "/cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz";
   await page.goto(`http://127.0.0.1:4176/docs/operations-portal/?data=${encodeURIComponent(data)}`);
   await expect(page.locator("#cityName")).toHaveText("Samawah");
   await expect(page.locator("#coreStorageStatus")).toContainText("SQLite");

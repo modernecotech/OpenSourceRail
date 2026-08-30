@@ -509,7 +509,7 @@ function renderReconciliation() {
   mergeButton.disabled = state.coreStore.mode !== "sqlite" || summary.localRecords === 0 || summary.localOnly === 0 && summary.conflicts === 0;
   const message = state.coreStore.mode === "sqlite"
     ? "Merge imports browser-local fallback records into SQLite and keeps the newest copy on id conflicts."
-    : "Serve with scripts/ops-core-server.py to reconcile browser-local records into SQLite.";
+    : "Serve with tools/automation/ops-core-server.py to reconcile browser-local records into SQLite.";
   const items = [
     ["SQLite", summary.sqliteRecords],
     ["Browser Local", summary.localRecords],

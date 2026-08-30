@@ -66,7 +66,7 @@ to make the consist.
 
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
-[`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md).
+[`control-electronics/trainset-interiors.md`](../../../control-electronics/trainset-interiors.md).
 Locally moulded or CNC-trimmed cabin fiberglass/phenolic liners,
 battery strake covers, and vestibule trims are controlled in
 [`cabin-fiberglass.md`](cabin-fiberglass.md).
@@ -86,33 +86,33 @@ exported back into the drawing pack as neutral CAD.
 
 | Source | Controls |
 |---|---|
-| [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, repeated car motorisation, cowl/body/bogie assembly |
-| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 16.5 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
-| [`modular_fiberglass_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/modular_fiberglass_body.py) | Sixteen 1 m cladding bays per car, side/roof module geometry, clips, anti-lift retainers, dry gaskets, and the eight-hour body schedule |
-| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Identical A/B-end multi-part fiberglass cowl kit envelope with one dark panoramic glass pane, LED headlamps, marker lights, and T-OBS visual interface |
-| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, rooftop solar/MPPT package, DC charge/protection racks, doors, electronics, charging, T-OBS packs |
-| [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and trailer bogie assemblies |
-| [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
-| [`buildable_trainset.py`](../../../mechanical-py/src/osr_mech/buildable_trainset.py) | Product-tree manifest, definitions, assembly integration design, and unsigned shop travelers |
+| [`trainset.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, repeated car motorisation, cowl/body/bogie assembly |
+| [`car_body.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/car_body.py) | 16.5 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
+| [`modular_fiberglass_body.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/modular_fiberglass_body.py) | Sixteen 1 m cladding bays per car, side/roof module geometry, clips, anti-lift retainers, dry gaskets, and the eight-hour body schedule |
+| [`sensor_cowl.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/sensor_cowl.py) | Identical A/B-end multi-part fiberglass cowl kit envelope with one dark panoramic glass pane, LED headlamps, marker lights, and T-OBS visual interface |
+| [`systems.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, rooftop solar/MPPT package, DC charge/protection racks, doors, electronics, charging, T-OBS packs |
+| [`bogie/`](../../../design/component-catalogue/src/osr_mech/rolling_stock/bogie/) | Powered and trailer bogie assemblies |
+| [`cad_templates/rolling_stock.py`](../../../design/component-catalogue/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
+| [`buildable_trainset.py`](../../../design/component-catalogue/src/osr_mech/buildable_trainset.py) | Product-tree manifest, definitions, assembly integration design, and unsigned shop travelers |
 
 ## Buildable handoff package
 
 The generated buildable package lives under
-[`mechanical-py/catalog/buildable-trainset/`](../../../mechanical-py/catalog/buildable-trainset/).
+[`design/component-catalogue/catalog/buildable-trainset/`](../../../design/component-catalogue/catalog/buildable-trainset/).
 Use it as the bridge from concept CAD to build planning:
 
 | Artifact | Use it for |
 |---|---|
-| [`buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
-| [`train-end-interface.md`](../../../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | Single configurable train-end interface that can select either the panoramic glass front/end or the optional mid open train-to-train connection |
-| [`critical-path.md`](../../../mechanical-py/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
-| [`factory-plan.md`](../../../mechanical-py/catalog/buildable-trainset/factory-plan.md) | Pilot factory sizing: chassis fabrication, bogie integration, moulding shop, final assembly, enclosed area, yard, machinery, and rough equipment prices |
-| [`trainset-build-cost.md`](../../../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) | Recalculated 3-car trainset budget, including the explicit seats/floors/lighting/HVAC/windows/doors scope already inside the direct-module bucket |
-| [`mass-budget.md`](../../../mechanical-py/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
-| [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 96 integration joints |
-| [`definitions/index.md`](../../../mechanical-py/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
-| [`travelers/index.md`](../../../mechanical-py/catalog/buildable-trainset/travelers/index.md) | Unsigned shop travelers with material/process controls, operation routers, labor estimates, tooling IDs, QA gates, revision approvals, signoff blocks, and NCR/deviation logs |
-| [`current-design-buildability-review.md`](../../../mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) | Current green/yellow/red closure status before first steel cut |
+| [`buildable-trainset-manifest.md`](../../../design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
+| [`train-end-interface.md`](../../../design/component-catalogue/catalog/buildable-trainset/train-end-interface.md) | Single configurable train-end interface that can select either the panoramic glass front/end or the optional mid open train-to-train connection |
+| [`critical-path.md`](../../../design/component-catalogue/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
+| [`factory-plan.md`](../../../design/component-catalogue/catalog/buildable-trainset/factory-plan.md) | Pilot factory sizing: chassis fabrication, bogie integration, moulding shop, final assembly, enclosed area, yard, machinery, and rough equipment prices |
+| [`trainset-build-cost.md`](../../../design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.md) | Recalculated 3-car trainset budget, including the explicit seats/floors/lighting/HVAC/windows/doors scope already inside the direct-module bucket |
+| [`mass-budget.md`](../../../design/component-catalogue/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
+| [`joint-control-schedule.md`](../../../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 96 integration joints |
+| [`definitions/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
+| [`travelers/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md) | Unsigned shop travelers with material/process controls, operation routers, labor estimates, tooling IDs, QA gates, revision approvals, signoff blocks, and NCR/deviation logs |
+| [`current-design-buildability-review.md`](../../../design/component-catalogue/catalog/buildable-trainset/current-design-buildability-review.md) | Current green/yellow/red closure status before first steel cut |
 
 Typical first-article workflow:
 
@@ -139,7 +139,7 @@ hide/show the primary steel shell, exterior solar-train skin, passenger
 interior, HVAC ducting, LV/data harnesses, high-voltage traction/PV
 routing, thermal-management pipes, and battery fire vent paths. The
 models are supplier-neutral CAD geometry in
-[`mechanical-py/src/osr_mech/rolling_stock`](../../../mechanical-py/src/osr_mech/rolling_stock)
+[`design/component-catalogue/src/osr_mech/rolling_stock`](../../../design/component-catalogue/src/osr_mech/rolling_stock)
 and render to these design-review and manufacturing-method PNGs:
 
 | Output | Scope |
@@ -209,13 +209,13 @@ stress colour scale.
 | ![Train-to-train joint vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-vertical-screen-result.png) | ![Train-to-train joint lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-lateral-sway-screen-result.png) |
 
 The latest screening summary is
-[`mechanical-py/catalog/fea/screening-summary.md`](../../../mechanical-py/catalog/fea/screening-summary.md).
+[`design/component-catalogue/catalog/fea/screening-summary.md`](../../../design/component-catalogue/catalog/fea/screening-summary.md).
 The current FEA catalog includes solver-backed train-to-train local
 joint cases: vertical passenger/gangway loading and lateral/racking.
 The source FreeCAD review documents are catalogued in
-[`mechanical-py/catalog/freecad/README.md`](../../../mechanical-py/catalog/freecad/README.md),
+[`design/component-catalogue/models/cad/README.md`](../../../design/component-catalogue/models/cad/README.md),
 and raw CalculiX output folders are catalogued in
-[`mechanical-py/catalog/fea/README.md`](../../../mechanical-py/catalog/fea/README.md).
+[`design/component-catalogue/catalog/fea/README.md`](../../../design/component-catalogue/catalog/fea/README.md).
 
 The same `.FCStd` documents can also be exported to local STL render
 meshes and rendered with Blender/Cycles for README-grade engineering-clay
@@ -238,9 +238,9 @@ target.
 ## Mechanical Interface Component Gallery
 
 These component images are generated from
-[`mechanical_interfaces.py`](../../../mechanical-py/src/osr_mech/rolling_stock/mechanical_interfaces.py)
+[`mechanical_interfaces.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/mechanical_interfaces.py)
 and match the tracked FreeCAD assembly-review documents under
-[`mechanical-py/catalog/freecad/`](../../../mechanical-py/catalog/freecad/).
+[`design/component-catalogue/models/cad/`](../../../design/component-catalogue/models/cad/).
 
 | Bogie to chassis | Bogie to motor | Low-floor chassis |
 |---|---|---|
@@ -271,12 +271,12 @@ and match the tracked FreeCAD assembly-review documents under
 | ![Complete mechanical interface package](../../../docs/screenshots/rolling-stock/interfaces/mechanical-interface-package.png) |
 
 The tracked generated CAD review artifacts are:
-[`trainset-light-metro-3car.FCStd`](../../../mechanical-py/catalog/freecad/trainset-light-metro-3car.FCStd),
-[`chassis-bogie-assembly-states.FCStd`](../../../mechanical-py/catalog/freecad/chassis-bogie-assembly-states.FCStd),
-[`full-body-assembly-states.FCStd`](../../../mechanical-py/catalog/freecad/full-body-assembly-states.FCStd), and
-[`fea-screening-models.FCStd`](../../../mechanical-py/catalog/freecad/fea-screening-models.FCStd).
+[`trainset-light-metro-3car.FCStd`](../../../design/component-catalogue/models/cad/trainset-light-metro-3car.FCStd),
+[`chassis-bogie-assembly-states.FCStd`](../../../design/component-catalogue/models/cad/chassis-bogie-assembly-states.FCStd),
+[`full-body-assembly-states.FCStd`](../../../design/component-catalogue/models/cad/full-body-assembly-states.FCStd), and
+[`fea-screening-models.FCStd`](../../../design/component-catalogue/models/cad/fea-screening-models.FCStd).
 The matching electronics host-class quantities are mirrored in
-[`hardware/rolling-stock-integration.md`](../../../hardware/rolling-stock-integration.md).
+[`control-electronics/rolling-stock-integration.md`](../../../control-electronics/rolling-stock-integration.md).
 
 The remaining gaps are not missing assemblies in the train envelope;
 they are v0.2/v2 detail-design tasks: frozen supplier exact envelopes,
@@ -319,16 +319,16 @@ weight-and-balance evidence, and release drawings listed in
 2. [`fabrication-plan.md`](fabrication-plan.md) defines the shop
    route: tube/plate cutting, press-brake bends, welding fixtures,
    composite bonding, and COTS module installation.
-3. Use the generated [buildable manifest](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md)
+3. Use the generated [buildable manifest](../../../design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md)
    to see the current product-tree quantities and parent/child assembly
    structure.
 4. [`assembly-plan.md`](assembly-plan.md) defines how those parts and
    subassemblies join: weld, bolt, bond, gasket, harness, coolant,
    articulation, bogie marriage, end-cowl, and final trainset sequence.
-5. Use the generated [definition pack](../../../mechanical-py/catalog/buildable-trainset/definitions/index.md)
+5. Use the generated [definition pack](../../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md)
    to start controlled drawings, RFQs, material specs, process specs,
    and fixture requirements.
-6. Use the generated [shop traveler pack](../../../mechanical-py/catalog/buildable-trainset/travelers/index.md)
+6. Use the generated [shop traveler pack](../../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md)
    to plan operation routers, labor, tooling IDs, QA gates, signoff
    responsibilities, and NCR/deviation records.
 7. [`bom-skeleton.md`](bom-skeleton.md) gives the procurement team
