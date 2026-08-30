@@ -22,7 +22,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-WIN-SA320 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, fire-retardant fiberglass composite |
+| Form factor | rail structural steel, replaceable aluminium window-retention and elastomer seal kit, fire-retardant fiberglass composite |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |

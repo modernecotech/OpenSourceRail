@@ -1,0 +1,291 @@
+schema = "org.opensourcerail.trainset-supplier-anchors.v1"
+revision = "A-DRAFT"
+status = "design-reference-not-released"
+checked_on = "2026-08-30"
+purpose = "Real supplier product families provide a purchasable/RFQ baseline and a reproducible interface target. They are anchors, not mandatory brands: a local equivalent is accepted only after the same controlled equivalence dossier passes."
+release_boundary = "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+
+[equivalence]
+required = [
+  "same or better released fit, mounting datums, connector keying and service envelope",
+  "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+  "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+  "documented failure modes, maintenance intervals, spares and obsolescence route",
+  "first-article inspection plus component, subassembly and vehicle regression tests",
+  "signed design-authority substitution record preserving the original anchor and evidence hashes",
+]
+
+[[anchor]]
+id = "OSR-ANC-DOOR-IFE"
+product_ids = ["LM3-EXT-P010"]
+manufacturer = "Knorr-Bremse IFE"
+product_family = "IFE modular entrance systems"
+manufacturer_url = "https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/"
+anchor_type = "rail-qualified-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Buy the first fleet cassettes and controls; localise portal, threshold, harness and service parts first; replace the cassette only after EN 14752-equivalent validation."
+fit_gaps = ["Exact aperture, stroke, voltage, software and certification configuration remains to be quoted."]
+
+[[anchor]]
+id = "OSR-ANC-GLASS-AGC"
+product_ids = ["LM3-EXT-P020", "LM3-EXT-P030"]
+manufacturer = "AGC Automotive"
+product_family = "rail glazing with framing system"
+manufacturer_url = "https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system"
+anchor_type = "rail-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Local glass processors may replace AGC after laminate, heater, optical, edge, fire, impact and bond-system qualification against the frozen cassette drawing."
+fit_gaps = ["Curvature, heater power, optical zones, laminate stack and frame/bond geometry remain project-specific."]
+
+[[anchor]]
+id = "OSR-ANC-HVAC-LONGERTEK"
+product_ids = ["LM3-EXT-P040", "LM3-INT-P010"]
+manufacturer = "Longertek"
+product_family = "direct-DC rail HVAC platform"
+manufacturer_url = "https://en.longertek.com/technological-innovation.html"
+anchor_type = "commercial-interface-anchor"
+procurement_state = "rfq-required"
+localisation = "Keep the released 800 V-class input, thermal duty, refrigerant, drains, duct and CAN/Ethernet interface; source local coils, ducts and service parts after performance testing."
+fit_gaps = ["Public material does not freeze the LM3 24 kW duty, rail evidence or roof envelope."]
+
+[[anchor]]
+id = "OSR-ANC-PV-SUNMAN"
+product_ids = ["LM3-EXT-P050", "LM3-EXT-P070"]
+manufacturer = "Sunman Energy"
+product_family = "eArc lightweight photovoltaic modules"
+manufacturer_url = "https://www.sunman-energy.com/earc/"
+anchor_type = "catalogue-family"
+procurement_state = "sample-and-rfq"
+localisation = "Equivalent local modules are acceptable after roof fire, isolation, vibration, hail/impact, walk-zone and bonded/clamped retention tests."
+fit_gaps = ["Select an exact module and rail-compatible clamp/bond stack after the roof curvature and electrical string are frozen."]
+
+[[anchor]]
+id = "OSR-ANC-FLOOR-FORBO"
+product_ids = ["LM3-EXT-P060", "LM3-EXT-P061"]
+manufacturer = "Forbo Flooring Systems"
+product_family = "Transport Flooring rail systems"
+manufacturer_url = "https://www.forbo.com/flooring/en-aa/products/transport-flooring/rail-floor-coverings/bxw6nd"
+anchor_type = "rail-product-family"
+procurement_state = "sample-and-rfq"
+localisation = "Use the supplier system for first articles; qualify local board/covering as a complete substrate, adhesive, weld, cove, hatch and fire-tested system rather than swapping one layer."
+fit_gaps = ["Structural board selection and the final covering/adhesive combination remain to be frozen."]
+
+[[anchor]]
+id = "OSR-ANC-SEAT-FAINSA"
+product_ids = ["LM3-EXT-P062", "LM3-EXT-P063"]
+manufacturer = "Fainsa"
+product_family = "Metro and urban rail passenger seating"
+manufacturer_url = "https://fainsa.com/en/railway/"
+anchor_type = "rail-configurable-family"
+procurement_state = "rfq-required"
+localisation = "The OSR common rail and adapters are local; seat shells, frames and handrails may be locally made after fire, abuse-load, sharp-edge, corrosion and accessibility validation."
+fit_gaps = ["Exact seat model, upholstery, spacing, handrail geometry and calculated attachment loads remain open."]
+
+[[anchor]]
+id = "OSR-ANC-PASSENGER-LUMINATOR"
+product_ids = ["LM3-EXT-P064", "LM3-EXT-P065"]
+manufacturer = "Luminator Technology Group"
+product_family = "rail passenger information, video and communication systems"
+manufacturer_url = "https://luminator.com/rail/railkom"
+anchor_type = "rail-system-family"
+procurement_state = "rfq-required"
+localisation = "Use open Ethernet/IP interfaces and OSR mounting adapters so displays, cameras, audio and intercoms can be substituted individually after EMC, cybersecurity, accessibility and system regression tests."
+fit_gaps = ["Exact display, camera, amplifier, intercom, recorder and software licences remain to be selected."]
+
+[[anchor]]
+id = "OSR-ANC-LIGHT-TEKNOWARE"
+product_ids = ["LM3-EXT-P066", "LM3-LGT-P010", "LM3-LGT-P020", "LM3-END-P050"]
+manufacturer = "Teknoware"
+product_family = "rail interior, emergency and exterior lighting"
+manufacturer_url = "https://www.teknoware.com/rail/"
+anchor_type = "rail-product-family"
+procurement_state = "rfq-required"
+localisation = "Local luminaires are acceptable at the standard plug and mounting cassette after photometry, glare, fire, EMC, IP, emergency-duration and temperature tests."
+fit_gaps = ["Exact lamp models, optics, voltage variants and emergency battery arrangement remain open."]
+
+[[anchor]]
+id = "OSR-ANC-FASTENER-BOLLHOFF"
+product_ids = ["LM3-FIX-P020"]
+manufacturer = "Böllhoff"
+product_family = "RIVNUT blind rivet nuts and setting systems"
+manufacturer_url = "https://www.boellhoff.com/us-en/products/special-fasteners/rivnut-blind-rivet-nuts-and-rivstud-blind-rivet-studs/"
+anchor_type = "catalogue-family"
+procurement_state = "catalogue-sourceable-after-sizing"
+localisation = "Equivalent inserts and captive hardware are allowed only by joint family after substrate-specific setting trials, proof loads, corrosion and removal-cycle tests."
+fit_gaps = ["Exact grip range, head, thread, material and setting force must be selected from each released joint drawing."]
+
+[[anchor]]
+id = "OSR-ANC-COMPOSITE-GURIT"
+product_ids = ["LM3-EXT-P080", "LM3-EXT-P090"]
+manufacturer = "Gurit"
+product_family = "fire-retardant composite laminating and core materials"
+manufacturer_url = "https://www.gurit.com/"
+anchor_type = "material-process-anchor"
+procurement_state = "sample-and-rfq"
+localisation = "Resin, reinforcement, core and coating may be sourced locally only as a qualified laminate system with coupon, fire, weathering, insert and full-module evidence."
+fit_gaps = ["No public product family alone establishes the complete LM3 rail fire/structural laminate; formulation and process qualification remain open."]
+
+[[anchor]]
+id = "OSR-ANC-MOTOR-ABB-AMXM"
+product_ids = ["LM3-TRC-P010"]
+manufacturer = "ABB"
+product_family = "AMXM railway traction motor"
+manufacturer_url = "https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxm"
+anchor_type = "rail-qualified-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Buy the initial motor; local rewind, bearings and eventually a locally manufactured equivalent require the frozen torque-speed, cooling, insulation, shaft, foot, mass and EMC interfaces plus type tests."
+fit_gaps = ["The current HM47-class planning envelope is not an ABB order code; ABB must confirm a 250 kW continuous / 350 kW short-peak, 800 V-compatible configuration and mass envelope."]
+
+[[anchor]]
+id = "OSR-ANC-GEAR-VOITH-SE"
+product_ids = ["LM3-TRC-P020"]
+manufacturer = "Voith"
+product_family = "SE-type single-stage axle-mounted metro gear unit and gear coupling"
+manufacturer_url = "https://www.voith.com/corp-en/drives-transmissions/gear-units.html"
+anchor_type = "rail-qualified-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Local housings/gears may replace the anchor only after tooth, bearing, lubrication, fatigue, efficiency, noise, overspeed and endurance qualification with the frozen motor/wheelset interfaces."
+fit_gaps = ["Ratio, centre distance, torque, coupling, reaction-link and lubrication configuration remain to be quoted."]
+
+[[anchor]]
+id = "OSR-ANC-TRACTION-ABB"
+product_ids = ["LM3-TRC-P030", "LM3-TRC-P040", "LM3-TRC-P050", "LM3-TRC-P060", "LM3-TRC-P070"]
+manufacturer = "ABB"
+product_family = "BORDLINE CC400/ESC/PB and Traction Battery Pro reference platform"
+manufacturer_url = "https://www.abb.com/global/en/industries/railway/segments/rolling-stock/light-rail-vehicles"
+anchor_type = "rail-system-reference-family"
+procurement_state = "architecture-rfq-required"
+localisation = "Treat each converter, battery, charger/contact system and protection panel as separable behind frozen DC-link, cooling, HVIL, network and mechanical interfaces; qualify lower-cost local modules one at a time."
+fit_gaps = ["The ABB platform is a rail-qualified architecture anchor, not proof that one published configuration meets the LM3 800 V LFP, 225 kWh/car, side-pin charging, packaging or price targets."]
+
+[[anchor]]
+id = "OSR-ANC-FIRE-FOGTEC"
+product_ids = ["LM3-SAF-P010"]
+manufacturer = "FOGTEC"
+product_family = "rail fire detection and high-pressure water-mist systems"
+manufacturer_url = "https://fogtec-international.com/rail/"
+anchor_type = "rail-system-family"
+procurement_state = "rfq-and-hazard-test-required"
+localisation = "Local detectors, pipework, reservoir and pumps may be introduced only within a vehicle fire-hazard analysis and propagation-tested suppression/detection system."
+fit_gaps = ["Battery chemistry, enclosure, detection thresholds, nozzle layout, reservoir and control integration remain project-specific."]
+
+[[anchor]]
+id = "OSR-ANC-WHEELSET-GHH"
+product_ids = ["LM3-BOG-P040", "LM3-BOG-P041"]
+manufacturer = "GHH-BONATRANS"
+product_family = "urban-rail wheelsets"
+manufacturer_url = "https://www.ghh-bonatrans.com/en/about-us/products-and-services/wheelset/"
+anchor_type = "rail-safety-critical-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Local wheel/axle manufacture is encouraged only after metallurgy, forging, heat treatment, NDT, press-fit, profile, fatigue and route-specific standards are qualified and independently accepted."
+fit_gaps = ["Wheel profile, diameter, axle journal, disc seats, material grades and load spectrum remain to be frozen."]
+
+[[anchor]]
+id = "OSR-ANC-AXLEBOX-SKF"
+product_ids = ["LM3-BOG-P042", "LM3-BOG-P043"]
+manufacturer = "SKF"
+product_family = "ready-to-mount railway axlebox bearing units with sensors"
+manufacturer_url = "https://www.skf.com/group/products/rolling-bearings/roller-bearings/tapered-roller-bearings/railway-tapered-roller-bearing-units"
+anchor_type = "rail-safety-critical-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Local housings and sensor brackets may be made to the supplier-controlled bearing unit; an alternative bearing unit needs L10/load, fit, seal, grease, thermal, shock and field-monitoring evidence."
+fit_gaps = ["Bearing size, journal fit, housing, grounding, speed/temperature sensor and cable interfaces remain to be frozen."]
+
+[[anchor]]
+id = "OSR-ANC-SUSPENSION-CONTI"
+product_ids = ["LM3-BOG-P044", "LM3-BOG-P045", "LM3-BOG-P046", "LM3-BOG-P047"]
+manufacturer = "Continental"
+product_family = "rail primary suspension and secondary air-spring systems"
+manufacturer_url = "https://www.continental-industry.com/global/en/products-solutions/airsprings-suspension/railway"
+anchor_type = "rail-safety-critical-configurable-family"
+procurement_state = "rfq-and-dynamics-freeze-required"
+localisation = "Springs, bushes and dampers may be sourced regionally after the multibody model, load-deflection/damping curves, compound ageing, fatigue and ride tests are repeated; pivot/anti-lift hardware stays separately calculated."
+fit_gaps = ["Continental anchors spring systems; centre pivot, yaw-link and damper suppliers still require project RFQ and a common body-to-bogie interface control drawing."]
+
+[[anchor]]
+id = "OSR-ANC-BRAKE-KNORR"
+product_ids = ["LM3-BOG-P048", "LM3-BOG-P049", "LM3-AUX-P010"]
+manufacturer = "Knorr-Bremse"
+product_family = "WheelAct/AxleAct rail brake actuation and PistonSupply/DrySupply air supply"
+manufacturer_url = "https://rail.knorr-bremse.com/en/se/portfolio/products-and-systems/braking-systems/actuation/"
+anchor_type = "rail-safety-critical-configurable-family"
+procurement_state = "system-rfq-required"
+localisation = "Pads, discs, hoses and overhaul parts can localise first under brake-supplier approval; caliper/actuator or compressor substitutes require stopping, parking, thermal, WSP, degraded-mode and endurance revalidation."
+fit_gaps = ["The LM3 brake concept needs supplier confirmation of actuation energy, caliper variant, disc/pad pair, parking brake and whether the suspension-only compressor can support the selected brake architecture."]
+
+[[anchor]]
+id = "OSR-ANC-COUPLER-DELLNER430"
+product_ids = ["LM3-END-P010", "LM3-END-P040"]
+manufacturer = "Dellner"
+product_family = "automatic coupler Type 430 with pivot anchor"
+manufacturer_url = "https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-430"
+anchor_type = "rail-safety-critical-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Local pocket, covers and harness may be manufactured to the Dellner interface; another coupler requires buff/draft, crash, rescue, gathering range, electrical head and fatigue compatibility evidence."
+fit_gaps = ["The published 600/500 kN family is an anchor; height, articulation, fold, electrical head, crash stroke and OSR pocket loads remain to be frozen."]
+
+[[anchor]]
+id = "OSR-ANC-JOINT-SCHAEFFLER"
+product_ids = ["LM3-ART-P020", "LM3-ART-P021"]
+manufacturer = "Schaeffler"
+product_family = "ELGES maintenance-free spherical plain bearings and rod ends"
+manufacturer_url = "https://www.schaeffler.com/en/products-and-solutions/industrial/product-portfolio/plain-bearings/"
+anchor_type = "catalogue-interface-anchor"
+procurement_state = "calculation-and-rfq-required"
+localisation = "Local housings, pins and links are preferred; bearing or rod-end substitution requires static/dynamic capacity, misalignment, liner, corrosion, temperature, sealing and fatigue equivalence."
+fit_gaps = ["No catalogue bearing is selected until the articulation load spectrum, pin diameter, angular motion and safety factors are released."]
+
+[[anchor]]
+id = "OSR-ANC-GANGWAY-HUBNER"
+product_ids = ["LM3-ART-P022", "LM3-ART-P023", "LM3-ART-P040"]
+manufacturer = "HÜBNER"
+product_family = "modular metro/urban-rail gangway systems"
+manufacturer_url = "https://www.hubner-group.com/en/products/gangway-systems/gangway-systems-for-metros-subways-and-suburban-railways/"
+anchor_type = "rail-configurable-family"
+procurement_state = "rfq-required"
+localisation = "Bellows textile, panels and bridge pieces may localise after fire, fatigue, water, passenger load, pinch-gap and full-motion testing to the frozen clamp frames."
+fit_gaps = ["The vehicle-specific bellows, bridge, turntable, clamp and open-end drawbar geometry remains to be engineered with the supplier."]
+
+[[anchor]]
+id = "OSR-ANC-TRAINLINE-IGUS-HARTING"
+product_ids = ["LM3-ART-P024", "LM3-ART-P030", "LM3-ART-P041"]
+manufacturer = "igus / HARTING"
+product_family = "e-chain dynamic cable carriers with Han rail connectors"
+manufacturer_url = "https://www.igus.com/info/industries-railway-technology"
+anchor_type = "catalogue-system-anchor"
+procurement_state = "sample-and-rfq"
+localisation = "Hoses and cables may be made locally to controlled drawings; carrier, connector or jacket substitutions require bend-cycle, separation, IP, fire, current, pressure, EMC and breakaway tests."
+fit_gaps = ["The final carrier series, connector inserts, cable compounds, hose lengths and articulation sweep remain to be frozen."]
+
+[[anchor]]
+id = "OSR-ANC-CONTROL-MOXA"
+product_ids = ["LM3-CTRL-P010", "LM3-CTRL-P020", "LM3-CTRL-P030"]
+manufacturer = "Moxa"
+product_family = "EN 50155 railway computers, Ethernet switches and wireless gateways"
+manufacturer_url = "https://www.moxa.com/en/literature-library/rail-onboard-solution-brochure"
+anchor_type = "rail-electronics-platform-anchor"
+procurement_state = "architecture-rfq-required"
+localisation = "OSR software remains portable behind published I/O, TSN/Ethernet and update interfaces; alternate compute/network hardware must pass timing, safety allocation, EMC, environmental, cybersecurity and whole-train hardware-in-loop tests."
+fit_gaps = ["Moxa anchors computing/network hardware only; the independent safety controller, navigation sensors, HMI and safety relays need exact part selection and safety allocation."]
+
+[[anchor]]
+id = "OSR-ANC-RECORDER-HASLER"
+product_ids = ["LM3-CTRL-P050"]
+manufacturer = "HaslerRail"
+product_family = "JRU/EVA event recording systems"
+manufacturer_url = "https://www.haslerrail.com/products/"
+anchor_type = "rail-system-family"
+procurement_state = "rfq-required"
+localisation = "Operational storage can be local commodity hardware; the protected recorder, data set, clock, crash/fire resistance and download chain require independently accepted railway evidence."
+fit_gaps = ["Exact recorder family, protected memory, interfaces and national event-data requirements remain open."]
+
+[[anchor]]
+id = "OSR-ANC-OBS-OUSTER"
+product_ids = ["LM3-END-P020"]
+manufacturer = "Ouster"
+product_family = "OS industrial digital lidar sensor family"
+manufacturer_url = "https://ouster.com/products/hardware/os1-lidar-sensor"
+anchor_type = "commercial-sensor-anchor"
+procurement_state = "sample-and-safety-validation-required"
+localisation = "The nose carrier accepts alternative lidar/camera/radar modules after field of view, latency, heating/washer, ingress, EMC, failure-detection and complete obstacle-detection safety validation."
+fit_gaps = ["The commercial sensor is an envelope/data anchor, not railway obstacle-detection certification or a complete T-OBS function."]

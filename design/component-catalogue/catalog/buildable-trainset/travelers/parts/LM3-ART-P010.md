@@ -50,13 +50,13 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-ART-P010`<br>`DOC-LM3-ART-SA800` | traveler rev and parent assembly match released manifest | cell lead |
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-ART-P010`<br>`DOC-LM3-ART-SA810` | traveler rev and parent assembly match released manifest | cell lead |
 | 20 | cut, form, machine, or fabricate local hardware | fabrication cell | 1.8 | `FIX-LM3-ART-FAB`<br>`GAUGE-LM3-ART-P010-DATUM` | fabricated geometry matches datum/gauge requirements | operator |
-| 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-ART-SA800`<br>`TORQUE-LM3-ART-P010` | fit-up evidence recorded before release to assembly | operator |
+| 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-ART-SA810`<br>`TORQUE-LM3-ART-P010` | fit-up evidence recorded before release to assembly | operator |
 | 40 | verify acceptance gate: motion envelope | quality inspection | 0.25 | `QA-LM3-ART-P010` | motion envelope | quality inspector |
 | 50 | verify acceptance gate: bearing proof | quality inspection | 0.25 | `QA-LM3-ART-P010` | bearing proof | quality inspector |
 | 60 | verify acceptance gate: shim pack record | quality inspection | 0.25 | `QA-LM3-ART-P010` | shim pack record | quality inspector |
-| 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-ART-P010`<br>`KIT-LM3-ART-SA800` | item is released, tagged, and staged for parent assembly | cell lead |
+| 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-ART-P010`<br>`KIT-LM3-ART-SA810` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

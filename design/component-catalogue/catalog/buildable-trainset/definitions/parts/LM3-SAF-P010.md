@@ -14,6 +14,21 @@
 
 Per-car battery reservoir, DC pump, stainless pipe, nozzles, outward vents, and diagnostic sensors; no saloon or electrical-bay suppression.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-FIRE-FOGTEC` — [FOGTEC rail fire detection and high-pressure water-mist systems](https://fogtec-international.com/rail/)
+- Procurement state: `rfq-and-hazard-test-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Local detectors, pipework, reservoir and pumps may be introduced only within a vehicle fire-hazard analysis and propagation-tested suppression/detection system.
+- Known fit gaps: Battery chemistry, enclosure, detection thresholds, nozzle layout, reservoir and control integration remain project-specific.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

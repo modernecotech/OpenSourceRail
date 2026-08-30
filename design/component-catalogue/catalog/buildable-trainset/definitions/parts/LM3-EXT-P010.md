@@ -14,6 +14,21 @@
 
 Certified rail door supplier owns mechanics, seals, controller, and lifecycle evidence.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-DOOR-IFE` — [Knorr-Bremse IFE IFE modular entrance systems](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Buy the first fleet cassettes and controls; localise portal, threshold, harness and service parts first; replace the cassette only after EN 14752-equivalent validation.
+- Known fit gaps: Exact aperture, stroke, voltage, software and certification configuration remains to be quoted.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

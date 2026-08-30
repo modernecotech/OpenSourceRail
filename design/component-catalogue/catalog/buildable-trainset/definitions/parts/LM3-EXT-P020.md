@@ -14,6 +14,21 @@
 
 Supplier-neutral bonded/gasketed cassette sized by OSR aperture.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-GLASS-AGC` — [AGC Automotive rail glazing with framing system](https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Local glass processors may replace AGC after laminate, heater, optical, edge, fire, impact and bond-system qualification against the frozen cassette drawing.
+- Known fit gaps: Curvature, heater power, optical zones, laminate stack and frame/bond geometry remain project-specific.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

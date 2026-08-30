@@ -1,32 +1,39 @@
 # OpenSourceRail
 
-OpenSourceRail is an open-source, deterministic platform for designing,
-testing, building and operating affordable urban rail systems. It connects
-city and service planning, GIS, CAD/IFC, rolling stock, control electronics,
-embedded software, simulation, operations, costs and assurance in one
-Git-reviewable workflow.
-
-It is intended to give public authorities, universities, engineering teams
-and operators a common model rather than a collection of disconnected maps,
-spreadsheets and vendor applications. A planner can change a station, route,
-service period or fleet assumption, regenerate the affected artifacts, run the
-integrated simulation, and review the resulting engineering and cost evidence.
+OpenSourceRail is an open-source, deterministic urban-rail platform with a
+different economic model: retain design authority, software, fabrication,
+integration, operations and maintenance capability in-country instead of
+importing a closed foreign-turnkey system. GIS, CAD/IFC, simulation, cost and
+assurance share one Git-reviewable model.
 
 > [!IMPORTANT]
-> Repository outputs are planning and engineering-screening evidence. They are
-> not feasibility studies, supplier bids, construction releases, safety
-> certificates, funding approvals or government endorsements.
+> Repository outputs are planning and engineering-screening evidence—not bids,
+> construction releases, safety certificates, approvals or endorsements.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
-**Start here:** read or download the [complete PDF book](OpenSourceRail-Book.pdf),
-open the [one-page overview](docs/open-source-rail-overview.html), or install and
-start the Workbench with `./install.sh` followed by `./osr`.
+**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page
+overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.
 
-The public evidence scope covers **265 cities in 43 developing countries**.
-The engineering catalogue contains 266 models; one European comparison model
-is retained for technical inspection but excluded from portfolio totals,
-public evidence totals and front-page examples.
+The public evidence scope covers **265 cities in 43 developing countries**. One
+European comparison in the 266-model engineering catalogue is retained only
+for technical inspection and excluded from public evidence and examples.
+
+## The Economic Case
+
+The developing-world model places **$202.73B (75.4%) of programme value in
+domestic activity** and limits specialist imports to **$66.08B (24.6%)**.
+Against its controlled foreign-turnkey sensitivity, that is **$417.79B less
+external capital** and **$940.22B less external capital plus interest**. These
+are planning sensitivities—not bids, audited origin claims or financing
+offers. See the reproducible [portfolio calculation](docs/portfolio-summary.md).
+
+The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring,
+software, integration and maintenance local where qualified. Specialist products
+use [25 real supplier-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md);
+every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators
+can therefore localise progressively without silently changing safety assumptions,
+retaining skills and maintainable assets while reducing foreign-currency exposure.
 
 ## Feature Highlights
 
@@ -37,17 +44,13 @@ public evidence totals and front-page examples.
 | Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
 | Civil BIM and GIS | Generate OSR-ALN, GIS, IFC4.3, IDS/BCF, quantities, classifications and 4D construction review through the [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md). |
-| Buildable modular trainset | The LM3 product tree includes simplified captive fasteners, service rails, plug-in illumination, fixture adapters, adjustable doors and dry-serviceable windows. |
+| Buildable modular trainset | The LM3 tree separates 101 product rows into 26 part→subassembly→car→trainset nodes, including explicit chassis/body/front, articulation, bogie/body connection and bogie-mounted drive units. It covers all 54 bought-in rows with 25 [anchor-or-local-equivalent supplier families](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md), plus nine timed methods, 20 tooling/mould families, shop travelers, [FreeCAD tooling](design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd) and [IFC4.3 manufacturing data](engineering/models/bim/reference/lm3-manufacturing-reference.ifc). |
 | Automatic cost propagation | CAD-indexed quantities feed the civil rate contract, city CAPEX, finance, IFC properties, national briefs and the developing-world [portfolio summary](docs/portfolio-summary.md). |
 | Operations and assurance | Manufacturing, QA, maintenance, assets, work orders, acceptance evidence and a machine-checkable safety case remain linked to source artifacts. |
 | Deterministic browser testing | Pinned Playwright acceptance verifies the integrated browser applications, adapters, engineering jobs and restart persistence. |
 
-The current city cost model uses about **$0.9M per 3-car light-metro trainset**.
-The generated LM3 build record currently estimates $885k before
-rounding to that planning unit. Each country carries one shared lean railway
-production setup at **$60k per supported vehicle/car module**; supplier
-qualification, homologation, warranty, spares and deployment-specific work
-remain separate evidence or cost gates.
+The model uses about **$0.9M per 3-car light-metro trainset** (LM3 build record:
+$885k) and **$60k per supported vehicle/car module** for one shared country factory; qualification and deployment remain separate gates.
 
 ## Current System
 
@@ -57,12 +60,13 @@ remain separate evidence or cost gates.
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|
-| ![LM3 full body and bogie assembly](docs/screenshots/freecad/blender-full-body-assembly.png) | ![OpenSourceRail simulator](docs/screenshots/sim-gui.png) | ![Fabrication and assembly digital twin](docs/assets/digital-twin-animation.gif) |
+| ![LM3 full body and bogie assembly](docs/screenshots/freecad/blender-full-body-assembly.png) | ![OpenSourceRail simulator](docs/screenshots/sim-gui.png) | ![Guided fabrication and assembly digital twin](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.gif) |
+
+The [88-second assembly tour](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) provides full-resolution close-ups.
 
 ## Find Your Way
 
-This README is the repository's only human-facing front door. Use this table
-instead of browsing the folder tree or the generated file inventory.
+Use this front-door table instead of browsing the generated file inventory.
 
 | I want to… | Go here |
 |---|---|
@@ -210,9 +214,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
 
 ## License
 
-- Software: Apache 2.0
-- Control-electronics and open physical designs: CERN-OHL-S v2
-- Documentation: CC-BY-SA 4.0
+Software is Apache 2.0; control-electronics and open physical designs use
+CERN-OHL-S v2; documentation is CC-BY-SA 4.0.
 
-See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md) for the path
-mapping and complete texts.
+See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md) for full texts.

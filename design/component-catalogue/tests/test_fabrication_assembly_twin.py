@@ -6,6 +6,8 @@ import json
 
 from osr_mech.fabrication_assembly_twin import (
     ANIMATION_DURATION_S,
+    VISUAL_TOUR_DURATION_S,
+    VISUAL_TOUR_PHASES,
     assembly_state,
     fabrication_assembly_manifest,
     fabrication_streams,
@@ -53,6 +55,17 @@ def test_manifest_embeds_source_hashes_snapshots_interfaces_and_limitations() ->
     assert len(manifest["source_register"]) >= 10
     assert len(manifest["integration_dependencies"]) == 3
     assert set(manifest["state_snapshots"]) == {"0", "12", "24", "36", "48"}
+    assert manifest["visual_tour"]["duration_s"] == VISUAL_TOUR_DURATION_S == 88.0
+    assert [phase["stream_id"] for phase in VISUAL_TOUR_PHASES] == [
+        "track",
+        "station",
+        "viaduct",
+        "train",
+    ]
+    assert all(
+        current["end_s"] < following["start_s"]
+        for current, following in zip(VISUAL_TOUR_PHASES, VISUAL_TOUR_PHASES[1:])
+    )
     assert manifest["limitations"]
 
 

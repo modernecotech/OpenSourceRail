@@ -1,0 +1,152 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "traction drive clean assembly cell",
+  "children": [
+    "LM3-TRC-P010",
+    "LM3-TRC-P020",
+    "LM3-BOG-P050"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "motor/gearbox serial match",
+    "coupling alignment",
+    "torque-link proof",
+    "insulation/rotation test",
+    "removal-envelope trial"
+  ],
+  "id": "LM3-TRC-SA615",
+  "integration_steps": [
+    {
+      "child_id": "LM3-TRC-P010",
+      "child_title": "motor-350kw-hm47-class axle traction motor",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "motor datasheet",
+        "thermal curve",
+        "mounting-foot load proof",
+        "EMC evidence"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P020",
+      "child_title": "single-stage reduction gearbox and flexible coupling",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "gear ratio certificate",
+        "oil access check",
+        "coupling alignment"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P050",
+      "child_title": "powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "torque-link gauge",
+        "bracket NDT",
+        "motor removal clearance",
+        "fastener locking record"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier traction drive equipment, supplier HVAC and air-distribution kit, rail structural steel",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-TRC-SA615 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "motor/gearbox serial match",
+      "coupling alignment",
+      "torque-link proof",
+      "insulation/rotation test",
+      "removal-envelope trial",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test",
+      "alignment survey",
+      "static brake test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-TRC-SA615, KIT-LM3-TRC-SA615, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "bogie/motor.py",
+    "bogie/gearbox.py",
+    "bogie/assembly.py",
+    "LM3-TRC-500"
+  ],
+  "title": "bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit"
+}

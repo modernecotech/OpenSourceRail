@@ -20,6 +20,33 @@ from typing import Any
 
 TWIN_SCHEMA = "org.opensourcerail.fabrication-assembly-twin.v1"
 ANIMATION_DURATION_S = 48.0
+VISUAL_TOUR_DURATION_S = 88.0
+VISUAL_TOUR_PHASES = (
+    {
+        "stream_id": "track",
+        "start_s": 1.0,
+        "end_s": 18.0,
+        "title": "Track panel: plinths, fasteners, rails and geometry release",
+    },
+    {
+        "stream_id": "station",
+        "start_s": 21.0,
+        "end_s": 38.0,
+        "title": "Station kit: platforms, portals, roof cassettes and systems",
+    },
+    {
+        "stream_id": "viaduct",
+        "start_s": 41.0,
+        "end_s": 60.0,
+        "title": "Viaduct bay: substructure, bearings, beams, links and egress",
+    },
+    {
+        "stream_id": "train",
+        "start_s": 63.0,
+        "end_s": 82.0,
+        "title": "LM3 trainset: bogies, bodies, systems, fit-out and release",
+    },
+)
 REPO_ROOT = Path(__file__).resolve().parents[4]
 SCHEDULE_PATH = REPO_ROOT / "lib/templates/manufacturing-schedule.toml"
 STATION_MANIFEST_PATH = (
@@ -99,6 +126,7 @@ def _manufacturing_packages() -> dict[str, dict[str, Any]]:
 
 
 def fabrication_streams() -> tuple[FabricationStream, ...]:
+    train_manifest = json.loads(TRAINSET_MANIFEST_PATH.read_text(encoding="utf-8"))
     """Return the four controlled exemplar production routes."""
 
     packages = _manufacturing_packages()
@@ -230,7 +258,8 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
         "train",
         "LM3 fabrication and final assembly",
         "49.5 m three-car driverless LM3",
-        "83 product items, 20 controlled assemblies, one production traveler",
+        f"{len(train_manifest['product_items'])} product items, "
+        f"{len(train_manifest['assemblies'])} controlled assemblies, one production traveler",
         tuple(train_stages),
     )
     return track, station, viaduct, train
@@ -290,7 +319,7 @@ def twin_checks(streams: tuple[FabricationStream, ...] | None = None) -> tuple[d
         ("qa-evidence-on-every-stage", all(s.qa_hold and s.evidence for s in stages), len(stages)),
         ("source-references-resolve", all(path.is_file() for path in source_paths), len(source_paths)),
         ("station-product-tree-loaded", len(station_manifest["variants"]) == 7, len(station_manifest["variants"])),
-        ("train-product-tree-loaded", len(train_manifest["product_items"]) == 83 and len(train_manifest["assemblies"]) == 20,
+        ("train-product-tree-loaded", len(train_manifest["product_items"]) >= 101 and len(train_manifest["assemblies"]) == 26,
          {"items": len(train_manifest["product_items"]), "assemblies": len(train_manifest["assemblies"])}),
     )
     return tuple({"id": check_id, "passed": passed, "observed": observed} for check_id, passed, observed in checks)
@@ -305,6 +334,12 @@ def fabrication_assembly_manifest() -> dict[str, Any]:
         "status": "planning / first-article release control",
         "scope": "representative track, station, viaduct, and LM3 trainset production routes",
         "animation_duration_s": ANIMATION_DURATION_S,
+        "visual_tour": {
+            "duration_s": VISUAL_TOUR_DURATION_S,
+            "presentation": "sequential close-up assembly tour; not a project schedule",
+            "phases": list(VISUAL_TOUR_PHASES),
+            "final_overview_s": [82.0, VISUAL_TOUR_DURATION_S],
+        },
         "streams": [asdict(stream) for stream in streams],
         "integration_dependencies": [
             {"from": "VIA-55", "to": "VIA-60", "interface": "continuity-connection and deck-to-trackform"},

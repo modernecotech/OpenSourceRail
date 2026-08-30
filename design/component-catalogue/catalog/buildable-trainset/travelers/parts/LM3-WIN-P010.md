@@ -13,29 +13,31 @@
 
 | Field | Value |
 |---|---|
-| Material family | rail structural steel |
-| Grade / part class | EN 10025 S355 candidate primary-structure RHS/folded plate |
-| Governing standard | EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments |
-| Form factor | laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit |
-| Nominal section | thickness/section per v2A controlled drawing and FEM release |
-| Finish / protection | blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection |
-| Traceability | heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record |
+| Material family | replaceable aluminium window-retention and elastomer seal kit |
+| Grade / part class | 6061/6082 plate or 6063 extrusion candidate pressure frame, nonmetallic setting blocks, closed-cell/EPDM seal, aluminium drain rail, and captive stainless retainers |
+| Governing standard | released LM3-WIN-210 retention calculation and drawing plus supplier glazing, aluminium, elastomer, fire, corrosion, and ingress evidence |
+| Form factor | CNC-cut/extruded pressure-frame segments with keyed dry seal, protected glass-edge clearances, drain path, secondary retention, and cassette jack points |
+| Nominal section | profile, corner joint, fastener pitch, setting blocks, seal compression and glass clearance fixed by the controlled window interface drawing |
+| Finish / protection | anodised or coated aluminium, passivated retained hardware, isolated mixed-metal contacts, UV/ozone-resistant seal, and open inspected drains |
+| Traceability | aluminium batch, seal batch/date, retained-fastener lot, cassette position map, compression record, and water/replacement test |
 
 Evidence required:
 
-- mill certificate
-- weld consumable certificate
-- WPS/WPQR
-- NDT report
+- certificate of conformity
+- incoming inspection record
+- retention proof
+- seal compression map
+- drain test
+- water-ingress and replacement trial
 
 ## Process specification
 
-- Primary processes: cut, form, drill/machine, de-burr, trial fit, fixture weld, controlled cool / stress relief where WPS requires, post-weld machine where required
-- Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum, adhesive bonding or gasketed interface preparation
-- Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, WPS/WPQR release, welder qualification, weld map and heat-input control, surface-preparation record, adhesive batch/pot-life record, bond coupon where required
-- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, bond-land inspection, water/leak test where applicable, pressure-frame gauge, retention calculation, seal compression record, water-ingress and replacement trial
-- Tooling basis: FIX-LM3-WIN-FAB plus GAUGE-LM3-WIN-P010-DATUM
-- Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
+- Primary processes: receive and edge-inspect supplier cassette, machine and deburr pressure frame, gauge aperture and drains, dry-fit on protected setting blocks, install keyed seal and pressure frame, cross-pattern tighten, water and timed replacement test
+- Joining methods: supplier cassette bond retained within its aluminium frame, replaceable dry elastomer compression seal, captive pressure-frame fasteners, nonmetallic setting blocks and secondary retention
+- Special process controls: released retention calculation and window interface drawing, no glass-edge metal contact, seal batch and compression map, supplier surface-preparation/adhesive evidence, open drain and mixed-metal isolation checks
+- Inspection methods: edge inspection, aperture/pressure-frame gauge, seal compression measurement, drain-flow test, heater/isolation test where fitted, controlled spray test, timed cassette removal/refit, pressure-frame gauge, retention calculation, seal compression record, water-ingress and replacement trial
+- Tooling basis: LM3-TOOL-WINDOW-GAUGE plus LM3-TOOL-WATER-TEST
+- Release level: design-reference window route; drawing, retention proof, supplier and first-article evidence required before release
 
 
 ## Revision approval block

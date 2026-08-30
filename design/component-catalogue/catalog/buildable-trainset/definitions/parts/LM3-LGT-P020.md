@@ -14,6 +14,21 @@
 
 Independent-feed emergency and doorway modules share service-rail mechanics but cannot be cross-connected to the main-light feed.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-LIGHT-TEKNOWARE` — [Teknoware rail interior, emergency and exterior lighting](https://www.teknoware.com/rail/)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Local luminaires are acceptable at the standard plug and mounting cassette after photometry, glare, fire, EMC, IP, emergency-duration and temperature tests.
+- Known fit gaps: Exact lamp models, optics, voltage variants and emergency battery arrangement remain open.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

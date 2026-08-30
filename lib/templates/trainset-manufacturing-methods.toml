@@ -1,0 +1,511 @@
+schema = "org.opensourcerail.trainset-manufacturing-methods.v1"
+revision = "A-DRAFT"
+status = "design-reference-not-released"
+planning_basis = "Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances support factory planning but never override a released material datasheet, supplier manual, WPS, adhesive open/cure time, or competent engineering decision."
+release_boundary = "Not a construction release. Supplier freeze, controlled drawings, structural calculations, fire/rail evidence, qualified special processes, first-article tests, independent safety assessment, and national authorisation remain mandatory."
+
+[[source]]
+id = "SRC-ERA-LOC-PAS"
+title = "ERA LOC&PAS TSI application guide"
+url = "https://www.era.europa.eu/system/files/2022-11/Guide%20for%20the%20application%20of%20the%20LOC%20%26%20PAS%20TSI%20%28EN%20Version%203.0%20-%2015_02_2021%29.pdf.pdf"
+use = "Passenger-door, glazing, structure and rolling-stock evidence gates; deployment authority must select the legally applicable national/current standards."
+
+[[source]]
+id = "SRC-COMPOSITES-ONE-INFUSION"
+title = "Composites One vacuum infusion process"
+url = "https://www.compositesone.com/process/closed-molding/vacuum-infusion-process/"
+use = "Generic closed-mould sequence: dry reinforcement, vacuum/process materials, resin infusion, controlled cure and demould. Product-specific laminate and resin instructions remain controlling."
+
+[[source]]
+id = "SRC-SIKA-RAIL"
+title = "Sika rail bonding, sealing and glazing application overview"
+url = "https://gbr.sika.com/dms/getdocument.get/adc08596-e970-4615-8138-966714bd6fd0/Sika%20Transportation-Rail%20Brochure.pdf"
+use = "Surface preparation, controlled bead geometry, glazing, floor/interior bonding and exterior sealing process categories; the selected adhesive technical datasheet controls primers, open time, cure and safe handling."
+
+[[source]]
+id = "SRC-FORBO-RAIL-FLOOR"
+title = "Forbo rail flooring installation and maintenance download centre"
+url = "https://www.forbo.com/transport/en/downloads/rail-downloads/p64bld"
+use = "Rail-floor material, installation, cleaning and maintenance evidence route; selected floor and adhesive documents control actual installation."
+
+[[source]]
+id = "SRC-DOE-COOL-SURFACE"
+title = "US Department of Energy guidelines for high-reflectance, high-emittance surfaces"
+url = "https://www.energy.gov/sites/prod/files/2013/10/f3/coolroofguide.pdf"
+use = "Screening rationale for measuring solar reflectance and thermal emittance. Building-roof thresholds are not transferred as rail certification or an LM3 performance claim."
+
+[[source]]
+id = "SRC-BOLLHOFF-RIVNUT"
+title = "Böllhoff RIVNUT installation and setting guidance"
+url = "https://www.boellhoff.com/us-en/services/technical-forum/rivnut-setting-tools/"
+use = "One-sided threaded insert installation, perpendicularity, supplier setting force and tool-control principles. Released joint loads and supplier data control selection."
+
+[[source]]
+id = "SRC-KNORR-IFE-DOOR"
+title = "Knorr-Bremse IFE modular rail entrance systems"
+url = "https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/"
+use = "Complete supplier-owned door cassette, drive, controller, obstacle detection, commissioning and lifecycle boundary."
+
+[[source]]
+id = "SRC-ABB-AMXM"
+title = "ABB AMXM railway traction motor family"
+url = "https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxm"
+use = "Supplier-frozen railway traction-motor envelope and evidence route; no vendor model or rating is selected by this reference."
+
+[[method]]
+id = "LM3-MFG-010"
+title = "Locally fabricated steel body, bogie and interface structures"
+product_ids = ["LM3-BDY-P010", "LM3-BDY-P020", "LM3-BDY-P030", "LM3-BDY-P040", "LM3-BDY-P050", "LM3-BDY-P060", "LM3-BDY-P070", "LM3-BDY-P080", "LM3-BDY-P090", "LM3-BDY-P100", "LM3-BDY-P110", "LM3-BDY-P120", "LM3-ART-P010", "LM3-BOG-P010", "LM3-BOG-P020"]
+tooling_ids = ["LM3-TOOL-STEEL-FIXTURE", "LM3-TOOL-DATUM-GAUGE"]
+work_center = "local steel preparation, weld and metrology cells"
+crew_size = 6
+planning_cycle_minutes = 4320
+joining_parts = ["released structural welds", "machined datum inserts", "OSR-FST-M8-FLOAT only for calculated secondary interfaces", "galvanic-isolation shims"]
+release_gate = "Controlled cut/flat-pattern pack, WPS/WPQR, qualified welders, weld map, NDT plan, dimensional survey and released structural proof."
+source_ids = ["SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Release material and fixture"
+planning_minutes = 120
+instruction = "Verify drawing revision, heat certificates, section/plate identity, fixture calibration and datum targets before cutting. Quarantine substitutions."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Cut, form, machine and deburr"
+planning_minutes = 960
+instruction = "Produce the controlled cut list and flat patterns; protect datum and bond lands; identify every primary part to heat and drawing position."
+hold_point = false
+
+[[method.steps]]
+sequence = 30
+name = "Fixture, tack and survey"
+planning_minutes = 480
+instruction = "Load parts against the 3-2-1 datum scheme, install calibrated shims/stops, tack to the released sequence and survey before production welding."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Qualified weld and controlled cool"
+planning_minutes = 1680
+instruction = "Execute only the released weld map/WPS with heat-input and consumable records; use a balanced sequence and controlled cooling or stress relief where specified."
+hold_point = false
+
+[[method.steps]]
+sequence = 50
+name = "NDT, machine datums and coat"
+planning_minutes = 1080
+instruction = "Complete VT and classed MT/UT, repair through an NCR, machine released interfaces, survey the frame, restore edge/cavity protection and record coating batches."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-020"
+title = "Reusable one-metre GFRP body/roof moulds and split end-cowl moulds"
+product_ids = ["LM3-BDY-P130", "LM3-BDY-P140", "LM3-CWL-P010", "LM3-CWL-P011", "LM3-CWL-P012", "LM3-CWL-P013", "LM3-CWL-P014", "LM3-CWL-P015", "LM3-CWL-P016", "LM3-EXT-P080", "LM3-EXT-P090"]
+tooling_ids = ["LM3-TOOL-SIDE-MOULD", "LM3-TOOL-ROOF-MOULD", "LM3-TOOL-COWL-MOULD", "LM3-TOOL-TRIM-DRILL"]
+work_center = "local composite moulding, cure, trim and dry-fit cell"
+crew_size = 3
+planning_cycle_minutes = 1440
+joining_parts = ["potted threaded inserts", "solid laminate clip lands", "OSR-FST-M6-CAPTIVE", "keyed over-centre clips", "replaceable EPDM dry seals"]
+release_gate = "Released laminate/core/insert map, fire evidence, material shelf life, mould survey, vacuum leak check, cure record, witness coupon, trim report, insert pull-out sample and master-frame dry fit."
+source_ids = ["SRC-COMPOSITES-ONE-INFUSION", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Inspect, clean and release mould"
+planning_minutes = 60
+instruction = "Inspect mould A-surface, split line, vacuum ports and datums; clean with the qualified system and apply the released semi-permanent release process. Record mould and release lots."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Apply exterior finish primer or gelcoat"
+planning_minutes = 75
+instruction = "Apply the released UV/fire-compatible finish layer at controlled wet-film thickness. The supplier minimum/maximum overcoat window overrides this planning allowance."
+hold_point = false
+
+[[method.steps]]
+sequence = 30
+name = "Load reinforcement, core, solid lands and inserts"
+planning_minutes = 180
+instruction = "Place identified dry plies, local core and solid laminate lands to the released ply book; pot or fixture inserts and build a co-cured witness coupon."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Bag, leak-test and infuse"
+planning_minutes = 120
+instruction = "Install peel ply/flow media/bag and resin lines, record a stable vacuum leak test, then infuse within supplier temperature, viscosity and working-time limits."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Cure in mould"
+planning_minutes = 720
+instruction = "Hold the supplier-qualified time/temperature cure and record thermocouples. Do not demould on elapsed time alone; cure acceptance or hardness/Tg evidence controls release."
+hold_point = true
+
+[[method.steps]]
+sequence = 60
+name = "Demould, trim, seal and dry-fit"
+planning_minutes = 285
+instruction = "Demould without prying on show surfaces; inspect/tap-check, CNC trim and drill in the datum fixture, seal every cut edge, install inserts/seals, gauge the part and dry-fit it to the master frame."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-030"
+title = "Solar-reflective, high-emittance exterior coating and thermal witness route"
+product_ids = ["LM3-BDY-P130", "LM3-CWL-P011", "LM3-CWL-P012", "LM3-CWL-P013", "LM3-CWL-P014", "LM3-CWL-P015", "LM3-CWL-P016"]
+tooling_ids = ["LM3-TOOL-COATING-RACK", "LM3-TOOL-COATING-COUPON"]
+work_center = "local preparation and controlled paint cell"
+crew_size = 2
+planning_cycle_minutes = 960
+joining_parts = ["compatible primer/topcoat system", "sealed GFRP edges", "coated witness coupons", "replaceable external labels"]
+release_gate = "Rail fire/smoke compatibility, substrate/primer compatibility, adhesion, weathering, cleanability, colour/glare review and measured new/aged solar reflectance and thermal emittance. No cooling or energy saving may be claimed before vehicle thermal testing."
+source_ids = ["SRC-DOE-COOL-SURFACE", "SRC-SIKA-RAIL", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Condition and inspect substrate"
+planning_minutes = 60
+instruction = "Verify cured laminate, sealed edges, moisture/temperature limits and defect repair; mask bonds, seals, datums, windows, sensors and electrical earths."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Prepare and prime"
+planning_minutes = 120
+instruction = "Abrade and clean only by the released coating procedure, apply compatible primer and coat a traceable witness coupon beside the vehicle modules."
+hold_point = false
+
+[[method.steps]]
+sequence = 30
+name = "Apply reflective/emissive topcoat"
+planning_minutes = 120
+instruction = "Apply the selected light-colour rail topcoat to controlled wet/dry film thickness. Avoid unqualified experimental radiative-cooling chemistry and review glare/visibility with the authority."
+hold_point = false
+
+[[method.steps]]
+sequence = 40
+name = "Controlled cure"
+planning_minutes = 600
+instruction = "Maintain supplier temperature, humidity and ventilation limits; the released coating datasheet controls flash, recoat, cure and return-to-service times."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Inspect and retain coupons"
+planning_minutes = 60
+instruction = "Record film thickness, adhesion/cure acceptance, colour/gloss and measured solar reflectance/emittance; retain labelled coupons for accelerated weathering and cleaning trials."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-040"
+title = "Replaceable side-window cassette, pressure frame, seal and drain installation"
+product_ids = ["LM3-BDY-P110", "LM3-WIN-P010", "LM3-EXT-P020", "LM3-EXT-P030"]
+tooling_ids = ["LM3-TOOL-WINDOW-GAUGE", "LM3-TOOL-WATER-TEST"]
+work_center = "local glazing preparation and vehicle fit-out cell"
+crew_size = 2
+planning_cycle_minutes = 180
+joining_parts = ["supplier-bonded aluminium glazing cassette", "replaceable closed-cell/EPDM outer seal", "aluminium pressure frame", "OSR-FST-M6-CAPTIVE", "drain rail and jack points"]
+release_gate = "Supplier glazing/edge certificate, retained frame calculation, approved surface preparation, seal compression map, drain test, water-ingress test, heater/isolation test where fitted and timed replacement demonstration."
+source_ids = ["SRC-SIKA-RAIL", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Receive and inspect cassette"
+planning_minutes = 25
+instruction = "Confirm pane/cassette identity and orientation; inspect laminate, edges, frame bond and heater terminals. Quarantine any edge impact, delamination or expired adhesive evidence."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Gauge aperture and dry-fit"
+planning_minutes = 35
+instruction = "Gauge carrier-ring datums and drains, protect glass edges, place the cassette on nonmetallic setting blocks and confirm uniform design clearance without forcing the glass."
+hold_point = true
+
+[[method.steps]]
+sequence = 30
+name = "Install dry seal and pressure frame"
+planning_minutes = 55
+instruction = "Fit the one-piece keyed seal without stretch, lubricants or unapproved sealant; install the pressure frame and tighten captive fasteners in the released cross-pattern to the joint schedule."
+hold_point = false
+
+[[method.steps]]
+sequence = 40
+name = "Verify compression, drains and services"
+planning_minutes = 25
+instruction = "Measure seal compression at the released witness points; confirm drain continuity, secondary retention, electrical isolation and heater continuity where fitted."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Water and replacement test"
+planning_minutes = 40
+instruction = "Run the controlled spray test, inspect the dry side and drains, then remove/refit the first article with the documented lifting/jacking method and record elapsed replacement time."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-050"
+title = "Supplier door cassette on locally made four-point adjustable carrier"
+product_ids = ["LM3-BDY-P100", "LM3-DOOR-P010", "LM3-EXT-P010"]
+tooling_ids = ["LM3-TOOL-DOOR-GAUGE", "LM3-TOOL-SEAL-GAUGE"]
+work_center = "local door preparation, installation and static-test cell"
+crew_size = 3
+planning_cycle_minutes = 300
+joining_parts = ["four adjustable carrier shoes", "two hardened datum pins", "replaceable dry perimeter seal", "OSR-FST-M10-SEAL", "keyed body-side connector bracket"]
+release_gate = "Supplier and interface freeze, carrier load proof, EN 14752/national evidence as applicable, datum and seal maps, closed-and-locked loop, obstacle detection, emergency release, water test and timed cassette replacement."
+source_ids = ["SRC-KNORR-IFE-DOOR", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Accept supplier cassette and portal"
+planning_minutes = 45
+instruction = "Verify serial/revision/evidence, inspect seals/leaf/drive and gauge the locally made portal and four carrier datums before lifting the cassette."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Lift, pin and adjust carrier"
+planning_minutes = 75
+instruction = "Use the approved lift points; engage datum pins, install four carrier shoes and adjust only within their released range to achieve leaf/aperture geometry without distorting the cassette."
+hold_point = true
+
+[[method.steps]]
+sequence = 30
+name = "Join, seal and connect"
+planning_minutes = 60
+instruction = "Install sealed fasteners to the controlled joint schedule, fit the keyed replaceable seal and connector, retain service loops and record final adjuster positions and witness marks."
+hold_point = false
+
+[[method.steps]]
+sequence = 40
+name = "Static functional and safety tests"
+planning_minutes = 75
+instruction = "Test open/close cycles, obstruction detection, closed-and-locked circuit, traction interlock, emergency release, local isolation and degraded/manual operation under the supplier procedure."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Ingress and replacement demonstration"
+planning_minutes = 45
+instruction = "Run the controlled water test and first-article removal/refit; repeat safety tests after replacement and record time, tooling and adjustments."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-060"
+title = "Removable floor panels, transport flooring and common passenger-fixture rail"
+product_ids = ["LM3-EXT-P060", "LM3-EXT-P061", "LM3-EXT-P062", "LM3-EXT-P063", "LM3-EXT-P064", "LM3-EXT-P065", "LM3-EXT-P066", "LM3-FIX-P010", "LM3-FIX-P020", "LM3-FIX-P030", "LM3-INT-P020", "LM3-INT-P030", "LM3-INT-P040", "LM3-INT-P050"]
+tooling_ids = ["LM3-TOOL-FLOOR-TEMPLATE", "LM3-TOOL-FIXTURE-PROOF"]
+work_center = "local interior panel, floor and fixture preassembly cell"
+crew_size = 4
+planning_cycle_minutes = 960
+joining_parts = ["removable sealed floor boards/hatches", "rail-qualified resilient floor covering", "OSR-RAIL-42", "OSR-FST-M8-FLOAT", "calculated seat/handrail saddles", "OSR-FST-QT-CAPTIVE access panels"]
+release_gate = "Fire/smoke certificates, substrate moisture/flatness, adhesive batch and open time, seam/edge detail, slip resistance, hatch removal, fixture load calculations and proof samples, PRM/egress gauge and snag/rattle inspection."
+source_ids = ["SRC-FORBO-RAIL-FLOOR", "SRC-BOLLHOFF-RIVNUT", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Dry-build removable floor and service hatches"
+planning_minutes = 180
+instruction = "Gauge floor supports, dry-fit numbered boards/hatches, verify flush joints, edge radii, lift points and uninterrupted access to battery/HV inspection zones."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Prepare floor and pre-cut covering"
+planning_minutes = 150
+instruction = "Verify substrate flatness, dryness and cleanliness; cut labelled floor pieces from controlled CAD templates and preserve access-hatch breaks, coved edges and drainage paths."
+hold_point = false
+
+[[method.steps]]
+sequence = 30
+name = "Bond covering"
+planning_minutes = 210
+instruction = "Condition material, apply only the selected supplier adhesive at specified spread rate/open time, lay without trapped air, roll in both directions and complete released seam/edge treatment."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Install service rails and inserts"
+planning_minutes = 180
+instruction = "Set blind threaded inserts perpendicular with the supplier force-controlled tool and sampled pull checks; gauge OSR-RAIL-42 pitch/alignment and preserve galvanic isolation."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Mount and proof passenger fixtures"
+planning_minutes = 180
+instruction = "Install seats, handrails and equipment through released saddles/joints; record torque/locking, then proof-load first articles to the approved fixture calculation without using trim as a load path."
+hold_point = true
+
+[[method.steps]]
+sequence = 60
+name = "Finish, cure and inspect"
+planning_minutes = 60
+instruction = "Respect adhesive return-to-service time, inspect adhesion/seams/slip and PRM geometry, remove/refit every service hatch and complete snag, sharp-edge and rattle checks."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-070"
+title = "Supplier traction motor/gearbox integration into locally fabricated powered bogie"
+product_ids = ["LM3-BOG-P010", "LM3-BOG-P030", "LM3-BOG-P031", "LM3-BOG-P040", "LM3-BOG-P041", "LM3-BOG-P042", "LM3-BOG-P043", "LM3-BOG-P044", "LM3-BOG-P045", "LM3-BOG-P046", "LM3-BOG-P047", "LM3-BOG-P048", "LM3-BOG-P049", "LM3-BOG-P050", "LM3-BOG-P060", "LM3-BOG-P061", "LM3-TRC-P010", "LM3-TRC-P020"]
+tooling_ids = ["LM3-TOOL-BOGIE-STAND", "LM3-TOOL-MOTOR-ALIGN"]
+work_center = "local bogie build, alignment and static-test cell"
+crew_size = 4
+planning_cycle_minutes = 720
+joining_parts = ["supplier motor and gearbox mounting kit", "calculated high-integrity bolted joints", "torque link and safety lanyard", "flexible coupling", "bonding braid", "sealed harness brackets"]
+release_gate = "Supplier motor/gearbox/wheelset/brake freeze, bogie-frame proof/NDT, mount-load proof, certified fastener/joint schedule, alignment and backlash, lubrication, insulation/bonding, rotation, brake and thermal instrumentation tests."
+source_ids = ["SRC-ABB-AMXM", "SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Accept frame and supplier kits"
+planning_minutes = 90
+instruction = "Verify bogie frame NDT/datum survey and all serialized motor, gearbox, coupling, wheelset, bearing, brake and suspension evidence before unpacking."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Set wheelsets and running gear"
+planning_minutes = 150
+instruction = "Load the controlled bogie stand, install axlebox/suspension/brake kits under supplier instructions and record orientation, clearances, lubrication and safety locking."
+hold_point = true
+
+[[method.steps]]
+sequence = 30
+name = "Install and align motor/gearbox"
+planning_minutes = 180
+instruction = "Use the dedicated alignment fixture; lift from supplier points, set mount shims, coupling/gear mesh and torque link, then close released high-integrity joints with calibrated tools and independent witness."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Route services and guards"
+planning_minutes = 90
+instruction = "Install bonding, temperature/speed/WSP harnesses, junctions, guards and safety lanyards with released bend radii, movement envelope and service access."
+hold_point = false
+
+[[method.steps]]
+sequence = 50
+name = "Static rotation, brake and electrical tests"
+planning_minutes = 150
+instruction = "Check free rotation, alignment/backlash, oil level/leaks, brake application/release, insulation resistance, bonding and sensor polarity before powered testing."
+hold_point = true
+
+[[method.steps]]
+sequence = 60
+name = "Release and preserve"
+planning_minutes = 60
+instruction = "Record mass/ride-height setup, close inspection covers, apply witness marks and preservation, and quarantine the bogie until vehicle marriage."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-080"
+title = "Lighting, HVAC, HV/LV services and keyed replaceable modules"
+product_ids = ["LM3-LGT-P010", "LM3-LGT-P020", "LM3-INT-P010", "LM3-EXT-P040", "LM3-EXT-P050", "LM3-EXT-P070", "LM3-ROOF-P010", "LM3-ROOF-P020", "LM3-HV-P010", "LM3-HV-P020", "LM3-HV-P030", "LM3-TRC-P030", "LM3-TRC-P040", "LM3-TRC-P050", "LM3-TRC-P060", "LM3-TRC-P070", "LM3-CTRL-P040", "LM3-END-P020", "LM3-END-P030", "LM3-END-P050"]
+tooling_ids = ["LM3-TOOL-SERVICE-RAIL", "LM3-TOOL-HARNESS-BOARD"]
+work_center = "local harness, interior systems and roof-module preassembly cells"
+crew_size = 4
+planning_cycle_minutes = 960
+joining_parts = ["OSR-RAIL-42", "OSR-FST-M6-CAPTIVE", "OSR-CON-LV4", "OSR-CON-LVDATA12", "sealed HV connectors", "segregated service trays", "removable HVAC curb seal"]
+release_gate = "Supplier evidence, fire/EMC/vibration/IP checks, harness 100% continuity and insulation, keyed/polarity audit, HVIL, fluid pressure/drain tests, lighting lux/emergency-duration test, HVAC airflow and condensate test."
+source_ids = ["SRC-ERA-LOC-PAS", "SRC-SIKA-RAIL"]
+
+[[method.steps]]
+sequence = 10
+name = "Preassemble and test modules off vehicle"
+planning_minutes = 180
+instruction = "Build lighting, harness, duct, tray and cabinet modules on dedicated boards/rails; record serials, connectors, firmware/configuration and incoming evidence."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Install rails, trays, ducts and curb seals"
+planning_minutes = 180
+instruction = "Gauge common datums, install isolated rails/trays and supplier-approved seals, protect fire barriers and preserve removable access zones."
+hold_point = false
+
+[[method.steps]]
+sequence = 30
+name = "Install keyed LV/data and segregated HV services"
+planning_minutes = 240
+instruction = "Route pre-terminated looms to released clips and bend radii; keep HV, LV/data and fluids segregated, fit service loops and blanking caps, and prevent field-cut lighting wires."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Install HVAC, batteries and power modules"
+planning_minutes = 180
+instruction = "Use approved lifts and supplier mounting kits; close coolant, drain, bond, service-disconnect and HVIL interfaces under LOTO."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Cold commissioning"
+planning_minutes = 120
+instruction = "Complete continuity, insulation, bonding, connector keying, sensor enumeration, pressure/leak and drain-flow tests before energisation."
+hold_point = true
+
+[[method.steps]]
+sequence = 60
+name = "Functional release"
+planning_minutes = 60
+instruction = "Run lighting lux/emergency tests, HVAC airflow/condensate tests and controlled HVIL/pre-charge checks; attach actual records to the train configuration."
+hold_point = true
+
+[[method]]
+id = "LM3-MFG-090"
+title = "Three-car final assembly, static test and manufacturing release"
+product_ids = ["LM3-END-P010", "LM3-END-P040", "LM3-END-P060", "LM3-END-P061", "LM3-END-P062", "LM3-ART-P020", "LM3-ART-P021", "LM3-ART-P022", "LM3-ART-P023", "LM3-ART-P024", "LM3-ART-P030", "LM3-ART-P040", "LM3-ART-P041", "LM3-AUX-P010", "LM3-SAF-P010", "LM3-CTRL-P010", "LM3-CTRL-P020", "LM3-CTRL-P030", "LM3-CTRL-P050"]
+tooling_ids = ["LM3-TOOL-LIFT-COLUMNS", "LM3-TOOL-FINAL-DATUM"]
+work_center = "55 m local final assembly and static-test road"
+crew_size = 8
+planning_cycle_minutes = 2880
+joining_parts = ["released bogie-to-body joints", "articulation/coupler supplier kits", "segregated trainline jumpers", "bonding network", "configuration-controlled safety/control equipment"]
+release_gate = "All child travelers accepted, train mass/geometry/clearance, brake/door/HV/communications/fire-detection tests, software/configuration hashes, static and low-speed test evidence, open NCR review and independent manufacturing release."
+source_ids = ["SRC-ERA-LOC-PAS"]
+
+[[method.steps]]
+sequence = 10
+name = "Accept child assemblies and final road"
+planning_minutes = 240
+instruction = "Verify signed child travelers, serial/configuration records, lifting-column certification, track level and vehicle datum survey; unresolved safety NCRs block marriage."
+hold_point = true
+
+[[method.steps]]
+sequence = 20
+name = "Bogie marriage and articulation"
+planning_minutes = 600
+instruction = "Lift only at released points, roll accepted bogies into surveyed positions, lower onto interfaces, close body/bogie and articulation joints, and independently witness safety-critical locking."
+hold_point = true
+
+[[method.steps]]
+sequence = 30
+name = "Close trainlines, couplers and remaining fit-out"
+planning_minutes = 480
+instruction = "Connect labelled HV/LV/data/coolant/air paths, install end equipment and remaining service panels, then perform continuity, leak, movement-envelope and access checks."
+hold_point = true
+
+[[method.steps]]
+sequence = 40
+name = "Static systems commissioning"
+planning_minutes = 720
+instruction = "Run brake, door/interlock, lighting, HVAC, battery/HVIL, detection, communications, passenger systems, emergency and degraded-mode procedures against released test scripts."
+hold_point = true
+
+[[method.steps]]
+sequence = 50
+name = "Geometry, mass and water tests"
+planning_minutes = 360
+instruction = "Survey ride height/body/articulation/clearance, weigh the train, run roof/door/window ingress tests and reconcile the as-built mass and configuration records."
+hold_point = true
+
+[[method.steps]]
+sequence = 60
+name = "Independent review and controlled release"
+planning_minutes = 480
+instruction = "Review all records and NCRs, freeze software/configuration hashes and issue only a manufacturing release to the authorised low-speed/static test programme—not passenger service approval."
+hold_point = true

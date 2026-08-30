@@ -1,0 +1,216 @@
+{
+  "bom_line_ids": [
+    "G6",
+    "G7",
+    "G10",
+    "G11",
+    "G12"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-BOG-P047",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "wheelset/bearing certificates",
+      "brake evidence"
+    ],
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BOG-P047",
+        "DOC-LM3-BOG-SA620"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-BOG-P047",
+        "CERT-LM3-BOG-P047"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-BOG-P047-ENVELOPE",
+        "FIX-LM3-BOG-SA620"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "vertical/lateral load curves",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: vertical/lateral load curves",
+      "tooling_ids": [
+        "QA-LM3-BOG-P047"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "pivot proof and articulation limit",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: pivot proof and articulation limit",
+      "tooling_ids": [
+        "QA-LM3-BOG-P047"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "damper curves hot/cold",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: damper curves hot/cold",
+      "tooling_ids": [
+        "QA-LM3-BOG-P047"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "ride-height and anti-lift survey",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: ride-height and anti-lift survey",
+      "tooling_ids": [
+        "GAUGE-LM3-BOG-P047"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BOG-P047",
+        "KIT-LM3-BOG-SA620"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-BOG-SA620",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "vertical/lateral load curves",
+      "pivot proof and articulation limit",
+      "damper curves hot/cold",
+      "ride-height and anti-lift survey",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P047, CERT-LM3-BOG-P047, GAUGE-LM3-BOG-P047-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BOG-P047-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-P047-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-P047-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+  "traveler_type": "product-item",
+  "unit": "bogie set"
+}

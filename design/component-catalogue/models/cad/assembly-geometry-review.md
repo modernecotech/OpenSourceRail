@@ -42,6 +42,31 @@ sanity checks on each assembled-state input.
 | Side body frame and fixture attachments | `side-body-frame-attachments` | True | True | 52 | 1603635840 | 15720 x 2836 x 2620 |  |
 | Composite body and roof fixture attachments | `composite-body-roof-attachments` | True | True | 33 | 3381460370 | 15350 x 3018 x 2441 |  |
 
+## LM3 Manufacturing Tooling
+
+| Item | Source | Valid | OCC check | Solids | Volume mm^3 | Bounding box mm | Issue |
+|---|---|---:|---:|---:|---:|---|---|
+| LM3-TOOL-STEEL-FIXTURE — Locally fabricated steel body, bogie and interface structures | `manufacturing-tool:LM3-TOOL-STEEL-FIXTURE` | True | True | 22 | 13914104529 | 17000 x 3600 x 1350 |  |
+| LM3-TOOL-DATUM-GAUGE — Locally fabricated steel body, bogie and interface structures | `manufacturing-tool:LM3-TOOL-DATUM-GAUGE` | True | True | 4 | 75812028 | 3400 x 2744 x 620 |  |
+| LM3-TOOL-SIDE-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-SIDE-MOULD` | True | True | 6 | 684647041 | 1300 x 3600 x 245 |  |
+| LM3-TOOL-ROOF-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-ROOF-MOULD` | True | True | 9 | 767202000 | 1300 x 3200 x 504 |  |
+| LM3-TOOL-COWL-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-COWL-MOULD` | True | True | 8 | 4136400000 | 3300 x 3400 x 2410 |  |
+| LM3-TOOL-TRIM-DRILL — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-TRIM-DRILL` | True | True | 15 | 852438541 | 1400 x 3800 x 270 |  |
+| LM3-TOOL-COATING-RACK — Solar-reflective, high-emittance exterior coating and thermal witness route | `manufacturing-tool:LM3-TOOL-COATING-RACK` | True | True | 7 | 899840000 | 4000 x 3160 x 2690 |  |
+| LM3-TOOL-COATING-COUPON — Solar-reflective, high-emittance exterior coating and thermal witness route | `manufacturing-tool:LM3-TOOL-COATING-COUPON` | True | True | 3 | 540000 | 960 x 200 x 3 |  |
+| LM3-TOOL-WINDOW-GAUGE — Replaceable side-window cassette, pressure frame, seal and drain installation | `manufacturing-tool:LM3-TOOL-WINDOW-GAUGE` | True | True | 8 | 265830881 | 2150 x 240 x 1590 |  |
+| LM3-TOOL-WATER-TEST — Replaceable side-window cassette, pressure frame, seal and drain installation | `manufacturing-tool:LM3-TOOL-WATER-TEST` | True | True | 12 | 314015660 | 2400 x 640 x 1940 |  |
+| LM3-TOOL-DOOR-GAUGE — Supplier door cassette on locally made four-point adjustable carrier | `manufacturing-tool:LM3-TOOL-DOOR-GAUGE` | True | True | 8 | 315030881 | 2000 x 240 x 2390 |  |
+| LM3-TOOL-SEAL-GAUGE — Supplier door cassette on locally made four-point adjustable carrier | `manufacturing-tool:LM3-TOOL-SEAL-GAUGE` | True | True | 6 | 1152000 | 1480 x 80 x 1530 |  |
+| LM3-TOOL-FLOOR-TEMPLATE — Removable floor panels, transport flooring and common passenger-fixture rail | `manufacturing-tool:LM3-TOOL-FLOOR-TEMPLATE` | True | True | 31 | 1465835734 | 15500 x 2700 x 112 |  |
+| LM3-TOOL-FIXTURE-PROOF — Removable floor panels, transport flooring and common passenger-fixture rail | `manufacturing-tool:LM3-TOOL-FIXTURE-PROOF` | True | True | 3 | 178685574 | 1200 x 900 x 2360 |  |
+| LM3-TOOL-BOGIE-STAND — Supplier traction motor/gearbox integration into locally fabricated powered bogie | `manufacturing-tool:LM3-TOOL-BOGIE-STAND` | True | True | 6 | 847392000 | 4200 x 2620 x 740 |  |
+| LM3-TOOL-MOTOR-ALIGN — Supplier traction motor/gearbox integration into locally fabricated powered bogie | `manufacturing-tool:LM3-TOOL-MOTOR-ALIGN` | True | True | 4 | 794542273 | 2200 x 1300 x 1220 |  |
+| LM3-TOOL-SERVICE-RAIL — Lighting, HVAC, HV/LV services and keyed replaceable modules | `manufacturing-tool:LM3-TOOL-SERVICE-RAIL` | True | True | 16 | 192471239 | 4000 x 600 x 180 |  |
+| LM3-TOOL-HARNESS-BOARD — Lighting, HVAC, HV/LV services and keyed replaceable modules | `manufacturing-tool:LM3-TOOL-HARNESS-BOARD` | True | True | 46 | 1155619115 | 8000 x 2400 x 160 |  |
+| LM3-TOOL-LIFT-COLUMNS — Three-car final assembly, static test and manufacturing release | `manufacturing-tool:LM3-TOOL-LIFT-COLUMNS` | True | True | 16 | 11160960000 | 14900 x 4900 x 4800 |  |
+| LM3-TOOL-FINAL-DATUM — Three-car final assembly, static test and manufacturing release | `manufacturing-tool:LM3-TOOL-FINAL-DATUM` | True | True | 18 | 485191168 | 50000 x 120 x 380 |  |
+
 ## Geometry Issues
 
 - No invalid source shapes or zero-size bounding boxes detected.

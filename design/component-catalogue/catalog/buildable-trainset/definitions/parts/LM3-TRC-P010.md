@@ -6,13 +6,28 @@
 | Layer | `external-component` |
 | Route | `BID` |
 | Quantity per trainset | 6 ea |
-| Parent assembly | `LM3-BOG-SA610` |
+| Parent assembly | `LM3-TRC-SA615` |
 | Procurement BOM lines | `T1` |
 | Maturity | `buildable-after-supplier-freeze` |
 
 ## Make / buy basis
 
 Optimizer-selected 250 kW motor class; CAD baseline carries the promoted envelope.
+
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-MOTOR-ABB-AMXM` — [ABB AMXM railway traction motor](https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxm)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Buy the initial motor; local rewind, bearings and eventually a locally manufactured equivalent require the frozen torque-speed, cooling, insulation, shaft, foot, mass and EMC interfaces plus type tests.
+- Known fit gaps: The current HM47-class planning envelope is not an ABB order code; ABB must confirm a 250 kW continuous / 350 kW short-peak, 800 V-compatible configuration and mass envelope.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
 
 ## Material specification
 

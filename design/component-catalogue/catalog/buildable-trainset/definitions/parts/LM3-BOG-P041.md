@@ -1,18 +1,33 @@
-# LM3-BOG-P041 — trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit
+# LM3-BOG-P041 — trailer-bogie wheelset with axle-mounted brake discs
 
 | Field | Value |
 |---|---|
 | Definition type | Product item |
 | Layer | `external-component` |
 | Route | `BID` |
-| Quantity per trainset | 3 bogie kit |
-| Parent assembly | `LM3-BOG-SA620` |
-| Procurement BOM lines | `G3`, `G4`, `G5`, `G6`, `G7`, `G8`, `G9`, `G10`, `G11`, `G12`, `G14`, `G15`, `G16` |
+| Quantity per trainset | 6 wheelset |
+| Parent assembly | `LM3-BOG-SA621` |
+| Procurement BOM lines | `G3`, `G8` |
 | Maturity | `buildable-after-supplier-freeze` |
 
 ## Make / buy basis
 
-The trailer-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.
+Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset using the same released wheel profile as the powered bogie.
+
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-WHEELSET-GHH` — [GHH-BONATRANS urban-rail wheelsets](https://www.ghh-bonatrans.com/en/about-us/products-and-services/wheelset/)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Local wheel/axle manufacture is encouraged only after metallurgy, forging, heat treatment, NDT, press-fit, profile, fatigue and route-specific standards are qualified and independently accepted.
+- Known fit gaps: Wheel profile, diameter, axle journal, disc seats, material grades and load spectrum remain to be frozen.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
 
 ## Material specification
 
@@ -38,22 +53,20 @@ Evidence required:
 - Primary processes: receive, quarantine, evidence review, incoming fit check, release to parent kit
 - Joining methods: bolted/torqued installation, sealed, gasketed, bonded, or clipped interface as supplier envelope requires
 - Special process controls: RFQ envelope freeze, supplier certificate/revision check, incoming quarantine until evidence accepted, safety interlock interface freeze, supplier lifecycle evidence review
-- Inspection methods: incoming visual inspection, envelope fit check, wheelset certificates, bearing records, spring/damper certificates, brake test, sensor test, ride-height report, functional static test, emergency/recovery function check where applicable
+- Inspection methods: incoming visual inspection, envelope fit check, wheel/axle heat certificates, press-force chart, back-to-back and runout report, ultrasonic inspection, balance record, functional static test, emergency/recovery function check where applicable
 - Tooling basis: RFQ-LM3-BOG-P041, CERT-LM3-BOG-P041, GAUGE-LM3-BOG-P041-ENVELOPE
 - Release level: BID supplier-controlled process; OSR controls envelope and acceptance evidence
 
 ## Acceptance gates
 
-- wheelset certificates
-- bearing records
-- spring/damper certificates
-- brake test
-- sensor test
-- ride-height report
+- wheel/axle heat certificates
+- press-force chart
+- back-to-back and runout report
+- ultrasonic inspection
+- balance record
 
 ## Source references
 
 - `bogie/wheelset.py`
 - `bogie/brake.py`
-- `bogie/suspension.py`
 - `LM3-BOG-410`

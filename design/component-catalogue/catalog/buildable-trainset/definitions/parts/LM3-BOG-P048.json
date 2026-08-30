@@ -1,0 +1,105 @@
+{
+  "acceptance": [
+    "brake-force calculation",
+    "friction-pair certificate",
+    "thermal capacity",
+    "parking holding test",
+    "WSP functional test"
+  ],
+  "bom_line_ids": [
+    "G8",
+    "G9",
+    "G16"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-BOG-P048",
+  "layer": "external-component",
+  "make_or_buy_basis": "A rail brake supplier matches caliper, actuator, disc and pad friction pair to the released stopping, thermal and parking-brake cases.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "wheelset/bearing certificates",
+      "brake evidence"
+    ],
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-BOG-SA611",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "brake-force calculation",
+      "friction-pair certificate",
+      "thermal capacity",
+      "parking holding test",
+      "WSP functional test",
+      "pressure/leak test",
+      "drain-flow test where applicable",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "fluid compatibility check",
+      "hose/pipe routing release",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P048, CERT-LM3-BOG-P048, GAUGE-LM3-BOG-P048-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "bogie/brake.py",
+    "systems.py",
+    "LM3-BOG-400"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-safety-critical-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "The LM3 brake concept needs supplier confirmation of actuation energy, caliper variant, disc/pad pair, parking brake and whether the suspension-only compressor can support the selected brake architecture."
+    ],
+    "id": "OSR-ANC-BRAKE-KNORR",
+    "local_equivalent_allowed": true,
+    "localisation": "Pads, discs, hoses and overhaul parts can localise first under brake-supplier approval; caliper/actuator or compressor substitutes require stopping, parking, thermal, WSP, degraded-mode and endurance revalidation.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Knorr-Bremse",
+    "manufacturer_url": "https://rail.knorr-bremse.com/en/se/portfolio/products-and-systems/braking-systems/actuation/",
+    "procurement_state": "system-rfq-required",
+    "product_family": "WheelAct/AxleAct rail brake actuation and PistonSupply/DrySupply air supply",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "powered-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+  "unit": "bogie set"
+}

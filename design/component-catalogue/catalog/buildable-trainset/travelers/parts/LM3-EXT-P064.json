@@ -1,0 +1,211 @@
+{
+  "bom_line_ids": [
+    "B18",
+    "E14"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-EXT-P064",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "fire/EMC/IP evidence",
+      "network enumeration",
+      "coverage/intelligibility test",
+      "timed module replacement"
+    ],
+    "finish_or_protection": "cleanable tamper-resistant passenger finish, sealed penetrations, galvanic/electrical isolation and protected labels",
+    "form_factor": "plug-in line-replaceable modules with labelled connectors, strain relief, bend-radius/service loops and no hidden joints behind fixed trim",
+    "governing_standard": "supplier rail electronics specification plus project fire/smoke, EMC, IP, cybersecurity/configuration, accessibility and lifecycle evidence",
+    "grade_or_part_class": "serialised display/camera/intercom/audio modules, keyed power/data connectors, fire-rated harness tails, common-rail adapters and captive service fasteners",
+    "material_family": "rail-rated passenger-information/audio equipment kit",
+    "nominal_section": "field of view/visibility/reach, mounting envelope, connector keying, heat rejection and service clearance fixed by LM3-INT-230 interface drawings",
+    "traceability": "equipment serial, hardware/firmware/configuration revision, harness batch, adapter position, network address and functional-test record"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P064",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P064",
+        "CERT-LM3-EXT-P064"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P064-ENVELOPE",
+        "FIX-LM3-INT-SA330"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fire/EMC evidence",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fire/EMC evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P064"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "network enumeration",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: network enumeration",
+      "tooling_ids": [
+        "QA-LM3-EXT-P064"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "audio/intelligibility test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: audio/intelligibility test",
+      "tooling_ids": [
+        "QA-LM3-EXT-P064"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "display visibility and service-removal trial",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: display visibility and service-removal trial",
+      "tooling_ids": [
+        "QA-LM3-EXT-P064"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P064",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "fire/EMC evidence",
+      "network enumeration",
+      "audio/intelligibility test",
+      "display visibility and service-removal trial"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P064, CERT-LM3-EXT-P064, GAUGE-LM3-EXT-P064-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P064-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P064-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P064-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "passenger-information display, speaker, amplifier, and mounting kit",
+  "traveler_type": "product-item",
+  "unit": "car kit"
+}

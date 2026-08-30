@@ -7,10 +7,17 @@ twin-track viaduct bay, and a 49.5 m three-car LM3 trainset.
 
 ![Animated fabrication and assembly digital twin](fabrication-assembly-digital-twin.gif)
 
-The animation normalizes the four production routes into 48 seconds so they
-can be reviewed together. The JSON retains actual planning durations, 25 work
-stages, predecessors, work centres, inputs, outputs, hold points, evidence,
-cross-stream interfaces, and hashes of the controlled source documents.
+The animation is an 88-second guided assembly tour. It holds a close camera on
+each product while full-size components move from an exploded staging position
+to their installed datums, then finishes with a completed-products overview.
+The chapters cover track, station, viaduct and LM3 assembly separately so small
+fixtures and installation order remain visible. The MP4 is the primary review
+artifact; the lower-frame-rate GIF is an inline preview of the same sequence.
+
+The tour is explanatory rather than a project schedule. The JSON retains the
+actual concurrent planning basis, durations, 25 stages, predecessors, work
+centres, inputs, outputs, hold points, evidence, cross-stream interfaces, and
+hashes of the controlled source documents.
 
 The viaduct route now includes tested foundation construction, recorded pier
 column delivery, erection and seat survey of the compact hollow cap, two
@@ -22,8 +29,8 @@ connection stage, and separate walkway/containment cassettes.
 |---|---|
 | [`fabrication-assembly-digital-twin.json`](fabrication-assembly-digital-twin.json) | Machine-readable production route, live-state snapshots, relationships, source hashes, and validation checks |
 | [`fabrication-assembly-digital-twin.blend`](fabrication-assembly-digital-twin.blend) | Native Blender scene with separately selectable staged components and animation |
-| [`fabrication-assembly-digital-twin.mp4`](fabrication-assembly-digital-twin.mp4) | Detailed H.264 3D perspective animation |
-| [`fabrication-assembly-digital-twin.gif`](fabrication-assembly-digital-twin.gif) | README-ready animation below the 20 MB repository limit |
+| [`fabrication-assembly-digital-twin.mp4`](fabrication-assembly-digital-twin.mp4) | Full-resolution 88-second H.264 guided assembly tour |
+| [`fabrication-assembly-digital-twin.gif`](fabrication-assembly-digital-twin.gif) | Complete 88-second inline preview below the 20 MB repository limit |
 
 Regenerate all outputs with:
 

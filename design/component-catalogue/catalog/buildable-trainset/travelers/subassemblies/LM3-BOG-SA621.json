@@ -1,0 +1,254 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "bogie clean assembly and brake cell",
+  "children": [
+    "LM3-BOG-P041",
+    "LM3-BOG-P043",
+    "LM3-BOG-P045",
+    "LM3-BOG-P049"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 7.83,
+  "id": "LM3-BOG-SA621",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-certified running gear, supplier-controlled external component",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-BOG-SA621 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.77,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-BOG-SA621",
+        "FIX-LM3-BOG-SA621",
+        "KIT-LM3-BOG-SA621"
+      ],
+      "work_center": "bogie clean assembly and brake cell"
+    },
+    {
+      "labor_hours": 1.28,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P041: trailer-bogie wheelset with axle-mounted brake discs",
+      "tooling_ids": [
+        "FIX-LM3-BOG-SA621",
+        "GAUGE-LM3-BOG-P041",
+        "TORQUE-LM3-BOG-P041"
+      ],
+      "work_center": "bogie clean assembly and brake cell"
+    },
+    {
+      "labor_hours": 1.4,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P043: trailer-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+      "tooling_ids": [
+        "FIX-LM3-BOG-SA621",
+        "GAUGE-LM3-BOG-P043",
+        "TORQUE-LM3-BOG-P043"
+      ],
+      "work_center": "bogie clean assembly and brake cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P045: trailer-bogie primary suspension spring, guide and bump-stop set",
+      "tooling_ids": [
+        "FIX-LM3-BOG-SA621",
+        "GAUGE-LM3-BOG-P045",
+        "TORQUE-LM3-BOG-P045"
+      ],
+      "work_center": "bogie clean assembly and brake cell"
+    },
+    {
+      "labor_hours": 1.28,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P049: trailer-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+      "tooling_ids": [
+        "FIX-LM3-BOG-SA621",
+        "GAUGE-LM3-BOG-P049",
+        "TORQUE-LM3-BOG-P049"
+      ],
+      "work_center": "bogie clean assembly and brake cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "wheelset identity",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: wheelset identity",
+      "tooling_ids": [
+        "QA-LM3-BOG-SA621"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "bearing installation",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: bearing installation",
+      "tooling_ids": [
+        "QA-LM3-BOG-SA621"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "primary-height match",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: primary-height match",
+      "tooling_ids": [
+        "QA-LM3-BOG-SA621"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "static brake/WSP test",
+      "sequence": 90,
+      "signoff_role": "quality inspector",
+      "title": "hold point: static brake/WSP test",
+      "tooling_ids": [
+        "QA-LM3-BOG-SA621"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "free rotation",
+      "sequence": 100,
+      "signoff_role": "quality inspector",
+      "title": "hold point: free rotation",
+      "tooling_ids": [
+        "QA-LM3-BOG-SA621"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 110,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-BOG-SA621",
+        "NCR-LM3-BOG-SA621"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "wheelset identity",
+      "bearing installation",
+      "primary-height match",
+      "static brake/WSP test",
+      "free rotation",
+      "alignment survey",
+      "static brake test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-BOG-SA621, KIT-LM3-BOG-SA621, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BOG-SA621-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-SA621-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-SA621-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
+  "traveler_type": "assembly-node"
+}

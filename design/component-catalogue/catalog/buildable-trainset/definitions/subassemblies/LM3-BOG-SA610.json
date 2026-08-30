@@ -7,11 +7,10 @@
   "children": [
     "LM3-BOG-P010",
     "LM3-BOG-P030",
-    "LM3-BOG-P040",
-    "LM3-BOG-P050",
-    "LM3-BOG-P060",
-    "LM3-TRC-P010",
-    "LM3-TRC-P020"
+    "LM3-BOG-SA611",
+    "LM3-TRC-SA615",
+    "LM3-BOG-P046",
+    "LM3-BOG-P060"
   ],
   "definition_type": "assembly-node",
   "hold_points": [
@@ -66,33 +65,30 @@
       ]
     },
     {
-      "child_id": "LM3-BOG-P040",
-      "child_title": "powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+      "child_id": "LM3-BOG-SA611",
+      "child_title": "powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
       "interface_classes": [
         "mechanical datum",
-        "low-voltage/data",
         "safety interlock"
       ],
       "join_classes": [
-        "bolted-structural-datum",
-        "electrical-data"
+        "bolted-structural-datum"
       ],
-      "joint_release_status": "supplier-freeze-required",
+      "joint_release_status": "joint-calculation-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
       "sequence": 3,
-      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
-        "wheelset certificates",
-        "bearing records",
-        "spring/damper certificates",
-        "brake test",
-        "sensor test",
-        "ride-height report"
+        "wheelset identity",
+        "bearing installation",
+        "primary-height match",
+        "static brake/WSP test",
+        "free rotation"
       ]
     },
     {
-      "child_id": "LM3-BOG-P050",
-      "child_title": "powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit",
+      "child_id": "LM3-TRC-SA615",
+      "child_title": "bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit",
       "interface_classes": [
         "mechanical datum",
         "high-voltage electrical"
@@ -106,10 +102,31 @@
       "sequence": 4,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
-        "torque-link gauge",
-        "bracket NDT",
-        "motor removal clearance",
-        "fastener locking record"
+        "motor/gearbox serial match",
+        "coupling alignment",
+        "torque-link proof",
+        "insulation/rotation test",
+        "removal-envelope trial"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P046",
+      "child_title": "powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "vertical/lateral load curves",
+        "pivot proof and articulation limit",
+        "damper curves hot/cold",
+        "ride-height and anti-lift survey"
       ]
     },
     {
@@ -126,54 +143,13 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 5,
+      "sequence": 6,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "continuity test",
         "connector IP rating",
         "wheelset clearance",
         "dynamic cable sweep"
-      ]
-    },
-    {
-      "child_id": "LM3-TRC-P010",
-      "child_title": "motor-350kw-hm47-class axle traction motor",
-      "interface_classes": [
-        "mechanical datum",
-        "high-voltage electrical"
-      ],
-      "join_classes": [
-        "bolted-structural-datum",
-        "electrical-data"
-      ],
-      "joint_release_status": "supplier-freeze-required",
-      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 6,
-      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
-      "verification": [
-        "motor datasheet",
-        "thermal curve",
-        "mounting-foot load proof",
-        "EMC evidence"
-      ]
-    },
-    {
-      "child_id": "LM3-TRC-P020",
-      "child_title": "single-stage reduction gearbox and flexible coupling",
-      "interface_classes": [
-        "mechanical datum"
-      ],
-      "join_classes": [
-        "bolted-structural-datum"
-      ],
-      "joint_release_status": "supplier-freeze-required",
-      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 7,
-      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
-      "verification": [
-        "gear ratio certificate",
-        "oil access check",
-        "coupling alignment"
       ]
     }
   ],
@@ -185,7 +161,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel, supplier-certified running gear, supplier traction drive equipment, supplier HVAC and air-distribution kit",
+    "form_factor": "rail structural steel, LM3-BOG-SA611 child assembly material set, LM3-TRC-SA615 child assembly material set, supplier-certified running gear",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-BOG-SA610 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -235,5 +211,5 @@
     "bogie/assembly.py",
     "LM3-BOG-400"
   ],
-  "title": "powered bogie assembly"
+  "title": "complete powered bogie with running unit, bogie-mounted drive and body connection"
 }

@@ -1,21 +1,10 @@
 {
   "bom_line_ids": [
     "G3",
-    "G4",
-    "G5",
-    "G6",
-    "G7",
-    "G8",
-    "G9",
-    "G10",
-    "G11",
-    "G12",
-    "G14",
-    "G15",
-    "G16"
+    "G8"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 3.3,
+  "estimated_labor_hours": 3.05,
   "id": "LM3-BOG-P041",
   "material_spec": {
     "evidence_required": [
@@ -41,7 +30,7 @@
       "title": "release traveler, revision, material/certificate pack, and parent interface",
       "tooling_ids": [
         "TRV-LM3-BOG-P041",
-        "DOC-LM3-BOG-SA620"
+        "DOC-LM3-BOG-SA621"
       ],
       "work_center": "production control"
     },
@@ -65,16 +54,16 @@
       "title": "perform envelope, mounting, service-removal, and connector checks",
       "tooling_ids": [
         "GAUGE-LM3-BOG-P041-ENVELOPE",
-        "FIX-LM3-BOG-SA620"
+        "FIX-LM3-BOG-SA621"
       ],
       "work_center": "incoming fit-check cell"
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "wheelset certificates",
+      "qa_gate": "wheel/axle heat certificates",
       "sequence": 40,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: wheelset certificates",
+      "title": "verify acceptance gate: wheel/axle heat certificates",
       "tooling_ids": [
         "QA-LM3-BOG-P041"
       ],
@@ -82,10 +71,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "bearing records",
+      "qa_gate": "press-force chart",
       "sequence": 50,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: bearing records",
+      "title": "verify acceptance gate: press-force chart",
       "tooling_ids": [
         "QA-LM3-BOG-P041"
       ],
@@ -93,10 +82,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "spring/damper certificates",
+      "qa_gate": "back-to-back and runout report",
       "sequence": 60,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: spring/damper certificates",
+      "title": "verify acceptance gate: back-to-back and runout report",
       "tooling_ids": [
         "QA-LM3-BOG-P041"
       ],
@@ -104,10 +93,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "brake test",
+      "qa_gate": "ultrasonic inspection",
       "sequence": 70,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: brake test",
+      "title": "verify acceptance gate: ultrasonic inspection",
       "tooling_ids": [
         "QA-LM3-BOG-P041"
       ],
@@ -115,21 +104,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "sensor test",
+      "qa_gate": "balance record",
       "sequence": 80,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: sensor test",
-      "tooling_ids": [
-        "QA-LM3-BOG-P041"
-      ],
-      "work_center": "quality inspection"
-    },
-    {
-      "labor_hours": 0.25,
-      "qa_gate": "ride-height report",
-      "sequence": 90,
-      "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: ride-height report",
+      "title": "verify acceptance gate: balance record",
       "tooling_ids": [
         "QA-LM3-BOG-P041"
       ],
@@ -138,27 +116,26 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "item is released, tagged, and staged for parent assembly",
-      "sequence": 100,
+      "sequence": 90,
       "signoff_role": "cell lead",
       "title": "final item release to parent assembly",
       "tooling_ids": [
         "REL-LM3-BOG-P041",
-        "KIT-LM3-BOG-SA620"
+        "KIT-LM3-BOG-SA621"
       ],
       "work_center": "production control"
     }
   ],
-  "parent": "LM3-BOG-SA620",
+  "parent": "LM3-BOG-SA621",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
-      "wheelset certificates",
-      "bearing records",
-      "spring/damper certificates",
-      "brake test",
-      "sensor test",
-      "ride-height report",
+      "wheel/axle heat certificates",
+      "press-force chart",
+      "back-to-back and runout report",
+      "ultrasonic inspection",
+      "balance record",
       "functional static test",
       "emergency/recovery function check where applicable"
     ],
@@ -183,7 +160,7 @@
     ],
     "tooling_basis": "RFQ-LM3-BOG-P041, CERT-LM3-BOG-P041, GAUGE-LM3-BOG-P041-ENVELOPE"
   },
-  "quantity_per_trainset": 3,
+  "quantity_per_trainset": 6,
   "release_status": "unsigned-template",
   "revision_approvals": [
     {
@@ -242,7 +219,7 @@
       "status": "blank"
     }
   ],
-  "title": "trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+  "title": "trailer-bogie wheelset with axle-mounted brake discs",
   "traveler_type": "product-item",
-  "unit": "bogie kit"
+  "unit": "wheelset"
 }

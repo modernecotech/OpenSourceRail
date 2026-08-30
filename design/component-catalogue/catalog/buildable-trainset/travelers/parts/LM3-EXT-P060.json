@@ -1,17 +1,6 @@
 {
   "bom_line_ids": [
-    "B12",
-    "B13",
-    "B14",
-    "B15",
-    "B18",
-    "B19",
-    "E14",
-    "E15",
-    "A1",
-    "A2",
-    "A3",
-    "A4"
+    "B12"
   ],
   "document_revision": "A-DRAFT",
   "estimated_labor_hours": 2.8,
@@ -20,16 +9,18 @@
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
-      "continuity test",
-      "EMC/IP evidence"
+      "fire/smoke certificate",
+      "floor load/deflection evidence",
+      "hatch removal trial",
+      "level/step survey"
     ],
-    "finish_or_protection": "halogen/fire-rated cable where required, IP sealing, bonding, and label protection",
-    "form_factor": "cabinet, harness, connector, sensor, bracket, antenna, and label kit",
-    "governing_standard": "supplier rail electronics specification plus project EMC, IP, and fire evidence",
-    "grade_or_part_class": "LV/data harness, cabinet, sensor, antenna, and trainline kit",
-    "material_family": "rail-rated electrical / control equipment",
-    "nominal_section": "connector, bend-radius, service-loop, and mounting envelope frozen by RFQ drawing",
-    "traceability": "serialised equipment CoC, firmware/config record, harness batch, and continuity record"
+    "finish_or_protection": "sealed cut edges and penetrations, isolated mixed-metal joints, no water-trapping pockets, and floor-covering-compatible prepared face",
+    "form_factor": "CNC-cut numbered boards and flush removable hatches supported continuously at released crossmember/service-rail datums",
+    "governing_standard": "supplier rail floor specification plus project fire/smoke, concentrated/distributed load, fatigue, moisture, slip-interface and toxicity evidence",
+    "grade_or_part_class": "rail-qualified aluminium-honeycomb/composite board candidate with aluminium edge closures, stainless retained hatch hardware, isolating pads and sealed inspection plugs",
+    "material_family": "fire-rated structural floor-board and hatch system",
+    "nominal_section": "board thickness, core/skin schedule, support pitch, edge distance, hatch rebates, service clearances and step transitions fixed by LM3-INT-230 drawings and calculation",
+    "traceability": "board/panel batch, cut nest, edge-seal batch, retained-fastener lot, installed position, datum survey and load-test record"
   },
   "operations": [
     {
@@ -70,10 +61,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "fire certificates",
+      "qa_gate": "fire certificate",
       "sequence": 40,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: fire certificates",
+      "title": "verify acceptance gate: fire certificate",
       "tooling_ids": [
         "QA-LM3-EXT-P060"
       ],
@@ -81,21 +72,21 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "egress gauge",
+      "qa_gate": "panel load and deflection evidence",
       "sequence": 50,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: egress gauge",
+      "title": "verify acceptance gate: panel load and deflection evidence",
       "tooling_ids": [
-        "GAUGE-LM3-EXT-P060"
+        "QA-LM3-EXT-P060"
       ],
       "work_center": "quality inspection"
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "passenger-fixture load evidence",
+      "qa_gate": "hatch removal trial",
       "sequence": 60,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: passenger-fixture load evidence",
+      "title": "verify acceptance gate: hatch removal trial",
       "tooling_ids": [
         "QA-LM3-EXT-P060"
       ],
@@ -103,12 +94,12 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "network enumeration",
+      "qa_gate": "level/step and egress survey",
       "sequence": 70,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: network enumeration",
+      "title": "verify acceptance gate: level/step and egress survey",
       "tooling_ids": [
-        "QA-LM3-EXT-P060"
+        "GAUGE-LM3-EXT-P060"
       ],
       "work_center": "quality inspection"
     },
@@ -130,10 +121,10 @@
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
-      "fire certificates",
-      "egress gauge",
-      "passenger-fixture load evidence",
-      "network enumeration"
+      "fire certificate",
+      "panel load and deflection evidence",
+      "hatch removal trial",
+      "level/step and egress survey"
     ],
     "joining_methods": [
       "bolted/torqued installation",
@@ -154,7 +145,7 @@
     ],
     "tooling_basis": "RFQ-LM3-EXT-P060, CERT-LM3-EXT-P060, GAUGE-LM3-EXT-P060-ENVELOPE"
   },
-  "quantity_per_trainset": 3,
+  "quantity_per_trainset": 135,
   "release_status": "unsigned-template",
   "revision_approvals": [
     {
@@ -213,7 +204,7 @@
       "status": "blank"
     }
   ],
-  "title": "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
+  "title": "stepped floor-board and removable service-hatch system",
   "traveler_type": "product-item",
-  "unit": "car kit"
+  "unit": "m2"
 }

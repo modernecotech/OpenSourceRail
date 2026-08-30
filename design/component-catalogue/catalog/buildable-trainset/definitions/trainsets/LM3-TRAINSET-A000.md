@@ -86,11 +86,11 @@ Evidence required:
   - sensor calibration
   - recovery interface check
 
-### 4. `LM3-ART-SA800` — inter-car articulation and trainline assembly
+### 4. `LM3-ART-SA800` — complete inter-car structural articulation, passenger gangway and service transfer
 
 - Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
-- Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
-- Join classes: `bolted-structural-datum`, `electrical-data`
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `bolted-structural-datum`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:

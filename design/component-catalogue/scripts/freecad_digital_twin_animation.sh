@@ -7,8 +7,8 @@ source "$ROOT/scripts/headless_gui.sh"
 RUNNER="$ROOT/freecad_digital_twin_animation_runner.py"
 MODEL="$ROOT/models/cad/civil-systems-integration-test.FCStd"
 OUTPUT="$REPO_ROOT/docs/assets/digital-twin-animation.gif"
-GROUND_FRAMES=14
-ELEVATED_FRAMES=18
+GROUND_FRAMES=72
+ELEVATED_FRAMES=88
 WIDTH=960
 HEIGHT=540
 
@@ -28,8 +28,8 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-if ! command -v convert >/dev/null 2>&1; then
-    echo "ImageMagick 'convert' is required to encode the animated GIF." >&2
+if ! command -v magick >/dev/null 2>&1 || ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "ImageMagick 'magick' and FFmpeg are required to annotate and encode the animation." >&2
     exit 127
 fi
 
@@ -88,7 +88,7 @@ for frame in "${FRAMES[@]}"; do
     else
         caption="VIADUCT → ELEVATED STATION  •  LM3-002  •  IN SERVICE"
     fi
-    convert "$frame" \
+    magick "$frame" \
         -gravity South -background '#0f172a' -splice 0x48 \
         -font DejaVu-Sans-Bold -pointsize 18 -fill white \
         -annotate +0+14 "$caption" \
@@ -96,14 +96,26 @@ for frame in "${FRAMES[@]}"; do
 done
 
 mkdir -p "$(dirname "$OUTPUT")"
-convert -delay 10 "$ANNOTATED_DIR"/frame-*.png -loop 0 \
-    -layers Optimize -colors 96 -dither FloydSteinberg "$OUTPUT"
+PALETTE="$FRAME_DIR/palette.png"
+ffmpeg -v error -framerate 25/3 -pattern_type glob \
+    -i "$ANNOTATED_DIR/frame-*.png" \
+    -vf "palettegen=max_colors=128:stats_mode=diff" -frames:v 1 -y "$PALETTE"
+ffmpeg -v error -framerate 25/3 -pattern_type glob \
+    -i "$ANNOTATED_DIR/frame-*.png" -i "$PALETTE" \
+    -lavfi "fps=25/3[x];[x][1:v]paletteuse=dither=sierra2_4a:diff_mode=rectangle" \
+    -loop 0 -y "$OUTPUT"
 
 MAX_BYTES=20000000
 SIZE_BYTES="$(stat -c %s "$OUTPUT")"
 if [ "$SIZE_BYTES" -ge "$MAX_BYTES" ]; then
-    convert -delay 12 "$ANNOTATED_DIR"/frame-*.png -resize 85% -loop 0 \
-        -layers Optimize -colors 64 -dither FloydSteinberg "$OUTPUT"
+    ffmpeg -v error -framerate 25/3 -pattern_type glob \
+        -i "$ANNOTATED_DIR/frame-*.png" \
+        -vf "fps=6,scale=800:-1:flags=lanczos,palettegen=max_colors=96:stats_mode=diff" \
+        -frames:v 1 -y "$PALETTE"
+    ffmpeg -v error -framerate 25/3 -pattern_type glob \
+        -i "$ANNOTATED_DIR/frame-*.png" -i "$PALETTE" \
+        -lavfi "fps=6,scale=800:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=sierra2_4a:diff_mode=rectangle" \
+        -loop 0 -y "$OUTPUT"
     SIZE_BYTES="$(stat -c %s "$OUTPUT")"
 fi
 if [ "$SIZE_BYTES" -ge "$MAX_BYTES" ]; then
@@ -111,5 +123,7 @@ if [ "$SIZE_BYTES" -ge "$MAX_BYTES" ]; then
     exit 1
 fi
 
-identify "$OUTPUT" | tail -n 1
+ffprobe -v error -select_streams v:0 -count_frames \
+    -show_entries stream=width,height,nb_read_frames,avg_frame_rate \
+    -of default=noprint_wrappers=1 "$OUTPUT"
 echo "wrote $OUTPUT ($SIZE_BYTES bytes, ${#FRAMES[@]} frames)"

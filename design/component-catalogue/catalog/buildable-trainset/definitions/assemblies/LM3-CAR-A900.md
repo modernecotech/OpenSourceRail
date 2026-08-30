@@ -141,7 +141,7 @@ Evidence required:
   - coolant pressure test
   - first energisation release
 
-### 8. `LM3-BOG-SA610` — powered bogie assembly
+### 8. `LM3-BOG-SA610` — complete powered bogie with running unit, bogie-mounted drive and body connection
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`
@@ -154,7 +154,7 @@ Evidence required:
   - motor/gearbox alignment
   - static brake test
 
-### 9. `LM3-BOG-SA620` — trailer bogie assembly
+### 9. `LM3-BOG-SA620` — complete trailer bogie with running unit and body connection
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`

@@ -1,0 +1,208 @@
+{
+  "bom_line_ids": [
+    "G5",
+    "G12"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-BOG-P045",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BOG-P045",
+        "DOC-LM3-BOG-SA621"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-BOG-P045",
+        "CERT-LM3-BOG-P045"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-BOG-P045-ENVELOPE",
+        "FIX-LM3-BOG-SA621"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "load-deflection curves",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: load-deflection curves",
+      "tooling_ids": [
+        "QA-LM3-BOG-P045"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "matched-height report",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: matched-height report",
+      "tooling_ids": [
+        "QA-LM3-BOG-P045"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "compound/batch certificates",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: compound/batch certificates",
+      "tooling_ids": [
+        "QA-LM3-BOG-P045"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "installed preload and clearance survey",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: installed preload and clearance survey",
+      "tooling_ids": [
+        "GAUGE-LM3-BOG-P045"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BOG-P045",
+        "KIT-LM3-BOG-SA621"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-BOG-SA621",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "load-deflection curves",
+      "matched-height report",
+      "compound/batch certificates",
+      "installed preload and clearance survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P045, CERT-LM3-BOG-P045, GAUGE-LM3-BOG-P045-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BOG-P045-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-P045-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BOG-P045-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "trailer-bogie primary suspension spring, guide and bump-stop set",
+  "traveler_type": "product-item",
+  "unit": "bogie set"
+}

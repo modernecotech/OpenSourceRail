@@ -1,13 +1,13 @@
-# Shop traveler — LM3-BOG-P040 — powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit
+# Shop traveler — LM3-BOG-P040 — powered-bogie wheelset with axle-mounted brake discs
 
 | Field | Value |
 |---|---|
 | Traveler type | `product-item` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 3.3 h |
+| Estimated labor | 3.05 h |
 | Route | `BID` |
-| Procurement BOM lines | `G3`, `G4`, `G5`, `G6`, `G7`, `G8`, `G9`, `G10`, `G11`, `G12`, `G14`, `G15`, `G16` |
+| Procurement BOM lines | `G3`, `G8` |
 
 ## Material specification
 
@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: receive, quarantine, evidence review, incoming fit check, release to parent kit
 - Joining methods: bolted/torqued installation, sealed, gasketed, bonded, or clipped interface as supplier envelope requires
 - Special process controls: RFQ envelope freeze, supplier certificate/revision check, incoming quarantine until evidence accepted, safety interlock interface freeze, supplier lifecycle evidence review
-- Inspection methods: incoming visual inspection, envelope fit check, wheelset certificates, bearing records, spring/damper certificates, brake test, sensor test, ride-height report, functional static test, emergency/recovery function check where applicable
+- Inspection methods: incoming visual inspection, envelope fit check, wheel/axle heat certificates, press-force chart, back-to-back and runout report, ultrasonic inspection, balance record, functional static test, emergency/recovery function check where applicable
 - Tooling basis: RFQ-LM3-BOG-P040, CERT-LM3-BOG-P040, GAUGE-LM3-BOG-P040-ENVELOPE
 - Release level: BID supplier-controlled process; OSR controls envelope and acceptance evidence
 
@@ -50,16 +50,15 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-BOG-P040`<br>`DOC-LM3-BOG-SA610` | traveler rev and parent assembly match released manifest | cell lead |
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-BOG-P040`<br>`DOC-LM3-BOG-SA611` | traveler rev and parent assembly match released manifest | cell lead |
 | 20 | receive supplier component and quarantine until evidence pack passes | receiving inspection | 0.45 | `RFQ-LM3-BOG-P040`<br>`CERT-LM3-BOG-P040` | supplier certificate/datasheet/revision accepted | quality inspector |
-| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-BOG-P040-ENVELOPE`<br>`FIX-LM3-BOG-SA610` | component fits without parent datum rework | operator |
-| 40 | verify acceptance gate: wheelset certificates | quality inspection | 0.25 | `QA-LM3-BOG-P040` | wheelset certificates | quality inspector |
-| 50 | verify acceptance gate: bearing records | quality inspection | 0.25 | `QA-LM3-BOG-P040` | bearing records | quality inspector |
-| 60 | verify acceptance gate: spring/damper certificates | quality inspection | 0.25 | `QA-LM3-BOG-P040` | spring/damper certificates | quality inspector |
-| 70 | verify acceptance gate: brake test | quality inspection | 0.25 | `QA-LM3-BOG-P040` | brake test | quality inspector |
-| 80 | verify acceptance gate: sensor test | quality inspection | 0.25 | `QA-LM3-BOG-P040` | sensor test | quality inspector |
-| 90 | verify acceptance gate: ride-height report | quality inspection | 0.25 | `QA-LM3-BOG-P040` | ride-height report | quality inspector |
-| 100 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BOG-P040`<br>`KIT-LM3-BOG-SA610` | item is released, tagged, and staged for parent assembly | cell lead |
+| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-BOG-P040-ENVELOPE`<br>`FIX-LM3-BOG-SA611` | component fits without parent datum rework | operator |
+| 40 | verify acceptance gate: wheel/axle heat certificates | quality inspection | 0.25 | `QA-LM3-BOG-P040` | wheel/axle heat certificates | quality inspector |
+| 50 | verify acceptance gate: press-force chart | quality inspection | 0.25 | `QA-LM3-BOG-P040` | press-force chart | quality inspector |
+| 60 | verify acceptance gate: back-to-back and runout report | quality inspection | 0.25 | `QA-LM3-BOG-P040` | back-to-back and runout report | quality inspector |
+| 70 | verify acceptance gate: ultrasonic inspection | quality inspection | 0.25 | `QA-LM3-BOG-P040` | ultrasonic inspection | quality inspector |
+| 80 | verify acceptance gate: balance record | quality inspection | 0.25 | `QA-LM3-BOG-P040` | balance record | quality inspector |
+| 90 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BOG-P040`<br>`KIT-LM3-BOG-SA611` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

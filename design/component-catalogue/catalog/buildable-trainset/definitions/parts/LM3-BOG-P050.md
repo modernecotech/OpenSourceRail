@@ -6,7 +6,7 @@
 | Layer | `fabricated-part` |
 | Route | `MAKE` |
 | Quantity per trainset | 3 bogie kit |
-| Parent assembly | `LM3-BOG-SA610` |
+| Parent assembly | `LM3-TRC-SA615` |
 | Procurement BOM lines | `G18` |
 | Maturity | `release-candidate` |
 

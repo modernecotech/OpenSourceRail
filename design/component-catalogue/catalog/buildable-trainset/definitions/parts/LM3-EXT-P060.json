@@ -1,42 +1,33 @@
 {
   "acceptance": [
-    "fire certificates",
-    "egress gauge",
-    "passenger-fixture load evidence",
-    "network enumeration"
+    "fire certificate",
+    "panel load and deflection evidence",
+    "hatch removal trial",
+    "level/step and egress survey"
   ],
   "bom_line_ids": [
-    "B12",
-    "B13",
-    "B14",
-    "B15",
-    "B18",
-    "B19",
-    "E14",
-    "E15",
-    "A1",
-    "A2",
-    "A3",
-    "A4"
+    "B12"
   ],
   "definition_type": "product-item",
   "id": "LM3-EXT-P060",
   "layer": "external-component",
-  "make_or_buy_basis": "Late-installed passenger fit-out kit after shell paint and leak checks.",
+  "make_or_buy_basis": "Locally CNC-cut floor-board panels and removable hatches mount to surveyed support rails without trapping wet services.",
   "material_spec": {
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
-      "continuity test",
-      "EMC/IP evidence"
+      "fire/smoke certificate",
+      "floor load/deflection evidence",
+      "hatch removal trial",
+      "level/step survey"
     ],
-    "finish_or_protection": "halogen/fire-rated cable where required, IP sealing, bonding, and label protection",
-    "form_factor": "cabinet, harness, connector, sensor, bracket, antenna, and label kit",
-    "governing_standard": "supplier rail electronics specification plus project EMC, IP, and fire evidence",
-    "grade_or_part_class": "LV/data harness, cabinet, sensor, antenna, and trainline kit",
-    "material_family": "rail-rated electrical / control equipment",
-    "nominal_section": "connector, bend-radius, service-loop, and mounting envelope frozen by RFQ drawing",
-    "traceability": "serialised equipment CoC, firmware/config record, harness batch, and continuity record"
+    "finish_or_protection": "sealed cut edges and penetrations, isolated mixed-metal joints, no water-trapping pockets, and floor-covering-compatible prepared face",
+    "form_factor": "CNC-cut numbered boards and flush removable hatches supported continuously at released crossmember/service-rail datums",
+    "governing_standard": "supplier rail floor specification plus project fire/smoke, concentrated/distributed load, fatigue, moisture, slip-interface and toxicity evidence",
+    "grade_or_part_class": "rail-qualified aluminium-honeycomb/composite board candidate with aluminium edge closures, stainless retained hatch hardware, isolating pads and sealed inspection plugs",
+    "material_family": "fire-rated structural floor-board and hatch system",
+    "nominal_section": "board thickness, core/skin schedule, support pitch, edge distance, hatch rebates, service clearances and step transitions fixed by LM3-INT-230 drawings and calculation",
+    "traceability": "board/panel batch, cut nest, edge-seal batch, retained-fastener lot, installed position, datum survey and load-test record"
   },
   "maturity": "buildable-after-supplier-freeze",
   "notes": "",
@@ -45,10 +36,10 @@
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
-      "fire certificates",
-      "egress gauge",
-      "passenger-fixture load evidence",
-      "network enumeration"
+      "fire certificate",
+      "panel load and deflection evidence",
+      "hatch removal trial",
+      "level/step and egress survey"
     ],
     "joining_methods": [
       "bolted/torqued installation",
@@ -69,13 +60,36 @@
     ],
     "tooling_basis": "RFQ-LM3-EXT-P060, CERT-LM3-EXT-P060, GAUGE-LM3-EXT-P060-ENVELOPE"
   },
-  "quantity_per_trainset": 3,
+  "quantity_per_trainset": 135,
   "route": "SOURCE",
   "source_refs": [
     "cots_equipment.py",
-    "bom-skeleton.md B12-B15/B18-B19/A1-A4",
+    "bom-skeleton.md B12",
     "LM3-INT-230"
   ],
-  "title": "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
-  "unit": "car kit"
+  "supplier_anchor": {
+    "anchor_type": "rail-product-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Structural board selection and the final covering/adhesive combination remain to be frozen."
+    ],
+    "id": "OSR-ANC-FLOOR-FORBO",
+    "local_equivalent_allowed": true,
+    "localisation": "Use the supplier system for first articles; qualify local board/covering as a complete substrate, adhesive, weld, cove, hatch and fire-tested system rather than swapping one layer.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Forbo Flooring Systems",
+    "manufacturer_url": "https://www.forbo.com/flooring/en-aa/products/transport-flooring/rail-floor-coverings/bxw6nd",
+    "procurement_state": "sample-and-rfq",
+    "product_family": "Transport Flooring rail systems",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "stepped floor-board and removable service-hatch system",
+  "unit": "m2"
 }

@@ -1,0 +1,95 @@
+{
+  "acceptance": [
+    "material/finish certificate",
+    "joint locking record",
+    "fixture-specific proof-load evidence",
+    "reach, egress and snag survey"
+  ],
+  "bom_line_ids": [
+    "B15"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-EXT-P063",
+  "layer": "external-component",
+  "make_or_buy_basis": "Cut-to-length modular tubes terminate in replaceable common-rail saddles; primary passenger loads bypass liners and trim.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "fixture-specific proof-load evidence",
+      "reach/egress survey",
+      "locking audit",
+      "timed joint replacement"
+    ],
+    "finish_or_protection": "brushed/passivated cleanable surface, radiused ends, no exposed threads, isolated mixed metals and sealed floor penetrations",
+    "form_factor": "cut-to-length repeated tubes and replaceable elbows/tees fixed at structural floor/ceiling/service-rail datums without loading liners",
+    "governing_standard": "supplier material/finish specification plus project passenger load, fatigue, fire, accessibility, corrosion, electrical-isolation and snag evidence",
+    "grade_or_part_class": "304/316 stainless tube candidate, radiused cast/machined joints, insulated common-rail saddles, anti-rotation keys and captive locking hardware",
+    "material_family": "modular passenger handrail and stanchion system",
+    "nominal_section": "tube diameter/wall, joint engagement, support span, reachable zones, adapter geometry and fastener grip fixed by LM3-INT-230 drawings and calculation",
+    "traceability": "tube heat/batch, fitting/fastener lot, cut list, joint locking witness, installed survey and proof-test record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "material/finish certificate",
+      "joint locking record",
+      "fixture-specific proof-load evidence",
+      "reach, egress and snag survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P063, CERT-LM3-EXT-P063, GAUGE-LM3-EXT-P063-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "SOURCE",
+  "source_refs": [
+    "cots_equipment.py",
+    "bom-skeleton.md B15",
+    "LM3-INT-230"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Exact seat model, upholstery, spacing, handrail geometry and calculated attachment loads remain open."
+    ],
+    "id": "OSR-ANC-SEAT-FAINSA",
+    "local_equivalent_allowed": true,
+    "localisation": "The OSR common rail and adapters are local; seat shells, frames and handrails may be locally made after fire, abuse-load, sharp-edge, corrosion and accessibility validation.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Fainsa",
+    "manufacturer_url": "https://fainsa.com/en/railway/",
+    "procurement_state": "rfq-required",
+    "product_family": "Metro and urban rail passenger seating",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "stainless grab-pole, handrail, joint, and insulated adapter kit",
+  "unit": "car kit"
+}

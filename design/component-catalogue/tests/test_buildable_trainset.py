@@ -36,8 +36,8 @@ from osr_mech.rolling_stock.bom_trace import (
 
 def test_buildable_trainset_has_full_product_tree() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
-    assert len(design.product_items) >= 69
-    assert len(design.assemblies) >= 18
+    assert len(design.product_items) == 101
+    assert len(design.assemblies) == 26
     assert any(item.route is Route.MAKE for item in design.product_items)
     assert any(item.route is Route.BID for item in design.product_items)
     assert any(item.route is Route.SOURCE for item in design.product_items)
@@ -178,9 +178,26 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
     assert {"LM3-LGT-P010", "LM3-LGT-P020"} == set(assemblies["LM3-LGT-SA350"].children)
     assert {"LM3-ROOF-P010", "LM3-ROOF-P020", "LM3-TRC-P050"} <= set(assemblies["LM3-ROOF-SA410"].children)
     assert {"LM3-HV-P010", "LM3-HV-P020", "LM3-HV-P030", "LM3-TRC-P060", "LM3-TRC-P070", "LM3-SAF-P010"} <= set(assemblies["LM3-HV-SA510"].children)
-    assert {"LM3-BOG-P050", "LM3-BOG-P060"} <= set(assemblies["LM3-BOG-SA610"].children)
-    assert {"LM3-BOG-P031", "LM3-BOG-P041", "LM3-BOG-P061"} <= set(
+    assert {"LM3-BOG-SA611", "LM3-TRC-SA615", "LM3-BOG-P046", "LM3-BOG-P060"} <= set(assemblies["LM3-BOG-SA610"].children)
+    assert {"LM3-BOG-P031", "LM3-BOG-SA621", "LM3-BOG-P047", "LM3-BOG-P061"} <= set(
         assemblies["LM3-BOG-SA620"].children
+    )
+    assert {"LM3-BOG-P040", "LM3-BOG-P042", "LM3-BOG-P044", "LM3-BOG-P048"} == set(
+        assemblies["LM3-BOG-SA611"].children
+    )
+    assert {"LM3-TRC-P010", "LM3-TRC-P020", "LM3-BOG-P050"} == set(
+        assemblies["LM3-TRC-SA615"].children
+    )
+    assert {"LM3-BOG-P041", "LM3-BOG-P043", "LM3-BOG-P045", "LM3-BOG-P049"} == set(
+        assemblies["LM3-BOG-SA621"].children
+    )
+    assert {"LM3-ART-P010", "LM3-ART-P020", "LM3-ART-P021"} == set(
+        assemblies["LM3-ART-SA810"].children
+    )
+    assert {"LM3-ART-P022", "LM3-ART-P023"} == set(assemblies["LM3-ART-SA820"].children)
+    assert {"LM3-ART-P024", "LM3-ART-P030"} == set(assemblies["LM3-ART-SA830"].children)
+    assert {"LM3-ART-SA810", "LM3-ART-SA820", "LM3-ART-SA830"} == set(
+        assemblies["LM3-ART-SA800"].children
     )
     assert {
         "LM3-CWL-P010",

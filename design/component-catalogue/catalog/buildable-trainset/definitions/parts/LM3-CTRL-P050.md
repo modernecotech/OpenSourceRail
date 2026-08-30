@@ -14,6 +14,21 @@
 
 Operational NVMe storage and the crashworthy memory module are separately serialized but released as one recorder kit.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-RECORDER-HASLER` — [HaslerRail JRU/EVA event recording systems](https://www.haslerrail.com/products/)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Operational storage can be local commodity hardware; the protected recorder, data set, clock, crash/fire resistance and download chain require independently accepted railway evidence.
+- Known fit gaps: Exact recorder family, protected memory, interfaces and national event-data requirements remain open.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

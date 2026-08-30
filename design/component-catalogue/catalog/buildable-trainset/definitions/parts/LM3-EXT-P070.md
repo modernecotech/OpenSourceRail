@@ -14,6 +14,21 @@
 
 Service and radio-accessory roof package integrated around HVAC and PV keep-outs.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-PV-SUNMAN` — [Sunman Energy eArc lightweight photovoltaic modules](https://www.sunman-energy.com/earc/)
+- Procurement state: `sample-and-rfq`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Equivalent local modules are acceptable after roof fire, isolation, vibration, hail/impact, walk-zone and bonded/clamped retention tests.
+- Known fit gaps: Select an exact module and rail-compatible clamp/bond stack after the roof curvature and electrical string are frozen.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

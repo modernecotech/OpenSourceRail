@@ -12,11 +12,12 @@ authoritative geometry.
 | [`single-car-assembly.FCStd`](single-car-assembly.FCStd) | Corrected urban-shuttle single-car assembly with both bogies on the shared ±6,150 mm chassis datums |
 | [`chassis-bogie-assembly-states.FCStd`](chassis-bogie-assembly-states.FCStd) | Chassis and bogie connector review with assembled and exploded state groups |
 | [`full-body-assembly-states.FCStd`](full-body-assembly-states.FCStd) | Body frame, roof, windows, doors, floor, battery, bench, HVAC, lighting, and sensor attachment review states |
+| [`lm3-manufacturing-tooling.FCStd`](lm3-manufacturing-tooling.FCStd) | Twenty separately selectable local-manufacture mould, fixture, gauge, harness-board, bogie-alignment and final-assembly tooling families with product IDs, method steps, timings and release gates |
 | [`fea-screening-models.FCStd`](fea-screening-models.FCStd) | Visual FreeCAD document for the expanded CalculiX screening models and support/load markers |
 | [`station-scenes.FCStd`](station-scenes.FCStd) | Station, ballastless track, and driverless train review scenes for at-grade, elevated, and elevated interchange configurations |
 | [`civil-systems-integration-test.FCStd`](civil-systems-integration-test.FCStd) | Source-driven civil/rolling-stock twin containing a ground station, 1:9 junction, six double-track viaduct spans, an elevated station, and two complete trains |
 | [`civil-systems-integration-test.json`](civil-systems-integration-test.json) | Portable twin asset, transform, relationship, state, validation, and FCStd-hash snapshot |
-| [`../../../../docs/assets/digital-twin-animation.gif`](../../../../docs/assets/digital-twin-animation.gif) | 32-frame FreeCAD/Coin3D animation of both test-site operating scenes with moving LM3 rolling stock |
+| [`../../../../docs/assets/digital-twin-animation.gif`](../../../../docs/assets/digital-twin-animation.gif) | 160-frame FreeCAD/Coin3D operating animation with correctly framed LM3 ground and elevated movements |
 | [`native-catalogue-parts.FCStd`](native-catalogue-parts.FCStd) | Native FreeCAD replacements for civil, track, station, depot, and fabrication-template source families |
 | [`battery-pack-set.FCStd`](battery-pack-set.FCStd) | Per-car battery-pack source-geometry review document |
 | [`car-body-17m.FCStd`](car-body-17m.FCStd) | Canonical car-body source-geometry review document |

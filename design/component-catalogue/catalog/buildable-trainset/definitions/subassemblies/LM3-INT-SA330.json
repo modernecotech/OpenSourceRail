@@ -3,6 +3,12 @@
   "build_cell": "final assembly and commissioning cell",
   "children": [
     "LM3-EXT-P060",
+    "LM3-EXT-P061",
+    "LM3-EXT-P062",
+    "LM3-EXT-P063",
+    "LM3-EXT-P064",
+    "LM3-EXT-P065",
+    "LM3-EXT-P066",
     "LM3-INT-P010",
     "LM3-INT-P020",
     "LM3-INT-P030",
@@ -20,7 +26,108 @@
   "integration_steps": [
     {
       "child_id": "LM3-EXT-P060",
-      "child_title": "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
+      "child_title": "stepped floor-board and removable service-hatch system",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire certificate",
+        "panel load and deflection evidence",
+        "hatch removal trial",
+        "level/step and egress survey"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P061",
+      "child_title": "welded resilient floor covering, cove, nosing, and adhesive system",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire/smoke certificate",
+        "adhesive compatibility and cure record",
+        "welded-seam peel sample",
+        "slip and cleanability evidence"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P062",
+      "child_title": "longitudinal passenger and priority-seat modules",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 3,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire/smoke certificate",
+        "seat/occupant load evidence",
+        "fastener and anti-rotation record",
+        "egress and cleaning-clearance gauge"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P063",
+      "child_title": "stainless grab-pole, handrail, joint, and insulated adapter kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 4,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "material/finish certificate",
+        "joint locking record",
+        "fixture-specific proof-load evidence",
+        "reach, egress and snag survey"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P064",
+      "child_title": "passenger-information display, speaker, amplifier, and mounting kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire/EMC evidence",
+        "network enumeration",
+        "audio/intelligibility test",
+        "display visibility and service-removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P065",
+      "child_title": "CCTV camera, passenger intercom, PoE/data, and mounting kit",
       "interface_classes": [
         "mechanical datum",
         "low-voltage/data"
@@ -30,14 +137,36 @@
         "electrical-data"
       ],
       "joint_release_status": "supplier-freeze-required",
-      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
-      "sequence": 1,
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 6,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
-        "fire certificates",
-        "egress gauge",
-        "passenger-fixture load evidence",
-        "network enumeration"
+        "fire/EMC/IP evidence",
+        "network enumeration",
+        "camera coverage/privacy review",
+        "intercom call and service-removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P066",
+      "child_title": "PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 7,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "accessible reach/contrast review",
+        "emergency-light duration test",
+        "equipment certificate/expiry audit",
+        "location and egress survey"
       ]
     },
     {
@@ -56,7 +185,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 2,
+      "sequence": 8,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "airflow balance",
@@ -81,7 +210,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 3,
+      "sequence": 9,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
@@ -102,7 +231,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "side/end glazing aperture and bonded carrier datum",
-      "sequence": 4,
+      "sequence": 10,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
@@ -125,7 +254,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
-      "sequence": 5,
+      "sequence": 11,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
@@ -146,7 +275,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "side door aperture and low-floor threshold datum",
-      "sequence": 6,
+      "sequence": 12,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
@@ -164,7 +293,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail-rated electrical / control equipment, supplier HVAC and air-distribution kit, fire-rated cabin fiberglass / phenolic composite",
+    "form_factor": "fire-rated structural floor-board and hatch system, rail fire-rated resilient floor-covering system, rail passenger-seat module and calculated mounting kit, modular passenger handrail and stanchion system, rail-rated passenger-information/audio equipment kit, rail-rated CCTV/passenger-intercom equipment kit, controlled PRM and emergency-equipment location kit, supplier HVAC and air-distribution kit, fire-rated cabin fiberglass / phenolic composite",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-INT-SA330 inherits released child material specifications",
     "material_family": "assembly material set",

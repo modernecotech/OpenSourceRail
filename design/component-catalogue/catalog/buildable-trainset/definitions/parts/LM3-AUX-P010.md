@@ -14,6 +14,21 @@
 
 One local air-supply package per car serves its two secondary-suspension bogies without creating a trainwide pneumatic brake line.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-BRAKE-KNORR` — [Knorr-Bremse WheelAct/AxleAct rail brake actuation and PistonSupply/DrySupply air supply](https://rail.knorr-bremse.com/en/se/portfolio/products-and-systems/braking-systems/actuation/)
+- Procurement state: `system-rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Pads, discs, hoses and overhaul parts can localise first under brake-supplier approval; caliper/actuator or compressor substitutes require stopping, parking, thermal, WSP, degraded-mode and endurance revalidation.
+- Known fit gaps: The LM3 brake concept needs supplier confirmation of actuation energy, caliper variant, disc/pad pair, parking brake and whether the suspension-only compressor can support the selected brake architecture.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

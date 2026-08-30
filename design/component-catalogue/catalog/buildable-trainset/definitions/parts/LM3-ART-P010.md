@@ -6,7 +6,7 @@
 | Layer | `fabricated-part` |
 | Route | `MAKE` |
 | Quantity per trainset | 2 kit |
-| Parent assembly | `LM3-ART-SA800` |
+| Parent assembly | `LM3-ART-SA810` |
 | Procurement BOM lines | `B2`, `B29` |
 | Maturity | `release-candidate` |
 

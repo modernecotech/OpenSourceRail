@@ -1,4 +1,4 @@
-# LM3-BOG-SA620 — trailer bogie assembly
+# LM3-BOG-SA620 — complete trailer bogie with running unit and body connection
 
 | Field | Value |
 |---|---|
@@ -13,7 +13,8 @@
 
 - `LM3-BOG-P020`
 - `LM3-BOG-P031`
-- `LM3-BOG-P041`
+- `LM3-BOG-SA621`
+- `LM3-BOG-P047`
 - `LM3-BOG-P061`
 
 ## Material specification
@@ -23,7 +24,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-BOG-SA620 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-certified running gear |
+| Form factor | rail structural steel, LM3-BOG-SA621 child assembly material set, supplier-certified running gear |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -70,22 +71,34 @@ Evidence required:
   - harness clearance
   - fastener torque record
 
-### 3. `LM3-BOG-P041` — trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit
+### 3. `LM3-BOG-SA621` — trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
-- Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
-- Join classes: `bolted-structural-datum`, `electrical-data`
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - wheelset identity
+  - bearing installation
+  - primary-height match
+  - static brake/WSP test
+  - free rotation
+
+### 4. `LM3-BOG-P047` — trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers
+
+- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
 - Joint release status: `supplier-freeze-required`
 - Verification:
-  - wheelset certificates
-  - bearing records
-  - spring/damper certificates
-  - brake test
-  - sensor test
-  - ride-height report
+  - vertical/lateral load curves
+  - pivot proof and articulation limit
+  - damper curves hot/cold
+  - ride-height and anti-lift survey
 
-### 4. `LM3-BOG-P061` — trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit
+### 5. `LM3-BOG-P061` — trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`

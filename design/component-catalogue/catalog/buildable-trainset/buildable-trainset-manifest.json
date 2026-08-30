@@ -121,6 +121,12 @@
       "build_cell": "final assembly and commissioning cell",
       "children": [
         "LM3-EXT-P060",
+        "LM3-EXT-P061",
+        "LM3-EXT-P062",
+        "LM3-EXT-P063",
+        "LM3-EXT-P064",
+        "LM3-EXT-P065",
+        "LM3-EXT-P066",
         "LM3-INT-P010",
         "LM3-INT-P020",
         "LM3-INT-P030",
@@ -249,15 +255,67 @@
       "title": "per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly"
     },
     {
+      "build_cell": "bogie clean assembly and brake cell",
+      "children": [
+        "LM3-BOG-P040",
+        "LM3-BOG-P042",
+        "LM3-BOG-P044",
+        "LM3-BOG-P048"
+      ],
+      "hold_points": [
+        "wheelset identity",
+        "bearing installation",
+        "primary-height match",
+        "static brake/WSP test",
+        "free rotation"
+      ],
+      "id": "LM3-BOG-SA611",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 3,
+      "source_refs": [
+        "bogie/wheelset.py",
+        "bogie/brake.py",
+        "bogie/suspension.py",
+        "LM3-BOG-400"
+      ],
+      "title": "powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes"
+    },
+    {
+      "build_cell": "traction drive clean assembly cell",
+      "children": [
+        "LM3-TRC-P010",
+        "LM3-TRC-P020",
+        "LM3-BOG-P050"
+      ],
+      "hold_points": [
+        "motor/gearbox serial match",
+        "coupling alignment",
+        "torque-link proof",
+        "insulation/rotation test",
+        "removal-envelope trial"
+      ],
+      "id": "LM3-TRC-SA615",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 3,
+      "source_refs": [
+        "bogie/motor.py",
+        "bogie/gearbox.py",
+        "bogie/assembly.py",
+        "LM3-TRC-500"
+      ],
+      "title": "bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit"
+    },
+    {
       "build_cell": "bogie weld and assembly cell",
       "children": [
         "LM3-BOG-P010",
         "LM3-BOG-P030",
-        "LM3-BOG-P040",
-        "LM3-BOG-P050",
-        "LM3-BOG-P060",
-        "LM3-TRC-P010",
-        "LM3-TRC-P020"
+        "LM3-BOG-SA611",
+        "LM3-TRC-SA615",
+        "LM3-BOG-P046",
+        "LM3-BOG-P060"
       ],
       "hold_points": [
         "frame NDT",
@@ -273,14 +331,42 @@
         "bogie/assembly.py",
         "LM3-BOG-400"
       ],
-      "title": "powered bogie assembly"
+      "title": "complete powered bogie with running unit, bogie-mounted drive and body connection"
+    },
+    {
+      "build_cell": "bogie clean assembly and brake cell",
+      "children": [
+        "LM3-BOG-P041",
+        "LM3-BOG-P043",
+        "LM3-BOG-P045",
+        "LM3-BOG-P049"
+      ],
+      "hold_points": [
+        "wheelset identity",
+        "bearing installation",
+        "primary-height match",
+        "static brake/WSP test",
+        "free rotation"
+      ],
+      "id": "LM3-BOG-SA621",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 3,
+      "source_refs": [
+        "bogie/wheelset.py",
+        "bogie/brake.py",
+        "bogie/suspension.py",
+        "LM3-BOG-410"
+      ],
+      "title": "trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes"
     },
     {
       "build_cell": "bogie weld and assembly cell",
       "children": [
         "LM3-BOG-P020",
         "LM3-BOG-P031",
-        "LM3-BOG-P041",
+        "LM3-BOG-SA621",
+        "LM3-BOG-P047",
         "LM3-BOG-P061"
       ],
       "hold_points": [
@@ -297,7 +383,7 @@
         "bogie/assembly.py",
         "LM3-BOG-410"
       ],
-      "title": "trailer bogie assembly"
+      "title": "complete trailer bogie with running unit and body connection"
     },
     {
       "build_cell": "composite moulding and trim cell",
@@ -408,11 +494,83 @@
       "title": "optional train-to-train open mid-connection articulation"
     },
     {
-      "build_cell": "final assembly and commissioning cell",
+      "build_cell": "articulation bench and proof-load cell",
       "children": [
         "LM3-ART-P010",
         "LM3-ART-P020",
+        "LM3-ART-P021"
+      ],
+      "hold_points": [
+        "pin/bearing identity",
+        "shimmed datum survey",
+        "proof load",
+        "lubrication/seal release",
+        "motion sweep"
+      ],
+      "id": "LM3-ART-SA810",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 2,
+      "source_refs": [
+        "articulation.md",
+        "systems.py",
+        "LM3-SYS-170"
+      ],
+      "title": "structural articulation joint and anti-lift load path"
+    },
+    {
+      "build_cell": "gangway clean assembly cell",
+      "children": [
+        "LM3-ART-P022",
+        "LM3-ART-P023"
+      ],
+      "hold_points": [
+        "fire-material pack",
+        "bridge load test",
+        "gap/pinch gauge",
+        "water test",
+        "full-motion sweep"
+      ],
+      "id": "LM3-ART-SA820",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 2,
+      "source_refs": [
+        "articulation.md",
+        "LM3-SYS-170"
+      ],
+      "title": "passenger gangway bellows, bridge and turntable subassembly"
+    },
+    {
+      "build_cell": "harness, hose and articulation bench",
+      "children": [
+        "LM3-ART-P024",
         "LM3-ART-P030"
+      ],
+      "hold_points": [
+        "HV/LV segregation",
+        "continuity/pressure test",
+        "bend-radius sweep",
+        "drain test",
+        "replaceability trial"
+      ],
+      "id": "LM3-ART-SA830",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 2,
+      "source_refs": [
+        "articulation.md",
+        "systems.py",
+        "LM3-SYS-170"
+      ],
+      "title": "articulation service-transfer and segregated trainline subassembly"
+    },
+    {
+      "build_cell": "final assembly and commissioning cell",
+      "children": [
+        "LM3-ART-SA810",
+        "LM3-ART-SA820",
+        "LM3-ART-SA830"
       ],
       "hold_points": [
         "motion-envelope proof",
@@ -428,7 +586,7 @@
         "systems.py",
         "LM3-SYS-170"
       ],
-      "title": "inter-car articulation and trainline assembly"
+      "title": "complete inter-car structural articulation, passenger gangway and service transfer"
     },
     {
       "build_cell": "final assembly and commissioning cell",
@@ -517,16 +675,16 @@
   ],
   "bom_crosswalk": {
     "A1": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P066"
     ],
     "A2": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P066"
     ],
     "A3": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P066"
     ],
     "A4": [
-      "LM3-EXT-P060",
+      "LM3-EXT-P066",
       "LM3-LGT-P020"
     ],
     "B1": [
@@ -550,14 +708,14 @@
       "LM3-EXT-P060"
     ],
     "B13": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P061"
     ],
     "B14": [
-      "LM3-EXT-P060",
+      "LM3-EXT-P062",
       "LM3-FIX-P030"
     ],
     "B15": [
-      "LM3-EXT-P060",
+      "LM3-EXT-P063",
       "LM3-FIX-P010",
       "LM3-FIX-P030"
     ],
@@ -570,10 +728,10 @@
       "LM3-END-P050"
     ],
     "B18": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P064"
     ],
     "B19": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P065"
     ],
     "B2": [
       "LM3-BDY-P030",
@@ -607,6 +765,7 @@
       "LM3-END-P010"
     ],
     "B24": [
+      "LM3-ART-P024",
       "LM3-ART-P030",
       "LM3-ART-P041"
     ],
@@ -668,6 +827,9 @@
     ],
     "B9": [
       "LM3-ART-P020",
+      "LM3-ART-P021",
+      "LM3-ART-P022",
+      "LM3-ART-P023",
       "LM3-ART-P040"
     ],
     "E1": [
@@ -687,12 +849,12 @@
     ],
     "E14": [
       "LM3-CTRL-P010",
-      "LM3-EXT-P060",
+      "LM3-EXT-P064",
       "LM3-FIX-P030"
     ],
     "E15": [
       "LM3-CTRL-P010",
-      "LM3-EXT-P060",
+      "LM3-EXT-P065",
       "LM3-END-P020"
     ],
     "E16": [
@@ -752,36 +914,38 @@
       "LM3-BOG-P010"
     ],
     "G10": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P046",
+      "LM3-BOG-P047"
     ],
     "G11": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P046",
+      "LM3-BOG-P047"
     ],
     "G12": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P044",
+      "LM3-BOG-P045",
+      "LM3-BOG-P046",
+      "LM3-BOG-P047"
     ],
     "G13": [
       "LM3-BOG-P030",
       "LM3-BOG-P031"
     ],
     "G14": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041",
+      "LM3-BOG-P042",
+      "LM3-BOG-P043",
       "LM3-BOG-P060",
       "LM3-BOG-P061"
     ],
     "G15": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041",
+      "LM3-BOG-P042",
+      "LM3-BOG-P043",
       "LM3-BOG-P060",
       "LM3-BOG-P061"
     ],
     "G16": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P048",
+      "LM3-BOG-P049"
     ],
     "G17": [
       "LM3-BOG-P060",
@@ -811,28 +975,30 @@
       "LM3-BOG-P041"
     ],
     "G4": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P042",
+      "LM3-BOG-P043"
     ],
     "G5": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P044",
+      "LM3-BOG-P045"
     ],
     "G6": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P046",
+      "LM3-BOG-P047"
     ],
     "G7": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P046",
+      "LM3-BOG-P047"
     ],
     "G8": [
       "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P041",
+      "LM3-BOG-P048",
+      "LM3-BOG-P049"
     ],
     "G9": [
-      "LM3-BOG-P040",
-      "LM3-BOG-P041"
+      "LM3-BOG-P048",
+      "LM3-BOG-P049"
     ],
     "T1": [
       "LM3-TRC-P010"
@@ -1563,7 +1729,7 @@
       "make_or_buy_basis": "Machined/welded adapter frames for lower pivot, upper links, bellows, and trainlines.",
       "maturity": "release-candidate",
       "notes": "",
-      "parent": "LM3-ART-SA800",
+      "parent": "LM3-ART-SA810",
       "quantity_per_trainset": 2,
       "route": "MAKE",
       "source_refs": [
@@ -1674,7 +1840,7 @@
       "make_or_buy_basis": "Local fabricated brackets close the motor reaction path into the powered bogie frame.",
       "maturity": "release-candidate",
       "notes": "",
-      "parent": "LM3-BOG-SA610",
+      "parent": "LM3-TRC-SA615",
       "quantity_per_trainset": 3,
       "route": "MAKE",
       "source_refs": [
@@ -1843,14 +2009,83 @@
     },
     {
       "acceptance": [
-        "fire certificates",
-        "egress gauge",
-        "passenger-fixture load evidence",
-        "network enumeration"
+        "fire certificate",
+        "panel load and deflection evidence",
+        "hatch removal trial",
+        "level/step and egress survey"
       ],
       "id": "LM3-EXT-P060",
       "layer": "external-component",
-      "make_or_buy_basis": "Late-installed passenger fit-out kit after shell paint and leak checks.",
+      "make_or_buy_basis": "Locally CNC-cut floor-board panels and removable hatches mount to surveyed support rails without trapping wet services.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 135,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md B12",
+        "LM3-INT-230"
+      ],
+      "title": "stepped floor-board and removable service-hatch system",
+      "unit": "m2"
+    },
+    {
+      "acceptance": [
+        "fire/smoke certificate",
+        "adhesive compatibility and cure record",
+        "welded-seam peel sample",
+        "slip and cleanability evidence"
+      ],
+      "id": "LM3-EXT-P061",
+      "layer": "external-component",
+      "make_or_buy_basis": "One supplier-qualified rail flooring system covers the board joints, coved edges, steps, hatches, thresholds and repair patches.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 135,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md B13",
+        "LM3-INT-230"
+      ],
+      "title": "welded resilient floor covering, cove, nosing, and adhesive system",
+      "unit": "m2"
+    },
+    {
+      "acceptance": [
+        "fire/smoke certificate",
+        "seat/occupant load evidence",
+        "fastener and anti-rotation record",
+        "egress and cleaning-clearance gauge"
+      ],
+      "id": "LM3-EXT-P062",
+      "layer": "external-component",
+      "make_or_buy_basis": "Repeatable seat modules use the common service rail and calculated saddle adapters instead of unique brackets through floor panels.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 60,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md B14",
+        "LM3-INT-230"
+      ],
+      "title": "longitudinal passenger and priority-seat modules",
+      "unit": "seat"
+    },
+    {
+      "acceptance": [
+        "material/finish certificate",
+        "joint locking record",
+        "fixture-specific proof-load evidence",
+        "reach, egress and snag survey"
+      ],
+      "id": "LM3-EXT-P063",
+      "layer": "external-component",
+      "make_or_buy_basis": "Cut-to-length modular tubes terminate in replaceable common-rail saddles; primary passenger loads bypass liners and trim.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
       "parent": "LM3-INT-SA330",
@@ -1858,10 +2093,79 @@
       "route": "SOURCE",
       "source_refs": [
         "cots_equipment.py",
-        "bom-skeleton.md B12-B15/B18-B19/A1-A4",
+        "bom-skeleton.md B15",
         "LM3-INT-230"
       ],
-      "title": "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
+      "title": "stainless grab-pole, handrail, joint, and insulated adapter kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "fire/EMC evidence",
+        "network enumeration",
+        "audio/intelligibility test",
+        "display visibility and service-removal trial"
+      ],
+      "id": "LM3-EXT-P064",
+      "layer": "external-component",
+      "make_or_buy_basis": "Plug-in PIS modules attach to standard equipment adapters with keyed LV/data connectors and service loops.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md B18",
+        "LM3-INT-230"
+      ],
+      "title": "passenger-information display, speaker, amplifier, and mounting kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "fire/EMC/IP evidence",
+        "network enumeration",
+        "camera coverage/privacy review",
+        "intercom call and service-removal trial"
+      ],
+      "id": "LM3-EXT-P065",
+      "layer": "external-component",
+      "make_or_buy_basis": "Replaceable cameras and intercoms use keyed connectors and common adapters while preserving coverage, privacy and accessible call locations.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md B19",
+        "LM3-INT-230"
+      ],
+      "title": "CCTV camera, passenger intercom, PoE/data, and mounting kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "accessible reach/contrast review",
+        "emergency-light duration test",
+        "equipment certificate/expiry audit",
+        "location and egress survey"
+      ],
+      "id": "LM3-EXT-P066",
+      "layer": "external-component",
+      "make_or_buy_basis": "A controlled location schedule separates fixed PRM/call-button/signage/emergency-light equipment from operator-replenished extinguishers, first aid and seals.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "source_refs": [
+        "cots_equipment.py",
+        "bom-skeleton.md A1-A4",
+        "LM3-INT-230"
+      ],
+      "title": "PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit",
       "unit": "car kit"
     },
     {
@@ -2226,7 +2530,7 @@
       "make_or_buy_basis": "Optimizer-selected 250 kW motor class; CAD baseline carries the promoted envelope.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
-      "parent": "LM3-BOG-SA610",
+      "parent": "LM3-TRC-SA615",
       "quantity_per_trainset": 6,
       "route": "BID",
       "source_refs": [
@@ -2248,7 +2552,7 @@
       "make_or_buy_basis": "Gearbox mounted on powered bogie axle with supplier coupling.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
-      "parent": "LM3-BOG-SA610",
+      "parent": "LM3-TRC-SA615",
       "quantity_per_trainset": 6,
       "route": "BID",
       "source_refs": [
@@ -2467,55 +2771,237 @@
     },
     {
       "acceptance": [
-        "wheelset certificates",
-        "bearing records",
-        "spring/damper certificates",
-        "brake test",
-        "sensor test",
-        "ride-height report"
+        "wheel/axle heat certificates",
+        "press-force chart",
+        "back-to-back and runout report",
+        "ultrasonic inspection",
+        "balance record"
       ],
       "id": "LM3-BOG-P040",
       "layer": "external-component",
-      "make_or_buy_basis": "The powered-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
+      "make_or_buy_basis": "Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset; wheels or axles are not mixed between qualified families.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA611",
+      "quantity_per_trainset": 6,
+      "route": "BID",
+      "source_refs": [
+        "bogie/wheelset.py",
+        "bogie/brake.py",
+        "LM3-BOG-400"
+      ],
+      "title": "powered-bogie wheelset with axle-mounted brake discs",
+      "unit": "wheelset"
+    },
+    {
+      "acceptance": [
+        "wheel/axle heat certificates",
+        "press-force chart",
+        "back-to-back and runout report",
+        "ultrasonic inspection",
+        "balance record"
+      ],
+      "id": "LM3-BOG-P041",
+      "layer": "external-component",
+      "make_or_buy_basis": "Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset using the same released wheel profile as the powered bogie.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA621",
+      "quantity_per_trainset": 6,
+      "route": "BID",
+      "source_refs": [
+        "bogie/wheelset.py",
+        "bogie/brake.py",
+        "LM3-BOG-410"
+      ],
+      "title": "trailer-bogie wheelset with axle-mounted brake discs",
+      "unit": "wheelset"
+    },
+    {
+      "acceptance": [
+        "bearing serial/clearance record",
+        "grease and seal certificate",
+        "axle journal fit",
+        "speed/temperature sensor calibration",
+        "rotation test"
+      ],
+      "id": "LM3-BOG-P042",
+      "layer": "external-component",
+      "make_or_buy_basis": "Ready-to-mount railway axlebox bearing units keep bearing setting, seals and sensor interfaces under one supplier responsibility.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA611",
+      "quantity_per_trainset": 6,
+      "route": "BID",
+      "source_refs": [
+        "bogie/wheelset.py",
+        "systems.py",
+        "LM3-BOG-400"
+      ],
+      "title": "powered-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+      "unit": "wheelset set"
+    },
+    {
+      "acceptance": [
+        "bearing serial/clearance record",
+        "grease and seal certificate",
+        "axle journal fit",
+        "speed/temperature sensor calibration",
+        "rotation test"
+      ],
+      "id": "LM3-BOG-P043",
+      "layer": "external-component",
+      "make_or_buy_basis": "Ready-to-mount railway axlebox bearing units share the powered-bogie bearing and sensor interface where load calculations permit.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA621",
+      "quantity_per_trainset": 6,
+      "route": "BID",
+      "source_refs": [
+        "bogie/wheelset.py",
+        "systems.py",
+        "LM3-BOG-410"
+      ],
+      "title": "trailer-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+      "unit": "wheelset set"
+    },
+    {
+      "acceptance": [
+        "load-deflection curves",
+        "matched-height report",
+        "compound/batch certificates",
+        "installed preload and clearance survey"
+      ],
+      "id": "LM3-BOG-P044",
+      "layer": "external-component",
+      "make_or_buy_basis": "Matched, batch-traceable primary springs and elastomer guides are selected from the released axle-load and dynamic model.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA611",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "source_refs": [
+        "bogie/suspension.py",
+        "LM3-BOG-400"
+      ],
+      "title": "powered-bogie primary suspension spring, guide and bump-stop set",
+      "unit": "bogie set"
+    },
+    {
+      "acceptance": [
+        "load-deflection curves",
+        "matched-height report",
+        "compound/batch certificates",
+        "installed preload and clearance survey"
+      ],
+      "id": "LM3-BOG-P045",
+      "layer": "external-component",
+      "make_or_buy_basis": "Matched, batch-traceable primary springs and elastomer guides are selected from the released trailer axle-load and dynamic model.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA621",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "source_refs": [
+        "bogie/suspension.py",
+        "LM3-BOG-410"
+      ],
+      "title": "trailer-bogie primary suspension spring, guide and bump-stop set",
+      "unit": "bogie set"
+    },
+    {
+      "acceptance": [
+        "vertical/lateral load curves",
+        "pivot proof and articulation limit",
+        "damper curves hot/cold",
+        "ride-height and anti-lift survey"
+      ],
+      "id": "LM3-BOG-P046",
+      "layer": "external-component",
+      "make_or_buy_basis": "The complete body-to-bogie load path is one interface-controlled package even when springs, pivot and dampers are sourced from different qualified suppliers.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
       "parent": "LM3-BOG-SA610",
       "quantity_per_trainset": 3,
       "route": "BID",
       "source_refs": [
-        "bogie/wheelset.py",
-        "bogie/brake.py",
         "bogie/suspension.py",
+        "car_body.py",
         "LM3-BOG-400"
       ],
-      "title": "powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
-      "unit": "bogie kit"
+      "title": "powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+      "unit": "bogie set"
     },
     {
       "acceptance": [
-        "wheelset certificates",
-        "bearing records",
-        "spring/damper certificates",
-        "brake test",
-        "sensor test",
-        "ride-height report"
+        "vertical/lateral load curves",
+        "pivot proof and articulation limit",
+        "damper curves hot/cold",
+        "ride-height and anti-lift survey"
       ],
-      "id": "LM3-BOG-P041",
+      "id": "LM3-BOG-P047",
       "layer": "external-component",
-      "make_or_buy_basis": "The trailer-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
+      "make_or_buy_basis": "The trailer body-to-bogie load path shares the powered-bogie interfaces where released loads and kinematics permit.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
       "parent": "LM3-BOG-SA620",
       "quantity_per_trainset": 3,
       "route": "BID",
       "source_refs": [
-        "bogie/wheelset.py",
-        "bogie/brake.py",
         "bogie/suspension.py",
+        "car_body.py",
         "LM3-BOG-410"
       ],
-      "title": "trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
-      "unit": "bogie kit"
+      "title": "trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+      "unit": "bogie set"
+    },
+    {
+      "acceptance": [
+        "brake-force calculation",
+        "friction-pair certificate",
+        "thermal capacity",
+        "parking holding test",
+        "WSP functional test"
+      ],
+      "id": "LM3-BOG-P048",
+      "layer": "external-component",
+      "make_or_buy_basis": "A rail brake supplier matches caliper, actuator, disc and pad friction pair to the released stopping, thermal and parking-brake cases.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA611",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "source_refs": [
+        "bogie/brake.py",
+        "systems.py",
+        "LM3-BOG-400"
+      ],
+      "title": "powered-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+      "unit": "bogie set"
+    },
+    {
+      "acceptance": [
+        "brake-force calculation",
+        "friction-pair certificate",
+        "thermal capacity",
+        "parking holding test",
+        "WSP functional test"
+      ],
+      "id": "LM3-BOG-P049",
+      "layer": "external-component",
+      "make_or_buy_basis": "A rail brake supplier matches caliper, actuator, disc and pad friction pair to the released stopping, thermal and parking-brake cases.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-BOG-SA621",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "source_refs": [
+        "bogie/brake.py",
+        "systems.py",
+        "LM3-BOG-410"
+      ],
+      "title": "trailer-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+      "unit": "bogie set"
     },
     {
       "acceptance": [
@@ -2565,16 +3051,18 @@
     },
     {
       "acceptance": [
-        "motion-envelope proof",
-        "fire evidence",
-        "water ingress/drain test"
+        "bearing static/dynamic capacity",
+        "pin material/NDT",
+        "proof load",
+        "lubrication/sealing plan",
+        "motion-envelope proof"
       ],
       "id": "LM3-ART-P020",
       "layer": "external-component",
-      "make_or_buy_basis": "Supplier gangway/articulation kit integrated through OSR adapter frame.",
+      "make_or_buy_basis": "Supplier-sized spherical bearing, housing, pin, bushes and retainers transmit the released draw, buff, vertical and anti-lift loads through the OSR adapter.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
-      "parent": "LM3-ART-SA800",
+      "parent": "LM3-ART-SA810",
       "quantity_per_trainset": 2,
       "route": "BID",
       "source_refs": [
@@ -2582,8 +3070,100 @@
         "articulation.md",
         "LM3-SYS-170"
       ],
-      "title": "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
-      "unit": "kit"
+      "title": "articulation lower spherical pivot, bearing housing and pin set",
+      "unit": "joint set"
+    },
+    {
+      "acceptance": [
+        "link buckling/fatigue proof",
+        "joint angular capacity",
+        "pin retention inspection",
+        "full-motion sweep"
+      ],
+      "id": "LM3-ART-P021",
+      "layer": "external-component",
+      "make_or_buy_basis": "Paired upper links stabilize roll/yaw while the lower pivot carries the primary articulation loads; all rod ends and pins remain positively retained.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-ART-SA810",
+      "quantity_per_trainset": 2,
+      "route": "BID",
+      "source_refs": [
+        "systems.py",
+        "articulation.md",
+        "LM3-SYS-170"
+      ],
+      "title": "articulation upper lateral/yaw links, spherical joints and retained pins",
+      "unit": "joint set"
+    },
+    {
+      "acceptance": [
+        "fire/smoke evidence",
+        "pressure/water ingress test",
+        "fatigue-cycle evidence",
+        "replaceable-clamp demonstration"
+      ],
+      "id": "LM3-ART-P022",
+      "layer": "external-component",
+      "make_or_buy_basis": "A supplier-tailored metro gangway bellows seals the passenger connection without becoming part of the structural draw/buff load path.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-ART-SA820",
+      "quantity_per_trainset": 2,
+      "route": "BID",
+      "source_refs": [
+        "articulation.md",
+        "LM3-SYS-170"
+      ],
+      "title": "inter-car double-wall corrugated bellows and clamp-frame set",
+      "unit": "gangway set"
+    },
+    {
+      "acceptance": [
+        "passenger load proof",
+        "anti-slip evidence",
+        "gap/step gauge",
+        "pinch/shear hazard review",
+        "full-motion sweep"
+      ],
+      "id": "LM3-ART-P023",
+      "layer": "external-component",
+      "make_or_buy_basis": "The bridge and turntable provide a flush, anti-slip passenger path across the full released articulation envelope with guarded pinch zones.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-ART-SA820",
+      "quantity_per_trainset": 2,
+      "route": "BID",
+      "source_refs": [
+        "articulation.md",
+        "LM3-SYS-170"
+      ],
+      "title": "inter-car passenger bridge, turntable and flexible interior-panel set",
+      "unit": "gangway set"
+    },
+    {
+      "acceptance": [
+        "rated bend radius",
+        "dynamic sweep",
+        "abrasion/fire evidence",
+        "drain test",
+        "service replacement trial"
+      ],
+      "id": "LM3-ART-P024",
+      "layer": "external-component",
+      "make_or_buy_basis": "A replaceable energy-chain/support system controls service-loop bend radius and separates HV, LV/data and coolant across the joint.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-ART-SA830",
+      "quantity_per_trainset": 2,
+      "route": "SOURCE",
+      "source_refs": [
+        "articulation.md",
+        "systems.py",
+        "LM3-SYS-170"
+      ],
+      "title": "articulation trainline carrier, support arms, abrasion liners and drain path",
+      "unit": "carrier set"
     },
     {
       "acceptance": [
@@ -2806,7 +3386,7 @@
       "make_or_buy_basis": "Flexible services package that follows articulation yaw/pitch/roll without violating segregation or bend radius.",
       "maturity": "buildable-after-supplier-freeze",
       "notes": "",
-      "parent": "LM3-ART-SA800",
+      "parent": "LM3-ART-SA830",
       "quantity_per_trainset": 2,
       "route": "BID",
       "source_refs": [

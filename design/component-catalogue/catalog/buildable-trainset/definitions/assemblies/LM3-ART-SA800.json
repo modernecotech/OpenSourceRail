@@ -2,9 +2,9 @@
   "bom_line_ids": [],
   "build_cell": "final assembly and commissioning cell",
   "children": [
-    "LM3-ART-P010",
-    "LM3-ART-P020",
-    "LM3-ART-P030"
+    "LM3-ART-SA810",
+    "LM3-ART-SA820",
+    "LM3-ART-SA830"
   ],
   "definition_type": "assembly-node",
   "hold_points": [
@@ -15,8 +15,8 @@
   "id": "LM3-ART-SA800",
   "integration_steps": [
     {
-      "child_id": "LM3-ART-P010",
-      "child_title": "articulation adapter frame, anti-lift keeper, and shim kit",
+      "child_id": "LM3-ART-SA810",
+      "child_title": "structural articulation joint and anti-lift load path",
       "interface_classes": [
         "mechanical datum",
         "safety interlock"
@@ -29,56 +29,58 @@
       "sequence": 1,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
-        "motion envelope",
-        "bearing proof",
-        "shim pack record"
+        "pin/bearing identity",
+        "shimmed datum survey",
+        "proof load",
+        "lubrication/seal release",
+        "motion sweep"
       ]
     },
     {
-      "child_id": "LM3-ART-P020",
-      "child_title": "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
+      "child_id": "LM3-ART-SA820",
+      "child_title": "passenger gangway bellows, bridge and turntable subassembly",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material pack",
+        "bridge load test",
+        "gap/pinch gauge",
+        "water test",
+        "full-motion sweep"
+      ]
+    },
+    {
+      "child_id": "LM3-ART-SA830",
+      "child_title": "articulation service-transfer and segregated trainline subassembly",
       "interface_classes": [
         "mechanical datum",
         "low-voltage/data",
         "safety interlock"
       ],
       "join_classes": [
-        "gasketed-removable-panel",
         "bolted-structural-datum",
         "electrical-data"
       ],
-      "joint_release_status": "supplier-freeze-required",
+      "joint_release_status": "joint-calculation-required",
       "placement_zone": "inter-car articulation, gangway, trainline, and flexible-service envelope",
-      "sequence": 2,
-      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
-      "verification": [
-        "motion-envelope proof",
-        "fire evidence",
-        "water ingress/drain test"
-      ]
-    },
-    {
-      "child_id": "LM3-ART-P030",
-      "child_title": "inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit",
-      "interface_classes": [
-        "mechanical datum",
-        "high-voltage electrical",
-        "fluid/thermal"
-      ],
-      "join_classes": [
-        "bolted-structural-datum",
-        "electrical-data",
-        "fluid-thermal"
-      ],
-      "joint_release_status": "supplier-freeze-required",
-      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
       "sequence": 3,
-      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
+        "HV/LV segregation",
+        "continuity/pressure test",
         "bend-radius sweep",
-        "trainline continuity",
-        "coolant pressure test",
-        "water-drain test"
+        "drain test",
+        "replaceability trial"
       ]
     }
   ],
@@ -90,7 +92,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel, supplier-controlled external component, rail-rated electrical / control equipment",
+    "form_factor": "LM3-ART-SA810 child assembly material set, LM3-ART-SA820 child assembly material set, LM3-ART-SA830 child assembly material set",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-ART-SA800 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -143,5 +145,5 @@
     "systems.py",
     "LM3-SYS-170"
   ],
-  "title": "inter-car articulation and trainline assembly"
+  "title": "complete inter-car structural articulation, passenger gangway and service transfer"
 }

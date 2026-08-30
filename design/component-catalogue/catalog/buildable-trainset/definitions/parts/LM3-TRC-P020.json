@@ -29,7 +29,7 @@
   },
   "maturity": "buildable-after-supplier-freeze",
   "notes": "",
-  "parent": "LM3-BOG-SA610",
+  "parent": "LM3-TRC-SA615",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
@@ -64,6 +64,29 @@
     "bom-skeleton.md T2/G19",
     "LM3-TRC-500"
   ],
+  "supplier_anchor": {
+    "anchor_type": "rail-qualified-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Ratio, centre distance, torque, coupling, reaction-link and lubrication configuration remain to be quoted."
+    ],
+    "id": "OSR-ANC-GEAR-VOITH-SE",
+    "local_equivalent_allowed": true,
+    "localisation": "Local housings/gears may replace the anchor only after tooth, bearing, lubrication, fatigue, efficiency, noise, overspeed and endurance qualification with the frozen motor/wheelset interfaces.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Voith",
+    "manufacturer_url": "https://www.voith.com/corp-en/drives-transmissions/gear-units.html",
+    "procurement_state": "rfq-required",
+    "product_family": "SE-type single-stage axle-mounted metro gear unit and gear coupling",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
   "title": "single-stage reduction gearbox and flexible coupling",
   "unit": "ea"
 }

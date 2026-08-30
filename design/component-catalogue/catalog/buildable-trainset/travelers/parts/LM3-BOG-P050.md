@@ -50,14 +50,14 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-BOG-P050`<br>`DOC-LM3-BOG-SA610` | traveler rev and parent assembly match released manifest | cell lead |
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-BOG-P050`<br>`DOC-LM3-TRC-SA615` | traveler rev and parent assembly match released manifest | cell lead |
 | 20 | cut, form, machine, or fabricate local hardware | fabrication cell | 1.8 | `FIX-LM3-BOG-FAB`<br>`GAUGE-LM3-BOG-P050-DATUM` | fabricated geometry matches datum/gauge requirements | operator |
-| 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-BOG-SA610`<br>`TORQUE-LM3-BOG-P050` | fit-up evidence recorded before release to assembly | operator |
+| 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-TRC-SA615`<br>`TORQUE-LM3-BOG-P050` | fit-up evidence recorded before release to assembly | operator |
 | 40 | verify acceptance gate: torque-link gauge | quality inspection | 0.25 | `GAUGE-LM3-BOG-P050` | torque-link gauge | quality inspector |
 | 50 | verify acceptance gate: bracket NDT | quality inspection | 0.25 | `NDT-LM3-BOG-P050` | bracket NDT | quality inspector |
 | 60 | verify acceptance gate: motor removal clearance | quality inspection | 0.25 | `QA-LM3-BOG-P050` | motor removal clearance | quality inspector |
 | 70 | verify acceptance gate: fastener locking record | quality inspection | 0.25 | `TORQUE-LM3-BOG-P050` | fastener locking record | quality inspector |
-| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BOG-P050`<br>`KIT-LM3-BOG-SA610` | item is released, tagged, and staged for parent assembly | cell lead |
+| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BOG-P050`<br>`KIT-LM3-TRC-SA615` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

@@ -14,6 +14,21 @@
 
 The controlled train-compute and safety-output cabinets are integrated after power, cooling, and network interfaces are frozen.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-CONTROL-MOXA` — [Moxa EN 50155 railway computers, Ethernet switches and wireless gateways](https://www.moxa.com/en/literature-library/rail-onboard-solution-brochure)
+- Procurement state: `architecture-rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: OSR software remains portable behind published I/O, TSN/Ethernet and update interfaces; alternate compute/network hardware must pass timing, safety allocation, EMC, environmental, cybersecurity and whole-train hardware-in-loop tests.
+- Known fit gaps: Moxa anchors computing/network hardware only; the independent safety controller, navigation sensors, HMI and safety relays need exact part selection and safety allocation.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

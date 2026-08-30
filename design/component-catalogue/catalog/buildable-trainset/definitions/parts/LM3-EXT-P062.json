@@ -1,0 +1,95 @@
+{
+  "acceptance": [
+    "fire/smoke certificate",
+    "seat/occupant load evidence",
+    "fastener and anti-rotation record",
+    "egress and cleaning-clearance gauge"
+  ],
+  "bom_line_ids": [
+    "B14"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-EXT-P062",
+  "layer": "external-component",
+  "make_or_buy_basis": "Repeatable seat modules use the common service rail and calculated saddle adapters instead of unique brackets through floor panels.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "seat/occupant load evidence",
+      "fixture proof",
+      "egress/cleaning gauge",
+      "timed module replacement"
+    ],
+    "finish_or_protection": "cleanable graffiti-resistant finish, radiused passenger edges, isolated dissimilar metals and accessible captive service fasteners",
+    "form_factor": "replaceable seat modules mounted only through LM3-FIX saddles to structural/common rails, never through finish panels",
+    "governing_standard": "supplier rail-seat specification plus project fire/smoke, occupant/abuse load, sharp-edge, accessibility, corrosion and cleanability evidence",
+    "grade_or_part_class": "fire-rated longitudinal seat shells/cushions, metallic frame, common-rail saddles, anti-rotation keys, isolators and captive locking hardware",
+    "material_family": "rail passenger-seat module and calculated mounting kit",
+    "nominal_section": "seat pitch, cant, aisle/PRM clearance, hand clearance, saddle engagement and fastener grip fixed by LM3-INT-230 drawings and released load calculation",
+    "traceability": "seat serial/batch, fire certificate, adapter variant, fastener lot, torque/locking witness and installed position map"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "fire/smoke certificate",
+      "seat/occupant load evidence",
+      "fastener and anti-rotation record",
+      "egress and cleaning-clearance gauge"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P062, CERT-LM3-EXT-P062, GAUGE-LM3-EXT-P062-ENVELOPE"
+  },
+  "quantity_per_trainset": 60,
+  "route": "SOURCE",
+  "source_refs": [
+    "cots_equipment.py",
+    "bom-skeleton.md B14",
+    "LM3-INT-230"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Exact seat model, upholstery, spacing, handrail geometry and calculated attachment loads remain open."
+    ],
+    "id": "OSR-ANC-SEAT-FAINSA",
+    "local_equivalent_allowed": true,
+    "localisation": "The OSR common rail and adapters are local; seat shells, frames and handrails may be locally made after fire, abuse-load, sharp-edge, corrosion and accessibility validation.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Fainsa",
+    "manufacturer_url": "https://fainsa.com/en/railway/",
+    "procurement_state": "rfq-required",
+    "product_family": "Metro and urban rail passenger seating",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "longitudinal passenger and priority-seat modules",
+  "unit": "seat"
+}

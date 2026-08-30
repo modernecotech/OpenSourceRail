@@ -50,14 +50,14 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-ART-P030`<br>`DOC-LM3-ART-SA800` | traveler rev and parent assembly match released manifest | cell lead |
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-ART-P030`<br>`DOC-LM3-ART-SA830` | traveler rev and parent assembly match released manifest | cell lead |
 | 20 | receive supplier component and quarantine until evidence pack passes | receiving inspection | 0.45 | `RFQ-LM3-ART-P030`<br>`CERT-LM3-ART-P030` | supplier certificate/datasheet/revision accepted | quality inspector |
-| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-ART-P030-ENVELOPE`<br>`FIX-LM3-ART-SA800` | component fits without parent datum rework | operator |
+| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-ART-P030-ENVELOPE`<br>`FIX-LM3-ART-SA830` | component fits without parent datum rework | operator |
 | 40 | verify acceptance gate: bend-radius sweep | quality inspection | 0.25 | `QA-LM3-ART-P030` | bend-radius sweep | quality inspector |
 | 50 | verify acceptance gate: trainline continuity | quality inspection | 0.25 | `ELEC-TEST-LM3-ART-P030` | trainline continuity | quality inspector |
 | 60 | verify acceptance gate: coolant pressure test | quality inspection | 0.25 | `LEAK-TEST-LM3-ART-P030` | coolant pressure test | quality inspector |
 | 70 | verify acceptance gate: water-drain test | quality inspection | 0.25 | `LEAK-TEST-LM3-ART-P030` | water-drain test | quality inspector |
-| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-ART-P030`<br>`KIT-LM3-ART-SA800` | item is released, tagged, and staged for parent assembly | cell lead |
+| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-ART-P030`<br>`KIT-LM3-ART-SA830` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

@@ -1,4 +1,11 @@
-# Marketplace Price Anchors
+# Marketplace Price Proxies (cost studies only)
+
+> **Do not use this page to select build parts.** The controlled
+> [supplier-anchor register](../../../design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md)
+> assigns a real manufacturer family, known fit gaps and local-equivalent route
+> to every bought-in LM3 product. This older ledger remains only to reproduce
+> the low-cost sensitivity in the BOM; marketplace listings are not engineering
+> or procurement approval.
 
 Checked 2026-06-04 against public Alibaba marketplace pages and
 AliExpress item history through PriceArchive where direct AliExpress

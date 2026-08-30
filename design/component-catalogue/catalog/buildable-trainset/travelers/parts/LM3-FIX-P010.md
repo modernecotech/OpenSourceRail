@@ -13,20 +13,21 @@
 
 | Field | Value |
 |---|---|
-| Material family | rail structural steel |
-| Grade / part class | EN 10025 S355 candidate primary-structure RHS/folded plate |
-| Governing standard | EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments |
-| Form factor | laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit |
-| Nominal section | thickness/section per v2A controlled drawing and FEM release |
-| Finish / protection | blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection |
-| Traceability | heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record |
+| Material family | common extruded aluminium passenger/service datum rail |
+| Grade / part class | 6063-T6 or equivalent 42 x 18 mm extrusion candidate with 50 mm datum pitch, isolated body feet and floating-nut capture |
+| Governing standard | released LM3-INT-230 rail/attachment calculation plus aluminium, fire, corrosion, shock/vibration and galvanic-isolation evidence |
+| Form factor | locally cut, drilled and deburred OSR-RAIL-42 lengths with end stops, isolating feet, datum marks and captive floating-nut channels |
+| Nominal section | 42 x 18 mm reference section; wall, foot, pitch and nut channel remain controlled drawing dimensions |
+| Finish / protection | anodised/coated cleanable finish with isolated steel fasteners, sealed cut ends and no passenger-facing sharp edges |
+| Traceability | extrusion batch, finish batch, cut list, drill-gauge record, foot/fastener lot and installed rail survey |
 
 Evidence required:
 
-- mill certificate
-- weld consumable certificate
-- WPS/WPQR
-- NDT report
+- certificate of conformity
+- incoming inspection record
+- rail pull-out/slip proof
+- datum survey
+- galvanic-isolation check
 
 ## Process specification
 

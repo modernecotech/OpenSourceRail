@@ -37,6 +37,7 @@ from osr_mech.rolling_stock.car_body import (
     car_body_structure,
 )
 from osr_mech.rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
+from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.sensor_cowl import sensor_cowl
 from osr_mech.rolling_stock.systems import (
     battery_pack_set,
@@ -110,6 +111,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "sensor-cowl": sensor_cowl,
     "trailer-bogie": trailer_bogie,
     "train-to-train-articulation": train_to_train_articulation,
+    **{f"manufacturing-tool:{tool_id}": builder for tool_id, builder in TOOL_BUILDERS.items()},
     **INTERFACE_BUILDERS,
 }
 

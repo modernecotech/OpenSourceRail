@@ -14,6 +14,21 @@
 
 Optimizer-selected hot-climate HVAC must fit the roof curb and aux-power budget.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-HVAC-LONGERTEK` — [Longertek direct-DC rail HVAC platform](https://en.longertek.com/technological-innovation.html)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Keep the released 800 V-class input, thermal duty, refrigerant, drains, duct and CAN/Ethernet interface; source local coils, ducts and service parts after performance testing.
+- Known fit gaps: Public material does not freeze the LM3 24 kW duty, rail evidence or roof envelope.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

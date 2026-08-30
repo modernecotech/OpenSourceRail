@@ -1,0 +1,241 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "articulation bench and proof-load cell",
+  "children": [
+    "LM3-ART-P010",
+    "LM3-ART-P020",
+    "LM3-ART-P021"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 6.43,
+  "id": "LM3-ART-SA810",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-certified running gear, supplier-controlled external component",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ART-SA810 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.69,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-ART-SA810",
+        "FIX-LM3-ART-SA810",
+        "KIT-LM3-ART-SA810"
+      ],
+      "work_center": "articulation bench and proof-load cell"
+    },
+    {
+      "labor_hours": 1.18,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P010: articulation adapter frame, anti-lift keeper, and shim kit",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA810",
+        "GAUGE-LM3-ART-P010",
+        "TORQUE-LM3-ART-P010"
+      ],
+      "work_center": "articulation bench and proof-load cell"
+    },
+    {
+      "labor_hours": 1.28,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P020: articulation lower spherical pivot, bearing housing and pin set",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA810",
+        "GAUGE-LM3-ART-P020",
+        "TORQUE-LM3-ART-P020"
+      ],
+      "work_center": "articulation bench and proof-load cell"
+    },
+    {
+      "labor_hours": 1.23,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P021: articulation upper lateral/yaw links, spherical joints and retained pins",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA810",
+        "GAUGE-LM3-ART-P021",
+        "TORQUE-LM3-ART-P021"
+      ],
+      "work_center": "articulation bench and proof-load cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "pin/bearing identity",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: pin/bearing identity",
+      "tooling_ids": [
+        "QA-LM3-ART-SA810"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "shimmed datum survey",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: shimmed datum survey",
+      "tooling_ids": [
+        "GAUGE-LM3-ART-SA810"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "proof load",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: proof load",
+      "tooling_ids": [
+        "QA-LM3-ART-SA810"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "lubrication/seal release",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: lubrication/seal release",
+      "tooling_ids": [
+        "QA-LM3-ART-SA810"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "motion sweep",
+      "sequence": 90,
+      "signoff_role": "quality inspector",
+      "title": "hold point: motion sweep",
+      "tooling_ids": [
+        "QA-LM3-ART-SA810"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 100,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-ART-SA810",
+        "NCR-LM3-ART-SA810"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "pin/bearing identity",
+      "shimmed datum survey",
+      "proof load",
+      "lubrication/seal release",
+      "motion sweep",
+      "water/leak test",
+      "bond/gasket witness check"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record"
+    ],
+    "tooling_basis": "FIX-LM3-ART-SA810, KIT-LM3-ART-SA810, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-ART-SA810-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA810-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA810-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "structural articulation joint and anti-lift load path",
+  "traveler_type": "assembly-node"
+}

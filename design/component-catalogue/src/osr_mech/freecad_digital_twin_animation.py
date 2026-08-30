@@ -90,10 +90,17 @@ def _set_scene_visibility(doc, *, zones: set[str], train_label: str) -> None:
 
 
 def _set_train_x(train, *, target_center_x_mm: float) -> None:
+    shape_center_x = (train.Shape.BoundBox.XMin + train.Shape.BoundBox.XMax) / 2.0
     placement = train.Placement
-    # The generated FCStd stores the source translation in Shape.Placement.
-    # Replace only its absolute X value; preserve the checked track Y and TOR Z.
-    placement.Base = App.Vector(target_center_x_mm, placement.Base.y, placement.Base.z)
+    # Source geometry is already translated to its model datum inside Shape.
+    # Object Placement is therefore a delta, not another absolute model X.
+    # Applying the target as an absolute Placement double-translates the train
+    # and was the cause of the tiny/off-camera historical GIF.
+    placement.Base = App.Vector(
+        target_center_x_mm - shape_center_x,
+        placement.Base.y,
+        placement.Base.z,
+    )
     train.Placement = placement
 
 
@@ -122,40 +129,29 @@ def _visible_bounds(doc) -> tuple[float, float, float, float, float, float]:
     )
 
 
-def _set_axonometric_camera(
+def _set_close_camera(
     view,
     *,
-    bounds: tuple[float, float, float, float, float, float],
-    train_bounds: tuple[float, float],
-    train_travel_x_mm: float,
+    center_x_mm: float,
+    center_y_mm: float,
+    center_z_mm: float,
+    height_mm: float,
 ) -> None:
-    """Frame source geometry without relying on Coin's stale fitAll cache."""
-    xmin, xmax, ymin, ymax, zmin, zmax = bounds
-    xmin = min(xmin, train_bounds[0] + train_travel_x_mm)
-    xmax = max(xmax, train_bounds[1] + train_travel_x_mm)
-    center_x = (xmin + xmax) / 2.0
-    center_y = (ymin + ymax) / 2.0
-    center_z = (zmin + zmax) / 2.0
-    diagonal = math.sqrt(
-        (xmax - xmin) ** 2 + (ymax - ymin) ** 2 + (zmax - zmin) ** 2
-    )
-    distance = max(10_000.0, diagonal * 1.5)
-    # The orientation below is FreeCAD's standard axonometric camera. Its
-    # backwards view vector is (+1, -1, +1) / sqrt(3).
+    """Use a readable local engineering view instead of fitting a whole site."""
+    distance = height_mm * 2.4
     camera_offset = distance / math.sqrt(3.0)
-    height = max(10_000.0, diagonal * 0.72)
     view.setCamera(
         "#Inventor V2.1 ascii\n\n"
         "OrthographicCamera {\n"
         "  viewportMapping ADJUST_CAMERA\n"
-        f"  position {center_x + camera_offset:.6f} "
-        f"{center_y - camera_offset:.6f} {center_z + camera_offset:.6f}\n"
+        f"  position {center_x_mm + camera_offset:.6f} "
+        f"{center_y_mm - camera_offset:.6f} {center_z_mm + camera_offset:.6f}\n"
         "  orientation 0.74290609 0.30772209 0.59447283 1.2171158\n"
         "  nearDistance 0\n"
         f"  farDistance {distance * 3.0:.6f}\n"
         "  aspectRatio 1\n"
         f"  focalDistance {distance:.6f}\n"
-        f"  height {height:.6f}\n"
+        f"  height {height_mm:.6f}\n"
         "}\n"
     )
     Gui.updateGui()
@@ -203,13 +199,6 @@ def _render_sequence(
         f"z={bounds[4]:.1f}..{bounds[5]:.1f}",
         flush=True,
     )
-    _set_axonometric_camera(
-        view,
-        bounds=bounds,
-        train_bounds=(train.Shape.BoundBox.XMin, train.Shape.BoundBox.XMax),
-        train_travel_x_mm=end_center_x_mm - start_center_x_mm,
-    )
-
     for offset in range(frame_count):
         fraction = offset / (frame_count - 1)
         # Smoothstep gives readable acceleration and braking without requiring
@@ -217,6 +206,21 @@ def _render_sequence(
         progress = fraction * fraction * (3.0 - 2.0 * fraction)
         target_x = start_center_x_mm + (end_center_x_mm - start_center_x_mm) * progress
         _set_train_x(train, target_center_x_mm=target_x)
+        # Track most, but not all, of the train motion. This keeps the consist
+        # large enough to inspect while visible infrastructure still moves
+        # through the frame and demonstrates genuine translation.
+        camera_progress = progress * 0.78
+        camera_x = start_center_x_mm + (
+            end_center_x_mm - start_center_x_mm
+        ) * camera_progress
+        elevated = phase == "elevated"
+        _set_close_camera(
+            view,
+            center_x_mm=camera_x,
+            center_y_mm=0.0,
+            center_z_mm=10_800.0 if elevated else 2_400.0,
+            height_mm=62_000.0 if elevated else 50_000.0,
+        )
         state = str(getattr(train, "OperationalStateJson", "{}"))
         train.OperationalStateJson = state.replace('"speed_kmh":0.0', '"speed_kmh":35.0')
         doc.recompute()

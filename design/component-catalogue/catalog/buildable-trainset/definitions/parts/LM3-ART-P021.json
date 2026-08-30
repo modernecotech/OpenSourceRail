@@ -1,0 +1,96 @@
+{
+  "acceptance": [
+    "link buckling/fatigue proof",
+    "joint angular capacity",
+    "pin retention inspection",
+    "full-motion sweep"
+  ],
+  "bom_line_ids": [
+    "B9"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-ART-P021",
+  "layer": "external-component",
+  "make_or_buy_basis": "Paired upper links stabilize roll/yaw while the lower pivot carries the primary articulation loads; all rod ends and pins remain positively retained.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-ART-SA810",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "link buckling/fatigue proof",
+      "joint angular capacity",
+      "pin retention inspection",
+      "full-motion sweep",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-ART-P021, CERT-LM3-ART-P021, GAUGE-LM3-ART-P021-ENVELOPE"
+  },
+  "quantity_per_trainset": 2,
+  "route": "BID",
+  "source_refs": [
+    "systems.py",
+    "articulation.md",
+    "LM3-SYS-170"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "catalogue-interface-anchor",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "No catalogue bearing is selected until the articulation load spectrum, pin diameter, angular motion and safety factors are released."
+    ],
+    "id": "OSR-ANC-JOINT-SCHAEFFLER",
+    "local_equivalent_allowed": true,
+    "localisation": "Local housings, pins and links are preferred; bearing or rod-end substitution requires static/dynamic capacity, misalignment, liner, corrosion, temperature, sealing and fatigue equivalence.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Schaeffler",
+    "manufacturer_url": "https://www.schaeffler.com/en/products-and-solutions/industrial/product-portfolio/plain-bearings/",
+    "procurement_state": "calculation-and-rfq-required",
+    "product_family": "ELGES maintenance-free spherical plain bearings and rod ends",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "articulation upper lateral/yaw links, spherical joints and retained pins",
+  "unit": "joint set"
+}

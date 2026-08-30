@@ -14,6 +14,21 @@
 
 Supplier open-end gangway/articulation cassette for joining two otherwise complete train modules through their common end-interface frames.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-GANGWAY-HUBNER` — [HÜBNER modular metro/urban-rail gangway systems](https://www.hubner-group.com/en/products/gangway-systems/gangway-systems-for-metros-subways-and-suburban-railways/)
+- Procurement state: `rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Bellows textile, panels and bridge pieces may localise after fire, fatigue, water, passenger load, pinch-gap and full-motion testing to the frozen clamp frames.
+- Known fit gaps: The vehicle-specific bellows, bridge, turntable, clamp and open-end drawbar geometry remains to be engineered with the supplier.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

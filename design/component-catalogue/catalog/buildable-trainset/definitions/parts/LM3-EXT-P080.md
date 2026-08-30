@@ -14,6 +14,21 @@
 
 Supplier-qualified glass-fibre, resin, core, gelcoat/paint, release film, and coupons feed local 1 m side-module moulding; no full-side bonded panel is used.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-COMPOSITE-GURIT` — [Gurit fire-retardant composite laminating and core materials](https://www.gurit.com/)
+- Procurement state: `sample-and-rfq`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Resin, reinforcement, core and coating may be sourced locally only as a qualified laminate system with coupon, fire, weathering, insert and full-module evidence.
+- Known fit gaps: No public product family alone establishes the complete LM3 rail fire/structural laminate; formulation and process qualification remain open.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

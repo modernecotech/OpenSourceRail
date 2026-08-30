@@ -29,7 +29,7 @@
   },
   "maturity": "buildable-after-supplier-freeze",
   "notes": "",
-  "parent": "LM3-BOG-SA610",
+  "parent": "LM3-TRC-SA615",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
@@ -75,6 +75,29 @@
     "bogie/motor.py",
     "LM3-TRC-500"
   ],
+  "supplier_anchor": {
+    "anchor_type": "rail-qualified-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "The current HM47-class planning envelope is not an ABB order code; ABB must confirm a 250 kW continuous / 350 kW short-peak, 800 V-compatible configuration and mass envelope."
+    ],
+    "id": "OSR-ANC-MOTOR-ABB-AMXM",
+    "local_equivalent_allowed": true,
+    "localisation": "Buy the initial motor; local rewind, bearings and eventually a locally manufactured equivalent require the frozen torque-speed, cooling, insulation, shaft, foot, mass and EMC interfaces plus type tests.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "ABB",
+    "manufacturer_url": "https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxm",
+    "procurement_state": "rfq-required",
+    "product_family": "AMXM railway traction motor",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
   "title": "motor-350kw-hm47-class axle traction motor",
   "unit": "ea"
 }

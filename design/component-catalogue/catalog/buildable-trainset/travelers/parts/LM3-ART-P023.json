@@ -1,0 +1,224 @@
+{
+  "bom_line_ids": [
+    "B9"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 3.05,
+  "id": "LM3-ART-P023",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "fire-material certificate pack",
+      "egress/lighting evidence"
+    ],
+    "finish_or_protection": "fire/smoke compliant finish, anti-slip flooring, and cleanable passenger surfaces",
+    "form_factor": "late-installed saloon kit with fasteners, access panels, looms, and labels",
+    "governing_standard": "supplier interior specification plus project EN 45545/fire-smoke evidence where applicable",
+    "grade_or_part_class": "fire-rated seat, flooring, trim, lighting, PIS, CCTV, signage, and grab-rail kit",
+    "material_family": "passenger interior COTS kit",
+    "nominal_section": "saloon, PRM aisle, emergency egress, and service-panel envelope frozen by RFQ drawing",
+    "traceability": "batch CoC, fire-material certificates, and installation traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-ART-P023",
+        "DOC-LM3-ART-SA820"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-ART-P023",
+        "CERT-LM3-ART-P023"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-ART-P023-ENVELOPE",
+        "FIX-LM3-ART-SA820"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "passenger load proof",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: passenger load proof",
+      "tooling_ids": [
+        "QA-LM3-ART-P023"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "anti-slip evidence",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: anti-slip evidence",
+      "tooling_ids": [
+        "QA-LM3-ART-P023"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "gap/step gauge",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: gap/step gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-ART-P023"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "pinch/shear hazard review",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: pinch/shear hazard review",
+      "tooling_ids": [
+        "QA-LM3-ART-P023"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "full-motion sweep",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: full-motion sweep",
+      "tooling_ids": [
+        "QA-LM3-ART-P023"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 90,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-ART-P023",
+        "KIT-LM3-ART-SA820"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-ART-SA820",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "passenger load proof",
+      "anti-slip evidence",
+      "gap/step gauge",
+      "pinch/shear hazard review",
+      "full-motion sweep",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-ART-P023, CERT-LM3-ART-P023, GAUGE-LM3-ART-P023-ENVELOPE"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-ART-P023-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-P023-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-P023-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "inter-car passenger bridge, turntable and flexible interior-panel set",
+  "traveler_type": "product-item",
+  "unit": "gangway set"
+}

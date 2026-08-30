@@ -1,0 +1,230 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "harness, hose and articulation bench",
+  "children": [
+    "LM3-ART-P024",
+    "LM3-ART-P030"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 6.19,
+  "id": "LM3-ART-SA830",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "fire-retardant fiberglass composite, rail-rated electrical / control equipment",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ART-SA830 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.61,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-ART-SA830",
+        "FIX-LM3-ART-SA830",
+        "KIT-LM3-ART-SA830"
+      ],
+      "work_center": "harness, hose and articulation bench"
+    },
+    {
+      "labor_hours": 1.88,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P024: articulation trainline carrier, support arms, abrasion liners and drain path",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA830",
+        "GAUGE-LM3-ART-P024",
+        "TORQUE-LM3-ART-P024"
+      ],
+      "work_center": "harness, hose and articulation bench"
+    },
+    {
+      "labor_hours": 1.65,
+      "qa_gate": "placement zone and joint controls accepted: under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P030: inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA830",
+        "GAUGE-LM3-ART-P030",
+        "TORQUE-LM3-ART-P030"
+      ],
+      "work_center": "harness, hose and articulation bench"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "HV/LV segregation",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "hold point: HV/LV segregation",
+      "tooling_ids": [
+        "QA-LM3-ART-SA830"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "continuity/pressure test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: continuity/pressure test",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-ART-SA830"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "bend-radius sweep",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: bend-radius sweep",
+      "tooling_ids": [
+        "QA-LM3-ART-SA830"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "drain test",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: drain test",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-ART-SA830"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "replaceability trial",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: replaceability trial",
+      "tooling_ids": [
+        "QA-LM3-ART-SA830"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 90,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-ART-SA830",
+        "NCR-LM3-ART-SA830"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "HV/LV segregation",
+      "continuity/pressure test",
+      "bend-radius sweep",
+      "drain test",
+      "replaceability trial",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-ART-SA830, KIT-LM3-ART-SA830, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-ART-SA830-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA830-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA830-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "articulation service-transfer and segregated trainline subassembly",
+  "traveler_type": "assembly-node"
+}

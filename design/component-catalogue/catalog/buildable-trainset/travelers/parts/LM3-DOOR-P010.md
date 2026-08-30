@@ -13,28 +13,31 @@
 
 | Field | Value |
 |---|---|
-| Material family | formed sheet metal / stainless local hardware |
-| Grade / part class | S355 or 304/316 stainless local bracket/tray candidate, selected by exposure zone |
-| Governing standard | EN 10025 / EN 10088 certificate as applicable plus project bonding/corrosion evidence |
-| Form factor | laser-cut, folded, drilled sheet/plate with inserts, studs, clips, and labels |
-| Nominal section | thickness, stainless grade, and galvanic isolation frozen by v2A controlled drawing |
-| Finish / protection | zinc/paint/stainless passivation, orange HV marking, edge protection, and sealing as applicable |
-| Traceability | heat number, coating batch, bonding test, and installation batch traceability |
+| Material family | adjustable steel/stainless door-carrier and replaceable seal kit |
+| Grade / part class | calculated S355/304 carrier shoes, hardened datum pins, sealed floating nutplates, galvanic isolators, EPDM perimeter seal, and keyed connector bracket |
+| Governing standard | released LM3-DOOR-200 interface calculation/drawing plus supplier door, fastener, elastomer, corrosion, fire and EN 14752/national evidence as applicable |
+| Form factor | four separately adjustable carrier shoes on two repeatable datum pins with mechanical locking, dry seal, recorded shim/adjuster map, and body-side keyed connector support |
+| Nominal section | adjustment range, carrier section, fastener grip, pin fit, seal compression and supplier cassette load envelope fixed by the controlled interface drawing |
+| Finish / protection | painted/passivated hardware, isolated mixed-metal interfaces, sealed wet-zone nutplates and UV/ozone-resistant replaceable elastomer |
+| Traceability | hardware heat/batch, pin and fastener lot, seal batch/date, cassette serial, adjuster map, torque record, and replacement test |
 
 Evidence required:
 
-- mill certificate
-- coating/passivation record
-- bonding continuity record
+- certificate of conformity
+- incoming inspection record
+- carrier load proof
+- datum gauge
+- seal map
+- door safety and replacement tests
 
 ## Process specification
 
-- Primary processes: cut, form, drill/machine, de-burr, trial fit
-- Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum
-- Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release
-- Inspection methods: dimensional inspection, visual inspection, carrier datum gauge, interface load calculation, seal compression record, connector keying and cassette replacement trial
-- Tooling basis: FIX-LM3-DOOR-FAB plus GAUGE-LM3-DOOR-P010-DATUM
-- Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
+- Primary processes: fabricate and gauge four carrier shoes, accept supplier cassette, gauge body portal, lift, pin and adjust cassette, close sealed joints and keyed services, static safety tests, water and timed replacement test
+- Joining methods: four adjustable calculated carrier shoes, two repeatable datum pins, sealed high-integrity fasteners, replaceable perimeter seal, keyed body-side connector bracket
+- Special process controls: released carrier calculation and interface drawing, supplier lift/installation procedure, adjustment-range and shim map, joint/locking schedule, seal compression map, door safety-test script
+- Inspection methods: carrier gauge and proof, leaf/aperture survey, closed-and-locked loop, obstacle and traction-interlock test, emergency/manual release, water test, timed cassette removal/refit, carrier datum gauge, interface load calculation, seal compression record, connector keying and cassette replacement trial
+- Tooling basis: LM3-TOOL-DOOR-GAUGE plus LM3-TOOL-SEAL-GAUGE
+- Release level: design-reference door interface; supplier freeze, structural proof and applicable door-system acceptance remain mandatory
 
 
 ## Revision approval block

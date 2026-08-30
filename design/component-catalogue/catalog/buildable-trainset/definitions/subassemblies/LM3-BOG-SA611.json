@@ -1,0 +1,164 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "bogie clean assembly and brake cell",
+  "children": [
+    "LM3-BOG-P040",
+    "LM3-BOG-P042",
+    "LM3-BOG-P044",
+    "LM3-BOG-P048"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "wheelset identity",
+    "bearing installation",
+    "primary-height match",
+    "static brake/WSP test",
+    "free rotation"
+  ],
+  "id": "LM3-BOG-SA611",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BOG-P040",
+      "child_title": "powered-bogie wheelset with axle-mounted brake discs",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "wheel/axle heat certificates",
+        "press-force chart",
+        "back-to-back and runout report",
+        "ultrasonic inspection",
+        "balance record"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P042",
+      "child_title": "powered-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "bearing serial/clearance record",
+        "grease and seal certificate",
+        "axle journal fit",
+        "speed/temperature sensor calibration",
+        "rotation test"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P044",
+      "child_title": "powered-bogie primary suspension spring, guide and bump-stop set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 3,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "load-deflection curves",
+        "matched-height report",
+        "compound/batch certificates",
+        "installed preload and clearance survey"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P048",
+      "child_title": "powered-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 4,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "brake-force calculation",
+        "friction-pair certificate",
+        "thermal capacity",
+        "parking holding test",
+        "WSP functional test"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-certified running gear, supplier-controlled external component",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-BOG-SA611 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "wheelset identity",
+      "bearing installation",
+      "primary-height match",
+      "static brake/WSP test",
+      "free rotation",
+      "alignment survey",
+      "static brake test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-BOG-SA611, KIT-LM3-BOG-SA611, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "bogie/wheelset.py",
+    "bogie/brake.py",
+    "bogie/suspension.py",
+    "LM3-BOG-400"
+  ],
+  "title": "powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes"
+}

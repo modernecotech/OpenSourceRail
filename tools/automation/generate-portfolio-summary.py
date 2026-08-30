@@ -43,7 +43,9 @@ def money(value: float) -> str:
     return f"${value / 1_000_000:,.1f}M"
 
 
-def build_summary() -> str:
+def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
+    """Calculate the canonical developing-world capital metrics once."""
+
     load_city = runpy.run_path(
         str(REPO_ROOT / "tools/automation/generate-national-briefs.py")
     )["load_city"]
@@ -88,6 +90,11 @@ def build_summary() -> str:
         totals["lifetime_saved"] += comparison.lifetime_external_financing_avoided_usd
         imported_shares.extend(city.breakdown.imported_share for city in cities)
 
+    return city_count, len(grouped), totals, imported_shares
+
+
+def build_summary() -> str:
+    city_count, country_count, totals, imported_shares = portfolio_metrics()
     imported_pct = totals["external"] / totals["total"]
     reduction = totals["external_saved"] / totals["foreign_external"]
     out = [
@@ -101,7 +108,7 @@ def build_summary() -> str:
         "This is a planning screen, not a financing commitment, audited origin "
         "declaration, supplier quotation, or vendor bid.",
         "",
-        f"| {city_count}-city / {len(grouped)}-country catalogue | Planning value | Annual construction draw across country programmes |",
+        f"| {city_count}-city / {country_count}-country catalogue | Planning value | Annual construction draw across country programmes |",
         "|---|---:|---:|",
         f"| External capital for imported components and machinery | **{money(totals['external'])} ({imported_pct:.1%})** | **{money(totals['annual_external'])}/year** |",
         f"| Local capital for domestic value | **{money(totals['local'])} ({1-imported_pct:.1%})** | **{money(totals['annual_local'])}/year** |",

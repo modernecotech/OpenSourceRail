@@ -1,0 +1,210 @@
+{
+  "bom_line_ids": [
+    "B13"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-EXT-P061",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "fire/smoke certificate",
+      "adhesive compatibility/cure record",
+      "seam peel sample",
+      "slip evidence"
+    ],
+    "finish_or_protection": "anti-slip cleanable finish with no open edges, water traps or incompatible sealant/adhesive combinations",
+    "form_factor": "single-system sheet layout with heat-welded seams, coved edges, sealed penetrations, removable hatch cuts and replaceable threshold pieces",
+    "governing_standard": "supplier rail flooring specification plus project fire/smoke/toxicity, slip, wear, cleaning-agent and substrate-compatibility evidence",
+    "grade_or_part_class": "supplier-matched sheet covering, welded-seam rod, coving, step nosing, primer, adhesive and repair-patch system",
+    "material_family": "rail fire-rated resilient floor-covering system",
+    "nominal_section": "roll direction, seam map, cove radius, nosing, threshold termination, adhesive spread and hatch joint fixed by the released installation drawing",
+    "traceability": "covering/rod/primer/adhesive batch and expiry, substrate moisture/cleanliness record, cure log, seam sample and installed zone map"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P061",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P061",
+        "CERT-LM3-EXT-P061"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P061-ENVELOPE",
+        "FIX-LM3-INT-SA330"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fire/smoke certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fire/smoke certificate",
+      "tooling_ids": [
+        "QA-LM3-EXT-P061"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "adhesive compatibility and cure record",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: adhesive compatibility and cure record",
+      "tooling_ids": [
+        "QA-LM3-EXT-P061"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "welded-seam peel sample",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: welded-seam peel sample",
+      "tooling_ids": [
+        "NDT-LM3-EXT-P061"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "slip and cleanability evidence",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: slip and cleanability evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P061"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P061",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "fire/smoke certificate",
+      "adhesive compatibility and cure record",
+      "welded-seam peel sample",
+      "slip and cleanability evidence"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P061, CERT-LM3-EXT-P061, GAUGE-LM3-EXT-P061-ENVELOPE"
+  },
+  "quantity_per_trainset": 135,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P061-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P061-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P061-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "welded resilient floor covering, cove, nosing, and adhesive system",
+  "traveler_type": "product-item",
+  "unit": "m2"
+}

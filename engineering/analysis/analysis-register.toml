@@ -79,6 +79,17 @@ converged = false
 limitations = "Input deck and tolerance not yet issued."
 
 [[analysis]]
+id = "OSR-AN-IFC-LM3-MFG-001"
+title = "Deterministic LM3 product, method and tooling IFC4.3 handoff"
+status = "screening"
+tool = "IfcOpenShell 0.8.5 / FreeCAD 1.1"
+input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "engineering/interchange/trainset_manufacturing_ifc.py"]
+result_path = "engineering/models/bim/reference/lm3-manufacturing-reference.index.json"
+acceptance_criterion = "All 101 product items, 26 assemblies, 54 bought-in rows mapped once to 25 manufacturer-family anchors, nine timed methods, 59 tasks and 20 multi-part tooling families round-trip in byte-deterministic IFC4.3 with no missing required tags"
+converged = true
+limitations = "Design-reference product/method/tooling coordination only. The selectable FreeCAD objects and IFC proxy geometry are not released mould surfaces, shop drawings or NC data; supplier freeze, calculations, qualified processes, first articles, independent assessment and national authorisation remain open."
+
+[[analysis]]
 id = "OSR-AN-RS-HV-001"
 title = "800 V-class pack topology, transient margin, isolation and interruption"
 status = "planned"

@@ -1,0 +1,210 @@
+{
+  "bom_line_ids": [
+    "B14"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-EXT-P062",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "seat/occupant load evidence",
+      "fixture proof",
+      "egress/cleaning gauge",
+      "timed module replacement"
+    ],
+    "finish_or_protection": "cleanable graffiti-resistant finish, radiused passenger edges, isolated dissimilar metals and accessible captive service fasteners",
+    "form_factor": "replaceable seat modules mounted only through LM3-FIX saddles to structural/common rails, never through finish panels",
+    "governing_standard": "supplier rail-seat specification plus project fire/smoke, occupant/abuse load, sharp-edge, accessibility, corrosion and cleanability evidence",
+    "grade_or_part_class": "fire-rated longitudinal seat shells/cushions, metallic frame, common-rail saddles, anti-rotation keys, isolators and captive locking hardware",
+    "material_family": "rail passenger-seat module and calculated mounting kit",
+    "nominal_section": "seat pitch, cant, aisle/PRM clearance, hand clearance, saddle engagement and fastener grip fixed by LM3-INT-230 drawings and released load calculation",
+    "traceability": "seat serial/batch, fire certificate, adapter variant, fastener lot, torque/locking witness and installed position map"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P062",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P062",
+        "CERT-LM3-EXT-P062"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P062-ENVELOPE",
+        "FIX-LM3-INT-SA330"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fire/smoke certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fire/smoke certificate",
+      "tooling_ids": [
+        "QA-LM3-EXT-P062"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "seat/occupant load evidence",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: seat/occupant load evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P062"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fastener and anti-rotation record",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fastener and anti-rotation record",
+      "tooling_ids": [
+        "TORQUE-LM3-EXT-P062"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "egress and cleaning-clearance gauge",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: egress and cleaning-clearance gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P062"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P062",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "fire/smoke certificate",
+      "seat/occupant load evidence",
+      "fastener and anti-rotation record",
+      "egress and cleaning-clearance gauge"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P062, CERT-LM3-EXT-P062, GAUGE-LM3-EXT-P062-ENVELOPE"
+  },
+  "quantity_per_trainset": 60,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P062-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P062-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P062-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "longitudinal passenger and priority-seat modules",
+  "traveler_type": "product-item",
+  "unit": "seat"
+}

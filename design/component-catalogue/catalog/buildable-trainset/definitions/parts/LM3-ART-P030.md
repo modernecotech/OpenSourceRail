@@ -6,13 +6,28 @@
 | Layer | `external-component` |
 | Route | `BID` |
 | Quantity per trainset | 2 articulation kit |
-| Parent assembly | `LM3-ART-SA800` |
+| Parent assembly | `LM3-ART-SA830` |
 | Procurement BOM lines | `B24` |
 | Maturity | `buildable-after-supplier-freeze` |
 
 ## Make / buy basis
 
 Flexible services package that follows articulation yaw/pitch/roll without violating segregation or bend radius.
+
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-TRAINLINE-IGUS-HARTING` — [igus / HARTING e-chain dynamic cable carriers with Han rail connectors](https://www.igus.com/info/industries-railway-technology)
+- Procurement state: `sample-and-rfq`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Hoses and cables may be made locally to controlled drawings; carrier, connector or jacket substitutions require bend-cycle, separation, IP, fire, current, pressure, EMC and breakaway tests.
+- Known fit gaps: The final carrier series, connector inserts, cable compounds, hose lengths and articulation sweep remain to be frozen.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
 
 ## Material specification
 

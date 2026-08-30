@@ -3,21 +3,22 @@
     "B9"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 2.55,
+  "estimated_labor_hours": 3.05,
   "id": "LM3-ART-P020",
   "material_spec": {
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
-      "datasheet / evidence pack"
+      "wheelset/bearing certificates",
+      "brake evidence"
     ],
-    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
-    "form_factor": "preassembled supplier module with installation kit",
-    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
-    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
-    "material_family": "supplier-controlled external component",
-    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
-    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
   },
   "operations": [
     {
@@ -28,7 +29,7 @@
       "title": "release traveler, revision, material/certificate pack, and parent interface",
       "tooling_ids": [
         "TRV-LM3-ART-P020",
-        "DOC-LM3-ART-SA800"
+        "DOC-LM3-ART-SA810"
       ],
       "work_center": "production control"
     },
@@ -52,14 +53,58 @@
       "title": "perform envelope, mounting, service-removal, and connector checks",
       "tooling_ids": [
         "GAUGE-LM3-ART-P020-ENVELOPE",
-        "FIX-LM3-ART-SA800"
+        "FIX-LM3-ART-SA810"
       ],
       "work_center": "incoming fit-check cell"
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "motion-envelope proof",
+      "qa_gate": "bearing static/dynamic capacity",
       "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: bearing static/dynamic capacity",
+      "tooling_ids": [
+        "QA-LM3-ART-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "pin material/NDT",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: pin material/NDT",
+      "tooling_ids": [
+        "NDT-LM3-ART-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "proof load",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: proof load",
+      "tooling_ids": [
+        "QA-LM3-ART-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "lubrication/sealing plan",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: lubrication/sealing plan",
+      "tooling_ids": [
+        "QA-LM3-ART-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "motion-envelope proof",
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: motion-envelope proof",
       "tooling_ids": [
@@ -69,49 +114,27 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "fire evidence",
-      "sequence": 50,
-      "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: fire evidence",
-      "tooling_ids": [
-        "QA-LM3-ART-P020"
-      ],
-      "work_center": "quality inspection"
-    },
-    {
-      "labor_hours": 0.25,
-      "qa_gate": "water ingress/drain test",
-      "sequence": 60,
-      "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: water ingress/drain test",
-      "tooling_ids": [
-        "LEAK-TEST-LM3-ART-P020"
-      ],
-      "work_center": "quality inspection"
-    },
-    {
-      "labor_hours": 0.25,
       "qa_gate": "item is released, tagged, and staged for parent assembly",
-      "sequence": 70,
+      "sequence": 90,
       "signoff_role": "cell lead",
       "title": "final item release to parent assembly",
       "tooling_ids": [
         "REL-LM3-ART-P020",
-        "KIT-LM3-ART-SA800"
+        "KIT-LM3-ART-SA810"
       ],
       "work_center": "production control"
     }
   ],
-  "parent": "LM3-ART-SA800",
+  "parent": "LM3-ART-SA810",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
+      "bearing static/dynamic capacity",
+      "pin material/NDT",
+      "proof load",
+      "lubrication/sealing plan",
       "motion-envelope proof",
-      "fire evidence",
-      "water ingress/drain test",
-      "pressure/leak test",
-      "drain-flow test where applicable",
       "functional static test",
       "emergency/recovery function check where applicable"
     ],
@@ -131,8 +154,6 @@
       "RFQ envelope freeze",
       "supplier certificate/revision check",
       "incoming quarantine until evidence accepted",
-      "fluid compatibility check",
-      "hose/pipe routing release",
       "safety interlock interface freeze",
       "supplier lifecycle evidence review"
     ],
@@ -197,7 +218,7 @@
       "status": "blank"
     }
   ],
-  "title": "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
+  "title": "articulation lower spherical pivot, bearing housing and pin set",
   "traveler_type": "product-item",
-  "unit": "kit"
+  "unit": "joint set"
 }

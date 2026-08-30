@@ -1,8 +1,10 @@
 {
   "acceptance": [
-    "motion-envelope proof",
-    "fire evidence",
-    "water ingress/drain test"
+    "bearing static/dynamic capacity",
+    "pin material/NDT",
+    "proof load",
+    "lubrication/sealing plan",
+    "motion-envelope proof"
   ],
   "bom_line_ids": [
     "B9"
@@ -10,33 +12,34 @@
   "definition_type": "product-item",
   "id": "LM3-ART-P020",
   "layer": "external-component",
-  "make_or_buy_basis": "Supplier gangway/articulation kit integrated through OSR adapter frame.",
+  "make_or_buy_basis": "Supplier-sized spherical bearing, housing, pin, bushes and retainers transmit the released draw, buff, vertical and anti-lift loads through the OSR adapter.",
   "material_spec": {
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
-      "datasheet / evidence pack"
+      "wheelset/bearing certificates",
+      "brake evidence"
     ],
-    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
-    "form_factor": "preassembled supplier module with installation kit",
-    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
-    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
-    "material_family": "supplier-controlled external component",
-    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
-    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
   },
   "maturity": "buildable-after-supplier-freeze",
   "notes": "",
-  "parent": "LM3-ART-SA800",
+  "parent": "LM3-ART-SA810",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
+      "bearing static/dynamic capacity",
+      "pin material/NDT",
+      "proof load",
+      "lubrication/sealing plan",
       "motion-envelope proof",
-      "fire evidence",
-      "water ingress/drain test",
-      "pressure/leak test",
-      "drain-flow test where applicable",
       "functional static test",
       "emergency/recovery function check where applicable"
     ],
@@ -56,8 +59,6 @@
       "RFQ envelope freeze",
       "supplier certificate/revision check",
       "incoming quarantine until evidence accepted",
-      "fluid compatibility check",
-      "hose/pipe routing release",
       "safety interlock interface freeze",
       "supplier lifecycle evidence review"
     ],
@@ -70,6 +71,29 @@
     "articulation.md",
     "LM3-SYS-170"
   ],
-  "title": "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
-  "unit": "kit"
+  "supplier_anchor": {
+    "anchor_type": "catalogue-interface-anchor",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "No catalogue bearing is selected until the articulation load spectrum, pin diameter, angular motion and safety factors are released."
+    ],
+    "id": "OSR-ANC-JOINT-SCHAEFFLER",
+    "local_equivalent_allowed": true,
+    "localisation": "Local housings, pins and links are preferred; bearing or rod-end substitution requires static/dynamic capacity, misalignment, liner, corrosion, temperature, sealing and fatigue equivalence.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Schaeffler",
+    "manufacturer_url": "https://www.schaeffler.com/en/products-and-solutions/industrial/product-portfolio/plain-bearings/",
+    "procurement_state": "calculation-and-rfq-required",
+    "product_family": "ELGES maintenance-free spherical plain bearings and rod ends",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "articulation lower spherical pivot, bearing housing and pin set",
+  "unit": "joint set"
 }

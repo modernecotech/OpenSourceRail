@@ -8,13 +8,18 @@ disassembled states are placement views for design review.
 from __future__ import annotations
 
 import argparse
+import json
+import re
 import sys
 import tempfile
+import uuid
+import zipfile
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
 from osr_mech.freecad_occ_bridge import SourceGeometry, freecad_shape_from_source, safe_name
+from osr_mech.trainset_manufacturing_methods import load_and_validate
 
 
 try:
@@ -44,6 +49,7 @@ COLOURS = {
     "interface": (0.95, 0.68, 0.18, 0.0),
     "bogie": (0.12, 0.12, 0.12, 0.0),
 }
+FCSTD_NAMESPACE = uuid.UUID("f42effa5-2414-5f3f-a53c-1198e907e5e2")
 
 
 @dataclass(frozen=True)
@@ -55,6 +61,7 @@ class ReviewItem:
     z_mm: float = 0.0
     yaw_deg: float = 0.0
     colour: tuple[float, float, float, float] | None = None
+    metadata: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -104,6 +111,61 @@ def _artifact_root() -> Path:
     return Path(__file__).resolve().parents[2] / "models" / "cad"
 
 
+def _canonicalise_fcstd(path: Path) -> None:
+    """Remove FreeCAD save-time/UUID/ZIP metadata from a tracked review file."""
+
+    with zipfile.ZipFile(path, "r") as source:
+        entries = [(info, source.read(info.filename)) for info in source.infolist()]
+        comment = source.comment
+    canonical_entries: list[tuple[zipfile.ZipInfo, bytes]] = []
+    document_uid = str(uuid.uuid5(FCSTD_NAMESPACE, path.name))
+    for info, data in entries:
+        if info.filename == "Document.xml":
+            text = data.decode("utf-8")
+            text = re.sub(
+                r'(<Property name="(?:CreationDate|LastModifiedDate)"[^>]*>\s*<String value=")[^"]+',
+                r"\g<1>2000-01-01T00:00:00Z",
+                text,
+            )
+            text = re.sub(
+                r'(<Property name="Uid"[^>]*>\s*<Uuid value=")[^"]+',
+                rf"\g<1>{document_uid}",
+                text,
+            )
+            object_id = 0
+
+            def canonical_object_id(match: re.Match[str]) -> str:
+                nonlocal object_id
+                object_id += 1
+                return f'{match.group(1)}{object_id}{match.group(2)}'
+
+            text = re.sub(
+                r'(<Object type="[^"]+" name="[^"]+" id=")\d+("\s*/>)',
+                canonical_object_id,
+                text,
+            )
+            data = text.encode("utf-8")
+        canonical = zipfile.ZipInfo(info.filename, date_time=(2000, 1, 1, 0, 0, 0))
+        canonical.compress_type = info.compress_type
+        canonical.external_attr = info.external_attr
+        canonical.internal_attr = info.internal_attr
+        canonical.create_system = info.create_system
+        canonical_entries.append((canonical, data))
+    with tempfile.NamedTemporaryFile(
+        "wb", dir=path.parent, prefix=f".{path.name}.", delete=False
+    ) as handle:
+        temporary = Path(handle.name)
+    try:
+        with zipfile.ZipFile(temporary, "w") as target:
+            target.comment = comment
+            for info, data in canonical_entries:
+                target.writestr(info, data)
+        temporary.replace(path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
 def _add_shape(
     doc,
     item: ReviewItem,
@@ -127,6 +189,10 @@ def _add_shape(
     view_object = getattr(obj, "ViewObject", None)
     if item.colour is not None and view_object is not None:
         view_object.ShapeColor = item.colour
+    for key, value in item.metadata:
+        property_name = safe_name(key)
+        obj.addProperty("App::PropertyString", property_name, "OSR Manufacturing")
+        setattr(obj, property_name, value)
     group.addObject(obj)
     return obj
 
@@ -218,11 +284,17 @@ def _check_shape(
 def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
     if not exploded:
         return [
-            ReviewItem(_interface_source("low-floor-chassis"), "Low-floor centre chassis", colour=COLOURS["structure"]),
+            ReviewItem(
+                _interface_source("low-floor-chassis"),
+                "Low-floor centre chassis",
+                colour=COLOURS["structure"],
+                metadata=(("AssemblyId", "LM3-BDY-SA110"), ("ProductIds", "LM3-BDY-P010 | LM3-BDY-P020 | LM3-BDY-P030 | LM3-BDY-P120"), ("AssemblyChain", "parts > LM3-BDY-SA110 > LM3-BDY-SA120 > LM3-SHELL-A200 > LM3-CAR-A900 > LM3-TRAINSET-A000")),
+            ),
             ReviewItem(
                 _interface_source("bogie-to-chassis-connector"),
                 "Bogie-to-chassis connector package",
                 colour=COLOURS["interface"],
+                metadata=(("ProductIds", "LM3-BOG-P046 | LM3-BOG-P047"), ("SupplierAnchors", "OSR-ANC-SUSPENSION-CONTI"), ("InterfaceControl", "air spring | emergency spring | centre pivot | yaw link | damper | anti-lift")),
             ),
             ReviewItem(
                 _source("motor-bogie"),
@@ -230,6 +302,7 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
                 x_mm=-BOGIE_X_MM,
                 z_mm=BOGIE_SEAT_Z_MM,
                 colour=COLOURS["bogie"],
+                metadata=(("AssemblyId", "LM3-BOG-SA610"), ("ChildAssemblies", "LM3-BOG-SA611 | LM3-TRC-SA615"), ("AssemblyChain", "running unit + bogie-mounted drive + body connection > powered bogie > car > trainset")),
             ),
             ReviewItem(
                 _source("trailer-bogie"),
@@ -237,12 +310,14 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
                 x_mm=BOGIE_X_MM,
                 z_mm=BOGIE_SEAT_Z_MM,
                 colour=COLOURS["bogie"],
+                metadata=(("AssemblyId", "LM3-BOG-SA620"), ("ChildAssemblies", "LM3-BOG-SA621"), ("AssemblyChain", "running unit + body connection > trailer bogie > car > trainset")),
             ),
             ReviewItem(
                 _interface_source("bogie-to-motor-connector"),
                 "A-end bogie-to-motor connector",
                 x_mm=-BOGIE_X_MM,
                 colour=COLOURS["interface"],
+                metadata=(("AssemblyId", "LM3-TRC-SA615"), ("ProductIds", "LM3-TRC-P010 | LM3-TRC-P020 | LM3-BOG-P050"), ("SupplierAnchors", "OSR-ANC-MOTOR-ABB-AMXM | OSR-ANC-GEAR-VOITH-SE")),
             ),
         ]
     return [
@@ -251,12 +326,14 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
             "Exploded low-floor centre chassis",
             z_mm=1_650.0,
             colour=COLOURS["structure"],
+            metadata=(("AssemblyId", "LM3-BDY-SA110"), ("AssemblyChain", "chassis parts > underframe > body frame > shell > car > trainset")),
         ),
         ReviewItem(
             _interface_source("bogie-to-chassis-connector"),
             "Exploded bogie-to-chassis connector package",
             z_mm=850.0,
             colour=COLOURS["interface"],
+            metadata=(("ProductIds", "LM3-BOG-P046 | LM3-BOG-P047"), ("SupplierAnchors", "OSR-ANC-SUSPENSION-CONTI")),
         ),
         ReviewItem(
             _source("motor-bogie"),
@@ -265,6 +342,7 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
             y_mm=-2_100.0,
             z_mm=BOGIE_SEAT_Z_MM - 650.0,
             colour=COLOURS["bogie"],
+            metadata=(("AssemblyId", "LM3-BOG-SA610"), ("ChildAssemblies", "LM3-BOG-SA611 | LM3-TRC-SA615")),
         ),
         ReviewItem(
             _source("trailer-bogie"),
@@ -273,6 +351,7 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
             y_mm=2_100.0,
             z_mm=BOGIE_SEAT_Z_MM - 650.0,
             colour=COLOURS["bogie"],
+            metadata=(("AssemblyId", "LM3-BOG-SA620"), ("ChildAssemblies", "LM3-BOG-SA621")),
         ),
         ReviewItem(
             _interface_source("bogie-to-motor-connector"),
@@ -281,6 +360,7 @@ def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
             y_mm=-3_250.0,
             z_mm=180.0,
             colour=COLOURS["interface"],
+            metadata=(("AssemblyId", "LM3-TRC-SA615"), ("ProductIds", "LM3-TRC-P010 | LM3-TRC-P020 | LM3-BOG-P050")),
         ),
     ]
 
@@ -307,8 +387,8 @@ def _full_body_items(*, exploded: bool) -> list[ReviewItem]:
     )
     if not exploded:
         items = [
-            ReviewItem(_source("car-body-structure"), "Body primary structure", colour=COLOURS["structure"]),
-            ReviewItem(_source("car-body-exterior"), "Body exterior layer", colour=COLOURS["body"]),
+            ReviewItem(_source("car-body-structure"), "Body primary structure", colour=COLOURS["structure"], metadata=(("AssemblyIds", "LM3-BDY-SA110 | LM3-BDY-SA120"), ("AssemblyChain", "chassis/body parts > underframe > body frame > shell > car > trainset"))),
+            ReviewItem(_source("car-body-exterior"), "Body exterior layer", colour=COLOURS["body"], metadata=(("AssemblyId", "LM3-SHELL-A200"), ("ProductIds", "LM3-BDY-P130 | LM3-BDY-P140"))),
             ReviewItem(_source("car-body-interior"), "Body interior layer", colour=COLOURS["systems"]),
             ReviewItem(_source("car-body-services"), "Body service layers", colour=COLOURS["systems"]),
             ReviewItem(_source("car-systems"), "Car systems package", colour=COLOURS["systems"]),
@@ -316,6 +396,7 @@ def _full_body_items(*, exploded: bool) -> list[ReviewItem]:
                 _interface_source("mechanical-interface-package"),
                 "Mechanical interface package",
                 colour=COLOURS["interface"],
+                metadata=(("AssemblyIds", "LM3-END-SA700 | LM3-ART-SA800"), ("ArticulationChildren", "LM3-ART-SA810 | LM3-ART-SA820 | LM3-ART-SA830"), ("SupplierRegister", "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md")),
             ),
         ]
         items.extend(ReviewItem(_interface_source(key), label, colour=COLOURS["systems"]) for key, label in detail_sources)
@@ -371,6 +452,106 @@ def _full_body_items(*, exploded: bool) -> list[ReviewItem]:
     return items
 
 
+def _tooling_items() -> list[tuple[str, ReviewItem]]:
+    """Expose every controlled tooling family as a separately selectable object."""
+
+    methods = load_and_validate()
+    items: list[tuple[str, ReviewItem]] = []
+    index = 0
+    for method in methods["method"]:
+        steps = json.dumps(
+            [
+                {
+                    "sequence": step["sequence"],
+                    "name": step["name"],
+                    "planning_minutes": step["planning_minutes"],
+                    "hold_point": step["hold_point"],
+                    "instruction": step["instruction"],
+                }
+                for step in method["steps"]
+            ],
+            separators=(",", ":"),
+        )
+        for tool_id in method["tooling_ids"]:
+            column = index % 3
+            row = index // 3
+            metadata = (
+                ("OSRId", str(tool_id)),
+                ("MethodId", str(method["id"])),
+                ("DetailStatus", "design-reference-not-released"),
+                ("LocalManufacture", "preferred where a qualified domestic toolmaker is available"),
+                ("WorkCenter", str(method["work_center"])),
+                ("PlanningCycleMinutes", str(method["planning_cycle_minutes"])),
+                ("ProductIds", " | ".join(method["product_ids"])),
+                ("JoiningParts", " | ".join(method["joining_parts"])),
+                ("ReleaseGate", str(method["release_gate"])),
+                ("StepInstructionsJson", steps),
+                ("ControlledSource", "lib/templates/trainset-manufacturing-methods.toml"),
+            )
+            items.append(
+                (
+                    str(method["id"]),
+                    ReviewItem(
+                        _source(f"manufacturing-tool:{tool_id}"),
+                        f"{tool_id} — {method['title']}",
+                        x_mm=column * 24_000.0,
+                        y_mm=row * 12_000.0,
+                        colour=COLOURS["interface"],
+                        metadata=metadata,
+                    ),
+                )
+            )
+            index += 1
+    return items
+
+
+def _write_tooling_doc(*, output: Path) -> list[ShapeCheck]:
+    _require_freecad()
+    title = "OSR LM3 manufacturing moulds, fixtures, gauges and assembly tooling"
+    doc = App.newDocument(safe_name(title))
+    doc.Label = title
+    methods = load_and_validate()
+    root = doc.addObject("App::DocumentObjectGroup", "Manufacturing_Methods")
+    root.Label = "LM3 Manufacturing Methods and Tooling"
+    groups: dict[str, object] = {}
+    checks: list[ShapeCheck] = []
+    shape_cache: dict[str, object] = {}
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="osr-freecad-tooling-", dir=output.parent) as tmp:
+        temp_dir = Path(tmp)
+        for method_id, item in _tooling_items():
+            group = groups.get(method_id)
+            if group is None:
+                method = next(value for value in methods["method"] if value["id"] == method_id)
+                group = doc.addObject("App::DocumentObjectGroup", safe_name(method_id))
+                group.Label = f"{method_id} — {method['title']}"
+                root.addObject(group)
+                groups[method_id] = group
+            _add_shape(doc, item, group, shape_cache, temp_dir)
+            checks.append(_check_shape(item, shape_cache, temp_dir))
+
+    notes = doc.addObject("App::FeaturePython", "ReleaseBoundary")
+    notes.Label = "READ FIRST — tooling geometry is design-reference, not fabrication release"
+    for name, value in (
+        ("Status", methods["status"]),
+        ("ReleaseBoundary", methods["release_boundary"]),
+        ("MethodRegister", "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md"),
+        ("ControlledSource", methods["source_file"]),
+        ("ControlledSourceSha256", methods["source_sha256"]),
+    ):
+        notes.addProperty("App::PropertyString", name, "OSR Manufacturing")
+        setattr(notes, name, str(value))
+    root.addObject(notes)
+    doc.recompute()
+    if output.exists():
+        output.unlink()
+    doc.saveAs(str(output))
+    App.closeDocument(doc.Name)
+    _canonicalise_fcstd(output)
+    print(f"wrote {output}")
+    return checks
+
+
 def _write_review_doc(
     *,
     output: Path,
@@ -407,8 +588,9 @@ def _write_review_doc(
     if output.exists():
         output.unlink()
     doc.saveAs(str(output))
-    print(f"wrote {output}")
     App.closeDocument(doc.Name)
+    _canonicalise_fcstd(output)
+    print(f"wrote {output}")
     return checks
 
 
@@ -461,6 +643,7 @@ def _write_report(path: Path, checks_by_doc: dict[str, list[ShapeCheck]]) -> Non
 def build_review_documents(*, out_dir: Path) -> None:
     chassis_out = out_dir / "chassis-bogie-assembly-states.FCStd"
     body_out = out_dir / "full-body-assembly-states.FCStd"
+    tooling_out = out_dir / "lm3-manufacturing-tooling.FCStd"
     checks_by_doc = {
         "Chassis + Bogie Assembly": _write_review_doc(
             output=chassis_out,
@@ -474,6 +657,7 @@ def build_review_documents(*, out_dir: Path) -> None:
             assembled_items=_full_body_items(exploded=False),
             exploded_items=_full_body_items(exploded=True),
         ),
+        "LM3 Manufacturing Tooling": _write_tooling_doc(output=tooling_out),
     }
     _write_report(out_dir / "assembly-geometry-review.md", checks_by_doc)
 

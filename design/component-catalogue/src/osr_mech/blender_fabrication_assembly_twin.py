@@ -15,7 +15,11 @@ SOURCE_ROOT = Path(__file__).resolve().parents[1]
 if str(SOURCE_ROOT) not in sys.path:
     sys.path.insert(0, str(SOURCE_ROOT))
 
-from osr_mech.fabrication_assembly_twin import ANIMATION_DURATION_S, fabrication_streams
+from osr_mech.fabrication_assembly_twin import (
+    VISUAL_TOUR_DURATION_S,
+    VISUAL_TOUR_PHASES,
+    fabrication_streams,
+)
 
 
 def _reset() -> None:
@@ -166,22 +170,33 @@ def _train_cell(m, centre=(22.0, 13.0)):
 
 
 def _stage_frames(fps: int) -> dict[str, tuple[int, int]]:
-    result = {}
-    frame_end = int(ANIMATION_DURATION_S * fps)
+    """Map each product route into its own readable close-up chapter."""
+    result: dict[str, tuple[int, int]] = {}
+    phases = {phase["stream_id"]: phase for phase in VISUAL_TOUR_PHASES}
     for stream in fabrication_streams():
+        phase = phases[stream.id]
+        phase_start = float(phase["start_s"])
+        phase_duration = float(phase["end_s"]) - phase_start
         total = sum(stage.duration_days for stage in stream.stages)
         cursor = 0.0
         for stage in stream.stages:
-            start = max(1, int(cursor / total * frame_end) + 1)
+            start = max(1, int((phase_start + cursor / total * phase_duration) * fps) + 1)
             cursor += stage.duration_days
-            end = max(start + 1, int(cursor / total * frame_end))
-            result[stage.id] = (start, min(frame_end, end))
+            end = max(
+                start + 2,
+                int((phase_start + cursor / total * phase_duration) * fps),
+            )
+            result[stage.id] = (start, min(int(float(phase["end_s"]) * fps), end))
     return result
 
 
 def _animate_objects(fps: int, still_time: float | None) -> None:
     stage_frames = _stage_frames(fps)
-    still_frame = None if still_time is None else int(min(ANIMATION_DURATION_S, max(0.0, still_time)) * fps) + 1
+    still_frame = (
+        None
+        if still_time is None
+        else int(min(VISUAL_TOUR_DURATION_S, max(0.0, still_time)) * fps) + 1
+    )
     for obj in bpy.context.scene.objects:
         stage_id = obj.get("install_stage")
         if not stage_id:
@@ -191,22 +206,51 @@ def _animate_objects(fps: int, still_time: float | None) -> None:
         offset = Vector(tuple(obj["staging_offset"]))
         if still_frame is not None:
             if still_frame < start:
-                obj.scale = (0.02, 0.02, 0.02)
                 obj.location = target + offset
             elif still_frame < end:
                 p = (still_frame - start) / (end - start)
                 smooth = p * p * (3.0 - 2.0 * p)
-                obj.scale = (max(0.02, smooth),) * 3
                 obj.location = target + offset * (1.0 - smooth)
             continue
         obj.location = target + offset
-        obj.scale = (0.02, 0.02, 0.02)
         obj.keyframe_insert(data_path="location", frame=max(1, start - 1))
-        obj.keyframe_insert(data_path="scale", frame=max(1, start - 1))
         obj.location = target
-        obj.scale = (1.0, 1.0, 1.0)
         obj.keyframe_insert(data_path="location", frame=end)
-        obj.keyframe_insert(data_path="scale", frame=end)
+
+
+def _keyframe_view(camera, target, *, fps: int, second: float, camera_at, target_at) -> None:
+    frame = int(second * fps) + 1
+    camera.location = camera_at
+    camera.keyframe_insert(data_path="location", frame=frame)
+    target.location = target_at
+    target.keyframe_insert(data_path="location", frame=frame)
+
+
+def _animate_camera_tour(camera, target, *, fps: int) -> None:
+    """Hold close views during assembly and travel between cells explicitly."""
+    views = (
+        (0.0, (-4, -38, 18), (-22, -13, 2.2)),
+        (18.0, (-1, -35, 16), (-22, -13, 2.2)),
+        (21.0, (42, -38, 20), (22, -13, 3.0)),
+        (38.0, (39, -35, 18), (22, -13, 3.0)),
+        (41.0, (-3, -16, 25), (-22, 13, 5.0)),
+        (60.0, (0, -13, 23), (-22, 13, 5.0)),
+        (63.0, (42, -15, 20), (22, 13, 3.0)),
+        (82.0, (39, -12, 18), (22, 13, 3.0)),
+        (85.0, (64, -82, 52), (0, 0, 3.0)),
+        (VISUAL_TOUR_DURATION_S, (58, -76, 48), (0, 0, 3.0)),
+    )
+    for second, camera_at, target_at in views:
+        _keyframe_view(
+            camera,
+            target,
+            fps=fps,
+            second=second,
+            camera_at=camera_at,
+            target_at=target_at,
+        )
+
+
 def _look_at(obj, target: Vector) -> None:
     obj.rotation_euler = (target - obj.location).to_track_quat("-Z", "Y").to_euler()
 
@@ -266,13 +310,8 @@ def build(args: argparse.Namespace) -> None:
     constraint.track_axis = "TRACK_NEGATIVE_Z"
     constraint.up_axis = "UP_Y"
     bpy.context.scene.camera = camera
-    if args.still_time is None:
-        for elapsed, location in ((0, (64, -82, 52)), (18, (68, -82, 48)), (34, (-68, -82, 48)), (48, (-64, -82, 52))):
-            camera.location = location
-            camera.keyframe_insert(data_path="location", frame=int(elapsed * args.fps) + 1)
-    else:
-        # The centre of the orbit is its tightest framing condition.
-        camera.location = (0, -82, 48)
+    # A still uses the same keyed tour so it is an exact preview of that time.
+    _animate_camera_tour(camera, target, fps=args.fps)
 
     sun_data = bpy.data.lights.new("factory skylight sun", "SUN")
     sun_data.energy = 2.6
@@ -298,7 +337,7 @@ def build(args: argparse.Namespace) -> None:
     scene.render.image_settings.color_mode = "RGB"
     scene.render.fps = args.fps
     scene.frame_start = 1
-    scene.frame_end = int(ANIMATION_DURATION_S * args.fps)
+    scene.frame_end = int(VISUAL_TOUR_DURATION_S * args.fps)
     scene.render.film_transparent = False
     scene.view_settings.look = "AgX - Medium High Contrast"
     if hasattr(scene, "eevee"):
@@ -316,10 +355,10 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--frames-dir", type=Path, required=True)
     parser.add_argument("--blend", type=Path, required=True)
-    parser.add_argument("--width", type=int, default=720)
-    parser.add_argument("--height", type=int, default=405)
-    parser.add_argument("--fps", type=int, default=4)
-    parser.add_argument("--samples", type=int, default=4)
+    parser.add_argument("--width", type=int, default=960)
+    parser.add_argument("--height", type=int, default=540)
+    parser.add_argument("--fps", type=int, default=6)
+    parser.add_argument("--samples", type=int, default=8)
     parser.add_argument("--still-time", type=float)
     return parser.parse_args(argv)
 

@@ -32,8 +32,9 @@ otherwise cannot inspect the system without installing specialist software.
 - One compact high-throughput architecture reference, Basra (`metro-6car`),
   adding a map and README without duplicating the complete acceptance bundles.
 - The Samawah OSR-ALN fixture used by converter tests.
-- Compact FreeCAD and Blender review assemblies, the named IFC4.3/IDS/BCF
-  federation under `engineering/models/bim/reference/`, stable documentation
+- Compact FreeCAD and Blender review assemblies, including the LM3 selectable
+  manufacturing-tool set; the named civil and LM3-manufacturing IFC4.3 review
+  federations under `engineering/models/bim/reference/`; stable documentation
   images, and the root `OpenSourceRail-Book.pdf` reader edition. These are
   published review aids generated from authoritative sources, not parallel
   inputs.

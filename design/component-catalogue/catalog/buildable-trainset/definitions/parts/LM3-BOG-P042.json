@@ -1,0 +1,97 @@
+{
+  "acceptance": [
+    "bearing serial/clearance record",
+    "grease and seal certificate",
+    "axle journal fit",
+    "speed/temperature sensor calibration",
+    "rotation test"
+  ],
+  "bom_line_ids": [
+    "G4",
+    "G14",
+    "G15"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-BOG-P042",
+  "layer": "external-component",
+  "make_or_buy_basis": "Ready-to-mount railway axlebox bearing units keep bearing setting, seals and sensor interfaces under one supplier responsibility.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "wheelset/bearing certificates",
+      "brake evidence"
+    ],
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-BOG-SA611",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "bearing serial/clearance record",
+      "grease and seal certificate",
+      "axle journal fit",
+      "speed/temperature sensor calibration",
+      "rotation test"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P042, CERT-LM3-BOG-P042, GAUGE-LM3-BOG-P042-ENVELOPE"
+  },
+  "quantity_per_trainset": 6,
+  "route": "BID",
+  "source_refs": [
+    "bogie/wheelset.py",
+    "systems.py",
+    "LM3-BOG-400"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-safety-critical-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Bearing size, journal fit, housing, grounding, speed/temperature sensor and cable interfaces remain to be frozen."
+    ],
+    "id": "OSR-ANC-AXLEBOX-SKF",
+    "local_equivalent_allowed": true,
+    "localisation": "Local housings and sensor brackets may be made to the supplier-controlled bearing unit; an alternative bearing unit needs L10/load, fit, seal, grease, thermal, shock and field-monitoring evidence.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "SKF",
+    "manufacturer_url": "https://www.skf.com/group/products/rolling-bearings/roller-bearings/tapered-roller-bearings/railway-tapered-roller-bearing-units",
+    "procurement_state": "rfq-required",
+    "product_family": "ready-to-mount railway axlebox bearing units with sensors",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "powered-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+  "unit": "wheelset set"
+}

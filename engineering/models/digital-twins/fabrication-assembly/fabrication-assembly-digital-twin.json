@@ -4,6 +4,40 @@
   "status": "planning / first-article release control",
   "scope": "representative track, station, viaduct, and LM3 trainset production routes",
   "animation_duration_s": 48.0,
+  "visual_tour": {
+    "duration_s": 88.0,
+    "presentation": "sequential close-up assembly tour; not a project schedule",
+    "phases": [
+      {
+        "stream_id": "track",
+        "start_s": 1.0,
+        "end_s": 18.0,
+        "title": "Track panel: plinths, fasteners, rails and geometry release"
+      },
+      {
+        "stream_id": "station",
+        "start_s": 21.0,
+        "end_s": 38.0,
+        "title": "Station kit: platforms, portals, roof cassettes and systems"
+      },
+      {
+        "stream_id": "viaduct",
+        "start_s": 41.0,
+        "end_s": 60.0,
+        "title": "Viaduct bay: substructure, bearings, beams, links and egress"
+      },
+      {
+        "stream_id": "train",
+        "start_s": 63.0,
+        "end_s": 82.0,
+        "title": "LM3 trainset: bogies, bodies, systems, fit-out and release"
+      }
+    ],
+    "final_overview_s": [
+      82.0,
+      88.0
+    ]
+  },
   "streams": [
     {
       "id": "track",
@@ -526,7 +560,7 @@
       "id": "train",
       "title": "LM3 fabrication and final assembly",
       "exemplar": "49.5 m three-car driverless LM3",
-      "quantity_basis": "83 product items, 20 controlled assemblies, one production traveler",
+      "quantity_basis": "89 product items, 20 controlled assemblies, one production traveler",
       "stages": [
         {
           "id": "RS-10-MATERIAL-KIT",
@@ -917,9 +951,29 @@
     ]
   },
   "source_register": {
+    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
+      "bytes": 272241,
+      "sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55"
+    },
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
+      "bytes": 92926,
+      "sha256": "19faa2b96614944cf8ccfd507d1dee34f77410ab69dd46ff6d233226b65c7bf3"
+    },
+    "design/component-catalogue/src/osr_mech/civil/construction.py": {
+      "bytes": 5197,
+      "sha256": "cf04a7ce7e25bc610685735b74414ed5620e0f21c7d8c83c9bd58158d68b719f"
+    },
+    "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
+      "bytes": 6700,
+      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298"
+    },
+    "design/component-catalogue/src/osr_mech/track/panel.py": {
+      "bytes": 3061,
+      "sha256": "1d1a606fc6b585d868da5a23854681b34b8620b89e7344c2ad913811115fa5b3"
+    },
     "docs/civil/slab-trackforms.md": {
-      "bytes": 5785,
-      "sha256": "7312bcdb9a7b06ab0671f9be42d4d9c835be0e90d3bd1cb2ce4866da391f01e2"
+      "bytes": 5853,
+      "sha256": "d6fa05da76cc65d1f82ac956aee26873d6954eb6e90261c87caa78117fa7a33a"
     },
     "docs/civil/viaduct-design-basis.md": {
       "bytes": 4598,
@@ -934,12 +988,12 @@
       "sha256": "8a61c7d6063e6787e0dcf668fe8ea01b72e5e90f0860f65fb7fa44c1fd8513e1"
     },
     "docs/rfcs/0010-station-design-standard.md": {
-      "bytes": 23891,
-      "sha256": "bd107d5e25735cba87ae458fe53a88f38d08103445037305ebd5cf573de9e05c"
+      "bytes": 24034,
+      "sha256": "d58031e3a9db30387542481b32184ae3bb861c0a119e137ab6f12abb9d235088"
     },
     "docs/rolling-stock/light-metro-3car/assembly-plan.md": {
-      "bytes": 16381,
-      "sha256": "6957726c50c0d4b4717df8919e3cc685219bdb2e15bde87c25513fa92349ead6"
+      "bytes": 16420,
+      "sha256": "ed4fe0b1e6295404ab48b774f7caec1cff41af4a338cea24a2bc6ac4f5b4d51d"
     },
     "lib/templates/civil-construction-systems.toml": {
       "bytes": 2903,
@@ -956,26 +1010,6 @@
     "lib/templates/stations.toml": {
       "bytes": 4601,
       "sha256": "fdb0283a5c88e5527c4091fa61c8aa596c000facf9ef18d0c6bce3c0987574bd"
-    },
-    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
-      "bytes": 271977,
-      "sha256": "2e98464ffc19566610d45bfabb963f8c19278fe7c034f3262e9b850b76c6a91c"
-    },
-    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
-      "bytes": 87845,
-      "sha256": "0ee77481a550a60fa3c4a6d6cd74f466202259e87abdb6ed7533404756f4cd55"
-    },
-    "design/component-catalogue/src/osr_mech/civil/construction.py": {
-      "bytes": 5197,
-      "sha256": "cf04a7ce7e25bc610685735b74414ed5620e0f21c7d8c83c9bd58158d68b719f"
-    },
-    "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
-      "bytes": 6700,
-      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298"
-    },
-    "design/component-catalogue/src/osr_mech/track/panel.py": {
-      "bytes": 3061,
-      "sha256": "1d1a606fc6b585d868da5a23854681b34b8620b89e7344c2ad913811115fa5b3"
     }
   },
   "checks": [
@@ -1013,7 +1047,7 @@
       "id": "train-product-tree-loaded",
       "passed": true,
       "observed": {
-        "items": 83,
+        "items": 89,
         "assemblies": 20
       }
     }

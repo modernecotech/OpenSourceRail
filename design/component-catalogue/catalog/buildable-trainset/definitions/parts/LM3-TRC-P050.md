@@ -14,6 +14,21 @@
 
 Per-car roof resistor path for regen overvoltage and commissioning load tests.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-TRACTION-ABB` — [ABB BORDLINE CC400/ESC/PB and Traction Battery Pro reference platform](https://www.abb.com/global/en/industries/railway/segments/rolling-stock/light-rail-vehicles)
+- Procurement state: `architecture-rfq-required`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Treat each converter, battery, charger/contact system and protection panel as separable behind frozen DC-link, cooling, HVIL, network and mechanical interfaces; qualify lower-cost local modules one at a time.
+- Known fit gaps: The ABB platform is a rail-qualified architecture anchor, not proof that one published configuration meets the LM3 800 V LFP, 225 kWh/car, side-pin charging, packaging or price targets.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

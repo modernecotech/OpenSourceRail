@@ -1,4 +1,4 @@
-# LM3-ART-SA800 — inter-car articulation and trainline assembly
+# LM3-ART-SA800 — complete inter-car structural articulation, passenger gangway and service transfer
 
 | Field | Value |
 |---|---|
@@ -11,9 +11,9 @@
 
 ## Children
 
-- `LM3-ART-P010`
-- `LM3-ART-P020`
-- `LM3-ART-P030`
+- `LM3-ART-SA810`
+- `LM3-ART-SA820`
+- `LM3-ART-SA830`
 
 ## Material specification
 
@@ -22,7 +22,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-ART-SA800 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-controlled external component, rail-rated electrical / control equipment |
+| Form factor | LM3-ART-SA810 child assembly material set, LM3-ART-SA820 child assembly material set, LM3-ART-SA830 child assembly material set |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -45,7 +45,7 @@ Evidence required:
 
 ## Integration design
 
-### 1. `LM3-ART-P010` — articulation adapter frame, anti-lift keeper, and shim kit
+### 1. `LM3-ART-SA810` — structural articulation joint and anti-lift load path
 
 - Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
 - Interfaces: `mechanical datum`, `safety interlock`
@@ -53,34 +53,39 @@ Evidence required:
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
-  - motion envelope
-  - bearing proof
-  - shim pack record
+  - pin/bearing identity
+  - shimmed datum survey
+  - proof load
+  - lubrication/seal release
+  - motion sweep
 
-### 2. `LM3-ART-P020` — gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit
+### 2. `LM3-ART-SA820` — passenger gangway bellows, bridge and turntable subassembly
+
+- Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material pack
+  - bridge load test
+  - gap/pinch gauge
+  - water test
+  - full-motion sweep
+
+### 3. `LM3-ART-SA830` — articulation service-transfer and segregated trainline subassembly
 
 - Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
-- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`
-- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
-- Joint release status: `supplier-freeze-required`
+- Join classes: `bolted-structural-datum`, `electrical-data`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
 - Verification:
-  - motion-envelope proof
-  - fire evidence
-  - water ingress/drain test
-
-### 3. `LM3-ART-P030` — inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit
-
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
-- Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
-- Join classes: `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
-- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
-- Joint release status: `supplier-freeze-required`
-- Verification:
+  - HV/LV segregation
+  - continuity/pressure test
   - bend-radius sweep
-  - trainline continuity
-  - coolant pressure test
-  - water-drain test
+  - drain test
+  - replaceability trial
 
 
 ## Hold points

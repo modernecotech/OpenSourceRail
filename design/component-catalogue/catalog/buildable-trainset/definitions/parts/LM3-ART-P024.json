@@ -1,0 +1,111 @@
+{
+  "acceptance": [
+    "rated bend radius",
+    "dynamic sweep",
+    "abrasion/fire evidence",
+    "drain test",
+    "service replacement trial"
+  ],
+  "bom_line_ids": [
+    "B24"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-ART-P024",
+  "layer": "external-component",
+  "make_or_buy_basis": "A replaceable energy-chain/support system controls service-loop bend radius and separates HV, LV/data and coolant across the joint.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "laminate coupon",
+      "cure record",
+      "insert pull-out evidence",
+      "fire-smoke certificate"
+    ],
+    "finish_or_protection": "UV-stable exterior gelcoat/paint, sealed cut edges, gasketed seams, and mixed-metal isolation",
+    "form_factor": "moulded cowl cast, solid flanges, local core in broad skins, potted inserts, and trim/repair coupons",
+    "governing_standard": "supplier laminate schedule plus project fire/smoke, coupon, and insert pull-out evidence",
+    "grade_or_part_class": "E-glass or basalt-fibre/vinyl-ester end-cowl laminate and insert kit",
+    "material_family": "fire-retardant fiberglass composite",
+    "nominal_section": "laminate thickness, ply drop, core map, insert pattern, split line, and trim datum per LM3-BDY-155",
+    "traceability": "laminate batch, resin batch, cure record, insert pull-out record, adhesive batch, and coupon traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-ART-SA830",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "rated bend radius",
+      "dynamic sweep",
+      "abrasion/fire evidence",
+      "drain test",
+      "service replacement trial",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-ART-P024, CERT-LM3-ART-P024, GAUGE-LM3-ART-P024-ENVELOPE"
+  },
+  "quantity_per_trainset": 2,
+  "route": "SOURCE",
+  "source_refs": [
+    "articulation.md",
+    "systems.py",
+    "LM3-SYS-170"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "catalogue-system-anchor",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "The final carrier series, connector inserts, cable compounds, hose lengths and articulation sweep remain to be frozen."
+    ],
+    "id": "OSR-ANC-TRAINLINE-IGUS-HARTING",
+    "local_equivalent_allowed": true,
+    "localisation": "Hoses and cables may be made locally to controlled drawings; carrier, connector or jacket substitutions require bend-cycle, separation, IP, fire, current, pressure, EMC and breakaway tests.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "igus / HARTING",
+    "manufacturer_url": "https://www.igus.com/info/industries-railway-technology",
+    "procurement_state": "sample-and-rfq",
+    "product_family": "e-chain dynamic cable carriers with Han rail connectors",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "articulation trainline carrier, support arms, abrasion liners and drain path",
+  "unit": "carrier set"
+}

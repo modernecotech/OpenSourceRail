@@ -1,0 +1,98 @@
+{
+  "acceptance": [
+    "accessible reach/contrast review",
+    "emergency-light duration test",
+    "equipment certificate/expiry audit",
+    "location and egress survey"
+  ],
+  "bom_line_ids": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-EXT-P066",
+  "layer": "external-component",
+  "make_or_buy_basis": "A controlled location schedule separates fixed PRM/call-button/signage/emergency-light equipment from operator-replenished extinguishers, first aid and seals.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "accessible reach/contrast review",
+      "emergency-light duration test",
+      "expiry audit",
+      "egress survey"
+    ],
+    "finish_or_protection": "cleanable UV/chemical-resistant labels, radiused tamper-resistant brackets and protected emergency battery/connector interfaces",
+    "form_factor": "fixed equipment installed to the released location schedule; replenishable/expiring contents remain separately recorded operator stock",
+    "governing_standard": "selected national accessibility/fire rules plus supplier fire, photometric, battery-duration, extinguisher/bracket, label-durability and lifecycle evidence",
+    "grade_or_part_class": "passenger call controls, tactile/visual labels, battery-backed exit markers, certified extinguisher/first-aid brackets, tamper seals and common adapters",
+    "material_family": "controlled PRM and emergency-equipment location kit",
+    "nominal_section": "reachable controls, contrast/tactile content, illuminated sightlines, bracket loads, egress keep-outs and service access fixed by project review",
+    "traceability": "equipment serial/batch, label revision/language, battery date, extinguisher/first-aid expiry, seal number and installed location audit"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "accessible reach/contrast review",
+      "emergency-light duration test",
+      "equipment certificate/expiry audit",
+      "location and egress survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P066, CERT-LM3-EXT-P066, GAUGE-LM3-EXT-P066-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "SOURCE",
+  "source_refs": [
+    "cots_equipment.py",
+    "bom-skeleton.md A1-A4",
+    "LM3-INT-230"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-product-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Exact lamp models, optics, voltage variants and emergency battery arrangement remain open."
+    ],
+    "id": "OSR-ANC-LIGHT-TEKNOWARE",
+    "local_equivalent_allowed": true,
+    "localisation": "Local luminaires are acceptable at the standard plug and mounting cassette after photometry, glare, fire, EMC, IP, emergency-duration and temperature tests.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Teknoware",
+    "manufacturer_url": "https://www.teknoware.com/rail/",
+    "procurement_state": "rfq-required",
+    "product_family": "rail interior, emergency and exterior lighting",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit",
+  "unit": "car kit"
+}

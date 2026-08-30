@@ -1,0 +1,253 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "traction drive clean assembly cell",
+  "children": [
+    "LM3-TRC-P010",
+    "LM3-TRC-P020",
+    "LM3-BOG-P050"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 6.44,
+  "id": "LM3-TRC-SA615",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier traction drive equipment, supplier HVAC and air-distribution kit, rail structural steel",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-TRC-SA615 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.69,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-TRC-SA615",
+        "FIX-LM3-TRC-SA615",
+        "KIT-LM3-TRC-SA615"
+      ],
+      "work_center": "traction drive clean assembly cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-TRC-P010: motor-350kw-hm47-class axle traction motor",
+      "tooling_ids": [
+        "FIX-LM3-TRC-SA615",
+        "GAUGE-LM3-TRC-P010",
+        "TORQUE-LM3-TRC-P010"
+      ],
+      "work_center": "traction drive clean assembly cell"
+    },
+    {
+      "labor_hours": 1.0,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-TRC-P020: single-stage reduction gearbox and flexible coupling",
+      "tooling_ids": [
+        "FIX-LM3-TRC-SA615",
+        "GAUGE-LM3-TRC-P020",
+        "TORQUE-LM3-TRC-P020"
+      ],
+      "work_center": "traction drive clean assembly cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P050: powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit",
+      "tooling_ids": [
+        "FIX-LM3-TRC-SA615",
+        "GAUGE-LM3-BOG-P050",
+        "TORQUE-LM3-BOG-P050"
+      ],
+      "work_center": "traction drive clean assembly cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "motor/gearbox serial match",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: motor/gearbox serial match",
+      "tooling_ids": [
+        "QA-LM3-TRC-SA615"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "coupling alignment",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: coupling alignment",
+      "tooling_ids": [
+        "QA-LM3-TRC-SA615"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "torque-link proof",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: torque-link proof",
+      "tooling_ids": [
+        "TORQUE-LM3-TRC-SA615"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "insulation/rotation test",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: insulation/rotation test",
+      "tooling_ids": [
+        "QA-LM3-TRC-SA615"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "removal-envelope trial",
+      "sequence": 90,
+      "signoff_role": "quality inspector",
+      "title": "hold point: removal-envelope trial",
+      "tooling_ids": [
+        "QA-LM3-TRC-SA615"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 100,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-TRC-SA615",
+        "NCR-LM3-TRC-SA615"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "motor/gearbox serial match",
+      "coupling alignment",
+      "torque-link proof",
+      "insulation/rotation test",
+      "removal-envelope trial",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test",
+      "alignment survey",
+      "static brake test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-TRC-SA615, KIT-LM3-TRC-SA615, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRC-SA615-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-SA615-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-SA615-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit",
+  "traveler_type": "assembly-node"
+}

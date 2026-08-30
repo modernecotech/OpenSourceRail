@@ -8,7 +8,7 @@ unsigned until a real build cell uses and approves them.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Traveler templates: `103`
+- Traveler templates: `127`
 
 | ID | Type | Route/layer | Traveler |
 |---|---|---|---|
@@ -52,6 +52,12 @@ unsigned until a real build cell uses and approves them.
 | `LM3-EXT-P040` | product item | `BID` | [md](parts/LM3-EXT-P040.md) |
 | `LM3-EXT-P050` | product item | `SOURCE` | [md](parts/LM3-EXT-P050.md) |
 | `LM3-EXT-P060` | product item | `SOURCE` | [md](parts/LM3-EXT-P060.md) |
+| `LM3-EXT-P061` | product item | `SOURCE` | [md](parts/LM3-EXT-P061.md) |
+| `LM3-EXT-P062` | product item | `SOURCE` | [md](parts/LM3-EXT-P062.md) |
+| `LM3-EXT-P063` | product item | `SOURCE` | [md](parts/LM3-EXT-P063.md) |
+| `LM3-EXT-P064` | product item | `SOURCE` | [md](parts/LM3-EXT-P064.md) |
+| `LM3-EXT-P065` | product item | `SOURCE` | [md](parts/LM3-EXT-P065.md) |
+| `LM3-EXT-P066` | product item | `SOURCE` | [md](parts/LM3-EXT-P066.md) |
 | `LM3-FIX-P010` | product item | `MAKE` | [md](parts/LM3-FIX-P010.md) |
 | `LM3-FIX-P020` | product item | `SOURCE` | [md](parts/LM3-FIX-P020.md) |
 | `LM3-FIX-P030` | product item | `MAKE` | [md](parts/LM3-FIX-P030.md) |
@@ -80,9 +86,21 @@ unsigned until a real build cell uses and approves them.
 | `LM3-SAF-P010` | product item | `SOURCE` | [md](parts/LM3-SAF-P010.md) |
 | `LM3-BOG-P040` | product item | `BID` | [md](parts/LM3-BOG-P040.md) |
 | `LM3-BOG-P041` | product item | `BID` | [md](parts/LM3-BOG-P041.md) |
+| `LM3-BOG-P042` | product item | `BID` | [md](parts/LM3-BOG-P042.md) |
+| `LM3-BOG-P043` | product item | `BID` | [md](parts/LM3-BOG-P043.md) |
+| `LM3-BOG-P044` | product item | `BID` | [md](parts/LM3-BOG-P044.md) |
+| `LM3-BOG-P045` | product item | `BID` | [md](parts/LM3-BOG-P045.md) |
+| `LM3-BOG-P046` | product item | `BID` | [md](parts/LM3-BOG-P046.md) |
+| `LM3-BOG-P047` | product item | `BID` | [md](parts/LM3-BOG-P047.md) |
+| `LM3-BOG-P048` | product item | `BID` | [md](parts/LM3-BOG-P048.md) |
+| `LM3-BOG-P049` | product item | `BID` | [md](parts/LM3-BOG-P049.md) |
 | `LM3-AUX-P010` | product item | `SOURCE` | [md](parts/LM3-AUX-P010.md) |
 | `LM3-END-P010` | product item | `BID` | [md](parts/LM3-END-P010.md) |
 | `LM3-ART-P020` | product item | `BID` | [md](parts/LM3-ART-P020.md) |
+| `LM3-ART-P021` | product item | `BID` | [md](parts/LM3-ART-P021.md) |
+| `LM3-ART-P022` | product item | `BID` | [md](parts/LM3-ART-P022.md) |
+| `LM3-ART-P023` | product item | `BID` | [md](parts/LM3-ART-P023.md) |
+| `LM3-ART-P024` | product item | `SOURCE` | [md](parts/LM3-ART-P024.md) |
 | `LM3-CTRL-P010` | product item | `BID` | [md](parts/LM3-CTRL-P010.md) |
 | `LM3-CTRL-P020` | product item | `SOURCE` | [md](parts/LM3-CTRL-P020.md) |
 | `LM3-CTRL-P030` | product item | `BID` | [md](parts/LM3-CTRL-P030.md) |
@@ -105,12 +123,18 @@ unsigned until a real build cell uses and approves them.
 | `LM3-LGT-SA350` | assembly node | `subassembly` | [md](subassemblies/LM3-LGT-SA350.md) |
 | `LM3-ROOF-SA410` | assembly node | `subassembly` | [md](subassemblies/LM3-ROOF-SA410.md) |
 | `LM3-HV-SA510` | assembly node | `subassembly` | [md](subassemblies/LM3-HV-SA510.md) |
+| `LM3-BOG-SA611` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA611.md) |
+| `LM3-TRC-SA615` | assembly node | `subassembly` | [md](subassemblies/LM3-TRC-SA615.md) |
 | `LM3-BOG-SA610` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA610.md) |
+| `LM3-BOG-SA621` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA621.md) |
 | `LM3-BOG-SA620` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA620.md) |
 | `LM3-CWL-SA710` | assembly node | `subassembly` | [md](subassemblies/LM3-CWL-SA710.md) |
 | `LM3-EIF-SA650` | assembly node | `subassembly` | [md](subassemblies/LM3-EIF-SA650.md) |
 | `LM3-END-SA700` | assembly node | `assembly` | [md](assemblies/LM3-END-SA700.md) |
 | `LM3-TTART-SA850` | assembly node | `assembly` | [md](assemblies/LM3-TTART-SA850.md) |
+| `LM3-ART-SA810` | assembly node | `subassembly` | [md](subassemblies/LM3-ART-SA810.md) |
+| `LM3-ART-SA820` | assembly node | `subassembly` | [md](subassemblies/LM3-ART-SA820.md) |
+| `LM3-ART-SA830` | assembly node | `subassembly` | [md](subassemblies/LM3-ART-SA830.md) |
 | `LM3-ART-SA800` | assembly node | `assembly` | [md](assemblies/LM3-ART-SA800.md) |
 | `LM3-SYS-SA900` | assembly node | `assembly` | [md](assemblies/LM3-SYS-SA900.md) |
 | `LM3-CAR-A900` | assembly node | `assembly` | [md](assemblies/LM3-CAR-A900.md) |

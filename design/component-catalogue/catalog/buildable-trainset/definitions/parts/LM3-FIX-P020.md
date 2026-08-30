@@ -14,6 +14,21 @@
 
 M6 captive, M8 calculated-fixture, quarter-turn access, and M10 sealed exterior families replace ad-hoc fastener selection.
 
+## Supplier anchor and local-equivalent route
+
+- Anchor: `OSR-ANC-FASTENER-BOLLHOFF` — [Böllhoff RIVNUT blind rivet nuts and setting systems](https://www.boellhoff.com/us-en/products/special-fasteners/rivnut-blind-rivet-nuts-and-rivstud-blind-rivet-studs/)
+- Procurement state: `catalogue-sourceable-after-sizing`
+- Local equivalent allowed: yes, after the controlled equivalence dossier
+- Localisation route: Equivalent inserts and captive hardware are allowed only by joint family after substrate-specific setting trials, proof loads, corrosion and removal-cycle tests.
+- Known fit gaps: Exact grip range, head, thread, material and setting force must be selected from each released joint drawing.
+- Mandatory equivalence:
+  - same or better released fit, mounting datums, connector keying and service envelope
+  - same or better mass, load, duty-cycle, thermal, electrical and environmental ratings
+  - same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence
+  - documented failure modes, maintenance intervals, spares and obsolescence route
+  - first-article inspection plus component, subassembly and vehicle regression tests
+  - signed design-authority substitution record preserving the original anchor and evidence hashes
+
 ## Material specification
 
 | Field | Value |

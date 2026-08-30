@@ -1,0 +1,210 @@
+{
+  "bom_line_ids": [
+    "B15"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-EXT-P063",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "fixture-specific proof-load evidence",
+      "reach/egress survey",
+      "locking audit",
+      "timed joint replacement"
+    ],
+    "finish_or_protection": "brushed/passivated cleanable surface, radiused ends, no exposed threads, isolated mixed metals and sealed floor penetrations",
+    "form_factor": "cut-to-length repeated tubes and replaceable elbows/tees fixed at structural floor/ceiling/service-rail datums without loading liners",
+    "governing_standard": "supplier material/finish specification plus project passenger load, fatigue, fire, accessibility, corrosion, electrical-isolation and snag evidence",
+    "grade_or_part_class": "304/316 stainless tube candidate, radiused cast/machined joints, insulated common-rail saddles, anti-rotation keys and captive locking hardware",
+    "material_family": "modular passenger handrail and stanchion system",
+    "nominal_section": "tube diameter/wall, joint engagement, support span, reachable zones, adapter geometry and fastener grip fixed by LM3-INT-230 drawings and calculation",
+    "traceability": "tube heat/batch, fitting/fastener lot, cut list, joint locking witness, installed survey and proof-test record"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P063",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P063",
+        "CERT-LM3-EXT-P063"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P063-ENVELOPE",
+        "FIX-LM3-INT-SA330"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "material/finish certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: material/finish certificate",
+      "tooling_ids": [
+        "QA-LM3-EXT-P063"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "joint locking record",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: joint locking record",
+      "tooling_ids": [
+        "QA-LM3-EXT-P063"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fixture-specific proof-load evidence",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fixture-specific proof-load evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P063"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "reach, egress and snag survey",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: reach, egress and snag survey",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P063"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P063",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "material/finish certificate",
+      "joint locking record",
+      "fixture-specific proof-load evidence",
+      "reach, egress and snag survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P063, CERT-LM3-EXT-P063, GAUGE-LM3-EXT-P063-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P063-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P063-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P063-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "stainless grab-pole, handrail, joint, and insulated adapter kit",
+  "traveler_type": "product-item",
+  "unit": "car kit"
+}

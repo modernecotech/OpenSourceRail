@@ -22,7 +22,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-FIX-SA340 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-controlled external component, formed sheet metal / stainless local hardware |
+| Form factor | common extruded aluminium passenger/service datum rail, supplier-controlled external component, calculated passenger-fixture saddle and adapter family |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |

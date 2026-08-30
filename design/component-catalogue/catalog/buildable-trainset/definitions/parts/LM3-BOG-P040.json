@@ -1,31 +1,19 @@
 {
   "acceptance": [
-    "wheelset certificates",
-    "bearing records",
-    "spring/damper certificates",
-    "brake test",
-    "sensor test",
-    "ride-height report"
+    "wheel/axle heat certificates",
+    "press-force chart",
+    "back-to-back and runout report",
+    "ultrasonic inspection",
+    "balance record"
   ],
   "bom_line_ids": [
     "G3",
-    "G4",
-    "G5",
-    "G6",
-    "G7",
-    "G8",
-    "G9",
-    "G10",
-    "G11",
-    "G12",
-    "G14",
-    "G15",
-    "G16"
+    "G8"
   ],
   "definition_type": "product-item",
   "id": "LM3-BOG-P040",
   "layer": "external-component",
-  "make_or_buy_basis": "The powered-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
+  "make_or_buy_basis": "Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset; wheels or axles are not mixed between qualified families.",
   "material_spec": {
     "evidence_required": [
       "certificate of conformity",
@@ -43,17 +31,16 @@
   },
   "maturity": "buildable-after-supplier-freeze",
   "notes": "",
-  "parent": "LM3-BOG-SA610",
+  "parent": "LM3-BOG-SA611",
   "process_spec": {
     "inspection_methods": [
       "incoming visual inspection",
       "envelope fit check",
-      "wheelset certificates",
-      "bearing records",
-      "spring/damper certificates",
-      "brake test",
-      "sensor test",
-      "ride-height report",
+      "wheel/axle heat certificates",
+      "press-force chart",
+      "back-to-back and runout report",
+      "ultrasonic inspection",
+      "balance record",
       "functional static test",
       "emergency/recovery function check where applicable"
     ],
@@ -78,14 +65,36 @@
     ],
     "tooling_basis": "RFQ-LM3-BOG-P040, CERT-LM3-BOG-P040, GAUGE-LM3-BOG-P040-ENVELOPE"
   },
-  "quantity_per_trainset": 3,
+  "quantity_per_trainset": 6,
   "route": "BID",
   "source_refs": [
     "bogie/wheelset.py",
     "bogie/brake.py",
-    "bogie/suspension.py",
     "LM3-BOG-400"
   ],
-  "title": "powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
-  "unit": "bogie kit"
+  "supplier_anchor": {
+    "anchor_type": "rail-safety-critical-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Wheel profile, diameter, axle journal, disc seats, material grades and load spectrum remain to be frozen."
+    ],
+    "id": "OSR-ANC-WHEELSET-GHH",
+    "local_equivalent_allowed": true,
+    "localisation": "Local wheel/axle manufacture is encouraged only after metallurgy, forging, heat treatment, NDT, press-fit, profile, fatigue and route-specific standards are qualified and independently accepted.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "GHH-BONATRANS",
+    "manufacturer_url": "https://www.ghh-bonatrans.com/en/about-us/products-and-services/wheelset/",
+    "procurement_state": "rfq-required",
+    "product_family": "urban-rail wheelsets",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "powered-bogie wheelset with axle-mounted brake discs",
+  "unit": "wheelset"
 }

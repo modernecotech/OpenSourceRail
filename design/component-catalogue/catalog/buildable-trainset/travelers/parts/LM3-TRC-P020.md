@@ -50,13 +50,13 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-TRC-P020`<br>`DOC-LM3-BOG-SA610` | traveler rev and parent assembly match released manifest | cell lead |
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-TRC-P020`<br>`DOC-LM3-TRC-SA615` | traveler rev and parent assembly match released manifest | cell lead |
 | 20 | receive supplier component and quarantine until evidence pack passes | receiving inspection | 0.45 | `RFQ-LM3-TRC-P020`<br>`CERT-LM3-TRC-P020` | supplier certificate/datasheet/revision accepted | quality inspector |
-| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-TRC-P020-ENVELOPE`<br>`FIX-LM3-BOG-SA610` | component fits without parent datum rework | operator |
+| 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-TRC-P020-ENVELOPE`<br>`FIX-LM3-TRC-SA615` | component fits without parent datum rework | operator |
 | 40 | verify acceptance gate: gear ratio certificate | quality inspection | 0.25 | `QA-LM3-TRC-P020` | gear ratio certificate | quality inspector |
 | 50 | verify acceptance gate: oil access check | quality inspection | 0.25 | `QA-LM3-TRC-P020` | oil access check | quality inspector |
 | 60 | verify acceptance gate: coupling alignment | quality inspection | 0.25 | `QA-LM3-TRC-P020` | coupling alignment | quality inspector |
-| 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-TRC-P020`<br>`KIT-LM3-BOG-SA610` | item is released, tagged, and staged for parent assembly | cell lead |
+| 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-TRC-P020`<br>`KIT-LM3-TRC-SA615` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

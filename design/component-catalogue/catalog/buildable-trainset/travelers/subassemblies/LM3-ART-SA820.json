@@ -1,0 +1,227 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "gangway clean assembly cell",
+  "children": [
+    "LM3-ART-P022",
+    "LM3-ART-P023"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 5.11,
+  "id": "LM3-ART-SA820",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-controlled external component, passenger interior COTS kit",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ART-SA820 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.61,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-ART-SA820",
+        "FIX-LM3-ART-SA820",
+        "KIT-LM3-ART-SA820"
+      ],
+      "work_center": "gangway clean assembly cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P022: inter-car double-wall corrugated bellows and clamp-frame set",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA820",
+        "GAUGE-LM3-ART-P022",
+        "TORQUE-LM3-ART-P022"
+      ],
+      "work_center": "gangway clean assembly cell"
+    },
+    {
+      "labor_hours": 1.1,
+      "qa_gate": "placement zone and joint controls accepted: saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P023: inter-car passenger bridge, turntable and flexible interior-panel set",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA820",
+        "GAUGE-LM3-ART-P023",
+        "TORQUE-LM3-ART-P023"
+      ],
+      "work_center": "gangway clean assembly cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "fire-material pack",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "hold point: fire-material pack",
+      "tooling_ids": [
+        "QA-LM3-ART-SA820"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "bridge load test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: bridge load test",
+      "tooling_ids": [
+        "QA-LM3-ART-SA820"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "gap/pinch gauge",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: gap/pinch gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-ART-SA820"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "water test",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: water test",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-ART-SA820"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "full-motion sweep",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: full-motion sweep",
+      "tooling_ids": [
+        "QA-LM3-ART-SA820"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 90,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-ART-SA820",
+        "NCR-LM3-ART-SA820"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "fire-material pack",
+      "bridge load test",
+      "gap/pinch gauge",
+      "water test",
+      "full-motion sweep",
+      "water/leak test",
+      "bond/gasket witness check"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record"
+    ],
+    "tooling_basis": "FIX-LM3-ART-SA820, KIT-LM3-ART-SA820, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-ART-SA820-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA820-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA820-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "passenger gangway bellows, bridge and turntable subassembly",
+  "traveler_type": "assembly-node"
+}

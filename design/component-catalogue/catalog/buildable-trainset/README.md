@@ -26,9 +26,12 @@ current basic design and what must be closed before first steel cut.
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
 | Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
-| Buyer / supplier manager | [`definitions/index.md`](definitions/index.md) | Turn `BID`/`SOURCE` definitions into RFQs and evidence requirements |
+| Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 54 bought-in rows from 25 real product families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
+| Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 101 product links, nine timed methods, 20 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
+
+Open the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd) and the semantic product/method/task federation in [`../../../engineering/models/bim/reference/lm3-manufacturing-reference.ifc`](../../../../engineering/models/bim/reference/lm3-manufacturing-reference.ifc).
 
 ## Generated manufacturing visuals
 
@@ -43,7 +46,8 @@ current basic design and what must be closed before first steel cut.
 The intended sequence is:
 
 1. Read the buildability review for release blockers.
-2. Use the manifest to understand the parent/child assembly tree.
+2. Use the manifest to understand the 101-part / 26-assembly tree, then use
+   `supplier-anchors.md` to buy an anchor family or qualify a local equivalent.
 3. Use `train-end-interface.md` to confirm whether each end position is
    dressed as a panoramic glass front/end or an open mid-train
    train-to-train connection.

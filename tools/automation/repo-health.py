@@ -24,6 +24,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
+from PIL import Image
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CAPEX_COSTS = tomllib.loads((REPO_ROOT / "lib/templates/capex-costs.toml").read_text())
@@ -906,14 +908,30 @@ def check_generated_portfolio_summary() -> list[Finding]:
     generator = REPO_ROOT / "tools/automation/generate-portfolio-summary.py"
     module = runpy.run_path(str(generator))
     expected = module["build_summary"]()
+    findings: list[Finding] = []
     if not path.is_file() or path.read_text() != expected:
-        return [
+        findings.append(
             Finding(
                 path,
                 "generated portfolio summary is stale; run tools/automation/generate-portfolio-summary.py",
             )
-        ]
-    return []
+        )
+    _, _, capital, _ = module["portfolio_metrics"]()
+    total = float(capital["total"])
+    expected_readme_values = (
+        f"${float(capital['local']) / 1_000_000_000:.2f}B ({float(capital['local']) / total:.1%})",
+        f"${float(capital['external']) / 1_000_000_000:.2f}B ({float(capital['external']) / total:.1%})",
+        f"${float(capital['external_saved']) / 1_000_000_000:.2f}B",
+        f"${float(capital['lifetime_saved']) / 1_000_000_000:.2f}B",
+    )
+    readme = REPO_ROOT / "README.md"
+    readme_text = readme.read_text(encoding="utf-8")
+    for value in expected_readme_values:
+        if value not in readme_text:
+            findings.append(
+                Finding(readme, f"front-page economic value is stale or missing: {value}")
+            )
+    return findings
 
 
 def check_generated_public_overview() -> list[Finding]:
@@ -1129,6 +1147,134 @@ def check_public_bim_review_set() -> list[Finding]:
     return findings
 
 
+def check_public_animation_set() -> list[Finding]:
+    """Reject short, static, missing, untracked, or oversized review media."""
+
+    assembly_root = REPO_ROOT / "engineering/models/digital-twins/fabrication-assembly"
+    assembly_gif = assembly_root / "fabrication-assembly-digital-twin.gif"
+    assembly_mp4 = assembly_root / "fabrication-assembly-digital-twin.mp4"
+    operations_gif = REPO_ROOT / "docs/assets/digital-twin-animation.gif"
+    city_gif = (
+        REPO_ROOT
+        / "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin"
+        / "samawah-line1-digital-twin.gif"
+    )
+    manifest_path = assembly_root / "fabrication-assembly-digital-twin.json"
+    tracked = set(
+        subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
+    )
+    findings: list[Finding] = []
+    for path in (assembly_gif, assembly_mp4, operations_gif, city_gif, manifest_path):
+        relative = path.relative_to(REPO_ROOT).as_posix()
+        if not path.is_file():
+            findings.append(Finding(path, "public animation artifact is missing"))
+        elif relative not in tracked:
+            findings.append(Finding(path, "public animation artifact is not tracked"))
+        elif path.stat().st_size >= 20_000_000:
+            findings.append(Finding(path, "public animation artifact reaches the 20 MB limit"))
+
+    gif_contracts = (
+        (assembly_gif, 250, 80_000, (640, 360)),
+        (operations_gif, 150, 18_000, (800, 450)),
+        (city_gif, 180, 40_000, (640, 360)),
+    )
+    for path, minimum_frames, minimum_duration_ms, minimum_size in gif_contracts:
+        if not path.is_file():
+            continue
+        try:
+            with Image.open(path) as animation:
+                frames = int(getattr(animation, "n_frames", 1))
+                size = animation.size
+                duration_ms = 0
+                unique_frames: set[bytes] = set()
+                for frame in range(frames):
+                    animation.seek(frame)
+                    duration_ms += int(animation.info.get("duration", 0))
+                    unique_frames.add(hashlib.sha256(animation.convert("RGB").tobytes()).digest())
+        except (OSError, EOFError) as error:
+            findings.append(Finding(path, f"animation cannot be decoded: {error}"))
+            continue
+        if frames < minimum_frames:
+            findings.append(Finding(path, f"animation has only {frames} frames"))
+        if duration_ms < minimum_duration_ms:
+            findings.append(
+                Finding(path, f"animation duration is only {duration_ms / 1000:.1f} seconds")
+            )
+        if len(unique_frames) < int(frames * 0.8):
+            findings.append(
+                Finding(path, f"only {len(unique_frames)} of {frames} frames are visually distinct")
+            )
+        if size[0] < minimum_size[0] or size[1] < minimum_size[1]:
+            findings.append(
+                Finding(path, f"animation dimensions are {size}, below minimum {minimum_size}")
+            )
+
+    if assembly_mp4.is_file():
+        header = assembly_mp4.read_bytes()[:32]
+        if b"ftyp" not in header or assembly_mp4.stat().st_size < 1_000_000:
+            findings.append(Finding(assembly_mp4, "primary MP4 is missing a valid media header"))
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if manifest.get("visual_tour", {}).get("duration_s") != 88.0:
+            findings.append(Finding(manifest_path, "visual tour duration is not the 88-second contract"))
+    return findings
+
+
+def check_trainset_manufacturing_package() -> list[Finding]:
+    """Require the timed product/method graph and public CAD/IFC tooling views."""
+
+    paths = {
+        "source": REPO_ROOT / "lib/templates/trainset-manufacturing-methods.toml",
+        "methods": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json",
+        "instructions": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md",
+        "supplier_source": REPO_ROOT / "lib/templates/trainset-supplier-anchors.toml",
+        "supplier_register": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
+        "supplier_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md",
+        "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
+        "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
+        "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
+    }
+    tracked = set(
+        subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
+    )
+    findings: list[Finding] = []
+    for path in paths.values():
+        relative = path.relative_to(REPO_ROOT).as_posix()
+        if not path.is_file():
+            findings.append(Finding(path, "LM3 manufacturing artifact is missing"))
+        elif relative not in tracked:
+            findings.append(Finding(path, "LM3 manufacturing artifact is not tracked"))
+    if paths["methods"].is_file():
+        methods = json.loads(paths["methods"].read_text(encoding="utf-8"))
+        coverage = methods.get("coverage", {})
+        if coverage.get("covered_product_rows") != coverage.get("product_rows"):
+            findings.append(Finding(paths["methods"], "manufacturing methods do not cover every LM3 product row"))
+        if coverage.get("product_rows") != 101 or coverage.get("tooling_count") != 20:
+            findings.append(Finding(paths["methods"], "LM3 method/tooling coverage changed without review"))
+    if paths["supplier_register"].is_file():
+        supplier = json.loads(paths["supplier_register"].read_text(encoding="utf-8"))
+        coverage = supplier.get("coverage", {})
+        expected_supplier = {
+            "external_product_rows": 54,
+            "covered_external_product_rows": 54,
+            "anchor_count": 25,
+            "uncovered_product_ids": [],
+        }
+        if coverage != expected_supplier:
+            findings.append(Finding(paths["supplier_register"], f"LM3 supplier-anchor coverage changed: {coverage}"))
+    if paths["ifc_index"].is_file():
+        index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
+        if not index.get("passed"):
+            findings.append(Finding(paths["ifc_index"], "LM3 manufacturing IFC validation did not pass"))
+        expected = {"product_item_count": 101, "method_count": 9, "tooling_count": 20, "task_count": 59}
+        observed = {key: index.get(key) for key in expected}
+        if observed != expected:
+            findings.append(Finding(paths["ifc_index"], f"LM3 manufacturing IFC counts changed: {observed}"))
+        if index.get("supplier_anchor_count") != 25 or index.get("supplier_anchored_external_product_count") != 54:
+            findings.append(Finding(paths["ifc_index"], "LM3 IFC supplier-anchor coverage is incomplete"))
+    return findings
+
+
 def check_readme_corpus() -> list[Finding]:
     completed = subprocess.run(
         [sys.executable, str(REPO_ROOT / "tools/automation/check-readmes.py")],
@@ -1177,6 +1323,8 @@ def run_checks() -> list[Finding]:
     findings.extend(check_readme_corpus())
     findings.extend(check_simulation_component_coverage())
     findings.extend(check_public_bim_review_set())
+    findings.extend(check_public_animation_set())
+    findings.extend(check_trainset_manufacturing_package())
     findings.extend(check_repository_hygiene())
     return findings
 

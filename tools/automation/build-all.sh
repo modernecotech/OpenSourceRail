@@ -34,11 +34,18 @@ section "Generating BOM and open IFC4.3 reference packages"
 python3 tools/automation/export-light-metro-bom.py
 if python3 -c 'import ifcopenshell, ifctester, bcf' >/dev/null 2>&1; then
     python3 engineering/interchange/station_ifc.py --all-variants
+    python3 engineering/interchange/trainset_manufacturing_ifc.py
     tools/automation/bonsai-civil.sh --generate \
         --out-dir engineering/models/bim/reference \
         --revision-id repository-reference
 else
     printf 'IFC generation skipped: rerun ./install.sh and accept the engineering applications.\n'
+fi
+if command -v FreeCADCmd >/dev/null 2>&1 || command -v freecadcmd >/dev/null 2>&1 || \
+   { command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; }; then
+    tools/automation/freecad-generate.sh --assemblies
+else
+    printf 'FreeCAD review-model generation skipped: install the optional engineering applications.\n'
 fi
 
 section "Building the root documentation book"

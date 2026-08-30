@@ -18,19 +18,21 @@ A small adapter family attaches seats, handrails, PIS, CCTV and cable supports t
 
 | Field | Value |
 |---|---|
-| Material family | formed sheet metal / stainless local hardware |
-| Grade / part class | S355 or 304/316 stainless local bracket/tray candidate, selected by exposure zone |
-| Governing standard | EN 10025 / EN 10088 certificate as applicable plus project bonding/corrosion evidence |
-| Form factor | laser-cut, folded, drilled sheet/plate with inserts, studs, clips, and labels |
-| Nominal section | thickness, stainless grade, and galvanic isolation frozen by v2A controlled drawing |
-| Finish / protection | zinc/paint/stainless passivation, orange HV marking, edge protection, and sealing as applicable |
-| Traceability | heat number, coating batch, bonding test, and installation batch traceability |
+| Material family | calculated passenger-fixture saddle and adapter family |
+| Grade / part class | laser-cut/folded 304/316 or coated S355 saddles with radiused edges, anti-rotation keys, isolators and M8 captive/floating joints |
+| Governing standard | fixture-specific released load calculation/drawing plus material, fastener, fire, corrosion, proof-load and passenger-safety evidence |
+| Form factor | common rail-side saddle blank CNC-trimmed/drilled into seat, handrail and equipment variants without transferring primary loads through trim panels |
+| Nominal section | rail engagement, edge radius, anti-rotation feature, hole/slot range and fixture keep-out fixed by the controlled adapter drawing |
+| Finish / protection | passivated or coated surfaces, electrically/galvanically isolated interfaces and cleanable snag-free passenger edges |
+| Traceability | material/finish batch, adapter variant, fastener lot, installed position map, torque/locking record and first-article proof test |
 
 Evidence required:
 
-- mill certificate
-- coating/passivation record
-- bonding continuity record
+- certificate of conformity
+- incoming inspection record
+- adapter gauge
+- fixture load proof
+- egress and snag inspection
 
 ## Process specification
 

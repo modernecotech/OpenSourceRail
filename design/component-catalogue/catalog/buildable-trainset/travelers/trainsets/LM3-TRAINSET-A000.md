@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 9.13 h |
+| Estimated labor | 8.83 h |
 | Build cell | final assembly and commissioning cell |
 | Procurement BOM lines | None directly assigned |
 
@@ -53,7 +53,7 @@ Evidence required:
 | 20 | install and integrate LM3-CAR-A900: complete repeated car module | final assembly and commissioning cell | 1.05 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-CAR-A900`<br>`TORQUE-LM3-CAR-A900` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 30 | install and integrate LM3-EIF-SA650: common configurable train-end interface set | final assembly and commissioning cell | 1.05 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-EIF-SA650`<br>`TORQUE-LM3-EIF-SA650` | placement zone and joint controls accepted: common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record | operator |
 | 40 | install and integrate LM3-END-SA700: train-end cowl, coupler, crash, and sensor assembly | final assembly and commissioning cell | 1.65 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-END-SA700`<br>`TORQUE-LM3-END-SA700` | placement zone and joint controls accepted: train-end cowl, crash, coupler, and sensor datum stack | operator |
-| 50 | install and integrate LM3-ART-SA800: inter-car articulation and trainline assembly | final assembly and commissioning cell | 1.48 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-ART-SA800`<br>`TORQUE-LM3-ART-SA800` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
+| 50 | install and integrate LM3-ART-SA800: complete inter-car structural articulation, passenger gangway and service transfer | final assembly and commissioning cell | 1.18 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-ART-SA800`<br>`TORQUE-LM3-ART-SA800` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
 | 60 | install and integrate LM3-SYS-SA900: train control, communication, and safety electronics assembly | final assembly and commissioning cell | 1.35 | `FIX-LM3-TRAINSET-A000`<br>`GAUGE-LM3-SYS-SA900`<br>`TORQUE-LM3-SYS-SA900` | placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone | operator |
 | 70 | hold point: trainset weigh | quality inspection | 0.35 | `QA-LM3-TRAINSET-A000` | trainset weigh | quality inspector |
 | 80 | hold point: static brake/door/HVAC/HV tests | quality inspection | 0.35 | `QA-LM3-TRAINSET-A000` | static brake/door/HVAC/HV tests | quality inspector |

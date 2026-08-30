@@ -1,11 +1,11 @@
-# Shop traveler — LM3-BOG-SA620 — trailer bogie assembly
+# Shop traveler — LM3-BOG-SA620 — complete trailer bogie with running unit and body connection
 
 | Field | Value |
 |---|---|
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 8.05 h |
+| Estimated labor | 8.83 h |
 | Build cell | bogie weld and assembly cell |
 | Procurement BOM lines | `B4`, `G21` |
 
@@ -16,7 +16,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-BOG-SA620 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-certified running gear |
+| Form factor | rail structural steel, LM3-BOG-SA621 child assembly material set, supplier-certified running gear |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -49,16 +49,17 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, fixture, child kit, and latest definition package | bogie weld and assembly cell | 0.77 | `TRV-LM3-BOG-SA620`<br>`FIX-LM3-BOG-SA620`<br>`KIT-LM3-BOG-SA620` | all child definitions/revisions match the traveler index | cell lead |
+| 10 | release traveler, fixture, child kit, and latest definition package | bogie weld and assembly cell | 0.85 | `TRV-LM3-BOG-SA620`<br>`FIX-LM3-BOG-SA620`<br>`KIT-LM3-BOG-SA620` | all child definitions/revisions match the traveler index | cell lead |
 | 20 | install and integrate LM3-BOG-P020: trailer bogie welded H-frame | bogie weld and assembly cell | 1.12 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P020`<br>`TORQUE-LM3-BOG-P020` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
 | 30 | install and integrate LM3-BOG-P031: trailer-bogie guards, cable guides, WSP brackets, and inspection covers | bogie weld and assembly cell | 1.3 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P031`<br>`TORQUE-LM3-BOG-P031` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
-| 40 | install and integrate LM3-BOG-P041: trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit | bogie weld and assembly cell | 1.63 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P041`<br>`TORQUE-LM3-BOG-P041` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
-| 50 | install and integrate LM3-BOG-P061: trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit | bogie weld and assembly cell | 1.53 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P061`<br>`TORQUE-LM3-BOG-P061` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
-| 60 | hold point: frame NDT | quality inspection | 0.35 | `NDT-LM3-BOG-SA620` | frame NDT | quality inspector |
-| 70 | hold point: wheelset/bearing certificate | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | wheelset/bearing certificate | quality inspector |
-| 80 | hold point: ride-height setup | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | ride-height setup | quality inspector |
-| 90 | hold point: static brake test | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | static brake test | quality inspector |
-| 100 | close traveler, attach nonconformance/deviation log, and release to next parent | production control | 0.3 | `REL-LM3-BOG-SA620`<br>`NCR-LM3-BOG-SA620` | all operation and QA signoffs are complete | manufacturing engineer |
+| 40 | install and integrate LM3-BOG-SA621: trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes | bogie weld and assembly cell | 1.28 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-SA621`<br>`TORQUE-LM3-BOG-SA621` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
+| 50 | install and integrate LM3-BOG-P047: trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers | bogie weld and assembly cell | 1.05 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P047`<br>`TORQUE-LM3-BOG-P047` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
+| 60 | install and integrate LM3-BOG-P061: trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit | bogie weld and assembly cell | 1.53 | `FIX-LM3-BOG-SA620`<br>`GAUGE-LM3-BOG-P061`<br>`TORQUE-LM3-BOG-P061` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
+| 70 | hold point: frame NDT | quality inspection | 0.35 | `NDT-LM3-BOG-SA620` | frame NDT | quality inspector |
+| 80 | hold point: wheelset/bearing certificate | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | wheelset/bearing certificate | quality inspector |
+| 90 | hold point: ride-height setup | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | ride-height setup | quality inspector |
+| 100 | hold point: static brake test | quality inspection | 0.35 | `QA-LM3-BOG-SA620` | static brake test | quality inspector |
+| 110 | close traveler, attach nonconformance/deviation log, and release to next parent | production control | 0.3 | `REL-LM3-BOG-SA620`<br>`NCR-LM3-BOG-SA620` | all operation and QA signoffs are complete | manufacturing engineer |
 
 ## Operator / inspection signoff block
 

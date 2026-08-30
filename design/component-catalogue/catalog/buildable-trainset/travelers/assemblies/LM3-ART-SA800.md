@@ -1,11 +1,11 @@
-# Shop traveler — LM3-ART-SA800 — inter-car articulation and trainline assembly
+# Shop traveler — LM3-ART-SA800 — complete inter-car structural articulation, passenger gangway and service transfer
 
 | Field | Value |
 |---|---|
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 6.47 h |
+| Estimated labor | 6.3 h |
 | Build cell | final assembly and commissioning cell |
 | Procurement BOM lines | None directly assigned |
 
@@ -16,7 +16,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-ART-SA800 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-controlled external component, rail-rated electrical / control equipment |
+| Form factor | LM3-ART-SA810 child assembly material set, LM3-ART-SA820 child assembly material set, LM3-ART-SA830 child assembly material set |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -50,9 +50,9 @@ Evidence required:
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
 | 10 | release traveler, fixture, child kit, and latest definition package | final assembly and commissioning cell | 0.69 | `TRV-LM3-ART-SA800`<br>`FIX-LM3-ART-SA800`<br>`KIT-LM3-ART-SA800` | all child definitions/revisions match the traveler index | cell lead |
-| 20 | install and integrate LM3-ART-P010: articulation adapter frame, anti-lift keeper, and shim kit | final assembly and commissioning cell | 1.18 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P010`<br>`TORQUE-LM3-ART-P010` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
-| 30 | install and integrate LM3-ART-P020: gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit | final assembly and commissioning cell | 1.6 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P020`<br>`TORQUE-LM3-ART-P020` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
-| 40 | install and integrate LM3-ART-P030: inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit | final assembly and commissioning cell | 1.65 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P030`<br>`TORQUE-LM3-ART-P030` | placement zone and joint controls accepted: under-seat HV bay, side-pin dock zone, and segregated cable route | operator |
+| 20 | install and integrate LM3-ART-SA810: structural articulation joint and anti-lift load path | final assembly and commissioning cell | 1.28 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-SA810`<br>`TORQUE-LM3-ART-SA810` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
+| 30 | install and integrate LM3-ART-SA820: passenger gangway bellows, bridge and turntable subassembly | final assembly and commissioning cell | 1.4 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-SA820`<br>`TORQUE-LM3-ART-SA820` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
+| 40 | install and integrate LM3-ART-SA830: articulation service-transfer and segregated trainline subassembly | final assembly and commissioning cell | 1.58 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-SA830`<br>`TORQUE-LM3-ART-SA830` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
 | 50 | hold point: motion-envelope proof | quality inspection | 0.35 | `QA-LM3-ART-SA800` | motion-envelope proof | quality inspector |
 | 60 | hold point: trainline continuity | quality inspection | 0.35 | `ELEC-TEST-LM3-ART-SA800` | trainline continuity | quality inspector |
 | 70 | hold point: water ingress/drain test | quality inspection | 0.35 | `LEAK-TEST-LM3-ART-SA800` | water ingress/drain test | quality inspector |

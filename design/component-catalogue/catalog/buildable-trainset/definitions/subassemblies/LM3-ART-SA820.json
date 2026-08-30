@@ -1,0 +1,117 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "gangway clean assembly cell",
+  "children": [
+    "LM3-ART-P022",
+    "LM3-ART-P023"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "fire-material pack",
+    "bridge load test",
+    "gap/pinch gauge",
+    "water test",
+    "full-motion sweep"
+  ],
+  "id": "LM3-ART-SA820",
+  "integration_steps": [
+    {
+      "child_id": "LM3-ART-P022",
+      "child_title": "inter-car double-wall corrugated bellows and clamp-frame set",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire/smoke evidence",
+        "pressure/water ingress test",
+        "fatigue-cycle evidence",
+        "replaceable-clamp demonstration"
+      ]
+    },
+    {
+      "child_id": "LM3-ART-P023",
+      "child_title": "inter-car passenger bridge, turntable and flexible interior-panel set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "passenger load proof",
+        "anti-slip evidence",
+        "gap/step gauge",
+        "pinch/shear hazard review",
+        "full-motion sweep"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-controlled external component, passenger interior COTS kit",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ART-SA820 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "fire-material pack",
+      "bridge load test",
+      "gap/pinch gauge",
+      "water test",
+      "full-motion sweep",
+      "water/leak test",
+      "bond/gasket witness check"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record"
+    ],
+    "tooling_basis": "FIX-LM3-ART-SA820, KIT-LM3-ART-SA820, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "source_refs": [
+    "articulation.md",
+    "LM3-SYS-170"
+  ],
+  "title": "passenger gangway bellows, bridge and turntable subassembly"
+}

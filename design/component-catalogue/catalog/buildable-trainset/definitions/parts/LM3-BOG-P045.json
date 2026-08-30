@@ -1,0 +1,92 @@
+{
+  "acceptance": [
+    "load-deflection curves",
+    "matched-height report",
+    "compound/batch certificates",
+    "installed preload and clearance survey"
+  ],
+  "bom_line_ids": [
+    "G5",
+    "G12"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-BOG-P045",
+  "layer": "external-component",
+  "make_or_buy_basis": "Matched, batch-traceable primary springs and elastomer guides are selected from the released trailer axle-load and dynamic model.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-BOG-SA621",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "load-deflection curves",
+      "matched-height report",
+      "compound/batch certificates",
+      "installed preload and clearance survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P045, CERT-LM3-BOG-P045, GAUGE-LM3-BOG-P045-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "bogie/suspension.py",
+    "LM3-BOG-410"
+  ],
+  "supplier_anchor": {
+    "anchor_type": "rail-safety-critical-configurable-family",
+    "checked_on": "2026-08-30",
+    "fit_gaps": [
+      "Continental anchors spring systems; centre pivot, yaw-link and damper suppliers still require project RFQ and a common body-to-bogie interface control drawing."
+    ],
+    "id": "OSR-ANC-SUSPENSION-CONTI",
+    "local_equivalent_allowed": true,
+    "localisation": "Springs, bushes and dampers may be sourced regionally after the multibody model, load-deflection/damping curves, compound ageing, fatigue and ride tests are repeated; pivot/anti-lift hardware stays separately calculated.",
+    "mandatory_equivalence": [
+      "same or better released fit, mounting datums, connector keying and service envelope",
+      "same or better mass, load, duty-cycle, thermal, electrical and environmental ratings",
+      "same or better functional safety, fire, EMC, cybersecurity and applicable rail evidence",
+      "documented failure modes, maintenance intervals, spares and obsolescence route",
+      "first-article inspection plus component, subassembly and vehicle regression tests",
+      "signed design-authority substitution record preserving the original anchor and evidence hashes"
+    ],
+    "manufacturer": "Continental",
+    "manufacturer_url": "https://www.continental-industry.com/global/en/products-solutions/airsprings-suspension/railway",
+    "procurement_state": "rfq-and-dynamics-freeze-required",
+    "product_family": "rail primary suspension and secondary air-spring systems",
+    "release_boundary": "A web page is not a purchase specification. Design authority must freeze the exact supplier part number, configuration, drawings, software, evidence, commercial terms and spares through RFQ before release. Safety-critical substitutes require calculation, test, independent assessment and authority acceptance."
+  },
+  "title": "trailer-bogie primary suspension spring, guide and bump-stop set",
+  "unit": "bogie set"
+}

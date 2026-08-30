@@ -7,7 +7,8 @@
   "children": [
     "LM3-BOG-P020",
     "LM3-BOG-P031",
-    "LM3-BOG-P041",
+    "LM3-BOG-SA621",
+    "LM3-BOG-P047",
     "LM3-BOG-P061"
   ],
   "definition_type": "assembly-node",
@@ -61,28 +62,45 @@
       ]
     },
     {
-      "child_id": "LM3-BOG-P041",
-      "child_title": "trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+      "child_id": "LM3-BOG-SA621",
+      "child_title": "trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
       "interface_classes": [
         "mechanical datum",
-        "low-voltage/data",
         "safety interlock"
       ],
       "join_classes": [
-        "bolted-structural-datum",
-        "electrical-data"
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "wheelset identity",
+        "bearing installation",
+        "primary-height match",
+        "static brake/WSP test",
+        "free rotation"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P047",
+      "child_title": "trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 3,
+      "sequence": 4,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
-        "wheelset certificates",
-        "bearing records",
-        "spring/damper certificates",
-        "brake test",
-        "sensor test",
-        "ride-height report"
+        "vertical/lateral load curves",
+        "pivot proof and articulation limit",
+        "damper curves hot/cold",
+        "ride-height and anti-lift survey"
       ]
     },
     {
@@ -99,7 +117,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 4,
+      "sequence": 5,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "continuity test",
@@ -117,7 +135,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel, supplier-certified running gear",
+    "form_factor": "rail structural steel, LM3-BOG-SA621 child assembly material set, supplier-certified running gear",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-BOG-SA620 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -167,5 +185,5 @@
     "bogie/assembly.py",
     "LM3-BOG-410"
   ],
-  "title": "trailer bogie assembly"
+  "title": "complete trailer bogie with running unit and body connection"
 }

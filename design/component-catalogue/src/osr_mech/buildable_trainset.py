@@ -13,8 +13,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import tempfile
+import tomllib
 from dataclasses import asdict, dataclass
 from enum import Enum
+from functools import lru_cache
 from pathlib import Path
 
 from osr_mech.common import ConsistFamily
@@ -170,6 +173,40 @@ CURRENT_CAD_BASELINE: dict[str, str | float] = {
     "hvac": "hvac-24kw-direct-hv-dc",
     "pv_modules_per_car": float(PROMOTED_ROOF_SOLAR_MODULES_PER_CAR),
 }
+
+SUPPLIER_ANCHOR_SOURCE = Path(__file__).resolve().parents[4] / "lib/templates/trainset-supplier-anchors.toml"
+
+
+@lru_cache(maxsize=1)
+def _supplier_anchor_data() -> dict[str, object]:
+    source = tomllib.loads(SUPPLIER_ANCHOR_SOURCE.read_text(encoding="utf-8"))
+    by_product: dict[str, dict[str, object]] = {}
+    for anchor in source["anchor"]:
+        for product_id in anchor["product_ids"]:
+            by_product[str(product_id)] = anchor
+    return {"source": source, "by_product": by_product}
+
+
+def _supplier_anchor_payload(item_id: str) -> dict[str, object] | None:
+    data = _supplier_anchor_data()
+    anchor = data["by_product"].get(item_id)
+    if anchor is None:
+        return None
+    source = data["source"]
+    return {
+        "id": anchor["id"],
+        "manufacturer": anchor["manufacturer"],
+        "product_family": anchor["product_family"],
+        "manufacturer_url": anchor["manufacturer_url"],
+        "anchor_type": anchor["anchor_type"],
+        "procurement_state": anchor["procurement_state"],
+        "local_equivalent_allowed": True,
+        "localisation": anchor["localisation"],
+        "fit_gaps": list(anchor["fit_gaps"]),
+        "mandatory_equivalence": list(source["equivalence"]["required"]),
+        "checked_on": source["checked_on"],
+        "release_boundary": source["release_boundary"],
+    }
 
 
 def buildable_trainset_design(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> BuildableTrainsetDesign:
@@ -527,7 +564,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             Route.MAKE,
             articulations,
             "kit",
-            "LM3-ART-SA800",
+            "LM3-ART-SA810",
             ("systems.py", "articulation.md", "LM3-SYS-170"),
             "Machined/welded adapter frames for lower pivot, upper links, bellows, and trainlines.",
             ("motion envelope", "bearing proof", "shim pack record"),
@@ -588,7 +625,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             Route.MAKE,
             cars,
             "bogie kit",
-            "LM3-BOG-SA610",
+            "LM3-TRC-SA615",
             ("bogie/assembly.py", "bogie/motor.py", "LM3-TRC-500"),
             "Local fabricated brackets close the motor reaction path into the powered bogie frame.",
             ("torque-link gauge", "bracket NDT", "motor removal clearance", "fastener locking record"),
@@ -684,15 +721,93 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-EXT-P060",
-            "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
+            "stepped floor-board and removable service-hatch system",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            135,
+            "m2",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md B12", "LM3-INT-230"),
+            "Locally CNC-cut floor-board panels and removable hatches mount to surveyed support rails without trapping wet services.",
+            ("fire certificate", "panel load and deflection evidence", "hatch removal trial", "level/step and egress survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P061",
+            "welded resilient floor covering, cove, nosing, and adhesive system",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            135,
+            "m2",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md B13", "LM3-INT-230"),
+            "One supplier-qualified rail flooring system covers the board joints, coved edges, steps, hatches, thresholds and repair patches.",
+            ("fire/smoke certificate", "adhesive compatibility and cure record", "welded-seam peel sample", "slip and cleanability evidence"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P062",
+            "longitudinal passenger and priority-seat modules",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            60,
+            "seat",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md B14", "LM3-INT-230"),
+            "Repeatable seat modules use the common service rail and calculated saddle adapters instead of unique brackets through floor panels.",
+            ("fire/smoke certificate", "seat/occupant load evidence", "fastener and anti-rotation record", "egress and cleaning-clearance gauge"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P063",
+            "stainless grab-pole, handrail, joint, and insulated adapter kit",
             Layer.EXTERNAL_COMPONENT,
             Route.SOURCE,
             cars,
             "car kit",
             "LM3-INT-SA330",
-            ("cots_equipment.py", "bom-skeleton.md B12-B15/B18-B19/A1-A4", "LM3-INT-230"),
-            "Late-installed passenger fit-out kit after shell paint and leak checks.",
-            ("fire certificates", "egress gauge", "passenger-fixture load evidence", "network enumeration"),
+            ("cots_equipment.py", "bom-skeleton.md B15", "LM3-INT-230"),
+            "Cut-to-length modular tubes terminate in replaceable common-rail saddles; primary passenger loads bypass liners and trim.",
+            ("material/finish certificate", "joint locking record", "fixture-specific proof-load evidence", "reach, egress and snag survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P064",
+            "passenger-information display, speaker, amplifier, and mounting kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            cars,
+            "car kit",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md B18", "LM3-INT-230"),
+            "Plug-in PIS modules attach to standard equipment adapters with keyed LV/data connectors and service loops.",
+            ("fire/EMC evidence", "network enumeration", "audio/intelligibility test", "display visibility and service-removal trial"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P065",
+            "CCTV camera, passenger intercom, PoE/data, and mounting kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            cars,
+            "car kit",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md B19", "LM3-INT-230"),
+            "Replaceable cameras and intercoms use keyed connectors and common adapters while preserving coverage, privacy and accessible call locations.",
+            ("fire/EMC/IP evidence", "network enumeration", "camera coverage/privacy review", "intercom call and service-removal trial"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-EXT-P066",
+            "PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            cars,
+            "car kit",
+            "LM3-INT-SA330",
+            ("cots_equipment.py", "bom-skeleton.md A1-A4", "LM3-INT-230"),
+            "A controlled location schedule separates fixed PRM/call-button/signage/emergency-light equipment from operator-replenished extinguishers, first aid and seals.",
+            ("accessible reach/contrast review", "emergency-light duration test", "equipment certificate/expiry audit", "location and egress survey"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -897,7 +1012,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             Route.BID,
             cars * 2,
             "ea",
-            "LM3-BOG-SA610",
+            "LM3-TRC-SA615",
             ("design-iteration-summary.md", "bogie/motor.py", "LM3-TRC-500"),
             f"Optimizer-selected {PROMOTED_MOTOR_CONTINUOUS_KW:.0f} kW motor class; CAD baseline carries the promoted envelope.",
             ("motor datasheet", "thermal curve", "mounting-foot load proof", "EMC evidence"),
@@ -910,7 +1025,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             Route.BID,
             cars * 2,
             "ea",
-            "LM3-BOG-SA610",
+            "LM3-TRC-SA615",
             ("bogie/gearbox.py", "bom-skeleton.md T2/G19", "LM3-TRC-500"),
             "Gearbox mounted on powered bogie axle with supplier coupling.",
             ("gear ratio certificate", "oil access check", "coupling alignment"),
@@ -1032,28 +1147,132 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-BOG-P040",
-            "powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+            "powered-bogie wheelset with axle-mounted brake discs",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
-            cars,
-            "bogie kit",
-            "LM3-BOG-SA610",
-            ("bogie/wheelset.py", "bogie/brake.py", "bogie/suspension.py", "LM3-BOG-400"),
-            "The powered-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
-            ("wheelset certificates", "bearing records", "spring/damper certificates", "brake test", "sensor test", "ride-height report"),
+            cars * 2,
+            "wheelset",
+            "LM3-BOG-SA611",
+            ("bogie/wheelset.py", "bogie/brake.py", "LM3-BOG-400"),
+            "Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset; wheels or axles are not mixed between qualified families.",
+            ("wheel/axle heat certificates", "press-force chart", "back-to-back and runout report", "ultrasonic inspection", "balance record"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
             "LM3-BOG-P041",
-            "trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+            "trailer-bogie wheelset with axle-mounted brake discs",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars * 2,
+            "wheelset",
+            "LM3-BOG-SA621",
+            ("bogie/wheelset.py", "bogie/brake.py", "LM3-BOG-410"),
+            "Supplier-machined axle, wheels and brake-disc seats are procured as a dynamically balanced, traceable railway wheelset using the same released wheel profile as the powered bogie.",
+            ("wheel/axle heat certificates", "press-force chart", "back-to-back and runout report", "ultrasonic inspection", "balance record"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P042",
+            "powered-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars * 2,
+            "wheelset set",
+            "LM3-BOG-SA611",
+            ("bogie/wheelset.py", "systems.py", "LM3-BOG-400"),
+            "Ready-to-mount railway axlebox bearing units keep bearing setting, seals and sensor interfaces under one supplier responsibility.",
+            ("bearing serial/clearance record", "grease and seal certificate", "axle journal fit", "speed/temperature sensor calibration", "rotation test"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P043",
+            "trailer-wheelset axlebox, sealed bearing unit, speed and temperature sensor set",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars * 2,
+            "wheelset set",
+            "LM3-BOG-SA621",
+            ("bogie/wheelset.py", "systems.py", "LM3-BOG-410"),
+            "Ready-to-mount railway axlebox bearing units share the powered-bogie bearing and sensor interface where load calculations permit.",
+            ("bearing serial/clearance record", "grease and seal certificate", "axle journal fit", "speed/temperature sensor calibration", "rotation test"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P044",
+            "powered-bogie primary suspension spring, guide and bump-stop set",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
             cars,
-            "bogie kit",
+            "bogie set",
+            "LM3-BOG-SA611",
+            ("bogie/suspension.py", "LM3-BOG-400"),
+            "Matched, batch-traceable primary springs and elastomer guides are selected from the released axle-load and dynamic model.",
+            ("load-deflection curves", "matched-height report", "compound/batch certificates", "installed preload and clearance survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P045",
+            "trailer-bogie primary suspension spring, guide and bump-stop set",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "bogie set",
+            "LM3-BOG-SA621",
+            ("bogie/suspension.py", "LM3-BOG-410"),
+            "Matched, batch-traceable primary springs and elastomer guides are selected from the released trailer axle-load and dynamic model.",
+            ("load-deflection curves", "matched-height report", "compound/batch certificates", "installed preload and clearance survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P046",
+            "powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "bogie set",
+            "LM3-BOG-SA610",
+            ("bogie/suspension.py", "car_body.py", "LM3-BOG-400"),
+            "The complete body-to-bogie load path is one interface-controlled package even when springs, pivot and dampers are sourced from different qualified suppliers.",
+            ("vertical/lateral load curves", "pivot proof and articulation limit", "damper curves hot/cold", "ride-height and anti-lift survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P047",
+            "trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "bogie set",
             "LM3-BOG-SA620",
-            ("bogie/wheelset.py", "bogie/brake.py", "bogie/suspension.py", "LM3-BOG-410"),
-            "The trailer-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
-            ("wheelset certificates", "bearing records", "spring/damper certificates", "brake test", "sensor test", "ride-height report"),
+            ("bogie/suspension.py", "car_body.py", "LM3-BOG-410"),
+            "The trailer body-to-bogie load path shares the powered-bogie interfaces where released loads and kinematics permit.",
+            ("vertical/lateral load curves", "pivot proof and articulation limit", "damper curves hot/cold", "ride-height and anti-lift survey"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P048",
+            "powered-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "bogie set",
+            "LM3-BOG-SA611",
+            ("bogie/brake.py", "systems.py", "LM3-BOG-400"),
+            "A rail brake supplier matches caliper, actuator, disc and pad friction pair to the released stopping, thermal and parking-brake cases.",
+            ("brake-force calculation", "friction-pair certificate", "thermal capacity", "parking holding test", "WSP functional test"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-BOG-P049",
+            "trailer-bogie brake calipers, parking actuators, pads and wheel-slide hardware",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "bogie set",
+            "LM3-BOG-SA621",
+            ("bogie/brake.py", "systems.py", "LM3-BOG-410"),
+            "A rail brake supplier matches caliper, actuator, disc and pad friction pair to the released stopping, thermal and parking-brake cases.",
+            ("brake-force calculation", "friction-pair certificate", "thermal capacity", "parking holding test", "WSP functional test"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -1085,15 +1304,67 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-ART-P020",
-            "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
+            "articulation lower spherical pivot, bearing housing and pin set",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
             articulations,
-            "kit",
-            "LM3-ART-SA800",
+            "joint set",
+            "LM3-ART-SA810",
             ("systems.py", "articulation.md", "LM3-SYS-170"),
-            "Supplier gangway/articulation kit integrated through OSR adapter frame.",
-            ("motion-envelope proof", "fire evidence", "water ingress/drain test"),
+            "Supplier-sized spherical bearing, housing, pin, bushes and retainers transmit the released draw, buff, vertical and anti-lift loads through the OSR adapter.",
+            ("bearing static/dynamic capacity", "pin material/NDT", "proof load", "lubrication/sealing plan", "motion-envelope proof"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-ART-P021",
+            "articulation upper lateral/yaw links, spherical joints and retained pins",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            articulations,
+            "joint set",
+            "LM3-ART-SA810",
+            ("systems.py", "articulation.md", "LM3-SYS-170"),
+            "Paired upper links stabilize roll/yaw while the lower pivot carries the primary articulation loads; all rod ends and pins remain positively retained.",
+            ("link buckling/fatigue proof", "joint angular capacity", "pin retention inspection", "full-motion sweep"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-ART-P022",
+            "inter-car double-wall corrugated bellows and clamp-frame set",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            articulations,
+            "gangway set",
+            "LM3-ART-SA820",
+            ("articulation.md", "LM3-SYS-170"),
+            "A supplier-tailored metro gangway bellows seals the passenger connection without becoming part of the structural draw/buff load path.",
+            ("fire/smoke evidence", "pressure/water ingress test", "fatigue-cycle evidence", "replaceable-clamp demonstration"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-ART-P023",
+            "inter-car passenger bridge, turntable and flexible interior-panel set",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            articulations,
+            "gangway set",
+            "LM3-ART-SA820",
+            ("articulation.md", "LM3-SYS-170"),
+            "The bridge and turntable provide a flush, anti-slip passenger path across the full released articulation envelope with guarded pinch zones.",
+            ("passenger load proof", "anti-slip evidence", "gap/step gauge", "pinch/shear hazard review", "full-motion sweep"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-ART-P024",
+            "articulation trainline carrier, support arms, abrasion liners and drain path",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            articulations,
+            "carrier set",
+            "LM3-ART-SA830",
+            ("articulation.md", "systems.py", "LM3-SYS-170"),
+            "A replaceable energy-chain/support system controls service-loop bend radius and separates HV, LV/data and coolant across the joint.",
+            ("rated bend radius", "dynamic sweep", "abrasion/fire evidence", "drain test", "service replacement trial"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -1218,7 +1489,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             Route.BID,
             articulations,
             "articulation kit",
-            "LM3-ART-SA800",
+            "LM3-ART-SA830",
             ("articulation.md", "systems.py", "LM3-SYS-170"),
             "Flexible services package that follows articulation yaw/pitch/roll without violating segregation or bend radius.",
             ("bend-radius sweep", "trainline continuity", "coolant pressure test", "water-drain test"),
@@ -1325,7 +1596,20 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "interior and passenger systems fit-out",
             Layer.SUBASSEMBLY,
             cars,
-            ("LM3-EXT-P060", "LM3-INT-P010", "LM3-INT-P020", "LM3-INT-P030", "LM3-INT-P040", "LM3-INT-P050"),
+            (
+                "LM3-EXT-P060",
+                "LM3-EXT-P061",
+                "LM3-EXT-P062",
+                "LM3-EXT-P063",
+                "LM3-EXT-P064",
+                "LM3-EXT-P065",
+                "LM3-EXT-P066",
+                "LM3-INT-P010",
+                "LM3-INT-P020",
+                "LM3-INT-P030",
+                "LM3-INT-P040",
+                "LM3-INT-P050",
+            ),
             "final assembly and commissioning cell",
             ("egress check", "fire-material pack", "liner/trim fit survey", "lighting/PIS/CCTV static test"),
             ("cots_equipment.py", "cabin-fiberglass.md", "LM3-INT-230", "LM3-INT-240"),
@@ -1391,29 +1675,61 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             ("systems.py", "LM3-HV-310", "LM3-HV-320"),
         ),
         AssemblyNode(
+            "LM3-BOG-SA611",
+            "powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
+            Layer.SUBASSEMBLY,
+            cars,
+            ("LM3-BOG-P040", "LM3-BOG-P042", "LM3-BOG-P044", "LM3-BOG-P048"),
+            "bogie clean assembly and brake cell",
+            ("wheelset identity", "bearing installation", "primary-height match", "static brake/WSP test", "free rotation"),
+            ("bogie/wheelset.py", "bogie/brake.py", "bogie/suspension.py", "LM3-BOG-400"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
+            "LM3-TRC-SA615",
+            "bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit",
+            Layer.SUBASSEMBLY,
+            cars,
+            ("LM3-TRC-P010", "LM3-TRC-P020", "LM3-BOG-P050"),
+            "traction drive clean assembly cell",
+            ("motor/gearbox serial match", "coupling alignment", "torque-link proof", "insulation/rotation test", "removal-envelope trial"),
+            ("bogie/motor.py", "bogie/gearbox.py", "bogie/assembly.py", "LM3-TRC-500"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
             "LM3-BOG-SA610",
-            "powered bogie assembly",
+            "complete powered bogie with running unit, bogie-mounted drive and body connection",
             Layer.SUBASSEMBLY,
             cars,
             (
                 "LM3-BOG-P010",
                 "LM3-BOG-P030",
-                "LM3-BOG-P040",
-                "LM3-BOG-P050",
+                "LM3-BOG-SA611",
+                "LM3-TRC-SA615",
+                "LM3-BOG-P046",
                 "LM3-BOG-P060",
-                "LM3-TRC-P010",
-                "LM3-TRC-P020",
             ),
             "bogie weld and assembly cell",
             ("frame NDT", "wheelset/bearing certificate", "motor/gearbox alignment", "static brake test"),
             ("bogie/assembly.py", "LM3-BOG-400"),
         ),
         AssemblyNode(
-            "LM3-BOG-SA620",
-            "trailer bogie assembly",
+            "LM3-BOG-SA621",
+            "trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
             Layer.SUBASSEMBLY,
             cars,
-            ("LM3-BOG-P020", "LM3-BOG-P031", "LM3-BOG-P041", "LM3-BOG-P061"),
+            ("LM3-BOG-P041", "LM3-BOG-P043", "LM3-BOG-P045", "LM3-BOG-P049"),
+            "bogie clean assembly and brake cell",
+            ("wheelset identity", "bearing installation", "primary-height match", "static brake/WSP test", "free rotation"),
+            ("bogie/wheelset.py", "bogie/brake.py", "bogie/suspension.py", "LM3-BOG-410"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
+            "LM3-BOG-SA620",
+            "complete trailer bogie with running unit and body connection",
+            Layer.SUBASSEMBLY,
+            cars,
+            ("LM3-BOG-P020", "LM3-BOG-P031", "LM3-BOG-SA621", "LM3-BOG-P047", "LM3-BOG-P061"),
             "bogie weld and assembly cell",
             ("frame NDT", "wheelset/bearing certificate", "ride-height setup", "static brake test"),
             ("bogie/assembly.py", "LM3-BOG-410"),
@@ -1488,11 +1804,44 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         AssemblyNode(
+            "LM3-ART-SA810",
+            "structural articulation joint and anti-lift load path",
+            Layer.SUBASSEMBLY,
+            max(0, cars - 1),
+            ("LM3-ART-P010", "LM3-ART-P020", "LM3-ART-P021"),
+            "articulation bench and proof-load cell",
+            ("pin/bearing identity", "shimmed datum survey", "proof load", "lubrication/seal release", "motion sweep"),
+            ("articulation.md", "systems.py", "LM3-SYS-170"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
+            "LM3-ART-SA820",
+            "passenger gangway bellows, bridge and turntable subassembly",
+            Layer.SUBASSEMBLY,
+            max(0, cars - 1),
+            ("LM3-ART-P022", "LM3-ART-P023"),
+            "gangway clean assembly cell",
+            ("fire-material pack", "bridge load test", "gap/pinch gauge", "water test", "full-motion sweep"),
+            ("articulation.md", "LM3-SYS-170"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
+            "LM3-ART-SA830",
+            "articulation service-transfer and segregated trainline subassembly",
+            Layer.SUBASSEMBLY,
+            max(0, cars - 1),
+            ("LM3-ART-P024", "LM3-ART-P030"),
+            "harness, hose and articulation bench",
+            ("HV/LV segregation", "continuity/pressure test", "bend-radius sweep", "drain test", "replaceability trial"),
+            ("articulation.md", "systems.py", "LM3-SYS-170"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        AssemblyNode(
             "LM3-ART-SA800",
-            "inter-car articulation and trainline assembly",
+            "complete inter-car structural articulation, passenger gangway and service transfer",
             Layer.ASSEMBLY,
             max(0, cars - 1),
-            ("LM3-ART-P010", "LM3-ART-P020", "LM3-ART-P030"),
+            ("LM3-ART-SA810", "LM3-ART-SA820", "LM3-ART-SA830"),
             "final assembly and commissioning cell",
             ("motion-envelope proof", "trainline continuity", "water ingress/drain test"),
             ("articulation.md", "systems.py", "LM3-SYS-170"),
@@ -1714,6 +2063,117 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
             "passivated stainless hardware, isolated mixed-metal interfaces, UV/ozone-resistant EPDM",
             "hardware heat/batch, seal batch, proof-lot record, and car module map",
             evidence + ("clip proof-load lot", "seal certificate", "water-ingress record"),
+        )
+    if item.id == "LM3-EXT-P060":
+        return MaterialSpec(
+            "fire-rated structural floor-board and hatch system",
+            "rail-qualified aluminium-honeycomb/composite board candidate with aluminium edge closures, stainless retained hatch hardware, isolating pads and sealed inspection plugs",
+            "supplier rail floor specification plus project fire/smoke, concentrated/distributed load, fatigue, moisture, slip-interface and toxicity evidence",
+            "CNC-cut numbered boards and flush removable hatches supported continuously at released crossmember/service-rail datums",
+            "board thickness, core/skin schedule, support pitch, edge distance, hatch rebates, service clearances and step transitions fixed by LM3-INT-230 drawings and calculation",
+            "sealed cut edges and penetrations, isolated mixed-metal joints, no water-trapping pockets, and floor-covering-compatible prepared face",
+            "board/panel batch, cut nest, edge-seal batch, retained-fastener lot, installed position, datum survey and load-test record",
+            evidence + ("fire/smoke certificate", "floor load/deflection evidence", "hatch removal trial", "level/step survey"),
+        )
+    if item.id == "LM3-EXT-P061":
+        return MaterialSpec(
+            "rail fire-rated resilient floor-covering system",
+            "supplier-matched sheet covering, welded-seam rod, coving, step nosing, primer, adhesive and repair-patch system",
+            "supplier rail flooring specification plus project fire/smoke/toxicity, slip, wear, cleaning-agent and substrate-compatibility evidence",
+            "single-system sheet layout with heat-welded seams, coved edges, sealed penetrations, removable hatch cuts and replaceable threshold pieces",
+            "roll direction, seam map, cove radius, nosing, threshold termination, adhesive spread and hatch joint fixed by the released installation drawing",
+            "anti-slip cleanable finish with no open edges, water traps or incompatible sealant/adhesive combinations",
+            "covering/rod/primer/adhesive batch and expiry, substrate moisture/cleanliness record, cure log, seam sample and installed zone map",
+            evidence + ("fire/smoke certificate", "adhesive compatibility/cure record", "seam peel sample", "slip evidence"),
+        )
+    if item.id == "LM3-EXT-P062":
+        return MaterialSpec(
+            "rail passenger-seat module and calculated mounting kit",
+            "fire-rated longitudinal seat shells/cushions, metallic frame, common-rail saddles, anti-rotation keys, isolators and captive locking hardware",
+            "supplier rail-seat specification plus project fire/smoke, occupant/abuse load, sharp-edge, accessibility, corrosion and cleanability evidence",
+            "replaceable seat modules mounted only through LM3-FIX saddles to structural/common rails, never through finish panels",
+            "seat pitch, cant, aisle/PRM clearance, hand clearance, saddle engagement and fastener grip fixed by LM3-INT-230 drawings and released load calculation",
+            "cleanable graffiti-resistant finish, radiused passenger edges, isolated dissimilar metals and accessible captive service fasteners",
+            "seat serial/batch, fire certificate, adapter variant, fastener lot, torque/locking witness and installed position map",
+            evidence + ("seat/occupant load evidence", "fixture proof", "egress/cleaning gauge", "timed module replacement"),
+        )
+    if item.id == "LM3-EXT-P063":
+        return MaterialSpec(
+            "modular passenger handrail and stanchion system",
+            "304/316 stainless tube candidate, radiused cast/machined joints, insulated common-rail saddles, anti-rotation keys and captive locking hardware",
+            "supplier material/finish specification plus project passenger load, fatigue, fire, accessibility, corrosion, electrical-isolation and snag evidence",
+            "cut-to-length repeated tubes and replaceable elbows/tees fixed at structural floor/ceiling/service-rail datums without loading liners",
+            "tube diameter/wall, joint engagement, support span, reachable zones, adapter geometry and fastener grip fixed by LM3-INT-230 drawings and calculation",
+            "brushed/passivated cleanable surface, radiused ends, no exposed threads, isolated mixed metals and sealed floor penetrations",
+            "tube heat/batch, fitting/fastener lot, cut list, joint locking witness, installed survey and proof-test record",
+            evidence + ("fixture-specific proof-load evidence", "reach/egress survey", "locking audit", "timed joint replacement"),
+        )
+    if item.id in {"LM3-EXT-P064", "LM3-EXT-P065"}:
+        equipment = "passenger-information/audio" if item.id.endswith("064") else "CCTV/passenger-intercom"
+        return MaterialSpec(
+            f"rail-rated {equipment} equipment kit",
+            "serialised display/camera/intercom/audio modules, keyed power/data connectors, fire-rated harness tails, common-rail adapters and captive service fasteners",
+            "supplier rail electronics specification plus project fire/smoke, EMC, IP, cybersecurity/configuration, accessibility and lifecycle evidence",
+            "plug-in line-replaceable modules with labelled connectors, strain relief, bend-radius/service loops and no hidden joints behind fixed trim",
+            "field of view/visibility/reach, mounting envelope, connector keying, heat rejection and service clearance fixed by LM3-INT-230 interface drawings",
+            "cleanable tamper-resistant passenger finish, sealed penetrations, galvanic/electrical isolation and protected labels",
+            "equipment serial, hardware/firmware/configuration revision, harness batch, adapter position, network address and functional-test record",
+            evidence + ("fire/EMC/IP evidence", "network enumeration", "coverage/intelligibility test", "timed module replacement"),
+        )
+    if item.id == "LM3-EXT-P066":
+        return MaterialSpec(
+            "controlled PRM and emergency-equipment location kit",
+            "passenger call controls, tactile/visual labels, battery-backed exit markers, certified extinguisher/first-aid brackets, tamper seals and common adapters",
+            "selected national accessibility/fire rules plus supplier fire, photometric, battery-duration, extinguisher/bracket, label-durability and lifecycle evidence",
+            "fixed equipment installed to the released location schedule; replenishable/expiring contents remain separately recorded operator stock",
+            "reachable controls, contrast/tactile content, illuminated sightlines, bracket loads, egress keep-outs and service access fixed by project review",
+            "cleanable UV/chemical-resistant labels, radiused tamper-resistant brackets and protected emergency battery/connector interfaces",
+            "equipment serial/batch, label revision/language, battery date, extinguisher/first-aid expiry, seal number and installed location audit",
+            evidence + ("accessible reach/contrast review", "emergency-light duration test", "expiry audit", "egress survey"),
+        )
+    if item.id == "LM3-WIN-P010":
+        return MaterialSpec(
+            "replaceable aluminium window-retention and elastomer seal kit",
+            "6061/6082 plate or 6063 extrusion candidate pressure frame, nonmetallic setting blocks, closed-cell/EPDM seal, aluminium drain rail, and captive stainless retainers",
+            "released LM3-WIN-210 retention calculation and drawing plus supplier glazing, aluminium, elastomer, fire, corrosion, and ingress evidence",
+            "CNC-cut/extruded pressure-frame segments with keyed dry seal, protected glass-edge clearances, drain path, secondary retention, and cassette jack points",
+            "profile, corner joint, fastener pitch, setting blocks, seal compression and glass clearance fixed by the controlled window interface drawing",
+            "anodised or coated aluminium, passivated retained hardware, isolated mixed-metal contacts, UV/ozone-resistant seal, and open inspected drains",
+            "aluminium batch, seal batch/date, retained-fastener lot, cassette position map, compression record, and water/replacement test",
+            evidence + ("retention proof", "seal compression map", "drain test", "water-ingress and replacement trial"),
+        )
+    if item.id == "LM3-DOOR-P010":
+        return MaterialSpec(
+            "adjustable steel/stainless door-carrier and replaceable seal kit",
+            "calculated S355/304 carrier shoes, hardened datum pins, sealed floating nutplates, galvanic isolators, EPDM perimeter seal, and keyed connector bracket",
+            "released LM3-DOOR-200 interface calculation/drawing plus supplier door, fastener, elastomer, corrosion, fire and EN 14752/national evidence as applicable",
+            "four separately adjustable carrier shoes on two repeatable datum pins with mechanical locking, dry seal, recorded shim/adjuster map, and body-side keyed connector support",
+            "adjustment range, carrier section, fastener grip, pin fit, seal compression and supplier cassette load envelope fixed by the controlled interface drawing",
+            "painted/passivated hardware, isolated mixed-metal interfaces, sealed wet-zone nutplates and UV/ozone-resistant replaceable elastomer",
+            "hardware heat/batch, pin and fastener lot, seal batch/date, cassette serial, adjuster map, torque record, and replacement test",
+            evidence + ("carrier load proof", "datum gauge", "seal map", "door safety and replacement tests"),
+        )
+    if item.id == "LM3-FIX-P010":
+        return MaterialSpec(
+            "common extruded aluminium passenger/service datum rail",
+            "6063-T6 or equivalent 42 x 18 mm extrusion candidate with 50 mm datum pitch, isolated body feet and floating-nut capture",
+            "released LM3-INT-230 rail/attachment calculation plus aluminium, fire, corrosion, shock/vibration and galvanic-isolation evidence",
+            "locally cut, drilled and deburred OSR-RAIL-42 lengths with end stops, isolating feet, datum marks and captive floating-nut channels",
+            "42 x 18 mm reference section; wall, foot, pitch and nut channel remain controlled drawing dimensions",
+            "anodised/coated cleanable finish with isolated steel fasteners, sealed cut ends and no passenger-facing sharp edges",
+            "extrusion batch, finish batch, cut list, drill-gauge record, foot/fastener lot and installed rail survey",
+            evidence + ("rail pull-out/slip proof", "datum survey", "galvanic-isolation check"),
+        )
+    if item.id == "LM3-FIX-P030":
+        return MaterialSpec(
+            "calculated passenger-fixture saddle and adapter family",
+            "laser-cut/folded 304/316 or coated S355 saddles with radiused edges, anti-rotation keys, isolators and M8 captive/floating joints",
+            "fixture-specific released load calculation/drawing plus material, fastener, fire, corrosion, proof-load and passenger-safety evidence",
+            "common rail-side saddle blank CNC-trimmed/drilled into seat, handrail and equipment variants without transferring primary loads through trim panels",
+            "rail engagement, edge radius, anti-rotation feature, hole/slot range and fixture keep-out fixed by the controlled adapter drawing",
+            "passivated or coated surfaces, electrically/galvanically isolated interfaces and cleanable snag-free passenger edges",
+            "material/finish batch, adapter variant, fastener lot, installed position map, torque/locking record and first-article proof test",
+            evidence + ("adapter gauge", "fixture load proof", "egress and snag inspection"),
         )
     if item.id == "LM3-END-P060":
         return MaterialSpec(
@@ -1976,6 +2436,24 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
 def _item_process_spec(item: ProductItem) -> ProcessSpec:
     text = f"{item.id} {item.title} {item.make_or_buy_basis} {' '.join(item.acceptance)}".lower()
     if item.route is Route.MAKE:
+        if item.id == "LM3-WIN-P010":
+            return ProcessSpec(
+                ("receive and edge-inspect supplier cassette", "machine and deburr pressure frame", "gauge aperture and drains", "dry-fit on protected setting blocks", "install keyed seal and pressure frame", "cross-pattern tighten", "water and timed replacement test"),
+                ("supplier cassette bond retained within its aluminium frame", "replaceable dry elastomer compression seal", "captive pressure-frame fasteners", "nonmetallic setting blocks and secondary retention"),
+                ("released retention calculation and window interface drawing", "no glass-edge metal contact", "seal batch and compression map", "supplier surface-preparation/adhesive evidence", "open drain and mixed-metal isolation checks"),
+                tuple(dict.fromkeys(("edge inspection", "aperture/pressure-frame gauge", "seal compression measurement", "drain-flow test", "heater/isolation test where fitted", "controlled spray test", "timed cassette removal/refit", *item.acceptance))),
+                "LM3-TOOL-WINDOW-GAUGE plus LM3-TOOL-WATER-TEST",
+                "design-reference window route; drawing, retention proof, supplier and first-article evidence required before release",
+            )
+        if item.id == "LM3-DOOR-P010":
+            return ProcessSpec(
+                ("fabricate and gauge four carrier shoes", "accept supplier cassette", "gauge body portal", "lift, pin and adjust cassette", "close sealed joints and keyed services", "static safety tests", "water and timed replacement test"),
+                ("four adjustable calculated carrier shoes", "two repeatable datum pins", "sealed high-integrity fasteners", "replaceable perimeter seal", "keyed body-side connector bracket"),
+                ("released carrier calculation and interface drawing", "supplier lift/installation procedure", "adjustment-range and shim map", "joint/locking schedule", "seal compression map", "door safety-test script"),
+                tuple(dict.fromkeys(("carrier gauge and proof", "leaf/aperture survey", "closed-and-locked loop", "obstacle and traction-interlock test", "emergency/manual release", "water test", "timed cassette removal/refit", *item.acceptance))),
+                "LM3-TOOL-DOOR-GAUGE plus LM3-TOOL-SEAL-GAUGE",
+                "design-reference door interface; supplier freeze, structural proof and applicable door-system acceptance remain mandatory",
+            )
         if _is_composite_make_item(item):
             is_cabin = any(word in text for word in ("ceiling", "sidewall", "battery strake", "vestibule", "prm", "cabin", "interior"))
             primary = [
@@ -2130,7 +2608,7 @@ def _assembly_process_spec(node: AssemblyNode) -> ProcessSpec:
 def _item_payload(item: ProductItem) -> dict[str, object]:
     material_spec = _item_material_spec(item)
     process_spec = _item_process_spec(item)
-    return {
+    payload: dict[str, object] = {
         "id": item.id,
         "title": item.title,
         "definition_type": "product-item",
@@ -2148,6 +2626,10 @@ def _item_payload(item: ProductItem) -> dict[str, object]:
         "maturity": item.maturity.value,
         "notes": item.notes,
     }
+    anchor = _supplier_anchor_payload(item.id)
+    if anchor is not None:
+        payload["supplier_anchor"] = anchor
+    return payload
 
 
 def _child_title(child_id: str, items: dict[str, ProductItem], assemblies: dict[str, AssemblyNode]) -> str:
@@ -2392,6 +2874,25 @@ def render_product_item_definition(item: ProductItem) -> str:
         "",
         item.make_or_buy_basis,
         "",
+    ]
+    anchor = _supplier_anchor_payload(item.id)
+    if anchor is not None:
+        lines.extend(
+            [
+                "## Supplier anchor and local-equivalent route",
+                "",
+                f"- Anchor: `{anchor['id']}` — [{anchor['manufacturer']} {anchor['product_family']}]({anchor['manufacturer_url']})",
+                f"- Procurement state: `{anchor['procurement_state']}`",
+                f"- Local equivalent allowed: yes, after the controlled equivalence dossier",
+                f"- Localisation route: {anchor['localisation']}",
+                f"- Known fit gaps: {'; '.join(anchor['fit_gaps'])}",
+                "- Mandatory equivalence:",
+            ]
+        )
+        lines.extend(f"  - {rule}" for rule in anchor["mandatory_equivalence"])
+        lines.append("")
+    lines.extend(
+        [
         "## Material specification",
         "",
         "| Field | Value |",
@@ -2406,7 +2907,8 @@ def render_product_item_definition(item: ProductItem) -> str:
         "",
         "Evidence required:",
         "",
-    ]
+        ]
+    )
     lines.extend(f"- {evidence}" for evidence in material_spec.evidence_required)
     lines.extend(
         [
@@ -4668,12 +5170,31 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=Path(__file__).resolve().parents[2] / "catalog" / "buildable-trainset",
     )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="compare every generated buildable-trainset file with the tracked output",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
     design = buildable_trainset_design(ConsistFamily(args.family))
+    if args.check:
+        with tempfile.TemporaryDirectory(prefix="osr-buildable-trainset-check-") as temporary:
+            temporary_root = Path(temporary)
+            write_outputs(design, temporary_root)
+            stale = []
+            for expected in sorted(path for path in temporary_root.rglob("*") if path.is_file()):
+                relative = expected.relative_to(temporary_root)
+                current = args.out / relative
+                if not current.is_file() or current.read_bytes() != expected.read_bytes():
+                    stale.append(str(relative))
+            if stale:
+                raise SystemExit("stale generated buildable-trainset files: " + ", ".join(stale))
+        print(f"buildable trainset current: {len(design.product_items)} products / {len(design.assemblies)} assemblies")
+        return
     json_path, manifest_path, review_path, definition_pack, traveler_pack = write_outputs(design, args.out)
     print(f"candidate: {design.candidate.id}")
     print(f"product item rows: {len(design.product_items)}")

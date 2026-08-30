@@ -1,4 +1,4 @@
-# LM3-BOG-SA610 — powered bogie assembly
+# LM3-BOG-SA610 — complete powered bogie with running unit, bogie-mounted drive and body connection
 
 | Field | Value |
 |---|---|
@@ -13,11 +13,10 @@
 
 - `LM3-BOG-P010`
 - `LM3-BOG-P030`
-- `LM3-BOG-P040`
-- `LM3-BOG-P050`
+- `LM3-BOG-SA611`
+- `LM3-TRC-SA615`
+- `LM3-BOG-P046`
 - `LM3-BOG-P060`
-- `LM3-TRC-P010`
-- `LM3-TRC-P020`
 
 ## Material specification
 
@@ -26,7 +25,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-BOG-SA610 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-certified running gear, supplier traction drive equipment, supplier HVAC and air-distribution kit |
+| Form factor | rail structural steel, LM3-BOG-SA611 child assembly material set, LM3-TRC-SA615 child assembly material set, supplier-certified running gear |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -73,22 +72,21 @@ Evidence required:
   - harness clearance
   - fastener torque record
 
-### 3. `LM3-BOG-P040` — powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit
+### 3. `LM3-BOG-SA611` — powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
-- Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
-- Join classes: `bolted-structural-datum`, `electrical-data`
-- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
-- Joint release status: `supplier-freeze-required`
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
 - Verification:
-  - wheelset certificates
-  - bearing records
-  - spring/damper certificates
-  - brake test
-  - sensor test
-  - ride-height report
+  - wheelset identity
+  - bearing installation
+  - primary-height match
+  - static brake/WSP test
+  - free rotation
 
-### 4. `LM3-BOG-P050` — powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit
+### 4. `LM3-TRC-SA615` — bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`, `high-voltage electrical`
@@ -96,12 +94,26 @@ Evidence required:
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
-  - torque-link gauge
-  - bracket NDT
-  - motor removal clearance
-  - fastener locking record
+  - motor/gearbox serial match
+  - coupling alignment
+  - torque-link proof
+  - insulation/rotation test
+  - removal-envelope trial
 
-### 5. `LM3-BOG-P060` — powered-bogie brake/WSP/speed-sensor harness and junction-bracket kit
+### 5. `LM3-BOG-P046` — powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers
+
+- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
+- Joint release status: `supplier-freeze-required`
+- Verification:
+  - vertical/lateral load curves
+  - pivot proof and articulation limit
+  - damper curves hot/cold
+  - ride-height and anti-lift survey
+
+### 6. `LM3-BOG-P060` — powered-bogie brake/WSP/speed-sensor harness and junction-bracket kit
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
@@ -113,31 +125,6 @@ Evidence required:
   - connector IP rating
   - wheelset clearance
   - dynamic cable sweep
-
-### 6. `LM3-TRC-P010` — motor-350kw-hm47-class axle traction motor
-
-- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
-- Interfaces: `mechanical datum`, `high-voltage electrical`
-- Join classes: `bolted-structural-datum`, `electrical-data`
-- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
-- Joint release status: `supplier-freeze-required`
-- Verification:
-  - motor datasheet
-  - thermal curve
-  - mounting-foot load proof
-  - EMC evidence
-
-### 7. `LM3-TRC-P020` — single-stage reduction gearbox and flexible coupling
-
-- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
-- Interfaces: `mechanical datum`
-- Join classes: `bolted-structural-datum`
-- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
-- Joint release status: `supplier-freeze-required`
-- Verification:
-  - gear ratio certificate
-  - oil access check
-  - coupling alignment
 
 
 ## Hold points

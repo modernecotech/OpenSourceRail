@@ -7,14 +7,13 @@
   "children": [
     "LM3-BOG-P010",
     "LM3-BOG-P030",
-    "LM3-BOG-P040",
-    "LM3-BOG-P050",
-    "LM3-BOG-P060",
-    "LM3-TRC-P010",
-    "LM3-TRC-P020"
+    "LM3-BOG-SA611",
+    "LM3-TRC-SA615",
+    "LM3-BOG-P046",
+    "LM3-BOG-P060"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 12.29,
+  "estimated_labor_hours": 10.61,
   "id": "LM3-BOG-SA610",
   "layer": "subassembly",
   "material_spec": {
@@ -24,7 +23,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel, supplier-certified running gear, supplier traction drive equipment, supplier HVAC and air-distribution kit",
+    "form_factor": "rail structural steel, LM3-BOG-SA611 child assembly material set, LM3-TRC-SA615 child assembly material set, supplier-certified running gear",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-BOG-SA610 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -33,7 +32,7 @@
   },
   "operations": [
     {
-      "labor_hours": 1.01,
+      "labor_hours": 0.93,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -72,35 +71,48 @@
       "work_center": "bogie weld and assembly cell"
     },
     {
-      "labor_hours": 1.63,
+      "labor_hours": 1.28,
       "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
       "sequence": 40,
       "signoff_role": "operator",
-      "title": "install and integrate LM3-BOG-P040: powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+      "title": "install and integrate LM3-BOG-SA611: powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes",
       "tooling_ids": [
         "FIX-LM3-BOG-SA610",
-        "GAUGE-LM3-BOG-P040",
-        "TORQUE-LM3-BOG-P040"
+        "GAUGE-LM3-BOG-SA611",
+        "TORQUE-LM3-BOG-SA611"
       ],
       "work_center": "bogie weld and assembly cell"
     },
     {
-      "labor_hours": 1.35,
+      "labor_hours": 1.4,
       "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
       "sequence": 50,
       "signoff_role": "operator",
-      "title": "install and integrate LM3-BOG-P050: powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit",
+      "title": "install and integrate LM3-TRC-SA615: bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit",
       "tooling_ids": [
         "FIX-LM3-BOG-SA610",
-        "GAUGE-LM3-BOG-P050",
-        "TORQUE-LM3-BOG-P050"
+        "GAUGE-LM3-TRC-SA615",
+        "TORQUE-LM3-TRC-SA615"
+      ],
+      "work_center": "bogie weld and assembly cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 60,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BOG-P046: powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers",
+      "tooling_ids": [
+        "FIX-LM3-BOG-SA610",
+        "GAUGE-LM3-BOG-P046",
+        "TORQUE-LM3-BOG-P046"
       ],
       "work_center": "bogie weld and assembly cell"
     },
     {
       "labor_hours": 1.53,
       "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 60,
+      "sequence": 70,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BOG-P060: powered-bogie brake/WSP/speed-sensor harness and junction-bracket kit",
       "tooling_ids": [
@@ -111,35 +123,9 @@
       "work_center": "bogie weld and assembly cell"
     },
     {
-      "labor_hours": 1.35,
-      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 70,
-      "signoff_role": "operator",
-      "title": "install and integrate LM3-TRC-P010: motor-350kw-hm47-class axle traction motor",
-      "tooling_ids": [
-        "FIX-LM3-BOG-SA610",
-        "GAUGE-LM3-TRC-P010",
-        "TORQUE-LM3-TRC-P010"
-      ],
-      "work_center": "bogie weld and assembly cell"
-    },
-    {
-      "labor_hours": 1.0,
-      "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 80,
-      "signoff_role": "operator",
-      "title": "install and integrate LM3-TRC-P020: single-stage reduction gearbox and flexible coupling",
-      "tooling_ids": [
-        "FIX-LM3-BOG-SA610",
-        "GAUGE-LM3-TRC-P020",
-        "TORQUE-LM3-TRC-P020"
-      ],
-      "work_center": "bogie weld and assembly cell"
-    },
-    {
       "labor_hours": 0.35,
       "qa_gate": "frame NDT",
-      "sequence": 90,
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "hold point: frame NDT",
       "tooling_ids": [
@@ -150,7 +136,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "wheelset/bearing certificate",
-      "sequence": 100,
+      "sequence": 90,
       "signoff_role": "quality inspector",
       "title": "hold point: wheelset/bearing certificate",
       "tooling_ids": [
@@ -161,7 +147,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "motor/gearbox alignment",
-      "sequence": 110,
+      "sequence": 100,
       "signoff_role": "quality inspector",
       "title": "hold point: motor/gearbox alignment",
       "tooling_ids": [
@@ -172,7 +158,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "static brake test",
-      "sequence": 120,
+      "sequence": 110,
       "signoff_role": "quality inspector",
       "title": "hold point: static brake test",
       "tooling_ids": [
@@ -183,7 +169,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 130,
+      "sequence": 120,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [
@@ -288,6 +274,6 @@
       "status": "blank"
     }
   ],
-  "title": "powered bogie assembly",
+  "title": "complete powered bogie with running unit, bogie-mounted drive and body connection",
   "traveler_type": "assembly-node"
 }
