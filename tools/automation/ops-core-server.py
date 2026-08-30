@@ -24,6 +24,15 @@ RECORD_TABLES = {
     "audit": "audit_events",
 }
 
+PROJECT_RECORD_KINDS = {
+    "purchaseOrders": "purchase-order",
+    "deliveries": "delivery",
+    "invoices": "invoice",
+    "payments": "payment",
+    "progressUpdates": "progress-update",
+    "projectRevisions": "project-revision",
+}
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(
@@ -249,6 +258,17 @@ def init_db(con: sqlite3.Connection) -> None:
             PRIMARY KEY (city_slug, id)
         );
 
+        CREATE TABLE IF NOT EXISTS project_records (
+            city_slug TEXT NOT NULL,
+            kind TEXT NOT NULL,
+            id TEXT NOT NULL,
+            position INTEGER NOT NULL,
+            status TEXT,
+            effective_at TEXT,
+            payload TEXT NOT NULL,
+            PRIMARY KEY (city_slug, kind, id)
+        );
+
         CREATE INDEX IF NOT EXISTS idx_work_orders_city_status
             ON work_orders (city_slug, status, due_date);
         CREATE INDEX IF NOT EXISTS idx_work_orders_city_asset
@@ -257,6 +277,8 @@ def init_db(con: sqlite3.Connection) -> None:
             ON defects (city_slug, status, due_date);
         CREATE INDEX IF NOT EXISTS idx_inspections_city_work
             ON inspections (city_slug, wo_id);
+        CREATE INDEX IF NOT EXISTS idx_project_records_city_kind_status
+            ON project_records (city_slug, kind, status, effective_at);
         """
     )
     _ensure_column(con, "inspections", "evidence_ref", "TEXT")
@@ -288,6 +310,12 @@ def load_state(con: sqlite3.Connection, city: str) -> dict:
             f"SELECT payload FROM {table} WHERE city_slug = ? ORDER BY position", (city,)
         )
         state[key] = [json.loads(row["payload"]) for row in rows]
+    for key, kind in PROJECT_RECORD_KINDS.items():
+        rows = con.execute(
+            "SELECT payload FROM project_records WHERE city_slug = ? AND kind = ? ORDER BY position",
+            (city, kind),
+        )
+        state[key] = [json.loads(row["payload"]) for row in rows]
     return state
 
 
@@ -310,10 +338,12 @@ def save_state(con: sqlite3.Connection, city: str, raw_state: dict) -> dict:
         )
         for table in RECORD_TABLES.values():
             con.execute(f"DELETE FROM {table} WHERE city_slug = ?", (city,))
+        con.execute("DELETE FROM project_records WHERE city_slug = ?", (city,))
         _insert_work_orders(con, city, state["workOrders"])
         _insert_inspections(con, city, state["inspections"])
         _insert_defects(con, city, state["defects"])
         _insert_audit(con, city, state["audit"])
+        _insert_project_records(con, city, state)
     return state
 
 
@@ -323,11 +353,23 @@ def empty_state() -> dict:
         "inspections": [],
         "defects": [],
         "audit": [],
+        "purchaseOrders": [],
+        "deliveries": [],
+        "invoices": [],
+        "payments": [],
+        "progressUpdates": [],
+        "projectRevisions": [],
         "counters": {
             "workOrder": 1,
             "inspection": 1,
             "defect": 1,
             "audit": 1,
+            "purchaseOrder": 1,
+            "delivery": 1,
+            "invoice": 1,
+            "payment": 1,
+            "progressUpdate": 1,
+            "projectRevision": 1,
         },
     }
 
@@ -337,6 +379,11 @@ def normalize_state(raw_state: dict) -> dict:
         raise ValueError("state must be a JSON object")
     state = empty_state()
     for key in RECORD_TABLES:
+        rows = raw_state.get(key, [])
+        if not isinstance(rows, list):
+            raise ValueError(f"{key} must be a list")
+        state[key] = [row for row in rows if isinstance(row, dict)]
+    for key in PROJECT_RECORD_KINDS:
         rows = raw_state.get(key, [])
         if not isinstance(rows, list):
             raise ValueError(f"{key} must be a list")
@@ -470,6 +517,43 @@ def _insert_audit(con: sqlite3.Connection, city: str, rows: list[dict]) -> None:
             for idx, row in enumerate(rows)
             if row.get("id")
         ],
+    )
+
+
+def _insert_project_records(con: sqlite3.Connection, city: str, state: dict) -> None:
+    values: list[tuple] = []
+    for key, kind in PROJECT_RECORD_KINDS.items():
+        for position, row in enumerate(state[key]):
+            record_id = str(
+                row.get("id")
+                or row.get("purchase_order_id")
+                or row.get("delivery_id")
+                or row.get("invoice_id")
+                or row.get("payment_id")
+                or row.get("progress_update_id")
+                or row.get("revision_id")
+                or ""
+            )
+            if not record_id:
+                continue
+            values.append(
+                (
+                    city,
+                    kind,
+                    record_id,
+                    position,
+                    row.get("status", ""),
+                    row.get("effective_at", row.get("at", "")),
+                    _payload(row),
+                )
+            )
+    con.executemany(
+        """
+        INSERT INTO project_records (
+            city_slug, kind, id, position, status, effective_at, payload
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        values,
     )
 
 

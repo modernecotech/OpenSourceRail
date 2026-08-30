@@ -1,0 +1,656 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 2125000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 201679590.0,
+      "work_packages": 48
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 28875511.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 103500000.0,
+      "work_packages": 805
+    },
+    "signalling": {
+      "budget_usd": 2702711.0,
+      "work_packages": 118
+    },
+    "solar_plant": {
+      "budget_usd": 44921564.88,
+      "work_packages": 38
+    },
+    "stations": {
+      "budget_usd": 94500000.0,
+      "work_packages": 38
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 8369334.55,
+        "imported_requirement_usd": 1805070.74,
+        "local_requirement_usd": 6564263.54,
+        "month_index": 0,
+        "planned_requirement_usd": 8369334.55,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 77194040.59,
+        "imported_requirement_usd": 14698908.89,
+        "local_requirement_usd": 54125796.97,
+        "month_index": 1,
+        "planned_requirement_usd": 68824706.04,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 135343298.62,
+        "imported_requirement_usd": 13402749.1,
+        "local_requirement_usd": 44746508.91,
+        "month_index": 2,
+        "planned_requirement_usd": 58149258.03,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 199530726.57,
+        "imported_requirement_usd": 13846480.37,
+        "local_requirement_usd": 50340947.43,
+        "month_index": 3,
+        "planned_requirement_usd": 64187427.95,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 268433160.48,
+        "imported_requirement_usd": 14619705.24,
+        "local_requirement_usd": 54282728.43,
+        "month_index": 4,
+        "planned_requirement_usd": 68902433.91,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 331295182.43,
+        "imported_requirement_usd": 13434661.26,
+        "local_requirement_usd": 49427360.78,
+        "month_index": 5,
+        "planned_requirement_usd": 62862021.95,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 370236920.91,
+        "imported_requirement_usd": 6934069.37,
+        "local_requirement_usd": 32007669.02,
+        "month_index": 6,
+        "planned_requirement_usd": 38941738.48,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 395014200.77,
+        "imported_requirement_usd": 4816652.63,
+        "local_requirement_usd": 19960626.88,
+        "month_index": 7,
+        "planned_requirement_usd": 24777279.86,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 403351153.87,
+        "imported_requirement_usd": 2182205.63,
+        "local_requirement_usd": 6154747.35,
+        "month_index": 8,
+        "planned_requirement_usd": 8336953.1,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 409105225.8,
+        "imported_requirement_usd": 1618237.15,
+        "local_requirement_usd": 4135834.78,
+        "month_index": 9,
+        "planned_requirement_usd": 5754071.93,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 413632561.93,
+        "imported_requirement_usd": 1384339.36,
+        "local_requirement_usd": 3142996.77,
+        "month_index": 10,
+        "planned_requirement_usd": 4527336.13,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 417637376.88,
+        "imported_requirement_usd": 1347794.97,
+        "local_requirement_usd": 2657019.98,
+        "month_index": 11,
+        "planned_requirement_usd": 4004814.95,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 421116376.88,
+        "imported_requirement_usd": 1217650.0,
+        "local_requirement_usd": 2261350.0,
+        "month_index": 12,
+        "planned_requirement_usd": 3479000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 424837376.88,
+        "imported_requirement_usd": 1302350.0,
+        "local_requirement_usd": 2418650.0,
+        "month_index": 13,
+        "planned_requirement_usd": 3721000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 428292376.88,
+        "imported_requirement_usd": 1209250.0,
+        "local_requirement_usd": 2245750.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3455000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 431830376.88,
+        "imported_requirement_usd": 1238300.0,
+        "local_requirement_usd": 2299700.0,
+        "month_index": 15,
+        "planned_requirement_usd": 3538000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 434283376.88,
+        "imported_requirement_usd": 858550.0,
+        "local_requirement_usd": 1594450.0,
+        "month_index": 16,
+        "planned_requirement_usd": 2453000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 436750376.88,
+        "imported_requirement_usd": 863450.0,
+        "local_requirement_usd": 1603550.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2467000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 439224376.88,
+        "imported_requirement_usd": 865900.0,
+        "local_requirement_usd": 1608100.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2474000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 441624376.88,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 19,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 444024376.88,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 20,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 446424376.88,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 21,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 448824376.88,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 22,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 451224376.88,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 23,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 453704376.88,
+        "imported_requirement_usd": 868000.0,
+        "local_requirement_usd": 1612000.0,
+        "month_index": 24,
+        "planned_requirement_usd": 2480000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 456930376.88,
+        "imported_requirement_usd": 1129100.0,
+        "local_requirement_usd": 2096900.0,
+        "month_index": 25,
+        "planned_requirement_usd": 3226000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 460622376.88,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 26,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 463914376.88,
+        "imported_requirement_usd": 1152200.0,
+        "local_requirement_usd": 2139800.0,
+        "month_index": 27,
+        "planned_requirement_usd": 3292000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 467606376.88,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 28,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 471174376.88,
+        "imported_requirement_usd": 1248800.0,
+        "local_requirement_usd": 2319200.0,
+        "month_index": 29,
+        "planned_requirement_usd": 3568000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 474934376.88,
+        "imported_requirement_usd": 1316000.0,
+        "local_requirement_usd": 2444000.0,
+        "month_index": 30,
+        "planned_requirement_usd": 3760000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 478230376.88,
+        "imported_requirement_usd": 1153600.0,
+        "local_requirement_usd": 2142400.0,
+        "month_index": 31,
+        "planned_requirement_usd": 3296000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 481294376.88,
+        "imported_requirement_usd": 1072400.0,
+        "local_requirement_usd": 1991600.0,
+        "month_index": 32,
+        "planned_requirement_usd": 3064000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 482622376.88,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 33,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 483950376.88,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 34,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 485218376.88,
+        "imported_requirement_usd": 443800.0,
+        "local_requirement_usd": 824200.0,
+        "month_index": 35,
+        "planned_requirement_usd": 1268000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 486130376.88,
+        "imported_requirement_usd": 319200.0,
+        "local_requirement_usd": 592800.0,
+        "month_index": 36,
+        "planned_requirement_usd": 912000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 486190376.88,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 37,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 486250376.88,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 38,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 486304376.88,
+        "imported_requirement_usd": 18900.0,
+        "local_requirement_usd": 35100.0,
+        "month_index": 39,
+        "planned_requirement_usd": 54000.0,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 268433160.48,
+      "imported_requirement_usd": 14619705.24,
+      "local_requirement_usd": 54282728.43,
+      "month_index": 4,
+      "planned_requirement_usd": 68902433.91,
+      "project_day_finish": 119,
+      "project_day_start": 90
+    },
+    "total_planned_requirement_usd": 486304376.88
+  },
+  "city": "tetouan",
+  "critical_path": {
+    "critical_task_count": 145,
+    "critical_task_uids": [
+      "tetouan:TET-SYS-001:sys-00-baseline-freeze",
+      "tetouan:TET-RS-L1-004:rs-10-material-kit",
+      "tetouan:TET-RS-L1-008:rs-10-material-kit",
+      "tetouan:TET-RS-L1-012:rs-10-material-kit",
+      "tetouan:TET-RS-L1-016:rs-10-material-kit",
+      "tetouan:TET-RS-L1-020:rs-10-material-kit",
+      "tetouan:TET-RS-L1-024:rs-10-material-kit",
+      "tetouan:TET-RS-L1-028:rs-10-material-kit",
+      "tetouan:TET-RS-L1-032:rs-10-material-kit",
+      "tetouan:TET-RS-L1-036:rs-10-material-kit",
+      "tetouan:TET-RS-L1-040:rs-10-material-kit",
+      "tetouan:TET-RS-L2-004:rs-10-material-kit",
+      "tetouan:TET-RS-L2-008:rs-10-material-kit",
+      "tetouan:TET-RS-L2-012:rs-10-material-kit",
+      "tetouan:TET-RS-L2-016:rs-10-material-kit",
+      "tetouan:TET-RS-L2-020:rs-10-material-kit",
+      "tetouan:TET-RS-L2-024:rs-10-material-kit",
+      "tetouan:TET-RS-L2-028:rs-10-material-kit",
+      "tetouan:TET-RS-L2-032:rs-10-material-kit",
+      "tetouan:TET-RS-L2-036:rs-10-material-kit",
+      "tetouan:TET-RS-L2-040:rs-10-material-kit",
+      "tetouan:TET-RS-L2-044:rs-10-material-kit",
+      "tetouan:TET-RS-L2-048:rs-10-material-kit",
+      "tetouan:TET-RS-L3-004:rs-10-material-kit",
+      "tetouan:TET-RS-L3-008:rs-10-material-kit",
+      "tetouan:TET-RS-L3-012:rs-10-material-kit",
+      "tetouan:TET-RS-L3-016:rs-10-material-kit",
+      "tetouan:TET-RS-L3-020:rs-10-material-kit",
+      "tetouan:TET-RS-L3-024:rs-10-material-kit",
+      "tetouan:TET-RS-L1-001:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-005:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-009:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-013:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-017:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-021:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-025:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-029:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-033:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-037:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-001:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-005:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-009:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-013:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-017:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-021:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-025:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-029:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-033:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-037:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-041:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L2-045:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-001:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-005:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-009:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-013:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-017:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-021:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L3-025:rs-20-carbody-bogie",
+      "tetouan:TET-RS-L1-002:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-006:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-010:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-014:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-018:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-022:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-026:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-030:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-034:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-038:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-002:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-006:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-010:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-014:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-018:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-022:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-026:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-030:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-034:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-038:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-042:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L2-046:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-002:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-006:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-010:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-014:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-018:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-022:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L3-026:rs-30-traction-battery-control",
+      "tetouan:TET-RS-L1-003:rs-40-fitout-static-test",
+      "tetouan:TET-RS-L1-003:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-005:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-007:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-009:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-011:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-013:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-015:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-017:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-019:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-021:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-023:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-025:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-027:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-029:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-031:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-033:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-035:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-037:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L1-039:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-001:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-003:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-005:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-007:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-009:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-011:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-013:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-015:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-017:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-019:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-021:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-023:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-025:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-027:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-029:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-031:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-033:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-035:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-037:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-039:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-041:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-043:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-045:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L2-047:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-001:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-003:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-005:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-007:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-009:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-011:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-013:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-015:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-017:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-019:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-021:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-023:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-025:rs-50-dynamic-commissioning",
+      "tetouan:TET-RS-L3-027:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1077,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 12955,
+    "pre_ntp_order_actions": 1791,
+    "priced_rows": 11615,
+    "quotation_required_rows": 1340
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-f3a5a6ae4bba0ade",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-a6d23a090cc7d115",
+      "sequence": 1,
+      "source_hash": "140845e7cfbf041486643b0e3f393c23f3e716253c86055cc3fe2ab96ff54c66"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f3a5a6ae4bba0ade",
+      "sequence": 2,
+      "source_hash": "82651aadfda72971ac52dbb5d9bfbf6668285dfa370ec1a852485c4f13c0929e"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/north-africa/Morocco/Tetouan/design.toml",
+      "sha256": "58dc177b5426e5051b398345390174e1ac0af7266c48265695164550ced31330"
+    },
+    "finance": {
+      "path": "cities/catalogue/north-africa/Morocco/Tetouan/engineering/finance/summary.json",
+      "sha256": "53dd4da03f4482bde155b660dfec8924aeb4ae383aac434f515575d3b54c3c01"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/north-africa/Morocco/Tetouan/tetouan.toml",
+      "sha256": "01225e43b5802c43a996c1de9493fd9fb82a3647ecb031176d5b60b207c111f5"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 232,
+    "budget_contracts": 1052,
+    "cashflow_months": 40,
+    "critical_work_packages": 145,
+    "planned_capex_usd": 486304376.88,
+    "planned_purchase_orders": 12955,
+    "pre_ntp_order_actions": 1791,
+    "priced_procurement_usd": 79389100.0,
+    "programme_working_days": 1077,
+    "work_packages": 1051
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2102
+  }
+}

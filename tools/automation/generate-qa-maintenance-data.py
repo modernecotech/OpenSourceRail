@@ -26,8 +26,10 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "design/component-catalogue/src"))
+sys.path.insert(0, str(REPO_ROOT / "tools/automation"))
 
 from osr_mech.civil.construction import CivilProductionInputs, civil_production_plan  # noqa: E402
+from project_twin import build_project_twin, compact_summary  # noqa: E402
 DEFAULT_DESIGN = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah/design.toml"
 DEFAULT_SCENARIO = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml"
 DEFAULT_BOM_DIR = REPO_ROOT / "build/bom"
@@ -39,21 +41,55 @@ def main() -> int:
         description="Generate asset-level operations portal data."
     )
     parser.add_argument("--design", type=Path, default=DEFAULT_DESIGN)
-    parser.add_argument("--scenario", type=Path, default=DEFAULT_SCENARIO)
+    parser.add_argument(
+        "--scenario",
+        type=Path,
+        help="scenario TOML (default: <design directory>/<city slug>.toml)",
+    )
     parser.add_argument(
         "--out-dir",
         type=Path,
         default=None,
         help="output folder (default: build/generated-operations/samawah)",
     )
+    parser.add_argument(
+        "--twin-summary",
+        type=Path,
+        help="compact Git-reviewable project-twin summary path",
+    )
+    parser.add_argument(
+        "--summary-only",
+        action="store_true",
+        help="refresh only the compact project-twin summary (batch publication helper)",
+    )
     args = parser.parse_args()
 
     design = _load_toml(args.design)
-    scenario = _load_toml(args.scenario)
+    source_slug = str(design.get("city", {}).get("slug", args.design.parent.name.lower()))
+    scenario_path = args.scenario or args.design.parent / f"{source_slug}.toml"
+    scenario = _load_toml(scenario_path)
     qa_template = _load_toml(REPO_ROOT / "lib/templates/construction-qa.toml")
     maint_template = _load_toml(REPO_ROOT / "lib/templates/maintenance-schedule.toml")
     manufacturing_template = _load_toml(REPO_ROOT / "lib/templates/manufacturing-schedule.toml")
     bom_catalog = _load_bom_catalog(DEFAULT_BOM_DIR)
+    supplier_anchors = _load_supplier_anchors(
+        REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
+    )
+    finance_path = args.design.parent / "engineering/finance/summary.json"
+    finance_model = json.loads(finance_path.read_text(encoding="utf-8")) if finance_path.is_file() else {}
+
+    out_dir = args.out_dir or DEFAULT_OUT_DIR
+    city_operations_dir = args.design.parent / "operations"
+    if args.twin_summary:
+        twin_summary_path = args.twin_summary
+    elif out_dir.resolve() == city_operations_dir.resolve():
+        twin_summary_path = args.design.parent / "engineering/project-twin/summary.json"
+    else:
+        twin_summary_path = out_dir / "project-twin-summary.json"
+    previous_revisions: list[dict[str, Any]] = []
+    if twin_summary_path.is_file():
+        prior = json.loads(twin_summary_path.read_text(encoding="utf-8"))
+        previous_revisions = list(prior.get("revisions", []))
 
     bundle = build_bundle(
         design=design,
@@ -62,11 +98,18 @@ def main() -> int:
         maint_template=maint_template,
         manufacturing_template=manufacturing_template,
         bom_catalog=bom_catalog,
+        supplier_anchors=supplier_anchors,
+        finance_model=finance_model,
+        previous_twin_revisions=previous_revisions,
         design_path=args.design,
-        scenario_path=args.scenario,
+        scenario_path=scenario_path,
     )
 
-    out_dir = args.out_dir or DEFAULT_OUT_DIR
+    if args.summary_only:
+        _write_json(twin_summary_path, compact_summary(bundle["project_twin"]))
+        print(f"wrote {twin_summary_path}")
+        return 0
+
     out_dir.mkdir(parents=True, exist_ok=True)
     slug = bundle["meta"]["city_slug"]
     json_path = out_dir / f"{slug}-operations.json.gz"
@@ -75,6 +118,10 @@ def main() -> int:
     manufacturing_path = out_dir / f"{slug}-manufacturing-schedule.csv"
     manufacturing_materials_path = out_dir / f"{slug}-manufacturing-materials.csv"
     manufacturing_verification_path = out_dir / f"{slug}-manufacturing-verification.csv"
+    procurement_path = out_dir / f"{slug}-procurement-plan.csv"
+    contracts_path = out_dir / f"{slug}-budget-work-packages.csv"
+    cashflow_path = out_dir / f"{slug}-cashflow-requirements.csv"
+    visualization_path = out_dir / f"{slug}-construction-timeline.json"
     maintenance_path = out_dir / f"{slug}-maintenance-schedule.csv"
     qa_path = out_dir / f"{slug}-qa-register.csv"
 
@@ -108,8 +155,13 @@ def main() -> int:
     _write_csv(manufacturing_path, bundle["manufacturing_tasks"])
     _write_csv(manufacturing_materials_path, bundle["manufacturing_materials"])
     _write_csv(manufacturing_verification_path, bundle["manufacturing_verifications"])
+    _write_csv(procurement_path, bundle["project_twin"]["purchase_orders"])
+    _write_csv(contracts_path, bundle["project_twin"]["budget_contracts"])
+    _write_csv(cashflow_path, bundle["project_twin"]["cashflow"]["monthly_requirements"])
     _write_csv(maintenance_path, bundle["maintenance_tasks"])
     _write_csv(qa_path, bundle["qa_actions"])
+    _write_json(visualization_path, bundle["project_twin"]["visualization_timeline"])
+    _write_json(twin_summary_path, compact_summary(bundle["project_twin"]))
 
     print(f"wrote {json_path}")
     print(f"wrote {manifest_path}")
@@ -117,6 +169,11 @@ def main() -> int:
     print(f"wrote {manufacturing_path}")
     print(f"wrote {manufacturing_materials_path}")
     print(f"wrote {manufacturing_verification_path}")
+    print(f"wrote {procurement_path}")
+    print(f"wrote {contracts_path}")
+    print(f"wrote {cashflow_path}")
+    print(f"wrote {visualization_path}")
+    print(f"wrote {twin_summary_path}")
     print(f"wrote {maintenance_path}")
     print(f"wrote {qa_path}")
     return 0
@@ -130,6 +187,9 @@ def build_bundle(
     maint_template: dict[str, Any],
     manufacturing_template: dict[str, Any],
     bom_catalog: dict[str, dict[str, dict[str, str]]],
+    supplier_anchors: dict[str, dict[str, Any]] | None = None,
+    finance_model: dict[str, Any] | None = None,
+    previous_twin_revisions: list[dict[str, Any]] | None = None,
     design_path: Path,
     scenario_path: Path,
 ) -> dict[str, Any]:
@@ -414,6 +474,7 @@ def build_bundle(
     manufacturing_materials = _expand_manufacturing_materials(
         manufacturing_tasks=manufacturing_tasks,
         bom_catalog=bom_catalog,
+        supplier_anchors=supplier_anchors or {},
     )
     manufacturing_verifications = _expand_manufacturing_verifications(
         manufacturing_tasks=manufacturing_tasks,
@@ -439,6 +500,25 @@ def build_bundle(
         "source_scenario": _rel(scenario_path),
         "opening_date_placeholder": "opening_date",
     }
+    finance_path = design_path.parent / "engineering/finance/summary.json"
+    project_twin = build_project_twin(
+        meta=meta,
+        assets=assets,
+        manufacturing_tasks=manufacturing_tasks,
+        manufacturing_materials=manufacturing_materials,
+        finance=finance_model,
+        source_paths={
+            "design": design_path,
+            "scenario": scenario_path,
+            "manufacturing_template": REPO_ROOT / "lib/templates/manufacturing-schedule.toml",
+            "finance": finance_path,
+            "operations_generator": Path(__file__),
+            "project_twin_generator": REPO_ROOT / "tools/automation/project_twin.py",
+        },
+        resource_capacity=dict(manufacturing_template.get("resource_capacity", {})),
+        previous_revisions=previous_twin_revisions,
+    )
+    manufacturing_tasks = project_twin["work_packages"]
     totals = {
         "assets": len(assets),
         "qa_gates": len(qa_template.get("construction_qa_gate", [])),
@@ -457,6 +537,9 @@ def build_bundle(
         ),
         "switches": sum(1 for a in assets if a["asset_type"] == "switch"),
         "energy_sites": sum(1 for a in assets if a["asset_type"] == "energy"),
+        "critical_work_packages": project_twin["totals"]["critical_work_packages"],
+        "planned_purchase_orders": project_twin["totals"]["planned_purchase_orders"],
+        "cashflow_months": project_twin["totals"]["cashflow_months"],
     }
 
     return {
@@ -467,6 +550,7 @@ def build_bundle(
         "maintenance_intervals": maint_template.get("maintenance_interval", []),
         "manufacturing_packages": manufacturing_template.get("manufacturing_package", []),
         "civil_production": civil_production,
+        "project_twin": project_twin,
         "assets": assets,
         "manufacturing_tasks": manufacturing_tasks,
         "manufacturing_materials": manufacturing_materials,
@@ -846,6 +930,7 @@ def _expand_manufacturing_materials(
     *,
     manufacturing_tasks: list[dict[str, Any]],
     bom_catalog: dict[str, dict[str, dict[str, str]]],
+    supplier_anchors: dict[str, dict[str, Any]],
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for task in manufacturing_tasks:
@@ -858,6 +943,7 @@ def _expand_manufacturing_materials(
                 key=key,
                 bom_row=bom_row,
                 position=position,
+                supplier_anchors=supplier_anchors,
             )
             rows.append(material)
     return rows
@@ -870,6 +956,7 @@ def _material_from_bom_ref(
     key: str,
     bom_row: dict[str, str],
     position: int,
+    supplier_anchors: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
     if source == "rolling_stock_bom" and bom_row:
         description = bom_row.get("description", key)
@@ -877,6 +964,9 @@ def _material_from_bom_ref(
         make_buy_source = bom_row.get("source", "")
         base_usd = bom_row.get("base_usd", "")
         cost_basis = bom_row.get("cost_basis", "")
+        engineering_ids = bom_row.get("engineering_ids", "")
+        supplier_reference = ""
+        supplier_url = ""
         evidence = "supplier certificate, serial/lot traceability, receiving inspection"
     elif source == "rolling_stock_cots_fitout" and bom_row:
         description = bom_row.get("name", key)
@@ -884,6 +974,9 @@ def _material_from_bom_ref(
         make_buy_source = "COTS"
         base_usd = bom_row.get("consist_cost_base_usd", "")
         cost_basis = bom_row.get("cost_basis", "")
+        engineering_ids = ""
+        supplier_reference = bom_row.get("reference", "")
+        supplier_url = bom_row.get("shape_source_url", "")
         evidence = "supplier datasheet, fit check, fire/safety evidence where applicable"
     else:
         description = key.replace("-", " ")
@@ -891,9 +984,20 @@ def _material_from_bom_ref(
         make_buy_source = "PROJECT_KIT"
         base_usd = ""
         cost_basis = "Controlled project-kit placeholder; replace with detailed BOM row when available."
+        engineering_ids = ""
+        supplier_reference = ""
+        supplier_url = ""
         evidence = "kit issue note, receiving inspection, lot/serial traceability where applicable"
 
     material_uid = f"{task['manufacturing_uid']}:MAT-{position:03d}"
+    anchor = next(
+        (
+            supplier_anchors[item]
+            for item in _split_refs(engineering_ids)
+            if item in supplier_anchors
+        ),
+        {},
+    )
     return {
         "material_uid": material_uid,
         "manufacturing_uid": task["manufacturing_uid"],
@@ -910,6 +1014,15 @@ def _material_from_bom_ref(
         "make_buy_source": make_buy_source,
         "base_usd": base_usd,
         "cost_basis": cost_basis,
+        "engineering_ids": engineering_ids,
+        "supplier_anchor_id": anchor.get("id", ""),
+        "supplier_name": anchor.get("manufacturer", ""),
+        "supplier_family": anchor.get("product_family", supplier_reference),
+        "supplier_url": anchor.get("manufacturer_url", supplier_url),
+        "supplier_selection_status": anchor.get(
+            "procurement_state",
+            "reference-family-requires-selection" if supplier_reference else "competitive-source-required",
+        ),
         "traceability_required": "yes",
         "evidence_required": evidence,
         "material_status": "required",
@@ -1139,6 +1252,15 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writerows(rows)
 
 
+def _write_json(path: Path, value: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", dir=path.parent, delete=False, encoding="utf-8") as handle:
+        json.dump(value, handle, indent=2, sort_keys=True, ensure_ascii=False)
+        handle.write("\n")
+        temporary = Path(handle.name)
+    os.replace(temporary, path)
+
+
 def _load_bom_catalog(path: Path) -> dict[str, dict[str, dict[str, str]]]:
     return {
         "rolling_stock_bom": _load_csv_index(path / "rolling_stock_bom.csv", "line_id"),
@@ -1146,6 +1268,17 @@ def _load_bom_catalog(path: Path) -> dict[str, dict[str, dict[str, str]]]:
             path / "rolling_stock_cots_fitout_bom.csv",
             "category",
         ),
+    }
+
+
+def _load_supplier_anchors(path: Path) -> dict[str, dict[str, Any]]:
+    if not path.is_file():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        str(product_id): anchor
+        for anchor in payload.get("anchor", [])
+        for product_id in anchor.get("product_ids", [])
     }
 
 

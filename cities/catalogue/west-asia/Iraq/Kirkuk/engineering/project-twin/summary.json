@@ -1,0 +1,916 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 16050000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 475352347.0,
+      "work_packages": 141
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 68136565.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 200480000.0,
+      "work_packages": 1253
+    },
+    "signalling": {
+      "budget_usd": 7197147.0,
+      "work_packages": 268
+    },
+    "solar_plant": {
+      "budget_usd": 125529813.41,
+      "work_packages": 98
+    },
+    "stations": {
+      "budget_usd": 266300000.0,
+      "work_packages": 104
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 13565752.26,
+        "imported_requirement_usd": 2975114.74,
+        "local_requirement_usd": 10590637.88,
+        "month_index": 0,
+        "planned_requirement_usd": 13565752.26,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 123776223.6,
+        "imported_requirement_usd": 24079524.17,
+        "local_requirement_usd": 86130947.48,
+        "month_index": 1,
+        "planned_requirement_usd": 110210471.34,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 181658254.33,
+        "imported_requirement_usd": 14071692.27,
+        "local_requirement_usd": 43810338.76,
+        "month_index": 2,
+        "planned_requirement_usd": 57882030.73,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 233185709.99,
+        "imported_requirement_usd": 12582977.44,
+        "local_requirement_usd": 38944478.23,
+        "month_index": 3,
+        "planned_requirement_usd": 51527455.66,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 292148683.23,
+        "imported_requirement_usd": 13802765.91,
+        "local_requirement_usd": 45160207.33,
+        "month_index": 4,
+        "planned_requirement_usd": 58962973.24,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 365590404.09,
+        "imported_requirement_usd": 16011719.9,
+        "local_requirement_usd": 57430001.04,
+        "month_index": 5,
+        "planned_requirement_usd": 73441720.86,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 434302002.41,
+        "imported_requirement_usd": 15403995.86,
+        "local_requirement_usd": 53307602.59,
+        "month_index": 6,
+        "planned_requirement_usd": 68711598.32,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 506465140.14,
+        "imported_requirement_usd": 15929552.34,
+        "local_requirement_usd": 56233585.58,
+        "month_index": 7,
+        "planned_requirement_usd": 72163137.73,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 577304158.53,
+        "imported_requirement_usd": 15763771.53,
+        "local_requirement_usd": 55075247.0,
+        "month_index": 8,
+        "planned_requirement_usd": 70839018.39,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 650722808.4,
+        "imported_requirement_usd": 16171767.23,
+        "local_requirement_usd": 57246882.66,
+        "month_index": 9,
+        "planned_requirement_usd": 73418649.87,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 722389636.95,
+        "imported_requirement_usd": 15869816.97,
+        "local_requirement_usd": 55797011.66,
+        "month_index": 10,
+        "planned_requirement_usd": 71666828.55,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 789852382.47,
+        "imported_requirement_usd": 15206932.44,
+        "local_requirement_usd": 52255813.02,
+        "month_index": 11,
+        "planned_requirement_usd": 67462745.52,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 860709318.05,
+        "imported_requirement_usd": 15562366.61,
+        "local_requirement_usd": 55294569.13,
+        "month_index": 12,
+        "planned_requirement_usd": 70856935.58,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 920258799.37,
+        "imported_requirement_usd": 11969004.51,
+        "local_requirement_usd": 47580477.12,
+        "month_index": 13,
+        "planned_requirement_usd": 59549481.32,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 960837284.19,
+        "imported_requirement_usd": 7358498.98,
+        "local_requirement_usd": 33219986.08,
+        "month_index": 14,
+        "planned_requirement_usd": 40578484.82,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 997634342.26,
+        "imported_requirement_usd": 6751998.09,
+        "local_requirement_usd": 30045060.08,
+        "month_index": 15,
+        "planned_requirement_usd": 36797058.07,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 1025022266.05,
+        "imported_requirement_usd": 5145365.43,
+        "local_requirement_usd": 22242558.24,
+        "month_index": 16,
+        "planned_requirement_usd": 27387923.79,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 1031452502.46,
+        "imported_requirement_usd": 1924137.43,
+        "local_requirement_usd": 4506098.8,
+        "month_index": 17,
+        "planned_requirement_usd": 6430236.41,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 1037204969.04,
+        "imported_requirement_usd": 1733252.43,
+        "local_requirement_usd": 4019214.06,
+        "month_index": 18,
+        "planned_requirement_usd": 5752466.58,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 1043358561.69,
+        "imported_requirement_usd": 1852652.86,
+        "local_requirement_usd": 4300939.72,
+        "month_index": 19,
+        "planned_requirement_usd": 6153592.65,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 1047693695.84,
+        "imported_requirement_usd": 1518153.58,
+        "local_requirement_usd": 2816980.54,
+        "month_index": 20,
+        "planned_requirement_usd": 4335134.15,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 1052324273.52,
+        "imported_requirement_usd": 1620702.02,
+        "local_requirement_usd": 3009875.66,
+        "month_index": 21,
+        "planned_requirement_usd": 4630577.68,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 1056623828.97,
+        "imported_requirement_usd": 1504844.27,
+        "local_requirement_usd": 2794711.18,
+        "month_index": 22,
+        "planned_requirement_usd": 4299555.45,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 1061026673.34,
+        "imported_requirement_usd": 1540995.44,
+        "local_requirement_usd": 2861848.93,
+        "month_index": 23,
+        "planned_requirement_usd": 4402844.37,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 1064079295.53,
+        "imported_requirement_usd": 1068417.71,
+        "local_requirement_usd": 1984204.48,
+        "month_index": 24,
+        "planned_requirement_usd": 3052622.19,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 1067149339.94,
+        "imported_requirement_usd": 1074515.49,
+        "local_requirement_usd": 1995528.92,
+        "month_index": 25,
+        "planned_requirement_usd": 3070044.41,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 1070228095.45,
+        "imported_requirement_usd": 1077564.34,
+        "local_requirement_usd": 2001191.17,
+        "month_index": 26,
+        "planned_requirement_usd": 3078755.51,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 1073214762.13,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 27,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 1076201428.81,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 28,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 1079188095.49,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 29,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 1082174762.17,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 30,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 1085161428.85,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 31,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 1088148095.53,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 32,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 1091134762.21,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 33,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 1094121428.89,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 34,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 1097108095.57,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 35,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 1100094762.25,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 36,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 1103141162.23,
+        "imported_requirement_usd": 1066239.9,
+        "local_requirement_usd": 1980160.08,
+        "month_index": 37,
+        "planned_requirement_usd": 3046399.98,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 1106899384.33,
+        "imported_requirement_usd": 1315377.78,
+        "local_requirement_usd": 2442844.32,
+        "month_index": 38,
+        "planned_requirement_usd": 3758222.1,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 1110996095.24,
+        "imported_requirement_usd": 1433848.97,
+        "local_requirement_usd": 2662861.94,
+        "month_index": 39,
+        "planned_requirement_usd": 4096710.91,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 1115570672.81,
+        "imported_requirement_usd": 1601102.31,
+        "local_requirement_usd": 2973475.26,
+        "month_index": 40,
+        "planned_requirement_usd": 4574577.57,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 1119926228.23,
+        "imported_requirement_usd": 1524444.58,
+        "local_requirement_usd": 2831110.84,
+        "month_index": 41,
+        "planned_requirement_usd": 4355555.42,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 1124605339.29,
+        "imported_requirement_usd": 1637689.1,
+        "local_requirement_usd": 3041421.96,
+        "month_index": 42,
+        "planned_requirement_usd": 4679111.06,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 1128786672.58,
+        "imported_requirement_usd": 1463466.87,
+        "local_requirement_usd": 2717866.42,
+        "month_index": 43,
+        "planned_requirement_usd": 4181333.29,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      },
+      {
+        "cumulative_requirement_usd": 1133406050.29,
+        "imported_requirement_usd": 1616782.41,
+        "local_requirement_usd": 3002595.3,
+        "month_index": 44,
+        "planned_requirement_usd": 4619377.71,
+        "project_day_finish": 1319,
+        "project_day_start": 1290
+      },
+      {
+        "cumulative_requirement_usd": 1137846228.03,
+        "imported_requirement_usd": 1554062.42,
+        "local_requirement_usd": 2886115.32,
+        "month_index": 45,
+        "planned_requirement_usd": 4440177.74,
+        "project_day_finish": 1349,
+        "project_day_start": 1320
+      },
+      {
+        "cumulative_requirement_usd": 1142525339.09,
+        "imported_requirement_usd": 1637689.1,
+        "local_requirement_usd": 3041421.96,
+        "month_index": 46,
+        "planned_requirement_usd": 4679111.06,
+        "project_day_finish": 1379,
+        "project_day_start": 1350
+      },
+      {
+        "cumulative_requirement_usd": 1146706672.38,
+        "imported_requirement_usd": 1463466.87,
+        "local_requirement_usd": 2717866.42,
+        "month_index": 47,
+        "planned_requirement_usd": 4181333.29,
+        "project_day_finish": 1409,
+        "project_day_start": 1380
+      },
+      {
+        "cumulative_requirement_usd": 1151326050.09,
+        "imported_requirement_usd": 1616782.41,
+        "local_requirement_usd": 3002595.3,
+        "month_index": 48,
+        "planned_requirement_usd": 4619377.71,
+        "project_day_finish": 1439,
+        "project_day_start": 1410
+      },
+      {
+        "cumulative_requirement_usd": 1155547205.62,
+        "imported_requirement_usd": 1477404.63,
+        "local_requirement_usd": 2743750.9,
+        "month_index": 49,
+        "planned_requirement_usd": 4221155.53,
+        "project_day_finish": 1469,
+        "project_day_start": 1440
+      },
+      {
+        "cumulative_requirement_usd": 1158284983.4,
+        "imported_requirement_usd": 958222.38,
+        "local_requirement_usd": 1779555.4,
+        "month_index": 50,
+        "planned_requirement_usd": 2737777.78,
+        "project_day_finish": 1499,
+        "project_day_start": 1470
+      },
+      {
+        "cumulative_requirement_usd": 1159937605.66,
+        "imported_requirement_usd": 578417.9,
+        "local_requirement_usd": 1074204.36,
+        "month_index": 51,
+        "planned_requirement_usd": 1652622.26,
+        "project_day_finish": 1529,
+        "project_day_start": 1500
+      },
+      {
+        "cumulative_requirement_usd": 1161550405.68,
+        "imported_requirement_usd": 564480.1,
+        "local_requirement_usd": 1048319.92,
+        "month_index": 52,
+        "planned_requirement_usd": 1612800.02,
+        "project_day_finish": 1559,
+        "project_day_start": 1530
+      },
+      {
+        "cumulative_requirement_usd": 1163133339.02,
+        "imported_requirement_usd": 554026.75,
+        "local_requirement_usd": 1028906.59,
+        "month_index": 53,
+        "planned_requirement_usd": 1582933.34,
+        "project_day_finish": 1589,
+        "project_day_start": 1560
+      },
+      {
+        "cumulative_requirement_usd": 1164626672.32,
+        "imported_requirement_usd": 522666.7,
+        "local_requirement_usd": 970666.6,
+        "month_index": 54,
+        "planned_requirement_usd": 1493333.3,
+        "project_day_finish": 1619,
+        "project_day_start": 1590
+      },
+      {
+        "cumulative_requirement_usd": 1166045338.97,
+        "imported_requirement_usd": 496533.35,
+        "local_requirement_usd": 922133.3,
+        "month_index": 55,
+        "planned_requirement_usd": 1418666.65,
+        "project_day_finish": 1649,
+        "project_day_start": 1620
+      },
+      {
+        "cumulative_requirement_usd": 1166844272.32,
+        "imported_requirement_usd": 279626.65,
+        "local_requirement_usd": 519306.7,
+        "month_index": 56,
+        "planned_requirement_usd": 798933.35,
+        "project_day_finish": 1679,
+        "project_day_start": 1650
+      },
+      {
+        "cumulative_requirement_usd": 1166918939.02,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 57,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1709,
+        "project_day_start": 1680
+      },
+      {
+        "cumulative_requirement_usd": 1166993605.72,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 58,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1739,
+        "project_day_start": 1710
+      },
+      {
+        "cumulative_requirement_usd": 1167045872.41,
+        "imported_requirement_usd": 18293.31,
+        "local_requirement_usd": 33973.38,
+        "month_index": 59,
+        "planned_requirement_usd": 52266.69,
+        "project_day_finish": 1769,
+        "project_day_start": 1740
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 123776223.6,
+      "imported_requirement_usd": 24079524.17,
+      "local_requirement_usd": 86130947.48,
+      "month_index": 1,
+      "planned_requirement_usd": 110210471.34,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 1167045872.41
+  },
+  "city": "kirkuk",
+  "critical_path": {
+    "critical_task_count": 225,
+    "critical_task_uids": [
+      "kirkuk:KIR-SYS-001:sys-00-baseline-freeze",
+      "kirkuk:KIR-RS-L1-004:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-008:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-012:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-016:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-020:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-024:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-028:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-032:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-036:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-040:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-004:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-008:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-012:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-016:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-020:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-024:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-028:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-032:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-036:rs-10-material-kit",
+      "kirkuk:KIR-RS-L2-040:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-004:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-008:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-012:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-016:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-020:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-024:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-028:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-032:rs-10-material-kit",
+      "kirkuk:KIR-RS-L3-036:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-002:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-006:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-010:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-014:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-018:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-022:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-026:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-030:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-034:rs-10-material-kit",
+      "kirkuk:KIR-RS-L4-038:rs-10-material-kit",
+      "kirkuk:KIR-RS-L5-004:rs-10-material-kit",
+      "kirkuk:KIR-RS-L5-008:rs-10-material-kit",
+      "kirkuk:KIR-RS-L5-012:rs-10-material-kit",
+      "kirkuk:KIR-RS-L5-016:rs-10-material-kit",
+      "kirkuk:KIR-RS-L5-020:rs-10-material-kit",
+      "kirkuk:KIR-RS-L1-001:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-005:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-009:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-013:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-017:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-021:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-025:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-029:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-033:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-037:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-001:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-005:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-009:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-013:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-017:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-021:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-025:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-029:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-033:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L2-037:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-001:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-005:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-009:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-013:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-017:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-021:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-025:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-029:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-033:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L3-037:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-003:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-007:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-011:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-015:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-019:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-023:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-027:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-031:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L4-035:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-001:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-005:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-009:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-013:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-017:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L5-021:rs-20-carbody-bogie",
+      "kirkuk:KIR-RS-L1-002:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-006:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-010:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-014:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-018:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-022:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-026:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-030:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-034:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-038:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-002:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-006:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-010:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-014:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-018:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-022:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-026:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-030:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-034:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L2-038:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-002:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-006:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-010:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-014:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-018:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-022:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-026:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-030:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-034:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L3-038:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-004:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-008:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-012:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-016:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-020:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-024:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-028:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-032:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L4-036:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-002:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-006:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-010:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-014:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-018:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L5-022:rs-30-traction-battery-control",
+      "kirkuk:KIR-RS-L1-003:rs-40-fitout-static-test",
+      "kirkuk:KIR-RS-L1-003:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-005:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-007:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-009:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-011:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-013:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-015:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-017:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-019:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-021:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-023:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-025:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-027:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-029:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-031:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-033:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-035:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-037:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L1-039:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-001:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-003:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-005:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-007:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-009:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-011:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-013:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-015:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-017:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-019:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-021:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-023:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-025:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-027:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-029:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-031:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-033:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-035:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-037:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L2-039:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-001:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-003:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-005:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-007:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-009:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-011:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-013:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-015:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-017:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-019:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-021:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-023:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-025:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-027:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-029:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-031:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-033:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-035:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L3-037:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-001:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-003:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-005:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-007:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-009:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-011:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-013:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-015:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-017:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-019:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-021:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-023:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-025:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-027:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-029:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-031:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-033:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-035:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L4-037:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-001:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-003:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-005:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-007:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-009:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-011:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-013:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-015:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-017:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-019:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-021:rs-50-dynamic-commissioning",
+      "kirkuk:KIR-RS-L5-023:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1669,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 21244,
+    "pre_ntp_order_actions": 2120,
+    "priced_rows": 18079,
+    "quotation_required_rows": 3165
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-f9164a1f4cc649ee",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-081da1aecbb22125",
+      "sequence": 1,
+      "source_hash": "233a8e5fe187618a361463493f52eb4ed6a7c7dad6d915bf8801f8dc6c9e944e"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f9164a1f4cc649ee",
+      "sequence": 2,
+      "source_hash": "bc91d7331b04326abfeec7896c2fb4904be169bc993c54f81c7dba31edb6396b"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-asia/Iraq/Kirkuk/design.toml",
+      "sha256": "570a8183c946242a3b0545c3defb3341cf82427b228f5645ea16db38af3307af"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/finance/summary.json",
+      "sha256": "6951f0ee22f38dab080bd3b5f84856d73fde51834cc5bdc5d43dd19f7d9a4006"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-asia/Iraq/Kirkuk/kirkuk.toml",
+      "sha256": "3b850cbdf5b74dc6d54af5c19378d28426bf02b0052df9ea6a53b6868796d872"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 471,
+    "budget_contracts": 1869,
+    "cashflow_months": 60,
+    "critical_work_packages": 225,
+    "planned_capex_usd": 1167045872.41,
+    "planned_purchase_orders": 21244,
+    "pre_ntp_order_actions": 2120,
+    "priced_procurement_usd": 123570860.0,
+    "programme_working_days": 1669,
+    "work_packages": 1868
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 3736
+  }
+}

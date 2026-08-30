@@ -1,0 +1,596 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 1750000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 108662912.0,
+      "work_packages": 36
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 19495506.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 68400000.0,
+      "work_packages": 532
+    },
+    "signalling": {
+      "budget_usd": 1694313.0,
+      "work_packages": 90
+    },
+    "solar_plant": {
+      "budget_usd": 22848567.74,
+      "work_packages": 30
+    },
+    "stations": {
+      "budget_usd": 90000000.0,
+      "work_packages": 30
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 7488552.46,
+        "imported_requirement_usd": 1574153.9,
+        "local_requirement_usd": 5914398.93,
+        "month_index": 0,
+        "planned_requirement_usd": 7488552.46,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 63688482.34,
+        "imported_requirement_usd": 11950128.06,
+        "local_requirement_usd": 44249802.14,
+        "month_index": 1,
+        "planned_requirement_usd": 56199929.88,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 125881465.09,
+        "imported_requirement_usd": 13167006.45,
+        "local_requirement_usd": 49025976.29,
+        "month_index": 2,
+        "planned_requirement_usd": 62192982.75,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 187533635.58,
+        "imported_requirement_usd": 12713841.0,
+        "local_requirement_usd": 48938329.34,
+        "month_index": 3,
+        "planned_requirement_usd": 61652170.49,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 244780908.13,
+        "imported_requirement_usd": 11932795.41,
+        "local_requirement_usd": 45314477.22,
+        "month_index": 4,
+        "planned_requirement_usd": 57247272.55,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 259327988.27,
+        "imported_requirement_usd": 3235795.42,
+        "local_requirement_usd": 11311284.66,
+        "month_index": 5,
+        "planned_requirement_usd": 14547080.14,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 266487197.69,
+        "imported_requirement_usd": 2013062.85,
+        "local_requirement_usd": 5146146.57,
+        "month_index": 6,
+        "planned_requirement_usd": 7159209.42,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 273085690.93,
+        "imported_requirement_usd": 1811909.96,
+        "local_requirement_usd": 4786583.28,
+        "month_index": 7,
+        "planned_requirement_usd": 6598493.24,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 277637298.74,
+        "imported_requirement_usd": 1469182.24,
+        "local_requirement_usd": 3082425.57,
+        "month_index": 8,
+        "planned_requirement_usd": 4551607.81,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 280979298.74,
+        "imported_requirement_usd": 1169700.0,
+        "local_requirement_usd": 2172300.0,
+        "month_index": 9,
+        "planned_requirement_usd": 3342000.0,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 284809298.74,
+        "imported_requirement_usd": 1340500.0,
+        "local_requirement_usd": 2489500.0,
+        "month_index": 10,
+        "planned_requirement_usd": 3830000.0,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 287289298.74,
+        "imported_requirement_usd": 868000.0,
+        "local_requirement_usd": 1612000.0,
+        "month_index": 11,
+        "planned_requirement_usd": 2480000.0,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 289763298.74,
+        "imported_requirement_usd": 865900.0,
+        "local_requirement_usd": 1608100.0,
+        "month_index": 12,
+        "planned_requirement_usd": 2474000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 292249298.74,
+        "imported_requirement_usd": 870100.0,
+        "local_requirement_usd": 1615900.0,
+        "month_index": 13,
+        "planned_requirement_usd": 2486000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 294651298.74,
+        "imported_requirement_usd": 840700.0,
+        "local_requirement_usd": 1561300.0,
+        "month_index": 14,
+        "planned_requirement_usd": 2402000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 297051298.74,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 15,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 299563298.74,
+        "imported_requirement_usd": 879200.0,
+        "local_requirement_usd": 1632800.0,
+        "month_index": 16,
+        "planned_requirement_usd": 2512000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 302787298.74,
+        "imported_requirement_usd": 1128400.0,
+        "local_requirement_usd": 2095600.0,
+        "month_index": 17,
+        "planned_requirement_usd": 3224000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 306479298.74,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 18,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 309755298.74,
+        "imported_requirement_usd": 1146600.0,
+        "local_requirement_usd": 2129400.0,
+        "month_index": 19,
+        "planned_requirement_usd": 3276000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 313459298.74,
+        "imported_requirement_usd": 1296400.0,
+        "local_requirement_usd": 2407600.0,
+        "month_index": 20,
+        "planned_requirement_usd": 3704000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 316771298.74,
+        "imported_requirement_usd": 1159200.0,
+        "local_requirement_usd": 2152800.0,
+        "month_index": 21,
+        "planned_requirement_usd": 3312000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 318291298.74,
+        "imported_requirement_usd": 532000.0,
+        "local_requirement_usd": 988000.0,
+        "month_index": 22,
+        "planned_requirement_usd": 1520000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 319595298.74,
+        "imported_requirement_usd": 456400.0,
+        "local_requirement_usd": 847600.0,
+        "month_index": 23,
+        "planned_requirement_usd": 1304000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 320639298.74,
+        "imported_requirement_usd": 365400.0,
+        "local_requirement_usd": 678600.0,
+        "month_index": 24,
+        "planned_requirement_usd": 1044000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 320731298.74,
+        "imported_requirement_usd": 32200.0,
+        "local_requirement_usd": 59800.0,
+        "month_index": 25,
+        "planned_requirement_usd": 92000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 320791298.74,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 26,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 320851298.74,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 27,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 125881465.09,
+      "imported_requirement_usd": 13167006.45,
+      "local_requirement_usd": 49025976.29,
+      "month_index": 2,
+      "planned_requirement_usd": 62192982.75,
+      "project_day_finish": 59,
+      "project_day_start": 30
+    },
+    "total_planned_requirement_usd": 320851298.74
+  },
+  "city": "port-sudan",
+  "critical_path": {
+    "critical_task_count": 193,
+    "critical_task_uids": [
+      "port-sudan:POR-SYS-001:sys-00-baseline-freeze",
+      "port-sudan:POR-RS-L1-001:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-002:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-005:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-006:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-009:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-010:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-013:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-014:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-017:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-018:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-021:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-022:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-025:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-026:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-029:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-030:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-003:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-004:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-007:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-008:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-011:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-012:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-015:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-016:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-019:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-020:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-023:rs-10-material-kit",
+      "port-sudan:POR-RS-L2-024:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-001:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-002:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-005:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-006:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-009:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-010:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-013:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-014:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-017:rs-10-material-kit",
+      "port-sudan:POR-RS-L3-018:rs-10-material-kit",
+      "port-sudan:POR-RS-L1-001:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-002:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-005:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-006:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-009:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-010:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-013:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-014:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-017:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-018:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-021:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-022:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-025:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-026:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-029:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-030:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-003:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-004:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-007:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-008:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-011:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-012:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-015:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-016:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-019:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-020:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-023:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L2-024:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-001:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-002:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-005:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-006:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-009:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-010:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-013:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-014:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-017:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L3-018:rs-20-carbody-bogie",
+      "port-sudan:POR-RS-L1-001:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-002:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-005:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-006:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-009:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-010:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-013:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-014:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-017:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-018:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-021:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-022:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-025:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-026:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-029:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-030:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-003:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-004:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-007:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-008:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-011:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-012:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-015:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-016:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-019:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-020:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-023:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L2-024:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-001:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-002:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-005:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-006:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-009:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-010:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-013:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-014:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-017:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L3-018:rs-30-traction-battery-control",
+      "port-sudan:POR-RS-L1-001:rs-40-fitout-static-test",
+      "port-sudan:POR-RS-L1-002:rs-40-fitout-static-test",
+      "port-sudan:POR-RS-L1-001:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-002:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-003:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-004:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-005:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-006:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-007:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-008:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-009:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-010:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-011:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-012:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-013:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-014:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-015:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-016:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-017:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-018:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-019:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-020:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-021:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-022:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-023:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-024:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-025:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-026:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-027:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-028:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-029:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L1-030:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-001:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-002:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-003:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-004:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-005:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-006:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-007:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-008:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-009:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-010:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-011:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-012:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-013:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-014:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-015:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-016:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-017:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-018:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-019:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-020:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-021:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-022:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-023:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-024:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-025:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L2-026:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-001:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-002:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-003:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-004:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-005:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-006:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-007:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-008:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-009:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-010:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-011:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-012:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-013:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-014:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-015:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-016:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-017:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-018:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-019:rs-50-dynamic-commissioning",
+      "port-sudan:POR-RS-L3-020:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 716,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 8686,
+    "pre_ntp_order_actions": 1610,
+    "priced_rows": 7676,
+    "quotation_required_rows": 1010
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-b19a0082d35c6615",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f8667a9d15974676",
+      "sequence": 1,
+      "source_hash": "c8848ace4f77c5276d675e133a46a774f3928065aedd84be3e12ed592fbe448d"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-b19a0082d35c6615",
+      "sequence": 2,
+      "source_hash": "ae810b6e31cb5537410104590dff91b83bf1873262ab99ce4a0be4d449853269"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/north-africa/Sudan/Port-Sudan/design.toml",
+      "sha256": "664029eeceb8ae1254cfd47c9e53070076685b87dd18f1b88374203306e62062"
+    },
+    "finance": {
+      "path": "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/finance/summary.json",
+      "sha256": "bfa6f90890e469964941129f1571bf2259bbff41a6821a8e89b47176b5b62dd5"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/north-africa/Sudan/Port-Sudan/port-sudan.toml",
+      "sha256": "fa77ebcaf930e98a750c3e2e66fdce29304ad3c90d50e4dc1b83551d53d8e89b"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 168,
+    "budget_contracts": 723,
+    "cashflow_months": 28,
+    "critical_work_packages": 193,
+    "planned_capex_usd": 320851298.74,
+    "planned_purchase_orders": 8686,
+    "pre_ntp_order_actions": 1610,
+    "priced_procurement_usd": 52465840.0,
+    "programme_working_days": 716,
+    "work_packages": 722
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 1444
+  }
+}

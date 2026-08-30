@@ -17,6 +17,7 @@ Usage: ./osr [COMMAND] [arguments]
   workbench          Same as no command
   sim [arguments]    Run the deterministic railway simulator
   design [arguments] Run the deterministic city-design compiler
+  city <slug>        Regenerate one complete city and its project digital twin
   build              Build applications, shared data, BIM, BOMs, and the PDF book
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
   test               Run Rust, Python, browser, and repository checks
@@ -36,6 +37,10 @@ case "$command_name" in
         ;;
     design)
         exec cargo run --release --bin osr-design -- "$@"
+        ;;
+    city)
+        (( $# == 1 )) || { printf 'usage: ./osr city <slug>\n' >&2; exit 2; }
+        exec tools/automation/regenerate-city.sh "$1"
         ;;
     build)
         (( $# == 0 )) || { printf 'osr build does not take options\n' >&2; exit 2; }

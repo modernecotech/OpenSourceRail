@@ -12,12 +12,9 @@ assurance share one Git-reviewable model.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
-**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page
-overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.
+**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.
 
-The public evidence scope covers **265 cities in 43 developing countries**. The
-one European comparison model in the 266-model engineering catalogue is retained
-only for technical inspection and excluded from public evidence and examples.
+The public evidence scope covers **265 cities in 43 developing countries**. One European comparison model in the 266-model engineering catalogue is retained only for technical inspection and excluded from public evidence and examples.
 
 ## The Economic Case
 
@@ -40,6 +37,7 @@ retaining skills and maintainable assets while reducing foreign-currency exposur
 | Capability | Current implementation |
 |---|---|
 | Deterministic city generation | Reproducible network, station, fleet, energy, engineering, finance and operations packages under [cities/catalogue/](cities/catalogue/README.md). |
+| Generatable project digital twin | Every city regeneration joins its assets, BOM, finite-resource CPM, critical path, supplier/order-by plan, schedule of values, monthly local/import cash requirements, QA gates and construction-state timeline in one revisioned model. The compact summary is kept on GitHub; issued orders, deliveries, invoices, payments and actual progress persist separately in Ops Core. |
 | Integrated Workbench | [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) share city, actor, immutable revision, approved baseline, run and selected-asset context without merging authority boundaries. |
 | Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
@@ -49,14 +47,40 @@ retaining skills and maintainable assets while reducing foreign-currency exposur
 | Operations and assurance | Manufacturing, QA, maintenance, assets, work orders, acceptance evidence and a machine-checkable safety case remain linked to source artifacts. |
 | Deterministic browser testing | Pinned Playwright acceptance verifies the integrated browser applications, adapters, engineering jobs and restart persistence. |
 
+## Generate A City Delivery Twin
+
+The city model is not limited to a route drawing or cost total. Regeneration
+creates a linked planning baseline that answers **what must be built, what must
+be ordered, when it is required, which work is critical, and when local and
+foreign-currency cash is needed**:
+
+```text
+city GIS + design + fleet
+          ↓
+asset register → BOM demand → supplier/order-by plan
+          ↓             ↓
+finite-resource CPM → schedule of values → monthly cash requirements
+          ↓
+IFC/visualization state timeline + QA/work orders + recorded actuals
+```
+
+Run `./osr city <slug>` (or the equivalent City Studio regenerate action) to
+rebuild the city package. Each city publishes a compact
+[`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle
+contains the complete task, procurement, cashflow and visualization records.
+Open **Workbench → Operations → Project Twin** to inspect the baseline and turn
+a planned requirement into a persisted draft purchase order. These are
+planning candidates—not issued contracts or construction releases—until the
+city records approval and actual commercial data.
+
 The model uses about **$0.9M per 3-car light-metro trainset** (LM3 build record:
 $885k) and **$60k per supported vehicle/car module** for one shared country factory; qualification and deployment remain separate gates.
 
 ## Current System
 
-| City Studio | Civil IFC coordination | Operations and evidence |
+| City Studio | Civil IFC coordination | Generated project digital twin |
 |---|---|---|
-| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
+| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![Generated city project digital twin with CPM, orders and cashflow](docs/screenshots/operations-portal/project-digital-twin.png) |
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|
@@ -134,24 +158,6 @@ The public review set is deliberately outside those temporary trees: the
 [BIM coordination package](engineering/models/bim/reference/) are available
 directly from GitHub.
 
-## Repository Layout
-
-Names describe ownership rather than implementation language. No directory
-called “hardware” is used because that could mean electronics, train parts,
-track components or civil products.
-
-| Directory | Owns | Does not own |
-|---|---|---|
-| [`crates/`](crates/README.md) | Rust applications, embedded controllers, safety logic, simulator and shared protocols | Circuit boards or mechanical parts |
-| [`control-electronics/`](control-electronics/README.md) | ECUs, SBC hosts, sensors, power/I/O, wiring, enclosures and electronics release evidence | Embedded source code, train structure or civil components |
-| [`design/`](design/README.md) | City-generation source and the parametric train/track/station/civil component catalogue | Editable city projects or accepted site engineering |
-| [`cities/`](cities/README.md) | Editable City Studio workspaces and published generated city evidence | Shared component definitions |
-| [`engineering/`](engineering/README.md) | Analysis, interoperability, BIM federation, digital twins, assurance and engineering toolchain integration | Canonical component geometry |
-| [`tools/`](tools/README.md) | Repository automation plus independently testable interchange/reference utilities | Domain design rules |
-| [`lib/`](lib/README.md) | Shared templates, recipes, schemas and city membership | Generated city results |
-| [`docs/`](docs/README.md) | Common explanation, requirements and guides | A duplicate source for generated values |
-| [`deployment/`](deployment/README.md) | Host composition and deployment configuration | Host electronics design |
-
 ## Evidence And Revision Model
 
 ```text
@@ -190,7 +196,7 @@ Generated files are review evidence, not parallel inputs.
 | Federated civil BIM | Parametric component geometry plus approved alignment and engineering inputs | IFC4.3 generated by [`civil_bonsai_ifc.py`](engineering/interchange/civil_bonsai_ifc.py), checked with IfcOpenShell and reviewed in Bonsai |
 | Civil rates and city costs | [`lib/templates/civil-cost-calibration.toml`](lib/templates/civil-cost-calibration.toml), geometry and reviewed assumptions | Generated rate contract, [cost model](docs/cost-model.md) and city CAPEX |
 | Control-electronics integration | [`control-electronics/`](control-electronics/README.md) and governing RFCs | Electronics BOMs, wiring packs and release evidence |
-| Operations and safety requirements | [`docs/operations/`](docs/operations/README.md), [`docs/certification/`](docs/certification/README.md) and [`engineering/assurance/formal/`](engineering/assurance/formal/README.md) | Portal data, safety-case views and acceptance reports |
+| Project controls, operations and safety requirements | [`lib/templates/manufacturing-schedule.toml`](lib/templates/manufacturing-schedule.toml), [`docs/operations/`](docs/operations/README.md), [`docs/certification/`](docs/certification/README.md) and [`engineering/assurance/formal/`](engineering/assurance/formal/README.md) | Per-city CPM/order/cashflow twin, portal data, safety-case views and acceptance reports |
 
 The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps.
 The generated [Markdown inventory](docs/INDEX.md) is for search and CI only; it
@@ -199,14 +205,7 @@ does not define architecture, status or reading order.
 ## Verification
 
 ```bash
-cargo fmt --all -- --check
-cargo clippy --workspace --all-targets -- -D warnings
-cargo test --workspace --all-targets
-PYTHONPATH=design/component-catalogue/src pytest design/component-catalogue/tests -q
-pytest design/city-generation/tests -q
-npm run test:frontend
-python3 tools/automation/repo-health.py --quiet
-python3 tools/automation/check-markdown-links.py
+./osr test
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),

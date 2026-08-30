@@ -55,6 +55,7 @@ def main() -> int:
         city_dir / "engineering/alignment/README.md",
         city_dir / "engineering/energy/summary.json",
         city_dir / "engineering/finance/summary.json",
+        city_dir / "engineering/project-twin/summary.json",
         city_dir / "engineering/gis/summary.json",
         city_dir / "engineering/ring-interchange-summary.json",
         city_dir / "engineering/screenshots/manifest.json",
@@ -71,6 +72,10 @@ def main() -> int:
         city_dir / "engineering/gis" / f"{slug}.gpkg",
         city_dir / "operations" / f"{slug}-acceptance-evidence-matrix.csv",
         city_dir / "operations" / f"{slug}-operations.json.gz",
+        city_dir / "operations" / f"{slug}-construction-timeline.json",
+        city_dir / "operations" / f"{slug}-procurement-plan.csv",
+        city_dir / "operations" / f"{slug}-budget-work-packages.csv",
+        city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
     for line in design.get("lines", []):
         line_id = str(line.get("id") or line.get("name")).replace("-", "")

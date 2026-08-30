@@ -1,0 +1,888 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 14700000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 455580054.0,
+      "work_packages": 132
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 67510616.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 191520000.0,
+      "work_packages": 1197
+    },
+    "signalling": {
+      "budget_usd": 6137324.0,
+      "work_packages": 254
+    },
+    "solar_plant": {
+      "budget_usd": 151053200.95,
+      "work_packages": 88
+    },
+    "stations": {
+      "budget_usd": 288500000.0,
+      "work_packages": 98
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 14179939.6,
+        "imported_requirement_usd": 3146841.03,
+        "local_requirement_usd": 11033098.84,
+        "month_index": 0,
+        "planned_requirement_usd": 14179939.6,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 131911703.88,
+        "imported_requirement_usd": 26039070.38,
+        "local_requirement_usd": 91692694.47,
+        "month_index": 1,
+        "planned_requirement_usd": 117731764.28,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 195662515.94,
+        "imported_requirement_usd": 15963862.84,
+        "local_requirement_usd": 47786949.93,
+        "month_index": 2,
+        "planned_requirement_usd": 63750812.06,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 255884446.63,
+        "imported_requirement_usd": 14993854.43,
+        "local_requirement_usd": 45228076.66,
+        "month_index": 3,
+        "planned_requirement_usd": 60221930.69,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 339878894.36,
+        "imported_requirement_usd": 18862066.59,
+        "local_requirement_usd": 65132381.26,
+        "month_index": 4,
+        "planned_requirement_usd": 83994447.73,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 413863785.65,
+        "imported_requirement_usd": 17152226.83,
+        "local_requirement_usd": 56832664.42,
+        "month_index": 5,
+        "planned_requirement_usd": 73984891.29,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 491061809.77,
+        "imported_requirement_usd": 17992857.17,
+        "local_requirement_usd": 59205166.89,
+        "month_index": 6,
+        "planned_requirement_usd": 77198024.12,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 578801393.88,
+        "imported_requirement_usd": 19529367.24,
+        "local_requirement_usd": 68210216.95,
+        "month_index": 7,
+        "planned_requirement_usd": 87739584.11,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 656858692.33,
+        "imported_requirement_usd": 17875553.12,
+        "local_requirement_usd": 60181745.47,
+        "month_index": 8,
+        "planned_requirement_usd": 78057298.45,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 743322164.07,
+        "imported_requirement_usd": 19419421.05,
+        "local_requirement_usd": 67044050.96,
+        "month_index": 9,
+        "planned_requirement_usd": 86463471.74,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 823827426.84,
+        "imported_requirement_usd": 18458074.49,
+        "local_requirement_usd": 62047188.39,
+        "month_index": 10,
+        "planned_requirement_usd": 80505262.77,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 904943192.28,
+        "imported_requirement_usd": 18138823.55,
+        "local_requirement_usd": 62976941.97,
+        "month_index": 11,
+        "planned_requirement_usd": 81115765.44,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 970322222.71,
+        "imported_requirement_usd": 12558645.54,
+        "local_requirement_usd": 52820385.01,
+        "month_index": 12,
+        "planned_requirement_usd": 65379030.43,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 1015570760.97,
+        "imported_requirement_usd": 8098153.3,
+        "local_requirement_usd": 37150385.04,
+        "month_index": 13,
+        "planned_requirement_usd": 45248538.26,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 1039649183.92,
+        "imported_requirement_usd": 4901613.32,
+        "local_requirement_usd": 19176809.74,
+        "month_index": 14,
+        "planned_requirement_usd": 24078422.95,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 1047016710.2,
+        "imported_requirement_usd": 2076284.8,
+        "local_requirement_usd": 5291241.5,
+        "month_index": 15,
+        "planned_requirement_usd": 7367526.28,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 1053818419.11,
+        "imported_requirement_usd": 1956096.21,
+        "local_requirement_usd": 4845612.7,
+        "month_index": 16,
+        "planned_requirement_usd": 6801708.91,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 1059465119.99,
+        "imported_requirement_usd": 1717378.58,
+        "local_requirement_usd": 3929322.3,
+        "month_index": 17,
+        "planned_requirement_usd": 5646700.88,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 1064098262.9,
+        "imported_requirement_usd": 1621984.63,
+        "local_requirement_usd": 3011158.27,
+        "month_index": 18,
+        "planned_requirement_usd": 4633142.91,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 1068427685.02,
+        "imported_requirement_usd": 1515297.58,
+        "local_requirement_usd": 2814124.54,
+        "month_index": 19,
+        "planned_requirement_usd": 4329422.12,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 1073058262.7,
+        "imported_requirement_usd": 1620702.02,
+        "local_requirement_usd": 3009875.66,
+        "month_index": 20,
+        "planned_requirement_usd": 4630577.68,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 1077357818.15,
+        "imported_requirement_usd": 1504844.27,
+        "local_requirement_usd": 2794711.18,
+        "month_index": 21,
+        "planned_requirement_usd": 4299555.45,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 1081760662.52,
+        "imported_requirement_usd": 1540995.44,
+        "local_requirement_usd": 2861848.93,
+        "month_index": 22,
+        "planned_requirement_usd": 4402844.37,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 1084813284.71,
+        "imported_requirement_usd": 1068417.71,
+        "local_requirement_usd": 1984204.48,
+        "month_index": 23,
+        "planned_requirement_usd": 3052622.19,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 1087883329.12,
+        "imported_requirement_usd": 1074515.49,
+        "local_requirement_usd": 1995528.92,
+        "month_index": 24,
+        "planned_requirement_usd": 3070044.41,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 1090962084.63,
+        "imported_requirement_usd": 1077564.34,
+        "local_requirement_usd": 2001191.17,
+        "month_index": 25,
+        "planned_requirement_usd": 3078755.51,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 1093948751.31,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 26,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 1096935417.99,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 27,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 1099922084.67,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 28,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 1102908751.35,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 29,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 1105895418.03,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 30,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 1108882084.71,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 31,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 1111868751.39,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 32,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 1114855418.07,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 33,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 1117842084.75,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 34,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 1120878529.19,
+        "imported_requirement_usd": 1062755.44,
+        "local_requirement_usd": 1973689.0,
+        "month_index": 35,
+        "planned_requirement_usd": 3036444.44,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 1123875151.35,
+        "imported_requirement_usd": 1048817.72,
+        "local_requirement_usd": 1947804.44,
+        "month_index": 36,
+        "planned_requirement_usd": 2996622.16,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 1128449728.92,
+        "imported_requirement_usd": 1601102.31,
+        "local_requirement_usd": 2973475.26,
+        "month_index": 37,
+        "planned_requirement_usd": 4574577.57,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 1132805284.28,
+        "imported_requirement_usd": 1524444.52,
+        "local_requirement_usd": 2831110.84,
+        "month_index": 38,
+        "planned_requirement_usd": 4355555.36,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 1137394795.2,
+        "imported_requirement_usd": 1606329.0,
+        "local_requirement_usd": 2983181.92,
+        "month_index": 39,
+        "planned_requirement_usd": 4589510.92,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 1141576128.49,
+        "imported_requirement_usd": 1463466.87,
+        "local_requirement_usd": 2717866.42,
+        "month_index": 40,
+        "planned_requirement_usd": 4181333.29,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 1146195506.2,
+        "imported_requirement_usd": 1616782.41,
+        "local_requirement_usd": 3002595.3,
+        "month_index": 41,
+        "planned_requirement_usd": 4619377.71,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 1150635683.94,
+        "imported_requirement_usd": 1554062.42,
+        "local_requirement_usd": 2886115.32,
+        "month_index": 42,
+        "planned_requirement_usd": 4440177.74,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 1155314795.0,
+        "imported_requirement_usd": 1637689.1,
+        "local_requirement_usd": 3041421.96,
+        "month_index": 43,
+        "planned_requirement_usd": 4679111.06,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      },
+      {
+        "cumulative_requirement_usd": 1159496128.29,
+        "imported_requirement_usd": 1463466.87,
+        "local_requirement_usd": 2717866.42,
+        "month_index": 44,
+        "planned_requirement_usd": 4181333.29,
+        "project_day_finish": 1319,
+        "project_day_start": 1290
+      },
+      {
+        "cumulative_requirement_usd": 1164115506.0,
+        "imported_requirement_usd": 1616782.41,
+        "local_requirement_usd": 3002595.3,
+        "month_index": 45,
+        "planned_requirement_usd": 4619377.71,
+        "project_day_finish": 1349,
+        "project_day_start": 1320
+      },
+      {
+        "cumulative_requirement_usd": 1168555683.74,
+        "imported_requirement_usd": 1554062.42,
+        "local_requirement_usd": 2886115.32,
+        "month_index": 46,
+        "planned_requirement_usd": 4440177.74,
+        "project_day_finish": 1379,
+        "project_day_start": 1350
+      },
+      {
+        "cumulative_requirement_usd": 1172936128.15,
+        "imported_requirement_usd": 1533155.75,
+        "local_requirement_usd": 2847288.66,
+        "month_index": 47,
+        "planned_requirement_usd": 4380444.41,
+        "project_day_finish": 1409,
+        "project_day_start": 1380
+      },
+      {
+        "cumulative_requirement_usd": 1174996928.17,
+        "imported_requirement_usd": 721280.14,
+        "local_requirement_usd": 1339519.88,
+        "month_index": 48,
+        "planned_requirement_usd": 2060800.02,
+        "project_day_finish": 1439,
+        "project_day_start": 1410
+      },
+      {
+        "cumulative_requirement_usd": 1176609728.19,
+        "imported_requirement_usd": 564480.1,
+        "local_requirement_usd": 1048319.92,
+        "month_index": 49,
+        "planned_requirement_usd": 1612800.02,
+        "project_day_finish": 1469,
+        "project_day_start": 1440
+      },
+      {
+        "cumulative_requirement_usd": 1178262350.45,
+        "imported_requirement_usd": 578417.9,
+        "local_requirement_usd": 1074204.36,
+        "month_index": 50,
+        "planned_requirement_usd": 1652622.26,
+        "project_day_finish": 1499,
+        "project_day_start": 1470
+      },
+      {
+        "cumulative_requirement_usd": 1179805461.55,
+        "imported_requirement_usd": 540088.95,
+        "local_requirement_usd": 1003022.15,
+        "month_index": 51,
+        "planned_requirement_usd": 1543111.1,
+        "project_day_finish": 1529,
+        "project_day_start": 1500
+      },
+      {
+        "cumulative_requirement_usd": 1181298794.85,
+        "imported_requirement_usd": 522666.7,
+        "local_requirement_usd": 970666.6,
+        "month_index": 52,
+        "planned_requirement_usd": 1493333.3,
+        "project_day_finish": 1559,
+        "project_day_start": 1530
+      },
+      {
+        "cumulative_requirement_usd": 1182642794.85,
+        "imported_requirement_usd": 470400.0,
+        "local_requirement_usd": 873600.0,
+        "month_index": 53,
+        "planned_requirement_usd": 1344000.0,
+        "project_day_finish": 1589,
+        "project_day_start": 1560
+      },
+      {
+        "cumulative_requirement_usd": 1182844394.88,
+        "imported_requirement_usd": 70559.97,
+        "local_requirement_usd": 131040.06,
+        "month_index": 54,
+        "planned_requirement_usd": 201600.03,
+        "project_day_finish": 1619,
+        "project_day_start": 1590
+      },
+      {
+        "cumulative_requirement_usd": 1182919061.58,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 55,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1649,
+        "project_day_start": 1620
+      },
+      {
+        "cumulative_requirement_usd": 1182993728.28,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 56,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1679,
+        "project_day_start": 1650
+      },
+      {
+        "cumulative_requirement_usd": 1183001194.95,
+        "imported_requirement_usd": 2613.33,
+        "local_requirement_usd": 4853.34,
+        "month_index": 57,
+        "planned_requirement_usd": 7466.67,
+        "project_day_finish": 1709,
+        "project_day_start": 1680
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 131911703.88,
+      "imported_requirement_usd": 26039070.38,
+      "local_requirement_usd": 91692694.47,
+      "month_index": 1,
+      "planned_requirement_usd": 117731764.28,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 1183001194.95
+  },
+  "city": "benin-city",
+  "critical_path": {
+    "critical_task_count": 215,
+    "critical_task_uids": [
+      "benin-city:BEN-SYS-001:sys-00-baseline-freeze",
+      "benin-city:BEN-RS-L1-004:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-008:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-012:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-016:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-020:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-024:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-028:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-032:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-036:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-003:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-007:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-011:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-015:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-019:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-023:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-027:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-031:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-035:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-039:rs-10-material-kit",
+      "benin-city:BEN-RS-L2-043:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-004:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-008:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-012:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-016:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-020:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-024:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-028:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-032:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-036:rs-10-material-kit",
+      "benin-city:BEN-RS-L3-040:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-002:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-006:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-010:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-014:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-018:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-022:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-026:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-030:rs-10-material-kit",
+      "benin-city:BEN-RS-L4-034:rs-10-material-kit",
+      "benin-city:BEN-RS-L5-002:rs-10-material-kit",
+      "benin-city:BEN-RS-L5-006:rs-10-material-kit",
+      "benin-city:BEN-RS-L5-010:rs-10-material-kit",
+      "benin-city:BEN-RS-L1-001:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-005:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-009:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-013:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-017:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-021:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-025:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-029:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-033:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-037:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-004:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-008:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-012:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-016:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-020:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-024:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-028:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-032:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-036:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L2-040:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-001:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-005:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-009:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-013:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-017:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-021:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-025:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-029:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-033:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-037:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L3-041:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-003:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-007:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-011:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-015:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-019:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-023:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-027:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-031:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L4-035:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L5-003:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L5-007:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L5-011:rs-20-carbody-bogie",
+      "benin-city:BEN-RS-L1-002:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-006:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-010:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-014:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-018:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-022:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-026:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-030:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-034:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-001:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-005:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-009:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-013:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-017:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-021:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-025:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-029:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-033:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-037:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L2-041:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-002:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-006:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-010:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-014:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-018:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-022:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-026:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-030:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-034:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-038:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L3-042:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-004:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-008:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-012:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-016:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-020:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-024:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-028:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-032:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L4-036:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L5-004:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L5-008:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L5-012:rs-30-traction-battery-control",
+      "benin-city:BEN-RS-L1-003:rs-40-fitout-static-test",
+      "benin-city:BEN-RS-L1-003:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-005:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-007:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-009:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-011:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-013:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-015:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-017:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-019:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-021:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-023:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-025:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-027:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-029:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-031:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-033:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-035:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L1-037:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-002:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-004:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-006:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-008:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-010:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-012:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-014:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-016:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-018:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-020:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-022:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-024:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-026:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-028:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-030:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-032:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-034:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-036:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-038:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-040:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L2-042:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-001:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-003:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-005:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-007:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-009:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-011:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-013:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-015:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-017:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-019:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-021:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-023:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-025:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-027:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-029:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-031:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-033:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-035:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-037:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-039:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L3-041:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-001:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-003:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-005:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-007:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-009:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-011:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-013:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-015:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-017:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-019:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-021:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-023:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-025:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-027:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-029:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-031:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-033:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L4-035:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-001:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-003:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-005:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-007:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-009:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-011:rs-50-dynamic-commissioning",
+      "benin-city:BEN-RS-L5-013:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1595,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 20239,
+    "pre_ntp_order_actions": 2102,
+    "priced_rows": 17271,
+    "quotation_required_rows": 2968
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-c233ecdfb15e5415",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-2cc8e19e1fda88f6",
+      "sequence": 1,
+      "source_hash": "59afeffb9dbafb12708e9219acaf5788aa8e7a3d8cbc9a689550921891aa6154"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-c233ecdfb15e5415",
+      "sequence": 2,
+      "source_hash": "ad9d7ad563ec8a55735b597e4790932dd3d73fe2c43b54e733d63dac0e21b22c"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-africa/Nigeria/Benin-City/design.toml",
+      "sha256": "a6511d48cdbe3ed3cd9a1773b085cbdfc89a220c165d9a262dc697f6cbd514ac"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-africa/Nigeria/Benin-City/engineering/finance/summary.json",
+      "sha256": "fdc04cd664c79024c69a4b8341925a2eff4d45b35efcfd50ac32169661d14f73"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-africa/Nigeria/Benin-City/benin-city.toml",
+      "sha256": "d02a5f54bff8b4deba286ab6560fcd77b4dd4d692709f9426fcbeb7c24525e38"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 445,
+    "budget_contracts": 1774,
+    "cashflow_months": 58,
+    "critical_work_packages": 215,
+    "planned_capex_usd": 1183001194.95,
+    "planned_purchase_orders": 20239,
+    "pre_ntp_order_actions": 2102,
+    "priced_procurement_usd": 118048140.0,
+    "programme_working_days": 1595,
+    "work_packages": 1773
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 3546
+  }
+}

@@ -1,0 +1,617 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 1925000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 147361793.0,
+      "work_packages": 45
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 23682658.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 94500000.0,
+      "work_packages": 735
+    },
+    "signalling": {
+      "budget_usd": 2436896.0,
+      "work_packages": 110
+    },
+    "solar_plant": {
+      "budget_usd": 36020251.42,
+      "work_packages": 34
+    },
+    "stations": {
+      "budget_usd": 84100000.0,
+      "work_packages": 36
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 7255290.18,
+        "imported_requirement_usd": 1597900.65,
+        "local_requirement_usd": 5657389.53,
+        "month_index": 0,
+        "planned_requirement_usd": 7255290.18,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 62900767.75,
+        "imported_requirement_usd": 12233357.69,
+        "local_requirement_usd": 43412119.64,
+        "month_index": 1,
+        "planned_requirement_usd": 55645477.57,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 116459485.96,
+        "imported_requirement_usd": 12482740.95,
+        "local_requirement_usd": 41075977.17,
+        "month_index": 2,
+        "planned_requirement_usd": 53558718.21,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 170204291.09,
+        "imported_requirement_usd": 11797669.24,
+        "local_requirement_usd": 41947135.89,
+        "month_index": 3,
+        "planned_requirement_usd": 53744805.13,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 230994972.11,
+        "imported_requirement_usd": 13181035.08,
+        "local_requirement_usd": 47609645.74,
+        "month_index": 4,
+        "planned_requirement_usd": 60790681.02,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 283405190.33,
+        "imported_requirement_usd": 10383046.9,
+        "local_requirement_usd": 42027171.27,
+        "month_index": 5,
+        "planned_requirement_usd": 52410218.22,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 308484050.19,
+        "imported_requirement_usd": 4706836.91,
+        "local_requirement_usd": 20372022.86,
+        "month_index": 6,
+        "planned_requirement_usd": 25078859.86,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 319460695.7,
+        "imported_requirement_usd": 2694777.74,
+        "local_requirement_usd": 8281867.63,
+        "month_index": 7,
+        "planned_requirement_usd": 10976645.51,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 325798461.68,
+        "imported_requirement_usd": 1791716.2,
+        "local_requirement_usd": 4546049.71,
+        "month_index": 8,
+        "planned_requirement_usd": 6337765.98,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 331176876.96,
+        "imported_requirement_usd": 1549540.94,
+        "local_requirement_usd": 3828874.34,
+        "month_index": 9,
+        "planned_requirement_usd": 5378415.28,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 335050645.86,
+        "imported_requirement_usd": 1287829.76,
+        "local_requirement_usd": 2585939.13,
+        "month_index": 10,
+        "planned_requirement_usd": 3873768.9,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 338754598.42,
+        "imported_requirement_usd": 1297576.28,
+        "local_requirement_usd": 2406376.28,
+        "month_index": 11,
+        "planned_requirement_usd": 3703952.56,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 342258598.42,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 12,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 345878598.42,
+        "imported_requirement_usd": 1267000.0,
+        "local_requirement_usd": 2353000.0,
+        "month_index": 13,
+        "planned_requirement_usd": 3620000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 349034598.42,
+        "imported_requirement_usd": 1104600.0,
+        "local_requirement_usd": 2051400.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3156000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 351506598.42,
+        "imported_requirement_usd": 865200.0,
+        "local_requirement_usd": 1606800.0,
+        "month_index": 15,
+        "planned_requirement_usd": 2472000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 353954598.42,
+        "imported_requirement_usd": 856800.0,
+        "local_requirement_usd": 1591200.0,
+        "month_index": 16,
+        "planned_requirement_usd": 2448000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 356406598.42,
+        "imported_requirement_usd": 858200.0,
+        "local_requirement_usd": 1593800.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2452000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 358806598.42,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 361206598.42,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 19,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 363606598.42,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 20,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 365998598.42,
+        "imported_requirement_usd": 837200.0,
+        "local_requirement_usd": 1554800.0,
+        "month_index": 21,
+        "planned_requirement_usd": 2392000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 368494598.42,
+        "imported_requirement_usd": 873600.0,
+        "local_requirement_usd": 1622400.0,
+        "month_index": 22,
+        "planned_requirement_usd": 2496000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 371710598.42,
+        "imported_requirement_usd": 1125600.0,
+        "local_requirement_usd": 2090400.0,
+        "month_index": 23,
+        "planned_requirement_usd": 3216000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 375210598.42,
+        "imported_requirement_usd": 1225000.0,
+        "local_requirement_usd": 2275000.0,
+        "month_index": 24,
+        "planned_requirement_usd": 3500000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 378902598.42,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 25,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 382274598.42,
+        "imported_requirement_usd": 1180200.0,
+        "local_requirement_usd": 2191800.0,
+        "month_index": 26,
+        "planned_requirement_usd": 3372000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 385954598.42,
+        "imported_requirement_usd": 1288000.0,
+        "local_requirement_usd": 2392000.0,
+        "month_index": 27,
+        "planned_requirement_usd": 3680000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 389506598.42,
+        "imported_requirement_usd": 1243200.0,
+        "local_requirement_usd": 2308800.0,
+        "month_index": 28,
+        "planned_requirement_usd": 3552000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 392922598.42,
+        "imported_requirement_usd": 1195600.0,
+        "local_requirement_usd": 2220400.0,
+        "month_index": 29,
+        "planned_requirement_usd": 3416000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 394394598.42,
+        "imported_requirement_usd": 515200.0,
+        "local_requirement_usd": 956800.0,
+        "month_index": 30,
+        "planned_requirement_usd": 1472000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 395690598.42,
+        "imported_requirement_usd": 453600.0,
+        "local_requirement_usd": 842400.0,
+        "month_index": 31,
+        "planned_requirement_usd": 1296000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 396982598.42,
+        "imported_requirement_usd": 452200.0,
+        "local_requirement_usd": 839800.0,
+        "month_index": 32,
+        "planned_requirement_usd": 1292000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 397852598.42,
+        "imported_requirement_usd": 304500.0,
+        "local_requirement_usd": 565500.0,
+        "month_index": 33,
+        "planned_requirement_usd": 870000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 397912598.42,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 34,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 397972598.42,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 35,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 398026598.42,
+        "imported_requirement_usd": 18900.0,
+        "local_requirement_usd": 35100.0,
+        "month_index": 36,
+        "planned_requirement_usd": 54000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 230994972.11,
+      "imported_requirement_usd": 13181035.08,
+      "local_requirement_usd": 47609645.74,
+      "month_index": 4,
+      "planned_requirement_usd": 60790681.02,
+      "project_day_finish": 119,
+      "project_day_start": 90
+    },
+    "total_planned_requirement_usd": 398026598.42
+  },
+  "city": "raqqa",
+  "critical_path": {
+    "critical_task_count": 133,
+    "critical_task_uids": [
+      "raqqa:RAQ-SYS-001:sys-00-baseline-freeze",
+      "raqqa:RAQ-RS-L1-002:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-006:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-010:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-014:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-018:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-022:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-026:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-030:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-034:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-003:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-007:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-011:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-015:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-019:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-023:rs-10-material-kit",
+      "raqqa:RAQ-RS-L2-027:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-001:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-005:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-009:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-013:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-017:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-021:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-025:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-029:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-033:rs-10-material-kit",
+      "raqqa:RAQ-RS-L3-037:rs-10-material-kit",
+      "raqqa:RAQ-RS-L1-001:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-005:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-009:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-013:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-017:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-021:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-025:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-029:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-033:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-002:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-006:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-010:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-014:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-018:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-022:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-026:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L2-030:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-004:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-008:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-012:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-016:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-020:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-024:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-028:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-032:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-036:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L3-040:rs-20-carbody-bogie",
+      "raqqa:RAQ-RS-L1-006:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-010:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-014:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-018:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-022:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-026:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-030:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-034:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-003:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-007:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-011:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-015:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-019:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-023:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L2-027:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-001:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-005:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-009:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-013:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-017:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-021:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-025:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-029:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-033:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L3-037:rs-30-traction-battery-control",
+      "raqqa:RAQ-RS-L1-001:rs-40-fitout-static-test",
+      "raqqa:RAQ-RS-L1-003:rs-40-fitout-static-test",
+      "raqqa:RAQ-RS-L1-003:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-005:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-007:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-009:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-011:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-013:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-015:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-017:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-019:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-021:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-023:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-025:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-027:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-029:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-031:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-033:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L1-035:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-002:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-004:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-006:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-008:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-010:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-012:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-014:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-016:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-018:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-020:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-022:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-024:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-026:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-028:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L2-030:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-002:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-004:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-006:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-008:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-010:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-012:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-014:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-016:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-018:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-020:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-022:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-024:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-026:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-028:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-030:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-032:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-034:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-036:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-038:rs-50-dynamic-commissioning",
+      "raqqa:RAQ-RS-L3-040:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 985,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 11848,
+    "pre_ntp_order_actions": 1732,
+    "priced_rows": 10605,
+    "quotation_required_rows": 1243
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-57fb7bb3ef3d93aa",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-8e36a58766a4353c",
+      "sequence": 1,
+      "source_hash": "ace776c4c85604f9981975e4a1c725970bd6090946f197d4f5e1a7bdb877c600"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-57fb7bb3ef3d93aa",
+      "sequence": 2,
+      "source_hash": "9b5f7baa331bb5764066a495d8e9dd85a2b1efad1804df1fb56e9f128b7f8966"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-asia/Syria/Raqqa/design.toml",
+      "sha256": "0de621997eb1b8920d10d7298d776ef5143ca379d2a56e419342ee6c72ca910c"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-asia/Syria/Raqqa/engineering/finance/summary.json",
+      "sha256": "55967c7fb3b57cd800aab0972c162d255293c0ad126151c3e9c38a994f8a2874"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-asia/Syria/Raqqa/raqqa.toml",
+      "sha256": "6175f2f815a66e3e5dcc9b0c0f401278d6f19e79017e561f17b22a8218e64269"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 214,
+    "budget_contracts": 965,
+    "cashflow_months": 37,
+    "critical_work_packages": 133,
+    "planned_capex_usd": 398026598.42,
+    "planned_purchase_orders": 11848,
+    "pre_ntp_order_actions": 1732,
+    "priced_procurement_usd": 72485700.0,
+    "programme_working_days": 985,
+    "work_packages": 964
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 1928
+  }
+}

@@ -14,7 +14,10 @@ const WEEKLY_TASK_IDS = new Set([
   "station-weekly",
   "track-weekly",
 ]);
-const CORE_RECORD_KEYS = ["workOrders", "inspections", "defects", "audit"];
+const CORE_RECORD_KEYS = [
+  "workOrders", "inspections", "defects", "audit", "purchaseOrders",
+  "deliveries", "invoices", "payments", "progressUpdates", "projectRevisions",
+];
 
 const state = {
   data: null,
@@ -131,6 +134,9 @@ function bindExports() {
       if (kind === "core-workorders") return downloadCsv("work-orders.csv", state.core.workOrders);
       if (kind === "core-defects") return downloadCsv("defects-ncr.csv", state.core.defects);
       if (kind === "core-audit") return downloadCsv("audit-trail.csv", state.core.audit);
+      if (kind === "twin-work") return downloadCsv("project-twin-work-packages.csv", state.data.project_twin?.work_packages || []);
+      if (kind === "twin-orders") return downloadCsv("project-twin-order-plan.csv", state.data.project_twin?.purchase_orders || []);
+      if (kind === "twin-cashflow") return downloadCsv("project-twin-cashflow.csv", state.data.project_twin?.cashflow?.monthly_requirements || []);
     });
   });
 }
@@ -158,6 +164,7 @@ function bindCoreActions() {
     if (button.dataset.advanceWo) advanceWorkOrder(button.dataset.advanceWo);
     if (button.dataset.holdWo) holdWorkOrder(button.dataset.holdWo);
     if (button.dataset.resolveDefect) resolveDefect(button.dataset.resolveDefect);
+    if (button.dataset.adoptPurchaseOrder) adoptPurchaseOrder(button.dataset.adoptPurchaseOrder);
     if (button.dataset.workbenchModule) navigateWorkbench(button.dataset.workbenchModule);
   });
 }
@@ -170,8 +177,85 @@ function renderAll() {
   renderFilters();
   renderTables();
   renderCharts();
+  renderProjectTwin();
   renderCore();
   renderApps();
+}
+
+function renderProjectTwin() {
+  const twin = state.data.project_twin;
+  if (!twin) {
+    document.getElementById("twinMetrics").innerHTML = '<article class="metric"><span>Status</span><strong>Regenerate city</strong></article>';
+    document.getElementById("twinBaseline").textContent = "This bundle predates the project-twin generator.";
+    return;
+  }
+  const totals = twin.totals || {};
+  const actual = state.core || emptyCoreState();
+  const metrics = [
+    ["Programme days", totals.programme_working_days],
+    ["Critical work", totals.critical_work_packages],
+    ["Order candidates", totals.planned_purchase_orders],
+    ["Pre-NTP actions", totals.pre_ntp_order_actions],
+    ["Planned CAPEX", formatUsd(totals.planned_capex_usd)],
+    ["Issued / draft POs", actual.purchaseOrders.length],
+  ];
+  document.getElementById("twinMetrics").innerHTML = metrics.map(([label, value]) => (
+    `<article class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? 0)}</strong></article>`
+  )).join("");
+  const critical = twin.critical_path || {};
+  document.getElementById("twinBaseline").innerHTML = [
+    ["Revision", twin.revision_id],
+    ["Status", twin.status],
+    ["Scheduler", critical.method],
+    ["Critical tasks", critical.critical_task_count],
+    ["External gates", (critical.unresolved_external_gates || []).join(", ") || "None unresolved in template graph"],
+    ["Actual progress", `${actual.progressUpdates.length} persisted update(s)`],
+  ].map(([label, value]) => `<div class="reconcile-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+
+  const monthly = twin.cashflow?.monthly_requirements || [];
+  document.getElementById("twinCashflowTable").innerHTML = monthly.map((row) => `<tr>
+    <td>${escapeHtml(row.month_index)}</td>
+    <td>${escapeHtml(row.project_day_start)}–${escapeHtml(row.project_day_finish)}</td>
+    <td>${formatUsd(row.planned_requirement_usd)}</td>
+    <td>${formatUsd(row.local_requirement_usd)}</td>
+    <td>${formatUsd(row.imported_requirement_usd)}</td>
+    <td>${formatUsd(row.cumulative_requirement_usd)}</td>
+  </tr>`).join("") || emptyRow(6, "No finance summary was available when this city was generated");
+
+  const persisted = new Set(actual.purchaseOrders.map((row) => row.source_purchase_order_id || row.purchase_order_id || row.id));
+  const orders = (twin.purchase_orders || []).slice(0, 500);
+  document.getElementById("twinOrderTable").innerHTML = orders.map((row) => {
+    const adopted = persisted.has(row.purchase_order_id);
+    return `<tr>
+      <td><code>${escapeHtml(row.purchase_order_id)}</code><br>${statusTag(row.status)}</td>
+      <td><code>${escapeHtml(row.asset_id)}</code><br>${escapeHtml(row.description)}</td>
+      <td>${escapeHtml(row.supplier)}<br><span class="muted-text">${escapeHtml(row.supplier_family_or_local_equivalent)}</span></td>
+      <td>day ${escapeHtml(row.order_by_day)}</td>
+      <td>day ${escapeHtml(row.required_by_day)}</td>
+      <td>${row.planning_cost_usd ? formatUsd(row.planning_cost_usd) : "RFQ required"}</td>
+      <td><button class="mini-button" type="button" data-adopt-purchase-order="${escapeAttr(row.purchase_order_id)}"${adopted ? " disabled" : ""}>${adopted ? "Adopted" : "Create draft"}</button></td>
+    </tr>`;
+  }).join("") || emptyRow(7, "No order rows");
+}
+
+function adoptPurchaseOrder(purchaseOrderId) {
+  const plan = state.data.project_twin?.purchase_orders?.find((row) => row.purchase_order_id === purchaseOrderId);
+  if (!plan) return;
+  if (state.core.purchaseOrders.some((row) => row.source_purchase_order_id === purchaseOrderId)) return;
+  const id = nextCoreId("purchaseOrder");
+  state.core.purchaseOrders.unshift({
+    ...plan,
+    id,
+    purchase_order_id: id,
+    source_purchase_order_id: purchaseOrderId,
+    revision_id: state.data.project_twin.revision_id,
+    status: "draft-not-issued",
+    effective_at: new Date().toISOString(),
+  });
+  logAudit("created", id, `draft purchase order from ${purchaseOrderId}`);
+  saveCoreState();
+  renderProjectTwin();
+  renderCoreMetrics();
 }
 
 function renderMetrics() {
@@ -1157,11 +1241,23 @@ function emptyCoreState() {
     inspections: [],
     defects: [],
     audit: [],
+    purchaseOrders: [],
+    deliveries: [],
+    invoices: [],
+    payments: [],
+    progressUpdates: [],
+    projectRevisions: [],
     counters: {
       workOrder: 1,
       inspection: 1,
       defect: 1,
       audit: 1,
+      purchaseOrder: 1,
+      delivery: 1,
+      invoice: 1,
+      payment: 1,
+      progressUpdate: 1,
+      projectRevision: 1,
     },
   };
 }
@@ -1173,6 +1269,12 @@ function normalizeCoreState(value) {
   core.inspections = Array.isArray(value.inspections) ? value.inspections : [];
   core.defects = Array.isArray(value.defects) ? value.defects : [];
   core.audit = Array.isArray(value.audit) ? value.audit : [];
+  core.purchaseOrders = Array.isArray(value.purchaseOrders) ? value.purchaseOrders : [];
+  core.deliveries = Array.isArray(value.deliveries) ? value.deliveries : [];
+  core.invoices = Array.isArray(value.invoices) ? value.invoices : [];
+  core.payments = Array.isArray(value.payments) ? value.payments : [];
+  core.progressUpdates = Array.isArray(value.progressUpdates) ? value.progressUpdates : [];
+  core.projectRevisions = Array.isArray(value.projectRevisions) ? value.projectRevisions : [];
   core.counters = { ...core.counters, ...(value.counters || {}) };
   return core;
 }
@@ -1191,6 +1293,12 @@ function nextCoreId(kind) {
     inspection: "INSP",
     defect: "NCR",
     audit: "AUD",
+    purchaseOrder: "PO",
+    delivery: "DEL",
+    invoice: "INV",
+    payment: "PAY",
+    progressUpdate: "PROG",
+    projectRevision: "REV",
   };
   const next = state.core.counters[kind] || 1;
   state.core.counters[kind] = next + 1;
@@ -1361,6 +1469,10 @@ function splitList(value) {
 
 function formatNumber(value) {
   return Number(value).toLocaleString("en-US");
+}
+
+function formatUsd(value) {
+  return Number(value || 0).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 }
 
 function norm(value) {

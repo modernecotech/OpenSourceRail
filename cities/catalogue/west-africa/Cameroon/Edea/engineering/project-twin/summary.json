@@ -1,0 +1,303 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 650000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 25381003.0,
+      "work_packages": 12
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 4669805.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 11200000.0,
+      "work_packages": 140
+    },
+    "signalling": {
+      "budget_usd": 480500.0,
+      "work_packages": 30
+    },
+    "solar_plant": {
+      "budget_usd": 1696084.4,
+      "work_packages": 10
+    },
+    "stations": {
+      "budget_usd": 21000000.0,
+      "work_packages": 10
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 4819222.33,
+        "imported_requirement_usd": 942020.38,
+        "local_requirement_usd": 3877201.85,
+        "month_index": 0,
+        "planned_requirement_usd": 4819222.33,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 34845503.84,
+        "imported_requirement_usd": 6038807.49,
+        "local_requirement_usd": 23987474.24,
+        "month_index": 1,
+        "planned_requirement_usd": 30026281.51,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 61538702.57,
+        "imported_requirement_usd": 5431216.1,
+        "local_requirement_usd": 21261982.64,
+        "month_index": 2,
+        "planned_requirement_usd": 26693198.73,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 64349922.03,
+        "imported_requirement_usd": 908749.72,
+        "local_requirement_usd": 1902469.74,
+        "month_index": 3,
+        "planned_requirement_usd": 2811219.46,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 67056315.17,
+        "imported_requirement_usd": 767081.9,
+        "local_requirement_usd": 1939311.21,
+        "month_index": 4,
+        "planned_requirement_usd": 2706393.14,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 70727516.64,
+        "imported_requirement_usd": 993532.63,
+        "local_requirement_usd": 2677668.96,
+        "month_index": 5,
+        "planned_requirement_usd": 3671201.47,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 72421570.04,
+        "imported_requirement_usd": 580163.21,
+        "local_requirement_usd": 1113890.22,
+        "month_index": 6,
+        "planned_requirement_usd": 1694053.4,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 72878281.31,
+        "imported_requirement_usd": 159848.96,
+        "local_requirement_usd": 296862.31,
+        "month_index": 7,
+        "planned_requirement_usd": 456711.27,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 72957925.75,
+        "imported_requirement_usd": 27875.56,
+        "local_requirement_usd": 51768.88,
+        "month_index": 8,
+        "planned_requirement_usd": 79644.44,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 73054992.41,
+        "imported_requirement_usd": 33973.34,
+        "local_requirement_usd": 63093.32,
+        "month_index": 9,
+        "planned_requirement_usd": 97066.66,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 73077392.4,
+        "imported_requirement_usd": 7840.02,
+        "local_requirement_usd": 14559.97,
+        "month_index": 10,
+        "planned_requirement_usd": 22399.99,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 34845503.84,
+      "imported_requirement_usd": 6038807.49,
+      "local_requirement_usd": 23987474.24,
+      "month_index": 1,
+      "planned_requirement_usd": 30026281.51,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 73077392.4
+  },
+  "city": "edea",
+  "critical_path": {
+    "critical_task_count": 53,
+    "critical_task_uids": [
+      "edea:EDE-SYS-001:sys-00-baseline-freeze",
+      "edea:EDE-RS-L1-001:rs-10-material-kit",
+      "edea:EDE-RS-L1-002:rs-10-material-kit",
+      "edea:EDE-RS-L1-005:rs-10-material-kit",
+      "edea:EDE-RS-L1-006:rs-10-material-kit",
+      "edea:EDE-RS-L1-009:rs-10-material-kit",
+      "edea:EDE-RS-L1-010:rs-10-material-kit",
+      "edea:EDE-RS-L1-013:rs-10-material-kit",
+      "edea:EDE-RS-L1-014:rs-10-material-kit",
+      "edea:EDE-RS-L1-017:rs-10-material-kit",
+      "edea:EDE-RS-L1-018:rs-10-material-kit",
+      "edea:EDE-RS-L1-001:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-002:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-005:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-006:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-009:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-010:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-013:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-014:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-017:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-018:rs-20-carbody-bogie",
+      "edea:EDE-RS-L1-001:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-002:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-005:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-006:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-009:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-010:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-013:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-014:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-017:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-018:rs-30-traction-battery-control",
+      "edea:EDE-RS-L1-001:rs-40-fitout-static-test",
+      "edea:EDE-RS-L1-002:rs-40-fitout-static-test",
+      "edea:EDE-RS-L1-001:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-002:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-003:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-004:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-005:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-006:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-007:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-008:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-009:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-010:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-011:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-012:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-013:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-014:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-015:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-016:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-017:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-018:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-019:rs-50-dynamic-commissioning",
+      "edea:EDE-RS-L1-020:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 198,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 2356,
+    "pre_ntp_order_actions": 1312,
+    "priced_rows": 2020,
+    "quotation_required_rows": 336
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-d0bcbb547f569f7e",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-ce08e8d53eed160b",
+      "sequence": 1,
+      "source_hash": "04ae7a12bf94fc60aeb7ecdb72bbadc54ba4a140c31d23f1e4af1eb432927ac4"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d0bcbb547f569f7e",
+      "sequence": 2,
+      "source_hash": "48f47c58d0d9873c79576239d4627299ebe337d66a5b1da952b28dee7aaaf403"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-africa/Cameroon/Edea/design.toml",
+      "sha256": "8d3b02ec6197d9352ca78216d1fd1e0bc1093e18b49143b32bb5632210a0edcf"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-africa/Cameroon/Edea/engineering/finance/summary.json",
+      "sha256": "69cabfdf66e1545d1d466d69951ad0280c0b821a4a1bbd24ce7ebb519dc4415d"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-africa/Cameroon/Edea/edea.toml",
+      "sha256": "809510b4e8a76da1c8dff27168f27ac543424f39cb48a490dcb0dd8990ad0108"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 52,
+    "budget_contracts": 207,
+    "cashflow_months": 11,
+    "critical_work_packages": 53,
+    "planned_capex_usd": 73077392.4,
+    "planned_purchase_orders": 2356,
+    "pre_ntp_order_actions": 1312,
+    "priced_procurement_usd": 13806800.0,
+    "programme_working_days": 198,
+    "work_packages": 206
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 412
+  }
+}

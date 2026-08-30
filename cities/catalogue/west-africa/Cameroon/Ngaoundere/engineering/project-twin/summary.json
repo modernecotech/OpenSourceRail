@@ -1,0 +1,539 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 1725000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 98932608.0,
+      "work_packages": 36
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 17375855.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 57600000.0,
+      "work_packages": 448
+    },
+    "signalling": {
+      "budget_usd": 1468889.0,
+      "work_packages": 86
+    },
+    "solar_plant": {
+      "budget_usd": 16594305.23,
+      "work_packages": 30
+    },
+    "stations": {
+      "budget_usd": 80500000.0,
+      "work_packages": 30
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 6910170.12,
+        "imported_requirement_usd": 1424801.89,
+        "local_requirement_usd": 5485368.23,
+        "month_index": 0,
+        "planned_requirement_usd": 6910170.12,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 59718712.46,
+        "imported_requirement_usd": 10920490.72,
+        "local_requirement_usd": 41888051.43,
+        "month_index": 1,
+        "planned_requirement_usd": 52808542.34,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 117808530.41,
+        "imported_requirement_usd": 11983683.62,
+        "local_requirement_usd": 46106134.51,
+        "month_index": 2,
+        "planned_requirement_usd": 58089817.95,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 176908373.74,
+        "imported_requirement_usd": 11843903.48,
+        "local_requirement_usd": 47255940.07,
+        "month_index": 3,
+        "planned_requirement_usd": 59099843.33,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 222548903.79,
+        "imported_requirement_usd": 9651419.46,
+        "local_requirement_usd": 35989110.57,
+        "month_index": 4,
+        "planned_requirement_usd": 45640530.05,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 233230693.03,
+        "imported_requirement_usd": 2577898.56,
+        "local_requirement_usd": 8103890.61,
+        "month_index": 5,
+        "planned_requirement_usd": 10681789.24,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 239980955.4,
+        "imported_requirement_usd": 1915767.07,
+        "local_requirement_usd": 4834495.29,
+        "month_index": 6,
+        "planned_requirement_usd": 6750262.37,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 246026634.72,
+        "imported_requirement_usd": 1709139.86,
+        "local_requirement_usd": 4336539.45,
+        "month_index": 7,
+        "planned_requirement_usd": 6045679.32,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 250216657.23,
+        "imported_requirement_usd": 1378046.39,
+        "local_requirement_usd": 2811976.13,
+        "month_index": 8,
+        "planned_requirement_usd": 4190022.51,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 253312657.23,
+        "imported_requirement_usd": 1083600.0,
+        "local_requirement_usd": 2012400.0,
+        "month_index": 9,
+        "planned_requirement_usd": 3096000.0,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 255796657.23,
+        "imported_requirement_usd": 869400.0,
+        "local_requirement_usd": 1614600.0,
+        "month_index": 10,
+        "planned_requirement_usd": 2484000.0,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 258232657.23,
+        "imported_requirement_usd": 852600.0,
+        "local_requirement_usd": 1583400.0,
+        "month_index": 11,
+        "planned_requirement_usd": 2436000.0,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 260676657.23,
+        "imported_requirement_usd": 855400.0,
+        "local_requirement_usd": 1588600.0,
+        "month_index": 12,
+        "planned_requirement_usd": 2444000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 263092657.23,
+        "imported_requirement_usd": 845600.0,
+        "local_requirement_usd": 1570400.0,
+        "month_index": 13,
+        "planned_requirement_usd": 2416000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 265608657.23,
+        "imported_requirement_usd": 880600.0,
+        "local_requirement_usd": 1635400.0,
+        "month_index": 14,
+        "planned_requirement_usd": 2516000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 269300657.23,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 15,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 272640657.23,
+        "imported_requirement_usd": 1169000.0,
+        "local_requirement_usd": 2171000.0,
+        "month_index": 16,
+        "planned_requirement_usd": 3340000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 276208657.23,
+        "imported_requirement_usd": 1248800.0,
+        "local_requirement_usd": 2319200.0,
+        "month_index": 17,
+        "planned_requirement_usd": 3568000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 279168657.23,
+        "imported_requirement_usd": 1036000.0,
+        "local_requirement_usd": 1924000.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2960000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 280496657.23,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 19,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 281704657.23,
+        "imported_requirement_usd": 422800.0,
+        "local_requirement_usd": 785200.0,
+        "month_index": 20,
+        "planned_requirement_usd": 1208000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 282064657.23,
+        "imported_requirement_usd": 126000.0,
+        "local_requirement_usd": 234000.0,
+        "month_index": 21,
+        "planned_requirement_usd": 360000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 282124657.23,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 22,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 282184657.23,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 23,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 282196657.23,
+        "imported_requirement_usd": 4200.0,
+        "local_requirement_usd": 7800.0,
+        "month_index": 24,
+        "planned_requirement_usd": 12000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 176908373.74,
+      "imported_requirement_usd": 11843903.48,
+      "local_requirement_usd": 47255940.07,
+      "month_index": 3,
+      "planned_requirement_usd": 59099843.33,
+      "project_day_finish": 89,
+      "project_day_start": 60
+    },
+    "total_planned_requirement_usd": 282196657.23
+  },
+  "city": "ngaoundere",
+  "critical_path": {
+    "critical_task_count": 163,
+    "critical_task_uids": [
+      "ngaoundere:NGA-SYS-001:sys-00-baseline-freeze",
+      "ngaoundere:NGA-RS-L1-001:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-002:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-005:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-006:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-009:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-010:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-013:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-014:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-017:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-018:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-021:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-022:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-025:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-026:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-002:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-003:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-006:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-007:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-010:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-011:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-014:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-015:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-018:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L2-019:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-003:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-004:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-007:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-008:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-011:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-012:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-015:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L3-016:rs-10-material-kit",
+      "ngaoundere:NGA-RS-L1-001:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-002:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-005:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-006:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-009:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-010:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-013:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-014:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-017:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-018:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-021:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-022:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-025:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-026:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-002:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-003:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-006:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-007:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-010:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-011:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-014:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-015:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-018:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L2-019:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-003:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-004:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-007:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-008:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-011:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-012:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-015:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L3-016:rs-20-carbody-bogie",
+      "ngaoundere:NGA-RS-L1-001:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-002:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-005:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-006:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-009:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-010:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-013:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-014:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-017:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-018:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-021:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-022:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-025:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-026:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-002:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-003:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-006:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-007:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-010:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-011:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-014:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-015:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-018:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L2-019:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-003:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-004:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-007:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-008:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-011:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-012:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-015:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L3-016:rs-30-traction-battery-control",
+      "ngaoundere:NGA-RS-L1-001:rs-40-fitout-static-test",
+      "ngaoundere:NGA-RS-L1-002:rs-40-fitout-static-test",
+      "ngaoundere:NGA-RS-L1-001:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-002:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-003:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-004:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-005:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-006:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-007:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-008:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-009:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-010:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-011:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-012:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-013:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-014:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-015:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-016:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-017:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-018:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-019:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-020:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-021:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-022:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-023:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-024:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-025:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-026:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L1-027:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-001:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-002:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-003:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-004:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-005:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-006:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-007:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-008:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-009:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-010:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-011:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-012:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-013:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-014:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-015:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-016:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-017:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-018:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L2-019:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-001:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-002:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-003:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-004:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-005:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-006:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-007:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-008:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-009:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-010:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-011:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-012:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-013:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-014:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-015:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-016:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-017:rs-50-dynamic-commissioning",
+      "ngaoundere:NGA-RS-L3-018:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 605,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 7434,
+    "pre_ntp_order_actions": 1587,
+    "priced_rows": 6464,
+    "quotation_required_rows": 970
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-c2ff6d72675d91db",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-5948853cbc60447a",
+      "sequence": 1,
+      "source_hash": "a9ca556eab2c877cab83ea1471bb84afcdb55cd08886245f6c414e101684e2aa"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-c2ff6d72675d91db",
+      "sequence": 2,
+      "source_hash": "4f48fe74976a38ab7982ab71366cdcd8478bdc897c7349326443a95a124939ab"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-africa/Cameroon/Ngaoundere/design.toml",
+      "sha256": "dd74e62f64e03c4d07e8625b9b16a691fab7414621ce53516c100f983a9b3d3b"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/finance/summary.json",
+      "sha256": "a9bbfb6ab0279cc760bed6cb85b06a9148ca74b366c85d71f398317468595fbb"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-africa/Cameroon/Ngaoundere/ngaoundere.toml",
+      "sha256": "65211ba1048f583dca3428757b8fa39dca403919f695056ab55918da7fea67e8"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 153,
+    "budget_contracts": 635,
+    "cashflow_months": 25,
+    "critical_work_packages": 163,
+    "planned_capex_usd": 282196657.23,
+    "planned_purchase_orders": 7434,
+    "pre_ntp_order_actions": 1587,
+    "priced_procurement_usd": 44181760.0,
+    "programme_working_days": 605,
+    "work_packages": 634
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 1268
+  }
+}

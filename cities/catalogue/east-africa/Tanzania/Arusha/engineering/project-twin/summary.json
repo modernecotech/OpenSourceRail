@@ -1,0 +1,812 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 2225000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 186864538.0,
+      "work_packages": 54
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 30490864.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 137700000.0,
+      "work_packages": 1071
+    },
+    "signalling": {
+      "budget_usd": 3194228.0,
+      "work_packages": 136
+    },
+    "solar_plant": {
+      "budget_usd": 44647480.18,
+      "work_packages": 40
+    },
+    "stations": {
+      "budget_usd": 97600000.0,
+      "work_packages": 42
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 8002162.69,
+        "imported_requirement_usd": 1732047.51,
+        "local_requirement_usd": 6270114.81,
+        "month_index": 0,
+        "planned_requirement_usd": 8002162.69,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 73051599.32,
+        "imported_requirement_usd": 13985869.32,
+        "local_requirement_usd": 51063566.49,
+        "month_index": 1,
+        "planned_requirement_usd": 65049436.63,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 121820330.46,
+        "imported_requirement_usd": 11806469.0,
+        "local_requirement_usd": 36962261.63,
+        "month_index": 2,
+        "planned_requirement_usd": 48768731.14,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 180250526.89,
+        "imported_requirement_usd": 12785261.9,
+        "local_requirement_usd": 45644934.46,
+        "month_index": 3,
+        "planned_requirement_usd": 58430196.43,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 240670022.59,
+        "imported_requirement_usd": 13132852.54,
+        "local_requirement_usd": 47286643.05,
+        "month_index": 4,
+        "planned_requirement_usd": 60419495.7,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 292203811.08,
+        "imported_requirement_usd": 11862627.82,
+        "local_requirement_usd": 39671160.67,
+        "month_index": 5,
+        "planned_requirement_usd": 51533788.49,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 334969238.78,
+        "imported_requirement_usd": 8082862.92,
+        "local_requirement_usd": 34682564.87,
+        "month_index": 6,
+        "planned_requirement_usd": 42765427.7,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 368261278.76,
+        "imported_requirement_usd": 5960289.2,
+        "local_requirement_usd": 27331750.79,
+        "month_index": 7,
+        "planned_requirement_usd": 33292039.98,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 388669641.58,
+        "imported_requirement_usd": 4022285.65,
+        "local_requirement_usd": 16386077.15,
+        "month_index": 8,
+        "planned_requirement_usd": 20408362.82,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 396825885.35,
+        "imported_requirement_usd": 2103823.45,
+        "local_requirement_usd": 6052420.31,
+        "month_index": 9,
+        "planned_requirement_usd": 8156243.77,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 401897542.85,
+        "imported_requirement_usd": 1562878.63,
+        "local_requirement_usd": 3508778.87,
+        "month_index": 10,
+        "planned_requirement_usd": 5071657.5,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 406421125.23,
+        "imported_requirement_usd": 1421087.11,
+        "local_requirement_usd": 3102495.26,
+        "month_index": 11,
+        "planned_requirement_usd": 4523582.38,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 410297361.42,
+        "imported_requirement_usd": 1287260.05,
+        "local_requirement_usd": 2588976.12,
+        "month_index": 12,
+        "planned_requirement_usd": 3876236.19,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 414010110.18,
+        "imported_requirement_usd": 1301974.38,
+        "local_requirement_usd": 2410774.38,
+        "month_index": 13,
+        "planned_requirement_usd": 3712748.76,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 417514110.18,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 421210110.18,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 15,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 424714110.18,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 16,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 428410110.18,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 17,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 431914110.18,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 18,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 435534110.18,
+        "imported_requirement_usd": 1267000.0,
+        "local_requirement_usd": 2353000.0,
+        "month_index": 19,
+        "planned_requirement_usd": 3620000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 438690110.18,
+        "imported_requirement_usd": 1104600.0,
+        "local_requirement_usd": 2051400.0,
+        "month_index": 20,
+        "planned_requirement_usd": 3156000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 441162110.18,
+        "imported_requirement_usd": 865200.0,
+        "local_requirement_usd": 1606800.0,
+        "month_index": 21,
+        "planned_requirement_usd": 2472000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 443610110.18,
+        "imported_requirement_usd": 856800.0,
+        "local_requirement_usd": 1591200.0,
+        "month_index": 22,
+        "planned_requirement_usd": 2448000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 446062110.18,
+        "imported_requirement_usd": 858200.0,
+        "local_requirement_usd": 1593800.0,
+        "month_index": 23,
+        "planned_requirement_usd": 2452000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 448462110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 24,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 450862110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 25,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 453262110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 26,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 455662110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 27,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 458062110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 28,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 460462110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 29,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 462862110.18,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 30,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 465254110.18,
+        "imported_requirement_usd": 837200.0,
+        "local_requirement_usd": 1554800.0,
+        "month_index": 31,
+        "planned_requirement_usd": 2392000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 467750110.18,
+        "imported_requirement_usd": 873600.0,
+        "local_requirement_usd": 1622400.0,
+        "month_index": 32,
+        "planned_requirement_usd": 2496000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 470966110.18,
+        "imported_requirement_usd": 1125600.0,
+        "local_requirement_usd": 2090400.0,
+        "month_index": 33,
+        "planned_requirement_usd": 3216000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 474466110.18,
+        "imported_requirement_usd": 1225000.0,
+        "local_requirement_usd": 2275000.0,
+        "month_index": 34,
+        "planned_requirement_usd": 3500000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 478158110.18,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 35,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 481530110.18,
+        "imported_requirement_usd": 1180200.0,
+        "local_requirement_usd": 2191800.0,
+        "month_index": 36,
+        "planned_requirement_usd": 3372000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 485210110.18,
+        "imported_requirement_usd": 1288000.0,
+        "local_requirement_usd": 2392000.0,
+        "month_index": 37,
+        "planned_requirement_usd": 3680000.0,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 488778110.18,
+        "imported_requirement_usd": 1248800.0,
+        "local_requirement_usd": 2319200.0,
+        "month_index": 38,
+        "planned_requirement_usd": 3568000.0,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 492538110.18,
+        "imported_requirement_usd": 1316000.0,
+        "local_requirement_usd": 2444000.0,
+        "month_index": 39,
+        "planned_requirement_usd": 3760000.0,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 495930110.18,
+        "imported_requirement_usd": 1187200.0,
+        "local_requirement_usd": 2204800.0,
+        "month_index": 40,
+        "planned_requirement_usd": 3392000.0,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 499610110.18,
+        "imported_requirement_usd": 1288000.0,
+        "local_requirement_usd": 2392000.0,
+        "month_index": 41,
+        "planned_requirement_usd": 3680000.0,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 502970110.18,
+        "imported_requirement_usd": 1176000.0,
+        "local_requirement_usd": 2184000.0,
+        "month_index": 42,
+        "planned_requirement_usd": 3360000.0,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 504898110.18,
+        "imported_requirement_usd": 674800.0,
+        "local_requirement_usd": 1253200.0,
+        "month_index": 43,
+        "planned_requirement_usd": 1928000.0,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      },
+      {
+        "cumulative_requirement_usd": 506226110.18,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 44,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 1319,
+        "project_day_start": 1290
+      },
+      {
+        "cumulative_requirement_usd": 507522110.18,
+        "imported_requirement_usd": 453600.0,
+        "local_requirement_usd": 842400.0,
+        "month_index": 45,
+        "planned_requirement_usd": 1296000.0,
+        "project_day_finish": 1349,
+        "project_day_start": 1320
+      },
+      {
+        "cumulative_requirement_usd": 508778110.18,
+        "imported_requirement_usd": 439600.0,
+        "local_requirement_usd": 816400.0,
+        "month_index": 46,
+        "planned_requirement_usd": 1256000.0,
+        "project_day_finish": 1379,
+        "project_day_start": 1350
+      },
+      {
+        "cumulative_requirement_usd": 509918110.18,
+        "imported_requirement_usd": 399000.0,
+        "local_requirement_usd": 741000.0,
+        "month_index": 47,
+        "planned_requirement_usd": 1140000.0,
+        "project_day_finish": 1409,
+        "project_day_start": 1380
+      },
+      {
+        "cumulative_requirement_usd": 510560110.18,
+        "imported_requirement_usd": 224700.0,
+        "local_requirement_usd": 417300.0,
+        "month_index": 48,
+        "planned_requirement_usd": 642000.0,
+        "project_day_finish": 1439,
+        "project_day_start": 1410
+      },
+      {
+        "cumulative_requirement_usd": 510620110.18,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 49,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1469,
+        "project_day_start": 1440
+      },
+      {
+        "cumulative_requirement_usd": 510680110.18,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 50,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1499,
+        "project_day_start": 1470
+      },
+      {
+        "cumulative_requirement_usd": 510722110.18,
+        "imported_requirement_usd": 14700.0,
+        "local_requirement_usd": 27300.0,
+        "month_index": 51,
+        "planned_requirement_usd": 42000.0,
+        "project_day_finish": 1529,
+        "project_day_start": 1500
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 73051599.32,
+      "imported_requirement_usd": 13985869.32,
+      "local_requirement_usd": 51063566.49,
+      "month_index": 1,
+      "planned_requirement_usd": 65049436.63,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 510722110.18
+  },
+  "city": "arusha",
+  "critical_path": {
+    "critical_task_count": 193,
+    "critical_task_uids": [
+      "arusha:ARU-SYS-001:sys-00-baseline-freeze",
+      "arusha:ARU-RS-L1-002:rs-10-material-kit",
+      "arusha:ARU-RS-L1-006:rs-10-material-kit",
+      "arusha:ARU-RS-L1-010:rs-10-material-kit",
+      "arusha:ARU-RS-L1-014:rs-10-material-kit",
+      "arusha:ARU-RS-L1-018:rs-10-material-kit",
+      "arusha:ARU-RS-L1-022:rs-10-material-kit",
+      "arusha:ARU-RS-L1-026:rs-10-material-kit",
+      "arusha:ARU-RS-L1-030:rs-10-material-kit",
+      "arusha:ARU-RS-L1-034:rs-10-material-kit",
+      "arusha:ARU-RS-L1-038:rs-10-material-kit",
+      "arusha:ARU-RS-L1-042:rs-10-material-kit",
+      "arusha:ARU-RS-L1-046:rs-10-material-kit",
+      "arusha:ARU-RS-L2-004:rs-10-material-kit",
+      "arusha:ARU-RS-L2-008:rs-10-material-kit",
+      "arusha:ARU-RS-L2-012:rs-10-material-kit",
+      "arusha:ARU-RS-L2-016:rs-10-material-kit",
+      "arusha:ARU-RS-L2-020:rs-10-material-kit",
+      "arusha:ARU-RS-L2-024:rs-10-material-kit",
+      "arusha:ARU-RS-L2-028:rs-10-material-kit",
+      "arusha:ARU-RS-L2-032:rs-10-material-kit",
+      "arusha:ARU-RS-L2-036:rs-10-material-kit",
+      "arusha:ARU-RS-L2-040:rs-10-material-kit",
+      "arusha:ARU-RS-L2-044:rs-10-material-kit",
+      "arusha:ARU-RS-L3-001:rs-10-material-kit",
+      "arusha:ARU-RS-L3-005:rs-10-material-kit",
+      "arusha:ARU-RS-L3-009:rs-10-material-kit",
+      "arusha:ARU-RS-L3-013:rs-10-material-kit",
+      "arusha:ARU-RS-L3-017:rs-10-material-kit",
+      "arusha:ARU-RS-L3-021:rs-10-material-kit",
+      "arusha:ARU-RS-L3-025:rs-10-material-kit",
+      "arusha:ARU-RS-L3-029:rs-10-material-kit",
+      "arusha:ARU-RS-L3-033:rs-10-material-kit",
+      "arusha:ARU-RS-L3-037:rs-10-material-kit",
+      "arusha:ARU-RS-L3-041:rs-10-material-kit",
+      "arusha:ARU-RS-L3-045:rs-10-material-kit",
+      "arusha:ARU-RS-L3-049:rs-10-material-kit",
+      "arusha:ARU-RS-L3-053:rs-10-material-kit",
+      "arusha:ARU-RS-L3-057:rs-10-material-kit",
+      "arusha:ARU-RS-L1-001:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-005:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-009:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-013:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-017:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-021:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-025:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-029:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-033:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-037:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-041:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-045:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-003:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-007:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-011:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-015:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-019:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-023:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-027:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-031:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-035:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-039:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-043:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L2-047:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-004:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-008:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-012:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-016:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-020:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-024:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-028:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-032:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-036:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-040:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-044:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-048:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-052:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-056:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L3-060:rs-20-carbody-bogie",
+      "arusha:ARU-RS-L1-006:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-010:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-014:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-018:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-022:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-026:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-030:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-034:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-038:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-042:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-046:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-004:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-008:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-012:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-016:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-020:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-024:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-028:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-032:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-036:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-040:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L2-044:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-001:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-005:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-009:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-013:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-017:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-021:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-025:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-029:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-033:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-037:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-041:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-045:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-049:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-053:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L3-057:rs-30-traction-battery-control",
+      "arusha:ARU-RS-L1-001:rs-40-fitout-static-test",
+      "arusha:ARU-RS-L1-003:rs-40-fitout-static-test",
+      "arusha:ARU-RS-L1-003:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-005:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-007:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-009:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-011:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-013:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-015:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-017:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-019:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-021:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-023:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-025:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-027:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-029:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-031:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-033:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-035:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-037:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-039:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-041:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-043:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L1-045:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-001:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-003:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-005:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-007:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-009:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-011:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-013:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-015:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-017:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-019:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-021:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-023:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-025:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-027:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-029:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-031:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-033:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-035:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-037:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-039:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-041:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-043:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-045:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L2-047:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-002:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-004:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-006:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-008:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-010:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-012:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-014:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-016:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-018:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-020:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-022:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-024:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-026:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-028:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-030:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-032:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-034:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-036:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-038:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-040:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-042:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-044:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-046:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-048:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-050:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-052:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-054:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-056:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-058:rs-50-dynamic-commissioning",
+      "arusha:ARU-RS-L3-060:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1429,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 17001,
+    "pre_ntp_order_actions": 1927,
+    "priced_rows": 15453,
+    "quotation_required_rows": 1548
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-9c73e7b3b59c07a8",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e8d416f1d5a4e5d6",
+      "sequence": 1,
+      "source_hash": "fba7518ded08634bdfb071980833bbed2b135f3d67d8cbbbc8c372e07e814484"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-9c73e7b3b59c07a8",
+      "sequence": 2,
+      "source_hash": "48967a4bf7be0c43dddd84418d0d8c081723d6a3bddd0c40c1e48e71d61b8a45"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/east-africa/Tanzania/Arusha/design.toml",
+      "sha256": "9e0d09731d1f522d18bcc4b5f0e2a8bf9afb6eb47a8c9ee46ded2cc5aa778e4a"
+    },
+    "finance": {
+      "path": "cities/catalogue/east-africa/Tanzania/Arusha/engineering/finance/summary.json",
+      "sha256": "d92de08d29f7687f1844f41e7c6665648da14d62c3f4215b64badc7d80666aa0"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/east-africa/Tanzania/Arusha/arusha.toml",
+      "sha256": "a3465a12a7213610fc42e99a3066e61cfaa70ce4d4017656cdf4a5975b1b2934"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 284,
+    "budget_contracts": 1348,
+    "cashflow_months": 52,
+    "critical_work_packages": 193,
+    "planned_capex_usd": 510722110.18,
+    "planned_purchase_orders": 17001,
+    "pre_ntp_order_actions": 1927,
+    "priced_procurement_usd": 105622020.0,
+    "programme_working_days": 1429,
+    "work_packages": 1347
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2694
+  }
+}

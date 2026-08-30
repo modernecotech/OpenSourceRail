@@ -1,0 +1,640 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 2025000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 152330636.0,
+      "work_packages": 48
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 25034633.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 98100000.0,
+      "work_packages": 763
+    },
+    "signalling": {
+      "budget_usd": 2581978.0,
+      "work_packages": 116
+    },
+    "solar_plant": {
+      "budget_usd": 38425469.1,
+      "work_packages": 36
+    },
+    "stations": {
+      "budget_usd": 94600000.0,
+      "work_packages": 38
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 7613478.8,
+        "imported_requirement_usd": 1661041.11,
+        "local_requirement_usd": 5952437.78,
+        "month_index": 0,
+        "planned_requirement_usd": 7613478.8,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 68330966.4,
+        "imported_requirement_usd": 13222196.51,
+        "local_requirement_usd": 47495291.08,
+        "month_index": 1,
+        "planned_requirement_usd": 60717487.6,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 119641766.28,
+        "imported_requirement_usd": 12118076.23,
+        "local_requirement_usd": 39192723.67,
+        "month_index": 2,
+        "planned_requirement_usd": 51310799.88,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 178678336.2,
+        "imported_requirement_usd": 12746920.74,
+        "local_requirement_usd": 46289649.19,
+        "month_index": 3,
+        "planned_requirement_usd": 59036569.92,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 236196718.07,
+        "imported_requirement_usd": 12761277.52,
+        "local_requirement_usd": 44757104.49,
+        "month_index": 4,
+        "planned_requirement_usd": 57518381.87,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 289703866.14,
+        "imported_requirement_usd": 11215370.09,
+        "local_requirement_usd": 42291777.97,
+        "month_index": 5,
+        "planned_requirement_usd": 53507148.07,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 318519277.75,
+        "imported_requirement_usd": 5414206.15,
+        "local_requirement_usd": 23401205.5,
+        "month_index": 6,
+        "planned_requirement_usd": 28815411.61,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 338201778.41,
+        "imported_requirement_usd": 3889972.75,
+        "local_requirement_usd": 15792528.06,
+        "month_index": 7,
+        "planned_requirement_usd": 19682500.66,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 344978615.54,
+        "imported_requirement_usd": 2025332.6,
+        "local_requirement_usd": 4751504.6,
+        "month_index": 8,
+        "planned_requirement_usd": 6776837.13,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 349830849.69,
+        "imported_requirement_usd": 1407820.41,
+        "local_requirement_usd": 3444413.82,
+        "month_index": 9,
+        "planned_requirement_usd": 4852234.15,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 354467721.52,
+        "imported_requirement_usd": 1467129.72,
+        "local_requirement_usd": 3169742.18,
+        "month_index": 10,
+        "planned_requirement_usd": 4636871.83,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 357841716.1,
+        "imported_requirement_usd": 1183297.36,
+        "local_requirement_usd": 2190697.36,
+        "month_index": 11,
+        "planned_requirement_usd": 3373994.58,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 361683716.1,
+        "imported_requirement_usd": 1344700.0,
+        "local_requirement_usd": 2497300.0,
+        "month_index": 12,
+        "planned_requirement_usd": 3842000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 365029716.1,
+        "imported_requirement_usd": 1171100.0,
+        "local_requirement_usd": 2174900.0,
+        "month_index": 13,
+        "planned_requirement_usd": 3346000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 368773716.1,
+        "imported_requirement_usd": 1310400.0,
+        "local_requirement_usd": 2433600.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3744000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 371367716.1,
+        "imported_requirement_usd": 907900.0,
+        "local_requirement_usd": 1686100.0,
+        "month_index": 15,
+        "planned_requirement_usd": 2594000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 373841716.1,
+        "imported_requirement_usd": 865900.0,
+        "local_requirement_usd": 1608100.0,
+        "month_index": 16,
+        "planned_requirement_usd": 2474000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 376307716.1,
+        "imported_requirement_usd": 863100.0,
+        "local_requirement_usd": 1602900.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2466000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 378717716.1,
+        "imported_requirement_usd": 843500.0,
+        "local_requirement_usd": 1566500.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2410000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 381117716.1,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 19,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 383517716.1,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 20,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 385917716.1,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 21,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 388309716.1,
+        "imported_requirement_usd": 837200.0,
+        "local_requirement_usd": 1554800.0,
+        "month_index": 22,
+        "planned_requirement_usd": 2392000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 390849716.1,
+        "imported_requirement_usd": 889000.0,
+        "local_requirement_usd": 1651000.0,
+        "month_index": 23,
+        "planned_requirement_usd": 2540000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 394325716.1,
+        "imported_requirement_usd": 1216600.0,
+        "local_requirement_usd": 2259400.0,
+        "month_index": 24,
+        "planned_requirement_usd": 3476000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 397929716.1,
+        "imported_requirement_usd": 1261400.0,
+        "local_requirement_usd": 2342600.0,
+        "month_index": 25,
+        "planned_requirement_usd": 3604000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 401301716.1,
+        "imported_requirement_usd": 1180200.0,
+        "local_requirement_usd": 2191800.0,
+        "month_index": 26,
+        "planned_requirement_usd": 3372000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 404977716.1,
+        "imported_requirement_usd": 1286600.0,
+        "local_requirement_usd": 2389400.0,
+        "month_index": 27,
+        "planned_requirement_usd": 3676000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 408593716.1,
+        "imported_requirement_usd": 1265600.0,
+        "local_requirement_usd": 2350400.0,
+        "month_index": 28,
+        "planned_requirement_usd": 3616000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 412249716.1,
+        "imported_requirement_usd": 1279600.0,
+        "local_requirement_usd": 2376400.0,
+        "month_index": 29,
+        "planned_requirement_usd": 3656000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 415481716.1,
+        "imported_requirement_usd": 1131200.0,
+        "local_requirement_usd": 2100800.0,
+        "month_index": 30,
+        "planned_requirement_usd": 3232000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 417193716.1,
+        "imported_requirement_usd": 599200.0,
+        "local_requirement_usd": 1112800.0,
+        "month_index": 31,
+        "planned_requirement_usd": 1712000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 418521716.1,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 32,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 419837716.1,
+        "imported_requirement_usd": 460600.0,
+        "local_requirement_usd": 855400.0,
+        "month_index": 33,
+        "planned_requirement_usd": 1316000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 420875716.1,
+        "imported_requirement_usd": 363300.0,
+        "local_requirement_usd": 674700.0,
+        "month_index": 34,
+        "planned_requirement_usd": 1038000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 420971716.1,
+        "imported_requirement_usd": 33600.0,
+        "local_requirement_usd": 62400.0,
+        "month_index": 35,
+        "planned_requirement_usd": 96000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 421031716.1,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 36,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 421091716.1,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 37,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 421097716.1,
+        "imported_requirement_usd": 2100.0,
+        "local_requirement_usd": 3900.0,
+        "month_index": 38,
+        "planned_requirement_usd": 6000.0,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 68330966.4,
+      "imported_requirement_usd": 13222196.51,
+      "local_requirement_usd": 47495291.08,
+      "month_index": 1,
+      "planned_requirement_usd": 60717487.6,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 421097716.1
+  },
+  "city": "mansoura-eg",
+  "critical_path": {
+    "critical_task_count": 138,
+    "critical_task_uids": [
+      "mansoura-eg:MAN-SYS-001:sys-00-baseline-freeze",
+      "mansoura-eg:MAN-RS-L1-002:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-006:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-010:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-014:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-018:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-022:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-026:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-001:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-005:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-009:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-013:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-017:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-021:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L2-025:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-001:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-005:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-009:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-013:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-017:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-021:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-025:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-029:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-033:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-037:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-041:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-045:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L3-049:rs-10-material-kit",
+      "mansoura-eg:MAN-RS-L1-001:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-005:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-009:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-013:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-017:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-021:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-025:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-029:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-004:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-008:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-012:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-016:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-020:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-024:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L2-028:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-004:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-008:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-012:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-016:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-020:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-024:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-028:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-032:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-036:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-040:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-044:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-048:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L3-052:rs-20-carbody-bogie",
+      "mansoura-eg:MAN-RS-L1-006:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-010:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-014:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-018:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-022:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-026:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-001:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-005:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-009:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-013:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-017:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-021:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L2-025:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-001:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-005:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-009:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-013:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-017:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-021:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-025:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-029:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-033:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-037:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-041:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-045:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L3-049:rs-30-traction-battery-control",
+      "mansoura-eg:MAN-RS-L1-001:rs-40-fitout-static-test",
+      "mansoura-eg:MAN-RS-L1-003:rs-40-fitout-static-test",
+      "mansoura-eg:MAN-RS-L1-003:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-005:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-007:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-009:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-011:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-013:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-015:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-017:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-019:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-021:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-023:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-025:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-027:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L1-029:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-002:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-004:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-006:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-008:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-010:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-012:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-014:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-016:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-018:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-020:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-022:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-024:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-026:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L2-028:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-002:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-004:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-006:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-008:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-010:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-012:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-014:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-016:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-018:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-020:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-022:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-024:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-026:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-028:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-030:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-032:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-034:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-036:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-038:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-040:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-042:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-044:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-046:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-048:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-050:rs-50-dynamic-commissioning",
+      "mansoura-eg:MAN-RS-L3-052:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1022,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 12319,
+    "pre_ntp_order_actions": 1787,
+    "priced_rows": 11009,
+    "quotation_required_rows": 1310
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-281ec6791ddd6d8d",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e3b9955dd3a7f236",
+      "sequence": 1,
+      "source_hash": "c2cc7a19a9095971771e404b79c8bd27ced6ee3a96680f9b0f02cea06cf57746"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-281ec6791ddd6d8d",
+      "sequence": 2,
+      "source_hash": "50a3caaf3d70e8ad72dd54adb06c766870f5b9fa6dedde3bc48beebf97c0205c"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-asia/Egypt/Mansoura-Eg/design.toml",
+      "sha256": "39b7db6f33902fb040286c1c02d76878536c624e8121758cf14eac32775a95cf"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/finance/summary.json",
+      "sha256": "77eaf8a50df6950a39fecc8d3c8bdb368e10fbe2e3d392d83ec57c88b6ac865a"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-asia/Egypt/Mansoura-Eg/mansoura-eg.toml",
+      "sha256": "e6a47c4713ad5f882835aa458bf55984eb631bdadc7a9e5515d9755a15ea56fa"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 224,
+    "budget_contracts": 1006,
+    "cashflow_months": 39,
+    "critical_work_packages": 138,
+    "planned_capex_usd": 421097716.1,
+    "planned_purchase_orders": 12319,
+    "pre_ntp_order_actions": 1787,
+    "priced_procurement_usd": 75247060.0,
+    "programme_working_days": 1022,
+    "work_packages": 1005
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2010
+  }
+}

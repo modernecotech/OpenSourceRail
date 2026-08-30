@@ -1,0 +1,707 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 2325000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 169612901.0,
+      "work_packages": 57
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 27954746.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 114300000.0,
+      "work_packages": 889
+    },
+    "signalling": {
+      "budget_usd": 3015616.0,
+      "work_packages": 134
+    },
+    "solar_plant": {
+      "budget_usd": 50677956.57,
+      "work_packages": 42
+    },
+    "stations": {
+      "budget_usd": 102100000.0,
+      "work_packages": 44
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 7682606.45,
+        "imported_requirement_usd": 1707324.01,
+        "local_requirement_usd": 5975282.54,
+        "month_index": 0,
+        "planned_requirement_usd": 7682606.45,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 65948928.83,
+        "imported_requirement_usd": 12911585.31,
+        "local_requirement_usd": 45354737.05,
+        "month_index": 1,
+        "planned_requirement_usd": 58266322.38,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 119392535.93,
+        "imported_requirement_usd": 12814947.16,
+        "local_requirement_usd": 40628659.93,
+        "month_index": 2,
+        "planned_requirement_usd": 53443607.1,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 175856244.95,
+        "imported_requirement_usd": 12715612.59,
+        "local_requirement_usd": 43748096.35,
+        "month_index": 3,
+        "planned_requirement_usd": 56463709.02,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 234220895.37,
+        "imported_requirement_usd": 13161121.17,
+        "local_requirement_usd": 45203528.91,
+        "month_index": 4,
+        "planned_requirement_usd": 58364650.42,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 293490813.25,
+        "imported_requirement_usd": 13308498.52,
+        "local_requirement_usd": 45961419.06,
+        "month_index": 5,
+        "planned_requirement_usd": 59269917.88,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 341977700.65,
+        "imported_requirement_usd": 9949640.36,
+        "local_requirement_usd": 38537246.81,
+        "month_index": 6,
+        "planned_requirement_usd": 48486887.4,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 368366730.43,
+        "imported_requirement_usd": 4930792.44,
+        "local_requirement_usd": 21458237.25,
+        "month_index": 7,
+        "planned_requirement_usd": 26389029.78,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 382684535.2,
+        "imported_requirement_usd": 3183713.0,
+        "local_requirement_usd": 11134091.67,
+        "month_index": 8,
+        "planned_requirement_usd": 14317804.77,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 388772386.33,
+        "imported_requirement_usd": 1801456.43,
+        "local_requirement_usd": 4286394.66,
+        "month_index": 9,
+        "planned_requirement_usd": 6087851.13,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 394066482.91,
+        "imported_requirement_usd": 1568454.11,
+        "local_requirement_usd": 3725642.57,
+        "month_index": 10,
+        "planned_requirement_usd": 5294096.58,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 398090539.86,
+        "imported_requirement_usd": 1283449.94,
+        "local_requirement_usd": 2740607.08,
+        "month_index": 11,
+        "planned_requirement_usd": 4024056.95,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 401926061.94,
+        "imported_requirement_usd": 1345211.12,
+        "local_requirement_usd": 2490311.12,
+        "month_index": 12,
+        "planned_requirement_usd": 3835522.08,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 405310219.57,
+        "imported_requirement_usd": 1184628.82,
+        "local_requirement_usd": 2199528.82,
+        "month_index": 13,
+        "planned_requirement_usd": 3384157.63,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 409127219.57,
+        "imported_requirement_usd": 1335950.0,
+        "local_requirement_usd": 2481050.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3817000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 412506219.57,
+        "imported_requirement_usd": 1182650.0,
+        "local_requirement_usd": 2196350.0,
+        "month_index": 15,
+        "planned_requirement_usd": 3379000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 416173219.57,
+        "imported_requirement_usd": 1283450.0,
+        "local_requirement_usd": 2383550.0,
+        "month_index": 16,
+        "planned_requirement_usd": 3667000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 419075219.57,
+        "imported_requirement_usd": 1015700.0,
+        "local_requirement_usd": 1886300.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2902000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 421554219.57,
+        "imported_requirement_usd": 867650.0,
+        "local_requirement_usd": 1611350.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2479000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 423995219.57,
+        "imported_requirement_usd": 854350.0,
+        "local_requirement_usd": 1586650.0,
+        "month_index": 19,
+        "planned_requirement_usd": 2441000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 426426219.57,
+        "imported_requirement_usd": 850850.0,
+        "local_requirement_usd": 1580150.0,
+        "month_index": 20,
+        "planned_requirement_usd": 2431000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 428826219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 21,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 431226219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 22,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 433626219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 23,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 436026219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 24,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 438426219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 25,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 440826219.57,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 26,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 443458219.57,
+        "imported_requirement_usd": 921200.0,
+        "local_requirement_usd": 1710800.0,
+        "month_index": 27,
+        "planned_requirement_usd": 2632000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 447066219.57,
+        "imported_requirement_usd": 1262800.0,
+        "local_requirement_usd": 2345200.0,
+        "month_index": 28,
+        "planned_requirement_usd": 3608000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 450494219.57,
+        "imported_requirement_usd": 1199800.0,
+        "local_requirement_usd": 2228200.0,
+        "month_index": 29,
+        "planned_requirement_usd": 3428000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 454050219.57,
+        "imported_requirement_usd": 1244600.0,
+        "local_requirement_usd": 2311400.0,
+        "month_index": 30,
+        "planned_requirement_usd": 3556000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 457652219.57,
+        "imported_requirement_usd": 1260700.0,
+        "local_requirement_usd": 2341300.0,
+        "month_index": 31,
+        "planned_requirement_usd": 3602000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 461364219.57,
+        "imported_requirement_usd": 1299200.0,
+        "local_requirement_usd": 2412800.0,
+        "month_index": 32,
+        "planned_requirement_usd": 3712000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 464860219.57,
+        "imported_requirement_usd": 1223600.0,
+        "local_requirement_usd": 2272400.0,
+        "month_index": 33,
+        "planned_requirement_usd": 3496000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 468444219.57,
+        "imported_requirement_usd": 1254400.0,
+        "local_requirement_usd": 2329600.0,
+        "month_index": 34,
+        "planned_requirement_usd": 3584000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 471812219.57,
+        "imported_requirement_usd": 1178800.0,
+        "local_requirement_usd": 2189200.0,
+        "month_index": 35,
+        "planned_requirement_usd": 3368000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 473420219.57,
+        "imported_requirement_usd": 562800.0,
+        "local_requirement_usd": 1045200.0,
+        "month_index": 36,
+        "planned_requirement_usd": 1608000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 474748219.57,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 37,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 476052219.57,
+        "imported_requirement_usd": 456400.0,
+        "local_requirement_usd": 847600.0,
+        "month_index": 38,
+        "planned_requirement_usd": 1304000.0,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 477224219.57,
+        "imported_requirement_usd": 410200.0,
+        "local_requirement_usd": 761800.0,
+        "month_index": 39,
+        "planned_requirement_usd": 1172000.0,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 477830219.57,
+        "imported_requirement_usd": 212100.0,
+        "local_requirement_usd": 393900.0,
+        "month_index": 40,
+        "planned_requirement_usd": 606000.0,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 477890219.57,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 41,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 477950219.57,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 42,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 477986219.57,
+        "imported_requirement_usd": 12600.0,
+        "local_requirement_usd": 23400.0,
+        "month_index": 43,
+        "planned_requirement_usd": 36000.0,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 293490813.25,
+      "imported_requirement_usd": 13308498.52,
+      "local_requirement_usd": 45961419.06,
+      "month_index": 5,
+      "planned_requirement_usd": 59269917.88,
+      "project_day_finish": 149,
+      "project_day_start": 120
+    },
+    "total_planned_requirement_usd": 477986219.57
+  },
+  "city": "hebron",
+  "critical_path": {
+    "critical_task_count": 160,
+    "critical_task_uids": [
+      "hebron:HEB-SYS-001:sys-00-baseline-freeze",
+      "hebron:HEB-RS-L1-004:rs-10-material-kit",
+      "hebron:HEB-RS-L1-008:rs-10-material-kit",
+      "hebron:HEB-RS-L1-012:rs-10-material-kit",
+      "hebron:HEB-RS-L1-016:rs-10-material-kit",
+      "hebron:HEB-RS-L1-020:rs-10-material-kit",
+      "hebron:HEB-RS-L1-024:rs-10-material-kit",
+      "hebron:HEB-RS-L1-028:rs-10-material-kit",
+      "hebron:HEB-RS-L1-032:rs-10-material-kit",
+      "hebron:HEB-RS-L1-036:rs-10-material-kit",
+      "hebron:HEB-RS-L1-040:rs-10-material-kit",
+      "hebron:HEB-RS-L2-003:rs-10-material-kit",
+      "hebron:HEB-RS-L2-007:rs-10-material-kit",
+      "hebron:HEB-RS-L2-011:rs-10-material-kit",
+      "hebron:HEB-RS-L2-015:rs-10-material-kit",
+      "hebron:HEB-RS-L2-019:rs-10-material-kit",
+      "hebron:HEB-RS-L2-023:rs-10-material-kit",
+      "hebron:HEB-RS-L2-027:rs-10-material-kit",
+      "hebron:HEB-RS-L2-031:rs-10-material-kit",
+      "hebron:HEB-RS-L2-035:rs-10-material-kit",
+      "hebron:HEB-RS-L3-002:rs-10-material-kit",
+      "hebron:HEB-RS-L3-006:rs-10-material-kit",
+      "hebron:HEB-RS-L3-010:rs-10-material-kit",
+      "hebron:HEB-RS-L3-014:rs-10-material-kit",
+      "hebron:HEB-RS-L3-018:rs-10-material-kit",
+      "hebron:HEB-RS-L3-022:rs-10-material-kit",
+      "hebron:HEB-RS-L3-026:rs-10-material-kit",
+      "hebron:HEB-RS-L3-030:rs-10-material-kit",
+      "hebron:HEB-RS-L3-034:rs-10-material-kit",
+      "hebron:HEB-RS-L3-038:rs-10-material-kit",
+      "hebron:HEB-RS-L3-042:rs-10-material-kit",
+      "hebron:HEB-RS-L3-046:rs-10-material-kit",
+      "hebron:HEB-RS-L1-001:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-005:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-009:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-013:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-017:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-021:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-025:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-029:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-033:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-037:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-041:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-004:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-008:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-012:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-016:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-020:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-024:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-028:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-032:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L2-036:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-003:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-007:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-011:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-015:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-019:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-023:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-027:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-031:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-035:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-039:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-043:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L3-047:rs-20-carbody-bogie",
+      "hebron:HEB-RS-L1-002:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-006:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-010:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-014:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-018:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-022:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-026:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-030:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-034:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-038:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-001:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-005:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-009:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-013:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-017:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-021:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-025:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-029:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-033:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L2-037:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-004:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-008:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-012:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-016:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-020:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-024:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-028:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-032:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-036:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-040:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-044:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L3-048:rs-30-traction-battery-control",
+      "hebron:HEB-RS-L1-003:rs-40-fitout-static-test",
+      "hebron:HEB-RS-L1-003:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-005:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-007:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-009:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-011:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-013:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-015:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-017:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-019:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-021:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-023:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-025:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-027:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-029:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-031:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-033:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-035:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-037:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-039:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L1-041:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-002:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-004:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-006:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-008:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-010:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-012:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-014:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-016:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-018:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-020:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-022:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-024:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-026:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-028:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-030:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-032:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-034:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L2-036:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-001:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-003:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-005:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-007:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-009:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-011:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-013:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-015:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-017:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-019:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-021:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-023:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-025:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-027:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-029:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-031:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-033:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-035:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-037:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-039:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-041:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-043:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-045:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-047:rs-50-dynamic-commissioning",
+      "hebron:HEB-RS-L3-049:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1188,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 14350,
+    "pre_ntp_order_actions": 1862,
+    "priced_rows": 12827,
+    "quotation_required_rows": 1523
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-5cb9540073177481",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-a0d386baa6da1332",
+      "sequence": 1,
+      "source_hash": "b8c53ae32c765d2a5dc7796cab605c36fb0347c8bd82862355cad3d51c9c84df"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-5cb9540073177481",
+      "sequence": 2,
+      "source_hash": "9cdc4ec3d079a973fa81709baa408926d027b0201360c6c83a0537f0c26a3446"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/west-asia/Palestine/Hebron/design.toml",
+      "sha256": "7a57fe92ac88c16a83ec7880261f59288ddb8a067f3db85163c4a878cc5c28ab"
+    },
+    "finance": {
+      "path": "cities/catalogue/west-asia/Palestine/Hebron/engineering/finance/summary.json",
+      "sha256": "e6f091942c5a3358a486c382c6292d355ba1266e1c4cc2192ae64b41be59040a"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/west-asia/Palestine/Hebron/hebron.toml",
+      "sha256": "494b2119b5622495aef1dd9475d554105858c0027925612d445d35216264fd11"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 260,
+    "budget_contracts": 1171,
+    "cashflow_months": 44,
+    "critical_work_packages": 160,
+    "planned_capex_usd": 477986219.57,
+    "planned_purchase_orders": 14350,
+    "pre_ntp_order_actions": 1862,
+    "priced_procurement_usd": 87673180.0,
+    "programme_working_days": 1188,
+    "work_packages": 1170
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2340
+  }
+}

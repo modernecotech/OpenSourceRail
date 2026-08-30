@@ -1,0 +1,575 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 1975000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 145750278.0,
+      "work_packages": 45
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 24265095.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 83700000.0,
+      "work_packages": 651
+    },
+    "signalling": {
+      "budget_usd": 2118930.0,
+      "work_packages": 106
+    },
+    "solar_plant": {
+      "budget_usd": 39933825.72,
+      "work_packages": 34
+    },
+    "stations": {
+      "budget_usd": 105100000.0,
+      "work_packages": 36
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 7876598.02,
+        "imported_requirement_usd": 1736037.69,
+        "local_requirement_usd": 6140560.22,
+        "month_index": 0,
+        "planned_requirement_usd": 7876598.02,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 73308889.31,
+        "imported_requirement_usd": 14219779.43,
+        "local_requirement_usd": 51212511.27,
+        "month_index": 1,
+        "planned_requirement_usd": 65432291.29,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 135276271.17,
+        "imported_requirement_usd": 14061595.86,
+        "local_requirement_usd": 47905785.82,
+        "month_index": 2,
+        "planned_requirement_usd": 61967381.86,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 197832926.4,
+        "imported_requirement_usd": 13684722.99,
+        "local_requirement_usd": 48871932.25,
+        "month_index": 3,
+        "planned_requirement_usd": 62556655.23,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 267902259.11,
+        "imported_requirement_usd": 15054463.58,
+        "local_requirement_usd": 55014869.61,
+        "month_index": 4,
+        "planned_requirement_usd": 70069332.71,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 321161905.21,
+        "imported_requirement_usd": 10799292.42,
+        "local_requirement_usd": 42460353.91,
+        "month_index": 5,
+        "planned_requirement_usd": 53259646.1,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 337415844.68,
+        "imported_requirement_usd": 3495775.69,
+        "local_requirement_usd": 12758163.69,
+        "month_index": 6,
+        "planned_requirement_usd": 16253939.47,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 344182181.76,
+        "imported_requirement_usd": 1902319.05,
+        "local_requirement_usd": 4864017.9,
+        "month_index": 7,
+        "planned_requirement_usd": 6766337.08,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 351051439.15,
+        "imported_requirement_usd": 1922760.48,
+        "local_requirement_usd": 4946496.71,
+        "month_index": 8,
+        "planned_requirement_usd": 6869257.39,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 355267128.72,
+        "imported_requirement_usd": 1308644.91,
+        "local_requirement_usd": 2907044.52,
+        "month_index": 9,
+        "planned_requirement_usd": 4215689.57,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 359109128.72,
+        "imported_requirement_usd": 1344700.0,
+        "local_requirement_usd": 2497300.0,
+        "month_index": 10,
+        "planned_requirement_usd": 3842000.0,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 362455128.72,
+        "imported_requirement_usd": 1171100.0,
+        "local_requirement_usd": 2174900.0,
+        "month_index": 11,
+        "planned_requirement_usd": 3346000.0,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 366199128.72,
+        "imported_requirement_usd": 1310400.0,
+        "local_requirement_usd": 2433600.0,
+        "month_index": 12,
+        "planned_requirement_usd": 3744000.0,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 368793128.72,
+        "imported_requirement_usd": 907900.0,
+        "local_requirement_usd": 1686100.0,
+        "month_index": 13,
+        "planned_requirement_usd": 2594000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 371267128.72,
+        "imported_requirement_usd": 865900.0,
+        "local_requirement_usd": 1608100.0,
+        "month_index": 14,
+        "planned_requirement_usd": 2474000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 373733128.72,
+        "imported_requirement_usd": 863100.0,
+        "local_requirement_usd": 1602900.0,
+        "month_index": 15,
+        "planned_requirement_usd": 2466000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 376143128.72,
+        "imported_requirement_usd": 843500.0,
+        "local_requirement_usd": 1566500.0,
+        "month_index": 16,
+        "planned_requirement_usd": 2410000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 378543128.72,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 380943128.72,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 18,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 383431128.72,
+        "imported_requirement_usd": 870800.0,
+        "local_requirement_usd": 1617200.0,
+        "month_index": 19,
+        "planned_requirement_usd": 2488000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 386023128.72,
+        "imported_requirement_usd": 907200.0,
+        "local_requirement_usd": 1684800.0,
+        "month_index": 20,
+        "planned_requirement_usd": 2592000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 389667128.72,
+        "imported_requirement_usd": 1275400.0,
+        "local_requirement_usd": 2368600.0,
+        "month_index": 21,
+        "planned_requirement_usd": 3644000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 393215128.72,
+        "imported_requirement_usd": 1241800.0,
+        "local_requirement_usd": 2306200.0,
+        "month_index": 22,
+        "planned_requirement_usd": 3548000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 396839128.72,
+        "imported_requirement_usd": 1268400.0,
+        "local_requirement_usd": 2355600.0,
+        "month_index": 23,
+        "planned_requirement_usd": 3624000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 400263128.72,
+        "imported_requirement_usd": 1198400.0,
+        "local_requirement_usd": 2225600.0,
+        "month_index": 24,
+        "planned_requirement_usd": 3424000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 403871128.72,
+        "imported_requirement_usd": 1262800.0,
+        "local_requirement_usd": 2345200.0,
+        "month_index": 25,
+        "planned_requirement_usd": 3608000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 406743128.72,
+        "imported_requirement_usd": 1005200.0,
+        "local_requirement_usd": 1866800.0,
+        "month_index": 26,
+        "planned_requirement_usd": 2872000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 408071128.72,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 27,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 409379128.72,
+        "imported_requirement_usd": 457800.0,
+        "local_requirement_usd": 850200.0,
+        "month_index": 28,
+        "planned_requirement_usd": 1308000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 410555128.72,
+        "imported_requirement_usd": 411600.0,
+        "local_requirement_usd": 764400.0,
+        "month_index": 29,
+        "planned_requirement_usd": 1176000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 410717128.72,
+        "imported_requirement_usd": 56700.0,
+        "local_requirement_usd": 105300.0,
+        "month_index": 30,
+        "planned_requirement_usd": 162000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 410777128.72,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 31,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 410837128.72,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 32,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 410843128.72,
+        "imported_requirement_usd": 2100.0,
+        "local_requirement_usd": 3900.0,
+        "month_index": 33,
+        "planned_requirement_usd": 6000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 267902259.11,
+      "imported_requirement_usd": 15054463.58,
+      "local_requirement_usd": 55014869.61,
+      "month_index": 4,
+      "planned_requirement_usd": 70069332.71,
+      "project_day_finish": 119,
+      "project_day_start": 90
+    },
+    "total_planned_requirement_usd": 410843128.72
+  },
+  "city": "rajshahi",
+  "critical_path": {
+    "critical_task_count": 118,
+    "critical_task_uids": [
+      "rajshahi:RAJ-SYS-001:sys-00-baseline-freeze",
+      "rajshahi:RAJ-RS-L1-002:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-006:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-010:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-014:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-018:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-022:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-026:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-030:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-034:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-038:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-004:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-008:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-012:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-016:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-020:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L2-024:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-004:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-008:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-012:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-016:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-020:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-024:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L3-028:rs-10-material-kit",
+      "rajshahi:RAJ-RS-L1-001:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-005:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-009:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-013:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-017:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-021:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-025:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-029:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-033:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-037:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-003:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-007:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-011:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-015:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-019:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L2-023:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-003:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-007:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-011:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-015:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-019:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-023:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-027:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L3-031:rs-20-carbody-bogie",
+      "rajshahi:RAJ-RS-L1-006:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-010:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-014:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-018:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-022:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-026:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-030:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-034:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-038:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-004:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-008:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-012:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-016:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-020:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L2-024:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-004:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-008:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-012:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-016:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-020:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-024:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L3-028:rs-30-traction-battery-control",
+      "rajshahi:RAJ-RS-L1-001:rs-40-fitout-static-test",
+      "rajshahi:RAJ-RS-L1-003:rs-40-fitout-static-test",
+      "rajshahi:RAJ-RS-L1-003:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-005:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-007:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-009:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-011:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-013:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-015:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-017:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-019:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-021:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-023:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-025:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-027:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-029:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-031:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-033:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-035:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L1-037:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-001:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-003:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-005:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-007:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-009:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-011:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-013:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-015:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-017:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-019:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-021:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L2-023:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-001:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-003:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-005:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-007:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-009:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-011:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-013:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-015:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-017:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-019:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-021:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-023:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-025:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-027:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-029:rs-50-dynamic-commissioning",
+      "rajshahi:RAJ-RS-L3-031:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 874,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 10596,
+    "pre_ntp_order_actions": 1694,
+    "priced_rows": 9393,
+    "quotation_required_rows": 1203
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-b95eae85f2bab268",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-0c269f8c35e09ba2",
+      "sequence": 1,
+      "source_hash": "6e1f5c6920178991bf412a3c33ba5e7fd7df6fed3d901e0045e77985eb76cdfc"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-b95eae85f2bab268",
+      "sequence": 2,
+      "source_hash": "db48d958acaf15ac985c0cfd0d790f69af101cc9b6c27e54730328636feaac65"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/south-asia/Bangladesh/Rajshahi/design.toml",
+      "sha256": "4f8cdc682156fe663552b1fed893c0782758d2b1037207436a953e5320a20485"
+    },
+    "finance": {
+      "path": "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/finance/summary.json",
+      "sha256": "9b2ad0f47a25f76a39ebfdf88ffeba113d09edb6878e68fe9439a40743a53fc6"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/south-asia/Bangladesh/Rajshahi/rajshahi.toml",
+      "sha256": "b07406c78180f168d3cfb091d6f204b1e37b7016f4a0e2be94abde1de1b13351"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 201,
+    "budget_contracts": 877,
+    "cashflow_months": 34,
+    "critical_work_packages": 118,
+    "planned_capex_usd": 410843128.72,
+    "planned_purchase_orders": 10596,
+    "pre_ntp_order_actions": 1694,
+    "priced_procurement_usd": 64201620.0,
+    "programme_working_days": 874,
+    "work_packages": 876
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 1752
+  }
+}

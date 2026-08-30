@@ -1,6 +1,6 @@
 # RFC 0030 - Manufacturing Schedule System
 
-Status: v1 accepted baseline
+Status: v2 accepted project-twin baseline
 
 ## 1. Decision
 
@@ -22,8 +22,9 @@ The authoritative template is
 [`lib/templates/manufacturing-schedule.toml`](../../lib/templates/manufacturing-schedule.toml).
 The generated, spreadsheet-friendly city outputs are created by
 [`tools/automation/generate-qa-maintenance-data.py`](../../tools/automation/generate-qa-maintenance-data.py).
-They include the schedule, material/BOM control rows, and stage QA
-verification rows.
+They include the schedule, material/BOM control rows, stage QA verification,
+finite resources, CPM, procurement requirements, schedule of values, cashflow
+and visualization events.
 
 ## 2. Why
 
@@ -91,17 +92,15 @@ The baseline schedule uses project-day offsets from notice-to-proceed.
 Those offsets are placeholders until a city baseline is approved; they can
 be converted to real dates in a spreadsheet or future calendar view.
 
-The generator staggers assets by type:
+The accepted dependency graph is scheduled from project day zero into finite
+lanes for each work centre. Capacity is controlled in the same TOML template.
+Resource-lane predecessors are made explicit, then a backward pass calculates
+late dates, total float and critical tasks. Unresolved external decisions are
+reported as baseline release gates instead of silently receiving zero duration.
 
-- depots and production plant start early because they unblock train and
-  site work
-- stations, civil works, and energy work start before heavy train
-  commissioning
-- waypoints and station systems follow civil readiness and bench testing
-- rolling-stock tasks are serialised by trainset number
-
-This creates a useful first-pass production plan without pretending to be a
-resource-levelled Primavera replacement.
+The schedule remains a deterministic planning baseline, not a contractor's
+approved programme. A city must replace planning capacities and calendars with
+its accepted delivery resources before construction release.
 
 ## 5. Work Orders
 
@@ -157,19 +156,15 @@ radio, beacon, intrusion, and section-state functions. They receive:
 Waypoint install packages resolve their track-section predecessor where
 the generated asset relationship identifies the parent track section.
 
-## 8. Not Included
+## 8. Commercial and Actual Records
 
-This is not a full ERP/MES system. The first version does not include:
+The generated twin creates planned order candidates, not issued orders. It
+calculates required-on-site and order-by days, exposes supplier anchors or the
+local-equivalent rule, and marks rows requiring quotations. City CAPEX becomes
+schedule-of-values contracts with task-linked milestone cash requirements.
 
-- material stock decrementing
-- purchase orders
-- labour payroll
-- finite-capacity resource levelling
-- barcoded shop-floor terminals
-- earned-value reporting
-- detailed non-rolling-stock BOM files beyond controlled project-kit refs
-
-Those can be added later if field operations need them. The baseline target
-is simpler: asset-specific manufacturing schedule, controlled material/BOM
-rows, staff tasks, QA verification, work orders, evidence, defects/NCR,
-and SQLite-backed audit.
+Ops Core stores actual-side purchase orders, deliveries, invoices, payments,
+progress updates and project revisions separately. This preserves deterministic
+regeneration while allowing planned-versus-actual comparison. Payroll, stock
+decrementing, tax/customs calculation, bank integration and approved supplier
+terms still require the city's real commercial data.

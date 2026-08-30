@@ -11,6 +11,26 @@ crew_rule = "Crew roles name accountable disciplines, not contractors; local own
 handover_rule = "Closed manufacturing work orders hand over evidence into construction QA, commissioning, and later maintenance records."
 reconciliation = "SQLite is the source of record when available; browser-local records can be merged through Ops Core reconciliation."
 
+# Finite planning capacities used by the deterministic project-twin scheduler.
+# Each task consumes one lane in its named work centre. A city can change these
+# reviewed source values and regenerate to see schedule, order-by and cashflow
+# consequences together.
+[resource_capacity]
+"project controls" = 1
+"rolling stock plant" = 4
+"rolling stock composite moulding cell" = 2
+"rolling stock clip-on body cell" = 2
+"test track / depot" = 2
+"corridor civil crew" = 2
+"track crew" = 2
+"station civil crew" = 2
+"station systems crew" = 2
+"depot works" = 1
+"wayside bench" = 3
+"wayside systems crew" = 3
+"track/switch crew" = 2
+"energy crew" = 2
+
 [civil_production]
 # Quantities come from each line's civil_segments. Durations are calculated
 # from these resource and production-rate controls, never hard-coded per route.

@@ -372,6 +372,7 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/alignment/README.md",
                 city_dir / "engineering/energy/summary.json",
                 city_dir / "engineering/finance/summary.json",
+                city_dir / "engineering/project-twin/summary.json",
                 city_dir / "engineering/gis/summary.json",
                 city_dir / "engineering/ring-interchange-summary.json",
                 city_dir / "engineering/station-cluster-summary.json",

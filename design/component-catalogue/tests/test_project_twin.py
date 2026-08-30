@@ -1,0 +1,124 @@
+"""The city project twin connects CPM, orders, cashflow and persisted actuals."""
+
+from __future__ import annotations
+
+import importlib.util
+from pathlib import Path
+import sqlite3
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "tools/automation"))
+
+from project_twin import apply_resource_cpm, build_project_twin  # noqa: E402
+
+
+def _task(uid: str, *, predecessor: str = "") -> dict:
+    return {
+        "manufacturing_uid": uid,
+        "asset_id": uid.split(":")[0],
+        "asset_type": "rolling-stock",
+        "package_id": uid.split(":")[-1],
+        "work_center": "test cell",
+        "duration_days": 2,
+        "predecessor_uids": predecessor,
+        "external_predecessors": "",
+        "work_order_title": uid,
+    }
+
+
+def test_resource_cpm_assigns_lanes_and_calculates_float() -> None:
+    rows = [_task("a:p"), _task("b:p"), _task("c:q", predecessor="a:p")]
+    result = apply_resource_cpm(rows, {"test cell": 1})
+
+    assert result["programme_working_days"] == 6
+    assert [row["planned_start_day"] for row in rows] == [0, 2, 4]
+    assert rows[1]["resource_predecessor_uid"] == "a:p"
+    assert rows[2]["resource_predecessor_uid"] == "b:p"
+    assert all(row["total_float_days"] == 0 for row in rows)
+    assert all(row["is_critical"] for row in rows)
+
+
+def test_twin_reconciles_capex_deduplicates_orders_and_is_deterministic(tmp_path: Path) -> None:
+    design = tmp_path / "design.toml"
+    scenario = tmp_path / "city.toml"
+    finance = tmp_path / "summary.json"
+    for path, value in ((design, "[city]\nslug='test'\n"), (scenario, "[scenario]\n"), (finance, "{}\n")):
+        path.write_text(value, encoding="utf-8")
+    tasks = [_task("TRAIN-1:kit")]
+    materials = [
+        {
+            "manufacturing_uid": "TRAIN-1:kit",
+            "asset_id": "TRAIN-1",
+            "bom_source": "rolling_stock_bom",
+            "bom_ref": "T1",
+            "description": "traction motor",
+            "quantity_basis": "4",
+            "make_buy_source": "BID",
+            "base_usd": "25000",
+            "supplier_anchor_id": "ANCHOR-MOTOR",
+            "supplier_name": "reference supplier",
+            "supplier_family": "motor family",
+        },
+        {
+            "manufacturing_uid": "TRAIN-1:kit",
+            "asset_id": "TRAIN-1",
+            "bom_source": "rolling_stock_bom",
+            "bom_ref": "T1",
+            "description": "traction motor",
+            "quantity_basis": "4",
+            "make_buy_source": "BID",
+            "base_usd": "25000",
+        },
+    ]
+    kwargs = {
+        "meta": {"city_slug": "test"},
+        "assets": [{"asset_id": "TRAIN-1"}],
+        "manufacturing_tasks": tasks,
+        "manufacturing_materials": materials,
+        "finance": {
+            "capex_usd": {
+                "reconciled_project_total": 100_000.0,
+                "procurement_origin_buckets": [
+                    {"bucket": "rolling_stock", "total_usd": 100_000.0, "local_share": 0.6, "imported_share": 0.4}
+                ],
+            }
+        },
+        "source_paths": {"design": design, "scenario": scenario, "finance": finance},
+        "resource_capacity": {"test cell": 1},
+    }
+    first = build_project_twin(**kwargs)
+    second = build_project_twin(**kwargs)
+
+    assert first["revision_id"] == second["revision_id"]
+    assert len(first["purchase_orders"]) == 1
+    assert first["purchase_orders"][0]["order_by_day"] == -150
+    assert sum(row["budget_usd"] for row in first["budget_contracts"]) == 100_000.0
+    assert sum(row["planned_requirement_usd"] for row in first["cashflow"]["monthly_requirements"]) == 100_000.0
+    assert len(first["visualization_timeline"]) == 2
+
+
+def test_ops_core_round_trips_project_actuals(tmp_path: Path) -> None:
+    spec = importlib.util.spec_from_file_location(
+        "ops_core_server", ROOT / "tools/automation/ops-core-server.py"
+    )
+    assert spec and spec.loader
+    server = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(server)
+    db = tmp_path / "ops.sqlite3"
+    with sqlite3.connect(db) as raw:
+        raw.row_factory = sqlite3.Row
+        server.init_db(raw)
+        state = server.empty_state()
+        state["purchaseOrders"] = [
+            {"id": "PO-00001", "status": "draft-not-issued", "effective_at": "2026-01-01T00:00:00Z"}
+        ]
+        state["invoices"] = [{"id": "INV-00001", "status": "received"}]
+        state["progressUpdates"] = [{"id": "PROG-00001", "status": "reported", "percent": 25}]
+        server.save_state(raw, "test", state)
+        restored = server.load_state(raw, "test")
+
+    assert restored["purchaseOrders"][0]["id"] == "PO-00001"
+    assert restored["invoices"][0]["id"] == "INV-00001"
+    assert restored["progressUpdates"][0]["percent"] == 25

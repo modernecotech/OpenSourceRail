@@ -20,6 +20,7 @@
 
   <nav class="tabs" aria-label="Operations portal tabs">
     <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="projectTwin">Project Twin</button>
     <button class="tab" data-tab="core">Ops Core</button>
     <button class="tab" data-tab="qa">QA Gates</button>
     <button class="tab" data-tab="manufacturing">Manufacturing</button>
@@ -56,6 +57,41 @@
           <div id="qaChart" class="bar-list"></div>
         </section>
       </div>
+    </section>
+
+    <section class="panel" id="projectTwin">
+      <div class="metrics" id="twinMetrics"></div>
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Critical Path and Project Baseline</h2>
+          <button class="text-button" data-export="twin-work">Export Work</button>
+        </div>
+        <div id="twinBaseline" class="reconcile-grid"></div>
+      </section>
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Schedule-linked Cash Requirements</h2>
+          <button class="text-button" data-export="twin-cashflow">Export Cashflow</button>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead><tr><th>Month</th><th>Project days</th><th>Requirement</th><th>Local</th><th>Imported</th><th>Cumulative</th></tr></thead>
+            <tbody id="twinCashflowTable"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Order Plan</h2>
+          <button class="text-button" data-export="twin-orders">Export Orders</button>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead><tr><th>Order</th><th>Asset / Item</th><th>Supplier basis</th><th>Order by</th><th>Required by</th><th>Planning cost</th><th>Action</th></tr></thead>
+            <tbody id="twinOrderTable"></tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
     <section class="panel" id="core">

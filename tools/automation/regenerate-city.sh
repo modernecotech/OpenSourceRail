@@ -19,7 +19,7 @@
 #   4. Emit the simulator scenario via `osr_scenario`.
 #   5. Render the network map PNG via `osr_scenario.render_map`.
 #   6. Generate and run the city-local SUMO, QGIS and energy screening.
-#   7. Generate finance and operations evidence.
+#   7. Generate finance, project-twin, procurement, cashflow and operations evidence.
 #   8. Emit the per-network README via `osr_scenario.network_readme`.
 #   9. Print summary stats and run the design-quality drift tests.
 #  10. Fail closed through a hashed planning-package manifest.
@@ -159,7 +159,7 @@ echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simu
 "$PYTHON" "$REPO/tools/automation/render-sim-screenshots.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml"
 
-echo "7) operations package → $DESIGN_DIR/operations/"
+echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engineering/project-twin/"
 "$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \
@@ -188,6 +188,7 @@ echo "Done. Output:"
 echo "  $DESIGN_DIR/"
 echo "  README.md, design.toml, $SLUG.toml, $SLUG-network-map.png,"
 echo "  $SLUG.corridor.geojson, $SLUG.stations.json, $SLUG.design-quality.yaml"
-echo "  operations/ (asset, manufacturing, QA, maintenance, and acceptance data)"
+echo "  operations/ (asset, CPM, orders, cashflow, QA, maintenance, and acceptance data)"
+echo "  engineering/project-twin/summary.json (compact Git-reviewable delivery twin)"
 echo "  engineering/ (alignment, SUMO, QGIS/GDAL, energy, simulation, screenshots, finance)"
 echo "  package-manifest.json (hashed screening-package completeness gate)"

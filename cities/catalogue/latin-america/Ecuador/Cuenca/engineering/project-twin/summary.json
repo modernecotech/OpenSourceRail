@@ -1,0 +1,877 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 2150000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 196560294.0,
+      "work_packages": 63
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 31342867.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 152100000.0,
+      "work_packages": 1183
+    },
+    "signalling": {
+      "budget_usd": 3544948.0,
+      "work_packages": 154
+    },
+    "solar_plant": {
+      "budget_usd": 72048598.94,
+      "work_packages": 40
+    },
+    "stations": {
+      "budget_usd": 85400000.0,
+      "work_packages": 48
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 8104204.36,
+        "imported_requirement_usd": 1892167.11,
+        "local_requirement_usd": 6212037.16,
+        "month_index": 0,
+        "planned_requirement_usd": 8104204.36,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 74644561.38,
+        "imported_requirement_usd": 15454945.99,
+        "local_requirement_usd": 51085411.35,
+        "month_index": 1,
+        "planned_requirement_usd": 66540357.02,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 124569300.92,
+        "imported_requirement_usd": 13368381.93,
+        "local_requirement_usd": 36556357.93,
+        "month_index": 2,
+        "planned_requirement_usd": 49924739.54,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 180151332.1,
+        "imported_requirement_usd": 13691180.35,
+        "local_requirement_usd": 41890850.85,
+        "month_index": 3,
+        "planned_requirement_usd": 55582031.18,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 232423419.62,
+        "imported_requirement_usd": 13232528.29,
+        "local_requirement_usd": 39039559.59,
+        "month_index": 4,
+        "planned_requirement_usd": 52272087.52,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 295218935.99,
+        "imported_requirement_usd": 14787671.22,
+        "local_requirement_usd": 48007845.48,
+        "month_index": 5,
+        "planned_requirement_usd": 62795516.37,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 342802934.85,
+        "imported_requirement_usd": 9468851.04,
+        "local_requirement_usd": 38115147.86,
+        "month_index": 6,
+        "planned_requirement_usd": 47583998.86,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 377836377.21,
+        "imported_requirement_usd": 6536802.93,
+        "local_requirement_usd": 28496639.41,
+        "month_index": 7,
+        "planned_requirement_usd": 35033442.36,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 404571055.7,
+        "imported_requirement_usd": 5046893.99,
+        "local_requirement_usd": 21687784.57,
+        "month_index": 8,
+        "planned_requirement_usd": 26734678.49,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 421524974.88,
+        "imported_requirement_usd": 3410685.12,
+        "local_requirement_usd": 13543233.89,
+        "month_index": 9,
+        "planned_requirement_usd": 16953919.18,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 426611646.56,
+        "imported_requirement_usd": 1479444.21,
+        "local_requirement_usd": 3607227.27,
+        "month_index": 10,
+        "planned_requirement_usd": 5086671.68,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 431598824.9,
+        "imported_requirement_usd": 1491803.4,
+        "local_requirement_usd": 3495374.83,
+        "month_index": 11,
+        "planned_requirement_usd": 4987178.34,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 435858707.94,
+        "imported_requirement_usd": 1342663.05,
+        "local_requirement_usd": 2917219.92,
+        "month_index": 12,
+        "planned_requirement_usd": 4259883.04,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 439554707.94,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 13,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 443058707.94,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 14,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 446754707.94,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 15,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 450258707.94,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 16,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 453954707.94,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 17,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 457458707.94,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 18,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 461154707.94,
+        "imported_requirement_usd": 1293600.0,
+        "local_requirement_usd": 2402400.0,
+        "month_index": 19,
+        "planned_requirement_usd": 3696000.0,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 464658707.94,
+        "imported_requirement_usd": 1226400.0,
+        "local_requirement_usd": 2277600.0,
+        "month_index": 20,
+        "planned_requirement_usd": 3504000.0,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 468278707.94,
+        "imported_requirement_usd": 1267000.0,
+        "local_requirement_usd": 2353000.0,
+        "month_index": 21,
+        "planned_requirement_usd": 3620000.0,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 471434707.94,
+        "imported_requirement_usd": 1104600.0,
+        "local_requirement_usd": 2051400.0,
+        "month_index": 22,
+        "planned_requirement_usd": 3156000.0,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 473906707.94,
+        "imported_requirement_usd": 865200.0,
+        "local_requirement_usd": 1606800.0,
+        "month_index": 23,
+        "planned_requirement_usd": 2472000.0,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 476354707.94,
+        "imported_requirement_usd": 856800.0,
+        "local_requirement_usd": 1591200.0,
+        "month_index": 24,
+        "planned_requirement_usd": 2448000.0,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 478806707.94,
+        "imported_requirement_usd": 858200.0,
+        "local_requirement_usd": 1593800.0,
+        "month_index": 25,
+        "planned_requirement_usd": 2452000.0,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 481206707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 26,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 483606707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 27,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 486006707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 28,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 488406707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 29,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 490806707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 30,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 493206707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 31,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 495606707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 32,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 498006707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 33,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 500406707.94,
+        "imported_requirement_usd": 840000.0,
+        "local_requirement_usd": 1560000.0,
+        "month_index": 34,
+        "planned_requirement_usd": 2400000.0,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 502838707.94,
+        "imported_requirement_usd": 851200.0,
+        "local_requirement_usd": 1580800.0,
+        "month_index": 35,
+        "planned_requirement_usd": 2432000.0,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 505710707.94,
+        "imported_requirement_usd": 1005200.0,
+        "local_requirement_usd": 1866800.0,
+        "month_index": 36,
+        "planned_requirement_usd": 2872000.0,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 509402707.94,
+        "imported_requirement_usd": 1292200.0,
+        "local_requirement_usd": 2399800.0,
+        "month_index": 37,
+        "planned_requirement_usd": 3692000.0,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 512726707.94,
+        "imported_requirement_usd": 1163400.0,
+        "local_requirement_usd": 2160600.0,
+        "month_index": 38,
+        "planned_requirement_usd": 3324000.0,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 516382707.94,
+        "imported_requirement_usd": 1279600.0,
+        "local_requirement_usd": 2376400.0,
+        "month_index": 39,
+        "planned_requirement_usd": 3656000.0,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 519950707.94,
+        "imported_requirement_usd": 1248800.0,
+        "local_requirement_usd": 2319200.0,
+        "month_index": 40,
+        "planned_requirement_usd": 3568000.0,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 523710707.94,
+        "imported_requirement_usd": 1316000.0,
+        "local_requirement_usd": 2444000.0,
+        "month_index": 41,
+        "planned_requirement_usd": 3760000.0,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 527102707.94,
+        "imported_requirement_usd": 1187200.0,
+        "local_requirement_usd": 2204800.0,
+        "month_index": 42,
+        "planned_requirement_usd": 3392000.0,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 530782707.94,
+        "imported_requirement_usd": 1288000.0,
+        "local_requirement_usd": 2392000.0,
+        "month_index": 43,
+        "planned_requirement_usd": 3680000.0,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      },
+      {
+        "cumulative_requirement_usd": 534350707.94,
+        "imported_requirement_usd": 1248800.0,
+        "local_requirement_usd": 2319200.0,
+        "month_index": 44,
+        "planned_requirement_usd": 3568000.0,
+        "project_day_finish": 1319,
+        "project_day_start": 1290
+      },
+      {
+        "cumulative_requirement_usd": 538110707.94,
+        "imported_requirement_usd": 1316000.0,
+        "local_requirement_usd": 2444000.0,
+        "month_index": 45,
+        "planned_requirement_usd": 3760000.0,
+        "project_day_finish": 1349,
+        "project_day_start": 1320
+      },
+      {
+        "cumulative_requirement_usd": 541374707.94,
+        "imported_requirement_usd": 1142400.0,
+        "local_requirement_usd": 2121600.0,
+        "month_index": 46,
+        "planned_requirement_usd": 3264000.0,
+        "project_day_finish": 1379,
+        "project_day_start": 1350
+      },
+      {
+        "cumulative_requirement_usd": 544166707.94,
+        "imported_requirement_usd": 977200.0,
+        "local_requirement_usd": 1814800.0,
+        "month_index": 47,
+        "planned_requirement_usd": 2792000.0,
+        "project_day_finish": 1409,
+        "project_day_start": 1380
+      },
+      {
+        "cumulative_requirement_usd": 545494707.94,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 48,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 1439,
+        "project_day_start": 1410
+      },
+      {
+        "cumulative_requirement_usd": 546822707.94,
+        "imported_requirement_usd": 464800.0,
+        "local_requirement_usd": 863200.0,
+        "month_index": 49,
+        "planned_requirement_usd": 1328000.0,
+        "project_day_finish": 1469,
+        "project_day_start": 1440
+      },
+      {
+        "cumulative_requirement_usd": 548110707.94,
+        "imported_requirement_usd": 450800.0,
+        "local_requirement_usd": 837200.0,
+        "month_index": 50,
+        "planned_requirement_usd": 1288000.0,
+        "project_day_finish": 1499,
+        "project_day_start": 1470
+      },
+      {
+        "cumulative_requirement_usd": 549310707.94,
+        "imported_requirement_usd": 420000.0,
+        "local_requirement_usd": 780000.0,
+        "month_index": 51,
+        "planned_requirement_usd": 1200000.0,
+        "project_day_finish": 1529,
+        "project_day_start": 1500
+      },
+      {
+        "cumulative_requirement_usd": 550426707.94,
+        "imported_requirement_usd": 390600.0,
+        "local_requirement_usd": 725400.0,
+        "month_index": 52,
+        "planned_requirement_usd": 1116000.0,
+        "project_day_finish": 1559,
+        "project_day_start": 1530
+      },
+      {
+        "cumulative_requirement_usd": 550996707.94,
+        "imported_requirement_usd": 199500.0,
+        "local_requirement_usd": 370500.0,
+        "month_index": 53,
+        "planned_requirement_usd": 570000.0,
+        "project_day_finish": 1589,
+        "project_day_start": 1560
+      },
+      {
+        "cumulative_requirement_usd": 551056707.94,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 54,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1619,
+        "project_day_start": 1590
+      },
+      {
+        "cumulative_requirement_usd": 551116707.94,
+        "imported_requirement_usd": 21000.0,
+        "local_requirement_usd": 39000.0,
+        "month_index": 55,
+        "planned_requirement_usd": 60000.0,
+        "project_day_finish": 1649,
+        "project_day_start": 1620
+      },
+      {
+        "cumulative_requirement_usd": 551146707.94,
+        "imported_requirement_usd": 10500.0,
+        "local_requirement_usd": 19500.0,
+        "month_index": 56,
+        "planned_requirement_usd": 30000.0,
+        "project_day_finish": 1679,
+        "project_day_start": 1650
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 74644561.38,
+      "imported_requirement_usd": 15454945.99,
+      "local_requirement_usd": 51085411.35,
+      "month_index": 1,
+      "planned_requirement_usd": 66540357.02,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 551146707.94
+  },
+  "city": "cuenca",
+  "critical_path": {
+    "critical_task_count": 213,
+    "critical_task_uids": [
+      "cuenca:CUE-SYS-001:sys-00-baseline-freeze",
+      "cuenca:CUE-RS-L1-002:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-006:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-010:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-014:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-018:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-022:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-026:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-030:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-034:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-038:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-042:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-046:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-050:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-054:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-058:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-001:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-005:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-009:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-013:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-017:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-021:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-025:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-029:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-033:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-037:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-041:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-045:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-049:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-053:rs-10-material-kit",
+      "cuenca:CUE-RS-L2-057:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-003:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-007:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-011:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-015:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-019:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-023:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-027:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-031:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-035:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-039:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-043:rs-10-material-kit",
+      "cuenca:CUE-RS-L3-047:rs-10-material-kit",
+      "cuenca:CUE-RS-L1-001:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-005:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-009:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-013:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-017:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-021:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-025:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-029:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-033:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-037:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-041:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-045:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-049:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-053:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-057:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-061:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-004:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-008:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-012:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-016:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-020:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-024:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-028:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-032:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-036:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-040:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-044:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-048:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-052:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L2-056:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-002:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-006:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-010:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-014:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-018:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-022:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-026:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-030:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-034:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-038:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-042:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-046:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L3-050:rs-20-carbody-bogie",
+      "cuenca:CUE-RS-L1-006:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-010:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-014:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-018:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-022:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-026:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-030:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-034:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-038:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-042:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-046:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-050:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-054:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-058:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-001:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-005:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-009:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-013:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-017:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-021:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-025:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-029:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-033:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-037:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-041:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-045:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-049:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-053:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L2-057:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-003:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-007:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-011:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-015:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-019:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-023:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-027:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-031:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-035:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-039:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-043:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L3-047:rs-30-traction-battery-control",
+      "cuenca:CUE-RS-L1-001:rs-40-fitout-static-test",
+      "cuenca:CUE-RS-L1-003:rs-40-fitout-static-test",
+      "cuenca:CUE-RS-L1-003:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-005:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-007:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-009:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-011:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-013:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-015:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-017:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-019:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-021:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-023:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-025:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-027:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-029:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-031:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-033:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-035:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-037:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-039:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-041:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-043:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-045:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-047:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-049:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-051:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-053:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-055:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-057:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-059:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L1-061:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-002:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-004:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-006:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-008:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-010:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-012:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-014:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-016:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-018:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-020:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-022:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-024:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-026:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-028:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-030:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-032:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-034:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-036:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-038:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-040:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-042:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-044:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-046:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-048:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-050:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-052:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-054:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-056:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L2-058:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-002:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-004:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-006:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-008:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-010:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-012:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-014:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-016:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-018:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-020:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-022:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-024:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-026:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-028:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-030:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-032:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-034:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-036:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-038:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-040:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-042:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-044:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-046:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-048:rs-50-dynamic-commissioning",
+      "cuenca:CUE-RS-L3-050:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1577,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 18796,
+    "pre_ntp_order_actions": 2008,
+    "priced_rows": 17069,
+    "quotation_required_rows": 1727
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-1cd5e5a7cc5bfdc1",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-6e475c4e6c0a533b",
+      "sequence": 1,
+      "source_hash": "aa178cf0bbe67ffb92e9fc087b5eb3d55f6c72e62e7950f9c1b5c400838f2ab7"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-1cd5e5a7cc5bfdc1",
+      "sequence": 2,
+      "source_hash": "1960bfd29b73d848b1b8af6516fa5201bd3f3cfb28f4646cea3e2ad6ce128748"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/latin-america/Ecuador/Cuenca/design.toml",
+      "sha256": "99342c6681c36c39d7652027773b32c94d2a6e6780d0539dab62b36aa69b829c"
+    },
+    "finance": {
+      "path": "cities/catalogue/latin-america/Ecuador/Cuenca/engineering/finance/summary.json",
+      "sha256": "5ec93767b366c0a6800a46a70c6476391017b381acf3c1d763a27d84ef2a871e"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/latin-america/Ecuador/Cuenca/cuenca.toml",
+      "sha256": "62e275a95c5732c66941d8fd9d5674dc7e71e468857a3c507d86d7571041bf93"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 314,
+    "budget_contracts": 1493,
+    "cashflow_months": 57,
+    "critical_work_packages": 213,
+    "planned_capex_usd": 551146707.94,
+    "planned_purchase_orders": 18796,
+    "pre_ntp_order_actions": 2008,
+    "priced_procurement_usd": 116667460.0,
+    "programme_working_days": 1577,
+    "work_packages": 1492
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2984
+  }
+}

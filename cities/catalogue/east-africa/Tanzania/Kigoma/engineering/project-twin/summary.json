@@ -1,0 +1,596 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 1850000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 93442358.0,
+      "work_packages": 42
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 15480409.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 42560000.0,
+      "work_packages": 532
+    },
+    "signalling": {
+      "budget_usd": 1796339.0,
+      "work_packages": 98
+    },
+    "solar_plant": {
+      "budget_usd": 18649073.07,
+      "work_packages": 34
+    },
+    "stations": {
+      "budget_usd": 73500000.0,
+      "work_packages": 34
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 6012138.88,
+        "imported_requirement_usd": 1260778.82,
+        "local_requirement_usd": 4751360.05,
+        "month_index": 0,
+        "planned_requirement_usd": 6012138.88,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 50818606.45,
+        "imported_requirement_usd": 9473292.64,
+        "local_requirement_usd": 35333175.39,
+        "month_index": 1,
+        "planned_requirement_usd": 44806467.57,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 97434019.32,
+        "imported_requirement_usd": 9854206.03,
+        "local_requirement_usd": 36761206.85,
+        "month_index": 2,
+        "planned_requirement_usd": 46615412.87,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 144685685.41,
+        "imported_requirement_usd": 9587181.69,
+        "local_requirement_usd": 37664484.3,
+        "month_index": 3,
+        "planned_requirement_usd": 47251666.09,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 189463476.62,
+        "imported_requirement_usd": 9282316.21,
+        "local_requirement_usd": 35495475.0,
+        "month_index": 4,
+        "planned_requirement_usd": 44777791.21,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 215089606.35,
+        "imported_requirement_usd": 5414627.28,
+        "local_requirement_usd": 20211502.52,
+        "month_index": 5,
+        "planned_requirement_usd": 25626129.73,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 219713513.56,
+        "imported_requirement_usd": 1297487.36,
+        "local_requirement_usd": 3326419.85,
+        "month_index": 6,
+        "planned_requirement_usd": 4623907.21,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 224328590.17,
+        "imported_requirement_usd": 1228004.33,
+        "local_requirement_usd": 3387072.28,
+        "month_index": 7,
+        "planned_requirement_usd": 4615076.61,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 228388519.31,
+        "imported_requirement_usd": 1155251.04,
+        "local_requirement_usd": 2904678.11,
+        "month_index": 8,
+        "planned_requirement_usd": 4059929.14,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 230468933.71,
+        "imported_requirement_usd": 728287.27,
+        "local_requirement_usd": 1352127.13,
+        "month_index": 9,
+        "planned_requirement_usd": 2080414.4,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 232852044.65,
+        "imported_requirement_usd": 834088.78,
+        "local_requirement_usd": 1549022.16,
+        "month_index": 10,
+        "planned_requirement_usd": 2383110.94,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 234395155.59,
+        "imported_requirement_usd": 540088.8,
+        "local_requirement_usd": 1003022.14,
+        "month_index": 11,
+        "planned_requirement_usd": 1543110.94,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 235934533.23,
+        "imported_requirement_usd": 538782.12,
+        "local_requirement_usd": 1000595.52,
+        "month_index": 12,
+        "planned_requirement_usd": 1539377.64,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 237481377.51,
+        "imported_requirement_usd": 541395.48,
+        "local_requirement_usd": 1005448.8,
+        "month_index": 13,
+        "planned_requirement_usd": 1546844.28,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 238975955.11,
+        "imported_requirement_usd": 523102.16,
+        "local_requirement_usd": 971475.44,
+        "month_index": 14,
+        "planned_requirement_usd": 1494577.6,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 240469288.27,
+        "imported_requirement_usd": 522666.6,
+        "local_requirement_usd": 970666.56,
+        "month_index": 15,
+        "planned_requirement_usd": 1493333.16,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 242032310.47,
+        "imported_requirement_usd": 547057.84,
+        "local_requirement_usd": 1015964.36,
+        "month_index": 16,
+        "planned_requirement_usd": 1563022.2,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 244038355.13,
+        "imported_requirement_usd": 702115.66,
+        "local_requirement_usd": 1303929.0,
+        "month_index": 17,
+        "planned_requirement_usd": 2006044.66,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 246335599.81,
+        "imported_requirement_usd": 804035.64,
+        "local_requirement_usd": 1493209.04,
+        "month_index": 18,
+        "planned_requirement_usd": 2297244.68,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 248374000.01,
+        "imported_requirement_usd": 713440.04,
+        "local_requirement_usd": 1324960.16,
+        "month_index": 19,
+        "planned_requirement_usd": 2038400.2,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 250678711.39,
+        "imported_requirement_usd": 806648.94,
+        "local_requirement_usd": 1498062.44,
+        "month_index": 20,
+        "planned_requirement_usd": 2304711.38,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 252739511.57,
+        "imported_requirement_usd": 721279.98,
+        "local_requirement_usd": 1339520.2,
+        "month_index": 21,
+        "planned_requirement_usd": 2060800.18,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 253685289.43,
+        "imported_requirement_usd": 331022.14,
+        "local_requirement_usd": 614755.72,
+        "month_index": 22,
+        "planned_requirement_usd": 945777.86,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 254496667.34,
+        "imported_requirement_usd": 283982.19,
+        "local_requirement_usd": 527395.72,
+        "month_index": 23,
+        "planned_requirement_usd": 811377.91,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 255146268.01,
+        "imported_requirement_usd": 227360.21,
+        "local_requirement_usd": 422240.46,
+        "month_index": 24,
+        "planned_requirement_usd": 649600.67,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 255203512.43,
+        "imported_requirement_usd": 20035.58,
+        "local_requirement_usd": 37208.84,
+        "month_index": 25,
+        "planned_requirement_usd": 57244.42,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 255240845.73,
+        "imported_requirement_usd": 13066.7,
+        "local_requirement_usd": 24266.6,
+        "month_index": 26,
+        "planned_requirement_usd": 37333.3,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 255278179.07,
+        "imported_requirement_usd": 13066.71,
+        "local_requirement_usd": 24266.63,
+        "month_index": 27,
+        "planned_requirement_usd": 37333.34,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 144685685.41,
+      "imported_requirement_usd": 9587181.69,
+      "local_requirement_usd": 37664484.3,
+      "month_index": 3,
+      "planned_requirement_usd": 47251666.09,
+      "project_day_finish": 89,
+      "project_day_start": 60
+    },
+    "total_planned_requirement_usd": 255278179.07
+  },
+  "city": "kigoma",
+  "critical_path": {
+    "critical_task_count": 193,
+    "critical_task_uids": [
+      "kigoma:KIG-SYS-001:sys-00-baseline-freeze",
+      "kigoma:KIG-RS-L1-001:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-002:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-005:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-006:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-009:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-010:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-013:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-014:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-017:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-018:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-021:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-022:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-025:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-026:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-003:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-004:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-007:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-008:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-011:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-012:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-015:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-016:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-019:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-020:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-023:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-024:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-027:rs-10-material-kit",
+      "kigoma:KIG-RS-L2-028:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-001:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-002:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-005:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-006:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-009:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-010:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-013:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-014:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-017:rs-10-material-kit",
+      "kigoma:KIG-RS-L3-018:rs-10-material-kit",
+      "kigoma:KIG-RS-L1-001:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-002:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-005:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-006:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-009:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-010:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-013:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-014:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-017:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-018:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-021:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-022:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-025:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-026:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-003:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-004:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-007:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-008:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-011:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-012:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-015:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-016:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-019:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-020:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-023:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-024:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-027:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L2-028:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-001:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-002:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-005:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-006:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-009:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-010:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-013:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-014:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-017:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L3-018:rs-20-carbody-bogie",
+      "kigoma:KIG-RS-L1-001:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-002:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-005:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-006:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-009:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-010:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-013:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-014:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-017:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-018:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-021:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-022:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-025:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-026:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-003:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-004:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-007:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-008:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-011:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-012:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-015:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-016:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-019:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-020:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-023:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-024:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-027:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L2-028:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-001:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-002:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-005:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-006:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-009:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-010:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-013:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-014:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-017:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L3-018:rs-30-traction-battery-control",
+      "kigoma:KIG-RS-L1-001:rs-40-fitout-static-test",
+      "kigoma:KIG-RS-L1-002:rs-40-fitout-static-test",
+      "kigoma:KIG-RS-L1-001:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-002:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-003:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-004:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-005:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-006:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-007:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-008:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-009:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-010:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-011:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-012:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-013:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-014:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-015:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-016:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-017:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-018:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-019:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-020:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-021:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-022:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-023:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-024:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-025:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L1-026:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-001:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-002:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-003:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-004:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-005:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-006:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-007:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-008:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-009:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-010:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-011:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-012:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-013:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-014:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-015:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-016:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-017:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-018:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-019:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-020:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-021:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-022:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-023:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-024:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-025:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-026:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-027:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-028:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-029:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L2-030:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-001:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-002:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-003:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-004:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-005:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-006:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-007:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-008:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-009:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-010:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-011:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-012:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-013:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-014:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-015:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-016:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-017:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-018:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-019:rs-50-dynamic-commissioning",
+      "kigoma:KIG-RS-L3-020:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 716,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 8788,
+    "pre_ntp_order_actions": 1615,
+    "priced_rows": 7676,
+    "quotation_required_rows": 1112
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-cf6f2cbdd7785ed4",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-a7242a99300bdf6c",
+      "sequence": 1,
+      "source_hash": "4a4c3b2a6abc53c783e135e0eb57400fa8e40d1f1ae03dc126ecd08192465252"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-cf6f2cbdd7785ed4",
+      "sequence": 2,
+      "source_hash": "6e5c7f44561280001d221a5a5e9014f99879f37b722408206b275129ee938e8f"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/east-africa/Tanzania/Kigoma/design.toml",
+      "sha256": "b494e93fd302eb1d634a0188ef6d7c063837f52af9362a2635b9d034ec122939"
+    },
+    "finance": {
+      "path": "cities/catalogue/east-africa/Tanzania/Kigoma/engineering/finance/summary.json",
+      "sha256": "069bd90bd5c27ad9d72c2c40813a7a745004274161c2a2038c1fcc82d12424f1"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/east-africa/Tanzania/Kigoma/kigoma.toml",
+      "sha256": "94e3db8797a3fd645578dfe2811fd3ba8bafe476015f4ffda493cd0b7f82c67c"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 176,
+    "budget_contracts": 745,
+    "cashflow_months": 28,
+    "critical_work_packages": 193,
+    "planned_capex_usd": 255278179.07,
+    "planned_purchase_orders": 8788,
+    "pre_ntp_order_actions": 1615,
+    "priced_procurement_usd": 52465840.0,
+    "programme_working_days": 716,
+    "work_packages": 744
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 1488
+  }
+}

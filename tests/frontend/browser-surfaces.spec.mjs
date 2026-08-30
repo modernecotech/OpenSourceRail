@@ -106,12 +106,18 @@ test("operations portal loads every tab and persists an Ops Core work order", as
   await expect(page.locator("#metrics .metric")).toHaveCount(8);
 
   for (const tab of [
-    "dashboard", "core", "qa", "manufacturing", "maintenance", "assets",
+    "dashboard", "projectTwin", "core", "qa", "manufacturing", "maintenance", "assets",
     "occ", "simulator", "backoffice",
   ]) {
     await page.locator(`.tab[data-tab="${tab}"]`).click();
     await expect(page.locator(`#${tab}`)).toHaveClass(/active/);
   }
+
+  await page.locator('.tab[data-tab="projectTwin"]').click();
+  await expect(page.locator("#twinMetrics .metric")).toHaveCount(6);
+  await expect(page.locator("#twinCashflowTable tr").first()).toBeVisible();
+  await page.locator("#twinOrderTable [data-adopt-purchase-order]").first().click();
+  await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]").first()).toHaveText("Adopted");
 
   await page.locator('.tab[data-tab="core"]').click();
   const asset = await page.locator("#coreAssetOptions option").first().getAttribute("value");
@@ -126,5 +132,7 @@ test("operations portal loads every tab and persists an Ops Core work order", as
   await expect(page.locator("#cityName")).toHaveText("Samawah");
   await page.locator('.tab[data-tab="core"]').click();
   await expect(page.locator("#coreWorkTable")).toContainText("Deterministic Playwright inspection");
+  await page.locator('.tab[data-tab="projectTwin"]').click();
+  await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]").first()).toHaveText("Adopted");
   expect(failures).toEqual([]);
 });

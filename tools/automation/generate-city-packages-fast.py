@@ -110,6 +110,7 @@ def repository_review_artifacts(slug: str, design_path: Path) -> list[Path]:
         engineering / "alignment/README.md",
         engineering / "energy/summary.json",
         engineering / "finance/summary.json",
+        engineering / "project-twin/summary.json",
         engineering / "gis/summary.json",
         engineering / "ring-interchange-summary.json",
         engineering / "screenshots/manifest.json",

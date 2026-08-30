@@ -1,0 +1,707 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 13500000.0,
+      "work_packages": 1
+    },
+    "civil": {
+      "budget_usd": 429291374.0,
+      "work_packages": 111
+    },
+    "depots": {
+      "budget_usd": 8000000.0,
+      "work_packages": 3
+    },
+    "epc_overhead": {
+      "budget_usd": 59161555.0,
+      "work_packages": 1
+    },
+    "rolling_stock": {
+      "budget_usd": 142240000.0,
+      "work_packages": 889
+    },
+    "signalling": {
+      "budget_usd": 6033695.0,
+      "work_packages": 208
+    },
+    "solar_plant": {
+      "budget_usd": 96851912.19,
+      "work_packages": 80
+    },
+    "stations": {
+      "budget_usd": 246100000.0,
+      "work_packages": 82
+    }
+  },
+  "cashflow": {
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 12772918.65,
+        "imported_requirement_usd": 2792259.49,
+        "local_requirement_usd": 9980659.52,
+        "month_index": 0,
+        "planned_requirement_usd": 12772918.65,
+        "project_day_finish": -1,
+        "project_day_start": -30
+      },
+      {
+        "cumulative_requirement_usd": 113034016.47,
+        "imported_requirement_usd": 21870599.96,
+        "local_requirement_usd": 78390498.53,
+        "month_index": 1,
+        "planned_requirement_usd": 100261097.82,
+        "project_day_finish": 29,
+        "project_day_start": 0
+      },
+      {
+        "cumulative_requirement_usd": 174835533.92,
+        "imported_requirement_usd": 14651661.87,
+        "local_requirement_usd": 47149856.15,
+        "month_index": 2,
+        "planned_requirement_usd": 61801517.45,
+        "project_day_finish": 59,
+        "project_day_start": 30
+      },
+      {
+        "cumulative_requirement_usd": 236088107.66,
+        "imported_requirement_usd": 14075825.81,
+        "local_requirement_usd": 47176748.18,
+        "month_index": 3,
+        "planned_requirement_usd": 61252573.74,
+        "project_day_finish": 89,
+        "project_day_start": 60
+      },
+      {
+        "cumulative_requirement_usd": 303336213.74,
+        "imported_requirement_usd": 15111718.78,
+        "local_requirement_usd": 52136387.02,
+        "month_index": 4,
+        "planned_requirement_usd": 67248106.08,
+        "project_day_finish": 119,
+        "project_day_start": 90
+      },
+      {
+        "cumulative_requirement_usd": 385105654.77,
+        "imported_requirement_usd": 17346103.99,
+        "local_requirement_usd": 64423336.77,
+        "month_index": 5,
+        "planned_requirement_usd": 81769441.03,
+        "project_day_finish": 149,
+        "project_day_start": 120
+      },
+      {
+        "cumulative_requirement_usd": 464252029.56,
+        "imported_requirement_usd": 17157111.65,
+        "local_requirement_usd": 61989263.04,
+        "month_index": 6,
+        "planned_requirement_usd": 79146374.79,
+        "project_day_finish": 179,
+        "project_day_start": 150
+      },
+      {
+        "cumulative_requirement_usd": 540046964.17,
+        "imported_requirement_usd": 16319482.04,
+        "local_requirement_usd": 59475452.7,
+        "month_index": 7,
+        "planned_requirement_usd": 75794934.61,
+        "project_day_finish": 209,
+        "project_day_start": 180
+      },
+      {
+        "cumulative_requirement_usd": 619807104.67,
+        "imported_requirement_usd": 17138660.43,
+        "local_requirement_usd": 62621480.17,
+        "month_index": 8,
+        "planned_requirement_usd": 79760140.5,
+        "project_day_finish": 239,
+        "project_day_start": 210
+      },
+      {
+        "cumulative_requirement_usd": 691776627.0,
+        "imported_requirement_usd": 16098697.77,
+        "local_requirement_usd": 55870824.75,
+        "month_index": 9,
+        "planned_requirement_usd": 71969522.33,
+        "project_day_finish": 269,
+        "project_day_start": 240
+      },
+      {
+        "cumulative_requirement_usd": 772525540.91,
+        "imported_requirement_usd": 17087586.73,
+        "local_requirement_usd": 63661327.32,
+        "month_index": 10,
+        "planned_requirement_usd": 80748913.91,
+        "project_day_finish": 299,
+        "project_day_start": 270
+      },
+      {
+        "cumulative_requirement_usd": 824508221.15,
+        "imported_requirement_usd": 9577881.49,
+        "local_requirement_usd": 42404798.81,
+        "month_index": 11,
+        "planned_requirement_usd": 51982680.24,
+        "project_day_finish": 329,
+        "project_day_start": 300
+      },
+      {
+        "cumulative_requirement_usd": 865800845.02,
+        "imported_requirement_usd": 7446130.46,
+        "local_requirement_usd": 33846493.5,
+        "month_index": 12,
+        "planned_requirement_usd": 41292623.87,
+        "project_day_finish": 359,
+        "project_day_start": 330
+      },
+      {
+        "cumulative_requirement_usd": 897666978.64,
+        "imported_requirement_usd": 5843999.22,
+        "local_requirement_usd": 26022134.41,
+        "month_index": 13,
+        "planned_requirement_usd": 31866133.62,
+        "project_day_finish": 389,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 911716615.4,
+        "imported_requirement_usd": 3187152.16,
+        "local_requirement_usd": 10862484.64,
+        "month_index": 14,
+        "planned_requirement_usd": 14049636.76,
+        "project_day_finish": 419,
+        "project_day_start": 390
+      },
+      {
+        "cumulative_requirement_usd": 917904594.16,
+        "imported_requirement_usd": 1774065.54,
+        "local_requirement_usd": 4413913.2,
+        "month_index": 15,
+        "planned_requirement_usd": 6187978.76,
+        "project_day_finish": 449,
+        "project_day_start": 420
+      },
+      {
+        "cumulative_requirement_usd": 923869028.35,
+        "imported_requirement_usd": 1807882.05,
+        "local_requirement_usd": 4156552.14,
+        "month_index": 16,
+        "planned_requirement_usd": 5964434.19,
+        "project_day_finish": 479,
+        "project_day_start": 450
+      },
+      {
+        "cumulative_requirement_usd": 927867070.26,
+        "imported_requirement_usd": 1326313.63,
+        "local_requirement_usd": 2671728.28,
+        "month_index": 17,
+        "planned_requirement_usd": 3998041.91,
+        "project_day_finish": 509,
+        "project_day_start": 480
+      },
+      {
+        "cumulative_requirement_usd": 930952048.0,
+        "imported_requirement_usd": 1079742.16,
+        "local_requirement_usd": 2005235.58,
+        "month_index": 18,
+        "planned_requirement_usd": 3084977.74,
+        "project_day_finish": 539,
+        "project_day_start": 510
+      },
+      {
+        "cumulative_requirement_usd": 933989736.86,
+        "imported_requirement_usd": 1063191.04,
+        "local_requirement_usd": 1974497.82,
+        "month_index": 19,
+        "planned_requirement_usd": 3037688.86,
+        "project_day_finish": 569,
+        "project_day_start": 540
+      },
+      {
+        "cumulative_requirement_usd": 937014981.29,
+        "imported_requirement_usd": 1058835.43,
+        "local_requirement_usd": 1966409.0,
+        "month_index": 20,
+        "planned_requirement_usd": 3025244.43,
+        "project_day_finish": 599,
+        "project_day_start": 570
+      },
+      {
+        "cumulative_requirement_usd": 940001647.97,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 21,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 629,
+        "project_day_start": 600
+      },
+      {
+        "cumulative_requirement_usd": 942988314.65,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 22,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 659,
+        "project_day_start": 630
+      },
+      {
+        "cumulative_requirement_usd": 945974981.33,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 23,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 689,
+        "project_day_start": 660
+      },
+      {
+        "cumulative_requirement_usd": 948961648.01,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 24,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 719,
+        "project_day_start": 690
+      },
+      {
+        "cumulative_requirement_usd": 951948314.69,
+        "imported_requirement_usd": 1045333.2,
+        "local_requirement_usd": 1941333.48,
+        "month_index": 25,
+        "planned_requirement_usd": 2986666.68,
+        "project_day_finish": 749,
+        "project_day_start": 720
+      },
+      {
+        "cumulative_requirement_usd": 954934981.35,
+        "imported_requirement_usd": 1045333.22,
+        "local_requirement_usd": 1941333.44,
+        "month_index": 26,
+        "planned_requirement_usd": 2986666.66,
+        "project_day_finish": 779,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 958210359.04,
+        "imported_requirement_usd": 1146382.19,
+        "local_requirement_usd": 2128995.5,
+        "month_index": 27,
+        "planned_requirement_usd": 3275377.69,
+        "project_day_finish": 809,
+        "project_day_start": 780
+      },
+      {
+        "cumulative_requirement_usd": 962700314.39,
+        "imported_requirement_usd": 1571484.53,
+        "local_requirement_usd": 2918470.82,
+        "month_index": 28,
+        "planned_requirement_usd": 4489955.35,
+        "project_day_finish": 839,
+        "project_day_start": 810
+      },
+      {
+        "cumulative_requirement_usd": 966966269.74,
+        "imported_requirement_usd": 1493084.53,
+        "local_requirement_usd": 2772870.82,
+        "month_index": 29,
+        "planned_requirement_usd": 4265955.35,
+        "project_day_finish": 869,
+        "project_day_start": 840
+      },
+      {
+        "cumulative_requirement_usd": 971391514.01,
+        "imported_requirement_usd": 1548835.66,
+        "local_requirement_usd": 2876408.61,
+        "month_index": 30,
+        "planned_requirement_usd": 4425244.27,
+        "project_day_finish": 899,
+        "project_day_start": 870
+      },
+      {
+        "cumulative_requirement_usd": 975874002.85,
+        "imported_requirement_usd": 1568871.31,
+        "local_requirement_usd": 2913617.53,
+        "month_index": 31,
+        "planned_requirement_usd": 4482488.84,
+        "project_day_finish": 929,
+        "project_day_start": 900
+      },
+      {
+        "cumulative_requirement_usd": 980493380.58,
+        "imported_requirement_usd": 1616782.43,
+        "local_requirement_usd": 3002595.3,
+        "month_index": 32,
+        "planned_requirement_usd": 4619377.73,
+        "project_day_finish": 959,
+        "project_day_start": 930
+      },
+      {
+        "cumulative_requirement_usd": 984843958.31,
+        "imported_requirement_usd": 1522702.43,
+        "local_requirement_usd": 2827875.3,
+        "month_index": 33,
+        "planned_requirement_usd": 4350577.73,
+        "project_day_finish": 989,
+        "project_day_start": 960
+      },
+      {
+        "cumulative_requirement_usd": 989304047.14,
+        "imported_requirement_usd": 1561031.3,
+        "local_requirement_usd": 2899057.53,
+        "month_index": 34,
+        "planned_requirement_usd": 4460088.83,
+        "project_day_finish": 1019,
+        "project_day_start": 990
+      },
+      {
+        "cumulative_requirement_usd": 993495336.0,
+        "imported_requirement_usd": 1466951.29,
+        "local_requirement_usd": 2724337.57,
+        "month_index": 35,
+        "planned_requirement_usd": 4191288.86,
+        "project_day_finish": 1049,
+        "project_day_start": 1020
+      },
+      {
+        "cumulative_requirement_usd": 995496402.69,
+        "imported_requirement_usd": 700373.47,
+        "local_requirement_usd": 1300693.22,
+        "month_index": 36,
+        "planned_requirement_usd": 2001066.69,
+        "project_day_finish": 1079,
+        "project_day_start": 1050
+      },
+      {
+        "cumulative_requirement_usd": 997149024.95,
+        "imported_requirement_usd": 578417.9,
+        "local_requirement_usd": 1074204.36,
+        "month_index": 37,
+        "planned_requirement_usd": 1652622.26,
+        "project_day_finish": 1109,
+        "project_day_start": 1080
+      },
+      {
+        "cumulative_requirement_usd": 998771780.53,
+        "imported_requirement_usd": 567964.55,
+        "local_requirement_usd": 1054791.03,
+        "month_index": 38,
+        "planned_requirement_usd": 1622755.58,
+        "project_day_finish": 1139,
+        "project_day_start": 1110
+      },
+      {
+        "cumulative_requirement_usd": 1000230269.42,
+        "imported_requirement_usd": 510471.15,
+        "local_requirement_usd": 948017.74,
+        "month_index": 39,
+        "planned_requirement_usd": 1458488.89,
+        "project_day_finish": 1169,
+        "project_day_start": 1140
+      },
+      {
+        "cumulative_requirement_usd": 1000984402.77,
+        "imported_requirement_usd": 263946.65,
+        "local_requirement_usd": 490186.7,
+        "month_index": 40,
+        "planned_requirement_usd": 754133.35,
+        "project_day_finish": 1199,
+        "project_day_start": 1170
+      },
+      {
+        "cumulative_requirement_usd": 1001059069.47,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 41,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1229,
+        "project_day_start": 1200
+      },
+      {
+        "cumulative_requirement_usd": 1001133736.17,
+        "imported_requirement_usd": 26133.3,
+        "local_requirement_usd": 48533.4,
+        "month_index": 42,
+        "planned_requirement_usd": 74666.7,
+        "project_day_finish": 1259,
+        "project_day_start": 1230
+      },
+      {
+        "cumulative_requirement_usd": 1001178536.19,
+        "imported_requirement_usd": 15679.98,
+        "local_requirement_usd": 29120.04,
+        "month_index": 43,
+        "planned_requirement_usd": 44800.02,
+        "project_day_finish": 1289,
+        "project_day_start": 1260
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 113034016.47,
+      "imported_requirement_usd": 21870599.96,
+      "local_requirement_usd": 78390498.53,
+      "month_index": 1,
+      "planned_requirement_usd": 100261097.82,
+      "project_day_finish": 29,
+      "project_day_start": 0
+    },
+    "total_planned_requirement_usd": 1001178536.19
+  },
+  "city": "quetta",
+  "critical_path": {
+    "critical_task_count": 160,
+    "critical_task_uids": [
+      "quetta:QUE-SYS-001:sys-00-baseline-freeze",
+      "quetta:QUE-RS-L1-004:rs-10-material-kit",
+      "quetta:QUE-RS-L1-008:rs-10-material-kit",
+      "quetta:QUE-RS-L1-012:rs-10-material-kit",
+      "quetta:QUE-RS-L1-016:rs-10-material-kit",
+      "quetta:QUE-RS-L1-020:rs-10-material-kit",
+      "quetta:QUE-RS-L1-024:rs-10-material-kit",
+      "quetta:QUE-RS-L1-028:rs-10-material-kit",
+      "quetta:QUE-RS-L1-032:rs-10-material-kit",
+      "quetta:QUE-RS-L1-036:rs-10-material-kit",
+      "quetta:QUE-RS-L1-040:rs-10-material-kit",
+      "quetta:QUE-RS-L2-002:rs-10-material-kit",
+      "quetta:QUE-RS-L2-006:rs-10-material-kit",
+      "quetta:QUE-RS-L2-010:rs-10-material-kit",
+      "quetta:QUE-RS-L2-014:rs-10-material-kit",
+      "quetta:QUE-RS-L2-018:rs-10-material-kit",
+      "quetta:QUE-RS-L2-022:rs-10-material-kit",
+      "quetta:QUE-RS-L2-026:rs-10-material-kit",
+      "quetta:QUE-RS-L2-030:rs-10-material-kit",
+      "quetta:QUE-RS-L2-034:rs-10-material-kit",
+      "quetta:QUE-RS-L2-038:rs-10-material-kit",
+      "quetta:QUE-RS-L2-042:rs-10-material-kit",
+      "quetta:QUE-RS-L3-004:rs-10-material-kit",
+      "quetta:QUE-RS-L3-008:rs-10-material-kit",
+      "quetta:QUE-RS-L3-012:rs-10-material-kit",
+      "quetta:QUE-RS-L3-016:rs-10-material-kit",
+      "quetta:QUE-RS-L3-020:rs-10-material-kit",
+      "quetta:QUE-RS-L3-024:rs-10-material-kit",
+      "quetta:QUE-RS-L4-004:rs-10-material-kit",
+      "quetta:QUE-RS-L4-008:rs-10-material-kit",
+      "quetta:QUE-RS-L4-012:rs-10-material-kit",
+      "quetta:QUE-RS-L4-016:rs-10-material-kit",
+      "quetta:QUE-RS-L1-001:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-005:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-009:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-013:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-017:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-021:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-025:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-029:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-033:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-037:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-041:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-003:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-007:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-011:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-015:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-019:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-023:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-027:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-031:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-035:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L2-039:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-001:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-005:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-009:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-013:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-017:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L3-021:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L4-001:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L4-005:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L4-009:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L4-013:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L4-017:rs-20-carbody-bogie",
+      "quetta:QUE-RS-L1-002:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-006:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-010:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-014:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-018:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-022:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-026:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-030:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-034:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-038:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-042:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-004:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-008:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-012:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-016:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-020:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-024:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-028:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-032:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-036:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L2-040:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-002:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-006:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-010:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-014:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-018:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L3-022:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L4-002:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L4-006:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L4-010:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L4-014:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L4-018:rs-30-traction-battery-control",
+      "quetta:QUE-RS-L1-003:rs-40-fitout-static-test",
+      "quetta:QUE-RS-L1-003:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-005:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-007:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-009:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-011:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-013:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-015:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-017:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-019:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-021:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-023:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-025:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-027:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-029:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-031:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-033:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-035:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-037:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-039:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L1-041:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-001:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-003:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-005:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-007:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-009:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-011:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-013:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-015:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-017:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-019:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-021:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-023:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-025:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-027:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-029:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-031:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-033:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-035:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-037:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-039:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L2-041:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-001:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-003:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-005:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-007:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-009:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-011:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-013:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-015:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-017:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-019:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-021:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L3-023:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-001:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-003:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-005:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-007:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-009:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-011:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-013:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-015:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-017:rs-50-dynamic-commissioning",
+      "quetta:QUE-RS-L4-019:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+    "programme_working_days": 1188,
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "earliest_order_by_day": -145,
+    "planned_purchase_orders": 15297,
+    "pre_ntp_order_actions": 1958,
+    "priced_rows": 12827,
+    "quotation_required_rows": 2470
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-d246796959166ce7",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-60b8bc4288569d12",
+      "sequence": 1,
+      "source_hash": "b6f497796ddd1fec9495d1440ad4232e71eb1a91d3597ec821251cba3efcc026"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d246796959166ce7",
+      "sequence": 2,
+      "source_hash": "c432a719d36f3b6074c6731848e2ca0b2a089631a6f12c537d752f40be2e2159"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "design": {
+      "path": "cities/catalogue/south-asia/Pakistan/Quetta/design.toml",
+      "sha256": "c146b0720d867b8ba5a49b54ca096573d3ab70b32bc27659b6292187163c0db6"
+    },
+    "finance": {
+      "path": "cities/catalogue/south-asia/Pakistan/Quetta/engineering/finance/summary.json",
+      "sha256": "d6b79cb3dd820d58a502fc70b41775c69233b438ad6143318ba61f11b76b37a5"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+    },
+    "scenario": {
+      "path": "cities/catalogue/south-asia/Pakistan/Quetta/quetta.toml",
+      "sha256": "bb9df89596d9b845f634c92d956fdd6f9201616ec5fa275f54e371b9d95b9001"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 361,
+    "budget_contracts": 1375,
+    "cashflow_months": 44,
+    "critical_work_packages": 160,
+    "planned_capex_usd": 1001178536.19,
+    "planned_purchase_orders": 15297,
+    "pre_ntp_order_actions": 1958,
+    "priced_procurement_usd": 87673180.0,
+    "programme_working_days": 1188,
+    "work_packages": 1374
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 2748
+  }
+}
