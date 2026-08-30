@@ -1,11 +1,19 @@
 # OpenSourceRail changelog
 
-## v0.3.0 — release candidate
+## v0.3.1 — CI correctness patch
+
+Corrects the clean-checkout release gates discovered after v0.3.0: both Python
+jobs now share one pinned IFC runtime, generated city acceptance reports link
+only to tracked compact artifacts, and Kani CI runs explicit bounded properties
+that complete inside its controlled timeout. See the
+[v0.3.1 patch notes](docs/release-v0.3.1.md).
+
+## v0.3.0 — 2026-08-30
 
 v0.3 focuses on a credible product boundary and a reproducible integrated
 delivery platform. It adds the shared Python runtime/CI path, three-product
 maturity model, current standards baseline, safety-controller selection gate,
-all-crate Kani workflow, consensus refinement map, corrected halt energy scope,
+release-selected Kani workflow, consensus refinement map, corrected halt energy scope,
 safer battery-enclosure definition and appropriately qualified economic claims.
 
 See [the concise release notes](docs/release-v0.3.md). Physical first articles,

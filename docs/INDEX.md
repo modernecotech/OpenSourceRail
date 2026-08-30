@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1338**.
+Indexed Markdown files: **1339**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1338**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 289 |
-| [docs](#docs) | 134 |
+| [docs](#docs) | 135 |
 | [engineering](#engineering) | 7 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1331,7 +1331,8 @@ Indexed Markdown files: **1338**.
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
-| [`docs/release-v0.3.md`](../docs/release-v0.3.md) | v0.3 release candidate |
+| [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
+| [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |
 | [`docs/releases.md`](../docs/releases.md) | Release Policy And Checklist |
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |

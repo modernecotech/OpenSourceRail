@@ -1,4 +1,4 @@
-# v0.3 release candidate
+# OpenSourceRail v0.3.0
 
 v0.3 makes the project boundary more credible while strengthening the most
 adoptable product: deterministic city design, delivery planning and owner/
