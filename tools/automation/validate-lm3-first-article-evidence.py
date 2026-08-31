@@ -83,7 +83,7 @@ def build_status() -> dict:
         "accepted_count": sum(row["release_gate"] == "accepted" for row in rows),
         "open_count": sum(row["release_gate"] != "accepted" for row in rows),
         "packages": rows,
-        "interpretation": "Solver-backed screening is useful design evidence but does not close a physical or supplier release gate.",
+        "interpretation": "Public supplier data, procedures and solver-backed screening are useful design inputs but do not close a physical or supplier release gate.",
     }
 
 
@@ -92,11 +92,11 @@ def write_status(status: dict) -> None:
     lines = [
         "# LM3 First-Article Evidence Status",
         "",
-        "This register distinguishes existing solver-backed screening from supplier, laboratory and independently accepted release evidence. Planned protocols are not represented as performed tests.",
+        "This register distinguishes public supplier data, planned procedures and solver-backed screening from supplier-controlled, laboratory and independently accepted release evidence. Planned work is never represented as a performed test.",
         "",
         f"**Release ready:** {'yes' if status['release_ready'] else 'no'} · **Accepted:** {status['accepted_count']} · **Open:** {status['open_count']}",
         "",
-        "| Evidence package | Repository status | Release gate | Existing artifacts |",
+        "| Evidence package | Repository status | Release gate | Planning / screening artifacts |",
         "|---|---|---|---|",
     ]
     for row in status["packages"]:

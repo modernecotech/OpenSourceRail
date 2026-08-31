@@ -18,7 +18,8 @@
       ],
       "existing_artifacts": [
         "design/component-catalogue/catalog/fea/screening-summary.json",
-        "design/component-catalogue/models/cad/fea-screening-models.FCStd"
+        "design/component-catalogue/models/cad/fea-screening-models.FCStd",
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md"
       ],
       "required_release_evidence": [
         "released shell/solid model",
@@ -48,7 +49,8 @@
       "existing_artifacts": [
         "design/component-catalogue/catalog/fea/screening-summary.json",
         "design/component-catalogue/catalog/fea/bogie-frame-screen/bogie-frame-screen.frd",
-        "design/component-catalogue/catalog/fea/bogie-brake-traction-screen/bogie-brake-traction-screen.frd"
+        "design/component-catalogue/catalog/fea/bogie-brake-traction-screen/bogie-brake-traction-screen.frd",
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md"
       ],
       "required_release_evidence": [
         "released bogie solid/shell model",
@@ -78,7 +80,10 @@
         "LM3-DOOR-",
         "LM3-HV-"
       ],
-      "existing_artifacts": [],
+      "existing_artifacts": [
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/test-run-template.json"
+      ],
       "required_release_evidence": [
         "approved test procedure",
         "specimen serial and as-built configuration",
@@ -105,7 +110,11 @@
         "LM3-HV-",
         "LM3-TRC-"
       ],
-      "existing_artifacts": [],
+      "existing_artifacts": [
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/test-run-template.json",
+        "docs/rfcs/0024-battery-thermal-high-ambient.md"
+      ],
       "required_release_evidence": [
         "supplier loss maps and limits",
         "worst-case ambient/duty cycle",
@@ -134,7 +143,11 @@
         "LM3-END-",
         "LM3-ART-"
       ],
-      "existing_artifacts": [],
+      "existing_artifacts": [
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "docs/rolling-stock/light-metro-3car/interfaces.md"
+      ],
       "required_release_evidence": [
         "single-line diagram",
         "wire and cable schedule",
@@ -165,7 +178,10 @@
         "LM3-ART-",
         "LM3-BOG-"
       ],
-      "existing_artifacts": [],
+      "existing_artifacts": [
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/test-run-template.json"
+      ],
       "required_release_evidence": [
         "harness serial/revision",
         "calibrated tester identity",
@@ -193,7 +209,9 @@
       ],
       "existing_artifacts": [
         "lib/fault-injection-scenarios",
-        "crates/osr-sim"
+        "crates/osr-sim",
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json"
       ],
       "required_release_evidence": [
         "frozen hardware and firmware configuration",
@@ -221,7 +239,9 @@
         "LM3-BOG-"
       ],
       "existing_artifacts": [
-        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
+        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"
       ],
       "required_release_evidence": [
         "exact manufacturer and order code",
@@ -248,7 +268,9 @@
         "LM3-DOOR-"
       ],
       "existing_artifacts": [
-        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
+        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"
       ],
       "required_release_evidence": [
         "exact cassette and controller order code",
@@ -276,7 +298,9 @@
         "LM3-TRC-"
       ],
       "existing_artifacts": [
-        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
+        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"
       ],
       "required_release_evidence": [
         "exact manufacturer and order code",
@@ -308,7 +332,9 @@
         "LM3-DOOR-"
       ],
       "existing_artifacts": [
-        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
+        "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
+        "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"
       ],
       "required_release_evidence": [
         "exact manufacturer and order code",
@@ -340,7 +366,9 @@
       ],
       "existing_artifacts": [
         "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json",
-        "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json"
+        "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json",
+        "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "design/component-catalogue/catalog/buildable-trainset/evidence/test-run-template.json"
       ],
       "required_release_evidence": [
         "released drawing and tolerance stack",
@@ -359,5 +387,5 @@
       "release_gate": "open"
     }
   ],
-  "interpretation": "Solver-backed screening is useful design evidence but does not close a physical or supplier release gate."
+  "interpretation": "Public supplier data, procedures and solver-backed screening are useful design inputs but do not close a physical or supplier release gate."
 }

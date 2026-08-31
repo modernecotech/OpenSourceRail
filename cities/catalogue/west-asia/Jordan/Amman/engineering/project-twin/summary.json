@@ -2352,7 +2352,10 @@
     "unresolved_external_gates": []
   },
   "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
     "earliest_order_by_day": -60,
+    "manufacturer_candidate_ids": [],
+    "manufacturer_candidate_linked_rows": 0,
     "planned_purchase_orders": 10542,
     "pre_ntp_order_actions": 696,
     "priced_rows": 0,
@@ -2370,7 +2373,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-0ebec4d709244a37",
+  "revision_id": "twin-cdce770781316da2",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -2392,6 +2395,27 @@
       "revision_id": "twin-0ebec4d709244a37",
       "sequence": 3,
       "source_hash": "03d24709cc8d367c5b310a39380417c51080069ee38d0f97fc66eaeecd2869c3"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-4a02781e6babc3c8",
+      "sequence": 4,
+      "source_hash": "2757f0bec9bf08d9bbbe728b5d829489f63299b3aa6a93f236651497d265837a"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-207b45fea07314bf",
+      "sequence": 5,
+      "source_hash": "bf6c4e23c829e9164e475bad054a45c7929e6aacd1ad30cf8ff71ddcc660146b"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-cdce770781316da2",
+      "sequence": 6,
+      "source_hash": "3725c9920175181371145b1b97d961e522835f1e4ee2d41491402c7760d5f25a"
     }
   ],
   "schema_version": "1.0",
@@ -2406,19 +2430,27 @@
     },
     "manufacturing_template": {
       "path": "lib/templates/manufacturing-schedule.toml",
-      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
+      "sha256": "f4d23ba9cf3f304c5438821b92b3d7a290a5b6105f4b7adf895893a145cdf525"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
+      "sha256": "cc7c113dc2e14dab3da0f8057dcec9cad4177f094d177c051b90498cdefd1a47"
     },
     "scenario": {
       "path": "cities/catalogue/west-asia/Jordan/Amman/amman.toml",
       "sha256": "2bc545e6576a4dd8a5c0ada59811201c9509b087027d523e4eb572846069136e"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "dce8567bdcf7e29cbadf8a59762e26a9de0b0f6006fc4c91dff4bf2ce7a04c67"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "be70f70dbc6ce4c99d2db089b5e75f0acfb869ea9dd59dd856f3f36cf1f366d3"
     }
   },
   "status": "planning-digital-twin-not-construction-release",

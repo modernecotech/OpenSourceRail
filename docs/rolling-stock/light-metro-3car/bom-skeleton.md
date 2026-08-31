@@ -67,50 +67,24 @@ This BOM is keyed to the visual and layout concept in
 - Batteries remain under longitudinal seats, not on the roof or deep
   underframe.
 
-## Vendor fit-in references
+## Supplier fit-in references
 
-These are reference product families used to size the CAD envelopes
-and short-list tender alternates. They are not sole-source selections:
-the v2 release gate still accepts any supplier that fits the envelope,
-keeps mass/power within budget, and supplies certification evidence.
+The generated [COTS/RFQ candidate register](../../../design/component-catalogue/catalog/buildable-trainset/cots-candidates.md)
+is the only current selection input. It maps every bought-in LM3 product row to
+an official manufacturer source, selection maturity, published facts, fit work
+and a local-equivalent route. The broader
+[supplier-anchor register](../../../design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md)
+defines supplier-neutral boundaries. Neither register is an order, a quotation
+or approval; exact configurations close only through the
+[first-article execution pack](../../../design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md).
 
-| BOM lines | Reference families fitted into the design | Fit-in implication |
-|---|---|---|
-| B10, B27 | [AGC Lamisafe/Heatlight railway glazing](https://www.agc.com/en/everyday/mobility/train.html), Pilkington/Saint-Gobain rail glazing | Laminated bonded cassette, drain channel, optional heated anti-fog busbar |
-| B11, B25 | [Knorr-Bremse/IFE entrance systems](https://www.knorr-bremse.us/en/products/door-systems/entrance-systems/), Wabtec/Faiveley, Kangni | Sliding/plug door cassette with controller, obstruction detection, emergency release, sill drainage |
-| B12, B13 | [Altro Transflor Tungsten rail flooring](https://www.altro.com/us/products/altro-transflor-tungsten), Forbo transport flooring | 2 mm anti-slip pre-cut floor covering over removable low-floor and service-bay panels |
-| B14, B15 | [Compin-Fainsa SB09 Metro/LRV seat](https://www.compinfainsa.com/product/railway-seats-and-interiors-sb09), Kiel, Grammer, McConnell | Longitudinal bench stays cantilevered over battery strakes with removable pads |
-| B16, B17 | [Teknoware rolling-stock lighting](https://www.teknoware.com/rail-road/rolling-stock-lighting-and-interiors/), Luminator lighting | Continuous main/emergency lighting channels plus sealed head/tail/marker cassettes |
-| B18, B19, E14 | [Luminator onboard products](https://www.luminator.com/en-us/products.html), Televic GSP | Above-door VESA screens, PA speakers, audio/data trunks, amplifier/service trays |
-| B22, B23 | [Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10), Voith Scharfenberg class | Type 10 pocket with crash absorber, electrical head, pneumatic lines, D-REX Ethernet carrier |
-| B9, B24, B29 | [Hübner tram/metro articulation and gangway systems](https://www.hubner-group.com/en/products/articulations/articulation-systems-for-trams/), [Hübner gangway systems](https://www.hubner-group.com/en/products/gangway-systems/gangway-systems-for-metros-subways-and-suburban-railways/), [Schaeffler central articulated pivot](https://www.schaeffler.com/remotemedien/media/_shared_media/08_media_library/01_publications/schaeffler_2/publication/downloads_18/img_de_en.pdf) | Lower spherical pivot, anti-lift keeper, upper articulation links, double-wall bellows, turntable, energy guidance, adapter-frame shim pack |
-| G9 ref | [Knorr-Bremse WheelAct/AxleAct brake actuators](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/braking-systems/actuation/), Wabtec Faiveley | Compact caliper envelope now includes actuator, spring park brake, pads, ports, wear indicator |
-| T1, T3 ref | Inovance HM47/LD32-class heavy-vehicle PMSM/controller set or qualified equivalent | One controller per motor; published OSR voltage/current, safe-torque-off, CAN, cooling, mounting, EMC, vibration and fault interface remains supplier-neutral |
-| T5, T6, T16, T17 | EVE-class liquid-cooled railway/high-power LFP or qualified equivalent | Eight fire-resistant under-seat module compartments per car with two string zones, cold plates, BMS harness, outward vents, off-gas detection and localized mist |
-| T14 ref | Longertek-class direct-HV DC rail HVAC or qualified equivalent | Roof curb sized for a 650–700 V DC input unit with internal motor electronics, pressure-protection damper, filter, drains and removable ducts |
-| T21, T22 | [Sunman eArc lightweight modules](https://www.sunman-energy.com/), [Solbian flexible solar panels](https://www.solbian.eu/en/4-solar-panels), [SnapNrack Ultra Rail](https://www.snapnrack.com/ultra-rail-roof-mount-system), [IronRidge QRail](https://www.ironridge.com/quickmount/qrail-system/) | CAD reserves both bonded flexible laminates and raised clamped rail panels, with junction boxes, fire isolation, roof raceways, MPPT combiner, and a filtered low-pressure air-knife cleaner |
-| T12, T19, T23 | Supplier-neutral side contact plus protected 800 V-class vehicle DC interface | Side contact is the single production interface; station cabinet owns the 500 kW conversion and two contacts share that cabinet budget |
-| E18, E19 | [Rail Vision MainLine](https://railvision.io/main-line/), [Ouster OS1](https://ouster.com/product-os1/), [LSLiDAR train-end intrusion system](https://www.lslidar.com/solution/rail-transportation/train-end-railway-intrudment-inspection-system/) | Front/back sensor mount reserves LIDAR, thermal/wide/narrow cameras, radar, heaters, wash/wipe |
+## Historical price floor
 
-## Marketplace sanity check
-
-Alibaba and AliExpress were checked as listed-price marketplace anchors
-for every BOM line, using a directly comparable listing where possible
-and a clearly marked marketplace proxy where the part is custom,
-safety-critical, or tender-only. Full line-by-line anchors are in
-[marketplace-price-anchors.md](marketplace-price-anchors.md). These
-references constrain the estimate; they do not replace rail supplier
-qualification, test reports, fire/smoke/toxicity evidence, freight,
-duty, warranty terms, or acceptance testing.
-
-| Marketplace anchor | BOM lines adjusted | Pricing implication |
-|---|---|---|
-| [Full marketplace anchor ledger](marketplace-price-anchors.md) | B1-B29, G1-G20, T1-T23, E1-E23, A1-A4 | Every BOM line now has an Alibaba, AliExpress, or PriceArchive-listed anchor/proxy and a marketplace-only direct-material base |
-| [Alibaba bus seats](https://www.alibaba.com/showroom/plastic-bus-seat.html), [handrail fittings](https://www.alibaba.com/showroom/bus-handrails.html), [24 V bus lighting](https://www.alibaba.com/showroom/bus-interior-light-lamp.html), [passenger displays](https://www.alibaba.com/showroom/bus-passenger-information-display.html), and [bus CCTV kits](https://www.alibaba.com/showroom/bus-cctv-systems.html) | B14-B19, E14, E15 | Interior fit-out moved from rail-OEM pricing toward bus/metro commodity modules with qualification uplift |
-| [Alibaba fire-rated composite panels](https://www.alibaba.com/showroom/fire-rated-composite-panel.html), [bus/train vinyl flooring](https://www.alibaba.com/showroom/bus-vinyl-flooring.html), and [laminated transport glass](https://www.alibaba.com/showroom/train-tempered-laminated-glass-window.html) | B6, B7, B10, B13, B21, B28 | Shell panels, floor finish, window cassettes, and trim reduced, while end glazing stays BID because it is curved/heated/sensor-integrated |
-| [Alibaba railway axle bearings](https://www.alibaba.com/showroom/railway-vehicle-axle-bearing-price.html), [rail air springs](https://www.alibaba.com/showroom/railway-air-spring.html), [rail dampers](https://www.alibaba.com/showroom/railway-hydraulic-damper.html), and [rail brake pads](https://www.alibaba.com/showroom/brake-pads-railway.html) | G4-G8, G10-G16, G19 | Bogie consumables reduced to marketplace-plus-documentation levels; wheelsets and calipers remain tender-only |
-| [Alibaba 150 kW EV PMSM motors](https://www.alibaba.com/showroom/pmsm-150kw-motor.html), [EV charge modules](https://www.alibaba.com/showroom/30kw-dc-module.html), [bus roof HVAC](https://www.alibaba.com/showroom/bus-rooftop-air-conditioning.html), and [1 000 V DC contactors](https://www.alibaba.com/showroom/1000v-dc-contactors.html) | T1-T4, T9-T14, T16, T19, T20, T23 | Traction and power electronics reduced to EV/bus commodity anchors, with rail integration margin retained |
-| AliExpress price-tracked [10.1 in touchscreens](https://www.pricearchive.org/search/aliexpress.com/touch-screen-10.1/1), [PoE cameras](https://www.pricearchive.org/aliexpress.com/item/1005009073001872), and [small HV contactors](https://www.pricearchive.org/aliexpress.com/item/1005004649240380) | E10, E15, E21; T11 lower-bound only | Used as a lower-bound cross-check for non-safety electronics and spares; qualified main HV contactors stay B2B-sourced |
+The compact [marketplace-price ledger](marketplace-price-anchors.md) preserves
+the older low-cost sensitivity calculation only. It is not a component-selection
+source and cannot close a supplier, engineering or safety gate. Regenerated city
+twins use the controlled manufacturer candidate IDs while retaining the existing
+cost as a planning allowance until an RFQ response replaces it.
 
 ## Body + interior
 

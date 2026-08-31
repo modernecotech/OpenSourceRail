@@ -1287,7 +1287,10 @@
     "unresolved_external_gates": []
   },
   "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
     "earliest_order_by_day": -60,
+    "manufacturer_candidate_ids": [],
+    "manufacturer_candidate_linked_rows": 0,
     "planned_purchase_orders": 4580,
     "pre_ntp_order_actions": 714,
     "priced_rows": 0,
@@ -1305,7 +1308,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-d3559460702559ee",
+  "revision_id": "twin-f5fc09476b18e7b0",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -1327,6 +1330,27 @@
       "revision_id": "twin-d3559460702559ee",
       "sequence": 3,
       "source_hash": "33cd7e8cb51f577610292b5fbb6e3db24d2682c0103bf556d25ff2477faa2c21"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-7791136a0283acd7",
+      "sequence": 4,
+      "source_hash": "96e7d8e2f4c0943025b2a1f0e4652c8c3e64ae65d1738289a54f277e55d2c0ad"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e710b9c62c095dc5",
+      "sequence": 5,
+      "source_hash": "7350bf9fbc4db3ee2fc187aab15557354d60d5a7cf22b3c384d6cd6e35b13223"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f5fc09476b18e7b0",
+      "sequence": 6,
+      "source_hash": "1a4db437475328fde3cb0eaf55b03b29ed89012df602f1463dae6982dca828e8"
     }
   ],
   "schema_version": "1.0",
@@ -1341,19 +1365,27 @@
     },
     "manufacturing_template": {
       "path": "lib/templates/manufacturing-schedule.toml",
-      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
+      "sha256": "f4d23ba9cf3f304c5438821b92b3d7a290a5b6105f4b7adf895893a145cdf525"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
+      "sha256": "cc7c113dc2e14dab3da0f8057dcec9cad4177f094d177c051b90498cdefd1a47"
     },
     "scenario": {
       "path": "cities/catalogue/west-africa/Nigeria/Ibadan/ibadan.toml",
       "sha256": "7ca6719798cd04fa2437820ff026a9b9753b1716ec5c4b667d69edd8650b3527"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "dce8567bdcf7e29cbadf8a59762e26a9de0b0f6006fc4c91dff4bf2ce7a04c67"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "be70f70dbc6ce4c99d2db089b5e75f0acfb869ea9dd59dd856f3f36cf1f366d3"
     }
   },
   "status": "planning-digital-twin-not-construction-release",

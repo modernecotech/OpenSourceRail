@@ -1,0 +1,474 @@
+schema = "org.opensourcerail.trainset-cots-candidates.v1"
+revision = "A-DRAFT"
+status = "sourcing-baseline-not-released"
+checked_on = "2026-08-31"
+purpose = "Freeze real catalogue candidates and vehicle-specific RFQ baselines for every bought-in LM3 product row."
+release_boundary = "A catalogue candidate proves that a relevant product exists; it does not prove LM3 fit, safety acceptance, availability, price, or authority approval. Exact order codes and supplier-controlled drawings remain mandatory before purchase or release."
+
+[[candidate]]
+id = "OSR-COTS-DOOR-IFE"
+product_ids = ["LM3-EXT-P010"]
+manufacturer = "Knorr-Bremse IFE"
+model = "IFE modular sliding-plug entrance system"
+manufacturer_url = "https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["rail entrance-system family", "supplier engineering required for vehicle aperture and controls"]
+fit_required = ["freeze clear aperture, stroke, mass and four mounting datums", "obtain EN 14752 evidence and emergency-release/cycle data", "freeze keyed power, network and interlock interfaces"]
+localisation = "Buy the first cassette and controller; manufacture portal, threshold, carrier, harness and service parts locally to the released interface."
+
+[[candidate]]
+id = "OSR-COTS-GLASS-AGC"
+product_ids = ["LM3-EXT-P020", "LM3-EXT-P030"]
+manufacturer = "AGC Automotive"
+model = "rail glazing with framing system"
+manufacturer_url = "https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["laminated rail glazing family", "supplier framing-system option"]
+fit_required = ["freeze laminate stack, optical zones and curvature", "freeze heated end-glass voltage and power", "obtain impact, fire, weather and bond-system evidence"]
+localisation = "Retain the pressure-frame and dry-seal replacement concept; qualify regional laminators against the released cassette drawing."
+
+[[candidate]]
+id = "OSR-COTS-GLAZING-SIKA268"
+product_ids = ["LM3-EXT-P020", "LM3-EXT-P030"]
+manufacturer = "Sika"
+model = "Sikaflex-268 PowerCure, 600 ml"
+manufacturer_url = "https://usa.sika.com/en/industry/transportation/rail/rail-adhesives-sealants/floor-bonding/sikaflex-268-powercure.html"
+source_class = "exact-catalogue-product"
+selection_state = "sample-ready"
+public_spec = ["EN 45545-2 R1/R7 HL3", "4.5 MPa typical lap-shear strength", "-50 to 90 deg C service range", "30 minute open time at stated reference conditions"]
+fit_required = ["Sika-approved substrate preparation for the actual glass/frame coatings", "bondline calculation and physical coupon validation", "lot and shelf-life control"]
+localisation = "Use locally applied standard cartridges with supplier-approved pretreatment; retain a mechanical pressure frame so glass replacement is not adhesive-only."
+
+[[candidate]]
+id = "OSR-COTS-HVAC-LONGERTEK"
+product_ids = ["LM3-EXT-P040", "LM3-INT-P010"]
+manufacturer = "Longertek"
+model = "direct-DC rail HVAC platform"
+manufacturer_url = "https://en.longertek.com/technological-innovation.html"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["direct high-voltage DC architecture", "rail HVAC product platform"]
+fit_required = ["confirm 24 kW LM3 duty at worst ambient", "freeze roof envelope, mass, coolant/refrigerant and drain interfaces", "obtain EN 50155/50121 and fire evidence for quoted configuration"]
+localisation = "Buy the first roof unit and controller; localise ducts, diffusers, drains, filters and later coils after calorimeter testing."
+
+[[candidate]]
+id = "OSR-COTS-PV-SUNMAN"
+product_ids = ["LM3-EXT-P050"]
+manufacturer = "Sunman Energy"
+model = "eArc lightweight PV module"
+manufacturer_url = "https://www.sunman-energy.com/earc/"
+source_class = "catalogue-family"
+selection_state = "sample-ready"
+public_spec = ["lightweight flexible photovoltaic family"]
+fit_required = ["freeze module size and electrical string", "qualify roof retention, fire, isolation, impact and walk-zone separation", "verify MPPT and safe isolation under all charging states"]
+localisation = "Use standard modules and make clamps, bonded carriers and replaceable roof harnesses locally."
+
+[[candidate]]
+id = "OSR-COTS-FLOOR-COMFLOOR"
+product_ids = ["LM3-EXT-P060"]
+manufacturer = "3A Composites Mobility"
+model = "COMFLOOR rail floor panel"
+manufacturer_url = "https://3acompositesmobility.com/wp-content/uploads/2019/09/3AC_katalog-COMFLOOR_web.pdf"
+source_class = "configurable-catalogue-system"
+selection_state = "rfq-baseline"
+public_spec = ["lightweight sandwich floor-panel family", "optional integrated heating", "rail vehicle application"]
+fit_required = ["freeze panel layup, inserts, hatch edges and fire level", "prove concentrated, wheelchair and seat-rail loads", "validate wet-zone sealing and repair method"]
+localisation = "Import first panel stock if needed; machine panels, edge closeouts, hatch frames and inserts locally from released cut files."
+
+[[candidate]]
+id = "OSR-COTS-FLOOR-FORBO-6R3883"
+product_ids = ["LM3-EXT-P061"]
+manufacturer = "Forbo Flooring Systems"
+model = "Marmoleum Fresco FR2 6R3883 moonstone, 2.5 mm"
+manufacturer_url = "https://www.forbo.com/flooring/en-gl/products/transport-flooring/rail-floor-coverings/marmoleum-fr-rail/bnok5f?dnr=6r3883"
+source_class = "exact-catalogue-product"
+selection_state = "sample-ready"
+public_spec = ["2.5 mm thickness", "2.9 kg/m2", "EN 45545-2 HL2 stated for the published system", "roll width 2 m"]
+fit_required = ["obtain fire certificate for selected substrate/adhesive combination", "freeze cove, weld-cord, nosing and hatch details", "slip, cleaning and repair trials"]
+localisation = "Use roll material initially; cut, cove, weld and repair locally with a controlled substrate/adhesive system."
+
+[[candidate]]
+id = "OSR-COTS-SEAT-FAINSA"
+product_ids = ["LM3-EXT-P062", "LM3-EXT-P063"]
+manufacturer = "Fainsa"
+model = "metro and urban-rail seating family"
+manufacturer_url = "https://fainsa.com/en/railway/"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["urban rail passenger seat family"]
+fit_required = ["select exact shell, frame and upholstery", "freeze common-rail attachment loads and PRM geometry", "obtain fire, abuse-load, corrosion and maintainability evidence"]
+localisation = "Make the common seat rail, grab poles and adapters locally; localise shells and frames only after fire and abuse-load qualification."
+
+[[candidate]]
+id = "OSR-COTS-PIS-LUMINATOR"
+product_ids = ["LM3-EXT-P064"]
+manufacturer = "Luminator Technology Group"
+model = "RailKom passenger-information and communication platform"
+manufacturer_url = "https://luminator.com/rail/railkom"
+source_class = "configurable-catalogue-system"
+selection_state = "rfq-baseline"
+public_spec = ["rail passenger information, audio and communication family"]
+fit_required = ["freeze display, amplifier, speaker and software licences", "require open Ethernet/IP data interfaces", "obtain EMC, fire, accessibility and cybersecurity evidence"]
+localisation = "Use local brackets, speaker grilles and wiring; permit display/amplifier substitution through open interfaces and regression tests."
+
+[[candidate]]
+id = "OSR-COTS-CAMERA-MOXA-P06HC"
+product_ids = ["LM3-EXT-P065"]
+manufacturer = "Moxa"
+model = "VPort P06HC-1MP-M12-CAM36"
+manufacturer_url = "https://www.moxa.com/en/products/industrial-edge-connectivity/ip-cameras-and-video-servers/ip-cameras/vport-p06-1mp-m12-series"
+source_class = "exact-catalogue-model"
+selection_state = "sample-ready"
+public_spec = ["EN 50155 application statement", "IEC 61373 shock/vibration", "IP66", "PoE and M12 Ethernet", "1280 x 800 up to 30 fps"]
+fit_required = ["confirm lifecycle availability and cybersecurity baseline", "freeze viewing zones and privacy policy", "qualify cable, storage and passenger-intercom integration"]
+localisation = "Use the camera as a replaceable Ethernet appliance with locally made anti-vandal mount and harness."
+
+[[candidate]]
+id = "OSR-COTS-LIGHT-TEKNOWARE"
+product_ids = ["LM3-EXT-P066", "LM3-LGT-P010", "LM3-LGT-P020", "LM3-END-P050"]
+manufacturer = "Teknoware"
+model = "rolling-stock interior and emergency lighting platform"
+manufacturer_url = "https://www.teknoware.com/rolling-stock-lighting-and-interiors/interior-lighting-for-trains/emergency-lighting-for-rolling-stock/"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["rolling-stock LED emergency-lighting platform"]
+fit_required = ["freeze 24 V keyed cassette, optics and emergency duration", "obtain rail fire, EMC, ingress and photometry evidence", "separately select certified exterior head/tail lamps"]
+localisation = "Make the 1.2 m carrier, lens, brackets and harness locally around replaceable quoted LED modules."
+
+[[candidate]]
+id = "OSR-COTS-FASTENER-RIVNUT"
+product_ids = ["LM3-FIX-P020"]
+manufacturer = "Boellhoff"
+model = "RIVNUT metric M6/M8 steel or stainless blind rivet nuts"
+manufacturer_url = "https://media.boellhoff.com/files/pdf12/rivnut-us-version-en.pdf"
+source_class = "catalogue-family-with-sizing"
+selection_state = "sample-ready"
+public_spec = ["published M6/M8 thread and upset-strength data", "one-sided installation"]
+fit_required = ["select body, head, grip range and coating per joint drawing", "run substrate-specific setting and proof-load trials", "freeze setting-tool force and inspection gauge"]
+localisation = "Source from regional distributors or qualify metric equivalents by joint family; do not substitute solely by thread size."
+
+[[candidate]]
+id = "OSR-COTS-ANTENNA-HS-85137717"
+product_ids = ["LM3-EXT-P070", "LM3-CTRL-P020"]
+manufacturer = "HUBER+SUHNER"
+model = "SENCITY Rail MIMO 5-port with GNSS/LNA, product 85137717"
+manufacturer_url = "https://www.hubersuhner.com/en/shop/product/antennas/antennas/vehicles/85137717/sencity-rail-mimo-5-port-antenna-with-gnss-lna"
+source_class = "exact-catalogue-product"
+selection_state = "orderable-candidate"
+public_spec = ["2x2 cellular and Wi-Fi MIMO", "GNSS with integrated LNA", "EN 50155", "EN 45545-2 and NFPA 130", "-40 to 85 deg C"]
+fit_required = ["confirm city radio bands and cable losses", "freeze roof ground/bond and lightning path", "perform installed antenna and EMC tests"]
+localisation = "Buy antenna assemblies; manufacture roof doublers, cable conduits and replaceable RF jumpers locally."
+
+[[candidate]]
+id = "OSR-COTS-COMPOSITE-GURIT-130FR"
+product_ids = ["LM3-EXT-P080", "LM3-EXT-P090"]
+manufacturer = "Gurit"
+model = "SE 130FR / ST 130FR prepreg with SA130FR and SF130FR films"
+manufacturer_url = "https://www.gurit.com/wp-content/uploads/bsk-pdf-manager/2023/11/EMEA-Catalogue-November-2023-1.pdf"
+source_class = "exact-catalogue-family"
+selection_state = "sample-ready"
+public_spec = ["EN 45545 HL2 stated for R1/R7/R17 monolithic laminates", "85 deg C low-temperature cure option", "45 minute cure option at 120 deg C", "published reinforcement and film order codes"]
+fit_required = ["select reinforcement/core/film stack per component", "fire-test the actual sandwich laminate", "run environmental, insert, impact and repair qualification"]
+localisation = "Use the catalogue prepreg as the first-article material; cut, vacuum-bag, cure, trim and repair locally with batch coupons."
+
+[[candidate]]
+id = "OSR-COTS-MOTOR-ABB-AMXE250"
+product_ids = ["LM3-TRC-P010"]
+manufacturer = "ABB"
+model = "AMXE250 configurable traction motor"
+manufacturer_url = "https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxe/amxe250"
+source_class = "configurable-catalogue-machine"
+selection_state = "rfq-baseline"
+public_spec = ["up to 436 kW peak", "up to 3353 Nm peak", "up to 3500 rpm", "configurable shaft and length"]
+fit_required = ["quote a rail-duty 800 V winding and cooling configuration", "freeze shaft, foot, mass and torque-speed map", "obtain rail environmental, insulation, overspeed and endurance evidence"]
+localisation = "Buy first motors; local rewind and bearing service may follow an ABB-approved service procedure before attempting local manufacture."
+
+[[candidate]]
+id = "OSR-COTS-GEAR-VOITH-SE"
+product_ids = ["LM3-TRC-P020"]
+manufacturer = "Voith"
+model = "SE single-stage axle-mounted metro gear unit"
+manufacturer_url = "https://www.voith.com/corp-en/drives-transmissions/gear-units.html"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["single-stage axle-mounted rail gear family"]
+fit_required = ["freeze ratio, centre distance, torque and coupling", "obtain bearing, lubrication, efficiency, noise, overspeed and endurance evidence", "freeze reaction-link and wheelset interfaces"]
+localisation = "Buy first gear units; machine guards, torque link and mounting hardware locally."
+
+[[candidate]]
+id = "OSR-COTS-CONVERTER-ABB-CC400"
+product_ids = ["LM3-TRC-P030"]
+manufacturer = "ABB"
+model = "BORDLINE CC400 LRV compact converter"
+manufacturer_url = "https://www.abb.com/global/en/areas/motion/traction/traction-converter/cc400"
+source_class = "configurable-rail-product"
+selection_state = "rfq-baseline"
+public_spec = ["600/750 VDC LRV platform", "two independent propulsion converters", "integrated auxiliary converter and battery charger", "regenerative or resistor braking"]
+fit_required = ["confirm operation from the selected battery/DC-link range", "freeze motor, cooling, MVB/Ethernet and protection interfaces", "quote exact mass, envelope, losses, software and rail evidence"]
+localisation = "Buy first converters; localise cabinet, coolant manifold, harness and diagnostics integration behind frozen interfaces."
+
+[[candidate]]
+id = "OSR-COTS-BATTERY-HOPPECKE-LITRAC"
+product_ids = ["LM3-TRC-P040"]
+manufacturer = "HOPPECKE"
+model = "LiTrac modular high-voltage LFP rail traction battery"
+manufacturer_url = "https://www.hoppecke.com/en/product/rail-lithium/"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["modular/scalable traction system", "published LFP option", "UN 38.3 base-module statement", "supplier rail safety engineering"]
+fit_required = ["confirm the frozen 225 kWh gross per-car target against the validated duty cycle or raise a controlled change request", "freeze voltage window, pack segmentation, mass and cooling", "obtain IEC 62928, propagation, fire, EMC and software evidence for the quote"]
+localisation = "Buy certified packs/BMS initially; make external trays, ducts, guards, coolant manifolds and service fixtures locally."
+
+[[candidate]]
+id = "OSR-COTS-RESISTOR-DANOTHERM"
+product_ids = ["LM3-TRC-P050"]
+manufacturer = "Danotherm Electric"
+model = "custom traction brake resistor, 600-3000 VDC family"
+manufacturer_url = "https://www.danotherm.com/power-resistors/convection-cooled/steel-grid/brake-resistor"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["rail traction brake-resistor family", "600-3000 VDC published range", "IEC 60322 and IEC 61373 product-family statements", "roof/underframe installation options"]
+fit_required = ["derive resistance, continuous/pulse energy and duty cycle from simulation", "freeze enclosure, airflow, thermal switch and touch guards", "run worst-case stopped-train thermal test"]
+localisation = "Buy the element pack and insulators; manufacture roof carrier, shield, duct and service guard locally after the hot-zone model is frozen."
+
+[[candidate]]
+id = "OSR-COTS-CHARGER-SCHUNK"
+product_ids = ["LM3-TRC-P060"]
+manufacturer = "Schunk Carbon Technology"
+model = "Smart Charging automated high-current collector platform"
+manufacturer_url = "https://www.schunk-carbontechnology.com/en/products/current-transmission/e-mobility/smart-charging/"
+source_class = "interface-rfq-baseline"
+selection_state = "concept-alternative"
+public_spec = ["automated conductive charging platform"]
+fit_required = ["compare roof/bottom collector against the LM3 side-pin concept", "freeze current, voltage, touch safety, alignment and emergency release", "qualify stationary and vehicle halves together"]
+localisation = "Prefer a proven automated collector geometry if it reduces bespoke side-pin risk; make station frame, guards and alignment target locally."
+
+[[candidate]]
+id = "OSR-COTS-HV-SCHALTBAU-C360"
+product_ids = ["LM3-TRC-P070"]
+manufacturer = "Schaltbau"
+model = "C360K/300 railway bidirectional DC contactor"
+manufacturer_url = "https://schaltbau.com/en/product/contactors/c360/"
+source_class = "exact-catalogue-model"
+selection_state = "sample-ready"
+public_spec = ["IEC 60077-2 category B", "1000 V at pollution degree 3 / 1500 V at pollution degree 2", "300 A at 70 deg C", "3000 A one-second withstand", "24/36-48/72-110 VDC coil options"]
+fit_required = ["confirm breaking duty and prospective fault current", "select coil, auxiliary contacts and mounting orientation", "coordinate fuse, busbar, precharge and enclosure clearances"]
+localisation = "Buy contactors and qualified fuses; fabricate busbars, enclosure, precharge assembly and service-disconnect panel locally."
+
+[[candidate]]
+id = "OSR-COTS-HV-TE-HVP800"
+product_ids = ["LM3-TRC-P070", "LM3-ART-P030"]
+manufacturer = "TE Connectivity"
+model = "AMP+ HVP800 cable assembly 1-2286937-1"
+manufacturer_url = "https://www.te.com/en/product-1-2286937-1.html"
+source_class = "exact-catalogue-part"
+selection_state = "sample-ready"
+public_spec = ["1000 VDC", "1 m 50 mm2 cable assembly", "integrated HVIL family", "-40 to 140 deg C", "published CAD and product drawings"]
+fit_required = ["confirm current derating, fire and railway vibration for installed route", "freeze coding and mating header", "perform bend, ingress, HVIL and articulation-cycle tests"]
+localisation = "Buy terminals/connectors; cut and terminate qualified rail cable locally only with controlled tooling and 100 percent electrical test."
+
+[[candidate]]
+id = "OSR-COTS-FIRE-LIIONTAMER-3"
+product_ids = ["LM3-SAF-P010"]
+manufacturer = "Xtralis / Li-ion Tamer"
+model = "Li-ion Tamer GEN 3"
+manufacturer_url = "https://liiontamer.com/wp-content/uploads/3007_01_Li-ion_Tamer_GEN3_TDS_A4_IE.pdf"
+source_class = "exact-catalogue-system"
+selection_state = "sample-ready"
+public_spec = ["electrolyte-vapour early detection", "temperature and humidity at sensing nodes", "relay and Modbus interfaces", "calibration-free sensing claim"]
+fit_required = ["verify sensor response in selected battery airflow and contaminants", "define safe-state action and false-alarm handling", "do not treat detection as suppression or a standalone safety system"]
+localisation = "Buy sensing nodes/controller; make brackets, protected Ethernet/relay harness and test-gas service access locally."
+
+[[candidate]]
+id = "OSR-COTS-FIRE-FOGTEC"
+product_ids = ["LM3-SAF-P010"]
+manufacturer = "FOGTEC Rail Systems"
+model = "rail high-pressure water-mist system"
+manufacturer_url = "https://fogtec-international.com/rail/products/firefighting/"
+source_class = "vehicle-specific-rfq"
+selection_state = "hazard-analysis-rfq"
+public_spec = ["rail water-mist system family", "small pipe diameters and configurable vehicle installation"]
+fit_required = ["perform LM3 battery and passenger fire-hazard analysis", "freeze nozzles, reservoir, gas/water cylinders, detection and drains", "conduct representative full-scale fire and discharge tests"]
+localisation = "Buy validated nozzles/actuation/controller; localise approved pipework, brackets and refill/service tooling."
+
+[[candidate]]
+id = "OSR-COTS-WHEELSET-GHH"
+product_ids = ["LM3-BOG-P040", "LM3-BOG-P041"]
+manufacturer = "GHH-BONATRANS"
+model = "urban-rail wheelset with axle-mounted disc interfaces"
+manufacturer_url = "https://www.ghh-bonatrans.com/en/about-us/products-and-services/wheelset/"
+source_class = "vehicle-specific-rfq"
+selection_state = "rfq-baseline"
+public_spec = ["urban-rail wheelset supplier family"]
+fit_required = ["freeze wheel profile/diameter, axle journals and disc seats", "issue load spectrum and duty", "obtain material, forging, heat-treatment, NDT, press-fit and fatigue evidence"]
+localisation = "Buy certified wheelsets initially; local wheel/axle manufacture requires a separately qualified metallurgical and NDT route."
+
+[[candidate]]
+id = "OSR-COTS-BEARING-SKF-TBU"
+product_ids = ["LM3-BOG-P042", "LM3-BOG-P043"]
+manufacturer = "SKF"
+model = "sensor-ready railway tapered roller bearing unit"
+manufacturer_url = "https://cdn.skfmediahub.skf.com/api/public/0901d196801410ca/pdf_preview_medium/0901d196801410ca_pdf_preview_medium.pdf"
+source_class = "vehicle-specific-rfq"
+selection_state = "calculation-then-rfq"
+public_spec = ["sealed and pre-lubricated ready-to-mount TBU family"]
+fit_required = ["calculate bearing life from journal, load spectrum and speed", "freeze exact designation, fit, seal, grease and grounding", "freeze speed/temperature sensor and cable interface"]
+localisation = "Buy bearing units; machine housings, sensor guards and cable brackets locally to the supplier-controlled fits."
+
+[[candidate]]
+id = "OSR-COTS-SUSPENSION-CONTI"
+product_ids = ["LM3-BOG-P044", "LM3-BOG-P045", "LM3-BOG-P046", "LM3-BOG-P047"]
+manufacturer = "Continental"
+model = "rail half-bellow air spring with integrated auxiliary spring"
+manufacturer_url = "https://www.continental-industry.com/us/en/products-solutions/airsprings-suspension/railway/secondary-suspension"
+source_class = "vehicle-specific-rfq"
+selection_state = "dynamics-then-rfq"
+public_spec = ["metro/local-transport air-spring family", "integrated rubber-metal auxiliary spring option"]
+fit_required = ["freeze load-deflection/damping curves from the vehicle dynamics model", "select primary springs, air springs, dampers and bump stops as one system", "obtain ageing, fatigue, fire and ride evidence"]
+localisation = "Buy elastomer/spring/damper elements; fabricate spring seats, guides, centre pivot, yaw links and guards locally after calculation."
+
+[[candidate]]
+id = "OSR-COTS-BRAKE-KNORR-RZKT"
+product_ids = ["LM3-BOG-P048", "LM3-BOG-P049"]
+manufacturer = "Knorr-Bremse"
+model = "WheelAct Compact RZKT with spring parking-brake option"
+manufacturer_url = "https://rail.knorr-bremse.com/en/de/portfolio/products-and-systems/braking-systems/actuation/"
+source_class = "configurable-catalogue-model"
+selection_state = "brake-calculation-then-rfq"
+public_spec = ["50 kN service pad force", "45 kN spring parking force", "68 kg", "305 mm width", "plus/minus 25 mm lateral movement", "8-10 year stated overhaul interval"]
+fit_required = ["confirm disc diameter/pad pair and required force from brake calculation", "freeze actuator, parking, WSP and degraded-mode architecture", "perform stopping, thermal, adhesion and endurance tests"]
+localisation = "Buy first calipers/actuators; localise discs, hoses, brackets and overhaul parts only under brake-system approval."
+
+[[candidate]]
+id = "OSR-COTS-AIR-KNORR-VV120T"
+product_ids = ["LM3-AUX-P010"]
+manufacturer = "Knorr-Bremse"
+model = "VV120-T 2.0 oil-free rail compressor / AirSupply Smart"
+manufacturer_url = "https://rail.knorr-bremse.com/en/us/stories/technical-articles/airsupply-smart/"
+source_class = "configurable-rail-product"
+selection_state = "air-demand-then-rfq"
+public_spec = ["oil-free rail compressor family", "variable-speed smart-control option", "published low-noise operating mode"]
+fit_required = ["size from suspension, brake and auxiliary air demand", "freeze dryer, reservoir, relief, noise and mounting package", "run duty, thermal, condensate and degraded-mode tests"]
+localisation = "Buy compressor/dryer; fabricate reservoir, manifold, isolation, drains, mounts and acoustic enclosure locally to approved pressure codes."
+
+[[candidate]]
+id = "OSR-COTS-COUPLER-DELLNER430"
+product_ids = ["LM3-END-P010", "LM3-END-P040"]
+manufacturer = "Dellner"
+model = "automatic coupler Type 430 with pivot anchor"
+manufacturer_url = "https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-430"
+source_class = "configurable-catalogue-model"
+selection_state = "rfq-baseline"
+public_spec = ["light-rail/tram/monorail application", "600 kN buff and 500 kN draft", "gas-hydraulic damper", "remote uncoupling and foldable options"]
+fit_required = ["freeze height, gathering range, fold, crash stroke and pocket loads", "freeze electrical head and rescue jumper pinout", "integrate into whole-vehicle crash-energy management"]
+localisation = "Buy coupler/head/absorber; make pocket, covers, brackets and harness locally to Dellner drawings."
+
+[[candidate]]
+id = "OSR-COTS-JOINT-SCHAEFFLER"
+product_ids = ["LM3-ART-P020", "LM3-ART-P021"]
+manufacturer = "Schaeffler"
+model = "ELGES maintenance-free spherical plain bearing and rod-end family"
+manufacturer_url = "https://www.schaeffler.com/en/products-and-solutions/industrial/product-portfolio/plain-bearings/"
+source_class = "catalogue-family-with-calculation"
+selection_state = "calculation-then-order-code"
+public_spec = ["maintenance-free spherical plain-bearing family"]
+fit_required = ["derive static/dynamic load, pin diameter, misalignment and life", "freeze liner, seal, corrosion and temperature variant", "proof and fatigue-test the complete local housing/pin/link joint"]
+localisation = "Buy bearing liners/rod ends; machine housings, pins, links and retained fasteners locally from released drawings."
+
+[[candidate]]
+id = "OSR-COTS-GANGWAY-HUBNER"
+product_ids = ["LM3-ART-P022", "LM3-ART-P023", "LM3-ART-P040"]
+manufacturer = "HUEBNER"
+model = "modular metro double-wall corrugated gangway"
+manufacturer_url = "https://www.hubner-group.com/en/products/gangway-systems/gangway-systems-for-metros-subways-and-suburban-railways/"
+source_class = "vehicle-specific-rfq"
+selection_state = "kinematic-envelope-then-rfq"
+public_spec = ["single/double-wall corrugated-bellows options", "bridge and elastic interior-panel options", "metro/urban-rail application"]
+fit_required = ["issue full articulation sweep and end-frame geometry", "freeze bellows, bridge, turntable, clamp and drainage", "perform fire, fatigue, water, passenger-load and pinch-gap tests"]
+localisation = "Buy first bellows/bridge system; fabricate clamp frames, threshold, drains and service panels locally to released interfaces."
+
+[[candidate]]
+id = "OSR-COTS-TRAINLINE-IGUS-HARTING"
+product_ids = ["LM3-ART-P024", "LM3-ART-P030", "LM3-ART-P041"]
+manufacturer = "igus / HARTING"
+model = "rail e-chain carrier with Han HPR connector system"
+manufacturer_url = "https://www.igus.com/info/industries-railway-technology"
+source_class = "catalogue-family-with-sizing"
+selection_state = "sample-and-cycle-test"
+public_spec = ["rail dynamic cable-carrier family", "rail connector/fire variants available"]
+fit_required = ["select carrier from bend radius, fill, travel and torsion", "freeze Han HPR inserts, housings, coding and breakaway", "cycle-test complete HV/LV/coolant bundle through the articulation envelope"]
+localisation = "Buy carriers/connectors; cut rail cable and hose, make support arms, drains and protective sleeves locally with controlled termination."
+
+[[candidate]]
+id = "OSR-COTS-CONTROL-DUAGON-MH50C"
+product_ids = ["LM3-CTRL-P010"]
+manufacturer = "duagon"
+model = "D-SC Controller with MH50C safe CPU and distributed safe I/O"
+manufacturer_url = "https://www.duagon.com/duagon-safe-control/products/"
+source_class = "certified-configurable-platform"
+selection_state = "safety-allocation-then-rfq"
+public_spec = ["applications up to SIL4 stated by supplier", "three-CPU safe controller", "safe I/O", "EN 50155 rolling-stock environment", "certification packages available"]
+fit_required = ["allocate each LM3 safety function and required SIL", "freeze CPU/I/O/BSP/application configuration", "independently verify OSR integration and safe-state timing"]
+localisation = "Use duagon for the independent qualified channel; keep OSR application compute separate and portable. Build cabinet/harness locally."
+
+[[candidate]]
+id = "OSR-COTS-COMPUTE-MOXA-V2406C"
+product_ids = ["LM3-CTRL-P010"]
+manufacturer = "Moxa"
+model = "V2406C-WL1-T railway computer"
+manufacturer_url = "https://moxa.com/en/products/industrial-computing/x86-computers/v2406c-series"
+source_class = "exact-catalogue-model"
+selection_state = "application-compute-candidate"
+public_spec = ["EN 50155:2017 mandatory-test statement", "EN 50121-4", "IEC 61373", "-40 to 70 deg C", "24 to 110 VDC isolated input family"]
+fit_required = ["not a safety controller", "freeze memory/storage and supported Linux image", "cybersecurity hardening, lifecycle and application-load tests"]
+localisation = "Buy fanless computers; build the cabinet, isolated supply, M12 train network and replaceable storage locally."
+
+[[candidate]]
+id = "OSR-COTS-ROUTER-WESTERMO-630-5G"
+product_ids = ["LM3-CTRL-P020"]
+manufacturer = "Westermo"
+model = "Ibex-RT-630-5G"
+manufacturer_url = "https://www.westermo.com/au/products/routers-and-gateways/cellular-routers-and-gateways/ibex-rt-630-5g"
+source_class = "exact-catalogue-model"
+selection_state = "orderable-candidate"
+public_spec = ["3GPP Release 16 5G", "4x4 sub-6 GHz MIMO", "2x2 Wi-Fi", "EN 50155 and EN 45545-2", "M12 and IP66"]
+fit_required = ["confirm local 5G bands/SIMs and cybersecurity lifecycle", "freeze antenna/cable topology", "prove handover, loss-of-comms and update behaviour"]
+localisation = "Buy router; integrate local SIM service, cybersecurity configuration, roof cables and cabinet harness."
+
+[[candidate]]
+id = "OSR-COTS-SAFETYRELAY-PILZ-751184"
+product_ids = ["LM3-CTRL-P030"]
+manufacturer = "Pilz"
+model = "PNOZ s4, railway order 751184"
+manufacturer_url = "https://www.pilz.com/download/open/PNOZ_s4_Operat_Man_21396-EN-14.pdf"
+source_class = "exact-catalogue-order"
+selection_state = "bench-safety-relay-candidate"
+public_spec = ["railway application note for order 751184", "three safety contacts", "redundant self-monitoring circuit"]
+fit_required = ["use only for an allocated compatible function", "observe supplier accessibility restriction for railway use", "verify contact load, diagnostics and safe-state integration"]
+localisation = "Buy relays; fabricate labelled DIN cabinet, E-stop/pendant harness and replaceable terminal blocks locally."
+
+[[candidate]]
+id = "OSR-COTS-RECORDER-HASLER"
+product_ids = ["LM3-CTRL-P050"]
+manufacturer = "HaslerRail"
+model = "JRU/EVA event-recorder platform"
+manufacturer_url = "https://www.haslerrail.com/products/"
+source_class = "vehicle-specific-rfq"
+selection_state = "requirements-then-rfq"
+public_spec = ["rail event-recording product family"]
+fit_required = ["freeze jurisdictional data set, retention and clock", "select protected memory and download interfaces", "obtain crash, fire, environmental and chain-of-custody evidence"]
+localisation = "Buy protected recorder; use local commodity storage only for non-protected operational logs."
+
+[[candidate]]
+id = "OSR-COTS-LIDAR-OUSTER-OS1"
+product_ids = ["LM3-END-P020"]
+manufacturer = "Ouster"
+model = "OS1 industrial lidar sensor"
+manufacturer_url = "https://ouster.com/products/hardware/os1-lidar-sensor"
+source_class = "catalogue-sensor"
+selection_state = "development-sensor-candidate"
+public_spec = ["industrial digital lidar family"]
+fit_required = ["not a certified railway obstacle-detection function", "freeze field of view, range, latency, heater/washer and protective window", "validate sensing, diagnostics and failure response over route conditions"]
+localisation = "Buy sensors; manufacture datum carrier, sacrificial heated window, washer, guard and service alignment fixture locally."

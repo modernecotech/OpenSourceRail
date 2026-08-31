@@ -764,7 +764,25 @@ def check_rolling_stock_bom() -> list[Finding]:
     module = runpy.run_path(str(BOM_EXPORTER))
     # Rendering validates the source schema without requiring build output in Git.
     module["render_csv"](BOM_SOURCE)
-    return check_rolling_stock_bom_markdown_summaries(module)
+    findings = check_rolling_stock_bom_markdown_summaries(module)
+    bom_ids = {str(row["line_id"]) for row in module["export_rows"](BOM_SOURCE)}
+    schedule_path = REPO_ROOT / "lib/templates/manufacturing-schedule.toml"
+    schedule = tomllib.loads(schedule_path.read_text(encoding="utf-8"))
+    scheduled_ids = {
+        ref.split(":", 1)[1]
+        for package in schedule.get("manufacturing_package", [])
+        for ref in package.get("bom_refs", [])
+        if str(ref).startswith("rolling_stock_bom:")
+    }
+    if missing := sorted(bom_ids - scheduled_ids):
+        findings.append(
+            Finding(schedule_path, f"rolling-stock manufacturing schedule omits BOM rows: {', '.join(missing)}")
+        )
+    if unknown := sorted(scheduled_ids - bom_ids):
+        findings.append(
+            Finding(schedule_path, f"rolling-stock manufacturing schedule has unknown BOM rows: {', '.join(unknown)}")
+        )
+    return findings
 
 
 def check_rolling_stock_bom_markdown_summaries(module: dict) -> list[Finding]:
@@ -1252,6 +1270,10 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "supplier_source": REPO_ROOT / "lib/templates/trainset-supplier-anchors.toml",
         "supplier_register": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json",
         "supplier_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md",
+        "cots_source": REPO_ROOT / "lib/templates/trainset-cots-candidates.toml",
+        "cots_register": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+        "cots_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.md",
+        "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
@@ -1287,6 +1309,13 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         }
         if coverage != expected_supplier:
             findings.append(Finding(paths["supplier_register"], f"LM3 supplier-anchor coverage changed: {coverage}"))
+    if paths["cots_register"].is_file():
+        cots = json.loads(paths["cots_register"].read_text(encoding="utf-8"))
+        coverage = cots.get("coverage", {})
+        if coverage.get("external_product_rows") != 54 or coverage.get("covered_external_product_rows") != 54:
+            findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ coverage is incomplete: {coverage}"))
+        if coverage.get("candidate_count", 0) < 30 or coverage.get("uncovered_product_ids"):
+            findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ register is incomplete: {coverage}"))
     if paths["ifc_index"].is_file():
         index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
         if not index.get("passed"):

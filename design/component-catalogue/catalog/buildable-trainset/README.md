@@ -29,6 +29,8 @@ current basic design and what must be closed before first steel cut.
 | Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
 | Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 54 bought-in rows from 25 real product families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
+| Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 39 manufacturer-sourced catalogue/RFQ candidates covering all 54 bought-in rows, while preserving the exact fit and evidence still required |
+| First-article execution team | [`first-article-execution-pack.md`](first-article-execution-pack.md) | Follow one ordered procurement, rig, physical-test and independent-acceptance route across all 12 evidence gates |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
 | Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 101 product links, nine timed methods, 20 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
@@ -53,7 +55,8 @@ The intended sequence is:
    [`first-article-baseline.json`](first-article-baseline.json), then read the
    buildability review for release blockers.
 2. Use the manifest to understand the 101-part / 26-assembly tree, then use
-   `supplier-anchors.md` to buy an anchor family or qualify a local equivalent.
+   `cots-candidates.md` for exact catalogue samples and vehicle-specific RFQs;
+   `supplier-anchors.md` retains the broader local-equivalent boundary.
 3. Use `train-end-interface.md` to confirm whether each end position is
    dressed as a panoramic glass front/end or an open mid-train
    train-to-train connection.
@@ -76,9 +79,12 @@ The intended sequence is:
    evidence becomes available.
 10. Use travelers as the shop-routing, material/process-control, and QA
    template.
-11. Attach real inspection evidence and signatures only during an
+11. Run the ordered procurement and rig sequence in
+    `first-article-execution-pack.md`; begin supplier and test records from the
+    controlled templates under `evidence/`.
+12. Attach real inspection evidence and signatures only during an
    authorised build.
-12. Run `python3 tools/automation/validate-lm3-first-article-evidence.py`
+13. Run `python3 tools/automation/validate-lm3-first-article-evidence.py`
     before claiming a release gate. It verifies accountable submissions,
     calibrated-equipment metadata, artifact existence and SHA-256 values.
 

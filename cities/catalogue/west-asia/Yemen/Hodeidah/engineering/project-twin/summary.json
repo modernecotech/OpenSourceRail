@@ -406,10 +406,53 @@
     "unresolved_external_gates": []
   },
   "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
     "earliest_order_by_day": -145,
-    "planned_purchase_orders": 8163,
-    "pre_ntp_order_actions": 1577,
-    "priced_rows": 7171,
+    "manufacturer_candidate_ids": [
+      "OSR-COTS-AIR-KNORR-VV120T",
+      "OSR-COTS-ANTENNA-HS-85137717",
+      "OSR-COTS-BATTERY-HOPPECKE-LITRAC",
+      "OSR-COTS-BEARING-SKF-TBU",
+      "OSR-COTS-BRAKE-KNORR-RZKT",
+      "OSR-COTS-CAMERA-MOXA-P06HC",
+      "OSR-COTS-CHARGER-SCHUNK",
+      "OSR-COTS-COMPOSITE-GURIT-130FR",
+      "OSR-COTS-COMPUTE-MOXA-V2406C",
+      "OSR-COTS-CONTROL-DUAGON-MH50C",
+      "OSR-COTS-CONVERTER-ABB-CC400",
+      "OSR-COTS-COUPLER-DELLNER430",
+      "OSR-COTS-DOOR-IFE",
+      "OSR-COTS-FASTENER-RIVNUT",
+      "OSR-COTS-FIRE-FOGTEC",
+      "OSR-COTS-FIRE-LIIONTAMER-3",
+      "OSR-COTS-FLOOR-COMFLOOR",
+      "OSR-COTS-FLOOR-FORBO-6R3883",
+      "OSR-COTS-GANGWAY-HUBNER",
+      "OSR-COTS-GEAR-VOITH-SE",
+      "OSR-COTS-GLASS-AGC",
+      "OSR-COTS-GLAZING-SIKA268",
+      "OSR-COTS-HV-SCHALTBAU-C360",
+      "OSR-COTS-HV-TE-HVP800",
+      "OSR-COTS-HVAC-LONGERTEK",
+      "OSR-COTS-JOINT-SCHAEFFLER",
+      "OSR-COTS-LIDAR-OUSTER-OS1",
+      "OSR-COTS-LIGHT-TEKNOWARE",
+      "OSR-COTS-MOTOR-ABB-AMXE250",
+      "OSR-COTS-PIS-LUMINATOR",
+      "OSR-COTS-PV-SUNMAN",
+      "OSR-COTS-RECORDER-HASLER",
+      "OSR-COTS-RESISTOR-DANOTHERM",
+      "OSR-COTS-ROUTER-WESTERMO-630-5G",
+      "OSR-COTS-SAFETYRELAY-PILZ-751184",
+      "OSR-COTS-SEAT-FAINSA",
+      "OSR-COTS-SUSPENSION-CONTI",
+      "OSR-COTS-TRAINLINE-IGUS-HARTING",
+      "OSR-COTS-WHEELSET-GHH"
+    ],
+    "manufacturer_candidate_linked_rows": 5751,
+    "planned_purchase_orders": 8589,
+    "pre_ntp_order_actions": 1589,
+    "priced_rows": 7597,
     "quotation_required_rows": 992
   },
   "product_scope": {
@@ -424,7 +467,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-4c67a47c01034440",
+  "revision_id": "twin-e21a426e27cf51a5",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -446,6 +489,27 @@
       "revision_id": "twin-4c67a47c01034440",
       "sequence": 3,
       "source_hash": "66fc198a4e8b0085c2793c1bc6ef4f372148ee8399faa69146514ee14f194efe"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-858ebd3124f25af6",
+      "sequence": 4,
+      "source_hash": "9201504cf4513b8086e1be516b7e7937d709f2c309f3349c6462b7fa0ce41e3f"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-295d649dfb0db864",
+      "sequence": 5,
+      "source_hash": "a29d0f1da9cc39324c9796f7aff000e3ac9cea0538395f341f9e0e55bc18850e"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e21a426e27cf51a5",
+      "sequence": 6,
+      "source_hash": "e5f48035ed0a7e2afc47e22d281c0b49b8f90551d3ff8d7877312a7e78ab012c"
     }
   ],
   "schema_version": "1.0",
@@ -460,19 +524,27 @@
     },
     "manufacturing_template": {
       "path": "lib/templates/manufacturing-schedule.toml",
-      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
+      "sha256": "f4d23ba9cf3f304c5438821b92b3d7a290a5b6105f4b7adf895893a145cdf525"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
+      "sha256": "cc7c113dc2e14dab3da0f8057dcec9cad4177f094d177c051b90498cdefd1a47"
     },
     "scenario": {
       "path": "cities/catalogue/west-asia/Yemen/Hodeidah/hodeidah.toml",
       "sha256": "4bba622c1e79c961d7853203470129834091600a43073af3dc6c12f8da422dbb"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "dce8567bdcf7e29cbadf8a59762e26a9de0b0f6006fc4c91dff4bf2ce7a04c67"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "be70f70dbc6ce4c99d2db089b5e75f0acfb869ea9dd59dd856f3f36cf1f366d3"
     }
   },
   "status": "planning-digital-twin-not-construction-release",
@@ -482,9 +554,9 @@
     "cashflow_months": 27,
     "critical_work_packages": 90,
     "planned_capex_usd": 291307733.26,
-    "planned_purchase_orders": 8163,
-    "pre_ntp_order_actions": 1577,
-    "priced_procurement_usd": 49014140.0,
+    "planned_purchase_orders": 8589,
+    "pre_ntp_order_actions": 1589,
+    "priced_procurement_usd": 49724140.0,
     "programme_working_days": 670,
     "work_packages": 685
   },

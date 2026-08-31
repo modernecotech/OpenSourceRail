@@ -75,6 +75,9 @@ def main() -> int:
     supplier_anchors = _load_supplier_anchors(
         REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"
     )
+    cots_candidates = _load_cots_candidates(
+        REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json"
+    )
     finance_path = args.design.parent / "engineering/finance/summary.json"
     finance_model = json.loads(finance_path.read_text(encoding="utf-8")) if finance_path.is_file() else {}
 
@@ -99,6 +102,7 @@ def main() -> int:
         manufacturing_template=manufacturing_template,
         bom_catalog=bom_catalog,
         supplier_anchors=supplier_anchors,
+        cots_candidates=cots_candidates,
         finance_model=finance_model,
         previous_twin_revisions=previous_revisions,
         design_path=args.design,
@@ -188,6 +192,7 @@ def build_bundle(
     manufacturing_template: dict[str, Any],
     bom_catalog: dict[str, dict[str, dict[str, str]]],
     supplier_anchors: dict[str, dict[str, Any]] | None = None,
+    cots_candidates: dict[str, list[dict[str, Any]]] | None = None,
     finance_model: dict[str, Any] | None = None,
     previous_twin_revisions: list[dict[str, Any]] | None = None,
     design_path: Path,
@@ -490,6 +495,7 @@ def build_bundle(
         manufacturing_tasks=manufacturing_tasks,
         bom_catalog=bom_catalog,
         supplier_anchors=supplier_anchors or {},
+        cots_candidates=cots_candidates or {},
     )
     manufacturing_verifications = _expand_manufacturing_verifications(
         manufacturing_tasks=manufacturing_tasks,
@@ -530,6 +536,8 @@ def build_bundle(
             "finance": finance_path,
             "operations_generator": Path(__file__),
             "project_twin_generator": REPO_ROOT / "tools/automation/project_twin.py",
+            "trainset_cots_candidates": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+            "trainset_first_article_execution": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         },
         resource_capacity=dict(manufacturing_template.get("resource_capacity", {})),
         previous_revisions=previous_twin_revisions,
@@ -976,6 +984,7 @@ def _expand_manufacturing_materials(
     manufacturing_tasks: list[dict[str, Any]],
     bom_catalog: dict[str, dict[str, dict[str, str]]],
     supplier_anchors: dict[str, dict[str, Any]],
+    cots_candidates: dict[str, list[dict[str, Any]]],
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for task in manufacturing_tasks:
@@ -989,6 +998,7 @@ def _expand_manufacturing_materials(
                 bom_row=bom_row,
                 position=position,
                 supplier_anchors=supplier_anchors,
+                cots_candidates=cots_candidates,
             )
             rows.append(material)
     return rows
@@ -1002,6 +1012,7 @@ def _material_from_bom_ref(
     bom_row: dict[str, str],
     position: int,
     supplier_anchors: dict[str, dict[str, Any]],
+    cots_candidates: dict[str, list[dict[str, Any]]],
 ) -> dict[str, Any]:
     if source == "rolling_stock_bom" and bom_row:
         description = bom_row.get("description", key)
@@ -1043,6 +1054,13 @@ def _material_from_bom_ref(
         ),
         {},
     )
+    candidates = {
+        str(candidate.get("id", "")): candidate
+        for item in _split_refs(engineering_ids)
+        for candidate in cots_candidates.get(item, [])
+        if candidate.get("id")
+    }
+    candidate_rows = [candidates[key] for key in sorted(candidates)]
     return {
         "material_uid": material_uid,
         "manufacturing_uid": task["manufacturing_uid"],
@@ -1067,6 +1085,17 @@ def _material_from_bom_ref(
         "supplier_selection_status": anchor.get(
             "procurement_state",
             "reference-family-requires-selection" if supplier_reference else "competitive-source-required",
+        ),
+        "cots_candidate_ids": "; ".join(str(row["id"]) for row in candidate_rows),
+        "cots_candidate_models": "; ".join(
+            f"{row.get('manufacturer', '')} {row.get('model', '')}".strip()
+            for row in candidate_rows
+        ),
+        "cots_selection_states": "; ".join(
+            sorted({str(row.get("selection_state", "")) for row in candidate_rows if row.get("selection_state")})
+        ),
+        "cots_register_status": (
+            "controlled-design-input-not-order" if candidate_rows else "no-listed-candidate"
         ),
         "traceability_required": "yes",
         "evidence_required": evidence,
@@ -1325,6 +1354,23 @@ def _load_supplier_anchors(path: Path) -> dict[str, dict[str, Any]]:
         for anchor in payload.get("anchor", [])
         for product_id in anchor.get("product_ids", [])
     }
+
+
+def _load_cots_candidates(path: Path) -> dict[str, list[dict[str, Any]]]:
+    """Index controlled candidate families by LM3 product row.
+
+    Candidate entries are design and RFQ inputs only. Their presence never
+    upgrades a planned purchase order to an issued or supplier-approved order.
+    """
+
+    if not path.is_file():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    indexed: dict[str, list[dict[str, Any]]] = {}
+    for candidate in payload.get("candidate", []):
+        for product_id in candidate.get("product_ids", []):
+            indexed.setdefault(str(product_id), []).append(candidate)
+    return indexed
 
 
 def _load_csv_index(path: Path, key: str) -> dict[str, dict[str, str]]:

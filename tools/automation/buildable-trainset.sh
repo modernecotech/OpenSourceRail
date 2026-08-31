@@ -11,6 +11,9 @@ PYTHONPATH="$MECH_ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
     python3 -m osr_mech.trainset_supplier_anchors "$@"
 
 PYTHONPATH="$MECH_ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
+    python3 -m osr_mech.trainset_cots_candidates "$@"
+
+PYTHONPATH="$MECH_ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
     python3 -m osr_mech.trainset_manufacturing_methods "$@"
 
 python3 "$REPO_ROOT/tools/automation/generate-lm3-first-article-work.py"

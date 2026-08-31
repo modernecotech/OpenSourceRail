@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/automation"))
 
-from project_twin import apply_resource_cpm, build_project_twin  # noqa: E402
+from project_twin import apply_resource_cpm, build_project_twin, compact_summary  # noqa: E402
 
 
 def _task(uid: str, *, predecessor: str = "") -> dict:
@@ -62,6 +62,10 @@ def test_twin_reconciles_capex_deduplicates_orders_and_is_deterministic(tmp_path
             "supplier_anchor_id": "ANCHOR-MOTOR",
             "supplier_name": "reference supplier",
             "supplier_family": "motor family",
+            "cots_candidate_ids": "OSR-COTS-MOTOR-001",
+            "cots_candidate_models": "reference supplier motor 001",
+            "cots_selection_states": "rfq-baseline",
+            "cots_register_status": "controlled-design-input-not-order",
         },
         {
             "manufacturing_uid": "TRAIN-1:kit",
@@ -96,6 +100,11 @@ def test_twin_reconciles_capex_deduplicates_orders_and_is_deterministic(tmp_path
     assert first["revision_id"] == second["revision_id"]
     assert len(first["purchase_orders"]) == 1
     assert first["purchase_orders"][0]["order_by_day"] == -150
+    assert first["purchase_orders"][0]["cots_candidate_ids"] == "OSR-COTS-MOTOR-001"
+    assert first["purchase_orders"][0]["status"] == "planned-not-issued"
+    summary = compact_summary(first)
+    assert summary["procurement"]["manufacturer_candidate_linked_rows"] == 1
+    assert summary["procurement"]["manufacturer_candidate_ids"] == ["OSR-COTS-MOTOR-001"]
     assert sum(row["budget_usd"] for row in first["budget_contracts"]) == 100_000.0
     assert sum(row["planned_requirement_usd"] for row in first["cashflow"]["monthly_requirements"]) == 100_000.0
     assert len(first["visualization_timeline"]) == 2

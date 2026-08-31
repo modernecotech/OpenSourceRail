@@ -792,7 +792,10 @@
     "unresolved_external_gates": []
   },
   "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
     "earliest_order_by_day": -60,
+    "manufacturer_candidate_ids": [],
+    "manufacturer_candidate_linked_rows": 0,
     "planned_purchase_orders": 3316,
     "pre_ntp_order_actions": 714,
     "priced_rows": 0,
@@ -810,7 +813,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-8a0213ab30cec89e",
+  "revision_id": "twin-d492000c8538beae",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -832,6 +835,27 @@
       "revision_id": "twin-8a0213ab30cec89e",
       "sequence": 3,
       "source_hash": "45ba75c0469f44e2c5287acaf2ddaeec6f3ad7ac93b6b0fbea5a60b6d0f033fc"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-15452c4eeb5ebad1",
+      "sequence": 4,
+      "source_hash": "c1003bf17d79e016dd7220b8234f6e14651f7daf7f88350245fe16a34cc348c3"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e05c175270b89a59",
+      "sequence": 5,
+      "source_hash": "c1b55558fc1140b4f91546b39f22ce2c6b25138db35ec058c92f1edfb62ceb2e"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d492000c8538beae",
+      "sequence": 6,
+      "source_hash": "eb423d1e9521ec6f8998d2430d1993bdc2358e8ab87520e22232b89672c6b6ed"
     }
   ],
   "schema_version": "1.0",
@@ -846,19 +870,27 @@
     },
     "manufacturing_template": {
       "path": "lib/templates/manufacturing-schedule.toml",
-      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
+      "sha256": "f4d23ba9cf3f304c5438821b92b3d7a290a5b6105f4b7adf895893a145cdf525"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
+      "sha256": "cc7c113dc2e14dab3da0f8057dcec9cad4177f094d177c051b90498cdefd1a47"
     },
     "scenario": {
       "path": "cities/catalogue/north-africa/Morocco/Fez/fez.toml",
       "sha256": "584e0dd565a0943f842b432f5f1528a961dc2d14e2b735d1c1e5785eb8de7354"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "dce8567bdcf7e29cbadf8a59762e26a9de0b0f6006fc4c91dff4bf2ce7a04c67"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "be70f70dbc6ce4c99d2db089b5e75f0acfb869ea9dd59dd856f3f36cf1f366d3"
     }
   },
   "status": "planning-digital-twin-not-construction-release",

@@ -114,6 +114,7 @@ def build_project_twin(
                 "required": row["required_by_day"],
                 "order": row["order_by_day"],
                 "cost": row["planning_cost_usd"],
+                "cots_candidates": row.get("cots_candidate_ids", ""),
             }
             for row in procurements
         ],
@@ -380,6 +381,10 @@ def build_procurement_plan(
                 "supplier": supplier,
                 "supplier_family_or_local_equivalent": supplier_family,
                 "supplier_selection_status": first.get("supplier_selection_status", "competitive-source-required"),
+                "cots_candidate_ids": first.get("cots_candidate_ids", ""),
+                "cots_candidate_models": first.get("cots_candidate_models", ""),
+                "cots_selection_states": first.get("cots_selection_states", ""),
+                "cots_register_status": first.get("cots_register_status", "no-listed-candidate"),
                 "currency": "USD",
                 "planning_cost_usd": planning_cost,
                 "cost_status": "planning-basis" if planning_cost else "quotation-required",
@@ -494,6 +499,12 @@ def compact_summary(twin: dict[str, Any]) -> dict[str, Any]:
     peak = max(monthly, key=lambda row: row["planned_requirement_usd"], default=None)
     orders = twin["purchase_orders"]
     priced = sum(1 for row in orders if row["planning_cost_usd"] > 0)
+    candidate_linked = [row for row in orders if row.get("cots_candidate_ids")]
+    candidate_ids = sorted({
+        candidate_id
+        for row in candidate_linked
+        for candidate_id in _refs(str(row.get("cots_candidate_ids", "")))
+    })
     buckets: dict[str, dict[str, float | int]] = defaultdict(
         lambda: {"work_packages": 0, "budget_usd": 0.0}
     )
@@ -516,6 +527,9 @@ def compact_summary(twin: dict[str, Any]) -> dict[str, Any]:
             "planned_purchase_orders": len(orders),
             "priced_rows": priced,
             "quotation_required_rows": len(orders) - priced,
+            "manufacturer_candidate_linked_rows": len(candidate_linked),
+            "manufacturer_candidate_ids": candidate_ids,
+            "candidate_status": "controlled-design-input-not-order",
             "pre_ntp_order_actions": sum(1 for row in orders if row["order_by_day"] < 0),
             "earliest_order_by_day": min((row["order_by_day"] for row in orders), default=None),
         },

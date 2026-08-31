@@ -1,10 +1,10 @@
 # LM3 First-Article Evidence Status
 
-This register distinguishes existing solver-backed screening from supplier, laboratory and independently accepted release evidence. Planned protocols are not represented as performed tests.
+This register distinguishes public supplier data, planned procedures and solver-backed screening from supplier-controlled, laboratory and independently accepted release evidence. Planned work is never represented as a performed test.
 
 **Release ready:** no · **Accepted:** 0 · **Open:** 12
 
-| Evidence package | Repository status | Release gate | Existing artifacts |
+| Evidence package | Repository status | Release gate | Planning / screening artifacts |
 |---|---|---|---|
 | `EVD-STR-001` — Carbody and chassis structural analysis | available-screening | open | present |
 | `EVD-STR-002` — Bogie frame and equipment attachment structural analysis | available-screening | open | present |

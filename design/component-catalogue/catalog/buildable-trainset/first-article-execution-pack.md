@@ -1,0 +1,45 @@
+# LM3 first-article execution pack
+
+This is the single working page for converting `LM3-FA-001` from a controlled design candidate into a physically evidenced first article. It links the [39 sourced catalogue/RFQ candidates](cots-candidates.md), [67 public work packages](first-article-work-packages.md), shop travelers and the 12 evidence gates. It is not a claim that unperformed tests have passed.
+
+## Release sequence
+
+1. Hold the `LM3-FA-001` dimensions, duty cycle and product tree. A proposed change needs a configuration record, affected analyses and a regenerated city twin.
+2. Issue the candidate-specific RFQs from `cots-candidates.md`. Require an exact order code, controlled drawings, mass, price, lead time, spares, software, RAMS, maintenance and compliance evidence.
+3. Complete interfaces before purchase: mounting datums/envelopes, loads, voltage/current, cooling, network/I/O, protection, access, lifting and replacement.
+4. Review bids by evidence and lifecycle cost, not headline unit price. Record every deviation and local-equivalent proposal.
+5. Release detailed drawings and analyses only after chosen supplier interfaces are frozen.
+6. Build coupons and subsystem rigs before the vehicle. Failed gates create an NCR and block dependent assembly release.
+7. Build the first article from serialized parts and signed travelers. Preserve raw data, photographs, calibration records and software hashes.
+8. Independent reviewers accept evidence packages. Generation scripts never convert a planned or supplier-claimed result into an accepted result.
+
+## Evidence gates and executable work
+
+| Gate | Work to perform | Minimum controlled output | Hold point |
+|---|---|---|---|
+| `EVD-STR-001` carbody/chassis | Replace beam screening with released shell/solid geometry; apply the approved vehicle load specification; model welds, joints, doors/windows and equipment loads; run sensitivity and mesh-convergence studies; correlate to body proof test. | Native model, solver deck/version, load-case report, convergence results, weld/joint assessment, independent calculation review and correlation report. | No carbody production release before utilization, instability, fatigue and permanent-set dispositions are independently accepted. |
+| `EVD-STR-002` bogie/attachments | Issue bogie load spectrum; analyse frame, motor cradle, brake brackets, spring seats, pivot/yaw links and exceptional loads; extract weld-class stresses; correlate to frame proof/fatigue rig. | Released model/decks, load spectrum, convergence, weld assessment, attachment reactions, reviewer record and rig correlation. | No powered-bogie vehicle test before frame and attachment proof evidence is accepted. |
+| `EVD-TEST-001` physical proof | Approve fixtures and safe test method; identify specimen/as-built deviations; install calibrated force, displacement and strain channels; apply proof/fatigue/functional sequence; inspect before, during and after. | Procedure, risk assessment, fixture certificate, calibration register, raw time series, synchronized photographs, inspection/NDT, deviations, signed report and design disposition. | Test lead may stop at any unexpected deformation, noise, crack, leakage, temperature or instrumentation anomaly. |
+| `EVD-THM-001` battery/charger/cooling | Use the frozen city ambient and worst repeatable duty cycle; test charging, traction, regeneration, parked soak and blocked/degraded cooling; measure cells/modules, contacts, busbars, coolant and enclosure; verify every protective trip. | Loss/limit maps, rig diagram, channel list, raw temperatures/flows/pressures/current/voltage, thermal images, alarm/trip log and signed margin report. | No unattended charge or passenger operation before worst-case and single-fault results are accepted. |
+| `EVD-ELEC-001` harness/protection | Release the single-line, cable and connector schedules, pin maps, fuse/contactor/selectivity study, bonding plan, HVIL loop and routed harness drawings. Enforce HV, 110 V, 24 V, data and fluid segregation. | Drawing index plus supplier/order codes, conductor/temperature/fire ratings, termini/tooling, protection settings, load/voltage-drop calculations and configuration signature. | No harness cutting or energisation from an illustrative/preliminary drawing. |
+| `EVD-ELEC-002` electrical test | Test every serialized harness pin-to-pin; insulation resistance and dielectric withstand only at approved values; verify shields, bonds, polarity, keying and HVIL; record rework and retest. | Tester identity/calibration, automated raw result file, signed summary, fault/rework log and released serial list. | Any cross-wire, missing shield/bond, insulation failure or unapproved repair blocks installation. |
+| `EVD-CTRL-001` controller/HIL | Keep OSR application compute separate from the qualified safety channel. Freeze duagon/Pilz or accepted equivalents, firmware, BSP, I/O and timing. Run requirements-linked nominal, boundary, power, clock, bus, sensor, actuator, watchdog, reset and network fault tests. | Configuration hashes, requirements-to-test matrix, rig schematic, timestamped raw logs, safe-state measurements, coverage/deviation report and independent witness record. | OSR remains shadow/supervised until the allocated safety functions and complete vehicle interfaces are accepted. |
+| `EVD-SUP-001` bogie supply | RFQ wheelsets, bearings, suspension, brakes and compressor using the released load/duty envelopes and common interface sheets. | Exact order codes, supplier drawings, certificates, RAMS/maintenance/spares, type tests, price/lead time and signed interface acceptance. | No substitution by approximate size or catalogue photo. Brake and running-gear system authority must accept the combined configuration. |
+| `EVD-SUP-002` door supply | Issue aperture, kinematic, mounting, electrical/network and emergency-interface sheet to IFE and equivalents; request the exact cassette/controller and its type evidence. | Controlled GA/ICD, mass, order code, cycle/force/obstacle/emergency/water evidence, software/configuration and spares list. | Door portal/carrier detail and production opening remain conditional until the exact cassette is accepted. |
+| `EVD-SUP-003` traction energy | RFQ the motor, gearbox, converter, LFP battery, resistor, collector and HV panel as one compatible system. Require loss/thermal/derating maps and short-circuit/protection coordination. | Exact bill of supply, all ICDs, energy and mass reconciliation, RAMS, maintenance, software, fire/propagation, EMC/vibration and quotation validity. | Reject a bid that closes one component while leaving voltage, shaft, cooling, protection or software responsibility undefined. |
+| `EVD-SUP-004` fit-out/safety | Freeze glazing/bonding, floor, seats/rails, HVAC/ducts, PIS/CCTV, lighting and fire system using the published candidates and complete vehicle environment. | Exact products/configurations, fire/smoke matrix, abuse loads, EMC/IP where relevant, cleaning/maintenance, samples and first-fit records. | Public datasheets may start the RFQ; only controlled configuration evidence closes the gate. |
+| `EVD-MFG-001` local manufacture | Release drawings/tolerances for body joints, GFRP, inserts, window pressure frame, door carrier, seat/light rails, harnesses and ducts. Qualify material batches, operators, fixtures and processes with coupons and first-article inspection. | Drawing/process revisions, batch trace, operator qualification, gauge calibration, coupon/joint results, dimensional report, NCR disposition and signed FAI. | Local manufacture is encouraged but cannot bypass material, fire, structural, electrical or dimensional qualification. |
+
+## First purchase and rig priority
+
+The lowest-risk sequence buys samples before committing to complete vehicle-specific systems:
+
+1. Sika 268 PowerCure, Böllhoff RIVNUT samples, Forbo 6R3883, Gurit 130FR materials and TE HVP800 connector samples for local process coupons.
+2. Schaltbau C360, Pilz 751184, Moxa V2406C/camera, Westermo router, Huber+Suhner antenna and Li-ion Tamer nodes for electrical/control benches.
+3. One brake caliper, bearing unit, spring sample, articulation bearing and cable carrier for fit/load/cycle rigs after calculations select sizes.
+4. Vehicle-specific supplier design/RFQ for wheelsets, door, glazing, HVAC, gangway, coupler, traction motor/gearbox/converter/battery/resistor/collector and fire suppression.
+5. Only then place the serialized first-article order and update cost, lead time, purchase-order dates and cashflow in each generated city twin.
+
+## Required submission structure
+
+Start supplier evidence from [`evidence/rfq-response-template.json`](evidence/rfq-response-template.json) and performed test evidence from [`evidence/test-run-template.json`](evidence/test-run-template.json). A reviewer moves a gate to accepted only through the existing checksummed submission format. Supplier pages remain cited design inputs, not accepted submissions.

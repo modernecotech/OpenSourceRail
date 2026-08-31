@@ -954,7 +954,10 @@
     "unresolved_external_gates": []
   },
   "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
     "earliest_order_by_day": -60,
+    "manufacturer_candidate_ids": [],
+    "manufacturer_candidate_linked_rows": 0,
     "planned_purchase_orders": 4759,
     "pre_ntp_order_actions": 708,
     "priced_rows": 0,
@@ -972,7 +975,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-9790328c88da70bd",
+  "revision_id": "twin-dee97393c903f4ff",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -994,6 +997,27 @@
       "revision_id": "twin-9790328c88da70bd",
       "sequence": 3,
       "source_hash": "bb13bda4b31869119c4fd7dca3fbd5236b4a9db8c805a87e8b172cb451685666"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d5f64516d99e01c7",
+      "sequence": 4,
+      "source_hash": "b6af70ee870e1ab979705394d0c08c0bbd9fe5c13994d3f12d3128cb3d74eeb0"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-51fb96bf6a225da9",
+      "sequence": 5,
+      "source_hash": "c6ea95fec6cac9ae0f62ffee606ad4239cb6c6bdb659a173225071d59d07af4b"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-dee97393c903f4ff",
+      "sequence": 6,
+      "source_hash": "3dbc34db605652046c96860d665d3778d098b5b65997189ddf6094b267d35c42"
     }
   ],
   "schema_version": "1.0",
@@ -1008,19 +1032,27 @@
     },
     "manufacturing_template": {
       "path": "lib/templates/manufacturing-schedule.toml",
-      "sha256": "3bee7922fbae0c545ceacbb403784e1370ab59e0de185137c0f4fcc031cc6c44"
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
+      "sha256": "f4d23ba9cf3f304c5438821b92b3d7a290a5b6105f4b7adf895893a145cdf525"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
+      "sha256": "cc7c113dc2e14dab3da0f8057dcec9cad4177f094d177c051b90498cdefd1a47"
     },
     "scenario": {
       "path": "cities/catalogue/south-asia/India/Vadodara/vadodara.toml",
       "sha256": "f2d9ef813c5571e74302a0fc4ab82dc05f358a7c01b02f07e77ea9090244fbe2"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "dce8567bdcf7e29cbadf8a59762e26a9de0b0f6006fc4c91dff4bf2ce7a04c67"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "be70f70dbc6ce4c99d2db089b5e75f0acfb869ea9dd59dd856f3f36cf1f366d3"
     }
   },
   "status": "planning-digital-twin-not-construction-release",

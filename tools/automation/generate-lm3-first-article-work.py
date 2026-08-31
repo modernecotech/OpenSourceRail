@@ -14,6 +14,7 @@ CATALOGUE = REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset"
 MANIFEST = CATALOGUE / "buildable-trainset-manifest.json"
 STATE = CATALOGUE / "first-article-work-package-state.toml"
 EVIDENCE = REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml"
+COTS = CATALOGUE / "cots-candidates.json"
 
 
 def digest(path: Path) -> str:
@@ -45,12 +46,13 @@ def write_markdown(package: dict, path: Path) -> None:
         "",
         f"**Baseline:** `{package['first_article_id']}` · **Open:** {package['open_count']} · **Accepted:** {counts.get('accepted', 0)}",
         "",
-        "| Work package | Status | Owner | Required evidence route | Issue |",
+        "| Work package | Status | Owner | Candidate / evidence route | Issue |",
         "|---|---|---|---|---|",
     ]
     for row in package["work_packages"]:
         issue = f"[#{row['github_issue_number']}]({row['github_issue_url']})" if row.get("github_issue_url") else "ready to publish"
-        evidence = ", ".join(f"`{value}`" for value in row["evidence_package_ids"]) or "product-row acceptance"
+        routes = [*row.get("candidate_ids", []), *row["evidence_package_ids"]]
+        evidence = ", ".join(f"`{value}`" for value in routes) or "product-row acceptance"
         rows.append(
             f"| `{row['id']}` — {row['title'].split(' — ', 1)[-1]} | {row['status']} | {row.get('owner') or row['owner_role']} | {evidence} | {issue} |"
         )
@@ -62,6 +64,8 @@ def main() -> int:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     state = tomllib.loads(STATE.read_text(encoding="utf-8"))
     evidence_packages = tomllib.loads(EVIDENCE.read_text(encoding="utf-8"))["evidence_package"]
+    cots = json.loads(COTS.read_text(encoding="utf-8"))
+    product_to_candidates = cots["product_to_candidates"]
     overrides = {row["id"]: row for row in state.get("override", [])}
     open_rows = [
         row for row in manifest["product_items"]
@@ -78,6 +82,7 @@ def main() -> int:
             raise SystemExit(f"accepted package {work_id} requires evidence_refs and reviewed_by")
         issue_title = f'{row["id"]} — freeze {row["title"]}'
         evidence_text = "; ".join(row.get("acceptance", []))
+        candidate_ids = product_to_candidates.get(row["id"], [])
         work_packages.append({
             "id": work_id,
             "status": status,
@@ -90,6 +95,7 @@ def main() -> int:
             "owner": override.get("owner", ""),
             "evidence_required": row.get("acceptance", []),
             "evidence_package_ids": matching_evidence_ids(row["id"], evidence_packages),
+            "candidate_ids": candidate_ids,
             "evidence_refs": override.get("evidence_refs", []),
             "reviewed_by": override.get("reviewed_by", ""),
             "github_issue_number": override.get("github_issue_number"),
@@ -102,7 +108,9 @@ def main() -> int:
                     f'<!-- osr-work-package: {work_id} -->\n\n'
                     f'Authoritative row: `{row["id"]}` in the LM3 buildable '
                     f'trainset manifest.\n\nParent: `{row["parent"]}`\n\n'
-                    f'Closure evidence: {evidence_text}.\n\nDo not mark complete without '
+                    f'Closure evidence: {evidence_text}.\n\n'
+                    f"Candidate sources: {', '.join(f'`{value}`' for value in candidate_ids) or 'locally manufactured item; no bought-in candidate'}.\n\n"
+                    'Do not mark complete without '
                     "reviewed supplier/drawing/test evidence committed or linked "
                     "from the authoritative register."
                 ),
@@ -121,6 +129,8 @@ def main() -> int:
         },
         "closure_state_source": str(STATE.relative_to(REPO_ROOT)),
         "evidence_plan_source": str(EVIDENCE.relative_to(REPO_ROOT)),
+        "candidate_register_source": str(COTS.relative_to(REPO_ROOT)),
+        "candidate_register_sha256": digest(COTS),
         "work_packages": work_packages,
         "publication_note": (
             "Issue-ready export only. Publishing GitHub issues is an explicit "

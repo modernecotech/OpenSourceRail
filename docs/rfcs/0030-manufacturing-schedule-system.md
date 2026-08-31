@@ -160,7 +160,9 @@ the generated asset relationship identifies the parent track section.
 
 The generated twin creates planned order candidates, not issued orders. It
 calculates required-on-site and order-by days, exposes supplier anchors or the
-local-equivalent rule, and marks rows requiring quotations. City CAPEX becomes
+local-equivalent rule, carries controlled COTS/RFQ candidate IDs and selection
+states, and marks rows requiring quotations. The source register and
+first-article execution pack are hashed twin inputs. City CAPEX becomes
 schedule-of-values contracts with task-linked milestone cash requirements.
 
 Ops Core stores actual-side purchase orders, deliveries, invoices, payments,

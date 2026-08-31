@@ -97,10 +97,13 @@ def audit_mechanical(findings: list[str]) -> dict:
     root = ROOT / "design/component-catalogue/catalog/buildable-trainset"
     manifest = json.loads((root / "buildable-trainset-manifest.json").read_text())
     anchors = json.loads((root / "supplier-anchors.json").read_text())
+    candidates = json.loads((root / "cots-candidates.json").read_text())
     cost = json.loads((root / "trainset-build-cost.json").read_text())
     critical = json.loads((root / "critical-path.json").read_text())
     if anchors.get("coverage", {}).get("uncovered_product_ids"):
         findings.append("mechanical: external supplier-anchor coverage is incomplete")
+    if candidates.get("coverage", {}).get("uncovered_product_ids"):
+        findings.append("mechanical: external COTS/RFQ candidate coverage is incomplete")
     if manifest.get("family") != "light-metro-3car" or cost.get("family") != manifest.get("family"):
         findings.append("mechanical: reference family is inconsistent")
     return {
@@ -109,6 +112,9 @@ def audit_mechanical(findings: list[str]) -> dict:
         "assembly_nodes": len(manifest.get("assemblies", [])),
         "supplier_anchor_families": len(anchors.get("anchor", [])),
         "external_products_covered": anchors.get("coverage", {}).get("covered_external_product_rows", 0),
+        "cots_candidate_families": len(candidates.get("candidate", [])),
+        "cots_external_products_covered": candidates.get("coverage", {}).get("covered_external_product_rows", 0),
+        "rows_with_exact_catalogue_component": candidates.get("coverage", {}).get("rows_with_exact_catalogue_component", 0),
         "build_cost_usd": cost.get("total_build_cost_usd", 0),
         "first_article_working_days": critical.get("project_duration_days", 0),
         "release_status": cost.get("release_status", ""),
