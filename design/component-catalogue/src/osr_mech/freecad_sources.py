@@ -39,6 +39,7 @@ from osr_mech.rolling_stock.car_body import (
 from osr_mech.rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.sensor_cowl import sensor_cowl
+from osr_mech.rolling_stock.product_geometry import geometry_specs, product_geometry
 from osr_mech.rolling_stock.systems import (
     battery_pack_set,
     car_systems,
@@ -112,6 +113,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "trailer-bogie": trailer_bogie,
     "train-to-train-articulation": train_to_train_articulation,
     **{f"manufacturing-tool:{tool_id}": builder for tool_id, builder in TOOL_BUILDERS.items()},
+    **{f"product:{product_id}": (lambda value=product_id: product_geometry(value)) for product_id in geometry_specs()},
     **INTERFACE_BUILDERS,
 }
 

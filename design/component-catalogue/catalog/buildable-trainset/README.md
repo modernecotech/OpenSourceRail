@@ -31,7 +31,9 @@ current basic design and what must be closed before first steel cut.
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
 | Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 101 product links, nine timed methods, 20 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
 
-Open the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd) and the semantic product/method/task federation in [`../../../engineering/models/bim/reference/lm3-manufacturing-reference.ifc`](../../../../engineering/models/bim/reference/lm3-manufacturing-reference.ifc).
+Open the [101 native FreeCAD parts and 26 assembly files](../../models/cad/README.md),
+the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd),
+and the matching [IFC4.3 product/assembly and method federation](../../../../engineering/models/bim/reference/README.md).
 
 ## Generated manufacturing visuals
 

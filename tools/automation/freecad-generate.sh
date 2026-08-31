@@ -195,6 +195,7 @@ fi
 
 if [ "$run_assemblies" = true ]; then
     scripts/freecad_assembly_review.sh
+    scripts/freecad_product_library.sh
 fi
 
 if [ "$run_civil_systems" = true ]; then

@@ -1,4 +1,4 @@
-# Civil BIM Reference Package
+# Civil and LM3 BIM Reference Package
 
 This is the tracked, deterministic public-review federation. It lets GitHub
 users inspect the current IFC4.3 model and its requirements/evidence without
@@ -25,6 +25,9 @@ installing the complete engineering toolchain.
 | [`civil-construction-sequence.gif`](civil-construction-sequence.gif) | Complete GitHub-viewable preview of the same sequence |
 | [`lm3-manufacturing-reference.ifc`](lm3-manufacturing-reference.ifc) | IFC4.3 LM3 product hierarchy, semantic doors/windows/fixtures/motors, manufacturing methods, sequenced tasks and 20 tooling families |
 | [`lm3-manufacturing-reference.index.json`](lm3-manufacturing-reference.index.json) | IFC counts, source hashes, semantic classes and deterministic validation summary |
+| [`lm3-parts/`](lm3-parts/) | 101 separate geometric IFC4.3 product files, including round running-gear meshes and semantic doors, windows, lights, furniture and motor classes |
+| [`lm3-assemblies/`](lm3-assemblies/) | 26 hierarchy-preserving IFC4.3 subassembly/car/train files; the final trainset contains every active descendant product |
+| [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact split-library file hashes, representation coverage and final-assembly reachability test |
 
 Regenerate it from the authoritative component geometry and engineering
 interchange code:
@@ -34,6 +37,7 @@ tools/automation/bonsai-civil.sh --animate \
   --out-dir engineering/models/bim/reference \
   --revision-id repository-reference
 python3 engineering/interchange/trainset_manufacturing_ifc.py
+python3 engineering/interchange/lm3_product_ifc_library.py
 ```
 
 The 4D review moves the assigned IFC objects themselves: substructure rises,
@@ -43,7 +47,9 @@ construction-state simulation, not crane physics, temporary-works verification,
 clash-free path planning or an approved method statement.
 
 These models are coordination, product-structure and manufacturing-method
-evidence, not a construction release. The LM3 IFC deliberately distinguishes
-multi-part tooling coordination geometry from controlled fabrication/NC
-surfaces. Repeated City Studio jobs and render intermediates remain under
-`build/`; only this named review set is retained in Git.
+evidence, not a construction release. The LM3 files expose the complete current
+product graph and inspectable design-reference geometry, but do not substitute
+for supplier-frozen interfaces, installed-coordinate/tolerance analyses,
+released shop drawings, qualified weld/laminate processes or NC surfaces.
+Repeated City Studio jobs and render intermediates remain under `build/`; this
+named review set is retained in Git.

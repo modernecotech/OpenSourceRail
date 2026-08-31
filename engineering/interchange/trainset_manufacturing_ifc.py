@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import sys
 import tempfile
@@ -15,11 +16,10 @@ from importlib.metadata import version
 from pathlib import Path
 from typing import Any
 
-import numpy as np
 import ifcopenshell
 from ifcopenshell.api.aggregate import assign_object
 from ifcopenshell.api.context import add_context
-from ifcopenshell.api.geometry import add_mesh_representation, assign_representation, edit_object_placement
+from ifcopenshell.api.geometry import add_mesh_representation, assign_representation
 from ifcopenshell.api.spatial import assign_container
 from ifcopenshell.api.unit import assign_unit
 
@@ -31,6 +31,11 @@ if str(MECHANICAL_SRC) not in sys.path:
 
 from osr_mech.cad import Compound, Part  # noqa: E402
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS  # noqa: E402
+from osr_mech.rolling_stock.product_geometry import (  # noqa: E402
+    flatten_geometry,
+    geometry_specs,
+    product_geometry,
+)
 from osr_mech.trainset_manufacturing_methods import load_and_validate  # noqa: E402
 from osr_mech.trainset_supplier_anchors import load_and_validate as load_supplier_anchors  # noqa: E402
 
@@ -116,6 +121,20 @@ def property_set(
     )
 
 
+def set_local_placement(
+    model: ifcopenshell.file,
+    product: Any,
+    position: tuple[float, float, float],
+) -> None:
+    """Assign a minimal placement in stable entity-creation order."""
+
+    point = model.create_entity("IfcCartesianPoint", Coordinates=position)
+    axis = model.create_entity("IfcAxis2Placement3D", Location=point)
+    product.ObjectPlacement = model.create_entity(
+        "IfcLocalPlacement", PlacementRelTo=None, RelativePlacement=axis
+    )
+
+
 def product_ifc_class(product: dict[str, Any]) -> str:
     product_id = product["id"]
     if product_id == "LM3-FIX-P020":
@@ -166,26 +185,124 @@ def box_geometry(part: Part, origin: tuple[float, float, float]) -> list[tuple[f
     ]
 
 
+def cylinder_geometry(
+    part: Part,
+    origin: tuple[float, float, float],
+    axis: str,
+    segments: int = 20,
+) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
+    """Tessellate a labelled cylindrical primitive without a CAD runtime.
+
+    The ordinary Python exporter does not load OpenCascade, so ``Part`` would
+    otherwise fall back to a cuboid bounding mesh.  The product builders use
+    controlled primitive labels; those labels let the IFC retain round wheels,
+    axles, springs, shafts and pivots while FreeCAD continues to carry the
+    exact native cylinders.
+    """
+
+    box = part.bounding_box()
+    ox, oy, oz = origin
+    bounds = {
+        "x": (box.min.X / 1000.0 - ox, box.max.X / 1000.0 - ox),
+        "y": (box.min.Y / 1000.0 - oy, box.max.Y / 1000.0 - oy),
+        "z": (box.min.Z / 1000.0 - oz, box.max.Z / 1000.0 - oz),
+    }
+    transverse = tuple(value for value in "xyz" if value != axis)
+    centre = {
+        value: (bounds[value][0] + bounds[value][1]) / 2.0 for value in "xyz"
+    }
+    radius = min(
+        bounds[transverse[0]][1] - bounds[transverse[0]][0],
+        bounds[transverse[1]][1] - bounds[transverse[1]][0],
+    ) / 2.0
+    vertices: list[tuple[float, float, float]] = []
+    for end in bounds[axis]:
+        for index in range(segments):
+            angle = 2.0 * math.pi * index / segments
+            point = dict(centre)
+            point[axis] = end
+            point[transverse[0]] += radius * math.cos(angle)
+            point[transverse[1]] += radius * math.sin(angle)
+            vertices.append((point["x"], point["y"], point["z"]))
+    faces: list[list[int]] = [
+        list(reversed(range(segments))),
+        list(range(segments, 2 * segments)),
+    ]
+    for index in range(segments):
+        following = (index + 1) % segments
+        faces.append([index, following, segments + following, segments + index])
+    return vertices, faces
+
+
+def primitive_geometry(
+    part: Part,
+    origin: tuple[float, float, float] = (0.0, 0.0, 0.0),
+) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
+    """Return a deterministic IFC mesh for one controlled CAD primitive."""
+
+    label = (part.label or "").lower()
+    longitudinal_tokens = ("wheel", "axle", "brake disc", "stator housing", "shaft")
+    vertical_tokens = ("spring", "cylindrical unit", "centre-pivot insert")
+    if any(token in label for token in longitudinal_tokens):
+        return cylinder_geometry(part, origin, "y")
+    if any(token in label for token in vertical_tokens):
+        return cylinder_geometry(part, origin, "z")
+    return box_geometry(part, origin), [list(face) for face in BOX_FACES]
+
+
+def combine_meshes(
+    meshes: list[tuple[list[tuple[float, float, float]], list[list[int]]]],
+) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
+    """Combine variable-resolution primitives into one polygonal face set."""
+
+    vertices: list[tuple[float, float, float]] = []
+    faces: list[list[int]] = []
+    for primitive_vertices, primitive_faces in meshes:
+        offset = len(vertices)
+        vertices.extend(primitive_vertices)
+        faces.extend([[index + offset for index in face] for face in primitive_faces])
+    return vertices, faces
+
+
 def add_tool_geometry(
     model: ifcopenshell.file,
     body_context: Any,
     tool: Any,
     tool_id: str,
-    position: tuple[float, float, float],
 ) -> int:
     built = TOOL_BUILDERS[tool_id]()
     leaves = [leaf for leaf in flatten(built) if leaf.bounding_box().volume > 0]
+    vertices, faces = combine_meshes([primitive_geometry(leaf) for leaf in leaves])
     representation = add_mesh_representation(
         model,
         context=body_context,
-        vertices=[box_geometry(leaf, (0.0, 0.0, 0.0)) for leaf in leaves],
-        faces=[[list(face) for face in BOX_FACES] for _ in leaves],
+        vertices=[vertices],
+        faces=[faces],
         unit_scale=1.0,
     )
     assign_representation(model, product=tool, representation=representation)
-    matrix = np.eye(4)
-    matrix[:3, 3] = position
-    edit_object_placement(model, product=tool, matrix=matrix, is_si=True)
+    return len(leaves)
+
+
+def add_product_geometry(
+    model: ifcopenshell.file,
+    body_context: Any,
+    product_entity: Any,
+    item: dict[str, Any],
+) -> int:
+    """Attach the shared LM3 design-reference geometry to an IFC product."""
+
+    built = product_geometry(str(item["id"]), str(item["title"]))
+    leaves = [leaf for leaf in flatten_geometry(built) if leaf.bounding_box().volume > 0]
+    vertices, faces = combine_meshes([primitive_geometry(leaf) for leaf in leaves])
+    representation = add_mesh_representation(
+        model,
+        context=body_context,
+        vertices=[vertices],
+        faces=[faces],
+        unit_scale=1.0,
+    )
+    assign_representation(model, product=product_entity, representation=representation)
     return len(leaves)
 
 
@@ -262,8 +379,8 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
     )
     assign_object(model, products=[site], relating_object=project)
     assign_object(model, products=[factory], relating_object=site)
-    edit_object_placement(model, product=site, matrix=np.eye(4), is_si=True)
-    edit_object_placement(model, product=factory, matrix=np.eye(4), is_si=True)
+    set_local_placement(model, site, (0.0, 0.0, 0.0))
+    set_local_placement(model, factory, (0.0, 0.0, 0.0))
 
     project.Description = methods["release_boundary"]
     property_set(
@@ -287,6 +404,7 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
     )
 
     products: dict[str, Any] = {}
+    product_positions: dict[str, tuple[float, float, float]] = {}
     for assembly in manifest["assemblies"]:
         ifc_class = "IfcVehicle" if assembly["layer"] == "trainset" else "IfcElementAssembly"
         product = entity(
@@ -313,7 +431,10 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
             },
         )
     class_counts: dict[str, int] = {}
-    for item in manifest["product_items"]:
+    product_representation_part_count = 0
+    if set(geometry_specs()) != {str(item["id"]) for item in manifest["product_items"]}:
+        raise RuntimeError("LM3 geometry registry does not exactly cover the product manifest")
+    for product_index, item in enumerate(manifest["product_items"]):
         ifc_class = product_ifc_class(item)
         class_counts[ifc_class] = class_counts.get(ifc_class, 0) + 1
         product = entity(
@@ -325,6 +446,14 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
             Tag=item["id"],
         )
         products[item["id"]] = product
+        position = (float((product_index % 5) * 19), float((product_index // 5) * 5), 0.0)
+        product_positions[str(item["id"])] = position
+        product_representation_part_count += add_product_geometry(
+            model,
+            body_context,
+            product,
+            item,
+        )
         payload = definitions[item["id"]]
         material = payload["material_spec"]
         process = payload["process_spec"]
@@ -349,6 +478,12 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
                 "ToolingBasis": process["tooling_basis"],
                 "InspectionMethods": " | ".join(process["inspection_methods"]),
                 "ReleaseLevel": process["release_level"],
+                "GeometryForm": geometry_specs()[item["id"]].form,
+                "GeometryStatus": "design-reference-not-released",
+                "GeometryEnvelopeMm": " x ".join(
+                    f"{value:g}" for value in geometry_specs()[item["id"]].envelope_mm
+                ),
+                "GeometryRepresentation": geometry_specs()[item["id"]].representation,
                 "Acceptance": " | ".join(item["acceptance"]),
                 "SourceRefs": " | ".join(item["source_refs"]),
             },
@@ -404,6 +539,7 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
     )
 
     tools: list[Any] = []
+    tool_positions: dict[str, tuple[float, float, float]] = {}
     tasks: list[Any] = []
     tool_part_count = 0
     for method_index, method in enumerate(methods["method"]):
@@ -481,7 +617,8 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
                 Tag=tool_id,
             )
             position = (float(tool_index * 28), float(method_index * 14), 0.0)
-            tool_part_count += add_tool_geometry(model, body_context, tool, tool_id, position)
+            tool_positions[tool_id] = position
+            tool_part_count += add_tool_geometry(model, body_context, tool, tool_id)
             assign_container(model, products=[tool], relating_structure=factory)
             property_set(
                 model,
@@ -507,6 +644,16 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
             )
             tools.append(tool)
 
+    # Hierarchy APIs may rewrite existing placements while assigning parents.
+    # Write every leaf placement last, in controlled manifest/method order.
+    for item in manifest["product_items"]:
+        product_id = str(item["id"])
+        set_local_placement(model, products[product_id], product_positions[product_id])
+    for method in methods["method"]:
+        for tool_id in method["tooling_ids"]:
+            tool = next(value for value in tools if value.Tag == tool_id)
+            set_local_placement(model, tool, tool_positions[tool_id])
+
     index = {
         "analysis_id": "OSR-AN-IFC-LM3-MFG-001",
         "schema": model.schema,
@@ -514,6 +661,8 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
         "passed": True,
         "assembly_count": len(manifest["assemblies"]),
         "product_item_count": len(manifest["product_items"]),
+        "product_geometry_count": len(manifest["product_items"]),
+        "product_representation_part_count": product_representation_part_count,
         "method_count": len(methods["method"]),
         "task_count": len(tasks),
         "tooling_count": len(tools),

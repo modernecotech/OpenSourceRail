@@ -6,6 +6,7 @@ import ifcopenshell
 from ifcopenshell.util.element import get_psets
 
 from engineering.interchange.trainset_manufacturing_ifc import build_model, write
+from osr_mech.rolling_stock.product_geometry import geometry_specs
 
 
 def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> None:
@@ -17,6 +18,8 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert index["task_count"] == 59
     assert index["tooling_count"] == 20
     assert index["tooling_representation_part_count"] >= 200
+    assert index["product_geometry_count"] == 101
+    assert index["product_representation_part_count"] == 423
     assert index["supplier_anchor_count"] == 25
     assert index["supplier_anchored_external_product_count"] == 54
     assert len(model.by_type("IfcVehicle")) == 1
@@ -27,7 +30,13 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert len(model.by_type("IfcCovering")) == 1
     assert len(model.by_type("IfcElectricMotor")) == 1
     assert len(model.by_type("IfcDiscreteAccessory")) == 20
-    assert len(model.by_type("IfcShapeRepresentation")) == 20
+    assert len(model.by_type("IfcShapeRepresentation")) == 121
+    represented_product_tags = {
+        str(item.Tag)
+        for item in model.by_type("IfcElement")
+        if getattr(item, "Tag", "") and item.Representation
+    }
+    assert represented_product_tags.issuperset(geometry_specs())
 
 
 def test_ifc_properties_keep_release_boundary_and_detailed_window_spec() -> None:

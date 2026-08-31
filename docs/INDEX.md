@@ -1258,7 +1258,7 @@ Indexed Markdown files: **1339**.
 | [`design/component-catalogue/catalog/fea/README.md`](../design/component-catalogue/catalog/fea/README.md) | FEA Screening Outputs |
 | [`design/component-catalogue/catalog/fea/screening-summary.md`](../design/component-catalogue/catalog/fea/screening-summary.md) | Rolling-Stock FEA Screening Summary |
 | [`design/component-catalogue/catalog/modular-fiberglass-body/README.md`](../design/component-catalogue/catalog/modular-fiberglass-body/README.md) | One-metre clip-on glass-fibre body design |
-| [`design/component-catalogue/models/cad/README.md`](../design/component-catalogue/models/cad/README.md) | FreeCAD Review Assemblies |
+| [`design/component-catalogue/models/cad/README.md`](../design/component-catalogue/models/cad/README.md) | Mechanical FreeCAD Library |
 | [`design/component-catalogue/models/cad/assembly-geometry-review.md`](../design/component-catalogue/models/cad/assembly-geometry-review.md) | FreeCAD Assembly Geometry Review |
 
 ## docs
@@ -1409,7 +1409,7 @@ Indexed Markdown files: **1339**.
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
-| [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil BIM Reference Package |
+| [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 

@@ -1255,6 +1255,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
+        "ifc_library_index": REPO_ROOT / "engineering/models/bim/reference/lm3-product-library.index.json",
+        "freecad_library_index": REPO_ROOT / "design/component-catalogue/models/cad/lm3-product-library.index.json",
         "product_manifest": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
     }
     tracked = set(
@@ -1289,7 +1291,14 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
         if not index.get("passed"):
             findings.append(Finding(paths["ifc_index"], "LM3 manufacturing IFC validation did not pass"))
-        expected = {"product_item_count": 101, "method_count": 9, "tooling_count": 20, "task_count": 59}
+        expected = {
+            "product_item_count": 101,
+            "product_geometry_count": 101,
+            "product_representation_part_count": 423,
+            "method_count": 9,
+            "tooling_count": 20,
+            "task_count": 59,
+        }
         observed = {key: index.get(key) for key in expected}
         if observed != expected:
             findings.append(Finding(paths["ifc_index"], f"LM3 manufacturing IFC counts changed: {observed}"))
@@ -1312,10 +1321,58 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(base / "definitions", "GitHub part/assembly definitions do not match the 127-node product tree"))
         if traveler_ids != expected_ids:
             findings.append(Finding(base / "travelers", "GitHub part/assembly travelers do not match the 127-node product tree"))
+
+        expected_products = {str(row["id"]) for row in product_manifest["product_items"]}
+        expected_assemblies = {str(row["id"]) for row in product_manifest["assemblies"]}
+        library_specs = (
+            (
+                paths["ifc_library_index"],
+                REPO_ROOT / "engineering/models/bim/reference/lm3-parts",
+                REPO_ROOT / "engineering/models/bim/reference/lm3-assemblies",
+                ".ifc",
+                "all_active_products_reach_final_assembly",
+            ),
+            (
+                paths["freecad_library_index"],
+                REPO_ROOT / "design/component-catalogue/models/cad/lm3-parts",
+                REPO_ROOT / "design/component-catalogue/models/cad/lm3-assemblies",
+                ".FCStd",
+                "all_active_products_reach_root",
+            ),
+        )
+        for index_path, parts_dir, assemblies_dir, suffix, reachability_key in library_specs:
+            if not index_path.is_file():
+                continue
+            library = json.loads(index_path.read_text(encoding="utf-8"))
+            if (
+                not library.get("passed")
+                or library.get("product_count") != 101
+                or library.get("assembly_count") != 26
+                or not library.get(reachability_key)
+            ):
+                findings.append(Finding(index_path, "LM3 split part/assembly library validation did not pass"))
+            observed_parts = {path.stem for path in parts_dir.glob(f"*{suffix}")}
+            observed_assemblies = {path.stem for path in assemblies_dir.glob(f"*{suffix}")}
+            if observed_parts != expected_products:
+                findings.append(Finding(parts_dir, "split LM3 part files do not exactly match the 101 product rows"))
+            if observed_assemblies != expected_assemblies:
+                findings.append(Finding(assemblies_dir, "split LM3 assembly files do not exactly match the 26 assembly nodes"))
+            for entry in [*library.get("parts", []), *library.get("assemblies", [])]:
+                artifact = REPO_ROOT / str(entry.get("file", ""))
+                if not artifact.is_file():
+                    findings.append(Finding(artifact, "indexed LM3 CAD/IFC artifact is missing"))
+                    continue
+                digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+                if digest != entry.get("sha256"):
+                    findings.append(Finding(artifact, "indexed LM3 CAD/IFC hash is stale"))
         public_files = [
             *list((base / "definitions").glob("*/*.*")),
             *list((base / "travelers").glob("*/*.*")),
             *list((REPO_ROOT / "design/component-catalogue/models/cad").glob("*.FCStd")),
+            *list((REPO_ROOT / "design/component-catalogue/models/cad/lm3-parts").glob("*.FCStd")),
+            *list((REPO_ROOT / "design/component-catalogue/models/cad/lm3-assemblies").glob("*.FCStd")),
+            *list((REPO_ROOT / "engineering/models/bim/reference/lm3-parts").glob("*.ifc")),
+            *list((REPO_ROOT / "engineering/models/bim/reference/lm3-assemblies").glob("*.ifc")),
         ]
         for path in public_files:
             if path.relative_to(REPO_ROOT).as_posix() not in tracked:

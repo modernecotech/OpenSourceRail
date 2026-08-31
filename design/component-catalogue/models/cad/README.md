@@ -1,4 +1,4 @@
-# FreeCAD Review Assemblies
+# Mechanical FreeCAD Library
 
 This folder contains `.FCStd` review assemblies generated directly from
 the parametric source under `../../src/osr_mech/`, which remains the
@@ -8,6 +8,9 @@ authoritative geometry.
 
 | File | Purpose |
 |---|---|
+| [`lm3-parts/`](lm3-parts/) | 101 separate native FreeCAD part documents: one controlled product-tree item per file, with selectable solids, envelope, route, maturity and source-manifest hash |
+| [`lm3-assemblies/`](lm3-assemblies/) | 26 subassembly/car/final-train documents containing every descendant part on a deterministic inspection fixture; start with [`LM3-TRAINSET-A000.FCStd`](lm3-assemblies/LM3-TRAINSET-A000.FCStd) |
+| [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact file inventory, hashes, primitive counts and final-assembly reachability result |
 | [`trainset-light-metro-3car.FCStd`](trainset-light-metro-3car.FCStd) | Full light-metro trainset review assembly generated from source geometry |
 | [`single-car-assembly.FCStd`](single-car-assembly.FCStd) | Corrected urban-shuttle single-car assembly with both bogies on the shared ±6,150 mm chassis datums |
 | [`chassis-bogie-assembly-states.FCStd`](chassis-bogie-assembly-states.FCStd) | Chassis and bogie connector review with assembled and exploded state groups |
@@ -36,11 +39,13 @@ The scripts below replace their stable output filenames on each run, so
 the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
-The complete GitHub-visible part-to-assembly review is the
-[`fabrication-assembly` twin](../../../../engineering/models/digital-twins/fabrication-assembly/README.md).
-Its native Blender scene contains one inspectable object for every 101 product
-rows and 26 controlled assembly nodes; this directory retains the detailed
-FreeCAD source/review documents from which released geometry must be developed.
+The split library is generated from one shared 101-item geometry registry and
+contains 423 native OCC primitives. Assembly documents preserve all 26 EBOM/
+MBOM hierarchy nodes and include every active product in the final trainset.
+Their spaced layout is an inspection fixture for selection and completeness
+testing—not an assertion of final installed coordinates or tolerance closure.
+The matching dependency-timed [`fabrication-assembly` twin](../../../../engineering/models/digital-twins/fabrication-assembly/README.md)
+tests the build order and provides the animated review.
 
 ## Add-on and Render Toolchain
 
@@ -88,6 +93,7 @@ When iterating on one document, run the lower-level package launchers from
 ```bash
 scripts/freecad_trainset.sh --family light-metro-3car
 scripts/freecad_assembly_review.sh
+scripts/freecad_product_library.sh
 scripts/freecad_fea.sh
 scripts/freecad_screenshots.sh
 scripts/freecad_station_scenes.sh
