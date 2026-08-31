@@ -70,23 +70,22 @@ runs `osr-wayside-points`; the one near a PV site runs
  └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Safety architecture
+## Safety architecture boundary
 
-W-SBC's SIL-4 argument differs from T-ECU/S: where the train
-uses hardware 2oo2 at the CPU level (two Pico 2s), the wayside
-uses **consensus-level redundancy** — three W-SBCs in a Raft
-cluster per line, any two outvoting a faulty third.
+The three-W-SBC Raft cluster is a deterministic availability and consistency
+prototype; consensus does not by itself establish SIL capability or protect
+against common software, specification, power, network or environmental faults.
+Commodity CM5 GPIO must not directly own a safety output. A deployment requires
+the separately qualified controller and proving architecture defined in the
+class README and safety-controller selection gate.
 
-At the **actuator output** level (switch motor, LX barrier),
-the W-SBC still uses the 2oo2 AND-gate relay pattern — two
-CM5 GPIO outputs each drive one relay in the series chain to
-the actuator coil. Both must close for the actuator to move.
-A single CM5 GPIO stuck-at-high cannot energise the motor by
-itself.
+The two-series-relay arrangement shown above is useful for bench fault injection,
+but it is not a released point-machine or level-crossing interface. The selected
+safety controller must prove command, detection, correspondence, timeout,
+isolation and de-energise-to-safe behaviour using qualified components.
 
-The 2oo2 at the actuator, plus consensus at the logic, plus
-the intrusion-detect gate (d) in `section_available_to` (RFC
-0016 v2), is what gives wayside its SIL-4 argument end-to-end.
+The consensus model, intrusion gate and bench relay tests are inputs to the
+future safety argument, not an end-to-end SIL claim.
 
 ## Sensor integration (per RFC 0016)
 

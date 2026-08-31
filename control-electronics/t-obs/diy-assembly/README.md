@@ -110,11 +110,12 @@ Stereo cameras are below both, 500 mm apart for triangulation.
 
 Each ultrasonic transducer has ECHO and DRIVE lines routed **twice**
 — once to channel A's ADS1115, once to channel B's ADS1115.
-This gives the SIL-4 safety-primary channel redundancy that
-RFC 0015 §5.2 calls for. The HC-SR04 / MA40H1S-R's echo pin
-simply fans out into two parallel ADC inputs; a single
-transducer failure appears on both channels simultaneously
-which is the correct fail-restrictive behaviour.
+This provides two observation paths for bench testing, but it is not independent
+sensor redundancy: the transducer and its supply remain common causes. A single
+failure appears on both ADC paths and is fail-restrictive only if the qualified
+diagnostics detect it within the required time. The deployment safety design
+must close sensor diversity, independence, diagnostic coverage and environmental
+qualification against RFC 0015 §5.2.
 
 | Transducer pin | Channel A | Channel B |
 |---|---|---|
@@ -123,29 +124,26 @@ which is the correct fail-restrictive behaviour.
 | VCC | 5 V bus | 5 V bus |
 | GND | GND | GND |
 
-## Firmware + SD card
+## Firmware + SD-card release gate
 
-Two `.uf2`:
-
-- `osr-tobs-chan-a-v0.2.uf2` on Pico A (evaluates O1..O5, drives
-  OBS_CLEAR_A, does cross-check with B over USB).
-- `osr-tobs-chan-b-v0.2.uf2` on Pico B (same, swapped role).
-
-CM5 SD card: `osr-t-obs-v0.2.img.xz` — carries the
-`osr-obstacle-detect` sensor-fusion module that reads the LIDAR
-point cloud + radar detection list over Ethernet / CAN-FD,
-preprocesses, and forwards the result to both Picos for the
-final safety-primary evaluation.
+No deployable T-OBS `.uf2` or CM5 image ships in v0.3.1. The intended release
+contains two channel-identified RP2350 images and one pinned CM5 image carrying
+a reviewed runner around `osr-obstacle-detect`. Those artifacts must implement
+the LIDAR/radar input drivers, final O1–O5 evaluation, peer cross-check,
+watchdog, safe-output driver, secure provisioning and rollback described here.
+Do not flash a filename copied from this document; follow the checksum-bound
+instructions issued with the eventual hardware release.
 
 ## Commissioning self-test
 
-```bash
-sudo osr-selftest --role t-obs
-```
+`osr-selftest --role t-obs` currently exercises the logical role manifest in
+software. A released hardware runner must extend that interface with signed
+sensor calibration, output-stage and fault-injection results before the command
+can be treated as a commissioning test.
 
-Exercises every sensor in turn and validates O1–O5 against a
-known-safe baseline plus a calibration target (a reflective
-post placed at 5 m) for LIDAR + radar.
+The eventual physical test must exercise every sensor in turn and validate
+O1–O5 against a known-safe baseline plus a calibration target (a reflective
+post placed at 5 m) for LIDAR and radar.
 
 ## Cost-reduction notes
 

@@ -18,10 +18,20 @@ import ifcopenshell
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
 NAMESPACE = uuid.UUID("35015482-428c-52e0-9de7-7c4532bc7190")
+FIXED_HEADER_TIMESTAMP = "2026-08-30T00:00:00+00:00"
 
 
 def gid(value: str) -> str:
     return ifcopenshell.guid.compress(uuid.uuid5(NAMESPACE, value).hex)
+
+
+def report_path(path: Path) -> str:
+    """Return a portable report path for repository and temporary outputs."""
+
+    try:
+        return str(path.resolve().relative_to(REPO_ROOT))
+    except ValueError:
+        return path.name
 
 
 def property_set(model: ifcopenshell.file, product: object, name: str, values: dict[str, object]) -> None:
@@ -34,6 +44,22 @@ def property_set(model: ifcopenshell.file, product: object, name: str, values: d
         properties.append(model.create_entity("IfcPropertySingleValue", Name=key, NominalValue=nominal))
     pset = model.create_entity("IfcPropertySet", GlobalId=gid(f"{name}:{product.GlobalId}"), Name=name, HasProperties=properties)
     model.create_entity("IfcRelDefinesByProperties", GlobalId=gid(f"defines:{name}:{product.GlobalId}"), RelatedObjects=[product], RelatingPropertyDefinition=pset)
+
+
+def canonicalise_header(model: ifcopenshell.file, archetype: str) -> None:
+    """Remove wall-clock and output-path variation from the STEP header."""
+
+    model.header.file_name.name = f"station-{archetype}.ifc"
+    model.header.file_name.time_stamp = FIXED_HEADER_TIMESTAMP
+    model.header.file_name.author = ("OpenSourceRail",)
+    model.header.file_name.organization = ("OpenSourceRail",)
+    model.header.file_name.preprocessor_version = (
+        f"IfcOpenShell {version('ifcopenshell')}"
+    )
+    model.header.file_name.originating_system = (
+        "OpenSourceRail deterministic station IFC exporter"
+    )
+    model.header.file_name.authorization = "design-reference / not for construction"
 
 
 def export_variant(variant: dict[str, object], output: Path) -> dict[str, object]:
@@ -69,6 +95,7 @@ def export_variant(variant: dict[str, object], output: Path) -> dict[str, object
         )
     root_assembly = entities["STN-STATION-A900"]
     model.create_entity("IfcRelContainedInSpatialStructure", GlobalId=gid(f"{archetype}:containment"), RelatedElements=[root_assembly], RelatingStructure=building)
+    canonicalise_header(model, archetype)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(output.suffix + ".tmp")
     model.write(str(temporary))
@@ -100,7 +127,7 @@ def export_variant(variant: dict[str, object], output: Path) -> dict[str, object
             f"IFC drift for {archetype}: missing={missing}, unexpected={unexpected}, "
             f"property_mismatches={property_mismatches}, structure_mismatches={structure_mismatches}"
         )
-    return {"archetype": archetype, "assembly_count": len(variant["assemblies"]), "geometry_status": "not-exported-product-structure-only", "ifc_file": str(output.relative_to(REPO_ROOT)), "ifc_sha256": hashlib.sha256(output.read_bytes()).hexdigest(), "missing_ids": missing, "product_item_count": len(variant["product_items"]), "property_mismatches": property_mismatches, "schema": reopened.schema, "structure_mismatches": structure_mismatches, "unexpected_ids": unexpected}
+    return {"archetype": archetype, "assembly_count": len(variant["assemblies"]), "geometry_status": "not-exported-product-structure-only", "ifc_file": report_path(output), "ifc_sha256": hashlib.sha256(output.read_bytes()).hexdigest(), "missing_ids": missing, "product_item_count": len(variant["product_items"]), "property_mismatches": property_mismatches, "schema": reopened.schema, "structure_mismatches": structure_mismatches, "unexpected_ids": unexpected}
 
 
 def main() -> int:

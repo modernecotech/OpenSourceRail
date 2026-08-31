@@ -6,6 +6,9 @@ OpenSourceRail is an open-source, deterministic urban-rail platform with a diffe
 > Repository outputs are planning and engineering-screening evidence—not bids,
 > construction releases, safety certificates, approvals or endorsements.
 
+The current survey, supplier, drawing, embedded-hardware, physical-test and
+approval gaps are consolidated in the [reviewed roadmap](docs/ROADMAP.md#reviewed-open-work).
+
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
 **Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.

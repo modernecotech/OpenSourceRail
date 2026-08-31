@@ -44,8 +44,9 @@ fi
 if command -v FreeCADCmd >/dev/null 2>&1 || command -v freecadcmd >/dev/null 2>&1 || \
    { command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; }; then
     tools/automation/freecad-generate.sh --assemblies
+    python3 engineering/analysis/benchmarks/calculix/thermal_block.py
 else
-    printf 'FreeCAD review-model generation skipped: install the optional engineering applications.\n'
+    printf 'FreeCAD review-model and CalculiX benchmark generation skipped: install the optional engineering applications.\n'
 fi
 
 section "Building the root documentation book"

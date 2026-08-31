@@ -1,10 +1,38 @@
 # Roadmap
 
-This page tracks remaining validation and hardening work after the v0.3
-release-candidate baseline. It is a planning map, not a release contract.
+This page tracks remaining validation and hardening work after the published
+v0.3.1 baseline. It is a planning map, not a release contract.
 The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).
+
+## Reviewed Open Work
+
+The 2026-08-31 repository review found no failing committed software, city,
+project-twin, link, or browser acceptance baseline. It did find and correct a
+generated catalogue link, stale pre-release wording, stale fictional firmware
+filenames, empty schematic placeholders, and IFC review packages that had not
+been regenerated from their current sources.
+
+The following work remains genuinely open and must not be represented as
+complete merely by adding documentation:
+
+| Boundary | Remaining evidence | Authoritative register |
+|---|---|---|
+| City and civil design | Survey control, parcels/utilities, terrain and geotechnics, released alignment/foundations/spans, local drainage/fire/access review | [Civil deployment checklist](civil/deployment-release-checklist.md) and [analysis register](../engineering/analysis/analysis-register.toml) |
+| Stations | Supplier and site closures, structural calculations, egress/accessibility validation, product geometry beyond the current IFC structure handoff | [Station gap register](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) |
+| Rolling stock | Supplier freeze, production drawings, tolerance/weld/NDT packs, crash/structure/thermal/HV/fire qualification and first articles | [LM3 gap register](../design/component-catalogue/catalog/buildable-trainset/open-release-gaps.md) and [drawing register](rolling-stock/light-metro-3car/drawing-register.md) |
+| Control electronics | Exact pilot SKUs, real harness/enclosure/power packs, deployable signed images, bench evidence, and KiCad fabrication data where a custom board is selected | [Control-electronics release checklist](../control-electronics/release-checklist.md) |
+| Software and operations | Production transports, deployment identity/key infrastructure, signed live actions, hardware-in-loop, operator validation and authenticated deployment hosting | [Certification](certification/README.md) and [operations validation](operations/validation-checklist.md) |
+| Approval | Supplier qualification, physical tests, independent safety assessment and national/operator authorization | [Safety case](safety-case/README.md) and [certification](certification/README.md) |
+
+Repository work that can advance without external evidence remains visible in
+the analysis register and workstream table: charger duty, station IFC geometry,
+passenger assignment/pedestrian capacity, native IFC viewing, and LandXML
+station/civil/cant sidecar mapping. The review closed the previously planned
+CalculiX thermal-block solver benchmark with a deterministic input, analytical
+acceptance check, and machine-readable result. These tasks improve screening
+evidence but cannot close the external release gates above.
 
 ## v0.3 Workstream
 

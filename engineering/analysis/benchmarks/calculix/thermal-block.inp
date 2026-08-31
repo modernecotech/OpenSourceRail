@@ -1,0 +1,45 @@
+*HEADING
+OpenSourceRail deterministic steady-state thermal block benchmark
+** Two DC3D8 elements, 1 m total length, 1 m2 area, k = 2 W/(m K).
+** T(x=0) = 20 C and T(x=1) = 60 C; expected T(x=0.5) = 40 C.
+*NODE
+1, 0.0, 0.0, 0.0
+2, 0.0, 1.0, 0.0
+3, 0.0, 1.0, 1.0
+4, 0.0, 0.0, 1.0
+5, 0.5, 0.0, 0.0
+6, 0.5, 1.0, 0.0
+7, 0.5, 1.0, 1.0
+8, 0.5, 0.0, 1.0
+9, 1.0, 0.0, 0.0
+10, 1.0, 1.0, 0.0
+11, 1.0, 1.0, 1.0
+12, 1.0, 0.0, 1.0
+*ELEMENT, TYPE=DC3D8, ELSET=EALL
+1, 1, 5, 6, 2, 4, 8, 7, 3
+2, 5, 9, 10, 6, 8, 12, 11, 7
+*NSET, NSET=NALL, GENERATE
+1, 12, 1
+*NSET, NSET=LEFT
+1, 2, 3, 4
+*NSET, NSET=MIDDLE
+5, 6, 7, 8
+*NSET, NSET=RIGHT
+9, 10, 11, 12
+*SOLID SECTION, ELSET=EALL, MATERIAL=BLOCK
+*MATERIAL, NAME=BLOCK
+*CONDUCTIVITY
+2.0
+*INITIAL CONDITIONS, TYPE=TEMPERATURE
+NALL, 20.0
+*STEP
+*HEAT TRANSFER, STEADY STATE
+1.0, 1.0
+*BOUNDARY
+LEFT, 11, 11, 20.0
+RIGHT, 11, 11, 60.0
+*NODE PRINT, NSET=NALL
+NT
+*EL PRINT, ELSET=EALL
+HFL
+*END STEP

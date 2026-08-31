@@ -107,7 +107,7 @@ def main() -> int:
         "",
         "Generated city READMEs contain local values and evidence only. Shared methodology",
         "and limitations live in the",
-        "[deployment planning reference](../docs/deployment-planning-reference.md).",
+        "[deployment planning reference](../../docs/deployment-planning-reference.md).",
         "",
         "Every city retains its design, simulator scenario, map, engineering review layers,",
         "validation summaries, operations asset index, acceptance report, and integrity",

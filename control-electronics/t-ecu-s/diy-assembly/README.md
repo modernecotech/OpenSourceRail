@@ -1,9 +1,9 @@
 # T-ECU/S DIY assembly
 
-**Goal:** build a working T-ECU/S (the SIL-4 train safety
-kernel) from off-the-shelf modules, without fabricating a
-custom PCB. One T-ECU/S per train end of the cabless trainset
-(A end + B end, × 2 per trainset).
+**Goal:** build a bench prototype of the intended T-ECU/S interfaces from
+off-the-shelf modules, without fabricating a custom PCB. This is not qualified
+SIL hardware and must not command a train. One prototype represents each train
+end of the cabless trainset (A end + B end, × 2 per trainset).
 
 ## Bill of materials
 
@@ -46,8 +46,8 @@ custom PCB. One T-ECU/S per train end of the cabless trainset
  │                                                                            │
  │  ┌──────────────┐    USB    ┌──────────────┐    USB    ┌──────────────┐   │
  │  │  Pico 2 (A)  │───────────│ Adafruit USB │───────────│  Pico 2 (B)  │   │
- │  │  RP2350 SIL-4│           │ isolator     │           │  RP2350 SIL-4│   │
- │  │  safety chan │  cross-chk│ (galv iso)   │           │  safety chan │   │
+ │  │  RP2350 bench│           │ isolator     │           │  RP2350 bench│   │
+ │  │  candidate   │  cross-chk│ (galv iso)   │           │  candidate   │   │
  │  └──────┬───────┘           └──────────────┘           └──────┬───────┘   │
  │         │ I²C to ATECC A                                        │ I²C to   │
  │         ▼                                                       ▼ ATECC B │
@@ -125,33 +125,30 @@ application.
 | A GND       | → | ATECC A GND |
 | (same for B with own ATECC) | | |
 
-## Firmware flashing
+## Firmware release gate
 
-1. Plug each Pico 2 into the build host via USB while holding
-   BOOTSEL.
-2. Pico 2 appears as a USB mass-storage device named `RPI-RP2`.
-3. Copy the appropriate `.uf2`:
-   - `osr-tecu-s-chan-a-v0.2.uf2` to channel A
-   - `osr-tecu-s-chan-b-v0.2.uf2` to channel B
-4. Each Pico 2 auto-reboots.
-5. LED pattern: 3 short blinks = self-test pass; slow blink =
-   awaiting peer cross-check.
+No deployable T-ECU/S `.uf2` ships in v0.3.1. The intended paired images must
+be channel-identified, hardware-revision-bound, signed and checksummed, and must
+implement the watchdog, peer cross-check, safety-output driver and secure
+provisioning described here. Flashing instructions and LED codes become valid
+only when issued with those reviewed binaries.
 
 ## Commissioning self-test
 
-Boot the CM5 with its SD card; connect HDMI + keyboard for
-first-boot commissioning.
+`osr-selftest --role t-ecu-s` currently exercises the logical role manifest in
+software. It is not evidence that Pico channels, trust anchors, relays or CAN
+buses have passed a physical commissioning test.
 
 ```bash
 sudo osr-selftest --role t-ecu-s
 ```
 
-Expected output:
+The eventual hardware runner must produce a signed transcript covering at least:
 
 ```
 T-ECU/S self-test · entity=E-TRAIN-7-CAB-1
-  [ok]  Pico 2 channel A: RP2350 alive, firmware v0.2
-  [ok]  Pico 2 channel B: RP2350 alive, firmware v0.2
+  [ok]  Pico 2 channel A: RP2350 alive, approved firmware identity
+  [ok]  Pico 2 channel B: RP2350 alive, approved firmware identity
   [ok]  Cross-check SPI: peer bit exchange at 1 kHz
   [ok]  ATECC608B A: trust anchor responsive, key id 0x...
   [ok]  ATECC608B B: trust anchor responsive, key id 0x...
@@ -162,32 +159,26 @@ T-ECU/S self-test · entity=E-TRAIN-7-CAB-1
   [ok]  osr-brake evaluator: emergency union path exercised
   [ok]  osr-obstacle-detect: peer agreement, clear verdict
 
-T-ECU/S self-test: PASS — unit ready for service.
+T-ECU/S hardware self-test: PASS — unit ready for the next controlled gate.
 ```
 
-Any `[fail]` blocks service and logs to `/var/log/osr/selftest.log`
-with specific remediation steps.
+In a released runner, any `[fail]` must block the safety output and create a
+controlled diagnostic record. The current software harness does not implement
+that physical output path.
 
 ## Safety-case tie-in
 
-This DIY integration satisfies the T-ECU/S SIL-4 arguments in
-RFC 0007 safety-nets.md because:
+This DIY integration maps the intended interfaces for bench learning; it does
+**not** satisfy a T-ECU/S SIL claim. It can contribute evidence only after:
 
-1. The 2oo2 composite fail-safe uses the same RP2350 silicon —
-   Kani harnesses in `crates/osr-atp/src/kani_proofs.rs` +
-   `crates/osr-obstacle-detect/src/kani_proofs.rs` apply
-   unchanged.
-2. The 2oo2 AND-gate relay stage uses two mechanically
-   independent Panasonic DS-series 24 VDC SPDT relays (the
-   exact parts populating the SainSmart SSR-8DC24); the
-   weld-fuse argument stands.
-3. Galvanic isolation at the cross-check and trust-anchor
-   interfaces uses the same ADuM / USB-isolator silicon as
-   the custom design.
-4. Per-unit verification is provided by `osr-selftest` rather
-   than factory DRC, giving an explicit pass/fail stamp on
-   every built instance.
+1. a competent assessor accepts the selected safety-controller architecture,
+   independence, common-cause analysis and development process;
+2. output relays/contactors, isolation, diagnostics and de-energise-to-safe
+   behaviour are designed and physically fault-injected;
+3. software properties are traced to a qualified target and toolchain—Kani
+   results alone do not qualify RP2350 hardware;
+4. every unit passes configuration-controlled production and proof tests.
 
 See [`../schematics/v2-spec/safety-nets.md`](../schematics/v2-spec/safety-nets.md)
-for the custom-PCB equivalent; the nets map 1:1 to this DIY
-integration.
+for the custom-board intent. Any mapping to a final qualified controller must
+be reviewed rather than assumed to be one-to-one.

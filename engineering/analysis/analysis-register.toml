@@ -70,13 +70,13 @@ limitations = "Design-reference coordination geometry and family-level material 
 [[analysis]]
 id = "OSR-AN-CIV-THERM-001"
 title = "Thermal-block solver benchmark"
-status = "planned"
-tool = "FreeCAD FEM / CalculiX"
-input_paths = []
-result_path = ""
-acceptance_criterion = "Analytical steady-state temperature/flux agreement within a recorded tolerance"
-converged = false
-limitations = "Input deck and tolerance not yet issued."
+status = "screening"
+tool = "CalculiX 2.23"
+input_paths = ["engineering/analysis/benchmarks/calculix/thermal-block.inp", "engineering/analysis/benchmarks/calculix/thermal_block.py"]
+result_path = "build/engineering/analysis/benchmarks/calculix/thermal-block/summary.json"
+acceptance_criterion = "Middle-plane temperature within 1e-6 C of 40 C, longitudinal heat flux within 1e-5 W/m2 of -80 W/m2 and transverse flux below 1e-10 W/m2"
+converged = true
+limitations = "Two-element steady-state conduction solver benchmark only; it does not model a civil assembly, thermal bridges, weather, moisture, solar gain or released materials."
 
 [[analysis]]
 id = "OSR-AN-IFC-LM3-MFG-001"

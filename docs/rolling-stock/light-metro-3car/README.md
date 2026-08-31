@@ -289,7 +289,7 @@ The matching electronics host-class quantities are mirrored in
 [`control-electronics/rolling-stock-integration.md`](../../../control-electronics/rolling-stock-integration.md).
 
 The remaining gaps are not missing assemblies in the train envelope;
-they are v0.2/v2 detail-design tasks: frozen supplier exact envelopes,
+they are controlled detail-design and release tasks: frozen supplier exact envelopes,
 one-car-first manufacturing drawings, weld maps, NDT acceptance sheets,
 FEA-ready brackets, harness clamp locations, manufacturing tolerances,
 weight-and-balance evidence, and release drawings listed in

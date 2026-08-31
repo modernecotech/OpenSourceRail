@@ -14,7 +14,7 @@ The machine-readable parent/child join classes, torque authority, and
 release state are generated in
 [`joint-control-schedule.md`](../../../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md).
 
-It is still a v0.2/v2A planning document, not a released shop drawing.
+It is still a planning document, not a released shop drawing.
 Every structural weld, bolted joint, adhesive bond, HV connection, and
 coolant joint still needs a released interface-control drawing, the
 numeric torque or supplier procedure required by the joint schedule, a

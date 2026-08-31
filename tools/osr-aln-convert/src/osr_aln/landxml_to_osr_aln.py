@@ -359,7 +359,7 @@ def emit_toml(aln: Alignment, meta: Meta) -> str:
     out.append("[[civil]]")
     out.append("from_station_m = 0.0")
     out.append(f"to_station_m   = {aln.length_m:.3f}")
-    out.append('class          = "at-grade"   # TODO: split per RFC 0011')
+    out.append('class          = "at-grade"   # REVIEW REQUIRED: classify per RFC 0011')
     out.append("")
     out.append("# ----------------------------------------------------------")
     out.append("# Stations — LandXML names kept as placeholder_id; the")
@@ -368,7 +368,9 @@ def emit_toml(aln: Alignment, meta: Meta) -> str:
     for s in aln.stations:
         out.append("")
         out.append("[[station]]")
-        out.append(f'id                = "{s.placeholder_id}"   # TODO: match design.toml')
+        out.append(
+            f'id                = "{s.placeholder_id}"   # SOURCE NAME: map to design.toml before release'
+        )
         out.append(f"station_m         = {s.station_m:.3f}")
         out.append(f"platform_length_m = {s.platform_length_m:.3f}")
     out.append("")

@@ -23,7 +23,7 @@ usage() {
         '  --install-python  Create/update the pinned user-local Python environment.' \
         '  --check           Capture installed versions and fail for missing baseline tools.' \
         '  --smoke           Run deterministic IFC/structure/grid/PV/battery smoke checks.' \
-        '  --benchmarks      Run the JuPedSim corridor and Samawah SUMO timetable.' \
+        '  --benchmarks      Run the CalculiX, JuPedSim, and Samawah SUMO benchmarks.' \
         '  --station-ifc     Export and validate station product-structure IFC files.' \
         '  --cities          Generate/run catalogue city packages; pass batch arguments.' \
         '  --flesh-out       Validate the register and run benchmarks plus station IFC.'
@@ -189,6 +189,7 @@ validate_register() {
 }
 
 run_benchmarks() {
+    python3 "$ROOT/engineering/analysis/benchmarks/calculix/thermal_block.py"
     "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/benchmarks/jupedsim/station-corridor.py"
     "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/benchmarks/sumo/city_timetable.py" \
         --design "$ROOT/cities/catalogue/west-asia/Iraq/Samawah/design.toml"

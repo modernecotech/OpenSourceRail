@@ -22,7 +22,7 @@ rationales across dispatcher, station-staff, maintenance, and
 control-centre role families. Practising-operator
 review is tracked in
 [`validation-checklist.md`](validation-checklist.md) and remains a
-v0.2/v2.1 release gate.
+deployment release gate.
 
 Maintenance intervals across rolling stock, stations, track/civil,
 structures, energy, signalling/comms, depots, and production-plant

@@ -16,7 +16,7 @@ energy-absorption-zone allocation that replaces it — the values
 the design/component-catalogue parametric car body tracks and that vendors
 must meet when supplying an OSR-compatible shell.
 
-The v0.2 development baseline still does **not** ship a full
+The current published baseline still does **not** ship a full
 finite-element crash simulation. What it ships is:
 
 - A parametric energy budget per consist family.
@@ -136,8 +136,8 @@ triggering the cowl's sacrificial crush zone. Interface:
 - 4× M24 bolts on a 400 × 200 pattern, pre-tapped in the cowl
   front.
 - Plough mass ≤ 120 kg (included in Zone 1 budget).
-- Catch pan + drain geometry published in the v0.2 hardware
-  release.
+- Catch-pan and drain geometry to be frozen in the controlled vehicle drawing
+  release; it is not yet a released manufacturing artifact.
 
 ## 9. Deployment checklist
 

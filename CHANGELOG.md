@@ -1,6 +1,6 @@
 # OpenSourceRail changelog
 
-## v0.3.1 — CI correctness patch
+## v0.3.1 — 2026-08-30 — CI correctness patch
 
 Corrects the clean-checkout release gates discovered after v0.3.0: both Python
 jobs now share one pinned IFC runtime, generated city acceptance reports link

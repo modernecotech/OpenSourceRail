@@ -245,6 +245,14 @@ def test_complete_book_manifest_covers_reader_documentation() -> None:
     assert not any("/definitions/" in path or "/travelers/" in path for path in relative)
 
 
+def test_generated_catalogue_front_door_uses_repository_relative_links() -> None:
+    catalogue = (REPO_ROOT / "cities/catalogue/README.md").read_text(
+        encoding="utf-8"
+    )
+    assert "[deployment planning reference](../../docs/deployment-planning-reference.md)" in catalogue
+    assert "[deployment planning reference](../docs/deployment-planning-reference.md)" not in catalogue
+
+
 def test_complete_book_manifest_covers_every_public_city_model() -> None:
     builder = runpy.run_path(str(REPO_ROOT / "tools/automation/build-doc-book.py"))
     models = builder["_city_models"]()

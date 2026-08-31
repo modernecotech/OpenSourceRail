@@ -1,84 +1,69 @@
 # DIY SD-card images
 
-Every host class boots off a prepared microSD card. The card
-carries a minimal Linux base, the OSR crate binaries for that
-host class, `osr-selftest`, and the per-deployment configuration
-file.
+The planned application-host deployment boots from a prepared microSD card
+carrying a minimal Linux base, an OSR role runner, `osr-selftest`, and the
+per-deployment configuration. This page distinguishes that target from the
+artifacts actually shipped today.
 
-## Source-Build Path
+## Current source-build boundary
 
-Until signed pre-built images ship, each deployment builds its own
-image from the workspace:
+No signed OSR SD-card or Pico firmware image is published by v0.3.1. The Rust
+workspace provides reusable control logic, simulation integration and the
+`osr-selftest` software harness; it does not yet provide a board-support
+package, bootable image recipe, hardware drivers or deployable RP2350 binary.
+
+The commands below validate that the host-side integration libraries compile.
+They do **not** create the `/usr/local/bin/osr-trainset-image` executable or a
+`.uf2` file described by older drafts:
 
 ```bash
 # On a build host (x86-64 Linux dev machine):
 cd OpenSourceRail
 
-# Cross-compile the onboard crate family for aarch64 (RPi CM5 target).
+# Cross-check the onboard integration library for the CM5 target.
 rustup target add aarch64-unknown-linux-gnu
 cargo build --release --target aarch64-unknown-linux-gnu \
-    -p osr-trainset-image    # for T-ECU/S + T-ECU/A
-# or -p osr-obstacle-detect  # for T-OBS
-# or -p osr-interlocking     # for W-SBC
-# or -p osr-psd              # for S-SBC (and friends)
-
-# Flash a base Raspberry Pi OS Lite image to the SD card
-# using the official Raspberry Pi Imager.
-
-# Mount the SD card and copy the compiled binary + config:
-sudo cp target/aarch64-unknown-linux-gnu/release/osr-trainset-image \
-    /mnt/sdcard/usr/local/bin/
-sudo cp control-electronics/t-ecu-s/diy-assembly/sample-config.toml \
-    /mnt/sdcard/etc/osr/config.toml
-sudo cp control-electronics/diy-assembly/osr.service \
-    /mnt/sdcard/etc/systemd/system/
-
-# Eject, insert into the CM5 IO Board's microSD slot.
+    -p osr-trainset-image
 ```
 
-Then provide the two Pico 2 boards with their firmware:
+Before any image can be flashed to pilot hardware, a deployment must add and
+review all of the following:
 
-```bash
-# RP2350 Pico 2 firmware — no_std build.
-cd crates/osr-atp     # or osr-obstacle-detect
-cargo build --release --target thumbv8m.main-none-eabihf
+- an operating-system image recipe with a pinned upstream base and packages;
+- a role runner that drives the relevant libraries through reviewed hardware
+  interfaces;
+- CM5/Radxa board-support, device-tree and hardware-driver configuration;
+- a genuine `no_std` RP2350 application and its watchdog/safety-I/O drivers;
+- secure provisioning, update, rollback and key-rotation procedures;
+- hardware bench tests, signed artifacts and reproducible-image checksums.
 
-# Flash each Pico 2 in turn while holding BOOTSEL + plugging USB.
-# The Pico 2 appears as a mass-storage device; copy the .uf2:
-cp target/thumbv8m.main-none-eabihf/release/*.uf2 /mnt/rpi-rp2/
-```
+These are tracked as release gates in
+[`../release-checklist.md`](../release-checklist.md). A deployment may use an
+upstream operating-system image for bench development, but that is not an OSR
+release image and must not command railway actuators.
 
-## v0.2 — pre-built images
+## Planned signed artifacts
 
-Per-host-class images at the project's release page will be:
+When the hardware gates close, each release must use filenames containing the
+actual host, semantic version, hardware revision and content checksum. Paired
+safety-channel firmware must identify its channel and refuse an incompatible
+peer. Do not reserve fictional filenames in advance.
 
-- **`osr-t-ecu-s-v0.2.img.xz`** — RPi OS Lite + CM5 + `osr-trainset-image`.
-  Plus two paired `.uf2` files (`osr-tecu-s-chan-a-v0.2.uf2`,
-  `osr-tecu-s-chan-b-v0.2.uf2`) for the two Pico 2 boards.
-- **`osr-t-ecu-a-v0.2.img.xz`** — CM5-only; no Pico 2 required.
-- **`osr-t-obs-v0.2.img.xz`** + two paired `.uf2` per board.
-- **`osr-w-sbc-v0.2.img.xz`** — Radxa CM5 bare-image; Pico 2
-  optional for safety-critical points-machine interlocks.
-- **`osr-s-sbc-v0.2.img.xz`** — RPi CM5-only.
-
-Each image will be:
+Every published image must be:
 
 - **Signed** with the OSR project's ed25519 release key.
 - **SHA-256 checksummed** for supply-chain verification.
-- **Reproducible** — given the tagged workspace commit,
-  anyone can rebuild an identical image.
+- **Reproducible** — given the tagged workspace commit and pinned base-image
+  digest, anyone can rebuild identical bytes.
 
-Flash with the Raspberry Pi Imager or `dd`:
-
-```bash
-xz -d osr-t-ecu-s-v0.2.img.xz
-sudo dd if=osr-t-ecu-s-v0.2.img of=/dev/sdX bs=4M status=progress
-sync
-```
+Only flash an artifact after verifying its release signature, checksum, target
+host and hardware revision. The release procedure will carry the exact command;
+this document deliberately does not provide a destructive `dd` example for an
+artifact that does not exist.
 
 ## Configuration
 
-Every image boots to a default config that will *not* proceed
+The planned image boots to a default config that will *not* proceed
 past self-test until `/etc/osr/config.toml` is populated with:
 
 - **`deployment_id`** — string identifier for the operator.
@@ -94,7 +79,7 @@ Sample configs ship in each `<class>/diy-assembly/sample-config.toml`.
 
 ## Boot flow + self-test
 
-Systemd unit at `/etc/systemd/system/osr.service`:
+The target systemd unit at `/etc/systemd/system/osr.service` will:
 
 1. Wait for hardware-clock sync (PTP, if available, else NTP).
 2. Validate the deployment config — reject if missing required

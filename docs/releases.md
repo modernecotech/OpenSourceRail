@@ -10,25 +10,25 @@ OpenSourceRail is pre-1.0 and uses semantic `vMAJOR.MINOR.PATCH` tags.
 - Safety approval, hardware release and deployment acceptance are separate
   controlled baselines; a software tag does not imply them.
 
-## v0.3.1 patch release
+## Published v0.3.1 record
 
-The selected corrective version is **v0.3.1**. Scope and claim boundaries are
-in the [patch notes](release-v0.3.1.md) and [v0.3 notes](release-v0.3.md). Do
-not create the tag until every item below is complete on the intended release
-commit.
+**v0.3.1 was tagged and published on 2026-08-30.** Its scope and claim
+boundaries are recorded in the [patch notes](release-v0.3.1.md) and
+[v0.3 notes](release-v0.3.md). The tag records the completed release baseline;
+this page must not present its pre-tag checklist as unfinished current work.
 
-- [ ] All intended changes are reviewed and the working tree is clean.
-- [ ] CI, Kani, repository health and generated drift checks pass.
-- [ ] Open gates distinguish completed work from external evidence gaps.
-- [ ] `Cargo.toml`, `Cargo.lock`, `VERSION`, changelog and notes agree.
-- [ ] Local Markdown links pass.
-- [ ] Root reader PDF, public overview, evidence matrix and release assets are
-  regenerated from the release commit with `./osr build`.
-- [ ] Attached assets have SHA-256 checksums.
-- [ ] The immutable tag is created only after the release commit is final.
-- [ ] GitHub release metadata uses `modernecotech/OpenSourceRail`.
-- [ ] Safety, hardware, rolling-stock, civil and deployment limits remain
-  explicit in the published notes.
+## Next release checklist
+
+- [ ] Select the next semantic version and freeze its intended scope.
+- [ ] Review all intended changes and start from a clean working tree.
+- [ ] Run CI, Kani, repository health, generated drift and local link checks.
+- [ ] Confirm that open gates remain distinct from completed evidence.
+- [ ] Make `Cargo.toml`, `Cargo.lock`, `VERSION`, changelog and notes agree.
+- [ ] Regenerate the root reader PDF, overview, evidence matrix and release
+  assets from the intended release commit with `./osr build`.
+- [ ] Publish versioned assets with SHA-256 checksums.
+- [ ] Create the immutable tag only after the release commit is final.
+- [ ] Keep safety, hardware, rolling-stock, civil and deployment limits explicit.
 
 Before tagging, review public API and schema changes, generated catalogue
 compatibility and open audit tasks.

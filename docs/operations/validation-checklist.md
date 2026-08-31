@@ -2,7 +2,7 @@
 
 The rulebook is drafted in English. It becomes deployment-ready only
 after operator and authority review. This checklist defines the review
-evidence expected for v0.2/v2.1.
+evidence required for a deployment-controlled operations release.
 
 | Gate | Required evidence | Closure criterion |
 |---|---|---|

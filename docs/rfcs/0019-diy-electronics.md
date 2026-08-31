@@ -209,10 +209,11 @@ Under `control-electronics/`:
   SD-card build.
 - **`<class>/diy-bom.md`** — per-host-class specific BOM with
   SKU + price + distributor + wiring map.
-- **SD-card images** — signed pre-built images are a v0.2 hardening
-  deliverable. Until they ship, the builder flashes the reference
-  Raspberry Pi OS image and installs the relevant OSR crate binaries
-  from the workspace.
+- **SD-card images** — signed pre-built images remain a hardware-release
+  deliverable. The current workspace contains reusable libraries and software
+  self-tests, not deployable host runners or RP2350 firmware; the exact missing
+  board-support, image and qualification work is stated in
+  [`control-electronics/diy-assembly/sd-card-images.md`](../../control-electronics/diy-assembly/sd-card-images.md).
 
 ## 9. Rollout
 
@@ -220,7 +221,7 @@ Under `control-electronics/`:
 |---|---|---|
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Per-host-class DIY BOM tables + top-level assembly cookbook (done 2026-04-23) | v0 |
-| **v2** | Pre-built per-class SD-card images, signed + checksummed + hosted | v1 |
+| **v2** | Deployable host runners and pre-built per-class SD-card/firmware images, signed + checksummed + hosted | v1 |
 | **v3** | Field-validation report from a first external DIY build | v2 |
 | **v4** | Retrofit path for upgrading a DIY build to the custom-PCB v2 spec (swap boards without re-certifying software) | v2, RFC 0007 |
 
