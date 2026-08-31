@@ -140,6 +140,8 @@ def scenario_variant(
     energy_from: float | None = None,
     energy_to: float | None = None,
     contact_fraction: float | None = None,
+    dwell_station: str | None = None,
+    dwell_multiplier: float | None = None,
     fault_toml: str = "",
 ) -> Path:
     value = source
@@ -169,6 +171,19 @@ def scenario_variant(
         )
         if replacements == 0:
             raise ValueError("could not create contact-loss variant: no charging contacts")
+    if dwell_station is not None and dwell_multiplier is not None:
+        station_pattern = re.compile(
+            rf'(\[\[stations\]\]\n(?:(?!\n\[\[).)*?id = "{re.escape(dwell_station)}"(?:(?!\n\[\[).)*?dwell_seconds = )(\d+)',
+            re.DOTALL,
+        )
+        value, replacements = station_pattern.subn(
+            lambda match: match.group(1)
+            + str(max(1, round(int(match.group(2)) * dwell_multiplier))),
+            value,
+            count=1,
+        )
+        if replacements != 1:
+            raise ValueError(f"could not extend dwell at station {dwell_station!r}")
     if fault_toml:
         value = value.rstrip() + "\n\n" + fault_toml.strip() + "\n"
     path.write_text(value, encoding="utf-8")
@@ -257,6 +272,12 @@ def summarize_result(
     energy_site_conservation_errors = sum(
         int(site.get("conservation_errors", 0)) for site in energy_sites
     )
+    charger_constrained_requests = sum(
+        int(site.get("constrained_request_count", 0)) for site in energy_sites
+    )
+    charger_overlapping_requests = sum(
+        int(site.get("overlapping_request_count", 0)) for site in energy_sites
+    )
     energy_site_systems_passed = (
         len(energy_sites) > 0
         and energy_site_controller_evaluations > 0
@@ -336,6 +357,9 @@ def summarize_result(
         "occ_systems_passed": occ_systems_passed,
         "energy_site_controller_evaluations": energy_site_controller_evaluations,
         "energy_site_conservation_errors": energy_site_conservation_errors,
+        "charger_constrained_requests": charger_constrained_requests,
+        "charger_overlapping_requests": charger_overlapping_requests,
+        "faults_fired_count": len(result.get("faults_fired", [])),
         "energy_site_systems_passed": energy_site_systems_passed,
         "regen_systems_passed": regen_systems_passed,
         "proto_systems": proto_systems,
@@ -372,7 +396,7 @@ def main() -> int:
     parser.add_argument(
         "--resilience",
         action="store_true",
-        help="also require EOL battery, high-ambient duty, charger-contact loss, pad outage and grid outage cases",
+        help="also require aged/hot, missed-stop, charger-conflict, contact-loss, pad-outage and grid-outage cases",
     )
     args = parser.parse_args()
     source_scenario = args.scenario.resolve()
@@ -484,7 +508,7 @@ def main() -> int:
                 )
             )
             del result
-        raw_resilience: list[tuple[str, int, dict, float]] = []
+        raw_resilience: list[tuple[str, int, dict, float, dict]] = []
         if args.resilience:
             nominal_battery = int(doc["consist"]["battery_capacity_kwh"])
             nominal_energy = float(doc["consist"]["energy_kwh_per_car_km"])
@@ -515,16 +539,25 @@ def main() -> int:
                 "fault_window": "07:00-17:00",
                 "normal_and_single_site_outage_service_floor": 0.90,
                 "all_site_grid_outage_emergency_service_floor": 0.60,
+                "combined_aged_high_ambient_case": True,
+                "consecutive_missed_charging_stops": 2,
+                "late_running_dwell_multiplier": 3.0,
             }
             powered_station = next(
                 (str(site["station"]) for site in doc.get("sites", []) if site.get("station")),
                 None,
             )
+            powered_stations = [
+                str(site["station"])
+                for site in doc.get("sites", [])
+                if site.get("station")
+            ]
             variants = [
                 (
                     "80% end-of-life battery capacity",
                     scenario_variant(source, temporary_path / "eol.toml", battery_from=nominal_battery, battery_to=round(nominal_battery * 0.8)),
                     0.90,
+                    {},
                 ),
                 (
                     "maximum planning climate/HVAC duty",
@@ -535,11 +568,13 @@ def main() -> int:
                         energy_to=maximum_climate_energy,
                     ),
                     0.90,
+                    {},
                 ),
                 (
                     "50% charging-contact availability",
                     scenario_variant(source, temporary_path / "contact-loss.toml", contact_fraction=0.5),
                     0.90,
+                    {},
                 ),
                 (
                     "ten-hour all-site grid outage",
@@ -554,6 +589,20 @@ to = "17:00"
                     # wide emergency. Require safe controlled service rather
                     # than pretending storage can reproduce the timetable.
                     0.60,
+                    {},
+                ),
+                (
+                    "combined 80% aged battery and maximum climate/HVAC duty",
+                    scenario_variant(
+                        source,
+                        temporary_path / "aged-high-ambient.toml",
+                        battery_from=nominal_battery,
+                        battery_to=round(nominal_battery * 0.8),
+                        energy_from=nominal_energy,
+                        energy_to=maximum_climate_energy,
+                    ),
+                    0.90,
+                    {},
                 ),
             ]
             if powered_station is not None:
@@ -569,14 +618,51 @@ to = "17:00"
 station = "{powered_station}"
 '''),
                         0.90,
+                        {"minimum_faults_fired": 1},
+                    )
+                )
+            if len(powered_stations) >= 2:
+                missed_faults = "\n".join(
+                    f'''[[faults]]
+name = "missed-charge-{index + 1}"
+kind = "charging_pad_outage"
+from = "07:00"
+to = "17:00"
+station = "{station}"'''
+                    for index, station in enumerate(powered_stations[:2])
+                )
+                variants.append(
+                    (
+                        "consecutive missed charging stops",
+                        scenario_variant(
+                            source,
+                            temporary_path / "missed-charging-stops.toml",
+                            fault_toml=missed_faults,
+                        ),
+                        0.90,
+                        {"minimum_faults_fired": 2},
+                    )
+                )
+            if powered_station is not None:
+                variants.append(
+                    (
+                        "late-running shared-charger conflict",
+                        scenario_variant(
+                            source,
+                            temporary_path / "late-charger-conflict.toml",
+                            dwell_station=powered_station,
+                            dwell_multiplier=3.0,
+                        ),
+                        0.90,
+                        {"minimum_charger_overlapping_requests": 1},
                     )
                 )
             def run_variant(
                 assigned_variant: tuple[
-                    int, tuple[str, Path, float], tuple[int, ...] | None
+                    int, tuple[str, Path, float, dict], tuple[int, ...] | None
                 ],
-            ) -> tuple[str, int, dict, float]:
-                index, (label, variant, minimum_service), cpu_set = assigned_variant
+            ) -> tuple[str, int, dict, float, dict]:
+                index, (label, variant, minimum_service, requirements), cpu_set = assigned_variant
                 print(f"resilience: running {label}", flush=True)
                 result = run_sim(
                     variant,
@@ -594,7 +680,7 @@ station = "{powered_station}"
                 )
                 del result
                 print(f"resilience: completed {label}", flush=True)
-                return label, args.full_duration, summary, minimum_service
+                return label, args.full_duration, summary, minimum_service, requirements
 
             # Each case is independent. Compact result files remove the old
             # multi-gigabyte memory constraint, so allocate one physical core
@@ -635,7 +721,7 @@ station = "{powered_station}"
     minimum_service_completion_ratio = 0.90
     service_completion_tolerance = 0.002
     resilience_cases = []
-    for _label, _duration, summary, minimum_service in raw_resilience:
+    for _label, _duration, summary, minimum_service, requirements in raw_resilience:
         case = dict(summary)
         case["scheduled_train_km"] = scheduled_train_km
         case["raw_service_completion_ratio"] = case["train_km"] / scheduled_train_km
@@ -643,6 +729,13 @@ station = "{powered_station}"
             1.0, case["raw_service_completion_ratio"]
         )
         case["minimum_service_completion_ratio"] = minimum_service
+        scenario_checks = {
+            "faults_fired": case["faults_fired_count"]
+            >= int(requirements.get("minimum_faults_fired", 0)),
+            "charger_overlap_observed": case["charger_overlapping_requests"]
+            >= int(requirements.get("minimum_charger_overlapping_requests", 0)),
+        }
+        case["scenario_checks"] = scenario_checks
         case["passed"] = (
             case["minimum_soc_percent"] >= 20.0 - 1e-3
             and case["invariant_violations"] == 0
@@ -657,6 +750,7 @@ station = "{powered_station}"
             and case["proto_systems_passed"]
             and case["wayside_asset_systems_passed"]
             and case["selftest_systems_passed"]
+            and all(scenario_checks.values())
             and case["service_completion_ratio"] + service_completion_tolerance >= minimum_service
         )
         resilience_cases.append(case)
@@ -679,7 +773,7 @@ station = "{powered_station}"
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.11",
+        "schema_version": "1.12",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),

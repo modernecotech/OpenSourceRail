@@ -137,14 +137,25 @@ This is the heart of the safety argument and receives the most design attention.
 
 | | Legacy | OpenSourceRail |
 |---|---|---|
-| Block model | **Fixed block** (track circuits, axle counters) or vendor **CBTC moving block** | **Software-defined moving block** via distributed consensus across wayside nodes + self-reporting trains |
-| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4-target Rust interlocking on redundant RISC-V SBCs at <$5k/site; property-tested with release-selected bounded Kani evidence, with full topology proofs still open |
+| Block model | **Fixed block** (track circuits, axle counters) or vendor **CBTC moving block** | Pilot: independently detected fixed/sectional blocks. Research target: software-defined moving block via distributed consensus after independent assessment and field closure. |
+| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | Open Rust logic hosted on commodity wayside computers, with fail-safe outputs controlled by a separately selected and qualified safety channel. Hardware cost remains open until that channel and its integration are frozen. |
 | Position | Track circuits + balises (Eurobalise) | Sensor fusion: GNSS + IMU + wheel odometry + low-cost UWB/beacon fixes at switches and platforms |
-| Movement authority | Centralized zone controller issues MA to trains | Distributed Raft-style log holds authoritative track state; each train computes its own MA, cross-validated by two independent wayside nodes |
+| Movement authority | Centralized zone controller issues MA to trains | Pilot: conservative wayside sectional authority bounded by independent occupancy. Consensus and onboard computation run in shadow first; distributed authority is a later gated target. |
 | Certification path | Per-vendor SIL-4 case, years to re-certify | Open formal models + continuously regenerated safety-case evidence, assessed per deployment |
 
-**Excluded from the reference architecture:** Track circuits as primary train detection, centralized zone controllers, and relay interlockings.
-**Why this is novel:** "Rail as a distributed system." Existing CBTC vendors use centralized zone controllers because their software isn't trusted to run distributed consensus correctly; a formally verified Rust implementation of a restricted consensus protocol (fixed membership, no dynamic reconfiguration in the hot path) changes that calculus.
+**Pilot boundary:** Independent train detection, conservative sectional movement
+authority and a separately qualified fail-safe safety channel are required by the
+reference pilot profile. Track circuits or axle counters are therefore not
+excluded from a pilot. The target architecture may reduce trackside equipment
+only after the staged evidence gates in the
+[pilot signalling profile](certification/pilot-signalling-profile.md) close.
+
+**Why this is novel:** "Rail as a distributed system." The repository explores
+a restricted consensus protocol with fixed membership and no dynamic
+reconfiguration in the hot path. The Rust implementation has property tests,
+selected bounded Kani checks and a documented TLA+ abstraction map; it does not
+yet have a machine-checked refinement proof and must not be described as fully
+formally verified.
 **Key risk:** regulators, insurers, and procurement authorities need more than a technical artifact. A Git repository cannot carry the safety certificate or product liability for a railway. Mitigation: publish the formal model early, solicit review from independent safety assessors, and start with deployable non-safety subsystems, yard/test-track trials, and segregated-ROW pilots before any full metro deployment.
 
 ### D3. Communications
@@ -306,15 +317,25 @@ Only I1–I3 are safety-critical. Everything else can fail without loss of safe 
 
 | Tier | Examples | OS | Rust flavor | Constraints |
 |---|---|---|---|---|
-| **T1 — Safety kernel** | Interlocking, ATP, door safety | Hubris or seL4 | `no_std`, RTIC | SIL-4 target; formally verified; < 50k LoC per binary |
+| **T1 — Safety kernel** | Interlocking, ATP, door safety | Selected safety runtime / RTOS | `no_std`, RTIC | SIL-4 system target; selected bounded proofs only; full refinement, hardware qualification and assessment remain open; < 50k LoC per binary |
 | **T2 — Safety-adjacent** | Train ECU apps, substation control | Hubris or PREEMPT_RT Linux | `no_std` or minimal std | SIL-2 target; strict coding standard; full test coverage |
 | **T3 — Supervisory** | Dispatching, ops services, telemetry collectors | Linux (Debian or Yocto) | `tokio` std | High availability; not safety-critical |
 | **T4 — UX/Back-office** | Dispatcher web UI, passenger apps, EAM | Linux / browser | `axum`/`leptos` Rust, TypeScript at edges | Standard web security practices |
 
 ### 6.2 Reference hardware
 
-- **Wayside SBC (W-SBC):** RISC-V (e.g., MilkV Jupiter-class) or ARM64 (e.g., Raspberry Pi CM5 carrier), dual Ethernet, CAN-FD, hardware RoT (TPM 2.0 or OpenTitan). Deployed in ruggedized enclosures; runs T1/T2.
-- **Train ECU (T-ECU):** Same SoC family as W-SBC, EN 50155 environmental ratings, TSN Ethernet PHY, CAN-FD, isolated I/O modules.
+- **Wayside application host (W-SBC):** RISC-V or ARM64 commodity compute,
+  dual Ethernet, CAN-FD and hardware root of trust. It runs supervision,
+  communications, logging and pilot/shadow applications; it cannot directly
+  command a safety output.
+- **Train application host (T-ECU):** A ruggedized host with TSN Ethernet,
+  CAN-FD and isolated I/O for safety-adjacent and supervisory applications.
+  Any safety function uses a separately selected channel and justified
+  interface boundary.
+- **Safety channel:** Not yet selected. Candidate families, evidence required
+  for selection and the prohibition on using an SBC as the safety rationale are
+  recorded in
+  [`control-electronics/safety-controller-selection.md`](../control-electronics/safety-controller-selection.md).
 - **Ops server (O-SRV):** Commodity x86 or ARM64 server, Debian, standard datacenter gear. T3/T4.
 
 Reference hardware has two implementation tracks under

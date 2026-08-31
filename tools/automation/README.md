@@ -38,7 +38,9 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into `docs/portfolio-summary.md` |
 | [`generate-public-overview.py`](generate-public-overview.py) | Generate and drift-check the one-page public HTML overview from the design catalogue and LM3 build-cost record |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
-| [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
+| [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |
+| [`check-tracked-file-sizes.py`](check-tracked-file-sizes.py) | Keep useful GitHub artifacts in-tree while enforcing the 50 MiB per-file repository ceiling |
+| [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze the `LM3-FA-001` repository candidate and export its 67 authoritative gaps as issue-ready work packages without publishing externally |
 | [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |

@@ -1,8 +1,9 @@
 # Signalling & train-control kit archetypes.
 #
-# OSR train control is SMRaft-based per RFC 0001: every wayside node (W-Node)
-# is a peer in one of N consensus regions. Kit scales with region size and
-# the interlocking complexity at that node (plain-line vs junction vs depot).
+# OSR train-control research uses SMRaft per RFC 0001, but the first pilot does
+# not depend on a novel moving-block authority. Every wayside node participates
+# in a consensus region while the pilot profile below bounds live authority by
+# independent occupancy and conservative sectional blocks.
 #
 # City design.toml references a kit per W-Node site:
 #     [[wayside_nodes]]
@@ -13,6 +14,30 @@
 # Unified system principle: every W-Node in every OSR deployment is one of
 # four kits. The Rust firmware, T-ECU hardware, beacon reader, and enclosure
 # are identical; only quantity of switch drivers / beacon channels varies.
+
+# ---- Deployment profiles ------------------------------------------------
+
+[profiles.osr-pilot-1]
+status                         = "reference-pilot"
+segregated_right_of_way        = true
+primary_occupancy              = "independent-axle-counter-or-track-circuit"
+movement_authority             = "wayside-sectional-fixed-block"
+point_detection               = "independent-fail-safe-detected-and-locked"
+osr_atp_mode                   = "active-bounded-by-sectional-authority"
+osr_ato_mode                   = "supervised"
+consensus_mode                 = "shadow-only"
+moving_block_mode              = "shadow-only"
+safety_output_controller       = "deployment-selected-qualified-channel"
+requires_independent_assessor  = true
+
+[profiles.osr-target-moving-block]
+status                         = "research-target-not-deployable-baseline"
+primary_occupancy              = "fused-train-position-with-independent-fallback"
+movement_authority             = "distributed-moving-block"
+consensus_mode                 = "safety-authoritative-after-gates"
+moving_block_mode              = "active-after-gates"
+safety_output_controller       = "deployment-selected-qualified-channel"
+requires_independent_assessor  = true
 
 # ---- Plain-line: mid-section W-Node, no switches ------------------------
 

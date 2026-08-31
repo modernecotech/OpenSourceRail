@@ -2,8 +2,8 @@
 
 Static browser portal for city-level operations data:
 
-- OSR Ops Core work orders, inspection evidence, defects/NCR, and audit
-  trail stored locally in the browser.
+- OSR Ops Core work orders, inspection evidence, independent handback,
+  defects/NCR and audit trail persisted in SQLite, with browser-local fallback.
 - Manufacturing schedule for trains, waypoints/W-SBCs, track sections,
   switches, stations, depots, production plant fixtures, energy sites,
   and station systems.
@@ -20,6 +20,11 @@ Static browser portal for city-level operations data:
 
 The simplified operating model is documented in
 [`ops-core.md`](ops-core.md).
+
+Passing work requires a named inspector and a different named handback
+approver. Rejection returns work for rework and open NCRs block closeout. This
+is a typed attestation workflow; authentication, RBAC and qualified electronic
+signatures remain explicit deployment gaps.
 
 For the integrated City Studio → simulation → OCC replay → work-order flow,
 run the [OSR Workbench](../workbench/README.md). Workbench-created records retain

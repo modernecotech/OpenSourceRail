@@ -97,7 +97,7 @@ for (const frontend of [
   });
 }
 
-test("operations portal loads every tab and persists an Ops Core work order", async ({ page }) => {
+test("operations portal persists inspected and independently approved closeout", async ({ page }) => {
   const failures = capturePageFailures(page);
   const data = "/cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz";
   await page.goto(`http://127.0.0.1:4176/docs/operations-portal/?data=${encodeURIComponent(data)}`);
@@ -128,11 +128,40 @@ test("operations portal loads every tab and persists an Ops Core work order", as
   await page.locator('#workOrderForm button[type="submit"], button[form="workOrderForm"]').click();
   await expect(page.locator("#coreWorkTable")).toContainText("Deterministic Playwright inspection");
 
+  await page.locator("#inspectionRecordedBy").fill("Playwright inspector");
+  await page.locator("#inspectionRecordedRole").fill("Maintenance technician");
+  await page.locator("#inspectionReading").fill("8.2 mm within acceptance band");
+  await page.locator("#inspectionEvidence").fill("evidence://playwright/inspection-1");
+  await page.locator("#inspectionNote").fill("Inspection complete and fit for handback.");
+  await page.locator('button[form="inspectionForm"]').click();
+  await expect(page.locator("#approvalStatus")).toContainText("Independent handback required");
+
+  await page.locator("#approvalBy").fill("Playwright verifier");
+  await page.locator("#approvalRole").fill("Independent owner verifier");
+  await page.locator("#approvalEvidence").fill("approval://playwright/handback-1");
+  await page.locator("#approvalComment").fill("Latest inspection and evidence reviewed.");
+  await page.locator("#approvalDeclaration").check();
+  await page.locator('button[form="approvalForm"]').click();
+  await expect(page.locator("#approvalStatus")).toContainText("Playwright verifier");
+
+  const workRow = page.locator("#coreWorkTable tr", { hasText: "Deterministic Playwright inspection" });
+  await workRow.locator("[data-advance-wo]").click();
+  await expect(workRow).toContainText("closed");
+
   await page.reload();
   await expect(page.locator("#cityName")).toHaveText("Samawah");
   await page.locator('.tab[data-tab="core"]').click();
-  await expect(page.locator("#coreWorkTable")).toContainText("Deterministic Playwright inspection");
+  const persistedRow = page.locator("#coreWorkTable tr", { hasText: "Deterministic Playwright inspection" });
+  await expect(persistedRow).toContainText("closed");
+  await persistedRow.locator("[data-select-wo]").click();
+  await expect(page.locator("#approvalStatus")).toContainText("Playwright verifier");
   await page.locator('.tab[data-tab="projectTwin"]').click();
   await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]").first()).toHaveText("Adopted");
+  const saved = await page.request.get("http://127.0.0.1:4176/api/ops-core/samawah");
+  expect(saved.ok()).toBeTruthy();
+  const savedState = (await saved.json()).state;
+  expect(savedState.approvals).toEqual(expect.arrayContaining([
+    expect.objectContaining({ decision: "approved", approved_by: "Playwright verifier" }),
+  ]));
   expect(failures).toEqual([]);
 });

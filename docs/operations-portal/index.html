@@ -192,8 +192,30 @@
             </select>
             <input id="inspectionReading" placeholder="Reading or reference" />
             <input id="inspectionEvidence" placeholder="Evidence link / file ref" />
+            <input id="inspectionRecordedBy" placeholder="Inspector name" required />
+            <input id="inspectionRecordedRole" placeholder="Inspector role" required />
             <textarea id="inspectionNote" placeholder="Finding / handback note"></textarea>
           </form>
+        </section>
+
+        <section class="surface">
+          <div class="section-head">
+            <h2>Independent Handback</h2>
+            <button class="text-button" form="approvalForm" type="submit">Record</button>
+          </div>
+          <p class="muted-text">A second accountable person approves or rejects the latest inspection before closeout. This is a typed attestation, not a qualified digital signature.</p>
+          <form id="approvalForm" class="work-form">
+            <select id="approvalDecision">
+              <option value="approved">Approve handback</option>
+              <option value="rejected">Reject / rework</option>
+            </select>
+            <input id="approvalBy" placeholder="Approver name" required />
+            <input id="approvalRole" placeholder="Approver role" required />
+            <input id="approvalEvidence" placeholder="Approval / document reference" />
+            <textarea id="approvalComment" placeholder="Decision comment"></textarea>
+            <label><input id="approvalDeclaration" type="checkbox" required /> I reviewed the work and evidence and record this decision under my name.</label>
+          </form>
+          <div id="approvalStatus" class="selected-work"></div>
         </section>
 
         <section class="surface">

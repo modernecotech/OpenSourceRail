@@ -20,6 +20,7 @@ CITY_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
 RECORD_TABLES = {
     "workOrders": "work_orders",
     "inspections": "inspections",
+    "approvals": "approvals",
     "defects": "defects",
     "audit": "audit_events",
 }
@@ -246,6 +247,21 @@ def init_db(con: sqlite3.Connection) -> None:
             PRIMARY KEY (city_slug, id)
         );
 
+        CREATE TABLE IF NOT EXISTS approvals (
+            city_slug TEXT NOT NULL,
+            id TEXT NOT NULL,
+            position INTEGER NOT NULL,
+            wo_id TEXT,
+            inspection_id TEXT,
+            decision TEXT,
+            approved_by TEXT,
+            approver_role TEXT,
+            evidence_ref TEXT,
+            recorded_at TEXT,
+            payload TEXT NOT NULL,
+            PRIMARY KEY (city_slug, id)
+        );
+
         CREATE TABLE IF NOT EXISTS audit_events (
             city_slug TEXT NOT NULL,
             id TEXT NOT NULL,
@@ -277,6 +293,8 @@ def init_db(con: sqlite3.Connection) -> None:
             ON defects (city_slug, status, due_date);
         CREATE INDEX IF NOT EXISTS idx_inspections_city_work
             ON inspections (city_slug, wo_id);
+        CREATE INDEX IF NOT EXISTS idx_approvals_city_work
+            ON approvals (city_slug, wo_id, recorded_at);
         CREATE INDEX IF NOT EXISTS idx_project_records_city_kind_status
             ON project_records (city_slug, kind, status, effective_at);
         """
@@ -341,6 +359,7 @@ def save_state(con: sqlite3.Connection, city: str, raw_state: dict) -> dict:
         con.execute("DELETE FROM project_records WHERE city_slug = ?", (city,))
         _insert_work_orders(con, city, state["workOrders"])
         _insert_inspections(con, city, state["inspections"])
+        _insert_approvals(con, city, state["approvals"])
         _insert_defects(con, city, state["defects"])
         _insert_audit(con, city, state["audit"])
         _insert_project_records(con, city, state)
@@ -351,6 +370,7 @@ def empty_state() -> dict:
     return {
         "workOrders": [],
         "inspections": [],
+        "approvals": [],
         "defects": [],
         "audit": [],
         "purchaseOrders": [],
@@ -362,6 +382,7 @@ def empty_state() -> dict:
         "counters": {
             "workOrder": 1,
             "inspection": 1,
+            "approval": 1,
             "defect": 1,
             "audit": 1,
             "purchaseOrder": 1,
@@ -456,6 +477,34 @@ def _insert_inspections(con: sqlite3.Connection, city: str, rows: list[dict]) ->
                 row.get("severity", ""),
                 row.get("evidence_ref", ""),
                 row.get("note", ""),
+                row.get("recorded_at", ""),
+                _payload(row),
+            )
+            for idx, row in enumerate(rows)
+            if row.get("id")
+        ],
+    )
+
+
+def _insert_approvals(con: sqlite3.Connection, city: str, rows: list[dict]) -> None:
+    con.executemany(
+        """
+        INSERT INTO approvals (
+            city_slug, id, position, wo_id, inspection_id, decision,
+            approved_by, approver_role, evidence_ref, recorded_at, payload
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (
+                city,
+                row.get("id", ""),
+                idx,
+                row.get("wo_id", ""),
+                row.get("inspection_id", ""),
+                row.get("decision", ""),
+                row.get("approved_by", ""),
+                row.get("approver_role", ""),
+                row.get("evidence_ref", ""),
                 row.get("recorded_at", ""),
                 _payload(row),
             )

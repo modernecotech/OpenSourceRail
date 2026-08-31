@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1339**.
+Indexed Markdown files: **1340**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1339**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 289 |
-| [docs](#docs) | 135 |
+| [docs](#docs) | 136 |
 | [engineering](#engineering) | 7 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1276,6 +1276,7 @@ Indexed Markdown files: **1339**.
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
 | [`docs/certification/evidence-status.md`](../docs/certification/evidence-status.md) | Evidence Status Matrix |
 | [`docs/certification/hazard-log.md`](../docs/certification/hazard-log.md) | Hazard log |
+| [`docs/certification/pilot-signalling-profile.md`](../docs/certification/pilot-signalling-profile.md) | Pilot Signalling Profile |
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
 | [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | v0.3 standards baseline |

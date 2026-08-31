@@ -18,6 +18,7 @@ current basic design and what must be closed before first steel cut.
 | If you are… | Start with | Then use |
 |---|---|---|
 | Design authority | [`current-design-buildability-review.md`](current-design-buildability-review.md) | Close yellow/red findings before release |
+| First-article lead | [`first-article-baseline.json`](first-article-baseline.json) | Hold `LM3-FA-001` configuration and assign the 67 issue-ready packages in [`first-article-work-packages.json`](first-article-work-packages.json) |
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
 | Train configuration engineer | [`train-end-interface.md`](train-end-interface.md) | Select panoramic glass outer ends or the optional mid open train-to-train connection on the common end interface |
 | Vehicle mechanical / interior engineer | [`small-component-standard.md`](small-component-standard.md) | Freeze the common rail, four fastener families, adapters, keyed connectors, lighting modules, and door/window service boundaries |
@@ -47,7 +48,9 @@ and the matching [IFC4.3 product/assembly and method federation](../../../../eng
 
 The intended sequence is:
 
-1. Read the buildability review for release blockers.
+1. Hold the `LM3-FA-001` configuration in
+   [`first-article-baseline.json`](first-article-baseline.json), then read the
+   buildability review for release blockers.
 2. Use the manifest to understand the 101-part / 26-assembly tree, then use
    `supplier-anchors.md` to buy an anchor family or qualify a local equivalent.
 3. Use `train-end-interface.md` to confirm whether each end position is

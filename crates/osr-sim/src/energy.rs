@@ -74,6 +74,14 @@ pub struct EnergySiteSummary {
     pub grid_exported_kwh: f64,
     pub curtailed_kwh: f64,
     pub delivered_to_trains_kwh: f64,
+    /// Energy requested by trains before cabinet/source limits were applied.
+    pub requested_by_trains_kwh: f64,
+    /// Requests receiving less than requested, including shared-cabinet
+    /// contention and depleted/off-grid source limits.
+    pub constrained_request_count: u64,
+    /// Additional train requests received in a tick that already contained a
+    /// request, proving overlapping use of the shared cabinet.
+    pub overlapping_request_count: u64,
     /// Calls through the standalone `osr-energy-site` controller.
     pub controller_evaluations: u64,
     /// Integer-watt conservation checks that failed (must remain zero).
@@ -89,10 +97,14 @@ pub struct EnergySite {
     pub grid_exported_kwh: f64,
     pub curtailed_kwh: f64,
     pub delivered_to_trains_kwh: f64,
+    pub requested_by_trains_kwh: f64,
+    pub constrained_request_count: u64,
+    pub overlapping_request_count: u64,
     pub controller_evaluations: u64,
     pub conservation_errors: u64,
     /// Shared train-side cabinet energy remaining in the current tick.
     charger_budget_kwh: f32,
+    requests_this_tick: u32,
 }
 
 impl EnergySite {
@@ -106,9 +118,13 @@ impl EnergySite {
             grid_exported_kwh: 0.0,
             curtailed_kwh: 0.0,
             delivered_to_trains_kwh: 0.0,
+            requested_by_trains_kwh: 0.0,
+            constrained_request_count: 0,
+            overlapping_request_count: 0,
             controller_evaluations: 0,
             conservation_errors: 0,
             charger_budget_kwh: f32::INFINITY,
+            requests_this_tick: 0,
         }
     }
 
@@ -146,6 +162,7 @@ impl EnergySite {
         grid_disabled: bool,
     ) {
         self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
+        self.requests_this_tick = 0;
         let pv_kw = pv_output_kw(self.config.pv_nameplate_kw, clock_s, peak_sun_hours) * pv_factor;
         let pv_w = kw_to_w(pv_kw);
         let pv_kwh = watts_to_kwh(pv_w, dt_s);
@@ -188,6 +205,11 @@ impl EnergySite {
         if max_kwh <= 0.0 {
             return 0.0;
         }
+        self.requested_by_trains_kwh += f64::from(max_kwh);
+        if self.requests_this_tick > 0 {
+            self.overlapping_request_count = self.overlapping_request_count.saturating_add(1);
+        }
+        self.requests_this_tick = self.requests_this_tick.saturating_add(1);
         if self.charger_budget_kwh.is_infinite() {
             self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
         }
@@ -231,6 +253,9 @@ impl EnergySite {
         let imported = watts_to_kwh(output.grid_import_w, dt_s) / efficiency;
         self.grid_imported_kwh += f64::from(imported);
         let delivered = watts_to_kwh(output.to_pad_w, dt_s);
+        if delivered + 1e-6 < max_kwh {
+            self.constrained_request_count = self.constrained_request_count.saturating_add(1);
+        }
         self.charger_budget_kwh = (self.charger_budget_kwh - delivered).max(0.0);
         self.delivered_to_trains_kwh += f64::from(delivered);
         delivered
@@ -246,6 +271,9 @@ impl EnergySite {
             grid_exported_kwh: self.grid_exported_kwh,
             curtailed_kwh: self.curtailed_kwh,
             delivered_to_trains_kwh: self.delivered_to_trains_kwh,
+            requested_by_trains_kwh: self.requested_by_trains_kwh,
+            constrained_request_count: self.constrained_request_count,
+            overlapping_request_count: self.overlapping_request_count,
             controller_evaluations: self.controller_evaluations,
             conservation_errors: self.conservation_errors,
         }
@@ -575,7 +603,7 @@ mod tests {
     }
 
     #[test]
-    fn shared_cabinet_budget_caps_two_draws_in_one_tick() {
+    fn late_running_overlap_is_bounded_and_reported_as_charger_contention() {
         let mut site = EnergySite::new(EnergySiteConfig {
             station: StationId::new(1),
             pv_nameplate_kw: 0.0,
@@ -596,6 +624,9 @@ mod tests {
         let first = site.draw(8.0, 60.0, false);
         let second = site.draw(8.0, 60.0, false);
         approx(first + second, 500.0 / 60.0, 0.01);
+        assert_eq!(site.constrained_request_count, 1);
+        assert_eq!(site.overlapping_request_count, 1);
+        approx(site.requested_by_trains_kwh as f32, 16.0, 0.01);
     }
 
     #[test]

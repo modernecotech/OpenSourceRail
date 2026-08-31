@@ -1,9 +1,10 @@
 # Repository Artifact Policy
 
-Git contains the smallest useful set needed to understand, inspect, build,
-test, and change OpenSourceRail. Reproducible working output belongs in
-`build/`; a small named public-review set may be tracked when GitHub users
-otherwise cannot inspect the system without installing specialist software.
+Git contains the useful source and review artifacts needed to understand,
+inspect, build, test and change OpenSourceRail without specialist regeneration.
+That includes CAD, IFC, PDFs, images and animations when they help a GitHub
+user inspect or build the system. Reproducible scratch output still belongs in
+`build/`; CI enforces a straightforward **50 MiB limit per tracked file**.
 
 ## Tracked
 
@@ -34,7 +35,7 @@ otherwise cannot inspect the system without installing specialist software.
 - The Samawah OSR-ALN fixture used by converter tests.
 - Compact FreeCAD and Blender review assemblies, including the LM3 selectable
   manufacturing-tool set; the named civil and LM3-manufacturing IFC4.3 review
-  federations, native civil construction scene and complete sub-20-MB review
+  federations, native civil construction scene and complete sub-50-MiB review
   animations under `engineering/models/bim/reference/`; stable documentation
   images, and the root `OpenSourceRail-Book.pdf` reader edition. These are
   published review aids generated from authoritative sources, not parallel
@@ -85,6 +86,10 @@ folder that produced them.
    outputs are named as code, not presented as GitHub links.
 8. The root reader PDF is generated, never hand-edited. Its Markdown and city
    model sources remain authoritative and are printed in the book.
+9. Keep useful CAD/BIM/media artifacts in Git when each file is at most 50 MiB.
+   `tools/automation/check-tracked-file-sizes.py` enforces the ceiling. A future
+   history optimisation must preserve access and requires an explicit maintainer
+   decision; it is not part of routine cleanup.
 
 ## Documentation ownership
 

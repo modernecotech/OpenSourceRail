@@ -69,7 +69,9 @@ certification path.
    deployment-partner evidence.
 7. **[release-gap-register.md](release-gap-register.md)** — release
    gates still open before a revenue-service type-approval submission.
-8. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
+8. **[pilot-signalling-profile.md](pilot-signalling-profile.md)** — conservative
+   independently detected sectional-authority baseline and staged transition.
+9. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
 
 ## How this pack relates to the rest of the repository

@@ -8,6 +8,9 @@ OpenSourceRail is an open-source, deterministic urban-rail platform with a diffe
 
 The current survey, supplier, drawing, embedded-hardware, physical-test and
 approval gaps are consolidated in the [reviewed roadmap](docs/ROADMAP.md#reviewed-open-work).
+Useful CAD, IFC, PDF, image and animation artifacts remain tracked in GitHub;
+CI enforces a simple 50 MiB per-file ceiling rather than removing them from the
+public package.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
@@ -41,9 +44,9 @@ The first adoptable product is the non-safety owner/operator stack: simulator, O
 | Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
 | Civil BIM and GIS | Generate OSR-ALN, GIS, IFC4.3, IDS/BCF, quantities, classifications and 4D construction review through the [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md). |
-| Buildable modular trainset | The LM3 tree separates 101 product rows into 26 part→subassembly→car→trainset nodes, including explicit chassis/body/front, articulation, bogie/body connection and bogie-mounted drive units. Git includes [101 separate native FreeCAD parts and 26 tested assemblies](design/component-catalogue/models/cad/README.md), matching [split IFC4.3 part/assembly files](engineering/models/bim/reference/README.md), 423 geometric primitives, all 54 bought-in rows mapped to 25 [anchor-or-local-equivalent supplier families](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md), nine timed methods, 20 tooling/mould families and shop travelers. These are complete design-reference/product-tree files, while supplier freeze, production tolerances and physical qualification remain explicit release work. |
+| Buildable modular trainset | The controlled [`LM3-FA-001` first-article baseline](design/component-catalogue/catalog/buildable-trainset/first-article-baseline.json) separates 101 product rows into 26 part→subassembly→car→trainset nodes, including explicit chassis/body/front, articulation, bogie/body connection and bogie-mounted drive units. Git includes [101 separate native FreeCAD parts and 26 tested assemblies](design/component-catalogue/models/cad/README.md), matching [split IFC4.3 part/assembly files](engineering/models/bim/reference/README.md), 423 geometric primitives, all 54 bought-in rows mapped to 25 [anchor-or-local-equivalent supplier families](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md), nine timed methods, 20 tooling/mould families and shop travelers. Its 67 unresolved rows are exported as [issue-ready work packages](design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.json); supplier freeze, production tolerances and physical qualification remain explicit release work. |
 | Automatic cost propagation | CAD-indexed quantities feed the civil rate contract, city CAPEX, finance, IFC properties, national briefs and the developing-world [portfolio summary](docs/portfolio-summary.md). |
-| Operations and assurance | Manufacturing, QA, maintenance, assets, work orders, acceptance evidence and a machine-checkable safety case remain linked to source artifacts. |
+| Operations and assurance | Manufacturing, QA, maintenance, assets, work orders, inspection evidence, independent handback approvals, NCR closeout and acceptance evidence remain linked to source artifacts. |
 | Deterministic browser testing | Pinned Playwright acceptance verifies the integrated browser applications, adapters, engineering jobs and restart persistence. |
 
 ## Generate A City Delivery Twin
@@ -92,6 +95,7 @@ Use this only human-facing front door instead of browsing the generated file inv
 | Review trains, civil works or stations | [LM3 trainset](docs/rolling-stock/light-metro-3car/README.md), [civil](docs/civil/README.md) and [stations](docs/stations/README.md) |
 | Review software, control electronics or operations | [Simulation coverage](docs/simulation-software-coverage.md), [control electronics](control-electronics/README.md) and [operations](docs/operations/README.md) |
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
+| Understand the deployable signalling boundary | [Conservative pilot signalling profile](docs/certification/pilot-signalling-profile.md) and [safety-controller selection gate](control-electronics/safety-controller-selection.md) |
 | Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases.md) |
 | Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.html) |
 | Read the complete documentation | [Complete PDF book](OpenSourceRail-Book.pdf); rebuild it with `./osr book` |

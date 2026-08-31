@@ -15,7 +15,7 @@ const WEEKLY_TASK_IDS = new Set([
   "track-weekly",
 ]);
 const CORE_RECORD_KEYS = [
-  "workOrders", "inspections", "defects", "audit", "purchaseOrders",
+  "workOrders", "inspections", "approvals", "defects", "audit", "purchaseOrders",
   "deliveries", "invoices", "payments", "progressUpdates", "projectRevisions",
 ];
 
@@ -149,6 +149,10 @@ function bindCoreActions() {
   document.getElementById("inspectionForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     saveInspection();
+  });
+  document.getElementById("approvalForm")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    saveApproval();
   });
   document.getElementById("seedCorePlan")?.addEventListener("click", generateDueWork);
   document.getElementById("openVisibleManufacturing")?.addEventListener("click", openVisibleManufacturingWork);
@@ -548,13 +552,19 @@ function renderSelectedWorkOrder() {
   const wo = currentWorkOrder();
   const panel = document.getElementById("selectedWorkOrder");
   const form = document.getElementById("inspectionForm");
+  const approvalForm = document.getElementById("approvalForm");
+  const approvalStatus = document.getElementById("approvalStatus");
   if (!wo) {
     panel.innerHTML = `<p class="empty-state">No work order selected</p>`;
     setFormDisabled(form, true);
+    setFormDisabled(approvalForm, true);
+    approvalStatus.innerHTML = `<p class="empty-state">No work order selected</p>`;
     return;
   }
   setFormDisabled(form, false);
+  setFormDisabled(approvalForm, wo.status !== "ready_to_close");
   const recent = state.core.inspections.find((row) => row.wo_id === wo.id);
+  const approval = latestApproval(wo.id);
   panel.innerHTML = `<dl class="summary-list">
     <div><dt>Work</dt><dd><code>${escapeHtml(wo.id)}</code> ${escapeHtml(wo.title)}</dd></div>
     <div><dt>Asset</dt><dd><code>${escapeHtml(wo.asset_id)}</code> ${escapeHtml(wo.asset_name)}</dd></div>
@@ -569,6 +579,9 @@ function renderSelectedWorkOrder() {
     ${wo.predecessors ? `<div><dt>Depends</dt><dd>${escapeHtml(wo.predecessors)}</dd></div>` : ""}
     <div><dt>Latest</dt><dd>${recent ? `${escapeHtml(recent.result)} - ${escapeHtml(recent.note || recent.reading || recent.evidence_ref || "recorded")}` : "No evidence yet"}</dd></div>
   </dl>`;
+  approvalStatus.innerHTML = approval
+    ? `<dl class="summary-list"><div><dt>Decision</dt><dd>${statusTag(approval.decision)}</dd></div><div><dt>Approver</dt><dd>${escapeHtml(approval.approved_by)} · ${escapeHtml(approval.approver_role)}</dd></div><div><dt>At</dt><dd>${escapeHtml(approval.recorded_at)}</dd></div></dl>`
+    : `<p class="empty-state">${wo.status === "ready_to_close" ? "Independent handback required" : "Complete a passing inspection first"}</p>`;
 }
 
 function renderAuditTrail() {
@@ -887,7 +900,7 @@ function advanceWorkOrder(id) {
   const wo = state.core.workOrders.find((row) => row.id === id);
   if (!wo) return;
   const next = nextStatus(wo.status);
-  const blockReason = manufacturingAdvanceBlocker(wo, next);
+  const blockReason = manufacturingAdvanceBlocker(wo, next) || closeoutBlocker(wo, next);
   if (blockReason) {
     alert(blockReason);
     logAudit("blocked", id, blockReason);
@@ -930,6 +943,8 @@ function saveInspection() {
     severity,
     reading: document.getElementById("inspectionReading").value.trim(),
     evidence_ref: document.getElementById("inspectionEvidence").value.trim(),
+    recorded_by: document.getElementById("inspectionRecordedBy").value.trim(),
+    recorded_role: document.getElementById("inspectionRecordedRole").value.trim(),
     note: document.getElementById("inspectionNote").value.trim(),
     recorded_at: now,
   };
@@ -947,6 +962,68 @@ function saveInspection() {
   saveCoreState();
   clearInspectionForm();
   renderCore();
+}
+
+function saveApproval() {
+  const wo = currentWorkOrder();
+  if (!wo || wo.status !== "ready_to_close") return;
+  const inspection = latestPassingInspection(wo.id);
+  if (!inspection) {
+    alert("A passing inspection is required before handback.");
+    return;
+  }
+  const approvedBy = document.getElementById("approvalBy").value.trim();
+  const approverRole = document.getElementById("approvalRole").value.trim();
+  if (!approvedBy || !approverRole || !document.getElementById("approvalDeclaration").checked) return;
+  if (norm(approvedBy) === norm(inspection.recorded_by)) {
+    alert("The handback approver must be different from the inspector.");
+    return;
+  }
+  const now = timestamp();
+  const decision = document.getElementById("approvalDecision").value;
+  const approval = {
+    id: nextCoreId("approval"),
+    wo_id: wo.id,
+    inspection_id: inspection.id,
+    decision,
+    approved_by: approvedBy,
+    approver_role: approverRole,
+    evidence_ref: document.getElementById("approvalEvidence").value.trim(),
+    comment: document.getElementById("approvalComment").value.trim(),
+    declaration: "reviewed-work-and-evidence",
+    recorded_at: now,
+  };
+  state.core.approvals.unshift(approval);
+  if (decision === "rejected") wo.status = "in_progress";
+  wo.updated_at = now;
+  logAudit("handback", wo.id, `${decision} by ${approvedBy} (${approverRole})`);
+  saveCoreState();
+  clearApprovalForm();
+  renderCore();
+}
+
+function latestApproval(woId) {
+  return state.core.approvals.find((row) => row.wo_id === woId) || null;
+}
+
+function latestPassingInspection(woId) {
+  return state.core.inspections.find((row) => row.wo_id === woId && row.result === "pass") || null;
+}
+
+function closeoutBlocker(wo, next) {
+  if (next !== "closed") return "";
+  const openDefect = state.core.defects.find((row) => row.wo_id === wo.id && row.status !== "resolved");
+  if (openDefect) return `Resolve ${openDefect.id} before closeout.`;
+  const inspection = latestPassingInspection(wo.id);
+  if (!inspection) return "Record passing inspection evidence before closeout.";
+  const approval = latestApproval(wo.id);
+  if (!approval || approval.decision !== "approved" || approval.inspection_id !== inspection.id) {
+    return "Record an independent approval of the latest passing inspection before closeout.";
+  }
+  if (norm(approval.approved_by) === norm(inspection.recorded_by)) {
+    return "Inspector and handback approver must be different people.";
+  }
+  return "";
 }
 
 function createDefectFromInspection(wo, inspection) {
@@ -1057,6 +1134,7 @@ function nextCounterFromRows(kind, core) {
   const config = {
     workOrder: ["workOrders", "WO"],
     inspection: ["inspections", "INSP"],
+    approval: ["approvals", "APR"],
     defect: ["defects", "NCR"],
     audit: ["audit", "AUD"],
   }[kind];
@@ -1239,6 +1317,7 @@ function emptyCoreState() {
   return {
     workOrders: [],
     inspections: [],
+    approvals: [],
     defects: [],
     audit: [],
     purchaseOrders: [],
@@ -1250,6 +1329,7 @@ function emptyCoreState() {
     counters: {
       workOrder: 1,
       inspection: 1,
+      approval: 1,
       defect: 1,
       audit: 1,
       purchaseOrder: 1,
@@ -1267,6 +1347,7 @@ function normalizeCoreState(value) {
   if (!value || typeof value !== "object") return core;
   core.workOrders = Array.isArray(value.workOrders) ? value.workOrders : [];
   core.inspections = Array.isArray(value.inspections) ? value.inspections : [];
+  core.approvals = Array.isArray(value.approvals) ? value.approvals : [];
   core.defects = Array.isArray(value.defects) ? value.defects : [];
   core.audit = Array.isArray(value.audit) ? value.audit : [];
   core.purchaseOrders = Array.isArray(value.purchaseOrders) ? value.purchaseOrders : [];
@@ -1291,6 +1372,7 @@ function nextCoreId(kind) {
   const prefixes = {
     workOrder: "WO",
     inspection: "INSP",
+    approval: "APR",
     defect: "NCR",
     audit: "AUD",
     purchaseOrder: "PO",
@@ -1402,6 +1484,14 @@ function clearInspectionForm() {
   });
   document.getElementById("inspectionResult").value = "pass";
   document.getElementById("inspectionSeverity").value = "minor";
+}
+
+function clearApprovalForm() {
+  ["approvalEvidence", "approvalComment"].forEach((id) => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("approvalDecision").value = "approved";
+  document.getElementById("approvalDeclaration").checked = false;
 }
 
 function emptyRow(colspan, text) {

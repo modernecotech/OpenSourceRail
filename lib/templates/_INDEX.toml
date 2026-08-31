@@ -118,6 +118,13 @@ ids  = [
     { id = "depot-throat",   desc = "Depot entry, 12 switch channels, shunt-permissive" },
 ]
 
+[index.signalling_profiles]
+file = "lib/templates/signalling.toml"
+ids  = [
+    { id = "osr-pilot-1", desc = "Conservative independently detected sectional-authority pilot; consensus and moving block remain shadow-only" },
+    { id = "osr-target-moving-block", desc = "Research target; cannot become safety-authoritative until all staged evidence gates close" },
+]
+
 [index.comms_backbone]
 file = "lib/templates/comms.toml"
 ids  = [

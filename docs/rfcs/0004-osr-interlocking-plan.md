@@ -286,8 +286,10 @@ PR; none should be attempted as a single contiguous effort.
 - Generated Samawah reference scenario runs with the consensus backend and
   produces **zero invariant violations**.
 
-After M5, the project has a formally verified MA computer running
-continuously in simulation, producing safety-case evidence on every CI run.
+After M5, the project has a property-tested MA computer running continuously
+in simulation. CI carries selected bounded Kani evidence; the topology-heavy
+proofs, TLA+→Rust refinement and assessor acceptance remain open in the
+[release gap register](../certification/release-gap-register.md).
 
 ## 7. Safety case anchors
 
