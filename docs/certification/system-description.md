@@ -2,10 +2,12 @@
 
 ## 1. What OSR is
 
-OpenSourceRail is an open-source urban-rail technology stack —
-software + control-electronics reference designs + operational rules — sized
-for GoA 4 (Unattended Train Operation) light-metro and metro
-deployments. Each deployment follows the same
+OpenSourceRail is an open-source urban-rail engineering and research stack —
+software, control-electronics reference designs and operational rules — with a
+target GoA 4 architecture. It is not a certified train-control product. The
+first physical pilot uses conservative sectional protection, independent
+occupancy detection and a separately qualified safety channel while OSR runs
+in shadow and then supervised mode. Each deployment follows the same
 [unified deployment model](../deployment-model.md): shared OSR stack,
 city-specific inputs, generated design outputs, and deployment-specific
 evidence. The Samawah instance ([RFC 0003](../rfcs/0003-samawah-reference-deployment.md))
@@ -14,24 +16,25 @@ applies that model to a brownfield rail-yard/workshop context
 
 The stack is the entirety of a modern metro:
 
-- **Rolling stock** — cabless (RFC 0015), four consist families
-  (tram-2car through metro-6car) per RFC 0008.
+- **Rolling stock** — the frozen LM3 three-car first article is the current
+  engineering focus; the other consist families remain planning variants.
 - **Track** — four geometry presets per RFC 0009 covering gauge
   1435 mm, radius, grade, cant, and rail profile.
 - **Civil** — at-grade + elevated + bridge only per RFC 0011; no
   tunnels.
 - **Stations** — six archetypes per RFC 0010, prefab steel-
   portal + solar-canopy with no station building.
-- **Signalling** — distributed consensus-based interlocking per
-  RFC 0001, no central CBTC zone controller.
+- **Signalling** — conventional sectional pilot protection with independent
+  detection; distributed consensus-based control remains a staged research
+  target under RFC 0001.
 - **Energy** — catenary-free; onboard LFP batteries +
   station/depot PV per RFC 0002.
 - **Operations** — one shared ≤ 60-page rulebook across four
   role families per RFC 0013.
 
-For the safety claim of this pack, the relevant subset is the
-SIL-4 + SIL-2 code running on four onboard + wayside host
-classes:
+For the intended assurance case, the relevant research subset is partitioned
+across the following onboard and wayside host classes. SIL labels express the
+development target, not achieved integrity or certification:
 
 - **T-ECU/S** — onboard safety kernel (2× RP2350 + RPi CM5 in
   2oo2), runs `osr-atp`, `osr-brake`, `osr-derailment`,
@@ -40,24 +43,25 @@ classes:
   `osr-ato`, `osr-tcms`, `osr-event-recorder`, `osr-tcn`.
 - **T-OBS** — onboard obstacle detector (RFC 0015), runs
   `osr-obstacle-detect`.
-- **W-SBC** — wayside SBC (Radxa CM5 industrial), runs
+- **W-SBC** — wayside application-compute candidate; a Radxa CM5 is one
+  development host, not the selected safety controller. It runs
   `osr-interlocking`, `osr-consensus`, `osr-wayside-points`,
   `osr-intrusion-detect` (RFC 0016).
 
 ## 2. System boundary
 
-### 2.1 In scope for this certification
+### 2.1 Intended assurance scope
 
-The OSR safety claim covers:
+The repository structures evidence for the following future claims; it does
+not itself certify them:
 
 - **Onboard safety chain** — from sensor-fusion position through
   ATP envelope computation to brake command actuation.
 - **Wayside safety chain** — from track-occupancy + switch-
   observation + intrusion detection through MA computation to
   MA delivery to the train.
-- **Distributed signalling consensus** — the Raft-derived
-  consensus protocol that keeps the wayside state machines
-  coherent across nodes.
+- **Distributed signalling consensus** — the Raft-derived target protocol,
+  initially evaluated only in simulation and pilot shadow mode.
 - **Obstacle detection + intrusion detection** — the RFC 0015
   onboard sensor fusion and RFC 0016 wayside sensor fusion that
   together substitute for a driver's-eye detection.
@@ -65,7 +69,7 @@ The OSR safety claim covers:
   safety-case solutions to human procedures (dispatcher,
   station staff, maintenance, OCC).
 
-### 2.2 Out of scope for this certification
+### 2.2 Outside the repository assurance boundary
 
 - **Crashworthiness** — EN 15227 certification is the rolling-
   stock builder's scope (RFC 0008 §3).

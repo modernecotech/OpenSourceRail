@@ -14,3 +14,4 @@ PYTHONPATH="$MECH_ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
     python3 -m osr_mech.trainset_manufacturing_methods "$@"
 
 python3 "$REPO_ROOT/tools/automation/generate-lm3-first-article-work.py"
+python3 "$REPO_ROOT/tools/automation/validate-lm3-first-article-evidence.py"

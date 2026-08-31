@@ -54,9 +54,10 @@
 //!   sensor freshness never moves the verdict in the less-
 //!   restrictive direction.
 //!
-//! Property O1–O5 anchor the Kani harnesses under `#[cfg(kani)]` in
-//! the `kani_proofs` module. None are yet formally verified; all are
-//! exercised by the proptests under `tests/`.
+//! Property O1–O5 anchor bounded Kani harnesses under `#[cfg(kani)]` in
+//! the `kani_proofs` module and proptests under `tests/`. This is bounded
+//! implementation evidence, not a complete refinement proof or product
+//! assessment.
 //!
 //! # Coding-standard compliance
 //!

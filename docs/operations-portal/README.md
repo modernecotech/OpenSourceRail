@@ -2,8 +2,9 @@
 
 Static browser portal for city-level operations data:
 
-- OSR Ops Core work orders, inspection evidence, independent handback,
-  defects/NCR and audit trail persisted in SQLite, with browser-local fallback.
+- Authenticated OSR Ops Core work orders, managed inspection photos/files,
+  independent handback, controlled document revisions, defects/NCR and sealed
+  audit records persisted in SQLite.
 - Manufacturing schedule for trains, waypoints/W-SBCs, track sections,
   switches, stations, depots, production plant fixtures, energy sites,
   and station systems.
@@ -21,10 +22,13 @@ Static browser portal for city-level operations data:
 The simplified operating model is documented in
 [`ops-core.md`](ops-core.md).
 
-Passing work requires a named inspector and a different named handback
-approver. Rejection returns work for rework and open NCRs block closeout. This
-is a typed attestation workflow; authentication, RBAC and qualified electronic
-signatures remain explicit deployment gaps.
+Configured deployments enforce city-scoped roles for planners, maintainers,
+inspectors, approvers, document controllers and auditors. Passing work requires
+a different authenticated inspector and handback approver; rejection returns
+work for rework and open NCRs block closeout. The server seals immutable records
+with HMAC-SHA256 content attestations. These provide tamper evidence inside the
+deployment but are not qualified electronic signatures or a substitute for an
+organisation's legal signature policy.
 
 For the integrated City Studio → simulation → OCC replay → work-order flow,
 run the [OSR Workbench](../workbench/README.md). Workbench-created records retain
@@ -122,6 +126,37 @@ Then open:
 http://127.0.0.1:8008/docs/operations-portal/
 ```
 
+Localhost starts in clearly labelled trusted-development mode. Before shared or
+network deployment, create private user accounts and start with the user store:
+
+```bash
+python3 tools/automation/ops-user-admin.py var/ops-users.json inspector1 --display-name "Inspector One" --roles inspector --cities samawah
+python3 tools/automation/ops-core-server.py --host 0.0.0.0 --port 8008 --users var/ops-users.json
+```
+
+Create separate approver and document-controller identities the same way. The
+server refuses a non-localhost bind without a configured user store. Put TLS in
+front of it for any network deployment; keep `var/ops-users.json` and the
+generated signing key private.
+
+## Evidence, Document Control and Backup
+
+Inspection files and photos are stored content-addressed under
+`var/ops-evidence/`, with their SHA-256, uploader and immutable record retained
+in SQLite. The Controlled Documents panel requires a document id and revision;
+a later revision must name the record it supersedes.
+
+Create and verify a consistent SQLite/evidence backup with:
+
+```bash
+python3 tools/automation/ops-core-backup.py create backups/ops-core.zip
+python3 tools/automation/ops-core-backup.py verify backups/ops-core.zip
+```
+
+The archive deliberately excludes the password store and server signing key.
+Back those up separately in the deployment's secret vault. Recovery remains an
+operator-controlled procedure so the tool cannot overwrite a live database.
+
 Samawah is the default dataset. To open another generated city, pass its
 repository-relative operations bundle in the `data` query parameter.
 
@@ -133,8 +168,9 @@ The portal can still run as a static site:
 python3 -m http.server 8008
 ```
 
-In that mode the Ops Core tab falls back to browser local storage. Use
-the SQLite server for real operations, shared consoles, backup, or handover
+In that mode the Ops Core tab falls back to browser local storage and has no
+accountable identity or managed files. Use it only for demonstration. Use the
+authenticated SQLite server for shared consoles, backup, or handover
 evidence. Manufacturing rows become normal Ops Core work orders with
 `source_type = manufacturing`, so production tasks share the same evidence,
 defect/NCR, audit, and reconciliation path as QA and maintenance work.

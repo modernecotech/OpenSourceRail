@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0-test-fixture",
+  "notice": "Deterministic browser-test identities only. Never use these credentials for a deployment.",
+  "users": [
+    {
+      "user_id": "planner-test",
+      "username": "planner",
+      "display_name": "Playwright planner",
+      "roles": ["planner"],
+      "city_scopes": ["samawah"],
+      "active": true,
+      "password": {"algorithm": "PBKDF2-HMAC-SHA256", "iterations": 600000, "salt_hex": "00112233445566778899aabbccddeeff", "hash_hex": "e88d2bd58e6a831da2bd20c28edfd5782678378267f6178cb5ccbf89f2d217e1"}
+    },
+    {
+      "user_id": "inspector-test",
+      "username": "inspector",
+      "display_name": "Playwright inspector",
+      "roles": ["inspector"],
+      "city_scopes": ["samawah"],
+      "active": true,
+      "password": {"algorithm": "PBKDF2-HMAC-SHA256", "iterations": 600000, "salt_hex": "102132435465768798a9bacbdcedfe0f", "hash_hex": "3f6eaf6bde031093ebf9c982dfd0a975bb23580651df627b2c6ebb80d68b1cec"}
+    },
+    {
+      "user_id": "approver-test",
+      "username": "approver",
+      "display_name": "Playwright verifier",
+      "roles": ["approver"],
+      "city_scopes": ["samawah"],
+      "active": true,
+      "password": {"algorithm": "PBKDF2-HMAC-SHA256", "iterations": 600000, "salt_hex": "ffeeddccbbaa99887766554433221100", "hash_hex": "d2c36b9541a0f86d3020ddc1560628313e5438b0dfad23eb44a3610c64596d72"}
+    },
+    {
+      "user_id": "controller-test",
+      "username": "controller",
+      "display_name": "Playwright document controller",
+      "roles": ["document_controller"],
+      "city_scopes": ["samawah"],
+      "active": true,
+      "password": {"algorithm": "PBKDF2-HMAC-SHA256", "iterations": 600000, "salt_hex": "abcdef0123456789abcdef0123456789", "hash_hex": "7b0ca184e72d8a4186b95f6a5e7ec1807738bffba52488bc56a36a6b3798b861"}
+    }
+  ]
+}

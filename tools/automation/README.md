@@ -28,7 +28,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`validate-ring-interchanges.py`](validate-ring-interchanges.py) | Fail close ring/radial approaches without a shared transfer, flag radial corridors that double back on themselves, and report genuinely disconnected route layouts |
 | [`validate-station-clusters.py`](validate-station-clusters.py) | Fail same-line spacing below 1.2 km, unmerged cross-line stops within the 600 m station-complex envelope, and missing explicit interchange-complex records |
 | [`design-iterate.sh`](design-iterate.sh) | Iterate the rolling-stock design hierarchy across external components, fabricated parts, subassemblies, and final assemblies |
-| [`buildable-trainset.sh`](buildable-trainset.sh) | Generate the buildable rolling-stock product tree and current-design buildability review |
+| [`buildable-trainset.sh`](buildable-trainset.sh) | Generate the LM3 product tree, buildability review, first-article work packages and evidence status |
 | [`freecad-generate.sh`](freecad-generate.sh) | Repository-level FreeCAD/Blender generator for mechanical review models, assemblies, FEM screens, screenshots, and animated digital twins |
 | [`bonsai-civil.sh`](bonsai-civil.sh) | Generate deterministic IFC4.3 civil federations with IDS audits and BCF 3.0 release issues, import through Bonsai, and render the linked 4D construction review scene |
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
@@ -40,7 +40,11 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |
 | [`check-tracked-file-sizes.py`](check-tracked-file-sizes.py) | Keep useful GitHub artifacts in-tree while enforcing the 50 MiB per-file repository ceiling |
-| [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze the `LM3-FA-001` repository candidate and export its 67 authoritative gaps as issue-ready work packages without publishing externally |
+| [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze `LM3-FA-001` and export its 67 gaps with controlled closure state and evidence routes |
+| [`validate-lm3-first-article-evidence.py`](validate-lm3-first-article-evidence.py) | Reject missing, unaccountable or checksum-drifted LM3 physical/supplier evidence submissions |
+| [`publish-lm3-work-packages.py`](publish-lm3-work-packages.py) | Preview or idempotently reconcile LM3 work packages with public GitHub issues |
+| [`ops-user-admin.py`](ops-user-admin.py) | Create/update a private PBKDF2 Ops Core user store with city-scoped roles |
+| [`ops-core-backup.py`](ops-core-backup.py) | Create and verify a consistent SQLite plus managed-evidence backup archive |
 | [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |

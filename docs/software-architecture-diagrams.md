@@ -322,7 +322,7 @@ sequenceDiagram
   participant Dispatcher as Dispatcher Console
   participant OCC as osr-occ
   participant Log as Ops Event Log
-  participant W as W-SBC Consensus + Interlocking
+  participant W as OSR shadow/supervised train-control candidate
   participant Train as Train T-ECU/S + T-ECU/A
   participant Hist as Historian / CBM
   participant Core as Ops Core
@@ -331,7 +331,7 @@ sequenceDiagram
   OCC->>Log: append dispatch intent
   Log->>W: route proposal
   W->>W: verify track state and point locks
-  W->>Train: movement authority
+  W-->>Train: candidate authority (shadow) / supervised request
   Train->>Train: ATP computes permitted envelope
   Train->>Train: ATO commands traction/brake within envelope
   Train->>W: position report and health heartbeat

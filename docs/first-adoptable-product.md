@@ -31,7 +31,7 @@ mode.
 | Manufacturing schedule and staff tasks | Full EAM/ERP replacement |
 | QA gate register and evidence links | Legal certification or safety approval |
 | Maintenance schedule per train, station, track section, waypoint, depot, energy site, and tool | Insurance, finance, or procurement guarantee |
-| Defect/NCR and audit trail | Mobile field app with signatures/photos |
+| Authenticated RBAC, managed photos/files, independent approvals, controlled document revisions and sealed audit trail | Qualified signatures, enterprise SSO/MFA or full offline mobile field app |
 | Simulator and scenario outputs | Full telemetry-driven predictive maintenance |
 | Acceptance evidence matrix | Regulator submission by itself |
 
@@ -42,7 +42,7 @@ mode.
 3. Import the baseline manufacturing, QA, and maintenance schedules.
 4. Run the SQLite-backed portal.
 5. Create work orders from QA, manufacturing, and maintenance rows.
-6. Attach evidence links and close work with pass/fail status.
+6. Upload managed evidence and close work through authenticated inspection and independent handback.
 7. Use defects/NCR and audit records to build an acceptance evidence
    pack.
 8. Keep train-control in simulator or shadow mode until the deployment
@@ -75,6 +75,9 @@ A credible first deployment should be able to show:
 - every manufacturing package has material/BOM refs and QA verification;
 - QA and maintenance rows can become work orders;
 - failed inspections create defects/NCR and audit records;
+- authenticated roles and city scopes are enforced by the server;
+- inspection, approval, controlled-document and audit records are sealed against silent editing;
+- managed evidence survives a verified SQLite/evidence backup;
 - predecessor work blocks successor release until pass evidence exists;
 - evidence can be exported as CSV/JSON and reviewed outside the portal;
 - the system runs without commanding trains.

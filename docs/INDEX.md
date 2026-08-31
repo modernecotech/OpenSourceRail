@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1340**.
+Indexed Markdown files: **1343**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1340**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 289 |
+| [design](#design) | 292 |
 | [docs](#docs) | 136 |
 | [engineering](#engineering) | 7 |
 | [lib](#lib) | 3 |
@@ -1116,7 +1116,10 @@ Indexed Markdown files: **1340**.
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/subassemblies/LM3-TRC-SA615.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/subassemblies/LM3-TRC-SA615.md) | LM3-TRC-SA615 — bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md) | LM3-WIN-SA320 — side glazing cassette installation |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md) | LM3-TRAINSET-A000 — complete light-metro trainset |
+| [`design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md`](../design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md) | First-Article Evidence Submissions |
 | [`design/component-catalogue/catalog/buildable-trainset/factory-plan.md`](../design/component-catalogue/catalog/buildable-trainset/factory-plan.md) | LM3 pilot factory sizing and machinery plan |
+| [`design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md) | LM3 First-Article Evidence Status |
+| [`design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md) | LM3 First-Article Public Work Packages |
 | [`design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md`](../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md`](../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md) | LM3 manufacturing methods and tooling |
 | [`design/component-catalogue/catalog/buildable-trainset/mass-budget.md`](../design/component-catalogue/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |

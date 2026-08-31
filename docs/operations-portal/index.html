@@ -16,6 +16,11 @@
       <span id="cityName">Loading</span>
       <strong id="cityCountry">--</strong>
     </div>
+    <div class="identity-chip">
+      <span id="actorName">Not signed in</span>
+      <strong id="actorRoles">--</strong>
+      <button id="logoutButton" class="text-button" type="button" hidden>Sign out</button>
+    </div>
   </header>
 
   <nav class="tabs" aria-label="Operations portal tabs">
@@ -136,6 +141,27 @@
 
       <section class="surface ops-wide">
         <div class="section-head">
+          <h2>Controlled Documents and Evidence</h2>
+          <span class="muted-text">Immutable checksum + append-only revision record</span>
+        </div>
+        <form id="documentForm" class="document-form">
+          <input id="documentId" placeholder="Document id, e.g. LM3-DRW-001" required />
+          <input id="documentTitle" placeholder="Title" required />
+          <input id="documentRevision" placeholder="Revision, e.g. A" required />
+          <select id="documentStatus"><option value="review">For review</option><option value="approved">Approved</option><option value="as-built">As built</option></select>
+          <input id="documentFile" type="file" required />
+          <button class="text-button" type="submit">Upload revision</button>
+        </form>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead><tr><th>Document</th><th>Revision</th><th>Status</th><th>File</th><th>Controller</th><th>Attestation</th></tr></thead>
+            <tbody id="documentTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="surface ops-wide">
+        <div class="section-head">
           <h2>Storage Reconciliation</h2>
           <div class="button-row">
             <button class="text-button" id="refreshReconcile" type="button">Check</button>
@@ -192,8 +218,9 @@
             </select>
             <input id="inspectionReading" placeholder="Reading or reference" />
             <input id="inspectionEvidence" placeholder="Evidence link / file ref" />
-            <input id="inspectionRecordedBy" placeholder="Inspector name" required />
-            <input id="inspectionRecordedRole" placeholder="Inspector role" required />
+            <label>Photos / files<input id="inspectionFiles" type="file" multiple accept="image/*,.pdf,.csv,.txt" /></label>
+            <input id="inspectionRecordedBy" placeholder="Authenticated inspector" readonly required />
+            <input id="inspectionRecordedRole" placeholder="Authenticated role" readonly required />
             <textarea id="inspectionNote" placeholder="Finding / handback note"></textarea>
           </form>
         </section>
@@ -203,14 +230,14 @@
             <h2>Independent Handback</h2>
             <button class="text-button" form="approvalForm" type="submit">Record</button>
           </div>
-          <p class="muted-text">A second accountable person approves or rejects the latest inspection before closeout. This is a typed attestation, not a qualified digital signature.</p>
+          <p class="muted-text">A different authenticated approver reviews the latest inspection. The server seals the decision with its content hash and deployment key; this is not a qualified electronic signature.</p>
           <form id="approvalForm" class="work-form">
             <select id="approvalDecision">
               <option value="approved">Approve handback</option>
               <option value="rejected">Reject / rework</option>
             </select>
-            <input id="approvalBy" placeholder="Approver name" required />
-            <input id="approvalRole" placeholder="Approver role" required />
+            <input id="approvalBy" placeholder="Authenticated approver" readonly required />
+            <input id="approvalRole" placeholder="Authenticated role" readonly required />
             <input id="approvalEvidence" placeholder="Approval / document reference" />
             <textarea id="approvalComment" placeholder="Decision comment"></textarea>
             <label><input id="approvalDeclaration" type="checkbox" required /> I reviewed the work and evidence and record this decision under my name.</label>
@@ -365,6 +392,18 @@
       <div class="app-grid" id="backofficeApps"></div>
     </section>
   </main>
+
+  <section id="loginPanel" class="login-panel" hidden aria-live="polite">
+    <form id="loginForm" class="login-card">
+      <p class="eyebrow">Accountable access</p>
+      <h2>Sign in to Ops Core</h2>
+      <p>Use the deployment account issued for your role and city.</p>
+      <input id="loginUsername" autocomplete="username" placeholder="Username" required />
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password" required />
+      <button class="primary" type="submit">Sign in</button>
+      <p id="loginError" class="error-text"></p>
+    </form>
+  </section>
 
   <template id="appTemplate">
     <article class="app-card">

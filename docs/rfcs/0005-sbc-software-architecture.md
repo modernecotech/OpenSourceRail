@@ -312,6 +312,13 @@ velocity.
 
 ## 8. Deployment topology
 
+This is the target electronics/software partition, not an approved hardware
+installation. SBC names in this RFC are development candidates. The
+[pilot signalling profile](../certification/pilot-signalling-profile.md) keeps
+OSR wayside control in shadow/supervised operation behind independent
+occupancy detection and a separately qualified safety channel until its staged
+assessment gates close.
+
 One trainset hosts: two redundant T-ECU/S units (primary + hot spare,
 running `osr-atp`, `osr-odometry`, `osr-traction`, `osr-brake`,
 `osr-bms`, `osr-door-control`, `osr-fire-safety`,

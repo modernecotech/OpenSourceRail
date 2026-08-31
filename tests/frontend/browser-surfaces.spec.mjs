@@ -12,6 +12,19 @@ function capturePageFailures(page) {
   return failures;
 }
 
+async function opsLogin(page, username, password) {
+  await expect(page.locator("#loginPanel")).toBeVisible();
+  await page.locator("#loginUsername").fill(username);
+  await page.locator("#loginPassword").fill(password);
+  await page.locator('#loginForm button[type="submit"]').click();
+  await expect(page.locator("#loginPanel")).toBeHidden();
+}
+
+async function opsLogout(page) {
+  await page.locator("#logoutButton").click();
+  await expect(page.locator("#loginPanel")).toBeVisible();
+}
+
 for (const frontend of [
   {
     name: "simulator GUI",
@@ -101,6 +114,7 @@ test("operations portal persists inspected and independently approved closeout",
   const failures = capturePageFailures(page);
   const data = "/cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz";
   await page.goto(`http://127.0.0.1:4176/docs/operations-portal/?data=${encodeURIComponent(data)}`);
+  await opsLogin(page, "planner", "Planner-pass-123!");
   await expect(page.locator("#cityName")).toHaveText("Samawah");
   await expect(page.locator("#coreStorageStatus")).toContainText("SQLite");
   await expect(page.locator("#metrics .metric")).toHaveCount(8);
@@ -128,16 +142,25 @@ test("operations portal persists inspected and independently approved closeout",
   await page.locator('#workOrderForm button[type="submit"], button[form="workOrderForm"]').click();
   await expect(page.locator("#coreWorkTable")).toContainText("Deterministic Playwright inspection");
 
-  await page.locator("#inspectionRecordedBy").fill("Playwright inspector");
-  await page.locator("#inspectionRecordedRole").fill("Maintenance technician");
+  await opsLogout(page);
+  await opsLogin(page, "inspector", "Inspector-pass-123!");
+  await page.locator('.tab[data-tab="core"]').click();
+  await page.locator("#coreWorkTable tr", { hasText: "Deterministic Playwright inspection" }).locator("[data-select-wo]").click();
   await page.locator("#inspectionReading").fill("8.2 mm within acceptance band");
   await page.locator("#inspectionEvidence").fill("evidence://playwright/inspection-1");
+  await page.locator("#inspectionFiles").setInputFiles({
+    name: "inspection-photo.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("deterministic inspection evidence\n"),
+  });
   await page.locator("#inspectionNote").fill("Inspection complete and fit for handback.");
   await page.locator('button[form="inspectionForm"]').click();
   await expect(page.locator("#approvalStatus")).toContainText("Independent handback required");
 
-  await page.locator("#approvalBy").fill("Playwright verifier");
-  await page.locator("#approvalRole").fill("Independent owner verifier");
+  await opsLogout(page);
+  await opsLogin(page, "approver", "Approver-pass-123!");
+  await page.locator('.tab[data-tab="core"]').click();
+  await page.locator("#coreWorkTable tr", { hasText: "Deterministic Playwright inspection" }).locator("[data-select-wo]").click();
   await page.locator("#approvalEvidence").fill("approval://playwright/handback-1");
   await page.locator("#approvalComment").fill("Latest inspection and evidence reviewed.");
   await page.locator("#approvalDeclaration").check();
@@ -147,6 +170,20 @@ test("operations portal persists inspected and independently approved closeout",
   const workRow = page.locator("#coreWorkTable tr", { hasText: "Deterministic Playwright inspection" });
   await workRow.locator("[data-advance-wo]").click();
   await expect(workRow).toContainText("closed");
+
+  await opsLogout(page);
+  await opsLogin(page, "controller", "Controller-pass-123!");
+  await page.locator('.tab[data-tab="core"]').click();
+  await page.locator("#documentId").fill("LM3-TEST-001");
+  await page.locator("#documentTitle").fill("Deterministic controlled evidence");
+  await page.locator("#documentRevision").fill("A");
+  await page.locator("#documentFile").setInputFiles({
+    name: "controlled-evidence.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("controlled document revision A\n"),
+  });
+  await page.locator('#documentForm button[type="submit"]').click();
+  await expect(page.locator("#documentTable")).toContainText("LM3-TEST-001");
 
   await page.reload();
   await expect(page.locator("#cityName")).toHaveText("Samawah");
@@ -161,7 +198,21 @@ test("operations portal persists inspected and independently approved closeout",
   expect(saved.ok()).toBeTruthy();
   const savedState = (await saved.json()).state;
   expect(savedState.approvals).toEqual(expect.arrayContaining([
-    expect.objectContaining({ decision: "approved", approved_by: "Playwright verifier" }),
+    expect.objectContaining({
+      decision: "approved",
+      approved_by: "Playwright verifier",
+      signed_by_user_id: "approver-test",
+      signature: expect.objectContaining({ scheme: "HMAC-SHA256/server-attestation-v1" }),
+    }),
   ]));
+  expect(savedState.inspections[0]).toMatchObject({
+    signed_by_user_id: "inspector-test",
+    managed_evidence: [expect.objectContaining({ file_name: "inspection-photo.txt" })],
+  });
+  expect(savedState.documents[0]).toMatchObject({
+    document_id: "LM3-TEST-001",
+    revision: "A",
+    signed_by_user_id: "controller-test",
+  });
   expect(failures).toEqual([]);
 });

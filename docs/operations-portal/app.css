@@ -68,6 +68,53 @@ h2 {
   padding: 8px 10px;
 }
 
+.identity-chip {
+  display: grid;
+  gap: .2rem;
+  justify-items: end;
+  margin-left: auto;
+}
+
+.identity-chip span { font-weight: 700; }
+.identity-chip strong { color: var(--muted); font-size: .72rem; text-transform: uppercase; }
+
+.document-form {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr .55fr .8fr 1.2fr auto;
+  gap: .65rem;
+  margin-bottom: 1rem;
+}
+
+.login-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(3, 10, 18, .92);
+  backdrop-filter: blur(8px);
+}
+
+.login-panel[hidden] { display: none; }
+
+.login-card {
+  width: min(28rem, 100%);
+  display: grid;
+  gap: .9rem;
+  padding: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--panel);
+  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, .4);
+}
+
+.error-text { min-height: 1.2rem; color: #ff9e99; }
+
+@media (max-width: 1000px) {
+  .document-form { grid-template-columns: 1fr 1fr; }
+}
+
 .city-chip strong {
   color: var(--accent);
 }

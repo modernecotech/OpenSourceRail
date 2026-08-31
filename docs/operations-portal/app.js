@@ -15,7 +15,7 @@ const WEEKLY_TASK_IDS = new Set([
   "track-weekly",
 ]);
 const CORE_RECORD_KEYS = [
-  "workOrders", "inspections", "approvals", "defects", "audit", "purchaseOrders",
+  "workOrders", "inspections", "approvals", "defects", "documents", "audit", "purchaseOrders",
   "deliveries", "invoices", "payments", "progressUpdates", "projectRevisions",
 ];
 
@@ -38,25 +38,102 @@ const state = {
   assetsVisible: [],
   workOrdersVisible: [],
   selectedWorkOrderId: null,
+  actor: null,
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  bindAuthentication();
   bindTabs();
   bindFilters();
   bindExports();
   bindCoreActions();
   state.data = await loadData();
+  state.actor = await loadSession();
+  if (!state.actor) {
+    document.getElementById("loginPanel").hidden = false;
+    return;
+  }
+  await startAuthenticatedApp();
+});
+
+async function startAuthenticatedApp() {
+  renderIdentity();
   state.core = await loadCoreState();
   setDefaultDates();
   renderAll();
   applyWorkbenchContext();
-});
+}
 
 window.addEventListener("message", (event) => {
   if (event.origin !== location.origin || event.data?.type !== "osr:context") return;
   Object.assign(workbenchContext, event.data.context || {});
   if (state.data) applyWorkbenchContext();
 });
+
+function bindAuthentication() {
+  document.getElementById("loginForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const error = document.getElementById("loginError");
+    error.textContent = "";
+    const response = await fetch("/api/ops-auth/login", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: document.getElementById("loginUsername").value,
+        password: document.getElementById("loginPassword").value,
+      }),
+    });
+    if (!response.ok) {
+      error.textContent = (await response.json().catch(() => ({}))).error || "Sign-in failed";
+      return;
+    }
+    const payload = await response.json();
+    state.actor = payload.actor;
+    document.getElementById("loginPassword").value = "";
+    document.getElementById("loginPanel").hidden = true;
+    await startAuthenticatedApp();
+  });
+  document.getElementById("logoutButton")?.addEventListener("click", async () => {
+    await authFetch("/api/ops-auth/logout", { method: "POST" });
+    location.reload();
+  });
+}
+
+async function loadSession() {
+  try {
+    const response = await fetch("/api/ops-auth/session", { cache: "no-store", credentials: "same-origin" });
+    if (!response.ok) return null;
+    const payload = await response.json();
+    return payload.authenticated ? payload.actor : null;
+  } catch {
+    return null;
+  }
+}
+
+function renderIdentity() {
+  document.getElementById("actorName").textContent = state.actor?.display_name || "Not signed in";
+  document.getElementById("actorRoles").textContent = (state.actor?.roles || []).join(", ") || "--";
+  document.getElementById("logoutButton").hidden = !state.actor || state.actor.user_id === "local-admin";
+  for (const id of ["inspectionRecordedBy", "approvalBy"]) {
+    document.getElementById(id).value = state.actor?.display_name || "";
+  }
+  for (const id of ["inspectionRecordedRole", "approvalRole"]) {
+    document.getElementById(id).value = (state.actor?.roles || []).join(", ");
+  }
+}
+
+function actorHasRole(...roles) {
+  return (state.actor?.roles || []).some((role) => roles.includes(role));
+}
+
+function authFetch(url, options = {}) {
+  const headers = new Headers(options.headers || {});
+  if (state.actor?.csrf && !["GET", "HEAD"].includes(String(options.method || "GET").toUpperCase())) {
+    headers.set("X-CSRF-Token", state.actor.csrf);
+  }
+  return fetch(url, { ...options, headers, credentials: "same-origin" });
+}
 
 async function loadData() {
   const response = await fetch(DATA_URL);
@@ -146,13 +223,17 @@ function bindCoreActions() {
     event.preventDefault();
     createQuickWorkOrder();
   });
-  document.getElementById("inspectionForm")?.addEventListener("submit", (event) => {
+  document.getElementById("inspectionForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    saveInspection();
+    await saveInspection();
   });
   document.getElementById("approvalForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     saveApproval();
+  });
+  document.getElementById("documentForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveDocumentRevision();
   });
   document.getElementById("seedCorePlan")?.addEventListener("click", generateDueWork);
   document.getElementById("openVisibleManufacturing")?.addEventListener("click", openVisibleManufacturingWork);
@@ -463,6 +544,7 @@ function renderCore() {
   renderCoreTables();
   renderSelectedWorkOrder();
   renderAuditTrail();
+  renderDocuments();
   renderReconciliation();
 }
 
@@ -493,6 +575,7 @@ function renderCoreTables() {
   renderDefects();
   renderSelectedWorkOrder();
   renderAuditTrail();
+  renderDocuments();
 }
 
 function renderWorkOrders() {
@@ -548,6 +631,21 @@ function renderDefects() {
   )).join("");
 }
 
+function renderDocuments() {
+  const rows = state.core.documents.slice().sort((a, b) => (
+    String(a.document_id).localeCompare(String(b.document_id)) || String(b.uploaded_at).localeCompare(String(a.uploaded_at))
+  ));
+  document.getElementById("documentTable").innerHTML = rows.map((row) => `<tr>
+    <td><code>${escapeHtml(row.document_id)}</code><br>${escapeHtml(row.title)}</td>
+    <td>${escapeHtml(row.revision)}${row.supersedes ? `<br><span class="muted-text">supersedes ${escapeHtml(row.supersedes)}</span>` : ""}</td>
+    <td>${statusTag(row.status)}</td>
+    <td><a href="${escapeAttr(row.url)}" target="_blank" rel="noopener">${escapeHtml(row.file_name)}</a><br><code>${escapeHtml(String(row.sha256 || "").slice(0, 12))}</code></td>
+    <td>${escapeHtml(row.uploaded_by || "pending server seal")}</td>
+    <td>${row.signature ? `<code>${escapeHtml(row.signature.content_sha256.slice(0, 12))}</code>` : "pending"}</td>
+  </tr>`).join("") || emptyRow(6, "No controlled documents uploaded");
+  setFormDisabled(document.getElementById("documentForm"), !actorHasRole("admin", "document_controller"));
+}
+
 function renderSelectedWorkOrder() {
   const wo = currentWorkOrder();
   const panel = document.getElementById("selectedWorkOrder");
@@ -561,8 +659,8 @@ function renderSelectedWorkOrder() {
     approvalStatus.innerHTML = `<p class="empty-state">No work order selected</p>`;
     return;
   }
-  setFormDisabled(form, false);
-  setFormDisabled(approvalForm, wo.status !== "ready_to_close");
+  setFormDisabled(form, !actorHasRole("admin", "inspector"));
+  setFormDisabled(approvalForm, wo.status !== "ready_to_close" || !actorHasRole("admin", "approver"));
   const recent = state.core.inspections.find((row) => row.wo_id === wo.id);
   const approval = latestApproval(wo.id);
   panel.innerHTML = `<dl class="summary-list">
@@ -928,12 +1026,20 @@ function holdWorkOrder(id) {
   renderCore();
 }
 
-function saveInspection() {
+async function saveInspection() {
   const wo = currentWorkOrder();
   if (!wo) return;
+  if (!actorHasRole("admin", "inspector")) {
+    alert("Authenticated inspector authority is required.");
+    return;
+  }
   const now = timestamp();
   const result = document.getElementById("inspectionResult").value;
   const severity = document.getElementById("inspectionSeverity").value;
+  const managedEvidence = [];
+  for (const file of document.getElementById("inspectionFiles").files) {
+    managedEvidence.push(await uploadEvidence(file));
+  }
   const inspection = {
     id: nextCoreId("inspection"),
     wo_id: wo.id,
@@ -943,8 +1049,9 @@ function saveInspection() {
     severity,
     reading: document.getElementById("inspectionReading").value.trim(),
     evidence_ref: document.getElementById("inspectionEvidence").value.trim(),
-    recorded_by: document.getElementById("inspectionRecordedBy").value.trim(),
-    recorded_role: document.getElementById("inspectionRecordedRole").value.trim(),
+    recorded_by: state.actor.display_name,
+    recorded_role: state.actor.roles.join(", "),
+    managed_evidence: managedEvidence,
     note: document.getElementById("inspectionNote").value.trim(),
     recorded_at: now,
   };
@@ -972,10 +1079,14 @@ function saveApproval() {
     alert("A passing inspection is required before handback.");
     return;
   }
-  const approvedBy = document.getElementById("approvalBy").value.trim();
-  const approverRole = document.getElementById("approvalRole").value.trim();
+  if (!actorHasRole("admin", "approver")) {
+    alert("Authenticated handback-approver authority is required.");
+    return;
+  }
+  const approvedBy = state.actor.display_name;
+  const approverRole = state.actor.roles.join(", ");
   if (!approvedBy || !approverRole || !document.getElementById("approvalDeclaration").checked) return;
-  if (norm(approvedBy) === norm(inspection.recorded_by)) {
+  if (state.actor.user_id === inspection.signed_by_user_id || norm(approvedBy) === norm(inspection.recorded_by)) {
     alert("The handback approver must be different from the inspector.");
     return;
   }
@@ -999,6 +1110,52 @@ function saveApproval() {
   logAudit("handback", wo.id, `${decision} by ${approvedBy} (${approverRole})`);
   saveCoreState();
   clearApprovalForm();
+  renderCore();
+}
+
+async function uploadEvidence(file) {
+  const response = await authFetch(`${coreApiUrl()}/evidence`, {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/octet-stream",
+      "X-OSR-Filename": encodeURIComponent(file.name),
+      "X-OSR-Mime": file.type || "application/octet-stream",
+    },
+    body: file,
+  });
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload.error || `Evidence upload failed: ${response.status}`);
+  }
+  return (await response.json()).evidence;
+}
+
+async function saveDocumentRevision() {
+  if (!actorHasRole("admin", "document_controller")) return;
+  const file = document.getElementById("documentFile").files[0];
+  if (!file) return;
+  const evidence = await uploadEvidence(file);
+  const documentId = document.getElementById("documentId").value.trim();
+  const prior = state.core.documents.find((row) => row.document_id === documentId);
+  const row = {
+    id: nextCoreId("document"),
+    document_id: documentId,
+    title: document.getElementById("documentTitle").value.trim(),
+    revision: document.getElementById("documentRevision").value.trim(),
+    status: document.getElementById("documentStatus").value,
+    supersedes: prior?.id || "",
+    evidence_id: evidence.id,
+    file_name: evidence.file_name,
+    mime_type: evidence.mime_type,
+    size_bytes: evidence.size_bytes,
+    sha256: evidence.sha256,
+    url: evidence.url,
+    uploaded_at: evidence.uploaded_at,
+  };
+  state.core.documents.unshift(row);
+  logAudit("document-revision", row.id, `${row.document_id} revision ${row.revision}`);
+  saveCoreState();
+  document.getElementById("documentForm").reset();
   renderCore();
 }
 
@@ -1136,6 +1293,7 @@ function nextCounterFromRows(kind, core) {
     inspection: ["inspections", "INSP"],
     approval: ["approvals", "APR"],
     defect: ["defects", "NCR"],
+    document: ["documents", "DOC"],
     audit: ["audit", "AUD"],
   }[kind];
   if (!config) return 1;
@@ -1235,12 +1393,13 @@ async function loadCoreState() {
   const fallback = emptyCoreState();
   const apiUrl = coreApiUrl();
   try {
-    const response = await fetch(apiUrl, {
+    const response = await authFetch(apiUrl, {
       cache: "no-store",
       headers: { Accept: "application/json" },
     });
     if (response.ok) {
       const payload = await response.json();
+      if (payload.actor) state.actor = payload.actor;
       state.coreStore = {
         mode: "sqlite",
         label: "Storage: SQLite",
@@ -1285,15 +1444,27 @@ async function flushCoreSave() {
   const body = state.coreSave.pending;
   state.coreSave.pending = "";
   try {
-    const response = await fetch(state.coreStore.apiUrl, {
+    const response = await authFetch(state.coreStore.apiUrl, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body,
     });
-    if (!response.ok) throw new Error(`SQLite save failed: ${response.status}`);
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      throw new Error(payload.error || `SQLite save failed: ${response.status}`);
+    }
+    const payload = await response.json();
+    if (state.coreSave.pending) {
+      state.coreSave.pending = rebasePendingAttestations(state.coreSave.pending, payload.state);
+      state.core = normalizeCoreState(JSON.parse(state.coreSave.pending));
+    } else {
+      state.core = normalizeCoreState(payload.state);
+    }
+    if (payload.actor) state.actor = payload.actor;
     state.coreStore.label = "Storage: SQLite";
-    renderCoreMetrics();
-  } catch {
+    renderCore();
+  } catch (error) {
+    console.error(error);
     state.coreStore = {
       mode: "local",
       label: "Storage: browser local fallback",
@@ -1313,12 +1484,22 @@ async function flushCoreSave() {
   }
 }
 
+function rebasePendingAttestations(pendingBody, sealedState) {
+  const pending = normalizeCoreState(JSON.parse(pendingBody));
+  for (const key of ["inspections", "approvals", "documents", "audit"]) {
+    const sealed = new Map((sealedState[key] || []).map((row) => [row.id, row]));
+    pending[key] = pending[key].map((row) => sealed.get(row.id) || row);
+  }
+  return JSON.stringify(pending);
+}
+
 function emptyCoreState() {
   return {
     workOrders: [],
     inspections: [],
     approvals: [],
     defects: [],
+    documents: [],
     audit: [],
     purchaseOrders: [],
     deliveries: [],
@@ -1331,6 +1512,7 @@ function emptyCoreState() {
       inspection: 1,
       approval: 1,
       defect: 1,
+      document: 1,
       audit: 1,
       purchaseOrder: 1,
       delivery: 1,
@@ -1349,6 +1531,7 @@ function normalizeCoreState(value) {
   core.inspections = Array.isArray(value.inspections) ? value.inspections : [];
   core.approvals = Array.isArray(value.approvals) ? value.approvals : [];
   core.defects = Array.isArray(value.defects) ? value.defects : [];
+  core.documents = Array.isArray(value.documents) ? value.documents : [];
   core.audit = Array.isArray(value.audit) ? value.audit : [];
   core.purchaseOrders = Array.isArray(value.purchaseOrders) ? value.purchaseOrders : [];
   core.deliveries = Array.isArray(value.deliveries) ? value.deliveries : [];
@@ -1374,6 +1557,7 @@ function nextCoreId(kind) {
     inspection: "INSP",
     approval: "APR",
     defect: "NCR",
+    document: "DOC",
     audit: "AUD",
     purchaseOrder: "PO",
     delivery: "DEL",
@@ -1484,6 +1668,7 @@ function clearInspectionForm() {
   });
   document.getElementById("inspectionResult").value = "pass";
   document.getElementById("inspectionSeverity").value = "minor";
+  document.getElementById("inspectionFiles").value = "";
 }
 
 function clearApprovalForm() {

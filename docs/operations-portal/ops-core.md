@@ -15,7 +15,7 @@ system.
    `ready_to_close`, `hold`, and `closed`.
 4. Record inspection evidence against the selected work order.
 5. Put failed work on hold and raise a defect / NCR.
-6. Have a different named verifier approve or reject handback.
+6. Have a different authenticated verifier approve or reject handback.
 7. Resolve defects, close approved work, and export the evidence trail.
 
 ## Core Records
@@ -24,10 +24,11 @@ system.
 |---|---|---|
 | Asset | asset id, type, name, line/location | Stable reference for every train, station, track section, switch, energy site, system node, depot, and tool group. |
 | Work order | id, source row, asset id, owner, due date, priority, status | Turns a planned manufacturing row, maintenance row, or QA gate into accountable work. |
-| Inspection | work order id, result, reading/reference, evidence link, note, timestamp | Captures proof that work was done and whether it passed. |
-| Handback approval | work order, latest passing inspection, decision, approver name/role, declaration, reference, timestamp | Requires an independent named decision before closeout. |
+| Inspection | work order id, result, reading/reference, managed photos/files, authenticated inspector, timestamp and server attestation | Captures proof that work was done and whether it passed. |
+| Handback approval | work order, latest passing inspection, decision, authenticated approver, declaration, timestamp and server attestation | Requires an identity-distinct decision before closeout. |
 | Defect / NCR | defect id, work order id, asset id, severity, finding, owner, due date, status | Tracks failures until resolved or formally waived. |
-| Audit event | timestamp, action, reference, detail | Keeps the operating history exportable and reviewable. |
+| Controlled document | document id, revision, status, superseded record, file SHA-256 and controller attestation | Keeps evidence and drawing revisions append-only and traceable. |
+| Audit event | timestamp, action, reference, detail and server attestation | Keeps the operating history exportable, reviewable and tamper-evident. |
 
 ## Included
 
@@ -45,8 +46,14 @@ system.
 - Daily, weekly, or full-schedule work generation.
 - Pass/watch/fail inspection evidence.
 - Automatic hold plus defect/NCR creation on failed evidence.
-- Independent typed handback approval or rejection; the named inspector cannot
-  approve their own inspection, and open NCRs block closeout.
+- Password-authenticated, city-scoped RBAC for planner, maintainer, inspector,
+  approver, document-controller, auditor and administrator roles.
+- Identity-based handback segregation; the authenticated inspector cannot
+  approve their own inspection, and open NCRs block closeout server-side.
+- Managed content-addressed uploads, append-only document revisions and
+  HMAC-SHA256 server attestations for inspections, approvals, documents and
+  audit events.
+- Online SQLite snapshots plus checksummed evidence backup archives.
 - CSV export for work orders, defects, and audit events.
 - SQLite storage through `tools/automation/ops-core-server.py` for a simple
   owner-operator deployment.
@@ -56,13 +63,12 @@ system.
 ## Not Included
 
 - Heavy procurement, finance, HR, or ERP workflows.
-- Large document-control workflows with formal transmittals.
+- Large CDE workflows with RFIs, submittals and formal transmittals.
 - Multi-party contract administration.
 - Predictive analytics beyond schedule and condition-trigger placeholders.
-- Complex role hierarchies.
-- Authentication, account-backed RBAC or qualified electronic signatures. The
-  current name/role declaration is accountable workflow data, not identity
-  proof or a legal signature service.
+- Enterprise organisation hierarchies, OIDC/SSO or MFA.
+- Qualified electronic signatures. Server HMAC attestations prove integrity
+  within the deployment; they are not a legal trust service.
 
 These can be added later, but the first operating release should stay
 small enough that a city railway team can understand it, modify it, and
@@ -81,12 +87,12 @@ var/ops-core.sqlite3
 The browser still receives the same simple JSON state:
 
 ```text
-workOrders + inspections + approvals + defects + audit + counters
+workOrders + inspections + approvals + defects + documents + audit + counters
 ```
 
 That keeps the UI easy to understand while allowing the server to keep
-indexed SQLite tables for work orders, defects, inspection evidence, and
-audit events.
+indexed SQLite tables for work orders, defects, inspection evidence,
+controlled documents, evidence-file metadata and audit events.
 
 The server creates `var/ops-core.sqlite3` and its tables automatically if
 they do not exist. If a browser has local fallback records from earlier

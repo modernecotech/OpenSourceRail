@@ -81,6 +81,9 @@ def main() -> int:
         db_path.unlink()
     with OPS.connect(db_path) as connection:
         OPS.init_db(connection)
+    evidence_path = db_path.parent / "ops-evidence"
+    evidence_path.mkdir(parents=True, exist_ok=True)
+    signing_key_path = db_path.with_suffix(".signing-key")
 
     twin_manager = ProjectTwinManager(REPO_ROOT)
 
@@ -96,6 +99,11 @@ def main() -> int:
 
     class Handler(WorkbenchHandler):
         database_path = db_path
+        evidence_root = evidence_path
+        user_store = None
+        attestation_key = OPS.load_or_create_signing_key(signing_key_path)
+        sessions = {}
+        private_paths = (db_path, evidence_path, signing_key_path)
         city_port = args.city_port
         bootstrap = {"city": city_slug, "operations_data": operations_url}
         project_twins = twin_manager
@@ -144,6 +152,9 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith("/api/ops-auth/") or path.startswith("/api/ops-core/"):
+            super().do_POST()
+            return
         if path.startswith("/api/twins/generate/"):
             slug = unquote(path.removeprefix("/api/twins/generate/")).strip("/")
             try:
@@ -187,6 +198,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         return path == "/studio" or path.startswith("/studio/") or (
             path.startswith("/api/")
             and not path.startswith("/api/ops-core/")
+            and not path.startswith("/api/ops-auth/")
             and not path.startswith("/api/twins/")
             and path != "/api/workbench"
         )

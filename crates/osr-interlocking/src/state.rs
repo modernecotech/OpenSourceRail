@@ -2,12 +2,13 @@
 //!
 //! `derive_state(log_prefix)` is deterministic — the same prefix always
 //! produces the same state. This property (P1 in RFC 0001 §7.2) is tested
-//! by proptest here and will be formally verified with Kani in M3.
+//! by proptest and selected bounded Kani harnesses. This is not a complete
+//! refinement proof of the state fold.
 //!
 //! The state is intentionally conservative: every uncertain input makes
 //! the state *more* restrictive, never less (P4 in RFC 0001 §7.2). This
 //! property is enforced by the way `apply_entry` handles each variant
-//! and will also be verified with Kani in M3.
+//! and checked by unit, property and selected bounded Kani tests.
 
 use crate::log::{
     Confidence, Entry, EntryPayload, HealthStatus, Heartbeat, IntrusionState, MaintenanceOverride,

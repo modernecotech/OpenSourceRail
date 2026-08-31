@@ -26,9 +26,9 @@
 //!
 //! # Safety properties (targeted)
 //!
-//! These properties anchor future Kani harnesses. None are
-//! formally verified yet; all are exercised by proptests and unit
-//! tests under `tests/`.
+//! These properties have unit/property coverage and selected bounded Kani
+//! harnesses. That evidence does not constitute a complete refinement proof or
+//! an independently assessed ATP product.
 //!
 //! - **A1 (determinism):** `atp_evaluate` is a pure function. Same
 //!   inputs → byte-identical output.

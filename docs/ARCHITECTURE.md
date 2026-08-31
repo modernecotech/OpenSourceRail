@@ -150,12 +150,18 @@ excluded from a pilot. The target architecture may reduce trackside equipment
 only after the staged evidence gates in the
 [pilot signalling profile](certification/pilot-signalling-profile.md) close.
 
+Any residual train-control rate in the parametric city cost model is a planning
+allowance, not a supplier quote or a claim that a safety system can be delivered
+for that amount. A pilot estimate must explicitly cover independent occupancy
+detection, the qualified safety channel, communications, installation,
+integration, assurance and contingency.
+
 **Why this is novel:** "Rail as a distributed system." The repository explores
 a restricted consensus protocol with fixed membership and no dynamic
 reconfiguration in the hot path. The Rust implementation has property tests,
-selected bounded Kani checks and a documented TLA+ abstraction map; it does not
-yet have a machine-checked refinement proof and must not be described as fully
-formally verified.
+selected bounded Kani checks and a documented TLA+ abstraction map. A complete
+machine-checked refinement proof does not yet exist; the implementation is
+therefore property-tested research software, not a proved signalling product.
 **Key risk:** regulators, insurers, and procurement authorities need more than a technical artifact. A Git repository cannot carry the safety certificate or product liability for a railway. Mitigation: publish the formal model early, solicit review from independent safety assessors, and start with deployable non-safety subsystems, yard/test-track trials, and segregated-ROW pilots before any full metro deployment.
 
 ### D3. Communications

@@ -40,7 +40,7 @@ export default defineConfig({
       timeout: 30_000,
     },
     {
-      command: "python3 tools/automation/ops-core-server.py --host 127.0.0.1 --port 4176 --db build/playwright/ops-core.sqlite3 --reset-db",
+      command: "python3 tools/automation/ops-core-server.py --host 127.0.0.1 --port 4176 --db build/playwright/ops-core.sqlite3 --evidence-dir build/playwright/ops-evidence --users tests/fixtures/ops-users.json --reset-db",
       url: "http://127.0.0.1:4176/docs/operations-portal/",
       reuseExistingServer: false,
       timeout: 30_000,

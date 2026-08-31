@@ -1,0 +1,125 @@
+schema_version = "1.0"
+first_article_id = "LM3-FA-001"
+
+# Status vocabulary: available-screening, protocol-ready, evidence-received,
+# independently-accepted. Only the last state closes a release gate.
+
+[[evidence_package]]
+id = "EVD-STR-001"
+title = "Carbody and chassis structural analysis"
+discipline = "structural"
+owner_role = "vehicle structural engineer"
+status = "available-screening"
+applies_to_prefixes = ["LM3-BDY-", "LM3-CWL-", "LM3-END-"]
+existing_artifacts = ["design/component-catalogue/catalog/fea/screening-summary.json", "design/component-catalogue/models/cad/fea-screening-models.FCStd"]
+required_release_evidence = ["released shell/solid model", "load-case and boundary-condition report", "mesh convergence study", "weld and joint representation", "material/coupon correlation", "independent calculation review", "physical carbody proof-test correlation"]
+
+[[evidence_package]]
+id = "EVD-STR-002"
+title = "Bogie frame and equipment attachment structural analysis"
+discipline = "structural"
+owner_role = "bogie structural engineer"
+status = "available-screening"
+applies_to_prefixes = ["LM3-BOG-", "LM3-TRC-"]
+existing_artifacts = ["design/component-catalogue/catalog/fea/screening-summary.json", "design/component-catalogue/catalog/fea/bogie-frame-screen/bogie-frame-screen.frd", "design/component-catalogue/catalog/fea/bogie-brake-traction-screen/bogie-brake-traction-screen.frd"]
+required_release_evidence = ["released bogie solid/shell model", "fatigue load spectrum", "weld classes and stress extraction", "motor/gearbox/brake attachment loads", "mesh convergence study", "independent review", "frame proof and fatigue-test correlation"]
+
+[[evidence_package]]
+id = "EVD-TEST-001"
+title = "Carbody, bogie, articulation and local attachment proof tests"
+discipline = "physical-test"
+owner_role = "test laboratory lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-BDY-", "LM3-BOG-", "LM3-ART-", "LM3-DOOR-", "LM3-HV-"]
+existing_artifacts = []
+required_release_evidence = ["approved test procedure", "specimen serial and as-built configuration", "calibrated instrumentation register", "raw time-series data", "photographs", "deviations/NCRs", "signed test report", "design-authority disposition"]
+
+[[evidence_package]]
+id = "EVD-THM-001"
+title = "Battery, charger contact and cooling-system thermal test"
+discipline = "thermal"
+owner_role = "traction-energy test engineer"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-HV-", "LM3-TRC-"]
+existing_artifacts = []
+required_release_evidence = ["supplier loss maps and limits", "worst-case ambient/duty cycle", "instrumented temperature and coolant data", "contact resistance and thermal images", "single-fault cases", "protection trips", "signed thermal report"]
+
+[[evidence_package]]
+id = "EVD-ELEC-001"
+title = "Released HV/LV harness and protection definition"
+discipline = "electrical"
+owner_role = "vehicle electrical lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-HV-", "LM3-CTRL-", "LM3-LGT-", "LM3-END-", "LM3-ART-"]
+existing_artifacts = []
+required_release_evidence = ["single-line diagram", "wire and cable schedule", "connector and pin schedule", "protection/selectivity study", "earthing/bonding plan", "HVIL loop", "segregation and bend-radius drawing", "released harness drawings"]
+
+[[evidence_package]]
+id = "EVD-ELEC-002"
+title = "Harness continuity, insulation, dielectric and bonding tests"
+discipline = "electrical-test"
+owner_role = "electrical test engineer"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-HV-", "LM3-CTRL-", "LM3-LGT-", "LM3-END-", "LM3-ART-", "LM3-BOG-"]
+existing_artifacts = []
+required_release_evidence = ["harness serial/revision", "calibrated tester identity", "100 percent pin-to-pin results", "insulation-resistance results", "dielectric withstand where applicable", "bonding measurements", "fault and rework log", "signed release"]
+
+[[evidence_package]]
+id = "EVD-CTRL-001"
+title = "Safety-controller bench and hardware-in-the-loop evidence"
+discipline = "control-bench"
+owner_role = "independent verification and validation lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-CTRL-"]
+existing_artifacts = ["lib/fault-injection-scenarios", "crates/osr-sim"]
+required_release_evidence = ["frozen hardware and firmware configuration", "I/O and timing map", "requirements-to-test trace", "power/clock/network fault injection", "safe-state measurement", "watchdog and reset recovery", "raw logs", "independent witnessed report"]
+
+[[evidence_package]]
+id = "EVD-SUP-001"
+title = "Bogie, wheelset, bearing, brake and suspension supplier data"
+discipline = "supplier"
+owner_role = "bogie subsystem engineer and procurement lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-BOG-"]
+existing_artifacts = ["design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"]
+required_release_evidence = ["exact manufacturer and order code", "controlled datasheet/drawing", "load and duty envelope", "material and process certificates", "RAMS and maintenance data", "compliance/type-test evidence", "interface-control acceptance"]
+
+[[evidence_package]]
+id = "EVD-SUP-002"
+title = "Door-system supplier data and type-test evidence"
+discipline = "supplier"
+owner_role = "door subsystem engineer and procurement lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-DOOR-"]
+existing_artifacts = ["design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"]
+required_release_evidence = ["exact cassette and controller order code", "aperture/stroke/interface drawing", "obstacle and force test", "cycle/endurance evidence", "emergency release evidence", "water/IP evidence", "software/configuration record"]
+
+[[evidence_package]]
+id = "EVD-SUP-003"
+title = "Battery, converter, motor, gearbox and charger supplier data"
+discipline = "supplier"
+owner_role = "traction-energy subsystem engineer and procurement lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-HV-", "LM3-TRC-"]
+existing_artifacts = ["design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"]
+required_release_evidence = ["exact manufacturer and order code", "electrical and mechanical interface drawings", "loss/thermal/derating maps", "protection and BMS interfaces", "fire/propagation evidence", "EMC/vibration evidence", "RAMS and maintenance data"]
+
+[[evidence_package]]
+id = "EVD-SUP-004"
+title = "Glazing, HVAC, interior, lighting, passenger-system and fire-system supplier data"
+discipline = "supplier"
+owner_role = "vehicle fit-out engineer and procurement lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-EXT-", "LM3-INT-", "LM3-LGT-", "LM3-SAF-", "LM3-AUX-", "LM3-DOOR-"]
+existing_artifacts = ["design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json"]
+required_release_evidence = ["exact manufacturer and order code", "controlled interface drawing", "fire/smoke evidence", "structural/abuse-load evidence", "EMC/IP evidence where applicable", "cleaning and maintenance instructions", "first-article fit and function acceptance"]
+
+[[evidence_package]]
+id = "EVD-MFG-001"
+title = "Locally manufactured joints, inserts, glazing frames and interior modules"
+discipline = "manufacturing-qualification"
+owner_role = "manufacturing engineering and quality lead"
+status = "protocol-ready"
+applies_to_prefixes = ["LM3-FIX-", "LM3-WIN-", "LM3-INT-", "LM3-CWL-", "LM3-BDY-"]
+existing_artifacts = ["design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json", "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json"]
+required_release_evidence = ["released drawing and tolerance stack", "material/process batch trace", "qualified procedure and operator", "fixture/gauge calibration", "coupon or joint proof test", "dimensional report", "NCR disposition", "first-article acceptance"]
