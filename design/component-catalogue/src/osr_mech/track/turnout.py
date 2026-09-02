@@ -18,7 +18,10 @@ needed for:
 - Signalling: switch-machine mounting + derailer clearance.
 - BOM: rail length by profile + sleeper count + switch-machine type.
 
-This is *not* a structural rail-head design; real ordering uses
+The review assembly also exposes the check rails, stretcher/lock, actuator,
+independent detectors, heater, harness and drainage interfaces needed to avoid
+an ambiguous "turnout kit" placeholder.  It is *not* a structural rail-head
+or released switch-blade design; real ordering uses
 catalogue items from Voestalpine / Pandrol / ArcelorMittal. What OSR
 supplies is the geometric shell + published dimensions so a partner
 can drop a catalogue turnout into the same footprint.
@@ -120,6 +123,8 @@ COLOR_DIVERGING_RAIL = Color(0.55, 0.35, 0.2)
 COLOR_SWITCH_BLADE = Color(0.80, 0.55, 0.15)  # highlighted
 COLOR_CROSSING = Color(0.25, 0.25, 0.3)
 COLOR_SLEEPER = Color(0.55, 0.45, 0.35)
+COLOR_HARDWARE = Color(0.20, 0.38, 0.62)
+COLOR_SAFETY = Color(0.90, 0.48, 0.10)
 
 
 # ---------------------------------------------------------------------------
@@ -244,6 +249,63 @@ def _sleepers(geometry: TurnoutGeometry) -> Compound:
     return Compound(label="Sleepers", children=parts)
 
 
+def _turnout_hardware(geometry: TurnoutGeometry) -> Compound:
+    """Inspectable supplier-neutral operating and maintainability interfaces."""
+
+    parts: list[Part] = []
+    crossing_x = geometry.total_length_mm - geometry.crossing_length_mm * 0.55
+    for y in (-STANDARD_GAUGE_MM * 0.36, STANDARD_GAUGE_MM * 0.36):
+        rail = Box(geometry.crossing_length_mm * 1.20, 70.0, 125.0).locate(
+            Location((crossing_x, y, 12.5))
+        )
+        rail.label = "Check rail with flared entry"
+        rail.color = COLOR_CROSSING
+        parts.append(rail)
+
+    stretcher_x = geometry.switch_blade_length_mm * 0.62
+    stretcher = Box(80.0, STANDARD_GAUGE_MM + 500.0, 70.0).locate(
+        Location((stretcher_x, 0.0, -35.0))
+    )
+    stretcher.label = "Insulated stretcher bar"
+    stretcher.color = COLOR_SAFETY
+    parts.append(stretcher)
+    lock = Box(520.0, 360.0, 260.0).locate(Location((stretcher_x, 1_250.0, 0.0)))
+    lock.label = "Mechanical lock and hand-wind interface"
+    lock.color = COLOR_SAFETY
+    parts.append(lock)
+    actuator = Box(1_250.0, 650.0, 620.0).locate(Location((stretcher_x, 1_900.0, -110.0)))
+    actuator.label = "Point-machine actuator and removable mounting stool"
+    actuator.color = COLOR_HARDWARE
+    parts.append(actuator)
+
+    for index, x in enumerate((geometry.switch_blade_length_mm * 0.30, geometry.switch_blade_length_mm * 0.82), start=1):
+        detector = Box(360.0, 240.0, 220.0).locate(Location((x, -1_200.0, -20.0)))
+        detector.label = f"Independent switch-position detector channel {index}"
+        detector.color = COLOR_HARDWARE
+        parts.append(detector)
+    harness = Box(geometry.switch_blade_length_mm, 90.0, 90.0).locate(
+        Location((geometry.switch_blade_length_mm / 2.0, -1_500.0, -120.0))
+    )
+    harness.label = "Protected turnout harness and junction route"
+    harness.color = COLOR_HARDWARE
+    parts.append(harness)
+
+    for y in (-STANDARD_GAUGE_MM / 2.0, STANDARD_GAUGE_MM / 2.0):
+        heater = Box(geometry.switch_blade_length_mm, 45.0, 35.0).locate(
+            Location((geometry.switch_blade_length_mm / 2.0, y, 52.5))
+        )
+        heater.label = "Replaceable switch-rail heater strip"
+        heater.color = COLOR_SAFETY
+        parts.append(heater)
+    drain = Box(geometry.total_length_mm, 260.0, 240.0).locate(
+        Location((geometry.total_length_mm / 2.0, -2_050.0, -260.0))
+    )
+    drain.label = "Turnout drainage channel and cleanout route"
+    drain.color = COLOR_HARDWARE
+    parts.append(drain)
+    return Compound(label="Turnout operating, detection, heating and drainage hardware", children=parts)
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -275,6 +337,7 @@ def turnout(
 
     # Crossing.
     parts.append(_crossing(geometry))
+    parts.append(_turnout_hardware(geometry))
 
     return Compound(
         label=f"Turnout ({tangent.value}, r={geometry.diverging_radius_m:.0f} m)",

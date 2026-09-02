@@ -12,6 +12,9 @@ authoritative geometry.
 | [`lm3-assemblies/`](lm3-assemblies/) | 26 subassembly/car/final-train documents containing every descendant part on a deterministic inspection fixture; start with [`LM3-TRAINSET-A000.FCStd`](lm3-assemblies/LM3-TRAINSET-A000.FCStd) |
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact file inventory, hashes, primitive counts and final-assembly reachability result |
 | [`trainset-light-metro-3car.FCStd`](trainset-light-metro-3car.FCStd) | Full light-metro trainset review assembly generated from source geometry |
+| [`trainset-light-metro-3car.installed-coordinate.json`](trainset-light-metro-3car.installed-coordinate.json) | Source-to-controlled-ID occurrence map, installed positions and nominal/curve/twist review states for that assembly |
+| [`stations/`](stations/) | Seven native station product assemblies covering all 45 controlled station products, with hierarchy, semantic class and fidelity metadata |
+| [`../manufacturing-reference/`](../manufacturing-reference/) | STEP, DXF inspection projections and browser-viewable three-view SVG references for all 46 LM3 `MAKE` rows |
 | [`single-car-assembly.FCStd`](single-car-assembly.FCStd) | Corrected urban-shuttle single-car assembly with both bogies on the shared ±6,150 mm chassis datums |
 | [`chassis-bogie-assembly-states.FCStd`](chassis-bogie-assembly-states.FCStd) | Chassis and bogie connector review with assembled and exploded state groups |
 | [`full-body-assembly-states.FCStd`](full-body-assembly-states.FCStd) | Body frame, roof, windows, doors, floor, battery, bench, HVAC, lighting, and sensor attachment review states |
@@ -40,10 +43,11 @@ the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
 The split library is generated from one shared 101-item geometry registry and
-contains 423 native OCC primitives. Assembly documents preserve all 26 EBOM/
+contains 523 native OCC primitives. Assembly documents preserve all 26 EBOM/
 MBOM hierarchy nodes and include every active product in the final trainset.
-Their spaced layout is an inspection fixture for selection and completeness
-testing—not an assertion of final installed coordinates or tolerance closure.
+Their spaced layout remains an inspection fixture. Installed source occurrences
+and four kinematic review states are recorded separately in the trainset
+installed-coordinate sidecar; neither artifact is a released tolerance stack.
 The matching dependency-timed [`fabrication-assembly` twin](../../../../engineering/models/digital-twins/fabrication-assembly/README.md)
 tests the build order and provides the animated review.
 
@@ -84,7 +88,7 @@ multibody ride simulation.
 From the repository root, the canonical orchestrator is:
 
 ```bash
-tools/automation/freecad-generate.sh --models --assemblies --civil-systems --fem --screenshots --station-scenes --digital-twin-animation --high-quality-renders
+tools/automation/freecad-generate.sh --models --assemblies --station-library --neutral-exports --civil-systems --fem --screenshots --station-scenes --digital-twin-animation --high-quality-renders
 ```
 
 When iterating on one document, run the lower-level package launchers from
@@ -94,6 +98,8 @@ When iterating on one document, run the lower-level package launchers from
 scripts/freecad_trainset.sh --family light-metro-3car
 scripts/freecad_assembly_review.sh
 scripts/freecad_product_library.sh
+scripts/freecad_station_library.sh
+scripts/freecad_neutral_exports.sh
 scripts/freecad_fea.sh
 scripts/freecad_screenshots.sh
 scripts/freecad_station_scenes.sh

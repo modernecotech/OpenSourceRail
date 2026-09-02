@@ -6,7 +6,7 @@ MECH_ROOT="$REPO_ROOT/design/component-catalogue"
 
 usage() {
     cat <<'EOF'
-Usage: tools/automation/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--civil-systems] [--fem] [--screenshots] [--station-scenes] [--digital-twin-animation] [--samawah-line-twin] [--fabrication-twin] [--mesh-exports] [--high-quality-renders] [--check]
+Usage: tools/automation/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--station-library] [--neutral-exports] [--civil-systems] [--fem] [--screenshots] [--station-scenes] [--digital-twin-animation] [--samawah-line-twin] [--fabrication-twin] [--mesh-exports] [--high-quality-renders] [--check]
 
 Repository-level FreeCAD generator for OpenSourceRail mechanical artifacts.
 
@@ -17,6 +17,8 @@ Modes:
   --platform-l-unit Build the standalone precast platform L-unit design.
   --catalogue       Build native FreeCAD parts catalogue and platform/station assemblies.
   --assemblies      Build assembled/exploded chassis-bogie and body review documents.
+  --station-library Build all seven native FreeCAD station product assemblies.
+  --neutral-exports Export STEP and DXF inspection references for all LM3 MAKE rows.
   --civil-systems   Build and validate the viaduct/station/junction integration test site.
   --fem             Run FreeCAD/CalculiX screening FEM models and result summaries.
   --screenshots     Capture FreeCAD GUI screenshots from generated review documents.
@@ -82,6 +84,8 @@ run_single_car=false
 run_platform_l_unit=false
 run_catalogue=false
 run_assemblies=false
+run_station_library=false
+run_neutral_exports=false
 run_civil_systems=false
 run_fem=false
 run_screenshots=false
@@ -106,6 +110,8 @@ while [ "$#" -gt 0 ]; do
             run_platform_l_unit=true
             run_catalogue=true
             run_assemblies=true
+            run_station_library=true
+            run_neutral_exports=true
             run_civil_systems=true
             run_fem=true
             run_screenshots=true
@@ -127,6 +133,12 @@ while [ "$#" -gt 0 ]; do
             ;;
         --assemblies)
             run_assemblies=true
+            ;;
+        --station-library)
+            run_station_library=true
+            ;;
+        --neutral-exports)
+            run_neutral_exports=true
             ;;
         --civil-systems)
             run_civil_systems=true
@@ -196,6 +208,14 @@ fi
 if [ "$run_assemblies" = true ]; then
     scripts/freecad_assembly_review.sh
     scripts/freecad_product_library.sh
+fi
+
+if [ "$run_station_library" = true ]; then
+    scripts/freecad_station_library.sh
+fi
+
+if [ "$run_neutral_exports" = true ]; then
+    scripts/freecad_neutral_exports.sh
 fi
 
 if [ "$run_civil_systems" = true ]; then

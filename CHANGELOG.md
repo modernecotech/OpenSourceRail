@@ -1,5 +1,16 @@
 # OpenSourceRail changelog
 
+## Unreleased
+
+- Added seven complete station-variant FreeCAD and geometric IFC4.3 assemblies,
+  covering all 45 controlled station products with deterministic validation.
+- Expanded the LM3 reference library to 523 primitives, detailed door/window,
+  bogie, traction, battery and HV interfaces, and added an installed-coordinate
+  sidecar with nominal, curve and twist review states.
+- Added STEP, DXF inspection and three-view SVG references for all 46 locally
+  manufactured LM3 rows, plus a generated CAD/IFC fidelity register.
+- Expanded turnout, depot and reusable civil maintenance-interface geometry.
+
 ## v0.3.1 — 2026-08-30 — CI correctness patch
 
 Corrects the clean-checkout release gates discovered after v0.3.0: both Python

@@ -8,12 +8,15 @@ remains the design authority; FreeCAD is the tracked review format.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
 from osr_mech.freecad_occ_bridge import SourceGeometry, freecad_shape_from_source, safe_name
+from osr_mech.freecad_assembly_review import _canonicalise_fcstd
 
 
 try:
@@ -60,6 +63,38 @@ COLOURS = {
     "door": (0.05, 0.45, 0.66, 0.0),
     "interface": (0.95, 0.68, 0.18, 0.0),
     "mechanical": (0.60, 0.62, 0.66, 0.0),
+}
+
+SOURCE_PRODUCT_IDS: dict[str, tuple[str, ...]] = {
+    "sensor-cowl": ("LM3-CWL-SA710", "LM3-END-P061"),
+    "car-body-17m": ("LM3-CAR-A900", "LM3-SHELL-A200"),
+    "door-system-pair": ("LM3-EXT-P010", "LM3-DOOR-P010"),
+    "battery-pack-set": ("LM3-TRC-P040", "LM3-HV-P010", "LM3-HV-P030"),
+    "car-systems": ("LM3-SYS-SA900",),
+    "motor-bogie": ("LM3-BOG-SA610",),
+    "trailer-bogie": ("LM3-BOG-SA620",),
+    "bogie-to-motor-connector": ("LM3-BOG-P050",),
+    "inter-car-articulation": ("LM3-ART-SA800",),
+    "end-coupler": ("LM3-END-P010",),
+    "platform-safety-interface": ("LM3-EXT-P010", "LM3-DOOR-P010"),
+    "kinematic-envelope": ("LM3-TRAINSET-A000",),
+    "bogie-to-chassis-connector": ("LM3-BDY-P030", "LM3-ART-P010"),
+    "low-floor-chassis": ("LM3-BDY-SA110",),
+    "side-body-frame-attachments": ("LM3-BDY-P070", "LM3-FIX-P020"),
+    "composite-body-roof-attachments": ("LM3-BDY-P130", "LM3-BDY-P140"),
+    "window-installations": ("LM3-EXT-P020", "LM3-WIN-P010"),
+    "door-mounts": ("LM3-DOOR-P010",),
+    "door-design": ("LM3-EXT-P010",),
+    "door-installations": ("LM3-EXT-P010", "LM3-DOOR-P010"),
+    "door-to-body-installations": ("LM3-BDY-P100", "LM3-DOOR-P010"),
+    "cabin-flooring": ("LM3-EXT-P060", "LM3-EXT-P061"),
+    "battery-installations": ("LM3-TRC-P040", "LM3-HV-P010"),
+    "bench-on-battery-installations": ("LM3-EXT-P062", "LM3-FIX-P030"),
+    "internal-lighting-installation": ("LM3-LGT-P010", "LM3-LGT-P020"),
+    "hvac-roof-ducting-installation": ("LM3-EXT-P040", "LM3-INT-P010"),
+    "screen-speaker-mountings": ("LM3-EXT-P064", "LM3-FIX-P030"),
+    "external-lighting-lidar-system": ("LM3-END-P020", "LM3-END-P050"),
+    "train-connector-mount-pair": ("LM3-END-P040",),
 }
 
 CAR_INTERFACE_SOURCES = (
@@ -148,6 +183,14 @@ def _add_shape(
         group.Label = item.group
         groups[item.group] = group
     group.addObject(obj)
+    obj.addProperty("App::PropertyString", "SourceKey", "OSR Installed Assembly")
+    obj.SourceKey = item.source.key
+    obj.addProperty("App::PropertyStringList", "ControlledIds", "OSR Installed Assembly")
+    obj.ControlledIds = list(SOURCE_PRODUCT_IDS.get(item.source.key, ()))
+    obj.addProperty("App::PropertyVector", "InstalledPositionMm", "OSR Installed Assembly")
+    obj.InstalledPositionMm = App.Vector(item.x_mm, item.y_mm, item.z_mm)
+    obj.addProperty("App::PropertyString", "ConfigurationState", "OSR Installed Assembly")
+    obj.ConfigurationState = "nominal-installed"
     return obj
 
 
@@ -322,7 +365,8 @@ def build_trainset_document(*, family: str, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="osr-freecad-brep-", dir=output.parent) as tmp:
         temp_dir = Path(tmp)
-        for item in _trainset_items(family):
+        items = _trainset_items(family)
+        for item in items:
             _add_shape(doc, item, groups, shape_cache, temp_dir)
 
     doc.addObject("App::DocumentObjectGroup", "SourceNotes").Label = (
@@ -333,9 +377,37 @@ def build_trainset_document(*, family: str, output: Path) -> None:
     if output.exists():
         output.unlink()
     doc.saveAs(str(output))
-    print(f"wrote {output}")
-
     App.closeDocument(doc.Name)
+    _canonicalise_fcstd(output)
+    sidecar = output.with_suffix(".installed-coordinate.json")
+    states = [
+        {"id": "nominal-installed", "joint_yaw_deg": [0.0, 0.0], "car_roll_deg": [0.0, 0.0, 0.0]},
+        {"id": "curve-left-screen", "joint_yaw_deg": [6.0, 6.0], "car_roll_deg": [0.0, 0.0, 0.0]},
+        {"id": "curve-right-screen", "joint_yaw_deg": [-6.0, -6.0], "car_roll_deg": [0.0, 0.0, 0.0]},
+        {"id": "twist-screen", "joint_yaw_deg": [0.0, 0.0], "car_roll_deg": [-1.0, 0.0, 1.0]},
+    ]
+    payload = {
+        "schema": "org.opensourcerail.installed-coordinate-assembly.v1",
+        "family": family,
+        "status": "design-reference-not-released",
+        "release_boundary": "Nominal installed datums and named kinematic screening states; tolerance, swept-volume and dynamic release remain open.",
+        "fcstd": str(output.relative_to(_artifact_root().parents[3])),
+        "fcstd_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
+        "items": [
+            {
+                "occurrence": item.name,
+                "source_key": item.source.key,
+                "controlled_ids": list(SOURCE_PRODUCT_IDS.get(item.source.key, ())),
+                "position_mm": [item.x_mm, item.y_mm, item.z_mm],
+                "yaw_deg": item.yaw_deg,
+            }
+            for item in items
+        ],
+        "configuration_states": states,
+        "passed": family != "light-metro-3car" or (len(states) == 4 and all(SOURCE_PRODUCT_IDS.get(item.source.key) for item in items)),
+    }
+    sidecar.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"wrote {output}")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

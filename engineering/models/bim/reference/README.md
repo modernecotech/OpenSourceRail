@@ -28,6 +28,8 @@ installing the complete engineering toolchain.
 | [`lm3-parts/`](lm3-parts/) | 101 separate geometric IFC4.3 product files, including round running-gear meshes and semantic doors, windows, lights, furniture and motor classes |
 | [`lm3-assemblies/`](lm3-assemblies/) | 26 hierarchy-preserving IFC4.3 subassembly/car/train files; the final trainset contains every active descendant product |
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact split-library file hashes, representation coverage and final-assembly reachability test |
+| [`stations/`](stations/) | Seven geometric station IFC4.3 assemblies covering every controlled product in the halt, standard, major, interchange, elevated-interchange, terminal and depot-terminal variants |
+| [`../../model-coverage.md`](../../model-coverage.md) | Generated LM3/station fidelity, source, analysis and release-evidence register |
 
 Regenerate it from the authoritative component geometry and engineering
 interchange code:
@@ -38,6 +40,9 @@ tools/automation/bonsai-civil.sh --animate \
   --revision-id repository-reference
 python3 engineering/interchange/trainset_manufacturing_ifc.py
 python3 engineering/interchange/lm3_product_ifc_library.py
+python3 engineering/interchange/station_ifc.py --all-variants \
+  --output-dir engineering/models/bim/reference/stations
+python3 engineering/model_coverage.py
 ```
 
 The 4D review moves the assigned IFC objects themselves: substructure rises,
@@ -47,8 +52,8 @@ construction-state simulation, not crane physics, temporary-works verification,
 clash-free path planning or an approved method statement.
 
 These models are coordination, product-structure and manufacturing-method
-evidence, not a construction release. The LM3 files expose the complete current
-product graph and inspectable design-reference geometry, but do not substitute
+evidence, not a construction release. The LM3 and station files expose their
+complete current product graphs and inspectable design-reference geometry, but do not substitute
 for supplier-frozen interfaces, installed-coordinate/tolerance analyses,
 released shop drawings, qualified weld/laminate processes or NC surfaces.
 Repeated City Studio jobs and render intermediates remain under `build/`; this

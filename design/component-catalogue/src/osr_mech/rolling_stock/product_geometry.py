@@ -147,6 +147,26 @@ def geometry_specs() -> dict[str, ProductGeometrySpec]:
     return dict(_SPECS)
 
 
+def geometry_level(product_id: str, route: str, maturity: str) -> str:
+    """Classify geometric fidelity independently from product release maturity."""
+
+    if product_id in {"LM3-FIX-P030", "LM3-WIN-P010", "LM3-DOOR-P010"}:
+        return "interface-detailed"
+    spec = _SPECS[product_id]
+    if route in {"BID", "SOURCE"}:
+        return "coordination-envelope"
+    if spec.form in {
+        "beam", "underframe", "bolster", "coupler-pocket", "tray", "floor",
+        "side-frame", "roof-rack", "frame", "door-frame", "window-frame",
+        "body-module", "rail-kit", "bogie-frame", "link-kit", "harness",
+        "cable-tray", "piping", "adapter-kit", "service-rail", "fastener-kit",
+    }:
+        return "interface-detailed"
+    if maturity == "concept":
+        return "manufacturing-envelope"
+    return "design-reference-detail"
+
+
 def _part(shape: Part, label: str, colour: Color) -> Part:
     shape.label = label
     shape.color = colour
@@ -197,6 +217,18 @@ def _bogie_frame(dims: tuple[float, float, float], label: str) -> Compound:
         parts.append(_box((x, 220, z * 0.55), f"{label} side frame").locate(Location((0, side * (y - 220) / 2, 0))))
     for longitudinal in (-1, 0, 1):
         parts.append(_box((260, y - 300, z * 0.45), f"{label} cross member").locate(Location((longitudinal * x * 0.34, 0, 0))))
+    for px in (-x * 0.34, x * 0.34):
+        for py in (-y * 0.38, y * 0.38):
+            parts.extend([
+                _box((420, 320, z * 0.48), f"{label} axlebox pedestal", STEEL).locate(Location((px, py, -z * 0.20))),
+                _box((360, 360, 90), f"{label} primary spring seat", SAFETY).locate(Location((px, py, z * 0.34))),
+            ])
+    for py in (-y * 0.27, y * 0.27):
+        parts.append(_box((520, 420, 100), f"{label} secondary air-spring seat", SAFETY).locate(Location((0, py, z * 0.34))))
+    parts.extend([
+        _box((720, 480, 180), f"{label} motor/gearbox bracket", SAFETY).locate(Location((-x * 0.18, 0, -z * 0.25))),
+        _box((520, 380, 160), f"{label} brake reaction bracket", SAFETY).locate(Location((x * 0.20, 0, -z * 0.25))),
+    ])
     return Compound(label=label, children=parts)
 
 
@@ -227,6 +259,11 @@ def _spring_set(dims: tuple[float, float, float], label: str) -> Compound:
         for py in (-y * 0.36, y * 0.36):
             parts.append(_part(Cylinder(min(x, y) * 0.12, z), f"{label} spring", ELASTOMER).locate(Location((px, py, 0))))
     parts.append(_box((x * 0.65, y * 0.35, z * 0.18), f"{label} pivot/yaw interface", SAFETY))
+    for side in (-1, 1):
+        parts.extend([
+            _part(Cylinder(min(x, y) * 0.05, z * 0.82), f"{label} vertical damper", SYSTEM).locate(Location((side * x * 0.40, 0, 0))),
+            _box((x * 0.54, y * 0.08, z * 0.09), f"{label} yaw link", STEEL).locate(Location((0, side * y * 0.36, -z * 0.18))),
+        ])
     return Compound(label=label, children=parts)
 
 
@@ -235,7 +272,119 @@ def _motor(dims: tuple[float, float, float], label: str) -> Compound:
     body = _part(Cylinder(min(x, z) * 0.42, y * 0.72).rotate(Axis.X, 90), f"{label} stator housing", SYSTEM)
     shaft = _part(Cylinder(min(x, z) * 0.12, y).rotate(Axis.X, 90), f"{label} shaft", STEEL)
     terminal = _box((x * 0.35, y * 0.32, z * 0.25), f"{label} terminal box", SAFETY).locate(Location((0, 0, z * 0.34)))
-    return Compound(label=label, children=[body, shaft, terminal])
+    feet = [
+        _box((x * 0.28, y * 0.16, z * 0.12), f"{label} mounting foot", STEEL).locate(
+            Location((side * x * 0.28, 0, -z * 0.40))
+        )
+        for side in (-1, 1)
+    ]
+    cooling = _box((x * 0.62, y * 0.12, z * 0.12), f"{label} cooling interface", SYSTEM).locate(Location((0, y * 0.40, z * 0.18)))
+    torque_arm = _box((x * 0.55, y * 0.12, z * 0.10), f"{label} torque arm", SAFETY).locate(Location((x * 0.20, 0, -z * 0.18)))
+    return Compound(label=label, children=[body, shaft, terminal, *feet, cooling, torque_arm])
+
+
+def _fixture_adapters(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts: list[Part] = []
+    for variant, px in enumerate((-x * 0.32, 0.0, x * 0.32), start=1):
+        parts.extend([
+            _box((x * 0.24, y * 0.62, z * 0.18), f"{label} adapter {variant} base", STEEL).locate(Location((px, 0, -z * 0.30))),
+            _box((x * 0.10, y * 0.62, z * 0.72), f"{label} adapter {variant} upright", STEEL).locate(Location((px, 0, z * 0.02))),
+            _part(Cylinder(18, y * 0.78).rotate(Axis.X, 90), f"{label} adapter {variant} retained pin", SAFETY).locate(Location((px, 0, z * 0.30))),
+        ])
+    for py in (-y * 0.34, y * 0.34):
+        parts.append(_part(Cylinder(11, z * 0.32), f"{label} common-rail captive fastener", STEEL).locate(Location((0, py, -z * 0.26))))
+    parts.append(_box((x * 0.92, y * 0.14, z * 0.12), f"{label} 42 mm datum-rail gauge", SAFETY).locate(Location((0, -y * 0.40, -z * 0.38))))
+    return Compound(label=label, children=parts)
+
+
+def _window_carrier(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    outer = _frame(dims, f"{label} aluminium pressure frame", STEEL)
+    gasket = _frame((x * 0.86, y * 0.38, z * 0.82), f"{label} dry elastomer seal", ELASTOMER)
+    parts = [*outer.children, *gasket.children]
+    parts.append(_box((x * 0.78, y * 0.32, 45), f"{label} drained sill rail", SYSTEM).locate(Location((0, 0, -z * 0.39))))
+    parts.extend(
+        _box((x * 0.12, y * 0.55, z * 0.18), f"{label} replaceable corner key", SAFETY).locate(Location((side * x * 0.37, 0, -z * 0.34)))
+        for side in (-1, 1)
+    )
+    for px in (-x * 0.34, 0.0, x * 0.34):
+        for pz in (-z * 0.40, z * 0.40):
+            parts.append(_part(Cylinder(10, y * 0.72).rotate(Axis.X, 90), f"{label} captive retainer", STEEL).locate(Location((px, 0, pz))))
+    return Compound(label=label, children=parts)
+
+
+def _door_carrier(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    jamb_x = (x - 130.0) / 2.0
+    parts = [
+        _box((x, y, 130), f"{label} adjustable header carrier", STEEL).locate(Location((0, 0, z * 0.46))),
+        _box((130, y, z), f"{label} left datum jamb", STEEL).locate(Location((-jamb_x, 0, 0))),
+        _box((130, y, z), f"{label} right datum jamb", STEEL).locate(Location((jamb_x, 0, 0))),
+        _box((x, y, 110), f"{label} drained threshold carrier", STEEL).locate(Location((0, 0, -z * 0.47))),
+        _box((x * 0.28, y * 0.65, z * 0.12), f"{label} keyed connector bracket", SAFETY).locate(Location((x * 0.28, 0, z * 0.39))),
+    ]
+    for px in (-x * 0.36, x * 0.36):
+        for pz in (-z * 0.38, z * 0.38):
+            parts.extend([
+                _box((180, y * 0.82, 180), f"{label} four-point adjustment saddle", STEEL).locate(Location((px, 0, pz))),
+                _part(Cylinder(14, y).rotate(Axis.X, 90), f"{label} datum/adjustment pin", SAFETY).locate(Location((px, 0, pz))),
+            ])
+    parts.extend([
+        _box((55, y * 0.45, z * 0.78), f"{label} left replaceable dry seal", ELASTOMER).locate(Location((-x * 0.39, 0, 0))),
+        _box((55, y * 0.45, z * 0.78), f"{label} right replaceable dry seal", ELASTOMER).locate(Location((x * 0.39, 0, 0))),
+    ])
+    return Compound(label=label, children=parts)
+
+
+def _door_cassette(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    frame = _frame(dims, f"{label} cassette", STEEL)
+    leaf_width = x * 0.42
+    parts: list[Part] = [*frame.children]
+    for side in (-1, 1):
+        parts.extend([
+            _box((leaf_width, y * 0.45, z * 0.83), f"{label} leaf", COMPOSITE).locate(Location((side * x * 0.23, 0, 0))),
+            _box((leaf_width * 0.92, y * 0.18, 45), f"{label} bottom guide", STEEL).locate(Location((side * x * 0.23, 0, -z * 0.43))),
+            _box((45, y * 0.32, z * 0.76), f"{label} sensitive edge/seal", ELASTOMER).locate(Location((-side * x * 0.02, 0, 0))),
+            _part(Cylinder(38, y * 0.55).rotate(Axis.X, 90), f"{label} hanger roller", STEEL).locate(Location((side * x * 0.26, 0, z * 0.40))),
+        ])
+    parts.extend([
+        _box((x * 0.82, y * 0.62, 120), f"{label} drive beam", STEEL).locate(Location((0, 0, z * 0.43))),
+        _part(Cylinder(90, y * 0.62).rotate(Axis.X, 90), f"{label} actuator", SYSTEM).locate(Location((x * 0.28, 0, z * 0.43))),
+        _box((220, y * 0.72, 180), f"{label} lock/manual release", SAFETY).locate(Location((0, 0, z * 0.30))),
+    ])
+    return Compound(label=label, children=parts)
+
+
+def _battery_pack(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts = [_box((x, y, z * 0.82), f"{label} sealed enclosure", SYSTEM)]
+    for index in range(6):
+        px = -x * 0.39 + index * x * 0.156
+        parts.append(_box((x * 0.13, y * 0.72, z * 0.56), f"{label} removable module row", SAFETY).locate(Location((px, 0, 0))))
+    parts.extend([
+        _box((x * 0.90, y * 0.10, z * 0.14), f"{label} cooling manifold", SYSTEM).locate(Location((0, y * 0.42, -z * 0.22))),
+        _box((x * 0.72, y * 0.12, z * 0.12), f"{label} outward vent plenum", STEEL).locate(Location((0, -y * 0.43, z * 0.26))),
+        _box((x * 0.18, y * 0.18, z * 0.28), f"{label} HV/LV keyed interface", SAFETY).locate(Location((x * 0.38, y * 0.35, 0))),
+        _box((x, y, z), f"{label} controlled installation envelope", Color(0.90, 0.25, 0.10, 0.15)),
+    ])
+    return Compound(label=label, children=parts)
+
+
+def _hv_panel(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts = [_box((x, y, z), f"{label} touch-safe enclosure", SYSTEM)]
+    names = ("main fuse", "positive contactor", "negative contactor", "precharge", "IMD", "service disconnect")
+    for index, name in enumerate(names):
+        px = -x * 0.38 + (index % 3) * x * 0.38
+        pz = -z * 0.25 + (index // 3) * z * 0.50
+        parts.append(_box((x * 0.22, y * 0.62, z * 0.28), f"{label} {name}", SAFETY,).locate(Location((px, 0, pz))))
+    parts.extend([
+        _box((x * 0.70, y * 0.12, z * 0.10), f"{label} HVIL route", SAFETY).locate(Location((0, y * 0.42, z * 0.38))),
+        _box((x * 0.22, y * 0.22, z * 0.18), f"{label} keyed HV connector", STEEL).locate(Location((x * 0.38, -y * 0.38, -z * 0.35))),
+    ])
+    return Compound(label=label, children=parts)
 
 
 def _bellows(dims: tuple[float, float, float], label: str) -> Compound:
@@ -283,6 +432,12 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
     dims = spec.envelope_mm
     form = spec.form
 
+    if product_id == "LM3-FIX-P030":
+        return _fixture_adapters(dims, label)
+    if product_id == "LM3-WIN-P010":
+        return _window_carrier(dims, label)
+    if product_id == "LM3-DOOR-P010":
+        return _door_carrier(dims, label)
     if form in {"frame", "window-frame", "door-frame"}:
         return _frame(dims, label, STEEL)
     if form == "window":
@@ -290,13 +445,7 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
         pane = _box((dims[0] * 0.82, dims[1] * 0.45, dims[2] * 0.82), f"{label} glass", GLASS)
         return Compound(label=label, children=[*frame.children, pane])
     if form == "door-cassette":
-        frame = _frame(dims, f"{label} cassette", STEEL)
-        leaf_width = dims[0] * 0.42
-        leaves = [
-            _box((leaf_width, dims[1] * 0.45, dims[2] * 0.83), f"{label} leaf", COMPOSITE).locate(Location((side * dims[0] * 0.23, 0, 0)))
-            for side in (-1, 1)
-        ]
-        return Compound(label=label, children=[*frame.children, *leaves])
+        return _door_cassette(dims, label)
     if form == "wheelset":
         return _wheelset(dims, label)
     if form == "bogie-frame":
@@ -309,6 +458,10 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
         return _spring_set(dims, label)
     if form == "motor":
         return _motor(dims, label)
+    if product_id == "LM3-TRC-P040":
+        return _battery_pack(dims, label)
+    if product_id == "LM3-TRC-P070":
+        return _hv_panel(dims, label)
     if form == "bellows":
         return _bellows(dims, label)
     if form == "seat":
@@ -382,4 +535,4 @@ def flatten_geometry(value: Part | Compound) -> list[Part]:
     return [value]
 
 
-__all__ = ["ProductGeometrySpec", "flatten_geometry", "geometry_specs", "product_geometry"]
+__all__ = ["ProductGeometrySpec", "flatten_geometry", "geometry_level", "geometry_specs", "product_geometry"]

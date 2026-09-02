@@ -164,6 +164,8 @@ def canonicalise(model: ifcopenshell.file, file_key: str) -> None:
 
 
 def product_entity(model: ifcopenshell.file, item: dict[str, Any]) -> Any:
+    from osr_mech.rolling_stock.product_geometry import geometry_level
+
     product = entity(
         model,
         product_ifc_class(item),
@@ -184,6 +186,7 @@ def product_entity(model: ifcopenshell.file, item: dict[str, Any]) -> Any:
             "QuantityPerTrainset": item["quantity_per_trainset"],
             "Unit": item["unit"],
             "GeometryStatus": "design-reference-not-released",
+            "GeometryLevel": geometry_level(str(item["id"]), str(item["route"]), str(item["maturity"])),
         },
     )
     return product

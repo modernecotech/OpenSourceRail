@@ -33,6 +33,7 @@ from osr_mech.cad import Compound, Part  # noqa: E402
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS  # noqa: E402
 from osr_mech.rolling_stock.product_geometry import (  # noqa: E402
     flatten_geometry,
+    geometry_level,
     geometry_specs,
     product_geometry,
 )
@@ -153,6 +154,37 @@ def product_ifc_class(product: dict[str, Any]) -> str:
         return "IfcElectricMotor"
     if product_id == "LM3-EXT-P040":
         return "IfcUnitaryEquipment"
+    form = geometry_specs()[str(product_id)].form
+    if form in {"beam", "underframe", "bolster", "side-frame", "roof-rack", "frame", "bogie-frame"}:
+        return "IfcMember"
+    if form in {"cowl", "cowl-kit", "cowl-service", "body-module"}:
+        return "IfcPlate"
+    if form in {"floor", "floor-panel"}:
+        return "IfcSlab"
+    if form in {"liner"}:
+        return "IfcCovering"
+    if form in {"cable-tray", "rail-kit", "service-rail"}:
+        return "IfcCableCarrierSegment"
+    if form in {"harness"}:
+        return "IfcCableSegment"
+    if form in {"piping"}:
+        return "IfcPipeSegment"
+    if form in {"duct-kit"}:
+        return "IfcDuctSegment"
+    if form in {"battery"}:
+        return "IfcElectricFlowStorageDevice"
+    if form in {"power-electronics", "charger", "hv-panel", "control-panel"}:
+        return "IfcElectricDistributionBoard"
+    if form in {"sensor-kit", "sensor-pack"}:
+        return "IfcSensor"
+    if form in {"pis", "camera-kit", "recorder"}:
+        return "IfcCommunicationsAppliance"
+    if form in {"pneumatic-kit"}:
+        return "IfcCompressor"
+    if form in {"coupler", "pivot", "link-kit", "brake-kit", "bogie-guards", "recovery-kit", "adapter-kit", "bridge"}:
+        return "IfcDiscreteAccessory"
+    if form in {"tray", "roof-equipment"}:
+        return "IfcElementAssembly"
     return "IfcBuildingElementProxy"
 
 
@@ -480,6 +512,7 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
                 "ReleaseLevel": process["release_level"],
                 "GeometryForm": geometry_specs()[item["id"]].form,
                 "GeometryStatus": "design-reference-not-released",
+                "GeometryLevel": geometry_level(str(item["id"]), str(item["route"]), str(item["maturity"])),
                 "GeometryEnvelopeMm": " x ".join(
                     f"{value:g}" for value in geometry_specs()[item["id"]].envelope_mm
                 ),

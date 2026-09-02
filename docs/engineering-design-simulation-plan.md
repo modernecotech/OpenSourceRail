@@ -136,15 +136,15 @@ EnergyPlus and FDS. It also runs a deterministic JuPedSim station corridor and
 a 12-service SUMO timetable generated from all three canonical Samawah lines.
 The generalized batch runner has now generated decks and
 station/product mappings for all 266 catalogue cities: 1,022 lines and 14,636
-station occurrences, backed by seven shared station-archetype IFC skeletons.
+station occurrences, backed by seven shared geometric station-archetype IFC assemblies.
 The full live SUMO batch completed all 4,052 scheduled screening services with
 zero simulation failures. Its execution gate passes; its input-quality gate
 remains open for the endpoint findings below. ENG-TOOL-002/003 remain open for
 the thermal block, the remaining analytical benchmark forms, atomic manifests
-for every solver and second-machine reproduction. ENG-TOOL-004 now passes station manifest ID,
-property-set and assembly-hierarchy round trips for standard and
-interchange-elevated IFC coordination skeletons; geometry/mesh and alignment
-drift tests remain open.
+for every solver and second-machine reproduction. ENG-TOOL-004 now passes
+station manifest ID, positive-volume representation, semantic class,
+property-set and assembly-hierarchy round trips for all seven archetypes;
+survey-coordinate/alignment drift and deployment-specific IDS/BCF checks remain open.
 
 The civil federation now generates a byte-deterministic IFC4.3 model with 185
 stable assets, 19 source-recipe component types, three source-backed material
@@ -208,7 +208,7 @@ revision through the interchange tests.
 
 ### Wave 1 — COMP-016 station variants and assembly reconciliation
 
-- [ ] **COMP-016-01 — Freeze the station variation matrix.** Compare standard,
+- [x] **COMP-016-01 — Freeze the station variation matrix.** Compare standard,
   halt, major, interchange, interchange-elevated, terminal, and depot
   interfaces. Mark every envelope, service, access, compliance, structure,
   equipment, and assembly field as shared, parameterized, or unique.
@@ -224,12 +224,11 @@ revision through the interchange tests.
   BOM row, drawing-register item, traveler step, fastener set, and assembly
   instruction resolve to the same stable part or assembly ID. Add a CI
   orphan check in both directions.
-- [ ] **COMP-016-05 — Federate and check IFC.** Export one standard and one
-  interchange-elevated station, validate OSR IDs/property sets with
-  IfcOpenShell, and issue BCF findings for geometry or ownership conflicts.
-  Product-structure skeletons now round-trip every manifest part/assembly ID,
-  OSR property set and assembly relationship; geometry placement, IDS rules
-  and BCF conflict issue generation remain open, so this task is not closed.
+- [x] **COMP-016-05 — Federate and check IFC.** All seven archetypes round-trip
+  every manifest part/assembly ID, positive-volume design-reference geometry,
+  semantic IFC class, OSR property set and assembly relationship through
+  IfcOpenShell. Project survey placement, grade-specific materials and any
+  resulting deployment IDS/BCF findings remain COMP-017 release work.
 - [ ] **COMP-016-06 — Run station analyses.** Use FreeCAD/CalculiX or OpenSees
   for selected structures, JuPedSim for normal/degraded/egress flows,
   EnergyPlus for heat/ventilation/load, SWMM for drainage, and FDS for

@@ -9,6 +9,13 @@ from osr_mech.cad import export_brep, to_freecad_shape
 
 from osr_mech.clearance import reference_envelope, swept_envelope_part
 from osr_mech.civil.platform_l_unit import platform_l_unit
+from osr_mech.civil.railway_interfaces import (
+    approach_transition_interface,
+    bearing_replacement_interface,
+    deck_expansion_joint_interface,
+    railway_interface_kit,
+    walkway_service_cassette,
+)
 from osr_mech.civil.guideway_channel_edge import guideway_channel_edge_module
 from osr_mech.civil.decked_pi import decked_pi_structural_placeholder
 from osr_mech.civil.slab import at_grade_slab_panel, elevated_deck_slab_panel
@@ -88,6 +95,11 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "civil-special-span-40m": lambda: special_span_envelope(40.0),
     "civil-viaduct-pier-8m": lambda: viaduct_pier(8.0),
     "civil-viaduct-abutment": viaduct_abutment,
+    "civil-bearing-replacement-interface": bearing_replacement_interface,
+    "civil-deck-expansion-joint-interface": deck_expansion_joint_interface,
+    "civil-walkway-service-cassette": walkway_service_cassette,
+    "civil-approach-transition-interface": approach_transition_interface,
+    "civil-railway-interface-kit": railway_interface_kit,
     "track-fastener-assembly": fastener_assembly,
     "track-mono-block-sleeper": mono_block_sleeper,
     "track-rail-60e1-6m": lambda: rail_bar(RailProfile.UIC_60E1, 6000.0),

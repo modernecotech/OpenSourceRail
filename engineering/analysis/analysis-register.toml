@@ -50,11 +50,11 @@ id = "OSR-AN-IFC-STN-001"
 title = "Station manifest to IFC stable-ID interchange"
 status = "screening"
 tool = "IfcOpenShell 0.8.5"
-input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/interchange/station_ifc.py"]
-result_path = "build/engineering/interchange/stations/summary.json"
-acceptance_criterion = "Standard and interchange-elevated product and assembly IDs round-trip without missing or unexpected IDs"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "design/component-catalogue/src/osr_mech/station/product_geometry.py", "engineering/interchange/station_ifc.py"]
+result_path = "engineering/models/bim/reference/stations/summary.json"
+acceptance_criterion = "All seven station archetypes provide positive-volume geometry for every installed product row and round-trip IFC4.3 IDs, properties and assembly hierarchy without drift"
 converged = true
-limitations = "Product-structure coordination skeleton only; geometry placement, materials, IDS and BCF remain open."
+limitations = "Coordinated design-reference geometry and supplier/site envelopes only; project CRS, surveyed placement, grade-specific materials, detailed lift/equipment internals, station IDS/BCF and engineering release remain open."
 
 [[analysis]]
 id = "OSR-AN-IFC-CIV-001"
@@ -85,9 +85,20 @@ status = "screening"
 tool = "IfcOpenShell 0.8.5 / FreeCAD 1.1"
 input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/product_geometry.py", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "design/component-catalogue/src/osr_mech/freecad_product_library.py", "engineering/interchange/trainset_manufacturing_ifc.py", "engineering/interchange/lm3_product_ifc_library.py"]
 result_path = "engineering/models/bim/reference/lm3-manufacturing-reference.index.json"
-acceptance_criterion = "All 101 product items have positive, envelope-contained geometry (423 primitives); 101 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; 54 bought-in rows map once to 25 manufacturer-family anchors; nine timed methods, 59 tasks and 20 multi-part tooling families have no missing required tags"
+acceptance_criterion = "All 101 product items have positive, envelope-contained geometry (523 primitives); 101 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; 54 bought-in rows map once to 25 manufacturer-family anchors; nine timed methods, 59 tasks and 20 multi-part tooling families have no missing required tags"
 converged = true
 limitations = "Design-reference product/method/tooling coordination only. Assembly libraries use a spaced inspection-fixture layout and do not claim installed-coordinate or tolerance closure. The selectable FreeCAD solids and IFC meshes are not released mould surfaces, shop drawings or NC data; supplier freeze, calculations, qualified processes, first articles, independent assessment and national authorisation remain open."
+
+[[analysis]]
+id = "OSR-AN-RS-FEA-SCREEN-001"
+title = "LM3 chassis, body, bogie and articulation gross-load-path screens"
+status = "screening"
+tool = "FreeCAD 1.1.3 / CalculiX 2.23 / Gmsh 4.15"
+input_paths = ["design/component-catalogue/src/osr_mech/freecad_fea.py", "design/component-catalogue/catalog/fea"]
+result_path = "design/component-catalogue/catalog/fea/screening-summary.json"
+acceptance_criterion = "Nine deterministic beam screens converge and remain within their stated displacement and 0.6 x S355 yield screening limits"
+converged = true
+limitations = "Gross static beam screens only. Bolt holes, weld toes, local brackets, composite/glazing participation, fatigue, crashworthiness, modal, thermal and derailment cases require detailed models and accepted load specifications."
 
 [[analysis]]
 id = "OSR-AN-RS-HV-001"

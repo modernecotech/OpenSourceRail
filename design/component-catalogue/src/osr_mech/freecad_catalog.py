@@ -27,6 +27,11 @@ CATALOGUE = {
         ("civil-special-span-40m", "Special crossing interface envelope, 40 m"),
         ("civil-viaduct-pier-8m", "Shared double-track viaduct pier, 8 m"),
         ("civil-viaduct-abutment", "Shared double-track viaduct abutment"),
+        ("civil-bearing-replacement-interface", "Bearing replacement and jacking interface"),
+        ("civil-deck-expansion-joint-interface", "Deck expansion-joint maintenance interface"),
+        ("civil-walkway-service-cassette", "Walkway, cable and drainage cassette"),
+        ("civil-approach-transition-interface", "At-grade to structure approach transition"),
+        ("civil-railway-interface-kit", "Reusable civil/railway interface review kit"),
         ("platform-l-unit", "Precast platform L-unit"),
     ],
     "Track and permanent way": [

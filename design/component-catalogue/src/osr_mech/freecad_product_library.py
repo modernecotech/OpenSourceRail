@@ -19,6 +19,7 @@ from osr_mech.freecad_assembly_review import _canonicalise_fcstd
 from osr_mech.freecad_occ_bridge import safe_name
 from osr_mech.rolling_stock.product_geometry import (
     flatten_geometry,
+    geometry_level,
     geometry_specs,
     product_geometry,
 )
@@ -101,6 +102,7 @@ def _add_product_geometry(doc, group, item: dict[str, object], placement: tuple[
         _property(obj, "App::PropertyString", "PrimitiveId", f"{item['id']}-{index:03d}")
         _property(obj, "App::PropertyString", "Route", str(item["route"]))
         _property(obj, "App::PropertyString", "Maturity", str(item["maturity"]))
+        _property(obj, "App::PropertyString", "GeometryLevel", geometry_level(str(item["id"]), str(item["route"]), str(item["maturity"])))
         _property(obj, "App::PropertyInteger", "QuantityPerTrainset", int(item["quantity_per_trainset"]))
         _property(obj, "App::PropertyString", "ParentAssembly", str(item["parent"]))
         _property(obj, "App::PropertyString", "RepresentationState", context)

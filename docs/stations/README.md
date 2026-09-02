@@ -1,6 +1,9 @@
 # Stations
 
-This folder contains station envelope and drawing-register material.
+This folder is the station front door. The controlled source now generates
+positive-volume FreeCAD and IFC4.3 assemblies for all seven station archetypes;
+site coordinates, surveys, calculations and authority approval remain external
+release gates.
 The default architecture is a prefab steel portal frame with a solar
 canopy, platform edge systems, flat ground-level passenger slabs, and
 minimal station-building scope. Overbridges, lifts, and stairs are
@@ -12,6 +15,9 @@ reserved for elevated/stacked sites or local road barriers.
 |---|---|
 | [`standard-archetype/`](standard-archetype/) | Shared `standard` station archetype envelope, canopy, accessibility, services, compliance, and drawing register |
 | [`../../design/component-catalogue/catalog/buildable-stations/`](../../design/component-catalogue/catalog/buildable-stations/) | Generated EBOM/MBOM and matched assembly travelers for every station catalogue entry |
+| [`../../design/component-catalogue/models/cad/stations/`](../../design/component-catalogue/models/cad/stations/) | Native FreeCAD assemblies for halt, standard, major, two interchange forms, terminal and depot-terminal |
+| [`../../engineering/models/bim/reference/stations/`](../../engineering/models/bim/reference/stations/) | Matching geometric IFC4.3 assemblies plus deterministic validation summary |
+| [`../../engineering/models/model-coverage.md`](../../engineering/models/model-coverage.md) | Product-by-product geometry fidelity and release-evidence boundary |
 
 ## FreeCAD Station Scene Renders
 
@@ -31,6 +37,8 @@ context with ballastless track and driverless rolling stock.
 | Generated station FreeCAD screenshots | [`../screenshots/stations/`](../screenshots/stations/) |
 | Station scene generation script | [`../../design/component-catalogue/scripts/freecad_station_scenes.sh`](../../design/component-catalogue/scripts/freecad_station_scenes.sh) |
 | Station BOM/traveler generator | [`../../tools/automation/buildable-stations.sh`](../../tools/automation/buildable-stations.sh) |
+| All-variant FreeCAD generator | [`../../design/component-catalogue/scripts/freecad_station_library.sh`](../../design/component-catalogue/scripts/freecad_station_library.sh) |
+| All-variant IFC generator | [`../../engineering/interchange/station_ifc.py`](../../engineering/interchange/station_ifc.py) |
 | Generated per-archetype BOMs | `build/bom/stations/` after running the generator |
 | Station design RFC | [`../rfcs/0010-station-design-standard.md`](../rfcs/0010-station-design-standard.md) |
 | Rapid implementation and recycled materials review | [`../civil/rapid-implementation-materials-review.md`](../civil/rapid-implementation-materials-review.md) |

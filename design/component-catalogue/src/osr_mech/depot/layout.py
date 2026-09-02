@@ -3,10 +3,11 @@
 The generator produces a Compound per archetype containing:
 
 - A site pad (dark gravel)
-- Stabling-track centrelines (paint stripes)
+- Stabling rails, stop blocks, inspection/wash pits and drainage
 - Inspection / maintenance shed (roof + walls, glass)
 - Wheelset-lathe bay (main-heavy only, smaller building)
 - Training-wing block (optional; main-heavy only)
+- Crane runways and visible power/air/fire service spines where a shed exists
 - Throat turnout ladder (one turnout per stall pair; straight mainline
   entry + diverging per stall)
 
@@ -160,7 +161,7 @@ def _site_pad(fp: DepotFootprint) -> Part:
 
 
 def _stabling_tracks(fp: DepotFootprint) -> list[Part]:
-    """Paint-stripe the centreline of each stabling track."""
+    """Model the two running rails, centreline and stop block for each stall."""
     out: list[Part] = []
     track_len = _STABLING_TRACK_LENGTH_M * 1000.0
     track_start_x = (_THROAT_LENGTH_M + fp.shed_length_m + 20.0) * 1000.0
@@ -175,7 +176,82 @@ def _stabling_tracks(fp: DepotFootprint) -> list[Part]:
         t.color = COLOR_PAINT
         t.label = f"Stabling track {i + 1}"
         out.append(t)
+        for rail_y in (y - 717.5, y + 717.5):
+            rail = Box(track_len, 75.0, 172.0).locate(Location((track_start_x + track_len / 2.0, rail_y, 86.0)))
+            rail.color = COLOR_WHEEL_LATHE
+            rail.label = f"Stabling track {i + 1} running rail"
+            out.append(rail)
+        stop = Box(1_000.0, 3_000.0, 950.0).locate(
+            Location((track_start_x + track_len - 500.0, y, 475.0))
+        )
+        stop.color = COLOR_CHARGER
+        stop.label = f"Stabling track {i + 1} stop block and passive marker"
+        out.append(stop)
     return out
+
+
+def _inspection_and_wash(fp: DepotFootprint) -> list[Part]:
+    """Add maintainable pit, drainage and wash/recycling coordination zones."""
+
+    if fp.shed_length_m <= 0.0:
+        return []
+    shed_start = _THROAT_LENGTH_M * 1000.0
+    y0 = -(fp.stall_count - 1) * _STABLING_TRACK_SPACING_M * 1000.0 / 2.0
+    parts: list[Part] = []
+    service_tracks = min(2, fp.stall_count)
+    for index in range(service_tracks):
+        y = y0 + index * _STABLING_TRACK_SPACING_M * 1000.0
+        pit = Box(32_000.0, 1_350.0, 1_500.0).locate(Location((shed_start + 20_000.0, y, -750.0)))
+        pit.label = f"Inspection pit {index + 1} with guarded access envelope"
+        pit.color = COLOR_SHED_WALL
+        parts.append(pit)
+        drain = Box(34_000.0, 220.0, 280.0).locate(Location((shed_start + 20_000.0, y, -1_360.0)))
+        drain.label = f"Inspection pit {index + 1} drained sump route"
+        drain.color = COLOR_WHEEL_LATHE
+        parts.append(drain)
+    if fp.archetype is DepotArchetype.MAIN_HEAVY:
+        wash_y = y0 + min(2, fp.stall_count - 1) * _STABLING_TRACK_SPACING_M * 1000.0
+        wash = Box(24_000.0, 4_200.0, 4_800.0).locate(Location((shed_start + 55_000.0, wash_y, 2_400.0)))
+        wash.label = "Train wash arch and exclusion envelope"
+        wash.color = COLOR_SHED_GLAZING
+        parts.append(wash)
+        recycle = Box(6_000.0, 3_000.0, 2_200.0).locate(Location((shed_start + 69_000.0, wash_y + 4_000.0, 1_100.0)))
+        recycle.label = "Wash-water settlement and recycling skid envelope"
+        recycle.color = COLOR_WHEEL_LATHE
+        parts.append(recycle)
+    return parts
+
+
+def _shed_services(fp: DepotFootprint) -> list[Part]:
+    """Visible crane, electrical, compressed-air and fire-service interfaces."""
+
+    if fp.shed_length_m <= 0.0:
+        return []
+    L = fp.shed_length_m * 1000.0
+    W = fp.shed_width_m * 1000.0
+    H = fp.shed_height_m * 1000.0
+    cx = _THROAT_LENGTH_M * 1000.0 + L / 2.0
+    parts: list[Part] = []
+    for y in (-W * 0.34, W * 0.34):
+        runway = Box(L * 0.88, 360.0, 480.0).locate(Location((cx, y, H * 0.78)))
+        runway.label = "Overhead-crane runway and end-stop envelope"
+        runway.color = COLOR_WHEEL_LATHE
+        parts.append(runway)
+    crane = Box(1_200.0, W * 0.68, 650.0).locate(Location((cx, 0.0, H * 0.76)))
+    crane.label = "Bridge-crane cross travel and hook service envelope"
+    crane.color = COLOR_CHARGER
+    parts.append(crane)
+    routes = (
+        ("LV/HV segregated overhead service spine", W * 0.42, COLOR_CHARGER),
+        ("Compressed-air ring main", W * 0.36, COLOR_SHED_ROOF),
+        ("Fire main, alarm and emergency-light route", -W * 0.42, Color(0.75, 0.08, 0.06)),
+    )
+    for label, y, colour in routes:
+        route = Box(L * 0.90, 120.0, 120.0).locate(Location((cx, y, H * 0.68)))
+        route.label = label
+        route.color = colour
+        parts.append(route)
+    return parts
 
 
 def throat_turnout_count(stall_count: int) -> int:
@@ -365,6 +441,8 @@ def depot_layout(
     parts.extend(_stabling_tracks(fp))
     parts.extend(_chargers(fp))
     parts.extend(_shed(fp))
+    parts.extend(_inspection_and_wash(fp))
+    parts.extend(_shed_services(fp))
     parts.extend(_wheel_lathe(fp))
     parts.extend(_training_wing(fp))
     return Compound(

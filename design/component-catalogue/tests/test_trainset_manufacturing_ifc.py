@@ -19,7 +19,7 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert index["tooling_count"] == 20
     assert index["tooling_representation_part_count"] >= 200
     assert index["product_geometry_count"] == 101
-    assert index["product_representation_part_count"] == 423
+    assert index["product_representation_part_count"] == 523
     assert index["supplier_anchor_count"] == 25
     assert index["supplier_anchored_external_product_count"] == 54
     assert len(model.by_type("IfcVehicle")) == 1
@@ -27,9 +27,10 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert len(model.by_type("IfcDoor")) == 1
     assert len(model.by_type("IfcWindow")) == 2
     assert len(model.by_type("IfcFurniture")) == 3
-    assert len(model.by_type("IfcCovering")) == 1
+    assert len(model.by_type("IfcCovering")) == 5
     assert len(model.by_type("IfcElectricMotor")) == 1
-    assert len(model.by_type("IfcDiscreteAccessory")) == 20
+    # Includes semantic subtypes such as furniture, lights and fasteners.
+    assert len(model.by_type("IfcDiscreteAccessory")) == 30
     assert len(model.by_type("IfcShapeRepresentation")) == 121
     represented_product_tags = {
         str(item.Tag)

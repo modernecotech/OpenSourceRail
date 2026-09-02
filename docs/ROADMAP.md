@@ -20,14 +20,14 @@ complete merely by adding documentation:
 | Boundary | Remaining evidence | Authoritative register |
 |---|---|---|
 | City and civil design | Survey control, parcels/utilities, terrain and geotechnics, released alignment/foundations/spans, local drainage/fire/access review | [Civil deployment checklist](civil/deployment-release-checklist.md) and [analysis register](../engineering/analysis/analysis-register.toml) |
-| Stations | Supplier and site closures, structural calculations, egress/accessibility validation, product geometry beyond the current IFC structure handoff | [Station gap register](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) |
+| Stations | The 45-product/seven-variant FreeCAD and IFC4.3 coordination geometry is present. Supplier/site freeze, survey placement, structural calculations, drainage/fire studies, egress/accessibility validation, construction drawings and approvals remain. | [Station gap register](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) and [model coverage](../engineering/models/model-coverage.md) |
 | Rolling stock | The 101-part/26-assembly IFC and FreeCAD design-reference library, nine solver-backed structural screens, 39 manufacturer candidates covering all 54 bought-in rows, and one executable 12-gate first-article route are present. Supplier configuration freeze, production FEA/drawings, weld/NDT, thermal/HV/fire tests and first articles remain. | [COTS/RFQ candidates](../design/component-catalogue/catalog/buildable-trainset/cots-candidates.md), [LM3 public work packages](../design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md), [execution pack](../design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md) and [evidence status](../design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md) |
 | Control electronics | Exact pilot SKUs, real harness/enclosure/power packs, deployable signed images, bench evidence, and KiCad fabrication data where a custom board is selected | [Control-electronics release checklist](../control-electronics/release-checklist.md) |
 | Software and operations | Ops Core now has local authenticated RBAC, managed evidence/documents, server attestations and verified backup archives. Production TLS/SSO/MFA, hosted secret/backup operations, signed live train actions, production transports, HIL and operator validation remain. | [Operations Portal](operations-portal/README.md), [certification](certification/README.md) and [operations validation](operations/validation-checklist.md) |
 | Approval | Supplier qualification, physical tests, independent safety assessment and national/operator authorization | [Safety case](safety-case/README.md) and [certification](certification/README.md) |
 
 Repository work that can advance without external evidence remains visible in
-the analysis register and workstream table: charger duty, station IFC geometry,
+the analysis register and workstream table: charger duty, station analyses,
 passenger assignment/pedestrian capacity, native IFC viewing, and LandXML
 station/civil/cant sidecar mapping. The review closed the previously planned
 CalculiX thermal-block solver benchmark with a deterministic input, analytical

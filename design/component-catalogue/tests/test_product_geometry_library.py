@@ -48,7 +48,7 @@ def test_geometry_registry_exactly_covers_product_tree_and_envelopes() -> None:
             bounds.max.Z - bounds.min.Z,
         )
         assert all(value <= limit + 1e-6 for value, limit in zip(actual, spec.envelope_mm))
-    assert primitive_count == 423
+    assert primitive_count == 523
 
 
 def test_geometry_forms_cover_key_build_and_bought_in_systems() -> None:

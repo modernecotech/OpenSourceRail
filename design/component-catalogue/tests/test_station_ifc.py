@@ -6,6 +6,8 @@ import json
 import runpy
 from pathlib import Path
 
+import ifcopenshell
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXPORTER = REPO_ROOT / "engineering/interchange/station_ifc.py"
@@ -29,4 +31,16 @@ def test_station_ifc_is_byte_deterministic(tmp_path: Path) -> None:
 
     assert first.read_bytes() == second.read_bytes()
     assert first_report["ifc_sha256"] == second_report["ifc_sha256"]
+    assert first_report["geometry_status"] == "coordinated-design-reference-geometry"
+    assert first_report["represented_product_count"] == first_report["product_item_count"]
+    assert first_report["primitive_count"] > first_report["product_item_count"]
+    reopened = ifcopenshell.open(str(first))
+    represented = {
+        str(item.Tag)
+        for item in reopened.by_type("IfcProduct")
+        if getattr(item, "Tag", None) and getattr(item, "Representation", None)
+    }
+    assert represented.issuperset(item["id"] for item in standard["product_items"])
+    assert reopened.by_type("IfcSlab")
+    assert reopened.by_type("IfcElectricDistributionBoard")
     assert module["FIXED_HEADER_TIMESTAMP"] in first.read_text(encoding="utf-8")

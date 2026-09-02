@@ -12,7 +12,7 @@ records, release authorities, and predecessor controls must be closed.
 |---|---:|
 | Assets in register | 241 |
 | Manufacturing schedule rows | 1,136 |
-| Manufacturing material/BOM rows | 16,654 |
+| Manufacturing material/BOM rows | 17,428 |
 | Manufacturing QA verification rows | 1,136 |
 | Construction QA action rows | 963 |
 | Maintenance handover schedule rows | 1,178 |
@@ -26,7 +26,7 @@ records, release authorities, and predecessor controls must be closed.
 | Source | Rows |
 |---|---:|
 | `project_kit` | 1,303 |
-| `rolling_stock_bom` | 14,448 |
+| `rolling_stock_bom` | 15,222 |
 | `rolling_stock_cots_fitout` | 903 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS

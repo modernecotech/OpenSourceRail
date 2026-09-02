@@ -11,14 +11,14 @@ records, release authorities, and predecessor controls must be closed.
 | Item | Count / Status |
 |---|---:|
 | Assets in register | 161 |
-| Manufacturing schedule rows | 654 |
-| Manufacturing material/BOM rows | 10,393 |
-| Manufacturing QA verification rows | 654 |
+| Manufacturing schedule rows | 735 |
+| Manufacturing material/BOM rows | 11,041 |
+| Manufacturing QA verification rows | 735 |
 | Construction QA action rows | 621 |
 | Maintenance handover schedule rows | 764 |
-| Manufacturing rows with material refs | 654 / 654 |
-| Manufacturing rows with verification refs | 654 / 654 |
-| Manufacturing rows linked to QA actions | 654 / 654 |
+| Manufacturing rows with material refs | 735 / 735 |
+| Manufacturing rows with verification refs | 735 / 735 |
+| Manufacturing rows linked to QA actions | 735 / 735 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
@@ -26,7 +26,7 @@ records, release authorities, and predecessor controls must be closed.
 | Source | Rows |
 |---|---:|
 | `project_kit` | 916 |
-| `rolling_stock_bom` | 8,910 |
+| `rolling_stock_bom` | 9,558 |
 | `rolling_stock_cots_fitout` | 567 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
@@ -38,7 +38,7 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 162 |
+| `qa-10-carbody-structure` | 243 |
 | `qa-11-bogie-wheelset` | 81 |
 | `qa-12-traction-brake-battery` | 81 |
 | `qa-13-passenger-systems` | 81 |
