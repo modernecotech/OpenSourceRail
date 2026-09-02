@@ -167,7 +167,7 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def write_manifest(path: Path, datasets: list[dict[str, Any]]) -> None:
     fields = [
-        "dataset_id", "package_revision", "file_path", "sha256", "capture_date",
+        "dataset_id", "file_role", "package_revision", "file_path", "sha256", "capture_date",
         "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status",
     ]
     path.parent.mkdir(parents=True, exist_ok=True)

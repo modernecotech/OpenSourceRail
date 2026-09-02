@@ -13,6 +13,8 @@ readonly PYTHON_VERSION="3.11.13"
 readonly TRUNK_VERSION="0.21.8"
 readonly PLAYWRIGHT_ROOT="$TOOL_ROOT/playwright"
 readonly ENGINEERING_NATIVE_ROOT="${HOME}/.local/share/opensource-rail/native"
+readonly RTKLIB_COMMIT="180043ee24b6d2b168f98b64be15f69d50046b1a"
+readonly RTKLIB_ARCHIVE_SHA="e8231a6931b0c5d12fb26368572cd3fc515fbd09d4a1c7597ed4955f15a10113"
 readonly ENERGYPLUS_RELEASE="EnergyPlus-26.1.0-6f2e40d102-Linux-Ubuntu24.04-x86_64"
 readonly ENERGYPLUS_ARCHIVE_SHA="b651f4197bfc147a0f66dc92c58895d1748bdadb7a0288145fa9d50375edfbca"
 readonly FDS_RELEASE="FDS-6.11.1_SMV-6.11.2"
@@ -358,6 +360,7 @@ engineering_ready() {
     "$ROOT/.venv/bin/python" -c \
         'import _pytest, ifcopenshell, jupedsim, networkx, openseespy, pandapower, pvlib, pybamm, pyswmm' \
         >/dev/null 2>&1 || return 1
+    [[ -x "$TOOL_BIN/rnx2rtkp" ]] || return 1
     if [[ "$ARCH" == "x86_64" ]]; then
         [[ -x "$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE/energyplus-26.1.0" ]] \
             || return 1
@@ -370,12 +373,26 @@ engineering_ready() {
 }
 
 install_engineering_native() {
+    temporary_directory
+    mkdir -p "$ENGINEERING_NATIVE_ROOT" "$TOOL_BIN"
+
+    local rtklib_dir="$ENGINEERING_NATIVE_ROOT/RTKLIB-$RTKLIB_COMMIT"
+    if [[ ! -x "$rtklib_dir/app/consapp/rnx2rtkp/gcc/rnx2rtkp" ]]; then
+        section "Installing RTKLIB 2.4.3-b34 in your home folder"
+        local rtklib_archive="$INSTALL_TEMP/rtklib-$RTKLIB_COMMIT.tar.gz"
+        download_checked \
+            "https://codeload.github.com/tomojitakasu/RTKLIB/tar.gz/$RTKLIB_COMMIT" \
+            "$RTKLIB_ARCHIVE_SHA" "$rtklib_archive"
+        tar -xzf "$rtklib_archive" -C "$ENGINEERING_NATIVE_ROOT"
+        make -C "$rtklib_dir/app/consapp/rnx2rtkp/gcc" \
+            LDLIBS='-lm -lrt'
+    fi
+    ln -sfn "$rtklib_dir/app/consapp/rnx2rtkp/gcc/rnx2rtkp" "$TOOL_BIN/rnx2rtkp"
+
     if [[ "$ARCH" != "x86_64" ]]; then
         printf 'EnergyPlus/FDS official Linux bundles are skipped on %s; the Python engineering stack remains available.\n' "$ARCH"
         return
     fi
-    temporary_directory
-    mkdir -p "$ENGINEERING_NATIVE_ROOT" "$TOOL_BIN"
 
     local energy_dir="$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE"
     if [[ ! -x "$energy_dir/energyplus-26.1.0" ]]; then

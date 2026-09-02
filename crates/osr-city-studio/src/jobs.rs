@@ -103,7 +103,7 @@ impl JobManager {
                 category: "Survey / site evidence".to_string(),
                 label: "Issue field-evidence brief".to_string(),
                 description:
-                    "Generate the revision-locked survey, utilities, land, flood, ground, workshop, fleet and reality-capture requirements plus an empty receipt manifest."
+                    "Generate revision-locked field requirements, an empty receipt, and explicit survey-control and ground-model readiness gates."
                         .to_string(),
             },
             JobAdapterInfo {
@@ -448,9 +448,115 @@ impl JobManager {
                     generator.display()
                 )
             })?;
-        let log = command_log(&output);
+        let mut log = command_log(&output);
         if !output.status.success() {
             bail!("field-evidence generator exited unsuccessfully\n{log}");
+        }
+        self.progress(
+            id,
+            70,
+            "Generating control, ground-model and alignment readiness gates",
+        )
+        .await?;
+        for (name, script) in [
+            ("survey-control", "engineering/analysis/survey_control.py"),
+            ("ground-model", "engineering/analysis/ground_model.py"),
+        ] {
+            let program = self.repository_root.join(script);
+            let gate_output = Command::new(&python)
+                .arg(&program)
+                .arg("--city")
+                .arg(&self.slug)
+                .arg("--manifest")
+                .arg(output_dir.join("survey-input-manifest.csv"))
+                .arg("--evidence-root")
+                .arg(&output_dir)
+                .arg("--output-dir")
+                .arg(&output_dir)
+                .current_dir(&self.repository_root)
+                .kill_on_drop(true)
+                .output()
+                .await
+                .with_context(|| format!("running allowlisted {name} readiness generator"))?;
+            let gate_log = command_log(&gate_output);
+            log.push_str(&gate_log);
+            if !gate_output.status.success() {
+                bail!("{name} readiness generator exited unsuccessfully\n{gate_log}");
+            }
+        }
+        let alignment_program = self
+            .repository_root
+            .join("engineering/analysis/surveyed_alignment.py");
+        let alignment_output = Command::new(&python)
+            .arg(&alignment_program)
+            .arg("--design")
+            .arg(&snapshot_path)
+            .arg("--manifest")
+            .arg(output_dir.join("surveyed-alignment-input-manifest.csv"))
+            .arg("--evidence-root")
+            .arg(&output_dir)
+            .arg("--output-dir")
+            .arg(&output_dir)
+            .arg("--write-placeholder-manifest")
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .context("running allowlisted surveyed-alignment readiness generator")?;
+        let alignment_log = command_log(&alignment_output);
+        log.push_str(&alignment_log);
+        if !alignment_output.status.success() {
+            bail!("surveyed-alignment readiness generator exited unsuccessfully\n{alignment_log}");
+        }
+        let route_fit_program = self
+            .repository_root
+            .join("engineering/analysis/route_station_fit.py");
+        let route_fit_output = Command::new(&python)
+            .arg(&route_fit_program)
+            .arg("--design")
+            .arg(&snapshot_path)
+            .arg("--manifest")
+            .arg(output_dir.join("route-station-fit-input-manifest.csv"))
+            .arg("--evidence-root")
+            .arg(&output_dir)
+            .arg("--output-dir")
+            .arg(&output_dir)
+            .arg("--write-placeholder-manifest")
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .context("running allowlisted route/station-fit readiness generator")?;
+        let route_fit_log = command_log(&route_fit_output);
+        log.push_str(&route_fit_log);
+        if !route_fit_output.status.success() {
+            bail!("route/station-fit readiness generator exited unsuccessfully\n{route_fit_log}");
+        }
+        let drainage_ground_program = self
+            .repository_root
+            .join("engineering/analysis/drainage_ground_design.py");
+        let drainage_ground_output = Command::new(&python)
+            .arg(&drainage_ground_program)
+            .arg("--design")
+            .arg(&snapshot_path)
+            .arg("--manifest")
+            .arg(output_dir.join("drainage-ground-input-manifest.csv"))
+            .arg("--evidence-root")
+            .arg(&output_dir)
+            .arg("--output-dir")
+            .arg(&output_dir)
+            .arg("--write-placeholder-manifest")
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .context("running allowlisted drainage/ground readiness generator")?;
+        let drainage_ground_log = command_log(&drainage_ground_output);
+        log.push_str(&drainage_ground_log);
+        if !drainage_ground_output.status.success() {
+            bail!(
+                "drainage/ground readiness generator exited unsuccessfully\n{drainage_ground_log}"
+            );
         }
         let artifacts = vec![
             self.artifact(
@@ -464,6 +570,58 @@ impl JobManager {
             self.artifact(
                 "survey-receipt-manifest",
                 &output_dir.join("survey-input-manifest.csv"),
+            )?,
+            self.artifact(
+                "survey-control-readiness",
+                &output_dir.join("control-processing-readiness.json"),
+            )?,
+            self.artifact(
+                "survey-control-readable",
+                &output_dir.join("control-processing-readiness.md"),
+            )?,
+            self.artifact(
+                "ground-model-readiness",
+                &output_dir.join("ground-model-readiness.json"),
+            )?,
+            self.artifact(
+                "ground-model-readable",
+                &output_dir.join("ground-model-readiness.md"),
+            )?,
+            self.artifact(
+                "surveyed-alignment-manifest",
+                &output_dir.join("surveyed-alignment-input-manifest.csv"),
+            )?,
+            self.artifact(
+                "surveyed-alignment-readiness",
+                &output_dir.join("surveyed-alignment-readiness.json"),
+            )?,
+            self.artifact(
+                "surveyed-alignment-readable",
+                &output_dir.join("surveyed-alignment-readiness.md"),
+            )?,
+            self.artifact(
+                "route-station-fit-manifest",
+                &output_dir.join("route-station-fit-input-manifest.csv"),
+            )?,
+            self.artifact(
+                "route-station-fit-readiness",
+                &output_dir.join("route-station-fit-readiness.json"),
+            )?,
+            self.artifact(
+                "route-station-fit-readable",
+                &output_dir.join("route-station-fit-readiness.md"),
+            )?,
+            self.artifact(
+                "drainage-ground-manifest",
+                &output_dir.join("drainage-ground-input-manifest.csv"),
+            )?,
+            self.artifact(
+                "drainage-ground-readiness",
+                &output_dir.join("drainage-ground-readiness.json"),
+            )?,
+            self.artifact(
+                "drainage-ground-readable",
+                &output_dir.join("drainage-ground-readiness.md"),
             )?,
         ];
         Ok((output.status.code().unwrap_or(0), log, artifacts))

@@ -277,7 +277,9 @@ The engineering hub exposes five fixed adapters:
 
 - **Issue field-evidence brief** locks the current candidate revision and
   generates survey, utility, land, flood, geotechnical, workshop/fleet and
-  reality-capture requirements plus an explicitly unaccepted receipt manifest;
+  reality-capture requirements, an explicitly unaccepted receipt manifest,
+  and the corresponding survey-control, ground-model and per-line surveyed-
+  alignment, route-fit and drainage/ground readiness reports and empty controlled receipts;
 - **Compile GIS package** publishes the candidate snapshot, GeoJSON, day-type
   scenarios, and manifest;
 - **Run network simulation** executes a fixed one-hour compact `osr-sim` run

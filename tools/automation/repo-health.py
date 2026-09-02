@@ -384,6 +384,19 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/survey/field-evidence-brief.json",
                 city_dir / "engineering/survey/field-evidence-brief.md",
                 city_dir / "engineering/survey/survey-input-manifest.csv",
+                city_dir / "engineering/survey/control-processing-readiness.json",
+                city_dir / "engineering/survey/control-processing-readiness.md",
+                city_dir / "engineering/survey/ground-model-readiness.json",
+                city_dir / "engineering/survey/ground-model-readiness.md",
+                city_dir / "engineering/survey/surveyed-alignment-input-manifest.csv",
+                city_dir / "engineering/survey/surveyed-alignment-readiness.json",
+                city_dir / "engineering/survey/surveyed-alignment-readiness.md",
+                city_dir / "engineering/survey/route-station-fit-input-manifest.csv",
+                city_dir / "engineering/survey/route-station-fit-readiness.json",
+                city_dir / "engineering/survey/route-station-fit-readiness.md",
+                city_dir / "engineering/survey/drainage-ground-input-manifest.csv",
+                city_dir / "engineering/survey/drainage-ground-readiness.json",
+                city_dir / "engineering/survey/drainage-ground-readiness.md",
                 city_dir / "engineering/simulation/validation-summary.json",
                 city_dir / "engineering/sumo/summary.json",
                 city_dir / "operations/acceptance-evidence-report.md",
@@ -464,6 +477,14 @@ def check_city_artifacts() -> list[Finding]:
 
             survey_brief_path = city_dir / "engineering/survey/field-evidence-brief.json"
             survey_manifest_path = city_dir / "engineering/survey/survey-input-manifest.csv"
+            survey_control_path = city_dir / "engineering/survey/control-processing-readiness.json"
+            ground_model_path = city_dir / "engineering/survey/ground-model-readiness.json"
+            alignment_receipt_path = city_dir / "engineering/survey/surveyed-alignment-input-manifest.csv"
+            alignment_gate_path = city_dir / "engineering/survey/surveyed-alignment-readiness.json"
+            route_fit_receipt_path = city_dir / "engineering/survey/route-station-fit-input-manifest.csv"
+            route_fit_gate_path = city_dir / "engineering/survey/route-station-fit-readiness.json"
+            drainage_ground_receipt_path = city_dir / "engineering/survey/drainage-ground-input-manifest.csv"
+            drainage_ground_gate_path = city_dir / "engineering/survey/drainage-ground-readiness.json"
             if survey_brief_path.is_file():
                 survey = json.loads(survey_brief_path.read_text())
                 survey_generator = REPO_ROOT / "engineering/analysis/survey_package.py"
@@ -486,6 +507,121 @@ def check_city_artifacts() -> list[Finding]:
                         row.get("id") for row in survey.get("datasets", [])
                     }:
                         findings.append(Finding(survey_manifest_path, "survey receipt rows do not match brief datasets"))
+                    if "file_role" not in (survey_rows[0] if survey_rows else {}):
+                        findings.append(Finding(survey_manifest_path, "survey receipt manifest lacks file_role"))
+
+            if survey_control_path.is_file():
+                control = json.loads(survey_control_path.read_text())
+                control_generator = REPO_ROOT / "engineering/analysis/survey_control.py"
+                control_requirements = REPO_ROOT / "lib/templates/survey-control-processing.toml"
+                if control.get("generator_sha256") != hashlib.sha256(control_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(survey_control_path, "survey-control generator hash is stale"))
+                if control.get("requirements_sha256") != hashlib.sha256(control_requirements.read_bytes()).hexdigest():
+                    findings.append(Finding(survey_control_path, "survey-control requirements hash is stale"))
+                if control.get("receipt_manifest_sha256") != hashlib.sha256(survey_manifest_path.read_bytes()).hexdigest():
+                    findings.append(Finding(survey_control_path, "survey-control receipt hash is stale"))
+                if not control.get("report_valid"):
+                    findings.append(Finding(survey_control_path, "survey-control receipt is invalid"))
+                if control.get("status") == "awaiting-field-data" and (
+                    control.get("processing_completed")
+                    or control.get("technical_screen_passed")
+                    or control.get("authority_accepted")
+                ):
+                    findings.append(Finding(survey_control_path, "pending control report claims completed gates"))
+
+            if ground_model_path.is_file():
+                ground = json.loads(ground_model_path.read_text())
+                ground_generator = REPO_ROOT / "engineering/analysis/ground_model.py"
+                ground_requirements = REPO_ROOT / "lib/templates/ground-model-processing.toml"
+                receipt_validator = REPO_ROOT / "engineering/analysis/survey_control.py"
+                if ground.get("generator_sha256") != hashlib.sha256(ground_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(ground_model_path, "ground-model generator hash is stale"))
+                if ground.get("requirements_sha256") != hashlib.sha256(ground_requirements.read_bytes()).hexdigest():
+                    findings.append(Finding(ground_model_path, "ground-model requirements hash is stale"))
+                if ground.get("receipt_validator_sha256") != hashlib.sha256(receipt_validator.read_bytes()).hexdigest():
+                    findings.append(Finding(ground_model_path, "ground-model receipt validator hash is stale"))
+                if ground.get("receipt_manifest_sha256") != hashlib.sha256(survey_manifest_path.read_bytes()).hexdigest():
+                    findings.append(Finding(ground_model_path, "ground-model receipt hash is stale"))
+                if not ground.get("report_valid"):
+                    findings.append(Finding(ground_model_path, "ground-model receipt is invalid"))
+                if ground.get("status") == "awaiting-ground-model-data" and (
+                    ground.get("technical_screen_passed") or ground.get("authority_accepted")
+                ):
+                    findings.append(Finding(ground_model_path, "pending ground-model report claims completed gates"))
+
+            if alignment_gate_path.is_file():
+                alignment = json.loads(alignment_gate_path.read_text())
+                alignment_generator = REPO_ROOT / "engineering/analysis/surveyed_alignment.py"
+                alignment_requirements = REPO_ROOT / "lib/templates/surveyed-alignment-processing.toml"
+                alignment_validator = REPO_ROOT / "tools/osr-aln-convert/src/osr_aln/validate.py"
+                landxml_converter = REPO_ROOT / "tools/osr-aln-convert/src/osr_aln/landxml_to_osr_aln.py"
+                expected_lines = [str(line.get("name")) for line in design.get("lines", [])]
+                if alignment.get("generator_sha256") != hashlib.sha256(alignment_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment generator hash is stale"))
+                if alignment.get("requirements_sha256") != hashlib.sha256(alignment_requirements.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment requirements hash is stale"))
+                if alignment.get("design_sha256") != hashlib.sha256(design_path.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment design hash is stale"))
+                if alignment.get("receipt_manifest_sha256") != hashlib.sha256(alignment_receipt_path.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment receipt hash is stale"))
+                if alignment.get("osr_aln_validator_sha256") != hashlib.sha256(alignment_validator.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment validator hash is stale"))
+                if alignment.get("landxml_converter_sha256") != hashlib.sha256(landxml_converter.read_bytes()).hexdigest():
+                    findings.append(Finding(alignment_gate_path, "LandXML converter hash is stale"))
+                if alignment.get("line_ids") != expected_lines:
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment line set is stale"))
+                if not alignment.get("report_valid"):
+                    findings.append(Finding(alignment_gate_path, "surveyed-alignment receipt is invalid"))
+                if alignment.get("status") == "awaiting-surveyed-alignments" and (
+                    alignment.get("technical_screen_passed") or alignment.get("authority_accepted")
+                ):
+                    findings.append(Finding(alignment_gate_path, "pending surveyed-alignment report claims completed gates"))
+
+            if route_fit_gate_path.is_file():
+                route_fit = json.loads(route_fit_gate_path.read_text())
+                route_fit_generator = REPO_ROOT / "engineering/analysis/route_station_fit.py"
+                route_fit_requirements = REPO_ROOT / "lib/templates/route-station-fit-processing.toml"
+                expected_lines = [str(line.get("name")) for line in design.get("lines", [])]
+                expected_stations = [str(station.get("id")) for station in design.get("stations", [])]
+                if route_fit.get("generator_sha256") != hashlib.sha256(route_fit_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(route_fit_gate_path, "route-fit generator hash is stale"))
+                if route_fit.get("requirements_sha256") != hashlib.sha256(route_fit_requirements.read_bytes()).hexdigest():
+                    findings.append(Finding(route_fit_gate_path, "route-fit requirements hash is stale"))
+                if route_fit.get("design_sha256") != hashlib.sha256(design_path.read_bytes()).hexdigest():
+                    findings.append(Finding(route_fit_gate_path, "route-fit design hash is stale"))
+                if route_fit.get("receipt_manifest_sha256") != hashlib.sha256(route_fit_receipt_path.read_bytes()).hexdigest():
+                    findings.append(Finding(route_fit_gate_path, "route-fit receipt hash is stale"))
+                if route_fit.get("line_ids") != expected_lines or route_fit.get("station_ids") != expected_stations:
+                    findings.append(Finding(route_fit_gate_path, "route-fit line/station scope is stale"))
+                if not route_fit.get("report_valid"):
+                    findings.append(Finding(route_fit_gate_path, "route-fit receipt is invalid"))
+                if route_fit.get("status") == "awaiting-route-fit-evidence" and (
+                    route_fit.get("technical_screen_passed") or route_fit.get("authority_accepted")
+                ):
+                    findings.append(Finding(route_fit_gate_path, "pending route-fit report claims completed gates"))
+
+            if drainage_ground_gate_path.is_file():
+                drainage_ground = json.loads(drainage_ground_gate_path.read_text())
+                dg_generator = REPO_ROOT / "engineering/analysis/drainage_ground_design.py"
+                dg_requirements = REPO_ROOT / "lib/templates/drainage-ground-design-processing.toml"
+                expected_lines = [str(line.get("name")) for line in design.get("lines", [])]
+                expected_stations = [str(station.get("id")) for station in design.get("stations", [])]
+                for key, source, label in (
+                    ("generator_sha256", dg_generator, "generator"),
+                    ("requirements_sha256", dg_requirements, "requirements"),
+                    ("design_sha256", design_path, "design"),
+                    ("receipt_manifest_sha256", drainage_ground_receipt_path, "receipt"),
+                ):
+                    if drainage_ground.get(key) != hashlib.sha256(source.read_bytes()).hexdigest():
+                        findings.append(Finding(drainage_ground_gate_path, f"drainage/ground {label} hash is stale"))
+                if drainage_ground.get("line_ids") != expected_lines or drainage_ground.get("station_ids") != expected_stations:
+                    findings.append(Finding(drainage_ground_gate_path, "drainage/ground line/station scope is stale"))
+                if not drainage_ground.get("report_valid"):
+                    findings.append(Finding(drainage_ground_gate_path, "drainage/ground receipt is invalid"))
+                if drainage_ground.get("status") == "awaiting-drainage-ground-evidence" and (
+                    drainage_ground.get("technical_screen_passed") or drainage_ground.get("authority_accepted")
+                ):
+                    findings.append(Finding(drainage_ground_gate_path, "pending drainage/ground report claims completed gates"))
 
             package_manifest_path = city_dir / "package-manifest.json"
             if package_manifest_path.is_file():

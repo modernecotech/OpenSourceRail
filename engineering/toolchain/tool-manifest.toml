@@ -56,12 +56,13 @@ source = "https://flathub.org/apps/org.eclipse.sumo"
 
 [[tool]]
 id = "rtklib"
-version = "2.4.3.b34+dfsg-1build2"
-status = "deferred-to-survey-mobilisation"
-distribution = "not installed by baseline setup; deployment team freezes a distro package or source build"
-binary_sha256 = "5952dad28b92077cd41d550b2fb3bb176cd5bb6f9493f12baf3043b5ec938796"
+version = "2.4.3-b34"
+status = "available-through-optional-engineering-setup; required when field data arrives"
+distribution = "official source tag, checksum-pinned user-local build; internal tide model without optional IERS/Fortran linkage"
+commit = "180043ee24b6d2b168f98b64be15f69d50046b1a"
+archive_sha256 = "e8231a6931b0c5d12fb26368572cd3fc515fbd09d4a1c7597ed4955f15a10113"
 license = "LicenseRef-RTKLIB-BSD-style"
-source = "https://packages.ubuntu.com/noble/rtklib"
+source = "https://github.com/tomojitakasu/RTKLIB/releases/tag/v2.4.3-b34"
 
 [[tool]]
 id = "energyplus"

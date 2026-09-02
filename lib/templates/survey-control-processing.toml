@@ -1,0 +1,95 @@
+schema_version = 1
+template_revision = "2026-09-02"
+dataset_id = "SUR-CTRL"
+solver = "rnx2rtkp"
+output_format = "RTKLIB position solution (.pos) plus immutable execution log"
+raw_data_policy = "RINEX observations and navigation data remain in access-controlled project storage. Git records only the receipt manifest, file hashes, requirements and non-sensitive processing/acceptance summaries."
+technical_boundary = "The automated result is a reproducibility and solution-quality screen. It is not a network adjustment, survey certification or permission to use the control for design or construction."
+acceptance_boundary = "Only the appointed deployment survey authority can accept the control network after redundant occupations, independent checks, network adjustment, datum/geoid review and monument documentation."
+
+[receipt]
+required_metadata_fields = ["package_revision", "capture_date", "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status"]
+allowed_acceptance_statuses = ["received", "checked", "accepted", "rejected"]
+
+[authority_record]
+accepted_decision = "accepted"
+required_fields = ["decision", "authority_name", "authority_role", "signed_at", "document_revision", "approved_horizontal_crs", "approved_vertical_datum", "controlled_record_reference"]
+
+[technical_screen]
+minimum_epochs = 60
+minimum_fixed_fraction = 0.95
+allowed_solution_quality_codes = [1, 2]
+provisional_only = true
+authority_must_confirm_or_replace = true
+
+[rtklib_configuration]
+forbid_external_file_options = true
+maximum_runtime_seconds = 3600
+
+[rtklib_configuration.required_values]
+"pos1-posmode" = "static"
+"pos1-soltype" = "combined"
+"out-solformat" = "llh"
+"out-timeform" = "hms"
+"out-degform" = "deg"
+"out-solstatic" = "all"
+"out-outstat" = "residual"
+
+[[file_role]]
+id = "rover_observation"
+title = "Rover observation"
+required_for_processing = true
+required_for_authority_review = true
+extensions = [".obs", ".o", ".rnx"]
+rinex_short_type_letters = ["o", "d"]
+
+[[file_role]]
+id = "base_observation"
+title = "Base observation"
+required_for_processing = true
+required_for_authority_review = true
+extensions = [".obs", ".o", ".rnx"]
+rinex_short_type_letters = ["o", "d"]
+
+[[file_role]]
+id = "navigation"
+title = "Broadcast or precise navigation input"
+required_for_processing = true
+required_for_authority_review = true
+extensions = [".nav", ".n", ".p", ".g", ".h", ".q", ".rnx", ".sp3", ".clk"]
+rinex_short_type_letters = ["n", "p", "g", "h", "q"]
+
+[[file_role]]
+id = "rtklib_configuration"
+title = "Frozen RTKLIB processing configuration"
+required_for_processing = true
+required_for_authority_review = true
+extensions = [".conf"]
+
+[[file_role]]
+id = "field_log"
+title = "Instrument, antenna, occupation and field log"
+required_for_processing = false
+required_for_authority_review = true
+extensions = [".csv", ".json", ".pdf"]
+
+[[file_role]]
+id = "monument_schedule"
+title = "Control monument coordinate and condition schedule"
+required_for_processing = false
+required_for_authority_review = true
+extensions = [".csv", ".json", ".gpkg", ".pdf"]
+
+[[file_role]]
+id = "network_adjustment_report"
+title = "Independent checks and least-squares network adjustment"
+required_for_processing = false
+required_for_authority_review = true
+extensions = [".json", ".pdf"]
+
+[[file_role]]
+id = "authority_acceptance_record"
+title = "Signed survey-authority acceptance record"
+required_for_processing = false
+required_for_authority_review = true
+extensions = [".json"]

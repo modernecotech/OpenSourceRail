@@ -21,7 +21,21 @@ The generated outputs from these inputs live under
 The shared [`templates/field-evidence.toml`](templates/field-evidence.toml)
 drives the pre-mobilisation survey/site brief for any city. Generated briefs
 remain unaccepted until the named project authorities approve the requirements
-and field deliveries.
+and field deliveries. [`templates/survey-control-processing.toml`](templates/survey-control-processing.toml)
+defines the corresponding GNSS receipt roles and provisional RTKLIB screen;
+neither automated processing nor a quality code is survey acceptance.
+[`templates/ground-model-processing.toml`](templates/ground-model-processing.toml)
+then defines the QGIS/ODM/CloudCompare derivative, checkpoint, master-
+GeoPackage and authority gates without duplicating raw field data in Git.
+[`templates/surveyed-alignment-processing.toml`](templates/surveyed-alignment-processing.toml)
+adds the subsequent per-line OSR-ALN, LandXML round-trip, platform/yard/turnout
+interface and multi-discipline acceptance contract.
+[`templates/route-station-fit-processing.toml`](templates/route-station-fit-processing.toml)
+then defines the utility, land, flood, access, integration, road, construction-
+logistics, possession, issue-closure and coordinated route-fit contract.
+[`templates/drainage-ground-design-processing.toml`](templates/drainage-ground-design-processing.toml)
+defines the subsequent SWMM replay, hydrology, geotechnical zoning, foundation/
+ground-treatment schedule, conditional OpenGeoSys and authority gate.
 
 Civil cost inputs are split deliberately: edit
 [`templates/civil-cost-calibration.toml`](templates/civil-cost-calibration.toml)

@@ -6,6 +6,29 @@
   covering survey control, utilities, land, flood, ground, workshop/fleet and
   reality capture. City Studio can issue the revision-locked brief and empty
   receipt manifest through a fifth allowlisted engineering adapter.
+- Added the next survey-control gate: controlled relative-path, metadata and
+  SHA-256 receipt validation, deterministic `rnx2rtkp` execution and quality
+  parsing, and a separate explicit survey-authority acceptance record. Pilot
+  reports remain `awaiting-field-data`; no observations or approvals are invented.
+- Added the checksum-pinned official RTKLIB 2.4.3-b34 source build to the
+  one-command optional engineering setup, installed user-locally on supported
+  Linux architectures without requiring a distribution-specific package.
+- Added the surveyed-ground-model gate for accepted control, GeoPackage
+  structure, terrain/orthophoto signatures, registered E57/LAS/LAZ clouds,
+  independent-check RMSE, ODM/CloudCompare reports, voids and authority release.
+  The pilot reports remain explicitly pending because no field dataset exists.
+- Added the surveyed-alignment acceptance gate: a deterministic per-line
+  receipt checks explicit OSR-ALN horizontal/vertical/cant content, all hard
+  gates and stations, LandXML re-import hashes and tolerances, platform/yard/
+  turnout/clearance evidence, and a separate signed multi-discipline release.
+- Added the following route/station-fit gate, binding utility, land, flood,
+  accessibility, yard/intercity, road, construction-logistics and possession
+  evidence to every live line and station while rejecting unresolved high or
+  critical issues before coordinated authority acceptance.
+- Added a drainage/ground-design gate that independently reruns received SWMM
+  inputs, checks report/source provenance and continuity, validates per-line/
+  station catalogue foundation or ground-treatment schedules, requires actual
+  deep-element lengths, and makes OpenGeoSys evidence trigger-dependent.
 - Added a deterministic all-variant station systems package: OpenSees canopy
   gravity/uplift, JuPedSim normal/degraded/egress and repeatable-bay SWMM
   drainage, plus tracked EnergyPlus and FDS runs. The adverse enclosed depot

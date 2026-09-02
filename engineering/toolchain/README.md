@@ -16,6 +16,13 @@ The installed environments are intentionally not stored in Git:
 distribution channel, license identifier/source, Flatpak commit or binary
 checksum, and deliberately deferred tools.
 
+RTKLIB is installed user-locally with the optional engineering applications,
+but remains unused until surveyed-pilot mobilisation because the public
+repository contains no raw observations. The deterministic
+[`survey_control.py`](../analysis/survey_control.py) gate validates controlled
+receipts and runs `rnx2rtkp` when the frozen deployment binary and real RINEX
+inputs are present; its automated quality result never records survey approval.
+
 Use the root [one-command setup](../../README.md#one-command-linux-setup) and
 accept the optional engineering applications when prompted.
 

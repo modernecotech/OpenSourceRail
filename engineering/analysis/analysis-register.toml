@@ -92,6 +92,61 @@ converged = true
 limitations = "EPSG:4326 catalogue geometry only; utilities, parcels, terrain, vertical datum, survey uncertainty and issue closure remain pending."
 
 [[analysis]]
+id = "OSR-AN-SUR-CTRL-001"
+title = "Samawah survey-control GNSS processing and authority gate"
+status = "planned"
+tool = "RTKLIB rnx2rtkp 2.4.3 b34"
+input_paths = ["lib/templates/field-evidence.toml", "lib/templates/survey-control-processing.toml", "engineering/analysis/survey_control.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/survey-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.json"
+acceptance_criterion = "Controlled RINEX receipts and frozen configuration reproduce the position solution; technical criteria pass; independent checks and network adjustment close; appointed survey authority accepts the CRS, vertical datum and monument schedule in a controlled record."
+converged = false
+limitations = "The tracked receipt is empty; RTKLIB is installed only when the optional engineering setup is selected. The readiness report is a workflow gate, not processed field evidence or accepted survey control."
+
+[[analysis]]
+id = "OSR-AN-SUR-GROUND-001"
+title = "Samawah surveyed-ground-model processing and authority gate"
+status = "planned"
+tool = "QGIS/GDAL 3.13.2 / OpenDroneMap deployment release / CloudCompare 2.13.2"
+input_paths = ["lib/templates/field-evidence.toml", "lib/templates/ground-model-processing.toml", "engineering/analysis/ground_model.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/survey-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.json"
+acceptance_criterion = "Accepted control, surveyed 3D features, DTM, orthophoto, registered cloud, independent checkpoints, void register and processing reports reconcile in one master GeoPackage and are accepted by the appointed survey authority and information manager."
+converged = false
+limitations = "No deployment terrain, imagery, point cloud or accepted master GeoPackage has been received. The tracked report validates the workflow and remains awaiting data."
+
+[[analysis]]
+id = "OSR-AN-SUR-ALN-001"
+title = "Samawah surveyed-alignment, LandXML and interface acceptance gate"
+status = "planned"
+tool = "OSR-ALN validator / deterministic LandXML converter"
+input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "lib/templates/surveyed-alignment-processing.toml", "engineering/analysis/surveyed_alignment.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.json"
+acceptance_criterion = "Every design line has survey-fitted horizontal, vertical and cant content; OSR-ALN hard gates and deterministic LandXML re-import pass; every platform and the yard, turnout and clearance interfaces reconcile; appointed project authorities accept the immutable hashes."
+converged = false
+limitations = "The tracked receipt is empty and planning alignments are explicitly excluded. Field-fitted geometry, independent interface checks and signed approvals remain external."
+
+[[analysis]]
+id = "OSR-AN-SUR-FIT-001"
+title = "Samawah route and station fit coordination gate"
+status = "planned"
+tool = "OSR controlled receipt and scope reconciler"
+input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "lib/templates/route-station-fit-processing.toml", "engineering/analysis/route_station_fit.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.json"
+acceptance_criterion = "Accepted ground and alignments plus utility, land, flood, station-access, intercity/yard, road, construction-logistics and possession evidence cover every current line/station; no unresolved critical/high issue remains; coordinated authorities accept immutable hashes."
+converged = false
+limitations = "The tracked receipt is empty. Catalogue GIS is not utility, title, flood, traffic, access, logistics or possession evidence, and no authority acceptance is claimed."
+
+[[analysis]]
+id = "OSR-AN-CIV-DRA-GEO-001"
+title = "Samawah drainage and ground-design replay/acceptance gate"
+status = "planned"
+tool = "EPA SWMM via PySWMM / OSR foundation catalogue / conditional OpenGeoSys"
+input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "lib/templates/drainage-ground-design-processing.toml", "lib/templates/foundation-catalog.toml", "engineering/analysis/drainage_ground_design.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.json"
+acceptance_criterion = "Accepted storm/level and geotechnical evidence drives a reproducible passing SWMM model and checked foundation/ground-treatment schedule covering every line/station; conditional groundwater analysis and residual risks close; appointed authorities accept immutable evidence."
+converged = false
+limitations = "The tracked receipt is empty. The station 75 mm/h/free-outfall screen and catalogue foundation selectors are not project drainage or geotechnical design."
+
+[[analysis]]
 id = "OSR-AN-ENE-CITY-001"
 title = "Samawah station microgrid and PV planning screen"
 status = "screening"

@@ -1,0 +1,114 @@
+schema_version = 1
+template_revision = "2026-09-02"
+raw_data_policy = "Keep source imagery, raw scans and intermediate dense clouds in access-controlled project storage. Git records requirements, file hashes, non-sensitive QA summaries and accepted derivatives only."
+technical_boundary = "Automated inspection checks file integrity, GeoPackage structure, independent-check residuals and processing-report completeness. It does not prove feature completeness, datum correctness or fitness for design."
+acceptance_boundary = "Only the appointed survey authority and information manager can accept the master ground model after control, coverage, void, epoch, uncertainty, CRS and vertical-datum review."
+
+[receipt]
+required_metadata_fields = ["package_revision", "capture_date", "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status"]
+allowed_acceptance_statuses = ["received", "checked", "accepted", "rejected"]
+
+[technical_screen]
+minimum_independent_checkpoints = 10
+maximum_horizontal_rmse_m = 0.05
+maximum_vertical_rmse_m = 0.05
+provisional_only = true
+authority_must_confirm_or_replace = true
+
+[processing_report]
+required_fields = ["status", "tool", "version", "capture_epoch", "coordinate_system", "vertical_datum", "uncertainty_model", "source_hashes", "settings", "output_hashes"]
+accepted_status = "success"
+
+[authority_record]
+accepted_decision = "accepted"
+required_fields = ["decision", "authority_name", "authority_role", "information_manager", "signed_at", "document_revision", "approved_horizontal_crs", "approved_vertical_datum", "controlled_record_reference"]
+
+[[input]]
+dataset_id = "SUR-CTRL"
+file_role = "control_acceptance_report"
+title = "Accepted survey-control processing report"
+extensions = [".json"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "topographic_features"
+title = "Three-dimensional surveyed features and breaklines"
+extensions = [".gpkg"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "terrain_dtm"
+title = "Bare-earth digital terrain model"
+extensions = [".tif", ".tiff"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "checkpoint_residuals"
+title = "Independent checkpoint residuals"
+extensions = [".csv"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-IMAGE"
+file_role = "odm_processing_report"
+title = "OpenDroneMap processing and provenance report"
+extensions = [".json"]
+expected_tool = "OpenDroneMap"
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-IMAGE"
+file_role = "orthophoto"
+title = "Accepted orthophoto"
+extensions = [".tif", ".tiff"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-SCAN"
+file_role = "registered_point_cloud"
+title = "Control-registered point cloud"
+extensions = [".e57", ".las", ".laz"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-SCAN"
+file_role = "cloudcompare_qa_report"
+title = "CloudCompare registration and comparison report"
+extensions = [".json"]
+expected_tool = "CloudCompare"
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "void_register"
+title = "Coverage, void, obscuration and inaccessible-area register"
+extensions = [".csv", ".gpkg"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "master_ground_model"
+title = "Federated master survey GeoPackage"
+extensions = [".gpkg"]
+required_for_technical_screen = true
+required_for_authority_review = true
+
+[[input]]
+dataset_id = "SUR-TOPO"
+file_role = "ground_model_acceptance_record"
+title = "Signed ground-model acceptance record"
+extensions = [".json"]
+required_for_technical_screen = false
+required_for_authority_review = true

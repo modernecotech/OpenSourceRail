@@ -25,7 +25,9 @@ survey/map conversions, and inspect derived thermal-unit, deck-gap and bearing q
 regenerate GIS and simulator inputs, and compare the working
 candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted field-evidence, GIS, simulator, alignment-exchange and civil-BIM
-adapters and persists their progress, logs, exit state, and immutable artifact copies. The civil BIM
+adapters and persists their progress, logs, exit state, and immutable artifact copies. The field-evidence
+adapter also exposes control, ground, alignment, route-fit and drainage/foundation readiness without
+claiming missing field data or approvals. The civil BIM
 adapter emits an IFC4.3 rail federation, object index, quantities, provenance,
 19 reusable source-recipe component types, three source-backed material
 families, one native section profile driving 32 rail extrusions, two typed

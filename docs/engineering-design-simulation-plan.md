@@ -273,19 +273,44 @@ complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.
   Studio job. Mobilisation, field capture and acceptance remain external.
 - [ ] **COMP-017-02 — Process and accept control.** Process GNSS observations
   with RTKLIB, retain raw and processing reports in controlled project
-  storage, and have the deployment survey authority accept the network.
+  storage, and have the deployment survey authority accept the network. The
+  deterministic receipt/hash validator, RTKLIB execution profile, solution-
+  quality screen and separate authority-record gate are implemented; the
+  tracked pilot reports correctly remain `awaiting-field-data` until real
+  observations and signed acceptance arrive.
 - [ ] **COMP-017-03 — Build the surveyed ground model.** Use QGIS, ODM and
   CloudCompare to register terrain/point clouds and create the master
   GeoPackage. Record residuals, voids, epochs, vertical datum, and uncertainty.
+  The shared receipt, file-signature/GeoPackage inspection, independent-
+  checkpoint RMSE, processing-report and authority-record gates are now
+  implemented. Samawah and Mosul remain `awaiting-ground-model-data`; source
+  capture, processing and acceptance require the deployment survey campaign.
 - [ ] **COMP-017-04 — Confirm or replace all three alignments.** Fit survey-
   grade horizontal/vertical geometry and cant, verify platform/yard/turnout
   interfaces, export OSR-ALN, and pass hard gates plus a LandXML round trip.
+  The shared receipt and deterministic gate now validate every design line,
+  exact station reconciliation, explicit horizontal/vertical/cant content,
+  the OSR-ALN hard gates, converter-derived LandXML re-import hashes,
+  round-trip/interface tolerances and a separate signed acceptance record.
+  The pilots remain `awaiting-surveyed-alignments` until accepted ground data,
+  fitted geometry, interface evidence and project-authority approvals arrive.
 - [ ] **COMP-017-05 — Confirm route and station fit.** Resolve utilities,
   property, flood level, access, intercity-station/yard integration, road
   interaction, construction compounds, lifting paths, and possession/staging.
+  The shared gate now hash-locks each discipline package, verifies exact
+  coverage of every current line and station, checks that all eight domain
+  statuses are resolved, rejects open high/critical issues, and keeps the
+  coordinated authority record separate. The pilots remain
+  `awaiting-route-fit-evidence` until the real studies and approvals arrive.
 - [ ] **COMP-017-06 — Complete drainage and ground design.** Run SWMM with
   accepted storms and levels; size ground/foundation variants from borehole
   evidence. Use OpenGeoSys only where groundwater/coupled behavior warrants it.
+  The shared gate now deterministically reruns the received SWMM input, checks
+  continuity and provenance, validates catalogue foundation/ground-treatment
+  selections and actual deep-element lengths, and requires exact line/station
+  coverage. A reviewed trigger record makes OpenGeoSys evidence conditional;
+  the pilots remain `awaiting-drainage-ground-evidence` until project inputs,
+  calculations and approvals exist.
 - [ ] **COMP-017-07 — Complete per-span structural checks.** Instantiate the
   actual span/pier/abutment/foundation schedule. Use OpenSees for global,
   seismic and soil-spring cases and verified FreeCAD/CalculiX templates for

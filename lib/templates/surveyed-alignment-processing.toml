@@ -1,0 +1,64 @@
+schema_version = 1
+template_revision = "2026-09-02"
+technical_boundary = "The automated gate proves receipt integrity, OSR-ALN hard-gate compliance, explicit horizontal/vertical/cant content, line and station reconciliation, deterministic LandXML re-import, and recorded interface tolerances. It does not establish that the survey, fit, clearances, possessions or construction design are correct."
+acceptance_boundary = "Only the appointed alignment designer, survey authority, track engineer and information manager can accept an alignment for design use in a controlled signed record."
+controlled_storage_policy = "Keep signed source surveys, native authoring files and large point clouds in controlled project storage. Git carries the empty receipt, requirements, reproducible checks and non-sensitive accepted exchange derivatives."
+
+[receipt]
+required_metadata_fields = ["package_revision", "file_path", "sha256", "capture_date", "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status"]
+allowed_acceptance_statuses = ["received", "checked", "accepted", "rejected"]
+
+[technical_screen]
+maximum_horizontal_roundtrip_delta_m = 0.005
+maximum_vertical_roundtrip_delta_m = 0.005
+maximum_chainage_roundtrip_delta_m = 0.005
+maximum_platform_horizontal_offset_m = 0.020
+maximum_platform_vertical_offset_m = 0.010
+require_explicit_vertical_profile = true
+require_explicit_cant_schedule = true
+provisional_only = true
+
+[roundtrip_report]
+accepted_status = "passed"
+required_fields = ["status", "tool", "version", "source_osr_aln_sha256", "landxml_sha256", "reimported_osr_aln_sha256", "maximum_horizontal_delta_m", "maximum_vertical_delta_m", "maximum_chainage_delta_m", "station_count_match", "element_count_match"]
+
+[interface_report]
+accepted_status = "passed"
+required_fields = ["status", "coordinate_system", "vertical_datum", "alignment_hashes", "line_interfaces"]
+
+[authority_record]
+accepted_decision = "accepted"
+required_fields = ["decision", "alignment_designer", "survey_authority", "track_engineer", "information_manager", "signed_at", "document_revision", "approved_horizontal_crs", "approved_vertical_datum", "controlled_record_reference", "approved_alignment_hashes"]
+
+[[global_input]]
+file_role = "ground_model_readiness"
+title = "Authority-accepted surveyed ground-model report"
+extensions = [".json"]
+required_for_technical_screen = true
+
+[[global_input]]
+file_role = "interface_verification_report"
+title = "Platform, yard, turnout and clearance interface verification"
+extensions = [".json"]
+required_for_technical_screen = true
+
+[[global_input]]
+file_role = "alignment_acceptance_record"
+title = "Signed alignment acceptance record"
+extensions = [".json"]
+required_for_technical_screen = false
+
+[[line_input]]
+file_role = "surveyed_osr_aln"
+title = "Survey-fitted OSR-ALN alignment"
+extensions = [".aln.toml"]
+
+[[line_input]]
+file_role = "landxml_export"
+title = "LandXML exchange export"
+extensions = [".xml", ".landxml"]
+
+[[line_input]]
+file_role = "landxml_roundtrip_report"
+title = "LandXML deterministic round-trip comparison"
+extensions = [".json"]

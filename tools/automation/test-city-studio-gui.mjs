@@ -548,6 +548,92 @@ async function main() {
     accepted: selectedArtifactPreview.content.field_evidence_accepted,
   })`);
   assert(fieldEvidence.datasetCount === 11 && fieldEvidence.briefReady && !fieldEvidence.mobilisation && !fieldEvidence.accepted, "field-evidence job issues requirements without claiming external acceptance", `${fieldEvidence.datasetCount} packages`);
+  await openArtifact(jobIds.fieldEvidence, "survey-control-readiness");
+  const surveyControlReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    processing: selectedArtifactPreview.content.processing_completed,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    surveyControlReadiness.status === "awaiting-field-data"
+      && !surveyControlReadiness.processing
+      && !surveyControlReadiness.technical
+      && !surveyControlReadiness.accepted,
+    "survey-control GUI artifact preserves the external data and authority gates",
+  );
+  await openArtifact(jobIds.fieldEvidence, "ground-model-readiness");
+  const groundModelReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    groundModelReadiness.status === "awaiting-ground-model-data"
+      && groundModelReadiness.missing === 10
+      && !groundModelReadiness.technical
+      && !groundModelReadiness.accepted,
+    "surveyed-ground-model GUI artifact lists missing inputs without claiming acceptance",
+    `${groundModelReadiness.missing} missing technical roles`,
+  );
+  await openArtifact(jobIds.fieldEvidence, "surveyed-alignment-readiness");
+  const surveyedAlignmentReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    lines: selectedArtifactPreview.content.line_ids.length,
+    missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    surveyedAlignmentReadiness.status === "awaiting-surveyed-alignments"
+      && surveyedAlignmentReadiness.lines >= 3
+      && surveyedAlignmentReadiness.missing === 2 + 3 * surveyedAlignmentReadiness.lines
+      && !surveyedAlignmentReadiness.technical
+      && !surveyedAlignmentReadiness.accepted,
+    "surveyed-alignment GUI artifact exposes every line without claiming field acceptance",
+    `${surveyedAlignmentReadiness.lines} lines · ${surveyedAlignmentReadiness.missing} missing technical roles`,
+  );
+  await openArtifact(jobIds.fieldEvidence, "route-station-fit-readiness");
+  const routeFitReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    lines: selectedArtifactPreview.content.line_ids.length,
+    stations: selectedArtifactPreview.content.station_ids.length,
+    missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    routeFitReadiness.status === "awaiting-route-fit-evidence"
+      && routeFitReadiness.lines === surveyedAlignmentReadiness.lines
+      && routeFitReadiness.stations > 0
+      && routeFitReadiness.missing === 12
+      && !routeFitReadiness.technical
+      && !routeFitReadiness.accepted,
+    "route/station-fit GUI artifact tracks the edited city without claiming external evidence",
+    `${routeFitReadiness.lines} lines · ${routeFitReadiness.stations} stations`,
+  );
+  await openArtifact(jobIds.fieldEvidence, "drainage-ground-readiness");
+  const drainageGroundReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    lines: selectedArtifactPreview.content.line_ids.length,
+    stations: selectedArtifactPreview.content.station_ids.length,
+    missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    ogs: selectedArtifactPreview.content.opengeosys_required,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    drainageGroundReadiness.status === "awaiting-drainage-ground-evidence"
+      && drainageGroundReadiness.lines === routeFitReadiness.lines
+      && drainageGroundReadiness.stations === routeFitReadiness.stations
+      && drainageGroundReadiness.missing === 9
+      && !drainageGroundReadiness.ogs
+      && !drainageGroundReadiness.technical
+      && !drainageGroundReadiness.accepted,
+    "drainage/ground GUI artifact requires project evidence without automatically invoking OpenGeoSys",
+    `${drainageGroundReadiness.lines} lines · ${drainageGroundReadiness.stations} stations`,
+  );
   await openArtifact(jobIds.simulation, "simulation-result");
   await openArtifact(jobIds.alignment, "landxml");
   await openArtifact(jobIds.civil, "civil-bim-index");

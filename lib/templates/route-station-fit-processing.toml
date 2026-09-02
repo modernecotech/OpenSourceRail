@@ -1,0 +1,103 @@
+schema_version = 1
+template_revision = "2026-09-02"
+technical_boundary = "The automated gate proves that every current line and station is covered by hash-locked, internally consistent route-fit evidence and that no unresolved critical/high issue is hidden. It does not determine land rights, utility position, flood risk, accessibility, traffic safety, lifting feasibility or possession sufficiency."
+acceptance_boundary = "Only the relevant utility, land, drainage, highway, operations and design authorities can accept their evidence, followed by the engineer of record, operator and information manager accepting the coordinated route-fit record."
+controlled_storage_policy = "Store titles, personal data, utility-sensitive records, permits and native studies in the controlled project environment. Git carries requirements, empty receipts, immutable hashes and non-sensitive acceptance summaries."
+
+[receipt]
+required_metadata_fields = ["package_revision", "file_path", "sha256", "capture_date", "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status"]
+allowed_acceptance_statuses = ["received", "checked", "accepted", "rejected"]
+
+[verification_report]
+accepted_status = "passed"
+required_fields = ["status", "coordinate_system", "vertical_datum", "prerequisite_hashes", "evidence_hashes", "line_results", "station_results"]
+line_status_fields = ["utilities_status", "property_status", "flood_status", "intercity_yard_status", "road_status", "compound_status", "lifting_status", "possession_status"]
+station_status_fields = ["utilities_status", "property_status", "flood_status", "access_status", "road_status", "compound_status", "lifting_status", "staging_status"]
+accepted_result_status = "resolved"
+
+[issue_register]
+required_columns = ["issue_id", "scope_type", "scope_id", "domain", "severity", "status", "owner", "disposition", "evidence_reference"]
+allowed_severities = ["low", "medium", "high", "critical"]
+closed_statuses = ["closed", "accepted-transfer"]
+
+[authority_record]
+accepted_decision = "accepted"
+required_fields = ["decision", "engineer_of_record", "operator_representative", "information_manager", "utility_authority", "land_authority", "drainage_authority", "highway_authority", "signed_at", "document_revision", "approved_horizontal_crs", "approved_vertical_datum", "controlled_record_reference", "approved_evidence_hashes"]
+
+[[input]]
+file_role = "ground_model_readiness"
+title = "Authority-accepted surveyed ground model"
+extensions = [".json"]
+category = "prerequisite"
+
+[[input]]
+file_role = "surveyed_alignment_readiness"
+title = "Authority-accepted surveyed alignments"
+extensions = [".json"]
+category = "prerequisite"
+
+[[input]]
+file_role = "utility_coordination"
+title = "Utility survey, verification and diversion coordination"
+extensions = [".json", ".pdf", ".gpkg"]
+category = "evidence"
+
+[[input]]
+file_role = "land_access"
+title = "Property, right-of-way, consent and access evidence"
+extensions = [".json", ".pdf", ".gpkg"]
+category = "evidence"
+
+[[input]]
+file_role = "flood_drainage"
+title = "Flood levels, drainage constraints and outfall evidence"
+extensions = [".json", ".pdf", ".gpkg"]
+category = "evidence"
+
+[[input]]
+file_role = "station_access"
+title = "Station access, accessibility, egress and servicing review"
+extensions = [".json", ".pdf"]
+category = "evidence"
+
+[[input]]
+file_role = "intercity_yard_integration"
+title = "Intercity station, depot and yard integration review"
+extensions = [".json", ".pdf"]
+category = "evidence"
+
+[[input]]
+file_role = "road_traffic_management"
+title = "Road interaction, crossing and traffic-management review"
+extensions = [".json", ".pdf", ".gpkg"]
+category = "evidence"
+
+[[input]]
+file_role = "construction_logistics"
+title = "Construction compounds, delivery routes and lifting paths"
+extensions = [".json", ".pdf", ".gpkg"]
+category = "evidence"
+
+[[input]]
+file_role = "possession_staging"
+title = "Rail/road possession, staging and temporary-works plan"
+extensions = [".json", ".pdf"]
+category = "evidence"
+
+[[input]]
+file_role = "route_fit_verification_report"
+title = "Coordinated line and station fit verification"
+extensions = [".json"]
+category = "verification"
+
+[[input]]
+file_role = "route_fit_issue_register"
+title = "Coordinated route-fit issue and disposition register"
+extensions = [".csv"]
+category = "verification"
+
+[[input]]
+file_role = "route_fit_acceptance_record"
+title = "Signed coordinated route-fit acceptance"
+extensions = [".json"]
+category = "authority"

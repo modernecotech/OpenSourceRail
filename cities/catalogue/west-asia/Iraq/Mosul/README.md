@@ -84,6 +84,11 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Grid/charging/solar | pass | [`summary.json`](engineering/energy/summary.json) |
 | Field-evidence brief | issued; signatures/data pending | [`field-evidence-brief.md`](engineering/survey/field-evidence-brief.md) |
+| Survey-control processing | awaiting field data and authority | [`control-processing-readiness.md`](engineering/survey/control-processing-readiness.md) |
+| Surveyed ground model | awaiting terrain/cloud data and authority | [`ground-model-readiness.md`](engineering/survey/ground-model-readiness.md) |
+| Surveyed alignments | awaiting fitted geometry, interfaces and authority | [`surveyed-alignment-readiness.md`](engineering/survey/surveyed-alignment-readiness.md) |
+| Route and station fit | awaiting discipline evidence and coordinated authority | [`route-station-fit-readiness.md`](engineering/survey/route-station-fit-readiness.md) |
+| Drainage and ground design | awaiting project storms, boreholes, models and authority | [`drainage-ground-readiness.md`](engineering/survey/drainage-ground-readiness.md) |
 | Operations, QA and maintenance | 638 assets / 2,824 tasks | [`mosul-operations-manifest.json`](operations/mosul-operations-manifest.json) |
 
 ## Local Files And Regeneration

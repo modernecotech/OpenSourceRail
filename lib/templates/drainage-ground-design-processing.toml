@@ -1,0 +1,91 @@
+schema_version = 1
+template_revision = "2026-09-02"
+technical_boundary = "The automated gate reruns the received SWMM model, checks continuity and report provenance, reconciles drainage and geotechnical design to every current line and station, and validates catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability."
+acceptance_boundary = "The drainage and geotechnical engineers of record, asset owner, relevant authority and information manager must accept the project inputs, calculations, selected variants, residual risks and immutable evidence record."
+controlled_storage_policy = "Keep borehole logs, laboratory results, sensitive asset data, native calculations and large model results in controlled project storage. Git carries requirements, receipts, hashes, reproducible exchange inputs and non-sensitive summaries."
+
+[receipt]
+required_metadata_fields = ["package_revision", "file_path", "sha256", "capture_date", "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status"]
+allowed_acceptance_statuses = ["received", "checked", "accepted", "rejected"]
+
+[swmm]
+accepted_status = "passed"
+maximum_absolute_runoff_error_percent = 1.0
+maximum_absolute_routing_error_percent = 1.0
+required_report_fields = ["status", "tool", "version", "input_sha256", "hydrology_basis_sha256", "ground_model_sha256", "coordinate_system", "vertical_datum", "runoff_error_percent", "routing_error_percent", "step_count", "design_checks"]
+
+[ground_design]
+accepted_status = "passed"
+required_report_fields = ["status", "geotechnical_model_sha256", "foundation_schedule_sha256", "line_results", "station_results", "residual_risks"]
+accepted_result_status = "sized-and-checked"
+
+[foundation_schedule]
+required_columns = ["support_id", "scope_type", "scope_id", "zone_id", "system_kind", "system_id", "actual_length_m", "actual_element_count", "design_quantity", "design_unit", "design_capacity", "predicted_settlement_mm", "verification_method", "status"]
+accepted_status = "checked"
+
+[groundwater_decision]
+required_fields = ["opengeosys_required", "evaluated_triggers", "rationale", "geotechnical_reviewer", "reviewed_at"]
+
+[authority_record]
+accepted_decision = "accepted"
+required_fields = ["decision", "drainage_engineer", "geotechnical_engineer", "asset_owner", "approving_authority", "information_manager", "signed_at", "document_revision", "approved_horizontal_crs", "approved_vertical_datum", "controlled_record_reference", "approved_evidence_hashes"]
+
+[[input]]
+file_role = "ground_model_readiness"
+extensions = [".json"]
+category = "prerequisite"
+
+[[input]]
+file_role = "route_station_fit_readiness"
+extensions = [".json"]
+category = "prerequisite"
+
+[[input]]
+file_role = "accepted_hydrology_basis"
+extensions = [".json"]
+category = "technical"
+
+[[input]]
+file_role = "swmm_model"
+extensions = [".inp"]
+category = "technical"
+
+[[input]]
+file_role = "swmm_processing_report"
+extensions = [".json"]
+category = "technical"
+
+[[input]]
+file_role = "geotechnical_ground_model"
+extensions = [".json", ".ags"]
+category = "technical"
+
+[[input]]
+file_role = "foundation_ground_schedule"
+extensions = [".csv"]
+category = "technical"
+
+[[input]]
+file_role = "ground_design_verification_report"
+extensions = [".json"]
+category = "technical"
+
+[[input]]
+file_role = "groundwater_coupling_decision"
+extensions = [".json"]
+category = "technical"
+
+[[input]]
+file_role = "opengeosys_project"
+extensions = [".prj"]
+category = "conditional"
+
+[[input]]
+file_role = "opengeosys_processing_report"
+extensions = [".json"]
+category = "conditional"
+
+[[input]]
+file_role = "drainage_ground_acceptance_record"
+extensions = [".json"]
+category = "authority"

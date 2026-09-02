@@ -107,10 +107,10 @@ check_tools() {
     fi
 
     if [[ -x "$LOCAL_BIN/rnx2rtkp" ]]; then
-        printf 'native:rtklib\tversion=2.4.3.b34+dfsg-1build2\tsha256=%s\n' \
+        printf 'native:rtklib\tversion=2.4.3-b34\tsha256=%s\n' \
             "$(sha256sum "$LOCAL_BIN/rnx2rtkp" | cut -d' ' -f1)" >> "$report"
     else
-        printf 'native:rtklib\tOPTIONAL-MISSING (required at surveyed-pilot mobilisation)\n' >> "$report"
+        printf 'native:rtklib\tOPTIONAL-MISSING (install through ./install.sh before field-data processing)\n' >> "$report"
     fi
 
     local energy_binary="$NATIVE_ROOT/EnergyPlus-26.1.0-6f2e40d102-Linux-Ubuntu24.04-x86_64/energyplus-26.1.0"

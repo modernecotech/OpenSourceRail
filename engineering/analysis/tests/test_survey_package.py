@@ -45,7 +45,7 @@ def test_generated_brief_and_empty_receipt_manifest_are_deterministic(tmp_path: 
         dataset["id"] for dataset in first["datasets"]
     }
     assert all(row["acceptance_status"] == "not-received" for row in rows)
-    assert all(not row["sha256"] and not row["file_path"] for row in rows)
+    assert all(not row["file_role"] and not row["sha256"] and not row["file_path"] for row in rows)
 
 
 def test_compiled_city_studio_snapshot_uses_current_station_centroid(tmp_path: Path) -> None:

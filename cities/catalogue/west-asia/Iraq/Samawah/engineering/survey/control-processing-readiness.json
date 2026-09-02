@@ -1,0 +1,67 @@
+{
+  "acceptance_boundary": "Only the appointed deployment survey authority can accept the control network after redundant occupations, independent checks, network adjustment, datum/geoid review and monument documentation.",
+  "analysis_id": "OSR-SURVEY-CONTROL:samawah",
+  "authority_accepted": false,
+  "authority_record_findings": [
+    "authority acceptance record not received or receipt is invalid"
+  ],
+  "authority_record_valid": false,
+  "city": "samawah",
+  "data_received": false,
+  "duplicate_processing_roles": [],
+  "generator_sha256": "8e41e27f4452c0175bedd70c8a3e20e14e35fe87fc2b3d766e2dcedea6f53552",
+  "missing_authority_review_roles": [
+    "rover_observation",
+    "base_observation",
+    "navigation",
+    "rtklib_configuration",
+    "field_log",
+    "monument_schedule",
+    "network_adjustment_report",
+    "authority_acceptance_record"
+  ],
+  "missing_processing_roles": [
+    "rover_observation",
+    "base_observation",
+    "navigation",
+    "rtklib_configuration"
+  ],
+  "processing": null,
+  "processing_completed": false,
+  "processing_configuration": {},
+  "processing_configuration_findings": [],
+  "processing_requested": false,
+  "raw_data_policy": "RINEX observations and navigation data remain in access-controlled project storage. Git records only the receipt manifest, file hashes, requirements and non-sensitive processing/acceptance summaries.",
+  "receipt_findings": [],
+  "receipt_manifest_sha256": "6b621aeabe1a0d59b16aab2da1e26045dfca2e2cec3847044bcce8b4f9a77029",
+  "received_files": [],
+  "received_role_counts": {
+    "authority_acceptance_record": 0,
+    "base_observation": 0,
+    "field_log": 0,
+    "monument_schedule": 0,
+    "navigation": 0,
+    "network_adjustment_report": 0,
+    "rover_observation": 0,
+    "rtklib_configuration": 0
+  },
+  "report_valid": true,
+  "requirements_sha256": "6b3efaf3f5d1284ae48e77ce7ccbb44b6bbeba7e9bbcf050a6e49d9912d848b7",
+  "requirements_source": "lib/templates/survey-control-processing.toml",
+  "schema_version": "1.0",
+  "solver": "rnx2rtkp",
+  "solver_available": null,
+  "status": "awaiting-field-data",
+  "technical_boundary": "The automated result is a reproducibility and solution-quality screen. It is not a network adjustment, survey certification or permission to use the control for design or construction.",
+  "technical_screen_criteria": {
+    "allowed_solution_quality_codes": [
+      1,
+      2
+    ],
+    "authority_must_confirm_or_replace": true,
+    "minimum_epochs": 60,
+    "minimum_fixed_fraction": 0.95,
+    "provisional_only": true
+  },
+  "technical_screen_passed": false
+}

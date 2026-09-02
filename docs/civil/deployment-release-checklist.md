@@ -23,4 +23,26 @@ Issue the project information request from the canonical
 [Samawah field-evidence brief](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md)
 shows the required packages and provisional accuracy schedule. Its receipt
 manifest is intentionally empty: only the appointed authorities can approve
-the CRS, vertical datum, delivery and mobilisation.
+the CRS, vertical datum, delivery and mobilisation. The linked
+[control-processing report](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md)
+then verifies receipt metadata and hashes, runs the frozen RTKLIB profile when
+real inputs exist, and keeps technical screening separate from survey-authority
+acceptance. The subsequent [ground-model gate](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.md)
+checks the master GeoPackage, DTM, orthophoto, registered point cloud,
+independent residuals, processing reports and signed release without storing
+raw imagery or scans in Git.
+The following [surveyed-alignment gate](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md)
+then requires one checked OSR-ALN, LandXML export and deterministic round-trip
+report per line, plus exact platform reconciliation, yard/turnout/clearance
+dispositions and a signed alignment-designer/survey/track/information-management
+acceptance record. Planning GIS traces cannot satisfy it.
+The subsequent [route/station-fit gate](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md)
+requires hash-locked utility, property/access, flood/drainage, station access,
+intercity/yard, road/traffic, compound/lifting and possession/staging evidence.
+It reconciles every current line and station and rejects unresolved high or
+critical issues before coordinated authority acceptance.
+The [drainage/ground gate](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md)
+then replays the project SWMM input, checks accepted rainfall/level provenance,
+requires borehole-zoned foundation or ground-treatment schedules for every line
+and station, and invokes OpenGeoSys evidence only when a reviewed groundwater/
+coupling decision warrants it.

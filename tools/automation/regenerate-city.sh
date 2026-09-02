@@ -157,6 +157,34 @@ echo "6a) field-evidence brief → $DESIGN_DIR/engineering/survey/"
 "$PYTHON" "$REPO/engineering/analysis/survey_package.py" \
     --design "$DESIGN_DIR/design.toml" \
     --output-dir "$DESIGN_DIR/engineering/survey"
+"$PYTHON" "$REPO/engineering/analysis/survey_control.py" \
+    --city "$SLUG" \
+    --manifest "$DESIGN_DIR/engineering/survey/survey-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey"
+"$PYTHON" "$REPO/engineering/analysis/ground_model.py" \
+    --city "$SLUG" \
+    --manifest "$DESIGN_DIR/engineering/survey/survey-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey"
+"$PYTHON" "$REPO/engineering/analysis/surveyed_alignment.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --manifest "$DESIGN_DIR/engineering/survey/surveyed-alignment-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey" \
+    --write-placeholder-manifest
+"$PYTHON" "$REPO/engineering/analysis/route_station_fit.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --manifest "$DESIGN_DIR/engineering/survey/route-station-fit-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey" \
+    --write-placeholder-manifest
+"$PYTHON" "$REPO/engineering/analysis/drainage_ground_design.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --manifest "$DESIGN_DIR/engineering/survey/drainage-ground-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey" \
+    --write-placeholder-manifest
 
 echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simulation/"
 "$PYTHON" "$REPO/tools/automation/validate-city-simulation.py" \
@@ -195,5 +223,5 @@ echo "  README.md, design.toml, $SLUG.toml, $SLUG-network-map.png,"
 echo "  $SLUG.corridor.geojson, $SLUG.stations.json, $SLUG.design-quality.yaml"
 echo "  operations/ (asset, CPM, orders, cashflow, QA, maintenance, and acceptance data)"
 echo "  engineering/project-twin/summary.json (compact Git-reviewable delivery twin)"
-echo "  engineering/ (alignment, survey brief, SUMO, QGIS/GDAL, energy, simulation, screenshots, finance)"
+echo "  engineering/ (alignment, survey/control gates, SUMO, QGIS/GDAL, energy, simulation, screenshots, finance)"
 echo "  package-manifest.json (hashed screening-package completeness gate)"
