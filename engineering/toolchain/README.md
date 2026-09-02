@@ -8,7 +8,7 @@ The installed environments are intentionally not stored in Git:
 
 - FreeCAD, Blender/Bonsai, QGIS, CloudCompare, and SUMO are user Flatpaks;
 - Python solvers and APIs use the repository `.venv`;
-- optional native tools use versioned directories beneath
+- EnergyPlus and FDS use versioned user-local directories beneath
   `${XDG_DATA_HOME:-$HOME/.local/share}/opensource-rail/native/`;
 - generated checks and analysis scratch belong under `build/engineering/`.
 
@@ -42,8 +42,8 @@ that ran it.
 The Flatpak applications remain independently versioned because they are GUI
 and desktop toolchains rather than Python library dependencies. The check
 command captures their installed commits and versions.
-Set `OSR_ENGINEERING_DATA_ROOT` and `OSR_ENGINEERING_LOCAL_BIN` to override
-the workstation defaults when reproducing the environment on another host.
+The one-command installer selects these locations; users do not need to set
+paths or environment variables.
 
 The smoke check performs calculations rather than import-only checks for IFC
 creation, an analytical axial bar in OpenSees, a two-bus pandapower load flow,
@@ -54,8 +54,9 @@ station corridor, the all-variant station structure/flow/drainage screens, and
 a SUMO timetable directly from the 13 Samawah Line 1 station chainages.
 `--station-ifc` exports all seven positive-volume station product structures
 and checks that every BOM/traveler ID round-trips through IFC. The station
-analysis keeps EnergyPlus and FDS inputs visible as pending until those native
-solvers and project-specific climate/fire inputs produce reviewed results.
+analysis executes EnergyPlus and FDS when installed, preserving adverse results
+as open findings until project-specific climate/fire inputs and mitigations are
+independently reviewed.
 
 [`../analysis/analysis-register.toml`](../analysis/analysis-register.toml) distinguishes planned,
 screening, calibrated, independently checked, and accepted analyses. Its

@@ -12,6 +12,11 @@ readonly UV_VERSION="0.11.20"
 readonly PYTHON_VERSION="3.11.13"
 readonly TRUNK_VERSION="0.21.8"
 readonly PLAYWRIGHT_ROOT="$TOOL_ROOT/playwright"
+readonly ENGINEERING_NATIVE_ROOT="${HOME}/.local/share/opensource-rail/native"
+readonly ENERGYPLUS_RELEASE="EnergyPlus-26.1.0-6f2e40d102-Linux-Ubuntu24.04-x86_64"
+readonly ENERGYPLUS_ARCHIVE_SHA="b651f4197bfc147a0f66dc92c58895d1748bdadb7a0288145fa9d50375edfbca"
+readonly FDS_RELEASE="FDS-6.11.1_SMV-6.11.2"
+readonly FDS_INSTALLER_SHA="ba8793b974150fdb778b3db0b69ab8db4e4668d5c52987a317e7f5ed58102ea0"
 readonly FLATHUB_URL="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 INSTALL_TEMP=""
@@ -353,9 +358,51 @@ engineering_ready() {
     "$ROOT/.venv/bin/python" -c \
         'import _pytest, ifcopenshell, jupedsim, networkx, openseespy, pandapower, pvlib, pybamm, pyswmm' \
         >/dev/null 2>&1 || return 1
+    if [[ "$ARCH" == "x86_64" ]]; then
+        [[ -x "$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE/energyplus-26.1.0" ]] \
+            || return 1
+        [[ -x "$ENGINEERING_NATIVE_ROOT/$FDS_RELEASE/bin/fds" ]] || return 1
+        [[ -x "$TOOL_BIN/energyplus" && -x "$TOOL_BIN/fds" ]] || return 1
+    fi
     flatpak run org.blender.Blender -b --python-expr \
         'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
         >/dev/null 2>&1
+}
+
+install_engineering_native() {
+    if [[ "$ARCH" != "x86_64" ]]; then
+        printf 'EnergyPlus/FDS official Linux bundles are skipped on %s; the Python engineering stack remains available.\n' "$ARCH"
+        return
+    fi
+    temporary_directory
+    mkdir -p "$ENGINEERING_NATIVE_ROOT" "$TOOL_BIN"
+
+    local energy_dir="$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE"
+    if [[ ! -x "$energy_dir/energyplus-26.1.0" ]]; then
+        section "Installing EnergyPlus 26.1.0 in your home folder"
+        local energy_archive="$INSTALL_TEMP/$ENERGYPLUS_RELEASE.tar.gz"
+        download_checked \
+            "https://github.com/NatLabRockies/EnergyPlus/releases/download/v26.1.0/$ENERGYPLUS_RELEASE.tar.gz" \
+            "$ENERGYPLUS_ARCHIVE_SHA" "$energy_archive"
+        tar -xzf "$energy_archive" -C "$ENGINEERING_NATIVE_ROOT"
+    fi
+    ln -sfn "$energy_dir/energyplus-26.1.0" "$TOOL_BIN/energyplus"
+
+    local fds_dir="$ENGINEERING_NATIVE_ROOT/$FDS_RELEASE"
+    if [[ ! -x "$fds_dir/bin/fds" ]]; then
+        section "Installing FDS 6.11.1 in your home folder"
+        local fds_installer="$INSTALL_TEMP/${FDS_RELEASE}_lnx.sh"
+        download_checked \
+            "https://github.com/firemodels/fds/releases/download/FDS-6.11.1/${FDS_RELEASE}_lnx.sh" \
+            "$FDS_INSTALLER_SHA" "$fds_installer"
+        local archive_line
+        archive_line="$(awk '/^__TARFILE_FOLLOWS__/ { print NR + 1; exit }' "$fds_installer")"
+        [[ "$archive_line" =~ ^[0-9]+$ ]] || fail "could not locate the FDS embedded archive"
+        mkdir -p "$fds_dir"
+        tail -n +"$archive_line" "$fds_installer" \
+            | tar -xzf - --strip-components=1 -C "$fds_dir"
+    fi
+    ln -sfn "$ROOT/engineering/toolchain/fds-wrapper.sh" "$TOOL_BIN/fds"
 }
 
 install_flatpak() {
@@ -383,6 +430,7 @@ install_engineering() {
     fi
     uv pip install --python "$ROOT/.venv/bin/python" \
         --requirement "$ROOT/engineering/toolchain/python-requirements.txt"
+    install_engineering_native
     mkdir -p "$ROOT/build/engineering/toolchain"
     uv pip freeze --python "$ROOT/.venv/bin/python" \
         > "$ROOT/build/engineering/toolchain/pip-freeze.txt"

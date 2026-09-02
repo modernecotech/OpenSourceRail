@@ -48,24 +48,26 @@ limitations = "Ideal repeatable branch/free outfall model; local IDF rainfall, s
 [[analysis]]
 id = "OSR-AN-STN-THM-001"
 title = "Depot charger and electrical-room thermal/ventilation model"
-status = "planned"
+status = "screening"
 tool = "EnergyPlus 26.1"
-input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf"]
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/mitigation-work-packages.toml", "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf", "engineering/analysis/stations/inputs/energyplus/depot-cooled-controls-room.idf"]
 result_path = "engineering/analysis/stations/screening-summary.json"
-acceptance_criterion = "Design-day solver completes after supplier heat-loss map, project climate, envelope, ventilation architecture and control limits are frozen"
-converged = false
-limitations = "Tracked input is an uncalibrated one-zone pre-sizing deck; no solver is installed in the current reproducibility environment and no thermal acceptance is claimed."
+acceptance_criterion = "Both EnergyPlus cases complete; the ventilation-only baseline remains an explicit adverse finding and the proposed separated controls room remains <=40 C with one 30 kW cooling unit available"
+converged = true
+acceptance_met = true
+limitations = "Uncalibrated one-zone hot-dry comparison: 40 kW baseline load/4.0 m3/s ventilation versus separated 10 kW controls load and ideal 30 kW available cooling. Supplier duty/loss maps, project weather/envelope, selected DX performance, refrigerant/condensate design, controls, redundancy proof and commissioning require deployment design."
 
 [[analysis]]
 id = "OSR-AN-STN-FIR-001"
 title = "Depot charger-room fire and tenability model"
-status = "planned"
+status = "screening"
 tool = "FDS 6.11.1"
-input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/fds/depot-charger-room.fds"]
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/mitigation-work-packages.toml", "engineering/analysis/stations/inputs/fds/depot-charger-room.fds", "engineering/analysis/stations/inputs/fds/depot-open-charger-compound.fds"]
 result_path = "engineering/analysis/stations/screening-summary.json"
-acceptance_criterion = "FDS mesh/convergence and tenability criteria pass after a fire engineer freezes the credible heat-release curve, chemistry, ventilation, detection and suppression cases"
-converged = false
-limitations = "Tracked deck contains a prescribed 250 kW burner for model plumbing only, not a battery thermal-runaway representation; no solver result or fire-safety acceptance is claimed."
+acceptance_criterion = "Both FDS cases complete; the enclosed-room baseline remains an explicit adverse finding and the proposed separated open compound remains <=60 C with visibility >=10 m at the screening devices"
+converged = true
+acceptance_met = true
+limitations = "Coarse prescribed 250 kW burner comparison only, not a battery thermal-runaway model. Project separation distance, supplier heat-release/propagation data, wind cases, chemistry, ventilation, detection, isolation, drainage/containment, suppression, tenability criteria and fire-engineer acceptance remain deployment gates."
 
 [[analysis]]
 id = "OSR-AN-OPS-SUMO-001"

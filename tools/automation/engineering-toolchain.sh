@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 USER_DATA_ROOT="${OSR_ENGINEERING_DATA_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/opensource-rail}"
-LOCAL_BIN="${OSR_ENGINEERING_LOCAL_BIN:-$HOME/.local/bin}"
+LOCAL_BIN="${OSR_ENGINEERING_LOCAL_BIN:-$USER_DATA_ROOT/toolchains/bin}"
 if [[ -n "${OSR_ENGINEERING_VENV:-}" ]]; then
     VENV_DIR="$OSR_ENGINEERING_VENV"
 elif [[ -x "$ROOT/.venv/bin/python" ]]; then
@@ -110,8 +110,7 @@ check_tools() {
         printf 'native:rtklib\tversion=2.4.3.b34+dfsg-1build2\tsha256=%s\n' \
             "$(sha256sum "$LOCAL_BIN/rnx2rtkp" | cut -d' ' -f1)" >> "$report"
     else
-        printf 'native:rtklib\tMISSING\n' >> "$report"
-        failed=1
+        printf 'native:rtklib\tOPTIONAL-MISSING (required at surveyed-pilot mobilisation)\n' >> "$report"
     fi
 
     local energy_binary="$NATIVE_ROOT/EnergyPlus-26.1.0-6f2e40d102-Linux-Ubuntu24.04-x86_64/energyplus-26.1.0"

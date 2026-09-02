@@ -2389,7 +2389,7 @@
     "lm3_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
     "lm3_manifest_sha256": "7654747909805305ce2018109b5b649c4817a8f8c44a3ec8f2e8a6f74d48243e",
     "station_manifest": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
-    "station_manifest_sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55"
+    "station_manifest_sha256": "d5282d4f7ddd995044f531437f89536493e48c1007bfd48dda67cd4b8325eea1"
   },
   "station_products": [
     {
@@ -2809,13 +2809,15 @@
       "ifc_class": "IfcElectricDistributionBoard",
       "product_maturity": "buildable-after-supplier-and-energy-freeze",
       "release_evidence": [
+        "supplier loss/duty and maximum-ambient declaration",
         "supplier FAT",
         "protection/isolation test",
         "vehicle reach/alignment test",
-        "charge/abort/data-sync SAT"
+        "charge/abort/data-sync SAT",
+        "fire separation and emergency-isolation walkdown"
       ],
       "route": "BID",
-      "title": "per-stall plug-in charger, isolation, suspended cable, and data-dock kit"
+      "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit"
     },
     {
       "analysis_ids": [
@@ -2831,11 +2833,13 @@
       "release_evidence": [
         "structural/PV layout release",
         "utility/protection approval",
-        "battery fire/thermal evidence",
+        "cell-to-pack propagation and heat-release evidence",
+        "outdoor compound separation/ventilation/containment review",
+        "remote isolation and gas/fire detection proof",
         "energy-site SAT"
       ],
       "route": "BID",
-      "title": "depot PV canopy, inverter, microgrid switchgear, and stationary battery package"
+      "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package"
     },
     {
       "analysis_ids": [
@@ -2871,13 +2875,15 @@
       "product_maturity": "buildable-after-services-and-supplier-freeze",
       "release_evidence": [
         "utility capacity",
-        "fire cause/effect test",
+        "2 x 30 kW packaged-DX schedule and 30 kW single-unit thermal duty proof",
+        "cooling duty/standby changeover and high-temperature alarm",
+        "fire cause/effect and remote energy-isolation test",
         "air-system pressure test",
         "coverage/access test",
         "maintenance-data sync"
       ],
       "route": "BID",
-      "title": "depot LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit"
+      "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit"
     },
     {
       "analysis_ids": [

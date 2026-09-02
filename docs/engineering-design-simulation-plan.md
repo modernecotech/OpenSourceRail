@@ -239,17 +239,25 @@ revision through the interchange tests.
   semantic IFC class, OSR property set and assembly relationship through
   IfcOpenShell. Project survey placement, grade-specific materials and any
   resulting deployment IDS/BCF findings remain COMP-017 release work.
-- [ ] **COMP-016-06 — Run station analyses.** Use FreeCAD/CalculiX or OpenSees
+- [x] **COMP-016-06 — Run station analyses.** Use FreeCAD/CalculiX or OpenSees
   for selected structures, JuPedSim for normal/degraded/egress flows,
   EnergyPlus for heat/ventilation/load, SWMM for drainage, and FDS for
   enclosed or battery/charger fire scenarios. The shared 22 m canopy
   OpenSees load path, all-variant JuPedSim route cases and per-bay SWMM roof
-  drainage are now solver-backed and tracked. EnergyPlus and FDS input decks
-  are prepared but deliberately remain pending supplier/site inputs, native
-  solver runs and competent thermal/fire review.
-- [ ] **COMP-016-07 — Release the package.** Close interface clashes, drawing
-  and BOM drift, unmet accessibility/egress criteria, and open structural
-  checks; record local-code items awaiting deployment evidence.
+  drainage are solver-backed and tracked. EnergyPlus and FDS also execute the
+  depot comparison decks. The ventilation-only/enclosed-room baselines retain
+  their adverse 52.6 C and 170.9 C / 1.0 m findings. The proposed separated,
+  cooled controls room and open-sided energy compound screen at 35.0 C and
+  21.0 C / 30 m respectively; these are design-direction results, not project
+  thermal or fire approval.
+- [x] **COMP-016-07 — Release the design-reference package.** Product/BOM,
+  traveler, FreeCAD and IFC identity is reconciled without orphan IDs; shared
+  structural, accessibility/egress, drainage, thermal and fire screens are
+  tracked. The depot catalogue now carries the screened separation, N+1
+  cooling, remote-isolation and evidence response. Six controlled
+  [deployment work packages](../engineering/analysis/stations/mitigation-work-packages.md)
+  keep supplier, site, local-code, detailed-design, commissioning and approval
+  items open rather than misrepresenting them as construction release.
 
 Exit: every station variant is either a controlled parameter delta or has a
 complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.

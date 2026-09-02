@@ -98,6 +98,12 @@ def test_variant_specific_station_components_are_not_hidden_in_prose() -> None:
     assert depot_variant.parameters["depot_throat_turnouts"] == 2
     assert depot_items["STN-DEP-P020"].quantity == 400
     assert depot_items["STN-DEP-P040"].quantity == 4
+    assert "outdoor/open-sided" in depot_items["STN-DEP-P040"].title
+    assert "supplier loss/duty and maximum-ambient declaration" in depot_items["STN-DEP-P040"].acceptance
+    assert "separated outdoor" in depot_items["STN-DEP-P050"].title
+    assert "cell-to-pack propagation and heat-release evidence" in depot_items["STN-DEP-P050"].acceptance
+    assert "cooled controls room" in depot_items["STN-DEP-P070"].title
+    assert "2 x 30 kW packaged-DX schedule and 30 kW single-unit thermal duty proof" in depot_items["STN-DEP-P070"].acceptance
     assert "STN-PAX-P050" not in {
         item.id for item in variants[StationArchetype.HALT].product_items
     }

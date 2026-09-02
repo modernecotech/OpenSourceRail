@@ -13,5 +13,14 @@ fi
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH
 # shellcheck disable=SC1091
-source "$FDS_INSTALL_ROOT/bin/FDS6VARS.sh"
+if [[ -f "$FDS_INSTALL_ROOT/bin/FDS6VARS.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$FDS_INSTALL_ROOT/bin/FDS6VARS.sh"
+else
+    # The official self-extracting archive contains the runtime but generates
+    # FDS6VARS.sh only in its interactive installer. Keep setup non-interactive
+    # and scope the equivalent library paths to this process.
+    export LD_LIBRARY_PATH="$FDS_INSTALL_ROOT/bin/intelmpi/lib:$FDS_INSTALL_ROOT/bin/intelmpi/prov${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    export FI_PROVIDER_PATH="$FDS_INSTALL_ROOT/bin/intelmpi/prov"
+fi
 exec "$FDS_INSTALL_ROOT/bin/fds" "$@"

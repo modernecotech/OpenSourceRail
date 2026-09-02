@@ -19,5 +19,7 @@ Site structural, foundation, drainage, egress, and electrical approvals remain g
 See the generated [`open release gap register`](open-release-gaps.md) for
 the supplier, site, utility, and component-design closures behind these counts.
 The shared [station systems screening](../../../../engineering/analysis/stations/screening-summary.md)
-runs OpenSees, JuPedSim and SWMM across the family and keeps the EnergyPlus/FDS
-depot inputs explicitly pending; it is reproducible evidence, not construction release.
+runs OpenSees, JuPedSim and SWMM across the family. EnergyPlus/FDS execute the
+baseline and proposed depot thermal/fire cases; the baseline failures, screened
+mitigation and [open deployment work packages](../../../../engineering/analysis/stations/mitigation-work-packages.md)
+remain evidence for detailed design, not construction release.

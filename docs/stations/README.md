@@ -18,6 +18,8 @@ reserved for elevated/stacked sites or local road barriers.
 | [`../../design/component-catalogue/models/cad/stations/`](../../design/component-catalogue/models/cad/stations/) | Native FreeCAD assemblies for halt, standard, major, two interchange forms, terminal and depot-terminal |
 | [`../../engineering/models/bim/reference/stations/`](../../engineering/models/bim/reference/stations/) | Matching geometric IFC4.3 assemblies plus deterministic validation summary |
 | [`../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md`](../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) | Bidirectional ID check across BOM, traveler, variant drawing register, installed/exploded FreeCAD states and IFC4.3 |
+| [`../../engineering/analysis/stations/screening-summary.md`](../../engineering/analysis/stations/screening-summary.md) | Solver-backed structural, passenger, drainage and baseline/proposed depot thermal/fire comparisons |
+| [`../../engineering/analysis/stations/mitigation-work-packages.md`](../../engineering/analysis/stations/mitigation-work-packages.md) | Owned evidence gates for the depot cooling, separation, protection, commissioning and approval response |
 | [`../../engineering/models/model-coverage.md`](../../engineering/models/model-coverage.md) | Product-by-product geometry fidelity and release-evidence boundary |
 
 ## FreeCAD Station Scene Renders

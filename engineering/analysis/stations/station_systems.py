@@ -9,13 +9,16 @@ unresolved deployment inputs beside each result.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import math
 import os
+import sqlite3
 import shutil
 import subprocess
 import tempfile
+import tomllib
 from importlib.metadata import version
 from pathlib import Path
 from typing import Any
@@ -25,7 +28,14 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
 DEFAULT_OUTPUT = Path(__file__).with_name("screening-summary.json")
 ENERGYPLUS_INPUT = Path(__file__).with_name("inputs") / "energyplus" / "depot-equipment-room.idf"
+ENERGYPLUS_MITIGATION_INPUT = (
+    Path(__file__).with_name("inputs") / "energyplus" / "depot-cooled-controls-room.idf"
+)
 FDS_INPUT = Path(__file__).with_name("inputs") / "fds" / "depot-charger-room.fds"
+FDS_MITIGATION_INPUT = (
+    Path(__file__).with_name("inputs") / "fds" / "depot-open-charger-compound.fds"
+)
+MITIGATION_WORK_PACKAGES = Path(__file__).with_name("mitigation-work-packages.toml")
 
 
 def sha256(path: Path) -> str:
@@ -395,37 +405,68 @@ def drainage_screen(variants: list[dict[str, Any]], input_root: Path) -> dict[st
     }
 
 
-def energyplus_input() -> str:
-    """Return a compact design-day model for the depot electrical room."""
+def energyplus_input(*, cooled_controls_room: bool = False) -> str:
+    """Return the baseline or separated/cooled depot electrical-room model."""
 
-    return """Version,26.1;
+    equipment_name = "Controls and switchgear losses" if cooled_controls_room else "Charger losses"
+    equipment_heat_w = 10_000 if cooled_controls_room else 40_000
+    ventilation = (
+        ""
+        if cooled_controls_room
+        else "ZoneVentilation:DesignFlowRate,Equipment room ventilation,Equipment Room,Always On,Flow/Zone,4.0,,,,Exhaust,200.0,0.70,1.0,0.0,0.0,0.0;\n"
+    )
+    cooling = (
+        """Sizing:Parameters,1.15,1.15;
+HVACTemplate:Thermostat,Equipment Room Thermostat,,,,35.0;
+HVACTemplate:Zone:IdealLoadsAirSystem,Equipment Room,Equipment Room Thermostat,Always On,50,13,0.0156,0.0077,NoLimit,,,LimitCapacity,,30000,,Always On,ConstantSensibleHeatRatio,0.7,,None,30,None,,,,,None,NoEconomizer,None,0.7,0.65;
+Output:Variable,*,Zone Ideal Loads Supply Air Total Cooling Rate,Hourly;
+"""
+        if cooled_controls_room
+        else ""
+    )
+    return f"""Version,26.1;
 SimulationControl,No,No,No,Yes,No;
 Building,OSR Depot Equipment Room,0.0,Suburbs,0.04,0.4,FullExterior,25,6;
 Timestep,4;
-SizingPeriod:DesignDay,Hot dry design day,07,21,SummerDesignDay,45.0,10.0,DefaultMultipliers,,Wetbulb,24.0,,,,,101325,3.0,270,No,No,No,ASHRAEClearSky,,,,1.0;
+Site:Location,OSR Hot-Dry Screening Location,33.3,44.4,3.0,35.0;
+Site:GroundTemperature:BuildingSurface,25,25,25,25,25,25,25,25,25,25,25,25;
+SizingPeriod:DesignDay,Hot dry design day,07,21,SummerDesignDay,45.0,10.0,DefaultMultipliers,,Wetbulb,24.0,,,,,101325,3.0,270,No,No,No,ASHRAEClearSky,,,,,1.0;
 RunPeriod,Design day only,1,1,,1,1,,Tuesday,Yes,Yes,No,Yes,Yes;
 GlobalGeometryRules,UpperLeftCorner,CounterClockWise,World;
 Material,Concrete,MediumRough,0.20,1.40,2200,900,0.90,0.70,0.70;
 Construction,Depot construction,Concrete;
 Zone,Equipment Room,0,0,0,0,1,1,3.0,80.0;
-BuildingSurface:Detailed,Floor,Floor,Depot construction,Equipment Room,Ground,,NoSun,NoWind,1.0,4,0,0,0,10,0,0,10,8,0,0,8,0;
-BuildingSurface:Detailed,Roof,Roof,Depot construction,Equipment Room,Outdoors,,SunExposed,WindExposed,0.0,4,0,8,3,10,8,3,10,0,3,0,0,3;
-BuildingSurface:Detailed,North Wall,Wall,Depot construction,Equipment Room,Outdoors,,SunExposed,WindExposed,0.5,4,0,0,3,10,0,3,10,0,0,0,0,0;
-BuildingSurface:Detailed,East Wall,Wall,Depot construction,Equipment Room,Outdoors,,SunExposed,WindExposed,0.5,4,10,0,3,10,8,3,10,8,0,10,0,0;
-BuildingSurface:Detailed,South Wall,Wall,Depot construction,Equipment Room,Outdoors,,SunExposed,WindExposed,0.5,4,10,8,3,0,8,3,0,8,0,10,8,0;
-BuildingSurface:Detailed,West Wall,Wall,Depot construction,Equipment Room,Outdoors,,SunExposed,WindExposed,0.5,4,0,8,3,0,0,3,0,0,0,0,8,0;
+BuildingSurface:Detailed,Floor,Floor,Depot construction,Equipment Room,,Ground,,NoSun,NoWind,1.0,4,0,8,0,10,8,0,10,0,0,0,0,0;
+BuildingSurface:Detailed,Roof,Roof,Depot construction,Equipment Room,,Outdoors,,SunExposed,WindExposed,0.0,4,0,0,3,10,0,3,10,8,3,0,8,3;
+BuildingSurface:Detailed,North Wall,Wall,Depot construction,Equipment Room,,Outdoors,,SunExposed,WindExposed,0.5,4,0,0,3,10,0,3,10,0,0,0,0,0;
+BuildingSurface:Detailed,East Wall,Wall,Depot construction,Equipment Room,,Outdoors,,SunExposed,WindExposed,0.5,4,10,0,3,10,8,3,10,8,0,10,0,0;
+BuildingSurface:Detailed,South Wall,Wall,Depot construction,Equipment Room,,Outdoors,,SunExposed,WindExposed,0.5,4,10,8,3,0,8,3,0,8,0,10,8,0;
+BuildingSurface:Detailed,West Wall,Wall,Depot construction,Equipment Room,,Outdoors,,SunExposed,WindExposed,0.5,4,0,8,3,0,0,3,0,0,0,0,8,0;
 ScheduleTypeLimits,Fraction,0,1,Continuous;
 Schedule:Constant,Always On,Fraction,1.0;
-ElectricEquipment,Charger losses,Equipment Room,Always On,EquipmentLevel,40000,,,,0.0,0.0,0.0;
-ZoneVentilation:DesignFlowRate,Equipment room ventilation,Equipment Room,Always On,Flow/Zone,4.0,,,,,Exhaust,15.0,20000,1.0,0.0,0.0,0.0;
-Output:Variable,Equipment Room,Zone Mean Air Temperature,Hourly;
-Output:Variable,Equipment room ventilation,Zone Ventilation Standard Density Volume Flow Rate,Hourly;
+ElectricEquipment,{equipment_name},Equipment Room,Always On,EquipmentLevel,{equipment_heat_w},,,,0.0,0.0,0.0;
+{ventilation}{cooling}Output:Variable,Equipment Room,Zone Mean Air Temperature,Hourly;
 Output:SQLite,SimpleAndTabular;
 """
 
 
-def fds_input() -> str:
-    return """&HEAD CHID='osr_depot_charger_room', TITLE='OSR depot charger-room screening scenario' /
+def fds_input(*, open_sided_compound: bool = False) -> str:
+    chid = "osr_depot_open_charger_compound" if open_sided_compound else "osr_depot_charger_room"
+    title = (
+        "OSR separated open-sided charger-compound screening scenario"
+        if open_sided_compound
+        else "OSR enclosed depot charger-room screening scenario"
+    )
+    openings = (
+        """&VENT ID='OPEN_X_MIN', XB=0.0,0.0,0.0,4.0,0.0,3.0, SURF_ID='OPEN' /
+&VENT ID='OPEN_X_MAX', XB=5.0,5.0,0.0,4.0,0.0,3.0, SURF_ID='OPEN' /
+&VENT ID='OPEN_Y_MIN', XB=0.0,5.0,0.0,0.0,0.0,3.0, SURF_ID='OPEN' /
+&VENT ID='OPEN_Y_MAX', XB=0.0,5.0,4.0,4.0,0.0,3.0, SURF_ID='OPEN' /
+"""
+        if open_sided_compound
+        else "&VENT ID='DOOR', XB=0.0,0.0,1.5,2.5,0.0,2.2, SURF_ID='OPEN' /\n"
+    )
+    return f"""&HEAD CHID='{chid}', TITLE='{title}' /
 &TIME T_END=60.0 /
 &DUMP DT_DEVC=1.0, NFRAMES=20 /
 &MESH IJK=30,24,18, XB=0.0,5.0,0.0,4.0,0.0,3.0 /
@@ -435,75 +476,228 @@ def fds_input() -> str:
 &SURF ID='CHARGER_FIRE', HRRPUA=250.0, RAMP_Q='FIRE_RAMP', COLOR='RED' /
 &OBST ID='CHARGER', XB=2.0,3.0,1.5,2.5,0.0,1.8 /
 &VENT ID='FIRE', XB=2.0,3.0,1.5,2.5,1.8,1.8, SURF_ID='CHARGER_FIRE' /
-&VENT ID='DOOR', XB=0.0,0.0,1.5,2.5,0.0,2.2, SURF_ID='OPEN' /
-&DEVC ID='ROOM_TEMP', XYZ=4.0,2.0,2.0, QUANTITY='TEMPERATURE' /
+{openings}&DEVC ID='ROOM_TEMP', XYZ=4.0,2.0,2.0, QUANTITY='TEMPERATURE' /
 &DEVC ID='DOOR_VIS', XYZ=0.5,2.0,1.8, QUANTITY='VISIBILITY' /
 &TAIL /
 """
 
 
-def optional_solver_inputs(input_root: Path, run_root: Path) -> dict[str, Any]:
-    energy_path = input_root / "energyplus" / ENERGYPLUS_INPUT.name
-    fds_path = input_root / "fds" / FDS_INPUT.name
-    energy_path.parent.mkdir(parents=True, exist_ok=True)
-    fds_path.parent.mkdir(parents=True, exist_ok=True)
-    energy_path.write_text(energyplus_input(), encoding="utf-8")
-    fds_path.write_text(fds_input(), encoding="utf-8")
+def _energyplus_case(
+    binary: str, input_path: Path, output: Path, trace_path: Path, limit_c: float
+) -> dict[str, Any]:
+    output.mkdir(parents=True, exist_ok=True)
+    completed = subprocess.run(
+        [binary, "-x", "-D", "-d", str(output), str(input_path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    end_file = output / "eplusout.end"
+    successful = bool(
+        completed.returncode == 0
+        and end_file.is_file()
+        and "Completed Successfully" in end_file.read_text(errors="replace")
+    )
+    maximum_temperature_c: float | None = None
+    maximum_cooling_kw: float | None = None
+    if successful:
+        database = sqlite3.connect(output / "eplusout.sql")
+        try:
+            maximum_temperature = database.execute(
+                "SELECT MAX(d.VariableValue) FROM ReportVariableData d "
+                "JOIN ReportVariableDataDictionary dd USING (ReportVariableDataDictionaryIndex) "
+                "WHERE dd.VariableName = 'Zone Mean Air Temperature'"
+            ).fetchone()
+            maximum_temperature_c = (
+                float(maximum_temperature[0])
+                if maximum_temperature and maximum_temperature[0] is not None
+                else None
+            )
+            maximum_cooling = database.execute(
+                "SELECT MAX(d.VariableValue) FROM ReportVariableData d "
+                "JOIN ReportVariableDataDictionary dd USING (ReportVariableDataDictionaryIndex) "
+                "WHERE dd.VariableName = 'Zone Ideal Loads Supply Air Total Cooling Rate'"
+            ).fetchone()
+            maximum_cooling_kw = (
+                float(maximum_cooling[0]) / 1000.0
+                if maximum_cooling and maximum_cooling[0] is not None
+                else None
+            )
+            trace_rows = database.execute(
+                "SELECT t.Month, t.Day, t.Hour, d.VariableValue "
+                "FROM ReportVariableData d "
+                "JOIN ReportVariableDataDictionary dd USING (ReportVariableDataDictionaryIndex) "
+                "JOIN Time t USING (TimeIndex) "
+                "WHERE dd.VariableName = 'Zone Mean Air Temperature' "
+                "ORDER BY d.TimeIndex"
+            ).fetchall()
+        finally:
+            database.close()
+        with trace_path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.writer(handle, lineterminator="\n")
+            writer.writerow(["month", "day", "hour", "zone_mean_air_temperature_c"])
+            writer.writerows(
+                (month, day, hour, f"{float(temperature):.6f}")
+                for month, day, hour, temperature in trace_rows
+            )
+    passed = bool(successful and maximum_temperature_c is not None and maximum_temperature_c <= limit_c)
+    result: dict[str, Any] = {
+        "input_path": str(input_path.relative_to(REPO_ROOT)),
+        "input_sha256": sha256(input_path),
+        "max_zone_air_temperature_c": maximum_temperature_c,
+        "max_ideal_cooling_load_kw": maximum_cooling_kw,
+        "passed": passed,
+        "return_code": completed.returncode,
+        "solver_completed": successful,
+        "status": "solver-completed-pass" if passed else "solver-completed-finding" if successful else "solver-failed",
+    }
+    if successful:
+        result["result_trace_path"] = str(trace_path.relative_to(REPO_ROOT))
+        result["result_trace_sha256"] = sha256(trace_path)
+    return result
 
-    charger_power_kw = 500.0
-    charger_efficiency = 0.94
-    auxiliary_heat_kw = 10.0
-    heat_rejection_kw = charger_power_kw * (1.0 - charger_efficiency) + auxiliary_heat_kw
+
+def _fds_case(
+    binary: str, input_path: Path, output: Path, trace_prefix: Path, chid: str
+) -> dict[str, Any]:
+    output.mkdir(parents=True, exist_ok=True)
+    completed = subprocess.run(
+        [binary, str(input_path)],
+        cwd=output,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    successful = completed.returncode == 0 and "completed successfully" in completed.stdout.lower()
+    max_temperature_c: float | None = None
+    min_visibility_m: float | None = None
+    max_hrr_kw: float | None = None
+    trace_paths: list[str] = []
+    trace_hashes: dict[str, str] = {}
+    if successful:
+        device_path = output / f"{chid}_devc.csv"
+        hrr_path = output / f"{chid}_hrr.csv"
+        with device_path.open(newline="", encoding="utf-8") as handle:
+            rows = list(csv.DictReader(list(handle)[1:]))
+        with hrr_path.open(newline="", encoding="utf-8") as handle:
+            hrr_rows = list(csv.DictReader(list(handle)[1:]))
+        max_temperature_c = max(float(row["ROOM_TEMP"]) for row in rows)
+        min_visibility_m = min(float(row["DOOR_VIS"]) for row in rows)
+        max_hrr_kw = max(float(row["HRR"]) for row in hrr_rows)
+        for source, suffix in ((device_path, "device-trace.csv"), (hrr_path, "hrr-trace.csv")):
+            target = trace_prefix.with_name(f"{trace_prefix.name}-{suffix}")
+            shutil.copy2(source, target)
+            trace_paths.append(str(target.relative_to(REPO_ROOT)))
+            trace_hashes[target.name] = sha256(target)
+    passed = bool(
+        successful
+        and max_temperature_c is not None
+        and max_temperature_c <= 60.0
+        and min_visibility_m is not None
+        and min_visibility_m >= 10.0
+    )
+    return {
+        "input_path": str(input_path.relative_to(REPO_ROOT)),
+        "input_sha256": sha256(input_path),
+        "max_heat_release_rate_kw": max_hrr_kw,
+        "max_room_device_temperature_c": max_temperature_c,
+        "min_door_visibility_m": min_visibility_m,
+        "passed": passed,
+        "return_code": completed.returncode,
+        "result_trace_paths": trace_paths,
+        "result_trace_sha256": trace_hashes,
+        "solver_completed": successful,
+        "status": "solver-completed-pass" if passed else "solver-completed-finding" if successful else "solver-failed",
+    }
+
+
+def optional_solver_inputs(input_root: Path, run_root: Path) -> dict[str, Any]:
+    energy_paths = {
+        "baseline_ventilation_only": input_root / "energyplus" / ENERGYPLUS_INPUT.name,
+        "proposed_separated_cooled_controls": input_root / "energyplus" / ENERGYPLUS_MITIGATION_INPUT.name,
+    }
+    fds_paths = {
+        "baseline_enclosed_room": input_root / "fds" / FDS_INPUT.name,
+        "proposed_separated_open_compound": input_root / "fds" / FDS_MITIGATION_INPUT.name,
+    }
+    for path in (*energy_paths.values(), *fds_paths.values()):
+        path.parent.mkdir(parents=True, exist_ok=True)
+    energy_paths["baseline_ventilation_only"].write_text(energyplus_input(), encoding="utf-8")
+    energy_paths["proposed_separated_cooled_controls"].write_text(
+        energyplus_input(cooled_controls_room=True), encoding="utf-8"
+    )
+    fds_paths["baseline_enclosed_room"].write_text(fds_input(), encoding="utf-8")
+    fds_paths["proposed_separated_open_compound"].write_text(
+        fds_input(open_sided_compound=True), encoding="utf-8"
+    )
+    results_root = Path(__file__).with_name("results")
+    results_root.mkdir(parents=True, exist_ok=True)
+
+    heat_rejection_kw = 500.0 * (1.0 - 0.94) + 10.0
     airflow_m3_s = heat_rejection_kw * 1000.0 / (1.2 * 1005.0 * 10.0)
     energy_binary = shutil.which("energyplus")
     fds_binary = shutil.which("fds")
+    energy_cases: dict[str, Any] = {}
+    fire_cases: dict[str, Any] = {}
+    if energy_binary:
+        for case_name, input_path in energy_paths.items():
+            energy_cases[case_name] = _energyplus_case(
+                energy_binary,
+                input_path,
+                run_root / "energyplus" / case_name,
+                results_root / f"energyplus-{case_name}-zone-temperature.csv",
+                40.0,
+            )
+    if fds_binary:
+        for case_name, input_path in fds_paths.items():
+            chid = (
+                "osr_depot_charger_room"
+                if case_name == "baseline_enclosed_room"
+                else "osr_depot_open_charger_compound"
+            )
+            fire_cases[case_name] = _fds_case(
+                fds_binary,
+                input_path,
+                run_root / "fds" / case_name,
+                results_root / f"fds-{case_name}",
+                chid,
+            )
+    energy_proposed_passed = bool(
+        energy_cases.get("proposed_separated_cooled_controls", {}).get("passed")
+    )
+    fire_proposed_passed = bool(
+        fire_cases.get("proposed_separated_open_compound", {}).get("passed")
+    )
     energy_result: dict[str, Any] = {
         "analysis_id": "OSR-AN-STN-THM-001",
-        "input_path": str(energy_path.relative_to(REPO_ROOT)),
-        "input_sha256": sha256(energy_path),
+        "cases": energy_cases,
+        "input_paths": [str(path.relative_to(REPO_ROOT)) for path in energy_paths.values()],
         "preliminary_heat_rejection_kw": heat_rejection_kw,
         "preliminary_outdoor_airflow_m3_s": airflow_m3_s,
+        "proposed_installed_cooling": "2 x 30 kW packaged DX (one duty, one standby); EnergyPlus screen caps available capacity at 30 kW",
+        "screening_limit_max_zone_air_temperature_c": 40.0,
+        "screening_passed": energy_proposed_passed,
+        "passed": energy_proposed_passed,
         "solver": "EnergyPlus",
         "solver_available": energy_binary is not None,
-        "status": "input-prepared",
-        "passed": False,
-        "limitations": "One depot equipment-room design-day input; climate, envelope, charger duty/loss map, controls and ventilation architecture require project data.",
+        "solver_completed": bool(energy_cases) and all(case["solver_completed"] for case in energy_cases.values()),
+        "status": "mitigation-screen-pass" if energy_proposed_passed else "input-prepared" if not energy_binary else "mitigation-screen-finding",
+        "limitations": "Both one-zone cases are uncalibrated pre-sizing screens. Supplier loss/duty maps, project weather/envelope, refrigerant and condensate design, controls, equipment limits, redundancy proof and commissioning remain deployment gates.",
     }
     fire_result: dict[str, Any] = {
         "analysis_id": "OSR-AN-STN-FIR-001",
-        "input_path": str(fds_path.relative_to(REPO_ROOT)),
-        "input_sha256": sha256(fds_path),
-        "scenario": "250 kW prescribed charger-room fire ramp; not a battery thermal-runaway model",
+        "cases": fire_cases,
+        "input_paths": [str(path.relative_to(REPO_ROOT)) for path in fds_paths.values()],
+        "scenario": "250 kW prescribed fire compared in an enclosed room and a physically separated open-sided compound; not a battery thermal-runaway model",
+        "screening_limits": {"door_visibility_min_m": 10.0, "room_temperature_max_c": 60.0},
+        "screening_passed": fire_proposed_passed,
+        "passed": fire_proposed_passed,
         "solver": "FDS",
         "solver_available": fds_binary is not None,
-        "status": "input-prepared",
-        "passed": False,
-        "limitations": "Demonstration mesh and prescribed burner only; credible heat-release curve, battery chemistry, ventilation, suppression, tenability criteria and fire-engineer review are unresolved.",
+        "solver_completed": bool(fire_cases) and all(case["solver_completed"] for case in fire_cases.values()),
+        "status": "mitigation-screen-pass" if fire_proposed_passed else "input-prepared" if not fds_binary else "mitigation-screen-finding",
+        "limitations": "Coarse prescribed-burner comparison only. Separation distance, credible supplier heat-release/propagation data, wind cases, chemistry, detection, isolation, drainage/containment, suppression, emergency response and fire-engineer acceptance remain deployment gates.",
     }
-    if energy_binary:
-        output = run_root / "energyplus"
-        output.mkdir(parents=True, exist_ok=True)
-        completed = subprocess.run(
-            [energy_binary, "-D", "-d", str(output), str(energy_path)],
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
-        end_file = output / "eplusout.end"
-        successful = completed.returncode == 0 and end_file.is_file() and "Completed Successfully" in end_file.read_text(errors="replace")
-        energy_result.update({"passed": successful, "return_code": completed.returncode, "status": "solver-completed" if successful else "solver-failed"})
-    if fds_binary:
-        output = run_root / "fds"
-        output.mkdir(parents=True, exist_ok=True)
-        completed = subprocess.run(
-            [fds_binary, str(fds_path)],
-            cwd=output,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
-        successful = completed.returncode == 0 and "completed successfully" in completed.stdout.lower()
-        fire_result.update({"passed": successful, "return_code": completed.returncode, "status": "solver-completed" if successful else "solver-failed"})
     return {"energyplus": energy_result, "fds": fire_result}
 
 
@@ -532,8 +726,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"| Structure | {structural['tool']['name']} {structural['tool']['version']} | 22 m shared canopy truss, gravity + uplift | {'PASS' if structural['passed'] else 'FAIL'} | Site loads, 3D stability, joints, foundations and code combinations |",
             f"| Passenger flow | {passenger['tool']['name']} {passenger['tool']['version']} | normal, degraded and egress route for 7 variants | {'PASS' if passenger['passed'] else 'FAIL'} | Calibrated demand, conflicts, assisted evacuation and authority criteria |",
             f"| Roof drainage | {drainage['tool']['name']} {drainage['tool']['version']} | 7 canopy catchments, 75 mm/h input storm | {'PASS' if drainage['passed'] else 'FAIL'} | Local rainfall, survey, tailwater, blockage and exceedance |",
-            f"| Depot thermal | EnergyPlus | tracked equipment-room design-day deck | {optional['energyplus']['status']} | Run solver; replace climate, heat loads, envelope and controls |",
-            f"| Depot fire | FDS | tracked prescribed 250 kW charger-room deck | {optional['fds']['status']} | Credible fire source, refined mesh, tenability/suppression and fire-engineer review |",
+            f"| Depot thermal | EnergyPlus | baseline room + separated/cooled controls-room comparison | {optional['energyplus']['status']} | Project climate, supplier losses, detailed HVAC, controls and commissioning |",
+            f"| Depot fire | FDS | enclosed room + separated/open compound comparison at prescribed 250 kW | {optional['fds']['status']} | Supplier fire data, separation/wind cases, suppression and fire-engineer acceptance |",
         ]
     )
     lines.extend(["", "## Structural cases", "", "| Case | Load kN | Displacement / limit mm | Stress / allowable MPa | Result |", "|---|---:|---:|---:|---|"])
@@ -552,6 +746,22 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.append(
             f"| `{archetype}` | {result['canopy_catchment_area_m2']:.1f} m² / {result['drainage_outlet_count']} | {result['peak_conduit_flow_lps']:.2f} / {result['station_aggregate_peak_flow_lps']:.2f} | {result['rational_method_peak_lps']:.2f} | {result['peak_inlet_depth_m']:.3f} | {'PASS' if result['passed'] else 'FAIL'} |"
         )
+    if optional["energyplus"].get("solver_completed") or optional["fds"].get("solver_completed"):
+        lines.extend(["", "## Depot thermal and fire design response", ""])
+        energy = optional["energyplus"]
+        fire = optional["fds"]
+        if energy.get("solver_completed"):
+            baseline = energy["cases"]["baseline_ventilation_only"]
+            proposed = energy["cases"]["proposed_separated_cooled_controls"]
+            lines.append(
+                f"- EnergyPlus baseline: **{baseline['max_zone_air_temperature_c']:.1f} °C** (FAIL) with charger losses indoors and ventilation only. Proposed response: move charger power stages outdoors, retain a 10 kW controls/switchgear load in a cooled room, and install 2 × 30 kW packaged DX units (one duty, one standby). The one-unit-available screen reaches **{proposed['max_zone_air_temperature_c']:.1f} °C**, draws at most **{proposed['max_ideal_cooling_load_kw']:.1f} kW** and {'passes' if proposed['passed'] else 'does not pass'} the {energy['screening_limit_max_zone_air_temperature_c']:.0f} °C screen."
+            )
+        if fire.get("solver_completed"):
+            baseline = fire["cases"]["baseline_enclosed_room"]
+            proposed = fire["cases"]["proposed_separated_open_compound"]
+            lines.append(
+                f"- FDS enclosed-room baseline: **{baseline['max_room_device_temperature_c']:.1f} °C / {baseline['min_door_visibility_m']:.1f} m visibility** (FAIL). In the proposed physically separated, open-sided charging compound, the same prescribed ~{proposed['max_heat_release_rate_kw']:.0f} kW source gives **{proposed['max_room_device_temperature_c']:.1f} °C / {proposed['min_door_visibility_m']:.1f} m** at the screening devices and {'passes' if proposed['passed'] else 'does not pass'} the provisional 60 °C / 10 m comparison. This is a layout screen, not a fire strategy or battery propagation approval."
+            )
     lines.extend(
         [
             "",
@@ -561,11 +771,41 @@ def render_markdown(report: dict[str, Any]) -> str:
             "and met its stated screening threshold. Before procurement or construction, the",
             "deployment team must substitute surveyed/site inputs, local statutory criteria,",
             "supplier performance data, detailed connections and independent competent review.",
-            "The EnergyPlus and FDS decks are intentionally reported as pending until those",
-            "solvers and project inputs produce reviewed results.",
+            "EnergyPlus/FDS solver completion and a mitigation screen pass confirm only",
+            "input execution and the direction of the catalogue design response. The baseline",
+            "findings, supplier evidence, project-specific design and independent approvals",
+            "remain open release gates.",
             "",
         ]
     )
+    return "\n".join(lines)
+
+
+def render_work_packages(register: dict[str, Any]) -> str:
+    lines = [
+        "# Depot thermal and fire mitigation work packages",
+        "",
+        "Generated from [`mitigation-work-packages.toml`](mitigation-work-packages.toml),",
+        "which is the canonical owner/evidence/closure register.",
+        "",
+        f"**Design response:** {register['design_response']}",
+        "",
+        f"> {register['release_boundary']}",
+        "",
+        "| ID | Package | Owner role | Related products | State |",
+        "|---|---|---|---|---|",
+    ]
+    for package in register["work_package"]:
+        products = ", ".join(f"`{item}`" for item in package["related_product_ids"])
+        lines.append(
+            f"| `{package['id']}` | {package['title']} | {package['owner_role']} | "
+            f"{products} | `{package['closure_state']}` |"
+        )
+    lines.extend(["", "## Evidence required", ""])
+    for package in register["work_package"]:
+        lines.extend([f"### `{package['id']}` — {package['title']}", ""])
+        lines.extend(f"- {item}" for item in package["evidence_required"])
+        lines.append("")
     return "\n".join(lines)
 
 
@@ -599,8 +839,14 @@ def main() -> int:
     atomic_json(args.output, report)
     markdown_path = args.output.with_suffix(".md")
     markdown_path.write_text(render_markdown(report), encoding="utf-8")
+    work_package_markdown = MITIGATION_WORK_PACKAGES.with_suffix(".md")
+    work_package_markdown.write_text(
+        render_work_packages(tomllib.loads(MITIGATION_WORK_PACKAGES.read_text(encoding="utf-8"))),
+        encoding="utf-8",
+    )
     print(f"wrote {args.output}")
     print(f"wrote {markdown_path}")
+    print(f"wrote {work_package_markdown}")
     return 0 if report["screening_execution_passed"] else 1
 
 

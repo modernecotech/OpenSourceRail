@@ -1063,22 +1063,22 @@
     },
     {
       "archetype": "depot-terminal",
-      "closure_evidence": "supplier FAT; protection/isolation test; vehicle reach/alignment test; charge/abort/data-sync SAT",
+      "closure_evidence": "supplier loss/duty and maximum-ambient declaration; supplier FAT; protection/isolation test; vehicle reach/alignment test; charge/abort/data-sync SAT; fire separation and emergency-isolation walkdown",
       "engineering_id": "STN-DEP-P040",
       "maturity": "buildable-after-supplier-and-energy-freeze",
       "quantity": 4,
       "route": "BID",
-      "title": "per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
+      "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
       "unit": "stall kit"
     },
     {
       "archetype": "depot-terminal",
-      "closure_evidence": "structural/PV layout release; utility/protection approval; battery fire/thermal evidence; energy-site SAT",
+      "closure_evidence": "structural/PV layout release; utility/protection approval; cell-to-pack propagation and heat-release evidence; outdoor compound separation/ventilation/containment review; remote isolation and gas/fire detection proof; energy-site SAT",
       "engineering_id": "STN-DEP-P050",
       "maturity": "buildable-after-energy-site-and-supplier-freeze",
       "quantity": 1,
       "route": "BID",
-      "title": "depot PV canopy, inverter, microgrid switchgear, and stationary battery package",
+      "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
       "unit": "energy-site kit"
     },
     {
@@ -1093,12 +1093,12 @@
     },
     {
       "archetype": "depot-terminal",
-      "closure_evidence": "utility capacity; fire cause/effect test; air-system pressure test; coverage/access test; maintenance-data sync",
+      "closure_evidence": "utility capacity; 2 x 30 kW packaged-DX schedule and 30 kW single-unit thermal duty proof; cooling duty/standby changeover and high-temperature alarm; fire cause/effect and remote energy-isolation test; air-system pressure test; coverage/access test; maintenance-data sync",
       "engineering_id": "STN-DEP-P070",
       "maturity": "buildable-after-services-and-supplier-freeze",
       "quantity": 1,
       "route": "BID",
-      "title": "depot LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
+      "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
       "unit": "depot services kit"
     }
   ],
@@ -6331,8 +6331,10 @@
             "release the deployment fleet/stall count, site survey, geotechnical model, utility capacities, depot layout, and phasing plan",
             "construct site formation, drainage, secure boundary, service roads, trackform, stabling tracks, throat turnouts, pits, and stop blocks",
             "erect and fit out workshop, inspection/overhaul bays, stores, crane, wash plant, wheel lathe, and safe access systems",
-            "install PV canopy, stationary storage, microgrid, per-stall charging, LV, compressed air, fire, CCTV, LAN, and access control",
-            "commission track geometry/routes, workshop equipment, energy site, charging/data docks, fire/security, and maintenance-data interfaces",
+            "construct the physically separated outdoor/open-sided energy compound with containment, guarded outward access, remote isolation, detection and the project fire-strategy provisions",
+            "install charger power stages and stationary storage in the energy compound; keep controls/switchgear losses in the separate controls room with 2 \u00d7 30 kW packaged DX cooling",
+            "install PV canopy, microgrid, per-stall charging/data docks, LV, compressed air, fire, CCTV, LAN, and access control without a shared return-air path to occupied buildings",
+            "commission track geometry/routes, workshop equipment, energy site, charging/data docks, duty/standby cooling and alarm changeover, emergency isolation, fire/security, and maintenance-data interfaces",
             "compile the asset register, lifting plans, certifications, spares, maintenance instructions, as-builts, and operator handover evidence"
           ],
           "title": "co-located main-heavy depot civil, track, workshop, energy, and systems assembly",
@@ -7208,10 +7210,12 @@
         },
         {
           "acceptance": [
+            "supplier loss/duty and maximum-ambient declaration",
             "supplier FAT",
             "protection/isolation test",
             "vehicle reach/alignment test",
-            "charge/abort/data-sync SAT"
+            "charge/abort/data-sync SAT",
+            "fire separation and emergency-isolation walkdown"
           ],
           "id": "STN-DEP-P040",
           "maturity": "buildable-after-supplier-and-energy-freeze",
@@ -7222,16 +7226,19 @@
           "source_refs": [
             "depot/layout.py",
             "RFC 0014 \u00a75.3",
-            "RFC 0021 \u00a76.1"
+            "RFC 0021 \u00a76.1",
+            "engineering/analysis/stations/screening-summary.md"
           ],
-          "title": "per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
+          "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
           "unit": "stall kit"
         },
         {
           "acceptance": [
             "structural/PV layout release",
             "utility/protection approval",
-            "battery fire/thermal evidence",
+            "cell-to-pack propagation and heat-release evidence",
+            "outdoor compound separation/ventilation/containment review",
+            "remote isolation and gas/fire detection proof",
             "energy-site SAT"
           ],
           "id": "STN-DEP-P050",
@@ -7243,9 +7250,10 @@
           "source_refs": [
             "lib/templates/depots.toml",
             "RFC 0014 \u00a75.3",
-            "RFC 0002"
+            "RFC 0002",
+            "engineering/analysis/stations/screening-summary.md"
           ],
-          "title": "depot PV canopy, inverter, microgrid switchgear, and stationary battery package",
+          "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
           "unit": "energy-site kit"
         },
         {
@@ -7273,7 +7281,9 @@
         {
           "acceptance": [
             "utility capacity",
-            "fire cause/effect test",
+            "2 x 30 kW packaged-DX schedule and 30 kW single-unit thermal duty proof",
+            "cooling duty/standby changeover and high-temperature alarm",
+            "fire cause/effect and remote energy-isolation test",
             "air-system pressure test",
             "coverage/access test",
             "maintenance-data sync"
@@ -7287,9 +7297,10 @@
           "source_refs": [
             "RFC 0014 \u00a75",
             "standard-archetype/services.md",
-            "control-electronics/s-sbc/diy-assembly/README.md"
+            "control-electronics/s-sbc/diy-assembly/README.md",
+            "engineering/analysis/stations/screening-summary.md"
           ],
-          "title": "depot LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
+          "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
           "unit": "depot services kit"
         }
       ]

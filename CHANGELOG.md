@@ -4,8 +4,12 @@
 
 - Added a deterministic all-variant station systems package: OpenSees canopy
   gravity/uplift, JuPedSim normal/degraded/egress and repeatable-bay SWMM
-  drainage, plus tracked EnergyPlus and FDS inputs that remain explicit pending
-  gates until project inputs and native solver review are available.
+  drainage, plus tracked EnergyPlus and FDS runs. The adverse enclosed depot
+  baselines are retained alongside a passing separated/open energy-compound
+  and N+1 cooled-controls screen, with six explicit deployment work packages.
+- Extended the one-command optional engineering setup to install checksum-
+  verified EnergyPlus 26.1 and FDS 6.11.1 user-locally without editing shell
+  startup files; the engineering smoke check now exercises both native solvers.
 - Added seven complete station-variant FreeCAD and geometric IFC4.3 assemblies,
   covering all 45 controlled station products with deterministic validation;
   the FreeCAD set now carries 4,324 installed/exploded native shapes, controlled

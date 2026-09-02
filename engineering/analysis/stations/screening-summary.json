@@ -140,31 +140,111 @@
       }
     }
   },
-  "generator_sha256": "814ba056073d5f8a37685c690632e2bde5869e421c4c5d5882e0cdb561050752",
-  "manifest_sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55",
+  "generator_sha256": "55a7d4dfe81abbe3ffac54ed9ce7a0df14666e20f0684535358ea1ce9db767f6",
+  "manifest_sha256": "d5282d4f7ddd995044f531437f89536493e48c1007bfd48dda67cd4b8325eea1",
   "optional_solver_inputs": {
     "energyplus": {
       "analysis_id": "OSR-AN-STN-THM-001",
-      "input_path": "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf",
-      "input_sha256": "ed9539f931c438b94698b1a306a76df84f446fb7e8c95b4183c4a648792ce39d",
-      "limitations": "One depot equipment-room design-day input; climate, envelope, charger duty/loss map, controls and ventilation architecture require project data.",
-      "passed": false,
+      "cases": {
+        "baseline_ventilation_only": {
+          "input_path": "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf",
+          "input_sha256": "6ab7c30bd158c3f4f41e0260f21394244bf464d437cd01917cd8731ada0a1409",
+          "max_ideal_cooling_load_kw": null,
+          "max_zone_air_temperature_c": 52.64636329779876,
+          "passed": false,
+          "result_trace_path": "engineering/analysis/stations/results/energyplus-baseline_ventilation_only-zone-temperature.csv",
+          "result_trace_sha256": "e130aec1535c78ee1a2c9bac19445b51bcdfbb47a67083cea90faa5e940135ab",
+          "return_code": 0,
+          "solver_completed": true,
+          "status": "solver-completed-finding"
+        },
+        "proposed_separated_cooled_controls": {
+          "input_path": "engineering/analysis/stations/inputs/energyplus/depot-cooled-controls-room.idf",
+          "input_sha256": "294e9c0134c831a3501edfa569656676c8ad8d2fde9f6e2a412b547c228ac844",
+          "max_ideal_cooling_load_kw": 13.444117297316177,
+          "max_zone_air_temperature_c": 35.00000000000001,
+          "passed": true,
+          "result_trace_path": "engineering/analysis/stations/results/energyplus-proposed_separated_cooled_controls-zone-temperature.csv",
+          "result_trace_sha256": "9a81f81bbc1d4d159967ca0398570251ee3917a09e18c909511ba674e907aea7",
+          "return_code": 0,
+          "solver_completed": true,
+          "status": "solver-completed-pass"
+        }
+      },
+      "input_paths": [
+        "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf",
+        "engineering/analysis/stations/inputs/energyplus/depot-cooled-controls-room.idf"
+      ],
+      "limitations": "Both one-zone cases are uncalibrated pre-sizing screens. Supplier loss/duty maps, project weather/envelope, refrigerant and condensate design, controls, equipment limits, redundancy proof and commissioning remain deployment gates.",
+      "passed": true,
       "preliminary_heat_rejection_kw": 40.00000000000003,
       "preliminary_outdoor_airflow_m3_s": 3.316749585406304,
+      "proposed_installed_cooling": "2 x 30 kW packaged DX (one duty, one standby); EnergyPlus screen caps available capacity at 30 kW",
+      "screening_limit_max_zone_air_temperature_c": 40.0,
+      "screening_passed": true,
       "solver": "EnergyPlus",
-      "solver_available": false,
-      "status": "input-prepared"
+      "solver_available": true,
+      "solver_completed": true,
+      "status": "mitigation-screen-pass"
     },
     "fds": {
       "analysis_id": "OSR-AN-STN-FIR-001",
-      "input_path": "engineering/analysis/stations/inputs/fds/depot-charger-room.fds",
-      "input_sha256": "e6b49fc96f81cbdb840ad3fef05d5a03420579367bb6f18f3004a14a2d3bea1f",
-      "limitations": "Demonstration mesh and prescribed burner only; credible heat-release curve, battery chemistry, ventilation, suppression, tenability criteria and fire-engineer review are unresolved.",
-      "passed": false,
-      "scenario": "250 kW prescribed charger-room fire ramp; not a battery thermal-runaway model",
+      "cases": {
+        "baseline_enclosed_room": {
+          "input_path": "engineering/analysis/stations/inputs/fds/depot-charger-room.fds",
+          "input_sha256": "3d490ed3707df2b047a797f673e38de2048e449813a3b0728d77a99c40a46953",
+          "max_heat_release_rate_kw": 250.68915,
+          "max_room_device_temperature_c": 170.88638,
+          "min_door_visibility_m": 1.0062199,
+          "passed": false,
+          "result_trace_paths": [
+            "engineering/analysis/stations/results/fds-baseline_enclosed_room-device-trace.csv",
+            "engineering/analysis/stations/results/fds-baseline_enclosed_room-hrr-trace.csv"
+          ],
+          "result_trace_sha256": {
+            "fds-baseline_enclosed_room-device-trace.csv": "58aee5183bf66814452a2b72d52c7e038c13c6a3e59c85a6a88415173a66759c",
+            "fds-baseline_enclosed_room-hrr-trace.csv": "1ff39957e9d0d871d0f6ac11ba5a7de133f976b9a8e7e6d6faf8ed1192cdb702"
+          },
+          "return_code": 0,
+          "solver_completed": true,
+          "status": "solver-completed-finding"
+        },
+        "proposed_separated_open_compound": {
+          "input_path": "engineering/analysis/stations/inputs/fds/depot-open-charger-compound.fds",
+          "input_sha256": "d97318d276e2cc81a30baed9af38fd8ef4a5bbd3b7589e452b577a03f48bcc82",
+          "max_heat_release_rate_kw": 250.77775,
+          "max_room_device_temperature_c": 21.011692,
+          "min_door_visibility_m": 30.0,
+          "passed": true,
+          "result_trace_paths": [
+            "engineering/analysis/stations/results/fds-proposed_separated_open_compound-device-trace.csv",
+            "engineering/analysis/stations/results/fds-proposed_separated_open_compound-hrr-trace.csv"
+          ],
+          "result_trace_sha256": {
+            "fds-proposed_separated_open_compound-device-trace.csv": "06f28123ac9b0c2423b6b06232d8da4c6c036dbe9b4d83e35920bb348248ee99",
+            "fds-proposed_separated_open_compound-hrr-trace.csv": "ec2aee0ab24156f047bd723d2733854f9c533f99d1e7c3211685b2d2473e9691"
+          },
+          "return_code": 0,
+          "solver_completed": true,
+          "status": "solver-completed-pass"
+        }
+      },
+      "input_paths": [
+        "engineering/analysis/stations/inputs/fds/depot-charger-room.fds",
+        "engineering/analysis/stations/inputs/fds/depot-open-charger-compound.fds"
+      ],
+      "limitations": "Coarse prescribed-burner comparison only. Separation distance, credible supplier heat-release/propagation data, wind cases, chemistry, detection, isolation, drainage/containment, suppression, emergency response and fire-engineer acceptance remain deployment gates.",
+      "passed": true,
+      "scenario": "250 kW prescribed fire compared in an enclosed room and a physically separated open-sided compound; not a battery thermal-runaway model",
+      "screening_limits": {
+        "door_visibility_min_m": 10.0,
+        "room_temperature_max_c": 60.0
+      },
+      "screening_passed": true,
       "solver": "FDS",
-      "solver_available": false,
-      "status": "input-prepared"
+      "solver_available": true,
+      "solver_completed": true,
+      "status": "mitigation-screen-pass"
     }
   },
   "passenger": {

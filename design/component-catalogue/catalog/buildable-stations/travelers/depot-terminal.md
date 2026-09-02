@@ -278,9 +278,11 @@ Work cell: depot construction and systems integration.
 1. release the deployment fleet/stall count, site survey, geotechnical model, utility capacities, depot layout, and phasing plan.
 2. construct site formation, drainage, secure boundary, service roads, trackform, stabling tracks, throat turnouts, pits, and stop blocks.
 3. erect and fit out workshop, inspection/overhaul bays, stores, crane, wash plant, wheel lathe, and safe access systems.
-4. install PV canopy, stationary storage, microgrid, per-stall charging, LV, compressed air, fire, CCTV, LAN, and access control.
-5. commission track geometry/routes, workshop equipment, energy site, charging/data docks, fire/security, and maintenance-data interfaces.
-6. compile the asset register, lifting plans, certifications, spares, maintenance instructions, as-builts, and operator handover evidence.
+4. construct the physically separated outdoor/open-sided energy compound with containment, guarded outward access, remote isolation, detection and the project fire-strategy provisions.
+5. install charger power stages and stationary storage in the energy compound; keep controls/switchgear losses in the separate controls room with 2 × 30 kW packaged DX cooling.
+6. install PV canopy, microgrid, per-stall charging/data docks, LV, compressed air, fire, CCTV, LAN, and access control without a shared return-air path to occupied buildings.
+7. commission track geometry/routes, workshop equipment, energy site, charging/data docks, duty/standby cooling and alarm changeover, emergency isolation, fire/security, and maintenance-data interfaces.
+8. compile the asset register, lifting plans, certifications, spares, maintenance instructions, as-builts, and operator handover evidence.
 
 ### Hold points
 
