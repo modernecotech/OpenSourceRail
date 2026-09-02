@@ -1307,7 +1307,7 @@ function renderJobs() {
   document.querySelectorAll("[data-job-adapter]").forEach((button) => {
     button.addEventListener("click", () => startEngineeringJob(button.dataset.jobAdapter));
   });
-  $("#jobs").innerHTML = jobView.jobs.slice(0, 4).map((job) => {
+  $("#jobs").innerHTML = jobView.jobs.slice(0, 6).map((job) => {
     const artifacts = job.artifacts.length
       ? `<div class="job-artifacts">${job.artifacts.map((artifact, index) => {
         const key = `${job.id}:${index}`;
@@ -1333,6 +1333,7 @@ function renderJobs() {
 
 async function selectDefaultArtifact() {
   const preferredKinds = [
+    "field-evidence-brief", "field-evidence-readable", "survey-receipt-manifest",
     "civil-bim-index", "civil-ids-report", "civil-bcf3-index",
     "civil-bim-validation", "civil-4d-sequence",
     "gis-network", "alignment-input", "alignment-review", "simulation-result",

@@ -324,7 +324,7 @@ The Samawah project is the first committed acceptance fixture. It:
   revisions and proves that approval does not alter the design hash;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
   SHA-256 artifact manifest;
-- runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with
+- runs allowlisted field-evidence, GIS, simulator, and LandXML/railML alignment jobs with
   persistent status, captured logs, and SHA-256 output records;
 - retains immutable per-job artifact copies and rejects altered evidence before
   browser preview;

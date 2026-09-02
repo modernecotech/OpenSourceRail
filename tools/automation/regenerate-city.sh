@@ -153,6 +153,11 @@ echo "6) SUMO + QGIS + energy engineering package → $DESIGN_DIR/engineering/"
 "$REPO/tools/automation/engineering-toolchain.sh" --cities \
     --design "$DESIGN_DIR/design.toml" --jobs 1 --skip-shared-models
 
+echo "6a) field-evidence brief → $DESIGN_DIR/engineering/survey/"
+"$PYTHON" "$REPO/engineering/analysis/survey_package.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --output-dir "$DESIGN_DIR/engineering/survey"
+
 echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simulation/"
 "$PYTHON" "$REPO/tools/automation/validate-city-simulation.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml" --resilience
@@ -190,5 +195,5 @@ echo "  README.md, design.toml, $SLUG.toml, $SLUG-network-map.png,"
 echo "  $SLUG.corridor.geojson, $SLUG.stations.json, $SLUG.design-quality.yaml"
 echo "  operations/ (asset, CPM, orders, cashflow, QA, maintenance, and acceptance data)"
 echo "  engineering/project-twin/summary.json (compact Git-reviewable delivery twin)"
-echo "  engineering/ (alignment, SUMO, QGIS/GDAL, energy, simulation, screenshots, finance)"
+echo "  engineering/ (alignment, survey brief, SUMO, QGIS/GDAL, energy, simulation, screenshots, finance)"
 echo "  package-manifest.json (hashed screening-package completeness gate)"

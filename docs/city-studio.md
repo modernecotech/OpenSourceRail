@@ -157,8 +157,8 @@ Implemented:
   revisions, including reviewer role, decision date, rationale, and review or
   pull-request reference;
 - day-type-specific simulator scenarios and a hash-addressed artifact manifest;
-- allowlisted GIS compilation, one-hour simulator, and LandXML/railML alignment
-  jobs plus IFC4.3 civil federation with persistent progress, command display,
+- allowlisted field-evidence brief, GIS compilation, one-hour simulator, and
+  LandXML/railML alignment jobs plus IFC4.3 civil federation with persistent progress, command display,
   captured logs, exit state, and SHA-256 artifact records;
 - an integrated evidence viewer for GeoJSON, alignment JSON, LandXML, railML,
   stakeout CSV, civil IFC object indices/raw STEP, simulator JSON, manifests,
@@ -273,8 +273,11 @@ passenger-assignment, interchange, platform-flow, or egress study.
 
 ## Controlled engineering jobs
 
-The engineering hub exposes four fixed adapters:
+The engineering hub exposes five fixed adapters:
 
+- **Issue field-evidence brief** locks the current candidate revision and
+  generates survey, utility, land, flood, geotechnical, workshop/fleet and
+  reality-capture requirements plus an explicitly unaccepted receipt manifest;
 - **Compile GIS package** publishes the candidate snapshot, GeoJSON, day-type
   scenarios, and manifest;
 - **Run network simulation** executes a fixed one-hour compact `osr-sim` run

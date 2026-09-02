@@ -264,10 +264,13 @@ complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.
 
 ### Wave 2 — COMP-017 surveyed Samawah pilot and civil checks
 
-- [ ] **COMP-017-01 — Issue the field evidence brief.** Define control,
-  accuracy, CRS/vertical datum, utility classes, property checks, flood
-  evidence, boreholes/tests, workshop/fleet audit, photography/scan coverage,
-  data ownership, and acceptance before mobilization.
+- [x] **COMP-017-01 — Issue the field evidence brief.** The shared controlled
+  template defines control, provisional accuracy, CRS/vertical-datum approval,
+  utilities, property, flood, ground investigation, workshop/fleet audit,
+  photography/scan coverage, ownership and acceptance. The generated
+  [Samawah brief](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md)
+  and empty receipt manifest are also available as a revision-locked City
+  Studio job. Mobilisation, field capture and acceptance remain external.
 - [ ] **COMP-017-02 — Process and accept control.** Process GNSS observations
   with RTKLIB, retain raw and processing reports in controlled project
   storage, and have the deployment survey authority accept the network.

@@ -18,6 +18,11 @@ The generated outputs from these inputs live under
 [`cities/catalogue/`](../cities/catalogue/), and the design synthesis crate is
 [`crates/osr-design`](../crates/osr-design/).
 
+The shared [`templates/field-evidence.toml`](templates/field-evidence.toml)
+drives the pre-mobilisation survey/site brief for any city. Generated briefs
+remain unaccepted until the named project authorities approve the requirements
+and field deliveries.
+
 Civil cost inputs are split deliberately: edit
 [`templates/civil-cost-calibration.toml`](templates/civil-cost-calibration.toml)
 and the parametric civil geometry, then run

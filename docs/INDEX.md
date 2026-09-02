@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1358**.
+Indexed Markdown files: **1360**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **1358**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 847 |
+| [cities](#cities) | 849 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
@@ -752,6 +752,7 @@ Indexed Markdown files: **1358**.
 | [`cities/catalogue/west-asia/Iraq/Kut/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Kut/operations/acceptance-evidence-report.md) | Kut Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Mosul/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/README.md) | Mosul — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/README.md) | Mosul Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Mosul/engineering/survey/field-evidence-brief.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/survey/field-evidence-brief.md) | Mosul field-evidence brief |
 | [`cities/catalogue/west-asia/Iraq/Mosul/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Mosul/operations/acceptance-evidence-report.md) | Mosul Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md) | Iraq National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Iraq/Najaf/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/README.md) | Najaf — Urban Rail Network |
@@ -766,6 +767,7 @@ Indexed Markdown files: **1358**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/README.md) | Samawah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md) | Samawah Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md) | Samawah field-evidence brief |
 | [`cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md) | Samawah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md) | Sulaymaniyah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md) | Sulaymaniyah Planning OSR-ALN Package |

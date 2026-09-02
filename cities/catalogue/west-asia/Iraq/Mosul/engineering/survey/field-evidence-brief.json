@@ -1,0 +1,188 @@
+{
+  "analysis_id": "OSR-FIELD-EVIDENCE:mosul",
+  "brief_findings": [],
+  "brief_ready_for_approval": true,
+  "candidate_horizontal_crs": "EPSG:32638 candidate UTM zone 38N; survey authority to confirm or replace",
+  "city": "mosul",
+  "country": "IQ",
+  "dataset_count": 11,
+  "datasets": [
+    {
+      "acceptance_evidence": [
+        "approved projected CRS, epoch, units, geoid model and vertical datum",
+        "instrument/antenna serials and calibration status",
+        "redundant occupations and independent checks",
+        "least-squares residuals, covariance/uncertainty and rejected-observation record",
+        "signed monument descriptions and protection/inspection plan"
+      ],
+      "delivery_format": "RINEX plus field logs, adjustment report, coordinate schedule and signed control report",
+      "id": "SUR-CTRL",
+      "owner_role": "appointed survey authority",
+      "provisional_accuracy": "Primary control <=10 mm horizontal and <=15 mm vertical expanded uncertainty; interface control <=5 mm relative to accepted project control. Survey authority must approve or replace these project targets.",
+      "scope": "Stable primary/secondary monuments covering every corridor, station, depot, bridge, energy site and construction compound.",
+      "title": "Primary and secondary survey control"
+    },
+    {
+      "acceptance_evidence": [
+        "feature code and layer dictionary",
+        "check-point residual report",
+        "coverage/void map and inaccessible-area register",
+        "capture date/epoch and change notes",
+        "signed completeness review against route limits"
+      ],
+      "delivery_format": "GeoPackage 3D points/lines/polygons plus LandXML terrain and accepted PDF plans",
+      "id": "SUR-TOPO",
+      "owner_role": "survey delivery lead",
+      "provisional_accuracy": "Hard-surface/detail points <=25 mm horizontal and <=20 mm vertical; general ground <=50 mm. Survey authority must approve class-by-feature targets and check density.",
+      "scope": "Full corridor, station, depot, access, watercourse, road, structure, compound and lifting-route coverage with breaklines and feature coding.",
+      "title": "Corridor and site topographic survey"
+    },
+    {
+      "acceptance_evidence": [
+        "records search and authority contacts",
+        "detection method, equipment and calibration",
+        "surface-feature correlation",
+        "verification exposure/trial-hole schedule where design risk warrants",
+        "unresolved and abandoned-service issue register"
+      ],
+      "delivery_format": "GeoPackage 3D utility features, investigation records, photographs and confidence/quality attributes",
+      "id": "SUR-UTIL",
+      "owner_role": "utility survey lead",
+      "provisional_accuracy": "Every feature carries horizontal/vertical uncertainty and detection/verification method; trial holes or records alone must not be silently treated as surveyed truth.",
+      "scope": "Electricity, telecoms, water, sewer, drainage, fuel, irrigation and unknown services within the works influence zone.",
+      "title": "Above- and below-ground utilities"
+    },
+    {
+      "acceptance_evidence": [
+        "authoritative source and retrieval date",
+        "boundary/status confidence",
+        "owner/occupier and consent state",
+        "temporary/permanent requirement",
+        "dispute and encroachment register"
+      ],
+      "delivery_format": "GeoPackage boundaries/rights plus controlled title, consent and access register",
+      "id": "SUR-LAND",
+      "owner_role": "client land and legal lead",
+      "provisional_accuracy": "Boundary geometry remains indicative until reconciled to authoritative records and verified by the competent land authority.",
+      "scope": "Ownership, occupation, easements, road reserve, temporary access, compounds, lifting routes and acquisition constraints.",
+      "title": "Property, right-of-way and access constraints"
+    },
+    {
+      "acceptance_evidence": [
+        "source dates and return periods",
+        "surveyed channel/outfall/culvert levels",
+        "historical event and community evidence",
+        "blockage/tailwater assumptions",
+        "authority-approved design storm and discharge constraints"
+      ],
+      "delivery_format": "GeoPackage water/flood/outfall layers plus rainfall, level, model and authority records",
+      "id": "SUR-FLOOD",
+      "owner_role": "drainage and flood lead",
+      "provisional_accuracy": "Levels use the accepted vertical datum; rainfall return periods and climate allowances require local authority confirmation.",
+      "scope": "Catchments, channels, historical levels, culverts, outfalls, tailwater, groundwater indicators and exceedance routes affecting the works.",
+      "title": "Hydrology, flood and drainage evidence"
+    },
+    {
+      "acceptance_evidence": [
+        "desk study, walkover and conceptual ground model",
+        "location/elevation tied to accepted control",
+        "factual logs and chain of custody",
+        "strength, settlement, corrosivity and groundwater parameters with uncertainty",
+        "signed geotechnical design recommendations and residual risks"
+      ],
+      "delivery_format": "AGS or equivalent structured logs, coordinates, samples/tests, factual report and interpretive design report",
+      "id": "GEO-GI",
+      "owner_role": "geotechnical engineer of record",
+      "provisional_accuracy": "Investigation spacing/depth and tests are risk-based and approved by the geotechnical engineer after desk study and walkover.",
+      "scope": "Boreholes, CPTu, test pits, groundwater monitoring and laboratory programme zoned for at-grade, elevated, station, depot and energy works.",
+      "title": "Ground investigation and laboratory testing"
+    },
+    {
+      "acceptance_evidence": [
+        "asset identity, condition and certification",
+        "measured capacity/clearance and utility availability",
+        "repair/reuse/replace decision",
+        "production and maintenance throughput",
+        "operator-approved upgrade work packages"
+      ],
+      "delivery_format": "asset/capability register, measured layouts, utilities, photographs and gap assessment",
+      "id": "OPS-WORKSHOP",
+      "owner_role": "operator engineering lead",
+      "provisional_accuracy": "Critical lifting, clearance and interface dimensions are measured to the tolerance required by the selected equipment supplier.",
+      "scope": "Buildings, pits, cranes, lifting, machine tools, power, compressed air, fire systems, stores, access and workforce capability.",
+      "title": "Existing workshop and depot capability audit"
+    },
+    {
+      "acceptance_evidence": [
+        "vehicle/configuration and maintenance history",
+        "measured gauge/coupler/wheel/depot interfaces",
+        "operating duty and failure records",
+        "rescue/recovery constraints",
+        "signed compatibility and migration decisions"
+      ],
+      "delivery_format": "fleet register, measured interface sheets, duty/condition records and migration constraints",
+      "id": "OPS-FLEET",
+      "owner_role": "operator rolling-stock lead",
+      "provisional_accuracy": "Safety and physical interfaces use independently checked measurements and controlled vehicle/configuration identity.",
+      "scope": "Existing vehicles, gauges, couplers, wheel/rail, depot interfaces, rescue, operating rules and reusable components relevant to the pilot.",
+      "title": "Existing fleet and operating interface audit"
+    },
+    {
+      "acceptance_evidence": [
+        "capture plan, permissions and privacy controls",
+        "camera/lens identity and calibration",
+        "GCP versus independent check-point separation",
+        "processing software/version/settings",
+        "check-point residuals, voids, artefacts and obscuration map"
+      ],
+      "delivery_format": "source-image manifest and hashes, camera logs, GCP/check points, orthophoto/DSM and processing report",
+      "id": "SUR-IMAGE",
+      "owner_role": "reality-capture lead",
+      "provisional_accuracy": "Ground sampling distance and independent check-point limits are agreed by use case; neither EXIF position nor self-reported processing precision is acceptance evidence.",
+      "scope": "Continuous corridor and detailed station/depot/structure/utility-context coverage, subject to permissions and privacy controls.",
+      "title": "Georeferenced photography and photogrammetry"
+    },
+    {
+      "acceptance_evidence": [
+        "scanner identity/calibration and setup log",
+        "target/control schedule",
+        "registration method and residuals",
+        "independent check points and cloud-to-cloud sections",
+        "density, range, noise, void and movement/change register"
+      ],
+      "delivery_format": "E57/LAS/LAZ plus station setup, targets/control, registration and CloudCompare QA report",
+      "id": "SUR-SCAN",
+      "owner_role": "reality-capture lead",
+      "provisional_accuracy": "Registration RMS is reported but not used alone; independent control/check residuals and local interface comparisons govern acceptance.",
+      "scope": "Complex structures, station/depot interfaces, constrained utilities and clearance-critical areas selected by the design team.",
+      "title": "Point-cloud and dimensional interface capture"
+    },
+    {
+      "acceptance_evidence": [
+        "owner, producer, checker and accepting authority per dataset",
+        "licence, reuse, publication and personal-data constraints",
+        "file naming, metadata, revision and immutable hash rules",
+        "backup, retention and access-control plan",
+        "signed receipt/rejection/reissue workflow"
+      ],
+      "delivery_format": "responsibility matrix, naming/revision rules, common-data-environment plan, licence/consent register and acceptance record",
+      "id": "INF-GOV",
+      "owner_role": "client information manager",
+      "provisional_accuracy": "Not applicable; this package governs provenance, access, revision, retention and authorized use.",
+      "scope": "All raw and derived field information, personal/sensitive content, third-party records and authoritative project derivatives.",
+      "title": "Information ownership, security and acceptance"
+    }
+  ],
+  "external_gate": "The appointed survey authority, architect/engineer of record, operator and information manager approve this brief, responsibility matrix, CRS, vertical datum, accuracy schedule, access plan and data rights before field capture.",
+  "field_evidence_accepted": false,
+  "generator_sha256": "aba421bac40ed69a40abf6e5e4aa792607a2ca1117f19968a99a88371f463aa8",
+  "mobilisation_authorized": false,
+  "project_input": "cities/catalogue/west-asia/Iraq/Mosul/design.toml",
+  "project_input_kind": "catalogue-design",
+  "project_input_sha256": "5252888f89f92bf2c05a5a6dbb11c8eea2c5676f98a8ff6dfd825d210a02e53c",
+  "raw_data_policy": "Keep raw survey, imagery, scan, utility and personal data in access-controlled project storage; Git contains requirements, manifests, hashes, accepted summaries and non-sensitive derivatives only.",
+  "requirements_sha256": "af4f1a4c6eb74a92fc840d9e53deb843f09f11f4c805817d65b44b5bf7b0ce1e",
+  "requirements_source": "lib/templates/field-evidence.toml",
+  "status": "brief-issued-awaiting-signatures",
+  "vertical_datum": "authority-to-confirm-before-mobilisation"
+}

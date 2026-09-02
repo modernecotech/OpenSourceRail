@@ -83,6 +83,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Grid/charging/solar | pass | [`summary.json`](engineering/energy/summary.json) |
+| Field-evidence brief | issued; signatures/data pending | [`field-evidence-brief.md`](engineering/survey/field-evidence-brief.md) |
 | Operations, QA and maintenance | 638 assets / 2,824 tasks | [`mosul-operations-manifest.json`](operations/mosul-operations-manifest.json) |
 
 ## Local Files And Regeneration

@@ -17,3 +17,10 @@ what a deployment partner must add before civil/station design freeze.
 
 For Samawah, this checklist closes the roadmap item for survey-grade
 alignment replacement and deployment-specific assumptions.
+
+Issue the project information request from the canonical
+[`field-evidence.toml`](../../lib/templates/field-evidence.toml) template. The
+[Samawah field-evidence brief](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md)
+shows the required packages and provisional accuracy schedule. Its receipt
+manifest is intentionally empty: only the appointed authorities can approve
+the CRS, vertical datum, delivery and mobilisation.

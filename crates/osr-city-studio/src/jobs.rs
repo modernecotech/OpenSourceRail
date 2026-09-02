@@ -21,6 +21,7 @@ const MAX_PREVIEW_BYTES: u64 = 4_000_000;
 #[derive(Clone, Copy, Debug)]
 enum Adapter {
     GisExport,
+    FieldEvidence,
     Simulation,
     AlignmentExchange,
     CivilBim,
@@ -30,6 +31,7 @@ impl Adapter {
     fn parse(id: &str) -> Result<Self> {
         match id {
             "gis-export" => Ok(Self::GisExport),
+            "field-evidence" => Ok(Self::FieldEvidence),
             "simulation" => Ok(Self::Simulation),
             "alignment-exchange" => Ok(Self::AlignmentExchange),
             "civil-bim" => Ok(Self::CivilBim),
@@ -40,6 +42,7 @@ impl Adapter {
     fn id(self) -> &'static str {
         match self {
             Self::GisExport => "gis-export",
+            Self::FieldEvidence => "field-evidence",
             Self::Simulation => "simulation",
             Self::AlignmentExchange => "alignment-exchange",
             Self::CivilBim => "civil-bim",
@@ -49,6 +52,7 @@ impl Adapter {
     fn label(self) -> &'static str {
         match self {
             Self::GisExport => "Compile GIS package",
+            Self::FieldEvidence => "Issue field-evidence brief",
             Self::Simulation => "Run network simulation",
             Self::AlignmentExchange => "Export LandXML and railML",
             Self::CivilBim => "Generate Bonsai civil IFC4.3",
@@ -92,6 +96,14 @@ impl JobManager {
                 label: "Compile GIS package".to_string(),
                 description:
                     "Compile the candidate network, day-type scenarios, and hash manifest."
+                        .to_string(),
+            },
+            JobAdapterInfo {
+                id: "field-evidence".to_string(),
+                category: "Survey / site evidence".to_string(),
+                label: "Issue field-evidence brief".to_string(),
+                description:
+                    "Generate the revision-locked survey, utilities, land, flood, ground, workshop, fleet and reality-capture requirements plus an empty receipt manifest."
                         .to_string(),
             },
             JobAdapterInfo {
@@ -345,6 +357,7 @@ impl JobManager {
         }
         match adapter {
             Adapter::GisExport => self.run_gis(id).await,
+            Adapter::FieldEvidence => self.run_field_evidence(id).await,
             Adapter::Simulation => self.run_simulation(id).await,
             Adapter::AlignmentExchange => self.run_alignment(id).await,
             Adapter::CivilBim => self.run_civil_bim(id).await,
@@ -404,6 +417,56 @@ impl JobManager {
             ),
             artifacts,
         ))
+    }
+
+    async fn run_field_evidence(&self, id: &str) -> Result<(i32, String, Vec<JobArtifact>)> {
+        self.progress(id, 25, "Compiling the current city revision")
+            .await?;
+        let project = CityProject::load(&self.project_root)?;
+        let snapshot_path = project.write_build_snapshot(&self.repository_root)?;
+        let output_dir = self.job_dir(id).join("field-evidence");
+        fs::create_dir_all(&output_dir)?;
+        self.progress(id, 55, "Generating survey and site-evidence requirements")
+            .await?;
+        let python = self.repository_root.join("tools/automation/osr-python");
+        let generator = self
+            .repository_root
+            .join("engineering/analysis/survey_package.py");
+        let output = Command::new(&python)
+            .arg(&generator)
+            .arg("--design")
+            .arg(&snapshot_path)
+            .arg("--output-dir")
+            .arg(&output_dir)
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .with_context(|| {
+                format!(
+                    "running allowlisted field-evidence generator {}",
+                    generator.display()
+                )
+            })?;
+        let log = command_log(&output);
+        if !output.status.success() {
+            bail!("field-evidence generator exited unsuccessfully\n{log}");
+        }
+        let artifacts = vec![
+            self.artifact(
+                "field-evidence-brief",
+                &output_dir.join("field-evidence-brief.json"),
+            )?,
+            self.artifact(
+                "field-evidence-readable",
+                &output_dir.join("field-evidence-brief.md"),
+            )?,
+            self.artifact(
+                "survey-receipt-manifest",
+                &output_dir.join("survey-input-manifest.csv"),
+            )?,
+        ];
+        Ok((output.status.code().unwrap_or(0), log, artifacts))
     }
 
     async fn run_simulation(&self, id: &str) -> Result<(i32, String, Vec<JobArtifact>)> {
@@ -711,6 +774,10 @@ fn display_command(adapter: Adapter, day_type: Option<&str>, line: Option<&str>)
             "internal:osr-city-studio".to_string(),
             "compile-gis".to_string(),
         ],
+        Adapter::FieldEvidence => vec![
+            "survey_package.py".to_string(),
+            "--current-city-revision".to_string(),
+        ],
         Adapter::Simulation => vec![
             "osr-sim".to_string(),
             "--day-type".to_string(),
@@ -896,6 +963,11 @@ fn preview_content<'a>(
             "text/csv",
             serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
         )),
+        "md" => Ok((
+            "markdown",
+            "text/markdown",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
         "ifc" => Ok((
             "ifc",
             "model/ifc",
@@ -960,6 +1032,7 @@ mod tests {
     fn adapter_allowlist_rejects_shell_input() {
         assert!(Adapter::parse("simulation").is_ok());
         assert!(Adapter::parse("civil-bim").is_ok());
+        assert!(Adapter::parse("field-evidence").is_ok());
         assert!(Adapter::parse("simulation; rm -rf").is_err());
     }
 
@@ -989,6 +1062,8 @@ mod tests {
         assert_eq!(ids.0, "ids");
         let bcf = preview_content(Path::new("issues.bcf"), b"PK\x03\x04").unwrap();
         assert_eq!(bcf.0, "bcf");
+        let markdown = preview_content(Path::new("brief.md"), b"# Brief").unwrap();
+        assert_eq!(markdown.0, "markdown");
         assert!(preview_content(Path::new("issues.bcf"), b"not a zip").is_err());
         assert!(preview_content(Path::new("board.kicad_pcb"), b"board").is_err());
     }

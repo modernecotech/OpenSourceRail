@@ -11,6 +11,7 @@ Run from the repository root:
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import importlib.util
 import json
@@ -380,6 +381,9 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/screenshots/manifest.json",
                 city_dir / "engineering/screenshots" / f"{slug}-network-visualizer.png",
                 city_dir / "engineering/screenshots" / f"{slug}-simulation-dashboard.png",
+                city_dir / "engineering/survey/field-evidence-brief.json",
+                city_dir / "engineering/survey/field-evidence-brief.md",
+                city_dir / "engineering/survey/survey-input-manifest.csv",
                 city_dir / "engineering/simulation/validation-summary.json",
                 city_dir / "engineering/sumo/summary.json",
                 city_dir / "operations/acceptance-evidence-report.md",
@@ -457,6 +461,31 @@ def check_city_artifacts() -> list[Finding]:
                                 f"simulation trainset contract is stale for {relative}",
                             )
                         )
+
+            survey_brief_path = city_dir / "engineering/survey/field-evidence-brief.json"
+            survey_manifest_path = city_dir / "engineering/survey/survey-input-manifest.csv"
+            if survey_brief_path.is_file():
+                survey = json.loads(survey_brief_path.read_text())
+                survey_generator = REPO_ROOT / "engineering/analysis/survey_package.py"
+                survey_requirements = REPO_ROOT / "lib/templates/field-evidence.toml"
+                expected_design_hash = hashlib.sha256(design_path.read_bytes()).hexdigest()
+                if survey.get("generator_sha256") != hashlib.sha256(survey_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(survey_brief_path, "field-evidence generator hash is stale"))
+                if survey.get("requirements_sha256") != hashlib.sha256(survey_requirements.read_bytes()).hexdigest():
+                    findings.append(Finding(survey_brief_path, "field-evidence requirements hash is stale"))
+                if survey.get("project_input_sha256") != expected_design_hash:
+                    findings.append(Finding(survey_brief_path, "field-evidence design hash is stale"))
+                if not survey.get("brief_ready_for_approval") or survey.get("brief_findings"):
+                    findings.append(Finding(survey_brief_path, "field-evidence brief is incomplete"))
+                if "survey authority to confirm or replace" not in str(survey.get("candidate_horizontal_crs", "")):
+                    findings.append(Finding(survey_brief_path, "candidate CRS lacks its approval boundary"))
+                if survey_manifest_path.is_file():
+                    with survey_manifest_path.open(newline="", encoding="utf-8") as handle:
+                        survey_rows = list(csv.DictReader(handle))
+                    if {row.get("dataset_id") for row in survey_rows} != {
+                        row.get("id") for row in survey.get("datasets", [])
+                    }:
+                        findings.append(Finding(survey_manifest_path, "survey receipt rows do not match brief datasets"))
 
             package_manifest_path = city_dir / "package-manifest.json"
             if package_manifest_path.is_file():

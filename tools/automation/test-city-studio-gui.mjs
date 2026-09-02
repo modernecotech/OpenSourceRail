@@ -534,11 +534,20 @@ async function main() {
 
   const jobIds = {};
   jobIds.gis = await runAdapter("gis-export");
+  jobIds.fieldEvidence = await runAdapter("field-evidence");
   jobIds.simulation = await runAdapter("simulation");
   jobIds.alignment = await runAdapter("alignment-exchange");
   await cdp.evaluate(`document.querySelector('#service-line').value = ${JSON.stringify(georeferencedLine)}`);
   jobIds.civil = await runAdapter("civil-bim", 240_000);
   await openArtifact(jobIds.gis, "gis-network");
+  await openArtifact(jobIds.fieldEvidence, "field-evidence-brief");
+  const fieldEvidence = await cdp.evaluate(`({
+    datasetCount: selectedArtifactPreview.content.dataset_count,
+    briefReady: selectedArtifactPreview.content.brief_ready_for_approval,
+    mobilisation: selectedArtifactPreview.content.mobilisation_authorized,
+    accepted: selectedArtifactPreview.content.field_evidence_accepted,
+  })`);
+  assert(fieldEvidence.datasetCount === 11 && fieldEvidence.briefReady && !fieldEvidence.mobilisation && !fieldEvidence.accepted, "field-evidence job issues requirements without claiming external acceptance", `${fieldEvidence.datasetCount} packages`);
   await openArtifact(jobIds.simulation, "simulation-result");
   await openArtifact(jobIds.alignment, "landxml");
   await openArtifact(jobIds.civil, "civil-bim-index");

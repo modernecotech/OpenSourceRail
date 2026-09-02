@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added a shared city field-evidence specification and generated Samawah brief
+  covering survey control, utilities, land, flood, ground, workshop/fleet and
+  reality capture. City Studio can issue the revision-locked brief and empty
+  receipt manifest through a fifth allowlisted engineering adapter.
 - Added a deterministic all-variant station systems package: OpenSees canopy
   gravity/uplift, JuPedSim normal/degraded/egress and repeatable-bay SWMM
   drainage, plus tracked EnergyPlus and FDS runs. The adverse enclosed depot
