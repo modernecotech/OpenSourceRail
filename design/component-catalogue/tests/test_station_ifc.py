@@ -8,6 +8,13 @@ from pathlib import Path
 
 import ifcopenshell
 
+from osr_mech.station.product_geometry import (
+    PLATFORM_SURFACE_Z_MM,
+    PLATFORM_TO_TOR_HEIGHT_MM,
+    TOP_OF_RAIL_Z_MM,
+    station_product_geometry,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXPORTER = REPO_ROOT / "engineering/interchange/station_ifc.py"
@@ -44,3 +51,17 @@ def test_station_ifc_is_byte_deterministic(tmp_path: Path) -> None:
     assert reopened.by_type("IfcSlab")
     assert reopened.by_type("IfcElectricDistributionBoard")
     assert module["FIXED_HEADER_TIMESTAMP"] in first.read_text(encoding="utf-8")
+
+
+def test_station_platform_and_terminal_turnout_share_the_boarding_datum() -> None:
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    standard = next(row for row in manifest["variants"] if row["archetype"] == "standard")
+    terminal = next(row for row in manifest["variants"] if row["archetype"] == "terminal")
+    slab_item = next(row for row in standard["product_items"] if row["id"] == "STN-CIV-P010")
+    rail_item = next(row for row in terminal["product_items"] if row["id"] == "STN-TRK-P010")
+    platform = station_product_geometry(slab_item, standard["parameters"])
+    turnout_rail = station_product_geometry(rail_item, terminal["parameters"])
+
+    assert platform.bounding_box().max.Z == PLATFORM_SURFACE_Z_MM
+    assert turnout_rail.bounding_box().max.Z == TOP_OF_RAIL_Z_MM
+    assert PLATFORM_SURFACE_Z_MM - TOP_OF_RAIL_Z_MM == PLATFORM_TO_TOR_HEIGHT_MM

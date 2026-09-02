@@ -10,6 +10,7 @@ from osr_mech.buildable_stations import (
     open_release_items,
     render_gap_register,
     render_traveler,
+    render_variant_page,
     station_variant,
     write_outputs,
 )
@@ -126,6 +127,20 @@ def test_station_traveler_reuses_the_same_bom_ids() -> None:
     assert "operator/AOR handover" in traveler
 
 
+def test_station_variant_page_bridges_every_product_and_assembly_id() -> None:
+    variants = _variants()
+    standard = variants[StationArchetype.STANDARD]
+    for variant in variants.values():
+        rendered = render_variant_page(variant, standard)
+        assert "deterministic design-reference package" in rendered
+        assert "installed/exploded" in rendered
+        for item in variant.product_items:
+            assert f"`{item.id}`" in rendered
+            assert f"`{item.id}-DRW-{variant.archetype.upper()}`" in rendered
+        for node in variant.assemblies:
+            assert f"`{node.id}`" in rendered
+
+
 def test_station_catalogue_writer_emits_all_boms_manifest_and_travelers(tmp_path: Path) -> None:
     catalog = tmp_path / "catalog"
     boms = tmp_path / "bom"
@@ -138,8 +153,10 @@ def test_station_catalogue_writer_emits_all_boms_manifest_and_travelers(tmp_path
     for variant in variants:
         bom_path = boms / f"{variant.archetype}.csv"
         traveler_path = catalog / "travelers" / f"{variant.archetype}.md"
+        definition_path = catalog / "variants" / f"{variant.archetype}.md"
         assert bom_path.exists()
         assert traveler_path.exists()
+        assert definition_path.exists()
         with bom_path.open() as handle:
             rows = list(csv.DictReader(handle))
         assert len(rows) == len(variant.product_items)

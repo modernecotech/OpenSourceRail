@@ -863,6 +863,10 @@ def check_station_build_package() -> list[Finding]:
                 path.relative_to(actual_root): path
                 for path in actual_root.rglob("*")
                 if path.is_file()
+                and path.name not in {
+                    "station-product-reconciliation.json",
+                    "station-product-reconciliation.md",
+                }
             } if actual_root.exists() else {}
             for relative in sorted(expected_files.keys() | actual_files.keys()):
                 actual = actual_files.get(relative)

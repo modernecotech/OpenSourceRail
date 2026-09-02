@@ -47,6 +47,23 @@ def test_station_freecad_library_is_complete_and_hash_locked() -> None:
     }
     for row in index["variants"]:
         path = REPO_ROOT / row["file"]
+        sidecar = REPO_ROOT / row["assembly_review"]
         assert path.stat().st_size == row["size_bytes"]
         assert _sha256(path) == row["sha256"]
+        assert _sha256(sidecar) == row["assembly_review_sha256"]
+        assert row["configuration_states"] == ["installed", "exploded"]
+        assert row["native_shape_count"] == row["primitive_count"] * 2
+        assert len(row["product_ids"]) == row["product_count"]
+        assert len(row["assembly_ids"]) == row["assembly_count"]
         assert row["reopen_validated"] is True
+
+
+def test_station_installed_and_exploded_review_images_are_public() -> None:
+    screenshot_root = REPO_ROOT / "docs/screenshots/freecad"
+    for name in (
+        "freecad-station-standard-installed.png",
+        "freecad-station-standard-exploded.png",
+    ):
+        path = screenshot_root / name
+        assert path.is_file()
+        assert path.stat().st_size > 10_000

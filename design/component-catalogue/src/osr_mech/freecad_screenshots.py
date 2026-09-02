@@ -39,6 +39,20 @@ class Capture:
 
 CAPTURES: tuple[Capture, ...] = (
     Capture(
+        doc="stations/station-standard.FCStd",
+        output="freecad-station-standard-installed.png",
+        groups=("INSTALLED — authoritative coordination coordinates",),
+        width=2200,
+        height=1200,
+    ),
+    Capture(
+        doc="stations/station-standard.FCStd",
+        output="freecad-station-standard-exploded.png",
+        groups=("EXPLODED — work-package inspection layout",),
+        width=2200,
+        height=1200,
+    ),
+    Capture(
         doc="chassis-bogie-assembly-states.FCStd",
         output="freecad-chassis-bogie-assembled.png",
         groups=("Assembled State",),

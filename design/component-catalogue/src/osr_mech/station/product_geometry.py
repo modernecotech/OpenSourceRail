@@ -23,6 +23,15 @@ GLASS = Color(0.24, 0.55, 0.72, 0.55)
 PV = Color(0.08, 0.18, 0.28)
 GROUND = Color(0.55, 0.50, 0.40)
 
+# Station-library local coordinate contract.  Deployment models may translate
+# this complete package to a surveyed project datum, but must preserve the
+# 350 mm vertical boarding interface.
+PLATFORM_SURFACE_Z_MM = 420.0
+PLATFORM_TO_TOR_HEIGHT_MM = 350.0
+TOP_OF_RAIL_Z_MM = PLATFORM_SURFACE_Z_MM - PLATFORM_TO_TOR_HEIGHT_MM
+TURNOUT_NATIVE_RAIL_HEAD_Z_MM = 386.0
+TURNOUT_TO_STATION_Z_MM = TOP_OF_RAIL_Z_MM - TURNOUT_NATIVE_RAIL_HEAD_Z_MM
+
 
 @dataclass(frozen=True)
 class StationGeometrySpec:
@@ -240,7 +249,7 @@ def _turnout(product_id: str, label: str) -> Compound:
             for y in (-717.5, 717.5):
                 children.append(_box((280, 260, 55), f"{label} slide chair/fastener", STEEL, (x, y, 235)))
     elif product_id == "STN-TRK-P040":
-        return _equipment(label, (-7_500, 1_900, 520), (1_250, 650, 650))
+        children.append(_equipment(label, (-7_500, 1_900, 520), (1_250, 650, 650)))
     elif product_id == "STN-TRK-P050":
         children.extend([
             _equipment(f"{label} normal detector", (-8_200, -1_200, 420), (360, 220, 240)),
@@ -259,7 +268,7 @@ def _turnout(product_id: str, label: str) -> Compound:
             _box((180, 180, 2_000), f"{label} marker post", STEEL, (13_400, 0, 1_000)),
             _box((700, 700, 350), f"{label} foundation interface", CONCRETE, (13_400, 0, -175)),
         ])
-    return Compound(label=label, children=children)
+    return Compound(label=label, children=children).locate(Location((0.0, 0.0, TURNOUT_TO_STATION_Z_MM)))
 
 
 def _depot(product_id: str, label: str) -> Compound:
@@ -413,4 +422,12 @@ def flatten_geometry(value: Part | Compound) -> list[Part]:
     return [value]
 
 
-__all__ = ["StationGeometrySpec", "flatten_geometry", "geometry_specs", "station_product_geometry"]
+__all__ = [
+    "PLATFORM_SURFACE_Z_MM",
+    "PLATFORM_TO_TOR_HEIGHT_MM",
+    "TOP_OF_RAIL_Z_MM",
+    "StationGeometrySpec",
+    "flatten_geometry",
+    "geometry_specs",
+    "station_product_geometry",
+]

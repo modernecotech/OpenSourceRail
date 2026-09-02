@@ -28,7 +28,7 @@ installing the complete engineering toolchain.
 | [`lm3-parts/`](lm3-parts/) | 101 separate geometric IFC4.3 product files, including round running-gear meshes and semantic doors, windows, lights, furniture and motor classes |
 | [`lm3-assemblies/`](lm3-assemblies/) | 26 hierarchy-preserving IFC4.3 subassembly/car/train files; the final trainset contains every active descendant product |
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact split-library file hashes, representation coverage and final-assembly reachability test |
-| [`stations/`](stations/) | Seven geometric station IFC4.3 assemblies covering every controlled product in the halt, standard, major, interchange, elevated-interchange, terminal and depot-terminal variants |
+| [`stations/`](stations/) | Seven geometric station IFC4.3 assemblies covering every controlled product in the halt, standard, major, interchange, elevated-interchange, terminal and depot-terminal variants; IDs are cross-checked by the [station reconciliation register](../../../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) |
 | [`../../model-coverage.md`](../../model-coverage.md) | Generated LM3/station fidelity, source, analysis and release-evidence register |
 
 Regenerate it from the authoritative component geometry and engineering

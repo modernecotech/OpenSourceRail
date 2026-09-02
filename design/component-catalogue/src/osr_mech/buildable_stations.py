@@ -13,6 +13,7 @@ import csv
 import io
 import json
 import math
+import re
 import tomllib
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -1063,6 +1064,131 @@ def render_traveler(variant: StationVariant) -> str:
     return "\n".join(lines)
 
 
+def product_drawing_id(variant: StationVariant, item: StationProductItem) -> str:
+    """Return the stable definition-sheet identity for one product row."""
+
+    return f"{item.id}-DRW-{variant.archetype.upper()}"
+
+
+def product_connection_id(item: StationProductItem) -> str:
+    """Return a stable connection-control identity or an explicit non-applicable marker."""
+
+    connection_terms = (
+        "anchor",
+        "bolt",
+        "fastener",
+        "fixing",
+        "mount",
+        "connector",
+        "joint",
+        "weld",
+        "grout",
+        "plinth",
+    )
+    searchable = " ".join((item.title, item.quantity_basis, *item.acceptance)).lower()
+    return f"{item.id}-CONN" if any(term in searchable for term in connection_terms) else "not-applicable"
+
+
+def product_standard_drawings(item: StationProductItem) -> tuple[str, ...]:
+    """Extract controlled shared drawing references from the product source links."""
+
+    matches: list[str] = []
+    for source in item.source_refs:
+        matches.extend(re.findall(r"OSR-STD-[A-Z]-\d{3}", source))
+    return tuple(dict.fromkeys(matches))
+
+
+def render_variant_page(variant: StationVariant, standard: StationVariant) -> str:
+    """Render the complete but compact documentation delta for one archetype."""
+
+    standard_parameters = standard.parameters
+    deltas = [
+        (key, standard_parameters.get(key, "not-used"), value)
+        for key, value in variant.parameters.items()
+        if standard_parameters.get(key) != value
+    ]
+    standard_ids = {item.id for item in standard.product_items}
+    unique_ids = [item.id for item in variant.product_items if item.id not in standard_ids]
+    lines = [
+        f"# `{variant.archetype}` station definition",
+        "",
+        "**Status:** deterministic design-reference package; not construction release.",
+        "",
+        "The shared envelope, canopy, accessibility, services, compliance and",
+        "43-drawing register live in [`docs/stations/standard-archetype/`](../../../../../docs/stations/standard-archetype/).",
+        "This page is the complete archetype delta and stable-ID bridge into its BOM,",
+        "traveler, FreeCAD installed/exploded states and IFC4.3 assembly.",
+        "",
+        "## Parameter delta from `standard`",
+        "",
+        "| Parameter | Standard | This variant |",
+        "|---|---:|---:|",
+    ]
+    if deltas:
+        lines.extend(f"| `{key}` | {old} | {new} |" for key, old, new in deltas)
+    else:
+        lines.append("| _none_ | — | — |")
+    lines.extend(
+        [
+            "",
+            "Unique product rows: " + (", ".join(f"`{item_id}`" for item_id in unique_ids) if unique_ids else "none; this is the governing shared variant."),
+            "",
+            "## Controlled handoffs",
+            "",
+            f"- BOM: `build/bom/stations/{variant.archetype}.csv`",
+            f"- traveler: [`../travelers/{variant.archetype}.md`](../travelers/{variant.archetype}.md)",
+            f"- FreeCAD: [`../../../models/cad/stations/station-{variant.archetype}.FCStd`](../../../models/cad/stations/station-{variant.archetype}.FCStd)",
+            f"- assembly-state map: [`../../../models/cad/stations/station-{variant.archetype}.assembly-review.json`](../../../models/cad/stations/station-{variant.archetype}.assembly-review.json)",
+            f"- IFC4.3: [`../../../../../engineering/models/bim/reference/stations/station-{variant.archetype}.ifc`](../../../../../engineering/models/bim/reference/stations/station-{variant.archetype}.ifc)",
+            "",
+            "## Product/drawing/connection identity",
+            "",
+            "The definition-sheet ID keeps the product ID intact. It identifies the",
+            "deployment drawing that must be produced and approved; it does not claim",
+            "that a construction drawing has already been released. `CONN` rows identify",
+            "where a controlled fastener, anchor, seal, terminal, weld or grout schedule is required.",
+            "",
+            "| Product ID | Parent | Route | Definition sheet | Shared drawings | Connection control |",
+            "|---|---|---|---|---|---|",
+        ]
+    )
+    for item in variant.product_items:
+        shared = ", ".join(f"`{drawing}`" for drawing in product_standard_drawings(item)) or "—"
+        connection = product_connection_id(item)
+        connection_cell = f"`{connection}`" if connection != "not-applicable" else "—"
+        lines.append(
+            f"| `{item.id}` | `{item.parent}` | `{item.route}` | "
+            f"`{product_drawing_id(variant, item)}` | {shared} | {connection_cell} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Assembly hierarchy",
+            "",
+            "| Assembly ID | Work cell | Direct children |",
+            "|---|---|---|",
+        ]
+    )
+    for node in variant.assemblies:
+        lines.append(
+            f"| `{node.id}` | {node.work_cell} | "
+            + ", ".join(f"`{child}`" for child in node.children)
+            + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Release boundary",
+            "",
+            "Site survey, geotechnical and structural calculations, supplier selections,",
+            "local accessibility/fire approval, signed drawings, inspection records and",
+            "as-built survey remain mandatory before construction or operation.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def render_index(variants: tuple[StationVariant, ...]) -> str:
     lines = [
         "# Buildable station kit catalogue",
@@ -1070,7 +1196,7 @@ def render_index(variants: tuple[StationVariant, ...]) -> str:
         "Generated station EBOM/MBOM and unsigned assembly travelers for the six",
         "base station shells and the controlled elevated-interchange variant.",
         "",
-        "| Archetype | Platforms | Platform length m | Bays/platform | Product rows | Open product gaps | Auxiliary modules / installed m² | BOM | Traveler |",
+        "| Archetype | Platforms | Platform length m | Bays/platform | Product rows | Open product gaps | Auxiliary modules / installed m² | Definition | Traveler |",
         "|---|---:|---:|---:|---:|---:|---:|---|---|",
     ]
     for variant in variants:
@@ -1081,7 +1207,7 @@ def render_index(variants: tuple[StationVariant, ...]) -> str:
             f"{p['canopy_bays_per_platform']} | {len(variant.product_items)} | "
             f"{sum(item.maturity != 'release-candidate' for item in variant.product_items)} | "
             f"{p['auxiliary_canopy_module_count']} / {p['auxiliary_canopy_installed_area_m2']} | "
-            f"`build/bom/stations/{key}.csv` | "
+            f"[`md`](variants/{key}.md) | "
             f"[`md`](travelers/{key}.md) |"
         )
     lines.extend(
@@ -1180,6 +1306,7 @@ def write_outputs(
     )
     catalog_dir.mkdir(parents=True, exist_ok=True)
     (catalog_dir / "travelers").mkdir(parents=True, exist_ok=True)
+    (catalog_dir / "variants").mkdir(parents=True, exist_ok=True)
     bom_dir.mkdir(parents=True, exist_ok=True)
 
     payload = {
@@ -1201,6 +1328,13 @@ def write_outputs(
         )
         (catalog_dir / "travelers" / f"{variant.archetype}.md").write_text(
             render_traveler(variant), encoding="utf-8"
+        )
+        (catalog_dir / "variants" / f"{variant.archetype}.md").write_text(
+            render_variant_page(
+                variant,
+                next(row for row in variants if row.archetype == StationArchetype.STANDARD.value),
+            ),
+            encoding="utf-8",
         )
     return variants
 

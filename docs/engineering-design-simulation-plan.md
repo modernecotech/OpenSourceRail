@@ -212,18 +212,28 @@ revision through the interchange tests.
   halt, major, interchange, interchange-elevated, terminal, and depot
   interfaces. Mark every envelope, service, access, compliance, structure,
   equipment, and assembly field as shared, parameterized, or unique.
-- [ ] **COMP-016-02 — Generate all FreeCAD envelopes.** Add assembled and
-  exploded review states, interfaces to track/train/PSD/edge protection,
-  maintainability clearances, lifting/installation zones, and controlled
-  datums for every unique variant.
-- [ ] **COMP-016-03 — Complete variant documentation.** Produce the missing
+- [x] **COMP-016-02 — Generate all FreeCAD envelopes.** All seven native files
+  contain complete installed and hidden exploded geometry states. Their
+  hash-locked sidecars carry coordinate-bearing track/train/optional-PSD/edge
+  interfaces, maintainability and lifting/installation bounds, plus controlled
+  track-centreline, top-of-rail, platform-face and boarding datums. Product
+  geometry also exposes equipment maintenance envelopes; site swept-path and
+  lift-plan approval remain release evidence rather than assumed results.
+- [x] **COMP-016-03 — Complete variant documentation.** The generated compact
+  pages under `catalog/buildable-stations/variants/` link every variant to the
+  shared envelope/services/accessibility/compliance pages and 43-drawing
+  register, record the complete parameter delta, and enumerate all unique
+  products and assembly relationships.
+- [ ] **COMP-016-03A — Release deployment drawings.** Produce the missing
   envelope, services, accessibility, compliance, drawing-register, and
-  assembly pages. A parameter-only variant must identify the governing
-  standard artifact and its complete parameter delta.
-- [ ] **COMP-016-04 — Reconcile product structure.** Make each FreeCAD object,
-  BOM row, drawing-register item, traveler step, fastener set, and assembly
-  instruction resolve to the same stable part or assembly ID. Add a CI
-  orphan check in both directions.
+  assembly drawings for each selected site; parameter-only variants use the
+  governing standard artifact plus their generated delta.
+- [x] **COMP-016-04 — Reconcile product structure.** The generated station
+  reconciliation register and CI tests now fail on an orphan in either
+  direction across manifest, BOM, definition/drawing register, traveler,
+  FreeCAD state map, IFC product and assembly IDs. Product-derived `DRW` and
+  applicable `CONN` identifiers preserve identity while remaining explicit
+  deployment deliverables rather than falsely released drawings.
 - [x] **COMP-016-05 — Federate and check IFC.** All seven archetypes round-trip
   every manifest part/assembly ID, positive-volume design-reference geometry,
   semantic IFC class, OSR property set and assembly relationship through

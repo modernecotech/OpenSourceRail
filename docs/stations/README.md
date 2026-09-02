@@ -17,6 +17,7 @@ reserved for elevated/stacked sites or local road barriers.
 | [`../../design/component-catalogue/catalog/buildable-stations/`](../../design/component-catalogue/catalog/buildable-stations/) | Generated EBOM/MBOM and matched assembly travelers for every station catalogue entry |
 | [`../../design/component-catalogue/models/cad/stations/`](../../design/component-catalogue/models/cad/stations/) | Native FreeCAD assemblies for halt, standard, major, two interchange forms, terminal and depot-terminal |
 | [`../../engineering/models/bim/reference/stations/`](../../engineering/models/bim/reference/stations/) | Matching geometric IFC4.3 assemblies plus deterministic validation summary |
+| [`../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md`](../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) | Bidirectional ID check across BOM, traveler, variant drawing register, installed/exploded FreeCAD states and IFC4.3 |
 | [`../../engineering/models/model-coverage.md`](../../engineering/models/model-coverage.md) | Product-by-product geometry fidelity and release-evidence boundary |
 
 ## FreeCAD Station Scene Renders
@@ -27,6 +28,14 @@ context with ballastless track and driverless rolling stock.
 | At-grade side-platform station | Elevated side-platform station | Elevated interchange station |
 |---|---|---|
 | ![At-grade side-platform station with ballastless track and driverless train](../screenshots/stations/freecad-at-grade-station-track-train.png) | ![Elevated side-platform station with ballastless track and driverless train](../screenshots/stations/freecad-elevated-station-track-train.png) | ![Elevated interchange station with stacked tracks and driverless trains](../screenshots/stations/freecad-elevated-interchange-track-train.png) |
+
+The standard product assembly also has two genuine selectable geometry states;
+the exploded view moves complete civil, canopy, MEP, passenger, access and
+charging work packages while retaining the installed coordinates in the same file.
+
+| Installed coordination state | Exploded work-package state |
+|---|---|
+| ![Standard station installed FreeCAD assembly](../screenshots/freecad/freecad-station-standard-installed.png) | ![Standard station exploded FreeCAD assembly](../screenshots/freecad/freecad-station-standard-exploded.png) |
 
 ## Related Artifacts
 
@@ -39,6 +48,7 @@ context with ballastless track and driverless rolling stock.
 | Station BOM/traveler generator | [`../../tools/automation/buildable-stations.sh`](../../tools/automation/buildable-stations.sh) |
 | All-variant FreeCAD generator | [`../../design/component-catalogue/scripts/freecad_station_library.sh`](../../design/component-catalogue/scripts/freecad_station_library.sh) |
 | All-variant IFC generator | [`../../engineering/interchange/station_ifc.py`](../../engineering/interchange/station_ifc.py) |
+| Product-structure reconciliation | [`../../engineering/station_product_reconciliation.py`](../../engineering/station_product_reconciliation.py) |
 | Generated per-archetype BOMs | `build/bom/stations/` after running the generator |
 | Station design RFC | [`../rfcs/0010-station-design-standard.md`](../rfcs/0010-station-design-standard.md) |
 | Rapid implementation and recycled materials review | [`../civil/rapid-implementation-materials-review.md`](../civil/rapid-implementation-materials-review.md) |

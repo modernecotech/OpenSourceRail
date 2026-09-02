@@ -33,7 +33,8 @@ cargo build --release --workspace
 section "Generating BOM and open IFC4.3 reference packages"
 python3 tools/automation/export-light-metro-bom.py
 if python3 -c 'import ifcopenshell, ifctester, bcf' >/dev/null 2>&1; then
-    python3 engineering/interchange/station_ifc.py --all-variants
+    python3 engineering/interchange/station_ifc.py --all-variants \
+        --output-dir engineering/models/bim/reference/stations
     python3 engineering/interchange/trainset_manufacturing_ifc.py
     python3 engineering/interchange/lm3_product_ifc_library.py
     tools/automation/bonsai-civil.sh --generate \
@@ -49,6 +50,7 @@ if command -v FreeCADCmd >/dev/null 2>&1 || command -v freecadcmd >/dev/null 2>&
 else
     printf 'FreeCAD review-model and CalculiX benchmark generation skipped: install the optional engineering applications.\n'
 fi
+python3 engineering/station_product_reconciliation.py
 
 section "Building the root documentation book"
 python3 tools/automation/build-doc-book.py

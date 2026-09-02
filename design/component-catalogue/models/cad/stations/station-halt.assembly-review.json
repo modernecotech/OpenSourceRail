@@ -1,0 +1,557 @@
+{
+  "archetype": "halt",
+  "assembly_ids": [
+    "STN-CIV-SA100",
+    "STN-PLT-SA200",
+    "STN-CNP-SA300",
+    "STN-MEP-SA400",
+    "STN-CHG-SA700",
+    "STN-PAX-SA500",
+    "STN-ACC-SA600",
+    "STN-STATION-A900"
+  ],
+  "datums_and_zones": [
+    {
+      "axis": "x",
+      "definition": "x-axis at the station alignment origin",
+      "id": "DATUM-TRACK-CL",
+      "origin_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "title": "track centreline"
+    },
+    {
+      "definition": "local rail-head plane before deployment survey placement",
+      "id": "DATUM-TOR",
+      "interfaces": [
+        {
+          "boarding_z_mm": 420.0,
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "platform_face_y_mm": 3500.0,
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "title": "top of rail"
+    },
+    {
+      "definition": "platform-side edge derived from the configured centre",
+      "id": "DATUM-PLATFORM-FACE",
+      "interfaces": [
+        {
+          "boarding_z_mm": 420.0,
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "platform_face_y_mm": 3500.0,
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "title": "platform face"
+    },
+    {
+      "definition": "350 mm above local top of rail; survey/release required",
+      "id": "DATUM-BOARDING",
+      "interfaces": [
+        {
+          "boarding_z_mm": 420.0,
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "platform_face_y_mm": 3500.0,
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "title": "boarding level"
+    },
+    {
+      "bounds_mm": [
+        -27750.0,
+        515.0,
+        70.0,
+        27750.0,
+        3485.0,
+        4570.0
+      ],
+      "definition": "coordination zone; verified swept path remains deployment-specific",
+      "id": "ZONE-TRAIN-KINEMATIC",
+      "title": "train kinematic envelope"
+    },
+    {
+      "bounds_mm": [
+        -27750.0,
+        -14500.0,
+        0.0,
+        27750.0,
+        14500.0,
+        1400.0
+      ],
+      "definition": "coping, tactile, warning and edge-equipment interface",
+      "id": "ZONE-EDGE-SAFETY",
+      "title": "platform-edge safety zone"
+    },
+    {
+      "bounds_mm": [
+        -32750.0,
+        -18000.0,
+        0.0,
+        32750.0,
+        18000.0,
+        12000.0
+      ],
+      "definition": "temporary crane and exclusion zone; lift plan required",
+      "id": "ZONE-LIFTING",
+      "title": "installation/lifting zone"
+    },
+    {
+      "bounds_mm": [
+        -27750.0,
+        -15000.0,
+        0.0,
+        27750.0,
+        15000.0,
+        6500.0
+      ],
+      "definition": "equipment access volumes encoded in product geometry",
+      "id": "ZONE-MAINTENANCE",
+      "title": "maintainability zone"
+    },
+    {
+      "datum_ids": [
+        "DATUM-TRACK-CL",
+        "DATUM-TOR"
+      ],
+      "definition": "alignment, top-of-rail and drainage handoff",
+      "id": "INTERFACE-TRACK",
+      "title": "track interface"
+    },
+    {
+      "datum_ids": [
+        "DATUM-TOR",
+        "DATUM-BOARDING",
+        "ZONE-TRAIN-KINEMATIC"
+      ],
+      "definition": "vehicle swept-path and boarding-gap handoff",
+      "id": "INTERFACE-TRAIN",
+      "title": "train interface"
+    },
+    {
+      "datum_ids": [
+        "DATUM-PLATFORM-FACE",
+        "DATUM-BOARDING"
+      ],
+      "definition": "reserved edge fixing/power/control handoff; PSD not in LM3 baseline",
+      "id": "INTERFACE-PSD",
+      "title": "optional platform screen-door interface"
+    },
+    {
+      "datum_ids": [
+        "DATUM-PLATFORM-FACE",
+        "ZONE-EDGE-SAFETY"
+      ],
+      "definition": "temporary and permanent barrier handoff outside the boarding opening",
+      "id": "INTERFACE-EDGE-PROTECTION",
+      "title": "edge-protection interface"
+    }
+  ],
+  "freecad_file": "design/component-catalogue/models/cad/stations/station-halt.FCStd",
+  "manifest": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+  "manifest_sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55",
+  "product_ids": [
+    "STN-CIV-P010",
+    "STN-CIV-P020",
+    "STN-CIV-P030",
+    "STN-CIV-P040",
+    "STN-PLT-P010",
+    "STN-CNP-P010",
+    "STN-CNP-P020",
+    "STN-CNP-P030",
+    "STN-CNP-P040",
+    "STN-MEP-P010",
+    "STN-MEP-P020",
+    "STN-MEP-P030",
+    "STN-MEP-P040",
+    "STN-PAX-P010",
+    "STN-PAX-P020",
+    "STN-PAX-P030",
+    "STN-PAX-P040",
+    "STN-PAX-P070",
+    "STN-PAX-P060",
+    "STN-ACC-P010",
+    "STN-CNP-P050",
+    "STN-CNP-P060",
+    "STN-CNP-P070",
+    "STN-CNP-P080",
+    "STN-CNP-P090"
+  ],
+  "products": [
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -10000.0,
+        0.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PLT-SA200",
+      "product_id": "STN-CIV-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -10000.0,
+        0.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PLT-SA200",
+      "product_id": "STN-CIV-P020"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -18000.0,
+        -3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CIV-SA100",
+      "product_id": "STN-CIV-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -10000.0,
+        0.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PLT-SA200",
+      "product_id": "STN-CIV-P040"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -10000.0,
+        0.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PLT-SA200",
+      "product_id": "STN-PLT-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -18000.0,
+        -3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CIV-SA100",
+      "product_id": "STN-CNP-P020"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P040"
+    },
+    {
+      "exploded_offset_mm": [
+        -18000.0,
+        14000.0,
+        2000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-MEP-SA400",
+      "product_id": "STN-MEP-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        -18000.0,
+        14000.0,
+        2000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-MEP-SA400",
+      "product_id": "STN-MEP-P020"
+    },
+    {
+      "exploded_offset_mm": [
+        -18000.0,
+        14000.0,
+        2000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-MEP-SA400",
+      "product_id": "STN-MEP-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        -18000.0,
+        14000.0,
+        2000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-MEP-SA400",
+      "product_id": "STN-MEP-P040"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P020"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P040"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P070"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        18000.0,
+        3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PAX-SA500",
+      "product_id": "STN-PAX-P060"
+    },
+    {
+      "exploded_offset_mm": [
+        -24000.0,
+        0.0,
+        4000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-ACC-SA600",
+      "product_id": "STN-ACC-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P050"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P060"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        -18000.0,
+        -3000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CIV-SA100",
+      "product_id": "STN-CNP-P070"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P080"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
+        0.0,
+        9000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CNP-SA300",
+      "product_id": "STN-CNP-P090"
+    }
+  ],
+  "release_boundary": "Design-reference station geometry only; site survey, supplier freeze, structural calculations, local-code review and construction release remain mandatory.",
+  "schema": "org.opensourcerail.station-assembly-review.v1",
+  "states": [
+    {
+      "default_visible": true,
+      "id": "installed",
+      "primitive_count": 151
+    },
+    {
+      "default_visible": false,
+      "id": "exploded",
+      "primitive_count": 151
+    }
+  ],
+  "status": "design-reference-not-released"
+}

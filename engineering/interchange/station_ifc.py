@@ -210,7 +210,24 @@ def export_variant(variant: dict[str, object], output: Path) -> dict[str, object
     missing_geometry = sorted(item_ids - reopened_represented)
     if missing_geometry:
         raise RuntimeError(f"station IFC geometry drift for {archetype}: {missing_geometry}")
-    return {"archetype": archetype, "assembly_count": len(variant["assemblies"]), "geometry_status": "coordinated-design-reference-geometry", "ifc_file": report_path(output), "ifc_sha256": hashlib.sha256(output.read_bytes()).hexdigest(), "missing_geometry_ids": missing_geometry, "missing_ids": missing, "primitive_count": primitive_count, "product_item_count": len(variant["product_items"]), "property_mismatches": property_mismatches, "represented_product_count": len(represented_ids), "schema": reopened.schema, "structure_mismatches": structure_mismatches, "unexpected_ids": unexpected}
+    return {
+        "archetype": archetype,
+        "assembly_count": len(variant["assemblies"]),
+        "assembly_ids": [str(row["id"]) for row in variant["assemblies"]],
+        "geometry_status": "coordinated-design-reference-geometry",
+        "ifc_file": report_path(output),
+        "ifc_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
+        "missing_geometry_ids": missing_geometry,
+        "missing_ids": missing,
+        "primitive_count": primitive_count,
+        "product_ids": [str(row["id"]) for row in variant["product_items"]],
+        "product_item_count": len(variant["product_items"]),
+        "property_mismatches": property_mismatches,
+        "represented_product_count": len(represented_ids),
+        "schema": reopened.schema,
+        "structure_mismatches": structure_mismatches,
+        "unexpected_ids": unexpected,
+    }
 
 
 def main() -> int:

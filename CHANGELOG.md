@@ -3,7 +3,9 @@
 ## Unreleased
 
 - Added seven complete station-variant FreeCAD and geometric IFC4.3 assemblies,
-  covering all 45 controlled station products with deterministic validation.
+  covering all 45 controlled station products with deterministic validation;
+  the FreeCAD set now carries 4,324 installed/exploded native shapes, controlled
+  interface/datums, compact variant definitions and a bidirectional orphan-ID gate.
 - Expanded the LM3 reference library to 523 primitives, detailed door/window,
   bogie, traction, battery and HV interfaces, and added an installed-coordinate
   sidecar with nominal, curve and twist review states.

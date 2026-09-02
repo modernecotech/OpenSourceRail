@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1346**.
+Indexed Markdown files: **1356**.
 
 ## Sections
 
@@ -26,9 +26,9 @@ Indexed Markdown files: **1346**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 295 |
+| [design](#design) | 304 |
 | [docs](#docs) | 136 |
-| [engineering](#engineering) | 7 |
+| [engineering](#engineering) | 8 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -977,6 +977,7 @@ Indexed Markdown files: **1346**.
 | [`design/component-catalogue/catalog/README.md`](../design/component-catalogue/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`design/component-catalogue/catalog/buildable-stations/README.md`](../design/component-catalogue/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
 | [`design/component-catalogue/catalog/buildable-stations/open-release-gaps.md`](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) | Station open release gap register |
+| [`design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md`](../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) | Station product reconciliation |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/depot-terminal.md`](../design/component-catalogue/catalog/buildable-stations/travelers/depot-terminal.md) | Station assembly traveler — `depot-terminal` |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/halt.md`](../design/component-catalogue/catalog/buildable-stations/travelers/halt.md) | Station assembly traveler — `halt` |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/interchange-elevated.md`](../design/component-catalogue/catalog/buildable-stations/travelers/interchange-elevated.md) | Station assembly traveler — `interchange-elevated` |
@@ -984,6 +985,13 @@ Indexed Markdown files: **1346**.
 | [`design/component-catalogue/catalog/buildable-stations/travelers/major.md`](../design/component-catalogue/catalog/buildable-stations/travelers/major.md) | Station assembly traveler — `major` |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/standard.md`](../design/component-catalogue/catalog/buildable-stations/travelers/standard.md) | Station assembly traveler — `standard` |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/terminal.md`](../design/component-catalogue/catalog/buildable-stations/travelers/terminal.md) | Station assembly traveler — `terminal` |
+| [`design/component-catalogue/catalog/buildable-stations/variants/depot-terminal.md`](../design/component-catalogue/catalog/buildable-stations/variants/depot-terminal.md) | `depot-terminal` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/halt.md`](../design/component-catalogue/catalog/buildable-stations/variants/halt.md) | `halt` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/interchange-elevated.md`](../design/component-catalogue/catalog/buildable-stations/variants/interchange-elevated.md) | `interchange-elevated` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/interchange.md`](../design/component-catalogue/catalog/buildable-stations/variants/interchange.md) | `interchange` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/major.md`](../design/component-catalogue/catalog/buildable-stations/variants/major.md) | `major` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/standard.md`](../design/component-catalogue/catalog/buildable-stations/variants/standard.md) | `standard` station definition |
+| [`design/component-catalogue/catalog/buildable-stations/variants/terminal.md`](../design/component-catalogue/catalog/buildable-stations/variants/terminal.md) | `terminal` station definition |
 | [`design/component-catalogue/catalog/buildable-trainset/README.md`](../design/component-catalogue/catalog/buildable-trainset/README.md) | Generated buildable trainset artifacts |
 | [`design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md`](../design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md) | Buildable trainset manifest |
 | [`design/component-catalogue/catalog/buildable-trainset/cots-candidates.md`](../design/component-catalogue/catalog/buildable-trainset/cots-candidates.md) | LM3 off-the-shelf and RFQ candidate register |
@@ -1266,6 +1274,7 @@ Indexed Markdown files: **1346**.
 | [`design/component-catalogue/catalog/modular-fiberglass-body/README.md`](../design/component-catalogue/catalog/modular-fiberglass-body/README.md) | One-metre clip-on glass-fibre body design |
 | [`design/component-catalogue/models/cad/README.md`](../design/component-catalogue/models/cad/README.md) | Mechanical FreeCAD Library |
 | [`design/component-catalogue/models/cad/assembly-geometry-review.md`](../design/component-catalogue/models/cad/assembly-geometry-review.md) | FreeCAD Assembly Geometry Review |
+| [`design/component-catalogue/models/manufacturing-reference/README.md`](../design/component-catalogue/models/manufacturing-reference/README.md) | LM3 neutral manufacturing reference |
 
 ## docs
 
@@ -1418,6 +1427,7 @@ Indexed Markdown files: **1346**.
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
+| [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 
 ## lib

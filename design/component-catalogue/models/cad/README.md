@@ -13,7 +13,7 @@ authoritative geometry.
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact file inventory, hashes, primitive counts and final-assembly reachability result |
 | [`trainset-light-metro-3car.FCStd`](trainset-light-metro-3car.FCStd) | Full light-metro trainset review assembly generated from source geometry |
 | [`trainset-light-metro-3car.installed-coordinate.json`](trainset-light-metro-3car.installed-coordinate.json) | Source-to-controlled-ID occurrence map, installed positions and nominal/curve/twist review states for that assembly |
-| [`stations/`](stations/) | Seven native station product assemblies covering all 45 controlled station products, with hierarchy, semantic class and fidelity metadata |
+| [`stations/`](stations/) | Seven native station product assemblies covering all 45 controlled station products, with installed/exploded geometry, hierarchy, controlled datums/zones, semantic class and fidelity metadata |
 | [`../manufacturing-reference/`](../manufacturing-reference/) | STEP, DXF inspection projections and browser-viewable three-view SVG references for all 46 LM3 `MAKE` rows |
 | [`single-car-assembly.FCStd`](single-car-assembly.FCStd) | Corrected urban-shuttle single-car assembly with both bogies on the shared ±6,150 mm chassis datums |
 | [`chassis-bogie-assembly-states.FCStd`](chassis-bogie-assembly-states.FCStd) | Chassis and bogie connector review with assembled and exploded state groups |
