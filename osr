@@ -54,7 +54,7 @@ case "$command_name" in
         cargo clippy --workspace --all-targets -- -D warnings
         cargo test --workspace --all-targets
         tools/automation/osr-python -m pytest -q design/city-generation/tests design/component-catalogue/tests \
-            tools/osr-aln-convert/tests tools/reference-ma/tests
+            engineering/analysis/tests tools/osr-aln-convert/tests tools/reference-ma/tests
         npm run test:frontend
         tools/automation/osr-python tools/automation/audit-project-twins.py
         tools/automation/osr-python tools/automation/repo-health.py --quiet

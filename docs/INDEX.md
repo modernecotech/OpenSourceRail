@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1356**.
+Indexed Markdown files: **1357**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **1356**.
 | [deployment](#deployment) | 1 |
 | [design](#design) | 304 |
 | [docs](#docs) | 136 |
-| [engineering](#engineering) | 8 |
+| [engineering](#engineering) | 9 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -1422,6 +1422,7 @@ Indexed Markdown files: **1356**.
 | File | Title |
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | Engineering Integration and Assurance |
+| [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |

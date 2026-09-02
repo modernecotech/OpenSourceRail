@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added a deterministic all-variant station systems package: OpenSees canopy
+  gravity/uplift, JuPedSim normal/degraded/egress and repeatable-bay SWMM
+  drainage, plus tracked EnergyPlus and FDS inputs that remain explicit pending
+  gates until project inputs and native solver review are available.
 - Added seven complete station-variant FreeCAD and geometric IFC4.3 assemblies,
   covering all 45 controlled station products with deterministic validation;
   the FreeCAD set now carries 4,324 installed/exploded native shapes, controlled

@@ -51,6 +51,11 @@ else
     printf 'FreeCAD review-model and CalculiX benchmark generation skipped: install the optional engineering applications.\n'
 fi
 python3 engineering/station_product_reconciliation.py
+if [[ -x .venv/bin/python ]] && .venv/bin/python -c 'import jupedsim, openseespy, pyswmm' >/dev/null 2>&1; then
+    .venv/bin/python engineering/analysis/stations/station_systems.py
+else
+    printf 'Station system screening skipped: rerun ./install.sh to install the engineering Python environment.\n'
+fi
 
 section "Building the root documentation book"
 python3 tools/automation/build-doc-book.py

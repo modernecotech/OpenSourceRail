@@ -6,7 +6,7 @@ component geometry.
 
 | Area | Contents |
 |---|---|
-| [`analysis/`](analysis/) | Calculation code, analysis register and FDS/JuPedSim/SUMO/SWMM benchmarks |
+| [`analysis/`](analysis/) | Analysis register, station systems evidence and FDS/JuPedSim/SUMO/SWMM inputs |
 | [`interchange/`](interchange/) | Deterministic IFC4.3 and station-interchange generators |
 | [`models/bim/reference/`](models/bim/reference/) | Public IFC, IDS, BCF, validation and coordination review set |
 | [`models/digital-twins/`](models/digital-twins/) | Source-linked fabrication and construction review scenes |

@@ -51,6 +51,7 @@ jobs:
       - run: python -m pytest -q design/city-generation/tests
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - run: python -m pytest -q design/component-catalogue/tests
+      - run: python -m pytest -q engineering/analysis/tests
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python tools/automation/check-markdown-links.py
       - run: python tools/automation/validate-host-manifests.py

@@ -18,3 +18,6 @@ modules rather than left as an unbuildable square-metre allowance.
 Site structural, foundation, drainage, egress, and electrical approvals remain gates.
 See the generated [`open release gap register`](open-release-gaps.md) for
 the supplier, site, utility, and component-design closures behind these counts.
+The shared [station systems screening](../../../../engineering/analysis/stations/screening-summary.md)
+runs OpenSees, JuPedSim and SWMM across the family and keeps the EnergyPlus/FDS
+depot inputs explicitly pending; it is reproducible evidence, not construction release.

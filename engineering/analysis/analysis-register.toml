@@ -13,6 +13,61 @@ converged = true
 limitations = "Screening corridor only; demand, accessibility, stairs, gates and local egress criteria are not calibrated."
 
 [[analysis]]
+id = "OSR-AN-STN-STR-001"
+title = "Shared station-canopy Warren-truss global load path"
+status = "screening"
+tool = "OpenSeesPy 3.8.0.0"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py"]
+result_path = "engineering/analysis/stations/screening-summary.json"
+acceptance_criterion = "22 m global truss converges for 1.10 kPa gravity and 1.20 kPa uplift; displacement <= span/240 and axial stress <= 0.60 x S355 yield"
+converged = true
+limitations = "Two-dimensional axial load-path screen using catalogue pressures and gross areas; connections, buckling, fatigue, 3D stability, site actions, load combinations and foundations require deployment design and independent review."
+
+[[analysis]]
+id = "OSR-AN-STN-PED-002"
+title = "All station variants normal, degraded and egress route flow"
+status = "screening"
+tool = "JuPedSim 1.4.2"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py"]
+result_path = "engineering/analysis/stations/screening-summary.json"
+acceptance_criterion = "Each independent platform route clears 80 agents in <=90 s normal and <=120 s degraded, and 120 agents in <=150 s egress"
+converged = true
+limitations = "Deterministic route test populations only; transfer conflicts, stairs, lifts, fare gates, trains, crossings, assisted evacuation, city demand and local authority criteria require deployment calibration."
+
+[[analysis]]
+id = "OSR-AN-STN-DRA-001"
+title = "Station canopy repeatable roof-drainage branches"
+status = "screening"
+tool = "EPA SWMM / PySWMM 2.1.0"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/swmm/halt.inp", "engineering/analysis/stations/inputs/swmm/standard.inp", "engineering/analysis/stations/inputs/swmm/major.inp", "engineering/analysis/stations/inputs/swmm/interchange.inp", "engineering/analysis/stations/inputs/swmm/interchange-elevated.inp", "engineering/analysis/stations/inputs/swmm/terminal.inp", "engineering/analysis/stations/inputs/swmm/depot-terminal.inp"]
+result_path = "engineering/analysis/stations/screening-summary.json"
+acceptance_criterion = "All seven representative 300 mm roof-bay branches complete a 75 mm/h 20-minute storm with <=1% continuity error and inlet depth <0.80 m"
+converged = true
+limitations = "Ideal repeatable branch/free outfall model; local IDF rainfall, surveyed levels, headers, tailwater, blockage, climate allowance, track/yard drainage and exceedance routing require deployment design."
+
+[[analysis]]
+id = "OSR-AN-STN-THM-001"
+title = "Depot charger and electrical-room thermal/ventilation model"
+status = "planned"
+tool = "EnergyPlus 26.1"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf"]
+result_path = "engineering/analysis/stations/screening-summary.json"
+acceptance_criterion = "Design-day solver completes after supplier heat-loss map, project climate, envelope, ventilation architecture and control limits are frozen"
+converged = false
+limitations = "Tracked input is an uncalibrated one-zone pre-sizing deck; no solver is installed in the current reproducibility environment and no thermal acceptance is claimed."
+
+[[analysis]]
+id = "OSR-AN-STN-FIR-001"
+title = "Depot charger-room fire and tenability model"
+status = "planned"
+tool = "FDS 6.11.1"
+input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/fds/depot-charger-room.fds"]
+result_path = "engineering/analysis/stations/screening-summary.json"
+acceptance_criterion = "FDS mesh/convergence and tenability criteria pass after a fire engineer freezes the credible heat-release curve, chemistry, ventilation, detection and suppression cases"
+converged = false
+limitations = "Tracked deck contains a prescribed 250 kW burner for model plumbing only, not a battery thermal-runaway representation; no solver result or fire-safety acceptance is claimed."
+
+[[analysis]]
 id = "OSR-AN-OPS-SUMO-001"
 title = "Samawah network independent timetable run"
 status = "screening"
@@ -94,7 +149,7 @@ id = "OSR-AN-RS-FEA-SCREEN-001"
 title = "LM3 chassis, body, bogie and articulation gross-load-path screens"
 status = "screening"
 tool = "FreeCAD 1.1.3 / CalculiX 2.23 / Gmsh 4.15"
-input_paths = ["design/component-catalogue/src/osr_mech/freecad_fea.py", "design/component-catalogue/catalog/fea"]
+input_paths = ["design/component-catalogue/src/osr_mech/freecad_fea.py", "design/component-catalogue/catalog/fea/screening-summary.json"]
 result_path = "design/component-catalogue/catalog/fea/screening-summary.json"
 acceptance_criterion = "Nine deterministic beam screens converge and remain within their stated displacement and 0.6 x S355 yield screening limits"
 converged = true

@@ -1,0 +1,531 @@
+{
+  "analysis_family": "OSR-AN-STN-SYS-001",
+  "canonical_input": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+  "deployment_release_ready": false,
+  "drainage": {
+    "analysis_id": "OSR-AN-STN-DRA-001",
+    "limitations": [
+      "One representative 300 mm gravity branch per platform/auxiliary roof bay with ideal free outfall; no header/manifold, surveyed levels, tailwater, blockage, climate factor, overland exceedance or municipal network.",
+      "The 75 mm/h storm is a reproducibility assumption and must be replaced with local IDF rainfall and authority return period.",
+      "Platform, track, depot yard, pollutants, oil interception and groundwater are outside this roof-catchment screen."
+    ],
+    "passed": true,
+    "storm": {
+      "duration_minutes": 20,
+      "intensity_mm_per_hour": 75.0
+    },
+    "tool": {
+      "name": "EPA SWMM via PySWMM",
+      "version": "2.1.0"
+    },
+    "variants": {
+      "depot-terminal": {
+        "canopy_catchment_area_m2": 1640.6,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 49.71515151515151,
+        "drainage_outlet_count": 33,
+        "input_path": "engineering/analysis/stations/inputs/swmm/depot-terminal.inp",
+        "input_sha256": "e0e5d61dec2a755aa5a8cf9ee99a9c0826d153e9bfca45008b5940e6f7cd8ab8",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.1767128311561383,
+        "peak_inlet_depth_m": 0.07148832080259121,
+        "rational_method_peak_lps": 32.47020833333333,
+        "station_aggregate_peak_flow_lps": 5.831523428152564,
+        "step_count": 359
+      },
+      "halt": {
+        "canopy_catchment_area_m2": 439.0,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 39.90909090909091,
+        "drainage_outlet_count": 11,
+        "input_path": "engineering/analysis/stations/inputs/swmm/halt.inp",
+        "input_sha256": "258290809d4514fc913db63e9aa5faff765dc9b40a79d466f5cd99c1930e4069",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.15700444280277778,
+        "peak_inlet_depth_m": 0.06655940126951546,
+        "rational_method_peak_lps": 8.688541666666667,
+        "station_aggregate_peak_flow_lps": 1.7270488708305556,
+        "step_count": 359
+      },
+      "interchange": {
+        "canopy_catchment_area_m2": 2878.0,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 57.56,
+        "drainage_outlet_count": 50,
+        "input_path": "engineering/analysis/stations/inputs/swmm/interchange.inp",
+        "input_sha256": "6811b5a61781b87f86b800d96fbe5c7957e88901f79de67b97b551b455e359d9",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.1934349722691897,
+        "peak_inlet_depth_m": 0.07482193436864792,
+        "rational_method_peak_lps": 56.96041666666667,
+        "station_aggregate_peak_flow_lps": 9.671748613459485,
+        "step_count": 359
+      },
+      "interchange-elevated": {
+        "canopy_catchment_area_m2": 3252.0,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 62.53846153846154,
+        "drainage_outlet_count": 52,
+        "input_path": "engineering/analysis/stations/inputs/swmm/interchange-elevated.inp",
+        "input_sha256": "51eb0114c43b591a90b0893a5056dadc7f4fc21074e9632d56c17fb0668e62f3",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.2010917463179173,
+        "peak_inlet_depth_m": 0.07676764179463089,
+        "rational_method_peak_lps": 64.3625,
+        "station_aggregate_peak_flow_lps": 10.456770808531699,
+        "step_count": 359
+      },
+      "major": {
+        "canopy_catchment_area_m2": 2100.8,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 65.65,
+        "drainage_outlet_count": 32,
+        "input_path": "engineering/analysis/stations/inputs/swmm/major.inp",
+        "input_sha256": "f248503aea1b320c76ec73d080d88d552bc537f9b48fe552623fe18438f20f2e",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.20464995356835217,
+        "peak_inlet_depth_m": 0.07788674594452125,
+        "rational_method_peak_lps": 41.57833333333333,
+        "station_aggregate_peak_flow_lps": 6.548798514187269,
+        "step_count": 359
+      },
+      "standard": {
+        "canopy_catchment_area_m2": 1813.0,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 67.14814814814815,
+        "drainage_outlet_count": 27,
+        "input_path": "engineering/analysis/stations/inputs/swmm/standard.inp",
+        "input_sha256": "b80d56ed03d365e1fde3182f862ddb5a440337be0e9c7b101f41024118f7acd0",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.208067344172157,
+        "peak_inlet_depth_m": 0.07841581014146073,
+        "rational_method_peak_lps": 35.88229166666667,
+        "station_aggregate_peak_flow_lps": 5.617818292648239,
+        "step_count": 359
+      },
+      "terminal": {
+        "canopy_catchment_area_m2": 2575.6,
+        "continuity": {
+          "routing_error_percent": 0.0,
+          "runoff_error_percent": 0.0
+        },
+        "design_branch_area_m2": 67.77894736842104,
+        "drainage_outlet_count": 38,
+        "input_path": "engineering/analysis/stations/inputs/swmm/terminal.inp",
+        "input_sha256": "254bcfe4969ff577bdd26835696ac2724af36d80f78f19ed024fd18f2d022474",
+        "passed": true,
+        "peak_conduit_flow_lps": 0.20924265821464036,
+        "peak_inlet_depth_m": 0.07863602963401854,
+        "rational_method_peak_lps": 50.97541666666667,
+        "station_aggregate_peak_flow_lps": 7.951221012156334,
+        "step_count": 359
+      }
+    }
+  },
+  "generator_sha256": "814ba056073d5f8a37685c690632e2bde5869e421c4c5d5882e0cdb561050752",
+  "manifest_sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55",
+  "optional_solver_inputs": {
+    "energyplus": {
+      "analysis_id": "OSR-AN-STN-THM-001",
+      "input_path": "engineering/analysis/stations/inputs/energyplus/depot-equipment-room.idf",
+      "input_sha256": "ed9539f931c438b94698b1a306a76df84f446fb7e8c95b4183c4a648792ce39d",
+      "limitations": "One depot equipment-room design-day input; climate, envelope, charger duty/loss map, controls and ventilation architecture require project data.",
+      "passed": false,
+      "preliminary_heat_rejection_kw": 40.00000000000003,
+      "preliminary_outdoor_airflow_m3_s": 3.316749585406304,
+      "solver": "EnergyPlus",
+      "solver_available": false,
+      "status": "input-prepared"
+    },
+    "fds": {
+      "analysis_id": "OSR-AN-STN-FIR-001",
+      "input_path": "engineering/analysis/stations/inputs/fds/depot-charger-room.fds",
+      "input_sha256": "e6b49fc96f81cbdb840ad3fef05d5a03420579367bb6f18f3004a14a2d3bea1f",
+      "limitations": "Demonstration mesh and prescribed burner only; credible heat-release curve, battery chemistry, ventilation, suppression, tenability criteria and fire-engineer review are unresolved.",
+      "passed": false,
+      "scenario": "250 kW prescribed charger-room fire ramp; not a battery thermal-runaway model",
+      "solver": "FDS",
+      "solver_available": false,
+      "status": "input-prepared"
+    }
+  },
+  "passenger": {
+    "analysis_id": "OSR-AN-STN-PED-002",
+    "limitations": [
+      "Each platform route is screened independently; transfer conflicts, stairs, lifts, gates, trains and road crossings are not represented.",
+      "The 80-agent operating cases and 120-agent egress case are deterministic test populations, not city demand or authority design populations.",
+      "Local accessibility, evacuation, walking-speed distribution and assisted-evacuation criteria require deployment calibration and approval."
+    ],
+    "passed": true,
+    "tool": {
+      "name": "JuPedSim",
+      "version": "1.4.2"
+    },
+    "variants": {
+      "depot-terminal": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "halt": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 61.800000000000004,
+            "initial_agents_per_route": 80,
+            "iterations": 1236,
+            "parallel_route_count": 1,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 55.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 68.2,
+            "initial_agents_per_route": 120,
+            "iterations": 1364,
+            "parallel_route_count": 1,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 55.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 58.5,
+            "initial_agents_per_route": 80,
+            "iterations": 1170,
+            "parallel_route_count": 1,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 55.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "interchange": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "interchange-elevated": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 4,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "major": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "standard": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      },
+      "terminal": {
+        "passed": true,
+        "scenarios": {
+          "degraded": {
+            "acceptance_limit_s": 120.0,
+            "clear": true,
+            "clearance_time_s": 65.15,
+            "initial_agents_per_route": 80,
+            "iterations": 1303,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 2.4
+          },
+          "egress": {
+            "acceptance_limit_s": 150.0,
+            "clear": true,
+            "clearance_time_s": 71.35000000000001,
+            "initial_agents_per_route": 120,
+            "iterations": 1427,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          },
+          "normal": {
+            "acceptance_limit_s": 90.0,
+            "clear": true,
+            "clearance_time_s": 62.75,
+            "initial_agents_per_route": 80,
+            "iterations": 1255,
+            "parallel_route_count": 2,
+            "passed": true,
+            "remaining_agents": 0,
+            "route_length_m": 59.5,
+            "route_width_m": 6.0
+          }
+        }
+      }
+    }
+  },
+  "schema_version": 1,
+  "screening_execution_passed": true,
+  "structural": {
+    "analysis_id": "OSR-AN-STN-STR-001",
+    "applicable_variants": [
+      "halt",
+      "standard",
+      "major",
+      "interchange",
+      "interchange-elevated",
+      "terminal",
+      "depot-terminal"
+    ],
+    "cases": {
+      "gravity": {
+        "allowable_stress_mpa": 213.0,
+        "converged": true,
+        "displacement_limit_mm": 91.66666666666666,
+        "max_axial_stress_mpa": 62.85277777777592,
+        "max_displacement_mm": 18.645007941024023,
+        "passed": true,
+        "pressure_kpa": 1.1,
+        "safety_factor_to_yield": 5.648119503248498,
+        "total_load_kn": 205.70000000000002
+      },
+      "wind_uplift": {
+        "allowable_stress_mpa": 213.0,
+        "converged": true,
+        "displacement_limit_mm": 91.66666666666666,
+        "max_axial_stress_mpa": 68.56666666666463,
+        "max_displacement_mm": 20.340008662935297,
+        "passed": true,
+        "pressure_kpa": 1.2,
+        "safety_factor_to_yield": 5.177442877977791,
+        "total_load_kn": 224.4
+      }
+    },
+    "limitations": [
+      "Global two-dimensional axial load path only; no connection, buckling, fatigue, ponding, seismic, foundation or progressive-collapse check.",
+      "Catalogue gravity and uplift pressures are reproducibility assumptions, not site wind/snow/live-load values.",
+      "A deployment engineer must replace loads, sections, restraints, corrosion allowance and combinations from local code and surveyed site data."
+    ],
+    "model": {
+      "description": "simply supported 22 m transverse Warren-truss load path",
+      "element_count": 31,
+      "material": "S355 design-reference steel; E=200 GPa",
+      "node_count": 17,
+      "section_areas_mm2": {
+        "chord": 4500.0,
+        "web": 3000.0
+      }
+    },
+    "passed": true,
+    "tool": {
+      "name": "OpenSeesPy",
+      "version": "3.8.0.0"
+    }
+  },
+  "variant_count": 7
+}

@@ -64,10 +64,16 @@ def lm3_analysis_ids(product_id: str) -> list[str]:
 
 def station_analysis_ids(product_id: str) -> list[str]:
     result = ["OSR-AN-IFC-STN-001"]
+    if product_id.startswith(("STN-CNP", "STN-STR")):
+        result.append("OSR-AN-STN-STR-001")
     if product_id.startswith(("STN-ACC", "STN-PAX")):
-        result.append("OSR-AN-STN-PED-001")
+        result.append("OSR-AN-STN-PED-002")
+    if product_id.startswith(("STN-CIV", "STN-CNP", "STN-DEP", "STN-TRK")):
+        result.append("OSR-AN-STN-DRA-001")
     if product_id.startswith(("STN-CHG", "STN-MEP", "STN-CNP")):
         result.append("OSR-AN-ENE-CHG-001")
+    if product_id.startswith(("STN-CHG", "STN-DEP", "STN-MEP")):
+        result.extend(["OSR-AN-STN-THM-001", "OSR-AN-STN-FIR-001"])
     return result
 
 

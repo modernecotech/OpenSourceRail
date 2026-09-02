@@ -18,13 +18,14 @@ cd "$ROOT"
 
 usage() {
     printf '%s\n' \
-        'Usage: tools/automation/engineering-toolchain.sh --install-python | --check | --smoke | --benchmarks | --station-ifc | --cities [args] | --flesh-out' \
+        'Usage: tools/automation/engineering-toolchain.sh --install-python | --check | --smoke | --benchmarks | --station-ifc | --station-analysis | --cities [args] | --flesh-out' \
         '' \
         '  --install-python  Create/update the pinned user-local Python environment.' \
         '  --check           Capture installed versions and fail for missing baseline tools.' \
         '  --smoke           Run deterministic IFC/structure/grid/PV/battery smoke checks.' \
         '  --benchmarks      Run the CalculiX, JuPedSim, and Samawah SUMO benchmarks.' \
         '  --station-ifc     Export and validate station product-structure IFC files.' \
+        '  --station-analysis Run the all-variant structure, flow and drainage screens.' \
         '  --cities          Generate/run catalogue city packages; pass batch arguments.' \
         '  --flesh-out       Validate the register and run benchmarks plus station IFC.'
 }
@@ -191,6 +192,7 @@ validate_register() {
 run_benchmarks() {
     python3 "$ROOT/engineering/analysis/benchmarks/calculix/thermal_block.py"
     "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/benchmarks/jupedsim/station-corridor.py"
+    "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/stations/station_systems.py"
     "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/benchmarks/sumo/city_timetable.py" \
         --design "$ROOT/cities/catalogue/west-asia/Iraq/Samawah/design.toml"
 }
@@ -216,6 +218,10 @@ case "${1:-}" in
     --station-ifc)
         validate_register
         run_station_ifc
+        ;;
+    --station-analysis)
+        validate_register
+        "$VENV_DIR/bin/python" "$ROOT/engineering/analysis/stations/station_systems.py"
         ;;
     --cities)
         shift

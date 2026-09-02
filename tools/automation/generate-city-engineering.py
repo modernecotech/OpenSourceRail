@@ -28,6 +28,7 @@ ALIGNMENT_SOURCE = REPO_ROOT / "tools/osr-aln-convert/src"
 ALIGNMENT_DESIGN_DATE = "2026-08-12"
 STATION_IFC_RUNNER = REPO_ROOT / "engineering/interchange/station_ifc.py"
 PEDESTRIAN_RUNNER = REPO_ROOT / "engineering/analysis/benchmarks/jupedsim/station-corridor.py"
+STATION_SYSTEMS_RUNNER = REPO_ROOT / "engineering/analysis/stations/station_systems.py"
 STATION_MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
 SHARED_OUTPUT_ROOT = REPO_ROOT / "build/engineering/shared"
 BATCH_SUMMARY = REPO_ROOT / "build/engineering/cities/batch-summary.json"
@@ -158,6 +159,7 @@ def main() -> int:
         commands = {
             "station_ifc": [sys.executable, str(STATION_IFC_RUNNER), "--all-variants"],
             "pedestrian": [sys.executable, str(PEDESTRIAN_RUNNER)],
+            "station_systems": [sys.executable, str(STATION_SYSTEMS_RUNNER)],
         }
         shared_results: dict[str, int] = {}
         for name, command in commands.items():

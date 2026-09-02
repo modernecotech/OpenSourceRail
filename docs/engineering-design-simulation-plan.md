@@ -242,7 +242,11 @@ revision through the interchange tests.
 - [ ] **COMP-016-06 — Run station analyses.** Use FreeCAD/CalculiX or OpenSees
   for selected structures, JuPedSim for normal/degraded/egress flows,
   EnergyPlus for heat/ventilation/load, SWMM for drainage, and FDS for
-  enclosed or battery/charger fire scenarios.
+  enclosed or battery/charger fire scenarios. The shared 22 m canopy
+  OpenSees load path, all-variant JuPedSim route cases and per-bay SWMM roof
+  drainage are now solver-backed and tracked. EnergyPlus and FDS input decks
+  are prepared but deliberately remain pending supplier/site inputs, native
+  solver runs and competent thermal/fire review.
 - [ ] **COMP-016-07 — Release the package.** Close interface clashes, drawing
   and BOM drift, unmet accessibility/egress criteria, and open structural
   checks; record local-code items awaiting deployment evidence.

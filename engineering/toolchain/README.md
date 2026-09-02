@@ -26,6 +26,7 @@ Run engineering workflows through the common launcher:
 ./osr engineering --smoke
 ./osr engineering --benchmarks
 ./osr engineering --station-ifc
+./osr engineering --station-analysis
 ./osr engineering --flesh-out
 ./osr engineering --cities --city samawah,songea --jobs 2
 ./osr engineering --cities --all --generate-only --allow-input-gaps --jobs 8
@@ -49,12 +50,12 @@ creation, an analytical axial bar in OpenSees, a two-bus pandapower load flow,
 pvlib plane-of-array irradiance, and a short PyBaMM single-particle battery
 model. It also runs a short SWMM rainfall/runoff fixture and rejects excessive
 continuity error. `--benchmarks` runs a deterministic JuPedSim normal/constrained
-station corridor and builds a SUMO timetable directly from the 13 Samawah Line
-1 station chainages. `--station-ifc` exports standard and
-interchange-elevated product structures and checks that every BOM/traveler ID
-round-trips through IFC. These IFC files deliberately contain no geometry yet;
-the summary labels that limitation rather than presenting a coordination
-skeleton as a federated station model.
+station corridor, the all-variant station structure/flow/drainage screens, and
+a SUMO timetable directly from the 13 Samawah Line 1 station chainages.
+`--station-ifc` exports all seven positive-volume station product structures
+and checks that every BOM/traveler ID round-trips through IFC. The station
+analysis keeps EnergyPlus and FDS inputs visible as pending until those native
+solvers and project-specific climate/fire inputs produce reviewed results.
 
 [`../analysis/analysis-register.toml`](../analysis/analysis-register.toml) distinguishes planned,
 screening, calibrated, independently checked, and accepted analyses. Its
@@ -82,8 +83,8 @@ For every selected city it writes:
   `build/engineering/cities/batch-summary.json`.
 
 The generator creates and checks the seven shared station-archetype IFC files
-once per batch. It also runs the shared JuPedSim station screening case once;
-identical archetype models are referenced by city station occurrences rather
+once per batch. It also runs the shared station systems package once; identical
+archetype models and results are referenced by city station occurrences rather
 than copied thousands of times.
 
 `--generate-only` creates reviewable SUMO decks without launching SUMO; GIS
