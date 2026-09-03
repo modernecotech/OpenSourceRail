@@ -36,6 +36,9 @@ logistics, possession, issue-closure and coordinated route-fit contract.
 [`templates/drainage-ground-design-processing.toml`](templates/drainage-ground-design-processing.toml)
 defines the subsequent SWMM replay, hydrology, geotechnical zoning, foundation/
 ground-treatment schedule, conditional OpenGeoSys and authority gate.
+[`templates/structural-release-processing.toml`](templates/structural-release-processing.toml)
+defines the subsequent per-asset OpenSees/CalculiX, load-case, fatigue,
+movement, independent-check and authority-release contract.
 
 Civil cost inputs are split deliberately: edit
 [`templates/civil-cost-calibration.toml`](templates/civil-cost-calibration.toml)

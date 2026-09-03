@@ -558,6 +558,30 @@ impl JobManager {
                 "drainage/ground readiness generator exited unsuccessfully\n{drainage_ground_log}"
             );
         }
+        let structural_program = self
+            .repository_root
+            .join("engineering/analysis/structural_release.py");
+        let structural_output = Command::new(&python)
+            .arg(&structural_program)
+            .arg("--design")
+            .arg(&snapshot_path)
+            .arg("--manifest")
+            .arg(output_dir.join("structural-release-input-manifest.csv"))
+            .arg("--evidence-root")
+            .arg(&output_dir)
+            .arg("--output-dir")
+            .arg(&output_dir)
+            .arg("--write-placeholder-manifest")
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .context("running allowlisted structural readiness generator")?;
+        let structural_log = command_log(&structural_output);
+        log.push_str(&structural_log);
+        if !structural_output.status.success() {
+            bail!("structural readiness generator exited unsuccessfully\n{structural_log}");
+        }
         let artifacts = vec![
             self.artifact(
                 "field-evidence-brief",
@@ -622,6 +646,18 @@ impl JobManager {
             self.artifact(
                 "drainage-ground-readable",
                 &output_dir.join("drainage-ground-readiness.md"),
+            )?,
+            self.artifact(
+                "structural-release-manifest",
+                &output_dir.join("structural-release-input-manifest.csv"),
+            )?,
+            self.artifact(
+                "structural-release-readiness",
+                &output_dir.join("structural-release-readiness.json"),
+            )?,
+            self.artifact(
+                "structural-release-readable",
+                &output_dir.join("structural-release-readiness.md"),
             )?,
         ];
         Ok((output.status.code().unwrap_or(0), log, artifacts))

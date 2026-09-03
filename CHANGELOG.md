@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added scenario-bound, all-line SUMO dwell modelling and a deterministic
+  OSR/SUMO running-time cross-check, with explicit external junction-occupancy
+  and authority gates.
+
 - Added a shared city field-evidence specification and generated Samawah brief
   covering survey control, utilities, land, flood, ground, workshop/fleet and
   reality capture. City Studio can issue the revision-locked brief and empty
@@ -29,6 +33,9 @@
   inputs, checks report/source provenance and continuity, validates per-line/
   station catalogue foundation or ground-treatment schedules, requires actual
   deep-element lengths, and makes OpenGeoSys evidence trigger-dependent.
+- Added a per-asset structural-release gate for chainaged span/pier/abutment/
+  foundation schedules, immutable OpenSees/CalculiX evidence, load-case and
+  result reconciliation, independent checking and signed authority release.
 - Added a deterministic all-variant station systems package: OpenSees canopy
   gravity/uplift, JuPedSim normal/degraded/egress and repeatable-bay SWMM
   drainage, plus tracked EnergyPlus and FDS runs. The adverse enclosed depot

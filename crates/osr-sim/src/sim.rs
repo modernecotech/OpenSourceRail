@@ -566,6 +566,12 @@ pub struct SimResult {
     pub maximum_effective_headway_s: u32,
     pub per_train_final_soc: Vec<(String, String, f32, f32)>, // (train_id, line, final_soc, min_soc)
     pub per_line_km: Vec<(String, f64)>,
+    /// Deterministic one-way (or one-lap for a ring) reference journey time
+    /// derived independently from section speeds, consist performance and
+    /// destination-station dwells. This is intended for cross-checking an
+    /// external timetable model; it is not an observed service KPI.
+    #[serde(default)]
+    pub per_line_reference_trip_time_s: Vec<(String, f64)>,
     pub events: Vec<Event>,
     /// Event tallies retained even when a validation run omits the full event
     /// trace. This keeps acceptance evidence compact without weakening the
@@ -1087,6 +1093,38 @@ pub fn run_with_event_recording(
     for tr in &trains {
         per_line_km[tr.line_index].1 += tr.odometer_km;
     }
+    let per_line_reference_trip_time_s: Vec<(String, f64)> = config
+        .network
+        .lines
+        .iter()
+        .map(|line| {
+            let final_section_index = line.forward_sections.len().saturating_sub(1);
+            let seconds = line
+                .forward_sections
+                .iter()
+                .enumerate()
+                .map(|(section_index, section_id)| {
+                    let section = config.network.section(*section_id);
+                    let section_speed = section.max_speed_mps.min(config.consist.max_speed_mps);
+                    let run_s = kinematic_travel_time(
+                        section.length_mm as f32 / 1_000.0,
+                        section_speed,
+                        config.consist.service_accel_mps2,
+                        config.consist.service_decel_mps2(),
+                    );
+                    // Match SUMO tripinfo: end on arrival, before terminal
+                    // dwell/turnaround. That dwell belongs to cycle time.
+                    let dwell_s = if section_index == final_section_index {
+                        0.0
+                    } else {
+                        config.network.station(section.to_station).dwell_seconds as f32
+                    };
+                    f64::from(run_s + dwell_s)
+                })
+                .sum();
+            (line.name.clone(), seconds)
+        })
+        .collect();
 
     // Onboard shadow summary.
     let onboard_summary = onboard::summarise(&onboard_shadows, &trains);
@@ -1138,6 +1176,7 @@ pub fn run_with_event_recording(
             })
             .collect(),
         per_line_km,
+        per_line_reference_trip_time_s,
         events: events.events,
         event_counts: events.counts,
         invariant_violations: violations,
@@ -2356,6 +2395,33 @@ mod tests {
         // v_peak = sqrt(2 * 200 * 1 * 1 / 2) = sqrt(200) ≈ 14.142
         // time = v_peak / 1 + v_peak / 1 ≈ 28.28 s
         approx(kinematic_travel_time(200.0, 20.0, 1.0, 1.0), 28.28);
+    }
+
+    #[test]
+    fn result_exposes_reference_trip_time_from_sections_and_dwells() {
+        let scenario = load_scenario_from_str(&simple_two_station_scenario("", "12:00")).unwrap();
+        let result = run(
+            &scenario,
+            &RuntimeConfig {
+                duration_s: 1,
+                time_step_s: 1,
+                status_every_s: 0,
+                csv_out: None,
+                csv_every_s: 60,
+                ma_check_every_s: 0,
+            },
+        );
+        assert_eq!(result.per_line_reference_trip_time_s.len(), 1);
+        assert_eq!(result.per_line_reference_trip_time_s[0].0, "L1");
+        let line = &scenario.network.lines[0];
+        let section = scenario.network.section(line.forward_sections[0]);
+        let expected = kinematic_travel_time(
+            section.length_mm as f32 / 1_000.0,
+            section.max_speed_mps.min(scenario.consist.max_speed_mps),
+            scenario.consist.service_accel_mps2,
+            scenario.consist.service_decel_mps2(),
+        );
+        assert!((result.per_line_reference_trip_time_s[0].1 - f64::from(expected)).abs() < 0.1);
     }
 
     #[test]

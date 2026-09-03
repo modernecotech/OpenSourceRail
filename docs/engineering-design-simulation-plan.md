@@ -140,8 +140,9 @@ station occurrences, backed by seven shared geometric station-archetype IFC asse
 The full live SUMO batch completed all 4,052 scheduled screening services with
 zero simulation failures. Its execution gate passes; its input-quality gate
 remains open for the endpoint findings below. ENG-TOOL-002/003 remain open for
-the thermal block, the remaining analytical benchmark forms, atomic manifests
-for every solver and second-machine reproduction. ENG-TOOL-004 now passes
+the remaining analytical benchmark forms, atomic manifests for every solver
+and second-machine reproduction; the CalculiX thermal block passes its
+analytical temperature and flux checks. ENG-TOOL-004 now passes
 station manifest ID, positive-volume representation, semantic class,
 property-set and assembly-hierarchy round trips for all seven archetypes;
 survey-coordinate/alignment drift and deployment-specific IDS/BCF checks remain open.
@@ -178,17 +179,16 @@ supplier, engineering, client, commercial, and CDE evidence still required.
 
 The city package now also converts canonical catalogue inputs into QGIS/GDAL
 GeoPackages, shapes SUMO edges from the corridor GeoJSON, and runs per-city
-pandapower/pvlib electrical and PV screens. Samawah is the acceptance case and
-Songea is the second-city portability check. Samawah's mapped chainage differs
-from corridor geometry by roughly 2–4% on Lines 1–2 and has a maximum
-station-to-corridor offset of about 92 m; these remain explicit coordination
-findings pending survey-grade alignment. Its peak grid-only case overloads 14
+pandapower/pvlib electrical and PV screens. Samawah and Mosul are the full
+acceptance cases and Songea is a portability check. Samawah's Line 1 corridor
+geometry is 2.3% shorter than declared chainage and its maximum station-to-
+corridor offset is 75.3 m; these remain explicit coordination findings pending
+survey-grade alignment. Its peak grid-only case overloads 14
 planning transformers, while the coordinated daylight case converges without
 loading or voltage-band findings. Neither the mapping nor the energy result is
 survey, utility, or measured-weather acceptance evidence.
-The Samawah scenario ambient is also 16 °C above the selected
-`temperate-continental` preset average; this is now a structured climate-input
-review finding rather than an implicit override.
+The Samawah design now uses the `hot-desert` climate preset; project weather
+files and authority design temperatures remain external inputs.
 
 The compact catalogue still contains inherited layouts emitted by older
 generator revisions. Catalogue-wide ring/interchange and station-cluster
@@ -315,15 +315,23 @@ complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.
   actual span/pier/abutment/foundation schedule. Use OpenSees for global,
   seismic and soil-spring cases and verified FreeCAD/CalculiX templates for
   component checks; use Code_Aster only for identified nonlinear/detail cases.
+  The shared release gate now requires a chainaged asset schedule, immutable
+  OpenSees/CalculiX inputs and converged reports, exact per-asset foundation,
+  wind, seismic, fatigue and bearing/movement results, closed independent-check
+  comments and signed release. The pilots remain `awaiting-structural-evidence`.
 - [ ] **COMP-017-08 — Cross-check operations.** Compare OSR running times and
   junction occupancy with SUMO. Trial one-line OSRD import separately. An
   OpenTrack comparison is optional and licensed, following
   [`opentrack-evaluation.md`](opentrack-evaluation.md); neither evaluated tool
   can become a release dependency until interchange and repeatability pass.
-  The first screening SUMO deck now derives Line 1 length and all 13 station
-  IDs/chainages from `design.toml` and completes four opposed services. The OSR
-  simulator comparison, surveyed geometry, calibrated dwell, junction/road
-  interactions and OSRD evaluation remain open.
+  The shared SUMO generator now covers every line, binds both `design.toml` and
+  the expanded scenario hash, uses the actual energy-derived station dwells,
+  and completes opposed services. OSR independently emits section-speed,
+  consist-performance and dwell-derived arrival times. The deterministic
+  cross-check passes all three Samawah lines (3.0–3.5% difference) and all six
+  Mosul lines (4.0–4.8% difference). Surveyed geometry, a conflict-capable and
+  independently reviewed junction-occupancy model, road interactions and the
+  optional OSRD evaluation remain open; neither screen is authority release.
 - [ ] **COMP-017-09 — Obtain deployment sign-off.** Close the civil checklist
   for survey alignment, ground, structures, station fit, energy site, permits,
   stakeholders, and constructability. Keep every unreceived external item open.

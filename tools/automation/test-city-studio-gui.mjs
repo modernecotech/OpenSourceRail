@@ -634,6 +634,23 @@ async function main() {
     "drainage/ground GUI artifact requires project evidence without automatically invoking OpenGeoSys",
     `${drainageGroundReadiness.lines} lines · ${drainageGroundReadiness.stations} stations`,
   );
+  await openArtifact(jobIds.fieldEvidence, "structural-release-readiness");
+  const structuralReadiness = await cdp.evaluate(`({
+    status: selectedArtifactPreview.content.status,
+    lines: selectedArtifactPreview.content.line_ids.length,
+    missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    technical: selectedArtifactPreview.content.technical_screen_passed,
+    accepted: selectedArtifactPreview.content.authority_accepted,
+  })`);
+  assert(
+    structuralReadiness.status === "awaiting-structural-evidence"
+      && structuralReadiness.lines === drainageGroundReadiness.lines
+      && structuralReadiness.missing === 10
+      && !structuralReadiness.technical
+      && !structuralReadiness.accepted,
+    "structural GUI artifact requires per-asset solver and independent-check evidence",
+    `${structuralReadiness.lines} lines · ${structuralReadiness.missing} missing technical roles`,
+  );
   await openArtifact(jobIds.simulation, "simulation-result");
   await openArtifact(jobIds.alignment, "landxml");
   await openArtifact(jobIds.civil, "civil-bim-index");

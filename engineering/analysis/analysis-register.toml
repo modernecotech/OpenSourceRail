@@ -147,6 +147,17 @@ converged = false
 limitations = "The tracked receipt is empty. The station 75 mm/h/free-outfall screen and catalogue foundation selectors are not project drainage or geotechnical design."
 
 [[analysis]]
+id = "OSR-AN-CIV-STR-001"
+title = "Samawah per-asset structural analysis and release gate"
+status = "planned"
+tool = "OpenSeesPy / CalculiX / controlled independent check"
+input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "lib/templates/structural-release-processing.toml", "engineering/analysis/structural_release.py", "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-input-manifest.csv"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.json"
+acceptance_criterion = "Every chainaged structural asset has reconciled foundation/global/seismic/wind/fatigue/bearing results, immutable converged solver evidence, closed independent-check comments and signed authority release."
+converged = false
+limitations = "The tracked receipt is empty. Existing reference geometry and screening models are not project per-span calculations."
+
+[[analysis]]
 id = "OSR-AN-ENE-CITY-001"
 title = "Samawah station microgrid and PV planning screen"
 status = "screening"
@@ -266,3 +277,14 @@ result_path = ""
 acceptance_criterion = "3-2-1 repeatability, anti-reversal, insert pull-out, bond durability, water ingress, fire/smoke/toxicity, mass/axle load and timed service removal pass"
 converged = false
 limitations = "Composite laminate system and adhesive supplier are not selected; primary crash load remains in steel."
+
+[[analysis]]
+id = "OSR-AN-OPS-XCHECK-001"
+title = "Independent OSR and SUMO city running-time cross-check"
+status = "screening"
+tool = "osr-sim 0.3.1 / Eclipse SUMO 1.27.1"
+input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml", "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/validation-summary.json", "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/summary.json"]
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.json"
+acceptance_criterion = "Every design line appears exactly once in both models and mean arrival-to-arrival journey time differs by no more than the greater of 15 percent or 120 seconds"
+converged = true
+limitations = "Planning-model running-time comparison only. Generated SUMO topology does not independently represent shared-junction conflicts; surveyed geometry, road interaction, conflict-capable junction occupancy review and operator/authority acceptance remain external gates."

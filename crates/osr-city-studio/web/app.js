@@ -1333,9 +1333,9 @@ function renderJobs() {
 
 async function selectDefaultArtifact() {
   const preferredKinds = [
-    "field-evidence-brief", "survey-control-readiness", "ground-model-readiness", "surveyed-alignment-readiness", "route-station-fit-readiness", "drainage-ground-readiness",
+    "field-evidence-brief", "survey-control-readiness", "ground-model-readiness", "surveyed-alignment-readiness", "route-station-fit-readiness", "drainage-ground-readiness", "structural-release-readiness",
     "field-evidence-readable", "survey-control-readable", "ground-model-readable", "surveyed-alignment-readable",
-    "survey-receipt-manifest", "surveyed-alignment-manifest", "route-station-fit-manifest", "route-station-fit-readable", "drainage-ground-manifest", "drainage-ground-readable",
+    "survey-receipt-manifest", "surveyed-alignment-manifest", "route-station-fit-manifest", "route-station-fit-readable", "drainage-ground-manifest", "drainage-ground-readable", "structural-release-manifest", "structural-release-readable",
     "civil-bim-index", "civil-ids-report", "civil-bcf3-index",
     "civil-bim-validation", "civil-4d-sequence",
     "gis-network", "alignment-input", "alignment-review", "simulation-result",

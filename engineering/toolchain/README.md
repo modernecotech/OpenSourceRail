@@ -58,7 +58,8 @@ pvlib plane-of-array irradiance, and a short PyBaMM single-particle battery
 model. It also runs a short SWMM rainfall/runoff fixture and rejects excessive
 continuity error. `--benchmarks` runs a deterministic JuPedSim normal/constrained
 station corridor, the all-variant station structure/flow/drainage screens, and
-a SUMO timetable directly from the 13 Samawah Line 1 station chainages.
+a SUMO timetable directly from every Samawah line and station using the
+scenario's energy-derived dwell times.
 `--station-ifc` exports all seven positive-volume station product structures
 and checks that every BOM/traveler ID round-trips through IFC. The station
 analysis executes EnergyPlus and FDS when installed, preserving adverse results
@@ -108,8 +109,8 @@ hashes still match and whose simulation, GIS generation, energy solvers and
 station-product map passed. Transient launcher failures are retried
 automatically at reduced concurrency.
 
-Samawah is the acceptance example; Songea exercises the same code path as a
-second city. The generator discovers all 263 canonical designs, and every one
+Samawah and Mosul are full acceptance examples; Songea exercises the same code
+path as a portability check. The generator discovers all 266 canonical designs, and every one
 currently has the required `<slug>.corridor.geojson` and `<slug>.toml`
 companions. GIS layers use EPSG:4326. SUMO uses a city-local metric projection
 for visual geometry while retaining canonical chainage as edge length.

@@ -2104,6 +2104,12 @@ def render_readme(
         simulation = (
             json.loads(simulation_path.read_text()) if simulation_path.is_file() else {}
         )
+        crosscheck_path = (
+            design_path.parent / "engineering/simulation/operations-crosscheck.json"
+        )
+        operations_crosscheck = (
+            json.loads(crosscheck_path.read_text()) if crosscheck_path.is_file() else {}
+        )
         engineering = {}
         for package in ("sumo", "gis", "energy"):
             path = design_path.parent / "engineering" / package / "summary.json"
@@ -2248,6 +2254,10 @@ def render_readme(
                 f"| SUMO timetable | "
                 f"{'pass' if engineering['sumo'].get('simulation_passed') else 'missing/fail'} | "
                 "[`summary.json`](engineering/sumo/summary.json) |",
+                f"| Independent OSR/SUMO running-time cross-check | "
+                f"{'pass' if operations_crosscheck.get('automatic_crosscheck_passed') else 'missing/fail'}; "
+                f"junction/authority gate {'closed' if operations_crosscheck.get('authority_accepted') else 'open'} | "
+                "[`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |",
                 f"| GIS package | "
                 f"{'pass' if engineering['gis'].get('generation_passed') else 'missing/fail'} | "
                 "[`summary.json`](engineering/gis/summary.json) |",
@@ -2935,6 +2945,42 @@ def _finalise_readme(
             f"[`engineering/simulation/validation-summary.json`]"
             f"(engineering/simulation/validation-summary.json)."
         )
+        crosscheck_path = validation_path.parent / "operations-crosscheck.json"
+        if crosscheck_path.is_file():
+            crosscheck = json.loads(crosscheck_path.read_text())
+            expected_sources = {
+                "design_sha256": design_path,
+                "sumo_summary_sha256": design_path.parent / "engineering/sumo/summary.json",
+                "simulation_summary_sha256": validation_path,
+            }
+            if any(
+                crosscheck.get("evidence_hashes", {}).get(key)
+                != hashlib.sha256(path.read_bytes()).hexdigest()
+                for key, path in expected_sources.items()
+            ):
+                raise ValueError(
+                    f"{crosscheck_path} is stale; rerun the operations cross-check"
+                )
+            out.append("")
+            out.append("### Independent OSR/SUMO running-time cross-check\n")
+            out.append("| Line | OSR reference | SUMO mean | Difference | Result |")
+            out.append("|---|---:|---:|---:|---|")
+            for row in crosscheck.get("line_comparisons", []):
+                out.append(
+                    f"| {row['line_id']} | {row['osr_reference_trip_time_s']:.1f} s | "
+                    f"{row['sumo_mean_trip_time_s']:.1f} s | "
+                    f"{row['delta_percent_of_osr']:+.1f}% | "
+                    f"{'pass' if row.get('passed') else 'FAIL'} |"
+                )
+            out.extend(
+                [
+                    "",
+                    f"Automatic comparison status: **{'passed' if crosscheck.get('automatic_crosscheck_passed') else 'failed'}**. "
+                    f"Junction/authority release: **{'accepted' if crosscheck.get('authority_accepted') else 'open'}**. "
+                    "The generated SUMO model is an independent movement/timetable screen but not a conflict-capable junction release model. "
+                    "See [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md).",
+                ]
+            )
         screenshot_dir = design_path.parent / "engineering/screenshots"
         dashboard = screenshot_dir / f"{screenshot_slug}-simulation-dashboard.png"
         visualizer = screenshot_dir / f"{screenshot_slug}-network-visualizer.png"

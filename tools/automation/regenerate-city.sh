@@ -185,12 +185,23 @@ echo "6a) field-evidence brief → $DESIGN_DIR/engineering/survey/"
     --evidence-root "$DESIGN_DIR/engineering/survey" \
     --output-dir "$DESIGN_DIR/engineering/survey" \
     --write-placeholder-manifest
+"$PYTHON" "$REPO/engineering/analysis/structural_release.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --manifest "$DESIGN_DIR/engineering/survey/structural-release-input-manifest.csv" \
+    --evidence-root "$DESIGN_DIR/engineering/survey" \
+    --output-dir "$DESIGN_DIR/engineering/survey" \
+    --write-placeholder-manifest
 
 echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simulation/"
 "$PYTHON" "$REPO/tools/automation/validate-city-simulation.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml" --resilience
 "$PYTHON" "$REPO/tools/automation/render-sim-screenshots.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml"
+"$PYTHON" "$REPO/engineering/analysis/operations_crosscheck.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --sumo-summary "$DESIGN_DIR/engineering/sumo/summary.json" \
+    --simulation-summary "$DESIGN_DIR/engineering/simulation/validation-summary.json" \
+    --output-dir "$DESIGN_DIR/engineering/simulation"
 
 echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engineering/project-twin/"
 "$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \

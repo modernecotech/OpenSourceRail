@@ -90,6 +90,7 @@ def generate_city(
     design_path: Path,
     output: Path,
     *,
+    scenario_path: Path | None = None,
     selected_lines: set[str] | None = None,
     generate_only: bool = False,
     services_per_direction: int = 2,
@@ -100,6 +101,17 @@ def generate_city(
     design_path = design_path.resolve()
     output = output.resolve()
     design = tomllib.loads(design_path.read_text(encoding="utf-8"))
+    if scenario_path is None:
+        candidate = design_path.parent / f"{design.get('city', {}).get('slug', '')}.toml"
+        scenario_path = candidate if candidate.exists() else None
+    scenario_station_dwells: dict[str, int] = {}
+    if scenario_path is not None:
+        scenario_path = scenario_path.resolve()
+        scenario = tomllib.loads(scenario_path.read_text(encoding="utf-8"))
+        scenario_station_dwells = {
+            str(station["id"]): int(station["dwell_seconds"])
+            for station in scenario.get("stations", [])
+        }
     rolling_stock = tomllib.loads(ROLLING_STOCK.read_text(encoding="utf-8"))["profiles"]
     city = design.get("city", {})
     city_slug = str(city.get("slug", "")).strip()
@@ -296,15 +308,23 @@ def generate_city(
                 )
                 if direction == "outbound":
                     ordered_segments = list(zip(forward_edges, segment_lengths))
+                    ordered_stop_stations = stations[1:] if is_ring else stations[1:-1]
                 else:
                     ordered_segments = list(zip(reverse_edges, reversed(segment_lengths)))
-                for edge_id, segment_length in ordered_segments[:-1]:
+                    ordered_stop_stations = list(
+                        reversed(stations[:-1] if is_ring else stations[1:-1])
+                    )
+                for (edge_id, segment_length), stop_station in zip(
+                    ordered_segments[:-1], ordered_stop_stations
+                ):
                     ET.SubElement(
                         vehicle,
                         "stop",
                         lane=f"{edge_id}_0",
                         endPos=f"{segment_length - 5.0:.3f}",
-                        duration=str(dwell_s),
+                        duration=str(
+                            scenario_station_dwells.get(str(stop_station["id"]), dwell_s)
+                        ),
                     )
 
         modeled_length = (
@@ -351,6 +371,8 @@ def generate_city(
         "country": city.get("country"),
         "design_input": str(design_path.relative_to(REPO_ROOT)),
         "design_sha256": hashlib.sha256(design_path.read_bytes()).hexdigest(),
+        "scenario_input": str(scenario_path.relative_to(REPO_ROOT)) if scenario_path else None,
+        "scenario_sha256": hashlib.sha256(scenario_path.read_bytes()).hexdigest() if scenario_path else None,
         "corridor_input": str(geometry_path.relative_to(REPO_ROOT)),
         "corridor_sha256": hashlib.sha256(geometry_path.read_bytes()).hexdigest(),
         "geometry_mode": "canonical-corridor",
@@ -418,6 +440,7 @@ def generate_city(
 def main(default_design: Path | None = None, default_lines: set[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--design", type=Path, default=default_design)
+    parser.add_argument("--scenario", type=Path)
     parser.add_argument("--line", action="append", dest="lines")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--generate-only", action="store_true")
@@ -434,6 +457,7 @@ def main(default_design: Path | None = None, default_lines: set[str] | None = No
     report = generate_city(
         design_path,
         output,
+        scenario_path=args.scenario,
         selected_lines=selected,
         generate_only=args.generate_only,
         services_per_direction=args.services_per_direction,

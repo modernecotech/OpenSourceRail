@@ -336,6 +336,9 @@ def summarize_result(
         "depot_services_started": counts.get("DepotServiceStart", 0),
         "depot_services_active_at_cutoff": max(0, counts.get("DepotServiceStart", 0) - counts.get("DepotServiceComplete", 0)),
         "minimum_soc_percent": min(socs, default=1.0) * 100.0,
+        "per_line_reference_trip_time_s": result.get(
+            "per_line_reference_trip_time_s", []
+        ),
         "onboard_emergencies": int(result.get("onboard", {}).get("emergency_count", 0)),
         "vehicle_systems": vehicle_systems,
         "vehicle_systems_passed": (

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:mosul",
+  "city": "mosul",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "line_scope_matches": true,
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3030.182,
+      "sumo_mean_trip_time_s": 2892.5,
+      "delta_s": -137.682,
+      "delta_percent_of_osr": -4.544,
+      "tolerance_s": 454.527,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2783.0,
+      "sumo_mean_trip_time_s": 2665.0,
+      "delta_s": -118.0,
+      "delta_percent_of_osr": -4.24,
+      "tolerance_s": 417.45,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2413.909,
+      "sumo_mean_trip_time_s": 2297.5,
+      "delta_s": -116.409,
+      "delta_percent_of_osr": -4.822,
+      "tolerance_s": 362.086,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2175.727,
+      "sumo_mean_trip_time_s": 2081.0,
+      "delta_s": -94.727,
+      "delta_percent_of_osr": -4.354,
+      "tolerance_s": 326.359,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2165.227,
+      "sumo_mean_trip_time_s": 2079.5,
+      "delta_s": -85.727,
+      "delta_percent_of_osr": -3.959,
+      "tolerance_s": 324.784,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 5515.409,
+      "sumo_mean_trip_time_s": 5267.5,
+      "delta_s": -247.909,
+      "delta_percent_of_osr": -4.495,
+      "tolerance_s": 827.311,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "5252888f89f92bf2c05a5a6dbb11c8eea2c5676f98a8ff6dfd825d210a02e53c",
+    "sumo_summary_sha256": "3221c2e5c0eeb5534f9ebeca32257ac12779c36cea88b0671b685ff7200f1c84",
+    "simulation_summary_sha256": "515f4d60ec6419a085a22a924ebcd952a36628d3dfa1bf45b452e90a50e08847"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "9e83cfc31ecd167c9dca4f5e7582bc1843ff840e66ce35acc17a7908be3af9a4",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Iraq/Mosul/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Iraq/Mosul/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/validation-summary.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

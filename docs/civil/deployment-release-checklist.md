@@ -46,3 +46,7 @@ then replays the project SWMM input, checks accepted rainfall/level provenance,
 requires borehole-zoned foundation or ground-treatment schedules for every line
 and station, and invokes OpenGeoSys evidence only when a reviewed groundwater/
 coupling decision warrants it.
+The [structural-release gate](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.md)
+then binds every chainaged span, pier, abutment, foundation and special
+structure to converged OpenSees/CalculiX evidence, load cases, fatigue/seismic/
+wind/bearing results, closed independent-check comments and signed release.

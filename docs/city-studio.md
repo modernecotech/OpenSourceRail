@@ -279,7 +279,7 @@ The engineering hub exposes five fixed adapters:
   generates survey, utility, land, flood, geotechnical, workshop/fleet and
   reality-capture requirements, an explicitly unaccepted receipt manifest,
   and the corresponding survey-control, ground-model and per-line surveyed-
-  alignment, route-fit and drainage/ground readiness reports and empty controlled receipts;
+  alignment, route-fit, drainage/ground and structural readiness reports and empty controlled receipts;
 - **Compile GIS package** publishes the candidate snapshot, GeoJSON, day-type
   scenarios, and manifest;
 - **Run network simulation** executes a fixed one-hour compact `osr-sim` run

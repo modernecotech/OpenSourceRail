@@ -397,7 +397,12 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/survey/drainage-ground-input-manifest.csv",
                 city_dir / "engineering/survey/drainage-ground-readiness.json",
                 city_dir / "engineering/survey/drainage-ground-readiness.md",
+                city_dir / "engineering/survey/structural-release-input-manifest.csv",
+                city_dir / "engineering/survey/structural-release-readiness.json",
+                city_dir / "engineering/survey/structural-release-readiness.md",
                 city_dir / "engineering/simulation/validation-summary.json",
+                city_dir / "engineering/simulation/operations-crosscheck.json",
+                city_dir / "engineering/simulation/operations-crosscheck.md",
                 city_dir / "engineering/sumo/summary.json",
                 city_dir / "operations/acceptance-evidence-report.md",
                 city_dir / "operations" / f"{slug}-operations-manifest.json",
@@ -485,6 +490,9 @@ def check_city_artifacts() -> list[Finding]:
             route_fit_gate_path = city_dir / "engineering/survey/route-station-fit-readiness.json"
             drainage_ground_receipt_path = city_dir / "engineering/survey/drainage-ground-input-manifest.csv"
             drainage_ground_gate_path = city_dir / "engineering/survey/drainage-ground-readiness.json"
+            structural_receipt_path = city_dir / "engineering/survey/structural-release-input-manifest.csv"
+            structural_gate_path = city_dir / "engineering/survey/structural-release-readiness.json"
+            operations_crosscheck_path = city_dir / "engineering/simulation/operations-crosscheck.json"
             if survey_brief_path.is_file():
                 survey = json.loads(survey_brief_path.read_text())
                 survey_generator = REPO_ROOT / "engineering/analysis/survey_package.py"
@@ -622,6 +630,47 @@ def check_city_artifacts() -> list[Finding]:
                     drainage_ground.get("technical_screen_passed") or drainage_ground.get("authority_accepted")
                 ):
                     findings.append(Finding(drainage_ground_gate_path, "pending drainage/ground report claims completed gates"))
+
+            if structural_gate_path.is_file():
+                structural = json.loads(structural_gate_path.read_text())
+                structural_generator = REPO_ROOT / "engineering/analysis/structural_release.py"
+                structural_requirements = REPO_ROOT / "lib/templates/structural-release-processing.toml"
+                expected_lines = [str(line.get("name")) for line in design.get("lines", [])]
+                for key, source, label in (
+                    ("generator_sha256", structural_generator, "generator"),
+                    ("requirements_sha256", structural_requirements, "requirements"),
+                    ("design_sha256", design_path, "design"),
+                    ("receipt_manifest_sha256", structural_receipt_path, "receipt"),
+                ):
+                    if structural.get(key) != hashlib.sha256(source.read_bytes()).hexdigest():
+                        findings.append(Finding(structural_gate_path, f"structural {label} hash is stale"))
+                if structural.get("line_ids") != expected_lines:
+                    findings.append(Finding(structural_gate_path, "structural line scope is stale"))
+                if not structural.get("report_valid"):
+                    findings.append(Finding(structural_gate_path, "structural receipt is invalid"))
+                if structural.get("status") == "awaiting-structural-evidence" and (
+                    structural.get("technical_screen_passed") or structural.get("authority_accepted")
+                ):
+                    findings.append(Finding(structural_gate_path, "pending structural report claims completed gates"))
+
+            if operations_crosscheck_path.is_file():
+                crosscheck = json.loads(operations_crosscheck_path.read_text())
+                crosscheck_generator = REPO_ROOT / "engineering/analysis/operations_crosscheck.py"
+                sumo_path = city_dir / "engineering/sumo/summary.json"
+                source_hashes = {
+                    "design_sha256": design_path,
+                    "sumo_summary_sha256": sumo_path,
+                    "simulation_summary_sha256": simulation_path,
+                }
+                if crosscheck.get("generator_sha256") != hashlib.sha256(crosscheck_generator.read_bytes()).hexdigest():
+                    findings.append(Finding(operations_crosscheck_path, "operations cross-check generator hash is stale"))
+                for key, source in source_hashes.items():
+                    if source.is_file() and crosscheck.get("evidence_hashes", {}).get(key) != hashlib.sha256(source.read_bytes()).hexdigest():
+                        findings.append(Finding(operations_crosscheck_path, f"operations cross-check {key} is stale"))
+                if not crosscheck.get("automatic_crosscheck_passed") or not crosscheck.get("line_scope_matches"):
+                    findings.append(Finding(operations_crosscheck_path, "automatic operations cross-check is not passed"))
+                if crosscheck.get("authority_accepted") and not crosscheck.get("junction_occupancy_passed"):
+                    findings.append(Finding(operations_crosscheck_path, "operations acceptance bypasses junction evidence"))
 
             package_manifest_path = city_dir / "package-manifest.json"
             if package_manifest_path.is_file():
