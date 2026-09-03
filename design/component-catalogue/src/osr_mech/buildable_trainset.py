@@ -416,7 +416,7 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             "LM3-BDY-SA110",
             ("bom-skeleton.md B26", "car_body.py", "LM3-BDY-100"),
             "Locally fabricated and proof-marked recovery fittings tied into released underframe load paths.",
-            ("material traceability", "weld/NDT record", "proof load", "datum and label inspection"),
+            ("material traceability", "weld/NDT record", "proof load", "four-point depot interface gauge", "datum and label inspection"),
         ),
         ProductItem(
             "LM3-BDY-P130",

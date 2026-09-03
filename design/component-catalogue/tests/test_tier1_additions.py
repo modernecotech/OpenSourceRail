@@ -24,10 +24,13 @@ from osr_mech.clearance import (
     swept_envelope_part,
 )
 from osr_mech.rolling_stock.baseline import (
+    PROMOTED_LIGHT_METRO_BOGIE_CENTRE_SPACING_MM,
     PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
     PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
 )
-from osr_mech.depot import DEFAULT_STALLS, DepotArchetype, depot_footprint, depot_layout, throat_turnout_count
+from osr_mech.depot import DEFAULT_STALLS, DepotArchetype, depot_bogie_change_bay, depot_footprint, depot_layout, throat_turnout_count
+from osr_mech.maintenance_interface import lm3_bogie_change_datum
+from osr_mech.rolling_stock.mechanical_interfaces import underframe_jacking_recovery_interface
 from osr_mech.track.turnout import CATALOGUE, TurnoutTangent, turnout, turnout_footprint_mm
 
 
@@ -121,6 +124,41 @@ def test_training_wing_only_on_main_heavy() -> None:
     )
     assert fp_main.has_training_wing
     assert not fp_sec.has_training_wing
+
+
+def test_vehicle_and_depot_share_four_point_lifting_datum() -> None:
+    datum = lm3_bogie_change_datum()
+    assert datum.car_length_mm == PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
+    assert datum.car_width_mm == PROMOTED_LIGHT_METRO_CAR_WIDTH_MM
+    assert datum.bogie_centre_spacing_mm == PROMOTED_LIGHT_METRO_BOGIE_CENTRE_SPACING_MM
+    vehicle = underframe_jacking_recovery_interface()
+    bay = depot_bogie_change_bay()
+
+    vehicle_heads = {
+        ((child.bounding_box().min.X + child.bounding_box().max.X) / 2.0,
+         (child.bounding_box().min.Y + child.bounding_box().max.Y) / 2.0)
+        for child in vehicle.children
+        if child.label == "Replaceable four-point depot lifting pad"
+    }
+    depot_heads = {
+        ((child.bounding_box().min.X + child.bounding_box().max.X) / 2.0,
+         (child.bounding_box().min.Y + child.bounding_box().max.Y) / 2.0)
+        for child in bay.children
+        if child.label == "LM3 four-point lift head datum"
+    }
+
+    assert vehicle_heads == depot_heads == set(datum.jack_positions_mm)
+    assert len(vehicle_heads) == 4
+
+
+def test_main_heavy_contains_detailed_bogie_change_assembly() -> None:
+    depot = depot_layout(DepotArchetype.MAIN_HEAVY)
+    labels = [child.label for child in depot.children]
+    assert "LM3 synchronized lifting and bogie-change bay assembly" in labels
+
+    secondary = depot_layout(DepotArchetype.SECONDARY_MEDIUM)
+    secondary_labels = [child.label for child in secondary.children]
+    assert "LM3 synchronized lifting and bogie-change bay assembly" not in secondary_labels
 
 
 # ---------------------------------------------------------------------------

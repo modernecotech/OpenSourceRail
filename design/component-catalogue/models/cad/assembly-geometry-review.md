@@ -23,7 +23,7 @@ sanity checks on each assembled-state input.
 | Body interior layer | `car-body-interior` | True | True | 44 | 5842345400 | 15880 x 2770 x 2725 |  |
 | Body service layers | `car-body-services` | True | True | 38 | 3585089000 | 14630 x 2800 x 4005 |  |
 | Car systems package | `car-systems` | True | True | 365 | 6919568742 | 15595 x 3212 x 4325 |  |
-| Mechanical interface package | `mechanical-interface-package` | True | True | 1052 | 37128540992 | 18490 x 3076 x 3984 |  |
+| Mechanical interface package | `mechanical-interface-package` | True | True | 1072 | 37298470307 | 18490 x 3076 x 3984 |  |
 | Window cassettes and glazing installation | `window-installations` | True | True | 72 | 1562806176 | 15560 x 2954 x 1197 |  |
 | Door leaf design package | `door-design` | True | True | 13 | 208207248 | 1382 x 168 x 2203 |  |
 | Door portal and mount package | `door-mounts` | True | True | 44 | 229984266 | 7700 x 2875 x 2365 |  |

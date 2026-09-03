@@ -421,6 +421,28 @@ def _equipment(dims: tuple[float, float, float], label: str, colour: Color = SYS
     )
 
 
+def _recovery_kit(dims: tuple[float, float, float], label: str) -> Compound:
+    """Packed delivery representation of the detailed four-point car kit."""
+
+    x, y, z = dims
+    parts: list[Part] = []
+    for px in (-x * 0.30, x * 0.30):
+        for py in (-y * 0.24, y * 0.24):
+            parts.extend(
+                [
+                    _box((330.0, 280.0, 70.0), f"{label} replaceable jack pad", STEEL).locate(Location((px, py, -z * 0.22))),
+                    _part(Cylinder(42.0, 90.0), f"{label} retained jack-pad location pin", SAFETY).locate(Location((px, py, z * 0.08))),
+                ]
+            )
+    for py in (-y * 0.34, y * 0.34):
+        parts.append(_part(Cylinder(70.0, 45.0), f"{label} proof-marked lifting eye", SAFETY).locate(Location((0.0, py, z * 0.24))))
+    for px in (-x * 0.39, x * 0.39):
+        parts.append(_box((250.0, 120.0, 90.0), f"{label} towing/rerailing lug", STEEL).locate(Location((px, 0.0, z * 0.20))))
+    for py in (-y * 0.47, y * 0.47):
+        parts.append(_box((350.0, 8.0, 100.0), f"{label} recovery datum/label plate", SAFETY).locate(Location((0.0, py, 0.0))))
+    return Compound(label=label, children=parts)
+
+
 def product_geometry(product_id: str, title: str | None = None) -> Compound:
     """Return an inspectable native/facade geometry for one controlled item."""
 
@@ -438,6 +460,8 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
         return _window_carrier(dims, label)
     if product_id == "LM3-DOOR-P010":
         return _door_carrier(dims, label)
+    if product_id == "LM3-BDY-P120":
+        return _recovery_kit(dims, label)
     if form in {"frame", "window-frame", "door-frame"}:
         return _frame(dims, label, STEEL)
     if form == "window":

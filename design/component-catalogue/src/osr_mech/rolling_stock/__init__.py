@@ -80,6 +80,7 @@ from .mechanical_interfaces import (
     screen_speaker_mountings,
     side_body_frame_attachments,
     train_connector_mount_pair,
+    underframe_jacking_recovery_interface,
     window_installations,
 )
 from .sensor_cowl import sensor_cowl
@@ -153,6 +154,7 @@ __all__ = [
     "traction_power_rack",
     "side_body_frame_attachments",
     "train_connector_mount_pair",
+    "underframe_jacking_recovery_interface",
     "trainset",
     "trainset_systems",
     "trailer_bogie",

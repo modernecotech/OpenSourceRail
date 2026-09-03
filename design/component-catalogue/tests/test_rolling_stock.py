@@ -52,6 +52,7 @@ from osr_mech.rolling_stock.mechanical_interfaces import (
     mechanical_interface_package,
     screen_speaker_mountings,
     train_connector_mount_pair,
+    underframe_jacking_recovery_interface,
     window_installations,
 )
 from osr_mech.rolling_stock.sensor_cowl import (
@@ -690,3 +691,9 @@ def test_repeated_installation_counts_match_car_layout() -> None:
     labels = _labels_recursive(train_connector_mount_pair(dims))
     assert labels.count("Train connector mount crashworthy coupler pocket") == 2
     assert labels.count("Train connector M24 pocket bolt head") == 16
+
+    labels = _labels_recursive(underframe_jacking_recovery_interface(dims))
+    assert labels.count("Underframe jack-point load-spreader and doubler") == 4
+    assert labels.count("Replaceable four-point depot lifting pad") == 4
+    assert labels.count("Retained carbody lifting-eye boss and cover") == 4
+    assert labels.count("Underframe towing and rerailing lug") == 2

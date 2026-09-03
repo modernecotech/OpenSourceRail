@@ -38,7 +38,7 @@ Evidence required:
 - Primary processes: cut, form, drill/machine, de-burr, trial fit, fixture weld, controlled cool / stress relief where WPS requires, post-weld machine where required
 - Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum
 - Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, WPS/WPQR release, welder qualification, weld map and heat-input control
-- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, material traceability, weld/NDT record, proof load, datum and label inspection
+- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, material traceability, weld/NDT record, proof load, four-point depot interface gauge, datum and label inspection
 - Tooling basis: FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P120-DATUM
 - Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
 
@@ -47,6 +47,7 @@ Evidence required:
 - material traceability
 - weld/NDT record
 - proof load
+- four-point depot interface gauge
 - datum and label inspection
 
 ## Source references

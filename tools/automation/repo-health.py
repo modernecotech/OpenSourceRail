@@ -1541,7 +1541,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         expected = {
             "product_item_count": 101,
             "product_geometry_count": 101,
-            "product_representation_part_count": 523,
+            "product_representation_part_count": 534,
             "method_count": 9,
             "tooling_count": 20,
             "task_count": 59,

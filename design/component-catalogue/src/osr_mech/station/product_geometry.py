@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
+from osr_mech.depot.bogie_change import depot_bogie_change_bay
 
 
 CONCRETE = Color(0.70, 0.70, 0.66)
@@ -302,11 +303,11 @@ def _depot(product_id: str, label: str) -> Compound:
     elif product_id == "STN-DEP-P060":
         children.extend([
             _box((48_000, 34_000, 8_000), f"{label} workshop envelope", Color(0.55, 0.60, 0.65, 0.22), (92_000, 0, 4_000)),
-            _box((26_000, 1_600, 1_400), f"{label} overhaul pit", CONCRETE, (90_000, -8_000, -700)),
             _box((30_000, 400, 500), f"{label} crane runway north", STEEL, (92_000, -12_000, 7_000)),
             _box((30_000, 400, 500), f"{label} crane runway south", STEEL, (92_000, 12_000, 7_000)),
             _box((3_500, 3_500, 2_500), f"{label} wheel-lathe cell", SYSTEM, (104_000, 0, 1_250)),
             _box((10_000, 5_000, 3_000), f"{label} stores/racking zone", SAFETY, (75_000, 11_000, 1_500)),
+            depot_bogie_change_bay(top_of_rail_z_mm=TOP_OF_RAIL_Z_MM).locate(Location((90_000, -8_000, 0.0))),
         ])
     elif product_id == "STN-DEP-P070":
         children.extend([

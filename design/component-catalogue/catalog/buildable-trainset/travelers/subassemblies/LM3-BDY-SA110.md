@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 6.88 h |
+| Estimated labor | 6.93 h |
 | Build cell | weld and fixture cell |
 | Procurement BOM lines | `B3`, `B4`, `B26` |
 
@@ -53,7 +53,7 @@ Evidence required:
 | 20 | install and integrate LM3-BDY-P010: laser-cut side sill beam, LH/RH | weld and fixture cell | 1.12 | `FIX-LM3-BDY-SA110`<br>`GAUGE-LM3-BDY-P010`<br>`TORQUE-LM3-BDY-P010` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 30 | install and integrate LM3-BDY-P020: underframe centre spine and cross-bearer kit | weld and fixture cell | 1.12 | `FIX-LM3-BDY-SA110`<br>`GAUGE-LM3-BDY-P020`<br>`TORQUE-LM3-BDY-P020` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 40 | install and integrate LM3-BDY-P030: bolster box, air-spring pad, and centre-pivot insert set | weld and fixture cell | 1.12 | `FIX-LM3-BDY-SA110`<br>`GAUGE-LM3-BDY-P030`<br>`TORQUE-LM3-BDY-P030` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
-| 50 | install and integrate LM3-BDY-P120: jacking pad, lifting eye, towing lug, and recovery-label kit | weld and fixture cell | 1.05 | `FIX-LM3-BDY-SA110`<br>`GAUGE-LM3-BDY-P120`<br>`TORQUE-LM3-BDY-P120` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
+| 50 | install and integrate LM3-BDY-P120: jacking pad, lifting eye, towing lug, and recovery-label kit | weld and fixture cell | 1.1 | `FIX-LM3-BDY-SA110`<br>`GAUGE-LM3-BDY-P120`<br>`TORQUE-LM3-BDY-P120` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 60 | hold point: material release | quality inspection | 0.35 | `QA-LM3-BDY-SA110` | material release | quality inspector |
 | 70 | hold point: fixture tack survey | quality inspection | 0.35 | `GAUGE-LM3-BDY-SA110` | fixture tack survey | quality inspector |
 | 80 | hold point: weld/NDT release | quality inspection | 0.35 | `NDT-LM3-BDY-SA110` | weld/NDT release | quality inspector |

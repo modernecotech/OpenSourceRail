@@ -12,18 +12,22 @@ Each archetype is a rectangular site with:
   `main-heavy` + `secondary-medium`.
 - A single-turnout ladder at the depot throat connecting to the
   running line.
-- `main-heavy` only: a wheelset-lathe bay (separate building).
+- `main-heavy` only: a wheelset-lathe bay and an LM3-datum synchronized
+  lifting/bogie-change bay.
 - `training-wing` add-on for `main-heavy` if requested. OSR is
   driverless (RFC 0015), so the wing trains **dispatchers,
   maintenance technicians, station staff, and recovery-mode crew**
   — not revenue-service drivers. There are no driver-training
   simulators in an OSR depot.
 
-The emitted review geometry is a massing model: the shed walls, roof,
-pit lines, and track centrelines are there, but no internal MEP,
-structural framing, or civil interface. Partners take the massing +
-RFC 0014 into their own structural + architectural packages.
+The emitted review geometry remains a coordination model. The main-heavy
+maintenance bay now includes civil foundations, pit edges, lift heads,
+extraction paths, and safeguarded controls at controlled datums; certified
+loads, reinforcement, supplier internals, and building services remain in the
+deployment structural and equipment packages.
 """
+
+from .bogie_change import depot_bogie_change_bay
 
 from .layout import (
     DEFAULT_STALLS,
@@ -40,5 +44,6 @@ __all__ = [
     "DEFAULT_STALLS",
     "depot_layout",
     "depot_footprint",
+    "depot_bogie_change_bay",
     "throat_turnout_count",
 ]

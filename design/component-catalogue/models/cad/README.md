@@ -43,7 +43,7 @@ the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
 The split library is generated from one shared 101-item geometry registry and
-contains 523 native OCC primitives. Assembly documents preserve all 26 EBOM/
+contains 534 native OCC primitives. Assembly documents preserve all 26 EBOM/
 MBOM hierarchy nodes and include every active product in the final trainset.
 Their spaced layout remains an inspection fixture. Installed source occurrences
 and four kinematic review states are recorded separately in the trainset

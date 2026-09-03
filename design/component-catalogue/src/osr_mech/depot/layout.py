@@ -35,6 +35,8 @@ from osr_mech.cad import (
 )
 from osr_mech.track.turnout import TurnoutTangent, turnout
 
+from .bogie_change import depot_bogie_change_bay
+
 
 class DepotArchetype(str, Enum):
     MAIN_HEAVY = "main-heavy"
@@ -201,6 +203,12 @@ def _inspection_and_wash(fp: DepotFootprint) -> list[Part]:
     service_tracks = min(2, fp.stall_count)
     for index in range(service_tracks):
         y = y0 + index * _STABLING_TRACK_SPACING_M * 1000.0
+        if index == 0 and fp.archetype is DepotArchetype.MAIN_HEAVY:
+            bay = depot_bogie_change_bay(top_of_rail_z_mm=172.0).locate(
+                Location((shed_start + 20_000.0, y, 0.0))
+            )
+            parts.append(bay)
+            continue
         pit = Box(32_000.0, 1_350.0, 1_500.0).locate(Location((shed_start + 20_000.0, y, -750.0)))
         pit.label = f"Inspection pit {index + 1} with guarded access envelope"
         pit.color = COLOR_SHED_WALL

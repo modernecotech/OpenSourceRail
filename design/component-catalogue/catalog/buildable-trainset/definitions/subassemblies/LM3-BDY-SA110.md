@@ -93,6 +93,7 @@ Evidence required:
   - material traceability
   - weld/NDT record
   - proof load
+  - four-point depot interface gauge
   - datum and label inspection
 
 

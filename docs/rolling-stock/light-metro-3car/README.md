@@ -290,6 +290,12 @@ The tracked generated CAD review artifacts are:
 The matching electronics host-class quantities are mirrored in
 [`control-electronics/rolling-stock-integration.md`](../../../control-electronics/rolling-stock-integration.md).
 
+The cross-domain [depot bogie-change interface](../../civil/depot-bogie-change-interface.md)
+now ties the installed LM3 jack pads to the main-heavy depot lift heads through
+one tested datum contract. It remains a design-reference coordination assembly
+until vehicle reactions, underframe calculations, foundation design, selected
+lifting equipment, proof tests, and local safety approval are released.
+
 The remaining gaps are not missing assemblies in the train envelope;
 they are controlled detail-design and release tasks: frozen supplier exact envelopes,
 one-car-first manufacturing drawings, weld maps, NDT acceptance sheets,

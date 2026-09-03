@@ -349,13 +349,14 @@
       "ifc": "engineering/models/bim/reference/lm3-parts/LM3-BDY-P120.ifc",
       "neutral_dxf": "design/component-catalogue/models/manufacturing-reference/dxf-inspection-projections/LM3-BDY-P120.dxf",
       "neutral_step": "design/component-catalogue/models/manufacturing-reference/step/LM3-BDY-P120.step",
-      "primitive_count": 3,
+      "primitive_count": 14,
       "product_maturity": "release-candidate",
       "reference_drawing": "design/component-catalogue/models/manufacturing-reference/drawing-references/LM3-BDY-P120.svg",
       "release_evidence": [
         "material traceability",
         "weld/NDT record",
         "proof load",
+        "four-point depot interface gauge",
         "datum and label inspection"
       ],
       "route": "MAKE",
@@ -2387,9 +2388,9 @@
   "schema": "org.opensourcerail.model-coverage.v1",
   "sources": {
     "lm3_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-    "lm3_manifest_sha256": "7654747909805305ce2018109b5b649c4817a8f8c44a3ec8f2e8a6f74d48243e",
+    "lm3_manifest_sha256": "4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5",
     "station_manifest": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
-    "station_manifest_sha256": "d5282d4f7ddd995044f531437f89536493e48c1007bfd48dda67cd4b8325eea1"
+    "station_manifest_sha256": "f90e31c14898bb0530a317f80c6315bbb679a66c43ead91c287ac873895c2fd7"
   },
   "station_products": [
     {
@@ -2854,13 +2855,17 @@
       "product_maturity": "buildable-after-building-and-equipment-freeze",
       "release_evidence": [
         "building/egress release",
+        "foundation reaction calculation",
+        "four-point LM3 interface gauge",
+        "synchronized lift proof and mechanical-lock test",
+        "bogie extraction sweep",
         "crane certification",
         "pit/fall-protection inspection",
         "lathe acceptance",
         "wash/recycling SAT"
       ],
       "route": "BID",
-      "title": "main workshop, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package"
+      "title": "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package"
     },
     {
       "analysis_ids": [
@@ -3297,7 +3302,7 @@
       "archetype": "depot-terminal",
       "freecad": "design/component-catalogue/models/cad/stations/station-depot-terminal.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-depot-terminal.ifc",
-      "primitive_count": 407,
+      "primitive_count": 437,
       "product_count": 43
     }
   ],

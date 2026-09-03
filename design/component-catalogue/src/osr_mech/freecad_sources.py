@@ -25,6 +25,7 @@ from osr_mech.civil.ugirder import u_girder_structural_placeholder
 from osr_mech.civil.substructure import viaduct_abutment, viaduct_pier
 from osr_mech.common import GeometryPreset, RailProfile
 from osr_mech.depot.layout import DepotArchetype, depot_layout
+from osr_mech.depot.bogie_change import depot_bogie_change_bay
 from osr_mech.cad_templates.rolling_stock import (
     body_sheet_metal_kit,
     bogie_adapter,
@@ -112,6 +113,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "station-fare-lane-plinth": fare_lane_plinth,
     "station-tvm-plinth": tvm_plinth,
     "depot-main-heavy": lambda: depot_layout(DepotArchetype.MAIN_HEAVY, stalls=6, with_training_wing=True),
+    "depot-bogie-change-bay": depot_bogie_change_bay,
     "template-main-frame": main_frame,
     "template-sandwich-panel": sandwich_panel,
     "template-door-leaf": door_leaf,

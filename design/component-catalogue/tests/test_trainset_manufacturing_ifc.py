@@ -19,7 +19,7 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert index["tooling_count"] == 20
     assert index["tooling_representation_part_count"] >= 200
     assert index["product_geometry_count"] == 101
-    assert index["product_representation_part_count"] == 523
+    assert index["product_representation_part_count"] == 534
     assert index["supplier_anchor_count"] == 25
     assert index["supplier_anchored_external_product_count"] == 54
     assert len(model.by_type("IfcVehicle")) == 1

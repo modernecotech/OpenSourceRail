@@ -48,7 +48,7 @@ def test_geometry_registry_exactly_covers_product_tree_and_envelopes() -> None:
             bounds.max.Z - bounds.min.Z,
         )
         assert all(value <= limit + 1e-6 for value, limit in zip(actual, spec.envelope_mm))
-    assert primitive_count == 523
+    assert primitive_count == 534
 
 
 def test_geometry_forms_cover_key_build_and_bought_in_systems() -> None:
@@ -60,6 +60,15 @@ def test_geometry_forms_cover_key_build_and_bought_in_systems() -> None:
     assert specs["LM3-EXT-P010"].form == "door-cassette"
     assert specs["LM3-WIN-P010"].form == "window-frame"
     assert specs["LM3-LGT-P010"].form == "light"
+
+
+def test_recovery_kit_has_separate_inspectable_hardware() -> None:
+    leaves = flatten_geometry(product_geometry("LM3-BDY-P120"))
+    labels = [leaf.label for leaf in leaves]
+    assert sum("replaceable jack pad" in label for label in labels) == 4
+    assert sum("proof-marked lifting eye" in label for label in labels) == 2
+    assert sum("towing/rerailing lug" in label for label in labels) == 2
+    assert sum("recovery datum/label plate" in label for label in labels) == 2
 
 
 def test_assembly_graph_is_acyclic_complete_and_reaches_final_trainset() -> None:

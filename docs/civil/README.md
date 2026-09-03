@@ -18,6 +18,7 @@ release gates are tracked in
 | [`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml) | Generated rate contract consumed by city synthesis, finance reports, IFC metadata, and city READMEs |
 | [`rapid-implementation-materials-review.md`](rapid-implementation-materials-review.md) | Internet review of rapid ballastless track, modular stations, and recycled or lower-carbon materials |
 | [`slab-trackforms.md`](slab-trackforms.md) | Reference ballastless slab designs for at-grade and elevated guideway sections |
+| [`depot-bogie-change-interface.md`](depot-bogie-change-interface.md) | Shared LM3 jack-point datum, synchronized depot lift, pit, and bogie-extraction assembly contract |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
 | [`viaduct-design-basis.md`](viaduct-design-basis.md) | Rapid Viaduct Kit catalogue boundary, structural actions, geometry rules, and release evidence |
 | [`viaduct-load-model.toml`](viaduct-load-model.toml) | Machine-readable 12-axle load/action seed |

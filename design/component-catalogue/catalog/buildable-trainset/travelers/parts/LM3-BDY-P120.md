@@ -5,7 +5,7 @@
 | Traveler type | `product-item` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 4.2 h |
+| Estimated labor | 4.45 h |
 | Route | `MAKE` |
 | Procurement BOM lines | `B26` |
 
@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: cut, form, drill/machine, de-burr, trial fit, fixture weld, controlled cool / stress relief where WPS requires, post-weld machine where required
 - Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum
 - Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, WPS/WPQR release, welder qualification, weld map and heat-input control
-- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, material traceability, weld/NDT record, proof load, datum and label inspection
+- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, material traceability, weld/NDT record, proof load, four-point depot interface gauge, datum and label inspection
 - Tooling basis: FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P120-DATUM
 - Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
 
@@ -56,8 +56,9 @@ Evidence required:
 | 40 | verify acceptance gate: material traceability | quality inspection | 0.25 | `QA-LM3-BDY-P120` | material traceability | quality inspector |
 | 50 | verify acceptance gate: weld/NDT record | quality inspection | 0.25 | `NDT-LM3-BDY-P120` | weld/NDT record | quality inspector |
 | 60 | verify acceptance gate: proof load | quality inspection | 0.25 | `QA-LM3-BDY-P120` | proof load | quality inspector |
-| 70 | verify acceptance gate: datum and label inspection | quality inspection | 0.25 | `GAUGE-LM3-BDY-P120` | datum and label inspection | quality inspector |
-| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BDY-P120`<br>`KIT-LM3-BDY-SA110` | item is released, tagged, and staged for parent assembly | cell lead |
+| 70 | verify acceptance gate: four-point depot interface gauge | quality inspection | 0.25 | `GAUGE-LM3-BDY-P120` | four-point depot interface gauge | quality inspector |
+| 80 | verify acceptance gate: datum and label inspection | quality inspection | 0.25 | `GAUGE-LM3-BDY-P120` | datum and label inspection | quality inspector |
+| 90 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BDY-P120`<br>`KIT-LM3-BDY-SA110` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

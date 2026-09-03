@@ -13,6 +13,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
+from osr_mech.maintenance_interface import lm3_bogie_change_datum
 
 from .bogie import WHEELBASE_MM
 from .car_body import (
@@ -1618,6 +1619,85 @@ def train_connector_mount_pair(dims: CarDimensions = CarDimensions()) -> Compoun
     return Compound(label="Connector mount for other trains", children=parts)
 
 
+def underframe_jacking_recovery_interface(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Installed LM3 jack pads, lift eyes, tow lugs, and datum markings.
+
+    The four pad centres share the immutable depot maintenance datum so the
+    civil lift heads and the vehicle load-introduction points cannot drift
+    independently. Loads, weld sizes, and proof values remain release inputs.
+    """
+
+    datum = lm3_bogie_change_datum()
+    if dims.body_length_mm < datum.jack_longitudinal_spacing_mm + 1_000.0:
+        raise ValueError("car body is too short for the controlled LM3 jack datum")
+    if dims.body_width_mm < datum.jack_transverse_spacing_mm + 200.0:
+        raise ValueError("car body is too narrow for the controlled LM3 jack datum")
+
+    parts: list[Part] = []
+    for index, (x, y) in enumerate(datum.jack_positions_mm, start=1):
+        parts.extend(
+            [
+                _box(
+                    680.0,
+                    420.0,
+                    90.0,
+                    (x, y, 285.0),
+                    "Underframe jack-point load-spreader and doubler",
+                    COLOR_STEEL,
+                ),
+                _box(
+                    460.0,
+                    360.0,
+                    55.0,
+                    (x, y, 205.0),
+                    "Replaceable four-point depot lifting pad",
+                    COLOR_STAINLESS,
+                ),
+                _box(
+                    180.0,
+                    22.0,
+                    90.0,
+                    (x, y + (205.0 if y > 0.0 else -205.0), 255.0),
+                    f"Jack datum J{index} survey target and identification plate",
+                    COLOR_ACCESS,
+                ),
+            ]
+        )
+    for x_sign in (-1.0, 1.0):
+        x = x_sign * (datum.car_length_mm / 2.0 - 1_100.0)
+        for y_sign in (-1.0, 1.0):
+            parts.append(
+                _cyl(
+                    72.0,
+                    48.0,
+                    (x, y_sign * 980.0, 520.0),
+                    "Retained carbody lifting-eye boss and cover",
+                    COLOR_ACCESS,
+                )
+            )
+        parts.extend(
+            [
+                _box(
+                    420.0,
+                    190.0,
+                    150.0,
+                    (x, 0.0, 255.0),
+                    "Underframe towing and rerailing lug",
+                    COLOR_STEEL,
+                ),
+                _box(
+                    380.0,
+                    18.0,
+                    160.0,
+                    (x, -1_260.0, 650.0),
+                    "External lifting and recovery instruction plate",
+                    COLOR_ACCESS,
+                ),
+            ]
+        )
+    return Compound(label="LM3 underframe jacking, lifting, and recovery interface assembly", children=parts)
+
+
 def mechanical_interface_package(dims: CarDimensions = CarDimensions()) -> Compound:
     """All mechanical interface packages for one self-contained car."""
 
@@ -1645,6 +1725,7 @@ def mechanical_interface_package(dims: CarDimensions = CarDimensions()) -> Compo
             screen_speaker_mountings(dims),
             external_lighting_lidar_system(dims),
             train_connector_mount_pair(dims),
+            underframe_jacking_recovery_interface(dims),
         ],
     )
 
@@ -1673,6 +1754,7 @@ INTERFACE_BUILDERS: dict[str, Callable[[], Compound]] = {
     "screen-speaker-mountings": screen_speaker_mountings,
     "external-lighting-lidar-system": external_lighting_lidar_system,
     "train-connector-mount-pair": train_connector_mount_pair,
+    "underframe-jacking-recovery-interface": underframe_jacking_recovery_interface,
     "mechanical-interface-package": mechanical_interface_package,
 }
 
@@ -1702,5 +1784,6 @@ __all__ = [
     "screen_speaker_mountings",
     "side_body_frame_attachments",
     "train_connector_mount_pair",
+    "underframe_jacking_recovery_interface",
     "window_installations",
 ]
