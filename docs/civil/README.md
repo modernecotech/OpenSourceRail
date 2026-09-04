@@ -20,6 +20,7 @@ release gates are tracked in
 | [`slab-trackforms.md`](slab-trackforms.md) | Reference ballastless slab designs for at-grade and elevated guideway sections |
 | [`depot-bogie-change-interface.md`](depot-bogie-change-interface.md) | Shared LM3 jack-point datum, synchronized depot lift, pit, and bogie-extraction assembly contract |
 | [`wayside-rerailing-access-interface.md`](wayside-rerailing-access-interface.md) | Optional selected-node hardstanding, offload, bridge-bearing, handling-route, and exclusion-zone contract for portable LM3 rerailing |
+| [`../../design/component-catalogue/catalog/buildable-civil/`](../../design/component-catalogue/catalog/buildable-civil/) | Generated accountability for all 19 reusable IFC types, six civil release packages, nine drawing-definition briefs, and the empty project release record |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
 | [`viaduct-design-basis.md`](viaduct-design-basis.md) | Rapid Viaduct Kit catalogue boundary, structural actions, geometry rules, and release evidence |
 | [`viaduct-load-model.toml`](viaduct-load-model.toml) | Machine-readable 12-axle load/action seed |
@@ -41,6 +42,7 @@ release gates are tracked in
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
 | [`design/component-catalogue/src/osr_mech/civil/`](../../design/component-catalogue/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |
 | [`tools/automation/bonsai-civil.sh`](../../tools/automation/bonsai-civil.sh) | Deterministic IFC/IDS/BCF generation, Bonsai import, saved review scene, 48-second MP4/GIF, and milestone screenshots |
+| [`tools/automation/buildable-civil.sh`](../../tools/automation/buildable-civil.sh) | Reconcile the reusable IFC type set with civil-owned and interdisciplinary release packages; fail on unclassified geometry changes |
 | [`tools/automation/generate-civil-cost-model.py`](../../tools/automation/generate-civil-cost-model.py) | Recalculate planning rates from current CAD quantities and reject stale output with `--check` |
 | [`tools/automation/audit-project-twins.py`](../../tools/automation/audit-project-twins.py) | Reconcile every city civil/finance bucket, CPM and cashflow source hash with the validated reference IFC and mechanical package |
 

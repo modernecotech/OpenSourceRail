@@ -301,6 +301,7 @@ def _doc_sources() -> list[SourceDoc]:
         "design/component-catalogue/catalog",
         "design/component-catalogue/catalog/buildable-stations",
         "design/component-catalogue/catalog/buildable-trainset",
+        "design/component-catalogue/catalog/buildable-civil",
         "design/component-catalogue/catalog/design-system",
         "design/component-catalogue/catalog/fea",
         "design/component-catalogue/models/cad",

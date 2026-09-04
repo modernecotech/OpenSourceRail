@@ -24,7 +24,6 @@ python3 tools/automation/generate-design-index.py
 python3 tools/automation/generate-national-briefs.py
 python3 tools/automation/generate-portfolio-summary.py
 python3 tools/automation/generate-public-overview.py
-python3 tools/automation/generate-doc-index.py
 
 section "Building browser and native applications"
 npm run frontend:build
@@ -43,6 +42,7 @@ if python3 -c 'import ifcopenshell, ifctester, bcf' >/dev/null 2>&1; then
 else
     printf 'IFC generation skipped: rerun ./install.sh and accept the engineering applications.\n'
 fi
+tools/automation/buildable-civil.sh
 if command -v FreeCADCmd >/dev/null 2>&1 || command -v freecadcmd >/dev/null 2>&1 || \
    { command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; }; then
     tools/automation/freecad-generate.sh --assemblies
@@ -58,6 +58,7 @@ else
 fi
 
 section "Building the root documentation book"
+python3 tools/automation/generate-doc-index.py
 python3 tools/automation/build-doc-book.py
 
 section "Checking the generated repository"

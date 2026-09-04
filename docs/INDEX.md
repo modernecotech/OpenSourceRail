@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1475**.
+Indexed Markdown files: **1488**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1475**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 399 |
+| [design](#design) | 412 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -991,6 +991,19 @@ Indexed Markdown files: **1475**.
 | [`design/city-generation/README.md`](../design/city-generation/README.md) | City Generation |
 | [`design/component-catalogue/README.md`](../design/component-catalogue/README.md) | Parametric Component Catalogue |
 | [`design/component-catalogue/catalog/README.md`](../design/component-catalogue/catalog/README.md) | Generated Mechanical Review Artifacts |
+| [`design/component-catalogue/catalog/buildable-civil/README.md`](../design/component-catalogue/catalog/buildable-civil/README.md) | Buildable Civil Release Catalogue |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-ATG-400.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-ATG-400.md) | CIV-ATG-400 — at-grade slab and elevated/at-grade transition |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-BRG-300.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-BRG-300.md) | CIV-BRG-300 — bearing, restraint, movement and jacking schedule |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-EGR-120.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-EGR-120.md) | CIV-EGR-120 — walkway cassette, parapet, drainage and services edge |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-INT-500.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-INT-500.md) | CIV-INT-500 — rail, turnout and station-deck coordination interfaces |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-INT-510.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-INT-510.md) | CIV-INT-510 — platform, canopy and vehicle envelope interfaces |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUB-200.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUB-200.md) | CIV-SUB-200 — pier column and foundation interface |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUB-210.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUB-210.md) | CIV-SUB-210 — hollow/precast-shell pier-cap definition |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-100.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-100.md) | CIV-SUP-100 — 20 m / 25 m decked pi-beam reusable product definition |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-110.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-110.md) | CIV-SUP-110 — elevated slab, plinth and rail-seat definition |
+| [`design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md) | Civil Drawing-Definition Briefs |
+| [`design/component-catalogue/catalog/buildable-civil/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-civil/factory-release-work-packages.md) | Civil Factory/Release Work Packages |
+| [`design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md`](../design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md) | Reusable Civil Type Release Register |
 | [`design/component-catalogue/catalog/buildable-stations/README.md`](../design/component-catalogue/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
 | [`design/component-catalogue/catalog/buildable-stations/default-product-specifications.md`](../design/component-catalogue/catalog/buildable-stations/default-product-specifications.md) | Station open-product reference defaults |
 | [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-400.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-400.md) | STN-ACC-400 — at-grade pedestrian approach and protected route |

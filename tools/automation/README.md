@@ -29,6 +29,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`validate-station-clusters.py`](validate-station-clusters.py) | Fail same-line spacing below 1.2 km, unmerged cross-line stops within the 600 m station-complex envelope, and missing explicit interchange-complex records |
 | [`design-iterate.sh`](design-iterate.sh) | Iterate the rolling-stock design hierarchy across external components, fabricated parts, subassemblies, and final assemblies |
 | [`buildable-trainset.sh`](buildable-trainset.sh) | Generate the LM3 product tree, supplier/COTS registers, 29 factory drawing briefs covering all 62 locally made rows, package readiness, first-article work packages and evidence status |
+| [`buildable-civil.sh`](buildable-civil.sh) | Reconcile all 19 reference IFC types into six accountable civil/interface release packages and nine non-issued drawing briefs; reject unclassified type-hash changes |
 | [`freecad-generate.sh`](freecad-generate.sh) | Repository-level FreeCAD/Blender generator for mechanical review models, assemblies, FEM screens, screenshots, and animated digital twins |
 | [`bonsai-civil.sh`](bonsai-civil.sh) | Generate deterministic IFC4.3 civil federations with IDS audits and BCF 3.0 release issues, import through Bonsai, and render the linked 4D construction review scene |
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |

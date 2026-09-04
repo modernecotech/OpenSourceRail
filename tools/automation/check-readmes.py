@@ -201,6 +201,13 @@ def main() -> int:
                 "default-product-specifications.md",
                 "factory-drawings/index.md",
             ),
+            REPO_ROOT / "design/component-catalogue/catalog/buildable-civil/README.md": (
+                "19 reusable IFC types",
+                "6 bounded release packages",
+                "9 drawing-definition briefs",
+                "reusable-type-release-register.md",
+                "civil-release-record-template.json",
+            ),
         }
         for path, snippets in current_contracts.items():
             text = path.read_text(encoding="utf-8")

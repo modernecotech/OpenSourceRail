@@ -14,6 +14,7 @@ FreeCAD review documents are regenerated with:
 ```bash
 tools/automation/design-iterate.sh
 tools/automation/buildable-trainset.sh
+tools/automation/buildable-civil.sh
 PYTHONPATH=design/component-catalogue/src design/component-catalogue/scripts/freecad_trainset.sh --family light-metro-3car
 PYTHONPATH=design/component-catalogue/src design/component-catalogue/scripts/freecad_assembly_review.sh
 PYTHONPATH=design/component-catalogue/src design/component-catalogue/scripts/freecad_fea.sh
@@ -28,5 +29,6 @@ the tracked tree or left ignored.
 |---|---|
 | [`design-system/`](design-system/) | Generated top-down / bottom-up design iteration scorecards and candidate shortlists |
 | [`buildable-trainset/`](buildable-trainset/) | Generated buildable product tree from parts through subassemblies, assemblies, and the trainset |
+| [`buildable-civil/`](buildable-civil/) | Generated 19-type civil/IFC accountability register, six release packages, nine drawing briefs and empty authority record |
 | [`../models/cad/`](../models/cad/) | FreeCAD review assemblies, including trainset, assembled/exploded state documents, and FEA-screening model documents |
 | [`fea/`](fea/) | FreeCAD/CalculiX first-pass beam-model screening inputs, solver outputs, and result summaries |

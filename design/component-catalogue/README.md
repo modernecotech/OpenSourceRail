@@ -60,6 +60,15 @@ Eighteen generated [drawing-definition seeds](catalog/buildable-stations/factory
 then bind those product/default records to exact drawing ownership, views, source
 inputs, tools and verification tasks; every seed remains explicitly unissued.
 
+The separate [buildable civil catalogue](catalog/buildable-civil/README.md)
+reconciles all 19 deterministic federation types: nine civil-owned geometry
+types and ten controlled track, station, vehicle, or coordination interfaces.
+Its six [release packages](catalog/buildable-civil/factory-release-work-packages.md)
+and nine [drawing-definition briefs](catalog/buildable-civil/factory-drawings/index.md)
+fail closed when an IFC type hash changes. They do not replace project survey,
+ground, reinforcement/prestress, structural, temporary-works, supplier, test,
+independent-check, or approval evidence.
+
 ## Parametric inputs
 
 Every component takes its parameters from the RFC-level choices the
@@ -129,9 +138,9 @@ Generated artifacts live in
 | [`current-design-buildability-review.md`](catalog/buildable-trainset/current-design-buildability-review.md) | Green/yellow/red buildability findings and next closure actions |
 | [`small-component-standard.md`](catalog/buildable-trainset/small-component-standard.md) | Four fastener families, common rail, keyed connectors, modular illumination and serviceable door/window boundaries |
 | [`exterior-finish-system.md`](catalog/buildable-trainset/exterior-finish-system.md) | Mandatory base protection, rail-use livery film zones, and trial-only CaCO3 radiative roof-coating qualification gates |
-| [`factory-release-work-packages.md`](catalog/buildable-trainset/factory-release-work-packages.md) | Ten controlled chassis, module, fascia, roof, interior, finish and recovery drawing/interface work packages |
+| [`factory-release-work-packages.md`](catalog/buildable-trainset/factory-release-work-packages.md) | Sixteen controlled chassis, body, bogie, door/window, fascia, roof, interior, finish, electrical and recovery drawing/interface work packages |
 | [`factory-release-readiness.md`](catalog/buildable-trainset/factory-release-readiness.md) | Package-level drawing, product revision, tooling, verification and approval readiness; all 16 remain open |
-| [`factory-drawings/`](catalog/buildable-trainset/factory-drawings/index.md) | Eighteen product-, tooling-, source- and package-bound drafting/checking briefs; none is issued for manufacture |
+| [`factory-drawings/`](catalog/buildable-trainset/factory-drawings/index.md) | Twenty-nine product-, tooling-, source- and package-bound drafting/checking briefs covering all 62 locally made rows; none is issued for manufacture |
 | [`mass-budget.md`](catalog/buildable-trainset/mass-budget.md) | Nine-category optimizer subtotal, engineering reserve and controlled planning tare |
 | [`mass-closure-ledger.md`](catalog/buildable-trainset/mass-closure-ledger.md) | Product-level mass responsibility, evidence state, lightweight design-space comparison and recovery-reaction link |
 | [`critical-path.md`](catalog/buildable-trainset/critical-path.md) and [`factory-plan.md`](catalog/buildable-trainset/factory-plan.md) | First-article sequence, labour, work centres, space and machinery planning |

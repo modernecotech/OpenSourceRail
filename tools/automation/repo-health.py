@@ -57,6 +57,7 @@ EPC_OVERHEAD_FRAC = float(CAPEX_COSTS["overhead"]["epc_fraction"])
 BOM_SOURCE = REPO_ROOT / "docs/rolling-stock/light-metro-3car/bom-skeleton.md"
 BOM_EXPORTER = REPO_ROOT / "tools/automation/export-light-metro-bom.py"
 STATION_CATALOG = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations"
+CIVIL_CATALOG = REPO_ROOT / "design/component-catalogue/catalog/buildable-civil"
 SAMAWAH_DESIGN_DIR = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah"
 SAMAWAH_ALN_DIR = SAMAWAH_DESIGN_DIR / "engineering/alignment"
 SAMAWAH_ALN_DESIGN_DATE = "2026-08-12"
@@ -1215,6 +1216,57 @@ def check_station_build_package() -> list[Finding]:
     return findings
 
 
+def check_civil_build_package() -> list[Finding]:
+    """Regenerate the civil release catalogue and enforce its coverage contract."""
+
+    findings: list[Finding] = []
+    mech_src = REPO_ROOT / "design/component-catalogue/src"
+    if str(mech_src) not in sys.path:
+        sys.path.insert(0, str(mech_src))
+    from osr_mech.buildable_civil import write_outputs
+
+    with tempfile.TemporaryDirectory(prefix="osr-civil-check-") as tmp:
+        expected_root = Path(tmp) / "catalog"
+        write_outputs(out_dir=expected_root)
+        expected_files = {
+            path.relative_to(expected_root): path
+            for path in expected_root.rglob("*")
+            if path.is_file()
+        }
+        actual_files = {
+            path.relative_to(CIVIL_CATALOG): path
+            for path in CIVIL_CATALOG.rglob("*")
+            if path.is_file()
+        } if CIVIL_CATALOG.exists() else {}
+        for relative in sorted(expected_files.keys() | actual_files.keys()):
+            actual = actual_files.get(relative)
+            expected = expected_files.get(relative)
+            if actual is None:
+                findings.append(Finding(CIVIL_CATALOG / relative, "missing generated civil release artifact"))
+            elif expected is None:
+                findings.append(Finding(actual, "unexpected generated civil release artifact"))
+            elif actual.read_bytes() != expected.read_bytes():
+                findings.append(Finding(actual, "generated civil release artifact is stale; run tools/automation/buildable-civil.sh"))
+
+    register_path = CIVIL_CATALOG / "reusable-type-release-register.json"
+    if register_path.is_file():
+        register = json.loads(register_path.read_text(encoding="utf-8"))
+        expected_summary = {
+            "ifc_reusable_types": 19,
+            "ifc_occurrences": 138,
+            "civil_owned_types": 9,
+            "controlled_interface_types": 10,
+            "release_packages": 6,
+            "drawing_definition_briefs": 9,
+            "tooling_and_gauge_families": 17,
+        }
+        if register.get("summary") != expected_summary or not all(register.get("validation", {}).values()):
+            findings.append(Finding(register_path, "civil reusable-type/release coverage changed"))
+        if register.get("status") != "definition-seed-not-issued":
+            findings.append(Finding(register_path, "civil catalogue must not claim construction release"))
+    return findings
+
+
 def check_current_network_osr_aln() -> list[Finding]:
     """Regenerate the current Samawah OSR-ALN package and compare in place."""
 
@@ -1993,6 +2045,7 @@ def run_checks() -> list[Finding]:
     findings.extend(check_stale_terms())
     findings.extend(check_rolling_stock_bom())
     findings.extend(check_station_build_package())
+    findings.extend(check_civil_build_package())
     findings.extend(check_current_network_osr_aln())
     findings.extend(check_generated_cost_model())
     findings.extend(check_generated_portfolio_summary())

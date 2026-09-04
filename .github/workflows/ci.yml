@@ -56,6 +56,7 @@ jobs:
           tools/automation/design-iterate.sh
           tools/automation/buildable-trainset.sh
           tools/automation/buildable-stations.sh
+          tools/automation/buildable-civil.sh
       - run: python -m pytest -q design/component-catalogue/tests
       - run: python -m pytest -q engineering/analysis/tests
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
