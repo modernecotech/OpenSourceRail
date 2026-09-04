@@ -24,6 +24,12 @@ labels, small service covers, or trim clips, but they do not carry
 seat loads, grab-rail loads, jacking loads, crash loads, battery loads,
 or door loads.
 
+The buildable product tree further separates light troughs (`LM3-INT-P021`),
+HVAC/service ceiling pieces (`P022`), window reveals (`P031`), cable covers
+(`P032`), seat fairings (`P041`), PRM/step pieces (`P051`), and door-pocket
+trims (`P052`). The complete part/mould schedule is in
+[`dedicated-parts-and-moulds.md`](dedicated-parts-and-moulds.md).
+
 ## Material system
 
 Use one of these material routes per part family, frozen by the v2A

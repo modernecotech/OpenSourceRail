@@ -1,4 +1,4 @@
-# Shop traveler — LM3-BDY-P130 — one-metre clip-on fiberglass side and roof body module
+# Shop traveler — LM3-BDY-P130 — one-metre clip-on solid-side fiberglass body module
 
 | Field | Value |
 |---|---|
@@ -7,7 +7,7 @@
 | Release status | `unsigned-template` |
 | Estimated labor | 6.35 h |
 | Route | `MAKE` |
-| Procurement BOM lines | `B6`, `B7` |
+| Procurement BOM lines | `B6` |
 
 ## Material specification
 

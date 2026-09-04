@@ -8,6 +8,7 @@
   "children": [
     "LM3-BDY-P010",
     "LM3-BDY-P020",
+    "LM3-BDY-P021",
     "LM3-BDY-P030",
     "LM3-BDY-P120"
   ],
@@ -42,7 +43,7 @@
     },
     {
       "child_id": "LM3-BDY-P020",
-      "child_title": "underframe centre spine and cross-bearer kit",
+      "child_title": "underframe centre spine and longitudinal load-path kit",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -56,8 +57,30 @@
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "tube/plate certs",
-        "fixture survey",
+        "spine straightness survey",
         "bogie-centre datum report"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P021",
+      "child_title": "underframe cross-bearer, door-bay outrigger, and equipment-bracket pack",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "cut-list identity",
+        "cross-bearer profile gauge",
+        "station map",
+        "fixture tack survey"
       ]
     },
     {
@@ -72,7 +95,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "primary structure datum and final assembly interface",
-      "sequence": 3,
+      "sequence": 4,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "line-bore report",
@@ -91,7 +114,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "primary structure datum and final assembly interface",
-      "sequence": 4,
+      "sequence": 5,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "material traceability",
@@ -110,7 +133,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel",
+    "form_factor": "rail structural steel, formed sheet metal / stainless local hardware",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-BDY-SA110 inherits released child material specifications",
     "material_family": "assembly material set",

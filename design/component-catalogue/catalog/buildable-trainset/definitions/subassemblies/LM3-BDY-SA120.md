@@ -13,6 +13,7 @@
 
 - `LM3-BDY-SA110`
 - `LM3-BDY-P060`
+- `LM3-BDY-P061`
 - `LM3-BDY-P070`
 
 ## Material specification
@@ -58,9 +59,9 @@ Evidence required:
   - weld/NDT release
   - post-weld datum survey
 
-### 2. `LM3-BDY-P060` — low-floor centre pan and raised bogie-end deck set
+### 2. `LM3-BDY-P060` — low-floor centre pan and removable service-floor support set
 
-- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
+- Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`
 - Join classes: `bolted-structural-datum`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
@@ -68,9 +69,22 @@ Evidence required:
 - Verification:
   - PRM floor height
   - egress aisle gauge
+  - pan weld inspection
+
+### 3. `LM3-BDY-P061` — raised bogie-end deck, transition ramp, and removable hatch-frame set
+
+- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
+- Interfaces: `mechanical datum`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - deck-height survey
+  - PRM transition gauge
+  - hatch fit/removal
   - deck weld inspection
 
-### 3. `LM3-BDY-P070` — side-wall post, door portal, waist rail, and cant rail kit
+### 4. `LM3-BDY-P070` — side-wall post, door portal, waist rail, and cant rail kit
 
 - Placement zone: side door aperture and low-floor threshold datum
 - Interfaces: `mechanical datum`, `safety interlock`

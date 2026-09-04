@@ -13,10 +13,14 @@
 
 - `LM3-BDY-SA120`
 - `LM3-BDY-P130`
+- `LM3-BDY-P131`
+- `LM3-BDY-P132`
+- `LM3-BDY-P133`
 - `LM3-BDY-P140`
 - `LM3-WIN-SA320`
 - `LM3-EXT-P080`
 - `LM3-EXT-P090`
+- `LM3-FIN-P010`
 
 ## Material specification
 
@@ -25,7 +29,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-SHELL-A200 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack |
+| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, fire-rated cabin fiberglass / phenolic composite, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack, fire-retardant fiberglass composite |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -60,7 +64,7 @@ Evidence required:
   - roof rail survey
   - carbody dimensional report
 
-### 2. `LM3-BDY-P130` — one-metre clip-on fiberglass side and roof body module
+### 2. `LM3-BDY-P130` — one-metre clip-on solid-side fiberglass body module
 
 - Placement zone: one-metre body-module clip rail, dry seal, and anti-lift datum grid
 - Interfaces: `mechanical datum`
@@ -73,7 +77,46 @@ Evidence required:
   - insert pull-out
   - master-frame dry fit
 
-### 3. `LM3-BDY-P140` — keyed clip rail, captive retainer, anti-lift, and dry-seal car kit
+### 3. `LM3-BDY-P131` — one-metre clip-on window-edge fiberglass side module
+
+- Placement zone: side/end glazing aperture and bonded carrier datum
+- Interfaces: `mechanical datum`
+- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - window trim nest
+  - sealed-edge inspection
+  - cassette removal sweep
+  - master-frame dry fit
+
+### 4. `LM3-BDY-P132` — one-metre clip-on door-edge fiberglass side module
+
+- Placement zone: side door aperture and low-floor threshold datum
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - door trim nest
+  - sealed-edge inspection
+  - door motion/service sweep
+  - master-frame dry fit
+
+### 5. `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module
+
+- Placement zone: side/end glazing aperture and bonded carrier datum
+- Interfaces: `mechanical datum`
+- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - roof mould/trim record
+  - anti-lift proof
+  - equipment keep-out gauge
+  - water/debris-ingress test
+
+### 6. `LM3-BDY-P140` — keyed clip rail, captive retainer, anti-lift, and dry-seal car kit
 
 - Placement zone: one-metre body-module clip rail, dry seal, and anti-lift datum grid
 - Interfaces: `mechanical datum`
@@ -86,7 +129,7 @@ Evidence required:
   - retainer witness-mark check
   - water ingress test
 
-### 4. `LM3-WIN-SA320` — side glazing cassette installation
+### 7. `LM3-WIN-SA320` — side glazing cassette installation
 
 - Placement zone: side/end glazing aperture and bonded carrier datum
 - Interfaces: `mechanical datum`
@@ -98,7 +141,7 @@ Evidence required:
   - bond/gasket procedure
   - water ingress test
 
-### 5. `LM3-EXT-P080` — fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit
+### 8. `LM3-EXT-P080` — fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`
@@ -111,7 +154,7 @@ Evidence required:
   - resin/fibre batch trace
   - mould release record
 
-### 6. `LM3-EXT-P090` — fire-rated GFRP roof-module, dry-seal, and removable skirt material kit
+### 9. `LM3-EXT-P090` — fire-rated GFRP roof-module, dry-seal, and removable skirt material kit
 
 - Placement zone: roof equipment rail, curb, and service-access zone
 - Interfaces: `mechanical datum`
@@ -124,6 +167,20 @@ Evidence required:
   - seal certificate
   - service-removal trial
   - water and debris-ingress check
+
+### 10. `LM3-FIN-P010` — pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit
+
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
+- Joint release status: `supplier-freeze-required`
+- Verification:
+  - supplier rail-use statement
+  - substrate/cure acceptance
+  - adhesion coupon
+  - edge/overlap inspection
+  - cleaning/removal trial
 
 
 ## Hold points

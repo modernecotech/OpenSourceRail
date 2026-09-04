@@ -367,7 +367,7 @@ def build_library(output_root: Path) -> dict[str, Any]:
         "assemblies": assembly_reports,
     }
     report["passed"] = bool(
-        len(part_reports) == 101
+        len(part_reports) == 120
         and len(assembly_reports) == 26
         and report["all_active_products_reach_final_assembly"]
         and all(value["passed"] for value in [*part_reports, *assembly_reports])

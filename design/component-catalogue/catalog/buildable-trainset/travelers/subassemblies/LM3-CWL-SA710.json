@@ -10,10 +10,13 @@
     "LM3-CWL-P013",
     "LM3-CWL-P014",
     "LM3-CWL-P015",
-    "LM3-CWL-P016"
+    "LM3-CWL-P016",
+    "LM3-FAS-P010",
+    "LM3-FAS-P020",
+    "LM3-FAS-P030"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 11.44,
+  "estimated_labor_hours": 15.25,
   "id": "LM3-CWL-SA710",
   "layer": "subassembly",
   "material_spec": {
@@ -23,7 +26,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "fire-retardant fiberglass composite",
+    "form_factor": "fire-retardant fiberglass composite, rail structural steel, formed sheet metal / stainless local hardware",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-CWL-SA710 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -32,7 +35,7 @@
   },
   "operations": [
     {
-      "labor_hours": 1.01,
+      "labor_hours": 1.25,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -136,9 +139,48 @@
       "work_center": "composite moulding and trim cell"
     },
     {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
+      "sequence": 90,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FAS-P010: panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+      "tooling_ids": [
+        "FIX-LM3-CWL-SA710",
+        "GAUGE-LM3-FAS-P010",
+        "TORQUE-LM3-FAS-P010"
+      ],
+      "work_center": "composite moulding and trim cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
+      "sequence": 100,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FAS-P020: reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+      "tooling_ids": [
+        "FIX-LM3-CWL-SA710",
+        "GAUGE-LM3-FAS-P020",
+        "TORQUE-LM3-FAS-P020"
+      ],
+      "work_center": "composite moulding and trim cell"
+    },
+    {
+      "labor_hours": 1.47,
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
+      "sequence": 110,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FAS-P030: front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+      "tooling_ids": [
+        "FIX-LM3-CWL-SA710",
+        "GAUGE-LM3-FAS-P030",
+        "TORQUE-LM3-FAS-P030"
+      ],
+      "work_center": "composite moulding and trim cell"
+    },
+    {
       "labor_hours": 0.35,
       "qa_gate": "laminate coupon release",
-      "sequence": 90,
+      "sequence": 120,
       "signoff_role": "quality inspector",
       "title": "hold point: laminate coupon release",
       "tooling_ids": [
@@ -149,7 +191,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "insert pull-out",
-      "sequence": 100,
+      "sequence": 130,
       "signoff_role": "quality inspector",
       "title": "hold point: insert pull-out",
       "tooling_ids": [
@@ -160,7 +202,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "trim/drill survey",
-      "sequence": 110,
+      "sequence": 140,
       "signoff_role": "quality inspector",
       "title": "hold point: trim/drill survey",
       "tooling_ids": [
@@ -171,7 +213,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "A/B-end dry-build water test",
-      "sequence": 120,
+      "sequence": 150,
       "signoff_role": "quality inspector",
       "title": "hold point: A/B-end dry-build water test",
       "tooling_ids": [
@@ -182,7 +224,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 130,
+      "sequence": 160,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

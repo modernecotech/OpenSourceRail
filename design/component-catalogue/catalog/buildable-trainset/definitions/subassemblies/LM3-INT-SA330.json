@@ -11,9 +11,16 @@
     "LM3-EXT-P066",
     "LM3-INT-P010",
     "LM3-INT-P020",
+    "LM3-INT-P021",
+    "LM3-INT-P022",
     "LM3-INT-P030",
+    "LM3-INT-P031",
+    "LM3-INT-P032",
     "LM3-INT-P040",
-    "LM3-INT-P050"
+    "LM3-INT-P041",
+    "LM3-INT-P050",
+    "LM3-INT-P051",
+    "LM3-INT-P052"
   ],
   "definition_type": "assembly-node",
   "hold_points": [
@@ -196,7 +203,47 @@
     },
     {
       "child_id": "LM3-INT-P020",
-      "child_title": "FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+      "child_title": "FRP/phenolic ceiling liner panel set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 9,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "trim-line gauge",
+        "fastener insert pull-out",
+        "rattle check"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P021",
+      "child_title": "ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 10,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "light cassette gauge",
+        "emergency-feed identification",
+        "module removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P022",
+      "child_title": "HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
       "interface_classes": [
         "mechanical datum",
         "high-voltage electrical",
@@ -210,18 +257,38 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 9,
+      "sequence": 11,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
-        "trim-line gauge",
-        "fastener insert pull-out",
-        "rattle check"
+        "airflow opening gauge",
+        "detector access",
+        "hatch retention/rattle check"
       ]
     },
     {
       "child_id": "LM3-INT-P030",
-      "child_title": "FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+      "child_title": "FRP/phenolic sidewall liner panel set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 12,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "visible-gap gauge",
+        "liner removal",
+        "edge-radius inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P031",
+      "child_title": "window reveal, setting-block inspection cover, and blind/label land set",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -231,30 +298,49 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "side/end glazing aperture and bonded carrier datum",
-      "sequence": 10,
+      "sequence": 13,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
-        "window-reveal gauge",
-        "access-panel removal",
-        "edge-radius inspection"
+        "glass-edge clearance",
+        "cassette removal sweep",
+        "sharp-edge inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P032",
+      "child_title": "waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 14,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "segregation inspection",
+        "captive-fastener audit",
+        "cover removal/rattle check"
       ]
     },
     {
       "child_id": "LM3-INT-P040",
-      "child_title": "FRP battery strake covers, seat-base fairings, and service-hatch shells",
+      "child_title": "FRP battery strake cover panel set",
       "interface_classes": [
         "mechanical datum",
         "high-voltage electrical"
       ],
       "join_classes": [
-        "gasketed-removable-panel",
         "bolted-structural-datum",
         "electrical-data"
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route",
-      "sequence": 11,
+      "sequence": 15,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
@@ -264,8 +350,69 @@
       ]
     },
     {
+      "child_id": "LM3-INT-P041",
+      "child_title": "seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 16,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "seat-load-path clearance",
+        "hatch removal trial",
+        "cleaning/sharp-edge inspection"
+      ]
+    },
+    {
       "child_id": "LM3-INT-P050",
-      "child_title": "FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+      "child_title": "FRP vestibule kick-panel and threshold-closeout set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 17,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "threshold/drain gauge",
+        "anti-slip witness",
+        "kick-panel retention test"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P051",
+      "child_title": "PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 18,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "PRM transition gauge",
+        "anti-slip/contrast evidence",
+        "trip-edge inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P052",
+      "child_title": "door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
       "interface_classes": [
         "mechanical datum",
         "safety interlock"
@@ -275,13 +422,13 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "side door aperture and low-floor threshold datum",
-      "sequence": 12,
+      "sequence": 19,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
-        "PRM transition gauge",
-        "anti-slip witness",
-        "kick-panel retention test"
+        "door sweep/pinch gauge",
+        "jamb-cover removal",
+        "obstruction-test witness"
       ]
     }
   ],

@@ -208,7 +208,7 @@ def export(output_root: Path = DEFAULT_OUTPUT) -> dict[str, object]:
         "manifest_sha256": _sha256(MANIFEST),
         "make_product_count": len(entries),
         "entries": entries,
-        "passed": len(entries) == 46 and all(entry["step_round_trip_valid"] for entry in entries),
+        "passed": len(entries) == 62 and all(entry["step_round_trip_valid"] for entry in entries),
     }
     index = output_root / "index.json"
     index.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -217,7 +217,7 @@ def export(output_root: Path = DEFAULT_OUTPUT) -> dict[str, object]:
         "# LM3 neutral manufacturing reference\n\n"
         "This folder contains deterministic STEP geometry, DXF XY inspection\n"
         "projections and browser-viewable three-view SVG reference sheets for the\n"
-        "46 locally manufactured (`MAKE`) product rows. STEP is provided for open\n"
+        "62 locally manufactured (`MAKE`) product rows. STEP is provided for open\n"
         "CAD handoff. DXF and SVG control only design-reference envelopes; they are\n"
         "not sheet-metal flat patterns, tolerance drawings or NC files.\n\n"
         "The complete hashes, fidelity levels and release gates are in\n"

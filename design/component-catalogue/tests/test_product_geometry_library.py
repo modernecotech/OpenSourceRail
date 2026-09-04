@@ -32,7 +32,7 @@ def test_geometry_registry_exactly_covers_product_tree_and_envelopes() -> None:
     product_ids = {str(item["id"]) for item in manifest["product_items"]}
     specs = geometry_specs()
     assert set(specs) == product_ids
-    assert len(specs) == 101
+    assert len(specs) == 120
 
     primitive_count = 0
     for product_id, spec in specs.items():
@@ -48,7 +48,7 @@ def test_geometry_registry_exactly_covers_product_tree_and_envelopes() -> None:
             bounds.max.Z - bounds.min.Z,
         )
         assert all(value <= limit + 1e-6 for value, limit in zip(actual, spec.envelope_mm))
-    assert primitive_count == 534
+    assert primitive_count == 619
 
 
 def test_geometry_forms_cover_key_build_and_bought_in_systems() -> None:
@@ -73,7 +73,7 @@ def test_recovery_kit_has_separate_inspectable_hardware() -> None:
 
 def test_assembly_graph_is_acyclic_complete_and_reaches_final_trainset() -> None:
     products, assemblies = graph(_manifest())
-    assert len(products) == 101
+    assert len(products) == 120
     assert len(assemblies) == 26
     root_products, root_assemblies = descendants("LM3-TRAINSET-A000", products, assemblies)
     active = {
@@ -138,7 +138,7 @@ def test_tracked_split_libraries_match_indexes_and_saved_validation() -> None:
     for index_path in indexes:
         index = json.loads(index_path.read_text(encoding="utf-8"))
         assert index["passed"] is True
-        assert index["product_count"] == 101
+        assert index["product_count"] == 120
         assert index["assembly_count"] == 26
         for entry in [*index["parts"], *index["assemblies"]]:
             artifact = REPO_ROOT / entry["file"]

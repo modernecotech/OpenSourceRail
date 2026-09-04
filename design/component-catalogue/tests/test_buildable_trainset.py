@@ -36,7 +36,7 @@ from osr_mech.rolling_stock.bom_trace import (
 
 def test_buildable_trainset_has_full_product_tree() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
-    assert len(design.product_items) == 101
+    assert len(design.product_items) == 120
     assert len(design.assemblies) == 26
     assert any(item.route is Route.MAKE for item in design.product_items)
     assert any(item.route is Route.BID for item in design.product_items)
@@ -118,6 +118,8 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
     assemblies = {node.id: node for node in design.assemblies}
     expected_items = {
         "LM3-BDY-P100",
+        "LM3-BDY-P021",
+        "LM3-BDY-P061",
         "LM3-BDY-P110",
         "LM3-ROOF-P010",
         "LM3-ROOF-P020",
@@ -149,9 +151,26 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
         "LM3-INT-P050",
         "LM3-BDY-P120",
         "LM3-BDY-P130",
+        "LM3-BDY-P131",
+        "LM3-BDY-P132",
+        "LM3-BDY-P133",
         "LM3-BDY-P140",
         "LM3-EXT-P080",
         "LM3-EXT-P090",
+        "LM3-FIN-P010",
+        "LM3-FIN-P020",
+        "LM3-ROOF-P030",
+        "LM3-ROOF-P040",
+        "LM3-FAS-P010",
+        "LM3-FAS-P020",
+        "LM3-FAS-P030",
+        "LM3-INT-P021",
+        "LM3-INT-P022",
+        "LM3-INT-P031",
+        "LM3-INT-P032",
+        "LM3-INT-P041",
+        "LM3-INT-P051",
+        "LM3-INT-P052",
         "LM3-AUX-P010",
         "LM3-CTRL-P020",
         "LM3-CTRL-P030",
@@ -213,9 +232,14 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
         assemblies["LM3-INT-SA330"].children
     )
     assert "LM3-BDY-P120" in assemblies["LM3-BDY-SA110"].children
-    assert {"LM3-BDY-P130", "LM3-BDY-P140", "LM3-EXT-P080", "LM3-EXT-P090"} <= set(
+    assert {"LM3-BDY-P020", "LM3-BDY-P021"} <= set(assemblies["LM3-BDY-SA110"].children)
+    assert {"LM3-BDY-P060", "LM3-BDY-P061"} <= set(assemblies["LM3-BDY-SA120"].children)
+    assert {"LM3-BDY-P130", "LM3-BDY-P131", "LM3-BDY-P132", "LM3-BDY-P133", "LM3-BDY-P140", "LM3-EXT-P080", "LM3-EXT-P090", "LM3-FIN-P010"} <= set(
         assemblies["LM3-SHELL-A200"].children
     )
+    assert {"LM3-ROOF-P030", "LM3-ROOF-P040", "LM3-FIN-P020"} <= set(assemblies["LM3-ROOF-SA410"].children)
+    assert {"LM3-FAS-P010", "LM3-FAS-P020", "LM3-FAS-P030"} <= set(assemblies["LM3-CWL-SA710"].children)
+    assert {"LM3-INT-P021", "LM3-INT-P022", "LM3-INT-P031", "LM3-INT-P032", "LM3-INT-P041", "LM3-INT-P051", "LM3-INT-P052"} <= set(assemblies["LM3-INT-SA330"].children)
     assert "LM3-AUX-P010" in assemblies["LM3-CAR-A900"].children
     assert {"LM3-CTRL-P010", "LM3-CTRL-P020", "LM3-CTRL-P030", "LM3-CTRL-P040", "LM3-CTRL-P050"} <= set(
         assemblies["LM3-SYS-SA900"].children

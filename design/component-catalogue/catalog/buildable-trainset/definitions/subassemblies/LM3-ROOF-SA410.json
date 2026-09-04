@@ -7,9 +7,12 @@
     "LM3-BDY-P080",
     "LM3-ROOF-P010",
     "LM3-ROOF-P020",
+    "LM3-ROOF-P030",
+    "LM3-ROOF-P040",
     "LM3-EXT-P040",
     "LM3-EXT-P050",
     "LM3-EXT-P070",
+    "LM3-FIN-P020",
     "LM3-TRC-P050"
   ],
   "definition_type": "assembly-node",
@@ -94,6 +97,54 @@
       ]
     },
     {
+      "child_id": "LM3-ROOF-P030",
+      "child_title": "removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fairing trim gauge",
+        "HVAC airflow keep-out",
+        "hatch removal trial",
+        "roof leak test"
+      ]
+    },
+    {
+      "child_id": "LM3-ROOF-P040",
+      "child_title": "PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 5,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "gland/closeout trim gauge",
+        "drain-path test",
+        "bonding access check",
+        "service-removal trial"
+      ]
+    },
+    {
       "child_id": "LM3-EXT-P040",
       "child_title": "hvac-24kw-direct-hv-dc roof HVAC",
       "interface_classes": [
@@ -109,7 +160,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 4,
+      "sequence": 6,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "+50 C capacity evidence",
@@ -130,7 +181,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 5,
+      "sequence": 7,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "module datasheet",
@@ -151,13 +202,34 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 6,
+      "sequence": 8,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "antenna VSWR test",
         "walkway slip certificate",
         "lifting-cover fit",
         "roof bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-FIN-P020",
+      "child_title": "calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 9,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "rail fire/chemical evidence",
+        "GFRP adhesion and flexibility",
+        "UV/abrasion/wash ageing",
+        "initial and aged solar reflectance/emittance",
+        "one-car thermal/maintenance trial"
       ]
     },
     {
@@ -175,7 +247,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 7,
+      "sequence": 10,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "resistance certificate",
@@ -193,7 +265,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "formed sheet metal / stainless local hardware, rail structural steel, supplier HVAC and air-distribution kit, roof electrical energy equipment",
+    "form_factor": "formed sheet metal / stainless local hardware, rail structural steel, supplier HVAC and air-distribution kit, roof electrical energy equipment, rail laminated safety glazing",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-ROOF-SA410 inherits released child material specifications",
     "material_family": "assembly material set",

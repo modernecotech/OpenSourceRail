@@ -12,26 +12,26 @@ from osr_mech.rolling_stock.product_geometry import geometry_specs
 def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> None:
     model, index = build_model()
     assert model.schema == "IFC4X3"
-    assert index["product_item_count"] == 101
+    assert index["product_item_count"] == 120
     assert index["assembly_count"] == 26
     assert index["method_count"] == 9
     assert index["task_count"] == 59
-    assert index["tooling_count"] == 20
+    assert index["tooling_count"] == 30
     assert index["tooling_representation_part_count"] >= 200
-    assert index["product_geometry_count"] == 101
-    assert index["product_representation_part_count"] == 534
-    assert index["supplier_anchor_count"] == 25
-    assert index["supplier_anchored_external_product_count"] == 54
+    assert index["product_geometry_count"] == 120
+    assert index["product_representation_part_count"] == 619
+    assert index["supplier_anchor_count"] == 27
+    assert index["supplier_anchored_external_product_count"] == 56
     assert len(model.by_type("IfcVehicle")) == 1
     assert len(model.by_type("IfcMechanicalFastener")) == 1
     assert len(model.by_type("IfcDoor")) == 1
     assert len(model.by_type("IfcWindow")) == 2
     assert len(model.by_type("IfcFurniture")) == 3
-    assert len(model.by_type("IfcCovering")) == 5
+    assert len(model.by_type("IfcCovering")) == 12
     assert len(model.by_type("IfcElectricMotor")) == 1
     # Includes semantic subtypes such as furniture, lights and fasteners.
-    assert len(model.by_type("IfcDiscreteAccessory")) == 30
-    assert len(model.by_type("IfcShapeRepresentation")) == 121
+    assert len(model.by_type("IfcDiscreteAccessory")) == 40
+    assert len(model.by_type("IfcShapeRepresentation")) == 150
     represented_product_tags = {
         str(item.Tag)
         for item in model.by_type("IfcElement")

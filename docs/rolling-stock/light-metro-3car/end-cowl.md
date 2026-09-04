@@ -117,6 +117,11 @@ kit attaches to secondary tabs and a bolted backing ring:
 
 ## Glazing, lamps, and sensors
 
+The cowl fitout is now separated into `LM3-FAS-P010` panoramic glass carrier,
+`LM3-FAS-P020` reversible lamp cassette/aiming tray, and `LM3-FAS-P030`
+seal/drain/washer closeout kit. Their checking nest and lamp aiming jig are
+defined in [`dedicated-parts-and-moulds.md`](dedicated-parts-and-moulds.md).
+
 The cowl carries one large heated RF-transparent laminated glass pane in
 a dark bonded carrier. The carrier bolts to the steel-backed ring through
 the fiberglass flange, so a damaged cast can be removed without
@@ -199,8 +204,10 @@ inspection, A/B interchange check, and dry-build water path accepted.
 
 ### 4. Finish and repair sample
 
-1. Prime/paint or gelcoat in white/silver, with the green waist-band
-   continuation masked to the livery drawing.
+1. Release the qualified white/silver gelcoat or base coating. Apply the green
+   waist-band continuation as pre-cut rail-use film where its substrate,
+   fire, edge, cleaning and removal evidence is accepted; otherwise use the
+   released paint route.
 2. Fit gaskets, retained fasteners, drain sleeves, washer-nozzle covers,
    and hatch tethers.
 3. Make a sacrificial cheek/apron repair coupon from the same laminate

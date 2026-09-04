@@ -72,9 +72,9 @@ def test_manifest_embeds_source_hashes_snapshots_interfaces_and_limitations() ->
 
 def test_complete_trainset_product_dag_is_dependency_animated() -> None:
     graph = trainset_assembly_graph()
-    assert graph["animated_product_count"] == 101
+    assert graph["animated_product_count"] == 120
     assert graph["animated_assembly_count"] == 26
-    assert graph["animated_node_count"] == 127
+    assert graph["animated_node_count"] == 146
     assert graph["root_id"] == "LM3-TRAINSET-A000"
     assert graph["dependency_timing_valid"] is True
     assert set(graph["timing"]) == {

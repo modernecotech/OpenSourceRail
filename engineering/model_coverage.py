@@ -173,7 +173,7 @@ def build_register() -> dict[str, Any]:
         "lm3_products": lm3_rows,
         "station_products": station_rows,
         "station_variants": variant_coverage,
-        "passed": len(lm3_rows) == 101 and len(station_rows) == 45 and len(variant_coverage) == 7,
+        "passed": len(lm3_rows) == 120 and len(station_rows) == 45 and len(variant_coverage) == 7,
     }
 
 

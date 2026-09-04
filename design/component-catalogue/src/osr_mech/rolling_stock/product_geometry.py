@@ -45,10 +45,12 @@ def _register(ids: str, form: str, envelope: tuple[float, float, float], represe
 # envelopes in millimetres, not supplier tolerances or NC geometry.
 _register("LM3-BDY-P010", "beam", (16_000, 180, 260), "one side-sill member with end datum faces")
 _register("LM3-BDY-P020", "underframe", (15_800, 2_650, 380), "centre spine and repeated cross-bearers")
+_register("LM3-BDY-P021", "cross-bearer-kit", (15_200, 2_650, 320), "stationed cross-bearers, door outriggers and equipment brackets")
 _register("LM3-BDY-P030", "bolster", (1_700, 2_650, 420), "bolster box, spring pads and pivot land")
 _register("LM3-BDY-P040", "coupler-pocket", (1_250, 1_100, 620), "coupler pocket and crash-can shear structure")
 _register("LM3-BDY-P050", "tray", (6_200, 900, 520), "battery support rails, vent plenum and service gutter")
 _register("LM3-BDY-P060", "floor", (15_600, 2_650, 460), "low-floor pan and raised bogie-end decks")
+_register("LM3-BDY-P061", "floor-deck", (5_200, 2_650, 460), "raised end decks, transition ramps and removable hatch frames")
 _register("LM3-BDY-P070", "side-frame", (15_800, 180, 2_850), "posts, door portals, waist and cant rails")
 _register("LM3-BDY-P080", "roof-rack", (15_600, 2_500, 360), "roof bows and equipment/cable rails")
 _register("LM3-BDY-P090", "frame", (2_700, 260, 2_900), "end ring and anti-climber datum")
@@ -59,9 +61,14 @@ _register("LM3-BDY-P100 LM3-DOOR-P010", "door-frame", (1_500, 260, 2_150), "door
 _register("LM3-BDY-P110 LM3-WIN-P010", "window-frame", (1_650, 140, 1_250), "replaceable glazing pressure frame, seal and drain")
 _register("LM3-BDY-P120", "recovery-kit", (1_600, 900, 280), "jacking, lifting and towing interface kit")
 _register("LM3-BDY-P130", "body-module", (1_000, 120, 3_050), "one-metre clip-on side/roof module with solid attachment lands")
+_register("LM3-BDY-P131", "body-module", (1_000, 160, 3_050), "window-edge side module with reveal and drain clearance")
+_register("LM3-BDY-P132", "body-module", (1_000, 180, 3_050), "door-edge side module with pocket and threshold closeout")
+_register("LM3-BDY-P133", "roof-fairing", (1_000, 2_850, 420), "roof skin and equipment-fairing trim variant")
 _register("LM3-BDY-P140", "rail-kit", (15_800, 180, 160), "keyed clip rail, retainers and dry-seal route")
 _register("LM3-ROOF-P010", "roof-equipment", (2_800, 1_800, 420), "HVAC curb, duct collar, tray and drains")
 _register("LM3-ROOF-P020", "rail-kit", (14_000, 2_300, 140), "PV rails, bonded pads, jumpers and isolation datums")
+_register("LM3-ROOF-P030", "roof-fairing", (3_200, 2_400, 720), "removable HVAC curb fairing, skirts and access hatches")
+_register("LM3-ROOF-P040", "roof-closeout", (12_000, 2_300, 320), "PV plinth, glands, antenna closeouts and walkway edges")
 
 # Multipart moulded end cowl.
 _register("LM3-CWL-P010", "cowl-kit", (2_900, 2_800, 3_050), "laminate/insert material kit represented by the complete cowl envelope")
@@ -70,6 +77,9 @@ _register("LM3-CWL-P012 LM3-CWL-P013", "cowl", (1_150, 700, 2_300), "handed chee
 _register("LM3-CWL-P014", "cowl", (1_000, 2_650, 760), "lower apron and anti-climber cover cast")
 _register("LM3-CWL-P015", "cowl-service", (650, 520, 420), "lamp/washer/service-hatch cast set")
 _register("LM3-CWL-P016", "frame", (720, 120, 720), "backing-ring flange cast")
+_register("LM3-FAS-P010", "front-glass-carrier", (2_300, 260, 1_780), "panoramic glass carrier, setting blocks and secondary retention")
+_register("LM3-FAS-P020", "front-lamp-carrier", (1_850, 720, 420), "reversible lamp cassette tray and aiming adjusters")
+_register("LM3-FAS-P030", "front-seal-kit", (2_500, 420, 1_950), "glazing/lamp seals, drains, washer sleeves and closeouts")
 
 # Bogie, suspension and running gear.
 _register("LM3-ART-P010", "frame", (2_400, 300, 2_400), "articulation adapter and anti-lift interface")
@@ -105,11 +115,20 @@ _register("LM3-LGT-P020", "light-kit", (900, 360, 120), "emergency/doorway lumin
 _register("LM3-EXT-P070", "roof-equipment", (2_400, 1_500, 260), "antennas, walkway pads, covers and labels")
 _register("LM3-EXT-P080", "body-module", (1_000, 120, 3_050), "side-module laminate/core material represented at cured envelope")
 _register("LM3-EXT-P090", "roof-rack", (1_000, 2_700, 180), "roof-module laminate, seal and removable skirt envelope")
+_register("LM3-FIN-P010", "livery-film", (16_000, 1_400, 8), "pre-cut side/cowl livery film, edge seals and repair patches")
+_register("LM3-FIN-P020", "roof-coating", (16_000, 2_700, 8), "masked exposed-roof radiative coating and witness coupons")
 _register("LM3-INT-P010", "duct-kit", (6_000, 2_400, 320), "diffusers, returns, grilles and access panels")
 _register("LM3-INT-P020", "liner", (1_000, 2_650, 260), "ceiling liner, light trough and plenum cover")
+_register("LM3-INT-P021", "liner", (1_200, 240, 110), "light-trough bezels and diffuser carriers")
+_register("LM3-INT-P022", "liner", (1_100, 900, 220), "HVAC transitions, detector bezels and ceiling service hatches")
 _register("LM3-INT-P030", "liner", (1_000, 140, 2_200), "sidewall liner, reveal and cable-cover panel")
+_register("LM3-INT-P031", "liner", (1_750, 180, 1_300), "four-piece removable window reveal and inspection covers")
+_register("LM3-INT-P032", "liner", (1_000, 220, 520), "waist cable cover and retained access lid")
 _register("LM3-INT-P040", "liner", (4_800, 720, 780), "battery strake/seat-base/service-hatch shells")
+_register("LM3-INT-P041", "liner", (1_600, 780, 820), "seat-base fairing and retained equipment hatch")
 _register("LM3-INT-P050", "liner", (1_100, 420, 1_050), "vestibule, PRM and door-pocket trim set")
+_register("LM3-INT-P051", "liner", (2_500, 1_200, 460), "PRM transition, step cover, nosing and anti-slip set")
+_register("LM3-INT-P052", "liner", (1_200, 420, 2_100), "door-pocket liner and removable jamb covers")
 
 # Traction, energy, controls and train-end interfaces.
 _register("LM3-TRC-P010", "motor", (1_050, 720, 720), "axle traction motor with shaft and terminal box")
@@ -160,6 +179,8 @@ def geometry_level(product_id: str, route: str, maturity: str) -> str:
         "side-frame", "roof-rack", "frame", "door-frame", "window-frame",
         "body-module", "rail-kit", "bogie-frame", "link-kit", "harness",
         "cable-tray", "piping", "adapter-kit", "service-rail", "fastener-kit",
+        "cross-bearer-kit", "floor-deck", "roof-fairing", "roof-closeout",
+        "front-glass-carrier", "front-lamp-carrier", "front-seal-kit",
     }:
         return "interface-detailed"
     if maturity == "concept":
@@ -237,6 +258,21 @@ def _underframe(dims: tuple[float, float, float], label: str) -> Compound:
     parts = [_box((x, 220, z), f"{label} centre spine")]
     for station in (-0.46, -0.31, -0.16, 0.0, 0.16, 0.31, 0.46):
         parts.append(_box((180, y, z * 0.72), f"{label} cross bearer").locate(Location((station * x, 0, 0))))
+    return Compound(label=label, children=parts)
+
+
+def _cross_bearer_kit(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts: list[Part] = []
+    for station in (-0.45, -0.32, -0.19, -0.06, 0.06, 0.19, 0.32, 0.45):
+        parts.append(_box((160, y, z * 0.62), f"{label} station cross-bearer").locate(Location((station * x, 0, 0))))
+    for station in (-0.37, -0.12, 0.12, 0.37):
+        for side in (-1, 1):
+            parts.append(
+                _box((420, 260, z * 0.34), f"{label} door/equipment outrigger", SAFETY).locate(
+                    Location((station * x, side * y * 0.42, -z * 0.18))
+                )
+            )
     return Compound(label=label, children=parts)
 
 
@@ -443,6 +479,88 @@ def _recovery_kit(dims: tuple[float, float, float], label: str) -> Compound:
     return Compound(label=label, children=parts)
 
 
+def _front_glass_carrier(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    carrier = _frame(dims, f"{label} machined carrier ring", STEEL)
+    seal = _frame((x * 0.88, y * 0.42, z * 0.86), f"{label} replaceable glass seal", ELASTOMER)
+    parts = [*carrier.children, *seal.children]
+    for px in (-x * 0.31, x * 0.31):
+        parts.extend(
+            [
+                _box((180, y * 0.62, 70), f"{label} setting-block pocket", SAFETY).locate(Location((px, 0, -z * 0.42))),
+                _box((210, y * 0.72, 80), f"{label} secondary retainer", STEEL).locate(Location((px, 0, z * 0.42))),
+            ]
+        )
+    parts.append(_box((x * 0.76, y * 0.55, 55), f"{label} drained sill channel", SYSTEM).locate(Location((0, 0, -z * 0.45))))
+    return Compound(label=label, children=parts)
+
+
+def _front_lamp_carrier(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts: list[Part] = [
+        _box((x, y * 0.72, 90), f"{label} reversible cassette tray", STEEL).locate(Location((0, 0, -z * 0.32))),
+        _box((x * 0.88, 90, z), f"{label} aiming datum beam", STEEL),
+    ]
+    for side in (-1, 1):
+        parts.append(_box((x * 0.31, y * 0.78, z * 0.62), f"{label} lamp cassette", SYSTEM).locate(Location((side * x * 0.28, 0, 0))))
+        for pz in (-z * 0.22, z * 0.22):
+            parts.append(_part(Cylinder(12, y * 0.82).rotate(Axis.X, 90), f"{label} retained aiming adjuster", SAFETY).locate(Location((side * x * 0.40, 0, pz))))
+    return Compound(label=label, children=parts)
+
+
+def _front_seal_kit(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    seal = _frame((x, y * 0.28, z), f"{label} panoramic EPDM seal", ELASTOMER)
+    parts = [*seal.children, _box((x * 0.82, y * 0.42, 65), f"{label} drain rail", SYSTEM).locate(Location((0, 0, -z * 0.46)))]
+    for side in (-1, 1):
+        parts.extend(
+            [
+                _box((x * 0.24, y * 0.55, z * 0.18), f"{label} lamp pocket seal", ELASTOMER).locate(Location((side * x * 0.31, 0, -z * 0.31))),
+                _part(Cylinder(24, y * 0.70).rotate(Axis.X, 90), f"{label} washer/drain sleeve", SAFETY).locate(Location((side * x * 0.35, 0, z * 0.37))),
+            ]
+        )
+    return Compound(label=label, children=parts)
+
+
+def _roof_fairing(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    return Compound(
+        label=label,
+        children=[
+            _box((x, y, z * 0.22), f"{label} curved skin envelope", COMPOSITE),
+            _box((x * 0.72, y * 0.72, z * 0.50), f"{label} equipment curb/fairing", COMPOSITE).locate(Location((0, 0, z * 0.25))),
+            _box((x * 0.62, y * 0.10, z * 0.66), f"{label} removable access skirt", COMPOSITE).locate(Location((0, -y * 0.43, z * 0.16))),
+            _box((x * 0.22, y * 0.16, z * 0.18), f"{label} retained hatch", SAFETY).locate(Location((x * 0.30, y * 0.34, z * 0.20))),
+        ],
+    )
+
+
+def _roof_closeout(dims: tuple[float, float, float], label: str) -> Compound:
+    x, y, z = dims
+    parts: list[Part] = []
+    for station in (-0.42, -0.14, 0.14, 0.42):
+        parts.append(_box((x * 0.16, y * 0.28, z * 0.50), f"{label} PV/gland plinth", COMPOSITE).locate(Location((station * x, -y * 0.22, 0))))
+        parts.append(_box((x * 0.14, y * 0.24, z * 0.42), f"{label} antenna/access closeout", COMPOSITE).locate(Location((station * x, y * 0.22, 0))))
+    parts.extend(
+        [
+            _box((x, y * 0.08, z * 0.22), f"{label} left walkway edge", SAFETY).locate(Location((0, -y * 0.43, -z * 0.24))),
+            _box((x, y * 0.08, z * 0.22), f"{label} right walkway edge", SAFETY).locate(Location((0, y * 0.43, -z * 0.24))),
+        ]
+    )
+    return Compound(label=label, children=parts)
+
+
+def _finish_layer(dims: tuple[float, float, float], label: str, colour: Color) -> Compound:
+    x, y, z = dims
+    parts = [
+        _box((x * 0.31, y, z), f"{label} zone A", colour).locate(Location((-x * 0.34, 0, 0))),
+        _box((x * 0.31, y, z), f"{label} zone B", colour),
+        _box((x * 0.31, y, z), f"{label} zone C", colour).locate(Location((x * 0.34, 0, 0))),
+        _box((300, 200, max(1.0, z)), f"{label} retained qualification coupon", SAFETY),
+    ]
+    return Compound(label=label, children=parts)
+
+
 def product_geometry(product_id: str, title: str | None = None) -> Compound:
     """Return an inspectable native/facade geometry for one controlled item."""
 
@@ -462,6 +580,18 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
         return _door_carrier(dims, label)
     if product_id == "LM3-BDY-P120":
         return _recovery_kit(dims, label)
+    if product_id == "LM3-BDY-P021":
+        return _cross_bearer_kit(dims, label)
+    if product_id == "LM3-FAS-P010":
+        return _front_glass_carrier(dims, label)
+    if product_id == "LM3-FAS-P020":
+        return _front_lamp_carrier(dims, label)
+    if product_id == "LM3-FAS-P030":
+        return _front_seal_kit(dims, label)
+    if product_id == "LM3-FIN-P010":
+        return _finish_layer(dims, label, SAFETY)
+    if product_id == "LM3-FIN-P020":
+        return _finish_layer(dims, label, COMPOSITE)
     if form in {"frame", "window-frame", "door-frame"}:
         return _frame(dims, label, STEEL)
     if form == "window":
@@ -476,6 +606,8 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
         return _bogie_frame(dims, label)
     if form == "underframe":
         return _underframe(dims, label)
+    if form == "cross-bearer-kit":
+        return _cross_bearer_kit(dims, label)
     if form == "side-frame":
         return _side_frame(dims, label)
     if form == "spring-set":
@@ -493,6 +625,10 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
     if form in {"light", "service-rail", "beam", "floor-panel", "floor-covering", "body-module", "liner"}:
         colour = INTERIOR if form in {"floor-covering", "liner", "seat"} else COMPOSITE if form == "body-module" else STEEL
         return Compound(label=label, children=[_box(dims, label, colour)])
+    if form == "roof-fairing":
+        return _roof_fairing(dims, label)
+    if form == "roof-closeout":
+        return _roof_closeout(dims, label)
     if form == "pv":
         return Compound(label=label, children=[_box(dims, f"{label} laminate", GLASS), _box((dims[0], dims[1] * 0.06, dims[2] * 0.90), f"{label} edge clamp", STEEL)])
     if form in {"roof-rack", "rail-kit", "cable-tray", "harness", "piping", "duct-kit", "handrail"}:
@@ -517,6 +653,14 @@ def product_geometry(product_id: str, title: str | None = None) -> Compound:
             _box((x * 0.62, y, z * 0.36), f"{label} low pan", STEEL),
             _box((x * 0.18, y, z), f"{label} end deck", STEEL).locate(Location((-x * 0.40, 0, z * 0.24))),
             _box((x * 0.18, y, z), f"{label} end deck", STEEL).locate(Location((x * 0.40, 0, z * 0.24))),
+        ])
+    if form == "floor-deck":
+        x, y, z = dims
+        return Compound(label=label, children=[
+            _box((x * 0.42, y, z), f"{label} left raised deck", STEEL).locate(Location((-x * 0.29, 0, z * 0.08))),
+            _box((x * 0.42, y, z), f"{label} right raised deck", STEEL).locate(Location((x * 0.29, 0, z * 0.08))),
+            _box((x * 0.18, y, z * 0.52), f"{label} transition ramp", SAFETY),
+            _box((x * 0.20, y * 0.52, z * 0.14), f"{label} removable hatch frame", STEEL).locate(Location((x * 0.25, 0, z * 0.40))),
         ])
     if form in {"pneumatic-kit", "axlebox", "pivot"}:
         x, y, z = dims

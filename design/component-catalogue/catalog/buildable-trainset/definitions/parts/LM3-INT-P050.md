@@ -1,4 +1,4 @@
-# LM3-INT-P050 — FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims
+# LM3-INT-P050 — FRP vestibule kick-panel and threshold-closeout set
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Durable molded fiberglass/phenolic trim around door thresholds, PRM transitions, and high-floor step faces.
+Durable moulded fiberglass/phenolic trim protects door-zone lower walls while separate PRM and pocket parts remain individually replaceable.
 
 ## Material specification
 
@@ -38,14 +38,14 @@ Evidence required:
 - Primary processes: inspect mould/trim fixture, apply release system, cut dry reinforcement or panel blank, lay up / infuse / press laminate, controlled cure, demould and post-cure where required, trim/drill to controlled datum, fit inserts/clips/gaskets, dry-fit to parent fixture
 - Joining methods: potted/captive inserts, retained fasteners or clip grid, adhesive/sealant only where removal and repair rules allow
 - Special process controls: released laminate schedule, resin/adhesive batch and shelf-life check, mould release record, cure temperature/time record, fire-material certificate check, edge sealing and dust-control rule, passenger-facing edge-radius rule, anti-slip rule for PRM/step panels
-- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, PRM transition gauge, anti-slip witness, kick-panel retention test, sharp-edge inspection, rattle check, cleanability inspection
+- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, threshold/drain gauge, anti-slip witness, kick-panel retention test, sharp-edge inspection, rattle check, cleanability inspection
 - Tooling basis: MOULD/FIX-LM3-INT-P050 plus TRIM-GAUGE-LM3-INT-P050
 - Release level: v2A composite-process controlled MAKE item; generated traveler is unsigned until build
 
 ## Acceptance gates
 
 - fire-material certificate
-- PRM transition gauge
+- threshold/drain gauge
 - anti-slip witness
 - kick-panel retention test
 

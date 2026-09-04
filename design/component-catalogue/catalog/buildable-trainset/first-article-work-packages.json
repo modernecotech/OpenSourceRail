@@ -2,10 +2,10 @@
   "schema_version": "1.1",
   "first_article_id": "LM3-FA-001",
   "source_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-  "source_manifest_sha256": "4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5",
-  "open_count": 67,
+  "source_manifest_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
+  "open_count": 81,
   "status_counts": {
-    "open": 67,
+    "open": 81,
     "in-progress": 0,
     "evidence-submitted": 0,
     "accepted": 0,
@@ -14,8 +14,82 @@
   "closure_state_source": "design/component-catalogue/catalog/buildable-trainset/first-article-work-package-state.toml",
   "evidence_plan_source": "lib/templates/lm3-first-article-evidence.toml",
   "candidate_register_source": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
-  "candidate_register_sha256": "5d7007c7869c2ab74cb2289940d3f1ad2f77b2eb04478d7691780f73f995c67f",
+  "candidate_register_sha256": "8134f33deffdfb898536638ebae5d270f0e1544e2d9d973f0fa14229f692da44",
   "work_packages": [
+    {
+      "id": "WP-LM3-ROOF-P030",
+      "status": "open",
+      "engineering_id": "LM3-ROOF-P030",
+      "title": "LM3-ROOF-P030 \u2014 freeze removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-ROOF-SA410",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fairing trim gauge",
+        "HVAC airflow keep-out",
+        "hatch removal trial",
+        "roof leak test"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "roof-fitout.md",
+        "systems.py",
+        "LM3-HVAC-220"
+      ],
+      "github_issue": {
+        "title": "LM3-ROOF-P030 \u2014 freeze removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-ROOF-P030 -->\n\nAuthoritative row: `LM3-ROOF-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: fairing trim gauge; HVAC airflow keep-out; hatch removal trial; roof leak test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-ROOF-P040",
+      "status": "open",
+      "engineering_id": "LM3-ROOF-P040",
+      "title": "LM3-ROOF-P040 \u2014 freeze PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-ROOF-SA410",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "gland/closeout trim gauge",
+        "drain-path test",
+        "bonding access check",
+        "service-removal trial"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "roof-fitout.md",
+        "systems.py",
+        "LM3-HV-325"
+      ],
+      "github_issue": {
+        "title": "LM3-ROOF-P040 \u2014 freeze PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-ROOF-P040 -->\n\nAuthoritative row: `LM3-ROOF-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: gland/closeout trim gauge; drain-path test; bonding access check; service-removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
     {
       "id": "WP-LM3-CWL-P010",
       "status": "open",
@@ -294,6 +368,117 @@
           "make"
         ],
         "body": "<!-- osr-work-package: WP-LM3-CWL-P016 -->\n\nAuthoritative row: `LM3-CWL-P016` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; glass-carrier land survey; bond-line witness; A/B interchange check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-FAS-P010",
+      "status": "open",
+      "engineering_id": "LM3-FAS-P010",
+      "title": "LM3-FAS-P010 \u2014 freeze panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-CWL-SA710",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "carrier datum survey",
+        "glass-edge clearance gauge",
+        "secondary-retention proof",
+        "pane removal trial"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "end-cowl.md",
+        "sensor_cowl.py",
+        "LM3-BDY-155"
+      ],
+      "github_issue": {
+        "title": "LM3-FAS-P010 \u2014 freeze panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P010 -->\n\nAuthoritative row: `LM3-FAS-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: carrier datum survey; glass-edge clearance gauge; secondary-retention proof; pane removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-FAS-P020",
+      "status": "open",
+      "engineering_id": "LM3-FAS-P020",
+      "title": "LM3-FAS-P020 \u2014 freeze reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-CWL-SA710",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "lamp datum gauge",
+        "aiming range/retention test",
+        "harness clearance",
+        "cassette removal trial"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "end-cowl.md",
+        "systems.py",
+        "LM3-SYS-160"
+      ],
+      "github_issue": {
+        "title": "LM3-FAS-P020 \u2014 freeze reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P020 -->\n\nAuthoritative row: `LM3-FAS-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: lamp datum gauge; aiming range/retention test; harness clearance; cassette removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-FAS-P030",
+      "status": "open",
+      "engineering_id": "LM3-FAS-P030",
+      "title": "LM3-FAS-P030 \u2014 freeze front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+      "route": "SOURCE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-CWL-SA710",
+      "owner_role": "materials/component engineer + procurement lead",
+      "owner": "",
+      "evidence_required": [
+        "seal batch/certificate",
+        "compression map",
+        "drain flow test",
+        "water-ingress test"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "end-cowl.md",
+        "sensor_cowl.py",
+        "LM3-BDY-155"
+      ],
+      "github_issue": {
+        "title": "LM3-FAS-P030 \u2014 freeze front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+        "labels": [
+          "first-article",
+          "LM3",
+          "source"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P030 -->\n\nAuthoritative row: `LM3-FAS-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: seal batch/certificate; compression map; drain flow test; water-ingress test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1120,6 +1305,86 @@
       }
     },
     {
+      "id": "WP-LM3-FIN-P010",
+      "status": "open",
+      "engineering_id": "LM3-FIN-P010",
+      "title": "LM3-FIN-P010 \u2014 freeze pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+      "route": "BID",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-SHELL-A200",
+      "owner_role": "subsystem engineer + procurement lead",
+      "owner": "",
+      "evidence_required": [
+        "supplier rail-use statement",
+        "substrate/cure acceptance",
+        "adhesion coupon",
+        "edge/overlap inspection",
+        "cleaning/removal trial"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [
+        "OSR-COTS-FINISH-3M-180MC"
+      ],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "exterior-finish-process.md",
+        "modular_fiberglass_body.py",
+        "LM3-BDY-160"
+      ],
+      "github_issue": {
+        "title": "LM3-FIN-P010 \u2014 freeze pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+        "labels": [
+          "first-article",
+          "LM3",
+          "bid"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-FIN-P010 -->\n\nAuthoritative row: `LM3-FIN-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: supplier rail-use statement; substrate/cure acceptance; adhesion coupon; edge/overlap inspection; cleaning/removal trial.\n\nCandidate sources: `OSR-COTS-FINISH-3M-180MC`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-FIN-P020",
+      "status": "open",
+      "engineering_id": "LM3-FIN-P020",
+      "title": "LM3-FIN-P020 \u2014 freeze calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+      "route": "BID",
+      "maturity": "concept",
+      "parent_assembly": "LM3-ROOF-SA410",
+      "owner_role": "subsystem engineer + procurement lead",
+      "owner": "",
+      "evidence_required": [
+        "rail fire/chemical evidence",
+        "GFRP adhesion and flexibility",
+        "UV/abrasion/wash ageing",
+        "initial and aged solar reflectance/emittance",
+        "one-car thermal/maintenance trial"
+      ],
+      "evidence_package_ids": [],
+      "candidate_ids": [
+        "OSR-COTS-COOLROOF-PURDUE-CACO3"
+      ],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "exterior-finish-process.md",
+        "roof-fitout.md",
+        "LM3-BDY-160"
+      ],
+      "github_issue": {
+        "title": "LM3-FIN-P020 \u2014 freeze calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+        "labels": [
+          "first-article",
+          "LM3",
+          "bid"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-FIN-P020 -->\n\nAuthoritative row: `LM3-FIN-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: rail fire/chemical evidence; GFRP adhesion and flexibility; UV/abrasion/wash ageing; initial and aged solar reflectance/emittance; one-car thermal/maintenance trial.\n\nCandidate sources: `OSR-COTS-COOLROOF-PURDUE-CACO3`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
       "id": "WP-LM3-INT-P010",
       "status": "open",
       "engineering_id": "LM3-INT-P010",
@@ -1165,7 +1430,7 @@
       "id": "WP-LM3-INT-P020",
       "status": "open",
       "engineering_id": "LM3-INT-P020",
-      "title": "LM3-INT-P020 \u2014 freeze FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+      "title": "LM3-INT-P020 \u2014 freeze FRP/phenolic ceiling liner panel set",
       "route": "MAKE",
       "maturity": "buildable-after-supplier-freeze",
       "parent_assembly": "LM3-INT-SA330",
@@ -1192,7 +1457,7 @@
         "LM3-INT-240"
       ],
       "github_issue": {
-        "title": "LM3-INT-P020 \u2014 freeze FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+        "title": "LM3-INT-P020 \u2014 freeze FRP/phenolic ceiling liner panel set",
         "labels": [
           "first-article",
           "LM3",
@@ -1202,10 +1467,10 @@
       }
     },
     {
-      "id": "WP-LM3-INT-P030",
+      "id": "WP-LM3-INT-P021",
       "status": "open",
-      "engineering_id": "LM3-INT-P030",
-      "title": "LM3-INT-P030 \u2014 freeze FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+      "engineering_id": "LM3-INT-P021",
+      "title": "LM3-INT-P021 \u2014 freeze ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
       "route": "MAKE",
       "maturity": "buildable-after-supplier-freeze",
       "parent_assembly": "LM3-INT-SA330",
@@ -1213,8 +1478,88 @@
       "owner": "",
       "evidence_required": [
         "fire-material certificate",
-        "window-reveal gauge",
-        "access-panel removal",
+        "light cassette gauge",
+        "emergency-feed identification",
+        "module removal trial"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "small_components.py",
+        "LM3-INT-240"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P021 \u2014 freeze ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P021 -->\n\nAuthoritative row: `LM3-INT-P021` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; light cassette gauge; emergency-feed identification; module removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P022",
+      "status": "open",
+      "engineering_id": "LM3-INT-P022",
+      "title": "LM3-INT-P022 \u2014 freeze HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "airflow opening gauge",
+        "detector access",
+        "hatch retention/rattle check"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "car_body.py",
+        "LM3-HVAC-220"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P022 \u2014 freeze HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P022 -->\n\nAuthoritative row: `LM3-INT-P022` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; airflow opening gauge; detector access; hatch retention/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P030",
+      "status": "open",
+      "engineering_id": "LM3-INT-P030",
+      "title": "LM3-INT-P030 \u2014 freeze FRP/phenolic sidewall liner panel set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "visible-gap gauge",
+        "liner removal",
         "edge-radius inspection"
       ],
       "evidence_package_ids": [
@@ -1232,20 +1577,100 @@
         "LM3-INT-245"
       ],
       "github_issue": {
-        "title": "LM3-INT-P030 \u2014 freeze FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+        "title": "LM3-INT-P030 \u2014 freeze FRP/phenolic sidewall liner panel set",
         "labels": [
           "first-article",
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P030 -->\n\nAuthoritative row: `LM3-INT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; window-reveal gauge; access-panel removal; edge-radius inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P030 -->\n\nAuthoritative row: `LM3-INT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; visible-gap gauge; liner removal; edge-radius inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P031",
+      "status": "open",
+      "engineering_id": "LM3-INT-P031",
+      "title": "LM3-INT-P031 \u2014 freeze window reveal, setting-block inspection cover, and blind/label land set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "glass-edge clearance",
+        "cassette removal sweep",
+        "sharp-edge inspection"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "cots_equipment.py",
+        "LM3-WIN-210"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P031 \u2014 freeze window reveal, setting-block inspection cover, and blind/label land set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P031 -->\n\nAuthoritative row: `LM3-INT-P031` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; glass-edge clearance; cassette removal sweep; sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P032",
+      "status": "open",
+      "engineering_id": "LM3-INT-P032",
+      "title": "LM3-INT-P032 \u2014 freeze waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "segregation inspection",
+        "captive-fastener audit",
+        "cover removal/rattle check"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "small_components.py",
+        "LM3-INT-245"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P032 \u2014 freeze waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P032 -->\n\nAuthoritative row: `LM3-INT-P032` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; segregation inspection; captive-fastener audit; cover removal/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
       "id": "WP-LM3-INT-P040",
       "status": "open",
       "engineering_id": "LM3-INT-P040",
-      "title": "LM3-INT-P040 \u2014 freeze FRP battery strake covers, seat-base fairings, and service-hatch shells",
+      "title": "LM3-INT-P040 \u2014 freeze FRP battery strake cover panel set",
       "route": "MAKE",
       "maturity": "buildable-after-supplier-freeze",
       "parent_assembly": "LM3-INT-SA330",
@@ -1272,7 +1697,7 @@
         "LM3-INT-250"
       ],
       "github_issue": {
-        "title": "LM3-INT-P040 \u2014 freeze FRP battery strake covers, seat-base fairings, and service-hatch shells",
+        "title": "LM3-INT-P040 \u2014 freeze FRP battery strake cover panel set",
         "labels": [
           "first-article",
           "LM3",
@@ -1282,10 +1707,10 @@
       }
     },
     {
-      "id": "WP-LM3-INT-P050",
+      "id": "WP-LM3-INT-P041",
       "status": "open",
-      "engineering_id": "LM3-INT-P050",
-      "title": "LM3-INT-P050 \u2014 freeze FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+      "engineering_id": "LM3-INT-P041",
+      "title": "LM3-INT-P041 \u2014 freeze seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
       "route": "MAKE",
       "maturity": "buildable-after-supplier-freeze",
       "parent_assembly": "LM3-INT-SA330",
@@ -1293,7 +1718,47 @@
       "owner": "",
       "evidence_required": [
         "fire-material certificate",
-        "PRM transition gauge",
+        "seat-load-path clearance",
+        "hatch removal trial",
+        "cleaning/sharp-edge inspection"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "small_components.py",
+        "LM3-INT-250"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P041 \u2014 freeze seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P041 -->\n\nAuthoritative row: `LM3-INT-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; seat-load-path clearance; hatch removal trial; cleaning/sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P050",
+      "status": "open",
+      "engineering_id": "LM3-INT-P050",
+      "title": "LM3-INT-P050 \u2014 freeze FRP vestibule kick-panel and threshold-closeout set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "threshold/drain gauge",
         "anti-slip witness",
         "kick-panel retention test"
       ],
@@ -1312,13 +1777,93 @@
         "LM3-INT-255"
       ],
       "github_issue": {
-        "title": "LM3-INT-P050 \u2014 freeze FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+        "title": "LM3-INT-P050 \u2014 freeze FRP vestibule kick-panel and threshold-closeout set",
         "labels": [
           "first-article",
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P050 -->\n\nAuthoritative row: `LM3-INT-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; PRM transition gauge; anti-slip witness; kick-panel retention test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P050 -->\n\nAuthoritative row: `LM3-INT-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; threshold/drain gauge; anti-slip witness; kick-panel retention test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P051",
+      "status": "open",
+      "engineering_id": "LM3-INT-P051",
+      "title": "LM3-INT-P051 \u2014 freeze PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "PRM transition gauge",
+        "anti-slip/contrast evidence",
+        "trip-edge inspection"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "body.md",
+        "LM3-INT-255"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P051 \u2014 freeze PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P051 -->\n\nAuthoritative row: `LM3-INT-P051` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; PRM transition gauge; anti-slip/contrast evidence; trip-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+      }
+    },
+    {
+      "id": "WP-LM3-INT-P052",
+      "status": "open",
+      "engineering_id": "LM3-INT-P052",
+      "title": "LM3-INT-P052 \u2014 freeze door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
+      "route": "MAKE",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "LM3-INT-SA330",
+      "owner_role": "local manufacturing engineer + design authority",
+      "owner": "",
+      "evidence_required": [
+        "fire-material certificate",
+        "door sweep/pinch gauge",
+        "jamb-cover removal",
+        "obstruction-test witness"
+      ],
+      "evidence_package_ids": [
+        "EVD-SUP-004",
+        "EVD-MFG-001"
+      ],
+      "candidate_ids": [],
+      "evidence_refs": [],
+      "reviewed_by": "",
+      "github_issue_number": null,
+      "github_issue_url": "",
+      "source_refs": [
+        "cabin-fiberglass.md",
+        "systems.py",
+        "LM3-DOOR-200"
+      ],
+      "github_issue": {
+        "title": "LM3-INT-P052 \u2014 freeze door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
+        "labels": [
+          "first-article",
+          "LM3",
+          "make"
+        ],
+        "body": "<!-- osr-work-package: WP-LM3-INT-P052 -->\n\nAuthoritative row: `LM3-INT-P052` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; door sweep/pinch gauge; jamb-cover removal; obstruction-test witness.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {

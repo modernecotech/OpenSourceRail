@@ -74,6 +74,110 @@ def cowl_mould() -> Compound:
     return _compound("LM3-TOOL-COWL-MOULD", parts)
 
 
+def side_variant_nest() -> Compound:
+    parts = [_part(Box(1_350, 3_550, 120).locate(Location((0, 0, 60))), "side-module vacuum trim nest", BOARD)]
+    for y in (-1_400, -900, -400, 400, 900, 1_400):
+        for x in (-470, 470):
+            parts.append(_part(Cylinder(14, 95).locate(Location((x, y, 170))), "solid/window/door variant drill bushing", DATUM))
+    parts.extend(
+        [
+            _part(Box(720, 80, 90).locate(Location((0, 0, 180))), "removable window-edge trim fence", MOULD),
+            _part(Box(420, 80, 90).locate(Location((0, -900, 180))), "removable door-pocket trim fence", SAFETY),
+        ]
+    )
+    return _compound("LM3-TOOL-SIDE-VARIANT-NEST", parts)
+
+
+def roof_fairing_mould() -> Compound:
+    parts = [_part(Box(3_600, 2_900, 150).locate(Location((0, 0, 75))), "roof fairing mould base", STEEL)]
+    for x in (-1_350, -450, 450, 1_350):
+        parts.append(_part(Box(120, 2_500, 520).locate(Location((x, 0, 410))), "replaceable HVAC/PV fairing mould rib", MOULD))
+    parts.extend(
+        [
+            _part(Box(2_850, 1_850, 70).locate(Location((0, 0, 700))), "HVAC curb/fairing female tool face", MOULD),
+            _part(Box(850, 520, 120).locate(Location((1_100, 800, 720))), "PV gland and antenna closeout insert", SAFETY),
+        ]
+    )
+    return _compound("LM3-TOOL-ROOF-FAIRING-MOULD", parts)
+
+
+def glass_carrier_nest() -> Compound:
+    parts = list(_portal_tool("glass-carrier-base", 2_300, 1_780, "panoramic glass-carrier checking nest").children)
+    for x in (-820, -410, 0, 410, 820):
+        parts.append(_part(Cylinder(16, 280).locate(Location((x, 0, 330))), "carrier/seal compression witness pin", DATUM))
+    parts.append(_part(Box(1_500, 160, 80).locate(Location((0, 0, 260))), "setting-block and drained-sill datum", SAFETY))
+    return _compound("LM3-TOOL-GLASS-CARRIER-NEST", parts)
+
+
+def lamp_aim_jig() -> Compound:
+    parts = [
+        _part(Box(2_200, 1_100, 160).locate(Location((0, 0, 80))), "lamp cassette fixture base", STEEL),
+        _part(Box(1_850, 100, 120).locate(Location((0, 0, 420))), "reversible lamp datum beam", DATUM),
+        _part(Box(80, 900, 1_200).locate(Location((0, 0, 1_080))), "photometric target-plane carrier", BOARD),
+    ]
+    for x in (-620, 620):
+        parts.append(_part(Cylinder(22, 480).locate(Location((x, 0, 420))), "aiming-axis datum arbor", SAFETY))
+    return _compound("LM3-TOOL-LAMP-AIM", parts)
+
+
+def interior_ceiling_mould() -> Compound:
+    parts = [_part(Box(1_350, 2_950, 120).locate(Location((0, 0, 60))), "ceiling liner mould base", STEEL)]
+    for y, height in ((-1_150, 180), (-600, 280), (0, 340), (600, 280), (1_150, 180)):
+        parts.append(_part(Box(1_100, 100, height).locate(Location((0, y, 120 + height / 2))), "ceiling/plenum mould rib", MOULD))
+    parts.append(_part(Box(1_050, 240, 100).locate(Location((0, 0, 500))), "replaceable light/HVAC aperture insert", SAFETY))
+    return _compound("LM3-TOOL-INT-CEILING-MOULD", parts)
+
+
+def interior_side_mould() -> Compound:
+    parts = [_part(Box(1_350, 2_450, 120).locate(Location((0, 0, 60))), "sidewall/reveal mould base", STEEL)]
+    parts.append(_part(Box(1_050, 2_150, 45).locate(Location((0, 0, 150))), "sidewall visible tool face", MOULD))
+    parts.append(_part(Box(760, 1_150, 110).locate(Location((0, 250, 220))), "removable window-reveal insert", SAFETY))
+    return _compound("LM3-TOOL-INT-SIDE-MOULD", parts)
+
+
+def interior_strake_mould() -> Compound:
+    return _compound(
+        "LM3-TOOL-INT-STRAKE-MOULD",
+        [
+            _part(Box(5_200, 1_050, 150).locate(Location((0, 0, 75))), "battery-strake mould base", STEEL),
+            _part(Box(4_900, 780, 520).locate(Location((0, 0, 410))), "strake/seat-fairing tool face", MOULD),
+            _part(Box(1_100, 520, 180).locate(Location((1_450, 0, 760))), "removable service-hatch insert", SAFETY),
+        ],
+    )
+
+
+def interior_door_prm_mould() -> Compound:
+    return _compound(
+        "LM3-TOOL-INT-DOOR-PRM-MOULD",
+        [
+            _part(Box(2_800, 1_600, 140).locate(Location((0, 0, 70))), "door/PRM trim fixture base", STEEL),
+            _part(Box(1_200, 1_100, 420).locate(Location((-650, 0, 350))), "PRM transition and step-cover tool", MOULD),
+            _part(Box(1_050, 420, 1_850).locate(Location((700, 0, 995))), "door-pocket/jamb-cover tool", MOULD),
+            _part(Box(900, 240, 80).locate(Location((-650, 0, 610))), "contrast-nosing and anti-slip datum", SAFETY),
+        ],
+    )
+
+
+def film_template() -> Compound:
+    parts = [_part(Box(8_500, 1_800, 40), "half-car livery-film cutting/vacuum table", BOARD)]
+    for x in range(-3_750, 3_751, 500):
+        parts.append(_part(Cylinder(8, 70).locate(Location((x, 0, 55))), "film bay/overlap datum", DATUM))
+    parts.append(_part(Box(1_800, 1_500, 80).locate(Location((3_000, 0, 90))), "reversible cowl-film template", MOULD))
+    return _compound("LM3-TOOL-FILM-TEMPLATE", parts)
+
+
+def radiative_coupon() -> Compound:
+    return _compound(
+        "LM3-TOOL-RADIATIVE-COUPON",
+        [
+            _part(Box(300, 200, 4).locate(Location((-360, 0, 0))), "as-moulded GFRP control coupon", MOULD),
+            _part(Box(300, 200, 4), "CaCO3-acrylic roof coating coupon", DATUM),
+            _part(Box(300, 200, 4).locate(Location((360, 0, 0))), "aged wash/UV/abrasion coupon", SAFETY),
+            _part(Box(1_100, 520, 60).locate(Location((0, 0, -35))), "masked spray/drawdown fixture", STEEL),
+        ],
+    )
+
+
 def trim_drill_fixture() -> Compound:
     parts = [_part(Box(1_400, 3_800, 160).locate(Location((0, 0, 80))), "trim and drill vacuum table", BOARD)]
     for y in (-1_500, -1_000, -500, 0, 500, 1_000, 1_500):
@@ -218,6 +322,16 @@ TOOL_BUILDERS = {
     "LM3-TOOL-SIDE-MOULD": side_mould,
     "LM3-TOOL-ROOF-MOULD": roof_mould,
     "LM3-TOOL-COWL-MOULD": cowl_mould,
+    "LM3-TOOL-SIDE-VARIANT-NEST": side_variant_nest,
+    "LM3-TOOL-ROOF-FAIRING-MOULD": roof_fairing_mould,
+    "LM3-TOOL-GLASS-CARRIER-NEST": glass_carrier_nest,
+    "LM3-TOOL-LAMP-AIM": lamp_aim_jig,
+    "LM3-TOOL-INT-CEILING-MOULD": interior_ceiling_mould,
+    "LM3-TOOL-INT-SIDE-MOULD": interior_side_mould,
+    "LM3-TOOL-INT-STRAKE-MOULD": interior_strake_mould,
+    "LM3-TOOL-INT-DOOR-PRM-MOULD": interior_door_prm_mould,
+    "LM3-TOOL-FILM-TEMPLATE": film_template,
+    "LM3-TOOL-RADIATIVE-COUPON": radiative_coupon,
     "LM3-TOOL-TRIM-DRILL": trim_drill_fixture,
     "LM3-TOOL-COATING-RACK": coating_rack,
     "LM3-TOOL-COATING-COUPON": coating_coupon,

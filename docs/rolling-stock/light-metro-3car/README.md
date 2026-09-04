@@ -27,7 +27,10 @@ eight-hour shift after the frames pass paint and dimensional release.
 | [`fabrication-plan.md`](fabrication-plan.md) | Cut-bend-weld primary structure, composite cladding, COTS module installation sequence |
 | [`bogie.md`](bogie.md) | 2-axle standard bogie spec, wheel profile, suspension, brake mount |
 | [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation interface frames |
+| [`dedicated-parts-and-moulds.md`](dedicated-parts-and-moulds.md) | Discrete chassis/body, fascia/glass/lamp and interior fitout parts with dedicated moulds, trim nests, gauges and release evidence |
 | [`modular-fiberglass-body.md`](modular-fiberglass-body.md) | 1 m clip-on fiberglass side/roof modules, keyed retainers, dry seals, one-shift trainset body route, and cost basis |
+| [`roof-fitout.md`](roof-fitout.md) | Roof skin/fairing mould family, HVAC curb and skirts, PV/gland/antenna closeouts, walkways, keep-outs and assembly tests |
+| [`exterior-finish-process.md`](exterior-finish-process.md) | Simplified white base plus pre-cut livery film and trial-only calcium-carbonate radiative roof coating qualification route |
 | [`end-cowl.md`](end-cowl.md) | Identical A/B-end fiberglass cowl kit, cast split, laminate/tooling rules, glazing/sensor interfaces |
 | [`cabin-fiberglass.md`](cabin-fiberglass.md) | Cabin FRP/phenolic ceiling liners, sidewall/window reveals, battery strake covers, vestibule/PRM trims, tooling, lay-up, trim, inspection, and repair instructions |
 | [`articulation.md`](articulation.md) | Inter-car and train-to-train articulation/gangway modules: lower spherical pivot, upper links, bellows, turntable, trainline routing, and configurable open-end option |
@@ -94,6 +97,7 @@ exported back into the drawing pack as neutral CAD.
 | [`bogie/`](../../../design/component-catalogue/src/osr_mech/rolling_stock/bogie/) | Powered and trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../design/component-catalogue/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 | [`buildable_trainset.py`](../../../design/component-catalogue/src/osr_mech/buildable_trainset.py) | Product-tree manifest, definitions, assembly integration design, and unsigned shop travelers |
+| [`exterior_finish.py`](../../../design/component-catalogue/src/osr_mech/rolling_stock/exterior_finish.py) | Machine-readable finish zones, prohibited coverage, livery-film process, CaCO3 qualification gates and review geometry |
 
 ## Buildable handoff package
 
@@ -119,10 +123,10 @@ are engineered and released.
 | [`definitions/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
 | [`travelers/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md) | Unsigned shop travelers with material/process controls, operation routers, labor estimates, tooling IDs, QA gates, revision approvals, signoff blocks, and NCR/deviation logs |
 | [`supplier-anchors.md`](../../../design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md) | Real manufacturer-family anchor, procurement state, known fit gaps and controlled local-equivalent route for every bought-in product row |
-| [`manufacturing-methods.md`](../../../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md) | All 101 product links, timed mould/coating/seal/floor/fixture/motor methods, joining parts, hold points and external design references |
-| [`FreeCAD part/assembly library`](../../../design/component-catalogue/models/cad/README.md) | 101 individual native part documents plus 26 subassembly/car/final-assembly documents, hashes and reachability checks |
+| [`manufacturing-methods.md`](../../../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md) | All 120 product links, timed mould/film/coating/seal/floor/fixture/motor methods, joining parts, hold points and external design references |
+| [`FreeCAD part/assembly library`](../../../design/component-catalogue/models/cad/README.md) | 120 individual native part documents plus 26 subassembly/car/final-assembly documents, hashes and reachability checks |
 | [`IFC4.3 part/assembly library`](../../../engineering/models/bim/reference/README.md) | Matching split geometric IFC files with retained product classes and hierarchy |
-| [`lm3-manufacturing-tooling.FCStd`](../../../design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd) | Selectable FreeCAD review objects for 20 mould, jig, gauge, stand and test-tool families |
+| [`lm3-manufacturing-tooling.FCStd`](../../../design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd) | Selectable FreeCAD review objects for 30 mould, trim-nest, glass/lamp gauge, finish, stand and test-tool families |
 | [`lm3-manufacturing-reference.ifc`](../../../engineering/models/bim/reference/lm3-manufacturing-reference.ifc) | IFC4.3 product hierarchy, typed doors/windows/floor/furniture/motor, 59 tasks, method assignments and multi-part tooling geometry |
 | [`current-design-buildability-review.md`](../../../design/component-catalogue/catalog/buildable-trainset/current-design-buildability-review.md) | Current green/yellow/red closure status before first steel cut |
 

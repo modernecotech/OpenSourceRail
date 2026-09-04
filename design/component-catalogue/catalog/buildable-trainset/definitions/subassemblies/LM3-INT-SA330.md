@@ -20,9 +20,16 @@
 - `LM3-EXT-P066`
 - `LM3-INT-P010`
 - `LM3-INT-P020`
+- `LM3-INT-P021`
+- `LM3-INT-P022`
 - `LM3-INT-P030`
+- `LM3-INT-P031`
+- `LM3-INT-P032`
 - `LM3-INT-P040`
+- `LM3-INT-P041`
 - `LM3-INT-P050`
+- `LM3-INT-P051`
+- `LM3-INT-P052`
 
 ## Material specification
 
@@ -158,11 +165,11 @@ Evidence required:
   - access-panel removal
   - fire-material certificate
 
-### 9. `LM3-INT-P020` — FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set
+### 9. `LM3-INT-P020` — FRP/phenolic ceiling liner panel set
 
-- Placement zone: roof equipment rail, curb, and service-access zone
-- Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
-- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
@@ -171,7 +178,46 @@ Evidence required:
   - fastener insert pull-out
   - rattle check
 
-### 10. `LM3-INT-P030` — FRP/phenolic sidewall liner, window reveal, and cable-cover panel set
+### 10. `LM3-INT-P021` — ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set
+
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - light cassette gauge
+  - emergency-feed identification
+  - module removal trial
+
+### 11. `LM3-INT-P022` — HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set
+
+- Placement zone: roof equipment rail, curb, and service-access zone
+- Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - airflow opening gauge
+  - detector access
+  - hatch retention/rattle check
+
+### 12. `LM3-INT-P030` — FRP/phenolic sidewall liner panel set
+
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - visible-gap gauge
+  - liner removal
+  - edge-radius inspection
+
+### 13. `LM3-INT-P031` — window reveal, setting-block inspection cover, and blind/label land set
 
 - Placement zone: side/end glazing aperture and bonded carrier datum
 - Interfaces: `mechanical datum`
@@ -180,15 +226,28 @@ Evidence required:
 - Joint release status: `joint-calculation-required`
 - Verification:
   - fire-material certificate
-  - window-reveal gauge
-  - access-panel removal
-  - edge-radius inspection
+  - glass-edge clearance
+  - cassette removal sweep
+  - sharp-edge inspection
 
-### 11. `LM3-INT-P040` — FRP battery strake covers, seat-base fairings, and service-hatch shells
+### 14. `LM3-INT-P032` — waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set
+
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - segregation inspection
+  - captive-fastener audit
+  - cover removal/rattle check
+
+### 15. `LM3-INT-P040` — FRP battery strake cover panel set
 
 - Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`
-- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`
+- Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
@@ -197,7 +256,46 @@ Evidence required:
   - HV warning label check
   - sharp-edge inspection
 
-### 12. `LM3-INT-P050` — FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims
+### 16. `LM3-INT-P041` — seat-base fairing, retained equipment hatch, and rail-saddle closeout set
+
+- Placement zone: saloon interior, PRM aisle, ceiling, and service-panel zone
+- Interfaces: `mechanical datum`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - seat-load-path clearance
+  - hatch removal trial
+  - cleaning/sharp-edge inspection
+
+### 17. `LM3-INT-P050` — FRP vestibule kick-panel and threshold-closeout set
+
+- Placement zone: side door aperture and low-floor threshold datum
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - threshold/drain gauge
+  - anti-slip witness
+  - kick-panel retention test
+
+### 18. `LM3-INT-P051` — PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set
+
+- Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - fire-material certificate
+  - PRM transition gauge
+  - anti-slip/contrast evidence
+  - trip-edge inspection
+
+### 19. `LM3-INT-P052` — door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set
 
 - Placement zone: side door aperture and low-floor threshold datum
 - Interfaces: `mechanical datum`, `safety interlock`
@@ -206,9 +304,9 @@ Evidence required:
 - Joint release status: `joint-calculation-required`
 - Verification:
   - fire-material certificate
-  - PRM transition gauge
-  - anti-slip witness
-  - kick-panel retention test
+  - door sweep/pinch gauge
+  - jamb-cover removal
+  - obstruction-test witness
 
 
 ## Hold points

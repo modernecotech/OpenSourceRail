@@ -8,29 +8,29 @@ Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances
 
 | Controlled coverage | Value |
 |---|---:|
-| Product rows linked to at least one method | 101 / 101 |
+| Product rows linked to at least one method | 120 / 120 |
 | Manufacturing methods | 9 |
-| Named tooling/fixture families | 20 |
+| Named tooling/fixture families | 30 |
 
 ## Method index
 
 | Method | Work centre | Crew | Planning cycle | Products | Tooling |
 |---|---|---:|---:|---:|---:|
-| [LM3-MFG-010](#lm3-mfg-010) — Locally fabricated steel body, bogie and interface structures | local steel preparation, weld and metrology cells | 6 | 72 h | 15 | 2 |
-| [LM3-MFG-020](#lm3-mfg-020) — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | local composite moulding, cure, trim and dry-fit cell | 3 | 24 h | 11 | 4 |
-| [LM3-MFG-030](#lm3-mfg-030) — Solar-reflective, high-emittance exterior coating and thermal witness route | local preparation and controlled paint cell | 2 | 16 h | 7 | 2 |
-| [LM3-MFG-040](#lm3-mfg-040) — Replaceable side-window cassette, pressure frame, seal and drain installation | local glazing preparation and vehicle fit-out cell | 2 | 3 h | 4 | 2 |
+| [LM3-MFG-010](#lm3-mfg-010) — Locally fabricated steel body, bogie and interface structures | local steel preparation, weld and metrology cells | 6 | 72 h | 19 | 2 |
+| [LM3-MFG-020](#lm3-mfg-020) — Reusable GFRP body, roof, end-cowl and interior panel mould families | local composite moulding, cure, trim and dry-fit cell | 3 | 24 h | 27 | 10 |
+| [LM3-MFG-030](#lm3-mfg-030) — In-mould base finish, applied livery film, and qualified radiative roof-coating route | local surface preparation, film application and controlled coating cell | 2 | 16 h | 12 | 4 |
+| [LM3-MFG-040](#lm3-mfg-040) — Replaceable side-window cassette, pressure frame, seal and drain installation | local glazing preparation and vehicle fit-out cell | 2 | 3 h | 6 | 3 |
 | [LM3-MFG-050](#lm3-mfg-050) — Supplier door cassette on locally made four-point adjustable carrier | local door preparation, installation and static-test cell | 3 | 5 h | 3 | 2 |
-| [LM3-MFG-060](#lm3-mfg-060) — Removable floor panels, transport flooring and common passenger-fixture rail | local interior panel, floor and fixture preassembly cell | 4 | 16 h | 14 | 2 |
+| [LM3-MFG-060](#lm3-mfg-060) — Removable floor panels, transport flooring and common passenger-fixture rail | local interior panel, floor and fixture preassembly cell | 4 | 16 h | 21 | 2 |
 | [LM3-MFG-070](#lm3-mfg-070) — Supplier traction motor/gearbox integration into locally fabricated powered bogie | local bogie build, alignment and static-test cell | 4 | 12 h | 18 | 2 |
-| [LM3-MFG-080](#lm3-mfg-080) — Lighting, HVAC, HV/LV services and keyed replaceable modules | local harness, interior systems and roof-module preassembly cells | 4 | 16 h | 20 | 2 |
+| [LM3-MFG-080](#lm3-mfg-080) — Lighting, HVAC, HV/LV services and keyed replaceable modules | local harness, interior systems and roof-module preassembly cells | 4 | 16 h | 23 | 3 |
 | [LM3-MFG-090](#lm3-mfg-090) — Three-car final assembly, static test and manufacturing release | 55 m local final assembly and static-test road | 8 | 48 h | 19 | 2 |
 
 ## LM3-MFG-010 — Locally fabricated steel body, bogie and interface structures
 
 - Work centre: local steel preparation, weld and metrology cells
 - Crew / planning cycle: 6 people / 72 hours elapsed
-- Product IDs: `LM3-BDY-P010`, `LM3-BDY-P020`, `LM3-BDY-P030`, `LM3-BDY-P040`, `LM3-BDY-P050`, `LM3-BDY-P060`, `LM3-BDY-P070`, `LM3-BDY-P080`, `LM3-BDY-P090`, `LM3-BDY-P100`, `LM3-BDY-P110`, `LM3-BDY-P120`, `LM3-ART-P010`, `LM3-BOG-P010`, `LM3-BOG-P020`
+- Product IDs: `LM3-BDY-P010`, `LM3-BDY-P020`, `LM3-BDY-P021`, `LM3-BDY-P030`, `LM3-BDY-P040`, `LM3-BDY-P050`, `LM3-BDY-P060`, `LM3-BDY-P061`, `LM3-BDY-P070`, `LM3-BDY-P080`, `LM3-BDY-P090`, `LM3-BDY-P100`, `LM3-BDY-P110`, `LM3-BDY-P120`, `LM3-FAS-P010`, `LM3-FAS-P020`, `LM3-ART-P010`, `LM3-BOG-P010`, `LM3-BOG-P020`
 - Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`
 - Joining parts: released structural welds; machined datum inserts; OSR-FST-M8-FLOAT only for calculated secondary interfaces; galvanic-isolation shims
 - Release gate: Controlled cut/flat-pattern pack, WPS/WPQR, qualified welders, weld map, NDT plan, dimensional survey and released structural proof.
@@ -43,12 +43,12 @@ Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances
 | 40 — Qualified weld and controlled cool | 1680 min | Execute only the released weld map/WPS with heat-input and consumable records; use a balanced sequence and controlled cooling or stress relief where specified. | no |
 | 50 — NDT, machine datums and coat | 1080 min | Complete VT and classed MT/UT, repair through an NCR, machine released interfaces, survey the frame, restore edge/cavity protection and record coating batches. | yes |
 
-## LM3-MFG-020 — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds
+## LM3-MFG-020 — Reusable GFRP body, roof, end-cowl and interior panel mould families
 
 - Work centre: local composite moulding, cure, trim and dry-fit cell
 - Crew / planning cycle: 3 people / 24 hours elapsed
-- Product IDs: `LM3-BDY-P130`, `LM3-BDY-P140`, `LM3-CWL-P010`, `LM3-CWL-P011`, `LM3-CWL-P012`, `LM3-CWL-P013`, `LM3-CWL-P014`, `LM3-CWL-P015`, `LM3-CWL-P016`, `LM3-EXT-P080`, `LM3-EXT-P090`
-- Tooling: `LM3-TOOL-SIDE-MOULD`, `LM3-TOOL-ROOF-MOULD`, `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-TRIM-DRILL`
+- Product IDs: `LM3-BDY-P130`, `LM3-BDY-P131`, `LM3-BDY-P132`, `LM3-BDY-P133`, `LM3-BDY-P140`, `LM3-CWL-P010`, `LM3-CWL-P011`, `LM3-CWL-P012`, `LM3-CWL-P013`, `LM3-CWL-P014`, `LM3-CWL-P015`, `LM3-CWL-P016`, `LM3-ROOF-P030`, `LM3-ROOF-P040`, `LM3-EXT-P080`, `LM3-EXT-P090`, `LM3-INT-P020`, `LM3-INT-P021`, `LM3-INT-P022`, `LM3-INT-P030`, `LM3-INT-P031`, `LM3-INT-P032`, `LM3-INT-P040`, `LM3-INT-P041`, `LM3-INT-P050`, `LM3-INT-P051`, `LM3-INT-P052`
+- Tooling: `LM3-TOOL-SIDE-MOULD`, `LM3-TOOL-SIDE-VARIANT-NEST`, `LM3-TOOL-ROOF-MOULD`, `LM3-TOOL-ROOF-FAIRING-MOULD`, `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-TRIM-DRILL`, `LM3-TOOL-INT-CEILING-MOULD`, `LM3-TOOL-INT-SIDE-MOULD`, `LM3-TOOL-INT-STRAKE-MOULD`, `LM3-TOOL-INT-DOOR-PRM-MOULD`
 - Joining parts: potted threaded inserts; solid laminate clip lands; OSR-FST-M6-CAPTIVE; keyed over-centre clips; replaceable EPDM dry seals
 - Release gate: Released laminate/core/insert map, fire evidence, material shelf life, mould survey, vacuum leak check, cure record, witness coupon, trim report, insert pull-out sample and master-frame dry fit.
 
@@ -61,29 +61,29 @@ Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances
 | 50 — Cure in mould | 720 min | Hold the supplier-qualified time/temperature cure and record thermocouples. Do not demould on elapsed time alone; cure acceptance or hardness/Tg evidence controls release. | yes |
 | 60 — Demould, trim, seal and dry-fit | 285 min | Demould without prying on show surfaces; inspect/tap-check, CNC trim and drill in the datum fixture, seal every cut edge, install inserts/seals, gauge the part and dry-fit it to the master frame. | yes |
 
-## LM3-MFG-030 — Solar-reflective, high-emittance exterior coating and thermal witness route
+## LM3-MFG-030 — In-mould base finish, applied livery film, and qualified radiative roof-coating route
 
-- Work centre: local preparation and controlled paint cell
+- Work centre: local surface preparation, film application and controlled coating cell
 - Crew / planning cycle: 2 people / 16 hours elapsed
-- Product IDs: `LM3-BDY-P130`, `LM3-CWL-P011`, `LM3-CWL-P012`, `LM3-CWL-P013`, `LM3-CWL-P014`, `LM3-CWL-P015`, `LM3-CWL-P016`
-- Tooling: `LM3-TOOL-COATING-RACK`, `LM3-TOOL-COATING-COUPON`
-- Joining parts: compatible primer/topcoat system; sealed GFRP edges; coated witness coupons; replaceable external labels
-- Release gate: Rail fire/smoke compatibility, substrate/primer compatibility, adhesion, weathering, cleanability, colour/glare review and measured new/aged solar reflectance and thermal emittance. No cooling or energy saving may be claimed before vehicle thermal testing.
+- Product IDs: `LM3-BDY-P130`, `LM3-BDY-P131`, `LM3-BDY-P132`, `LM3-BDY-P133`, `LM3-CWL-P011`, `LM3-CWL-P012`, `LM3-CWL-P013`, `LM3-CWL-P014`, `LM3-CWL-P015`, `LM3-CWL-P016`, `LM3-FIN-P010`, `LM3-FIN-P020`
+- Tooling: `LM3-TOOL-COATING-RACK`, `LM3-TOOL-COATING-COUPON`, `LM3-TOOL-FILM-TEMPLATE`, `LM3-TOOL-RADIATIVE-COUPON`
+- Joining parts: in-mould white gelcoat or qualified base topcoat; rail-application livery film and edge treatment; sealed GFRP edges; masked CaCO3-acrylic candidate roof coating; traceable new/aged witness coupons
+- Release gate: Base corrosion/fire protection accepted first; then film substrate/adhesion/edge/removal evidence and radiative-coating fire, adhesion, weathering, cleanability, glare and measured new/aged solar reflectance/emittance. No cooling or energy-saving claim before one-car thermal and maintenance trials.
 
 | Seq. | Planning time | Instruction | Hold point |
 |---:|---:|---|:---:|
 | 10 — Condition and inspect substrate | 60 min | Verify cured laminate, sealed edges, moisture/temperature limits and defect repair; mask bonds, seals, datums, windows, sensors and electrical earths. | yes |
-| 20 — Prepare and prime | 120 min | Abrade and clean only by the released coating procedure, apply compatible primer and coat a traceable witness coupon beside the vehicle modules. | no |
-| 30 — Apply reflective/emissive topcoat | 120 min | Apply the selected light-colour rail topcoat to controlled wet/dry film thickness. Avoid unqualified experimental radiative-cooling chemistry and review glare/visibility with the authority. | no |
-| 40 — Controlled cure | 600 min | Maintain supplier temperature, humidity and ventilation limits; the released coating datasheet controls flash, recoat, cure and return-to-service times. | yes |
-| 50 — Inspect and retain coupons | 60 min | Record film thickness, adhesion/cure acceptance, colour/gloss and measured solar reflectance/emittance; retain labelled coupons for accelerated weathering and cleaning trials. | yes |
+| 20 — Prepare base finish and cut film | 120 min | Accept the fully cured corrosion/gelcoat base, make adhesion coupons, and plot/cut the livery film from controlled bay templates. Do not apply film over seals, drains, earths, labels, service lands or unresolved defects. | no |
+| 30 — Apply livery film and candidate roof coating | 120 min | Dry-apply and squeegee the selected rail-use film with controlled seams/edges. On qualified exposed-roof zones only, mask all keep-outs and apply the CaCO3 candidate beside retained witness coupons to the released wet/dry-film range. | no |
+| 40 — Controlled cure | 600 min | Maintain the film/coating suppliers' temperature, humidity and ventilation limits; post-heat or edge-treat film only where the selected system requires it, and let the roof coating reach its released cure before handling. | yes |
+| 50 — Inspect and retain coupons | 60 min | Inspect bubbles, wrinkles, seams, edges and prohibited-zone masking; record coating thickness/adhesion/cure, colour/gloss and measured solar reflectance/emittance, and retain labelled coupons for UV, abrasion and wash ageing. | yes |
 
 ## LM3-MFG-040 — Replaceable side-window cassette, pressure frame, seal and drain installation
 
 - Work centre: local glazing preparation and vehicle fit-out cell
 - Crew / planning cycle: 2 people / 3 hours elapsed
-- Product IDs: `LM3-BDY-P110`, `LM3-WIN-P010`, `LM3-EXT-P020`, `LM3-EXT-P030`
-- Tooling: `LM3-TOOL-WINDOW-GAUGE`, `LM3-TOOL-WATER-TEST`
+- Product IDs: `LM3-BDY-P110`, `LM3-WIN-P010`, `LM3-EXT-P020`, `LM3-EXT-P030`, `LM3-FAS-P010`, `LM3-FAS-P030`
+- Tooling: `LM3-TOOL-WINDOW-GAUGE`, `LM3-TOOL-GLASS-CARRIER-NEST`, `LM3-TOOL-WATER-TEST`
 - Joining parts: supplier-bonded aluminium glazing cassette; replaceable closed-cell/EPDM outer seal; aluminium pressure frame; OSR-FST-M6-CAPTIVE; drain rail and jack points
 - Release gate: Supplier glazing/edge certificate, retained frame calculation, approved surface preparation, seal compression map, drain test, water-ingress test, heater/isolation test where fitted and timed replacement demonstration.
 
@@ -116,7 +116,7 @@ Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances
 
 - Work centre: local interior panel, floor and fixture preassembly cell
 - Crew / planning cycle: 4 people / 16 hours elapsed
-- Product IDs: `LM3-EXT-P060`, `LM3-EXT-P061`, `LM3-EXT-P062`, `LM3-EXT-P063`, `LM3-EXT-P064`, `LM3-EXT-P065`, `LM3-EXT-P066`, `LM3-FIX-P010`, `LM3-FIX-P020`, `LM3-FIX-P030`, `LM3-INT-P020`, `LM3-INT-P030`, `LM3-INT-P040`, `LM3-INT-P050`
+- Product IDs: `LM3-EXT-P060`, `LM3-EXT-P061`, `LM3-EXT-P062`, `LM3-EXT-P063`, `LM3-EXT-P064`, `LM3-EXT-P065`, `LM3-EXT-P066`, `LM3-FIX-P010`, `LM3-FIX-P020`, `LM3-FIX-P030`, `LM3-INT-P020`, `LM3-INT-P021`, `LM3-INT-P022`, `LM3-INT-P030`, `LM3-INT-P031`, `LM3-INT-P032`, `LM3-INT-P040`, `LM3-INT-P041`, `LM3-INT-P050`, `LM3-INT-P051`, `LM3-INT-P052`
 - Tooling: `LM3-TOOL-FLOOR-TEMPLATE`, `LM3-TOOL-FIXTURE-PROOF`
 - Joining parts: removable sealed floor boards/hatches; rail-qualified resilient floor covering; OSR-RAIL-42; OSR-FST-M8-FLOAT; calculated seat/handrail saddles; OSR-FST-QT-CAPTIVE access panels
 - Release gate: Fire/smoke certificates, substrate moisture/flatness, adhesive batch and open time, seam/edge detail, slip resistance, hatch removal, fixture load calculations and proof samples, PRM/egress gauge and snag/rattle inspection.
@@ -152,8 +152,8 @@ Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances
 
 - Work centre: local harness, interior systems and roof-module preassembly cells
 - Crew / planning cycle: 4 people / 16 hours elapsed
-- Product IDs: `LM3-LGT-P010`, `LM3-LGT-P020`, `LM3-INT-P010`, `LM3-EXT-P040`, `LM3-EXT-P050`, `LM3-EXT-P070`, `LM3-ROOF-P010`, `LM3-ROOF-P020`, `LM3-HV-P010`, `LM3-HV-P020`, `LM3-HV-P030`, `LM3-TRC-P030`, `LM3-TRC-P040`, `LM3-TRC-P050`, `LM3-TRC-P060`, `LM3-TRC-P070`, `LM3-CTRL-P040`, `LM3-END-P020`, `LM3-END-P030`, `LM3-END-P050`
-- Tooling: `LM3-TOOL-SERVICE-RAIL`, `LM3-TOOL-HARNESS-BOARD`
+- Product IDs: `LM3-LGT-P010`, `LM3-LGT-P020`, `LM3-INT-P010`, `LM3-EXT-P040`, `LM3-EXT-P050`, `LM3-EXT-P070`, `LM3-ROOF-P010`, `LM3-ROOF-P020`, `LM3-ROOF-P030`, `LM3-ROOF-P040`, `LM3-HV-P010`, `LM3-HV-P020`, `LM3-HV-P030`, `LM3-TRC-P030`, `LM3-TRC-P040`, `LM3-TRC-P050`, `LM3-TRC-P060`, `LM3-TRC-P070`, `LM3-CTRL-P040`, `LM3-END-P020`, `LM3-END-P030`, `LM3-END-P050`, `LM3-FAS-P020`
+- Tooling: `LM3-TOOL-SERVICE-RAIL`, `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-LAMP-AIM`
 - Joining parts: OSR-RAIL-42; OSR-FST-M6-CAPTIVE; OSR-CON-LV4; OSR-CON-LVDATA12; sealed HV connectors; segregated service trays; removable HVAC curb seal
 - Release gate: Supplier evidence, fire/EMC/vibration/IP checks, harness 100% continuity and insulation, keyed/polarity audit, HVIL, fluid pressure/drain tests, lighting lux/emergency-duration test, HVAC airflow and condensate test.
 
@@ -193,11 +193,13 @@ These links explain the engineering basis; they are not copied supplier instruct
 - [Sika rail bonding, sealing and glazing application overview](https://gbr.sika.com/dms/getdocument.get/adc08596-e970-4615-8138-966714bd6fd0/Sika%20Transportation-Rail%20Brochure.pdf) — Surface preparation, controlled bead geometry, glazing, floor/interior bonding and exterior sealing process categories; the selected adhesive technical datasheet controls primers, open time, cure and safe handling.
 - [Forbo rail flooring installation and maintenance download centre](https://www.forbo.com/transport/en/downloads/rail-downloads/p64bld) — Rail-floor material, installation, cleaning and maintenance evidence route; selected floor and adhesive documents control actual installation.
 - [US Department of Energy guidelines for high-reflectance, high-emittance surfaces](https://www.energy.gov/sites/prod/files/2013/10/f3/coolroofguide.pdf) — Screening rationale for measuring solar reflectance and thermal emittance. Building-roof thresholds are not transferred as rail certification or an LM3 performance claim.
+- [3M Application: Rail instruction bulletin](https://multimedia.3m.com/mws/media/2419613O/3m-instruction-bulletin-application-rail-ra.pdf) — Rail-vehicle graphic-film substrate inspection, cleaning, adhesion trial, dry application, edge treatment, inspection, maintenance and removal route; the selected film and overlaminate product bulletins remain controlling.
+- [Purdue full daytime sub-ambient CaCO3-acrylic radiative-cooling paint paper](https://docs.lib.purdue.edu/coolingpubs/369/) — Research basis for the CaCO3-acrylic candidate and initial optical targets. It is not rail qualification, a commercial product release, or evidence of durability on moving-vehicle GFRP.
 - [Böllhoff RIVNUT installation and setting guidance](https://www.boellhoff.com/us-en/services/technical-forum/rivnut-setting-tools/) — One-sided threaded insert installation, perpendicularity, supplier setting force and tool-control principles. Released joint loads and supplier data control selection.
 - [Knorr-Bremse IFE modular rail entrance systems](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/) — Complete supplier-owned door cassette, drive, controller, obstacle detection, commissioning and lifecycle boundary.
 - [ABB AMXM railway traction motor family](https://www.abb.com/global/en/areas/motion/traction/traction-motor/amxm) — Supplier-frozen railway traction-motor envelope and evidence route; no vendor model or rating is selected by this reference.
 
 ## Controlled inputs
 
-- Method source: `lib/templates/trainset-manufacturing-methods.toml` (`ff8fe7a4ec100835f82060efad7b531a6feed7fd35ef78e800aa28f4169e396f`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5`)
+- Method source: `lib/templates/trainset-manufacturing-methods.toml` (`814542c64f387f4ba32a2126552ec5636f0839dfdaf547fdea6ae56b0ab1b06d`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05`)

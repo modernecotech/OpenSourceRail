@@ -37,7 +37,7 @@ connection stage, and separate walkway/containment cassettes.
 
 | Artifact | Purpose |
 |---|---|
-| [`fabrication-assembly-digital-twin.json`](fabrication-assembly-digital-twin.json) | Machine-readable production route, complete 127-node LM3 DAG/timing, live-state snapshots, relationships, source hashes, and validation checks |
+| [`fabrication-assembly-digital-twin.json`](fabrication-assembly-digital-twin.json) | Machine-readable production route, complete 146-node LM3 DAG/timing, live-state snapshots, relationships, source hashes, and validation checks |
 | [`fabrication-assembly-digital-twin.blend`](fabrication-assembly-digital-twin.blend) | Native Blender scene with separately selectable staged components and animation |
 | [`fabrication-assembly-digital-twin.mp4`](fabrication-assembly-digital-twin.mp4) | Full-resolution 88-second H.264 guided assembly tour |
 | [`fabrication-assembly-digital-twin.gif`](fabrication-assembly-digital-twin.gif) | Complete 88-second inline preview below the 20 MB repository limit |

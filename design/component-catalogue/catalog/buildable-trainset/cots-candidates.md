@@ -14,9 +14,9 @@ A complete system such as a door, bogie, HVAC unit or gangway is vehicle-specifi
 
 | Measure | Value |
 |---|---:|
-| Bought-in LM3 rows with a sourcing candidate | 54 / 54 |
+| Bought-in LM3 rows with a sourcing candidate | 56 / 56 |
 | Rows containing at least one exact catalogue component | 10 |
-| Controlled candidates | 39 |
+| Controlled candidates | 41 |
 
 ## Candidate components and systems
 
@@ -24,6 +24,8 @@ A complete system such as a door, bogie, HVAC unit or gangway is vehicle-specifi
 |---|---|---|---|---|
 | `OSR-COTS-DOOR-IFE` | [Knorr-Bremse IFE — IFE modular sliding-plug entrance system](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/) | rfq-baseline | `LM3-EXT-P010` | rail entrance-system family; supplier engineering required for vehicle aperture and controls |
 | `OSR-COTS-GLASS-AGC` | [AGC Automotive — rail glazing with framing system](https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system) | rfq-baseline | `LM3-EXT-P020`, `LM3-EXT-P030` | laminated rail glazing family; supplier framing-system option |
+| `OSR-COTS-FINISH-3M-180MC` | [3M — Controltac Graphic Film with Comply Adhesive 180mC family](https://www.3m.com/3M/en_US/p/d/b00026338/) | sample-and-system-rfq | `LM3-FIN-P010` | listed for rail-car graphic applications; 50 micrometre cast opaque film; pressure-activated removable adhesive; up to seven-year MCS warranty subject to selected construction and conditions |
+| `OSR-COTS-COOLROOF-PURDUE-CACO3` | [Purdue University research team (reference only) — 2020 CaCO3-acrylic particle-matrix paint formulation](https://docs.lib.purdue.edu/coolingpubs/369/) | qualification-only | `LM3-FIN-P020` | 95.5 percent initial solar reflectance reported; 0.94 normal emissivity in the atmospheric window reported; 60 percent particle concentration research formulation |
 | `OSR-COTS-GLAZING-SIKA268` | [Sika — Sikaflex-268 PowerCure, 600 ml](https://usa.sika.com/en/industry/transportation/rail/rail-adhesives-sealants/floor-bonding/sikaflex-268-powercure.html) | sample-ready | `LM3-EXT-P020`, `LM3-EXT-P030` | EN 45545-2 R1/R7 HL3; 4.5 MPa typical lap-shear strength; -50 to 90 deg C service range; 30 minute open time at stated reference conditions |
 | `OSR-COTS-HVAC-LONGERTEK` | [Longertek — direct-DC rail HVAC platform](https://en.longertek.com/technological-innovation.html) | rfq-baseline | `LM3-EXT-P040`, `LM3-INT-P010` | direct high-voltage DC architecture; rail HVAC product platform |
 | `OSR-COTS-PV-SUNMAN` | [Sunman Energy — eArc lightweight PV module](https://www.sunman-energy.com/earc/) | sample-ready | `LM3-EXT-P050` | lightweight flexible photovoltaic family |
@@ -81,6 +83,25 @@ A complete system such as a door, bogie, HVAC unit or gangway is vehicle-specifi
   - freeze laminate stack, optical zones and curvature
   - freeze heated end-glass voltage and power
   - obtain impact, fire, weather and bond-system evidence
+
+### `OSR-COTS-FINISH-3M-180MC` — 3M Controltac Graphic Film with Comply Adhesive 180mC family
+
+- Source class: `catalogue-family-with-rail-application-guidance`
+- Local manufacture: Plot, print, label and apply pre-cut one-metre-bay kits locally; accept another supplier only through complete-system equivalence rather than nominal film thickness.
+- Before freeze:
+  - select film colour/print, ink, overlaminate and edge system together
+  - obtain project fire and hot-climate exposure evidence
+  - run adhesion, wash, weather, repair and removal trials on the actual LM3 base finish
+
+### `OSR-COTS-COOLROOF-PURDUE-CACO3` — Purdue University research team (reference only) 2020 CaCO3-acrylic particle-matrix paint formulation
+
+- Source class: `research-formulation-not-orderable`
+- Local manufacture: Local coupon preparation is encouraged, but fleet application remains prohibited until an orderable controlled formulation and signed rail qualification pack exist.
+- Before freeze:
+  - identify a controlled commercial binder/pigment/additive formulation
+  - obtain rail fire, chemical and application evidence
+  - pass GFRP adhesion/flexibility plus UV, abrasion, wash and soiling ageing
+  - measure new/aged optical performance and complete a one-car thermal/maintenance trial
 
 ### `OSR-COTS-GLAZING-SIKA268` — Sika Sikaflex-268 PowerCure, 600 ml
 
@@ -417,5 +438,5 @@ A complete system such as a door, bogie, HVAC unit or gangway is vehicle-specifi
 
 ## Controlled inputs
 
-- Candidate source: `lib/templates/trainset-cots-candidates.toml` (`a9da9edc85c0bf506c05a7b8247d3e57f4ee61623aa9537c062d3dcd3704309e`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5`)
+- Candidate source: `lib/templates/trainset-cots-candidates.toml` (`0588d76029c2f426beadc09a5ba096848d2eb85a22fb4e1306c54d68931f3b94`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05`)

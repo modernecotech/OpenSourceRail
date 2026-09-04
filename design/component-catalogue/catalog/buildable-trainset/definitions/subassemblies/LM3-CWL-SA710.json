@@ -10,7 +10,10 @@
     "LM3-CWL-P013",
     "LM3-CWL-P014",
     "LM3-CWL-P015",
-    "LM3-CWL-P016"
+    "LM3-CWL-P016",
+    "LM3-FAS-P010",
+    "LM3-FAS-P020",
+    "LM3-FAS-P030"
   ],
   "definition_type": "assembly-node",
   "hold_points": [
@@ -171,6 +174,69 @@
         "bond-line witness",
         "A/B interchange check"
       ]
+    },
+    {
+      "child_id": "LM3-FAS-P010",
+      "child_title": "panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 8,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "carrier datum survey",
+        "glass-edge clearance gauge",
+        "secondary-retention proof",
+        "pane removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-FAS-P020",
+      "child_title": "reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 9,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "lamp datum gauge",
+        "aiming range/retention test",
+        "harness clearance",
+        "cassette removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-FAS-P030",
+      "child_title": "front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+      "interface_classes": [
+        "mechanical datum",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 10,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "seal batch/certificate",
+        "compression map",
+        "drain flow test",
+        "water-ingress test"
+      ]
     }
   ],
   "layer": "subassembly",
@@ -181,7 +247,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "fire-retardant fiberglass composite",
+    "form_factor": "fire-retardant fiberglass composite, rail structural steel, formed sheet metal / stainless local hardware",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-CWL-SA710 inherits released child material specifications",
     "material_family": "assembly material set",

@@ -398,7 +398,7 @@ def build_library(output_root: Path) -> dict[str, object]:
         "assemblies": assembly_entries,
     }
     report["passed"] = bool(
-        report["product_count"] == 101
+        report["product_count"] == 120
         and report["assembly_count"] == 26
         and report["all_active_products_reach_root"]
         and all(

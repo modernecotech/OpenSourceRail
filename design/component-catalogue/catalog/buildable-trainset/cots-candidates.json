@@ -45,6 +45,52 @@
     },
     {
       "fit_required": [
+        "select film colour/print, ink, overlaminate and edge system together",
+        "obtain project fire and hot-climate exposure evidence",
+        "run adhesion, wash, weather, repair and removal trials on the actual LM3 base finish"
+      ],
+      "id": "OSR-COTS-FINISH-3M-180MC",
+      "localisation": "Plot, print, label and apply pre-cut one-metre-bay kits locally; accept another supplier only through complete-system equivalence rather than nominal film thickness.",
+      "manufacturer": "3M",
+      "manufacturer_url": "https://www.3m.com/3M/en_US/p/d/b00026338/",
+      "model": "Controltac Graphic Film with Comply Adhesive 180mC family",
+      "product_ids": [
+        "LM3-FIN-P010"
+      ],
+      "public_spec": [
+        "listed for rail-car graphic applications",
+        "50 micrometre cast opaque film",
+        "pressure-activated removable adhesive",
+        "up to seven-year MCS warranty subject to selected construction and conditions"
+      ],
+      "selection_state": "sample-and-system-rfq",
+      "source_class": "catalogue-family-with-rail-application-guidance"
+    },
+    {
+      "fit_required": [
+        "identify a controlled commercial binder/pigment/additive formulation",
+        "obtain rail fire, chemical and application evidence",
+        "pass GFRP adhesion/flexibility plus UV, abrasion, wash and soiling ageing",
+        "measure new/aged optical performance and complete a one-car thermal/maintenance trial"
+      ],
+      "id": "OSR-COTS-COOLROOF-PURDUE-CACO3",
+      "localisation": "Local coupon preparation is encouraged, but fleet application remains prohibited until an orderable controlled formulation and signed rail qualification pack exist.",
+      "manufacturer": "Purdue University research team (reference only)",
+      "manufacturer_url": "https://docs.lib.purdue.edu/coolingpubs/369/",
+      "model": "2020 CaCO3-acrylic particle-matrix paint formulation",
+      "product_ids": [
+        "LM3-FIN-P020"
+      ],
+      "public_spec": [
+        "95.5 percent initial solar reflectance reported",
+        "0.94 normal emissivity in the atmospheric window reported",
+        "60 percent particle concentration research formulation"
+      ],
+      "selection_state": "qualification-only",
+      "source_class": "research-formulation-not-orderable"
+    },
+    {
+      "fit_required": [
         "Sika-approved substrate preparation for the actual glass/frame coatings",
         "bondline calculation and physical coupon validation",
         "lot and shelf-life control"
@@ -880,14 +926,14 @@
   ],
   "checked_on": "2026-08-31",
   "coverage": {
-    "candidate_count": 39,
-    "covered_external_product_rows": 54,
-    "external_product_rows": 54,
+    "candidate_count": 41,
+    "covered_external_product_rows": 56,
+    "external_product_rows": 56,
     "rows_with_exact_catalogue_component": 10,
     "uncovered_product_ids": []
   },
   "product_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-  "product_manifest_sha256": "4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5",
+  "product_manifest_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
   "product_titles": {
     "LM3-ART-P020": "articulation lower spherical pivot, bearing housing and pin set",
     "LM3-ART-P021": "articulation upper lateral/yaw links, spherical joints and retained pins",
@@ -931,6 +977,8 @@
     "LM3-EXT-P070": "roof antennas, service walkway pads, lifting covers, and maintenance labels",
     "LM3-EXT-P080": "fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit",
     "LM3-EXT-P090": "fire-rated GFRP roof-module, dry-seal, and removable skirt material kit",
+    "LM3-FIN-P010": "pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+    "LM3-FIN-P020": "calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
     "LM3-FIX-P020": "four-family captive fastener, floating nut, isolator, and access-fastener kit",
     "LM3-INT-P010": "HVAC diffusers, side return ducts, saloon grilles, and access panels",
     "LM3-LGT-P010": "1.2 m plug-in main LED lighting cassette and captive mounting kit",
@@ -1076,6 +1124,12 @@
     "LM3-EXT-P090": [
       "OSR-COTS-COMPOSITE-GURIT-130FR"
     ],
+    "LM3-FIN-P010": [
+      "OSR-COTS-FINISH-3M-180MC"
+    ],
+    "LM3-FIN-P020": [
+      "OSR-COTS-COOLROOF-PURDUE-CACO3"
+    ],
     "LM3-FIX-P020": [
       "OSR-COTS-FASTENER-RIVNUT"
     ],
@@ -1120,6 +1174,6 @@
   "revision": "A-DRAFT",
   "schema": "org.opensourcerail.trainset-cots-candidates.v1",
   "source_file": "lib/templates/trainset-cots-candidates.toml",
-  "source_sha256": "a9da9edc85c0bf506c05a7b8247d3e57f4ee61623aa9537c062d3dcd3704309e",
+  "source_sha256": "0588d76029c2f426beadc09a5ba096848d2eb85a22fb4e1306c54d68931f3b94",
   "status": "sourcing-baseline-not-released"
 }

@@ -1,4 +1,4 @@
-# Shop traveler — LM3-BDY-P020 — underframe centre spine and cross-bearer kit
+# Shop traveler — LM3-BDY-P020 — underframe centre spine and longitudinal load-path kit
 
 | Field | Value |
 |---|---|
@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: cut, form, drill/machine, de-burr, trial fit, fixture weld, controlled cool / stress relief where WPS requires, post-weld machine where required
 - Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum
 - Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, WPS/WPQR release, welder qualification, weld map and heat-input control
-- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, tube/plate certs, fixture survey, bogie-centre datum report
+- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, tube/plate certs, spine straightness survey, bogie-centre datum report
 - Tooling basis: FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P020-DATUM
 - Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
 
@@ -54,7 +54,7 @@ Evidence required:
 | 20 | cut, form, machine, or fabricate local hardware | fabrication cell | 1.8 | `FIX-LM3-BDY-FAB`<br>`GAUGE-LM3-BDY-P020-DATUM` | fabricated geometry matches datum/gauge requirements | operator |
 | 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-BDY-SA110`<br>`TORQUE-LM3-BDY-P020` | fit-up evidence recorded before release to assembly | operator |
 | 40 | verify acceptance gate: tube/plate certs | quality inspection | 0.25 | `QA-LM3-BDY-P020` | tube/plate certs | quality inspector |
-| 50 | verify acceptance gate: fixture survey | quality inspection | 0.25 | `GAUGE-LM3-BDY-P020` | fixture survey | quality inspector |
+| 50 | verify acceptance gate: spine straightness survey | quality inspection | 0.25 | `GAUGE-LM3-BDY-P020` | spine straightness survey | quality inspector |
 | 60 | verify acceptance gate: bogie-centre datum report | quality inspection | 0.25 | `GAUGE-LM3-BDY-P020` | bogie-centre datum report | quality inspector |
 | 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-BDY-P020`<br>`KIT-LM3-BDY-SA110` | item is released, tagged, and staged for parent assembly | cell lead |
 

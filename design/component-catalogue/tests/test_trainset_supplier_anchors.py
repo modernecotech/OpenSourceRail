@@ -14,12 +14,12 @@ from osr_mech.trainset_supplier_anchors import (
 def test_every_bought_in_product_has_one_real_supplier_anchor() -> None:
     data = load_and_validate()
     assert data["coverage"] == {
-        "external_product_rows": 54,
-        "covered_external_product_rows": 54,
-        "anchor_count": 25,
+        "external_product_rows": 56,
+        "covered_external_product_rows": 56,
+        "anchor_count": 27,
         "uncovered_product_ids": [],
     }
-    assert len(data["product_to_anchor"]) == 54
+    assert len(data["product_to_anchor"]) == 56
     assert all(anchor["manufacturer_url"].startswith("https://") for anchor in data["anchor"])
     assert all(anchor["localisation"] and anchor["fit_gaps"] for anchor in data["anchor"])
 

@@ -115,6 +115,7 @@ Generated artifacts live in
 | [`buildable-trainset-manifest.md`](catalog/buildable-trainset/buildable-trainset-manifest.md) | Product tree: fabricated parts, external components, subassemblies, assemblies, trainset |
 | [`current-design-buildability-review.md`](catalog/buildable-trainset/current-design-buildability-review.md) | Green/yellow/red buildability findings and next closure actions |
 | [`small-component-standard.md`](catalog/buildable-trainset/small-component-standard.md) | Four fastener families, common rail, keyed connectors, modular illumination and serviceable door/window boundaries |
+| [`exterior-finish-system.md`](catalog/buildable-trainset/exterior-finish-system.md) | Mandatory base protection, rail-use livery film zones, and trial-only CaCO3 radiative roof-coating qualification gates |
 | [`definitions/index.md`](catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ seed: JSON + Markdown definition for every product-tree node, including structured material and process specs |
 | [`travelers/index.md`](catalog/buildable-trainset/travelers/index.md) | Shop traveler seed: material/process controls, operation routers, labor estimates, tooling IDs, QA gates, approval/signoff blocks |
 

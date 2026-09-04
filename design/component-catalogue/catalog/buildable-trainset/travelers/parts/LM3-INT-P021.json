@@ -1,0 +1,208 @@
+{
+  "bom_line_ids": [
+    "B21"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-INT-P021",
+  "material_spec": {
+    "evidence_required": [
+      "fire-material certificate",
+      "laminate/panel batch record",
+      "insert pull-out evidence",
+      "trim/cure record"
+    ],
+    "finish_or_protection": "cleanable interior gelcoat/paint or decorative film with sealed edges and anti-slip finish where walked on",
+    "form_factor": "moulded or CNC-trimmed liner, reveal, cover, hatch, and kick-panel shells with potted inserts",
+    "governing_standard": "EN 45545-2 interior material evidence plus supplier laminate/phenolic panel certificate",
+    "grade_or_part_class": "EN 45545 HL2 candidate FRP, phenolic, or glass/basalt-fibre sandwich interior panel",
+    "material_family": "fire-rated cabin fiberglass / phenolic composite",
+    "nominal_section": "panel thickness, edge return, insert pattern, and clip grid per LM3-INT v2A drawing",
+    "traceability": "laminate/panel batch, resin/cure or board batch, insert batch, adhesive batch, and fire certificate"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-INT-P021",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-INT-FAB",
+        "GAUGE-LM3-INT-P021-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-INT-SA330",
+        "TORQUE-LM3-INT-P021"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fire-material certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fire-material certificate",
+      "tooling_ids": [
+        "QA-LM3-INT-P021"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "light cassette gauge",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: light cassette gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-INT-P021"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "emergency-feed identification",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: emergency-feed identification",
+      "tooling_ids": [
+        "QA-LM3-INT-P021"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "module removal trial",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: module removal trial",
+      "tooling_ids": [
+        "QA-LM3-INT-P021"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-INT-P021",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "fire-material certificate",
+      "light cassette gauge",
+      "emergency-feed identification",
+      "module removal trial"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release"
+    ],
+    "tooling_basis": "FIX-LM3-INT-FAB plus GAUGE-LM3-INT-P021-DATUM"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-INT-P021-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-INT-P021-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-INT-P021-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
+  "traveler_type": "product-item",
+  "unit": "car set"
+}

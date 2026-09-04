@@ -1473,7 +1473,7 @@ def check_public_animation_set() -> list[Finding]:
         if manifest.get("visual_tour", {}).get("duration_s") != 88.0:
             findings.append(Finding(manifest_path, "visual tour duration is not the 88-second contract"))
         graph = manifest.get("trainset_assembly_graph", {})
-        if graph.get("animated_node_count") != 127 or not graph.get("dependency_timing_valid"):
+        if graph.get("animated_node_count") != 146 or not graph.get("dependency_timing_valid"):
             findings.append(Finding(manifest_path, "complete dependency-timed LM3 product graph is missing"))
     return findings
 
@@ -1514,15 +1514,15 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         coverage = methods.get("coverage", {})
         if coverage.get("covered_product_rows") != coverage.get("product_rows"):
             findings.append(Finding(paths["methods"], "manufacturing methods do not cover every LM3 product row"))
-        if coverage.get("product_rows") != 101 or coverage.get("tooling_count") != 20:
+        if coverage.get("product_rows") != 120 or coverage.get("tooling_count") != 30:
             findings.append(Finding(paths["methods"], "LM3 method/tooling coverage changed without review"))
     if paths["supplier_register"].is_file():
         supplier = json.loads(paths["supplier_register"].read_text(encoding="utf-8"))
         coverage = supplier.get("coverage", {})
         expected_supplier = {
-            "external_product_rows": 54,
-            "covered_external_product_rows": 54,
-            "anchor_count": 25,
+            "external_product_rows": 56,
+            "covered_external_product_rows": 56,
+            "anchor_count": 27,
             "uncovered_product_ids": [],
         }
         if coverage != expected_supplier:
@@ -1530,7 +1530,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
     if paths["cots_register"].is_file():
         cots = json.loads(paths["cots_register"].read_text(encoding="utf-8"))
         coverage = cots.get("coverage", {})
-        if coverage.get("external_product_rows") != 54 or coverage.get("covered_external_product_rows") != 54:
+        if coverage.get("external_product_rows") != 56 or coverage.get("covered_external_product_rows") != 56:
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ coverage is incomplete: {coverage}"))
         if coverage.get("candidate_count", 0) < 30 or coverage.get("uncovered_product_ids"):
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ register is incomplete: {coverage}"))
@@ -1539,17 +1539,17 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         if not index.get("passed"):
             findings.append(Finding(paths["ifc_index"], "LM3 manufacturing IFC validation did not pass"))
         expected = {
-            "product_item_count": 101,
-            "product_geometry_count": 101,
-            "product_representation_part_count": 534,
+            "product_item_count": 120,
+            "product_geometry_count": 120,
+            "product_representation_part_count": 619,
             "method_count": 9,
-            "tooling_count": 20,
+            "tooling_count": 30,
             "task_count": 59,
         }
         observed = {key: index.get(key) for key in expected}
         if observed != expected:
             findings.append(Finding(paths["ifc_index"], f"LM3 manufacturing IFC counts changed: {observed}"))
-        if index.get("supplier_anchor_count") != 25 or index.get("supplier_anchored_external_product_count") != 54:
+        if index.get("supplier_anchor_count") != 27 or index.get("supplier_anchored_external_product_count") != 56:
             findings.append(Finding(paths["ifc_index"], "LM3 IFC supplier-anchor coverage is incomplete"))
     if paths["product_manifest"].is_file():
         product_manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
@@ -1565,9 +1565,9 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             path.stem for path in (base / "travelers").glob("*/*.json")
         }
         if definition_ids != expected_ids:
-            findings.append(Finding(base / "definitions", "GitHub part/assembly definitions do not match the 127-node product tree"))
+            findings.append(Finding(base / "definitions", "GitHub part/assembly definitions do not match the 146-node product tree"))
         if traveler_ids != expected_ids:
-            findings.append(Finding(base / "travelers", "GitHub part/assembly travelers do not match the 127-node product tree"))
+            findings.append(Finding(base / "travelers", "GitHub part/assembly travelers do not match the 146-node product tree"))
 
         expected_products = {str(row["id"]) for row in product_manifest["product_items"]}
         expected_assemblies = {str(row["id"]) for row in product_manifest["assemblies"]}
@@ -1593,7 +1593,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             library = json.loads(index_path.read_text(encoding="utf-8"))
             if (
                 not library.get("passed")
-                or library.get("product_count") != 101
+                or library.get("product_count") != 120
                 or library.get("assembly_count") != 26
                 or not library.get(reachability_key)
             ):
@@ -1601,7 +1601,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             observed_parts = {path.stem for path in parts_dir.glob(f"*{suffix}")}
             observed_assemblies = {path.stem for path in assemblies_dir.glob(f"*{suffix}")}
             if observed_parts != expected_products:
-                findings.append(Finding(parts_dir, "split LM3 part files do not exactly match the 101 product rows"))
+                findings.append(Finding(parts_dir, "split LM3 part files do not exactly match the 120 product rows"))
             if observed_assemblies != expected_assemblies:
                 findings.append(Finding(assemblies_dir, "split LM3 assembly files do not exactly match the 26 assembly nodes"))
             for entry in [*library.get("parts", []), *library.get("assemblies", [])]:

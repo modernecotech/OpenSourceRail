@@ -1,4 +1,4 @@
-# Shop traveler — LM3-INT-P040 — FRP battery strake covers, seat-base fairings, and service-hatch shells
+# Shop traveler — LM3-INT-P040 — FRP battery strake cover panel set
 
 | Field | Value |
 |---|---|

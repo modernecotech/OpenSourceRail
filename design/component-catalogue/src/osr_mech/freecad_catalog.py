@@ -55,6 +55,9 @@ CATALOGUE = {
     "Recovery and maintenance equipment": [
         ("portable-field-rerailing-kit", "LM3 portable hydraulic field-rerailing kit"),
     ],
+    "Rolling-stock body and finish reviews": [
+        ("lm3-exterior-finish-review", "LM3 livery-film and radiative-roof finish zoning"),
+    ],
     "Rolling-stock fabrication templates": [
         ("template-main-frame", "Rolling-stock main frame"),
         ("template-sandwich-panel", "Side sandwich panel"),

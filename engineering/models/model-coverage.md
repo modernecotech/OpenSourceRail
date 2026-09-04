@@ -6,10 +6,10 @@ states; no row is a construction release merely because geometry exists.
 
 ## Summary
 
-- LM3 product models: 101
+- LM3 product models: 120
 - Unique station product models: 45
 - Complete station variant assemblies: 7
-- Geometry levels: `coordination-envelope`=86, `design-reference-detail`=16, `interface-detailed`=44
+- Geometry levels: `coordination-envelope`=89, `design-reference-detail`=23, `interface-detailed`=53
 
 ## Meaning
 

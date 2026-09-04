@@ -2,10 +2,12 @@
 
 Generated from the controlled LM3 manifest and closure-state overrides. An issue may close only after its required evidence is reviewed; repository generation never converts a planned test into performed evidence.
 
-**Baseline:** `LM3-FA-001` · **Open:** 67 · **Accepted:** 0
+**Baseline:** `LM3-FA-001` · **Open:** 81 · **Accepted:** 0
 
 | Work package | Status | Owner | Candidate / evidence route | Issue |
 |---|---|---|---|---|
+| `WP-LM3-ROOF-P030` — freeze removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | open | local manufacturing engineer + design authority | product-row acceptance | ready to publish |
+| `WP-LM3-ROOF-P040` — freeze PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | open | local manufacturing engineer + design authority | product-row acceptance | ready to publish |
 | `WP-LM3-CWL-P010` — freeze end-cowl fiberglass laminate, insert, adhesive, and coupon material kit | open | materials/component engineer + procurement lead | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
 | `WP-LM3-CWL-P011` — freeze CWL-FRP-01 upper brow and roof-cap fiberglass cast | open | local manufacturing engineer + design authority | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
 | `WP-LM3-CWL-P012` — freeze CWL-FRP-02 left cheek fiberglass cast | open | local manufacturing engineer + design authority | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
@@ -13,6 +15,9 @@ Generated from the controlled LM3 manifest and closure-state overrides. An issue
 | `WP-LM3-CWL-P014` — freeze CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | open | local manufacturing engineer + design authority | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
 | `WP-LM3-CWL-P015` — freeze CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | open | local manufacturing engineer + design authority | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
 | `WP-LM3-CWL-P016` — freeze CWL-FRP-06 backing-ring flange fiberglass cast set | open | local manufacturing engineer + design authority | `EVD-STR-001`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-FAS-P010` — freeze panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame | open | local manufacturing engineer + design authority | product-row acceptance | ready to publish |
+| `WP-LM3-FAS-P020` — freeze reversible front-lamp cassette tray, aiming adjusters, and retained service bracket | open | local manufacturing engineer + design authority | product-row acceptance | ready to publish |
+| `WP-LM3-FAS-P030` — freeze front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit | open | materials/component engineer + procurement lead | product-row acceptance | ready to publish |
 | `WP-LM3-EXT-P010` — freeze electric plug/sliding door cassette | open | subsystem engineer + procurement lead | `OSR-COTS-DOOR-IFE`, `EVD-SUP-004` | ready to publish |
 | `WP-LM3-EXT-P020` — freeze side laminated glazing cassette | open | materials/component engineer + procurement lead | `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`, `EVD-SUP-004` | ready to publish |
 | `WP-LM3-EXT-P030` — freeze single panoramic heated end-glass assembly | open | subsystem engineer + procurement lead | `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`, `EVD-SUP-004` | ready to publish |
@@ -33,11 +38,20 @@ Generated from the controlled LM3 manifest and closure-state overrides. An issue
 | `WP-LM3-EXT-P070` — freeze roof antennas, service walkway pads, lifting covers, and maintenance labels | open | materials/component engineer + procurement lead | `OSR-COTS-ANTENNA-HS-85137717`, `EVD-SUP-004` | ready to publish |
 | `WP-LM3-EXT-P080` — freeze fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit | open | subsystem engineer + procurement lead | `OSR-COTS-COMPOSITE-GURIT-130FR`, `EVD-SUP-004` | ready to publish |
 | `WP-LM3-EXT-P090` — freeze fire-rated GFRP roof-module, dry-seal, and removable skirt material kit | open | subsystem engineer + procurement lead | `OSR-COTS-COMPOSITE-GURIT-130FR`, `EVD-SUP-004` | ready to publish |
+| `WP-LM3-FIN-P010` — freeze pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit | open | subsystem engineer + procurement lead | `OSR-COTS-FINISH-3M-180MC` | ready to publish |
+| `WP-LM3-FIN-P020` — freeze calcium-carbonate radiative roof-coating qualification and exposed-roof application kit | open | subsystem engineer + procurement lead | `OSR-COTS-COOLROOF-PURDUE-CACO3` | ready to publish |
 | `WP-LM3-INT-P010` — freeze HVAC diffusers, side return ducts, saloon grilles, and access panels | open | materials/component engineer + procurement lead | `OSR-COTS-HVAC-LONGERTEK`, `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
-| `WP-LM3-INT-P020` — freeze FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
-| `WP-LM3-INT-P030` — freeze FRP/phenolic sidewall liner, window reveal, and cable-cover panel set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
-| `WP-LM3-INT-P040` — freeze FRP battery strake covers, seat-base fairings, and service-hatch shells | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
-| `WP-LM3-INT-P050` — freeze FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P020` — freeze FRP/phenolic ceiling liner panel set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P021` — freeze ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P022` — freeze HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P030` — freeze FRP/phenolic sidewall liner panel set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P031` — freeze window reveal, setting-block inspection cover, and blind/label land set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P032` — freeze waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P040` — freeze FRP battery strake cover panel set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P041` — freeze seat-base fairing, retained equipment hatch, and rail-saddle closeout set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P050` — freeze FRP vestibule kick-panel and threshold-closeout set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P051` — freeze PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
+| `WP-LM3-INT-P052` — freeze door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set | open | local manufacturing engineer + design authority | `EVD-SUP-004`, `EVD-MFG-001` | ready to publish |
 | `WP-LM3-TRC-P010` — freeze motor-350kw-hm47-class axle traction motor | open | subsystem engineer + procurement lead | `OSR-COTS-MOTOR-ABB-AMXE250`, `EVD-STR-002`, `EVD-THM-001`, `EVD-SUP-003` | ready to publish |
 | `WP-LM3-TRC-P020` — freeze single-stage reduction gearbox and flexible coupling | open | subsystem engineer + procurement lead | `OSR-COTS-GEAR-VOITH-SE`, `EVD-STR-002`, `EVD-THM-001`, `EVD-SUP-003` | ready to publish |
 | `WP-LM3-TRC-P030` — freeze two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit | open | subsystem engineer + procurement lead | `OSR-COTS-CONVERTER-ABB-CC400`, `EVD-STR-002`, `EVD-THM-001`, `EVD-SUP-003` | ready to publish |

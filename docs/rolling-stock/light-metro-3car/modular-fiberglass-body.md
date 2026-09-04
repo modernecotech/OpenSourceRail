@@ -7,9 +7,11 @@ rings, anti-climbers, and crash structure remain the certified load path.
 
 Each 16.5 m car has sixteen full 1 m cladding bays between two 250 mm steel
 end-ring transitions. A three-car train therefore uses 144 main modules:
-96 side modules and 48 roof modules. Solid, window-edge, door-edge, and roof
-parts share the same mould width, clip datums, trim datum, seals, and repair
-method. CNC trimming creates the aperture variants after moulding.
+96 side modules and 48 roof modules. The product tree now identifies solid-side
+`LM3-BDY-P130`, window-edge `P131`, door-edge `P132`, and roof/fairing `P133`
+parts separately. They share the same mould width, clip datums, trim datum,
+seals, and repair method. CNC trimming creates the aperture variants after
+moulding.
 
 ## Controlled geometry
 
@@ -22,6 +24,7 @@ method. CNC trimming creates the aperture variants after moulding.
 | Bays per 16.5 m car | 16 |
 | Side modules per car | 32 |
 | Roof modules per car | 16 |
+| Solid/window/door/roof reference split | 48 / 24 / 24 / 48 per trainset |
 | Main modules per trainset | 144 |
 | End transition outside module grid | 250 mm at each car end |
 
@@ -52,6 +55,12 @@ release systems, seal stock, and coupon material. They do not introduce a
 bonded full-side or full-roof panel. The body module becomes a released part
 only after mould/cure records, CNC trim evidence, sealed-edge inspection,
 insert proof, and dry-fit evidence are closed.
+
+Decorative colour is not part of the laminate load path. The preferred
+production route is a qualified white/light in-mould base finish followed by
+bay-numbered rail-use livery film. See
+[`exterior-finish-process.md`](exterior-finish-process.md); film does not
+replace corrosion, fire, cut-edge or composite surface protection.
 
 ## Retention and sealing
 

@@ -1,0 +1,112 @@
+{
+  "design_id": "LM3-FIN-260",
+  "film_product_boundary": "rail-application product selected by current supplier bulletin and project fire/adhesion evidence",
+  "principle": "film simplifies livery but never replaces corrosion, composite-surface or fire protection",
+  "process": [
+    {
+      "hold_point": "base finish records accepted",
+      "operation": "release corrosion, fire and composite base finish before decorative work",
+      "sequence": 10
+    },
+    {
+      "hold_point": "signed pre-installation inspection",
+      "operation": "survey, repair, fully cure and clean each film/coating substrate",
+      "sequence": 20
+    },
+    {
+      "hold_point": "coupon adhesion and appearance accepted",
+      "operation": "cut film by module/bay and make film plus roof-coating witness coupons",
+      "sequence": 30
+    },
+    {
+      "hold_point": "edges, overlaps, mask map and wet/dry film record accepted",
+      "operation": "dry-apply livery film; mask roof keep-outs and apply qualified candidate coating",
+      "sequence": 40
+    },
+    {
+      "hold_point": "new-build release or trial-only disposition signed",
+      "operation": "inspect, water/wash test, retain coupons and complete removal/repair demonstration",
+      "sequence": 50
+    },
+    {
+      "hold_point": "aged optical/adhesion and maintenance evidence reviewed",
+      "operation": "age coupons and one-car trial through UV, wash, abrasion and service exposure",
+      "sequence": 60
+    }
+  ],
+  "radiative_research_targets": {
+    "initial_sky_window_emissivity": 0.94,
+    "initial_solar_reflectance": 0.955,
+    "use": "research screening targets only; measure the selected LM3 system new and aged"
+  },
+  "status": "design-reference; CaCO3 roof route is trial-only",
+  "zones": [
+    {
+      "id": "LM3-FIN-Z01",
+      "mandatory_base_system": "qualified blast/clean, corrosion primer, stripe coat, topcoat and cavity protection",
+      "prohibited_coverage": [
+        "weld inspection lands until released",
+        "earth studs",
+        "machined datums",
+        "drains",
+        "labels"
+      ],
+      "release_evidence": [
+        "surface-preparation record",
+        "coating batch",
+        "dry-film thickness",
+        "holiday/visual inspection",
+        "adhesion/cure release"
+      ],
+      "replaceable": false,
+      "simplified_finish": "single light neutral topcoat; optional livery film only after full cure",
+      "substrate": "S355 primary and secondary steel"
+    },
+    {
+      "id": "LM3-FIN-Z02",
+      "mandatory_base_system": "fire/UV-qualified in-mould white gelcoat or compatible primer/base topcoat with sealed cut edges",
+      "prohibited_coverage": [
+        "EPDM seals",
+        "drains",
+        "retained fasteners",
+        "service labels",
+        "glass/lamp edges",
+        "bond/seal lands"
+      ],
+      "release_evidence": [
+        "substrate cure/cleanliness",
+        "film-system certificate",
+        "adhesion coupon",
+        "edge/overlap map",
+        "removal/repair trial"
+      ],
+      "replaceable": true,
+      "simplified_finish": "pre-cut rail-use graphic film for coloured livery bands, logos and replaceable local graphics",
+      "substrate": "clip-on GFRP side modules and end-cowl casts"
+    },
+    {
+      "id": "LM3-FIN-Z03",
+      "mandatory_base_system": "fire/UV-qualified in-mould white gelcoat or compatible rail coating",
+      "prohibited_coverage": [
+        "PV active area and clamps",
+        "HVAC intake/exhaust and heat exchangers",
+        "antennas and sensor apertures",
+        "walkways and anti-slip pads",
+        "lifting/jacking covers",
+        "earth bonds",
+        "glands, drains, seals, labels and service lands"
+      ],
+      "release_evidence": [
+        "fire/chemical compatibility",
+        "GFRP adhesion/flexibility",
+        "UV/abrasion/wash ageing",
+        "new and aged solar reflectance/emittance",
+        "glare/visibility review",
+        "one-car thermal and maintenance trial"
+      ],
+      "replaceable": true,
+      "simplified_finish": "CaCO3-acrylic radiative coating candidate only after coupon and one-car qualification",
+      "substrate": "exposed GFRP roof skins and removable HVAC/PV fairings"
+    }
+  ]
+}

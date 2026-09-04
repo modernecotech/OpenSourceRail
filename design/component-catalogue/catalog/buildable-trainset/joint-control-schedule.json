@@ -24,7 +24,7 @@
     },
     {
       "child_id": "LM3-BDY-P020",
-      "child_title": "underframe centre spine and cross-bearer kit",
+      "child_title": "underframe centre spine and longitudinal load-path kit",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -38,8 +38,30 @@
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "tube/plate certs",
-        "fixture survey",
+        "spine straightness survey",
         "bogie-centre datum report"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P021",
+      "child_title": "underframe cross-bearer, door-bay outrigger, and equipment-bracket pack",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-BDY-SA110-03",
+      "parent_id": "LM3-BDY-SA110",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "cut-list identity",
+        "cross-bearer profile gauge",
+        "station map",
+        "fixture tack survey"
       ]
     },
     {
@@ -52,7 +74,7 @@
         "structural-weld",
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-BDY-SA110-03",
+      "joint_id": "J-LM3-BDY-SA110-04",
       "parent_id": "LM3-BDY-SA110",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -71,7 +93,7 @@
       "join_classes": [
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-BDY-SA110-04",
+      "joint_id": "J-LM3-BDY-SA110-05",
       "parent_id": "LM3-BDY-SA110",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -106,7 +128,7 @@
     },
     {
       "child_id": "LM3-BDY-P060",
-      "child_title": "low-floor centre pan and raised bogie-end deck set",
+      "child_title": "low-floor centre pan and removable service-floor support set",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -120,6 +142,27 @@
       "verification": [
         "PRM floor height",
         "egress aisle gauge",
+        "pan weld inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P061",
+      "child_title": "raised bogie-end deck, transition ramp, and removable hatch-frame set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-BDY-SA120-03",
+      "parent_id": "LM3-BDY-SA120",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "deck-height survey",
+        "PRM transition gauge",
+        "hatch fit/removal",
         "deck weld inspection"
       ]
     },
@@ -133,7 +176,7 @@
       "join_classes": [
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-BDY-SA120-03",
+      "joint_id": "J-LM3-BDY-SA120-04",
       "parent_id": "LM3-BDY-SA120",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -165,7 +208,7 @@
     },
     {
       "child_id": "LM3-BDY-P130",
-      "child_title": "one-metre clip-on fiberglass side and roof body module",
+      "child_title": "one-metre clip-on solid-side fiberglass body module",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -185,6 +228,70 @@
       ]
     },
     {
+      "child_id": "LM3-BDY-P131",
+      "child_title": "one-metre clip-on window-edge fiberglass side module",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-SHELL-A200-03",
+      "parent_id": "LM3-SHELL-A200",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "window trim nest",
+        "sealed-edge inspection",
+        "cassette removal sweep",
+        "master-frame dry fit"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P132",
+      "child_title": "one-metre clip-on door-edge fiberglass side module",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-SHELL-A200-04",
+      "parent_id": "LM3-SHELL-A200",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "door trim nest",
+        "sealed-edge inspection",
+        "door motion/service sweep",
+        "master-frame dry fit"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P133",
+      "child_title": "one-metre clip-on fiberglass roof skin and equipment-fairing module",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-SHELL-A200-05",
+      "parent_id": "LM3-SHELL-A200",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "roof mould/trim record",
+        "anti-lift proof",
+        "equipment keep-out gauge",
+        "water/debris-ingress test"
+      ]
+    },
+    {
       "child_id": "LM3-BDY-P140",
       "child_title": "keyed clip rail, captive retainer, anti-lift, and dry-seal car kit",
       "interface_classes": [
@@ -194,7 +301,7 @@
         "gasketed-removable-panel",
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-SHELL-A200-03",
+      "joint_id": "J-LM3-SHELL-A200-06",
       "parent_id": "LM3-SHELL-A200",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -215,7 +322,7 @@
         "adhesive-bonded-panel",
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-SHELL-A200-04",
+      "joint_id": "J-LM3-SHELL-A200-07",
       "parent_id": "LM3-SHELL-A200",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -234,7 +341,7 @@
       "join_classes": [
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-SHELL-A200-05",
+      "joint_id": "J-LM3-SHELL-A200-08",
       "parent_id": "LM3-SHELL-A200",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -255,7 +362,7 @@
         "gasketed-removable-panel",
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-SHELL-A200-06",
+      "joint_id": "J-LM3-SHELL-A200-09",
       "parent_id": "LM3-SHELL-A200",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -265,6 +372,27 @@
         "seal certificate",
         "service-removal trial",
         "water and debris-ingress check"
+      ]
+    },
+    {
+      "child_id": "LM3-FIN-P010",
+      "child_title": "pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-SHELL-A200-10",
+      "parent_id": "LM3-SHELL-A200",
+      "release_status": "supplier-freeze-required",
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "supplier rail-use statement",
+        "substrate/cure acceptance",
+        "adhesion coupon",
+        "edge/overlap inspection",
+        "cleaning/removal trial"
       ]
     },
     {
@@ -568,17 +696,12 @@
     },
     {
       "child_id": "LM3-INT-P020",
-      "child_title": "FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+      "child_title": "FRP/phenolic ceiling liner panel set",
       "interface_classes": [
-        "mechanical datum",
-        "high-voltage electrical",
-        "fluid/thermal"
+        "mechanical datum"
       ],
       "join_classes": [
-        "gasketed-removable-panel",
-        "bolted-structural-datum",
-        "electrical-data",
-        "fluid-thermal"
+        "bolted-structural-datum"
       ],
       "joint_id": "J-LM3-INT-SA330-09",
       "parent_id": "LM3-INT-SA330",
@@ -592,13 +715,12 @@
       ]
     },
     {
-      "child_id": "LM3-INT-P030",
-      "child_title": "FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+      "child_id": "LM3-INT-P021",
+      "child_title": "ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
       "interface_classes": [
         "mechanical datum"
       ],
       "join_classes": [
-        "adhesive-bonded-panel",
         "bolted-structural-datum"
       ],
       "joint_id": "J-LM3-INT-SA330-10",
@@ -607,24 +729,109 @@
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
-        "window-reveal gauge",
-        "access-panel removal",
+        "light cassette gauge",
+        "emergency-feed identification",
+        "module removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P022",
+      "child_title": "HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_id": "J-LM3-INT-SA330-11",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "airflow opening gauge",
+        "detector access",
+        "hatch retention/rattle check"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P030",
+      "child_title": "FRP/phenolic sidewall liner panel set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-12",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "visible-gap gauge",
+        "liner removal",
         "edge-radius inspection"
       ]
     },
     {
+      "child_id": "LM3-INT-P031",
+      "child_title": "window reveal, setting-block inspection cover, and blind/label land set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-13",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "glass-edge clearance",
+        "cassette removal sweep",
+        "sharp-edge inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P032",
+      "child_title": "waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-14",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "segregation inspection",
+        "captive-fastener audit",
+        "cover removal/rattle check"
+      ]
+    },
+    {
       "child_id": "LM3-INT-P040",
-      "child_title": "FRP battery strake covers, seat-base fairings, and service-hatch shells",
+      "child_title": "FRP battery strake cover panel set",
       "interface_classes": [
         "mechanical datum",
         "high-voltage electrical"
       ],
       "join_classes": [
-        "gasketed-removable-panel",
         "bolted-structural-datum",
         "electrical-data"
       ],
-      "joint_id": "J-LM3-INT-SA330-11",
+      "joint_id": "J-LM3-INT-SA330-15",
       "parent_id": "LM3-INT-SA330",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
@@ -636,8 +843,69 @@
       ]
     },
     {
+      "child_id": "LM3-INT-P041",
+      "child_title": "seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-16",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "seat-load-path clearance",
+        "hatch removal trial",
+        "cleaning/sharp-edge inspection"
+      ]
+    },
+    {
       "child_id": "LM3-INT-P050",
-      "child_title": "FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+      "child_title": "FRP vestibule kick-panel and threshold-closeout set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-17",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "threshold/drain gauge",
+        "anti-slip witness",
+        "kick-panel retention test"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P051",
+      "child_title": "PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-INT-SA330-18",
+      "parent_id": "LM3-INT-SA330",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "PRM transition gauge",
+        "anti-slip/contrast evidence",
+        "trip-edge inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P052",
+      "child_title": "door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
       "interface_classes": [
         "mechanical datum",
         "safety interlock"
@@ -645,15 +913,15 @@
       "join_classes": [
         "bolted-structural-datum"
       ],
-      "joint_id": "J-LM3-INT-SA330-12",
+      "joint_id": "J-LM3-INT-SA330-19",
       "parent_id": "LM3-INT-SA330",
       "release_status": "joint-calculation-required",
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "fire-material certificate",
-        "PRM transition gauge",
-        "anti-slip witness",
-        "kick-panel retention test"
+        "door sweep/pinch gauge",
+        "jamb-cover removal",
+        "obstruction-test witness"
       ]
     },
     {
@@ -835,6 +1103,54 @@
       ]
     },
     {
+      "child_id": "LM3-ROOF-P030",
+      "child_title": "removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_id": "J-LM3-ROOF-SA410-04",
+      "parent_id": "LM3-ROOF-SA410",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fairing trim gauge",
+        "HVAC airflow keep-out",
+        "hatch removal trial",
+        "roof leak test"
+      ]
+    },
+    {
+      "child_id": "LM3-ROOF-P040",
+      "child_title": "PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_id": "J-LM3-ROOF-SA410-05",
+      "parent_id": "LM3-ROOF-SA410",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "gland/closeout trim gauge",
+        "drain-path test",
+        "bonding access check",
+        "service-removal trial"
+      ]
+    },
+    {
       "child_id": "LM3-EXT-P040",
       "child_title": "hvac-24kw-direct-hv-dc roof HVAC",
       "interface_classes": [
@@ -848,7 +1164,7 @@
         "electrical-data",
         "fluid-thermal"
       ],
-      "joint_id": "J-LM3-ROOF-SA410-04",
+      "joint_id": "J-LM3-ROOF-SA410-06",
       "parent_id": "LM3-ROOF-SA410",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -869,7 +1185,7 @@
         "bolted-structural-datum",
         "electrical-data"
       ],
-      "joint_id": "J-LM3-ROOF-SA410-05",
+      "joint_id": "J-LM3-ROOF-SA410-07",
       "parent_id": "LM3-ROOF-SA410",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -890,7 +1206,7 @@
         "bolted-structural-datum",
         "electrical-data"
       ],
-      "joint_id": "J-LM3-ROOF-SA410-06",
+      "joint_id": "J-LM3-ROOF-SA410-08",
       "parent_id": "LM3-ROOF-SA410",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -899,6 +1215,27 @@
         "walkway slip certificate",
         "lifting-cover fit",
         "roof bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-FIN-P020",
+      "child_title": "calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-ROOF-SA410-09",
+      "parent_id": "LM3-ROOF-SA410",
+      "release_status": "supplier-freeze-required",
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "rail fire/chemical evidence",
+        "GFRP adhesion and flexibility",
+        "UV/abrasion/wash ageing",
+        "initial and aged solar reflectance/emittance",
+        "one-car thermal/maintenance trial"
       ]
     },
     {
@@ -914,7 +1251,7 @@
         "electrical-data",
         "fluid-thermal"
       ],
-      "joint_id": "J-LM3-ROOF-SA410-07",
+      "joint_id": "J-LM3-ROOF-SA410-10",
       "parent_id": "LM3-ROOF-SA410",
       "release_status": "supplier-freeze-required",
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -1754,6 +2091,69 @@
         "glass-carrier land survey",
         "bond-line witness",
         "A/B interchange check"
+      ]
+    },
+    {
+      "child_id": "LM3-FAS-P010",
+      "child_title": "panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-CWL-SA710-08",
+      "parent_id": "LM3-CWL-SA710",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "carrier datum survey",
+        "glass-edge clearance gauge",
+        "secondary-retention proof",
+        "pane removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-FAS-P020",
+      "child_title": "reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_id": "J-LM3-CWL-SA710-09",
+      "parent_id": "LM3-CWL-SA710",
+      "release_status": "joint-calculation-required",
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "lamp datum gauge",
+        "aiming range/retention test",
+        "harness clearance",
+        "cassette removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-FAS-P030",
+      "child_title": "front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+      "interface_classes": [
+        "mechanical datum",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum",
+        "fluid-thermal"
+      ],
+      "joint_id": "J-LM3-CWL-SA710-10",
+      "parent_id": "LM3-CWL-SA710",
+      "release_status": "supplier-freeze-required",
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "seal batch/certificate",
+        "compression map",
+        "drain flow test",
+        "water-ingress test"
       ]
     },
     {

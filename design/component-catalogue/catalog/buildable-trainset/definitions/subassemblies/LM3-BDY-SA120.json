@@ -7,6 +7,7 @@
   "children": [
     "LM3-BDY-SA110",
     "LM3-BDY-P060",
+    "LM3-BDY-P061",
     "LM3-BDY-P070"
   ],
   "definition_type": "assembly-node",
@@ -40,7 +41,7 @@
     },
     {
       "child_id": "LM3-BDY-P060",
-      "child_title": "low-floor centre pan and raised bogie-end deck set",
+      "child_title": "low-floor centre pan and removable service-floor support set",
       "interface_classes": [
         "mechanical datum"
       ],
@@ -48,12 +49,33 @@
         "bolted-structural-datum"
       ],
       "joint_release_status": "joint-calculation-required",
-      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "placement_zone": "primary structure datum and final assembly interface",
       "sequence": 2,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "PRM floor height",
         "egress aisle gauge",
+        "pan weld inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P061",
+      "child_title": "raised bogie-end deck, transition ramp, and removable hatch-frame set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "deck-height survey",
+        "PRM transition gauge",
+        "hatch fit/removal",
         "deck weld inspection"
       ]
     },
@@ -69,7 +91,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "side door aperture and low-floor threshold datum",
-      "sequence": 3,
+      "sequence": 4,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "door cassette gauge",

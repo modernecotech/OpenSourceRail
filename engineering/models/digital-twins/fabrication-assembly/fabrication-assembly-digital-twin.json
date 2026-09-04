@@ -40,7 +40,7 @@
   },
   "trainset_assembly_graph": {
     "source": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-    "source_sha256": "f1e19b9ff6fc99127c12cdb38ae8b09915a87465ea4a029e4bdd3e490c14b3db",
+    "source_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
     "representation_basis": "one animated object per controlled product row and assembly node; quantity metadata preserves repeated occurrences",
     "product_rows": [
       {
@@ -54,12 +54,21 @@
       },
       {
         "id": "LM3-BDY-P020",
-        "title": "underframe centre spine and cross-bearer kit",
+        "title": "underframe centre spine and longitudinal load-path kit",
         "parent": "LM3-BDY-SA110",
         "route": "MAKE",
         "layer": "fabricated-part",
         "quantity_per_trainset": 3,
         "unit": "kit"
+      },
+      {
+        "id": "LM3-BDY-P021",
+        "title": "underframe cross-bearer, door-bay outrigger, and equipment-bracket pack",
+        "parent": "LM3-BDY-SA110",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car pack"
       },
       {
         "id": "LM3-BDY-P030",
@@ -90,12 +99,21 @@
       },
       {
         "id": "LM3-BDY-P060",
-        "title": "low-floor centre pan and raised bogie-end deck set",
+        "title": "low-floor centre pan and removable service-floor support set",
         "parent": "LM3-BDY-SA120",
         "route": "MAKE",
         "layer": "fabricated-part",
         "quantity_per_trainset": 3,
         "unit": "set"
+      },
+      {
+        "id": "LM3-BDY-P061",
+        "title": "raised bogie-end deck, transition ramp, and removable hatch-frame set",
+        "parent": "LM3-BDY-SA120",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
       },
       {
         "id": "LM3-BDY-P070",
@@ -180,11 +198,38 @@
       },
       {
         "id": "LM3-BDY-P130",
-        "title": "one-metre clip-on fiberglass side and roof body module",
+        "title": "one-metre clip-on solid-side fiberglass body module",
         "parent": "LM3-SHELL-A200",
         "route": "MAKE",
         "layer": "fabricated-part",
-        "quantity_per_trainset": 144,
+        "quantity_per_trainset": 48,
+        "unit": "module"
+      },
+      {
+        "id": "LM3-BDY-P131",
+        "title": "one-metre clip-on window-edge fiberglass side module",
+        "parent": "LM3-SHELL-A200",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 24,
+        "unit": "module"
+      },
+      {
+        "id": "LM3-BDY-P132",
+        "title": "one-metre clip-on door-edge fiberglass side module",
+        "parent": "LM3-SHELL-A200",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 24,
+        "unit": "module"
+      },
+      {
+        "id": "LM3-BDY-P133",
+        "title": "one-metre clip-on fiberglass roof skin and equipment-fairing module",
+        "parent": "LM3-SHELL-A200",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 48,
         "unit": "module"
       },
       {
@@ -213,6 +258,24 @@
         "layer": "fabricated-part",
         "quantity_per_trainset": 3,
         "unit": "car kit"
+      },
+      {
+        "id": "LM3-ROOF-P030",
+        "title": "removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+        "parent": "LM3-ROOF-SA410",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
+      },
+      {
+        "id": "LM3-ROOF-P040",
+        "title": "PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+        "parent": "LM3-ROOF-SA410",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
       },
       {
         "id": "LM3-CWL-P010",
@@ -276,6 +339,33 @@
         "layer": "fabricated-part",
         "quantity_per_trainset": 8,
         "unit": "flange section"
+      },
+      {
+        "id": "LM3-FAS-P010",
+        "title": "panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+        "parent": "LM3-CWL-SA710",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 2,
+        "unit": "end set"
+      },
+      {
+        "id": "LM3-FAS-P020",
+        "title": "reversible front-lamp cassette tray, aiming adjusters, and retained service bracket",
+        "parent": "LM3-CWL-SA710",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 2,
+        "unit": "end set"
+      },
+      {
+        "id": "LM3-FAS-P030",
+        "title": "front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+        "parent": "LM3-CWL-SA710",
+        "route": "SOURCE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 2,
+        "unit": "end kit"
       },
       {
         "id": "LM3-ART-P010",
@@ -548,6 +638,24 @@
         "unit": "car kit"
       },
       {
+        "id": "LM3-FIN-P010",
+        "title": "pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+        "parent": "LM3-SHELL-A200",
+        "route": "BID",
+        "layer": "external-component",
+        "quantity_per_trainset": 3,
+        "unit": "car kit"
+      },
+      {
+        "id": "LM3-FIN-P020",
+        "title": "calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+        "parent": "LM3-ROOF-SA410",
+        "route": "BID",
+        "layer": "external-component",
+        "quantity_per_trainset": 3,
+        "unit": "car kit"
+      },
+      {
         "id": "LM3-INT-P010",
         "title": "HVAC diffusers, side return ducts, saloon grilles, and access panels",
         "parent": "LM3-INT-SA330",
@@ -558,7 +666,7 @@
       },
       {
         "id": "LM3-INT-P020",
-        "title": "FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+        "title": "FRP/phenolic ceiling liner panel set",
         "parent": "LM3-INT-SA330",
         "route": "MAKE",
         "layer": "fabricated-part",
@@ -566,8 +674,26 @@
         "unit": "car kit"
       },
       {
+        "id": "LM3-INT-P021",
+        "title": "ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
+      },
+      {
+        "id": "LM3-INT-P022",
+        "title": "HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
+      },
+      {
         "id": "LM3-INT-P030",
-        "title": "FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+        "title": "FRP/phenolic sidewall liner panel set",
         "parent": "LM3-INT-SA330",
         "route": "MAKE",
         "layer": "fabricated-part",
@@ -575,8 +701,26 @@
         "unit": "side kit"
       },
       {
+        "id": "LM3-INT-P031",
+        "title": "window reveal, setting-block inspection cover, and blind/label land set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 6,
+        "unit": "side set"
+      },
+      {
+        "id": "LM3-INT-P032",
+        "title": "waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 6,
+        "unit": "side set"
+      },
+      {
         "id": "LM3-INT-P040",
-        "title": "FRP battery strake covers, seat-base fairings, and service-hatch shells",
+        "title": "FRP battery strake cover panel set",
         "parent": "LM3-INT-SA330",
         "route": "MAKE",
         "layer": "fabricated-part",
@@ -584,13 +728,40 @@
         "unit": "car kit"
       },
       {
+        "id": "LM3-INT-P041",
+        "title": "seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 3,
+        "unit": "car set"
+      },
+      {
         "id": "LM3-INT-P050",
-        "title": "FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+        "title": "FRP vestibule kick-panel and threshold-closeout set",
         "parent": "LM3-INT-SA330",
         "route": "MAKE",
         "layer": "fabricated-part",
         "quantity_per_trainset": 12,
         "unit": "door-zone kit"
+      },
+      {
+        "id": "LM3-INT-P051",
+        "title": "PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 6,
+        "unit": "end-zone set"
+      },
+      {
+        "id": "LM3-INT-P052",
+        "title": "door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
+        "parent": "LM3-INT-SA330",
+        "route": "MAKE",
+        "layer": "fabricated-part",
+        "quantity_per_trainset": 12,
+        "unit": "door-zone set"
       },
       {
         "id": "LM3-TRC-P010",
@@ -621,7 +792,7 @@
       },
       {
         "id": "LM3-TRC-P040",
-        "title": "battery-225kwh-lfp-800v under-seat traction battery pack",
+        "title": "battery-225kwh-lfp-800v saloon-isolated side traction battery pack",
         "parent": "LM3-HV-SA510",
         "route": "BID",
         "layer": "external-component",
@@ -961,6 +1132,7 @@
         "children": [
           "LM3-BDY-P010",
           "LM3-BDY-P020",
+          "LM3-BDY-P021",
           "LM3-BDY-P030",
           "LM3-BDY-P120"
         ],
@@ -973,6 +1145,7 @@
         "children": [
           "LM3-BDY-SA110",
           "LM3-BDY-P060",
+          "LM3-BDY-P061",
           "LM3-BDY-P070"
         ],
         "level": 2
@@ -984,10 +1157,14 @@
         "children": [
           "LM3-BDY-SA120",
           "LM3-BDY-P130",
+          "LM3-BDY-P131",
+          "LM3-BDY-P132",
+          "LM3-BDY-P133",
           "LM3-BDY-P140",
           "LM3-WIN-SA320",
           "LM3-EXT-P080",
-          "LM3-EXT-P090"
+          "LM3-EXT-P090",
+          "LM3-FIN-P010"
         ],
         "level": 3
       },
@@ -1027,9 +1204,16 @@
           "LM3-EXT-P066",
           "LM3-INT-P010",
           "LM3-INT-P020",
+          "LM3-INT-P021",
+          "LM3-INT-P022",
           "LM3-INT-P030",
+          "LM3-INT-P031",
+          "LM3-INT-P032",
           "LM3-INT-P040",
-          "LM3-INT-P050"
+          "LM3-INT-P041",
+          "LM3-INT-P050",
+          "LM3-INT-P051",
+          "LM3-INT-P052"
         ],
         "level": 1
       },
@@ -1062,9 +1246,12 @@
           "LM3-BDY-P080",
           "LM3-ROOF-P010",
           "LM3-ROOF-P020",
+          "LM3-ROOF-P030",
+          "LM3-ROOF-P040",
           "LM3-EXT-P040",
           "LM3-EXT-P050",
           "LM3-EXT-P070",
+          "LM3-FIN-P020",
           "LM3-TRC-P050"
         ],
         "level": 1
@@ -1159,7 +1346,10 @@
           "LM3-CWL-P013",
           "LM3-CWL-P014",
           "LM3-CWL-P015",
-          "LM3-CWL-P016"
+          "LM3-CWL-P016",
+          "LM3-FAS-P010",
+          "LM3-FAS-P020",
+          "LM3-FAS-P030"
         ],
         "level": 1
       },
@@ -1362,439 +1552,511 @@
         "start_s": 64.75,
         "end_s": 69.9
       },
-      "LM3-BDY-P030": {
+      "LM3-BDY-P021": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.0,
         "end_s": 69.0
+      },
+      "LM3-BDY-P030": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-BDY-P040": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-BDY-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-BDY-P060": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 64.4,
+        "end_s": 69.72
+      },
+      "LM3-BDY-P061": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-BDY-P070": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-BDY-P080": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-BDY-P090": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-BDY-P100": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-BDY-P110": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-BDY-P120": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-BDY-P130": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 63.0,
+        "end_s": 69.0
+      },
+      "LM3-BDY-P131": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.35,
+        "end_s": 69.18
+      },
+      "LM3-BDY-P132": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.7,
+        "end_s": 69.36
+      },
+      "LM3-BDY-P133": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-BDY-P140": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-BOG-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-BOG-P020": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-BOG-P030": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-BOG-P031": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-BOG-P040": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-BOG-P041": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-BOG-P042": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-BOG-P043": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-BOG-P044": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-BOG-P045": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-BOG-P046": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-BOG-P047": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-BOG-P048": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-BOG-P049": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-BOG-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-BOG-P060": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-BOG-P061": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-CTRL-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-CTRL-P020": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-CTRL-P030": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-CTRL-P040": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-CTRL-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-CWL-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-CWL-P011": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-CWL-P012": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-CWL-P013": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-CWL-P014": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-CWL-P015": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-CWL-P016": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-DOOR-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-END-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-END-P020": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-END-P030": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-END-P040": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-END-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-END-P060": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-END-P061": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-END-P062": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-EXT-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-EXT-P020": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-EXT-P030": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-EXT-P040": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-EXT-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-EXT-P060": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.35,
-        "end_s": 69.18
+        "start_s": 63.0,
+        "end_s": 69.0
       },
       "LM3-EXT-P061": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.7,
-        "end_s": 69.36
+        "start_s": 63.35,
+        "end_s": 69.18
       },
       "LM3-EXT-P062": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-EXT-P063": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-EXT-P064": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-EXT-P065": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 63.0,
-        "end_s": 69.0
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-EXT-P066": {
         "kind": "product-row",
         "level": 0,
+        "start_s": 63.0,
+        "end_s": 69.0
+      },
+      "LM3-EXT-P070": {
+        "kind": "product-row",
+        "level": 0,
         "start_s": 63.35,
         "end_s": 69.18
       },
-      "LM3-EXT-P070": {
+      "LM3-EXT-P080": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.7,
         "end_s": 69.36
       },
-      "LM3-EXT-P080": {
+      "LM3-EXT-P090": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.05,
         "end_s": 69.54
       },
-      "LM3-EXT-P090": {
+      "LM3-FAS-P010": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.4,
         "end_s": 69.72
       },
-      "LM3-FIX-P010": {
+      "LM3-FAS-P020": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.75,
         "end_s": 69.9
       },
-      "LM3-FIX-P020": {
+      "LM3-FAS-P030": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.0,
         "end_s": 69.0
       },
-      "LM3-FIX-P030": {
+      "LM3-FIN-P010": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.35,
         "end_s": 69.18
       },
-      "LM3-HV-P010": {
+      "LM3-FIN-P020": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.7,
         "end_s": 69.36
       },
-      "LM3-HV-P020": {
+      "LM3-FIX-P010": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.05,
         "end_s": 69.54
       },
-      "LM3-HV-P030": {
+      "LM3-FIX-P020": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.4,
         "end_s": 69.72
       },
-      "LM3-INT-P010": {
+      "LM3-FIX-P030": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.75,
         "end_s": 69.9
       },
+      "LM3-HV-P010": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.0,
+        "end_s": 69.0
+      },
+      "LM3-HV-P020": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.35,
+        "end_s": 69.18
+      },
+      "LM3-HV-P030": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.7,
+        "end_s": 69.36
+      },
+      "LM3-INT-P010": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.05,
+        "end_s": 69.54
+      },
       "LM3-INT-P020": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.4,
+        "end_s": 69.72
+      },
+      "LM3-INT-P021": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.75,
+        "end_s": 69.9
+      },
+      "LM3-INT-P022": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.0,
@@ -1806,95 +2068,137 @@
         "start_s": 63.35,
         "end_s": 69.18
       },
-      "LM3-INT-P040": {
+      "LM3-INT-P031": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.7,
         "end_s": 69.36
+      },
+      "LM3-INT-P032": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.05,
+        "end_s": 69.54
+      },
+      "LM3-INT-P040": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.4,
+        "end_s": 69.72
+      },
+      "LM3-INT-P041": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-INT-P050": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.05,
-        "end_s": 69.54
+        "start_s": 63.0,
+        "end_s": 69.0
+      },
+      "LM3-INT-P051": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.35,
+        "end_s": 69.18
+      },
+      "LM3-INT-P052": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 63.7,
+        "end_s": 69.36
       },
       "LM3-LGT-P010": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.4,
-        "end_s": 69.72
+        "start_s": 64.05,
+        "end_s": 69.54
       },
       "LM3-LGT-P020": {
         "kind": "product-row",
         "level": 0,
-        "start_s": 64.75,
-        "end_s": 69.9
+        "start_s": 64.4,
+        "end_s": 69.72
       },
       "LM3-ROOF-P010": {
         "kind": "product-row",
         "level": 0,
+        "start_s": 64.75,
+        "end_s": 69.9
+      },
+      "LM3-ROOF-P020": {
+        "kind": "product-row",
+        "level": 0,
         "start_s": 63.0,
         "end_s": 69.0
       },
-      "LM3-ROOF-P020": {
+      "LM3-ROOF-P030": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.35,
         "end_s": 69.18
       },
-      "LM3-SAF-P010": {
+      "LM3-ROOF-P040": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.7,
         "end_s": 69.36
       },
-      "LM3-TRC-P010": {
+      "LM3-SAF-P010": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.05,
         "end_s": 69.54
       },
-      "LM3-TRC-P020": {
+      "LM3-TRC-P010": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.4,
         "end_s": 69.72
       },
-      "LM3-TRC-P030": {
+      "LM3-TRC-P020": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.75,
         "end_s": 69.9
       },
-      "LM3-TRC-P040": {
+      "LM3-TRC-P030": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.0,
         "end_s": 69.0
       },
-      "LM3-TRC-P050": {
+      "LM3-TRC-P040": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.35,
         "end_s": 69.18
       },
-      "LM3-TRC-P060": {
+      "LM3-TRC-P050": {
         "kind": "product-row",
         "level": 0,
         "start_s": 63.7,
         "end_s": 69.36
       },
-      "LM3-TRC-P070": {
+      "LM3-TRC-P060": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.05,
         "end_s": 69.54
       },
-      "LM3-WIN-P010": {
+      "LM3-TRC-P070": {
         "kind": "product-row",
         "level": 0,
         "start_s": 64.4,
         "end_s": 69.72
+      },
+      "LM3-WIN-P010": {
+        "kind": "product-row",
+        "level": 0,
+        "start_s": 64.75,
+        "end_s": 69.9
       },
       "LM3-ART-SA810": {
         "kind": "subassembly",
@@ -2054,9 +2358,9 @@
       }
     },
     "maximum_level": 5,
-    "animated_product_count": 101,
+    "animated_product_count": 120,
     "animated_assembly_count": 26,
-    "animated_node_count": 127,
+    "animated_node_count": 146,
     "root_id": "LM3-TRAINSET-A000",
     "dependency_timing_valid": true
   },
@@ -2582,7 +2886,7 @@
       "id": "train",
       "title": "LM3 fabrication and final assembly",
       "exemplar": "49.5 m three-car driverless LM3",
-      "quantity_basis": "101 product items, 26 controlled assemblies, one production traveler",
+      "quantity_basis": "120 product items, 26 controlled assemblies, one production traveler",
       "stages": [
         {
           "id": "RS-10-MATERIAL-KIT",
@@ -2974,12 +3278,12 @@
   },
   "source_register": {
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
-      "bytes": 272241,
-      "sha256": "fbb1a453f6f319f3558335795ac7584e6d8d5e9d16b5ccb6542b2ffc76190c55"
+      "bytes": 274336,
+      "sha256": "f90e31c14898bb0530a317f80c6315bbb679a66c43ead91c287ac873895c2fd7"
     },
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
-      "bytes": 107281,
-      "sha256": "f1e19b9ff6fc99127c12cdb38ae8b09915a87465ea4a029e4bdd3e490c14b3db"
+      "bytes": 123865,
+      "sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05"
     },
     "design/component-catalogue/src/osr_mech/civil/construction.py": {
       "bytes": 5197,
@@ -3010,12 +3314,12 @@
       "sha256": "8a61c7d6063e6787e0dcf668fe8ea01b72e5e90f0860f65fb7fa44c1fd8513e1"
     },
     "docs/rfcs/0010-station-design-standard.md": {
-      "bytes": 24034,
-      "sha256": "d58031e3a9db30387542481b32184ae3bb861c0a119e137ab6f12abb9d235088"
+      "bytes": 24058,
+      "sha256": "cb6cffca9bd60dfce4ea30e52befc9c43a89fef202aaefe7fdd07d20a5229b40"
     },
     "docs/rolling-stock/light-metro-3car/assembly-plan.md": {
-      "bytes": 16420,
-      "sha256": "ed4fe0b1e6295404ab48b774f7caec1cff41af4a338cea24a2bc6ac4f5b4d51d"
+      "bytes": 16411,
+      "sha256": "4ec37b586a5ed7831bbacfd750bbcd5dc6fc61684b924ddab3d3cc8d779a7dba"
     },
     "lib/templates/civil-construction-systems.toml": {
       "bytes": 2903,
@@ -3026,8 +3330,8 @@
       "sha256": "674a98c42719573830ffb3fdecd5f65b3a427fb92961d278c42ee2f37aad3939"
     },
     "lib/templates/manufacturing-schedule.toml": {
-      "bytes": 29907,
-      "sha256": "31fa6028039f1478aa452749c47c617e29fad55cd460c21bae3b10aadffa5812"
+      "bytes": 30699,
+      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
     },
     "lib/templates/stations.toml": {
       "bytes": 4601,
@@ -3069,14 +3373,14 @@
       "id": "train-product-tree-loaded",
       "passed": true,
       "observed": {
-        "items": 101,
+        "items": 120,
         "assemblies": 26
       }
     },
     {
       "id": "train-product-tree-fully-animated",
       "passed": true,
-      "observed": 127
+      "observed": 146
     },
     {
       "id": "train-animation-follows-product-dag",

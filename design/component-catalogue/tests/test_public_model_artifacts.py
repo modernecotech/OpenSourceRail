@@ -17,8 +17,8 @@ def test_neutral_make_handoffs_are_complete_and_hash_locked() -> None:
     root = REPO_ROOT / "design/component-catalogue/models/manufacturing-reference"
     index = json.loads((root / "index.json").read_text(encoding="utf-8"))
     assert index["passed"] is True
-    assert index["make_product_count"] == 46
-    assert len(index["entries"]) == 46
+    assert index["make_product_count"] == 62
+    assert len(index["entries"]) == 62
     for row in index["entries"]:
         step = REPO_ROOT / row["step"]
         dxf = REPO_ROOT / row["dxf"]

@@ -18,6 +18,9 @@
 - `LM3-CWL-P014`
 - `LM3-CWL-P015`
 - `LM3-CWL-P016`
+- `LM3-FAS-P010`
+- `LM3-FAS-P020`
+- `LM3-FAS-P030`
 
 ## Material specification
 
@@ -26,7 +29,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-CWL-SA710 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | fire-retardant fiberglass composite |
+| Form factor | fire-retardant fiberglass composite, rail structural steel, formed sheet metal / stainless local hardware |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -139,6 +142,45 @@ Evidence required:
   - glass-carrier land survey
   - bond-line witness
   - A/B interchange check
+
+### 8. `LM3-FAS-P010` — panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame
+
+- Placement zone: side/end glazing aperture and bonded carrier datum
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - carrier datum survey
+  - glass-edge clearance gauge
+  - secondary-retention proof
+  - pane removal trial
+
+### 9. `LM3-FAS-P020` — reversible front-lamp cassette tray, aiming adjusters, and retained service bracket
+
+- Placement zone: primary structure datum and final assembly interface
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - lamp datum gauge
+  - aiming range/retention test
+  - harness clearance
+  - cassette removal trial
+
+### 10. `LM3-FAS-P030` — front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit
+
+- Placement zone: side/end glazing aperture and bonded carrier datum
+- Interfaces: `mechanical datum`, `fluid/thermal`
+- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`, `fluid-thermal`
+- Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
+- Joint release status: `supplier-freeze-required`
+- Verification:
+  - seal batch/certificate
+  - compression map
+  - drain flow test
+  - water-ingress test
 
 
 ## Hold points

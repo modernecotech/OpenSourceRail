@@ -13,6 +13,7 @@
 
 - `LM3-BDY-P010`
 - `LM3-BDY-P020`
+- `LM3-BDY-P021`
 - `LM3-BDY-P030`
 - `LM3-BDY-P120`
 
@@ -23,7 +24,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-BDY-SA110 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel |
+| Form factor | rail structural steel, formed sheet metal / stainless local hardware |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -58,7 +59,7 @@ Evidence required:
   - dimensional check
   - weld VT/MT where classed
 
-### 2. `LM3-BDY-P020` — underframe centre spine and cross-bearer kit
+### 2. `LM3-BDY-P020` — underframe centre spine and longitudinal load-path kit
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`
@@ -67,10 +68,23 @@ Evidence required:
 - Joint release status: `joint-calculation-required`
 - Verification:
   - tube/plate certs
-  - fixture survey
+  - spine straightness survey
   - bogie-centre datum report
 
-### 3. `LM3-BDY-P030` — bolster box, air-spring pad, and centre-pivot insert set
+### 3. `LM3-BDY-P021` — underframe cross-bearer, door-bay outrigger, and equipment-bracket pack
+
+- Placement zone: side door aperture and low-floor threshold datum
+- Interfaces: `mechanical datum`, `safety interlock`
+- Join classes: `structural-weld`, `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - cut-list identity
+  - cross-bearer profile gauge
+  - station map
+  - fixture tack survey
+
+### 4. `LM3-BDY-P030` — bolster box, air-spring pad, and centre-pivot insert set
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`
@@ -82,7 +96,7 @@ Evidence required:
   - air-spring datum survey
   - NDT report
 
-### 4. `LM3-BDY-P120` — jacking pad, lifting eye, towing lug, and recovery-label kit
+### 5. `LM3-BDY-P120` — jacking pad, lifting eye, towing lug, and recovery-label kit
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`

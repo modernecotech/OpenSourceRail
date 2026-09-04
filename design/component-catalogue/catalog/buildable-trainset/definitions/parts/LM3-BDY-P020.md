@@ -1,4 +1,4 @@
-# LM3-BDY-P020 — underframe centre spine and cross-bearer kit
+# LM3-BDY-P020 — underframe centre spine and longitudinal load-path kit
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Cut plate/RHS kit for one car; QR-marked before welding.
+Cut plate/RHS centre-spine kit for one car; QR-marked before welding and kept separate from the repeated cross-bearer pack.
 
 ## Material specification
 
@@ -38,14 +38,14 @@ Evidence required:
 - Primary processes: cut, form, drill/machine, de-burr, trial fit, fixture weld, controlled cool / stress relief where WPS requires, post-weld machine where required
 - Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum
 - Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, WPS/WPQR release, welder qualification, weld map and heat-input control
-- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, tube/plate certs, fixture survey, bogie-centre datum report
+- Inspection methods: dimensional inspection, visual inspection, VT, MT/UT where classed, post-weld datum survey, tube/plate certs, spine straightness survey, bogie-centre datum report
 - Tooling basis: FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P020-DATUM
 - Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
 
 ## Acceptance gates
 
 - tube/plate certs
-- fixture survey
+- spine straightness survey
 - bogie-centre datum report
 
 ## Source references

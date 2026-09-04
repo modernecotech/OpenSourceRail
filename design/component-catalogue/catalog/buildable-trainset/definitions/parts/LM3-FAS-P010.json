@@ -1,0 +1,80 @@
+{
+  "acceptance": [
+    "carrier datum survey",
+    "glass-edge clearance gauge",
+    "secondary-retention proof",
+    "pane removal trial"
+  ],
+  "bom_line_ids": [
+    "B8",
+    "B27"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-FAS-P010",
+  "layer": "fabricated-part",
+  "make_or_buy_basis": "A machined/formed carrier transfers the heated laminated glass and its replaceable seal into the steel-backed end ring without making the cowl skin structural.",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "weld consumable certificate",
+      "WPS/WPQR",
+      "NDT report"
+    ],
+    "finish_or_protection": "blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection",
+    "form_factor": "laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit",
+    "governing_standard": "EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments",
+    "grade_or_part_class": "EN 10025 S355 candidate primary-structure RHS/folded plate",
+    "material_family": "rail structural steel",
+    "nominal_section": "thickness/section per v2A controlled drawing and FEM release",
+    "traceability": "heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-CWL-SA710",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "VT",
+      "MT/UT where classed",
+      "post-weld datum survey",
+      "carrier datum survey",
+      "glass-edge clearance gauge",
+      "secondary-retention proof",
+      "pane removal trial"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit",
+      "fixture weld",
+      "controlled cool / stress relief where WPS requires",
+      "post-weld machine where required"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "WPS/WPQR release",
+      "welder qualification",
+      "weld map and heat-input control"
+    ],
+    "tooling_basis": "FIX-LM3-FAS-FAB plus GAUGE-LM3-FAS-P010-DATUM"
+  },
+  "quantity_per_trainset": 2,
+  "route": "MAKE",
+  "source_refs": [
+    "end-cowl.md",
+    "sensor_cowl.py",
+    "LM3-BDY-155"
+  ],
+  "title": "panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+  "unit": "end set"
+}

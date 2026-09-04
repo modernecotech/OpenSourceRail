@@ -1,4 +1,4 @@
-# LM3-INT-P040 — FRP battery strake covers, seat-base fairings, and service-hatch shells
+# LM3-INT-P040 — FRP battery strake cover panel set
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Sacrificial fire-rated saloon barriers over the side battery enclosures; battery service access and pressure relief remain exterior-only.
+Sacrificial fire-rated saloon barriers over the side battery enclosures; separate seat fairings retain fast service access and pressure relief remains exterior-only.
 
 ## Material specification
 

@@ -23,7 +23,7 @@ installing the complete engineering toolchain.
 | [`civil-coordination.blend`](civil-coordination.blend) | Native Bonsai/Blender review scene with assigned IFC assets, task IDs and construction keyframes |
 | [`civil-construction-sequence.mp4`](civil-construction-sequence.mp4) | Full 48-second H.264 4D construction review |
 | [`civil-construction-sequence.gif`](civil-construction-sequence.gif) | Complete GitHub-viewable preview of the same sequence |
-| [`lm3-manufacturing-reference.ifc`](lm3-manufacturing-reference.ifc) | IFC4.3 LM3 product hierarchy, semantic doors/windows/fixtures/motors, manufacturing methods, sequenced tasks and 20 tooling families |
+| [`lm3-manufacturing-reference.ifc`](lm3-manufacturing-reference.ifc) | IFC4.3 LM3 product hierarchy, semantic doors/windows/fixtures/motors, manufacturing methods, sequenced tasks and 30 tooling families |
 | [`lm3-manufacturing-reference.index.json`](lm3-manufacturing-reference.index.json) | IFC counts, source hashes, semantic classes and deterministic validation summary |
 | [`lm3-parts/`](lm3-parts/) | 101 separate geometric IFC4.3 product files, including round running-gear meshes and semantic doors, windows, lights, furniture and motor classes |
 | [`lm3-assemblies/`](lm3-assemblies/) | 26 hierarchy-preserving IFC4.3 subassembly/car/train files; the final trainset contains every active descendant product |

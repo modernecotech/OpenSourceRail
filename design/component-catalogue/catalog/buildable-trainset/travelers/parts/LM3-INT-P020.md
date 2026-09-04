@@ -1,4 +1,4 @@
-# Shop traveler — LM3-INT-P020 — FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set
+# Shop traveler — LM3-INT-P020 — FRP/phenolic ceiling liner panel set
 
 | Field | Value |
 |---|---|

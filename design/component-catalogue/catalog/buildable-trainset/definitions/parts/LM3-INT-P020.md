@@ -1,4 +1,4 @@
-# LM3-INT-P020 — FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set
+# LM3-INT-P020 — FRP/phenolic ceiling liner panel set
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Locally moulded or CNC-trimmed fire-rated cabin ceiling panels with light troughs, diffuser openings, and removable service covers.
+Locally moulded or CNC-trimmed fire-rated cabin ceiling panels with controlled light, diffuser, detector, and service apertures.
 
 ## Material specification
 

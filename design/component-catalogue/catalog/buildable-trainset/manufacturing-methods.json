@@ -1,9 +1,9 @@
 {
   "coverage": {
-    "covered_product_rows": 101,
+    "covered_product_rows": 120,
     "method_count": 9,
-    "product_rows": 101,
-    "tooling_count": 20,
+    "product_rows": 120,
+    "tooling_count": 30,
     "uncovered_product_ids": []
   },
   "method": [
@@ -20,16 +20,20 @@
       "product_ids": [
         "LM3-BDY-P010",
         "LM3-BDY-P020",
+        "LM3-BDY-P021",
         "LM3-BDY-P030",
         "LM3-BDY-P040",
         "LM3-BDY-P050",
         "LM3-BDY-P060",
+        "LM3-BDY-P061",
         "LM3-BDY-P070",
         "LM3-BDY-P080",
         "LM3-BDY-P090",
         "LM3-BDY-P100",
         "LM3-BDY-P110",
         "LM3-BDY-P120",
+        "LM3-FAS-P010",
+        "LM3-FAS-P020",
         "LM3-ART-P010",
         "LM3-BOG-P010",
         "LM3-BOG-P020"
@@ -95,6 +99,9 @@
       "planning_cycle_minutes": 1440,
       "product_ids": [
         "LM3-BDY-P130",
+        "LM3-BDY-P131",
+        "LM3-BDY-P132",
+        "LM3-BDY-P133",
         "LM3-BDY-P140",
         "LM3-CWL-P010",
         "LM3-CWL-P011",
@@ -103,8 +110,21 @@
         "LM3-CWL-P014",
         "LM3-CWL-P015",
         "LM3-CWL-P016",
+        "LM3-ROOF-P030",
+        "LM3-ROOF-P040",
         "LM3-EXT-P080",
-        "LM3-EXT-P090"
+        "LM3-EXT-P090",
+        "LM3-INT-P020",
+        "LM3-INT-P021",
+        "LM3-INT-P022",
+        "LM3-INT-P030",
+        "LM3-INT-P031",
+        "LM3-INT-P032",
+        "LM3-INT-P040",
+        "LM3-INT-P041",
+        "LM3-INT-P050",
+        "LM3-INT-P051",
+        "LM3-INT-P052"
       ],
       "release_gate": "Released laminate/core/insert map, fire evidence, material shelf life, mould survey, vacuum leak check, cure record, witness coupon, trim report, insert pull-out sample and master-frame dry fit.",
       "source_ids": [
@@ -155,12 +175,18 @@
           "sequence": 60
         }
       ],
-      "title": "Reusable one-metre GFRP body/roof moulds and split end-cowl moulds",
+      "title": "Reusable GFRP body, roof, end-cowl and interior panel mould families",
       "tooling_ids": [
         "LM3-TOOL-SIDE-MOULD",
+        "LM3-TOOL-SIDE-VARIANT-NEST",
         "LM3-TOOL-ROOF-MOULD",
+        "LM3-TOOL-ROOF-FAIRING-MOULD",
         "LM3-TOOL-COWL-MOULD",
-        "LM3-TOOL-TRIM-DRILL"
+        "LM3-TOOL-TRIM-DRILL",
+        "LM3-TOOL-INT-CEILING-MOULD",
+        "LM3-TOOL-INT-SIDE-MOULD",
+        "LM3-TOOL-INT-STRAKE-MOULD",
+        "LM3-TOOL-INT-DOOR-PRM-MOULD"
       ],
       "work_center": "local composite moulding, cure, trim and dry-fit cell"
     },
@@ -168,23 +194,31 @@
       "crew_size": 2,
       "id": "LM3-MFG-030",
       "joining_parts": [
-        "compatible primer/topcoat system",
+        "in-mould white gelcoat or qualified base topcoat",
+        "rail-application livery film and edge treatment",
         "sealed GFRP edges",
-        "coated witness coupons",
-        "replaceable external labels"
+        "masked CaCO3-acrylic candidate roof coating",
+        "traceable new/aged witness coupons"
       ],
       "planning_cycle_minutes": 960,
       "product_ids": [
         "LM3-BDY-P130",
+        "LM3-BDY-P131",
+        "LM3-BDY-P132",
+        "LM3-BDY-P133",
         "LM3-CWL-P011",
         "LM3-CWL-P012",
         "LM3-CWL-P013",
         "LM3-CWL-P014",
         "LM3-CWL-P015",
-        "LM3-CWL-P016"
+        "LM3-CWL-P016",
+        "LM3-FIN-P010",
+        "LM3-FIN-P020"
       ],
-      "release_gate": "Rail fire/smoke compatibility, substrate/primer compatibility, adhesion, weathering, cleanability, colour/glare review and measured new/aged solar reflectance and thermal emittance. No cooling or energy saving may be claimed before vehicle thermal testing.",
+      "release_gate": "Base corrosion/fire protection accepted first; then film substrate/adhesion/edge/removal evidence and radiative-coating fire, adhesion, weathering, cleanability, glare and measured new/aged solar reflectance/emittance. No cooling or energy-saving claim before one-car thermal and maintenance trials.",
       "source_ids": [
+        "SRC-3M-RAIL-GRAPHICS",
+        "SRC-PURDUE-CACO3-RC",
         "SRC-DOE-COOL-SURFACE",
         "SRC-SIKA-RAIL",
         "SRC-ERA-LOC-PAS"
@@ -199,39 +233,41 @@
         },
         {
           "hold_point": false,
-          "instruction": "Abrade and clean only by the released coating procedure, apply compatible primer and coat a traceable witness coupon beside the vehicle modules.",
-          "name": "Prepare and prime",
+          "instruction": "Accept the fully cured corrosion/gelcoat base, make adhesion coupons, and plot/cut the livery film from controlled bay templates. Do not apply film over seals, drains, earths, labels, service lands or unresolved defects.",
+          "name": "Prepare base finish and cut film",
           "planning_minutes": 120,
           "sequence": 20
         },
         {
           "hold_point": false,
-          "instruction": "Apply the selected light-colour rail topcoat to controlled wet/dry film thickness. Avoid unqualified experimental radiative-cooling chemistry and review glare/visibility with the authority.",
-          "name": "Apply reflective/emissive topcoat",
+          "instruction": "Dry-apply and squeegee the selected rail-use film with controlled seams/edges. On qualified exposed-roof zones only, mask all keep-outs and apply the CaCO3 candidate beside retained witness coupons to the released wet/dry-film range.",
+          "name": "Apply livery film and candidate roof coating",
           "planning_minutes": 120,
           "sequence": 30
         },
         {
           "hold_point": true,
-          "instruction": "Maintain supplier temperature, humidity and ventilation limits; the released coating datasheet controls flash, recoat, cure and return-to-service times.",
+          "instruction": "Maintain the film/coating suppliers' temperature, humidity and ventilation limits; post-heat or edge-treat film only where the selected system requires it, and let the roof coating reach its released cure before handling.",
           "name": "Controlled cure",
           "planning_minutes": 600,
           "sequence": 40
         },
         {
           "hold_point": true,
-          "instruction": "Record film thickness, adhesion/cure acceptance, colour/gloss and measured solar reflectance/emittance; retain labelled coupons for accelerated weathering and cleaning trials.",
+          "instruction": "Inspect bubbles, wrinkles, seams, edges and prohibited-zone masking; record coating thickness/adhesion/cure, colour/gloss and measured solar reflectance/emittance, and retain labelled coupons for UV, abrasion and wash ageing.",
           "name": "Inspect and retain coupons",
           "planning_minutes": 60,
           "sequence": 50
         }
       ],
-      "title": "Solar-reflective, high-emittance exterior coating and thermal witness route",
+      "title": "In-mould base finish, applied livery film, and qualified radiative roof-coating route",
       "tooling_ids": [
         "LM3-TOOL-COATING-RACK",
-        "LM3-TOOL-COATING-COUPON"
+        "LM3-TOOL-COATING-COUPON",
+        "LM3-TOOL-FILM-TEMPLATE",
+        "LM3-TOOL-RADIATIVE-COUPON"
       ],
-      "work_center": "local preparation and controlled paint cell"
+      "work_center": "local surface preparation, film application and controlled coating cell"
     },
     {
       "crew_size": 2,
@@ -248,7 +284,9 @@
         "LM3-BDY-P110",
         "LM3-WIN-P010",
         "LM3-EXT-P020",
-        "LM3-EXT-P030"
+        "LM3-EXT-P030",
+        "LM3-FAS-P010",
+        "LM3-FAS-P030"
       ],
       "release_gate": "Supplier glazing/edge certificate, retained frame calculation, approved surface preparation, seal compression map, drain test, water-ingress test, heater/isolation test where fitted and timed replacement demonstration.",
       "source_ids": [
@@ -295,6 +333,7 @@
       "title": "Replaceable side-window cassette, pressure frame, seal and drain installation",
       "tooling_ids": [
         "LM3-TOOL-WINDOW-GAUGE",
+        "LM3-TOOL-GLASS-CARRIER-NEST",
         "LM3-TOOL-WATER-TEST"
       ],
       "work_center": "local glazing preparation and vehicle fit-out cell"
@@ -388,9 +427,16 @@
         "LM3-FIX-P020",
         "LM3-FIX-P030",
         "LM3-INT-P020",
+        "LM3-INT-P021",
+        "LM3-INT-P022",
         "LM3-INT-P030",
+        "LM3-INT-P031",
+        "LM3-INT-P032",
         "LM3-INT-P040",
-        "LM3-INT-P050"
+        "LM3-INT-P041",
+        "LM3-INT-P050",
+        "LM3-INT-P051",
+        "LM3-INT-P052"
       ],
       "release_gate": "Fire/smoke certificates, substrate moisture/flatness, adhesive batch and open time, seam/edge detail, slip resistance, hatch removal, fixture load calculations and proof samples, PRM/egress gauge and snag/rattle inspection.",
       "source_ids": [
@@ -559,6 +605,8 @@
         "LM3-EXT-P070",
         "LM3-ROOF-P010",
         "LM3-ROOF-P020",
+        "LM3-ROOF-P030",
+        "LM3-ROOF-P040",
         "LM3-HV-P010",
         "LM3-HV-P020",
         "LM3-HV-P030",
@@ -570,7 +618,8 @@
         "LM3-CTRL-P040",
         "LM3-END-P020",
         "LM3-END-P030",
-        "LM3-END-P050"
+        "LM3-END-P050",
+        "LM3-FAS-P020"
       ],
       "release_gate": "Supplier evidence, fire/EMC/vibration/IP checks, harness 100% continuity and insulation, keyed/polarity audit, HVIL, fluid pressure/drain tests, lighting lux/emergency-duration test, HVAC airflow and condensate test.",
       "source_ids": [
@@ -624,7 +673,8 @@
       "title": "Lighting, HVAC, HV/LV services and keyed replaceable modules",
       "tooling_ids": [
         "LM3-TOOL-SERVICE-RAIL",
-        "LM3-TOOL-HARNESS-BOARD"
+        "LM3-TOOL-HARNESS-BOARD",
+        "LM3-TOOL-LAMP-AIM"
       ],
       "work_center": "local harness, interior systems and roof-module preassembly cells"
     },
@@ -718,7 +768,7 @@
   ],
   "planning_basis": "Pilot local-manufacture route for one LM3 three-car trainset; elapsed allowances support factory planning but never override a released material datasheet, supplier manual, WPS, adhesive open/cure time, or competent engineering decision.",
   "product_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-  "product_manifest_sha256": "4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5",
+  "product_manifest_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
   "release_boundary": "Not a construction release. Supplier freeze, controlled drawings, structural calculations, fire/rail evidence, qualified special processes, first-article tests, independent safety assessment, and national authorisation remain mandatory.",
   "revision": "A-DRAFT",
   "schema": "org.opensourcerail.trainset-manufacturing-methods.v1",
@@ -754,6 +804,18 @@
       "use": "Screening rationale for measuring solar reflectance and thermal emittance. Building-roof thresholds are not transferred as rail certification or an LM3 performance claim."
     },
     {
+      "id": "SRC-3M-RAIL-GRAPHICS",
+      "title": "3M Application: Rail instruction bulletin",
+      "url": "https://multimedia.3m.com/mws/media/2419613O/3m-instruction-bulletin-application-rail-ra.pdf",
+      "use": "Rail-vehicle graphic-film substrate inspection, cleaning, adhesion trial, dry application, edge treatment, inspection, maintenance and removal route; the selected film and overlaminate product bulletins remain controlling."
+    },
+    {
+      "id": "SRC-PURDUE-CACO3-RC",
+      "title": "Purdue full daytime sub-ambient CaCO3-acrylic radiative-cooling paint paper",
+      "url": "https://docs.lib.purdue.edu/coolingpubs/369/",
+      "use": "Research basis for the CaCO3-acrylic candidate and initial optical targets. It is not rail qualification, a commercial product release, or evidence of durability on moving-vehicle GFRP."
+    },
+    {
       "id": "SRC-BOLLHOFF-RIVNUT",
       "title": "B\u00f6llhoff RIVNUT installation and setting guidance",
       "url": "https://www.boellhoff.com/us-en/services/technical-forum/rivnut-setting-tools/",
@@ -773,6 +835,6 @@
     }
   ],
   "source_file": "lib/templates/trainset-manufacturing-methods.toml",
-  "source_sha256": "ff8fe7a4ec100835f82060efad7b531a6feed7fd35ef78e800aa28f4169e396f",
+  "source_sha256": "814542c64f387f4ba32a2126552ec5636f0839dfdaf547fdea6ae56b0ab1b06d",
   "status": "design-reference-not-released"
 }

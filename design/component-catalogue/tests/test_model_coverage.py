@@ -12,7 +12,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 def test_model_coverage_matches_both_product_manifests() -> None:
     register = build_register()
     assert register["passed"]
-    assert register["summary"]["lm3_products"] == 101
+    assert register["summary"]["lm3_products"] == 120
     assert register["summary"]["station_products"] == 45
     assert register["summary"]["station_variants"] == 7
     assert set(register["summary"]["geometry_level_counts"]) <= set(LEVELS)

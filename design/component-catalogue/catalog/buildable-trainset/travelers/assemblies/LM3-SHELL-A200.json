@@ -10,13 +10,17 @@
   "children": [
     "LM3-BDY-SA120",
     "LM3-BDY-P130",
+    "LM3-BDY-P131",
+    "LM3-BDY-P132",
+    "LM3-BDY-P133",
     "LM3-BDY-P140",
     "LM3-WIN-SA320",
     "LM3-EXT-P080",
-    "LM3-EXT-P090"
+    "LM3-EXT-P090",
+    "LM3-FIN-P010"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 9.48,
+  "estimated_labor_hours": 14.59,
   "id": "LM3-SHELL-A200",
   "layer": "assembly",
   "material_spec": {
@@ -26,7 +30,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack",
+    "form_factor": "LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, fire-rated cabin fiberglass / phenolic composite, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack, fire-retardant fiberglass composite",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-SHELL-A200 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -35,7 +39,7 @@
   },
   "operations": [
     {
-      "labor_hours": 0.93,
+      "labor_hours": 1.25,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -65,7 +69,7 @@
       "qa_gate": "placement zone and joint controls accepted: one-metre body-module clip rail, dry seal, and anti-lift datum grid",
       "sequence": 30,
       "signoff_role": "operator",
-      "title": "install and integrate LM3-BDY-P130: one-metre clip-on fiberglass side and roof body module",
+      "title": "install and integrate LM3-BDY-P130: one-metre clip-on solid-side fiberglass body module",
       "tooling_ids": [
         "FIX-LM3-SHELL-A200",
         "GAUGE-LM3-BDY-P130",
@@ -75,8 +79,47 @@
     },
     {
       "labor_hours": 1.17,
-      "qa_gate": "placement zone and joint controls accepted: one-metre body-module clip rail, dry seal, and anti-lift datum grid",
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
       "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BDY-P131: one-metre clip-on window-edge fiberglass side module",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "GAUGE-LM3-BDY-P131",
+        "TORQUE-LM3-BDY-P131"
+      ],
+      "work_center": "paint / clip-on body / glazing cells"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BDY-P132: one-metre clip-on door-edge fiberglass side module",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "GAUGE-LM3-BDY-P132",
+        "TORQUE-LM3-BDY-P132"
+      ],
+      "work_center": "paint / clip-on body / glazing cells"
+    },
+    {
+      "labor_hours": 1.17,
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
+      "sequence": 60,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BDY-P133: one-metre clip-on fiberglass roof skin and equipment-fairing module",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "GAUGE-LM3-BDY-P133",
+        "TORQUE-LM3-BDY-P133"
+      ],
+      "work_center": "paint / clip-on body / glazing cells"
+    },
+    {
+      "labor_hours": 1.17,
+      "qa_gate": "placement zone and joint controls accepted: one-metre body-module clip rail, dry seal, and anti-lift datum grid",
+      "sequence": 70,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BDY-P140: keyed clip rail, captive retainer, anti-lift, and dry-seal car kit",
       "tooling_ids": [
@@ -89,7 +132,7 @@
     {
       "labor_hours": 1.12,
       "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
-      "sequence": 50,
+      "sequence": 80,
       "signoff_role": "operator",
       "title": "install and integrate LM3-WIN-SA320: side glazing cassette installation",
       "tooling_ids": [
@@ -102,7 +145,7 @@
     {
       "labor_hours": 1.05,
       "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
-      "sequence": 60,
+      "sequence": 90,
       "signoff_role": "operator",
       "title": "install and integrate LM3-EXT-P080: fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit",
       "tooling_ids": [
@@ -115,7 +158,7 @@
     {
       "labor_hours": 1.22,
       "qa_gate": "placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone",
-      "sequence": 70,
+      "sequence": 100,
       "signoff_role": "operator",
       "title": "install and integrate LM3-EXT-P090: fire-rated GFRP roof-module, dry-seal, and removable skirt material kit",
       "tooling_ids": [
@@ -126,9 +169,22 @@
       "work_center": "paint / clip-on body / glazing cells"
     },
     {
+      "labor_hours": 1.1,
+      "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
+      "sequence": 110,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FIN-P010: pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "GAUGE-LM3-FIN-P010",
+        "TORQUE-LM3-FIN-P010"
+      ],
+      "work_center": "paint / clip-on body / glazing cells"
+    },
+    {
       "labor_hours": 0.35,
       "qa_gate": "corrosion report",
-      "sequence": 80,
+      "sequence": 120,
       "signoff_role": "quality inspector",
       "title": "hold point: corrosion report",
       "tooling_ids": [
@@ -139,7 +195,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "clip and anti-lift witness map",
-      "sequence": 90,
+      "sequence": 130,
       "signoff_role": "quality inspector",
       "title": "hold point: clip and anti-lift witness map",
       "tooling_ids": [
@@ -150,7 +206,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "eight-hour trainset body route",
-      "sequence": 100,
+      "sequence": 140,
       "signoff_role": "quality inspector",
       "title": "hold point: eight-hour trainset body route",
       "tooling_ids": [
@@ -161,7 +217,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "water ingress pre-test",
-      "sequence": 110,
+      "sequence": 150,
       "signoff_role": "quality inspector",
       "title": "hold point: water ingress pre-test",
       "tooling_ids": [
@@ -172,7 +228,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 120,
+      "sequence": 160,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

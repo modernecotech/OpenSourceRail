@@ -48,13 +48,22 @@ sanity checks on each assembled-state input.
 |---|---|---:|---:|---:|---:|---|---|
 | LM3-TOOL-STEEL-FIXTURE — Locally fabricated steel body, bogie and interface structures | `manufacturing-tool:LM3-TOOL-STEEL-FIXTURE` | True | True | 22 | 13914104529 | 17000 x 3600 x 1350 |  |
 | LM3-TOOL-DATUM-GAUGE — Locally fabricated steel body, bogie and interface structures | `manufacturing-tool:LM3-TOOL-DATUM-GAUGE` | True | True | 4 | 75812028 | 3400 x 2744 x 620 |  |
-| LM3-TOOL-SIDE-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-SIDE-MOULD` | True | True | 6 | 684647041 | 1300 x 3600 x 245 |  |
-| LM3-TOOL-ROOF-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-ROOF-MOULD` | True | True | 9 | 767202000 | 1300 x 3200 x 504 |  |
-| LM3-TOOL-COWL-MOULD — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-COWL-MOULD` | True | True | 8 | 4136400000 | 3300 x 3400 x 2410 |  |
-| LM3-TOOL-TRIM-DRILL — Reusable one-metre GFRP body/roof moulds and split end-cowl moulds | `manufacturing-tool:LM3-TOOL-TRIM-DRILL` | True | True | 15 | 852438541 | 1400 x 3800 x 270 |  |
-| LM3-TOOL-COATING-RACK — Solar-reflective, high-emittance exterior coating and thermal witness route | `manufacturing-tool:LM3-TOOL-COATING-RACK` | True | True | 7 | 899840000 | 4000 x 3160 x 2690 |  |
-| LM3-TOOL-COATING-COUPON — Solar-reflective, high-emittance exterior coating and thermal witness route | `manufacturing-tool:LM3-TOOL-COATING-COUPON` | True | True | 3 | 540000 | 960 x 200 x 3 |  |
+| LM3-TOOL-SIDE-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-SIDE-MOULD` | True | True | 6 | 684647041 | 1300 x 3600 x 245 |  |
+| LM3-TOOL-SIDE-VARIANT-NEST — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-SIDE-VARIANT-NEST` | True | True | 15 | 584009957 | 1350 x 3550 x 225 |  |
+| LM3-TOOL-ROOF-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-ROOF-MOULD` | True | True | 9 | 767202000 | 1300 x 3200 x 504 |  |
+| LM3-TOOL-ROOF-FAIRING-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-ROOF-FAIRING-MOULD` | True | True | 7 | 2612115000 | 3600 x 2900 x 780 |  |
+| LM3-TOOL-COWL-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-COWL-MOULD` | True | True | 8 | 4136400000 | 3300 x 3400 x 2410 |  |
+| LM3-TOOL-TRIM-DRILL — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-TRIM-DRILL` | True | True | 15 | 852438541 | 1400 x 3800 x 270 |  |
+| LM3-TOOL-INT-CEILING-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-INT-CEILING-MOULD` | True | True | 7 | 641700000 | 1350 x 2950 x 550 |  |
+| LM3-TOOL-INT-SIDE-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-INT-SIDE-MOULD` | True | True | 3 | 594627500 | 1350 x 2450 x 275 |  |
+| LM3-TOOL-INT-STRAKE-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-INT-STRAKE-MOULD` | True | True | 3 | 2909400000 | 5200 x 1050 x 850 |  |
+| LM3-TOOL-INT-DOOR-PRM-MOULD — Reusable GFRP body, roof, end-cowl and interior panel mould families | `manufacturing-tool:LM3-TOOL-INT-DOOR-PRM-MOULD` | True | True | 4 | 2014730000 | 2800 x 1600 x 1920 |  |
+| LM3-TOOL-COATING-RACK — In-mould base finish, applied livery film, and qualified radiative roof-coating route | `manufacturing-tool:LM3-TOOL-COATING-RACK` | True | True | 7 | 899840000 | 4000 x 3160 x 2690 |  |
+| LM3-TOOL-COATING-COUPON — In-mould base finish, applied livery film, and qualified radiative roof-coating route | `manufacturing-tool:LM3-TOOL-COATING-COUPON` | True | True | 3 | 540000 | 960 x 200 x 3 |  |
+| LM3-TOOL-FILM-TEMPLATE — In-mould base finish, applied livery film, and qualified radiative roof-coating route | `manufacturing-tool:LM3-TOOL-FILM-TEMPLATE` | True | True | 18 | 828225189 | 8500 x 1800 x 150 |  |
+| LM3-TOOL-RADIATIVE-COUPON — In-mould base finish, applied livery film, and qualified radiative roof-coating route | `manufacturing-tool:LM3-TOOL-RADIATIVE-COUPON` | True | True | 4 | 35040000 | 1100 x 520 x 67 |  |
 | LM3-TOOL-WINDOW-GAUGE — Replaceable side-window cassette, pressure frame, seal and drain installation | `manufacturing-tool:LM3-TOOL-WINDOW-GAUGE` | True | True | 8 | 265830881 | 2150 x 240 x 1590 |  |
+| LM3-TOOL-GLASS-CARRIER-NEST — Replaceable side-window cassette, pressure frame, seal and drain installation | `manufacturing-tool:LM3-TOOL-GLASS-CARRIER-NEST` | True | True | 14 | 379900828 | 2800 x 240 x 2120 |  |
 | LM3-TOOL-WATER-TEST — Replaceable side-window cassette, pressure frame, seal and drain installation | `manufacturing-tool:LM3-TOOL-WATER-TEST` | True | True | 12 | 314015660 | 2400 x 640 x 1940 |  |
 | LM3-TOOL-DOOR-GAUGE — Supplier door cassette on locally made four-point adjustable carrier | `manufacturing-tool:LM3-TOOL-DOOR-GAUGE` | True | True | 8 | 315030881 | 2000 x 240 x 2390 |  |
 | LM3-TOOL-SEAL-GAUGE — Supplier door cassette on locally made four-point adjustable carrier | `manufacturing-tool:LM3-TOOL-SEAL-GAUGE` | True | True | 6 | 1152000 | 1480 x 80 x 1530 |  |
@@ -64,6 +73,7 @@ sanity checks on each assembled-state input.
 | LM3-TOOL-MOTOR-ALIGN — Supplier traction motor/gearbox integration into locally fabricated powered bogie | `manufacturing-tool:LM3-TOOL-MOTOR-ALIGN` | True | True | 4 | 794542273 | 2200 x 1300 x 1220 |  |
 | LM3-TOOL-SERVICE-RAIL — Lighting, HVAC, HV/LV services and keyed replaceable modules | `manufacturing-tool:LM3-TOOL-SERVICE-RAIL` | True | True | 16 | 192471239 | 4000 x 600 x 180 |  |
 | LM3-TOOL-HARNESS-BOARD — Lighting, HVAC, HV/LV services and keyed replaceable modules | `manufacturing-tool:LM3-TOOL-HARNESS-BOARD` | True | True | 46 | 1155619115 | 8000 x 2400 x 160 |  |
+| LM3-TOOL-LAMP-AIM — Lighting, HVAC, HV/LV services and keyed replaceable modules | `manufacturing-tool:LM3-TOOL-LAMP-AIM` | True | True | 5 | 497259710 | 2200 x 1100 x 1680 |  |
 | LM3-TOOL-LIFT-COLUMNS — Three-car final assembly, static test and manufacturing release | `manufacturing-tool:LM3-TOOL-LIFT-COLUMNS` | True | True | 16 | 11160960000 | 14900 x 4900 x 4800 |  |
 | LM3-TOOL-FINAL-DATUM — Three-car final assembly, static test and manufacturing release | `manufacturing-tool:LM3-TOOL-FINAL-DATUM` | True | True | 18 | 485191168 | 50000 x 120 x 380 |  |
 

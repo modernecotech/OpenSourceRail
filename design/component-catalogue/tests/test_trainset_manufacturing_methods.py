@@ -14,10 +14,10 @@ from osr_mech.trainset_manufacturing_methods import (
 def test_every_product_row_has_a_timed_manufacturing_method() -> None:
     data = load_and_validate()
     assert data["coverage"] == {
-        "product_rows": 101,
-        "covered_product_rows": 101,
+        "product_rows": 120,
+        "covered_product_rows": 120,
         "method_count": 9,
-        "tooling_count": 20,
+        "tooling_count": 30,
         "uncovered_product_ids": [],
     }
     assert all(
@@ -84,9 +84,9 @@ def test_freecad_tooling_is_selectable_and_carries_method_instructions() -> None
     with zipfile.ZipFile(path) as archive:
         document = archive.read("Document.xml").decode("utf-8")
         assert all(info.date_time == (2000, 1, 1, 0, 0, 0) for info in archive.infolist())
-    assert document.count('type="Part::Feature"') == 20
-    assert document.count('name="OSRId"') == 20
-    assert document.count('name="StepInstructionsJson"') == 20
+    assert document.count('type="Part::Feature"') == 30
+    assert document.count('name="OSRId"') == 30
+    assert document.count('name="StepInstructionsJson"') == 30
     assert document.count('value="2000-01-01T00:00:00Z"') == 2
     for method_number in range(10, 100, 10):
         assert f"LM3-MFG-{method_number:03d}" in document

@@ -1,0 +1,223 @@
+{
+  "bom_line_ids": [
+    "B6"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-BDY-P131",
+  "material_spec": {
+    "evidence_required": [
+      "fire-material certificate",
+      "laminate/panel batch record",
+      "insert pull-out evidence",
+      "trim/cure record"
+    ],
+    "finish_or_protection": "cleanable interior gelcoat/paint or decorative film with sealed edges and anti-slip finish where walked on",
+    "form_factor": "moulded or CNC-trimmed liner, reveal, cover, hatch, and kick-panel shells with potted inserts",
+    "governing_standard": "EN 45545-2 interior material evidence plus supplier laminate/phenolic panel certificate",
+    "grade_or_part_class": "EN 45545 HL2 candidate FRP, phenolic, or glass/basalt-fibre sandwich interior panel",
+    "material_family": "fire-rated cabin fiberglass / phenolic composite",
+    "nominal_section": "panel thickness, edge return, insert pattern, and clip grid per LM3-INT v2A drawing",
+    "traceability": "laminate/panel batch, resin/cure or board batch, insert batch, adhesive batch, and fire certificate"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BDY-P131",
+        "DOC-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-BDY-FAB",
+        "GAUGE-LM3-BDY-P131-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "TORQUE-LM3-BDY-P131"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "window trim nest",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: window trim nest",
+      "tooling_ids": [
+        "QA-LM3-BDY-P131"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "sealed-edge inspection",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: sealed-edge inspection",
+      "tooling_ids": [
+        "QA-LM3-BDY-P131"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "cassette removal sweep",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: cassette removal sweep",
+      "tooling_ids": [
+        "QA-LM3-BDY-P131"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "master-frame dry fit",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: master-frame dry fit",
+      "tooling_ids": [
+        "QA-LM3-BDY-P131"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BDY-P131",
+        "KIT-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-SHELL-A200",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "VT",
+      "MT/UT where classed",
+      "post-weld datum survey",
+      "bond-land inspection",
+      "water/leak test where applicable",
+      "window trim nest",
+      "sealed-edge inspection",
+      "cassette removal sweep",
+      "master-frame dry fit"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum",
+      "adhesive bonding or gasketed interface preparation"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit",
+      "fixture weld",
+      "controlled cool / stress relief where WPS requires",
+      "post-weld machine where required"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "WPS/WPQR release",
+      "welder qualification",
+      "weld map and heat-input control",
+      "surface-preparation record",
+      "adhesive batch/pot-life record",
+      "bond coupon where required"
+    ],
+    "tooling_basis": "FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P131-DATUM"
+  },
+  "quantity_per_trainset": 24,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BDY-P131-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P131-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P131-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "one-metre clip-on window-edge fiberglass side module",
+  "traveler_type": "product-item",
+  "unit": "module"
+}

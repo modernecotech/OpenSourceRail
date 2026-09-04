@@ -6,8 +6,8 @@ from osr_mech.trainset_cots_candidates import load_and_validate, render_markdown
 def test_every_bought_in_row_has_a_candidate() -> None:
     data = load_and_validate()
     coverage = data["coverage"]
-    assert coverage["external_product_rows"] == 54
-    assert coverage["covered_external_product_rows"] == 54
+    assert coverage["external_product_rows"] == 56
+    assert coverage["covered_external_product_rows"] == 56
     assert coverage["uncovered_product_ids"] == []
     assert coverage["candidate_count"] >= 30
 

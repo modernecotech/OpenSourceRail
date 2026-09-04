@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 5.39 h |
+| Estimated labor | 6.64 h |
 | Build cell | weld and fixture cell |
 | Procurement BOM lines | `B3`, `B4` |
 
@@ -49,14 +49,15 @@ Evidence required:
 
 | Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
 |---:|---|---|---:|---|---|---|
-| 10 | release traveler, fixture, child kit, and latest definition package | weld and fixture cell | 0.69 | `TRV-LM3-BDY-SA120`<br>`FIX-LM3-BDY-SA120`<br>`KIT-LM3-BDY-SA120` | all child definitions/revisions match the traveler index | cell lead |
+| 10 | release traveler, fixture, child kit, and latest definition package | weld and fixture cell | 0.77 | `TRV-LM3-BDY-SA120`<br>`FIX-LM3-BDY-SA120`<br>`KIT-LM3-BDY-SA120` | all child definitions/revisions match the traveler index | cell lead |
 | 20 | install and integrate LM3-BDY-SA110: underframe datum weldment | weld and fixture cell | 1.17 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-SA110`<br>`TORQUE-LM3-BDY-SA110` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
-| 30 | install and integrate LM3-BDY-P060: low-floor centre pan and raised bogie-end deck set | weld and fixture cell | 1.0 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-P060`<br>`TORQUE-LM3-BDY-P060` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
-| 40 | install and integrate LM3-BDY-P070: side-wall post, door portal, waist rail, and cant rail kit | weld and fixture cell | 1.18 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-P070`<br>`TORQUE-LM3-BDY-P070` | placement zone and joint controls accepted: side door aperture and low-floor threshold datum | operator |
-| 50 | hold point: door/window aperture survey | quality inspection | 0.35 | `GAUGE-LM3-BDY-SA120` | door/window aperture survey | quality inspector |
-| 60 | hold point: roof rail survey | quality inspection | 0.35 | `GAUGE-LM3-BDY-SA120` | roof rail survey | quality inspector |
-| 70 | hold point: carbody dimensional report | quality inspection | 0.35 | `QA-LM3-BDY-SA120` | carbody dimensional report | quality inspector |
-| 80 | close traveler, attach nonconformance/deviation log, and release to next parent | production control | 0.3 | `REL-LM3-BDY-SA120`<br>`NCR-LM3-BDY-SA120` | all operation and QA signoffs are complete | manufacturing engineer |
+| 30 | install and integrate LM3-BDY-P060: low-floor centre pan and removable service-floor support set | weld and fixture cell | 1.0 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-P060`<br>`TORQUE-LM3-BDY-P060` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
+| 40 | install and integrate LM3-BDY-P061: raised bogie-end deck, transition ramp, and removable hatch-frame set | weld and fixture cell | 1.17 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-P061`<br>`TORQUE-LM3-BDY-P061` | placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums | operator |
+| 50 | install and integrate LM3-BDY-P070: side-wall post, door portal, waist rail, and cant rail kit | weld and fixture cell | 1.18 | `FIX-LM3-BDY-SA120`<br>`GAUGE-LM3-BDY-P070`<br>`TORQUE-LM3-BDY-P070` | placement zone and joint controls accepted: side door aperture and low-floor threshold datum | operator |
+| 60 | hold point: door/window aperture survey | quality inspection | 0.35 | `GAUGE-LM3-BDY-SA120` | door/window aperture survey | quality inspector |
+| 70 | hold point: roof rail survey | quality inspection | 0.35 | `GAUGE-LM3-BDY-SA120` | roof rail survey | quality inspector |
+| 80 | hold point: carbody dimensional report | quality inspection | 0.35 | `QA-LM3-BDY-SA120` | carbody dimensional report | quality inspector |
+| 90 | close traveler, attach nonconformance/deviation log, and release to next parent | production control | 0.3 | `REL-LM3-BDY-SA120`<br>`NCR-LM3-BDY-SA120` | all operation and QA signoffs are complete | manufacturing engineer |
 
 ## Operator / inspection signoff block
 

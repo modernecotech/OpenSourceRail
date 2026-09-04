@@ -1,18 +1,18 @@
-# LM3-BDY-P130 — one-metre clip-on fiberglass side and roof body module
+# LM3-BDY-P130 — one-metre clip-on solid-side fiberglass body module
 
 | Field | Value |
 |---|---|
 | Definition type | Product item |
 | Layer | `fabricated-part` |
 | Route | `MAKE` |
-| Quantity per trainset | 144 module |
+| Quantity per trainset | 48 module |
 | Parent assembly | `LM3-SHELL-A200` |
-| Procurement BOM lines | `B6`, `B7` |
+| Procurement BOM lines | `B6` |
 | Maturity | `release-candidate` |
 
 ## Make / buy basis
 
-One common 1,000 mm longitudinal mould pitch; CNC-trimmed side/window/door and roof variants hang from the same released clip grid.
+Solid side-bay panels use the common 1,000 mm mould pitch and released clip grid; the final quantity is frozen by the door/window bay map.
 
 ## Material specification
 

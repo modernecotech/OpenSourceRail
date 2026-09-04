@@ -8,11 +8,12 @@
   "children": [
     "LM3-BDY-P010",
     "LM3-BDY-P020",
+    "LM3-BDY-P021",
     "LM3-BDY-P030",
     "LM3-BDY-P120"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 6.93,
+  "estimated_labor_hours": 8.36,
   "id": "LM3-BDY-SA110",
   "layer": "subassembly",
   "material_spec": {
@@ -22,7 +23,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel",
+    "form_factor": "rail structural steel, formed sheet metal / stainless local hardware",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-BDY-SA110 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -31,7 +32,7 @@
   },
   "operations": [
     {
-      "labor_hours": 0.77,
+      "labor_hours": 0.85,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -61,7 +62,7 @@
       "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
       "sequence": 30,
       "signoff_role": "operator",
-      "title": "install and integrate LM3-BDY-P020: underframe centre spine and cross-bearer kit",
+      "title": "install and integrate LM3-BDY-P020: underframe centre spine and longitudinal load-path kit",
       "tooling_ids": [
         "FIX-LM3-BDY-SA110",
         "GAUGE-LM3-BDY-P020",
@@ -70,9 +71,22 @@
       "work_center": "weld and fixture cell"
     },
     {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BDY-P021: underframe cross-bearer, door-bay outrigger, and equipment-bracket pack",
+      "tooling_ids": [
+        "FIX-LM3-BDY-SA110",
+        "GAUGE-LM3-BDY-P021",
+        "TORQUE-LM3-BDY-P021"
+      ],
+      "work_center": "weld and fixture cell"
+    },
+    {
       "labor_hours": 1.12,
       "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
-      "sequence": 40,
+      "sequence": 50,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BDY-P030: bolster box, air-spring pad, and centre-pivot insert set",
       "tooling_ids": [
@@ -85,7 +99,7 @@
     {
       "labor_hours": 1.1,
       "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
-      "sequence": 50,
+      "sequence": 60,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BDY-P120: jacking pad, lifting eye, towing lug, and recovery-label kit",
       "tooling_ids": [
@@ -98,7 +112,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "material release",
-      "sequence": 60,
+      "sequence": 70,
       "signoff_role": "quality inspector",
       "title": "hold point: material release",
       "tooling_ids": [
@@ -109,7 +123,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "fixture tack survey",
-      "sequence": 70,
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "hold point: fixture tack survey",
       "tooling_ids": [
@@ -120,7 +134,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "weld/NDT release",
-      "sequence": 80,
+      "sequence": 90,
       "signoff_role": "quality inspector",
       "title": "hold point: weld/NDT release",
       "tooling_ids": [
@@ -131,7 +145,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "post-weld datum survey",
-      "sequence": 90,
+      "sequence": 100,
       "signoff_role": "quality inspector",
       "title": "hold point: post-weld datum survey",
       "tooling_ids": [
@@ -142,7 +156,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 100,
+      "sequence": 110,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

@@ -28,8 +28,8 @@ Mandatory equivalence dossier:
 
 | Measure | Value |
 |---|---:|
-| Bought-in product rows with one primary anchor | 54 / 54 |
-| Primary anchor families | 25 |
+| Bought-in product rows with one primary anchor | 56 / 56 |
+| Primary anchor families | 27 |
 
 ## Anchor families
 
@@ -37,6 +37,8 @@ Mandatory equivalence dossier:
 |---|---|---|---|---|
 | `OSR-ANC-DOOR-IFE` | [Knorr-Bremse IFE — IFE modular entrance systems](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/) | rfq-required | `LM3-EXT-P010` | Buy the first fleet cassettes and controls; localise portal, threshold, harness and service parts first; replace the cassette only after EN 14752-equivalent validation. |
 | `OSR-ANC-GLASS-AGC` | [AGC Automotive — rail glazing with framing system](https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system) | rfq-required | `LM3-EXT-P020`, `LM3-EXT-P030` | Local glass processors may replace AGC after laminate, heater, optical, edge, fire, impact and bond-system qualification against the frozen cassette drawing. |
+| `OSR-ANC-FINISH-3M` | [3M Commercial Branding and Transportation — rail-application graphic films including Controltac 180mC](https://www.3m.com/3M/en_US/p/d/b00026338/) | sample-and-system-rfq | `LM3-FIN-P010` | Print, plot, kit, apply, inspect and repair locally using the selected film/ink/overlaminate system; qualify a regional equivalent only as a complete system on the released LM3 base finish. |
+| `OSR-ANC-COOLROOF-PURDUE` | [Purdue University research reference — no nominated commercial supplier — 2020 CaCO3-acrylic passive radiative-cooling paint formulation](https://docs.lib.purdue.edu/coolingpubs/369/) | coupon-development-and-one-car-trial-only | `LM3-FIN-P020` | Develop/mix trial coupons locally under competent coatings and occupational-hygiene control; do not purchase or apply fleet-wide until a controlled commercial formulation and rail evidence are released. |
 | `OSR-ANC-HVAC-LONGERTEK` | [Longertek — direct-DC rail HVAC platform](https://en.longertek.com/technological-innovation.html) | rfq-required | `LM3-EXT-P040`, `LM3-INT-P010` | Keep the released 800 V-class input, thermal duty, refrigerant, drains, duct and CAN/Ethernet interface; source local coils, ducts and service parts after performance testing. |
 | `OSR-ANC-PV-SUNMAN` | [Sunman Energy — eArc lightweight photovoltaic modules](https://www.sunman-energy.com/earc/) | sample-and-rfq | `LM3-EXT-P050`, `LM3-EXT-P070` | Equivalent local modules are acceptable after roof fire, isolation, vibration, hail/impact, walk-zone and bonded/clamped retention tests. |
 | `OSR-ANC-FLOOR-FORBO` | [Forbo Flooring Systems — Transport Flooring rail systems](https://www.forbo.com/flooring/en-aa/products/transport-flooring/rail-floor-coverings/bxw6nd) | sample-and-rfq | `LM3-EXT-P060`, `LM3-EXT-P061` | Use the supplier system for first articles; qualify local board/covering as a complete substrate, adhesive, weld, cove, hatch and fire-tested system rather than swapping one layer. |
@@ -68,7 +70,7 @@ These generated chains make the structural and mechanical ownership explicit. Re
 | Starting part | Controlled assembly chain |
 |---|---|
 | `LM3-BDY-P010` laser-cut side sill beam, LH/RH | `LM3-BDY-P010` laser-cut side sill beam, LH/RH → `LM3-BDY-SA110` underframe datum weldment → `LM3-BDY-SA120` carbody spaceframe and floor assembly → `LM3-SHELL-A200` painted carbody frame with one-metre clip-on fiberglass exterior → `LM3-CAR-A900` complete repeated car module → `LM3-TRAINSET-A000` complete light-metro trainset |
-| `LM3-BDY-P020` underframe centre spine and cross-bearer kit | `LM3-BDY-P020` underframe centre spine and cross-bearer kit → `LM3-BDY-SA110` underframe datum weldment → `LM3-BDY-SA120` carbody spaceframe and floor assembly → `LM3-SHELL-A200` painted carbody frame with one-metre clip-on fiberglass exterior → `LM3-CAR-A900` complete repeated car module → `LM3-TRAINSET-A000` complete light-metro trainset |
+| `LM3-BDY-P020` underframe centre spine and longitudinal load-path kit | `LM3-BDY-P020` underframe centre spine and longitudinal load-path kit → `LM3-BDY-SA110` underframe datum weldment → `LM3-BDY-SA120` carbody spaceframe and floor assembly → `LM3-SHELL-A200` painted carbody frame with one-metre clip-on fiberglass exterior → `LM3-CAR-A900` complete repeated car module → `LM3-TRAINSET-A000` complete light-metro trainset |
 | `LM3-BDY-P030` bolster box, air-spring pad, and centre-pivot insert set | `LM3-BDY-P030` bolster box, air-spring pad, and centre-pivot insert set → `LM3-BDY-SA110` underframe datum weldment → `LM3-BDY-SA120` carbody spaceframe and floor assembly → `LM3-SHELL-A200` painted carbody frame with one-metre clip-on fiberglass exterior → `LM3-CAR-A900` complete repeated car module → `LM3-TRAINSET-A000` complete light-metro trainset |
 | `LM3-CWL-P010` end-cowl fiberglass laminate, insert, adhesive, and coupon material kit | `LM3-CWL-P010` end-cowl fiberglass laminate, insert, adhesive, and coupon material kit → `LM3-CWL-SA710` front/back fiberglass cowl cast kit → `LM3-END-SA700` train-end cowl, coupler, crash, and sensor assembly → `LM3-TRAINSET-A000` complete light-metro trainset |
 | `LM3-END-P010` automatic end coupler and crash-energy absorber | `LM3-END-P010` automatic end coupler and crash-energy absorber → `LM3-END-SA700` train-end cowl, coupler, crash, and sensor assembly → `LM3-TRAINSET-A000` complete light-metro trainset |
@@ -86,6 +88,8 @@ These generated chains make the structural and mechanical ownership explicit. Re
 
 - `OSR-ANC-DOOR-IFE`: Exact aperture, stroke, voltage, software and certification configuration remains to be quoted.
 - `OSR-ANC-GLASS-AGC`: Curvature, heater power, optical zones, laminate stack and frame/bond geometry remain project-specific.
+- `OSR-ANC-FINISH-3M`: Exact film, colour/ink, overlaminate, edge treatment, fire evidence, hot-climate durability and warranty territory remain to be selected and tested.
+- `OSR-ANC-COOLROOF-PURDUE`: No commercial rail-qualified product, vehicle durability pack, fire evidence or released LM3 application procedure is established by the research paper.
 - `OSR-ANC-HVAC-LONGERTEK`: Public material does not freeze the LM3 24 kW duty, rail evidence or roof envelope.
 - `OSR-ANC-PV-SUNMAN`: Select an exact module and rail-compatible clamp/bond stack after the roof curvature and electrical string are frozen.
 - `OSR-ANC-FLOOR-FORBO`: Structural board selection and the final covering/adhesive combination remain to be frozen.
@@ -112,5 +116,5 @@ These generated chains make the structural and mechanical ownership explicit. Re
 
 ## Controlled inputs
 
-- Anchor source: `lib/templates/trainset-supplier-anchors.toml` (`ca8d951426b540645cd588abaf46ea305988aaca67f860d1dba4ec920422bd4e`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`4c2ec91449f361762556e35852f8b914e3bcec03c1b9f940d8c756e5db7cf7a5`)
+- Anchor source: `lib/templates/trainset-supplier-anchors.toml` (`4621199776db6c8c0074555b71bfb03657967cd7d563e204accd009d647ea820`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05`)

@@ -8,16 +8,18 @@ unsigned until a real build cell uses and approves them.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Traveler templates: `127`
+- Traveler templates: `146`
 
 | ID | Type | Route/layer | Traveler |
 |---|---|---|---|
 | `LM3-BDY-P010` | product item | `MAKE` | [md](parts/LM3-BDY-P010.md) |
 | `LM3-BDY-P020` | product item | `MAKE` | [md](parts/LM3-BDY-P020.md) |
+| `LM3-BDY-P021` | product item | `MAKE` | [md](parts/LM3-BDY-P021.md) |
 | `LM3-BDY-P030` | product item | `MAKE` | [md](parts/LM3-BDY-P030.md) |
 | `LM3-BDY-P040` | product item | `MAKE` | [md](parts/LM3-BDY-P040.md) |
 | `LM3-BDY-P050` | product item | `MAKE` | [md](parts/LM3-BDY-P050.md) |
 | `LM3-BDY-P060` | product item | `MAKE` | [md](parts/LM3-BDY-P060.md) |
+| `LM3-BDY-P061` | product item | `MAKE` | [md](parts/LM3-BDY-P061.md) |
 | `LM3-BDY-P070` | product item | `MAKE` | [md](parts/LM3-BDY-P070.md) |
 | `LM3-BDY-P080` | product item | `MAKE` | [md](parts/LM3-BDY-P080.md) |
 | `LM3-BDY-P090` | product item | `MAKE` | [md](parts/LM3-BDY-P090.md) |
@@ -28,9 +30,14 @@ unsigned until a real build cell uses and approves them.
 | `LM3-BDY-P110` | product item | `MAKE` | [md](parts/LM3-BDY-P110.md) |
 | `LM3-BDY-P120` | product item | `MAKE` | [md](parts/LM3-BDY-P120.md) |
 | `LM3-BDY-P130` | product item | `MAKE` | [md](parts/LM3-BDY-P130.md) |
+| `LM3-BDY-P131` | product item | `MAKE` | [md](parts/LM3-BDY-P131.md) |
+| `LM3-BDY-P132` | product item | `MAKE` | [md](parts/LM3-BDY-P132.md) |
+| `LM3-BDY-P133` | product item | `MAKE` | [md](parts/LM3-BDY-P133.md) |
 | `LM3-BDY-P140` | product item | `MAKE` | [md](parts/LM3-BDY-P140.md) |
 | `LM3-ROOF-P010` | product item | `MAKE` | [md](parts/LM3-ROOF-P010.md) |
 | `LM3-ROOF-P020` | product item | `MAKE` | [md](parts/LM3-ROOF-P020.md) |
+| `LM3-ROOF-P030` | product item | `MAKE` | [md](parts/LM3-ROOF-P030.md) |
+| `LM3-ROOF-P040` | product item | `MAKE` | [md](parts/LM3-ROOF-P040.md) |
 | `LM3-CWL-P010` | product item | `SOURCE` | [md](parts/LM3-CWL-P010.md) |
 | `LM3-CWL-P011` | product item | `MAKE` | [md](parts/LM3-CWL-P011.md) |
 | `LM3-CWL-P012` | product item | `MAKE` | [md](parts/LM3-CWL-P012.md) |
@@ -38,6 +45,9 @@ unsigned until a real build cell uses and approves them.
 | `LM3-CWL-P014` | product item | `MAKE` | [md](parts/LM3-CWL-P014.md) |
 | `LM3-CWL-P015` | product item | `MAKE` | [md](parts/LM3-CWL-P015.md) |
 | `LM3-CWL-P016` | product item | `MAKE` | [md](parts/LM3-CWL-P016.md) |
+| `LM3-FAS-P010` | product item | `MAKE` | [md](parts/LM3-FAS-P010.md) |
+| `LM3-FAS-P020` | product item | `MAKE` | [md](parts/LM3-FAS-P020.md) |
+| `LM3-FAS-P030` | product item | `SOURCE` | [md](parts/LM3-FAS-P030.md) |
 | `LM3-ART-P010` | product item | `MAKE` | [md](parts/LM3-ART-P010.md) |
 | `LM3-BOG-P010` | product item | `MAKE` | [md](parts/LM3-BOG-P010.md) |
 | `LM3-BOG-P020` | product item | `MAKE` | [md](parts/LM3-BOG-P020.md) |
@@ -68,11 +78,20 @@ unsigned until a real build cell uses and approves them.
 | `LM3-EXT-P070` | product item | `SOURCE` | [md](parts/LM3-EXT-P070.md) |
 | `LM3-EXT-P080` | product item | `BID` | [md](parts/LM3-EXT-P080.md) |
 | `LM3-EXT-P090` | product item | `BID` | [md](parts/LM3-EXT-P090.md) |
+| `LM3-FIN-P010` | product item | `BID` | [md](parts/LM3-FIN-P010.md) |
+| `LM3-FIN-P020` | product item | `BID` | [md](parts/LM3-FIN-P020.md) |
 | `LM3-INT-P010` | product item | `SOURCE` | [md](parts/LM3-INT-P010.md) |
 | `LM3-INT-P020` | product item | `MAKE` | [md](parts/LM3-INT-P020.md) |
+| `LM3-INT-P021` | product item | `MAKE` | [md](parts/LM3-INT-P021.md) |
+| `LM3-INT-P022` | product item | `MAKE` | [md](parts/LM3-INT-P022.md) |
 | `LM3-INT-P030` | product item | `MAKE` | [md](parts/LM3-INT-P030.md) |
+| `LM3-INT-P031` | product item | `MAKE` | [md](parts/LM3-INT-P031.md) |
+| `LM3-INT-P032` | product item | `MAKE` | [md](parts/LM3-INT-P032.md) |
 | `LM3-INT-P040` | product item | `MAKE` | [md](parts/LM3-INT-P040.md) |
+| `LM3-INT-P041` | product item | `MAKE` | [md](parts/LM3-INT-P041.md) |
 | `LM3-INT-P050` | product item | `MAKE` | [md](parts/LM3-INT-P050.md) |
+| `LM3-INT-P051` | product item | `MAKE` | [md](parts/LM3-INT-P051.md) |
+| `LM3-INT-P052` | product item | `MAKE` | [md](parts/LM3-INT-P052.md) |
 | `LM3-TRC-P010` | product item | `BID` | [md](parts/LM3-TRC-P010.md) |
 | `LM3-TRC-P020` | product item | `BID` | [md](parts/LM3-TRC-P020.md) |
 | `LM3-TRC-P030` | product item | `BID` | [md](parts/LM3-TRC-P030.md) |

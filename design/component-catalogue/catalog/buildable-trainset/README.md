@@ -33,7 +33,7 @@ current basic design and what must be closed before first steel cut.
 | First-article execution team | [`first-article-execution-pack.md`](first-article-execution-pack.md) | Follow one ordered procurement, rig, physical-test and independent-acceptance route across all 12 evidence gates |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
-| Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 101 product links, nine timed methods, 20 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
+| Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 120 product links, nine timed methods, 30 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
 
 Open the [101 native FreeCAD parts and 26 assembly files](../../models/cad/README.md),
 the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd),

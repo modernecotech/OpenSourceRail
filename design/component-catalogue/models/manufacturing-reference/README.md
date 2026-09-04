@@ -2,7 +2,7 @@
 
 This folder contains deterministic STEP geometry, DXF XY inspection
 projections and browser-viewable three-view SVG reference sheets for the
-46 locally manufactured (`MAKE`) product rows. STEP is provided for open
+62 locally manufactured (`MAKE`) product rows. STEP is provided for open
 CAD handoff. DXF and SVG control only design-reference envelopes; they are
 not sheet-metal flat patterns, tolerance drawings or NC files.
 

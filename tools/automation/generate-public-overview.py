@@ -165,7 +165,7 @@ def render() -> str:
   <section class="foot">
     <div class="card">
       <h2>Buildable pathway, visible gaps</h2>
-      <p>Reference packages cover all {values['trainset_product_rows']} LM3 product rows, nine timed manufacturing methods, 20 mould/tooling families, modular rolling stock, stations, civil works, battery traction, renewable charging, operations and assurance. Supplier freeze, detailed drawings, proof testing, certification and authority approval remain explicit release gates.</p>
+      <p>Reference packages cover all {values['trainset_product_rows']} LM3 product rows, nine timed manufacturing methods, 30 mould/tooling families, modular rolling stock, stations, civil works, battery traction, renewable charging, operations and assurance. Supplier freeze, detailed drawings, proof testing, certification and authority approval remain explicit release gates.</p>
       <p class="small">The engineering catalogue contains {values['catalogue']} models. European comparison designs are retained for technical inspection but excluded from public evidence totals and examples.</p>
     </div>
     <div class="card">
