@@ -1,0 +1,657 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-SYS-310",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "passenger systems integrator",
+  "package_ids": [
+    "STN-FRP-040"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "hardware BOM check",
+        "image checksum",
+        "self-test",
+        "network enumeration"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "halt"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "standard"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "major"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "S-SBC station/depot host and rack enclosure"
+      ],
+      "id": "STN-PAX-P010",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "SOURCE",
+      "source_refs": [
+        "control-electronics/s-sbc/diy-assembly/README.md",
+        "control-electronics/s-sbc/schematics/v2-spec/README.md"
+      ],
+      "title": "S-SBC station/depot host and rack enclosure",
+      "unit": "ea"
+    },
+    {
+      "acceptance": [
+        "content test",
+        "visibility check",
+        "emergency-message test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "halt"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "standard"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "major"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "passenger-information display and route-strip kit"
+      ],
+      "id": "STN-PAX-P020",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "SOURCE",
+      "source_refs": [
+        "standard-archetype/accessibility.md",
+        "OSR-STD-E-007"
+      ],
+      "title": "passenger-information display and route-strip kit",
+      "unit": "display point"
+    },
+    {
+      "acceptance": [
+        "camera coverage",
+        "speech intelligibility",
+        "help-point call",
+        "OCC failover test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "halt"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "standard"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "major"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit"
+      ],
+      "id": "STN-PAX-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "default-product-specifications.json::STN-PAX-P030",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "standard-archetype/services.md",
+        "OSR-STD-E-006",
+        "OSR-STD-E-007"
+      ],
+      "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+      "unit": "platform kit"
+    },
+    {
+      "acceptance": [
+        "accessible-lane gauge",
+        "AFC transaction test",
+        "power-loss release",
+        "plinth anchor test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "halt"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "standard"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "major"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "fare gate, accessible gate, and validator equipment kit"
+      ],
+      "id": "STN-PAX-P040",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "default-product-specifications.json::STN-PAX-P040",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "RFC 0010 \u00a78",
+        "OSR-STD-A-003",
+        "OSR-STD-A-014"
+      ],
+      "title": "fare gate, accessible gate, and validator equipment kit",
+      "unit": "lane/validator"
+    },
+    {
+      "acceptance": [
+        "transaction test",
+        "accessibility reach check",
+        "cabinet ingress test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "standard"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "major"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "ticket-vending machine equipment kit"
+      ],
+      "id": "STN-PAX-P050",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "default-product-specifications.json::STN-PAX-P050",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "RFC 0010 \u00a78",
+        "OSR-STD-A-003"
+      ],
+      "title": "ticket-vending machine equipment kit",
+      "unit": "ea"
+    },
+    {
+      "acceptance": [
+        "wheelchair-zone survey",
+        "signage schedule check",
+        "circulation gauge"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "halt"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "standard"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "major"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit"
+      ],
+      "id": "STN-PAX-P060",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "SOURCE",
+      "source_refs": [
+        "standard-archetype/accessibility.md",
+        "OSR-STD-T-001",
+        "OSR-STD-T-003"
+      ],
+      "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+      "unit": "platform kit"
+    },
+    {
+      "acceptance": [
+        "fabrication drawing",
+        "anchor proof",
+        "level/edge inspection",
+        "accessible-route clearance",
+        "bond continuity"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "halt"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "standard"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "major"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "anchored rolled-steel fare-lane / validator plinth with protected cable void"
+      ],
+      "id": "STN-PAX-P070",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "station/plinth.py",
+        "OSR-STD-A-014",
+        "OSR-STD-S-007"
+      ],
+      "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+      "unit": "lane plinth"
+    },
+    {
+      "acceptance": [
+        "fabrication drawing",
+        "anchor proof",
+        "level inspection",
+        "accessible-reach clearance",
+        "bond continuity"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "standard"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "major"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "anchored rolled-steel TVM plinth with protected power/data entry"
+      ],
+      "id": "STN-PAX-P080",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PAX-SA500",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "station/plinth.py",
+        "OSR-STD-A-003",
+        "OSR-STD-S-007"
+      ],
+      "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+      "unit": "TVM plinth"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "cabinet/plinth fabrication and coordinated equipment-layout drawings",
+    "power, data, containment, earth and fire-interface schedules",
+    "equipment anchorage, accessible reach and replacement-clearance map"
+  ],
+  "required_verification": [
+    "plinth and anchorage dimensional/proof checks",
+    "supplier FAT and station integrated functional tests",
+    "accessibility, CCTV/PA coverage and power-loss survey"
+  ],
+  "required_views": [
+    "equipment, coverage, sightline and accessible-route plan",
+    "power/data/network and OCC interface diagram",
+    "gate/TVM plinth, anchor, service-entry and replacement-clearance details"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "supplier-interface-definition",
+  "source_refs": [
+    "docs/stations/standard-archetype/accessibility.md",
+    "docs/stations/standard-archetype/services.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "passenger systems, fare equipment and plinth coordination",
+  "tooling_ids": [
+    "STN-TOOL-CABINET-PLINTH-GAUGE",
+    "STN-TOOL-FARE-PLINTH-GAUGE",
+    "STN-TOOL-ACCESSIBILITY-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "frozen operator equipment, communications, fare and cyber interfaces",
+    "utility, UPS, cooling, earthing, fire and evacuation requirements",
+    "released accessibility, sightline, coverage and maintainability zones"
+  ]
+}

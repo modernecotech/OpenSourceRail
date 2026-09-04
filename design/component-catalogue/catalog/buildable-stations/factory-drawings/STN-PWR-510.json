@@ -1,0 +1,133 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-PWR-510",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "traction power + utility",
+  "package_ids": [
+    "STN-FRP-060"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "utility approval",
+        "FAT/SAT",
+        "protection coordination",
+        "earthing test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 800,
+          "quantity_basis": "configured TPSS capacity",
+          "title": "traction power substation transformer/rectifier and protection interface",
+          "unit": "kVA installed",
+          "variant": "major"
+        },
+        {
+          "quantity": 1000,
+          "quantity_basis": "configured TPSS capacity",
+          "title": "traction power substation transformer/rectifier and protection interface",
+          "unit": "kVA installed",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 1000,
+          "quantity_basis": "configured TPSS capacity",
+          "title": "traction power substation transformer/rectifier and protection interface",
+          "unit": "kVA installed",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 1500,
+          "quantity_basis": "configured TPSS capacity",
+          "title": "traction power substation transformer/rectifier and protection interface",
+          "unit": "kVA installed",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 2000,
+          "quantity_basis": "configured TPSS capacity",
+          "title": "traction power substation transformer/rectifier and protection interface",
+          "unit": "kVA installed",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "traction power substation transformer/rectifier and protection interface"
+      ],
+      "id": "STN-CHG-P020",
+      "maturity": "buildable-after-utility-and-supplier-freeze",
+      "parent_assembly": "STN-CHG-SA700",
+      "reference_default": "default-product-specifications.json::STN-CHG-P020",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/stations.toml",
+        "RFC 0002"
+      ],
+      "title": "traction power substation transformer/rectifier and protection interface",
+      "unit": "kVA installed"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "equipment arrangement, foundation reaction and maintainability drawings",
+    "single-line, protection, earthing, isolation and cable schedules",
+    "vehicle/wayside datum, alignment, interlock and abort interface control"
+  ],
+  "required_verification": [
+    "supplier FAT and protection-coordination review",
+    "earthing, insulation, isolation and utility witness tests",
+    "vehicle alignment, charge, abort and emergency-isolation SAT"
+  ],
+  "required_views": [
+    "substation arrangement, access and fire separation",
+    "MV/DC single-line, protection and metering diagram",
+    "foundation reactions, cable entries, earthing and SCADA interfaces"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-led-supplier-interface",
+  "source_refs": [
+    "docs/stations/standard-archetype/services.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "traction substation utility and DC distribution interface",
+  "tooling_ids": [
+    "STN-TOOL-CHARGER-ALIGNMENT",
+    "STN-TOOL-EARTH-BOND-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "utility fault level, capacity, metering and protection requirements",
+    "selected charger and transformer/rectifier supplier data",
+    "released vehicle docking envelope and operational charging duty"
+  ]
+}

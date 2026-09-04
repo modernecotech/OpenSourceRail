@@ -1,0 +1,146 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-DEP-720",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "depot energy integrator + fire engineer",
+  "package_ids": [
+    "STN-FRP-090"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "supplier loss/duty and maximum-ambient declaration",
+        "supplier FAT",
+        "protection/isolation test",
+        "vehicle reach/alignment test",
+        "charge/abort/data-sync SAT",
+        "fire separation and emergency-isolation walkdown"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 4,
+          "quantity_basis": "one controlled charging/data dock per reference stall",
+          "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
+          "unit": "stall kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit"
+      ],
+      "id": "STN-DEP-P040",
+      "maturity": "buildable-after-supplier-and-energy-freeze",
+      "parent_assembly": "STN-DEP-SA850",
+      "reference_default": "default-product-specifications.json::STN-DEP-P040",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "depot/layout.py",
+        "RFC 0014 \u00a75.3",
+        "RFC 0021 \u00a76.1",
+        "engineering/analysis/stations/screening-summary.md"
+      ],
+      "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
+      "unit": "stall kit"
+    },
+    {
+      "acceptance": [
+        "structural/PV layout release",
+        "utility/protection approval",
+        "cell-to-pack propagation and heat-release evidence",
+        "outdoor compound separation/ventilation/containment review",
+        "remote isolation and gas/fire detection proof",
+        "energy-site SAT"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "4000 m2 / 600 kWp PV with 2000 kWh storage",
+          "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
+          "unit": "energy-site kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package"
+      ],
+      "id": "STN-DEP-P050",
+      "maturity": "buildable-after-energy-site-and-supplier-freeze",
+      "parent_assembly": "STN-DEP-SA850",
+      "reference_default": "default-product-specifications.json::STN-DEP-P050",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/depots.toml",
+        "RFC 0014 \u00a75.3",
+        "RFC 0002",
+        "engineering/analysis/stations/screening-summary.md"
+      ],
+      "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
+      "unit": "energy-site kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "equipment layouts, foundations, clearances and replacement paths",
+    "power/microgrid/battery isolation, fire, cooling and controls drawings",
+    "workshop lift, crane, pit, wash, stores and maintenance-data schedules"
+  ],
+  "required_verification": [
+    "supplier FAT, certification and equipment foundation survey",
+    "charging, energy, fire, cooling and emergency-isolation SAT",
+    "synchronised lift, mechanical lock, bogie extraction and crane proof"
+  ],
+  "required_views": [
+    "energy compound and stall-equipment layout",
+    "PV/storage/PCS/charger single-line and protection diagram",
+    "separation, containment, cooling, detection, remote isolation and replacement paths"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-led-supplier-interface",
+  "source_refs": [
+    "docs/rfcs/0014-depot-design-standard.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "depot charging, PV, stationary storage and isolation",
+  "tooling_ids": [
+    "STN-TOOL-VEHICLE-LIFT-GAUGE",
+    "STN-TOOL-CHARGER-ALIGNMENT",
+    "STN-TOOL-ENERGY-ISOLATION-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "selected equipment loads, heat rejection, utilities and maintenance envelopes",
+    "site building, fire, structural, energy and environmental approvals",
+    "released LM3 lift points, bogie extraction path and service requirements"
+  ]
+}

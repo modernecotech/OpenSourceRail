@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1444**.
+Indexed Markdown files: **1463**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1444**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 368 |
+| [design](#design) | 387 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -993,6 +993,25 @@ Indexed Markdown files: **1444**.
 | [`design/component-catalogue/catalog/README.md`](../design/component-catalogue/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`design/component-catalogue/catalog/buildable-stations/README.md`](../design/component-catalogue/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
 | [`design/component-catalogue/catalog/buildable-stations/default-product-specifications.md`](../design/component-catalogue/catalog/buildable-stations/default-product-specifications.md) | Station open-product reference defaults |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-400.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-400.md) | STN-ACC-400 — at-grade pedestrian approach and protected route |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-410.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-410.md) | STN-ACC-410 — lift, stair and pedestrian overbridge coordination |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CIV-100.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CIV-100.md) | STN-CIV-100 — precast platform and guideway product definition |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CIV-110.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CIV-110.md) | STN-CIV-110 — site set-out, levelling, drainage and closure coordination |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-200.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-200.md) | STN-CNP-200 — platform canopy steel, footing and roof assembly |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-210.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-210.md) | STN-CNP-210 — platform canopy PV strings, bonding and drainage interfaces |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-220.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-220.md) | STN-CNP-220 — auxiliary canopy truss, roof bay and foundation interface |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-230.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-CNP-230.md) | STN-CNP-230 — auxiliary canopy PV, drainage, lightning and safe access |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-700.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-700.md) | STN-DEP-700 — depot site, formation, drainage and service-road layout |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-710.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-710.md) | STN-DEP-710 — depot throat turnout, routes and track geometry |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-720.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-720.md) | STN-DEP-720 — depot charging, PV, stationary storage and isolation |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-730.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-DEP-730.md) | STN-DEP-730 — depot workshop, vehicle lift and building-services integration |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-PWR-500.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-PWR-500.md) | STN-PWR-500 — wayside charger cabinet and vehicle docking interface |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-PWR-510.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-PWR-510.md) | STN-PWR-510 — traction substation utility and DC distribution interface |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-SYS-300.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-SYS-300.md) | STN-SYS-300 — station LV, UPS, fire and services cabinet integration |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-SYS-310.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-SYS-310.md) | STN-SYS-310 — passenger systems, fare equipment and plinth coordination |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-TRK-600.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-TRK-600.md) | STN-TRK-600 — 1:9 turnout rail, crossing, bearer and track-end definition |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-TRK-610.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-TRK-610.md) | STN-TRK-610 — point operation, lock, detection, heating and harness |
+| [`design/component-catalogue/catalog/buildable-stations/factory-drawings/index.md`](../design/component-catalogue/catalog/buildable-stations/factory-drawings/index.md) | Station and civil drawing-definition seeds |
 | [`design/component-catalogue/catalog/buildable-stations/factory-release-readiness.md`](../design/component-catalogue/catalog/buildable-stations/factory-release-readiness.md) | Station and civil factory/release readiness |
 | [`design/component-catalogue/catalog/buildable-stations/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-stations/factory-release-work-packages.md) | Station and civil factory/release work packages |
 | [`design/component-catalogue/catalog/buildable-stations/open-release-gaps.md`](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) | Station open release gap register |

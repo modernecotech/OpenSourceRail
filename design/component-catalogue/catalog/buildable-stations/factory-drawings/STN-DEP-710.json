@@ -1,0 +1,108 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-DEP-710",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "permanent-way + signalling integration",
+  "package_ids": [
+    "STN-FRP-080"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "controlled STN-TRK-SA800 definition",
+        "shop bench proof",
+        "yard geometry survey",
+        "route/detection proof"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "ceil(4 reference stalls / 2) throat turnouts",
+          "title": "1:9 depot-throat turnout assembly replicated from the terminal turnout standard",
+          "unit": "turnout assembly",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "1:9 depot-throat turnout assembly replicated from the terminal turnout standard"
+      ],
+      "id": "STN-DEP-P030",
+      "maturity": "buildable-after-turnout-design-and-site-freeze",
+      "parent_assembly": "STN-DEP-SA850",
+      "reference_default": "default-product-specifications.json::STN-DEP-P030",
+      "release_path": "deployment-specific",
+      "route": "MAKE",
+      "source_refs": [
+        "depot/layout.py",
+        "track/turnout.py",
+        "RFC 0012 \u00a79",
+        "RFC 0014 \u00a75.4"
+      ],
+      "title": "1:9 depot-throat turnout assembly replicated from the terminal turnout standard",
+      "unit": "turnout assembly"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "earthworks, pavement, drainage, boundary and service-road drawings",
+    "stabling, inspection, wash and workshop track-layout drawings",
+    "turnout, stop-block, walkways, crossings and clearance-control schedule"
+  ],
+  "required_verification": [
+    "formation, compaction, drainage and pavement records",
+    "track geometry, clearance and stop-block proof",
+    "route, detection and vehicle swept-path demonstration"
+  ],
+  "required_views": [
+    "depot throat and route layout",
+    "turnout assembly, detection and cable interfaces",
+    "clearance, stop, hand-wind and degraded-operation details"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-interface-definition",
+  "source_refs": [
+    "docs/rfcs/0014-depot-design-standard.md",
+    "docs/rfcs/0012-switches-and-crossings.md"
+  ],
+  "title": "depot throat turnout, routes and track geometry",
+  "tooling_ids": [
+    "STN-TOOL-DEPOT-SET-OUT",
+    "STN-TOOL-TRACK-GEOMETRY",
+    "STN-TOOL-DRAINAGE-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "boundary/topographical/utility/geotechnical surveys and environmental approvals",
+    "released fleet plan, movements, swept paths and maintenance concept",
+    "controlled depot layout, gradients, drainage/outfall and track standards"
+  ]
+}

@@ -35,7 +35,11 @@ from osr_mech.station.solar_roof import EAVE_OVERHANG_MM
 from osr_mech.station.factory_release import (
     base_release_payload,
     render_station_release_readiness,
+    render_station_drawing_index,
+    render_station_drawing_seed,
     station_product_release_path,
+    station_drawing_index_payload,
+    station_drawing_seed_payloads,
     station_release_record_template,
 )
 from osr_mech.station.default_specifications import (
@@ -1235,6 +1239,8 @@ def render_index(variants: tuple[StationVariant, ...]) -> str:
             "deployment-specific scope. The intentionally open [`readiness register`](factory-release-readiness.md)",
             "and [evidence template](evidence/factory-release-record-template.json) prevent",
             "catalogue maturity from being mistaken for fabrication or construction release.",
+            "The 18 individual [`drawing-definition seeds`](factory-drawings/index.md)",
+            "provide controlled drafting/checking briefs; none is issued.",
             "The [`reference defaults`](default-product-specifications.md) give all 29 open",
             "product families practical concept/RFQ values plus mandatory override triggers.",
             "The generated [`station product reconciliation`](station-product-reconciliation.md)",
@@ -1535,6 +1541,25 @@ def write_outputs(
     )
     (catalog_dir / "factory-release-readiness.md").write_text(
         render_station_release_readiness(release_record), encoding="utf-8"
+    )
+    drawings_dir = catalog_dir / "factory-drawings"
+    drawings_dir.mkdir(parents=True, exist_ok=True)
+    drawing_seeds = station_drawing_seed_payloads(factory_release)
+    for seed in drawing_seeds:
+        drawing_id = str(seed["drawing_id"])
+        (drawings_dir / f"{drawing_id}.json").write_text(
+            json.dumps(seed, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        (drawings_dir / f"{drawing_id}.md").write_text(
+            render_station_drawing_seed(seed), encoding="utf-8"
+        )
+    (drawings_dir / "index.json").write_text(
+        json.dumps(station_drawing_index_payload(drawing_seeds), indent=2, sort_keys=True)
+        + "\n",
+        encoding="utf-8",
+    )
+    (drawings_dir / "index.md").write_text(
+        render_station_drawing_index(drawing_seeds), encoding="utf-8"
     )
     unique_products = {
         item.id: item

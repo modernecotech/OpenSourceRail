@@ -12,7 +12,12 @@ from osr_mech.buildable_stations import (
 )
 from osr_mech.common import StationArchetype
 from osr_mech.station.factory_release import (
+    render_station_drawing_index,
+    render_station_drawing_seed,
     render_station_release_readiness,
+    station_drawing_index_payload,
+    station_drawing_metadata,
+    station_drawing_seed_payloads,
     station_product_release_path,
     station_release_packages,
     station_release_record_template,
@@ -80,6 +85,11 @@ def test_station_release_record_is_complete_but_unfilled() -> None:
         for drawing in package["drawing_records"]
     )
     assert all(
+        drawing["definition_seed_ref"].startswith("factory-drawings/STN-")
+        for package in record["packages"]
+        for drawing in package["drawing_records"]
+    )
+    assert all(
         verification["status"] == "not-performed"
         for package in record["packages"]
         for verification in package["verification_records"]
@@ -126,3 +136,34 @@ def test_generated_reference_default_artifacts_are_current() -> None:
     assert (root / "default-product-specifications.md").read_text() == render_default_specifications(
         payload, {product_id: item.title for product_id, item in products.items()}
     )
+
+
+def test_station_drawing_seeds_cover_all_products_and_defaults() -> None:
+    payload = station_factory_release_payload(_variants())
+    seeds = station_drawing_seed_payloads(payload)
+    assert len(seeds) == 18
+    assert {seed["drawing_id"] for seed in seeds} == {
+        row.id for row in station_drawing_metadata()
+    }
+    assert {
+        product["id"] for seed in seeds for product in seed["product_rows"]
+    } == set(payload["controlled_product_ids"])
+    assert all(seed["issue_status"] == "definition-seed-not-issued" for seed in seeds)
+    assert all(seed["required_views"] and seed["mandatory_drawing_controls"] for seed in seeds)
+    index = station_drawing_index_payload(seeds)
+    assert index["drawing_count"] == 18
+    assert index["controlled_product_count"] == 45
+    assert index["reference_default_product_count"] == 29
+    assert "none issued" in render_station_drawing_index(seeds)
+
+
+def test_generated_station_drawing_seeds_are_current() -> None:
+    payload = station_factory_release_payload(_variants())
+    seeds = station_drawing_seed_payloads(payload)
+    root = Path(__file__).resolve().parents[1] / "catalog/buildable-stations/factory-drawings"
+    assert json.loads((root / "index.json").read_text()) == station_drawing_index_payload(seeds)
+    assert (root / "index.md").read_text() == render_station_drawing_index(seeds)
+    for seed in seeds:
+        drawing_id = seed["drawing_id"]
+        assert json.loads((root / f"{drawing_id}.json").read_text()) == seed
+        assert (root / f"{drawing_id}.md").read_text() == render_station_drawing_seed(seed)

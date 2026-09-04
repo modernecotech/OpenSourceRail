@@ -25,5 +25,7 @@ Populate [`factory-release-record-template.json`](evidence/factory-release-recor
 under document control. Reusable factory information may be released independently
 only where its package boundary permits; site work still requires the deployment
 survey, calculations, supplier configuration, permits and named approvals.
+Use the individual [`factory-drawings/`](factory-drawings/index.md) seeds
+as drafting/checking briefs, never as issued fabrication or construction drawings.
 
 Boundary: These packages define reusable drafting and deployment handoff scope. They are not approved fabrication/construction drawings, supplier selections, signed calculations, permits, surveys or performed acceptance records.

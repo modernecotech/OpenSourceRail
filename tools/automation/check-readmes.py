@@ -199,6 +199,7 @@ def main() -> int:
                 "factory-release-readiness.md",
                 "factory-release-record-template.json",
                 "default-product-specifications.md",
+                "factory-drawings/index.md",
             ),
         }
         for path, snippets in current_contracts.items():

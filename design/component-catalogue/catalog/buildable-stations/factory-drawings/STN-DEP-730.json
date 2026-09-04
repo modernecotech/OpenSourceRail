@@ -1,0 +1,150 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-DEP-730",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "depot equipment + building services integration",
+  "package_ids": [
+    "STN-FRP-090"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "building/egress release",
+        "foundation reaction calculation",
+        "four-point LM3 interface gauge",
+        "synchronized lift proof and mechanical-lock test",
+        "bogie extraction sweep",
+        "crane certification",
+        "pit/fall-protection inspection",
+        "lathe acceptance",
+        "wash/recycling SAT"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1800.0,
+          "quantity_basis": "main-heavy workshop envelope and enabled equipment from the depot template",
+          "title": "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package",
+          "unit": "m2 workshop",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package"
+      ],
+      "id": "STN-DEP-P060",
+      "maturity": "buildable-after-building-and-equipment-freeze",
+      "parent_assembly": "STN-DEP-SA850",
+      "reference_default": "default-product-specifications.json::STN-DEP-P060",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/depots.toml",
+        "depot/layout.py",
+        "RFC 0014 \u00a75.1/\u00a75.2"
+      ],
+      "title": "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package",
+      "unit": "m2 workshop"
+    },
+    {
+      "acceptance": [
+        "utility capacity",
+        "2 x 30 kW packaged-DX schedule and 30 kW single-unit thermal duty proof",
+        "cooling duty/standby changeover and high-temperature alarm",
+        "fire cause/effect and remote energy-isolation test",
+        "air-system pressure test",
+        "coverage/access test",
+        "maintenance-data sync"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one coordinated services and security package per main-heavy depot",
+          "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
+          "unit": "depot services kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit"
+      ],
+      "id": "STN-DEP-P070",
+      "maturity": "buildable-after-services-and-supplier-freeze",
+      "parent_assembly": "STN-DEP-SA850",
+      "reference_default": "default-product-specifications.json::STN-DEP-P070",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "RFC 0014 \u00a75",
+        "standard-archetype/services.md",
+        "control-electronics/s-sbc/diy-assembly/README.md",
+        "engineering/analysis/stations/screening-summary.md"
+      ],
+      "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
+      "unit": "depot services kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "equipment layouts, foundations, clearances and replacement paths",
+    "power/microgrid/battery isolation, fire, cooling and controls drawings",
+    "workshop lift, crane, pit, wash, stores and maintenance-data schedules"
+  ],
+  "required_verification": [
+    "supplier FAT, certification and equipment foundation survey",
+    "charging, energy, fire, cooling and emergency-isolation SAT",
+    "synchronised lift, mechanical lock, bogie extraction and crane proof"
+  ],
+  "required_views": [
+    "workshop equipment, bays and service-clearance plan",
+    "lift/crane/lathe/wash foundations and structural reactions",
+    "cooling, LV, air, fire, data, emergency isolation and bogie-extraction sequence"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-led-supplier-interface",
+  "source_refs": [
+    "docs/rfcs/0014-depot-design-standard.md",
+    "docs/rolling-stock/light-metro-3car/field-rerailing-concept.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "depot workshop, vehicle lift and building-services integration",
+  "tooling_ids": [
+    "STN-TOOL-VEHICLE-LIFT-GAUGE",
+    "STN-TOOL-CHARGER-ALIGNMENT",
+    "STN-TOOL-ENERGY-ISOLATION-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "selected equipment loads, heat rejection, utilities and maintenance envelopes",
+    "site building, fire, structural, energy and environmental approvals",
+    "released LM3 lift points, bogie extraction path and service requirements"
+  ]
+}

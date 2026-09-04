@@ -1,0 +1,192 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-TRK-610",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "signalling/track integration",
+  "package_ids": [
+    "STN-FRP-070"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "18 kN ultimate proof",
+        "three-second throw test",
+        "manual operation",
+        "endurance/environment qualification"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one electro-mechanical point machine per turnout",
+          "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit",
+          "unit": "ea",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one electro-mechanical point machine per turnout",
+          "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit",
+          "unit": "ea",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit"
+      ],
+      "id": "STN-TRK-P040",
+      "maturity": "buildable-after-actuator-qualification",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P040",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "RFC 0012 \u00a74.2",
+        "RFC 0025 \u00a74/\u00a76"
+      ],
+      "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit",
+      "unit": "ea"
+    },
+    {
+      "acceptance": [
+        "channel independence inspection",
+        "normal/reverse detection proof",
+        "unknown-state test",
+        "W-SBC route-lock interface test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one 2oo2 fail-open detection chain per turnout",
+          "title": "dual position detector, W-SBC interface, junction, and turnout harness kit",
+          "unit": "turnout kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one 2oo2 fail-open detection chain per turnout",
+          "title": "dual position detector, W-SBC interface, junction, and turnout harness kit",
+          "unit": "turnout kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "dual position detector, W-SBC interface, junction, and turnout harness kit"
+      ],
+      "id": "STN-TRK-P050",
+      "maturity": "buildable-after-hardware-freeze",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P050",
+      "release_path": "supplier-configuration",
+      "route": "SOURCE",
+      "source_refs": [
+        "RFC 0012 \u00a75",
+        "control-electronics/w-sbc/diy-assembly/README.md",
+        "osr-wayside-points"
+      ],
+      "title": "dual position detector, W-SBC interface, junction, and turnout harness kit",
+      "unit": "turnout kit"
+    },
+    {
+      "acceptance": [
+        "insulation/protection test",
+        "thermostat test",
+        "cabinet ingress inspection",
+        "hot/cold function test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one conditioned points-heating and cabinet package per turnout",
+          "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit",
+          "unit": "turnout kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one conditioned points-heating and cabinet package per turnout",
+          "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit",
+          "unit": "turnout kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit"
+      ],
+      "id": "STN-TRK-P060",
+      "maturity": "buildable-after-climate-and-supplier-freeze",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P060",
+      "release_path": "supplier-configuration",
+      "route": "SOURCE",
+      "source_refs": [
+        "RFC 0012 \u00a74.2",
+        "lib/templates/climate-adapters.toml"
+      ],
+      "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit",
+      "unit": "turnout kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "rail machining, switch/closure, gauge and weld drawings",
+    "complete turnout assembly, harness, detection, heating and bench-test schedule",
+    "site set-out, installation, stop-block and commissioning drawings"
+  ],
+  "required_verification": [
+    "material, machining, weld/NDT and dimensional records",
+    "bench throw, lock, detection, hand-wind and heating proof",
+    "installed geometry, route/detection and stop-block acceptance"
+  ],
+  "required_views": [
+    "actuator, lock, detection and heater installation plan",
+    "power/safety circuits and W-SBC interface diagram",
+    "hand-wind, cable, drainage, adjustment and bench-test details"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "supplier-interface-definition",
+  "source_refs": [
+    "docs/rfcs/0012-switches-and-crossings.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "point operation, lock, detection, heating and harness",
+  "tooling_ids": [
+    "STN-TOOL-TURNOUT-BENCH",
+    "STN-TOOL-BLADE-PROFILE-GAUGE",
+    "STN-TOOL-TRACK-GEOMETRY"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released wheel/rail interface, axle loads, route speed and climate envelope",
+    "selected rail, frog, sleeper, actuator, detector and heater configurations",
+    "site track alignment, signalling, drainage and track-end geometry"
+  ]
+}

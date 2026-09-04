@@ -1,0 +1,301 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-CNP-220",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "structural engineer + steel fabricator",
+  "package_ids": [
+    "STN-FRP-030"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "panel fire/material certificate",
+        "module dimensional report",
+        "watertightness test",
+        "PV insulation/polarity test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "ceil(148.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "halt"
+        },
+        {
+          "quantity": 7,
+          "quantity_basis": "ceil(1296.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "standard"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "ceil(1395.2 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "major"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(1792.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 12,
+          "quantity_basis": "ceil(2192.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(1694.4 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 5,
+          "quantity_basis": "ceil(794.4 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module"
+      ],
+      "id": "STN-CNP-P050",
+      "maturity": "buildable-after-supplier-and-structural-release",
+      "parent_assembly": "STN-CNP-SA300",
+      "reference_default": "default-product-specifications.json::STN-CNP-P050",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "station/solar_roof.py",
+        "RFC 0010 \u00a79"
+      ],
+      "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+      "unit": "187 m2 module"
+    },
+    {
+      "acceptance": [
+        "controlled fabrication drawing",
+        "steel certificates",
+        "weld/NDT record",
+        "frame dimensional survey",
+        "galvanising report"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "halt"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "standard"
+        },
+        {
+          "quantity": 9,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "major"
+        },
+        {
+          "quantity": 11,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 13,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 11,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 6,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "22 m S355 transverse Warren-truss frame with two HSS 200 columns"
+      ],
+      "id": "STN-CNP-P060",
+      "maturity": "buildable-after-structural-calculation-and-drawing-release",
+      "parent_assembly": "STN-CNP-SA300",
+      "reference_default": "default-product-specifications.json::STN-CNP-P060",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "standard-archetype/canopy.md",
+        "RFC 0010 \u00a79"
+      ],
+      "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+      "unit": "shared frame"
+    },
+    {
+      "acceptance": [
+        "site geotechnical release",
+        "foundation calculation",
+        "rebar/pre-pour inspection",
+        "anchor-template survey",
+        "concrete test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 4,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "halt"
+        },
+        {
+          "quantity": 16,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "standard"
+        },
+        {
+          "quantity": 18,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "major"
+        },
+        {
+          "quantity": 22,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 26,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 22,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 12,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit"
+      ],
+      "id": "STN-CNP-P070",
+      "maturity": "buildable-after-site-structural-release",
+      "parent_assembly": "STN-CIV-SA100",
+      "reference_default": "default-product-specifications.json::STN-CNP-P070",
+      "release_path": "deployment-specific",
+      "route": "MAKE",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "standard-archetype/canopy.md",
+        "RFC 0010 \u00a79"
+      ],
+      "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+      "unit": "column kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "repeatable truss fabrication and roof-bay module drawings",
+    "site footing, anchor, erection, gutter/downpipe and access drawings",
+    "PV string, protection, bonding and commissioning schedule"
+  ],
+  "required_verification": [
+    "truss weld/NDT and dimensional survey",
+    "foundation pre-pour, anchor and erected-geometry surveys",
+    "water, electrical, lightning and edge-protection acceptance tests"
+  ],
+  "required_views": [
+    "module row plan and elevations",
+    "truss member, node, splice, column and base sections",
+    "foundation reactions, anchor template and erection sequence"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-led-fabrication-definition",
+  "source_refs": [
+    "docs/stations/standard-archetype/canopy.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "auxiliary canopy truss, roof bay and foundation interface",
+  "tooling_ids": [
+    "STN-TOOL-TRUSS-FIXTURE",
+    "STN-TOOL-AUX-ANCHOR-TEMPLATE",
+    "STN-TOOL-AUX-ROOF-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released site layout, egress, fire, drainage and maintenance-access plan",
+    "site-specific structural calculation and foundation reactions",
+    "selected roof/PV/lightning/edge-protection supplier configurations"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-ACC-410",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "structural/accessibility engineer + lift supplier",
+  "package_ids": [
+    "STN-FRP-050"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "lift certification",
+        "fire recall test",
+        "backup-power test",
+        "accessibility survey"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 4,
+          "quantity_basis": "configured step-free-core count",
+          "title": "lift/stair step-free circulation core",
+          "unit": "core",
+          "variant": "interchange-elevated"
+        }
+      ],
+      "configured_titles": [
+        "lift/stair step-free circulation core"
+      ],
+      "id": "STN-ACC-P020",
+      "maturity": "buildable-after-site-and-supplier-freeze",
+      "parent_assembly": "STN-ACC-SA600",
+      "reference_default": "default-product-specifications.json::STN-ACC-P020",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/stations.toml",
+        "RFC 0010 \u00a75"
+      ],
+      "title": "lift/stair step-free circulation core",
+      "unit": "core"
+    },
+    {
+      "acceptance": [
+        "structural release",
+        "clearance survey",
+        "egress test",
+        "weatherproofing inspection"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "configured access-bridge count",
+          "title": "pedestrian overbridge/concourse structural and enclosure kit",
+          "unit": "ea",
+          "variant": "interchange-elevated"
+        }
+      ],
+      "configured_titles": [
+        "pedestrian overbridge/concourse structural and enclosure kit"
+      ],
+      "id": "STN-ACC-P030",
+      "maturity": "buildable-after-site-and-supplier-freeze",
+      "parent_assembly": "STN-ACC-SA600",
+      "reference_default": "default-product-specifications.json::STN-ACC-P030",
+      "release_path": "deployment-specific",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/stations.toml",
+        "RFC 0011 \u00a77"
+      ],
+      "title": "pedestrian overbridge/concourse structural and enclosure kit",
+      "unit": "ea"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "approach, ramp, kerb, boundary and accessible-route drawings",
+    "lift/stair/overbridge structure, enclosure and service-interface drawings",
+    "evacuation, rescue, drainage and inspection-access plan"
+  ],
+  "required_verification": [
+    "route gradient, crossfall, width, surface and obstacle survey",
+    "structural, clearance and weatherproofing acceptance",
+    "lift certification, fire recall, backup power and egress test"
+  ],
+  "required_views": [
+    "concourse, bridge and vertical-circulation plans",
+    "structure, shaft, stair, enclosure and clearance sections",
+    "accessible route, evacuation, rescue, fire recall and service interfaces"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-led-supplier-interface",
+  "source_refs": [
+    "docs/stations/standard-archetype/accessibility.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "lift, stair and pedestrian overbridge coordination",
+  "tooling_ids": [
+    "STN-TOOL-ACCESSIBILITY-GAUGE",
+    "STN-TOOL-STAIR-RISER-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "topographical survey, land boundary, pedestrian demand and road interfaces",
+    "site structural, geotechnical, fire/egress and accessibility approvals",
+    "selected lift, enclosure and emergency-power configuration"
+  ]
+}

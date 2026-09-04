@@ -1,0 +1,363 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-CIV-100",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "civil structures + precast fabricator",
+  "package_ids": [
+    "STN-FRP-010"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "concrete certificate",
+        "dimensional inspection",
+        "lifting-point inspection"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(55.5 m / 6 m) \u00d7 1 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "halt"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "standard"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "major"
+        },
+        {
+          "quantity": 20,
+          "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 2 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 80,
+          "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 4 elevated platforms",
+          "title": "precast reinforced-concrete elevated platform L-unit",
+          "unit": "ea",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+          "unit": "ea",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "6 m ground-level station slab and depressed double-track guideway-channel panel",
+        "precast reinforced-concrete elevated platform L-unit"
+      ],
+      "id": "STN-CIV-P010",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PLT-SA200",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "civil/slab.py",
+        "RFC 0010 \u00a74.2",
+        "RFC 0011 \u00a74"
+      ],
+      "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+      "unit": "ea"
+    },
+    {
+      "acceptance": [
+        "compaction test",
+        "grout batch record",
+        "finished-level survey"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "halt"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "standard"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "major"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 4,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "platform sub-base, levelling pad, grout, and closure-pour kit"
+      ],
+      "id": "STN-CIV-P020",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PLT-SA200",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "civil/platform_l_unit.py",
+        "RFC 0011"
+      ],
+      "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+      "unit": "platform kit"
+    },
+    {
+      "acceptance": [
+        "concrete certificate",
+        "350 mm platform/ToR datum survey",
+        "coping/gap survey",
+        "drainage flow test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 19,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "halt"
+        },
+        {
+          "quantity": 40,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "standard"
+        },
+        {
+          "quantity": 40,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "major"
+        },
+        {
+          "quantity": 80,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 40,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 40,
+          "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+          "unit": "edge module",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough"
+      ],
+      "id": "STN-CIV-P040",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PLT-SA200",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "civil/guideway_channel_edge.py",
+        "RFC 0010 \u00a74.2",
+        "OSR-STD-A-011"
+      ],
+      "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+      "unit": "edge module"
+    },
+    {
+      "acceptance": [
+        "contrast check",
+        "tactile layout inspection",
+        "platform-gap survey"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 55.5,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "halt"
+        },
+        {
+          "quantity": 119.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "standard"
+        },
+        {
+          "quantity": 119.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "major"
+        },
+        {
+          "quantity": 238.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 238.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 119.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 119.0,
+          "quantity_basis": "full boarding edge length",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "platform coping, tactile strip, warning line, and edge-marker kit"
+      ],
+      "id": "STN-PLT-P010",
+      "maturity": "release-candidate",
+      "parent_assembly": "STN-PLT-SA200",
+      "reference_default": "not-required-release-candidate",
+      "release_path": "reusable-definition",
+      "route": "SOURCE",
+      "source_refs": [
+        "standard-archetype/accessibility.md",
+        "OSR-STD-A-011"
+      ],
+      "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+      "unit": "m"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "repeatable precast mould, reinforcement, insert and lifting drawings",
+    "site set-out, levelling, drainage and closure-pour schedule",
+    "platform-edge datum, tolerance and interface-control plan"
+  ],
+  "required_verification": [
+    "mould and first-article dimensional survey",
+    "concrete, reinforcement and lifting-insert records",
+    "installed track/platform gap-step and drainage survey"
+  ],
+  "required_views": [
+    "module plan, elevations and typical sections",
+    "mould, reinforcement, inserts and lifting details",
+    "platform edge, tactile, service-trough and joint interfaces"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "reusable-fabrication-definition",
+  "source_refs": [
+    "docs/stations/standard-archetype/envelope.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "precast platform and guideway product definition",
+  "tooling_ids": [
+    "STN-TOOL-PRECAST-MOULD",
+    "STN-TOOL-EDGE-GAUGE",
+    "STN-TOOL-LIFTING-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "accepted survey control, track alignment and platform stepping/gap envelope",
+    "site geotechnical, drainage/outfall and foundation design",
+    "released concrete, reinforcement, tactile and joint/seal systems"
+  ]
+}

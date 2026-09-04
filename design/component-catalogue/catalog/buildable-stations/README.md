@@ -23,6 +23,8 @@ all 45 unique products as reusable-definition, supplier-configuration or
 deployment-specific scope. The intentionally open [`readiness register`](factory-release-readiness.md)
 and [evidence template](evidence/factory-release-record-template.json) prevent
 catalogue maturity from being mistaken for fabrication or construction release.
+The 18 individual [`drawing-definition seeds`](factory-drawings/index.md)
+provide controlled drafting/checking briefs; none is issued.
 The [`reference defaults`](default-product-specifications.md) give all 29 open
 product families practical concept/RFQ values plus mandatory override triggers.
 The generated [`station product reconciliation`](station-product-reconciliation.md)

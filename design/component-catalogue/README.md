@@ -56,6 +56,9 @@ The accompanying [open-product reference defaults](catalog/buildable-stations/de
 give all 29 unresolved families practical performance values and cost-conscious
 configurations without pretending that a supplier, site design or authority approval
 has been selected.
+Eighteen generated [drawing-definition seeds](catalog/buildable-stations/factory-drawings/index.md)
+then bind those product/default records to exact drawing ownership, views, source
+inputs, tools and verification tasks; every seed remains explicitly unissued.
 
 ## Parametric inputs
 

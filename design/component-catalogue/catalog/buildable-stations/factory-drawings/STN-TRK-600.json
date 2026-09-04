@@ -1,0 +1,233 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-TRK-600",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "permanent-way engineer + turnout supplier",
+  "package_ids": [
+    "STN-FRP-070"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "rail certificates",
+        "blade profile/CMM report",
+        "rail geometry inspection",
+        "weld/NDT release"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one 27 m 1:9 turnback turnout per terminal interface",
+          "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit",
+          "unit": "turnout kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one 27 m 1:9 turnback turnout per terminal interface",
+          "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit",
+          "unit": "turnout kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit"
+      ],
+      "id": "STN-TRK-P010",
+      "maturity": "buildable-after-controlled-drawing-release",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P010",
+      "release_path": "reusable-definition",
+      "route": "MAKE",
+      "source_refs": [
+        "track/turnout.py",
+        "RFC 0012 \u00a74/\u00a78",
+        "RFC 0025 \u00a73"
+      ],
+      "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit",
+      "unit": "turnout kit"
+    },
+    {
+      "acceptance": [
+        "material certificate",
+        "frog/check-rail gauge",
+        "lock proof",
+        "stretcher dimensional report"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one crossing and mechanically locked stretcher set per 1:9 turnout",
+          "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit",
+          "unit": "turnout kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one crossing and mechanically locked stretcher set per 1:9 turnout",
+          "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit",
+          "unit": "turnout kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit"
+      ],
+      "id": "STN-TRK-P020",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P020",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "track/turnout.py",
+        "RFC 0012 \u00a74.1",
+        "RFC 0025 \u00a73.2"
+      ],
+      "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit",
+      "unit": "turnout kit"
+    },
+    {
+      "acceptance": [
+        "EN 13145 certificate",
+        "fastener certificate",
+        "chair/fastener torque",
+        "sleeper-position survey"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 42,
+          "quantity_basis": "42 controlled positions per 1:9 turnout",
+          "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set",
+          "unit": "sleeper position",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 42,
+          "quantity_basis": "42 controlled positions per 1:9 turnout",
+          "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set",
+          "unit": "sleeper position",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "prestressed turnout sleeper, slide-chair, and elastic-fastener set"
+      ],
+      "id": "STN-TRK-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P030",
+      "release_path": "supplier-configuration",
+      "route": "SOURCE",
+      "source_refs": [
+        "lib/templates/switches.toml",
+        "track/turnout.py",
+        "RFC 0012 \u00a74.1"
+      ],
+      "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set",
+      "unit": "sleeper position"
+    },
+    {
+      "acceptance": [
+        "track-end geometry release",
+        "foundation inspection",
+        "stop-block proof",
+        "marker visibility check"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 2,
+          "quantity_basis": "one protected stop/end-marker package per terminal platform track",
+          "title": "terminal stop-block, passive end marker, foundation, and fixing kit",
+          "unit": "track-end kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one protected stop/end-marker package per terminal platform track",
+          "title": "terminal stop-block, passive end marker, foundation, and fixing kit",
+          "unit": "track-end kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "terminal stop-block, passive end marker, foundation, and fixing kit"
+      ],
+      "id": "STN-TRK-P070",
+      "maturity": "buildable-after-site-geometry-freeze",
+      "parent_assembly": "STN-TRK-SA800",
+      "reference_default": "default-product-specifications.json::STN-TRK-P070",
+      "release_path": "deployment-specific",
+      "route": "SOURCE",
+      "source_refs": [
+        "lib/templates/stations.toml",
+        "RFC 0012 \u00a79"
+      ],
+      "title": "terminal stop-block, passive end marker, foundation, and fixing kit",
+      "unit": "track-end kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "rail machining, switch/closure, gauge and weld drawings",
+    "complete turnout assembly, harness, detection, heating and bench-test schedule",
+    "site set-out, installation, stop-block and commissioning drawings"
+  ],
+  "required_verification": [
+    "material, machining, weld/NDT and dimensional records",
+    "bench throw, lock, detection, hand-wind and heating proof",
+    "installed geometry, route/detection and stop-block acceptance"
+  ],
+  "required_views": [
+    "turnout layout, chainage and rail geometry",
+    "switch, closure, frog, check-rail and bearer details",
+    "track-end, foundation, gauge and inspection schedules"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "hybrid-fabrication-definition",
+  "source_refs": [
+    "docs/rfcs/0012-switches-and-crossings.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "1:9 turnout rail, crossing, bearer and track-end definition",
+  "tooling_ids": [
+    "STN-TOOL-TURNOUT-BENCH",
+    "STN-TOOL-BLADE-PROFILE-GAUGE",
+    "STN-TOOL-TRACK-GEOMETRY"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released wheel/rail interface, axle loads, route speed and climate envelope",
+    "selected rail, frog, sleeper, actuator, detector and heater configurations",
+    "site track alignment, signalling, drainage and track-end geometry"
+  ]
+}

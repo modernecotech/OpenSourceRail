@@ -1057,6 +1057,9 @@ def check_station_build_package() -> list[Finding]:
     """Regenerate the tracked station catalogue in a temp tree and compare."""
 
     findings: list[Finding] = []
+    tracked = set(
+        subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
+    )
     mech_src = REPO_ROOT / "design/component-catalogue/src"
     if str(mech_src) not in sys.path:
         sys.path.insert(0, str(mech_src))
@@ -1097,6 +1100,8 @@ def check_station_build_package() -> list[Finding]:
     release_path = STATION_CATALOG / "factory-release-work-packages.json"
     record_path = STATION_CATALOG / "evidence/factory-release-record-template.json"
     defaults_path = STATION_CATALOG / "default-product-specifications.json"
+    drawing_root = STATION_CATALOG / "factory-drawings"
+    drawing_index_path = drawing_root / "index.json"
     if release_path.is_file():
         release = json.loads(release_path.read_text(encoding="utf-8"))
         expected_validation = {
@@ -1163,6 +1168,50 @@ def check_station_build_package() -> list[Finding]:
             or "not-procurement-or-construction-release" not in defaults.get("status", "")
         ):
             findings.append(Finding(defaults_path, "station reference-default coverage or safety boundary changed"))
+    if drawing_index_path.is_file() and release_path.is_file():
+        release = json.loads(release_path.read_text(encoding="utf-8"))
+        index = json.loads(drawing_index_path.read_text(encoding="utf-8"))
+        rows = index.get("drawings", [])
+        expected_ids = {
+            drawing_id
+            for package in release.get("packages", [])
+            for drawing_id in package.get("drawing_ids", [])
+        }
+        observed_json = {path.stem for path in drawing_root.glob("STN-*.json")}
+        observed_markdown = {path.stem for path in drawing_root.glob("STN-*.md")}
+        indexed_ids = {row.get("drawing_id") for row in rows}
+        represented_products: set[str] = set()
+        for row in rows:
+            drawing_id = str(row.get("drawing_id", ""))
+            json_path = drawing_root / f"{drawing_id}.json"
+            markdown_path = drawing_root / f"{drawing_id}.md"
+            for artifact in (json_path, markdown_path):
+                if artifact.is_file() and artifact.relative_to(REPO_ROOT).as_posix() not in tracked:
+                    findings.append(Finding(artifact, "station drawing seed is not tracked"))
+            if not json_path.is_file():
+                continue
+            seed = json.loads(json_path.read_text(encoding="utf-8"))
+            represented_products.update(
+                product.get("id") for product in seed.get("product_rows", [])
+            )
+            if (
+                seed.get("issue_status") != "definition-seed-not-issued"
+                or not seed.get("required_views")
+                or not seed.get("mandatory_drawing_controls")
+                or seed.get("issue_record", {}).get("published_drawing_sha256")
+            ):
+                findings.append(Finding(json_path, "station drawing seed claims unsupported issue state or lacks controls"))
+        if (
+            index.get("issue_status") != "definition-seeds-not-issued"
+            or index.get("drawing_count") != 18
+            or index.get("controlled_product_count") != 45
+            or index.get("reference_default_product_count") != 29
+            or indexed_ids != expected_ids
+            or observed_json != expected_ids
+            or observed_markdown != expected_ids
+            or represented_products != set(release.get("controlled_product_ids", []))
+        ):
+            findings.append(Finding(drawing_index_path, "station drawing-seed coverage changed"))
     return findings
 
 

@@ -1,0 +1,140 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-PWR-500",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "traction power + vehicle integration",
+  "package_ids": [
+    "STN-FRP-060"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "FAT",
+        "insulation/protection test",
+        "vehicle alignment test",
+        "abort/interlock test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "standard"
+        },
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "major"
+        },
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "station charging cabinet, protection, cable, and wayside connector kit"
+      ],
+      "id": "STN-CHG-P010",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent_assembly": "STN-CHG-SA700",
+      "reference_default": "default-product-specifications.json::STN-CHG-P010",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "lib/templates/stations.toml",
+        "RFC 0026"
+      ],
+      "title": "station charging cabinet, protection, cable, and wayside connector kit",
+      "unit": "kW installed"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "equipment arrangement, foundation reaction and maintainability drawings",
+    "single-line, protection, earthing, isolation and cable schedules",
+    "vehicle/wayside datum, alignment, interlock and abort interface control"
+  ],
+  "required_verification": [
+    "supplier FAT and protection-coordination review",
+    "earthing, insulation, isolation and utility witness tests",
+    "vehicle alignment, charge, abort and emergency-isolation SAT"
+  ],
+  "required_views": [
+    "cabinet/contact arrangement and service clearances",
+    "DC power, protection, isolation and interlock diagram",
+    "vehicle/contact alignment datum, guarded envelope and abort sequence"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "supplier-interface-definition",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/interfaces.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "wayside charger cabinet and vehicle docking interface",
+  "tooling_ids": [
+    "STN-TOOL-CHARGER-ALIGNMENT",
+    "STN-TOOL-EARTH-BOND-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "utility fault level, capacity, metering and protection requirements",
+    "selected charger and transformer/rectifier supplier data",
+    "released vehicle docking envelope and operational charging duty"
+  ]
+}

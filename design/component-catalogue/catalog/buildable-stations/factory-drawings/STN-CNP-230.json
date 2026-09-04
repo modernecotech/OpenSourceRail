@@ -1,0 +1,300 @@
+{
+  "coordinate_basis": "catalogue station X is along track from platform centre, Y is lateral from track/station centreline and Z is vertical in the local station frame; deployment drawings must transform this frame to accepted survey control while preserving the 350 mm platform-to-top-of-rail interface",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "STN-CNP-230",
+  "issue_record": {
+    "approved_by": "",
+    "calculation_ref": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": "",
+    "site_design_authority": "",
+    "supplier_reviewed_by": "",
+    "survey_or_supplier_configuration_ref": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named catalogue, deployment, supplier, checking, quality and approval responsibilities",
+    "survey coordinate reference system, horizontal/vertical datums and controlled transformation",
+    "material/grade, protection, durability life and applicable process specification",
+    "functional datums, tolerances, fits, clearances and measurable inspection characteristics",
+    "product/assembly IDs, configuration applicability, quantities and revision-compatible BOM",
+    "supplier-controlled dimensions, reactions, access zones and utility interfaces identified rather than assumed",
+    "temporary works, lifting/erection sequence, hold points and safe access where applicable",
+    "tool/gauge references, inspection method, acceptance criteria and evidence route",
+    "reusable definition and deployment-specific construction release shown as separate statuses"
+  ],
+  "owner": "electrical/civil integration",
+  "package_ids": [
+    "STN-FRP-030"
+  ],
+  "product_rows": [
+    {
+      "acceptance": [
+        "panel fire/material certificate",
+        "module dimensional report",
+        "watertightness test",
+        "PV insulation/polarity test"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "ceil(148.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "halt"
+        },
+        {
+          "quantity": 7,
+          "quantity_basis": "ceil(1296.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "standard"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "ceil(1395.2 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "major"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(1792.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 12,
+          "quantity_basis": "ceil(2192.0 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "ceil(1694.4 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 5,
+          "quantity_basis": "ceil(794.4 m2 required / 187 m2 module)",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module"
+      ],
+      "id": "STN-CNP-P050",
+      "maturity": "buildable-after-supplier-and-structural-release",
+      "parent_assembly": "STN-CNP-SA300",
+      "reference_default": "default-product-specifications.json::STN-CNP-P050",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "station/solar_roof.py",
+        "RFC 0010 \u00a79"
+      ],
+      "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+      "unit": "187 m2 module"
+    },
+    {
+      "acceptance": [
+        "string schedule",
+        "polarity/insulation test",
+        "bond continuity",
+        "protection settings",
+        "energy-site commissioning"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "halt"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "standard"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "major"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 2,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit"
+      ],
+      "id": "STN-CNP-P080",
+      "maturity": "buildable-after-electrical-and-supplier-freeze",
+      "parent_assembly": "STN-CNP-SA300",
+      "reference_default": "default-product-specifications.json::STN-CNP-P080",
+      "release_path": "supplier-configuration",
+      "route": "BID",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "OSR-STD-E-003",
+        "OSR-STD-E-004"
+      ],
+      "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+      "unit": "string group"
+    },
+    {
+      "acceptance": [
+        "drainage flow test",
+        "lightning/bond test",
+        "edge-protection inspection",
+        "maintenance-access walkdown"
+      ],
+      "applicable_variants": [
+        {
+          "quantity": 1,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "halt"
+        },
+        {
+          "quantity": 7,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "standard"
+        },
+        {
+          "quantity": 8,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "major"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "interchange"
+        },
+        {
+          "quantity": 12,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "interchange-elevated"
+        },
+        {
+          "quantity": 10,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "terminal"
+        },
+        {
+          "quantity": 5,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit",
+          "variant": "depot-terminal"
+        }
+      ],
+      "configured_titles": [
+        "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit"
+      ],
+      "id": "STN-CNP-P090",
+      "maturity": "buildable-after-site-and-supplier-freeze",
+      "parent_assembly": "STN-CNP-SA300",
+      "reference_default": "default-product-specifications.json::STN-CNP-P090",
+      "release_path": "deployment-specific",
+      "route": "SOURCE",
+      "source_refs": [
+        "station/auxiliary_canopy.py",
+        "standard-archetype/canopy.md",
+        "RFC 0010 \u00a79"
+      ],
+      "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+      "unit": "roof-bay kit"
+    }
+  ],
+  "release_boundary": "This is a drafting/checking brief built from catalogue products, reference defaults and open inputs. It is not a dimensioned fabrication or construction drawing, supplier selection, signed calculation, survey, permit or authority to manufacture, build, energise or operate.",
+  "required_outputs": [
+    "repeatable truss fabrication and roof-bay module drawings",
+    "site footing, anchor, erection, gutter/downpipe and access drawings",
+    "PV string, protection, bonding and commissioning schedule"
+  ],
+  "required_verification": [
+    "truss weld/NDT and dimensional survey",
+    "foundation pre-pour, anchor and erected-geometry surveys",
+    "water, electrical, lightning and edge-protection acceptance tests"
+  ],
+  "required_views": [
+    "PV group and roof drainage plan",
+    "string/protection/bonding/lightning diagrams",
+    "gutter, outlet, walkway, guardrail and cleaning-access sections"
+  ],
+  "schema": "org.opensourcerail.station-factory-drawing-seed.v1",
+  "scope_type": "deployment-interface-definition",
+  "source_refs": [
+    "docs/stations/standard-archetype/canopy.md",
+    "design/component-catalogue/catalog/buildable-stations/default-product-specifications.md"
+  ],
+  "title": "auxiliary canopy PV, drainage, lightning and safe access",
+  "tooling_ids": [
+    "STN-TOOL-TRUSS-FIXTURE",
+    "STN-TOOL-AUX-ANCHOR-TEMPLATE",
+    "STN-TOOL-AUX-ROOF-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released site layout, egress, fire, drainage and maintenance-access plan",
+    "site-specific structural calculation and foundation reactions",
+    "selected roof/PV/lightning/edge-protection supplier configurations"
+  ]
+}
