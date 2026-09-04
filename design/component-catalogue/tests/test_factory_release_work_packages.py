@@ -68,8 +68,15 @@ def test_generated_factory_release_artifacts_are_current() -> None:
 def test_first_article_rows_link_to_their_factory_drawing_packages() -> None:
     root = Path(__file__).resolve().parents[1] / "catalog/buildable-trainset"
     work = json.loads((root / "first-article-work-packages.json").read_text(encoding="utf-8"))
-    assert work["schema_version"] == "1.2"
+    assert work["schema_version"] == "1.3"
     assert work["factory_release_source"].endswith("factory-release-work-packages.json")
+    assert work["mass_closure_source"].endswith("mass-closure-ledger.json")
+    assert all(row["mass_responsibility_category"] for row in work["work_packages"])
+    assert {row["mass_evidence_status"] for row in work["work_packages"]} <= {
+        "unclosed-evidence-required",
+        "inactive-option-not-weighed",
+    }
+    assert any(row["mass_evidence_status"] == "unclosed-evidence-required" for row in work["work_packages"])
     rows = {row["engineering_id"]: row for row in work["work_packages"]}
     assert rows["LM3-FAS-P010"]["factory_release_package_ids"] == ["LM3-FRP-030"]
     assert rows["LM3-ROOF-P030"]["factory_release_package_ids"] == ["LM3-FRP-050", "LM3-FRP-090"]

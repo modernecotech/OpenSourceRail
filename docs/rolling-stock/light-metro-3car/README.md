@@ -119,6 +119,7 @@ are engineered and released.
 | [`factory-plan.md`](../../../design/component-catalogue/catalog/buildable-trainset/factory-plan.md) | Pilot factory sizing: chassis fabrication, bogie integration, moulding shop, final assembly, enclosed area, yard, machinery, and rough equipment prices |
 | [`trainset-build-cost.md`](../../../design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.md) | Recalculated 3-car trainset budget, including the explicit seats/floors/lighting/HVAC/windows/doors scope already inside the direct-module bucket |
 | [`mass-budget.md`](../../../design/component-catalogue/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
+| [`mass-closure-ledger.md`](../../../design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md) | All 120 product rows mapped to the nine mass categories, evidence routes for 117 active rows, the 73.376 t lightest existing design-space study, and recovery-reaction linkage |
 | [`joint-control-schedule.md`](../../../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 108 integration joints |
 | [`definitions/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
 | [`travelers/index.md`](../../../design/component-catalogue/catalog/buildable-trainset/travelers/index.md) | Unsigned shop travelers with material/process controls, operation routers, labor estimates, tooling IDs, QA gates, revision approvals, signoff blocks, and NCR/deviation logs |
@@ -307,6 +308,12 @@ with an optional [wayside access interface](../../civil/wayside-rerailing-access
 for hardstanding, equipment offload, transverse bridge bearing and controlled
 access. Automotive scissor jacks and unilateral lifts are explicitly outside
 the design basis.
+
+The generated [product-level mass ledger](../../../design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md)
+keeps the lighter body/bogie option honest: its modeled subtotal is 73.376 t,
+or 76.818 t with the current reserve retained, but it remains an unpromoted
+study until all active row masses, individual-car weights, axle loads, centres
+of gravity and affected structural/dynamic evidence are accepted.
 
 The remaining gaps are not missing assemblies in the train envelope;
 they are controlled detail-design and release tasks: frozen supplier exact envelopes,

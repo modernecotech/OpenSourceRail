@@ -13,7 +13,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | ID | Title | Owner | v1 source | v2 release content |
 |---|---|---|---|---|
 | LM3-GA-000 | Trainset general arrangement | OSR/mechanical | `general-arrangement.md` | 2D GA, clearance envelope, platform interface, mass table |
-| LM3-MASS-010 | Controlled trainset mass budget | OSR/mechanical + suppliers | generated `mass-budget.md` | Modeled category subtotal, explicit engineering reserve, supplier/CAD/as-built closure ledger |
+| LM3-MASS-010 | Controlled trainset mass budget and product closure ledger | OSR/mechanical + suppliers | generated `mass-budget.md`, generated `mass-closure-ledger.md` | Modeled category subtotal, explicit engineering reserve, all 120 product responsibility assignments, supplier/production-CAD/weigh evidence state, lightweighting comparison, individual-car/axle/CG closure |
 | LM3-JNT-020 | Joint and fastener control schedule | OSR/mechanical + integrator | generated `joint-control-schedule.md` | Parent/child joint IDs, joining classes, torque authority, locking/re-torque release requirement, numeric values, inspection record |
 | LM3-BDY-100 | Carbody primary steel assembly | Fabricator | `body.md` | FreeCAD/neutral CAD package, 2D assembly, weld map, datum scheme |
 | LM3-BDY-110 | Underframe ladder assembly | Fabricator | `body.md` | Tube cut list, plate flat patterns, fixture drawing |

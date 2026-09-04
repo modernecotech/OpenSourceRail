@@ -1494,6 +1494,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
+        "mass_closure": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
+        "mass_closure_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md",
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
@@ -1551,6 +1553,31 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or factory_release.get("validation") != expected_validation
         ):
             findings.append(Finding(paths["factory_release"], "LM3 factory drawing/interface package coverage changed"))
+    if paths["mass_closure"].is_file():
+        mass_closure = json.loads(paths["mass_closure"].read_text(encoding="utf-8"))
+        expected_coverage = {
+            "product_rows": 120,
+            "active_product_rows": 117,
+            "mapped_product_rows": 120,
+            "closed_active_product_rows": 0,
+            "category_count": 9,
+            "categories_reconciled_to_controlled_subtotal": True,
+        }
+        if mass_closure.get("coverage") != expected_coverage:
+            findings.append(Finding(paths["mass_closure"], "LM3 product mass-closure coverage changed"))
+        light = mass_closure.get("lightweighting", {})
+        if (
+            light.get("lightest_existing_feasible_modeled_mass_kg") != 73_375.62
+            or light.get("lightest_candidate_with_unchanged_reserve_kg") != 76_817.62
+            or mass_closure.get("mass_basis", {}).get("controlled_planning_tare_kg") != 78_750
+        ):
+            findings.append(Finding(paths["mass_closure"], "LM3 lightweighting/control-mass basis changed"))
+        product_rows = mass_closure.get("product_rows", [])
+        if (
+            len({row.get("product_id") for row in product_rows}) != 120
+            or any(row.get("closed_mass_kg") is not None for row in product_rows)
+        ):
+            findings.append(Finding(paths["mass_closure"], "LM3 product mass rows are incomplete or claim unsupported closure"))
     if paths["ifc_index"].is_file():
         index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
         if not index.get("passed"):

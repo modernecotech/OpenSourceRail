@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "first_article_id": "LM3-FA-001",
   "source_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-  "source_manifest_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
+  "source_manifest_sha256": "e407e4f47ce2ee2d71e49a13ce028f8548fd3fc00baaee9078f03c1c918680dc",
   "open_count": 81,
   "status_counts": {
     "open": 81,
@@ -14,9 +14,11 @@
   "closure_state_source": "design/component-catalogue/catalog/buildable-trainset/first-article-work-package-state.toml",
   "evidence_plan_source": "lib/templates/lm3-first-article-evidence.toml",
   "candidate_register_source": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
-  "candidate_register_sha256": "8134f33deffdfb898536638ebae5d270f0e1544e2d9d973f0fa14229f692da44",
+  "candidate_register_sha256": "226de40b93e5fb3b67546ae57959325b0f0b863c5f3f976c5312005c6451a7f8",
   "factory_release_source": "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
   "factory_release_sha256": "796ba0bf9ed94fa47543fcf9e4a4ba74f038fe0545a088e6841902ae676087b8",
+  "mass_closure_source": "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
+  "mass_closure_sha256": "be855c1ca2495b443370a7921d427271f05cda187260f3db38b217add2698081",
   "work_packages": [
     {
       "id": "WP-LM3-ROOF-P030",
@@ -40,6 +42,8 @@
         "LM3-FRP-050",
         "LM3-FRP-090"
       ],
+      "mass_responsibility_category": "roof HVAC",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -56,7 +60,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ROOF-P030 -->\n\nAuthoritative row: `LM3-ROOF-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: fairing trim gauge; HVAC airflow keep-out; hatch removal trial; roof leak test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-050`, `LM3-FRP-090`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ROOF-P030 -->\n\nAuthoritative row: `LM3-ROOF-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: fairing trim gauge; HVAC airflow keep-out; hatch removal trial; roof leak test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-050`, `LM3-FRP-090`.\n\nMass responsibility: `roof HVAC`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -81,6 +85,8 @@
         "LM3-FRP-050",
         "LM3-FRP-090"
       ],
+      "mass_responsibility_category": "roof PV",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -97,7 +103,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ROOF-P040 -->\n\nAuthoritative row: `LM3-ROOF-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: gland/closeout trim gauge; drain-path test; bonding access check; service-removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-050`, `LM3-FRP-090`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ROOF-P040 -->\n\nAuthoritative row: `LM3-ROOF-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: gland/closeout trim gauge; drain-path test; bonding access check; service-removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-050`, `LM3-FRP-090`.\n\nMass responsibility: `roof PV`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -122,6 +128,8 @@
       ],
       "candidate_ids": [],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -138,7 +146,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P010 -->\n\nAuthoritative row: `LM3-CWL-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: material batch trace; fire/smoke certificate; coupon layup record; adhesive shelf-life check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P010 -->\n\nAuthoritative row: `LM3-CWL-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: material batch trace; fire/smoke certificate; coupon layup record; adhesive shelf-life check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -165,6 +173,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -181,7 +191,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P011 -->\n\nAuthoritative row: `LM3-CWL-P011` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; trim-line gauge; roof-flange fit.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P011 -->\n\nAuthoritative row: `LM3-CWL-P011` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; trim-line gauge; roof-flange fit.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -208,6 +218,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -224,7 +236,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P012 -->\n\nAuthoritative row: `LM3-CWL-P012` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; insert pull-out; split-gap gauge.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P012 -->\n\nAuthoritative row: `LM3-CWL-P012` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; insert pull-out; split-gap gauge.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -251,6 +263,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -267,7 +281,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P013 -->\n\nAuthoritative row: `LM3-CWL-P013` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; insert pull-out; split-gap gauge.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P013 -->\n\nAuthoritative row: `LM3-CWL-P013` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; insert pull-out; split-gap gauge.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -295,6 +309,8 @@
         "LM3-FRP-040",
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -311,7 +327,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P014 -->\n\nAuthoritative row: `LM3-CWL-P014` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; lamp pocket gauge; drain-path water test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`, `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P014 -->\n\nAuthoritative row: `LM3-CWL-P014` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; laminate coupon; lamp pocket gauge; drain-path water test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`, `LM3-FRP-080`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -339,6 +355,8 @@
         "LM3-FRP-040",
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -355,7 +373,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P015 -->\n\nAuthoritative row: `LM3-CWL-P015` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; insert pull-out; gasket compression check; hatch removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`, `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P015 -->\n\nAuthoritative row: `LM3-CWL-P015` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; insert pull-out; gasket compression check; hatch removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`, `LM3-FRP-080`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -382,6 +400,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-030"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -398,7 +418,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CWL-P016 -->\n\nAuthoritative row: `LM3-CWL-P016` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; glass-carrier land survey; bond-line witness; A/B interchange check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CWL-P016 -->\n\nAuthoritative row: `LM3-CWL-P016` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: mould release record; glass-carrier land survey; bond-line witness; A/B interchange check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -422,6 +442,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-030"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -438,7 +460,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FAS-P010 -->\n\nAuthoritative row: `LM3-FAS-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: carrier datum survey; glass-edge clearance gauge; secondary-retention proof; pane removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P010 -->\n\nAuthoritative row: `LM3-FAS-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: carrier datum survey; glass-edge clearance gauge; secondary-retention proof; pane removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -462,6 +484,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-040"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -478,7 +502,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FAS-P020 -->\n\nAuthoritative row: `LM3-FAS-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: lamp datum gauge; aiming range/retention test; harness clearance; cassette removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P020 -->\n\nAuthoritative row: `LM3-FAS-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: lamp datum gauge; aiming range/retention test; harness clearance; cassette removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-040`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -502,6 +526,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-030"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -518,7 +544,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FAS-P030 -->\n\nAuthoritative row: `LM3-FAS-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: seal batch/certificate; compression map; drain flow test; water-ingress test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FAS-P030 -->\n\nAuthoritative row: `LM3-FAS-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CWL-SA710`\n\nClosure evidence: seal batch/certificate; compression map; drain flow test; water-ingress test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -543,6 +569,8 @@
         "OSR-COTS-DOOR-IFE"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -559,7 +587,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P010 -->\n\nAuthoritative row: `LM3-EXT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-DOOR-SA310`\n\nClosure evidence: EN 14752 evidence; obstruction test; closed-and-locked loop test.\n\nCandidate sources: `OSR-COTS-DOOR-IFE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P010 -->\n\nAuthoritative row: `LM3-EXT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-DOOR-SA310`\n\nClosure evidence: EN 14752 evidence; obstruction test; closed-and-locked loop test.\n\nCandidate sources: `OSR-COTS-DOOR-IFE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -585,6 +613,8 @@
         "OSR-COTS-GLAZING-SIKA268"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -601,7 +631,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P020 -->\n\nAuthoritative row: `LM3-EXT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-WIN-SA320`\n\nClosure evidence: glazing certificate; water ingress test; replacement method.\n\nCandidate sources: `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P020 -->\n\nAuthoritative row: `LM3-EXT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-WIN-SA320`\n\nClosure evidence: glazing certificate; water ingress test; replacement method.\n\nCandidate sources: `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -629,6 +659,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-030"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -645,7 +677,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P030 -->\n\nAuthoritative row: `LM3-EXT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: glass certificate; heater test; bond/gasket procedure.\n\nCandidate sources: `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P030 -->\n\nAuthoritative row: `LM3-EXT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: glass certificate; heater test; bond/gasket procedure.\n\nCandidate sources: `OSR-COTS-GLASS-AGC`, `OSR-COTS-GLAZING-SIKA268`.\n\nFactory drawing/interface packages: `LM3-FRP-030`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -672,6 +704,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-050"
       ],
+      "mass_responsibility_category": "roof HVAC",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -688,7 +722,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P040 -->\n\nAuthoritative row: `LM3-EXT-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: +50 C capacity evidence; condensate drain test; EMC/vibration evidence.\n\nCandidate sources: `OSR-COTS-HVAC-LONGERTEK`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P040 -->\n\nAuthoritative row: `LM3-EXT-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: +50 C capacity evidence; condensate drain test; EMC/vibration evidence.\n\nCandidate sources: `OSR-COTS-HVAC-LONGERTEK`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nMass responsibility: `roof HVAC`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -716,6 +750,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -732,7 +768,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P060 -->\n\nAuthoritative row: `LM3-EXT-P060` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire certificate; panel load and deflection evidence; hatch removal trial; level/step and egress survey.\n\nCandidate sources: `OSR-COTS-FLOOR-COMFLOOR`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P060 -->\n\nAuthoritative row: `LM3-EXT-P060` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire certificate; panel load and deflection evidence; hatch removal trial; level/step and egress survey.\n\nCandidate sources: `OSR-COTS-FLOOR-COMFLOOR`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -760,6 +796,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -776,7 +814,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P061 -->\n\nAuthoritative row: `LM3-EXT-P061` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/smoke certificate; adhesive compatibility and cure record; welded-seam peel sample; slip and cleanability evidence.\n\nCandidate sources: `OSR-COTS-FLOOR-FORBO-6R3883`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P061 -->\n\nAuthoritative row: `LM3-EXT-P061` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/smoke certificate; adhesive compatibility and cure record; welded-seam peel sample; slip and cleanability evidence.\n\nCandidate sources: `OSR-COTS-FLOOR-FORBO-6R3883`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -804,6 +842,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -820,7 +860,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P062 -->\n\nAuthoritative row: `LM3-EXT-P062` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/smoke certificate; seat/occupant load evidence; fastener and anti-rotation record; egress and cleaning-clearance gauge.\n\nCandidate sources: `OSR-COTS-SEAT-FAINSA`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P062 -->\n\nAuthoritative row: `LM3-EXT-P062` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/smoke certificate; seat/occupant load evidence; fastener and anti-rotation record; egress and cleaning-clearance gauge.\n\nCandidate sources: `OSR-COTS-SEAT-FAINSA`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -848,6 +888,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -864,7 +906,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P063 -->\n\nAuthoritative row: `LM3-EXT-P063` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: material/finish certificate; joint locking record; fixture-specific proof-load evidence; reach, egress and snag survey.\n\nCandidate sources: `OSR-COTS-SEAT-FAINSA`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P063 -->\n\nAuthoritative row: `LM3-EXT-P063` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: material/finish certificate; joint locking record; fixture-specific proof-load evidence; reach, egress and snag survey.\n\nCandidate sources: `OSR-COTS-SEAT-FAINSA`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -892,6 +934,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -908,7 +952,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P064 -->\n\nAuthoritative row: `LM3-EXT-P064` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/EMC evidence; network enumeration; audio/intelligibility test; display visibility and service-removal trial.\n\nCandidate sources: `OSR-COTS-PIS-LUMINATOR`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P064 -->\n\nAuthoritative row: `LM3-EXT-P064` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/EMC evidence; network enumeration; audio/intelligibility test; display visibility and service-removal trial.\n\nCandidate sources: `OSR-COTS-PIS-LUMINATOR`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -936,6 +980,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -952,7 +998,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P065 -->\n\nAuthoritative row: `LM3-EXT-P065` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/EMC/IP evidence; network enumeration; camera coverage/privacy review; intercom call and service-removal trial.\n\nCandidate sources: `OSR-COTS-CAMERA-MOXA-P06HC`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P065 -->\n\nAuthoritative row: `LM3-EXT-P065` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire/EMC/IP evidence; network enumeration; camera coverage/privacy review; intercom call and service-removal trial.\n\nCandidate sources: `OSR-COTS-CAMERA-MOXA-P06HC`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -980,6 +1026,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -996,7 +1044,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P066 -->\n\nAuthoritative row: `LM3-EXT-P066` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: accessible reach/contrast review; emergency-light duration test; equipment certificate/expiry audit; location and egress survey.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P066 -->\n\nAuthoritative row: `LM3-EXT-P066` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: accessible reach/contrast review; emergency-light duration test; equipment certificate/expiry audit; location and egress survey.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1024,6 +1072,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-070"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1040,7 +1090,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FIX-P020 -->\n\nAuthoritative row: `LM3-FIX-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-FIX-SA340`\n\nClosure evidence: supplier certificate; batch/finish trace; installed-grip gauge; locking and captive-part audit.\n\nCandidate sources: `OSR-COTS-FASTENER-RIVNUT`.\n\nFactory drawing/interface packages: `LM3-FRP-070`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FIX-P020 -->\n\nAuthoritative row: `LM3-FIX-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-FIX-SA340`\n\nClosure evidence: supplier certificate; batch/finish trace; installed-grip gauge; locking and captive-part audit.\n\nCandidate sources: `OSR-COTS-FASTENER-RIVNUT`.\n\nFactory drawing/interface packages: `LM3-FRP-070`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1066,6 +1116,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-070"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1082,7 +1134,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FIX-P030 -->\n\nAuthoritative row: `LM3-FIX-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-FIX-SA340`\n\nClosure evidence: adapter gauge; fixture-specific load calculation; proof-load sample; egress and snag check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-070`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FIX-P030 -->\n\nAuthoritative row: `LM3-FIX-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-FIX-SA340`\n\nClosure evidence: adapter gauge; fixture-specific load calculation; proof-load sample; egress and snag check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-070`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1106,6 +1158,8 @@
       ],
       "candidate_ids": [],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1123,7 +1177,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-WIN-P010 -->\n\nAuthoritative row: `LM3-WIN-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-WIN-SA320`\n\nClosure evidence: pressure-frame gauge; retention calculation; seal compression record; water-ingress and replacement trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-WIN-P010 -->\n\nAuthoritative row: `LM3-WIN-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-WIN-SA320`\n\nClosure evidence: pressure-frame gauge; retention calculation; seal compression record; water-ingress and replacement trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1149,6 +1203,8 @@
       ],
       "candidate_ids": [],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1166,7 +1222,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-DOOR-P010 -->\n\nAuthoritative row: `LM3-DOOR-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-DOOR-SA310`\n\nClosure evidence: carrier datum gauge; interface load calculation; seal compression record; connector keying and cassette replacement trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-DOOR-P010 -->\n\nAuthoritative row: `LM3-DOOR-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-DOOR-SA310`\n\nClosure evidence: carrier datum gauge; interface load calculation; seal compression record; connector keying and cassette replacement trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1194,6 +1250,8 @@
         "OSR-COTS-LIGHT-TEKNOWARE"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1211,7 +1269,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-LGT-P010 -->\n\nAuthoritative row: `LM3-LGT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-LGT-SA350`\n\nClosure evidence: rail fire certificate; shock/vibration evidence; photometric/lux test; plug polarity and retention test.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-LGT-P010 -->\n\nAuthoritative row: `LM3-LGT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-LGT-SA350`\n\nClosure evidence: rail fire certificate; shock/vibration evidence; photometric/lux test; plug polarity and retention test.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1239,6 +1297,8 @@
         "OSR-COTS-LIGHT-TEKNOWARE"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1256,7 +1316,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-LGT-P020 -->\n\nAuthoritative row: `LM3-LGT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-LGT-SA350`\n\nClosure evidence: emergency duration/effectiveness evidence; evacuation visibility test; feed isolation test; doorway illumination test.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-LGT-P020 -->\n\nAuthoritative row: `LM3-LGT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-LGT-SA350`\n\nClosure evidence: emergency duration/effectiveness evidence; evacuation visibility test; feed isolation test; doorway illumination test.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1284,6 +1344,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-050"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1300,7 +1362,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P070 -->\n\nAuthoritative row: `LM3-EXT-P070` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: antenna VSWR test; walkway slip certificate; lifting-cover fit; roof bonding check.\n\nCandidate sources: `OSR-COTS-ANTENNA-HS-85137717`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P070 -->\n\nAuthoritative row: `LM3-EXT-P070` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: antenna VSWR test; walkway slip certificate; lifting-cover fit; roof bonding check.\n\nCandidate sources: `OSR-COTS-ANTENNA-HS-85137717`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1326,6 +1388,8 @@
         "OSR-COTS-COMPOSITE-GURIT-130FR"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1342,7 +1406,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P080 -->\n\nAuthoritative row: `LM3-EXT-P080` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: EN 45545 evidence; laminate coupon; resin/fibre batch trace; mould release record.\n\nCandidate sources: `OSR-COTS-COMPOSITE-GURIT-130FR`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P080 -->\n\nAuthoritative row: `LM3-EXT-P080` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: EN 45545 evidence; laminate coupon; resin/fibre batch trace; mould release record.\n\nCandidate sources: `OSR-COTS-COMPOSITE-GURIT-130FR`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1369,6 +1433,8 @@
         "OSR-COTS-COMPOSITE-GURIT-130FR"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1385,7 +1451,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-EXT-P090 -->\n\nAuthoritative row: `LM3-EXT-P090` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: EN 45545 evidence; roof laminate coupon; seal certificate; service-removal trial; water and debris-ingress check.\n\nCandidate sources: `OSR-COTS-COMPOSITE-GURIT-130FR`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-EXT-P090 -->\n\nAuthoritative row: `LM3-EXT-P090` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: EN 45545 evidence; roof laminate coupon; seal certificate; service-removal trial; water and debris-ingress check.\n\nCandidate sources: `OSR-COTS-COMPOSITE-GURIT-130FR`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1412,6 +1478,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-080"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1428,7 +1496,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FIN-P010 -->\n\nAuthoritative row: `LM3-FIN-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: supplier rail-use statement; substrate/cure acceptance; adhesion coupon; edge/overlap inspection; cleaning/removal trial.\n\nCandidate sources: `OSR-COTS-FINISH-3M-180MC`.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FIN-P010 -->\n\nAuthoritative row: `LM3-FIN-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SHELL-A200`\n\nClosure evidence: supplier rail-use statement; substrate/cure acceptance; adhesion coupon; edge/overlap inspection; cleaning/removal trial.\n\nCandidate sources: `OSR-COTS-FINISH-3M-180MC`.\n\nFactory drawing/interface packages: `LM3-FRP-080`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1455,6 +1523,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-090"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1471,7 +1541,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-FIN-P020 -->\n\nAuthoritative row: `LM3-FIN-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: rail fire/chemical evidence; GFRP adhesion and flexibility; UV/abrasion/wash ageing; initial and aged solar reflectance/emittance; one-car thermal/maintenance trial.\n\nCandidate sources: `OSR-COTS-COOLROOF-PURDUE-CACO3`.\n\nFactory drawing/interface packages: `LM3-FRP-090`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-FIN-P020 -->\n\nAuthoritative row: `LM3-FIN-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: rail fire/chemical evidence; GFRP adhesion and flexibility; UV/abrasion/wash ageing; initial and aged solar reflectance/emittance; one-car thermal/maintenance trial.\n\nCandidate sources: `OSR-COTS-COOLROOF-PURDUE-CACO3`.\n\nFactory drawing/interface packages: `LM3-FRP-090`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1500,6 +1570,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "roof HVAC",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1516,7 +1588,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P010 -->\n\nAuthoritative row: `LM3-INT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: airflow balance; rattle check; access-panel removal; fire-material certificate.\n\nCandidate sources: `OSR-COTS-HVAC-LONGERTEK`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P010 -->\n\nAuthoritative row: `LM3-INT-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: airflow balance; rattle check; access-panel removal; fire-material certificate.\n\nCandidate sources: `OSR-COTS-HVAC-LONGERTEK`.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `roof HVAC`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1543,6 +1615,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1559,7 +1633,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P020 -->\n\nAuthoritative row: `LM3-INT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; trim-line gauge; fastener insert pull-out; rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P020 -->\n\nAuthoritative row: `LM3-INT-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; trim-line gauge; fastener insert pull-out; rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1586,6 +1660,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1602,7 +1678,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P021 -->\n\nAuthoritative row: `LM3-INT-P021` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; light cassette gauge; emergency-feed identification; module removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P021 -->\n\nAuthoritative row: `LM3-INT-P021` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; light cassette gauge; emergency-feed identification; module removal trial.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1629,6 +1705,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1645,7 +1723,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P022 -->\n\nAuthoritative row: `LM3-INT-P022` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; airflow opening gauge; detector access; hatch retention/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P022 -->\n\nAuthoritative row: `LM3-INT-P022` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; airflow opening gauge; detector access; hatch retention/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1672,6 +1750,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1688,7 +1768,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P030 -->\n\nAuthoritative row: `LM3-INT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; visible-gap gauge; liner removal; edge-radius inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P030 -->\n\nAuthoritative row: `LM3-INT-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; visible-gap gauge; liner removal; edge-radius inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1715,6 +1795,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1731,7 +1813,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P031 -->\n\nAuthoritative row: `LM3-INT-P031` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; glass-edge clearance; cassette removal sweep; sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P031 -->\n\nAuthoritative row: `LM3-INT-P031` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; glass-edge clearance; cassette removal sweep; sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1758,6 +1840,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1774,7 +1858,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P032 -->\n\nAuthoritative row: `LM3-INT-P032` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; segregation inspection; captive-fastener audit; cover removal/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P032 -->\n\nAuthoritative row: `LM3-INT-P032` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; segregation inspection; captive-fastener audit; cover removal/rattle check.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1801,6 +1885,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1817,7 +1903,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P040 -->\n\nAuthoritative row: `LM3-INT-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; no-saloon-opening inspection; HV warning label check; sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P040 -->\n\nAuthoritative row: `LM3-INT-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; no-saloon-opening inspection; HV warning label check; sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1844,6 +1930,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1860,7 +1948,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P041 -->\n\nAuthoritative row: `LM3-INT-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; seat-load-path clearance; hatch removal trial; cleaning/sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P041 -->\n\nAuthoritative row: `LM3-INT-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; seat-load-path clearance; hatch removal trial; cleaning/sharp-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1887,6 +1975,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1903,7 +1993,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P050 -->\n\nAuthoritative row: `LM3-INT-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; threshold/drain gauge; anti-slip witness; kick-panel retention test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P050 -->\n\nAuthoritative row: `LM3-INT-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; threshold/drain gauge; anti-slip witness; kick-panel retention test.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1930,6 +2020,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1946,7 +2038,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P051 -->\n\nAuthoritative row: `LM3-INT-P051` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; PRM transition gauge; anti-slip/contrast evidence; trip-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P051 -->\n\nAuthoritative row: `LM3-INT-P051` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; PRM transition gauge; anti-slip/contrast evidence; trip-edge inspection.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -1973,6 +2065,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-060"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -1989,7 +2083,7 @@
           "LM3",
           "make"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-INT-P052 -->\n\nAuthoritative row: `LM3-INT-P052` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; door sweep/pinch gauge; jamb-cover removal; obstruction-test witness.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-INT-P052 -->\n\nAuthoritative row: `LM3-INT-P052` in the LM3 buildable trainset manifest.\n\nParent: `LM3-INT-SA330`\n\nClosure evidence: fire-material certificate; door sweep/pinch gauge; jamb-cover removal; obstruction-test witness.\n\nCandidate sources: locally manufactured item; no bought-in candidate.\n\nFactory drawing/interface packages: `LM3-FRP-060`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2017,6 +2111,8 @@
         "OSR-COTS-MOTOR-ABB-AMXE250"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "traction motors, gearboxes, and controllers",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2033,7 +2129,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P010 -->\n\nAuthoritative row: `LM3-TRC-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TRC-SA615`\n\nClosure evidence: motor datasheet; thermal curve; mounting-foot load proof; EMC evidence.\n\nCandidate sources: `OSR-COTS-MOTOR-ABB-AMXE250`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P010 -->\n\nAuthoritative row: `LM3-TRC-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TRC-SA615`\n\nClosure evidence: motor datasheet; thermal curve; mounting-foot load proof; EMC evidence.\n\nCandidate sources: `OSR-COTS-MOTOR-ABB-AMXE250`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `traction motors, gearboxes, and controllers`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2060,6 +2156,8 @@
         "OSR-COTS-GEAR-VOITH-SE"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "traction motors, gearboxes, and controllers",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2076,7 +2174,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P020 -->\n\nAuthoritative row: `LM3-TRC-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TRC-SA615`\n\nClosure evidence: gear ratio certificate; oil access check; coupling alignment.\n\nCandidate sources: `OSR-COTS-GEAR-VOITH-SE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P020 -->\n\nAuthoritative row: `LM3-TRC-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TRC-SA615`\n\nClosure evidence: gear ratio certificate; oil access check; coupling alignment.\n\nCandidate sources: `OSR-COTS-GEAR-VOITH-SE`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `traction motors, gearboxes, and controllers`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2103,6 +2201,8 @@
         "OSR-COTS-CONVERTER-ABB-CC400"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "traction motors, gearboxes, and controllers",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2119,7 +2219,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P030 -->\n\nAuthoritative row: `LM3-TRC-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: HVIL test; coolant pressure test; EMC/bonding check.\n\nCandidate sources: `OSR-COTS-CONVERTER-ABB-CC400`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P030 -->\n\nAuthoritative row: `LM3-TRC-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: HVIL test; coolant pressure test; EMC/bonding check.\n\nCandidate sources: `OSR-COTS-CONVERTER-ABB-CC400`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `traction motors, gearboxes, and controllers`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2147,6 +2247,8 @@
         "OSR-COTS-BATTERY-HOPPECKE-LITRAC"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "traction batteries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2163,7 +2265,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P040 -->\n\nAuthoritative row: `LM3-TRC-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: cell/module certificate; isolation test; no-saloon-opening inspection; outward vent/fire containment data.\n\nCandidate sources: `OSR-COTS-BATTERY-HOPPECKE-LITRAC`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P040 -->\n\nAuthoritative row: `LM3-TRC-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: cell/module certificate; isolation test; no-saloon-opening inspection; outward vent/fire containment data.\n\nCandidate sources: `OSR-COTS-BATTERY-HOPPECKE-LITRAC`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `traction batteries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2193,6 +2295,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-050"
       ],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2209,7 +2313,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P050 -->\n\nAuthoritative row: `LM3-TRC-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: resistance certificate; thermal clearance; roof bonding; hot-surface label.\n\nCandidate sources: `OSR-COTS-RESISTOR-DANOTHERM`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P050 -->\n\nAuthoritative row: `LM3-TRC-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ROOF-SA410`\n\nClosure evidence: resistance certificate; thermal clearance; roof bonding; hot-surface label.\n\nCandidate sources: `OSR-COTS-RESISTOR-DANOTHERM`.\n\nFactory drawing/interface packages: `LM3-FRP-050`.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2237,6 +2341,8 @@
         "OSR-COTS-CHARGER-SCHUNK"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2253,7 +2359,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P060 -->\n\nAuthoritative row: `LM3-TRC-P060` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: dock alignment test; HVIL test; shutter cycle test; emergency release.\n\nCandidate sources: `OSR-COTS-CHARGER-SCHUNK`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P060 -->\n\nAuthoritative row: `LM3-TRC-P060` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: dock alignment test; HVIL test; shutter cycle test; emergency release.\n\nCandidate sources: `OSR-COTS-CHARGER-SCHUNK`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2282,6 +2388,8 @@
         "OSR-COTS-HV-TE-HVP800"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2298,7 +2406,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-TRC-P070 -->\n\nAuthoritative row: `LM3-TRC-P070` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: isolation test; pre-charge timing; fuse rating evidence; service-disconnect lockout.\n\nCandidate sources: `OSR-COTS-HV-SCHALTBAU-C360`, `OSR-COTS-HV-TE-HVP800`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-TRC-P070 -->\n\nAuthoritative row: `LM3-TRC-P070` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: isolation test; pre-charge timing; fuse rating evidence; service-disconnect lockout.\n\nCandidate sources: `OSR-COTS-HV-SCHALTBAU-C360`, `OSR-COTS-HV-TE-HVP800`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2326,6 +2434,8 @@
         "OSR-COTS-FIRE-LIIONTAMER-3"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2342,7 +2452,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-SAF-P010 -->\n\nAuthoritative row: `LM3-SAF-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: detector certificate; loop continuity; mist proof-flow; reservoir/pump/pressure diagnostic; event-recorder input.\n\nCandidate sources: `OSR-COTS-FIRE-FOGTEC`, `OSR-COTS-FIRE-LIIONTAMER-3`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-SAF-P010 -->\n\nAuthoritative row: `LM3-SAF-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-HV-SA510`\n\nClosure evidence: detector certificate; loop continuity; mist proof-flow; reservoir/pump/pressure diagnostic; event-recorder input.\n\nCandidate sources: `OSR-COTS-FIRE-FOGTEC`, `OSR-COTS-FIRE-LIIONTAMER-3`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2372,6 +2482,8 @@
         "OSR-COTS-WHEELSET-GHH"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2388,7 +2500,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P040 -->\n\nAuthoritative row: `LM3-BOG-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record.\n\nCandidate sources: `OSR-COTS-WHEELSET-GHH`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P040 -->\n\nAuthoritative row: `LM3-BOG-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record.\n\nCandidate sources: `OSR-COTS-WHEELSET-GHH`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2418,6 +2530,8 @@
         "OSR-COTS-WHEELSET-GHH"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2434,7 +2548,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P041 -->\n\nAuthoritative row: `LM3-BOG-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record.\n\nCandidate sources: `OSR-COTS-WHEELSET-GHH`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P041 -->\n\nAuthoritative row: `LM3-BOG-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record.\n\nCandidate sources: `OSR-COTS-WHEELSET-GHH`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2464,6 +2578,8 @@
         "OSR-COTS-BEARING-SKF-TBU"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2480,7 +2596,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P042 -->\n\nAuthoritative row: `LM3-BOG-P042` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test.\n\nCandidate sources: `OSR-COTS-BEARING-SKF-TBU`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P042 -->\n\nAuthoritative row: `LM3-BOG-P042` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test.\n\nCandidate sources: `OSR-COTS-BEARING-SKF-TBU`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2510,6 +2626,8 @@
         "OSR-COTS-BEARING-SKF-TBU"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2526,7 +2644,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P043 -->\n\nAuthoritative row: `LM3-BOG-P043` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test.\n\nCandidate sources: `OSR-COTS-BEARING-SKF-TBU`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P043 -->\n\nAuthoritative row: `LM3-BOG-P043` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test.\n\nCandidate sources: `OSR-COTS-BEARING-SKF-TBU`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2555,6 +2673,8 @@
         "OSR-COTS-SUSPENSION-CONTI"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2570,7 +2690,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P044 -->\n\nAuthoritative row: `LM3-BOG-P044` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P044 -->\n\nAuthoritative row: `LM3-BOG-P044` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2599,6 +2719,8 @@
         "OSR-COTS-SUSPENSION-CONTI"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2614,7 +2736,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P045 -->\n\nAuthoritative row: `LM3-BOG-P045` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P045 -->\n\nAuthoritative row: `LM3-BOG-P045` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2643,6 +2765,8 @@
         "OSR-COTS-SUSPENSION-CONTI"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2659,7 +2783,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P046 -->\n\nAuthoritative row: `LM3-BOG-P046` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA610`\n\nClosure evidence: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P046 -->\n\nAuthoritative row: `LM3-BOG-P046` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA610`\n\nClosure evidence: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2688,6 +2812,8 @@
         "OSR-COTS-SUSPENSION-CONTI"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2704,7 +2830,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P047 -->\n\nAuthoritative row: `LM3-BOG-P047` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA620`\n\nClosure evidence: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P047 -->\n\nAuthoritative row: `LM3-BOG-P047` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA620`\n\nClosure evidence: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey.\n\nCandidate sources: `OSR-COTS-SUSPENSION-CONTI`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2734,6 +2860,8 @@
         "OSR-COTS-BRAKE-KNORR-RZKT"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2750,7 +2878,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P048 -->\n\nAuthoritative row: `LM3-BOG-P048` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test.\n\nCandidate sources: `OSR-COTS-BRAKE-KNORR-RZKT`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P048 -->\n\nAuthoritative row: `LM3-BOG-P048` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA611`\n\nClosure evidence: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test.\n\nCandidate sources: `OSR-COTS-BRAKE-KNORR-RZKT`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2780,6 +2908,8 @@
         "OSR-COTS-BRAKE-KNORR-RZKT"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "bogie frames, wheelsets, brakes, and suspension",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2796,7 +2926,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-BOG-P049 -->\n\nAuthoritative row: `LM3-BOG-P049` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test.\n\nCandidate sources: `OSR-COTS-BRAKE-KNORR-RZKT`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-BOG-P049 -->\n\nAuthoritative row: `LM3-BOG-P049` in the LM3 buildable trainset manifest.\n\nParent: `LM3-BOG-SA621`\n\nClosure evidence: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test.\n\nCandidate sources: `OSR-COTS-BRAKE-KNORR-RZKT`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `bogie frames, wheelsets, brakes, and suspension`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2823,6 +2953,8 @@
         "OSR-COTS-AIR-KNORR-VV120T"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2839,7 +2971,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-AUX-P010 -->\n\nAuthoritative row: `LM3-AUX-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CAR-A900`\n\nClosure evidence: pressure certificate; leak test; dryer function; relief-valve test; service-access check.\n\nCandidate sources: `OSR-COTS-AIR-KNORR-VV120T`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-AUX-P010 -->\n\nAuthoritative row: `LM3-AUX-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-CAR-A900`\n\nClosure evidence: pressure certificate; leak test; dryer function; relief-valve test; service-access check.\n\nCandidate sources: `OSR-COTS-AIR-KNORR-VV120T`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2866,6 +2998,8 @@
         "OSR-COTS-COUPLER-DELLNER430"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2882,7 +3016,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-END-P010 -->\n\nAuthoritative row: `LM3-END-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: EN 15227 absorber evidence; recovery procedure; bolt torque record.\n\nCandidate sources: `OSR-COTS-COUPLER-DELLNER430`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-END-P010 -->\n\nAuthoritative row: `LM3-END-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: EN 15227 absorber evidence; recovery procedure; bolt torque record.\n\nCandidate sources: `OSR-COTS-COUPLER-DELLNER430`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2911,6 +3045,8 @@
         "OSR-COTS-JOINT-SCHAEFFLER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2927,7 +3063,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P020 -->\n\nAuthoritative row: `LM3-ART-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA810`\n\nClosure evidence: bearing static/dynamic capacity; pin material/NDT; proof load; lubrication/sealing plan; motion-envelope proof.\n\nCandidate sources: `OSR-COTS-JOINT-SCHAEFFLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P020 -->\n\nAuthoritative row: `LM3-ART-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA810`\n\nClosure evidence: bearing static/dynamic capacity; pin material/NDT; proof load; lubrication/sealing plan; motion-envelope proof.\n\nCandidate sources: `OSR-COTS-JOINT-SCHAEFFLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2955,6 +3091,8 @@
         "OSR-COTS-JOINT-SCHAEFFLER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -2971,7 +3109,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P021 -->\n\nAuthoritative row: `LM3-ART-P021` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA810`\n\nClosure evidence: link buckling/fatigue proof; joint angular capacity; pin retention inspection; full-motion sweep.\n\nCandidate sources: `OSR-COTS-JOINT-SCHAEFFLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P021 -->\n\nAuthoritative row: `LM3-ART-P021` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA810`\n\nClosure evidence: link buckling/fatigue proof; joint angular capacity; pin retention inspection; full-motion sweep.\n\nCandidate sources: `OSR-COTS-JOINT-SCHAEFFLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -2999,6 +3137,8 @@
         "OSR-COTS-GANGWAY-HUBNER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3014,7 +3154,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P022 -->\n\nAuthoritative row: `LM3-ART-P022` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA820`\n\nClosure evidence: fire/smoke evidence; pressure/water ingress test; fatigue-cycle evidence; replaceable-clamp demonstration.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P022 -->\n\nAuthoritative row: `LM3-ART-P022` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA820`\n\nClosure evidence: fire/smoke evidence; pressure/water ingress test; fatigue-cycle evidence; replaceable-clamp demonstration.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3043,6 +3183,8 @@
         "OSR-COTS-GANGWAY-HUBNER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3058,7 +3200,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P023 -->\n\nAuthoritative row: `LM3-ART-P023` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA820`\n\nClosure evidence: passenger load proof; anti-slip evidence; gap/step gauge; pinch/shear hazard review; full-motion sweep.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P023 -->\n\nAuthoritative row: `LM3-ART-P023` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA820`\n\nClosure evidence: passenger load proof; anti-slip evidence; gap/step gauge; pinch/shear hazard review; full-motion sweep.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3087,6 +3229,8 @@
         "OSR-COTS-TRAINLINE-IGUS-HARTING"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3103,7 +3247,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P024 -->\n\nAuthoritative row: `LM3-ART-P024` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA830`\n\nClosure evidence: rated bend radius; dynamic sweep; abrasion/fire evidence; drain test; service replacement trial.\n\nCandidate sources: `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P024 -->\n\nAuthoritative row: `LM3-ART-P024` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA830`\n\nClosure evidence: rated bend radius; dynamic sweep; abrasion/fire evidence; drain test; service replacement trial.\n\nCandidate sources: `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3133,6 +3277,8 @@
         "OSR-COTS-CONTROL-DUAGON-MH50C"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3149,7 +3295,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CTRL-P010 -->\n\nAuthoritative row: `LM3-CTRL-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: hardware BOM check; self-test; network enumeration; firmware record; safety-output test.\n\nCandidate sources: `OSR-COTS-COMPUTE-MOXA-V2406C`, `OSR-COTS-CONTROL-DUAGON-MH50C`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CTRL-P010 -->\n\nAuthoritative row: `LM3-CTRL-P010` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: hardware BOM check; self-test; network enumeration; firmware record; safety-output test.\n\nCandidate sources: `OSR-COTS-COMPUTE-MOXA-V2406C`, `OSR-COTS-CONTROL-DUAGON-MH50C`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3179,6 +3325,8 @@
         "OSR-COTS-ROUTER-WESTERMO-630-5G"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3195,7 +3343,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CTRL-P020 -->\n\nAuthoritative row: `LM3-CTRL-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: SKU/firmware record; antenna VSWR; GNSS/IMU test; balise read; radio link test.\n\nCandidate sources: `OSR-COTS-ANTENNA-HS-85137717`, `OSR-COTS-ROUTER-WESTERMO-630-5G`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CTRL-P020 -->\n\nAuthoritative row: `LM3-CTRL-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: SKU/firmware record; antenna VSWR; GNSS/IMU test; balise read; radio link test.\n\nCandidate sources: `OSR-COTS-ANTENNA-HS-85137717`, `OSR-COTS-ROUTER-WESTERMO-630-5G`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3223,6 +3371,8 @@
         "OSR-COTS-SAFETYRELAY-PILZ-751184"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3239,7 +3389,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CTRL-P030 -->\n\nAuthoritative row: `LM3-CTRL-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: key/guarded-control test; emergency input test; 2oo2 relay test; stowage and access check.\n\nCandidate sources: `OSR-COTS-SAFETYRELAY-PILZ-751184`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CTRL-P030 -->\n\nAuthoritative row: `LM3-CTRL-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: key/guarded-control test; emergency input test; 2oo2 relay test; stowage and access check.\n\nCandidate sources: `OSR-COTS-SAFETYRELAY-PILZ-751184`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3267,6 +3417,8 @@
         "OSR-COTS-RECORDER-HASLER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "doors, glazing, interior, and auxiliaries",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3283,7 +3435,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-CTRL-P050 -->\n\nAuthoritative row: `LM3-CTRL-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: write/read test; retention configuration; crashworthy certificate; download/recovery test.\n\nCandidate sources: `OSR-COTS-RECORDER-HASLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-CTRL-P050 -->\n\nAuthoritative row: `LM3-CTRL-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-SYS-SA900`\n\nClosure evidence: write/read test; retention configuration; crashworthy certificate; download/recovery test.\n\nCandidate sources: `OSR-COTS-RECORDER-HASLER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `doors, glazing, interior, and auxiliaries`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3310,6 +3462,8 @@
         "OSR-COTS-LIDAR-OUSTER-OS1"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3326,7 +3480,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-END-P020 -->\n\nAuthoritative row: `LM3-END-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: sensor calibration; washer/heater test; 2oo2 verdict interface test.\n\nCandidate sources: `OSR-COTS-LIDAR-OUSTER-OS1`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-END-P020 -->\n\nAuthoritative row: `LM3-END-P020` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: sensor calibration; washer/heater test; 2oo2 verdict interface test.\n\nCandidate sources: `OSR-COTS-LIDAR-OUSTER-OS1`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3354,6 +3508,8 @@
         "OSR-COTS-COUPLER-DELLNER430"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3370,7 +3526,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-END-P040 -->\n\nAuthoritative row: `LM3-END-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: pinout test; breakaway force check; ingress protection; rescue compatibility.\n\nCandidate sources: `OSR-COTS-COUPLER-DELLNER430`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-END-P040 -->\n\nAuthoritative row: `LM3-END-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: pinout test; breakaway force check; ingress protection; rescue compatibility.\n\nCandidate sources: `OSR-COTS-COUPLER-DELLNER430`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3400,6 +3556,8 @@
       "factory_release_package_ids": [
         "LM3-FRP-040"
       ],
+      "mass_responsibility_category": "end cowls and interfaces",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3416,7 +3574,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-END-P050 -->\n\nAuthoritative row: `LM3-END-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: photometric certificate; function/polarity test; ingress protection; A/B-end interchange check.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: `LM3-FRP-040`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-END-P050 -->\n\nAuthoritative row: `LM3-END-P050` in the LM3 buildable trainset manifest.\n\nParent: `LM3-END-SA700`\n\nClosure evidence: photometric certificate; function/polarity test; ingress protection; A/B-end interchange check.\n\nCandidate sources: `OSR-COTS-LIGHT-TEKNOWARE`.\n\nFactory drawing/interface packages: `LM3-FRP-040`.\n\nMass responsibility: `end cowls and interfaces`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3445,6 +3603,8 @@
         "OSR-COTS-TRAINLINE-IGUS-HARTING"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "unclosed-evidence-required",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3461,7 +3621,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P030 -->\n\nAuthoritative row: `LM3-ART-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA830`\n\nClosure evidence: bend-radius sweep; trainline continuity; coolant pressure test; water-drain test.\n\nCandidate sources: `OSR-COTS-HV-TE-HVP800`, `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P030 -->\n\nAuthoritative row: `LM3-ART-P030` in the LM3 buildable trainset manifest.\n\nParent: `LM3-ART-SA830`\n\nClosure evidence: bend-radius sweep; trainline continuity; coolant pressure test; water-drain test.\n\nCandidate sources: `OSR-COTS-HV-TE-HVP800`, `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `unclosed-evidence-required`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3489,6 +3649,8 @@
         "OSR-COTS-GANGWAY-HUBNER"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "inactive-option-not-weighed",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3506,7 +3668,7 @@
           "LM3",
           "bid"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P040 -->\n\nAuthoritative row: `LM3-ART-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TTART-SA850`\n\nClosure evidence: train-to-train motion-envelope proof; walk-through gangway fire evidence; trainline continuity; water ingress/drain test.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P040 -->\n\nAuthoritative row: `LM3-ART-P040` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TTART-SA850`\n\nClosure evidence: train-to-train motion-envelope proof; walk-through gangway fire evidence; trainline continuity; water ingress/drain test.\n\nCandidate sources: `OSR-COTS-GANGWAY-HUBNER`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `inactive-option-not-weighed`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     },
     {
@@ -3534,6 +3696,8 @@
         "OSR-COTS-TRAINLINE-IGUS-HARTING"
       ],
       "factory_release_package_ids": [],
+      "mass_responsibility_category": "inter-car articulation",
+      "mass_evidence_status": "inactive-option-not-weighed",
       "evidence_refs": [],
       "reviewed_by": "",
       "github_issue_number": null,
@@ -3550,7 +3714,7 @@
           "LM3",
           "source"
         ],
-        "body": "<!-- osr-work-package: WP-LM3-ART-P041 -->\n\nAuthoritative row: `LM3-ART-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TTART-SA850`\n\nClosure evidence: pinout test; blanking cover ingress check; isolation label inspection; bend-radius sweep.\n\nCandidate sources: `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
+        "body": "<!-- osr-work-package: WP-LM3-ART-P041 -->\n\nAuthoritative row: `LM3-ART-P041` in the LM3 buildable trainset manifest.\n\nParent: `LM3-TTART-SA850`\n\nClosure evidence: pinout test; blanking cover ingress check; isolation label inspection; bend-radius sweep.\n\nCandidate sources: `OSR-COTS-TRAINLINE-IGUS-HARTING`.\n\nFactory drawing/interface packages: no dedicated factory-release package; use product definition and traveler.\n\nMass responsibility: `inter-car articulation`; evidence state: `inactive-option-not-weighed`.\n\nDo not mark complete without reviewed supplier/drawing/test evidence committed or linked from the authoritative register."
       }
     }
   ],

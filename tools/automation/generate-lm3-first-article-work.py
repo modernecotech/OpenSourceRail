@@ -16,6 +16,7 @@ STATE = CATALOGUE / "first-article-work-package-state.toml"
 EVIDENCE = REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml"
 COTS = CATALOGUE / "cots-candidates.json"
 FACTORY_RELEASE = CATALOGUE / "factory-release-work-packages.json"
+MASS_CLOSURE = CATALOGUE / "mass-closure-ledger.json"
 
 
 def digest(path: Path) -> str:
@@ -56,6 +57,7 @@ def write_markdown(package: dict, path: Path) -> None:
             *row.get("candidate_ids", []),
             *row.get("factory_release_package_ids", []),
             *row["evidence_package_ids"],
+            f"mass:{row['mass_responsibility_category']}",
         ]
         evidence = ", ".join(f"`{value}`" for value in routes) or "product-row acceptance"
         rows.append(
@@ -71,6 +73,8 @@ def main() -> int:
     evidence_packages = tomllib.loads(EVIDENCE.read_text(encoding="utf-8"))["evidence_package"]
     cots = json.loads(COTS.read_text(encoding="utf-8"))
     factory_release = json.loads(FACTORY_RELEASE.read_text(encoding="utf-8"))
+    mass_closure = json.loads(MASS_CLOSURE.read_text(encoding="utf-8"))
+    mass_by_product = {row["product_id"]: row for row in mass_closure["product_rows"]}
     product_to_candidates = cots["product_to_candidates"]
     product_to_factory_release = {
         product_id: [
@@ -98,6 +102,7 @@ def main() -> int:
         evidence_text = "; ".join(row.get("acceptance", []))
         candidate_ids = product_to_candidates.get(row["id"], [])
         factory_release_package_ids = product_to_factory_release.get(row["id"], [])
+        mass_row = mass_by_product[row["id"]]
         work_packages.append({
             "id": work_id,
             "status": status,
@@ -112,6 +117,8 @@ def main() -> int:
             "evidence_package_ids": matching_evidence_ids(row["id"], evidence_packages),
             "candidate_ids": candidate_ids,
             "factory_release_package_ids": factory_release_package_ids,
+            "mass_responsibility_category": mass_row["mass_responsibility_category"],
+            "mass_evidence_status": mass_row["mass_evidence_status"],
             "evidence_refs": override.get("evidence_refs", []),
             "reviewed_by": override.get("reviewed_by", ""),
             "github_issue_number": override.get("github_issue_number"),
@@ -127,6 +134,7 @@ def main() -> int:
                     f'Closure evidence: {evidence_text}.\n\n'
                     f"Candidate sources: {', '.join(f'`{value}`' for value in candidate_ids) or 'locally manufactured item; no bought-in candidate'}.\n\n"
                     f"Factory drawing/interface packages: {', '.join(f'`{value}`' for value in factory_release_package_ids) or 'no dedicated factory-release package; use product definition and traveler'}.\n\n"
+                    f"Mass responsibility: `{mass_row['mass_responsibility_category']}`; evidence state: `{mass_row['mass_evidence_status']}`.\n\n"
                     'Do not mark complete without '
                     "reviewed supplier/drawing/test evidence committed or linked "
                     "from the authoritative register."
@@ -135,7 +143,7 @@ def main() -> int:
         })
 
     package = {
-        "schema_version": "1.2",
+        "schema_version": "1.3",
         "first_article_id": "LM3-FA-001",
         "source_manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "source_manifest_sha256": digest(MANIFEST),
@@ -150,6 +158,8 @@ def main() -> int:
         "candidate_register_sha256": digest(COTS),
         "factory_release_source": str(FACTORY_RELEASE.relative_to(REPO_ROOT)),
         "factory_release_sha256": digest(FACTORY_RELEASE),
+        "mass_closure_source": str(MASS_CLOSURE.relative_to(REPO_ROOT)),
+        "mass_closure_sha256": digest(MASS_CLOSURE),
         "work_packages": work_packages,
         "publication_note": (
             "Issue-ready export only. Publishing GitHub issues is an explicit "
@@ -171,6 +181,8 @@ def main() -> int:
         "assembly_nodes": len(manifest["assemblies"]),
         "open_work_packages": package["open_count"],
         "work_package_register": str(work_path.relative_to(REPO_ROOT)),
+        "mass_closure_register": str(MASS_CLOSURE.relative_to(REPO_ROOT)),
+        "mass_closure_sha256": digest(MASS_CLOSURE),
         "source_manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "source_manifest_sha256": digest(MANIFEST),
         "change_control": (

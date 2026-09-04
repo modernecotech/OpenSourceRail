@@ -196,6 +196,13 @@ a definition and shop traveler, that all children/parents resolve, that
 material/process specs are present, and that traveler operations carry
 labor, tooling, approval, QA, and signoff fields.
 
+The generated `mass-closure-ledger.json` maps all 120 LM3 product rows into
+the nine optimizer mass categories without treating simplified envelope
+geometry as a weighed production solid. It also keeps the lightest existing
+design-space candidate and its recovery reactions visible as an unpromoted
+study until production-CAD, supplier, calibrated weighing and weight/balance
+evidence close the design.
+
 ## Handoff to structural engineering
 
 The tracked handoff package is the Python source, FreeCAD `.FCStd`

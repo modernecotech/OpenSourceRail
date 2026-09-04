@@ -27,7 +27,7 @@ current basic design and what must be closed before first steel cut.
 | Production planner | [`critical-path.md`](critical-path.md) | Plan parallel part fabrication, subassembly release, final train assembly, space use, and rough labour |
 | Factory planner | [`factory-plan.md`](factory-plan.md) | Size the pilot factory cells, enclosed area, yard, assembly-time rollups, machinery list, and rough equipment prices |
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
-| Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
+| Mass-properties engineer | [`mass-closure-ledger.md`](mass-closure-ledger.md) | Close all 117 active product responsibilities with production-CAD, supplier and calibrated weighed evidence; use [`mass-budget.md`](mass-budget.md) for the nine-category control total |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
 | Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 56 bought-in rows from 27 real supplier/research families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
 | Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 41 manufacturer/research catalogue/RFQ candidates covering all 56 bought-in rows, while preserving the exact fit and evidence still required |
@@ -76,8 +76,9 @@ The intended sequence is:
 8. Qualify the small-component rail/fastener samples and close each
    fixture, lighting, door and glazing release gate in
    `small-component-standard.md`.
-9. Close the mass budget and joint-control rows as supplier and drawing
-   evidence becomes available.
+9. Close every active product row in `mass-closure-ledger.md`, reconcile the
+   nine-category mass budget, then close joint-control rows as supplier,
+   production-CAD and calibrated weighed evidence becomes available.
 10. Use travelers as the shop-routing, material/process-control, and QA
    template.
 11. Run the ordered procurement and rig sequence in

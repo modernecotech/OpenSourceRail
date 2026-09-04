@@ -117,4 +117,4 @@ These generated chains make the structural and mechanical ownership explicit. Re
 ## Controlled inputs
 
 - Anchor source: `lib/templates/trainset-supplier-anchors.toml` (`4621199776db6c8c0074555b71bfb03657967cd7d563e204accd009d647ea820`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`e407e4f47ce2ee2d71e49a13ce028f8548fd3fc00baaee9078f03c1c918680dc`)

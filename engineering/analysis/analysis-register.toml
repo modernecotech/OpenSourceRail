@@ -213,6 +213,17 @@ converged = true
 limitations = "Design-reference product/method/tooling coordination only. Assembly libraries use a spaced inspection-fixture layout and do not claim installed-coordinate or tolerance closure. The selectable FreeCAD solids and IFC meshes are not released mould surfaces, shop drawings or NC data; supplier freeze, calculations, qualified processes, first articles, independent assessment and national authorisation remain open."
 
 [[analysis]]
+id = "OSR-AN-RS-MASS-001"
+title = "LM3 product mass closure and lightweight design-space comparison"
+status = "screening"
+tool = "deterministic Python design iterator + product responsibility ledger + recovery load model"
+input_paths = ["design/component-catalogue/src/osr_mech/design_definition.py", "design/component-catalogue/src/osr_mech/buildable_trainset.py", "design/component-catalogue/src/osr_mech/rolling_stock/mass_closure.py", "design/component-catalogue/src/osr_mech/rolling_stock/recovery.py"]
+result_path = "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json"
+acceptance_criterion = "All 120 product rows map exactly once to the nine optimizer categories; category budgets reconcile to the 75,308 kg controlled modeled subtotal; all 117 active rows retain explicit open production-CAD, supplier and/or calibrated-weigh evidence routes; the lightest existing feasible candidate and four mass-scenario recovery reactions are reproduced deterministically without changing the 78,750 kg controlled planning tare"
+converged = true
+limitations = "Responsibility and planning-budget ledger only: no per-product mass is invented from design-reference envelope geometry. The 73,375.62 kg light-body/light-bogie result is an optimizer study, not achieved tare. Production solids, selected supplier configurations, calibrated component/car/train weights, axle loads, centres of gravity and all affected structural, crash, fatigue, dynamics, braking, thermal and manufacturing substantiation remain open."
+
+[[analysis]]
 id = "OSR-AN-RS-FEA-SCREEN-001"
 title = "LM3 chassis, body, bogie and articulation gross-load-path screens"
 status = "screening"

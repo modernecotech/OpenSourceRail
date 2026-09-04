@@ -10,10 +10,12 @@ from osr_mech.buildable_trainset import (
     factory_plan_payload,
     joint_control_rows,
     mass_budget_payload,
+    product_mass_closure_payload,
     render_critical_path,
     render_factory_plan,
     render_joint_control_schedule,
     render_mass_budget,
+    render_product_mass_closure,
     render_manifest,
     render_open_release_gaps,
     render_trainset_build_cost,
@@ -276,6 +278,47 @@ def test_mass_budget_reconciles_optimizer_subtotal_and_controlled_tare() -> None
     assert "Controlled planning tare" in render_mass_budget(design)
 
 
+def test_product_mass_closure_maps_every_row_and_keeps_lightweight_option_unpromoted() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = product_mass_closure_payload(design)
+    coverage = payload["coverage"]
+    assert coverage == {
+        "product_rows": 120,
+        "active_product_rows": 117,
+        "mapped_product_rows": 120,
+        "closed_active_product_rows": 0,
+        "category_count": 9,
+        "categories_reconciled_to_controlled_subtotal": True,
+    }
+    assert round(sum(row["modeled_planning_budget_kg"] for row in payload["categories"])) == 75_308
+    assert {row["product_id"] for row in payload["product_rows"]} == {
+        item.id for item in design.product_items
+    }
+    assert all(row["closed_mass_kg"] is None for row in payload["product_rows"])
+
+    light = payload["lightweighting"]
+    assert light["lightest_existing_feasible_modeled_mass_kg"] == 73_375.62
+    assert light["modeled_saving_kg"] == 1_931.91
+    assert light["lightest_candidate_with_unchanged_reserve_kg"] == 76_817.62
+    assert "retain the 78,750 kg" in light["decision"]
+
+    scenarios = {row["id"]: row for row in payload["recovery_load_case_link"]["scenarios"]}
+    assert set(scenarios) == {
+        "controlled-planning-tare",
+        "lightest-existing-feasible-design-space-with-same-reserve",
+        "tare-minus-10-percent",
+        "tare-minus-20-percent",
+    }
+    assert all(
+        case["passes_planning_envelope"]
+        for scenario in scenarios.values()
+        for case in scenario["load_cases"]
+    )
+    rendered = render_product_mass_closure(design)
+    assert "product geometry is an envelope/representation set" in rendered
+    assert "Automotive" not in rendered
+
+
 def test_trainset_build_cost_uses_explicit_labor_and_unexpected_premium() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     payload = trainset_build_cost_payload(design)
@@ -328,6 +371,8 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     write_outputs(design, tmp_path)
     assert (tmp_path / "mass-budget.json").exists()
     assert (tmp_path / "mass-budget.md").exists()
+    assert (tmp_path / "mass-closure-ledger.json").exists()
+    assert (tmp_path / "mass-closure-ledger.md").exists()
     assert (tmp_path / "trainset-build-cost.json").exists()
     assert (tmp_path / "trainset-build-cost.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()

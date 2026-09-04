@@ -35,9 +35,11 @@ sensitivity studies, not released tare values.
 | 10% lower sensitivity | 70,875 kg | 23,625 kg | 57.92 kN per point |
 | 20% lower sensitivity | 63,000 kg | 21,000 kg | 51.48 kN per point |
 
-The current design-space search does not establish a large mass saving. Its
-light-body/light-bogie candidate is 73.376 t before reserve, only 1.932 t below
-the selected 75.308 t modeled subtotal. A materially lighter train therefore
+The generated [mass-closure ledger](../../../design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md)
+confirms that the current design-space search does not establish a large mass
+saving. Its light-body/light-bogie candidate is 73.376 t before reserve and
+76.818 t with the reserve retained, only about 1.932 t below the selected case.
+A materially lighter train therefore
 requires a new structural/material design and full crash, fatigue, fire,
 running-dynamics, braking, and manufacturability closure.
 
@@ -130,4 +132,3 @@ references, not selected suppliers.
 - [LUKAS HP 21 / 300 R rerailing jack](https://lukas.com/rerailing/en/products/rerailing-systems/217/hp-21/300r?c=374)
 - [LUKAS rerailing systems](https://lukas.com/rerailing/en/products/rerailing-systems/)
 - [Holmatro rerailing cylinders](https://www.holmatro.com/hydraulic-solutions/rerailing-vehicle-recovery/lifting-sliding-components/hydraulic-cylinders/)
-

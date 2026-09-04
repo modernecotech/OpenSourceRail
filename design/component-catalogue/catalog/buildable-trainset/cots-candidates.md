@@ -439,4 +439,4 @@ A complete system such as a door, bogie, HVAC unit or gangway is vehicle-specifi
 ## Controlled inputs
 
 - Candidate source: `lib/templates/trainset-cots-candidates.toml` (`0588d76029c2f426beadc09a5ba096848d2eb85a22fb4e1306c54d68931f3b94`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`e407e4f47ce2ee2d71e49a13ce028f8548fd3fc00baaee9078f03c1c918680dc`)

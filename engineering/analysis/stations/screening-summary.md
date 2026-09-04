@@ -5,7 +5,7 @@ reproducible engineering screens, not construction release or authority approval
 
 - Screening execution: **passed**
 - Deployment release: **not ready**
-- Manifest: `design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json` (`d5282d4f7ddd…`)
+- Manifest: `design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json` (`f90e31c14898…`)
 
 ## Results
 

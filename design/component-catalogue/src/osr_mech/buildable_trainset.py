@@ -42,6 +42,10 @@ from osr_mech.rolling_stock.small_components import small_component_standard_pay
 from osr_mech.rolling_stock.exterior_finish import finish_process_payload
 from osr_mech.rolling_stock.factory_release import factory_release_payload
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
+from osr_mech.rolling_stock.mass_closure import (
+    mass_closure_payload as build_mass_closure_payload,
+    render_mass_closure,
+)
 from osr_mech.rolling_stock.product_geometry import geometry_specs
 
 
@@ -2243,8 +2247,8 @@ def _review_findings(candidate: DesignCandidate, target: dict[str, str | float])
             "BDR-007",
             "yellow",
             "mass properties",
-            "The generated mass budget now reconciles the 75.308 t optimizer subtotal with the 78.75 t controlled planning tare through an explicit 3.442 t engineering reserve; drawing-level and as-built category closure remains open.",
-            "Replace estimates with supplier-frozen, CAD-derived, and weighed values while transferring consumed reserve to the affected category.",
+            "The generated mass budget reconciles the 75.308 t optimizer subtotal with the 78.75 t controlled planning tare through an explicit 3.442 t engineering reserve. A 120-row responsibility ledger now identifies the evidence route for every product and quantifies the lightest existing design-space option without claiming achieved mass; drawing-level and as-built closure remains open.",
+            "Close each active ledger row with supplier-frozen, production-CAD and/or calibrated weighed values, reconcile car/axle/centre-of-gravity results, and repeat affected substantiation before changing the controlled tare.",
         ),
         ReviewFinding(
             "BDR-008",
@@ -3997,6 +4001,16 @@ def render_mass_budget(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def product_mass_closure_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    """Return the nine-category / product-row controlled mass closure ledger."""
+
+    return build_mass_closure_payload(design.candidate, design.product_items, design.family)
+
+
+def render_product_mass_closure(design: BuildableTrainsetDesign) -> str:
+    return render_mass_closure(product_mass_closure_payload(design))
+
+
 def trainset_build_cost_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
     """Return the explicit build-cost rollup for one three-car LM3 trainset."""
 
@@ -5355,6 +5369,8 @@ def write_outputs(
     gaps_md = out_dir / "open-release-gaps.md"
     mass_json = out_dir / "mass-budget.json"
     mass_md = out_dir / "mass-budget.md"
+    mass_closure_json = out_dir / "mass-closure-ledger.json"
+    mass_closure_md = out_dir / "mass-closure-ledger.md"
     build_cost_json = out_dir / "trainset-build-cost.json"
     build_cost_md = out_dir / "trainset-build-cost.md"
     joints_json = out_dir / "joint-control-schedule.json"
@@ -5380,6 +5396,11 @@ def write_outputs(
     gaps_md.write_text(render_open_release_gaps(design), encoding="utf-8")
     mass_json.write_text(json.dumps(mass_budget_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     mass_md.write_text(render_mass_budget(design), encoding="utf-8")
+    mass_closure_json.write_text(
+        json.dumps(product_mass_closure_payload(design), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    mass_closure_md.write_text(render_product_mass_closure(design), encoding="utf-8")
     build_cost_json.write_text(
         json.dumps(trainset_build_cost_payload(design), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -5600,8 +5621,9 @@ def render_review(design: BuildableTrainsetDesign) -> str:
             "4. Convert each `BID`/`SOURCE` definition into an RFQ envelope: mass, power,",
             "   volume, mounting datum, service clearance, evidence pack, and alternate",
             "   acceptance rule.",
-            "5. Close the generated mass-budget categories and joint-control rows as",
-            "   supplier, calculation, CAD, and weighing evidence becomes available.",
+            "5. Close every active product in the generated mass-closure ledger, reconcile",
+            "   its nine mass-budget categories, and close joint-control rows as supplier,",
+            "   calculation, production-CAD, and calibrated weighing evidence becomes available.",
             "6. Attach local proof cases to the structural subassemblies: underframe,",
             "   bolsters, coupler pocket, door portals, battery tray, roof equipment,",
             "   bogie frames, and articulation adapters.",
