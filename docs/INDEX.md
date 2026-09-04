@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1420**.
+Indexed Markdown files: **1421**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1420**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 344 |
+| [design](#design) | 345 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -1171,6 +1171,7 @@ Indexed Markdown files: **1420**.
 | [`design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md`](../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md`](../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md) | LM3 manufacturing methods and tooling |
 | [`design/component-catalogue/catalog/buildable-trainset/mass-budget.md`](../design/component-catalogue/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
+| [`design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md`](../design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md) | LM3 product-level mass closure and lightweighting ledger |
 | [`design/component-catalogue/catalog/buildable-trainset/open-release-gaps.md`](../design/component-catalogue/catalog/buildable-trainset/open-release-gaps.md) | Trainset open release gap register |
 | [`design/component-catalogue/catalog/buildable-trainset/small-component-standard.md`](../design/component-catalogue/catalog/buildable-trainset/small-component-standard.md) | LM3 small-component and fixture standard |
 | [`design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md`](../design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md) | LM3 supplier anchors and local equivalents |

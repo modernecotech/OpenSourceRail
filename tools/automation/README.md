@@ -49,7 +49,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
-| [`check-readmes.py`](check-readmes.py) | Enforce titles, whitespace, provenance, common-method links and concise size limits across tracked READMEs and national briefs |
+| [`check-readmes.py`](check-readmes.py) | Enforce titles, whitespace, provenance, concise size limits, complete Markdown indexing, and current LM3 contract counts/links across tracked READMEs and national briefs |
 | [`export-gis-context.py`](export-gis-context.py) | Convert a cached city OSM snapshot into deterministic local roads, buildings, water, protected-land and existing-rail GeoJSON layers, refreshing project source locks when present |
 | [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
 | [`validate-city-projects.py`](validate-city-projects.py) | Compile and validate every Git-backed OSR City Studio project, including source locks and weekly service plans |

@@ -12,7 +12,7 @@ twin-track viaduct bay, and a 49.5 m three-car LM3 trainset.
 | ![LM3 product rows in deterministic staging](../../../../docs/screenshots/assembly/trainset-assembly-parts-staged.png) | ![LM3 subassemblies following the product dependency graph](../../../../docs/screenshots/assembly/trainset-assembly-subassemblies.png) | ![LM3 complete assembly state](../../../../docs/screenshots/assembly/trainset-assembly-complete.png) |
 
 The animation is an 88-second guided assembly tour. The LM3 chapter instantiates
-all 120 controlled product rows and all 26 part→subassembly→car→trainset nodes;
+all 120 controlled product rows and all 26 assembly nodes from subassembly to final trainset;
 each object is separately selectable and carries its ID, parent/children,
 quantity, route and dependency timing. Components move from deterministic
 staging positions only after their inputs are available, then the tour finishes

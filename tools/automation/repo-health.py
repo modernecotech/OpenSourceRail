@@ -1496,6 +1496,9 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
         "mass_closure": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
         "mass_closure_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md",
+        "mass_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/mass-properties-record-template.json",
+        "evidence_plan": REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml",
+        "evidence_status": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.json",
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
@@ -1578,6 +1581,47 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or any(row.get("closed_mass_kg") is not None for row in product_rows)
         ):
             findings.append(Finding(paths["mass_closure"], "LM3 product mass rows are incomplete or claim unsupported closure"))
+    if paths["mass_record"].is_file():
+        mass_record = json.loads(paths["mass_record"].read_text(encoding="utf-8"))
+        product_rows = mass_record.get("product_rows", [])
+        category_rows = mass_record.get("category_reconciliation", [])
+        car_rows = mass_record.get("individual_car_results", [])
+        if (
+            mass_record.get("template_status") != "unfilled-not-evidence"
+            or mass_record.get("evidence_package_id") != "EVD-MASS-001"
+            or len({row.get("product_id") for row in product_rows}) != 120
+            or sum(bool(row.get("active_in_reference_configuration")) for row in product_rows) != 117
+            or any(row.get("unit_mass_kg") is not None for row in product_rows)
+            or any(row.get("installed_total_mass_kg") is not None for row in product_rows)
+            or len(category_rows) != 9
+            or len(car_rows) != 3
+            or any(len(row.get("axle_loads", [])) != 4 for row in car_rows)
+            or [row.get("load_case") for row in mass_record.get("complete_trainset_results", {}).get("load_case_results", [])] != ["AW0", "AW2", "AW3"]
+            or any(
+                len(row.get("axle_loads_kg", [])) != 12
+                for row in mass_record.get("complete_trainset_results", {}).get("load_case_results", [])
+            )
+            or mass_record.get("complete_trainset_results", {}).get("tare_mass_kg") is not None
+        ):
+            findings.append(Finding(paths["mass_record"], "LM3 mass-properties template is incomplete or claims unsupported measurements"))
+    if paths["evidence_status"].is_file():
+        evidence_status = json.loads(paths["evidence_status"].read_text(encoding="utf-8"))
+        evidence_plan = tomllib.loads(paths["evidence_plan"].read_text(encoding="utf-8"))
+        planned_ids = {row.get("id") for row in evidence_plan.get("evidence_package", [])}
+        package_ids = {row.get("id") for row in evidence_status.get("packages", [])}
+        accepted_count = int(evidence_status.get("accepted_count", -1))
+        open_count = int(evidence_status.get("open_count", -1))
+        mass_gate = next(
+            (row.get("release_gate") for row in evidence_status.get("packages", []) if row.get("id") == "EVD-MASS-001"),
+            None,
+        )
+        if (
+            package_ids != planned_ids
+            or accepted_count + open_count != len(planned_ids)
+            or bool(evidence_status.get("release_ready")) != (open_count == 0)
+            or mass_gate != "open"
+        ):
+            findings.append(Finding(paths["evidence_status"], "LM3 first-article evidence status is inconsistent with its plan or unfilled mass record"))
     if paths["ifc_index"].is_file():
         index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
         if not index.get("passed"):

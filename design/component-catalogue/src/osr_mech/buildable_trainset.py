@@ -44,6 +44,7 @@ from osr_mech.rolling_stock.factory_release import factory_release_payload
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.mass_closure import (
     mass_closure_payload as build_mass_closure_payload,
+    mass_properties_record_template,
     render_mass_closure,
 )
 from osr_mech.rolling_stock.product_geometry import geometry_specs
@@ -5371,6 +5372,7 @@ def write_outputs(
     mass_md = out_dir / "mass-budget.md"
     mass_closure_json = out_dir / "mass-closure-ledger.json"
     mass_closure_md = out_dir / "mass-closure-ledger.md"
+    mass_record_template_json = out_dir / "evidence" / "mass-properties-record-template.json"
     build_cost_json = out_dir / "trainset-build-cost.json"
     build_cost_md = out_dir / "trainset-build-cost.md"
     joints_json = out_dir / "joint-control-schedule.json"
@@ -5396,11 +5398,17 @@ def write_outputs(
     gaps_md.write_text(render_open_release_gaps(design), encoding="utf-8")
     mass_json.write_text(json.dumps(mass_budget_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     mass_md.write_text(render_mass_budget(design), encoding="utf-8")
+    mass_closure = product_mass_closure_payload(design)
     mass_closure_json.write_text(
-        json.dumps(product_mass_closure_payload(design), indent=2, sort_keys=True) + "\n",
+        json.dumps(mass_closure, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    mass_closure_md.write_text(render_product_mass_closure(design), encoding="utf-8")
+    mass_closure_md.write_text(render_mass_closure(mass_closure), encoding="utf-8")
+    mass_record_template_json.parent.mkdir(parents=True, exist_ok=True)
+    mass_record_template_json.write_text(
+        json.dumps(mass_properties_record_template(mass_closure), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     build_cost_json.write_text(
         json.dumps(trainset_build_cost_payload(design), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

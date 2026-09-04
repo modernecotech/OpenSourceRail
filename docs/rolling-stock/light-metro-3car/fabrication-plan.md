@@ -54,7 +54,7 @@ homologation laboratory equipment.
 
 The generated layout keeps the long final track for accepted kits only:
 steel cutting, chassis/body-frame fixtures, moulding, bogie assembly,
-interior/HVAC kit work, paint, stores, QA, and yard staging run beside
+interior/HVAC kit work, corrosion protection/base finish, stores, QA, and yard staging run beside
 it instead of blocking it.
 
 ![LM3 parallel first-article assembly method](../../../docs/screenshots/trainset-assembly-method-flow.png)

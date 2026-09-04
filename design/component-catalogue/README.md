@@ -117,6 +117,11 @@ Generated artifacts live in
 | [`small-component-standard.md`](catalog/buildable-trainset/small-component-standard.md) | Four fastener families, common rail, keyed connectors, modular illumination and serviceable door/window boundaries |
 | [`exterior-finish-system.md`](catalog/buildable-trainset/exterior-finish-system.md) | Mandatory base protection, rail-use livery film zones, and trial-only CaCO3 radiative roof-coating qualification gates |
 | [`factory-release-work-packages.md`](catalog/buildable-trainset/factory-release-work-packages.md) | Ten controlled chassis, module, fascia, roof, interior, finish and recovery drawing/interface work packages |
+| [`mass-budget.md`](catalog/buildable-trainset/mass-budget.md) | Nine-category optimizer subtotal, engineering reserve and controlled planning tare |
+| [`mass-closure-ledger.md`](catalog/buildable-trainset/mass-closure-ledger.md) | Product-level mass responsibility, evidence state, lightweight design-space comparison and recovery-reaction link |
+| [`critical-path.md`](catalog/buildable-trainset/critical-path.md) and [`factory-plan.md`](catalog/buildable-trainset/factory-plan.md) | First-article sequence, labour, work centres, space and machinery planning |
+| [`cots-candidates.md`](catalog/buildable-trainset/cots-candidates.md) and [`supplier-anchors.md`](catalog/buildable-trainset/supplier-anchors.md) | Exact catalogue/RFQ candidates and controlled local-equivalent boundaries for all bought-in rows |
+| [`first-article-execution-pack.md`](catalog/buildable-trainset/first-article-execution-pack.md) and [`first-article-evidence-status.md`](catalog/buildable-trainset/first-article-evidence-status.md) | Ordered execution route and fail-closed status for the 13 supplier, analysis, physical-test and mass-properties gates |
 | [`definitions/index.md`](catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ seed: JSON + Markdown definition for every product-tree node, including structured material and process specs |
 | [`travelers/index.md`](catalog/buildable-trainset/travelers/index.md) | Shop traveler seed: material/process controls, operation routers, labor estimates, tooling IDs, QA gates, approval/signoff blocks |
 

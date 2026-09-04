@@ -1220,6 +1220,8 @@ def render_index(variants: tuple[StationVariant, ...]) -> str:
             "Site structural, foundation, drainage, egress, and electrical approvals remain gates.",
             "See the generated [`open release gap register`](open-release-gaps.md) for",
             "the supplier, site, utility, and component-design closures behind these counts.",
+            "The generated [`station product reconciliation`](station-product-reconciliation.md)",
+            "checks the BOM, traveler, drawing, FreeCAD and IFC identities in both directions.",
             "The shared [station systems screening](../../../../engineering/analysis/stations/screening-summary.md)",
             "runs OpenSees, JuPedSim and SWMM across the family. EnergyPlus/FDS execute the",
             "baseline and proposed depot thermal/fire cases; the baseline failures, screened",

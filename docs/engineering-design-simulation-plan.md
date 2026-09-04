@@ -1,9 +1,9 @@
 # Engineering Design And Simulation Plan
 
-Status: implementation plan  
-Reviewed: 2026-08-26
-Scope: remaining repository audit items COMP-014 and COMP-016 through
-COMP-019
+Status: active implementation and evidence plan
+Reviewed: 2026-09-04
+Scope: repository-owned engineering work and external deployment-evidence
+gates across COMP-014 and COMP-016 through COMP-019
 
 This plan selects an open-source engineering toolchain and turns the
 remaining mechanical, station, civil, energy, and system-validation gaps
@@ -462,17 +462,19 @@ the safety case points to reviewable evidence.
 
 | Priority | Work that can start now | Dependency that prevents closure |
 |---:|---|---|
-| 1 | ENG-TOOL-001 through 005; COMP-016 variation/product-structure work; COMP-014 harness | Second-machine reproduction for tool baseline |
-| 2 | Field brief, data schemas, QGIS project template, SWMM/OpenSees benchmarks | Samawah survey partner, permissions, control and geotechnical campaign |
-| 3 | Station analysis templates and preliminary energy schemas | Accepted passenger demand, local code, fire scenarios, utility and weather data |
-| 4 | Supplier-neutral connector/door/points ICD and test templates | Selected cells, charger, actuators, connectors and supplier evidence |
-| 5 | Site-calibrated civil and energy analysis, final assembly/BOM release | Survey, measured duty, supplier freeze, local authority and independent review |
+| 1 | LM3 factory drawings/interfaces, product mass-evidence intake and COMP-014 fault/recovery harness | Supplier configuration, production solids, physical build and independent review for closure |
+| 2 | Maintain field receipts, QGIS/control/ground/alignment gates and reusable SWMM/OpenSees checks | Samawah survey partner, permissions, control and geotechnical campaign |
+| 3 | Maintain station solver decks and advance battery/charging duty, thermal and protection templates | Accepted passenger demand, supplier loss/cell data, local code, fire scenarios, utility and weather data |
+| 4 | Complete supplier-neutral connector/door/points ICD and test templates | Selected cells, charger, actuators, connectors and supplier evidence |
+| 5 | Site-calibrated civil and energy analysis, final production assembly/mass release | Survey, measured duty, supplier freeze, local authority and independent review |
 
-The immediate critical path is therefore Wave 0 plus the COMP-017 field brief.
-Station variants and the COMP-014 fault harness can proceed in parallel while
-external survey and supplier data are being obtained. Final geometry, BOM,
-assembly instructions, and acceptance evidence are reconciled only after the
-relevant surveyed or supplier configuration is frozen.
+The reusable tool baseline, station family and COMP-017 field brief are now in
+place. The repository-owned critical path is the LM3 factory/production-detail
+package, mass-properties intake and COMP-014 fault harness, maintained in
+parallel with the external Samawah survey and supplier campaigns. Final
+geometry, BOM, mass, assembly instructions and acceptance evidence are
+reconciled only after the relevant surveyed or supplier configuration is
+frozen and real evidence is independently accepted.
 
 ## Software Adoption Gates
 

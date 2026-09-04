@@ -354,3 +354,129 @@ def render_mass_closure(payload: dict[str, object]) -> str:
         )
     lines.extend(["", "## Closure rule", "", str(payload["closure_rule"]), ""])
     return "\n".join(lines)
+
+
+def mass_properties_record_template(payload: dict[str, object]) -> dict[str, object]:
+    """Return an unfilled, configuration-bound first-article mass record.
+
+    Null measurement fields are intentional.  The template becomes evidence only
+    after a real build fills it and the normal evidence-submission checks bind its
+    file hash, accountable people, calibrated equipment and independent review.
+    """
+
+    rows = [
+        {
+            "product_id": row["product_id"],
+            "title": row["title"],
+            "route": row["route"],
+            "mass_responsibility_category": row["mass_responsibility_category"],
+            "reference_quantity": row["quantity_per_trainset"],
+            "unit": row["unit"],
+            "active_in_reference_configuration": row["active_in_reference_configuration"],
+            "minimum_evidence": row["evidence_required"],
+            "closure_authority": row["closure_authority"],
+            "configuration_or_drawing_revision": "",
+            "evidence_basis": "",
+            "unit_mass_kg": None,
+            "installed_total_mass_kg": None,
+            "evidence_ref": "",
+            "evidence_sha256": "",
+            "measured_or_declared_by": "",
+            "reviewed_by": "",
+        }
+        for row in payload["product_rows"]  # type: ignore[union-attr]
+    ]
+    return {
+        "schema": "org.opensourcerail.lm3-mass-properties-record.v1",
+        "template_status": "unfilled-not-evidence",
+        "evidence_package_id": "EVD-MASS-001",
+        "first_article_id": "LM3-FA-001",
+        "candidate": payload["candidate"],
+        "mass_closure_register": "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
+        "allowed_evidence_basis": [
+            "released-production-cad",
+            "selected-supplier-declaration",
+            "calibrated-component-weigh",
+            "calibrated-installed-system-weigh",
+        ],
+        "instructions": [
+            "retain every row and mark inactive options explicitly rather than deleting them",
+            "identify included and excluded fluids, fasteners, finishes, wiring and supplier scope",
+            "use kilograms and bind every source artifact by durable reference and SHA-256",
+            "do not infer mass from the design-reference product-envelope geometry",
+            "reconcile row totals to categories, individual cars, the complete trainset, axle loads and centre of gravity",
+        ],
+        "equipment": [
+            {
+                "id": "",
+                "serial": "",
+                "calibration_certificate_ref": "",
+                "calibration_due": "",
+                "range_kg": None,
+                "resolution_kg": None,
+            }
+        ],
+        "product_rows": rows,
+        "category_reconciliation": [
+            {
+                "category": category["category"],
+                "planning_budget_kg": category["modeled_planning_budget_kg"],
+                "evidenced_total_kg": None,
+                "variance_to_planning_budget_kg": None,
+                "review_disposition": "",
+            }
+            for category in payload["categories"]  # type: ignore[union-attr]
+        ],
+        "individual_car_results": [
+            {
+                "car_id": car_id,
+                "tare_mass_kg": None,
+                "longitudinal_cg_from_car_datum_mm": None,
+                "vertical_cg_above_rail_mm": None,
+                "bogie_positions": [
+                    {"position": "A-end", "type": "powered"},
+                    {"position": "B-end", "type": "trailer"},
+                ],
+                "axle_loads": [
+                    {
+                        "axle_id": f"{car_id}-AXLE-{axle_number}",
+                        "left_wheel_load_kg": None,
+                        "right_wheel_load_kg": None,
+                        "total_axle_load_kg": None,
+                    }
+                    for axle_number in range(1, 5)
+                ],
+                "evidence_ref": "",
+            }
+            for car_id in ("LM3-CAR-01", "LM3-CAR-02", "LM3-CAR-03")
+        ],
+        "complete_trainset_results": {
+            "configuration_and_serials": "",
+            "tare_mass_kg": None,
+            "engineering_reserve_remaining_kg": None,
+            "maximum_aw0_axle_load_kg": None,
+            "maximum_aw2_axle_load_kg": None,
+            "maximum_aw3_axle_load_kg": None,
+            "longitudinal_cg_from_train_datum_mm": None,
+            "vertical_cg_above_rail_mm": None,
+            "load_case_results": [
+                {
+                    "load_case": load_case,
+                    "gross_train_mass_kg": None,
+                    "axle_loads_kg": [None] * 12,
+                    "maximum_axle_load_kg": None,
+                    "acceptance_disposition": "",
+                }
+                for load_case in ("AW0", "AW2", "AW3")
+            ],
+            "test_date": "",
+            "test_location": "",
+        },
+        "signoff": {
+            "mass_properties_engineer": "",
+            "manufacturing_quality": "",
+            "independent_reviewer": "",
+            "design_authority_disposition": "",
+        },
+        "closure_warning": "An unfilled or internally calculated template is not weighing evidence and cannot reduce the 78,750 kg controlled planning tare.",
+    }

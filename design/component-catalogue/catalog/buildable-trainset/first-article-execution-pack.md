@@ -1,6 +1,6 @@
 # LM3 first-article execution pack
 
-This is the single working page for converting `LM3-FA-001` from a controlled design candidate into a physically evidenced first article. It links the [41 sourced catalogue/RFQ/research candidates](cots-candidates.md), [10 factory drawing/interface packages](factory-release-work-packages.md), [81 public work packages](first-article-work-packages.md), shop travelers and the 12 evidence gates. It is not a claim that unperformed tests have passed.
+This is the single working page for converting `LM3-FA-001` from a controlled design candidate into a physically evidenced first article. It links the [41 sourced catalogue/RFQ/research candidates](cots-candidates.md), [10 factory drawing/interface packages](factory-release-work-packages.md), [81 public work packages](first-article-work-packages.md), shop travelers and the 13 evidence gates. It is not a claim that unperformed tests have passed.
 
 ## Release sequence
 
@@ -11,7 +11,8 @@ This is the single working page for converting `LM3-FA-001` from a controlled de
 5. Release detailed drawings and analyses only after chosen supplier interfaces are frozen.
 6. Build coupons and subsystem rigs before the vehicle. Failed gates create an NCR and block dependent assembly release.
 7. Build the first article from serialized parts and signed travelers. Preserve raw data, photographs, calibration records and software hashes.
-8. Independent reviewers accept evidence packages. Generation scripts never convert a planned or supplier-claimed result into an accepted result.
+8. Weigh received components, completed subassemblies, all three individual cars and the configured trainset; reconcile the nine categories, axle loads, centres of gravity and engineering reserve without deriving mass from envelope geometry.
+9. Independent reviewers accept evidence packages. Generation scripts never convert a planned or supplier-claimed result into an accepted result.
 
 ## Evidence gates and executable work
 
@@ -29,6 +30,7 @@ This is the single working page for converting `LM3-FA-001` from a controlled de
 | `EVD-SUP-003` traction energy | RFQ the motor, gearbox, converter, LFP battery, resistor, collector and HV panel as one compatible system. Require loss/thermal/derating maps and short-circuit/protection coordination. | Exact bill of supply, all ICDs, energy and mass reconciliation, RAMS, maintenance, software, fire/propagation, EMC/vibration and quotation validity. | Reject a bid that closes one component while leaving voltage, shaft, cooling, protection or software responsibility undefined. |
 | `EVD-SUP-004` fit-out/safety | Freeze glazing/bonding, floor, seats/rails, HVAC/ducts, PIS/CCTV, lighting and fire system using the published candidates and complete vehicle environment. | Exact products/configurations, fire/smoke matrix, abuse loads, EMC/IP where relevant, cleaning/maintenance, samples and first-fit records. | Public datasheets may start the RFQ; only controlled configuration evidence closes the gate. |
 | `EVD-MFG-001` local manufacture | Release drawings/tolerances for body joints, GFRP, inserts, window pressure frame, door carrier, seat/light rails, harnesses and ducts. Qualify material batches, operators, fixtures and processes with coupons and first-article inspection. | Drawing/process revisions, batch trace, operator qualification, gauge calibration, coupon/joint results, dimensional report, NCR disposition and signed FAI. | Local manufacture is encouraged but cannot bypass material, fire, structural, electrical or dimensional qualification. |
+| `EVD-MASS-001` mass properties | Fill the generated 120-row record using released production-CAD, exact supplier or calibrated weighed evidence; weigh each car and the complete configured trainset; reconcile AW0/AW2/AW3 axle loads, longitudinal/vertical CG, roof/battery distribution, category variance and reserve. | Completed checksummed mass record, scale/load-cell calibration, included/excluded scope, product/category reconciliation, three car reports, complete-train report, independent review and design-authority disposition. | No estimate or simplified-envelope calculation may close a row or reduce the 78.75 t controlled planning tare. |
 
 ## First purchase and rig priority
 
@@ -42,4 +44,4 @@ The lowest-risk sequence buys samples before committing to complete vehicle-spec
 
 ## Required submission structure
 
-Start supplier evidence from [`evidence/rfq-response-template.json`](evidence/rfq-response-template.json) and performed test evidence from [`evidence/test-run-template.json`](evidence/test-run-template.json). A reviewer moves a gate to accepted only through the existing checksummed submission format. Supplier pages remain cited design inputs, not accepted submissions.
+Start supplier evidence from [`evidence/rfq-response-template.json`](evidence/rfq-response-template.json), performed test evidence from [`evidence/test-run-template.json`](evidence/test-run-template.json), and weight/balance evidence from the generated [`evidence/mass-properties-record-template.json`](evidence/mass-properties-record-template.json). A reviewer moves a gate to accepted only through the existing checksummed submission format. Supplier pages remain cited design inputs, not accepted submissions.

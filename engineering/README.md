@@ -6,7 +6,8 @@ component geometry.
 
 | Area | Contents |
 |---|---|
-| [`analysis/`](analysis/) | Analysis register, field-to-drainage/ground deployment gates, station evidence and solver inputs |
+| [`analysis/analysis-register.toml`](analysis/analysis-register.toml) | Machine-readable source of truth for current analysis status and remaining evidence |
+| [`analysis/`](analysis/) | Field-to-drainage/ground deployment gates, station evidence and solver inputs |
 | [`interchange/`](interchange/) | Deterministic IFC4.3 and station-interchange generators |
 | [`models/bim/reference/`](models/bim/reference/) | Public IFC, IDS, BCF, validation and coordination review set |
 | [`models/digital-twins/`](models/digital-twins/) | Source-linked fabrication and construction review scenes |

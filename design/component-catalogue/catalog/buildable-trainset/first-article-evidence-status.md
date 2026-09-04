@@ -2,7 +2,7 @@
 
 This register distinguishes public supplier data, planned procedures and solver-backed screening from supplier-controlled, laboratory and independently accepted release evidence. Planned work is never represented as a performed test.
 
-**Release ready:** no · **Accepted:** 0 · **Open:** 12
+**Release ready:** no · **Accepted:** 0 · **Open:** 13
 
 | Evidence package | Repository status | Release gate | Planning / screening artifacts |
 |---|---|---|---|
@@ -18,5 +18,6 @@ This register distinguishes public supplier data, planned procedures and solver-
 | `EVD-SUP-003` — Battery, converter, motor, gearbox and charger supplier data | protocol-ready | open | present |
 | `EVD-SUP-004` — Glazing, HVAC, interior, lighting, passenger-system and fire-system supplier data | protocol-ready | open | present |
 | `EVD-MFG-001` — Locally manufactured joints, inserts, glazing frames and interior modules | protocol-ready | open | present |
+| `EVD-MASS-001` — Product, car, axle-load and complete-train mass properties | protocol-ready | open | present |
 
 A gate becomes accepted only through a submission under `evidence/submissions/` containing accountable people, configuration/procedure revisions, calibrated equipment, raw/review artifacts and verified SHA-256 values.

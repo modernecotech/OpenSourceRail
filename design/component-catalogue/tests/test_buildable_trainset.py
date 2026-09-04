@@ -34,6 +34,7 @@ from osr_mech.rolling_stock.bom_trace import (
     bom_line_ids_for_engineering_id,
     bom_scope,
 )
+from osr_mech.rolling_stock.mass_closure import mass_properties_record_template
 
 
 def test_buildable_trainset_has_full_product_tree() -> None:
@@ -319,6 +320,31 @@ def test_product_mass_closure_maps_every_row_and_keeps_lightweight_option_unprom
     assert "Automotive" not in rendered
 
 
+def test_mass_properties_record_is_complete_but_cannot_claim_unmeasured_evidence() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    template = mass_properties_record_template(product_mass_closure_payload(design))
+    assert template["template_status"] == "unfilled-not-evidence"
+    assert template["evidence_package_id"] == "EVD-MASS-001"
+    assert len(template["product_rows"]) == 120
+    assert sum(row["active_in_reference_configuration"] for row in template["product_rows"]) == 117
+    assert all(row["unit_mass_kg"] is None for row in template["product_rows"])
+    assert all(row["installed_total_mass_kg"] is None for row in template["product_rows"])
+    assert len(template["category_reconciliation"]) == 9
+    assert len(template["individual_car_results"]) == 3
+    assert all(len(car["axle_loads"]) == 4 for car in template["individual_car_results"])
+    assert [row["load_case"] for row in template["complete_trainset_results"]["load_case_results"]] == [
+        "AW0",
+        "AW2",
+        "AW3",
+    ]
+    assert all(
+        len(row["axle_loads_kg"]) == 12
+        for row in template["complete_trainset_results"]["load_case_results"]
+    )
+    assert template["complete_trainset_results"]["tare_mass_kg"] is None
+    assert "cannot reduce the 78,750 kg" in template["closure_warning"]
+
+
 def test_trainset_build_cost_uses_explicit_labor_and_unexpected_premium() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     payload = trainset_build_cost_payload(design)
@@ -373,6 +399,7 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "mass-budget.md").exists()
     assert (tmp_path / "mass-closure-ledger.json").exists()
     assert (tmp_path / "mass-closure-ledger.md").exists()
+    assert (tmp_path / "evidence/mass-properties-record-template.json").exists()
     assert (tmp_path / "trainset-build-cost.json").exists()
     assert (tmp_path / "trainset-build-cost.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()

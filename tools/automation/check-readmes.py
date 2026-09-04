@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
+import tomllib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -101,6 +103,92 @@ def main() -> int:
     tracked_markdown = subprocess.check_output(
         ["git", "ls-files", "*.md"], cwd=REPO_ROOT, text=True
     ).splitlines()
+    untracked_markdown = subprocess.check_output(
+        ["git", "ls-files", "--others", "--exclude-standard", "*.md"],
+        cwd=REPO_ROOT,
+        text=True,
+    ).splitlines()
+    inventory_path = REPO_ROOT / "docs/INDEX.md"
+    if inventory_path.is_file():
+        inventory_text = inventory_path.read_text(encoding="utf-8")
+        for relative in sorted(set(tracked_markdown + untracked_markdown) - {"docs/INDEX.md"}):
+            if (REPO_ROOT / relative).is_file() and f"`{relative}`" not in inventory_text:
+                findings.append(f"docs/INDEX.md: missing Markdown inventory entry for {relative}")
+
+    trainset_root = REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset"
+    contract_paths = {
+        "manifest": trainset_root / "buildable-trainset-manifest.json",
+        "mass": trainset_root / "mass-closure-ledger.json",
+        "factory": trainset_root / "factory-release-work-packages.json",
+        "methods": trainset_root / "manufacturing-methods.json",
+        "cots": trainset_root / "cots-candidates.json",
+        "evidence": REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml",
+        "evidence_status": trainset_root / "first-article-evidence-status.json",
+    }
+    if all(path.is_file() for path in contract_paths.values()):
+        manifest = json.loads(contract_paths["manifest"].read_text(encoding="utf-8"))
+        mass = json.loads(contract_paths["mass"].read_text(encoding="utf-8"))
+        factory = json.loads(contract_paths["factory"].read_text(encoding="utf-8"))
+        methods = json.loads(contract_paths["methods"].read_text(encoding="utf-8"))
+        cots = json.loads(contract_paths["cots"].read_text(encoding="utf-8"))
+        evidence = tomllib.loads(contract_paths["evidence"].read_text(encoding="utf-8"))
+        evidence_status = json.loads(contract_paths["evidence_status"].read_text(encoding="utf-8"))
+        products = len(manifest["product_items"])
+        assemblies = len(manifest["assemblies"])
+        make_rows = sum(row["route"] == "MAKE" for row in manifest["product_items"])
+        bought_rows = int(cots["coverage"]["external_product_rows"])
+        active_rows = int(mass["coverage"]["active_product_rows"])
+        mapped_rows = int(mass["coverage"]["mapped_product_rows"])
+        closed_rows = int(mass["coverage"]["closed_active_product_rows"])
+        factory_packages = int(factory["package_count"])
+        method_count = int(methods["coverage"]["method_count"])
+        tooling_count = int(methods["coverage"]["tooling_count"])
+        candidate_count = int(cots["coverage"]["candidate_count"])
+        evidence_count = len(evidence["evidence_package"])
+        open_evidence_count = int(evidence_status["open_count"])
+
+        current_contracts = {
+            REPO_ROOT / "README.md": (
+                f"controls {products} product rows and {assemblies} assembly nodes",
+                f"The {make_rows} locally made rows",
+                "exterior-finish-system.md",
+                "factory-release-work-packages.md",
+                "mass-closure-ledger.md",
+            ),
+            REPO_ROOT / "docs/ROADMAP.md": (
+                f"{products}-product-row/{assemblies}-assembly",
+                f"{candidate_count} manufacturer/research candidates covering all {bought_rows} bought-in rows",
+                f"{factory_packages} factory drawing/interface packages",
+                f"{evidence_count}-gate first-article route",
+                f"maps {mapped_rows}/{products} rows",
+                f"{closed_rows}/{active_rows} active rows mass-closed",
+            ),
+            REPO_ROOT / "design/component-catalogue/README.md": (
+                "mass-budget.md",
+                "mass-closure-ledger.md",
+                "factory-release-work-packages.md",
+                "first-article-evidence-status.md",
+            ),
+            trainset_root / "README.md": (
+                f"all {evidence_count} evidence gates",
+                f"{open_evidence_count} still-open",
+                f"all {products} product links, {method_count} timed methods, {tooling_count} tooling families",
+                "open-release-gaps.md",
+                "exterior-finish-system.md",
+                "mass-closure-ledger.md",
+            ),
+            REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/README.md": (
+                "station-product-reconciliation.md",
+            ),
+        }
+        for path, snippets in current_contracts.items():
+            text = path.read_text(encoding="utf-8")
+            for snippet in snippets:
+                if snippet not in text:
+                    findings.append(
+                        f"{path.relative_to(REPO_ROOT)}: current engineering contract missing {snippet!r}"
+                    )
+
     setup_sources = [
         relative
         for relative in tracked_markdown
