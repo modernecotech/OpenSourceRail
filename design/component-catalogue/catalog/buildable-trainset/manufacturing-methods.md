@@ -202,4 +202,4 @@ These links explain the engineering basis; they are not copied supplier instruct
 ## Controlled inputs
 
 - Method source: `lib/templates/trainset-manufacturing-methods.toml` (`814542c64f387f4ba32a2126552ec5636f0839dfdaf547fdea6ae56b0ab1b06d`)
-- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`e407e4f47ce2ee2d71e49a13ce028f8548fd3fc00baaee9078f03c1c918680dc`)
+- Product manifest: `design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json` (`ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703`)

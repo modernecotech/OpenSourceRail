@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1463**.
+Indexed Markdown files: **1464**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1463**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 387 |
+| [design](#design) | 388 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -1035,6 +1035,7 @@ Indexed Markdown files: **1463**.
 | [`design/component-catalogue/catalog/buildable-trainset/cots-candidates.md`](../design/component-catalogue/catalog/buildable-trainset/cots-candidates.md) | LM3 off-the-shelf and RFQ candidate register |
 | [`design/component-catalogue/catalog/buildable-trainset/critical-path.md`](../design/component-catalogue/catalog/buildable-trainset/critical-path.md) | LM3 fabrication and final-assembly critical path |
 | [`design/component-catalogue/catalog/buildable-trainset/current-design-buildability-review.md`](../design/component-catalogue/catalog/buildable-trainset/current-design-buildability-review.md) | Current basic design buildability review |
+| [`design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md`](../design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md) | LM3 bought-in product reference defaults |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-ART-SA800.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-ART-SA800.md) | LM3-ART-SA800 — complete inter-car structural articulation, passenger gangway and service transfer |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-CAR-A900.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-CAR-A900.md) | LM3-CAR-A900 — complete repeated car module |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-END-SA700.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/assemblies/LM3-END-SA700.md) | LM3-END-SA700 — train-end cowl, coupler, crash, and sensor assembly |

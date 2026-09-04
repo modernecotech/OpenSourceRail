@@ -325,6 +325,13 @@ weight-and-balance evidence, and release drawings listed in
 [`drawing-register.md`](drawing-register.md) and
 [`v2-release-checklist.md`](v2-release-checklist.md).
 
+For supplier work, the generated
+[`default-product-specifications.md`](../../../design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md)
+now gives all 58 `BID`/`SOURCE` rows a costable reference configuration,
+published manufacturer facts, the current CAD fit envelope, localisation basis,
+and explicit override triggers. These values start comparable RFQs; they are not
+nominated suppliers or released order codes.
+
 ## Reference envelope (from RFC 0008 §1)
 
 | Parameter | Value |

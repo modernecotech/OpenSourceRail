@@ -11,6 +11,7 @@ subassemblies → assemblies → final trainset.
 - Product item rows: `120`
 - Assembly nodes: `26`
 - Open supplier/component rows: `81` ([register](open-release-gaps.md))
+- Bought-in product reference defaults: `58` ([register](default-product-specifications.md))
 
 ## Candidate metrics
 

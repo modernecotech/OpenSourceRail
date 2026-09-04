@@ -34,6 +34,7 @@ current basic design and what must be closed before first steel cut.
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
 | Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 56 bought-in rows from 27 real supplier/research families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
 | Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 41 manufacturer/research catalogue/RFQ candidates covering all 56 bought-in rows, while preserving the exact fit and evidence still required |
+| Buyer needing a costable starting point | [`default-product-specifications.md`](default-product-specifications.md) | Start every 34 `BID` and 24 `SOURCE` product row from one controlled affordable reference, then override it when fit, duty, evidence or whole-life cost requires |
 | First-article execution team | [`first-article-execution-pack.md`](first-article-execution-pack.md) | Follow one ordered procurement, rig, physical-test, mass-properties and independent-acceptance route across all 13 evidence gates |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
@@ -59,8 +60,9 @@ The intended sequence is:
    [`first-article-baseline.json`](first-article-baseline.json), then read the
    buildability review for release blockers.
 2. Use the manifest to understand the 120-product-row / 26-assembly tree, then use
-   `cots-candidates.md` for exact catalogue samples and vehicle-specific RFQs;
-   `supplier-anchors.md` retains the broader local-equivalent boundary.
+   `default-product-specifications.md` as the costable starting configuration,
+   `cots-candidates.md` for exact catalogue samples and vehicle-specific RFQs,
+   and `supplier-anchors.md` for the broader local-equivalent boundary.
 3. Use `train-end-interface.md` to confirm whether each end position is
    dressed as a panoramic glass front/end or an open mid-train
    train-to-train connection.

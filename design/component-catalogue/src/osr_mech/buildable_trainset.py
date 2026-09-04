@@ -34,6 +34,11 @@ from osr_mech.rolling_stock.baseline import (
     PROMOTED_OPTIMIZER_MASS_SUBTOTAL_KG,
     PROMOTED_ROOF_SOLAR_MODULES_PER_CAR,
 )
+from osr_mech.rolling_stock.default_specifications import (
+    default_product_specifications,
+    default_specification_payload,
+    render_default_specifications,
+)
 from osr_mech.rolling_stock.bom_trace import (
     PROCUREMENT_BOM_ENGINEERING_IDS,
     bom_line_ids_for_engineering_id,
@@ -2234,8 +2239,8 @@ def _review_findings(candidate: DesignCandidate, target: dict[str, str | float])
             "BDR-004",
             "yellow",
             "supplier freeze",
-            "Buildability still depends on supplier-frozen doors, HVAC, batteries, traction, wheelsets, brakes, couplers, and gangways.",
-            "Issue RFQ envelopes from the manifest, accept alternates only through fit/power/mass/evidence checks, then lock v2A supplier interfaces.",
+            "All 58 BID/SOURCE rows now have a generated affordable reference default tied to 41 controlled manufacturer/reference sources and the current CAD envelopes. Buildability still depends on supplier-frozen doors, HVAC, batteries, traction, wheelsets, brakes, couplers, and gangways.",
+            "Use the reference-default register to issue comparable RFQs, accept alternates only through fit/power/mass/evidence checks, then lock v2A supplier interfaces.",
         ),
         ReviewFinding(
             "BDR-005",
@@ -5250,6 +5255,9 @@ def factory_release_work_package_payload(
     payload = factory_release_payload()
     items = {item.id: item for item in design.product_items}
     geometry = geometry_specs()
+    reference_default_ids = {
+        row.product_id for row in default_product_specifications(design.product_items)
+    }
     package_ids: set[str] = set()
     controlled_products: set[str] = set()
     enriched_packages: list[dict[str, object]] = []
@@ -5280,6 +5288,11 @@ def factory_release_work_package_payload(
                     "geometry_form": spec.form,
                     "design_reference_envelope_mm": list(spec.envelope_mm),
                     "geometry_representation": spec.representation,
+                    "reference_default": (
+                        f"default-product-specifications.json::{product_id}"
+                        if product_id in reference_default_ids
+                        else "not-applicable-local-manufacture"
+                    ),
                 }
             )
         unknown_tools = sorted(set(package["tooling_ids"]) - set(TOOL_BUILDERS))
@@ -5298,6 +5311,12 @@ def factory_release_work_package_payload(
         "all_product_ids_have_geometry": True,
         "all_tooling_ids_in_registry": True,
         "package_ids_unique": True,
+        "all_controlled_bought_in_rows_link_reference_defaults": all(
+            row["reference_default"].startswith("default-product-specifications.json::")
+            for package in enriched_packages
+            for row in package["product_rows"]
+            if row["route"] != "MAKE"
+        ),
     }
     return payload
 
@@ -5344,17 +5363,22 @@ def render_factory_release_work_packages(design: BuildableTrainsetDesign) -> str
                 "",
                 "### Controlled products and geometry",
                 "",
-                "| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |",
-                "|---|---|---:|---|---:|---|",
+                "| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |",
+                "|---|---|---:|---|---:|---|---|",
             ]
         )
         for product in row["product_rows"]:
             item = dict(product)
             envelope = " × ".join(f"{float(value):g}" for value in item["design_reference_envelope_mm"])
+            reference_default = (
+                f"[`specified`](default-product-specifications.md#{str(item['id']).lower()})"
+                if str(item["reference_default"]).startswith("default-product-specifications.json::")
+                else "local manufacture"
+            )
             lines.append(
                 f"| `{item['id']}` — {item['title']} | `{item['route']}` / `{item['maturity']}` | "
                 f"{item['quantity_per_trainset']:g} {item['unit']} | `{item['parent']}` | {envelope} | "
-                f"{item['geometry_representation']} |"
+                f"{reference_default} | {item['geometry_representation']} |"
             )
         for heading, key in (
             ("Frozen inputs", "frozen_inputs"),
@@ -5396,6 +5420,8 @@ def write_outputs(
     small_components_md = out_dir / "small-component-standard.md"
     finish_json = out_dir / "exterior-finish-system.json"
     finish_md = out_dir / "exterior-finish-system.md"
+    defaults_json = out_dir / "default-product-specifications.json"
+    defaults_md = out_dir / "default-product-specifications.md"
     factory_release_json = out_dir / "factory-release-work-packages.json"
     factory_release_md = out_dir / "factory-release-work-packages.md"
     factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
@@ -5460,6 +5486,18 @@ def write_outputs(
         encoding="utf-8",
     )
     finish_md.write_text(render_exterior_finish_system(), encoding="utf-8")
+    defaults = default_specification_payload(design.product_items)
+    defaults_json.write_text(
+        json.dumps(defaults, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    defaults_md.write_text(
+        render_default_specifications(
+            defaults,
+            {item.id: item.title for item in design.product_items},
+        ),
+        encoding="utf-8",
+    )
     factory_release = factory_release_work_package_payload(design)
     factory_release_json.write_text(
         json.dumps(factory_release, indent=2, sort_keys=True) + "\n",
@@ -5542,6 +5580,7 @@ def render_manifest(design: BuildableTrainsetDesign) -> str:
         f"- Product item rows: `{len(design.product_items)}`",
         f"- Assembly nodes: `{len(design.assemblies)}`",
         f"- Open supplier/component rows: `{sum(item.maturity is not Maturity.RELEASE_CANDIDATE for item in design.product_items)}` ([register](open-release-gaps.md))",
+        f"- Bought-in product reference defaults: `{sum(item.route is not Route.MAKE for item in design.product_items)}` ([register](default-product-specifications.md))",
         "",
         "## Candidate metrics",
         "",

@@ -35,16 +35,16 @@ Release boundary: No steel cutting release until structural calculations, WPS/PQ
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-BDY-P010` — laser-cut side sill beam, LH/RH | `MAKE` / `release-candidate` | 6 ea | `LM3-BDY-SA110` | 16000 × 180 × 260 | one side-sill member with end datum faces |
-| `LM3-BDY-P020` — underframe centre spine and longitudinal load-path kit | `MAKE` / `release-candidate` | 3 kit | `LM3-BDY-SA110` | 15800 × 2650 × 380 | centre spine and repeated cross-bearers |
-| `LM3-BDY-P021` — underframe cross-bearer, door-bay outrigger, and equipment-bracket pack | `MAKE` / `release-candidate` | 3 car pack | `LM3-BDY-SA110` | 15200 × 2650 × 320 | stationed cross-bearers, door outriggers and equipment brackets |
-| `LM3-BDY-P030` — bolster box, air-spring pad, and centre-pivot insert set | `MAKE` / `release-candidate` | 6 set | `LM3-BDY-SA110` | 1700 × 2650 × 420 | bolster box, spring pads and pivot land |
-| `LM3-BDY-P060` — low-floor centre pan and removable service-floor support set | `MAKE` / `release-candidate` | 3 set | `LM3-BDY-SA120` | 15600 × 2650 × 460 | low-floor pan and raised bogie-end decks |
-| `LM3-BDY-P061` — raised bogie-end deck, transition ramp, and removable hatch-frame set | `MAKE` / `release-candidate` | 3 car set | `LM3-BDY-SA120` | 5200 × 2650 × 460 | raised end decks, transition ramps and removable hatch frames |
-| `LM3-BDY-P070` — side-wall post, door portal, waist rail, and cant rail kit | `MAKE` / `release-candidate` | 6 side | `LM3-BDY-SA120` | 15800 × 180 × 2850 | posts, door portals, waist and cant rails |
-| `LM3-BDY-P080` — roof bow, HVAC rail, PV rail, and cable-tray bracket kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 15600 × 2500 × 360 | roof bows and equipment/cable rails |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P010` — laser-cut side sill beam, LH/RH | `MAKE` / `release-candidate` | 6 ea | `LM3-BDY-SA110` | 16000 × 180 × 260 | local manufacture | one side-sill member with end datum faces |
+| `LM3-BDY-P020` — underframe centre spine and longitudinal load-path kit | `MAKE` / `release-candidate` | 3 kit | `LM3-BDY-SA110` | 15800 × 2650 × 380 | local manufacture | centre spine and repeated cross-bearers |
+| `LM3-BDY-P021` — underframe cross-bearer, door-bay outrigger, and equipment-bracket pack | `MAKE` / `release-candidate` | 3 car pack | `LM3-BDY-SA110` | 15200 × 2650 × 320 | local manufacture | stationed cross-bearers, door outriggers and equipment brackets |
+| `LM3-BDY-P030` — bolster box, air-spring pad, and centre-pivot insert set | `MAKE` / `release-candidate` | 6 set | `LM3-BDY-SA110` | 1700 × 2650 × 420 | local manufacture | bolster box, spring pads and pivot land |
+| `LM3-BDY-P060` — low-floor centre pan and removable service-floor support set | `MAKE` / `release-candidate` | 3 set | `LM3-BDY-SA120` | 15600 × 2650 × 460 | local manufacture | low-floor pan and raised bogie-end decks |
+| `LM3-BDY-P061` — raised bogie-end deck, transition ramp, and removable hatch-frame set | `MAKE` / `release-candidate` | 3 car set | `LM3-BDY-SA120` | 5200 × 2650 × 460 | local manufacture | raised end decks, transition ramps and removable hatch frames |
+| `LM3-BDY-P070` — side-wall post, door portal, waist rail, and cant rail kit | `MAKE` / `release-candidate` | 6 side | `LM3-BDY-SA120` | 15800 × 180 × 2850 | local manufacture | posts, door portals, waist and cant rails |
+| `LM3-BDY-P080` — roof bow, HVAC rail, PV rail, and cable-tray bracket kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 15600 × 2500 × 360 | local manufacture | roof bows and equipment/cable rails |
 
 ### Frozen inputs
 
@@ -74,13 +74,13 @@ Release boundary: Module skins remain non-structural and may not close primary c
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-BDY-P130` — one-metre clip-on solid-side fiberglass body module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 120 × 3050 | one-metre clip-on side/roof module with solid attachment lands |
-| `LM3-BDY-P131` — one-metre clip-on window-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 160 × 3050 | window-edge side module with reveal and drain clearance |
-| `LM3-BDY-P132` — one-metre clip-on door-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 180 × 3050 | door-edge side module with pocket and threshold closeout |
-| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | roof skin and equipment-fairing trim variant |
-| `LM3-BDY-P140` — keyed clip rail, captive retainer, anti-lift, and dry-seal car kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-SHELL-A200` | 15800 × 180 × 160 | keyed clip rail, retainers and dry-seal route |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P130` — one-metre clip-on solid-side fiberglass body module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 120 × 3050 | local manufacture | one-metre clip-on side/roof module with solid attachment lands |
+| `LM3-BDY-P131` — one-metre clip-on window-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 160 × 3050 | local manufacture | window-edge side module with reveal and drain clearance |
+| `LM3-BDY-P132` — one-metre clip-on door-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 180 × 3050 | local manufacture | door-edge side module with pocket and threshold closeout |
+| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | local manufacture | roof skin and equipment-fairing trim variant |
+| `LM3-BDY-P140` — keyed clip rail, captive retainer, anti-lift, and dry-seal car kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-SHELL-A200` | 15800 × 180 × 160 | local manufacture | keyed clip rail, retainers and dry-seal route |
 
 ### Frozen inputs
 
@@ -110,12 +110,12 @@ Release boundary: The selected glazing supplier retains responsibility for pane 
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-CWL-P016` — CWL-FRP-06 backing-ring flange fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 8 flange section | `LM3-CWL-SA710` | 720 × 120 × 720 | backing-ring flange cast |
-| `LM3-FAS-P010` — panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame | `MAKE` / `buildable-after-supplier-freeze` | 2 end set | `LM3-CWL-SA710` | 2300 × 260 × 1780 | panoramic glass carrier, setting blocks and secondary retention |
-| `LM3-FAS-P030` — front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit | `SOURCE` / `buildable-after-supplier-freeze` | 2 end kit | `LM3-CWL-SA710` | 2500 × 420 × 1950 | glazing/lamp seals, drains, washer sleeves and closeouts |
-| `LM3-EXT-P030` — single panoramic heated end-glass assembly | `BID` / `buildable-after-supplier-freeze` | 2 ea | `LM3-END-SA700` | 2300 × 110 × 1450 | heated panoramic end glazing |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-CWL-P016` — CWL-FRP-06 backing-ring flange fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 8 flange section | `LM3-CWL-SA710` | 720 × 120 × 720 | local manufacture | backing-ring flange cast |
+| `LM3-FAS-P010` — panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame | `MAKE` / `buildable-after-supplier-freeze` | 2 end set | `LM3-CWL-SA710` | 2300 × 260 × 1780 | local manufacture | panoramic glass carrier, setting blocks and secondary retention |
+| `LM3-FAS-P030` — front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit | `SOURCE` / `buildable-after-supplier-freeze` | 2 end kit | `LM3-CWL-SA710` | 2500 × 420 × 1950 | [`specified`](default-product-specifications.md#lm3-fas-p030) | glazing/lamp seals, drains, washer sleeves and closeouts |
+| `LM3-EXT-P030` — single panoramic heated end-glass assembly | `BID` / `buildable-after-supplier-freeze` | 2 ea | `LM3-END-SA700` | 2300 × 110 × 1450 | [`specified`](default-product-specifications.md#lm3-ext-p030) | heated panoramic end glazing |
 
 ### Frozen inputs
 
@@ -145,12 +145,12 @@ Release boundary: The jig establishes mechanical aim only; supplier and vehicle 
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-CWL-P014` — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1000 × 2650 × 760 | lower apron and anti-climber cover cast |
-| `LM3-CWL-P015` — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 4 hatch | `LM3-CWL-SA710` | 650 × 520 × 420 | lamp/washer/service-hatch cast set |
-| `LM3-FAS-P020` — reversible front-lamp cassette tray, aiming adjusters, and retained service bracket | `MAKE` / `buildable-after-supplier-freeze` | 2 end set | `LM3-CWL-SA710` | 1850 × 720 × 420 | reversible lamp cassette tray and aiming adjusters |
-| `LM3-END-P050` — sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit | `SOURCE` / `buildable-after-supplier-freeze` | 2 end kit | `LM3-END-SA700` | 1600 × 900 × 280 | head/tail/marker/threshold lamps and harness |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-CWL-P014` — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1000 × 2650 × 760 | local manufacture | lower apron and anti-climber cover cast |
+| `LM3-CWL-P015` — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 4 hatch | `LM3-CWL-SA710` | 650 × 520 × 420 | local manufacture | lamp/washer/service-hatch cast set |
+| `LM3-FAS-P020` — reversible front-lamp cassette tray, aiming adjusters, and retained service bracket | `MAKE` / `buildable-after-supplier-freeze` | 2 end set | `LM3-CWL-SA710` | 1850 × 720 × 420 | local manufacture | reversible lamp cassette tray and aiming adjusters |
+| `LM3-END-P050` — sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit | `SOURCE` / `buildable-after-supplier-freeze` | 2 end kit | `LM3-END-SA700` | 1600 × 900 × 280 | [`specified`](default-product-specifications.md#lm3-end-p050) | head/tail/marker/threshold lamps and harness |
 
 ### Frozen inputs
 
@@ -180,18 +180,18 @@ Release boundary: No supplier unit or person load may be reacted through a clip-
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-BDY-P080` — roof bow, HVAC rail, PV rail, and cable-tray bracket kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 15600 × 2500 × 360 | roof bows and equipment/cable rails |
-| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | roof skin and equipment-fairing trim variant |
-| `LM3-ROOF-P010` — HVAC curb, drop-duct collar, condensate tray, and drain fitting kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 2800 × 1800 × 420 | HVAC curb, duct collar, tray and drains |
-| `LM3-ROOF-P020` — PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels | `MAKE` / `release-candidate` | 3 car kit | `LM3-ROOF-SA410` | 14000 × 2300 × 140 | PV rails, bonded pads, jumpers and isolation datums |
-| `LM3-ROOF-P030` — removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 3200 × 2400 × 720 | removable HVAC curb fairing, skirts and access hatches |
-| `LM3-ROOF-P040` — PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 12000 × 2300 × 320 | PV plinth, glands, antenna closeouts and walkway edges |
-| `LM3-EXT-P040` — hvac-24kw-direct-hv-dc roof HVAC | `BID` / `buildable-after-supplier-freeze` | 3 ea | `LM3-ROOF-SA410` | 2600 × 1900 × 620 | roof HVAC casing, fans and curb interface |
-| `LM3-EXT-P050` — roof PV module and edge-clamp kit | `SOURCE` / `release-candidate` | 36 module | `LM3-ROOF-SA410` | 1700 × 1050 × 45 | PV laminate and edge-clamp datums |
-| `LM3-EXT-P070` — roof antennas, service walkway pads, lifting covers, and maintenance labels | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-ROOF-SA410` | 2400 × 1500 × 260 | antennas, walkway pads, covers and labels |
-| `LM3-TRC-P050` — roof-mounted regen dump resistor and thermal shield kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 ea | `LM3-ROOF-SA410` | 1900 × 750 × 420 | regen resistor bank and thermal shield |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P080` — roof bow, HVAC rail, PV rail, and cable-tray bracket kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 15600 × 2500 × 360 | local manufacture | roof bows and equipment/cable rails |
+| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | local manufacture | roof skin and equipment-fairing trim variant |
+| `LM3-ROOF-P010` — HVAC curb, drop-duct collar, condensate tray, and drain fitting kit | `MAKE` / `release-candidate` | 3 kit | `LM3-ROOF-SA410` | 2800 × 1800 × 420 | local manufacture | HVAC curb, duct collar, tray and drains |
+| `LM3-ROOF-P020` — PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels | `MAKE` / `release-candidate` | 3 car kit | `LM3-ROOF-SA410` | 14000 × 2300 × 140 | local manufacture | PV rails, bonded pads, jumpers and isolation datums |
+| `LM3-ROOF-P030` — removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 3200 × 2400 × 720 | local manufacture | removable HVAC curb fairing, skirts and access hatches |
+| `LM3-ROOF-P040` — PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 12000 × 2300 × 320 | local manufacture | PV plinth, glands, antenna closeouts and walkway edges |
+| `LM3-EXT-P040` — hvac-24kw-direct-hv-dc roof HVAC | `BID` / `buildable-after-supplier-freeze` | 3 ea | `LM3-ROOF-SA410` | 2600 × 1900 × 620 | [`specified`](default-product-specifications.md#lm3-ext-p040) | roof HVAC casing, fans and curb interface |
+| `LM3-EXT-P050` — roof PV module and edge-clamp kit | `SOURCE` / `release-candidate` | 36 module | `LM3-ROOF-SA410` | 1700 × 1050 × 45 | [`specified`](default-product-specifications.md#lm3-ext-p050) | PV laminate and edge-clamp datums |
+| `LM3-EXT-P070` — roof antennas, service walkway pads, lifting covers, and maintenance labels | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-ROOF-SA410` | 2400 × 1500 × 260 | [`specified`](default-product-specifications.md#lm3-ext-p070) | antennas, walkway pads, covers and labels |
+| `LM3-TRC-P050` — roof-mounted regen dump resistor and thermal shield kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 ea | `LM3-ROOF-SA410` | 1900 × 750 × 420 | [`specified`](default-product-specifications.md#lm3-trc-p050) | regen resistor bank and thermal shield |
 
 ### Frozen inputs
 
@@ -221,27 +221,27 @@ Release boundary: Interior finish panels carry no seat, handrail, equipment or p
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-INT-P010` — HVAC diffusers, side return ducts, saloon grilles, and access panels | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 6000 × 2400 × 320 | diffusers, returns, grilles and access panels |
-| `LM3-INT-P020` — FRP/phenolic ceiling liner panel set | `MAKE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1000 × 2650 × 260 | ceiling liner, light trough and plenum cover |
-| `LM3-INT-P021` — ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1200 × 240 × 110 | light-trough bezels and diffuser carriers |
-| `LM3-INT-P022` — HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1100 × 900 × 220 | HVAC transitions, detector bezels and ceiling service hatches |
-| `LM3-INT-P030` — FRP/phenolic sidewall liner panel set | `MAKE` / `buildable-after-supplier-freeze` | 6 side kit | `LM3-INT-SA330` | 1000 × 140 × 2200 | sidewall liner, reveal and cable-cover panel |
-| `LM3-INT-P031` — window reveal, setting-block inspection cover, and blind/label land set | `MAKE` / `buildable-after-supplier-freeze` | 6 side set | `LM3-INT-SA330` | 1750 × 180 × 1300 | four-piece removable window reveal and inspection covers |
-| `LM3-INT-P032` — waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set | `MAKE` / `buildable-after-supplier-freeze` | 6 side set | `LM3-INT-SA330` | 1000 × 220 × 520 | waist cable cover and retained access lid |
-| `LM3-INT-P040` — FRP battery strake cover panel set | `MAKE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 4800 × 720 × 780 | battery strake/seat-base/service-hatch shells |
-| `LM3-INT-P041` — seat-base fairing, retained equipment hatch, and rail-saddle closeout set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1600 × 780 × 820 | seat-base fairing and retained equipment hatch |
-| `LM3-INT-P050` — FRP vestibule kick-panel and threshold-closeout set | `MAKE` / `buildable-after-supplier-freeze` | 12 door-zone kit | `LM3-INT-SA330` | 1100 × 420 × 1050 | vestibule, PRM and door-pocket trim set |
-| `LM3-INT-P051` — PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set | `MAKE` / `buildable-after-supplier-freeze` | 6 end-zone set | `LM3-INT-SA330` | 2500 × 1200 × 460 | PRM transition, step cover, nosing and anti-slip set |
-| `LM3-INT-P052` — door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set | `MAKE` / `buildable-after-supplier-freeze` | 12 door-zone set | `LM3-INT-SA330` | 1200 × 420 × 2100 | door-pocket liner and removable jamb covers |
-| `LM3-EXT-P060` — stepped floor-board and removable service-hatch system | `SOURCE` / `buildable-after-supplier-freeze` | 135 m2 | `LM3-INT-SA330` | 1000 × 1300 × 35 | numbered floor board/removable hatch module |
-| `LM3-EXT-P061` — welded resilient floor covering, cove, nosing, and adhesive system | `SOURCE` / `buildable-after-supplier-freeze` | 135 m2 | `LM3-INT-SA330` | 1000 × 1300 × 6 | resilient covering and welded-seam allowance |
-| `LM3-EXT-P062` — longitudinal passenger and priority-seat modules | `SOURCE` / `buildable-after-supplier-freeze` | 60 seat | `LM3-INT-SA330` | 1550 × 620 × 980 | longitudinal passenger-seat module and rail saddles |
-| `LM3-EXT-P063` — stainless grab-pole, handrail, joint, and insulated adapter kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 2300 × 2300 × 2050 | grab poles, rails and repeated adapters |
-| `LM3-EXT-P064` — passenger-information display, speaker, amplifier, and mounting kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1100 × 220 × 420 | display, loudspeaker and amplifier module |
-| `LM3-EXT-P065` — CCTV camera, passenger intercom, PoE/data, and mounting kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 650 × 420 × 260 | CCTV/intercom modules and mounting datums |
-| `LM3-EXT-P066` — PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1200 × 650 × 600 | PRM controls, signs, lamps and emergency equipment |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-INT-P010` — HVAC diffusers, side return ducts, saloon grilles, and access panels | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 6000 × 2400 × 320 | [`specified`](default-product-specifications.md#lm3-int-p010) | diffusers, returns, grilles and access panels |
+| `LM3-INT-P020` — FRP/phenolic ceiling liner panel set | `MAKE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1000 × 2650 × 260 | local manufacture | ceiling liner, light trough and plenum cover |
+| `LM3-INT-P021` — ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1200 × 240 × 110 | local manufacture | light-trough bezels and diffuser carriers |
+| `LM3-INT-P022` — HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1100 × 900 × 220 | local manufacture | HVAC transitions, detector bezels and ceiling service hatches |
+| `LM3-INT-P030` — FRP/phenolic sidewall liner panel set | `MAKE` / `buildable-after-supplier-freeze` | 6 side kit | `LM3-INT-SA330` | 1000 × 140 × 2200 | local manufacture | sidewall liner, reveal and cable-cover panel |
+| `LM3-INT-P031` — window reveal, setting-block inspection cover, and blind/label land set | `MAKE` / `buildable-after-supplier-freeze` | 6 side set | `LM3-INT-SA330` | 1750 × 180 × 1300 | local manufacture | four-piece removable window reveal and inspection covers |
+| `LM3-INT-P032` — waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set | `MAKE` / `buildable-after-supplier-freeze` | 6 side set | `LM3-INT-SA330` | 1000 × 220 × 520 | local manufacture | waist cable cover and retained access lid |
+| `LM3-INT-P040` — FRP battery strake cover panel set | `MAKE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 4800 × 720 × 780 | local manufacture | battery strake/seat-base/service-hatch shells |
+| `LM3-INT-P041` — seat-base fairing, retained equipment hatch, and rail-saddle closeout set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-INT-SA330` | 1600 × 780 × 820 | local manufacture | seat-base fairing and retained equipment hatch |
+| `LM3-INT-P050` — FRP vestibule kick-panel and threshold-closeout set | `MAKE` / `buildable-after-supplier-freeze` | 12 door-zone kit | `LM3-INT-SA330` | 1100 × 420 × 1050 | local manufacture | vestibule, PRM and door-pocket trim set |
+| `LM3-INT-P051` — PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set | `MAKE` / `buildable-after-supplier-freeze` | 6 end-zone set | `LM3-INT-SA330` | 2500 × 1200 × 460 | local manufacture | PRM transition, step cover, nosing and anti-slip set |
+| `LM3-INT-P052` — door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set | `MAKE` / `buildable-after-supplier-freeze` | 12 door-zone set | `LM3-INT-SA330` | 1200 × 420 × 2100 | local manufacture | door-pocket liner and removable jamb covers |
+| `LM3-EXT-P060` — stepped floor-board and removable service-hatch system | `SOURCE` / `buildable-after-supplier-freeze` | 135 m2 | `LM3-INT-SA330` | 1000 × 1300 × 35 | [`specified`](default-product-specifications.md#lm3-ext-p060) | numbered floor board/removable hatch module |
+| `LM3-EXT-P061` — welded resilient floor covering, cove, nosing, and adhesive system | `SOURCE` / `buildable-after-supplier-freeze` | 135 m2 | `LM3-INT-SA330` | 1000 × 1300 × 6 | [`specified`](default-product-specifications.md#lm3-ext-p061) | resilient covering and welded-seam allowance |
+| `LM3-EXT-P062` — longitudinal passenger and priority-seat modules | `SOURCE` / `buildable-after-supplier-freeze` | 60 seat | `LM3-INT-SA330` | 1550 × 620 × 980 | [`specified`](default-product-specifications.md#lm3-ext-p062) | longitudinal passenger-seat module and rail saddles |
+| `LM3-EXT-P063` — stainless grab-pole, handrail, joint, and insulated adapter kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 2300 × 2300 × 2050 | [`specified`](default-product-specifications.md#lm3-ext-p063) | grab poles, rails and repeated adapters |
+| `LM3-EXT-P064` — passenger-information display, speaker, amplifier, and mounting kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1100 × 220 × 420 | [`specified`](default-product-specifications.md#lm3-ext-p064) | display, loudspeaker and amplifier module |
+| `LM3-EXT-P065` — CCTV camera, passenger intercom, PoE/data, and mounting kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 650 × 420 × 260 | [`specified`](default-product-specifications.md#lm3-ext-p065) | CCTV/intercom modules and mounting datums |
+| `LM3-EXT-P066` — PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-INT-SA330` | 1200 × 650 × 600 | [`specified`](default-product-specifications.md#lm3-ext-p066) | PRM controls, signs, lamps and emergency equipment |
 
 ### Frozen inputs
 
@@ -271,11 +271,11 @@ Release boundary: Each adapter needs its own released load case; one generic pro
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-FIX-P010` — OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-FIX-SA340` | 15000 × 42 × 18 | OSR-RAIL-42 extrusion with repeated datum marks |
-| `LM3-FIX-P020` — four-family captive fastener, floating nut, isolator, and access-fastener kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-FIX-SA340` | 520 × 360 × 160 | four captive fastener families and isolators |
-| `LM3-FIX-P030` — standard passenger-fixture saddle and equipment adapter kit | `MAKE` / `concept` | 3 car kit | `LM3-FIX-SA340` | 520 × 420 × 180 | seat, handrail and equipment adapter variants |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-FIX-P010` — OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-FIX-SA340` | 15000 × 42 × 18 | local manufacture | OSR-RAIL-42 extrusion with repeated datum marks |
+| `LM3-FIX-P020` — four-family captive fastener, floating nut, isolator, and access-fastener kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-FIX-SA340` | 520 × 360 × 160 | [`specified`](default-product-specifications.md#lm3-fix-p020) | four captive fastener families and isolators |
+| `LM3-FIX-P030` — standard passenger-fixture saddle and equipment adapter kit | `MAKE` / `concept` | 3 car kit | `LM3-FIX-SA340` | 520 × 420 × 180 | local manufacture | seat, handrail and equipment adapter variants |
 
 ### Frozen inputs
 
@@ -305,17 +305,17 @@ Release boundary: Film replaces decorative masking only and never substitutes fo
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-FIN-P010` — pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit | `BID` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-SHELL-A200` | 16000 × 1400 × 8 | pre-cut side/cowl livery film, edge seals and repair patches |
-| `LM3-BDY-P130` — one-metre clip-on solid-side fiberglass body module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 120 × 3050 | one-metre clip-on side/roof module with solid attachment lands |
-| `LM3-BDY-P131` — one-metre clip-on window-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 160 × 3050 | window-edge side module with reveal and drain clearance |
-| `LM3-BDY-P132` — one-metre clip-on door-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 180 × 3050 | door-edge side module with pocket and threshold closeout |
-| `LM3-CWL-P011` — CWL-FRP-01 upper brow and roof-cap fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1250 × 2750 × 720 | upper brow and roof-cap cast |
-| `LM3-CWL-P012` — CWL-FRP-02 left cheek fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1150 × 700 × 2300 | handed cheek cast |
-| `LM3-CWL-P013` — CWL-FRP-03 right cheek fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1150 × 700 × 2300 | handed cheek cast |
-| `LM3-CWL-P014` — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1000 × 2650 × 760 | lower apron and anti-climber cover cast |
-| `LM3-CWL-P015` — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 4 hatch | `LM3-CWL-SA710` | 650 × 520 × 420 | lamp/washer/service-hatch cast set |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-FIN-P010` — pre-cut exterior livery graphic film, edge-seal, datum-mark, and repair-patch kit | `BID` / `buildable-after-supplier-freeze` | 3 car kit | `LM3-SHELL-A200` | 16000 × 1400 × 8 | [`specified`](default-product-specifications.md#lm3-fin-p010) | pre-cut side/cowl livery film, edge seals and repair patches |
+| `LM3-BDY-P130` — one-metre clip-on solid-side fiberglass body module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 120 × 3050 | local manufacture | one-metre clip-on side/roof module with solid attachment lands |
+| `LM3-BDY-P131` — one-metre clip-on window-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 160 × 3050 | local manufacture | window-edge side module with reveal and drain clearance |
+| `LM3-BDY-P132` — one-metre clip-on door-edge fiberglass side module | `MAKE` / `release-candidate` | 24 module | `LM3-SHELL-A200` | 1000 × 180 × 3050 | local manufacture | door-edge side module with pocket and threshold closeout |
+| `LM3-CWL-P011` — CWL-FRP-01 upper brow and roof-cap fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1250 × 2750 × 720 | local manufacture | upper brow and roof-cap cast |
+| `LM3-CWL-P012` — CWL-FRP-02 left cheek fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1150 × 700 × 2300 | local manufacture | handed cheek cast |
+| `LM3-CWL-P013` — CWL-FRP-03 right cheek fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1150 × 700 × 2300 | local manufacture | handed cheek cast |
+| `LM3-CWL-P014` — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | `MAKE` / `buildable-after-supplier-freeze` | 2 ea | `LM3-CWL-SA710` | 1000 × 2650 × 760 | local manufacture | lower apron and anti-climber cover cast |
+| `LM3-CWL-P015` — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | `MAKE` / `buildable-after-supplier-freeze` | 4 hatch | `LM3-CWL-SA710` | 650 × 520 × 420 | local manufacture | lamp/washer/service-hatch cast set |
 
 ### Frozen inputs
 
@@ -345,12 +345,12 @@ Release boundary: Research values are screening targets only; the baseline quali
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-FIN-P020` — calcium-carbonate radiative roof-coating qualification and exposed-roof application kit | `BID` / `concept` | 3 car kit | `LM3-ROOF-SA410` | 16000 × 2700 × 8 | masked exposed-roof radiative coating and witness coupons |
-| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | roof skin and equipment-fairing trim variant |
-| `LM3-ROOF-P030` — removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 3200 × 2400 × 720 | removable HVAC curb fairing, skirts and access hatches |
-| `LM3-ROOF-P040` — PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 12000 × 2300 × 320 | PV plinth, glands, antenna closeouts and walkway edges |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-FIN-P020` — calcium-carbonate radiative roof-coating qualification and exposed-roof application kit | `BID` / `concept` | 3 car kit | `LM3-ROOF-SA410` | 16000 × 2700 × 8 | [`specified`](default-product-specifications.md#lm3-fin-p020) | masked exposed-roof radiative coating and witness coupons |
+| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | `LM3-SHELL-A200` | 1000 × 2850 × 420 | local manufacture | roof skin and equipment-fairing trim variant |
+| `LM3-ROOF-P030` — removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 3200 × 2400 × 720 | local manufacture | removable HVAC curb fairing, skirts and access hatches |
+| `LM3-ROOF-P040` — PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | `LM3-ROOF-SA410` | 12000 × 2300 × 320 | local manufacture | PV plinth, glands, antenna closeouts and walkway edges |
 
 ### Frozen inputs
 
@@ -380,9 +380,9 @@ Release boundary: Automotive scissor jacks, unilateral lifts and work beneath an
 
 ### Controlled products and geometry
 
-| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Representation |
-|---|---|---:|---|---:|---|
-| `LM3-BDY-P120` — jacking pad, lifting eye, towing lug, and recovery-label kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-BDY-SA110` | 1600 × 900 × 280 | jacking, lifting and towing interface kit |
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P120` — jacking pad, lifting eye, towing lug, and recovery-label kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-BDY-SA110` | 1600 × 900 × 280 | local manufacture | jacking, lifting and towing interface kit |
 
 ### Frozen inputs
 

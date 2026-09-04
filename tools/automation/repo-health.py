@@ -1610,6 +1610,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "cots_source": REPO_ROOT / "lib/templates/trainset-cots-candidates.toml",
         "cots_register": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
         "cots_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.md",
+        "reference_defaults": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/default-product-specifications.json",
+        "reference_defaults_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
@@ -1664,12 +1666,33 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ coverage is incomplete: {coverage}"))
         if coverage.get("candidate_count", 0) < 30 or coverage.get("uncovered_product_ids"):
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ register is incomplete: {coverage}"))
+    if paths["reference_defaults"].is_file() and paths["product_manifest"].is_file():
+        defaults = json.loads(paths["reference_defaults"].read_text(encoding="utf-8"))
+        manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
+        expected_ids = {
+            row.get("id")
+            for row in manifest.get("product_items", [])
+            if row.get("route") != "MAKE"
+        }
+        default_ids = {row.get("product_id") for row in defaults.get("defaults", [])}
+        if (
+            defaults.get("status")
+            != "concept-and-rfq-defaults-not-procurement-or-engineering-release"
+            or defaults.get("default_count") != 58
+            or defaults.get("route_counts") != {"BID": 34, "SOURCE": 24}
+            or defaults.get("source_count") != 41
+            or default_ids != expected_ids
+            or not defaults.get("validation")
+            or not all(defaults["validation"].values())
+        ):
+            findings.append(Finding(paths["reference_defaults"], "LM3 bought-in reference-default coverage changed"))
     if paths["factory_release"].is_file():
         factory_release = json.loads(paths["factory_release"].read_text(encoding="utf-8"))
         expected_validation = {
             "all_product_ids_have_geometry": True,
             "all_product_ids_in_manifest": True,
             "all_tooling_ids_in_registry": True,
+            "all_controlled_bought_in_rows_link_reference_defaults": True,
             "package_ids_unique": True,
         }
         if (
