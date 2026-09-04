@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1374**.
+Indexed Markdown files: **1377**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1374**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 304 |
-| [docs](#docs) | 136 |
+| [docs](#docs) | 139 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1317,6 +1317,7 @@ Indexed Markdown files: **1374**.
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/construction-system-selection.md`](../docs/civil/construction-system-selection.md) | Civil Construction-System Selection |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
+| [`docs/civil/depot-bogie-change-interface.md`](../docs/civil/depot-bogie-change-interface.md) | LM3 Depot Bogie-Change Interface |
 | [`docs/civil/foundation-and-production-system.md`](../docs/civil/foundation-and-production-system.md) | Foundation And Civil Production System |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
@@ -1328,6 +1329,7 @@ Indexed Markdown files: **1374**.
 | [`docs/civil/viaduct-kinematic-egress-envelope.md`](../docs/civil/viaduct-kinematic-egress-envelope.md) | Viaduct Kinematic And Egress Envelope |
 | [`docs/civil/viaduct-substructure-kit.md`](../docs/civil/viaduct-substructure-kit.md) | Viaduct pier and abutment kit |
 | [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
+| [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
@@ -1413,6 +1415,7 @@ Indexed Markdown files: **1374**.
 | [`docs/rolling-stock/light-metro-3car/drawing-register.md`](../docs/rolling-stock/light-metro-3car/drawing-register.md) | Drawing and evidence register — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/end-cowl.md`](../docs/rolling-stock/light-metro-3car/end-cowl.md) | Identical fiberglass end-cowl design |
 | [`docs/rolling-stock/light-metro-3car/fabrication-plan.md`](../docs/rolling-stock/light-metro-3car/fabrication-plan.md) | Fabrication plan — `light-metro-3car` |
+| [`docs/rolling-stock/light-metro-3car/field-rerailing-concept.md`](../docs/rolling-stock/light-metro-3car/field-rerailing-concept.md) | LM3 Portable Field-Rerailing Concept |
 | [`docs/rolling-stock/light-metro-3car/general-arrangement.md`](../docs/rolling-stock/light-metro-3car/general-arrangement.md) | General arrangement — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/interfaces.md`](../docs/rolling-stock/light-metro-3car/interfaces.md) | Interfaces — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/localization-plan.md`](../docs/rolling-stock/light-metro-3car/localization-plan.md) | Make/Buy and Localization Plan |

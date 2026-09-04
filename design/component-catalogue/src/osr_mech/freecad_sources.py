@@ -26,6 +26,7 @@ from osr_mech.civil.substructure import viaduct_abutment, viaduct_pier
 from osr_mech.common import GeometryPreset, RailProfile
 from osr_mech.depot.layout import DepotArchetype, depot_layout
 from osr_mech.depot.bogie_change import depot_bogie_change_bay
+from osr_mech.recovery_interface import wayside_rerailing_access_interface
 from osr_mech.cad_templates.rolling_stock import (
     body_sheet_metal_kit,
     bogie_adapter,
@@ -48,6 +49,7 @@ from osr_mech.rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.sensor_cowl import sensor_cowl
 from osr_mech.rolling_stock.product_geometry import geometry_specs, product_geometry
+from osr_mech.rolling_stock.recovery import portable_field_rerailing_kit
 from osr_mech.rolling_stock.systems import (
     battery_pack_set,
     car_systems,
@@ -101,6 +103,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "civil-walkway-service-cassette": walkway_service_cassette,
     "civil-approach-transition-interface": approach_transition_interface,
     "civil-railway-interface-kit": railway_interface_kit,
+    "civil-wayside-rerailing-access-interface": wayside_rerailing_access_interface,
     "track-fastener-assembly": fastener_assembly,
     "track-mono-block-sleeper": mono_block_sleeper,
     "track-rail-60e1-6m": lambda: rail_bar(RailProfile.UIC_60E1, 6000.0),
@@ -126,6 +129,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "sensor-cowl": sensor_cowl,
     "trailer-bogie": trailer_bogie,
     "train-to-train-articulation": train_to_train_articulation,
+    "portable-field-rerailing-kit": portable_field_rerailing_kit,
     **{f"manufacturing-tool:{tool_id}": builder for tool_id, builder in TOOL_BUILDERS.items()},
     **{f"product:{product_id}": (lambda value=product_id: product_geometry(value)) for product_id in geometry_specs()},
     **INTERFACE_BUILDERS,

@@ -296,6 +296,14 @@ one tested datum contract. It remains a design-reference coordination assembly
 until vehicle reactions, underframe calculations, foundation design, selected
 lifting equipment, proof tests, and local safety approval are released.
 
+The [portable field-rerailing concept](field-rerailing-concept.md) now screens
+the controlled 78.75 t tare and lighter sensitivity cases against a rail-rated
+200 kN hydraulic cylinder envelope. It also pairs the J1--J4 vehicle interface
+with an optional [wayside access interface](../../civil/wayside-rerailing-access-interface.md)
+for hardstanding, equipment offload, transverse bridge bearing and controlled
+access. Automotive scissor jacks and unilateral lifts are explicitly outside
+the design basis.
+
 The remaining gaps are not missing assemblies in the train envelope;
 they are controlled detail-design and release tasks: frozen supplier exact envelopes,
 one-car-first manufacturing drawings, weld maps, NDT acceptance sheets,

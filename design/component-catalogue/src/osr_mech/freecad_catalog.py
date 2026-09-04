@@ -32,6 +32,7 @@ CATALOGUE = {
         ("civil-walkway-service-cassette", "Walkway, cable and drainage cassette"),
         ("civil-approach-transition-interface", "At-grade to structure approach transition"),
         ("civil-railway-interface-kit", "Reusable civil/railway interface review kit"),
+        ("civil-wayside-rerailing-access-interface", "LM3 selected-node wayside rerailing access interface"),
         ("platform-l-unit", "Precast platform L-unit"),
     ],
     "Track and permanent way": [
@@ -50,6 +51,9 @@ CATALOGUE = {
         ("station-fare-lane-plinth", "Fare lane / validator rolled-steel plinth"),
         ("station-tvm-plinth", "Ticket-vending-machine rolled-steel plinth"),
         ("depot-main-heavy", "Main-heavy depot layout"),
+    ],
+    "Recovery and maintenance equipment": [
+        ("portable-field-rerailing-kit", "LM3 portable hydraulic field-rerailing kit"),
     ],
     "Rolling-stock fabrication templates": [
         ("template-main-frame", "Rolling-stock main frame"),

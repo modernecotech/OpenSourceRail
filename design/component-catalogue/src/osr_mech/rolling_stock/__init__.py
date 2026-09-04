@@ -84,6 +84,12 @@ from .mechanical_interfaces import (
     window_installations,
 )
 from .sensor_cowl import sensor_cowl
+from .recovery import (
+    controlled_recovery_capacity_checks,
+    field_recovery_load_cases,
+    portable_field_rerailing_kit,
+    recovery_mass_scenarios,
+)
 from .small_components import (
     CONNECTOR_FAMILIES,
     FASTENER_FAMILIES,
@@ -141,6 +147,10 @@ __all__ = [
     "motor_bogie",
     "screen_speaker_mountings",
     "sensor_cowl",
+    "controlled_recovery_capacity_checks",
+    "field_recovery_load_cases",
+    "portable_field_rerailing_kit",
+    "recovery_mass_scenarios",
     "battery_pack_set",
     "car_systems",
     "door_system_pair",
