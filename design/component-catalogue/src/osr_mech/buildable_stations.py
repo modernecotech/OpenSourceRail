@@ -32,6 +32,16 @@ from osr_mech.station.auxiliary_canopy import (
 )
 from osr_mech.station.portal import BAY_SPACING_MM, PLATFORM_DEPTH_MM
 from osr_mech.station.solar_roof import EAVE_OVERHANG_MM
+from osr_mech.station.factory_release import (
+    base_release_payload,
+    render_station_release_readiness,
+    station_product_release_path,
+    station_release_record_template,
+)
+from osr_mech.station.default_specifications import (
+    default_specification_payload,
+    render_default_specifications,
+)
 from osr_mech.track.turnout import CATALOGUE as TURNOUT_CATALOGUE
 from osr_mech.track.turnout import TurnoutTangent
 
@@ -1220,6 +1230,13 @@ def render_index(variants: tuple[StationVariant, ...]) -> str:
             "Site structural, foundation, drainage, egress, and electrical approvals remain gates.",
             "See the generated [`open release gap register`](open-release-gaps.md) for",
             "the supplier, site, utility, and component-design closures behind these counts.",
+            "The [`factory/release work packages`](factory-release-work-packages.md) classify",
+            "all 45 unique products as reusable-definition, supplier-configuration or",
+            "deployment-specific scope. The intentionally open [`readiness register`](factory-release-readiness.md)",
+            "and [evidence template](evidence/factory-release-record-template.json) prevent",
+            "catalogue maturity from being mistaken for fabrication or construction release.",
+            "The [`reference defaults`](default-product-specifications.md) give all 29 open",
+            "product families practical concept/RFQ values plus mandatory override triggers.",
             "The generated [`station product reconciliation`](station-product-reconciliation.md)",
             "checks the BOM, traveler, drawing, FreeCAD and IFC identities in both directions.",
             "The shared [station systems screening](../../../../engineering/analysis/stations/screening-summary.md)",
@@ -1302,6 +1319,178 @@ def render_gap_register(variants: tuple[StationVariant, ...]) -> str:
     return "\n".join(lines)
 
 
+def station_factory_release_payload(variants: tuple[StationVariant, ...]) -> dict[str, object]:
+    """Bind station release packages to the live product catalogue."""
+
+    payload = base_release_payload()
+    products: dict[str, StationProductItem] = {}
+    applications: dict[str, list[dict[str, str | float]]] = {}
+    for variant in variants:
+        for item in variant.product_items:
+            if item.id in products:
+                reference = products[item.id]
+                # A stable product family may select an archetype-specific title and
+                # geometry (notably the at-grade slab/elevated L-unit family).
+                stable_fields = ("route", "unit", "maturity", "parent")
+                if any(getattr(reference, field) != getattr(item, field) for field in stable_fields):
+                    raise ValueError(f"station product metadata differs between variants: {item.id}")
+            products.setdefault(item.id, item)
+            applications.setdefault(item.id, []).append(
+                {
+                    "variant": variant.archetype,
+                    "title": item.title,
+                    "quantity": item.quantity,
+                    "unit": item.unit,
+                    "quantity_basis": item.quantity_basis,
+                }
+            )
+
+    controlled_ids: list[str] = []
+    for raw in payload["packages"]:  # type: ignore[union-attr]
+        package = dict(raw)
+        missing = set(package["product_ids"]) - set(products)
+        if missing:
+            raise ValueError(f"unknown station product IDs in {package['id']}: {sorted(missing)}")
+        product_rows = []
+        for product_id in package["product_ids"]:
+            item = products[product_id]
+            product_rows.append(
+                {
+                    "id": item.id,
+                    "title": item.title,
+                    "configured_titles": list(
+                        dict.fromkeys(str(row["title"]) for row in applications[item.id])
+                    ),
+                    "route": item.route,
+                    "unit": item.unit,
+                    "parent_assembly": item.parent,
+                    "maturity": item.maturity,
+                    "release_path": station_product_release_path(item.id),
+                    "reference_default": (
+                        f"default-product-specifications.json::{item.id}"
+                        if item.maturity != "release-candidate"
+                        else "not-required-release-candidate"
+                    ),
+                    "applicable_variants": applications[item.id],
+                    "acceptance": list(item.acceptance),
+                    "source_refs": list(item.source_refs),
+                }
+            )
+            controlled_ids.append(product_id)
+        package["product_rows"] = product_rows
+        raw.update(package)
+
+    drawing_ids = {
+        drawing_id
+        for package in payload["packages"]  # type: ignore[union-attr]
+        for drawing_id in package["drawing_ids"]
+    }
+    tooling_ids = {
+        tooling_id
+        for package in payload["packages"]  # type: ignore[union-attr]
+        for tooling_id in package["tooling_ids"]
+    }
+    release_paths = {
+        path: sum(station_product_release_path(product_id) == path for product_id in products)
+        for path in ("reusable-definition", "supplier-configuration", "deployment-specific")
+    }
+    payload.update(
+        {
+            "controlled_product_count": len(set(controlled_ids)),
+            "controlled_product_ids": sorted(set(controlled_ids)),
+            "drawing_count": len(drawing_ids),
+            "drawing_ids": sorted(drawing_ids),
+            "tooling_count": len(tooling_ids),
+            "tooling_ids": sorted(tooling_ids),
+            "release_path_counts": release_paths,
+            "validation": {
+                "all_catalogue_products_classified": set(products)
+                == set().union(
+                    *(
+                        set(package["product_ids"])
+                        for package in payload["packages"]  # type: ignore[union-attr]
+                    )
+                ),
+                "all_catalogue_products_covered_once": len(controlled_ids)
+                == len(set(controlled_ids))
+                == len(products),
+                "drawing_ids_unique_by_package": sum(
+                    len(package["drawing_ids"])
+                    for package in payload["packages"]  # type: ignore[union-attr]
+                )
+                == len(drawing_ids),
+                "package_ids_unique": len(
+                    {package["id"] for package in payload["packages"]}  # type: ignore[union-attr]
+                )
+                == payload["package_count"],
+            },
+        }
+    )
+    if not all(payload["validation"].values()):  # type: ignore[union-attr]
+        raise ValueError(f"station factory-release validation failed: {payload['validation']}")
+    return payload
+
+
+def render_station_factory_release_packages(variants: tuple[StationVariant, ...]) -> str:
+    """Render the station/civil work-package definitions."""
+
+    payload = station_factory_release_payload(variants)
+    counts = payload["release_path_counts"]
+    lines = [
+        "# Station and civil factory/release work packages",
+        "",
+        "These packages turn the 45 stable station product identities into bounded",
+        "drawing, tooling, site-handoff and verification tasks. They deliberately",
+        "separate reusable definitions from supplier configuration and deployment release.",
+        "",
+        f"- Packages: **{payload['package_count']}**",
+        f"- Unique product rows: **{payload['controlled_product_count']}**",
+        f"- Drawing/interface IDs: **{payload['drawing_count']}**",
+        f"- Tool/gauge families: **{payload['tooling_count']}**",
+        f"- Release paths: **{counts['reusable-definition']}** reusable definition, "
+        f"**{counts['supplier-configuration']}** supplier configuration, "
+        f"**{counts['deployment-specific']}** deployment-specific",
+        "",
+        "`release-candidate` means the catalogue definition is mature enough to enter",
+        "controlled detailing; it never means a part, structure or site is released.",
+    ]
+    for raw in payload["packages"]:  # type: ignore[union-attr]
+        package = dict(raw)
+        lines.extend(
+            [
+                "",
+                f"## `{package['id']}` — {package['title']}",
+                "",
+                f"Delivery lane: `{package['delivery_lane']}`.",
+                "",
+                f"Drawings/interfaces: {', '.join(f'`{value}`' for value in package['drawing_ids'])}.",
+                f"Tools/gauges: {', '.join(f'`{value}`' for value in package['tooling_ids'])}.",
+                "",
+                "### Controlled products",
+                "",
+                "| Product | Route | Catalogue maturity | Release path | Default | Variants |",
+                "|---|---|---|---|---|---:|",
+            ]
+        )
+        for product in package["product_rows"]:
+            lines.append(
+                f"| `{product['id']}` — {product['title']} | `{product['route']}` | "
+                f"`{product['maturity']}` | `{product['release_path']}` | "
+                f"`{'specified' if product['reference_default'].startswith('default-') else 'not-required'}` | "
+                f"{len(product['applicable_variants'])} |"
+            )
+        for title, key in (
+            ("Frozen inputs", "frozen_inputs"),
+            ("Controlled outputs", "controlled_outputs"),
+            ("Verification", "verification"),
+        ):
+            lines.extend(["", f"### {title}", ""])
+            lines.extend(f"- {value}" for value in package[key])
+        lines.extend(["", f"Boundary: {package['release_boundary']}"])
+    lines.extend(["", f"Global boundary: {payload['global_release_boundary']}", ""])
+    return "\n".join(lines)
+
+
 def write_outputs(
     template: Path = DEFAULT_TEMPLATE,
     catalog_dir: Path = DEFAULT_CATALOG_DIR,
@@ -1330,6 +1519,44 @@ def write_outputs(
     (catalog_dir / "README.md").write_text(render_index(variants), encoding="utf-8")
     (catalog_dir / "open-release-gaps.md").write_text(
         render_gap_register(variants), encoding="utf-8"
+    )
+    factory_release = station_factory_release_payload(variants)
+    (catalog_dir / "factory-release-work-packages.json").write_text(
+        json.dumps(factory_release, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    (catalog_dir / "factory-release-work-packages.md").write_text(
+        render_station_factory_release_packages(variants), encoding="utf-8"
+    )
+    release_record = station_release_record_template(factory_release)
+    evidence_dir = catalog_dir / "evidence"
+    evidence_dir.mkdir(parents=True, exist_ok=True)
+    (evidence_dir / "factory-release-record-template.json").write_text(
+        json.dumps(release_record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    (catalog_dir / "factory-release-readiness.md").write_text(
+        render_station_release_readiness(release_record), encoding="utf-8"
+    )
+    unique_products = {
+        item.id: item
+        for variant in variants
+        for item in variant.product_items
+    }
+    default_specs = default_specification_payload(
+        {
+            item.id
+            for item in unique_products.values()
+            if item.maturity != "release-candidate"
+        }
+    )
+    (catalog_dir / "default-product-specifications.json").write_text(
+        json.dumps(default_specs, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    (catalog_dir / "default-product-specifications.md").write_text(
+        render_default_specifications(
+            default_specs,
+            {product_id: item.title for product_id, item in unique_products.items()},
+        ),
+        encoding="utf-8",
     )
     for variant in variants:
         (bom_dir / f"{variant.archetype}.csv").write_text(

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1441**.
+Indexed Markdown files: **1444**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1441**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 365 |
+| [design](#design) | 368 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -992,6 +992,9 @@ Indexed Markdown files: **1441**.
 | [`design/component-catalogue/README.md`](../design/component-catalogue/README.md) | Parametric Component Catalogue |
 | [`design/component-catalogue/catalog/README.md`](../design/component-catalogue/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`design/component-catalogue/catalog/buildable-stations/README.md`](../design/component-catalogue/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
+| [`design/component-catalogue/catalog/buildable-stations/default-product-specifications.md`](../design/component-catalogue/catalog/buildable-stations/default-product-specifications.md) | Station open-product reference defaults |
+| [`design/component-catalogue/catalog/buildable-stations/factory-release-readiness.md`](../design/component-catalogue/catalog/buildable-stations/factory-release-readiness.md) | Station and civil factory/release readiness |
+| [`design/component-catalogue/catalog/buildable-stations/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-stations/factory-release-work-packages.md) | Station and civil factory/release work packages |
 | [`design/component-catalogue/catalog/buildable-stations/open-release-gaps.md`](../design/component-catalogue/catalog/buildable-stations/open-release-gaps.md) | Station open release gap register |
 | [`design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md`](../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) | Station product reconciliation |
 | [`design/component-catalogue/catalog/buildable-stations/travelers/depot-terminal.md`](../design/component-catalogue/catalog/buildable-stations/travelers/depot-terminal.md) | Station assembly traveler — `depot-terminal` |

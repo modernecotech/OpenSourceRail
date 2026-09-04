@@ -18,6 +18,13 @@ modules rather than left as an unbuildable square-metre allowance.
 Site structural, foundation, drainage, egress, and electrical approvals remain gates.
 See the generated [`open release gap register`](open-release-gaps.md) for
 the supplier, site, utility, and component-design closures behind these counts.
+The [`factory/release work packages`](factory-release-work-packages.md) classify
+all 45 unique products as reusable-definition, supplier-configuration or
+deployment-specific scope. The intentionally open [`readiness register`](factory-release-readiness.md)
+and [evidence template](evidence/factory-release-record-template.json) prevent
+catalogue maturity from being mistaken for fabrication or construction release.
+The [`reference defaults`](default-product-specifications.md) give all 29 open
+product families practical concept/RFQ values plus mandatory override triggers.
 The generated [`station product reconciliation`](station-product-reconciliation.md)
 checks the BOM, traveler, drawing, FreeCAD and IFC identities in both directions.
 The shared [station systems screening](../../../../engineering/analysis/stations/screening-summary.md)

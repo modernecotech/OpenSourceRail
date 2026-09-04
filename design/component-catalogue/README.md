@@ -30,7 +30,7 @@ connections**. Design choices use three priorities:
 |---|---|
 | `osr_mech.track` | Rail profile (54E1 / 60E1), precast mono-block sleeper, Pandrol-style fastener, assembled track panel |
 | `osr_mech.civil` | OSR-Pi20/Pi25 decked beams, special U-girders, OSR-ST6/elevated direct-fixation trackforms, soil/access foundation catalogue, resource production plan, substructures and platform edges (RFC 0011) |
-| `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
+| `osr_mech.station` | Seven station families: precast platform/guideway, platform and auxiliary solar canopies, passenger/MEP/access/charging systems, terminal turnout and main-heavy depot interfaces |
 | `osr_mech.rolling_stock` | Car body, bogies, trainsets, doors, batteries, traction/electronics, T-OBS, COTS fit-out and the common service-rail/fastener/fixture system |
 | `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
 
@@ -46,6 +46,16 @@ procurement freeze. A selected SKU closes the CAD gap only when its
 datasheet envelope, mounting keep-outs, service-removal path, and
 revision are captured in the parametric source and matching drawing
 register.
+
+The generated station/civil [factory and deployment work packages](catalog/buildable-stations/factory-release-work-packages.md)
+cover all 45 stable product families with 18 controlled drawing/interface IDs.
+Their [readiness register](catalog/buildable-stations/factory-release-readiness.md)
+keeps every package open until reusable drawings, exact supplier configurations,
+site surveys/calculations, tools, tests and named approvals are recorded.
+The accompanying [open-product reference defaults](catalog/buildable-stations/default-product-specifications.md)
+give all 29 unresolved families practical performance values and cost-conscious
+configurations without pretending that a supplier, site design or authority approval
+has been selected.
 
 ## Parametric inputs
 

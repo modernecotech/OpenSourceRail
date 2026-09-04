@@ -156,6 +156,12 @@ def test_station_catalogue_writer_emits_all_boms_manifest_and_travelers(tmp_path
     assert len(manifest["variants"]) == 7
     assert manifest["open_release_items"]
     assert (catalog / "open-release-gaps.md").exists()
+    assert (catalog / "factory-release-work-packages.json").exists()
+    assert (catalog / "factory-release-work-packages.md").exists()
+    assert (catalog / "factory-release-readiness.md").exists()
+    assert (catalog / "evidence/factory-release-record-template.json").exists()
+    assert (catalog / "default-product-specifications.json").exists()
+    assert (catalog / "default-product-specifications.md").exists()
     for variant in variants:
         bom_path = boms / f"{variant.archetype}.csv"
         traveler_path = catalog / "travelers" / f"{variant.archetype}.md"

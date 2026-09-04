@@ -195,6 +195,10 @@ def main() -> int:
             ),
             REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/README.md": (
                 "station-product-reconciliation.md",
+                "factory-release-work-packages.md",
+                "factory-release-readiness.md",
+                "factory-release-record-template.json",
+                "default-product-specifications.md",
             ),
         }
         for path, snippets in current_contracts.items():

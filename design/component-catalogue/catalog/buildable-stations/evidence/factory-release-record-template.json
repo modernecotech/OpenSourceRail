@@ -1,0 +1,3419 @@
+{
+  "coverage": {
+    "controlled_product_count": 45,
+    "open_package_count": 9,
+    "package_count": 9,
+    "unique_drawing_count": 18,
+    "unique_tooling_count": 22
+  },
+  "design_id": "STN-FAMILY-FACTORY-RELEASE",
+  "instructions": [
+    "retain every package and product row; supersede records under controlled revision",
+    "bind drawings, surveys, calculations, supplier data and test results by repository-relative reference and SHA-256",
+    "keep reusable fabrication release separate from each deployment construction release",
+    "do not mark template rows complete from catalogue geometry or unperformed analysis",
+    "release only after all prerequisites, drawings, configurations, tooling, outputs, verifications and named approvals are accepted"
+  ],
+  "packages": [
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "repeatable precast mould, reinforcement, insert and lifting drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "site set-out, levelling, drainage and closure-pour schedule",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "platform-edge datum, tolerance and interface-control plan",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "hybrid-prefabrication-and-site",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CIV-100",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CIV-110",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-010",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "accepted survey control, track alignment and platform stepping/gap envelope",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site geotechnical, drainage/outfall and foundation design",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released concrete, reinforcement, tactile and joint/seal systems",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(55.5 m / 6 m) \u00d7 1 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "halt"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "standard"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "major"
+            },
+            {
+              "quantity": 20,
+              "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 2 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 80,
+              "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 4 elevated platforms",
+              "title": "precast reinforced-concrete elevated platform L-unit",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(59.5 m / 6 m) \u00d7 1 at-grade track channels",
+              "title": "6 m ground-level station slab and depressed double-track guideway-channel panel",
+              "unit": "ea",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CIV-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "6 m ground-level station slab and depressed double-track guideway-channel panel"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one placement and closure kit per configured platform",
+              "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+              "unit": "platform kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CIV-P020",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 55.5,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "halt"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "standard"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "major"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "platform length \u00d7 configured platform count",
+              "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+              "unit": "m",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CIV-P030",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 19,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "halt"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "standard"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "major"
+            },
+            {
+              "quantity": 80,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one controlled edge module per 3 m of at-grade boarding edge",
+              "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
+              "unit": "edge module",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CIV-P040",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 55.5,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "halt"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "standard"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "major"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "full boarding edge length",
+              "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+              "unit": "m",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PLT-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit"
+        }
+      ],
+      "release_boundary": "The reusable mould and panel definition does not release site excavation, foundations, drainage falls or track/platform geometry.",
+      "release_status": "open-unissued",
+      "title": "precast platform, guideway edge, drainage and closure pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-PRECAST-MOULD"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-EDGE-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-LIFTING-GAUGE"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "mould and first-article dimensional survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "concrete, reinforcement and lifting-insert records"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "installed track/platform gap-step and drainage survey"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "portal cut/weld, baseplate, anchor-template and erection drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "roof-panel layout, joints, gutters, penetrations and edge details",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "PV string, isolation, bonding and cable-route schedule",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "hybrid-prefabrication-and-supplier",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CNP-200",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CNP-210",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-020",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site wind, snow, seismic, thermal and maintenance load cases",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "accepted steel, coating, roof-panel, PV and connector systems",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "surveyed foundation, platform, electrical and drainage interfaces",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 10,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 20,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 24,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 28,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 28,
+              "quantity_basis": "canopy bay count \u00d7 configured platform count",
+              "title": "6 m galvanised HEA portal-frame steel kit",
+              "unit": "bay kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "6 m galvanised HEA portal-frame steel kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 11,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 22,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 26,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 44,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 44,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 30,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 30,
+              "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+              "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P020",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 10,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "halt"
+            },
+            {
+              "quantity": 20,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "standard"
+            },
+            {
+              "quantity": 24,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "major"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 28,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 28,
+              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+              "unit": "ea",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P030",
+          "reference_default": "default-product-specifications.json::STN-CNP-P030",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "factory-bonded solar roof sandwich panel with MC4 leads"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+              "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "platform kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P040",
+          "reference_default": "default-product-specifications.json::STN-CNP-P040",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit"
+        }
+      ],
+      "release_boundary": "Catalogue bay geometry is not a structural release; foundations and every site load case require the deployment design authority.",
+      "release_status": "open-unissued",
+      "title": "platform canopy steel, footing and solar-roof pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-PORTAL-FIXTURE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-ANCHOR-TEMPLATE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-ROOF-WATER-TEST"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "steel certificates, weld/NDT and frame survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "anchor-template and erected-frame survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "roof watertightness, PV insulation/polarity and bond-continuity tests"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "repeatable truss fabrication and roof-bay module drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "site footing, anchor, erection, gutter/downpipe and access drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "PV string, protection, bonding and commissioning schedule",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "deployment-led-hybrid",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CNP-220",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-CNP-230",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-030",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released site layout, egress, fire, drainage and maintenance-access plan",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site-specific structural calculation and foundation reactions",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "selected roof/PV/lightning/edge-protection supplier configurations",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "ceil(148.0 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "halt"
+            },
+            {
+              "quantity": 7,
+              "quantity_basis": "ceil(1296.0 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "standard"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "ceil(1395.2 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "major"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(1792.0 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 12,
+              "quantity_basis": "ceil(2192.0 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "ceil(1694.4 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 5,
+              "quantity_basis": "ceil(794.4 m2 required / 187 m2 module)",
+              "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+              "unit": "187 m2 module",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-and-structural-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P050",
+          "reference_default": "default-product-specifications.json::STN-CNP-P050",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "halt"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "standard"
+            },
+            {
+              "quantity": 9,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "major"
+            },
+            {
+              "quantity": 11,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 13,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 11,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+              "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+              "unit": "shared frame",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-structural-calculation-and-drawing-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P060",
+          "reference_default": "default-product-specifications.json::STN-CNP-P060",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 16,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 18,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 22,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 26,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 22,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 12,
+              "quantity_basis": "two column foundations for each shared transverse frame",
+              "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+              "unit": "column kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-structural-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P070",
+          "reference_default": "default-product-specifications.json::STN-CNP-P070",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+              "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+              "unit": "string group",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-electrical-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P080",
+          "reference_default": "default-product-specifications.json::STN-CNP-P080",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 7,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 12,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 10,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 5,
+              "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+              "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+              "unit": "roof-bay kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CNP-P090",
+          "reference_default": "default-product-specifications.json::STN-CNP-P090",
+          "release_path": "deployment-specific",
+          "route": "SOURCE",
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit"
+        }
+      ],
+      "release_boundary": "The 8.5 m by 22 m catalogue module is an area-planning unit only until site structure, foundations, egress and electrical integration are signed.",
+      "release_status": "open-unissued",
+      "title": "auxiliary solar-canopy module, truss and site-interface pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-TRUSS-FIXTURE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-AUX-ANCHOR-TEMPLATE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-AUX-ROOF-GAUGE"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "truss weld/NDT and dimensional survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "foundation pre-pour, anchor and erected-geometry surveys"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "water, electrical, lightning and edge-protection acceptance tests"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "cabinet/plinth fabrication and coordinated equipment-layout drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "power, data, containment, earth and fire-interface schedules",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "equipment anchorage, accessible reach and replacement-clearance map",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "supplier-interface",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-SYS-300",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-SYS-310",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-040",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "frozen operator equipment, communications, fare and cyber interfaces",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "utility, UPS, cooling, earthing, fire and evacuation requirements",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released accessibility, sightline, coverage and maintainability zones",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services cabinet per station",
+              "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+              "unit": "station kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-MEP-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated LV and emergency-power package per station",
+              "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+              "unit": "station kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-MEP-P020",
+          "reference_default": "default-product-specifications.json::STN-MEP-P020",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 20,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "halt"
+            },
+            {
+              "quantity": 40,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "standard"
+            },
+            {
+              "quantity": 48,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "major"
+            },
+            {
+              "quantity": 80,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 80,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 56,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 56,
+              "quantity_basis": "two maintained lighting points per canopy bay",
+              "title": "platform and emergency LED luminaire, support, and cable kit",
+              "unit": "luminaire point",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-MEP-P030",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "platform and emergency LED luminaire, support, and cable kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one life-safety kit sized to the configured platform count",
+              "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+              "unit": "station kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-MEP-P040",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one live host per station; depot-held cold spare excluded",
+              "title": "S-SBC station/depot host and rack enclosure",
+              "unit": "ea",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "S-SBC station/depot host and rack enclosure"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "halt"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "standard"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "major"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "two primary visual-information points per configured platform",
+              "title": "passenger-information display and route-strip kit",
+              "unit": "display point",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P020",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "passenger-information display and route-strip kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one coordinated communications/security kit per configured platform",
+              "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+              "unit": "platform kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P030",
+          "reference_default": "default-product-specifications.json::STN-PAX-P030",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "halt"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "standard"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "major"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+              "title": "fare gate, accessible gate, and validator equipment kit",
+              "unit": "lane/validator",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P040",
+          "reference_default": "default-product-specifications.json::STN-PAX-P040",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "fare gate, accessible gate, and validator equipment kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "standard"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "RFC 0010 TVM count; zero at halt",
+              "title": "ticket-vending machine equipment kit",
+              "unit": "ea",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P050",
+          "reference_default": "default-product-specifications.json::STN-PAX-P050",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "ticket-vending machine equipment kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one passenger-amenity kit per configured platform",
+              "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+              "unit": "platform kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P060",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "SOURCE",
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "halt"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "standard"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "major"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 8,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 6,
+              "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+              "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+              "unit": "lane plinth",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P070",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "standard"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "major"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 4,
+              "quantity_basis": "one separately replaceable plinth per configured TVM",
+              "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+              "unit": "TVM plinth",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-PAX-P080",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry"
+        }
+      ],
+      "release_boundary": "Generic plinths may be prepared from controlled envelopes; holes, anchors and services may not be released against assumed supplier equipment.",
+      "release_status": "open-unissued",
+      "title": "station services, passenger equipment and plinth integration pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-CABINET-PLINTH-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-FARE-PLINTH-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-ACCESSIBILITY-GAUGE"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "plinth and anchorage dimensional/proof checks"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "supplier FAT and station integrated functional tests"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "accessibility, CCTV/PA coverage and power-loss survey"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "approach, ramp, kerb, boundary and accessible-route drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "lift/stair/overbridge structure, enclosure and service-interface drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "evacuation, rescue, drainage and inspection-access plan",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "deployment-led-hybrid",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-ACC-400",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-ACC-410",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-050",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "topographical survey, land boundary, pedestrian demand and road interfaces",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site structural, geotechnical, fire/egress and accessibility approvals",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "selected lift, enclosure and emergency-power configuration",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-side-access",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "halt"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-side-access",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "standard"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-protected-crossing",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "major"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-transfer-crossing",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "elevated-transfer-concourse-with-pedestrian-overbridge",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-side-access",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "ground-level-side-access",
+              "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+              "unit": "station kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "release-candidate",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-ACC-P010",
+          "reference_default": "not-required-release-candidate",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "configured step-free-core count",
+              "title": "lift/stair step-free circulation core",
+              "unit": "core",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-ACC-P020",
+          "reference_default": "default-product-specifications.json::STN-ACC-P020",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "lift/stair step-free circulation core"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "configured access-bridge count",
+              "title": "pedestrian overbridge/concourse structural and enclosure kit",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-ACC-P030",
+          "reference_default": "default-product-specifications.json::STN-ACC-P030",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "pedestrian overbridge/concourse structural and enclosure kit"
+        }
+      ],
+      "release_boundary": "No catalogue access arrangement substitutes for a site accessibility, egress, highway or structural approval.",
+      "release_status": "open-unissued",
+      "title": "pedestrian approach, lift/stair core and overbridge interface pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-ACCESSIBILITY-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-STAIR-RISER-GAUGE"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "route gradient, crossfall, width, surface and obstacle survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "structural, clearance and weatherproofing acceptance"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "lift certification, fire recall, backup power and egress test"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "equipment arrangement, foundation reaction and maintainability drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "single-line, protection, earthing, isolation and cable schedules",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "vehicle/wayside datum, alignment, interlock and abort interface control",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "supplier-and-utility-interface",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-PWR-500",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-PWR-510",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-060",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "utility fault level, capacity, metering and protection requirements",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "selected charger and transformer/rectifier supplier data",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released vehicle docking envelope and operational charging duty",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "standard"
+            },
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "major"
+            },
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 500,
+              "quantity_basis": "configured station charging power",
+              "title": "station charging cabinet, protection, cable, and wayside connector kit",
+              "unit": "kW installed",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CHG-P010",
+          "reference_default": "default-product-specifications.json::STN-CHG-P010",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "station charging cabinet, protection, cable, and wayside connector kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 800,
+              "quantity_basis": "configured TPSS capacity",
+              "title": "traction power substation transformer/rectifier and protection interface",
+              "unit": "kVA installed",
+              "variant": "major"
+            },
+            {
+              "quantity": 1000,
+              "quantity_basis": "configured TPSS capacity",
+              "title": "traction power substation transformer/rectifier and protection interface",
+              "unit": "kVA installed",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 1000,
+              "quantity_basis": "configured TPSS capacity",
+              "title": "traction power substation transformer/rectifier and protection interface",
+              "unit": "kVA installed",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 1500,
+              "quantity_basis": "configured TPSS capacity",
+              "title": "traction power substation transformer/rectifier and protection interface",
+              "unit": "kVA installed",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2000,
+              "quantity_basis": "configured TPSS capacity",
+              "title": "traction power substation transformer/rectifier and protection interface",
+              "unit": "kVA installed",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-utility-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-CHG-P020",
+          "reference_default": "default-product-specifications.json::STN-CHG-P020",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "traction power substation transformer/rectifier and protection interface"
+        }
+      ],
+      "release_boundary": "Rated catalogue power is a requirement, not authority to connect; the utility and electrical design authority retain release.",
+      "release_status": "open-unissued",
+      "title": "wayside charging and traction substation interface pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-CHARGER-ALIGNMENT"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-EARTH-BOND-TEST"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "supplier FAT and protection-coordination review"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "earthing, insulation, isolation and utility witness tests"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "vehicle alignment, charge, abort and emergency-isolation SAT"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "rail machining, switch/closure, gauge and weld drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "complete turnout assembly, harness, detection, heating and bench-test schedule",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "site set-out, installation, stop-block and commissioning drawings",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "hybrid-fabrication-and-supplier",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-TRK-600",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-TRK-610",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-070",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released wheel/rail interface, axle loads, route speed and climate envelope",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "selected rail, frog, sleeper, actuator, detector and heater configurations",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site track alignment, signalling, drainage and track-end geometry",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one 27 m 1:9 turnback turnout per terminal interface",
+              "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit",
+              "unit": "turnout kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one 27 m 1:9 turnback turnout per terminal interface",
+              "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit",
+              "unit": "turnout kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-controlled-drawing-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P010",
+          "reference_default": "default-product-specifications.json::STN-TRK-P010",
+          "release_path": "reusable-definition",
+          "route": "MAKE",
+          "title": "1:9 UIC60 stock-rail, machined switch-blade, and closure-rail kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one crossing and mechanically locked stretcher set per 1:9 turnout",
+              "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit",
+              "unit": "turnout kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one crossing and mechanically locked stretcher set per 1:9 turnout",
+              "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit",
+              "unit": "turnout kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P020",
+          "reference_default": "default-product-specifications.json::STN-TRK-P020",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "cast-manganese frog, check-rail, stretcher-bar, and mechanical-lock kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 42,
+              "quantity_basis": "42 controlled positions per 1:9 turnout",
+              "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set",
+              "unit": "sleeper position",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 42,
+              "quantity_basis": "42 controlled positions per 1:9 turnout",
+              "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set",
+              "unit": "sleeper position",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P030",
+          "reference_default": "default-product-specifications.json::STN-TRK-P030",
+          "release_path": "supplier-configuration",
+          "route": "SOURCE",
+          "title": "prestressed turnout sleeper, slide-chair, and elastic-fastener set"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one electro-mechanical point machine per turnout",
+              "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit",
+              "unit": "ea",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one electro-mechanical point machine per turnout",
+              "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit",
+              "unit": "ea",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-actuator-qualification",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P040",
+          "reference_default": "default-product-specifications.json::STN-TRK-P040",
+          "release_path": "supplier-configuration",
+          "route": "BID",
+          "title": "6 kN nominal / 12 kN peak point-machine actuator, crank, and hand-wind kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one 2oo2 fail-open detection chain per turnout",
+              "title": "dual position detector, W-SBC interface, junction, and turnout harness kit",
+              "unit": "turnout kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one 2oo2 fail-open detection chain per turnout",
+              "title": "dual position detector, W-SBC interface, junction, and turnout harness kit",
+              "unit": "turnout kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-hardware-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P050",
+          "reference_default": "default-product-specifications.json::STN-TRK-P050",
+          "release_path": "supplier-configuration",
+          "route": "SOURCE",
+          "title": "dual position detector, W-SBC interface, junction, and turnout harness kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one conditioned points-heating and cabinet package per turnout",
+              "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit",
+              "unit": "turnout kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 1,
+              "quantity_basis": "one conditioned points-heating and cabinet package per turnout",
+              "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit",
+              "unit": "turnout kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-climate-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P060",
+          "reference_default": "default-product-specifications.json::STN-TRK-P060",
+          "release_path": "supplier-configuration",
+          "route": "SOURCE",
+          "title": "3 kW points-heating strip, thermostat, IP67 cabinet, isolation, and cabling kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "one protected stop/end-marker package per terminal platform track",
+              "title": "terminal stop-block, passive end marker, foundation, and fixing kit",
+              "unit": "track-end kit",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 2,
+              "quantity_basis": "one protected stop/end-marker package per terminal platform track",
+              "title": "terminal stop-block, passive end marker, foundation, and fixing kit",
+              "unit": "track-end kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-geometry-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-TRK-P070",
+          "reference_default": "default-product-specifications.json::STN-TRK-P070",
+          "release_path": "deployment-specific",
+          "route": "SOURCE",
+          "title": "terminal stop-block, passive end marker, foundation, and fixing kit"
+        }
+      ],
+      "release_boundary": "The catalogue tangent and geometry do not release rail machining or site installation without controlled drawings and supplier qualifications.",
+      "release_status": "open-unissued",
+      "title": "1:9 turnout, actuation, detection, heating and track-end pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-TURNOUT-BENCH"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-BLADE-PROFILE-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-TRACK-GEOMETRY"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "material, machining, weld/NDT and dimensional records"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "bench throw, lock, detection, hand-wind and heating proof"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "installed geometry, route/detection and stop-block acceptance"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "earthworks, pavement, drainage, boundary and service-road drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "stabling, inspection, wash and workshop track-layout drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "turnout, stop-block, walkways, crossings and clearance-control schedule",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "deployment-specific",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-DEP-700",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-DEP-710",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-080",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "boundary/topographical/utility/geotechnical surveys and environmental approvals",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released fleet plan, movements, swept paths and maintenance concept",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "controlled depot layout, gradients, drainage/outfall and track standards",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 8000.0,
+              "quantity_basis": "main-heavy reference footprint from the controlled depot template",
+              "title": "main-heavy depot site formation, drainage, service-road, and secure-boundary kit",
+              "unit": "m2 site",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-site-design-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P010",
+          "reference_default": "default-product-specifications.json::STN-DEP-P010",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "title": "main-heavy depot site formation, drainage, service-road, and secure-boundary kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 400.0,
+              "quantity_basis": "controlled main-heavy allocation for 4 stalls",
+              "title": "stabling, inspection, wash, and workshop track-panel/stop-block package",
+              "unit": "track-m",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-controlled-layout-release",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P020",
+          "reference_default": "default-product-specifications.json::STN-DEP-P020",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "title": "stabling, inspection, wash, and workshop track-panel/stop-block package"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 2,
+              "quantity_basis": "ceil(4 reference stalls / 2) throat turnouts",
+              "title": "1:9 depot-throat turnout assembly replicated from the terminal turnout standard",
+              "unit": "turnout assembly",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-turnout-design-and-site-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P030",
+          "reference_default": "default-product-specifications.json::STN-DEP-P030",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "title": "1:9 depot-throat turnout assembly replicated from the terminal turnout standard"
+        }
+      ],
+      "release_boundary": "These are deployment drawings: the reference depot quantities do not authorize site works or fix a universal depot layout.",
+      "release_status": "open-unissued",
+      "title": "depot site, drainage, track and throat-turnout pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-DEPOT-SET-OUT"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-TRACK-GEOMETRY"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-DRAINAGE-TEST"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "formation, compaction, drainage and pavement records"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "track geometry, clearance and stop-block proof"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "route, detection and vehicle swept-path demonstration"
+        }
+      ]
+    },
+    {
+      "approvals": {
+        "design_authority": "",
+        "operator": "",
+        "quality": "",
+        "release_date": "",
+        "site_design_authority": ""
+      },
+      "controlled_output_records": [
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "equipment layouts, foundations, clearances and replacement paths",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "power/microgrid/battery isolation, fire, cooling and controls drawings",
+          "status": "open"
+        },
+        {
+          "artifact_ref": "",
+          "artifact_sha256": "",
+          "checked_by": "",
+          "deliverable": "workshop lift, crane, pit, wash, stores and maintenance-data schedules",
+          "status": "open"
+        }
+      ],
+      "delivery_lane": "deployment-and-supplier",
+      "drawing_records": [
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-DEP-720",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        },
+        {
+          "approved_by": "",
+          "checked_by": "",
+          "drawing_id": "STN-DEP-730",
+          "drawn_by": "",
+          "issue_date": "",
+          "issue_status": "unissued",
+          "native_file_ref": "",
+          "published_file_ref": "",
+          "published_file_sha256": "",
+          "revision": ""
+        }
+      ],
+      "package_id": "STN-FRP-090",
+      "prerequisite_records": [
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "selected equipment loads, heat rejection, utilities and maintenance envelopes",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "site building, fire, structural, energy and environmental approvals",
+          "reviewed_by": "",
+          "status": "open"
+        },
+        {
+          "evidence_ref": "",
+          "evidence_sha256": "",
+          "requirement": "released LM3 lift points, bogie extraction path and service requirements",
+          "reviewed_by": "",
+          "status": "open"
+        }
+      ],
+      "product_configuration_records": [
+        {
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "one controlled charging/data dock per reference stall",
+              "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit",
+              "unit": "stall kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-supplier-and-energy-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P040",
+          "reference_default": "default-product-specifications.json::STN-DEP-P040",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "outdoor/open-sided per-stall plug-in charger, isolation, suspended cable, and data-dock kit"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "4000 m2 / 600 kWp PV with 2000 kWh storage",
+              "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
+              "unit": "energy-site kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-energy-site-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P050",
+          "reference_default": "default-product-specifications.json::STN-DEP-P050",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1800.0,
+              "quantity_basis": "main-heavy workshop envelope and enabled equipment from the depot template",
+              "title": "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package",
+              "unit": "m2 workshop",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-building-and-equipment-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P060",
+          "reference_default": "default-product-specifications.json::STN-DEP-P060",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "main workshop, synchronized LM3 lift/bogie-change bay, overhaul/inspection bays, 40 t crane, wash plant, stores, and wheel-lathe package"
+        },
+        {
+          "applicable_variants": [
+            {
+              "quantity": 1,
+              "quantity_basis": "one coordinated services and security package per main-heavy depot",
+              "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit",
+              "unit": "depot services kit",
+              "variant": "depot-terminal"
+            }
+          ],
+          "catalogue_maturity": "buildable-after-services-and-supplier-freeze",
+          "controlled_revision_or_supplier_configuration": "",
+          "coverage_status": "unverified",
+          "deployment_drawing_ref": "",
+          "product_id": "STN-DEP-P070",
+          "reference_default": "default-product-specifications.json::STN-DEP-P070",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "title": "depot cooled controls room, LV, compressed-air, fire, lighting, CCTV, LAN, access-control, and maintenance-data kit"
+        }
+      ],
+      "release_boundary": "Reference duties and envelopes do not select suppliers or release a depot building, stationary battery compound, crane or lifting system.",
+      "release_status": "open-unissued",
+      "title": "depot charging, energy, workshop and services integration pack",
+      "tooling_release_records": [
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-VEHICLE-LIFT-GAUGE"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-CHARGER-ALIGNMENT"
+        },
+        {
+          "accepted_by": "",
+          "evidence_sha256": "",
+          "revision": "",
+          "status": "unreleased",
+          "survey_or_calibration_ref": "",
+          "tooling_id": "STN-TOOL-ENERGY-ISOLATION-TEST"
+        }
+      ],
+      "verification_records": [
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "supplier FAT, certification and equipment foundation survey"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "charging, energy, fire, cooling and emergency-isolation SAT"
+        },
+        {
+          "performed_by": "",
+          "procedure_revision": "",
+          "result_artifact_ref": "",
+          "result_artifact_sha256": "",
+          "reviewed_by": "",
+          "status": "not-performed",
+          "verification": "synchronised lift, mechanical lock, bogie extraction and crane proof"
+        }
+      ]
+    }
+  ],
+  "release_warning": "These packages define reusable drafting and deployment handoff scope. They are not approved fabrication/construction drawings, supplier selections, signed calculations, permits, surveys or performed acceptance records.",
+  "schema": "org.opensourcerail.station-factory-release-record.v1",
+  "source_work_packages": "design/component-catalogue/catalog/buildable-stations/factory-release-work-packages.json",
+  "template_status": "unfilled-not-release-evidence"
+}

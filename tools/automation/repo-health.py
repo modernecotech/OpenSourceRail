@@ -1093,6 +1093,76 @@ def check_station_build_package() -> list[Finding]:
                     findings.append(
                         Finding(actual, "generated station artifact is stale; run tools/automation/buildable-stations.sh")
                     )
+
+    release_path = STATION_CATALOG / "factory-release-work-packages.json"
+    record_path = STATION_CATALOG / "evidence/factory-release-record-template.json"
+    defaults_path = STATION_CATALOG / "default-product-specifications.json"
+    if release_path.is_file():
+        release = json.loads(release_path.read_text(encoding="utf-8"))
+        expected_validation = {
+            "all_catalogue_products_classified": True,
+            "all_catalogue_products_covered_once": True,
+            "drawing_ids_unique_by_package": True,
+            "package_ids_unique": True,
+        }
+        if (
+            release.get("package_count") != 9
+            or release.get("controlled_product_count") != 45
+            or release.get("drawing_count") != 18
+            or release.get("tooling_count") != 22
+            or release.get("release_path_counts")
+            != {
+                "deployment-specific": 13,
+                "reusable-definition": 18,
+                "supplier-configuration": 14,
+            }
+            or release.get("validation") != expected_validation
+        ):
+            findings.append(Finding(release_path, "station factory/release package coverage changed"))
+    if release_path.is_file() and record_path.is_file():
+        release = json.loads(release_path.read_text(encoding="utf-8"))
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        packages = record.get("packages", [])
+        recorded_products = {
+            row.get("product_id")
+            for package in packages
+            for row in package.get("product_configuration_records", [])
+        }
+        if (
+            record.get("template_status") != "unfilled-not-release-evidence"
+            or len(packages) != 9
+            or recorded_products != set(release.get("controlled_product_ids", []))
+            or any(package.get("release_status") != "open-unissued" for package in packages)
+            or any(
+                drawing.get("issue_status") != "unissued" or drawing.get("published_file_sha256")
+                for package in packages
+                for drawing in package.get("drawing_records", [])
+            )
+            or any(
+                verification.get("status") != "not-performed"
+                for package in packages
+                for verification in package.get("verification_records", [])
+            )
+        ):
+            findings.append(Finding(record_path, "station factory/release record claims unsupported readiness"))
+    if defaults_path.is_file():
+        defaults = json.loads(defaults_path.read_text(encoding="utf-8"))
+        rows = defaults.get("defaults", [])
+        sources = defaults.get("sources", {})
+        if (
+            defaults.get("default_count") != 29
+            or defaults.get("source_count") != 13
+            or len({row.get("product_id") for row in rows}) != 29
+            or not all(defaults.get("validation", {}).values())
+            or any(not row.get("parameters") or not row.get("must_override_when") for row in rows)
+            or any(
+                source_id not in sources
+                for row in rows
+                for source_id in row.get("source_ids", [])
+            )
+            or "not-procurement-or-construction-release" not in defaults.get("status", "")
+        ):
+            findings.append(Finding(defaults_path, "station reference-default coverage or safety boundary changed"))
     return findings
 
 
