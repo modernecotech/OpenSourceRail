@@ -22,7 +22,7 @@ from osr_mech.rolling_stock.factory_release import (
 
 def test_factory_release_packages_cover_requested_dedicated_scope() -> None:
     packages = factory_release_packages()
-    assert len(packages) == 10
+    assert len(packages) == 16
     assert len({package.id for package in packages}) == len(packages)
     text = json.dumps([package.__dict__ for package in packages]).lower()
     for required in (
@@ -36,6 +36,10 @@ def test_factory_release_packages_cover_requested_dedicated_scope() -> None:
         "pre-cut exterior film",
         "radiative roof-coating",
         "field-rerailing",
+        "powered-bogie",
+        "trailer-bogie",
+        "high-voltage",
+        "low-voltage trainline",
     ):
         assert required in text
 
@@ -43,10 +47,13 @@ def test_factory_release_packages_cover_requested_dedicated_scope() -> None:
 def test_factory_release_payload_is_bound_to_manifest_geometry_and_tooling() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     payload = factory_release_work_package_payload(design)
-    assert payload["package_count"] == 10
-    assert payload["controlled_product_count"] >= 50
-    assert len(payload["tooling_ids"]) >= 20
+    assert payload["package_count"] == 16
+    assert payload["controlled_product_count"] == 80
+    assert len(payload["tooling_ids"]) == 30
     assert all(payload["validation"].values())
+    assert {
+        item.id for item in design.product_items if item.route.value == "MAKE"
+    } <= set(payload["controlled_product_ids"])
     assert all(package["product_rows"] for package in payload["packages"])
     assert all(
         len(row["design_reference_envelope_mm"]) == 3
@@ -79,11 +86,11 @@ def test_factory_release_record_covers_every_package_without_claiming_release() 
     record = factory_release_record_template(work)
     assert record["template_status"] == "unfilled-not-release-evidence"
     assert record["coverage"] == {
-        "package_count": 10,
-        "open_package_count": 10,
-        "unique_drawing_count": 18,
-        "controlled_product_count": 57,
-        "unique_tooling_count": 23,
+        "package_count": 16,
+        "open_package_count": 16,
+        "unique_drawing_count": 29,
+        "controlled_product_count": 80,
+        "unique_tooling_count": 30,
     }
     assert {row["package_id"] for row in record["packages"]} == {
         row["id"] for row in work["packages"]
@@ -105,7 +112,7 @@ def test_factory_release_record_covers_every_package_without_claiming_release() 
         for verification in package["verification_records"]
     )
     readiness = render_factory_release_readiness(record)
-    assert "Packages: **10**; open: **10**" in readiness
+    assert "Packages: **16**; open: **16**" in readiness
     assert "unfilled" in readiness
 
 
@@ -113,7 +120,7 @@ def test_factory_drawing_seeds_bind_all_drawing_ids_products_and_shared_ownershi
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     work = factory_release_work_package_payload(design)
     seeds = factory_drawing_seed_payloads(work)
-    assert len(seeds) == 18
+    assert len(seeds) == 29
     assert {seed["drawing_id"] for seed in seeds} == {
         row.id for row in factory_drawing_metadata()
     }
@@ -134,6 +141,15 @@ def test_factory_drawing_seeds_bind_all_drawing_ids_products_and_shared_ownershi
     assert "not a dimensioned production drawing" in by_id["LM3-REC-270"]["release_boundary"]
     assert "definition seeds; none issued" in render_factory_drawing_index(seeds)
     assert "## Controlled product scope" in render_factory_drawing_seed(by_id["LM3-HV-325"])
+    assert "LM3-HV-P010" in {
+        product["id"] for product in by_id["LM3-HV-320"]["product_rows"]
+    }
+    assert "LM3-CTRL-P040" in {
+        product["id"] for product in by_id["LM3-ELC-300"]["product_rows"]
+    }
+    assert "LM3-BOG-P010" in {
+        product["id"] for product in by_id["LM3-BOG-400"]["product_rows"]
+    }
 
 
 def test_first_article_rows_link_to_their_factory_drawing_packages() -> None:

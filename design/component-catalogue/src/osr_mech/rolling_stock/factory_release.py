@@ -31,6 +31,7 @@ class FactoryDrawingMetadata:
     owner: str
     source_refs: tuple[str, ...]
     required_views: tuple[str, ...]
+    product_ids: tuple[str, ...] = ()
 
 
 def factory_drawing_metadata() -> tuple[FactoryDrawingMetadata, ...]:
@@ -224,6 +225,138 @@ def factory_drawing_metadata() -> tuple[FactoryDrawingMetadata, ...]:
                 "one-car paired roof-zone application plan",
                 "sensor, keep-out, inspection, cleaning and repair maps",
             ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-130",
+            "coupler pocket, end ring and crash-interface structure",
+            "vehicle structures + coupler integration",
+            (f"{rs}/body.md", f"{rs}/interfaces.md"),
+            (
+                "end-underframe plan, elevation and load-path sections",
+                "coupler pocket, anti-climber, crash-can and end-ring datum details",
+                "machining, weld/NDT, corrosion and supplier-interface control views",
+            ),
+            ("LM3-BDY-P040", "LM3-BDY-P090"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-140",
+            "battery tray, vent, door and window structural interfaces",
+            "vehicle structures + battery/door/glazing integration",
+            (f"{rs}/body.md", f"{rs}/traction.md", f"{rs}/interfaces.md"),
+            (
+                "under-seat battery rail, door portal and window-carrier elevations",
+                "tray retention, vent/drain, threshold and glazing-land sections",
+                "supplier keep-out, removal path, gauge and structural attachment details",
+            ),
+            ("LM3-BDY-P050", "LM3-BDY-P100", "LM3-BDY-P110"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-END-650",
+            "configurable panoramic or open-mid train-end interface",
+            "vehicle structures + train-end integration",
+            (f"{rs}/articulation.md", f"{rs}/end-cowl.md", f"{rs}/interfaces.md"),
+            (
+                "common carrier ring and option bolt-grid elevation",
+                "panoramic closeout and open-mid portal configuration sections",
+                "seal, drain, threshold, sensor/service-hatch and option-record details",
+            ),
+            ("LM3-END-P060", "LM3-END-P061", "LM3-END-P062", "LM3-END-P030"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-SYS-170",
+            "inter-car articulation adapter and retained interface",
+            "vehicle structures + articulation supplier",
+            (f"{rs}/articulation.md", f"{rs}/body.md", f"{rs}/interfaces.md"),
+            (
+                "lower-pivot adapter plan/elevation and upper-link datums",
+                "anti-lift keeper, shim, pin-retention and trainline-clearance sections",
+                "full-motion envelope, lubrication, inspection and removal views",
+            ),
+            ("LM3-ART-P010",),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-DOOR-200",
+            "replaceable door cassette carrier and body interface",
+            "door supplier + vehicle integration",
+            (f"{rs}/body.md", f"{rs}/interfaces.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "portal, threshold and cassette installation elevation",
+                "four adjustable carriers, datum pins, seals and drain sections",
+                "keyed services, adjustment map, sweep and timed-removal details",
+            ),
+            ("LM3-DOOR-P010",),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-WIN-210",
+            "replaceable window pressure frame and dry-seal interface",
+            "glazing supplier + vehicle integration",
+            (f"{rs}/body.md", f"{rs}/interfaces.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "aperture, pressure-frame and cassette elevation",
+                "setting-block, dry-seal, drain and secondary-retention sections",
+                "glass-edge clearance, fastener sequence and replacement-path details",
+            ),
+            ("LM3-WIN-P010",),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-HV-310",
+            "segregated high-voltage, bonding and coolant routing",
+            "traction energy + vehicle integration",
+            (f"{rs}/traction.md", f"{rs}/interfaces.md"),
+            (
+                "per-car HV and coolant route plan/elevations",
+                "tray, cover, bonding-stud, clamp, bleed and drain sections",
+                "segregation, bend-radius, access, label and isolation details",
+            ),
+            ("LM3-HV-P020", "LM3-HV-P030"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-HV-320",
+            "battery sliding tray, retention and enclosure-service assembly",
+            "battery supplier + traction energy integration",
+            (f"{rs}/traction.md", f"{rs}/body.md"),
+            (
+                "battery pack/tray installation and service-removal sequence",
+                "retention, interlock, drain-pan, vent and fire-barrier sections",
+                "mass/CG, lifting, crash restraint and exterior-only access details",
+            ),
+            ("LM3-HV-P010",),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BOG-400",
+            "powered bogie local frame, guards and service installation",
+            "bogie fabricator + traction/brake integration",
+            (f"{rs}/bogie.md", f"{rs}/traction.md"),
+            (
+                "powered H-frame plan, elevations and structural sections",
+                "motor cradle, torque link, brake, guard and sensor bracket details",
+                "weld/NDT, machining datums, harness route and full-motion clearance views",
+            ),
+            ("LM3-BOG-P010", "LM3-BOG-P030", "LM3-BOG-P050", "LM3-BOG-P060"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BOG-410",
+            "trailer bogie local frame, guards and service installation",
+            "bogie fabricator + brake integration",
+            (f"{rs}/bogie.md", f"{rs}/interfaces.md"),
+            (
+                "trailer H-frame plan, elevations and structural sections",
+                "brake, guard, WSP and speed-sensor bracket details",
+                "weld/NDT, machining datums, harness route and full-motion clearance views",
+            ),
+            ("LM3-BOG-P020", "LM3-BOG-P031", "LM3-BOG-P061"),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-ELC-300",
+            "low-voltage trainline harness and terminal distribution",
+            "electrical integration + vehicle manufacturing",
+            (f"{rs}/interfaces.md", f"{rs}/interior-layout.md"),
+            (
+                "per-car trainline and terminal-cabinet route plan/elevations",
+                "connector, branch, service-loop and penetration schedule",
+                "segregation, clamp coordinates, bend radii, labels and continuity-test details",
+            ),
+            ("LM3-CTRL-P040",),
         ),
         FactoryDrawingMetadata(
             "LM3-REC-270",
@@ -510,6 +643,174 @@ def factory_release_packages() -> tuple[FactoryReleasePackage, ...]:
             ),
             "Automotive scissor jacks, unilateral lifts and work beneath an uncribbed hydraulic load remain prohibited.",
         ),
+        FactoryReleasePackage(
+            "LM3-FRP-110",
+            "primary end, battery, door and window structural-interface pack",
+            ("LM3-BDY-130", "LM3-BDY-140", "LM3-DOOR-200", "LM3-WIN-210"),
+            (
+                "LM3-BDY-P040", "LM3-BDY-P050", "LM3-BDY-P100", "LM3-BDY-P110",
+                "LM3-DOOR-P010", "LM3-WIN-P010",
+            ),
+            (
+                "LM3-TOOL-STEEL-FIXTURE", "LM3-TOOL-DATUM-GAUGE",
+                "LM3-TOOL-DOOR-GAUGE", "LM3-TOOL-WINDOW-GAUGE", "LM3-TOOL-SEAL-GAUGE",
+            ),
+            (
+                "released crash, battery-restraint, door and glazing interface reactions",
+                "supplier-frozen coupler, battery, door and window installation envelopes",
+                "released structural, seal/drain, corrosion and service-removal requirements",
+            ),
+            (
+                "coupler-pocket, battery-rail, door-portal and window-carrier detail drawings",
+                "machined datum, shim/adjustment, seal compression and drain schedules",
+                "supplier keep-out, installation and complete service-removal maps",
+                "weld/fastener/bond authority, tolerance and inspection characteristic lists",
+            ),
+            (
+                "independent structural and retention calculation review",
+                "post-weld datum plus door/window aperture survey",
+                "carrier proof, dry fit and timed supplier-cassette replacement trials",
+                "battery drain/vent and door/window water-ingress tests",
+            ),
+            "Reference envelopes do not release load paths, glazing retention, door carriers or battery restraints for manufacture.",
+        ),
+        FactoryReleasePackage(
+            "LM3-FRP-120",
+            "configurable train-end and articulation structural-interface pack",
+            ("LM3-BDY-130", "LM3-END-650", "LM3-SYS-170"),
+            (
+                "LM3-BDY-P090", "LM3-END-P060", "LM3-END-P061", "LM3-END-P062",
+                "LM3-END-P030", "LM3-ART-P010",
+            ),
+            (
+                "LM3-TOOL-STEEL-FIXTURE", "LM3-TOOL-DATUM-GAUGE",
+                "LM3-TOOL-COWL-MOULD", "LM3-TOOL-WATER-TEST",
+            ),
+            (
+                "released crash, articulation, anti-lift, gangway and end-equipment load cases",
+                "frozen panoramic-end and open-mid supplier interface envelopes",
+                "selected-end configuration, seal, drain, threshold and service-access requirements",
+            ),
+            (
+                "common end ring, option bolt grid and articulation-adapter production drawings",
+                "panoramic and open-mid shim/closeout configuration drawings",
+                "anti-lift, service-hatch, sensor-backing, drain and threshold details",
+                "serialized end-position option and interchangeability record",
+            ),
+            (
+                "independent structural, fatigue and full-motion calculation review",
+                "end-ring/bolt-grid datum survey and A/B interchange gauge",
+                "articulation sweep plus keeper/pin-retention inspection",
+                "configured-end water, drain, threshold and service-removal trials",
+            ),
+            "Exactly one end option is fitted at each position; neither option is released by this definition seed alone.",
+        ),
+        FactoryReleasePackage(
+            "LM3-FRP-130",
+            "powered-bogie local frame, bracket and harness drawing pack",
+            ("LM3-BOG-400",),
+            ("LM3-BOG-P010", "LM3-BOG-P030", "LM3-BOG-P050", "LM3-BOG-P060"),
+            (
+                "LM3-TOOL-BOGIE-STAND", "LM3-TOOL-MOTOR-ALIGN",
+                "LM3-TOOL-HARNESS-BOARD", "LM3-TOOL-DATUM-GAUGE",
+            ),
+            (
+                "released bogie-frame, motor, brake, suspension and fatigue load cases",
+                "supplier-frozen wheelset, motor, gearbox, brake, spring and damper envelopes",
+                "released weld class, machining datum, cable protection and motion keep-outs",
+            ),
+            (
+                "powered H-frame cut, bend, machining and weld drawings",
+                "motor cradle, torque-link, guard, brake and sensor bracket drawings",
+                "brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule",
+                "weld/NDT, corrosion, serial trace and bogie configuration maps",
+            ),
+            (
+                "independent EN 13749 structural/fatigue calculation review",
+                "fixture/tack, post-weld and machined-datum surveys",
+                "classed weld NDT and torque-link/guard proof inspections",
+                "supplier dry fit, harness motion sweep, continuity and insulation tests",
+            ),
+            "The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.",
+        ),
+        FactoryReleasePackage(
+            "LM3-FRP-140",
+            "trailer-bogie local frame, bracket and harness drawing pack",
+            ("LM3-BOG-410",),
+            ("LM3-BOG-P020", "LM3-BOG-P031", "LM3-BOG-P061"),
+            ("LM3-TOOL-BOGIE-STAND", "LM3-TOOL-HARNESS-BOARD", "LM3-TOOL-DATUM-GAUGE"),
+            (
+                "released bogie-frame, brake, suspension and fatigue load cases",
+                "supplier-frozen wheelset, brake, spring and damper envelopes",
+                "released weld class, machining datum, cable protection and motion keep-outs",
+            ),
+            (
+                "trailer H-frame cut, bend, machining and weld drawings",
+                "guard, brake, WSP and speed-sensor bracket drawings",
+                "brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule",
+                "weld/NDT, corrosion, serial trace and bogie configuration maps",
+            ),
+            (
+                "independent EN 13749 structural/fatigue calculation review",
+                "fixture/tack, post-weld and machined-datum surveys",
+                "classed weld NDT and guard/bracket proof inspections",
+                "supplier dry fit, harness motion sweep, continuity and insulation tests",
+            ),
+            "The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.",
+        ),
+        FactoryReleasePackage(
+            "LM3-FRP-150",
+            "battery tray, high-voltage and coolant local-hardware pack",
+            ("LM3-HV-310", "LM3-HV-320"),
+            ("LM3-HV-P010", "LM3-HV-P020", "LM3-HV-P030"),
+            (
+                "LM3-TOOL-HARNESS-BOARD", "LM3-TOOL-FINAL-DATUM",
+                "LM3-TOOL-SEAL-GAUGE",
+            ),
+            (
+                "supplier-frozen pack mass, retention, vent, HV and coolant interfaces",
+                "released crash/restraint, insulation, creepage, clearance and fire-barrier requirements",
+                "released cable/pipe ratings, segregation, bend radius, drain and service rules",
+            ),
+            (
+                "sliding-tray, retention, interlock, drain-pan and lifting detail drawings",
+                "segregated HV tray, orange cover, bonding-stud and penetration schedule",
+                "coolant manifold, insulated clamp, bleed/drain and service-removal drawings",
+                "clamp-coordinate, label, continuity, pressure-test and configuration records",
+            ),
+            (
+                "battery restraint and tray structural calculation review",
+                "tray fit/removal, interlock and exterior-only vent-path inspection",
+                "HV segregation, bond continuity, insulation and HVIL tests",
+                "coolant pressure, bleed, drain and hot/cold movement checks",
+            ),
+            "No battery or HV hardware may be energised from this drawing definition; the supplier safety case and controlled energisation procedure remain mandatory.",
+        ),
+        FactoryReleasePackage(
+            "LM3-FRP-160",
+            "low-voltage trainline harness and terminal-distribution pack",
+            ("LM3-ELC-300",),
+            ("LM3-CTRL-P040",),
+            ("LM3-TOOL-HARNESS-BOARD", "LM3-TOOL-FINAL-DATUM"),
+            (
+                "frozen control, safety, PIS/CCTV, door, brake and inter-car I/O schedule",
+                "selected rail cable, connector, cabinet and terminal component data",
+                "released EMC, fire, segregation, service-loop and network requirements",
+            ),
+            (
+                "wire/connector/terminal schedule and harness-board drawing",
+                "per-car route, branch, penetration, clamp-coordinate and service-loop drawings",
+                "cabinet/terminal allocation, ferrule, label and keying schedule",
+                "continuity, insulation, network-enumeration and as-built configuration forms",
+            ),
+            (
+                "independent schematic, pinout and segregation review",
+                "first harness-board dimensional and connector-keying inspection",
+                "100 percent continuity/insulation test plus shield/bond audit",
+                "installed bend-radius, chafe, service access and network-enumeration inspection",
+            ),
+            "Harness routes remain unissued until supplier connector data, EMC/fire evidence and safety I/O ownership are frozen.",
+        ),
     )
 
 
@@ -673,7 +974,7 @@ def render_factory_release_readiness(record: dict[str, object]) -> str:
         "# LM3 factory drawing and interface readiness",
         "",
         "Generated by `tools/automation/buildable-trainset.sh`. This register is",
-        "the review surface for issuing the ten factory packages; blank template",
+        f"the review surface for issuing the {coverage['package_count']} factory packages; blank template",
         "fields and `open-unissued` states are deliberate and are not release evidence.",
         "",
         f"- Template status: `{record['template_status']}`",
@@ -736,11 +1037,26 @@ def factory_drawing_seed_payloads(payload: dict[str, object]) -> list[dict[str, 
         drawing_packages = [
             package for package in packages if drawing_id in package["drawing_ids"]
         ]
-        product_rows = {
+        package_product_rows = {
             product["id"]: dict(product)
             for package in drawing_packages
             for product in package["product_rows"]
         }
+        requested_product_ids = set(meta.product_ids)
+        unknown_product_ids = requested_product_ids - set(package_product_rows)
+        if unknown_product_ids:
+            raise ValueError(
+                f"{drawing_id} metadata references products outside its packages: "
+                f"{sorted(unknown_product_ids)}"
+            )
+        product_rows = (
+            {
+                product_id: package_product_rows[product_id]
+                for product_id in meta.product_ids
+            }
+            if meta.product_ids
+            else package_product_rows
+        )
         seeds.append(
             {
                 "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",

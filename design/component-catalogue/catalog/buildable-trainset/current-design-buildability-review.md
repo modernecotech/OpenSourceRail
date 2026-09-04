@@ -32,8 +32,8 @@ first steel cut.
 1. Treat the generated definition and shop-traveler packs as the
    product-tree index for parts, external components, subassemblies,
    assemblies, and trainsets.
-2. Execute the ten generated factory drawing/interface work packages for
-   chassis, modules, fascia, roof, interiors, finishes and recovery; approve
+2. Execute the generated factory drawing/interface work packages for
+   chassis, modules, fascia, roof, interiors, bogies, trainlines, finishes and recovery; approve
    their frozen inputs, controlled outputs and verification ownership.
 3. Convert every remaining `MAKE` definition into controlled drawings: cut
    list, flat pattern, weld class, datum scheme, tolerance, and inspection method.

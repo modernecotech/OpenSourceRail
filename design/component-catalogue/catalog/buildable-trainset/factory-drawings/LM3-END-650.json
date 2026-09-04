@@ -1,0 +1,140 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-END-650",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "vehicle structures + train-end integration",
+  "package_ids": [
+    "LM3-FRP-120"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        900,
+        700,
+        420
+      ],
+      "geometry_form": "cowl-service",
+      "geometry_representation": "service hatch, backing bracket and clipped services",
+      "id": "LM3-END-P030",
+      "maturity": "release-candidate",
+      "parent": "LM3-END-SA700",
+      "quantity_per_trainset": 2,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit",
+      "unit": "end kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2650,
+        280,
+        2650
+      ],
+      "geometry_form": "frame",
+      "geometry_representation": "reversible end carrier and option bolt grid",
+      "id": "LM3-END-P060",
+      "maturity": "release-candidate",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 2,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+      "unit": "end position"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1250,
+        2650,
+        2650
+      ],
+      "geometry_form": "cowl",
+      "geometry_representation": "panoramic closeout, glass carrier and sensor datums",
+      "id": "LM3-END-P061",
+      "maturity": "release-candidate",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 2,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+      "unit": "option kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1300,
+        2100,
+        2350
+      ],
+      "geometry_form": "bellows",
+      "geometry_representation": "open portal, clamp, threshold and drain option",
+      "id": "LM3-END-P062",
+      "maturity": "release-candidate",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 0,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+      "unit": "option kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "common end ring, option bolt grid and articulation-adapter production drawings",
+    "panoramic and open-mid shim/closeout configuration drawings",
+    "anti-lift, service-hatch, sensor-backing, drain and threshold details",
+    "serialized end-position option and interchangeability record"
+  ],
+  "required_verification": [
+    "independent structural, fatigue and full-motion calculation review",
+    "end-ring/bolt-grid datum survey and A/B interchange gauge",
+    "articulation sweep plus keeper/pin-retention inspection",
+    "configured-end water, drain, threshold and service-removal trials"
+  ],
+  "required_views": [
+    "common carrier ring and option bolt-grid elevation",
+    "panoramic closeout and open-mid portal configuration sections",
+    "seal, drain, threshold, sensor/service-hatch and option-record details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/articulation.md",
+    "docs/rolling-stock/light-metro-3car/end-cowl.md",
+    "docs/rolling-stock/light-metro-3car/interfaces.md"
+  ],
+  "title": "configurable panoramic or open-mid train-end interface",
+  "tooling_ids": [
+    "LM3-TOOL-STEEL-FIXTURE",
+    "LM3-TOOL-DATUM-GAUGE",
+    "LM3-TOOL-COWL-MOULD",
+    "LM3-TOOL-WATER-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released crash, articulation, anti-lift, gangway and end-equipment load cases",
+    "frozen panoramic-end and open-mid supplier interface envelopes",
+    "selected-end configuration, seal, drain, threshold and service-access requirements"
+  ]
+}

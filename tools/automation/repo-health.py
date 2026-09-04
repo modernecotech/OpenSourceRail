@@ -1688,17 +1688,26 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(paths["reference_defaults"], "LM3 bought-in reference-default coverage changed"))
     if paths["factory_release"].is_file():
         factory_release = json.loads(paths["factory_release"].read_text(encoding="utf-8"))
+        product_manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
+        make_product_ids = {
+            row.get("id")
+            for row in product_manifest.get("product_items", [])
+            if row.get("route") == "MAKE"
+        }
+        controlled_product_ids = set(factory_release.get("controlled_product_ids", []))
         expected_validation = {
             "all_product_ids_have_geometry": True,
             "all_product_ids_in_manifest": True,
             "all_tooling_ids_in_registry": True,
             "all_controlled_bought_in_rows_link_reference_defaults": True,
+            "all_make_rows_have_factory_drawing_coverage": True,
             "package_ids_unique": True,
         }
         if (
-            factory_release.get("package_count") != 10
-            or factory_release.get("controlled_product_count") != 57
-            or len(factory_release.get("tooling_ids", [])) != 23
+            factory_release.get("package_count") != 16
+            or factory_release.get("controlled_product_count") != 80
+            or len(factory_release.get("tooling_ids", [])) != 30
+            or not make_product_ids <= controlled_product_ids
             or factory_release.get("validation") != expected_validation
         ):
             findings.append(Finding(paths["factory_release"], "LM3 factory drawing/interface package coverage changed"))
@@ -1714,13 +1723,13 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         if (
             factory_record.get("template_status") != "unfilled-not-release-evidence"
             or coverage != {
-                "controlled_product_count": 57,
-                "open_package_count": 10,
-                "package_count": 10,
-                "unique_drawing_count": 18,
-                "unique_tooling_count": 23,
+                "controlled_product_count": 80,
+                "open_package_count": 16,
+                "package_count": 16,
+                "unique_drawing_count": 29,
+                "unique_tooling_count": 30,
             }
-            or len({package.get("package_id") for package in record_packages}) != 10
+            or len({package.get("package_id") for package in record_packages}) != 16
             or record_products != set(factory_release.get("controlled_product_ids", []))
             or any(package.get("release_status") != "open-unissued" for package in record_packages)
             or any(
@@ -1749,8 +1758,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         observed_markdown = {path.stem for path in drawing_root.glob("LM3-*.md")}
         if (
             drawing_index.get("issue_status") != "definition-seeds-not-issued"
-            or drawing_index.get("drawing_count") != 18
-            or drawing_index.get("controlled_product_count") != 57
+            or drawing_index.get("drawing_count") != 29
+            or drawing_index.get("controlled_product_count") != 80
             or indexed_ids != expected_drawing_ids
             or observed_json != expected_drawing_ids
             or observed_markdown != expected_drawing_ids
@@ -1784,7 +1793,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             ):
                 findings.append(Finding(json_path, "LM3 factory drawing seed is incomplete or claims unsupported issue"))
         if seed_products != set(factory_release.get("controlled_product_ids", [])):
-            findings.append(Finding(drawing_root, "LM3 factory drawing seeds do not cover the 57 controlled products"))
+            findings.append(Finding(drawing_root, "LM3 factory drawing seeds do not cover the 80 controlled products"))
     if paths["mass_closure"].is_file():
         mass_closure = json.loads(paths["mass_closure"].read_text(encoding="utf-8"))
         expected_coverage = {

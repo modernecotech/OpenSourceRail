@@ -130,7 +130,7 @@ Generated artifacts live in
 | [`small-component-standard.md`](catalog/buildable-trainset/small-component-standard.md) | Four fastener families, common rail, keyed connectors, modular illumination and serviceable door/window boundaries |
 | [`exterior-finish-system.md`](catalog/buildable-trainset/exterior-finish-system.md) | Mandatory base protection, rail-use livery film zones, and trial-only CaCO3 radiative roof-coating qualification gates |
 | [`factory-release-work-packages.md`](catalog/buildable-trainset/factory-release-work-packages.md) | Ten controlled chassis, module, fascia, roof, interior, finish and recovery drawing/interface work packages |
-| [`factory-release-readiness.md`](catalog/buildable-trainset/factory-release-readiness.md) | Package-level drawing, product revision, tooling, verification and approval readiness; all ten remain open |
+| [`factory-release-readiness.md`](catalog/buildable-trainset/factory-release-readiness.md) | Package-level drawing, product revision, tooling, verification and approval readiness; all 16 remain open |
 | [`factory-drawings/`](catalog/buildable-trainset/factory-drawings/index.md) | Eighteen product-, tooling-, source- and package-bound drafting/checking briefs; none is issued for manufacture |
 | [`mass-budget.md`](catalog/buildable-trainset/mass-budget.md) | Nine-category optimizer subtotal, engineering reserve and controlled planning tare |
 | [`mass-closure-ledger.md`](catalog/buildable-trainset/mass-closure-ledger.md) | Product-level mass responsibility, evidence state, lightweight design-space comparison and recovery-reaction link |

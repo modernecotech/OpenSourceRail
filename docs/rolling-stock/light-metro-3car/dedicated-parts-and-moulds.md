@@ -99,6 +99,27 @@ female tools, removable inserts and CNC trim nests. A mould drawing must fix
 draft, split lines, trim curves, flange returns, insert locations, vacuum/resin
 ports, cure support and a dimensional inspection method.
 
+## Remaining locally made systems and their drawing homes
+
+The factory package now assigns every local `MAKE` row to at least one drawing
+brief. This prevents brackets, carriers and harnesses that sit between major
+assemblies from being left as unwritten shop-floor decisions.
+
+| Local scope | Product IDs | Drawing seeds | Controlled result |
+|---|---|---|---|
+| Coupler, battery, door and window primary interfaces | `LM3-BDY-P040`, `P050`, `P090`, `P100`, `P110` | `LM3-BDY-130`, `LM3-BDY-140` | Calculated load paths, machined datums, weld/NDT map, supplier keep-outs and replacement clearances |
+| Replaceable door/window carriers | `LM3-DOOR-P010`, `LM3-WIN-P010` | `LM3-DOOR-200`, `LM3-WIN-210` | Adjustable carriers, setting blocks, keyed dry seals, drains, gauges and timed cassette replacement |
+| Configurable end and articulation adapter | `LM3-END-P060`–`P062`, `LM3-END-P030`, `LM3-ART-P010` | `LM3-END-650`, `LM3-SYS-170` | One common end datum, one selected option per position, anti-lift retention, service access and full-motion proof |
+| Powered bogie local structure/services | `LM3-BOG-P010`, `P030`, `P050`, `P060` | `LM3-BOG-400` | New H-frame, motor cradle/torque link, guards, sensor brackets and protected harness route |
+| Trailer bogie local structure/services | `LM3-BOG-P020`, `P031`, `P061` | `LM3-BOG-410` | New H-frame, guards, brake/WSP brackets and protected harness route |
+| Battery, HV and coolant local hardware | `LM3-HV-P010`–`P030` | `LM3-HV-310`, `LM3-HV-320` | Sliding trays/restraints, exterior vent/drain, segregated covered HV route, bonds, clamps, bleed/drain and test points |
+| LV trainline and distribution | `LM3-CTRL-P040` | `LM3-ELC-300` | Harness-board definition, wire/terminal schedule, branch and clamp coordinates, service loops, labels and 100% continuity test |
+
+These are drafting and verification homes, not released dimensions. Supplier
+interfaces, structural calculations, cable/pipe selections, tolerances and
+signed first-article records remain mandatory inputs to the corresponding
+factory package.
+
 ## Assembly handoff
 
 1. Release and survey the underframe, floor, side and roof structural datums.

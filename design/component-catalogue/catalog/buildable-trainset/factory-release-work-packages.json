@@ -1,27 +1,46 @@
 {
-  "controlled_product_count": 57,
+  "controlled_product_count": 80,
   "controlled_product_ids": [
+    "LM3-ART-P010",
     "LM3-BDY-P010",
     "LM3-BDY-P020",
     "LM3-BDY-P021",
     "LM3-BDY-P030",
+    "LM3-BDY-P040",
+    "LM3-BDY-P050",
     "LM3-BDY-P060",
     "LM3-BDY-P061",
     "LM3-BDY-P070",
     "LM3-BDY-P080",
+    "LM3-BDY-P090",
+    "LM3-BDY-P100",
+    "LM3-BDY-P110",
     "LM3-BDY-P120",
     "LM3-BDY-P130",
     "LM3-BDY-P131",
     "LM3-BDY-P132",
     "LM3-BDY-P133",
     "LM3-BDY-P140",
+    "LM3-BOG-P010",
+    "LM3-BOG-P020",
+    "LM3-BOG-P030",
+    "LM3-BOG-P031",
+    "LM3-BOG-P050",
+    "LM3-BOG-P060",
+    "LM3-BOG-P061",
+    "LM3-CTRL-P040",
     "LM3-CWL-P011",
     "LM3-CWL-P012",
     "LM3-CWL-P013",
     "LM3-CWL-P014",
     "LM3-CWL-P015",
     "LM3-CWL-P016",
+    "LM3-DOOR-P010",
+    "LM3-END-P030",
     "LM3-END-P050",
+    "LM3-END-P060",
+    "LM3-END-P061",
+    "LM3-END-P062",
     "LM3-EXT-P030",
     "LM3-EXT-P040",
     "LM3-EXT-P050",
@@ -41,6 +60,9 @@
     "LM3-FIX-P010",
     "LM3-FIX-P020",
     "LM3-FIX-P030",
+    "LM3-HV-P010",
+    "LM3-HV-P020",
+    "LM3-HV-P030",
     "LM3-INT-P010",
     "LM3-INT-P020",
     "LM3-INT-P021",
@@ -57,11 +79,12 @@
     "LM3-ROOF-P020",
     "LM3-ROOF-P030",
     "LM3-ROOF-P040",
-    "LM3-TRC-P050"
+    "LM3-TRC-P050",
+    "LM3-WIN-P010"
   ],
   "design_id": "LM3-V2A-FACTORY-RELEASE",
   "global_release_boundary": "These work packages define drawing and evidence scope. They are not approved drawings, supplier selections, signed calculations or physical first-article records.",
-  "package_count": 10,
+  "package_count": 16,
   "packages": [
     {
       "controlled_outputs": [
@@ -1618,37 +1641,672 @@
         "representative proof and asymmetric/loss-of-pressure trials",
         "timed depot lift and field rerailing demonstration by trained crews"
       ]
+    },
+    {
+      "controlled_outputs": [
+        "coupler-pocket, battery-rail, door-portal and window-carrier detail drawings",
+        "machined datum, shim/adjustment, seal compression and drain schedules",
+        "supplier keep-out, installation and complete service-removal maps",
+        "weld/fastener/bond authority, tolerance and inspection characteristic lists"
+      ],
+      "drawing_ids": [
+        "LM3-BDY-130",
+        "LM3-BDY-140",
+        "LM3-DOOR-200",
+        "LM3-WIN-210"
+      ],
+      "frozen_inputs": [
+        "released crash, battery-restraint, door and glazing interface reactions",
+        "supplier-frozen coupler, battery, door and window installation envelopes",
+        "released structural, seal/drain, corrosion and service-removal requirements"
+      ],
+      "id": "LM3-FRP-110",
+      "product_ids": [
+        "LM3-BDY-P040",
+        "LM3-BDY-P050",
+        "LM3-BDY-P100",
+        "LM3-BDY-P110",
+        "LM3-DOOR-P010",
+        "LM3-WIN-P010"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            1250,
+            1100,
+            620
+          ],
+          "geometry_form": "coupler-pocket",
+          "geometry_representation": "coupler pocket and crash-can shear structure",
+          "id": "LM3-BDY-P040",
+          "maturity": "release-candidate",
+          "parent": "LM3-END-SA700",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "coupler pocket, shear plate, and crash-can insert kit",
+          "unit": "set"
+        },
+        {
+          "design_reference_envelope_mm": [
+            6200,
+            900,
+            520
+          ],
+          "geometry_form": "tray",
+          "geometry_representation": "battery support rails, vent plenum and service gutter",
+          "id": "LM3-BDY-P050",
+          "maturity": "release-candidate",
+          "parent": "LM3-HV-SA510",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "battery tray rails, vent plenum, and service-lid gutter kit",
+          "unit": "kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1500,
+            260,
+            2150
+          ],
+          "geometry_form": "door-frame",
+          "geometry_representation": "door carrier/portal with threshold and four-point datum",
+          "id": "LM3-BDY-P100",
+          "maturity": "release-candidate",
+          "parent": "LM3-DOOR-SA310",
+          "quantity_per_trainset": 12,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "door portal reinforcement, threshold beam, and cassette shim kit",
+          "unit": "opening kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1650,
+            140,
+            1250
+          ],
+          "geometry_form": "window-frame",
+          "geometry_representation": "replaceable glazing pressure frame, seal and drain",
+          "id": "LM3-BDY-P110",
+          "maturity": "release-candidate",
+          "parent": "LM3-WIN-SA320",
+          "quantity_per_trainset": 18,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "window carrier ring, bonded-gasket land, and replacement jack-point inserts",
+          "unit": "opening kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1500,
+            260,
+            2150
+          ],
+          "geometry_form": "door-frame",
+          "geometry_representation": "door carrier/portal with threshold and four-point datum",
+          "id": "LM3-DOOR-P010",
+          "maturity": "concept",
+          "parent": "LM3-DOOR-SA310",
+          "quantity_per_trainset": 12,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit",
+          "unit": "opening kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1650,
+            140,
+            1250
+          ],
+          "geometry_form": "window-frame",
+          "geometry_representation": "replaceable glazing pressure frame, seal and drain",
+          "id": "LM3-WIN-P010",
+          "maturity": "concept",
+          "parent": "LM3-WIN-SA320",
+          "quantity_per_trainset": 18,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "replaceable window pressure frame, dry seal, drain, and captive retention kit",
+          "unit": "opening kit"
+        }
+      ],
+      "release_boundary": "Reference envelopes do not release load paths, glazing retention, door carriers or battery restraints for manufacture.",
+      "title": "primary end, battery, door and window structural-interface pack",
+      "tooling_ids": [
+        "LM3-TOOL-STEEL-FIXTURE",
+        "LM3-TOOL-DATUM-GAUGE",
+        "LM3-TOOL-DOOR-GAUGE",
+        "LM3-TOOL-WINDOW-GAUGE",
+        "LM3-TOOL-SEAL-GAUGE"
+      ],
+      "verification": [
+        "independent structural and retention calculation review",
+        "post-weld datum plus door/window aperture survey",
+        "carrier proof, dry fit and timed supplier-cassette replacement trials",
+        "battery drain/vent and door/window water-ingress tests"
+      ]
+    },
+    {
+      "controlled_outputs": [
+        "common end ring, option bolt grid and articulation-adapter production drawings",
+        "panoramic and open-mid shim/closeout configuration drawings",
+        "anti-lift, service-hatch, sensor-backing, drain and threshold details",
+        "serialized end-position option and interchangeability record"
+      ],
+      "drawing_ids": [
+        "LM3-BDY-130",
+        "LM3-END-650",
+        "LM3-SYS-170"
+      ],
+      "frozen_inputs": [
+        "released crash, articulation, anti-lift, gangway and end-equipment load cases",
+        "frozen panoramic-end and open-mid supplier interface envelopes",
+        "selected-end configuration, seal, drain, threshold and service-access requirements"
+      ],
+      "id": "LM3-FRP-120",
+      "product_ids": [
+        "LM3-BDY-P090",
+        "LM3-END-P060",
+        "LM3-END-P061",
+        "LM3-END-P062",
+        "LM3-END-P030",
+        "LM3-ART-P010"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            2700,
+            260,
+            2900
+          ],
+          "geometry_form": "frame",
+          "geometry_representation": "end ring and anti-climber datum",
+          "id": "LM3-BDY-P090",
+          "maturity": "release-candidate",
+          "parent": "LM3-END-SA700",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "end ring frame and anti-climber beam set",
+          "unit": "set"
+        },
+        {
+          "design_reference_envelope_mm": [
+            2650,
+            280,
+            2650
+          ],
+          "geometry_form": "frame",
+          "geometry_representation": "reversible end carrier and option bolt grid",
+          "id": "LM3-END-P060",
+          "maturity": "release-candidate",
+          "parent": "LM3-EIF-SA650",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+          "unit": "end position"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1250,
+            2650,
+            2650
+          ],
+          "geometry_form": "cowl",
+          "geometry_representation": "panoramic closeout, glass carrier and sensor datums",
+          "id": "LM3-END-P061",
+          "maturity": "release-candidate",
+          "parent": "LM3-EIF-SA650",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+          "unit": "option kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1300,
+            2100,
+            2350
+          ],
+          "geometry_form": "bellows",
+          "geometry_representation": "open portal, clamp, threshold and drain option",
+          "id": "LM3-END-P062",
+          "maturity": "release-candidate",
+          "parent": "LM3-EIF-SA650",
+          "quantity_per_trainset": 0,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+          "unit": "option kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            900,
+            700,
+            420
+          ],
+          "geometry_form": "cowl-service",
+          "geometry_representation": "service hatch, backing bracket and clipped services",
+          "id": "LM3-END-P030",
+          "maturity": "release-candidate",
+          "parent": "LM3-END-SA700",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit",
+          "unit": "end kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            2400,
+            300,
+            2400
+          ],
+          "geometry_form": "frame",
+          "geometry_representation": "articulation adapter and anti-lift interface",
+          "id": "LM3-ART-P010",
+          "maturity": "release-candidate",
+          "parent": "LM3-ART-SA810",
+          "quantity_per_trainset": 2,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "articulation adapter frame, anti-lift keeper, and shim kit",
+          "unit": "kit"
+        }
+      ],
+      "release_boundary": "Exactly one end option is fitted at each position; neither option is released by this definition seed alone.",
+      "title": "configurable train-end and articulation structural-interface pack",
+      "tooling_ids": [
+        "LM3-TOOL-STEEL-FIXTURE",
+        "LM3-TOOL-DATUM-GAUGE",
+        "LM3-TOOL-COWL-MOULD",
+        "LM3-TOOL-WATER-TEST"
+      ],
+      "verification": [
+        "independent structural, fatigue and full-motion calculation review",
+        "end-ring/bolt-grid datum survey and A/B interchange gauge",
+        "articulation sweep plus keeper/pin-retention inspection",
+        "configured-end water, drain, threshold and service-removal trials"
+      ]
+    },
+    {
+      "controlled_outputs": [
+        "powered H-frame cut, bend, machining and weld drawings",
+        "motor cradle, torque-link, guard, brake and sensor bracket drawings",
+        "brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule",
+        "weld/NDT, corrosion, serial trace and bogie configuration maps"
+      ],
+      "drawing_ids": [
+        "LM3-BOG-400"
+      ],
+      "frozen_inputs": [
+        "released bogie-frame, motor, brake, suspension and fatigue load cases",
+        "supplier-frozen wheelset, motor, gearbox, brake, spring and damper envelopes",
+        "released weld class, machining datum, cable protection and motion keep-outs"
+      ],
+      "id": "LM3-FRP-130",
+      "product_ids": [
+        "LM3-BOG-P010",
+        "LM3-BOG-P030",
+        "LM3-BOG-P050",
+        "LM3-BOG-P060"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            3400,
+            2500,
+            620
+          ],
+          "geometry_form": "bogie-frame",
+          "geometry_representation": "welded H-frame with axlebox and bolster datums",
+          "id": "LM3-BOG-P010",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA610",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "powered bogie welded H-frame and motor-cradle weldment",
+          "unit": "ea"
+        },
+        {
+          "design_reference_envelope_mm": [
+            3200,
+            2350,
+            460
+          ],
+          "geometry_form": "bogie-guards",
+          "geometry_representation": "guards, cable guides, brackets and covers",
+          "id": "LM3-BOG-P030",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA610",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "powered-bogie guards, cable guides, WSP brackets, and inspection covers",
+          "unit": "kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            1400,
+            420,
+            300
+          ],
+          "geometry_form": "link-kit",
+          "geometry_representation": "motor torque link, stop and lanyard bracket",
+          "id": "LM3-BOG-P050",
+          "maturity": "release-candidate",
+          "parent": "LM3-TRC-SA615",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit",
+          "unit": "bogie kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            3000,
+            2100,
+            220
+          ],
+          "geometry_form": "harness",
+          "geometry_representation": "bogie harness route and junction brackets",
+          "id": "LM3-BOG-P060",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA610",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "powered-bogie brake/WSP/speed-sensor harness and junction-bracket kit",
+          "unit": "bogie kit"
+        }
+      ],
+      "release_boundary": "The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.",
+      "title": "powered-bogie local frame, bracket and harness drawing pack",
+      "tooling_ids": [
+        "LM3-TOOL-BOGIE-STAND",
+        "LM3-TOOL-MOTOR-ALIGN",
+        "LM3-TOOL-HARNESS-BOARD",
+        "LM3-TOOL-DATUM-GAUGE"
+      ],
+      "verification": [
+        "independent EN 13749 structural/fatigue calculation review",
+        "fixture/tack, post-weld and machined-datum surveys",
+        "classed weld NDT and torque-link/guard proof inspections",
+        "supplier dry fit, harness motion sweep, continuity and insulation tests"
+      ]
+    },
+    {
+      "controlled_outputs": [
+        "trailer H-frame cut, bend, machining and weld drawings",
+        "guard, brake, WSP and speed-sensor bracket drawings",
+        "brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule",
+        "weld/NDT, corrosion, serial trace and bogie configuration maps"
+      ],
+      "drawing_ids": [
+        "LM3-BOG-410"
+      ],
+      "frozen_inputs": [
+        "released bogie-frame, brake, suspension and fatigue load cases",
+        "supplier-frozen wheelset, brake, spring and damper envelopes",
+        "released weld class, machining datum, cable protection and motion keep-outs"
+      ],
+      "id": "LM3-FRP-140",
+      "product_ids": [
+        "LM3-BOG-P020",
+        "LM3-BOG-P031",
+        "LM3-BOG-P061"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            3400,
+            2500,
+            620
+          ],
+          "geometry_form": "bogie-frame",
+          "geometry_representation": "welded H-frame with axlebox and bolster datums",
+          "id": "LM3-BOG-P020",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA620",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "trailer bogie welded H-frame",
+          "unit": "ea"
+        },
+        {
+          "design_reference_envelope_mm": [
+            3200,
+            2350,
+            460
+          ],
+          "geometry_form": "bogie-guards",
+          "geometry_representation": "guards, cable guides, brackets and covers",
+          "id": "LM3-BOG-P031",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA620",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "trailer-bogie guards, cable guides, WSP brackets, and inspection covers",
+          "unit": "kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            3000,
+            2100,
+            220
+          ],
+          "geometry_form": "harness",
+          "geometry_representation": "bogie harness route and junction brackets",
+          "id": "LM3-BOG-P061",
+          "maturity": "release-candidate",
+          "parent": "LM3-BOG-SA620",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit",
+          "unit": "bogie kit"
+        }
+      ],
+      "release_boundary": "The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.",
+      "title": "trailer-bogie local frame, bracket and harness drawing pack",
+      "tooling_ids": [
+        "LM3-TOOL-BOGIE-STAND",
+        "LM3-TOOL-HARNESS-BOARD",
+        "LM3-TOOL-DATUM-GAUGE"
+      ],
+      "verification": [
+        "independent EN 13749 structural/fatigue calculation review",
+        "fixture/tack, post-weld and machined-datum surveys",
+        "classed weld NDT and guard/bracket proof inspections",
+        "supplier dry fit, harness motion sweep, continuity and insulation tests"
+      ]
+    },
+    {
+      "controlled_outputs": [
+        "sliding-tray, retention, interlock, drain-pan and lifting detail drawings",
+        "segregated HV tray, orange cover, bonding-stud and penetration schedule",
+        "coolant manifold, insulated clamp, bleed/drain and service-removal drawings",
+        "clamp-coordinate, label, continuity, pressure-test and configuration records"
+      ],
+      "drawing_ids": [
+        "LM3-HV-310",
+        "LM3-HV-320"
+      ],
+      "frozen_inputs": [
+        "supplier-frozen pack mass, retention, vent, HV and coolant interfaces",
+        "released crash/restraint, insulation, creepage, clearance and fire-barrier requirements",
+        "released cable/pipe ratings, segregation, bend radius, drain and service rules"
+      ],
+      "id": "LM3-FRP-150",
+      "product_ids": [
+        "LM3-HV-P010",
+        "LM3-HV-P020",
+        "LM3-HV-P030"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            5400,
+            900,
+            320
+          ],
+          "geometry_form": "tray",
+          "geometry_representation": "sliding trays, retention and drain pan",
+          "id": "LM3-HV-P010",
+          "maturity": "release-candidate",
+          "parent": "LM3-HV-SA510",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "battery sliding trays, retention straps, service interlocks, and drain pans",
+          "unit": "car kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            14000,
+            420,
+            180
+          ],
+          "geometry_form": "cable-tray",
+          "geometry_representation": "segregated HV tray, covers, grommets and studs",
+          "id": "LM3-HV-P020",
+          "maturity": "release-candidate",
+          "parent": "LM3-HV-SA510",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "segregated HV cable tray, bonding studs, grommets, and orange cover set",
+          "unit": "car kit"
+        },
+        {
+          "design_reference_envelope_mm": [
+            6500,
+            950,
+            260
+          ],
+          "geometry_form": "piping",
+          "geometry_representation": "coolant manifolds, clamps and bleed/drain points",
+          "id": "LM3-HV-P030",
+          "maturity": "release-candidate",
+          "parent": "LM3-HV-SA510",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit",
+          "unit": "car kit"
+        }
+      ],
+      "release_boundary": "No battery or HV hardware may be energised from this drawing definition; the supplier safety case and controlled energisation procedure remain mandatory.",
+      "title": "battery tray, high-voltage and coolant local-hardware pack",
+      "tooling_ids": [
+        "LM3-TOOL-HARNESS-BOARD",
+        "LM3-TOOL-FINAL-DATUM",
+        "LM3-TOOL-SEAL-GAUGE"
+      ],
+      "verification": [
+        "battery restraint and tray structural calculation review",
+        "tray fit/removal, interlock and exterior-only vent-path inspection",
+        "HV segregation, bond continuity, insulation and HVIL tests",
+        "coolant pressure, bleed, drain and hot/cold movement checks"
+      ]
+    },
+    {
+      "controlled_outputs": [
+        "wire/connector/terminal schedule and harness-board drawing",
+        "per-car route, branch, penetration, clamp-coordinate and service-loop drawings",
+        "cabinet/terminal allocation, ferrule, label and keying schedule",
+        "continuity, insulation, network-enumeration and as-built configuration forms"
+      ],
+      "drawing_ids": [
+        "LM3-ELC-300"
+      ],
+      "frozen_inputs": [
+        "frozen control, safety, PIS/CCTV, door, brake and inter-car I/O schedule",
+        "selected rail cable, connector, cabinet and terminal component data",
+        "released EMC, fire, segregation, service-loop and network requirements"
+      ],
+      "id": "LM3-FRP-160",
+      "product_ids": [
+        "LM3-CTRL-P040"
+      ],
+      "product_rows": [
+        {
+          "design_reference_envelope_mm": [
+            8000,
+            2000,
+            240
+          ],
+          "geometry_form": "harness",
+          "geometry_representation": "LV trainline harness and distribution cabinets",
+          "id": "LM3-CTRL-P040",
+          "maturity": "release-candidate",
+          "parent": "LM3-SYS-SA900",
+          "quantity_per_trainset": 3,
+          "reference_default": "not-applicable-local-manufacture",
+          "route": "MAKE",
+          "title": "pre-terminated LV trainline harness, DIN cabinet, and terminal-distribution kit",
+          "unit": "car kit"
+        }
+      ],
+      "release_boundary": "Harness routes remain unissued until supplier connector data, EMC/fire evidence and safety I/O ownership are frozen.",
+      "title": "low-voltage trainline harness and terminal-distribution pack",
+      "tooling_ids": [
+        "LM3-TOOL-HARNESS-BOARD",
+        "LM3-TOOL-FINAL-DATUM"
+      ],
+      "verification": [
+        "independent schematic, pinout and segregation review",
+        "first harness-board dimensional and connector-keying inspection",
+        "100 percent continuity/insulation test plus shield/bond audit",
+        "installed bend-radius, chafe, service access and network-enumeration inspection"
+      ]
     }
   ],
   "schema": "org.opensourcerail.lm3-factory-release-work-packages.v1",
   "status": "controlled-work-package-definitions; release evidence open",
   "tooling_ids": [
+    "LM3-TOOL-BOGIE-STAND",
     "LM3-TOOL-COATING-COUPON",
     "LM3-TOOL-COATING-RACK",
     "LM3-TOOL-COWL-MOULD",
     "LM3-TOOL-DATUM-GAUGE",
+    "LM3-TOOL-DOOR-GAUGE",
     "LM3-TOOL-FILM-TEMPLATE",
+    "LM3-TOOL-FINAL-DATUM",
     "LM3-TOOL-FIXTURE-PROOF",
     "LM3-TOOL-FLOOR-TEMPLATE",
     "LM3-TOOL-GLASS-CARRIER-NEST",
+    "LM3-TOOL-HARNESS-BOARD",
     "LM3-TOOL-INT-CEILING-MOULD",
     "LM3-TOOL-INT-DOOR-PRM-MOULD",
     "LM3-TOOL-INT-SIDE-MOULD",
     "LM3-TOOL-INT-STRAKE-MOULD",
     "LM3-TOOL-LAMP-AIM",
     "LM3-TOOL-LIFT-COLUMNS",
+    "LM3-TOOL-MOTOR-ALIGN",
     "LM3-TOOL-RADIATIVE-COUPON",
     "LM3-TOOL-ROOF-FAIRING-MOULD",
     "LM3-TOOL-ROOF-MOULD",
+    "LM3-TOOL-SEAL-GAUGE",
     "LM3-TOOL-SERVICE-RAIL",
     "LM3-TOOL-SIDE-MOULD",
     "LM3-TOOL-SIDE-VARIANT-NEST",
     "LM3-TOOL-STEEL-FIXTURE",
     "LM3-TOOL-TRIM-DRILL",
-    "LM3-TOOL-WATER-TEST"
+    "LM3-TOOL-WATER-TEST",
+    "LM3-TOOL-WINDOW-GAUGE"
   ],
   "validation": {
     "all_controlled_bought_in_rows_link_reference_defaults": true,
+    "all_make_rows_have_factory_drawing_coverage": true,
     "all_product_ids_have_geometry": true,
     "all_product_ids_in_manifest": true,
     "all_tooling_ids_in_registry": true,

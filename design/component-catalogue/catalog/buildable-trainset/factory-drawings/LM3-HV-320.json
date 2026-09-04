@@ -1,0 +1,87 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-HV-320",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "battery supplier + traction energy integration",
+  "package_ids": [
+    "LM3-FRP-150"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        5400,
+        900,
+        320
+      ],
+      "geometry_form": "tray",
+      "geometry_representation": "sliding trays, retention and drain pan",
+      "id": "LM3-HV-P010",
+      "maturity": "release-candidate",
+      "parent": "LM3-HV-SA510",
+      "quantity_per_trainset": 3,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "battery sliding trays, retention straps, service interlocks, and drain pans",
+      "unit": "car kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "sliding-tray, retention, interlock, drain-pan and lifting detail drawings",
+    "segregated HV tray, orange cover, bonding-stud and penetration schedule",
+    "coolant manifold, insulated clamp, bleed/drain and service-removal drawings",
+    "clamp-coordinate, label, continuity, pressure-test and configuration records"
+  ],
+  "required_verification": [
+    "battery restraint and tray structural calculation review",
+    "tray fit/removal, interlock and exterior-only vent-path inspection",
+    "HV segregation, bond continuity, insulation and HVIL tests",
+    "coolant pressure, bleed, drain and hot/cold movement checks"
+  ],
+  "required_views": [
+    "battery pack/tray installation and service-removal sequence",
+    "retention, interlock, drain-pan, vent and fire-barrier sections",
+    "mass/CG, lifting, crash restraint and exterior-only access details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/traction.md",
+    "docs/rolling-stock/light-metro-3car/body.md"
+  ],
+  "title": "battery sliding tray, retention and enclosure-service assembly",
+  "tooling_ids": [
+    "LM3-TOOL-HARNESS-BOARD",
+    "LM3-TOOL-FINAL-DATUM",
+    "LM3-TOOL-SEAL-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "supplier-frozen pack mass, retention, vent, HV and coolant interfaces",
+    "released crash/restraint, insulation, creepage, clearance and fire-barrier requirements",
+    "released cable/pipe ratings, segregation, bend radius, drain and service rules"
+  ]
+}

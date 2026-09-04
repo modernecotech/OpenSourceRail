@@ -5258,6 +5258,9 @@ def factory_release_work_package_payload(
     reference_default_ids = {
         row.product_id for row in default_product_specifications(design.product_items)
     }
+    make_product_ids = {
+        item.id for item in design.product_items if item.route is Route.MAKE
+    }
     package_ids: set[str] = set()
     controlled_products: set[str] = set()
     enriched_packages: list[dict[str, object]] = []
@@ -5316,6 +5319,9 @@ def factory_release_work_package_payload(
             for package in enriched_packages
             for row in package["product_rows"]
             if row["route"] != "MAKE"
+        ),
+        "all_make_rows_have_factory_drawing_coverage": (
+            make_product_ids <= controlled_products
         ),
     }
     return payload
@@ -5726,8 +5732,8 @@ def render_review(design: BuildableTrainsetDesign) -> str:
             "1. Treat the generated definition and shop-traveler packs as the",
             "   product-tree index for parts, external components, subassemblies,",
             "   assemblies, and trainsets.",
-            "2. Execute the ten generated factory drawing/interface work packages for",
-            "   chassis, modules, fascia, roof, interiors, finishes and recovery; approve",
+            "2. Execute the generated factory drawing/interface work packages for",
+            "   chassis, modules, fascia, roof, interiors, bogies, trainlines, finishes and recovery; approve",
             "   their frozen inputs, controlled outputs and verification ownership.",
             "3. Convert every remaining `MAKE` definition into controlled drawings: cut",
             "   list, flat pattern, weld class, datum scheme, tolerance, and inspection method.",

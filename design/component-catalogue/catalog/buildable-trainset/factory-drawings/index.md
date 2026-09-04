@@ -5,8 +5,8 @@ drafting team one controlled brief per factory drawing ID. They aggregate the
 current product envelopes and release requirements but contain no invented
 production dimensions, tolerances, material selections or approvals.
 
-- Drawing seeds: **18**
-- Controlled products represented: **57**
+- Drawing seeds: **29**
+- Controlled products represented: **80**
 - Issue state: **all definition seeds; none issued for manufacture**
 
 | Drawing | Owner | Packages | Products | JSON |
@@ -14,21 +14,32 @@ production dimensions, tolerances, material selections or approvals.
 | [`LM3-BDY-100`](LM3-BDY-100.md) — carbody primary steel and recovery load-path assembly | vehicle structures + fabricator | `LM3-FRP-010`<br>`LM3-FRP-100` | 9 | [`json`](LM3-BDY-100.json) |
 | [`LM3-BDY-110`](LM3-BDY-110.md) — underframe ladder, floor and equipment-support assembly | vehicle structures + fabricator | `LM3-FRP-010` | 8 | [`json`](LM3-BDY-110.json) |
 | [`LM3-BDY-120`](LM3-BDY-120.md) — sidewall and roof spaceframe assembly | vehicle structures + fabricator | `LM3-FRP-010` | 8 | [`json`](LM3-BDY-120.json) |
+| [`LM3-BDY-130`](LM3-BDY-130.md) — coupler pocket, end ring and crash-interface structure | vehicle structures + coupler integration | `LM3-FRP-110`<br>`LM3-FRP-120` | 2 | [`json`](LM3-BDY-130.json) |
+| [`LM3-BDY-140`](LM3-BDY-140.md) — battery tray, vent, door and window structural interfaces | vehicle structures + battery/door/glazing integration | `LM3-FRP-110` | 3 | [`json`](LM3-BDY-140.json) |
 | [`LM3-BDY-150`](LM3-BDY-150.md) — exterior GFRP material, mould and trim control | composites engineering + fabricator | `LM3-FRP-020` | 5 | [`json`](LM3-BDY-150.json) |
 | [`LM3-BDY-155`](LM3-BDY-155.md) — identical A/B-end GFRP cowl cast kit | composites engineering + vehicle integration | `LM3-FRP-030`<br>`LM3-FRP-040` | 8 | [`json`](LM3-BDY-155.json) |
 | [`LM3-BDY-160`](LM3-BDY-160.md) — one-metre clip-on GFRP body module system | composites engineering + fabricator | `LM3-FRP-020` | 5 | [`json`](LM3-BDY-160.json) |
 | [`LM3-BDY-165`](LM3-BDY-165.md) — exterior module trim and bay configuration | configuration engineering + composites fabricator | `LM3-FRP-020` | 5 | [`json`](LM3-BDY-165.json) |
+| [`LM3-BOG-400`](LM3-BOG-400.md) — powered bogie local frame, guards and service installation | bogie fabricator + traction/brake integration | `LM3-FRP-130` | 4 | [`json`](LM3-BOG-400.json) |
+| [`LM3-BOG-410`](LM3-BOG-410.md) — trailer bogie local frame, guards and service installation | bogie fabricator + brake integration | `LM3-FRP-140` | 3 | [`json`](LM3-BOG-410.json) |
+| [`LM3-DOOR-200`](LM3-DOOR-200.md) — replaceable door cassette carrier and body interface | door supplier + vehicle integration | `LM3-FRP-110` | 1 | [`json`](LM3-DOOR-200.json) |
+| [`LM3-ELC-300`](LM3-ELC-300.md) — low-voltage trainline harness and terminal distribution | electrical integration + vehicle manufacturing | `LM3-FRP-160` | 1 | [`json`](LM3-ELC-300.json) |
+| [`LM3-END-650`](LM3-END-650.md) — configurable panoramic or open-mid train-end interface | vehicle structures + train-end integration | `LM3-FRP-120` | 4 | [`json`](LM3-END-650.json) |
 | [`LM3-FAS-180`](LM3-FAS-180.md) — panoramic glass carrier, seal and drainage interface | vehicle integration + glazing supplier | `LM3-FRP-030` | 4 | [`json`](LM3-FAS-180.json) |
 | [`LM3-FAS-185`](LM3-FAS-185.md) — reversible front-lamp cassette and aiming interface | vehicle integration + lamp supplier | `LM3-FRP-040` | 4 | [`json`](LM3-FAS-185.json) |
 | [`LM3-FIN-240`](LM3-FIN-240.md) — pre-cut livery film artwork, application and repair | operator identity + finish engineering | `LM3-FRP-080` | 9 | [`json`](LM3-FIN-240.json) |
 | [`LM3-FIN-245`](LM3-FIN-245.md) — radiative roof-coating qualification and trial | materials/test authority + finish engineering | `LM3-FRP-090` | 4 | [`json`](LM3-FIN-245.json) |
 | [`LM3-FIX-235`](LM3-FIX-235.md) — common service rail, fastener and fixture adapters | vehicle integration + manufacturing engineering | `LM3-FRP-070` | 3 | [`json`](LM3-FIX-235.json) |
+| [`LM3-HV-310`](LM3-HV-310.md) — segregated high-voltage, bonding and coolant routing | traction energy + vehicle integration | `LM3-FRP-150` | 2 | [`json`](LM3-HV-310.json) |
+| [`LM3-HV-320`](LM3-HV-320.md) — battery sliding tray, retention and enclosure-service assembly | battery supplier + traction energy integration | `LM3-FRP-150` | 1 | [`json`](LM3-HV-320.json) |
 | [`LM3-HV-325`](LM3-HV-325.md) — rooftop PV and charge-input assembly | traction energy + vehicle integration | `LM3-FRP-050` | 10 | [`json`](LM3-HV-325.json) |
 | [`LM3-HVAC-220`](LM3-HVAC-220.md) — roof HVAC installation and duct interface | HVAC supplier + vehicle integration | `LM3-FRP-050` | 10 | [`json`](LM3-HVAC-220.json) |
 | [`LM3-INT-230`](LM3-INT-230.md) — interior fit-out installation | interior integration | `LM3-FRP-060`<br>`LM3-FRP-070` | 22 | [`json`](LM3-INT-230.json) |
 | [`LM3-INT-231`](LM3-INT-231.md) — interior moulded-panel, trim and access family | interior/composites engineering | `LM3-FRP-060` | 19 | [`json`](LM3-INT-231.json) |
 | [`LM3-REC-270`](LM3-REC-270.md) — jacking, lifting, towing and field-rerailing interface | vehicle structures + recovery engineer | `LM3-FRP-100` | 1 | [`json`](LM3-REC-270.json) |
 | [`LM3-ROOF-225`](LM3-ROOF-225.md) — roof fairing, penetration and service-zone coordination | vehicle integration | `LM3-FRP-050` | 10 | [`json`](LM3-ROOF-225.json) |
+| [`LM3-SYS-170`](LM3-SYS-170.md) — inter-car articulation adapter and retained interface | vehicle structures + articulation supplier | `LM3-FRP-120` | 1 | [`json`](LM3-SYS-170.json) |
+| [`LM3-WIN-210`](LM3-WIN-210.md) — replaceable window pressure frame and dry-seal interface | glazing supplier + vehicle integration | `LM3-FRP-110` | 1 | [`json`](LM3-WIN-210.json) |
 
 Issue and verification state remains controlled by
 [`factory-release-readiness.md`](../factory-release-readiness.md).

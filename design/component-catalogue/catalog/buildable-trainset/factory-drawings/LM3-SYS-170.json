@@ -1,0 +1,89 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-SYS-170",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "vehicle structures + articulation supplier",
+  "package_ids": [
+    "LM3-FRP-120"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        2400,
+        300,
+        2400
+      ],
+      "geometry_form": "frame",
+      "geometry_representation": "articulation adapter and anti-lift interface",
+      "id": "LM3-ART-P010",
+      "maturity": "release-candidate",
+      "parent": "LM3-ART-SA810",
+      "quantity_per_trainset": 2,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "articulation adapter frame, anti-lift keeper, and shim kit",
+      "unit": "kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "common end ring, option bolt grid and articulation-adapter production drawings",
+    "panoramic and open-mid shim/closeout configuration drawings",
+    "anti-lift, service-hatch, sensor-backing, drain and threshold details",
+    "serialized end-position option and interchangeability record"
+  ],
+  "required_verification": [
+    "independent structural, fatigue and full-motion calculation review",
+    "end-ring/bolt-grid datum survey and A/B interchange gauge",
+    "articulation sweep plus keeper/pin-retention inspection",
+    "configured-end water, drain, threshold and service-removal trials"
+  ],
+  "required_views": [
+    "lower-pivot adapter plan/elevation and upper-link datums",
+    "anti-lift keeper, shim, pin-retention and trainline-clearance sections",
+    "full-motion envelope, lubrication, inspection and removal views"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/articulation.md",
+    "docs/rolling-stock/light-metro-3car/body.md",
+    "docs/rolling-stock/light-metro-3car/interfaces.md"
+  ],
+  "title": "inter-car articulation adapter and retained interface",
+  "tooling_ids": [
+    "LM3-TOOL-STEEL-FIXTURE",
+    "LM3-TOOL-DATUM-GAUGE",
+    "LM3-TOOL-COWL-MOULD",
+    "LM3-TOOL-WATER-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released crash, articulation, anti-lift, gangway and end-equipment load cases",
+    "frozen panoramic-end and open-mid supplier interface envelopes",
+    "selected-end configuration, seal, drain, threshold and service-access requirements"
+  ]
+}

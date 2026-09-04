@@ -9,9 +9,9 @@ Individual drafting briefs are under [`factory-drawings/`](factory-drawings/inde
 
 - Design ID: `LM3-V2A-FACTORY-RELEASE`
 - Status: `controlled-work-package-definitions; release evidence open`
-- Work packages: `10`
-- Controlled product rows represented: `57`
-- Registered tooling referenced: `23`
+- Work packages: `16`
+- Controlled product rows represented: `80`
+- Registered tooling referenced: `30`
 - Boundary: These work packages define drawing and evidence scope. They are not approved drawings, supplier selections, signed calculations or physical first-article records.
 
 ## Package index
@@ -28,6 +28,12 @@ Individual drafting briefs are under [`factory-drawings/`](factory-drawings/inde
 | [`LM3-FRP-080`](#lm3-frp-080) | pre-cut exterior film artwork, application and repair pack | `LM3-FIN-240` | 9 | 2 |
 | [`LM3-FRP-090`](#lm3-frp-090) | radiative roof-coating coupon and one-car trial pack | `LM3-FIN-245` | 4 | 2 |
 | [`LM3-FRP-100`](#lm3-frp-100) | vehicle jacking, lifting, towing and field-rerailing interface pack | `LM3-BDY-100`<br>`LM3-REC-270` | 1 | 3 |
+| [`LM3-FRP-110`](#lm3-frp-110) | primary end, battery, door and window structural-interface pack | `LM3-BDY-130`<br>`LM3-BDY-140`<br>`LM3-DOOR-200`<br>`LM3-WIN-210` | 6 | 5 |
+| [`LM3-FRP-120`](#lm3-frp-120) | configurable train-end and articulation structural-interface pack | `LM3-BDY-130`<br>`LM3-END-650`<br>`LM3-SYS-170` | 6 | 4 |
+| [`LM3-FRP-130`](#lm3-frp-130) | powered-bogie local frame, bracket and harness drawing pack | `LM3-BOG-400` | 4 | 4 |
+| [`LM3-FRP-140`](#lm3-frp-140) | trailer-bogie local frame, bracket and harness drawing pack | `LM3-BOG-410` | 3 | 3 |
+| [`LM3-FRP-150`](#lm3-frp-150) | battery tray, high-voltage and coolant local-hardware pack | `LM3-HV-310`<br>`LM3-HV-320` | 3 | 3 |
+| [`LM3-FRP-160`](#lm3-frp-160) | low-voltage trainline harness and terminal-distribution pack | `LM3-ELC-300` | 1 | 2 |
 
 ## LM3-FRP-010 — primary chassis, transverse structure and stepped-floor drawing pack
 
@@ -405,3 +411,212 @@ Release boundary: Automotive scissor jacks, unilateral lifts and work beneath an
 - timed depot lift and field rerailing demonstration by trained crews
 
 Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-LIFT-COLUMNS`.
+
+## LM3-FRP-110 — primary end, battery, door and window structural-interface pack
+
+Release boundary: Reference envelopes do not release load paths, glazing retention, door carriers or battery restraints for manufacture.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P040` — coupler pocket, shear plate, and crash-can insert kit | `MAKE` / `release-candidate` | 2 set | `LM3-END-SA700` | 1250 × 1100 × 620 | local manufacture | coupler pocket and crash-can shear structure |
+| `LM3-BDY-P050` — battery tray rails, vent plenum, and service-lid gutter kit | `MAKE` / `release-candidate` | 3 kit | `LM3-HV-SA510` | 6200 × 900 × 520 | local manufacture | battery support rails, vent plenum and service gutter |
+| `LM3-BDY-P100` — door portal reinforcement, threshold beam, and cassette shim kit | `MAKE` / `release-candidate` | 12 opening kit | `LM3-DOOR-SA310` | 1500 × 260 × 2150 | local manufacture | door carrier/portal with threshold and four-point datum |
+| `LM3-BDY-P110` — window carrier ring, bonded-gasket land, and replacement jack-point inserts | `MAKE` / `release-candidate` | 18 opening kit | `LM3-WIN-SA320` | 1650 × 140 × 1250 | local manufacture | replaceable glazing pressure frame, seal and drain |
+| `LM3-DOOR-P010` — door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit | `MAKE` / `concept` | 12 opening kit | `LM3-DOOR-SA310` | 1500 × 260 × 2150 | local manufacture | door carrier/portal with threshold and four-point datum |
+| `LM3-WIN-P010` — replaceable window pressure frame, dry seal, drain, and captive retention kit | `MAKE` / `concept` | 18 opening kit | `LM3-WIN-SA320` | 1650 × 140 × 1250 | local manufacture | replaceable glazing pressure frame, seal and drain |
+
+### Frozen inputs
+
+- released crash, battery-restraint, door and glazing interface reactions
+- supplier-frozen coupler, battery, door and window installation envelopes
+- released structural, seal/drain, corrosion and service-removal requirements
+
+### Controlled outputs
+
+- coupler-pocket, battery-rail, door-portal and window-carrier detail drawings
+- machined datum, shim/adjustment, seal compression and drain schedules
+- supplier keep-out, installation and complete service-removal maps
+- weld/fastener/bond authority, tolerance and inspection characteristic lists
+
+### Verification and hold points
+
+- independent structural and retention calculation review
+- post-weld datum plus door/window aperture survey
+- carrier proof, dry fit and timed supplier-cassette replacement trials
+- battery drain/vent and door/window water-ingress tests
+
+Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-DOOR-GAUGE`, `LM3-TOOL-WINDOW-GAUGE`, `LM3-TOOL-SEAL-GAUGE`.
+
+## LM3-FRP-120 — configurable train-end and articulation structural-interface pack
+
+Release boundary: Exactly one end option is fitted at each position; neither option is released by this definition seed alone.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BDY-P090` — end ring frame and anti-climber beam set | `MAKE` / `release-candidate` | 2 set | `LM3-END-SA700` | 2700 × 260 × 2900 | local manufacture | end ring and anti-climber datum |
+| `LM3-END-P060` — common reversible end-interface carrier ring, option bolt grid, and sealing datum kit | `MAKE` / `release-candidate` | 2 end position | `LM3-EIF-SA650` | 2650 × 280 × 2650 | local manufacture | reversible end carrier and option bolt grid |
+| `LM3-END-P061` — panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit | `MAKE` / `release-candidate` | 2 option kit | `LM3-EIF-SA650` | 1250 × 2650 × 2650 | local manufacture | panoramic closeout, glass carrier and sensor datums |
+| `LM3-END-P062` — mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit | `MAKE` / `release-candidate` | 0 option kit | `LM3-EIF-SA650` | 1300 × 2100 × 2350 | local manufacture | open portal, clamp, threshold and drain option |
+| `LM3-END-P030` — cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit | `MAKE` / `release-candidate` | 2 end kit | `LM3-END-SA700` | 900 × 700 × 420 | local manufacture | service hatch, backing bracket and clipped services |
+| `LM3-ART-P010` — articulation adapter frame, anti-lift keeper, and shim kit | `MAKE` / `release-candidate` | 2 kit | `LM3-ART-SA810` | 2400 × 300 × 2400 | local manufacture | articulation adapter and anti-lift interface |
+
+### Frozen inputs
+
+- released crash, articulation, anti-lift, gangway and end-equipment load cases
+- frozen panoramic-end and open-mid supplier interface envelopes
+- selected-end configuration, seal, drain, threshold and service-access requirements
+
+### Controlled outputs
+
+- common end ring, option bolt grid and articulation-adapter production drawings
+- panoramic and open-mid shim/closeout configuration drawings
+- anti-lift, service-hatch, sensor-backing, drain and threshold details
+- serialized end-position option and interchangeability record
+
+### Verification and hold points
+
+- independent structural, fatigue and full-motion calculation review
+- end-ring/bolt-grid datum survey and A/B interchange gauge
+- articulation sweep plus keeper/pin-retention inspection
+- configured-end water, drain, threshold and service-removal trials
+
+Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-WATER-TEST`.
+
+## LM3-FRP-130 — powered-bogie local frame, bracket and harness drawing pack
+
+Release boundary: The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BOG-P010` — powered bogie welded H-frame and motor-cradle weldment | `MAKE` / `release-candidate` | 3 ea | `LM3-BOG-SA610` | 3400 × 2500 × 620 | local manufacture | welded H-frame with axlebox and bolster datums |
+| `LM3-BOG-P030` — powered-bogie guards, cable guides, WSP brackets, and inspection covers | `MAKE` / `release-candidate` | 3 kit | `LM3-BOG-SA610` | 3200 × 2350 × 460 | local manufacture | guards, cable guides, brackets and covers |
+| `LM3-BOG-P050` — powered-bogie motor torque link, anti-rotation stop, and safety lanyard bracket kit | `MAKE` / `release-candidate` | 3 bogie kit | `LM3-TRC-SA615` | 1400 × 420 × 300 | local manufacture | motor torque link, stop and lanyard bracket |
+| `LM3-BOG-P060` — powered-bogie brake/WSP/speed-sensor harness and junction-bracket kit | `MAKE` / `release-candidate` | 3 bogie kit | `LM3-BOG-SA610` | 3000 × 2100 × 220 | local manufacture | bogie harness route and junction brackets |
+
+### Frozen inputs
+
+- released bogie-frame, motor, brake, suspension and fatigue load cases
+- supplier-frozen wheelset, motor, gearbox, brake, spring and damper envelopes
+- released weld class, machining datum, cable protection and motion keep-outs
+
+### Controlled outputs
+
+- powered H-frame cut, bend, machining and weld drawings
+- motor cradle, torque-link, guard, brake and sensor bracket drawings
+- brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule
+- weld/NDT, corrosion, serial trace and bogie configuration maps
+
+### Verification and hold points
+
+- independent EN 13749 structural/fatigue calculation review
+- fixture/tack, post-weld and machined-datum surveys
+- classed weld NDT and torque-link/guard proof inspections
+- supplier dry fit, harness motion sweep, continuity and insulation tests
+
+Tooling: `LM3-TOOL-BOGIE-STAND`, `LM3-TOOL-MOTOR-ALIGN`, `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-DATUM-GAUGE`.
+
+## LM3-FRP-140 — trailer-bogie local frame, bracket and harness drawing pack
+
+Release boundary: The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-BOG-P020` — trailer bogie welded H-frame | `MAKE` / `release-candidate` | 3 ea | `LM3-BOG-SA620` | 3400 × 2500 × 620 | local manufacture | welded H-frame with axlebox and bolster datums |
+| `LM3-BOG-P031` — trailer-bogie guards, cable guides, WSP brackets, and inspection covers | `MAKE` / `release-candidate` | 3 kit | `LM3-BOG-SA620` | 3200 × 2350 × 460 | local manufacture | guards, cable guides, brackets and covers |
+| `LM3-BOG-P061` — trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit | `MAKE` / `release-candidate` | 3 bogie kit | `LM3-BOG-SA620` | 3000 × 2100 × 220 | local manufacture | bogie harness route and junction brackets |
+
+### Frozen inputs
+
+- released bogie-frame, brake, suspension and fatigue load cases
+- supplier-frozen wheelset, brake, spring and damper envelopes
+- released weld class, machining datum, cable protection and motion keep-outs
+
+### Controlled outputs
+
+- trailer H-frame cut, bend, machining and weld drawings
+- guard, brake, WSP and speed-sensor bracket drawings
+- brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule
+- weld/NDT, corrosion, serial trace and bogie configuration maps
+
+### Verification and hold points
+
+- independent EN 13749 structural/fatigue calculation review
+- fixture/tack, post-weld and machined-datum surveys
+- classed weld NDT and guard/bracket proof inspections
+- supplier dry fit, harness motion sweep, continuity and insulation tests
+
+Tooling: `LM3-TOOL-BOGIE-STAND`, `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-DATUM-GAUGE`.
+
+## LM3-FRP-150 — battery tray, high-voltage and coolant local-hardware pack
+
+Release boundary: No battery or HV hardware may be energised from this drawing definition; the supplier safety case and controlled energisation procedure remain mandatory.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-HV-P010` — battery sliding trays, retention straps, service interlocks, and drain pans | `MAKE` / `release-candidate` | 3 car kit | `LM3-HV-SA510` | 5400 × 900 × 320 | local manufacture | sliding trays, retention and drain pan |
+| `LM3-HV-P020` — segregated HV cable tray, bonding studs, grommets, and orange cover set | `MAKE` / `release-candidate` | 3 car kit | `LM3-HV-SA510` | 14000 × 420 × 180 | local manufacture | segregated HV tray, covers, grommets and studs |
+| `LM3-HV-P030` — coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-HV-SA510` | 6500 × 950 × 260 | local manufacture | coolant manifolds, clamps and bleed/drain points |
+
+### Frozen inputs
+
+- supplier-frozen pack mass, retention, vent, HV and coolant interfaces
+- released crash/restraint, insulation, creepage, clearance and fire-barrier requirements
+- released cable/pipe ratings, segregation, bend radius, drain and service rules
+
+### Controlled outputs
+
+- sliding-tray, retention, interlock, drain-pan and lifting detail drawings
+- segregated HV tray, orange cover, bonding-stud and penetration schedule
+- coolant manifold, insulated clamp, bleed/drain and service-removal drawings
+- clamp-coordinate, label, continuity, pressure-test and configuration records
+
+### Verification and hold points
+
+- battery restraint and tray structural calculation review
+- tray fit/removal, interlock and exterior-only vent-path inspection
+- HV segregation, bond continuity, insulation and HVIL tests
+- coolant pressure, bleed, drain and hot/cold movement checks
+
+Tooling: `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-FINAL-DATUM`, `LM3-TOOL-SEAL-GAUGE`.
+
+## LM3-FRP-160 — low-voltage trainline harness and terminal-distribution pack
+
+Release boundary: Harness routes remain unissued until supplier connector data, EMC/fire evidence and safety I/O ownership are frozen.
+
+### Controlled products and geometry
+
+| Product | Route / maturity | Qty | Parent | Design-reference envelope (mm) | Reference default | Representation |
+|---|---|---:|---|---:|---|---|
+| `LM3-CTRL-P040` — pre-terminated LV trainline harness, DIN cabinet, and terminal-distribution kit | `MAKE` / `release-candidate` | 3 car kit | `LM3-SYS-SA900` | 8000 × 2000 × 240 | local manufacture | LV trainline harness and distribution cabinets |
+
+### Frozen inputs
+
+- frozen control, safety, PIS/CCTV, door, brake and inter-car I/O schedule
+- selected rail cable, connector, cabinet and terminal component data
+- released EMC, fire, segregation, service-loop and network requirements
+
+### Controlled outputs
+
+- wire/connector/terminal schedule and harness-board drawing
+- per-car route, branch, penetration, clamp-coordinate and service-loop drawings
+- cabinet/terminal allocation, ferrule, label and keying schedule
+- continuity, insulation, network-enumeration and as-built configuration forms
+
+### Verification and hold points
+
+- independent schematic, pinout and segregation review
+- first harness-board dimensional and connector-keying inspection
+- 100 percent continuity/insulation test plus shield/bond audit
+- installed bend-radius, chafe, service access and network-enumeration inspection
+
+Tooling: `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-FINAL-DATUM`.

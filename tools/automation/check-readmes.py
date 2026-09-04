@@ -157,7 +157,7 @@ def main() -> int:
         current_contracts = {
             REPO_ROOT / "README.md": (
                 f"controls {products} product rows and {assemblies} assembly nodes",
-                f"The {make_rows} locally made rows",
+                f"{make_rows} locally made rows",
                 "exterior-finish-system.md",
                 "factory-release-work-packages.md",
                 f"{drawing_count} [drawing-definition seeds]",
@@ -171,7 +171,7 @@ def main() -> int:
                 f"{evidence_count}-gate first-article route",
                 f"maps {mapped_rows}/{products} rows",
                 f"{closed_rows}/{active_rows} active rows mass-closed",
-                "all 10 drawing packages open",
+                f"all {factory_packages} drawing packages open",
                 "factory-release-readiness.md",
                 "factory-drawings/",
             ),

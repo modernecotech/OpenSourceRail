@@ -1,0 +1,86 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-ELC-300",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "electrical integration + vehicle manufacturing",
+  "package_ids": [
+    "LM3-FRP-160"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        8000,
+        2000,
+        240
+      ],
+      "geometry_form": "harness",
+      "geometry_representation": "LV trainline harness and distribution cabinets",
+      "id": "LM3-CTRL-P040",
+      "maturity": "release-candidate",
+      "parent": "LM3-SYS-SA900",
+      "quantity_per_trainset": 3,
+      "reference_default": "not-applicable-local-manufacture",
+      "route": "MAKE",
+      "title": "pre-terminated LV trainline harness, DIN cabinet, and terminal-distribution kit",
+      "unit": "car kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "wire/connector/terminal schedule and harness-board drawing",
+    "per-car route, branch, penetration, clamp-coordinate and service-loop drawings",
+    "cabinet/terminal allocation, ferrule, label and keying schedule",
+    "continuity, insulation, network-enumeration and as-built configuration forms"
+  ],
+  "required_verification": [
+    "independent schematic, pinout and segregation review",
+    "first harness-board dimensional and connector-keying inspection",
+    "100 percent continuity/insulation test plus shield/bond audit",
+    "installed bend-radius, chafe, service access and network-enumeration inspection"
+  ],
+  "required_views": [
+    "per-car trainline and terminal-cabinet route plan/elevations",
+    "connector, branch, service-loop and penetration schedule",
+    "segregation, clamp coordinates, bend radii, labels and continuity-test details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/interfaces.md",
+    "docs/rolling-stock/light-metro-3car/interior-layout.md"
+  ],
+  "title": "low-voltage trainline harness and terminal distribution",
+  "tooling_ids": [
+    "LM3-TOOL-HARNESS-BOARD",
+    "LM3-TOOL-FINAL-DATUM"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "frozen control, safety, PIS/CCTV, door, brake and inter-car I/O schedule",
+    "selected rail cable, connector, cabinet and terminal component data",
+    "released EMC, fire, segregation, service-loop and network requirements"
+  ]
+}
