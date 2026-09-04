@@ -24,6 +24,221 @@ class FactoryReleasePackage:
     release_boundary: str
 
 
+@dataclass(frozen=True)
+class FactoryDrawingMetadata:
+    id: str
+    title: str
+    owner: str
+    source_refs: tuple[str, ...]
+    required_views: tuple[str, ...]
+
+
+def factory_drawing_metadata() -> tuple[FactoryDrawingMetadata, ...]:
+    """Return drawing-specific ownership, source and minimum-view controls."""
+
+    rs = "docs/rolling-stock/light-metro-3car"
+    return (
+        FactoryDrawingMetadata(
+            "LM3-BDY-100",
+            "carbody primary steel and recovery load-path assembly",
+            "vehicle structures + fabricator",
+            (f"{rs}/body.md", f"{rs}/field-rerailing-concept.md"),
+            (
+                "carbody plan, side and end elevations",
+                "primary datum and support-point scheme",
+                "welded load-path and recovery-interface details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-110",
+            "underframe ladder, floor and equipment-support assembly",
+            "vehicle structures + fabricator",
+            (f"{rs}/body.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "underframe plan and longitudinal section",
+                "cross-bearer and bolster station sections",
+                "cut/bend/weld and fixture datum details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-120",
+            "sidewall and roof spaceframe assembly",
+            "vehicle structures + fabricator",
+            (f"{rs}/body.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "left/right sideframe elevations",
+                "door/window aperture details",
+                "roof bow, cantrail and equipment-rail sections",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-150",
+            "exterior GFRP material, mould and trim control",
+            "composites engineering + fabricator",
+            (f"{rs}/modular-fiberglass-body.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "tool-face and split-line views",
+                "laminate/core/insert sections",
+                "trim, drill, edge and repair-zone maps",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-155",
+            "identical A/B-end GFRP cowl cast kit",
+            "composites engineering + vehicle integration",
+            (f"{rs}/end-cowl.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "front, side and plan exterior surfaces",
+                "six-piece split, flange and trim scheme",
+                "glass, lamp, sensor, drain and service-access sections",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-160",
+            "one-metre clip-on GFRP body module system",
+            "composites engineering + fabricator",
+            (f"{rs}/modular-fiberglass-body.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "common side and roof module views",
+                "clip, anti-lift, seal and drain sections",
+                "master-frame and replacement-clearance details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-BDY-165",
+            "exterior module trim and bay configuration",
+            "configuration engineering + composites fabricator",
+            (f"{rs}/dedicated-parts-and-moulds.md",),
+            (
+                "solid/window/door/roof trim nests",
+                "serialized car bay map",
+                "datum, drill, seal and repair overlays",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-FAS-180",
+            "panoramic glass carrier, seal and drainage interface",
+            "vehicle integration + glazing supplier",
+            (f"{rs}/end-cowl.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "front carrier and pane-edge elevation",
+                "setting-block and secondary-retention sections",
+                "seal compression, drain, heater and removal-path details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-FAS-185",
+            "reversible front-lamp cassette and aiming interface",
+            "vehicle integration + lamp supplier",
+            (f"{rs}/end-cowl.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "A/B cassette installation views",
+                "optical-axis and adjuster datum diagram",
+                "harness, earth, drip-loop and service-clearance details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-HVAC-220",
+            "roof HVAC installation and duct interface",
+            "HVAC supplier + vehicle integration",
+            (f"{rs}/roof-fitout.md", f"{rs}/traction.md"),
+            (
+                "roof unit plan and side installation",
+                "curb, duct and condensate sections",
+                "service lift, airflow and adjacent-equipment clearances",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-ROOF-225",
+            "roof fairing, penetration and service-zone coordination",
+            "vehicle integration",
+            (f"{rs}/roof-fitout.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "complete roof equipment plan",
+                "curb, rail, gland, drain and fairing sections",
+                "removal, worker-access and finish/heat/electrical keep-out zones",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-HV-325",
+            "rooftop PV and charge-input assembly",
+            "traction energy + vehicle integration",
+            (f"{rs}/roof-fitout.md", f"{rs}/traction.md", f"{rs}/interfaces.md"),
+            (
+                "PV/string/MPPT roof plan",
+                "rail, clamp, bonded-laminate and cable-gland sections",
+                "isolation, bonding, fire-switch and cleaner-service diagram",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-INT-230",
+            "interior fit-out installation",
+            "interior integration",
+            (f"{rs}/interior-layout.md", f"{rs}/dedicated-parts-and-moulds.md"),
+            (
+                "saloon plan and reflected ceiling plan",
+                "sidewall and transverse sections",
+                "seat, rail, lighting, equipment and sequential-removal details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-INT-231",
+            "interior moulded-panel, trim and access family",
+            "interior/composites engineering",
+            (f"{rs}/dedicated-parts-and-moulds.md", f"{rs}/cabin-fiberglass.md"),
+            (
+                "panel family elevations and nesting map",
+                "tool-face, split, trim and insert views",
+                "edge radius, gaps, hatches and service-access sections",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-FIX-235",
+            "common service rail, fastener and fixture adapters",
+            "vehicle integration + manufacturing engineering",
+            (f"{rs}/interior-layout.md",),
+            (
+                "rail extrusion and installed-coordinate views",
+                "foot, end-stop and adapter variants",
+                "grip, locking, isolation and accessible-removal details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-FIN-240",
+            "pre-cut livery film artwork, application and repair",
+            "operator identity + finish engineering",
+            (f"{rs}/exterior-finish-process.md",),
+            (
+                "flattened bay-numbered artwork sheets",
+                "seam, overlap, edge and keep-out maps",
+                "datum-mark, patch and complete-module removal details",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-FIN-245",
+            "radiative roof-coating qualification and trial",
+            "materials/test authority + finish engineering",
+            (f"{rs}/exterior-finish-process.md", f"{rs}/roof-fitout.md"),
+            (
+                "coupon and exposure matrix",
+                "one-car paired roof-zone application plan",
+                "sensor, keep-out, inspection, cleaning and repair maps",
+            ),
+        ),
+        FactoryDrawingMetadata(
+            "LM3-REC-270",
+            "jacking, lifting, towing and field-rerailing interface",
+            "vehicle structures + recovery engineer",
+            (f"{rs}/field-rerailing-concept.md", f"{rs}/body.md"),
+            (
+                "J1--J4 underside and side-location views",
+                "keyed adapter, pad, eye and lug sections",
+                "support combinations, reactions, stop conditions and recovery sequence diagrams",
+            ),
+        ),
+    )
+
+
 def factory_release_packages() -> tuple[FactoryReleasePackage, ...]:
     """Return the ordered v2A work packages owned by the local factory team."""
 
@@ -350,6 +565,7 @@ def factory_release_record_template(payload: dict[str, object]) -> dict[str, obj
                 "drawing_records": [
                     {
                         "drawing_id": drawing_id,
+                        "definition_seed_ref": f"factory-drawings/{drawing_id}.json",
                         "revision": "",
                         "issue_status": "unissued",
                         "native_file_ref": "",
@@ -484,8 +700,211 @@ def render_factory_release_readiness(record: dict[str, object]) -> str:
             "during controlled drawing production. A package remains open until every",
             "source input, issued drawing, exact product configuration, tool/gauge record,",
             "required output, performed verification and named approval is accepted.",
+            "Use the per-drawing [`factory-drawings/`](factory-drawings/index.md) seeds",
+            "as drafting/checking briefs, never as issued manufacturing drawings.",
             "",
             f"Boundary: {record['release_warning']}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def factory_drawing_seed_payloads(payload: dict[str, object]) -> list[dict[str, object]]:
+    """Build one non-issued drawing-definition seed per controlled drawing ID."""
+
+    metadata = {row.id: row for row in factory_drawing_metadata()}
+    packages = [dict(row) for row in payload["packages"]]  # type: ignore[union-attr]
+    expected_ids = {
+        drawing_id
+        for package in packages
+        for drawing_id in package["drawing_ids"]
+    }
+    if set(metadata) != expected_ids:
+        raise ValueError(
+            "factory drawing metadata mismatch: "
+            f"missing={sorted(expected_ids - set(metadata))}, "
+            f"extra={sorted(set(metadata) - expected_ids)}"
+        )
+
+    def unique(values: list[str]) -> list[str]:
+        return list(dict.fromkeys(values))
+
+    seeds: list[dict[str, object]] = []
+    for drawing_id in sorted(expected_ids):
+        meta = metadata[drawing_id]
+        drawing_packages = [
+            package for package in packages if drawing_id in package["drawing_ids"]
+        ]
+        product_rows = {
+            product["id"]: dict(product)
+            for package in drawing_packages
+            for product in package["product_rows"]
+        }
+        seeds.append(
+            {
+                "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+                "drawing_id": drawing_id,
+                "title": meta.title,
+                "owner": meta.owner,
+                "document_revision": "A-DRAFT",
+                "issue_status": "definition-seed-not-issued",
+                "package_ids": [package["id"] for package in drawing_packages],
+                "source_refs": list(meta.source_refs),
+                "units": "millimetres unless explicitly stated",
+                "coordinate_basis": (
+                    "vehicle X longitudinal from car centre, Y lateral from vehicle "
+                    "centreline, Z vertical from top of rail; drawing-specific fabrication "
+                    "datums must be released and related back to this basis"
+                ),
+                "required_views": list(meta.required_views),
+                "unresolved_inputs": unique(
+                    [
+                        requirement
+                        for package in drawing_packages
+                        for requirement in package["frozen_inputs"]
+                    ]
+                ),
+                "required_outputs": unique(
+                    [
+                        output
+                        for package in drawing_packages
+                        for output in package["controlled_outputs"]
+                    ]
+                ),
+                "required_verification": unique(
+                    [
+                        verification
+                        for package in drawing_packages
+                        for verification in package["verification"]
+                    ]
+                ),
+                "tooling_ids": unique(
+                    [tool for package in drawing_packages for tool in package["tooling_ids"]]
+                ),
+                "product_rows": [product_rows[key] for key in sorted(product_rows)],
+                "mandatory_drawing_controls": [
+                    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+                    "named design, checking, manufacturing, quality and approval responsibilities",
+                    "material/grade, finish/protection, mass and applicable process specification",
+                    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+                    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+                    "joining method, weld/adhesive/fastener authority and special-process hold points",
+                    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+                    "tooling/gauge references, inspection method, acceptance criteria and evidence route",
+                ],
+                "issue_record": {
+                    "native_source_ref": "",
+                    "published_drawing_ref": "",
+                    "published_drawing_sha256": "",
+                    "sheet_size": "",
+                    "scale": "",
+                    "drawn_by": "",
+                    "checked_by": "",
+                    "manufacturing_reviewed_by": "",
+                    "quality_reviewed_by": "",
+                    "approved_by": "",
+                    "issue_date": "",
+                },
+                "release_boundary": (
+                    "This seed aggregates controlled scope and design-reference envelopes. "
+                    "It is not a dimensioned production drawing, released tool surface, NC "
+                    "definition, signed calculation or authority to manufacture."
+                ),
+            }
+        )
+    return seeds
+
+
+def render_factory_drawing_seed(seed: dict[str, object]) -> str:
+    """Render one drawing seed as a compact drafting and checking brief."""
+
+    lines = [
+        f"# {seed['drawing_id']} — {seed['title']}",
+        "",
+        f"- Revision: `{seed['document_revision']}`",
+        f"- Issue status: `{seed['issue_status']}`",
+        f"- Owner: {seed['owner']}",
+        "- Factory package: " + ", ".join(f"`{value}`" for value in seed["package_ids"]),
+        "- Source: " + ", ".join(f"`{value}`" for value in seed["source_refs"]),
+        f"- Coordinate basis: {seed['coordinate_basis']}",
+        "",
+        "## Controlled product scope",
+        "",
+        "| Product | Route / maturity | Reference quantity | Design-reference envelope (mm) | Representation |",
+        "|---|---|---:|---:|---|",
+    ]
+    for raw in seed["product_rows"]:  # type: ignore[union-attr]
+        product = dict(raw)
+        envelope = " × ".join(
+            f"{float(value):g}" for value in product["design_reference_envelope_mm"]
+        )
+        lines.append(
+            f"| `{product['id']}` — {product['title']} | `{product['route']}` / `{product['maturity']}` | "
+            f"{float(product['quantity_per_trainset']):g} {product['unit']} | {envelope} | "
+            f"{product['geometry_representation']} |"
+        )
+    for heading, key in (
+        ("Required views", "required_views"),
+        ("Unresolved inputs", "unresolved_inputs"),
+        ("Required outputs", "required_outputs"),
+        ("Required verification", "required_verification"),
+        ("Mandatory drawing controls", "mandatory_drawing_controls"),
+    ):
+        lines.extend(["", f"## {heading}", ""])
+        lines.extend(f"- {value}" for value in seed[key])
+    lines.extend(
+        [
+            "",
+            "## Tooling and issue record",
+            "",
+            "Tooling: " + ", ".join(f"`{value}`" for value in seed["tooling_ids"]) + ".",
+            "",
+            "The machine-readable JSON beside this page contains the deliberately blank",
+            "native/published file references, checksum, sheet/scale and approval fields.",
+            "",
+            f"Boundary: {seed['release_boundary']}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def render_factory_drawing_index(seeds: list[dict[str, object]]) -> str:
+    """Render navigation and coverage for all controlled drawing seeds."""
+
+    product_ids = {
+        product["id"]
+        for seed in seeds
+        for product in seed["product_rows"]  # type: ignore[union-attr]
+    }
+    lines = [
+        "# LM3 factory drawing definition seeds",
+        "",
+        "Generated by `tools/automation/buildable-trainset.sh`. These files give the",
+        "drafting team one controlled brief per factory drawing ID. They aggregate the",
+        "current product envelopes and release requirements but contain no invented",
+        "production dimensions, tolerances, material selections or approvals.",
+        "",
+        f"- Drawing seeds: **{len(seeds)}**",
+        f"- Controlled products represented: **{len(product_ids)}**",
+        "- Issue state: **all definition seeds; none issued for manufacture**",
+        "",
+        "| Drawing | Owner | Packages | Products | JSON |",
+        "|---|---|---|---:|---|",
+    ]
+    for seed in seeds:
+        drawing_id = str(seed["drawing_id"])
+        packages = "<br>".join(f"`{value}`" for value in seed["package_ids"])
+        lines.append(
+            f"| [`{drawing_id}`]({drawing_id}.md) — {seed['title']} | {seed['owner']} | "
+            f"{packages} | {len(seed['product_rows'])} | [`json`]({drawing_id}.json) |"
+        )
+    lines.extend(
+        [
+            "",
+            "Issue and verification state remains controlled by",
+            "[`factory-release-readiness.md`](../factory-release-readiness.md).",
             "",
         ]
     )
@@ -497,5 +916,9 @@ __all__ = [
     "factory_release_packages",
     "factory_release_payload",
     "factory_release_record_template",
+    "factory_drawing_metadata",
+    "factory_drawing_seed_payloads",
+    "render_factory_drawing_index",
+    "render_factory_drawing_seed",
     "render_factory_release_readiness",
 ]

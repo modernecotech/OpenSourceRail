@@ -5,6 +5,7 @@ the dedicated LM3 part families into an explicit drawing, datum, tooling and
 verification worklist without implying that supplier or physical evidence
 already exists.
 Package issue state is tracked in [`factory-release-readiness.md`](factory-release-readiness.md).
+Individual drafting briefs are under [`factory-drawings/`](factory-drawings/index.md).
 
 - Design ID: `LM3-V2A-FACTORY-RELEASE`
 - Status: `controlled-work-package-definitions; release evidence open`

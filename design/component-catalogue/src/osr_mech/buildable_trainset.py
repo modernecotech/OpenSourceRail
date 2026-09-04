@@ -41,8 +41,11 @@ from osr_mech.rolling_stock.bom_trace import (
 from osr_mech.rolling_stock.small_components import small_component_standard_payload
 from osr_mech.rolling_stock.exterior_finish import finish_process_payload
 from osr_mech.rolling_stock.factory_release import (
+    factory_drawing_seed_payloads,
     factory_release_payload,
     factory_release_record_template,
+    render_factory_drawing_index,
+    render_factory_drawing_seed,
     render_factory_release_readiness,
 )
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
@@ -5309,6 +5312,7 @@ def render_factory_release_work_packages(design: BuildableTrainsetDesign) -> str
         "verification worklist without implying that supplier or physical evidence",
         "already exists.",
         "Package issue state is tracked in [`factory-release-readiness.md`](factory-release-readiness.md).",
+        "Individual drafting briefs are under [`factory-drawings/`](factory-drawings/index.md).",
         "",
         f"- Design ID: `{payload['design_id']}`",
         f"- Status: `{payload['status']}`",
@@ -5396,6 +5400,7 @@ def write_outputs(
     factory_release_md = out_dir / "factory-release-work-packages.md"
     factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
     factory_release_readiness_md = out_dir / "factory-release-readiness.md"
+    factory_drawings_dir = out_dir / "factory-drawings"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -5469,6 +5474,49 @@ def write_outputs(
     )
     factory_release_readiness_md.write_text(
         render_factory_release_readiness(factory_release_record),
+        encoding="utf-8",
+    )
+    factory_drawings_dir.mkdir(parents=True, exist_ok=True)
+    drawing_seeds = factory_drawing_seed_payloads(factory_release)
+    for seed in drawing_seeds:
+        drawing_id = str(seed["drawing_id"])
+        (factory_drawings_dir / f"{drawing_id}.json").write_text(
+            json.dumps(seed, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        (factory_drawings_dir / f"{drawing_id}.md").write_text(
+            render_factory_drawing_seed(seed),
+            encoding="utf-8",
+        )
+    drawing_index = {
+        "schema": "org.opensourcerail.lm3-factory-drawing-seed-index.v1",
+        "issue_status": "definition-seeds-not-issued",
+        "drawing_count": len(drawing_seeds),
+        "controlled_product_count": len(
+            {
+                product["id"]
+                for seed in drawing_seeds
+                for product in seed["product_rows"]  # type: ignore[union-attr]
+            }
+        ),
+        "drawings": [
+            {
+                "drawing_id": seed["drawing_id"],
+                "title": seed["title"],
+                "package_ids": seed["package_ids"],
+                "product_ids": [product["id"] for product in seed["product_rows"]],
+                "json_file": f"{seed['drawing_id']}.json",
+                "markdown_file": f"{seed['drawing_id']}.md",
+            }
+            for seed in drawing_seeds
+        ],
+    }
+    (factory_drawings_dir / "index.json").write_text(
+        json.dumps(drawing_index, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (factory_drawings_dir / "index.md").write_text(
+        render_factory_drawing_index(drawing_seeds),
         encoding="utf-8",
     )
     definition_pack = write_definition_pack(design, out_dir / "definitions")

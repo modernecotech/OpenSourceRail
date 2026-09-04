@@ -27,5 +27,7 @@ Fill the machine-readable [`factory-release-record-template.json`](evidence/fact
 during controlled drawing production. A package remains open until every
 source input, issued drawing, exact product configuration, tool/gauge record,
 required output, performed verification and named approval is accepted.
+Use the per-drawing [`factory-drawings/`](factory-drawings/index.md) seeds
+as drafting/checking briefs, never as issued manufacturing drawings.
 
 Boundary: These work packages define drawing and evidence scope. They are not approved drawings, supplier selections, signed calculations or physical first-article records.

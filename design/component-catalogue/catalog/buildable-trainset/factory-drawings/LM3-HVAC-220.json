@@ -1,0 +1,230 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-HVAC-220",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "HVAC supplier + vehicle integration",
+  "package_ids": [
+    "LM3-FRP-050"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        15600,
+        2500,
+        360
+      ],
+      "geometry_form": "roof-rack",
+      "geometry_representation": "roof bows and equipment/cable rails",
+      "id": "LM3-BDY-P080",
+      "maturity": "release-candidate",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "roof bow, HVAC rail, PV rail, and cable-tray bracket kit",
+      "unit": "kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        2850,
+        420
+      ],
+      "geometry_form": "roof-fairing",
+      "geometry_representation": "roof skin and equipment-fairing trim variant",
+      "id": "LM3-BDY-P133",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 48,
+      "route": "MAKE",
+      "title": "one-metre clip-on fiberglass roof skin and equipment-fairing module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2600,
+        1900,
+        620
+      ],
+      "geometry_form": "hvac",
+      "geometry_representation": "roof HVAC casing, fans and curb interface",
+      "id": "LM3-EXT-P040",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "title": "hvac-24kw-direct-hv-dc roof HVAC",
+      "unit": "ea"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1700,
+        1050,
+        45
+      ],
+      "geometry_form": "pv",
+      "geometry_representation": "PV laminate and edge-clamp datums",
+      "id": "LM3-EXT-P050",
+      "maturity": "release-candidate",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 36,
+      "route": "SOURCE",
+      "title": "roof PV module and edge-clamp kit",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2400,
+        1500,
+        260
+      ],
+      "geometry_form": "roof-equipment",
+      "geometry_representation": "antennas, walkway pads, covers and labels",
+      "id": "LM3-EXT-P070",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "roof antennas, service walkway pads, lifting covers, and maintenance labels",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2800,
+        1800,
+        420
+      ],
+      "geometry_form": "roof-equipment",
+      "geometry_representation": "HVAC curb, duct collar, tray and drains",
+      "id": "LM3-ROOF-P010",
+      "maturity": "release-candidate",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "HVAC curb, drop-duct collar, condensate tray, and drain fitting kit",
+      "unit": "kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        14000,
+        2300,
+        140
+      ],
+      "geometry_form": "rail-kit",
+      "geometry_representation": "PV rails, bonded pads, jumpers and isolation datums",
+      "id": "LM3-ROOF-P020",
+      "maturity": "release-candidate",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        3200,
+        2400,
+        720
+      ],
+      "geometry_form": "roof-fairing",
+      "geometry_representation": "removable HVAC curb fairing, skirts and access hatches",
+      "id": "LM3-ROOF-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        12000,
+        2300,
+        320
+      ],
+      "geometry_form": "roof-closeout",
+      "geometry_representation": "PV plinth, glands, antenna closeouts and walkway edges",
+      "id": "LM3-ROOF-P040",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1900,
+        750,
+        420
+      ],
+      "geometry_form": "resistor",
+      "geometry_representation": "regen resistor bank and thermal shield",
+      "id": "LM3-TRC-P050",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "roof-mounted regen dump resistor and thermal shield kit",
+      "unit": "ea"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "roof equipment coordinate and penetration schedule",
+    "curb, duct, drain, rail/pad, gland, bond and fairing drawings",
+    "HVAC/PV/antenna removal paths and tool/worker access zones",
+    "finish, anti-slip, heat and electrical keep-out mask map"
+  ],
+  "required_verification": [
+    "rail/curb datum and equipment fit survey",
+    "attachment proof, bond continuity and isolation checks",
+    "roof/condensate water tests and airflow clearance review",
+    "service-removal demonstration with adjacent equipment retained"
+  ],
+  "required_views": [
+    "roof unit plan and side installation",
+    "curb, duct and condensate sections",
+    "service lift, airflow and adjacent-equipment clearances"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/roof-fitout.md",
+    "docs/rolling-stock/light-metro-3car/traction.md"
+  ],
+  "title": "roof HVAC installation and duct interface",
+  "tooling_ids": [
+    "LM3-TOOL-ROOF-MOULD",
+    "LM3-TOOL-ROOF-FAIRING-MOULD",
+    "LM3-TOOL-WATER-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "supplier HVAC, PV, resistor and antenna mass/reaction/service envelopes",
+    "released roof-rail capacity, vehicle gauge and lifting/fall-access constraints",
+    "accepted sealing, bonding, fire and electrical-isolation systems"
+  ]
+}

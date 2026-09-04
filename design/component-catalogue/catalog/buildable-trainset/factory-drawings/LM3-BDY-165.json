@@ -1,0 +1,150 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-BDY-165",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "configuration engineering + composites fabricator",
+  "package_ids": [
+    "LM3-FRP-020"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        120,
+        3050
+      ],
+      "geometry_form": "body-module",
+      "geometry_representation": "one-metre clip-on side/roof module with solid attachment lands",
+      "id": "LM3-BDY-P130",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 48,
+      "route": "MAKE",
+      "title": "one-metre clip-on solid-side fiberglass body module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        160,
+        3050
+      ],
+      "geometry_form": "body-module",
+      "geometry_representation": "window-edge side module with reveal and drain clearance",
+      "id": "LM3-BDY-P131",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 24,
+      "route": "MAKE",
+      "title": "one-metre clip-on window-edge fiberglass side module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        180,
+        3050
+      ],
+      "geometry_form": "body-module",
+      "geometry_representation": "door-edge side module with pocket and threshold closeout",
+      "id": "LM3-BDY-P132",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 24,
+      "route": "MAKE",
+      "title": "one-metre clip-on door-edge fiberglass side module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        2850,
+        420
+      ],
+      "geometry_form": "roof-fairing",
+      "geometry_representation": "roof skin and equipment-fairing trim variant",
+      "id": "LM3-BDY-P133",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 48,
+      "route": "MAKE",
+      "title": "one-metre clip-on fiberglass roof skin and equipment-fairing module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15800,
+        180,
+        160
+      ],
+      "geometry_form": "rail-kit",
+      "geometry_representation": "keyed clip rail, retainers and dry-seal route",
+      "id": "LM3-BDY-P140",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "keyed clip rail, captive retainer, anti-lift, and dry-seal car kit",
+      "unit": "car kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "A/B tool-face, split, draft, trim and insert drawings",
+    "solid/window/door/roof variant CNC trim and drill definitions",
+    "clip, seal, anti-lift and drain interface drawing",
+    "serialized module/bay configuration and repair map"
+  ],
+  "required_verification": [
+    "mould survey and witness coupon",
+    "trim/drill first article",
+    "master-frame interchange and anti-lift proof",
+    "water, vibration and timed module replacement trial"
+  ],
+  "required_views": [
+    "solid/window/door/roof trim nests",
+    "serialized car bay map",
+    "datum, drill, seal and repair overlays"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/dedicated-parts-and-moulds.md"
+  ],
+  "title": "exterior module trim and bay configuration",
+  "tooling_ids": [
+    "LM3-TOOL-SIDE-MOULD",
+    "LM3-TOOL-SIDE-VARIANT-NEST",
+    "LM3-TOOL-ROOF-MOULD",
+    "LM3-TOOL-TRIM-DRILL"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "accepted laminate, core, gelcoat, insert, seal and fire-material system",
+    "frozen car bay map and door/window/roof service-clearance model",
+    "released clip, anti-lift, pressure and debris load cases"
+  ]
+}

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1422**.
+Indexed Markdown files: **1441**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1422**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 346 |
+| [design](#design) | 365 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -1163,6 +1163,25 @@ Indexed Markdown files: **1422**.
 | [`design/component-catalogue/catalog/buildable-trainset/evidence/README.md`](../design/component-catalogue/catalog/buildable-trainset/evidence/README.md) | LM3 evidence workspace |
 | [`design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md`](../design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md) | First-Article Evidence Submissions |
 | [`design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md`](../design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md) | LM3 simplified exterior finish system |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-100.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-100.md) | LM3-BDY-100 — carbody primary steel and recovery load-path assembly |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-110.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-110.md) | LM3-BDY-110 — underframe ladder, floor and equipment-support assembly |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-120.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-120.md) | LM3-BDY-120 — sidewall and roof spaceframe assembly |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-150.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-150.md) | LM3-BDY-150 — exterior GFRP material, mould and trim control |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-155.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-155.md) | LM3-BDY-155 — identical A/B-end GFRP cowl cast kit |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-160.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-160.md) | LM3-BDY-160 — one-metre clip-on GFRP body module system |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-165.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-BDY-165.md) | LM3-BDY-165 — exterior module trim and bay configuration |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FAS-180.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FAS-180.md) | LM3-FAS-180 — panoramic glass carrier, seal and drainage interface |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FAS-185.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FAS-185.md) | LM3-FAS-185 — reversible front-lamp cassette and aiming interface |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIN-240.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIN-240.md) | LM3-FIN-240 — pre-cut livery film artwork, application and repair |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIN-245.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIN-245.md) | LM3-FIN-245 — radiative roof-coating qualification and trial |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIX-235.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-FIX-235.md) | LM3-FIX-235 — common service rail, fastener and fixture adapters |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-HV-325.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-HV-325.md) | LM3-HV-325 — rooftop PV and charge-input assembly |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-HVAC-220.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-HVAC-220.md) | LM3-HVAC-220 — roof HVAC installation and duct interface |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-INT-230.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-INT-230.md) | LM3-INT-230 — interior fit-out installation |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-INT-231.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-INT-231.md) | LM3-INT-231 — interior moulded-panel, trim and access family |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-REC-270.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-REC-270.md) | LM3-REC-270 — jacking, lifting, towing and field-rerailing interface |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-ROOF-225.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/LM3-ROOF-225.md) | LM3-ROOF-225 — roof fairing, penetration and service-zone coordination |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md`](../design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md) | LM3 factory drawing definition seeds |
 | [`design/component-catalogue/catalog/buildable-trainset/factory-plan.md`](../design/component-catalogue/catalog/buildable-trainset/factory-plan.md) | LM3 pilot factory sizing and machinery plan |
 | [`design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md`](../design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) | LM3 factory drawing and interface readiness |
 | [`design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) | LM3 v2A factory drawing and interface-release work packages |

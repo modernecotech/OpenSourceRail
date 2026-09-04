@@ -1,0 +1,197 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-BDY-110",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "vehicle structures + fabricator",
+  "package_ids": [
+    "LM3-FRP-010"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        16000,
+        180,
+        260
+      ],
+      "geometry_form": "beam",
+      "geometry_representation": "one side-sill member with end datum faces",
+      "id": "LM3-BDY-P010",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA110",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "laser-cut side sill beam, LH/RH",
+      "unit": "ea"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15800,
+        2650,
+        380
+      ],
+      "geometry_form": "underframe",
+      "geometry_representation": "centre spine and repeated cross-bearers",
+      "id": "LM3-BDY-P020",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA110",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "underframe centre spine and longitudinal load-path kit",
+      "unit": "kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15200,
+        2650,
+        320
+      ],
+      "geometry_form": "cross-bearer-kit",
+      "geometry_representation": "stationed cross-bearers, door outriggers and equipment brackets",
+      "id": "LM3-BDY-P021",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA110",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "underframe cross-bearer, door-bay outrigger, and equipment-bracket pack",
+      "unit": "car pack"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1700,
+        2650,
+        420
+      ],
+      "geometry_form": "bolster",
+      "geometry_representation": "bolster box, spring pads and pivot land",
+      "id": "LM3-BDY-P030",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA110",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "bolster box, air-spring pad, and centre-pivot insert set",
+      "unit": "set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15600,
+        2650,
+        460
+      ],
+      "geometry_form": "floor",
+      "geometry_representation": "low-floor pan and raised bogie-end decks",
+      "id": "LM3-BDY-P060",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA120",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "low-floor centre pan and removable service-floor support set",
+      "unit": "set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        5200,
+        2650,
+        460
+      ],
+      "geometry_form": "floor-deck",
+      "geometry_representation": "raised end decks, transition ramps and removable hatch frames",
+      "id": "LM3-BDY-P061",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA120",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "raised bogie-end deck, transition ramp, and removable hatch-frame set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15800,
+        180,
+        2850
+      ],
+      "geometry_form": "side-frame",
+      "geometry_representation": "posts, door portals, waist and cant rails",
+      "id": "LM3-BDY-P070",
+      "maturity": "release-candidate",
+      "parent": "LM3-BDY-SA120",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "side-wall post, door portal, waist rail, and cant rail kit",
+      "unit": "side"
+    },
+    {
+      "design_reference_envelope_mm": [
+        15600,
+        2500,
+        360
+      ],
+      "geometry_form": "roof-rack",
+      "geometry_representation": "roof bows and equipment/cable rails",
+      "id": "LM3-BDY-P080",
+      "maturity": "release-candidate",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "roof bow, HVAC rail, PV rail, and cable-tray bracket kit",
+      "unit": "kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "member and plate drawings with datums, tolerances and material callouts",
+    "cut, bend, machining and weld maps with heat/part trace fields",
+    "fixture loading sequence and dimensional inspection characteristic list",
+    "mass-properties contribution and controlled centre-of-gravity ledger rows"
+  ],
+  "required_verification": [
+    "independent calculation review",
+    "fixture and tack survey",
+    "post-weld datum/straightness survey",
+    "weld/NDT and corrosion hold-point records"
+  ],
+  "required_views": [
+    "underframe plan and longitudinal section",
+    "cross-bearer and bolster station sections",
+    "cut/bend/weld and fixture datum details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/body.md",
+    "docs/rolling-stock/light-metro-3car/dedicated-parts-and-moulds.md"
+  ],
+  "title": "underframe ladder, floor and equipment-support assembly",
+  "tooling_ids": [
+    "LM3-TOOL-STEEL-FIXTURE",
+    "LM3-TOOL-DATUM-GAUGE"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "released structural load cases and material grades",
+    "door, window, bogie, battery, coupler and roof interface reactions",
+    "weld-class, distortion and corrosion-process requirements"
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-FIN-245",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "materials/test authority + finish engineering",
+  "package_ids": [
+    "LM3-FRP-090"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        2850,
+        420
+      ],
+      "geometry_form": "roof-fairing",
+      "geometry_representation": "roof skin and equipment-fairing trim variant",
+      "id": "LM3-BDY-P133",
+      "maturity": "release-candidate",
+      "parent": "LM3-SHELL-A200",
+      "quantity_per_trainset": 48,
+      "route": "MAKE",
+      "title": "one-metre clip-on fiberglass roof skin and equipment-fairing module",
+      "unit": "module"
+    },
+    {
+      "design_reference_envelope_mm": [
+        16000,
+        2700,
+        8
+      ],
+      "geometry_form": "roof-coating",
+      "geometry_representation": "masked exposed-roof radiative coating and witness coupons",
+      "id": "LM3-FIN-P020",
+      "maturity": "concept",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "title": "calcium-carbonate radiative roof-coating qualification and exposed-roof application kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        3200,
+        2400,
+        720
+      ],
+      "geometry_form": "roof-fairing",
+      "geometry_representation": "removable HVAC curb fairing, skirts and access hatches",
+      "id": "LM3-ROOF-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        12000,
+        2300,
+        320
+      ],
+      "geometry_form": "roof-closeout",
+      "geometry_representation": "PV plinth, glands, antenna closeouts and walkway edges",
+      "id": "LM3-ROOF-P040",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-ROOF-SA410",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set",
+      "unit": "car set"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "coupon dimensions, substrate, coating thickness and exposure matrix",
+    "new/aged/soiled/cleaned optical measurement procedure",
+    "one-car paired roof-zone sensor and HVAC-energy trial plan",
+    "inspection, cleaning, local repair and trial-removal instructions"
+  ],
+  "required_verification": [
+    "adhesion, flexibility, thermal-cycle, UV, abrasion and wash ageing",
+    "new and aged solar reflectance/emittance measurement",
+    "glare, runoff, soiling and service-access review",
+    "representative hot-service one-car trial and independent disposition"
+  ],
+  "required_views": [
+    "coupon and exposure matrix",
+    "one-car paired roof-zone application plan",
+    "sensor, keep-out, inspection, cleaning and repair maps"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/exterior-finish-process.md",
+    "docs/rolling-stock/light-metro-3car/roof-fitout.md"
+  ],
+  "title": "radiative roof-coating qualification and trial",
+  "tooling_ids": [
+    "LM3-TOOL-RADIATIVE-COUPON",
+    "LM3-TOOL-COATING-RACK"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "controlled formulation and application process",
+    "accepted rail fire/chemical and GFRP compatibility evidence",
+    "frozen roof equipment, service, drainage and keep-out map"
+  ]
+}

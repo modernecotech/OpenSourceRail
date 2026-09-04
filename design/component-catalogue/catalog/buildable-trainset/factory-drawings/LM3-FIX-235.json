@@ -1,0 +1,116 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-FIX-235",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "vehicle integration + manufacturing engineering",
+  "package_ids": [
+    "LM3-FRP-070"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        15000,
+        42,
+        18
+      ],
+      "geometry_form": "service-rail",
+      "geometry_representation": "OSR-RAIL-42 extrusion with repeated datum marks",
+      "id": "LM3-FIX-P010",
+      "maturity": "release-candidate",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        520,
+        360,
+        160
+      ],
+      "geometry_form": "fastener-kit",
+      "geometry_representation": "four captive fastener families and isolators",
+      "id": "LM3-FIX-P020",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "four-family captive fastener, floating nut, isolator, and access-fastener kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        520,
+        420,
+        180
+      ],
+      "geometry_form": "adapter-kit",
+      "geometry_representation": "seat, handrail and equipment adapter variants",
+      "id": "LM3-FIX-P030",
+      "maturity": "concept",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "standard passenger-fixture saddle and equipment adapter kit",
+      "unit": "car kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "rail extrusion, cut/drill, end-stop and foot drawing",
+    "seat, handrail, PIS/CCTV and cable-support adapter variants",
+    "fastener grip, locking, torque-authority and captive-part schedule",
+    "installed coordinate, orientation and accessible-removal map"
+  ],
+  "required_verification": [
+    "rail/foot and fixture-specific calculation review",
+    "adapter and installed-grip gauges",
+    "representative pull/slip/rotation proof",
+    "egress, snag, isolation and timed replacement inspection"
+  ],
+  "required_views": [
+    "rail extrusion and installed-coordinate views",
+    "foot, end-stop and adapter variants",
+    "grip, locking, isolation and accessible-removal details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/interior-layout.md"
+  ],
+  "title": "common service rail, fastener and fixture adapters",
+  "tooling_ids": [
+    "LM3-TOOL-SERVICE-RAIL",
+    "LM3-TOOL-FIXTURE-PROOF"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "fixture-specific service/ultimate loads and attachment envelopes",
+    "selected rail alloy/temper, fastener, isolator and finish data",
+    "carbody attachment capacity and electrical/galvanic constraints"
+  ]
+}

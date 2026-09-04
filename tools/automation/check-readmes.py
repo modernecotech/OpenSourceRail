@@ -141,6 +141,13 @@ def main() -> int:
         mapped_rows = int(mass["coverage"]["mapped_product_rows"])
         closed_rows = int(mass["coverage"]["closed_active_product_rows"])
         factory_packages = int(factory["package_count"])
+        drawing_count = len(
+            {
+                drawing_id
+                for package in factory["packages"]
+                for drawing_id in package["drawing_ids"]
+            }
+        )
         method_count = int(methods["coverage"]["method_count"])
         tooling_count = int(methods["coverage"]["tooling_count"])
         candidate_count = int(cots["coverage"]["candidate_count"])
@@ -153,23 +160,27 @@ def main() -> int:
                 f"The {make_rows} locally made rows",
                 "exterior-finish-system.md",
                 "factory-release-work-packages.md",
+                f"{drawing_count} [drawing-definition seeds]",
                 "mass-closure-ledger.md",
             ),
             REPO_ROOT / "docs/ROADMAP.md": (
                 f"{products}-product-row/{assemblies}-assembly",
                 f"{candidate_count} manufacturer/research candidates covering all {bought_rows} bought-in rows",
-                f"{factory_packages} factory drawing/interface packages",
+                f"{factory_packages} factory packages",
+                f"{drawing_count} individual drawing-definition seeds",
                 f"{evidence_count}-gate first-article route",
                 f"maps {mapped_rows}/{products} rows",
                 f"{closed_rows}/{active_rows} active rows mass-closed",
                 "all 10 drawing packages open",
                 "factory-release-readiness.md",
+                "factory-drawings/",
             ),
             REPO_ROOT / "design/component-catalogue/README.md": (
                 "mass-budget.md",
                 "mass-closure-ledger.md",
                 "factory-release-work-packages.md",
                 "factory-release-readiness.md",
+                "factory-drawings/index.md",
                 "first-article-evidence-status.md",
             ),
             trainset_root / "README.md": (
@@ -178,6 +189,7 @@ def main() -> int:
                 f"all {products} product links, {method_count} timed methods, {tooling_count} tooling families",
                 "open-release-gaps.md",
                 "factory-release-readiness.md",
+                "factory-drawings/index.md",
                 "exterior-finish-system.md",
                 "mass-closure-ledger.md",
             ),

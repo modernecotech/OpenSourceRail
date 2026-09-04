@@ -1496,6 +1496,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
         "factory_release_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/factory-release-record-template.json",
         "factory_release_readiness": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md",
+        "factory_drawing_index": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.json",
+        "factory_drawing_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md",
         "mass_closure": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
         "mass_closure_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md",
         "mass_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/mass-properties-record-template.json",
@@ -1591,6 +1593,56 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             )
         ):
             findings.append(Finding(paths["factory_release_record"], "LM3 factory-release template is incomplete or claims unsupported release"))
+    if paths["factory_drawing_index"].is_file() and paths["factory_release"].is_file():
+        drawing_index = json.loads(paths["factory_drawing_index"].read_text(encoding="utf-8"))
+        drawing_root = paths["factory_drawing_index"].parent
+        expected_drawing_ids = {
+            drawing_id
+            for package in factory_release.get("packages", [])
+            for drawing_id in package.get("drawing_ids", [])
+        }
+        index_rows = drawing_index.get("drawings", [])
+        indexed_ids = {row.get("drawing_id") for row in index_rows}
+        observed_json = {path.stem for path in drawing_root.glob("LM3-*.json")}
+        observed_markdown = {path.stem for path in drawing_root.glob("LM3-*.md")}
+        if (
+            drawing_index.get("issue_status") != "definition-seeds-not-issued"
+            or drawing_index.get("drawing_count") != 18
+            or drawing_index.get("controlled_product_count") != 57
+            or indexed_ids != expected_drawing_ids
+            or observed_json != expected_drawing_ids
+            or observed_markdown != expected_drawing_ids
+        ):
+            findings.append(Finding(paths["factory_drawing_index"], "LM3 factory drawing-seed index coverage changed"))
+        seed_products: set[str] = set()
+        for row in index_rows:
+            drawing_id = str(row.get("drawing_id", ""))
+            json_path = drawing_root / f"{drawing_id}.json"
+            markdown_path = drawing_root / f"{drawing_id}.md"
+            for artifact in (json_path, markdown_path):
+                if not artifact.is_file():
+                    continue
+                if artifact.relative_to(REPO_ROOT).as_posix() not in tracked:
+                    findings.append(Finding(artifact, "LM3 factory drawing seed is not tracked"))
+            if not json_path.is_file():
+                continue
+            seed = json.loads(json_path.read_text(encoding="utf-8"))
+            product_ids = {product.get("id") for product in seed.get("product_rows", [])}
+            seed_products.update(str(product_id) for product_id in product_ids)
+            issue = seed.get("issue_record", {})
+            if (
+                seed.get("drawing_id") != drawing_id
+                or seed.get("issue_status") != "definition-seed-not-issued"
+                or not seed.get("required_views")
+                or not seed.get("mandatory_drawing_controls")
+                or not product_ids
+                or issue.get("published_drawing_ref")
+                or issue.get("published_drawing_sha256")
+                or issue.get("approved_by")
+            ):
+                findings.append(Finding(json_path, "LM3 factory drawing seed is incomplete or claims unsupported issue"))
+        if seed_products != set(factory_release.get("controlled_product_ids", [])):
+            findings.append(Finding(drawing_root, "LM3 factory drawing seeds do not cover the 57 controlled products"))
     if paths["mass_closure"].is_file():
         mass_closure = json.loads(paths["mass_closure"].read_text(encoding="utf-8"))
         expected_coverage = {

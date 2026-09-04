@@ -10,8 +10,12 @@ from osr_mech.buildable_trainset import (
 )
 from osr_mech.common import ConsistFamily
 from osr_mech.rolling_stock.factory_release import (
+    factory_drawing_metadata,
+    factory_drawing_seed_payloads,
     factory_release_packages,
     factory_release_record_template,
+    render_factory_drawing_index,
+    render_factory_drawing_seed,
     render_factory_release_readiness,
 )
 
@@ -103,6 +107,33 @@ def test_factory_release_record_covers_every_package_without_claiming_release() 
     readiness = render_factory_release_readiness(record)
     assert "Packages: **10**; open: **10**" in readiness
     assert "unfilled" in readiness
+
+
+def test_factory_drawing_seeds_bind_all_drawing_ids_products_and_shared_ownership() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    work = factory_release_work_package_payload(design)
+    seeds = factory_drawing_seed_payloads(work)
+    assert len(seeds) == 18
+    assert {seed["drawing_id"] for seed in seeds} == {
+        row.id for row in factory_drawing_metadata()
+    }
+    assert {
+        product["id"] for seed in seeds for product in seed["product_rows"]
+    } == set(work["controlled_product_ids"])
+    assert all(seed["issue_status"] == "definition-seed-not-issued" for seed in seeds)
+    assert all(seed["required_views"] for seed in seeds)
+    assert all(seed["mandatory_drawing_controls"] for seed in seeds)
+    assert all(seed["product_rows"] for seed in seeds)
+
+    by_id = {seed["drawing_id"]: seed for seed in seeds}
+    assert by_id["LM3-BDY-100"]["package_ids"] == ["LM3-FRP-010", "LM3-FRP-100"]
+    assert "LM3-BDY-P120" in {
+        product["id"] for product in by_id["LM3-BDY-100"]["product_rows"]
+    }
+    assert "panoramic glass" in by_id["LM3-FAS-180"]["title"]
+    assert "not a dimensioned production drawing" in by_id["LM3-REC-270"]["release_boundary"]
+    assert "definition seeds; none issued" in render_factory_drawing_index(seeds)
+    assert "## Controlled product scope" in render_factory_drawing_seed(by_id["LM3-HV-325"])
 
 
 def test_first_article_rows_link_to_their_factory_drawing_packages() -> None:

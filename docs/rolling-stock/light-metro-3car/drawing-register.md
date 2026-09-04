@@ -8,6 +8,11 @@ the first article can be released for static and dynamic testing.
 Document IDs use `LM3` for the `light-metro-3car` family. Revision
 `A` is the first v2 release candidate.
 
+The generated [`factory-drawings` seed index](../../../design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md)
+now provides an individual drafting/checking brief for each of the 18 drawing
+IDs controlled by the ten factory packages. Those seeds organize scope; they
+remain non-dimensioned and unissued until this register's release gates close.
+
 ## Controlled drawing set
 
 | ID | Title | Owner | v1 source | v2 release content |

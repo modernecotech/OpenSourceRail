@@ -1,0 +1,69 @@
+# LM3-ROOF-225 — roof fairing, penetration and service-zone coordination
+
+- Revision: `A-DRAFT`
+- Issue status: `definition-seed-not-issued`
+- Owner: vehicle integration
+- Factory package: `LM3-FRP-050`
+- Source: `docs/rolling-stock/light-metro-3car/roof-fitout.md`, `docs/rolling-stock/light-metro-3car/dedicated-parts-and-moulds.md`
+- Coordinate basis: vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis
+
+## Controlled product scope
+
+| Product | Route / maturity | Reference quantity | Design-reference envelope (mm) | Representation |
+|---|---|---:|---:|---|
+| `LM3-BDY-P080` — roof bow, HVAC rail, PV rail, and cable-tray bracket kit | `MAKE` / `release-candidate` | 3 kit | 15600 × 2500 × 360 | roof bows and equipment/cable rails |
+| `LM3-BDY-P133` — one-metre clip-on fiberglass roof skin and equipment-fairing module | `MAKE` / `release-candidate` | 48 module | 1000 × 2850 × 420 | roof skin and equipment-fairing trim variant |
+| `LM3-EXT-P040` — hvac-24kw-direct-hv-dc roof HVAC | `BID` / `buildable-after-supplier-freeze` | 3 ea | 2600 × 1900 × 620 | roof HVAC casing, fans and curb interface |
+| `LM3-EXT-P050` — roof PV module and edge-clamp kit | `SOURCE` / `release-candidate` | 36 module | 1700 × 1050 × 45 | PV laminate and edge-clamp datums |
+| `LM3-EXT-P070` — roof antennas, service walkway pads, lifting covers, and maintenance labels | `SOURCE` / `buildable-after-supplier-freeze` | 3 car kit | 2400 × 1500 × 260 | antennas, walkway pads, covers and labels |
+| `LM3-ROOF-P010` — HVAC curb, drop-duct collar, condensate tray, and drain fitting kit | `MAKE` / `release-candidate` | 3 kit | 2800 × 1800 × 420 | HVAC curb, duct collar, tray and drains |
+| `LM3-ROOF-P020` — PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels | `MAKE` / `release-candidate` | 3 car kit | 14000 × 2300 × 140 | PV rails, bonded pads, jumpers and isolation datums |
+| `LM3-ROOF-P030` — removable HVAC curb fairing, intake/exhaust skirt, and access-hatch moulding set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | 3200 × 2400 × 720 | removable HVAC curb fairing, skirts and access hatches |
+| `LM3-ROOF-P040` — PV junction plinth, cable-gland cover, antenna closeout, and walkway edge set | `MAKE` / `buildable-after-supplier-freeze` | 3 car set | 12000 × 2300 × 320 | PV plinth, glands, antenna closeouts and walkway edges |
+| `LM3-TRC-P050` — roof-mounted regen dump resistor and thermal shield kit | `SOURCE` / `buildable-after-supplier-freeze` | 3 ea | 1900 × 750 × 420 | regen resistor bank and thermal shield |
+
+## Required views
+
+- complete roof equipment plan
+- curb, rail, gland, drain and fairing sections
+- removal, worker-access and finish/heat/electrical keep-out zones
+
+## Unresolved inputs
+
+- supplier HVAC, PV, resistor and antenna mass/reaction/service envelopes
+- released roof-rail capacity, vehicle gauge and lifting/fall-access constraints
+- accepted sealing, bonding, fire and electrical-isolation systems
+
+## Required outputs
+
+- roof equipment coordinate and penetration schedule
+- curb, duct, drain, rail/pad, gland, bond and fairing drawings
+- HVAC/PV/antenna removal paths and tool/worker access zones
+- finish, anti-slip, heat and electrical keep-out mask map
+
+## Required verification
+
+- rail/curb datum and equipment fit survey
+- attachment proof, bond continuity and isolation checks
+- roof/condensate water tests and airflow clearance review
+- service-removal demonstration with adjacent equipment retained
+
+## Mandatory drawing controls
+
+- drawing number, title, sheet, scale, units, projection, revision and issue status
+- named design, checking, manufacturing, quality and approval responsibilities
+- material/grade, finish/protection, mass and applicable process specification
+- functional datums, geometric tolerances, fits, clearances and inspection characteristics
+- part/assembly IDs, quantities, configuration applicability and revision-compatible BOM
+- joining method, weld/adhesive/fastener authority and special-process hold points
+- supplier-controlled dimensions and keep-outs identified rather than assumed
+- tooling/gauge references, inspection method, acceptance criteria and evidence route
+
+## Tooling and issue record
+
+Tooling: `LM3-TOOL-ROOF-MOULD`, `LM3-TOOL-ROOF-FAIRING-MOULD`, `LM3-TOOL-WATER-TEST`.
+
+The machine-readable JSON beside this page contains the deliberately blank
+native/published file references, checksum, sheet/scale and approval fields.
+
+Boundary: This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.

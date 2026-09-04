@@ -402,6 +402,11 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "evidence/mass-properties-record-template.json").exists()
     assert (tmp_path / "evidence/factory-release-record-template.json").exists()
     assert (tmp_path / "factory-release-readiness.md").exists()
+    drawing_index = json.loads((tmp_path / "factory-drawings/index.json").read_text())
+    assert drawing_index["drawing_count"] == 18
+    assert drawing_index["controlled_product_count"] == 57
+    assert len(list((tmp_path / "factory-drawings").glob("LM3-*.json"))) == 18
+    assert len(list((tmp_path / "factory-drawings").glob("LM3-*.md"))) == 18
     assert (tmp_path / "trainset-build-cost.json").exists()
     assert (tmp_path / "trainset-build-cost.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()

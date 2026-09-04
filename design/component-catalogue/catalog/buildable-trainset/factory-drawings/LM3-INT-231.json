@@ -1,0 +1,377 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-INT-231",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "interior/composites engineering",
+  "package_ids": [
+    "LM3-FRP-060"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        1300,
+        35
+      ],
+      "geometry_form": "floor-panel",
+      "geometry_representation": "numbered floor board/removable hatch module",
+      "id": "LM3-EXT-P060",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 135,
+      "route": "SOURCE",
+      "title": "stepped floor-board and removable service-hatch system",
+      "unit": "m2"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        1300,
+        6
+      ],
+      "geometry_form": "floor-covering",
+      "geometry_representation": "resilient covering and welded-seam allowance",
+      "id": "LM3-EXT-P061",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 135,
+      "route": "SOURCE",
+      "title": "welded resilient floor covering, cove, nosing, and adhesive system",
+      "unit": "m2"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1550,
+        620,
+        980
+      ],
+      "geometry_form": "seat",
+      "geometry_representation": "longitudinal passenger-seat module and rail saddles",
+      "id": "LM3-EXT-P062",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 60,
+      "route": "SOURCE",
+      "title": "longitudinal passenger and priority-seat modules",
+      "unit": "seat"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2300,
+        2300,
+        2050
+      ],
+      "geometry_form": "handrail",
+      "geometry_representation": "grab poles, rails and repeated adapters",
+      "id": "LM3-EXT-P063",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "stainless grab-pole, handrail, joint, and insulated adapter kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1100,
+        220,
+        420
+      ],
+      "geometry_form": "pis",
+      "geometry_representation": "display, loudspeaker and amplifier module",
+      "id": "LM3-EXT-P064",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "passenger-information display, speaker, amplifier, and mounting kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        650,
+        420,
+        260
+      ],
+      "geometry_form": "camera-kit",
+      "geometry_representation": "CCTV/intercom modules and mounting datums",
+      "id": "LM3-EXT-P065",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "CCTV camera, passenger intercom, PoE/data, and mounting kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1200,
+        650,
+        600
+      ],
+      "geometry_form": "emergency-kit",
+      "geometry_representation": "PRM controls, signs, lamps and emergency equipment",
+      "id": "LM3-EXT-P066",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "PRM, safety-signage, emergency-lighting, extinguisher, and first-aid kit",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        6000,
+        2400,
+        320
+      ],
+      "geometry_form": "duct-kit",
+      "geometry_representation": "diffusers, returns, grilles and access panels",
+      "id": "LM3-INT-P010",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "title": "HVAC diffusers, side return ducts, saloon grilles, and access panels",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        2650,
+        260
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "ceiling liner, light trough and plenum cover",
+      "id": "LM3-INT-P020",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "FRP/phenolic ceiling liner panel set",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1200,
+        240,
+        110
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "light-trough bezels and diffuser carriers",
+      "id": "LM3-INT-P021",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "ceiling light-trough bezel, diffuser carrier, and emergency-luminaire closeout set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1100,
+        900,
+        220
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "HVAC transitions, detector bezels and ceiling service hatches",
+      "id": "LM3-INT-P022",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "HVAC plenum cover, diffuser transition, detector bezel, and ceiling service-hatch set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        140,
+        2200
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "sidewall liner, reveal and cable-cover panel",
+      "id": "LM3-INT-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "FRP/phenolic sidewall liner panel set",
+      "unit": "side kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1750,
+        180,
+        1300
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "four-piece removable window reveal and inspection covers",
+      "id": "LM3-INT-P031",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "window reveal, setting-block inspection cover, and blind/label land set",
+      "unit": "side set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1000,
+        220,
+        520
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "waist cable cover and retained access lid",
+      "id": "LM3-INT-P032",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "waist cable-cover, low-voltage access lid, and retained quarter-turn fastener set",
+      "unit": "side set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        4800,
+        720,
+        780
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "battery strake/seat-base/service-hatch shells",
+      "id": "LM3-INT-P040",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "FRP battery strake cover panel set",
+      "unit": "car kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1600,
+        780,
+        820
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "seat-base fairing and retained equipment hatch",
+      "id": "LM3-INT-P041",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "title": "seat-base fairing, retained equipment hatch, and rail-saddle closeout set",
+      "unit": "car set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1100,
+        420,
+        1050
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "vestibule, PRM and door-pocket trim set",
+      "id": "LM3-INT-P050",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 12,
+      "route": "MAKE",
+      "title": "FRP vestibule kick-panel and threshold-closeout set",
+      "unit": "door-zone kit"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2500,
+        1200,
+        460
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "PRM transition, step cover, nosing and anti-slip set",
+      "id": "LM3-INT-P051",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 6,
+      "route": "MAKE",
+      "title": "PRM transition-ramp, bogie-deck step-cover, contrast-nosing, and anti-slip set",
+      "unit": "end-zone set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        1200,
+        420,
+        2100
+      ],
+      "geometry_form": "liner",
+      "geometry_representation": "door-pocket liner and removable jamb covers",
+      "id": "LM3-INT-P052",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-INT-SA330",
+      "quantity_per_trainset": 12,
+      "route": "MAKE",
+      "title": "door-pocket liner, sensitive-edge clearance trim, and removable jamb-cover set",
+      "unit": "door-zone set"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "individual panel, mould, trim, edge-radius and insert drawings",
+    "floor board/covering seam, hatch, ramp and threshold definitions",
+    "service-access and sequential removal map for every concealed system",
+    "serialized panel, fastener, equipment and label configuration schedule"
+  ],
+  "required_verification": [
+    "mould/trim first article and fire-material trace review",
+    "dry fit, gap, rattle, sharp-edge and captive-fastener inspections",
+    "door/window/equipment removal sweeps and accessibility survey",
+    "floor load, slip, seam, cleaning and water-path evidence"
+  ],
+  "required_views": [
+    "panel family elevations and nesting map",
+    "tool-face, split, trim and insert views",
+    "edge radius, gaps, hatches and service-access sections"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/dedicated-parts-and-moulds.md",
+    "docs/rolling-stock/light-metro-3car/cabin-fiberglass.md"
+  ],
+  "title": "interior moulded-panel, trim and access family",
+  "tooling_ids": [
+    "LM3-TOOL-INT-CEILING-MOULD",
+    "LM3-TOOL-INT-SIDE-MOULD",
+    "LM3-TOOL-INT-STRAKE-MOULD",
+    "LM3-TOOL-INT-DOOR-PRM-MOULD",
+    "LM3-TOOL-FLOOR-TEMPLATE",
+    "LM3-TOOL-SERVICE-RAIL"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "accepted fire/smoke material and supplier equipment evidence",
+    "frozen door/window/HVAC/lighting/seat/PRM equipment envelopes",
+    "released passenger load, egress, accessibility and cleaning requirements"
+  ]
+}

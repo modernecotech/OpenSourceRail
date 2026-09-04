@@ -1,0 +1,134 @@
+{
+  "coordinate_basis": "vehicle X longitudinal from car centre, Y lateral from vehicle centreline, Z vertical from top of rail; drawing-specific fabrication datums must be released and related back to this basis",
+  "document_revision": "A-DRAFT",
+  "drawing_id": "LM3-FAS-180",
+  "issue_record": {
+    "approved_by": "",
+    "checked_by": "",
+    "drawn_by": "",
+    "issue_date": "",
+    "manufacturing_reviewed_by": "",
+    "native_source_ref": "",
+    "published_drawing_ref": "",
+    "published_drawing_sha256": "",
+    "quality_reviewed_by": "",
+    "scale": "",
+    "sheet_size": ""
+  },
+  "issue_status": "definition-seed-not-issued",
+  "mandatory_drawing_controls": [
+    "drawing number, title, sheet, scale, units, projection, revision and issue status",
+    "named design, checking, manufacturing, quality and approval responsibilities",
+    "material/grade, finish/protection, mass and applicable process specification",
+    "functional datums, geometric tolerances, fits, clearances and inspection characteristics",
+    "part/assembly IDs, quantities, configuration applicability and revision-compatible BOM",
+    "joining method, weld/adhesive/fastener authority and special-process hold points",
+    "supplier-controlled dimensions and keep-outs identified rather than assumed",
+    "tooling/gauge references, inspection method, acceptance criteria and evidence route"
+  ],
+  "owner": "vehicle integration + glazing supplier",
+  "package_ids": [
+    "LM3-FRP-030"
+  ],
+  "product_rows": [
+    {
+      "design_reference_envelope_mm": [
+        720,
+        120,
+        720
+      ],
+      "geometry_form": "frame",
+      "geometry_representation": "backing-ring flange cast",
+      "id": "LM3-CWL-P016",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-CWL-SA710",
+      "quantity_per_trainset": 8,
+      "route": "MAKE",
+      "title": "CWL-FRP-06 backing-ring flange fiberglass cast set",
+      "unit": "flange section"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2300,
+        110,
+        1450
+      ],
+      "geometry_form": "window",
+      "geometry_representation": "heated panoramic end glazing",
+      "id": "LM3-EXT-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-END-SA700",
+      "quantity_per_trainset": 2,
+      "route": "BID",
+      "title": "single panoramic heated end-glass assembly",
+      "unit": "ea"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2300,
+        260,
+        1780
+      ],
+      "geometry_form": "front-glass-carrier",
+      "geometry_representation": "panoramic glass carrier, setting blocks and secondary retention",
+      "id": "LM3-FAS-P010",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-CWL-SA710",
+      "quantity_per_trainset": 2,
+      "route": "MAKE",
+      "title": "panoramic front-glass carrier ring, setting-block pockets, and secondary-retention frame",
+      "unit": "end set"
+    },
+    {
+      "design_reference_envelope_mm": [
+        2500,
+        420,
+        1950
+      ],
+      "geometry_form": "front-seal-kit",
+      "geometry_representation": "glazing/lamp seals, drains, washer sleeves and closeouts",
+      "id": "LM3-FAS-P030",
+      "maturity": "buildable-after-supplier-freeze",
+      "parent": "LM3-CWL-SA710",
+      "quantity_per_trainset": 2,
+      "route": "SOURCE",
+      "title": "front glazing/lamp EPDM seal, drain rail, washer sleeve, and edge-closeout kit",
+      "unit": "end kit"
+    }
+  ],
+  "release_boundary": "This seed aggregates controlled scope and design-reference envelopes. It is not a dimensioned production drawing, released tool surface, NC definition, signed calculation or authority to manufacture.",
+  "required_outputs": [
+    "carrier segments, corner joints, setting blocks and secondary-retention drawing",
+    "glass-edge clearance and seal-compression characteristic map",
+    "drain rail, washer sleeve, earth and heater-service route",
+    "protected removal path and lifting-tool access drawing"
+  ],
+  "required_verification": [
+    "carrier and backing-ring datum survey",
+    "retention calculation and representative proof",
+    "compression/drain map and controlled spray test",
+    "heated-pane service isolation and timed removal/refit trial"
+  ],
+  "required_views": [
+    "front carrier and pane-edge elevation",
+    "setting-block and secondary-retention sections",
+    "seal compression, drain, heater and removal-path details"
+  ],
+  "schema": "org.opensourcerail.lm3-factory-drawing-seed.v1",
+  "source_refs": [
+    "docs/rolling-stock/light-metro-3car/end-cowl.md",
+    "docs/rolling-stock/light-metro-3car/dedicated-parts-and-moulds.md"
+  ],
+  "title": "panoramic glass carrier, seal and drainage interface",
+  "tooling_ids": [
+    "LM3-TOOL-COWL-MOULD",
+    "LM3-TOOL-GLASS-CARRIER-NEST",
+    "LM3-TOOL-WATER-TEST"
+  ],
+  "units": "millimetres unless explicitly stated",
+  "unresolved_inputs": [
+    "supplier glass construction, edge, mass, heater and retention loads",
+    "accepted glazing adhesive/gasket and EPDM compatibility data",
+    "released steel backing-ring and cowl flange datums"
+  ]
+}
