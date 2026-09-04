@@ -48,8 +48,14 @@ jobs:
           python -m pip install -e ./design/city-generation -e ./design/component-catalogue
           python -m pip install -e ./tools/osr-aln-convert -e ./tools/reference-ma
           python -m pip install --requirement engineering/toolchain/ifc-python-requirements.txt
+          python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
       - run: python -m pytest -q design/city-generation/tests
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
+      - name: Generate buildable product test prerequisites
+        run: |
+          tools/automation/design-iterate.sh
+          tools/automation/buildable-trainset.sh
+          tools/automation/buildable-stations.sh
       - run: python -m pytest -q design/component-catalogue/tests
       - run: python -m pytest -q engineering/analysis/tests
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
@@ -61,8 +67,6 @@ jobs:
         run: |
           python tools/automation/generate-doc-index.py
           python tools/automation/generate-national-briefs.py
-          tools/automation/design-iterate.sh
-          tools/automation/buildable-trainset.sh
           git diff --exit-code
 
   frontend:

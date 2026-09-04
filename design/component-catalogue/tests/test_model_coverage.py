@@ -38,7 +38,11 @@ def test_public_model_handoffs_exist_for_every_covered_item() -> None:
         assert (REPO_ROOT / row["freecad"]).is_file()
         assert (REPO_ROOT / row["ifc"]).is_file()
         if row["route"] == "MAKE":
-            assert (REPO_ROOT / row["neutral_step"]).is_file()
+            step = Path(row["neutral_step"])
+            assert step.suffix == ".step"
+            assert step.parent.as_posix() == (
+                "design/component-catalogue/models/manufacturing-reference/step"
+            )
             assert (REPO_ROOT / row["neutral_dxf"]).is_file()
             assert (REPO_ROOT / row["reference_drawing"]).is_file()
     for variant in register["station_variants"]:
