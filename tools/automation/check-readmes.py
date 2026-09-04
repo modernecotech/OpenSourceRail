@@ -162,11 +162,14 @@ def main() -> int:
                 f"{evidence_count}-gate first-article route",
                 f"maps {mapped_rows}/{products} rows",
                 f"{closed_rows}/{active_rows} active rows mass-closed",
+                "all 10 drawing packages open",
+                "factory-release-readiness.md",
             ),
             REPO_ROOT / "design/component-catalogue/README.md": (
                 "mass-budget.md",
                 "mass-closure-ledger.md",
                 "factory-release-work-packages.md",
+                "factory-release-readiness.md",
                 "first-article-evidence-status.md",
             ),
             trainset_root / "README.md": (
@@ -174,6 +177,7 @@ def main() -> int:
                 f"{open_evidence_count} still-open",
                 f"all {products} product links, {method_count} timed methods, {tooling_count} tooling families",
                 "open-release-gaps.md",
+                "factory-release-readiness.md",
                 "exterior-finish-system.md",
                 "mass-closure-ledger.md",
             ),

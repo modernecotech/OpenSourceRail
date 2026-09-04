@@ -1494,6 +1494,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
+        "factory_release_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/factory-release-record-template.json",
+        "factory_release_readiness": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md",
         "mass_closure": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.json",
         "mass_closure_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md",
         "mass_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/mass-properties-record-template.json",
@@ -1556,6 +1558,39 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or factory_release.get("validation") != expected_validation
         ):
             findings.append(Finding(paths["factory_release"], "LM3 factory drawing/interface package coverage changed"))
+    if paths["factory_release_record"].is_file() and paths["factory_release"].is_file():
+        factory_record = json.loads(paths["factory_release_record"].read_text(encoding="utf-8"))
+        record_packages = factory_record.get("packages", [])
+        coverage = factory_record.get("coverage", {})
+        record_products = {
+            row.get("product_id")
+            for package in record_packages
+            for row in package.get("product_configuration_records", [])
+        }
+        if (
+            factory_record.get("template_status") != "unfilled-not-release-evidence"
+            or coverage != {
+                "controlled_product_count": 57,
+                "open_package_count": 10,
+                "package_count": 10,
+                "unique_drawing_count": 18,
+                "unique_tooling_count": 23,
+            }
+            or len({package.get("package_id") for package in record_packages}) != 10
+            or record_products != set(factory_release.get("controlled_product_ids", []))
+            or any(package.get("release_status") != "open-unissued" for package in record_packages)
+            or any(
+                drawing.get("issue_status") != "unissued" or drawing.get("published_file_sha256")
+                for package in record_packages
+                for drawing in package.get("drawing_records", [])
+            )
+            or any(
+                verification.get("status") != "not-performed"
+                for package in record_packages
+                for verification in package.get("verification_records", [])
+            )
+        ):
+            findings.append(Finding(paths["factory_release_record"], "LM3 factory-release template is incomplete or claims unsupported release"))
     if paths["mass_closure"].is_file():
         mass_closure = json.loads(paths["mass_closure"].read_text(encoding="utf-8"))
         expected_coverage = {

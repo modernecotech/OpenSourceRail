@@ -319,8 +319,183 @@ def factory_release_payload() -> dict[str, object]:
     }
 
 
+def factory_release_record_template(payload: dict[str, object]) -> dict[str, object]:
+    """Build an unfilled drawing/tooling/verification release record.
+
+    The enriched payload is supplied by ``buildable_trainset`` after product
+    and tooling IDs have been checked against the live design registries.
+    Empty issue, evidence and approval fields are intentional: this artifact
+    is a controlled work surface, never evidence that factory release occurred.
+    """
+
+    packages: list[dict[str, object]] = []
+    for raw in payload["packages"]:  # type: ignore[union-attr]
+        package = dict(raw)
+        packages.append(
+            {
+                "package_id": package["id"],
+                "title": package["title"],
+                "release_status": "open-unissued",
+                "release_boundary": package["release_boundary"],
+                "prerequisite_records": [
+                    {
+                        "requirement": requirement,
+                        "status": "open",
+                        "evidence_ref": "",
+                        "evidence_sha256": "",
+                        "reviewed_by": "",
+                    }
+                    for requirement in package["frozen_inputs"]
+                ],
+                "drawing_records": [
+                    {
+                        "drawing_id": drawing_id,
+                        "revision": "",
+                        "issue_status": "unissued",
+                        "native_file_ref": "",
+                        "published_file_ref": "",
+                        "published_file_sha256": "",
+                        "drawn_by": "",
+                        "checked_by": "",
+                        "approved_by": "",
+                        "issue_date": "",
+                    }
+                    for drawing_id in package["drawing_ids"]
+                ],
+                "product_configuration_records": [
+                    {
+                        "product_id": product["id"],
+                        "title": product["title"],
+                        "route": product["route"],
+                        "reference_quantity": product["quantity_per_trainset"],
+                        "unit": product["unit"],
+                        "controlled_revision_or_supplier_configuration": "",
+                        "mass_record_ref": "",
+                        "drawing_coverage_status": "unverified",
+                    }
+                    for product in package["product_rows"]
+                ],
+                "tooling_release_records": [
+                    {
+                        "tooling_id": tooling_id,
+                        "revision": "",
+                        "survey_or_calibration_ref": "",
+                        "evidence_sha256": "",
+                        "accepted_by": "",
+                        "status": "unreleased",
+                    }
+                    for tooling_id in package["tooling_ids"]
+                ],
+                "controlled_output_records": [
+                    {
+                        "deliverable": deliverable,
+                        "status": "open",
+                        "artifact_ref": "",
+                        "artifact_sha256": "",
+                        "checked_by": "",
+                    }
+                    for deliverable in package["controlled_outputs"]
+                ],
+                "verification_records": [
+                    {
+                        "verification": verification,
+                        "status": "not-performed",
+                        "procedure_revision": "",
+                        "equipment_or_gauge_refs": [],
+                        "result_artifact_ref": "",
+                        "result_artifact_sha256": "",
+                        "performed_by": "",
+                        "independently_reviewed_by": "",
+                    }
+                    for verification in package["verification"]
+                ],
+                "approvals": {
+                    "design_authority": "",
+                    "manufacturing_engineering": "",
+                    "quality": "",
+                    "independent_check": "",
+                    "release_date": "",
+                },
+            }
+        )
+
+    drawing_ids = {
+        row["drawing_id"]
+        for package in packages
+        for row in package["drawing_records"]  # type: ignore[union-attr]
+    }
+    return {
+        "schema": "org.opensourcerail.lm3-factory-release-record.v1",
+        "template_status": "unfilled-not-release-evidence",
+        "design_id": payload["design_id"],
+        "source_work_packages": "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
+        "first_article_id": "LM3-FA-001",
+        "coverage": {
+            "package_count": len(packages),
+            "open_package_count": len(packages),
+            "unique_drawing_count": len(drawing_ids),
+            "controlled_product_count": payload["controlled_product_count"],
+            "unique_tooling_count": len(payload["tooling_ids"]),  # type: ignore[arg-type]
+        },
+        "instructions": [
+            "retain all packages and rows; supersede by controlled revision rather than deleting history",
+            "bind every issued drawing, prerequisite and result artifact by repository-relative reference and SHA-256",
+            "record exact supplier configurations and production-part revisions before drawing approval",
+            "do not mark a verification complete from design-reference geometry or an unperformed template",
+            "release a package only when all prerequisites, drawings, product configurations, tooling, outputs, verifications and approvals are accepted",
+        ],
+        "packages": packages,
+        "release_warning": payload["global_release_boundary"],
+    }
+
+
+def render_factory_release_readiness(record: dict[str, object]) -> str:
+    """Render the intentionally open factory-package readiness summary."""
+
+    coverage = dict(record["coverage"])  # type: ignore[arg-type]
+    lines = [
+        "# LM3 factory drawing and interface readiness",
+        "",
+        "Generated by `tools/automation/buildable-trainset.sh`. This register is",
+        "the review surface for issuing the ten factory packages; blank template",
+        "fields and `open-unissued` states are deliberate and are not release evidence.",
+        "",
+        f"- Template status: `{record['template_status']}`",
+        f"- Packages: **{coverage['package_count']}**; open: **{coverage['open_package_count']}**",
+        f"- Unique drawing IDs: **{coverage['unique_drawing_count']}**",
+        f"- Controlled product rows: **{coverage['controlled_product_count']}**",
+        f"- Referenced tooling families: **{coverage['unique_tooling_count']}**",
+        "",
+        "| Package | Status | Drawings | Products | Prerequisites | Outputs | Verifications |",
+        "|---|---|---:|---:|---:|---:|---:|",
+    ]
+    for raw in record["packages"]:  # type: ignore[union-attr]
+        package = dict(raw)
+        lines.append(
+            f"| `{package['package_id']}` — {package['title']} | `{package['release_status']}` | "
+            f"{len(package['drawing_records'])} | {len(package['product_configuration_records'])} | "
+            f"{len(package['prerequisite_records'])} | {len(package['controlled_output_records'])} | "
+            f"{len(package['verification_records'])} |"
+        )
+    lines.extend(
+        [
+            "",
+            "Fill the machine-readable [`factory-release-record-template.json`](evidence/factory-release-record-template.json)",
+            "during controlled drawing production. A package remains open until every",
+            "source input, issued drawing, exact product configuration, tool/gauge record,",
+            "required output, performed verification and named approval is accepted.",
+            "",
+            f"Boundary: {record['release_warning']}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 __all__ = [
     "FactoryReleasePackage",
     "factory_release_packages",
     "factory_release_payload",
+    "factory_release_record_template",
+    "render_factory_release_readiness",
 ]

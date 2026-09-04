@@ -400,6 +400,8 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "mass-closure-ledger.json").exists()
     assert (tmp_path / "mass-closure-ledger.md").exists()
     assert (tmp_path / "evidence/mass-properties-record-template.json").exists()
+    assert (tmp_path / "evidence/factory-release-record-template.json").exists()
+    assert (tmp_path / "factory-release-readiness.md").exists()
     assert (tmp_path / "trainset-build-cost.json").exists()
     assert (tmp_path / "trainset-build-cost.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()

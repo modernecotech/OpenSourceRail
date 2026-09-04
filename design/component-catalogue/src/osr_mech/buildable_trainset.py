@@ -40,7 +40,11 @@ from osr_mech.rolling_stock.bom_trace import (
 )
 from osr_mech.rolling_stock.small_components import small_component_standard_payload
 from osr_mech.rolling_stock.exterior_finish import finish_process_payload
-from osr_mech.rolling_stock.factory_release import factory_release_payload
+from osr_mech.rolling_stock.factory_release import (
+    factory_release_payload,
+    factory_release_record_template,
+    render_factory_release_readiness,
+)
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.mass_closure import (
     mass_closure_payload as build_mass_closure_payload,
@@ -5304,6 +5308,7 @@ def render_factory_release_work_packages(design: BuildableTrainsetDesign) -> str
         "the dedicated LM3 part families into an explicit drawing, datum, tooling and",
         "verification worklist without implying that supplier or physical evidence",
         "already exists.",
+        "Package issue state is tracked in [`factory-release-readiness.md`](factory-release-readiness.md).",
         "",
         f"- Design ID: `{payload['design_id']}`",
         f"- Status: `{payload['status']}`",
@@ -5389,6 +5394,8 @@ def write_outputs(
     finish_md = out_dir / "exterior-finish-system.md"
     factory_release_json = out_dir / "factory-release-work-packages.json"
     factory_release_md = out_dir / "factory-release-work-packages.md"
+    factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
+    factory_release_readiness_md = out_dir / "factory-release-readiness.md"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -5448,11 +5455,22 @@ def write_outputs(
         encoding="utf-8",
     )
     finish_md.write_text(render_exterior_finish_system(), encoding="utf-8")
+    factory_release = factory_release_work_package_payload(design)
     factory_release_json.write_text(
-        json.dumps(factory_release_work_package_payload(design), indent=2, sort_keys=True) + "\n",
+        json.dumps(factory_release, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     factory_release_md.write_text(render_factory_release_work_packages(design), encoding="utf-8")
+    factory_release_record = factory_release_record_template(factory_release)
+    factory_release_record_json.parent.mkdir(parents=True, exist_ok=True)
+    factory_release_record_json.write_text(
+        json.dumps(factory_release_record, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    factory_release_readiness_md.write_text(
+        render_factory_release_readiness(factory_release_record),
+        encoding="utf-8",
+    )
     definition_pack = write_definition_pack(design, out_dir / "definitions")
     traveler_pack = write_shop_traveler_pack(design, out_dir / "travelers")
     return manifest_json, manifest_md, review_md, definition_pack, traveler_pack

@@ -9,7 +9,11 @@ from osr_mech.buildable_trainset import (
     render_factory_release_work_packages,
 )
 from osr_mech.common import ConsistFamily
-from osr_mech.rolling_stock.factory_release import factory_release_packages
+from osr_mech.rolling_stock.factory_release import (
+    factory_release_packages,
+    factory_release_record_template,
+    render_factory_release_readiness,
+)
 
 
 def test_factory_release_packages_cover_requested_dedicated_scope() -> None:
@@ -63,6 +67,42 @@ def test_generated_factory_release_artifacts_are_current() -> None:
     payload = factory_release_work_package_payload(design)
     assert json.loads((root / "factory-release-work-packages.json").read_text(encoding="utf-8")) == payload
     assert (root / "factory-release-work-packages.md").read_text(encoding="utf-8") == render_factory_release_work_packages(design)
+
+
+def test_factory_release_record_covers_every_package_without_claiming_release() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    work = factory_release_work_package_payload(design)
+    record = factory_release_record_template(work)
+    assert record["template_status"] == "unfilled-not-release-evidence"
+    assert record["coverage"] == {
+        "package_count": 10,
+        "open_package_count": 10,
+        "unique_drawing_count": 18,
+        "controlled_product_count": 57,
+        "unique_tooling_count": 23,
+    }
+    assert {row["package_id"] for row in record["packages"]} == {
+        row["id"] for row in work["packages"]
+    }
+    assert {
+        product["product_id"]
+        for package in record["packages"]
+        for product in package["product_configuration_records"]
+    } == set(work["controlled_product_ids"])
+    assert all(package["release_status"] == "open-unissued" for package in record["packages"])
+    assert all(
+        drawing["issue_status"] == "unissued" and not drawing["published_file_sha256"]
+        for package in record["packages"]
+        for drawing in package["drawing_records"]
+    )
+    assert all(
+        verification["status"] == "not-performed"
+        for package in record["packages"]
+        for verification in package["verification_records"]
+    )
+    readiness = render_factory_release_readiness(record)
+    assert "Packages: **10**; open: **10**" in readiness
+    assert "unfilled" in readiness
 
 
 def test_first_article_rows_link_to_their_factory_drawing_packages() -> None:
