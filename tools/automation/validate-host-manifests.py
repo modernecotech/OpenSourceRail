@@ -3,9 +3,7 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
-import subprocess
 import sys
 import tomllib
 
@@ -27,15 +25,45 @@ def load_toml(relative: str) -> dict:
 
 
 def workspace_packages() -> set[str]:
-    result = subprocess.run(
-        ["cargo", "metadata", "--no-deps", "--format-version", "1"],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    metadata = json.loads(result.stdout)
-    return {package["name"] for package in metadata["packages"]}
+    """Read the complete workspace package inventory without invoking Cargo.
+
+    The Python/generated-artifact CI job should not depend on an undeclared
+    Rust toolchain.  The dedicated Rust job validates Cargo itself; this check
+    only needs the package names declared by the same workspace manifests.
+    """
+
+    workspace = load_toml("Cargo.toml").get("workspace", {})
+    member_patterns = workspace.get("members", [])
+    excluded = {
+        path.resolve()
+        for pattern in workspace.get("exclude", [])
+        for path in ROOT.glob(str(pattern))
+    }
+    manifests: list[Path] = []
+    for pattern in member_patterns:
+        matches = sorted(ROOT.glob(str(pattern)))
+        if not matches:
+            raise ValueError(f"Cargo workspace member pattern has no matches: {pattern}")
+        manifests.extend(
+            path / "Cargo.toml"
+            for path in matches
+            if path.resolve() not in excluded
+        )
+
+    names: list[str] = []
+    for manifest in manifests:
+        if not manifest.is_file():
+            raise ValueError(f"Cargo workspace member manifest is missing: {manifest}")
+        with manifest.open("rb") as handle:
+            package = tomllib.load(handle).get("package", {})
+        name = package.get("name")
+        if not name:
+            raise ValueError(f"Cargo workspace member has no package.name: {manifest}")
+        names.append(str(name))
+    if len(names) != len(set(names)):
+        duplicates = sorted({name for name in names if names.count(name) > 1})
+        raise ValueError(f"duplicate Cargo workspace package names: {duplicates}")
+    return set(names)
 
 
 def validate() -> list[str]:
@@ -133,7 +161,7 @@ def validate() -> list[str]:
 def main() -> int:
     try:
         errors = validate()
-    except (OSError, subprocess.CalledProcessError, tomllib.TOMLDecodeError) as exc:
+    except (OSError, ValueError, tomllib.TOMLDecodeError) as exc:
         print(f"host manifest validation failed: {exc}", file=sys.stderr)
         return 2
     if errors:
