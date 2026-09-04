@@ -236,7 +236,7 @@ def _trainset_product_graph(m, centre=(22.0, 13.0)) -> None:
         obj["osr_dependency_level"] = level
         obj["osr_representation"] = "controlled assembly-state coordination proxy"
 
-    _label("101 PART FAMILIES  →  26 CONTROLLED ASSEMBLIES  →  LM3", (x0, y0 + 10.0, 9.5), m["white"], size=0.58)
+    _label("120 PART FAMILIES  →  26 CONTROLLED ASSEMBLIES  →  LM3", (x0, y0 + 10.0, 9.5), m["white"], size=0.58)
     _label("TEAL LOCAL MAKE  •  YELLOW COMPETITIVE BID  •  ORANGE ANCHOR SOURCE", (x0, y0 + 10.0, 8.75), m["white"], size=0.34)
 
 

@@ -32,17 +32,20 @@ first steel cut.
 1. Treat the generated definition and shop-traveler packs as the
    product-tree index for parts, external components, subassemblies,
    assemblies, and trainsets.
-2. Convert each `MAKE` definition into controlled drawings: cut list,
-   flat pattern, weld class, datum scheme, tolerance, and inspection method.
-3. Convert each `BID`/`SOURCE` definition into an RFQ envelope: mass, power,
+2. Execute the ten generated factory drawing/interface work packages for
+   chassis, modules, fascia, roof, interiors, finishes and recovery; approve
+   their frozen inputs, controlled outputs and verification ownership.
+3. Convert every remaining `MAKE` definition into controlled drawings: cut
+   list, flat pattern, weld class, datum scheme, tolerance, and inspection method.
+4. Convert each `BID`/`SOURCE` definition into an RFQ envelope: mass, power,
    volume, mounting datum, service clearance, evidence pack, and alternate
    acceptance rule.
-4. Close the generated mass-budget categories and joint-control rows as
+5. Close the generated mass-budget categories and joint-control rows as
    supplier, calculation, CAD, and weighing evidence becomes available.
-5. Attach local proof cases to the structural subassemblies: underframe,
+6. Attach local proof cases to the structural subassemblies: underframe,
    bolsters, coupler pocket, door portals, battery tray, roof equipment,
    bogie frames, and articulation adapters.
-6. Fill traveler approval/signoff blocks only during a real build; do not
+7. Fill traveler approval/signoff blocks only during a real build; do not
    pre-sign generated templates.
-7. Regenerate FreeCAD/FEM only after the promoted candidate parameters are
+8. Regenerate FreeCAD/FEM only after the promoted candidate parameters are
    reflected in the parametric source.

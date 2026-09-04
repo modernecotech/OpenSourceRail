@@ -1492,6 +1492,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "cots_register": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
         "cots_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.md",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+        "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
+        "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
@@ -1534,6 +1536,21 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ coverage is incomplete: {coverage}"))
         if coverage.get("candidate_count", 0) < 30 or coverage.get("uncovered_product_ids"):
             findings.append(Finding(paths["cots_register"], f"LM3 COTS/RFQ register is incomplete: {coverage}"))
+    if paths["factory_release"].is_file():
+        factory_release = json.loads(paths["factory_release"].read_text(encoding="utf-8"))
+        expected_validation = {
+            "all_product_ids_have_geometry": True,
+            "all_product_ids_in_manifest": True,
+            "all_tooling_ids_in_registry": True,
+            "package_ids_unique": True,
+        }
+        if (
+            factory_release.get("package_count") != 10
+            or factory_release.get("controlled_product_count") != 57
+            or len(factory_release.get("tooling_ids", [])) != 23
+            or factory_release.get("validation") != expected_validation
+        ):
+            findings.append(Finding(paths["factory_release"], "LM3 factory drawing/interface package coverage changed"))
     if paths["ifc_index"].is_file():
         index = json.loads(paths["ifc_index"].read_text(encoding="utf-8"))
         if not index.get("passed"):

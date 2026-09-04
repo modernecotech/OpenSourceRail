@@ -22,7 +22,7 @@ The public evidence scope covers **265 cities in 43 developing countries**. One 
 
 The developing-world model places **about $203B—roughly 75% of programme value—in domestic activity**. Specialist imports are modeled at roughly one quarter. Comparative foreign-turnkey savings vary materially with procurement, financing and localisation assumptions, so exact sensitivity results stay in the reproducible [portfolio calculation](docs/portfolio-summary.md), not the headline claim. These are planning scenarios—not bids, audited origin claims or financing offers.
 
-The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring, software, integration and maintenance local where qualified. Specialist products use [25 real supplier-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md); every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators can localise progressively without silently changing safety assumptions, retaining skills and maintainable assets while reducing foreign-currency exposure.
+The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring, software, integration and maintenance local where qualified. Specialist products use [27 real supplier/research-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md); every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators can localise progressively without silently changing safety assumptions, retaining skills and maintainable assets while reducing foreign-currency exposure.
 
 ## Feature Highlights
 

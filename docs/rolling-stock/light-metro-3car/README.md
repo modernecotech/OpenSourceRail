@@ -339,7 +339,8 @@ weight-and-balance evidence, and release drawings listed in
   stacks, manufacturing drawings, and custom-board KiCad files only
   where a deployment chooses custom electronics (v2).
 - Detailed finite-element analysis (v3 — homologation phase).
-- Paint-and-livery guidance (operator scope).
+- Operator-specific livery artwork and approved colour masters; the shared
+  base-protection, pre-cut film and trial-only cool-roof process is defined.
 
 ## How to execute this package
 

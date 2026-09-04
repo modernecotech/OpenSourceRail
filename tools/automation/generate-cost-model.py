@@ -224,7 +224,7 @@ def render_cost_model() -> str:
 
     lines.extend([
         "",
-        "Only `light-metro-3car` currently has the detailed 101-product, "
+        "Only `light-metro-3car` currently has the detailed 120-product, "
         "26-assembly, tooling and shop-traveller release reference. Other family "
         "values—including tram-2car, metro-4car and metro-6car—are planning units: "
         "their city twins keep the "

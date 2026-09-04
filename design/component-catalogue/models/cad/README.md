@@ -8,7 +8,7 @@ authoritative geometry.
 
 | File | Purpose |
 |---|---|
-| [`lm3-parts/`](lm3-parts/) | 101 separate native FreeCAD part documents: one controlled product-tree item per file, with selectable solids, envelope, route, maturity and source-manifest hash |
+| [`lm3-parts/`](lm3-parts/) | 120 separate native FreeCAD part documents: one controlled product-tree item per file, with selectable solids, envelope, route, maturity and source-manifest hash |
 | [`lm3-assemblies/`](lm3-assemblies/) | 26 subassembly/car/final-train documents containing every descendant part on a deterministic inspection fixture; start with [`LM3-TRAINSET-A000.FCStd`](lm3-assemblies/LM3-TRAINSET-A000.FCStd) |
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact file inventory, hashes, primitive counts and final-assembly reachability result |
 | [`trainset-light-metro-3car.FCStd`](trainset-light-metro-3car.FCStd) | Full light-metro trainset review assembly generated from source geometry |
@@ -42,8 +42,8 @@ The scripts below replace their stable output filenames on each run, so
 the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
-The split library is generated from one shared 101-item geometry registry and
-contains 534 native OCC primitives. Assembly documents preserve all 26 EBOM/
+The split library is generated from one shared 120-item geometry registry and
+contains 619 native OCC primitives. Assembly documents preserve all 26 EBOM/
 MBOM hierarchy nodes and include every active product in the final trainset.
 Their spaced layout remains an inspection fixture. Installed source occurrences
 and four kinematic review states are recorded separately in the trainset

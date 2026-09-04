@@ -40,7 +40,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |
 | [`check-tracked-file-sizes.py`](check-tracked-file-sizes.py) | Keep useful GitHub artifacts in-tree while enforcing the 50 MiB per-file repository ceiling |
-| [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze `LM3-FA-001` and export its 67 gaps with controlled closure state and evidence routes |
+| [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze `LM3-FA-001` and export its 81 gaps with controlled closure state and evidence routes |
 | [`validate-lm3-first-article-evidence.py`](validate-lm3-first-article-evidence.py) | Reject missing, unaccountable or checksum-drifted LM3 physical/supplier evidence submissions |
 | [`publish-lm3-work-packages.py`](publish-lm3-work-packages.py) | Preview or idempotently reconcile LM3 work packages with public GitHub issues |
 | [`ops-user-admin.py`](ops-user-admin.py) | Create/update a private PBKDF2 Ops Core user store with city-scoped roles |

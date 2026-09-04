@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1419**.
+Indexed Markdown files: **1420**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1419**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 343 |
+| [design](#design) | 344 |
 | [docs](#docs) | 142 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -1164,6 +1164,7 @@ Indexed Markdown files: **1419**.
 | [`design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md`](../design/component-catalogue/catalog/buildable-trainset/evidence/submissions/README.md) | First-Article Evidence Submissions |
 | [`design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md`](../design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md) | LM3 simplified exterior finish system |
 | [`design/component-catalogue/catalog/buildable-trainset/factory-plan.md`](../design/component-catalogue/catalog/buildable-trainset/factory-plan.md) | LM3 pilot factory sizing and machinery plan |
+| [`design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) | LM3 v2A factory drawing and interface-release work packages |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md) | LM3 First-Article Evidence Status |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md) | LM3 first-article execution pack |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md) | LM3 First-Article Public Work Packages |

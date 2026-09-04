@@ -69,7 +69,7 @@ rather than kept as parallel plans.
 | Certification | `docs/certification/` | assessor report, field evidence, national submission |
 | Delivery controls | manufacturing/resource templates, BOM and finance model | family-scoped assembly plan, CPM, order-by plan, schedule of values, local/imported cashflow and recorded actuals |
 
-The detailed 101-product/26-assembly manufacturing release currently applies
+The detailed 120-product/26-assembly manufacturing release currently applies
 to `light-metro-3car`. Other-family cities receive their correct family cost,
 fleet and programme scope, but rolling-stock work packages are explicitly held
 at `family-specific-detail-required`; they never borrow LM3 part numbers.

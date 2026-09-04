@@ -18,9 +18,10 @@ current basic design and what must be closed before first steel cut.
 | If you are… | Start with | Then use |
 |---|---|---|
 | Design authority | [`current-design-buildability-review.md`](current-design-buildability-review.md) | Close yellow/red findings before release |
-| First-article lead | [`first-article-baseline.json`](first-article-baseline.json) | Hold `LM3-FA-001`, assign the 67 [public work packages](first-article-work-packages.md), and manage closure only through the controlled state file |
+| First-article lead | [`first-article-baseline.json`](first-article-baseline.json) | Hold `LM3-FA-001`, assign the 81 [public work packages](first-article-work-packages.md), and manage closure only through the controlled state file |
 | Test / assurance lead | [`first-article-evidence-status.md`](first-article-evidence-status.md) | Separate current CalculiX screening from the 12 still-open supplier, physical, thermal, electrical and HIL release gates |
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
+| Drawing/interface lead | [`factory-release-work-packages.md`](factory-release-work-packages.md) | Execute the 10 chassis, module, fascia, roof, interior, finish and recovery drawing/verification packages |
 | Train configuration engineer | [`train-end-interface.md`](train-end-interface.md) | Select panoramic glass outer ends or the optional mid open train-to-train connection on the common end interface |
 | Vehicle mechanical / interior engineer | [`small-component-standard.md`](small-component-standard.md) | Freeze the common rail, four fastener families, adapters, keyed connectors, lighting modules, and door/window service boundaries |
 | Production planner | [`critical-path.md`](critical-path.md) | Plan parallel part fabrication, subassembly release, final train assembly, space use, and rough labour |
@@ -28,14 +29,14 @@ current basic design and what must be closed before first steel cut.
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
 | Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
-| Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 54 bought-in rows from 25 real product families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
-| Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 39 manufacturer-sourced catalogue/RFQ candidates covering all 54 bought-in rows, while preserving the exact fit and evidence still required |
+| Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 56 bought-in rows from 27 real supplier/research families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
+| Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 41 manufacturer/research catalogue/RFQ candidates covering all 56 bought-in rows, while preserving the exact fit and evidence still required |
 | First-article execution team | [`first-article-execution-pack.md`](first-article-execution-pack.md) | Follow one ordered procurement, rig, physical-test and independent-acceptance route across all 12 evidence gates |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
 | Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 120 product links, nine timed methods, 30 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
 
-Open the [101 native FreeCAD parts and 26 assembly files](../../models/cad/README.md),
+Open the [120 native FreeCAD parts and 26 assembly files](../../models/cad/README.md),
 the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd),
 and the matching [IFC4.3 product/assembly and method federation](../../../../engineering/models/bim/reference/README.md).
 
@@ -54,7 +55,7 @@ The intended sequence is:
 1. Hold the `LM3-FA-001` configuration in
    [`first-article-baseline.json`](first-article-baseline.json), then read the
    buildability review for release blockers.
-2. Use the manifest to understand the 101-part / 26-assembly tree, then use
+2. Use the manifest to understand the 120-part / 26-assembly tree, then use
    `cots-candidates.md` for exact catalogue samples and vehicle-specific RFQs;
    `supplier-anchors.md` retains the broader local-equivalent boundary.
 3. Use `train-end-interface.md` to confirm whether each end position is

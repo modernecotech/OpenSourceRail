@@ -206,9 +206,9 @@ id = "OSR-AN-IFC-LM3-MFG-001"
 title = "Deterministic LM3 product, method and tooling IFC4.3 handoff"
 status = "screening"
 tool = "IfcOpenShell 0.8.5 / FreeCAD 1.1"
-input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/product_geometry.py", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "design/component-catalogue/src/osr_mech/freecad_product_library.py", "engineering/interchange/trainset_manufacturing_ifc.py", "engineering/interchange/lm3_product_ifc_library.py"]
+input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/product_geometry.py", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "design/component-catalogue/src/osr_mech/freecad_product_library.py", "engineering/interchange/trainset_manufacturing_ifc.py", "engineering/interchange/lm3_product_ifc_library.py"]
 result_path = "engineering/models/bim/reference/lm3-manufacturing-reference.index.json"
-acceptance_criterion = "All 120 product items have positive, envelope-contained geometry (619 primitives); 120 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; bought-in rows retain manufacturer-family or controlled local-equivalent routes; nine timed methods and 30 multi-part tooling families have no missing required tags"
+acceptance_criterion = "All 120 product items have positive, envelope-contained geometry (619 primitives); 120 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; bought-in rows retain manufacturer-family or controlled local-equivalent routes; nine timed methods, 30 multi-part tooling families and 10 manifest/geometry-bound factory drawing/interface packages have no missing required tags"
 converged = true
 limitations = "Design-reference product/method/tooling coordination only. Assembly libraries use a spaced inspection-fixture layout and do not claim installed-coordinate or tolerance closure. The selectable FreeCAD solids and IFC meshes are not released mould surfaces, shop drawings or NC data; supplier freeze, calculations, qualified processes, first articles, independent assessment and national authorisation remain open."
 
@@ -277,6 +277,17 @@ result_path = ""
 acceptance_criterion = "3-2-1 repeatability, anti-reversal, insert pull-out, bond durability, water ingress, fire/smoke/toxicity, mass/axle load and timed service removal pass"
 converged = false
 limitations = "Composite laminate system and adhesive supplier are not selected; primary crash load remains in steel."
+
+[[analysis]]
+id = "OSR-AN-RS-FIN-001"
+title = "Rail livery film and calcium-carbonate radiative roof finish qualification"
+status = "planned"
+tool = "substrate coupon ageing + fire/material review + optical measurement + one-car paired-zone trial"
+input_paths = ["design/component-catalogue/src/osr_mech/rolling_stock/exterior_finish.py", "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json", "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json", "docs/rolling-stock/light-metro-3car/exterior-finish-process.md", "docs/rolling-stock/light-metro-3car/roof-fitout.md"]
+result_path = ""
+acceptance_criterion = "Selected rail film passes actual-substrate cure/adhesion, edge, wash, fire and removal/repair evidence; any radiative coating passes fire/chemical compatibility, GFRP adhesion/flexibility, UV/abrasion/wash ageing, new and aged solar reflectance/emittance, glare/runoff/soiling review and one-car hot-service thermal/HVAC/maintenance comparison without covering controlled roof keep-outs"
+converged = false
+limitations = "No LM3 film or radiative coating system has been physically qualified. Purdue CaCO3 optical values remain research screening targets, and the qualified light base roof finish is the mandatory fallback if the optional trial fails."
 
 [[analysis]]
 id = "OSR-AN-OPS-XCHECK-001"

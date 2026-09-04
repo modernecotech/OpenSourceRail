@@ -15,6 +15,7 @@ MANIFEST = CATALOGUE / "buildable-trainset-manifest.json"
 STATE = CATALOGUE / "first-article-work-package-state.toml"
 EVIDENCE = REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml"
 COTS = CATALOGUE / "cots-candidates.json"
+FACTORY_RELEASE = CATALOGUE / "factory-release-work-packages.json"
 
 
 def digest(path: Path) -> str:
@@ -51,7 +52,11 @@ def write_markdown(package: dict, path: Path) -> None:
     ]
     for row in package["work_packages"]:
         issue = f"[#{row['github_issue_number']}]({row['github_issue_url']})" if row.get("github_issue_url") else "ready to publish"
-        routes = [*row.get("candidate_ids", []), *row["evidence_package_ids"]]
+        routes = [
+            *row.get("candidate_ids", []),
+            *row.get("factory_release_package_ids", []),
+            *row["evidence_package_ids"],
+        ]
         evidence = ", ".join(f"`{value}`" for value in routes) or "product-row acceptance"
         rows.append(
             f"| `{row['id']}` — {row['title'].split(' — ', 1)[-1]} | {row['status']} | {row.get('owner') or row['owner_role']} | {evidence} | {issue} |"
@@ -65,7 +70,16 @@ def main() -> int:
     state = tomllib.loads(STATE.read_text(encoding="utf-8"))
     evidence_packages = tomllib.loads(EVIDENCE.read_text(encoding="utf-8"))["evidence_package"]
     cots = json.loads(COTS.read_text(encoding="utf-8"))
+    factory_release = json.loads(FACTORY_RELEASE.read_text(encoding="utf-8"))
     product_to_candidates = cots["product_to_candidates"]
+    product_to_factory_release = {
+        product_id: [
+            package["id"]
+            for package in factory_release["packages"]
+            if product_id in package["product_ids"]
+        ]
+        for product_id in (row["id"] for row in manifest["product_items"])
+    }
     overrides = {row["id"]: row for row in state.get("override", [])}
     open_rows = [
         row for row in manifest["product_items"]
@@ -83,6 +97,7 @@ def main() -> int:
         issue_title = f'{row["id"]} — freeze {row["title"]}'
         evidence_text = "; ".join(row.get("acceptance", []))
         candidate_ids = product_to_candidates.get(row["id"], [])
+        factory_release_package_ids = product_to_factory_release.get(row["id"], [])
         work_packages.append({
             "id": work_id,
             "status": status,
@@ -96,6 +111,7 @@ def main() -> int:
             "evidence_required": row.get("acceptance", []),
             "evidence_package_ids": matching_evidence_ids(row["id"], evidence_packages),
             "candidate_ids": candidate_ids,
+            "factory_release_package_ids": factory_release_package_ids,
             "evidence_refs": override.get("evidence_refs", []),
             "reviewed_by": override.get("reviewed_by", ""),
             "github_issue_number": override.get("github_issue_number"),
@@ -110,6 +126,7 @@ def main() -> int:
                     f'trainset manifest.\n\nParent: `{row["parent"]}`\n\n'
                     f'Closure evidence: {evidence_text}.\n\n'
                     f"Candidate sources: {', '.join(f'`{value}`' for value in candidate_ids) or 'locally manufactured item; no bought-in candidate'}.\n\n"
+                    f"Factory drawing/interface packages: {', '.join(f'`{value}`' for value in factory_release_package_ids) or 'no dedicated factory-release package; use product definition and traveler'}.\n\n"
                     'Do not mark complete without '
                     "reviewed supplier/drawing/test evidence committed or linked "
                     "from the authoritative register."
@@ -118,7 +135,7 @@ def main() -> int:
         })
 
     package = {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "first_article_id": "LM3-FA-001",
         "source_manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "source_manifest_sha256": digest(MANIFEST),
@@ -131,6 +148,8 @@ def main() -> int:
         "evidence_plan_source": str(EVIDENCE.relative_to(REPO_ROOT)),
         "candidate_register_source": str(COTS.relative_to(REPO_ROOT)),
         "candidate_register_sha256": digest(COTS),
+        "factory_release_source": str(FACTORY_RELEASE.relative_to(REPO_ROOT)),
+        "factory_release_sha256": digest(FACTORY_RELEASE),
         "work_packages": work_packages,
         "publication_note": (
             "Issue-ready export only. Publishing GitHub issues is an explicit "
