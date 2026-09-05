@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1488**.
+Indexed Markdown files: **1489**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1488**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 412 |
-| [docs](#docs) | 142 |
+| [docs](#docs) | 143 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1444,6 +1444,7 @@ Indexed Markdown files: **1488**.
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
+| [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail — one-page overview |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |

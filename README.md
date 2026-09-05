@@ -14,7 +14,7 @@ public package.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
-**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.
+**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.md), or `./install.sh` then `./osr`.
 
 The public evidence scope covers **265 cities in 43 developing countries**. One European comparison model in the 266-model engineering catalogue is retained only for technical inspection and excluded from public evidence and examples.
 
@@ -100,7 +100,7 @@ Use this only human-facing front door instead of browsing the generated file inv
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
 | Understand the deployable signalling boundary | [Conservative pilot signalling profile](docs/certification/pilot-signalling-profile.md) and [safety-controller selection gate](control-electronics/safety-controller-selection.md) |
 | Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases.md) |
-| Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.html) |
+| Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.md) |
 | Read the complete documentation | [Complete PDF book](OpenSourceRail-Book.pdf); rebuild it with `./osr book` |
 
 ## Run The Platform

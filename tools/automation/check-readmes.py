@@ -62,6 +62,8 @@ def main() -> int:
                 findings.append(f"README.md: missing front-door section {heading!r}")
         if "[complete PDF book](OpenSourceRail-Book.pdf)" not in root_text:
             findings.append("README.md: missing root PDF-book link")
+        if "[one-page overview](docs/open-source-rail-overview.md)" not in root_text:
+            findings.append("README.md: one-page overview must use GitHub-rendered Markdown")
         if "./osr build" not in root_text:
             findings.append("README.md: missing one-command complete build")
         design_paths = sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml"))

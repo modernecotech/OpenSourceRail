@@ -1341,19 +1341,21 @@ def check_generated_portfolio_summary() -> list[Finding]:
 
 
 def check_generated_public_overview() -> list[Finding]:
-    path = REPO_ROOT / "docs/open-source-rail-overview.html"
     generator = REPO_ROOT / "tools/automation/generate-public-overview.py"
     module = runpy.run_path(str(generator))
-    expected = module["render"]()
-    if not path.is_file() or path.read_text() != expected:
-        return [
-            Finding(
-                path,
-                "generated public overview is stale; run "
-                "tools/automation/generate-public-overview.py",
-            )
-        ]
-    return []
+    expected_outputs = {
+        REPO_ROOT / "docs/open-source-rail-overview.html": module["render"](),
+        REPO_ROOT / "docs/open-source-rail-overview.md": module["render_markdown"](),
+    }
+    return [
+        Finding(
+            path,
+            "generated public overview is stale; run "
+            "tools/automation/generate-public-overview.py",
+        )
+        for path, expected in expected_outputs.items()
+        if not path.is_file() or path.read_text() != expected
+    ]
 
 
 def check_cost_reference_tables() -> list[Finding]:

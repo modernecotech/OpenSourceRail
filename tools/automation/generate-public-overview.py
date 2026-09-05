@@ -11,7 +11,8 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = REPO_ROOT / "docs/open-source-rail-overview.html"
+HTML_OUTPUT = REPO_ROOT / "docs/open-source-rail-overview.html"
+MARKDOWN_OUTPUT = REPO_ROOT / "docs/open-source-rail-overview.md"
 TRAINSET_COST = (
     REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json"
 )
@@ -49,7 +50,9 @@ def rounded_billions(value: float) -> str:
     return f"about ${value / 1_000_000_000:.0f}B"
 
 
-def render() -> str:
+def overview_values() -> dict[str, str]:
+    """Return the canonical public metrics shared by both renderers."""
+
     missing = [path for path in REFERENCED_ASSETS if not path.is_file()]
     if missing:
         joined = ", ".join(str(path.relative_to(REPO_ROOT)) for path in missing)
@@ -73,7 +76,7 @@ def render() -> str:
     metric_cities, metric_countries, capital, _ = portfolio["portfolio_metrics"]()
     if metric_cities != cities or metric_countries != countries:
         raise ValueError("public overview and portfolio-summary city/country scopes disagree")
-    values = {
+    return {
         "catalogue": str(catalogue),
         "cities": str(cities),
         "countries": str(countries),
@@ -85,7 +88,12 @@ def render() -> str:
         "external_need": rounded_billions(capital["external"]),
         "trainset_product_rows": str(len(trainset_manifest["product_items"])),
     }
-    values = {key: html.escape(value) for key, value in values.items()}
+
+
+def render() -> str:
+    """Render the self-contained landscape HTML/print edition."""
+
+    values = {key: html.escape(value) for key, value in overview_values().items()}
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -180,25 +188,108 @@ def render() -> str:
 """
 
 
+def render_markdown() -> str:
+    """Render the repository-facing edition that GitHub displays natively."""
+
+    values = overview_values()
+    return f"""# OpenSourceRail — one-page overview
+
+> **Build rail locally · retain skills · reduce foreign-capital dependence**
+
+![OpenSourceRail light-metro reference trainset](assets/solar-metro-trainset.png)
+
+**An open urban-rail platform designed to keep ordinary engineering,
+fabrication, integration, software and long-term maintenance capability in the
+adopting country.**
+
+The same deterministic workspace connects city design, GIS, CAD/IFC,
+simulation, operations, costs and assurance. Its {values['cities']}
+developing-world planning models estimate {values['local_share']} domestic
+value; all values remain planning sensitivities rather than bids or funding
+commitments.
+
+| {values['local_value']} | {values['cities']} cities | {values['planning_unit']} | {values['trainset_product_rows']} rows |
+|---|---|---|---|
+| Roughly {values['local_share']} modeled domestic value across {values['countries']} country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record {values['estimate']} | Traceable LM3 parts and assemblies with visible supplier and release gaps |
+
+## Local manufacture and economic value
+
+- Localise civil materials, vehicle structures and interiors, wiring,
+  cabinets, installation, software integration and maintenance.
+- Limit imported value to specialist machinery and components not yet
+  qualified domestically; current aggregate planning need is
+  {values['external_need']}.
+- Reuse one shared national trainset factory and open tooling instead of
+  purchasing a separate opaque production system for every city.
+- Retain engineering knowledge, supplier development, skilled employment and
+  lifecycle maintenance capability.
+
+## Design, regenerate and operate
+
+- Edit lines, stations, alignments, demand and line/day/hour service over local
+  GIS.
+- Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.
+- Run deterministic train, station, energy, wayside, point/crossing and depot
+  software together.
+- Use one Workbench for City Studio, simulation, OCC training and Ops Core.
+
+| City Studio | Civil IFC coordination |
+|---|---|
+| ![City Studio deterministic browser acceptance](screenshots/city-studio/gui-acceptance.png) | ![Bonsai IFC4.3 civil coordination model](screenshots/civil/bonsai-ifc4x3-civil-coordination.png) |
+
+## Buildable pathway, visible gaps
+
+Reference packages cover all {values['trainset_product_rows']} LM3 product
+rows, nine timed manufacturing methods, 30 mould/tooling families, modular
+rolling stock, stations, civil works, battery traction, renewable charging,
+operations and assurance. Supplier freeze, detailed drawings, proof testing,
+certification and authority approval remain explicit release gates.
+
+The engineering catalogue contains {values['catalogue']} models. European
+comparison designs are retained for technical inspection but excluded from
+public evidence totals and examples.
+
+## Review or collaborate
+
+Review the assumptions, reproduce the generators, open a technical issue or
+propose an evidence-backed contribution through the
+[public repository](https://github.com/modernecotech/OpenSourceRail).
+
+For offline printing, [download the landscape HTML edition](open-source-rail-overview.html?raw=1).
+
+<!-- Generated by tools/automation/generate-public-overview.py; do not hand-edit. -->
+"""
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    expected = render()
+    expected_outputs = {
+        HTML_OUTPUT: render(),
+        MARKDOWN_OUTPUT: render_markdown(),
+    }
     if args.check:
-        if not OUTPUT.is_file() or OUTPUT.read_text(encoding="utf-8") != expected:
-            print(f"stale: {OUTPUT.relative_to(REPO_ROOT)}")
+        stale = [
+            path
+            for path, expected in expected_outputs.items()
+            if not path.is_file() or path.read_text(encoding="utf-8") != expected
+        ]
+        for path in stale:
+            print(f"stale: {path.relative_to(REPO_ROOT)}")
+        if stale:
             return 1
-        print(f"current: {OUTPUT.relative_to(REPO_ROOT)}")
+        print("current: " + ", ".join(str(path.relative_to(REPO_ROOT)) for path in expected_outputs))
         return 0
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        "w", dir=OUTPUT.parent, delete=False, encoding="utf-8"
-    ) as handle:
-        handle.write(expected)
-        temporary = Path(handle.name)
-    temporary.replace(OUTPUT)
-    print(f"wrote {OUTPUT.relative_to(REPO_ROOT)}")
+    for output, expected in expected_outputs.items():
+        output.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            "w", dir=output.parent, delete=False, encoding="utf-8"
+        ) as handle:
+            handle.write(expected)
+            temporary = Path(handle.name)
+        temporary.replace(output)
+        print(f"wrote {output.relative_to(REPO_ROOT)}")
     return 0
 
 
