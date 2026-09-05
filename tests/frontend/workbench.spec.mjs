@@ -23,7 +23,15 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   test.setTimeout(5 * 60_000);
   const browserFailures = [];
   page.on("pageerror", (error) => browserFailures.push(error.message));
-  page.on("requestfailed", (request) => browserFailures.push(`${request.url()}: ${request.failure()?.errorText}`));
+  page.on("requestfailed", (request) => {
+    const errorText = request.failure()?.errorText || "failed";
+    // Changing Workbench mode replaces the active module iframe. Chromium
+    // reports any superseded in-flight module fetch as ERR_ABORTED; that is an
+    // intentional navigation cancellation, not a failed backend request.
+    if (errorText !== "net::ERR_ABORTED") {
+      browserFailures.push(`${request.url()}: ${errorText}`);
+    }
+  });
 
   await page.goto("http://127.0.0.1:4177/?module=studio&mode=design&role=designer&actor=Playwright%20Operator");
   await expect(page.locator("h1")).toHaveText("Workbench");
