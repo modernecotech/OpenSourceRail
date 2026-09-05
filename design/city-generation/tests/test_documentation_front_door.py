@@ -140,17 +140,20 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
     generator = runpy.run_path(
         str(REPO_ROOT / "tools/automation/generate-public-overview.py")
     )
-    output = generator["OUTPUT"]
-    actual = output.read_text(encoding="utf-8")
-    assert actual == generator["render"]()
-    assert "265" in actual
-    assert "43" in actual
-    assert "$900k" in actual
-    assert "$885k" in actual
-    assert "$2.98M" not in actual
-    assert "Lyon" not in actual
-    assert "campaign" not in actual.lower()
-    assert "hayder@modernecotech.com" not in actual
+    rendered = {
+        generator["HTML_OUTPUT"]: generator["render"](),
+        generator["MARKDOWN_OUTPUT"]: generator["render_markdown"](),
+    }
+    for output, expected in rendered.items():
+        assert output.read_text(encoding="utf-8") == expected
+    actual = "\n".join(rendered.values())
+    for current_metric in ("265", "43", "$900k", "$885k"):
+        assert current_metric in actual
+    for excluded in ("$2.98M", "Lyon", "campaign", "hayder@modernecotech.com"):
+        assert excluded.lower() not in actual.lower()
+    root_readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "[one-page overview](docs/open-source-rail-overview.md)" in root_readme
+    assert "[one-page overview](docs/open-source-rail-overview.html)" not in root_readme
     assert not (
         REPO_ROOT / "docs/brochures/open-source-rail-introduction.html"
     ).exists()
