@@ -1325,9 +1325,20 @@ def check_generated_portfolio_summary() -> list[Finding]:
             )
         )
     _, _, capital, _ = module["portfolio_metrics"]()
+    imported_pct = float(capital["external"]) / float(capital["total"])
+    foreign_external_multiple = float(capital["foreign_external"]) / float(capital["total"])
+    external_saved_per_100m = 100.0 * (
+        float(capital["foreign_external"]) - float(capital["external"])
+    ) / float(capital["total"])
+    external_reduction = (
+        float(capital["foreign_external"]) - float(capital["external"])
+    ) / float(capital["foreign_external"])
     expected_readme_values = (
         f"about ${float(capital['local']) / 1_000_000_000:.0f}B",
         f"roughly {float(capital['local']) / float(capital['total']):.0%}",
+        f"${100.0 * imported_pct:.1f}M",
+        f"${100.0 * foreign_external_multiple:.1f}M",
+        f"${external_saved_per_100m:.1f}M ({external_reduction:.1%})",
         "portfolio calculation",
     )
     readme = REPO_ROOT / "README.md"

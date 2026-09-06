@@ -6,11 +6,7 @@ OpenSourceRail is an open-source, deterministic urban-rail platform with a diffe
 > Repository outputs are planning and engineering-screening evidence—not bids,
 > construction releases, safety certificates, approvals or endorsements.
 
-The current survey, supplier, drawing, embedded-hardware, physical-test and
-approval gaps are consolidated in the [reviewed roadmap](docs/ROADMAP.md#reviewed-open-work).
-Useful CAD, IFC, PDF, image and animation artifacts remain tracked in GitHub;
-CI enforces a simple 50 MiB per-file ceiling rather than removing them from the
-public package.
+The current survey, supplier, drawing, embedded-hardware, physical-test and approval gaps are consolidated in the [reviewed roadmap](docs/ROADMAP.md#reviewed-open-work). Useful CAD, IFC, PDF, image and animation artifacts remain tracked in GitHub; CI enforces a simple 50 MiB per-file ceiling rather than removing them from the public package.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
@@ -20,9 +16,21 @@ The public evidence scope covers **265 cities in 43 developing countries**. One 
 
 ## The Economic Case
 
-The developing-world model places **about $203B—roughly 75% of programme value—in domestic activity**. Specialist imports are modeled at roughly one quarter. Comparative foreign-turnkey savings vary materially with procurement, financing and localisation assumptions, so exact sensitivity results stay in the reproducible [portfolio calculation](docs/portfolio-summary.md), not the headline claim. These are planning scenarios—not bids, audited origin claims or financing offers.
+OpenSourceRail keeps the system design, software and integration open so a country can competitively procure and perform ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally. It imports specialist components only where local suppliers are not yet qualified. That means more of the same railway can be paid for in local currency, while the country retains the skills and information needed to maintain it.
 
-The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring, software, integration and maintenance local where qualified. Specialist products use [27 real supplier/research-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md); every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators can localise progressively without silently changing safety assumptions, retaining skills and maintainable assets while reducing foreign-currency exposure.
+### Illustrated $100M example
+
+For the **same modelled railway scope**, suppose the OpenSourceRail case is **$100M**. The foreign-turnkey column applies the editable default sensitivity: a 2.0× delivered price with 90% requiring foreign currency or international capital.
+
+| Where the money goes | Localisation-first OpenSourceRail | Foreign-vendor turnkey sensitivity |
+|---|---:|---:|
+| Total programme price | **$100.0M** | **$200.0M** |
+| Value not requiring external capital | $75.4M | $20.0M |
+| External-capital requirement | **$24.6M** `██░░░░░░░░` | **$180.0M** `█████████░` |
+
+In this illustration, the external-capital requirement falls by **$155.4M (86.3%)** before interest. When debt-financed, that requirement becomes the external loan principal. Interest depends on each country's rate, construction period and repayment tenor.
+
+Across the 265-city model, this approach places **about $203B—roughly 75% of programme value—in domestic activity**. Specialist products remain tied to [27 real supplier/research-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md). The inputs, low/default/high comparisons and financing sensitivity are in the reproducible [portfolio calculation](docs/portfolio-summary.md). These are editable planning scenarios—not bids, audited origin claims or financing offers.
 
 ## Feature Highlights
 
@@ -68,10 +76,7 @@ IFC/visualization state timeline + QA/work orders + recorded actuals
 
 Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Operations → Project Twin** to inspect the baseline and turn a planned requirement into a persisted draft purchase order. These are planning candidates—not issued contracts or construction releases—until the city records approval and actual commercial data.
 
-The model uses about **$0.9M per 3-car light-metro trainset** as a local
-factory-gate planning target (LM3 build record: $885k) and **$60k per supported vehicle/car module** for one shared country factory. Homologation, supplier
-qualification, first-of-class engineering, warranty and deployment are
-separate gates and cannot be compared directly with an OEM delivered price.
+The model uses about **$0.9M per 3-car light-metro trainset** as a local factory-gate planning target (LM3 build record: $885k) and **$60k per supported vehicle/car module** for one shared country factory. Homologation, supplier qualification, first-of-class engineering, warranty and deployment are separate gates and cannot be compared directly with an OEM delivered price.
 
 ## Current System
 
@@ -107,19 +112,13 @@ Use this only human-facing front door instead of browsing the generated file inv
 
 ### One-command Linux setup
 
-On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or
-Arch Linux, install the entire platform with one command:
+On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or Arch Linux, install the entire platform with one command:
 
 ```bash
 ./install.sh
 ```
 
-It first reports what is already installed. Declining the installation makes
-no changes; accepting installs only missing native libraries and keeps Rust,
-Node.js, Python, uv, Trunk and browser tools under your home folder. It then
-asks whether to add the larger FreeCAD, Blender/Bonsai, QGIS, CloudCompare,
-SUMO, RTKLIB, EnergyPlus and FDS applications, and whether to start the GUI. There are
-no setup options or environment variables to configure.
+It first reports what is already installed. Declining the installation makes no changes; accepting installs only missing native libraries and keeps Rust, Node.js, Python, uv, Trunk and browser tools under your home folder. It then asks whether to add the larger FreeCAD, Blender/Bonsai, QGIS, CloudCompare, SUMO, RTKLIB, EnergyPlus and FDS applications, and whether to start the GUI. There are no setup options or environment variables to configure.
 
 After setup, one command regenerates the shared design and cost data, product
 catalogues, browser and native applications, BOMs, IFC4.3 reference packages,
