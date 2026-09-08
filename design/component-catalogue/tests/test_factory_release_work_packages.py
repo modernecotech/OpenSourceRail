@@ -55,6 +55,7 @@ def test_factory_release_payload_is_bound_to_manifest_geometry_and_tooling() -> 
         item.id for item in design.product_items if item.route.value == "MAKE"
     } <= set(payload["controlled_product_ids"])
     assert all(package["product_rows"] for package in payload["packages"])
+    assert all(package["reference_control_ids"] for package in payload["packages"])
     assert all(
         len(row["design_reference_envelope_mm"]) == 3
         for package in payload["packages"]
@@ -101,6 +102,7 @@ def test_factory_release_record_covers_every_package_without_claiming_release() 
         for product in package["product_configuration_records"]
     } == set(work["controlled_product_ids"])
     assert all(package["release_status"] == "open-unissued" for package in record["packages"])
+    assert all(package["reference_control_ids"] for package in record["packages"])
     assert all(
         drawing["issue_status"] == "unissued" and not drawing["published_file_sha256"]
         for package in record["packages"]

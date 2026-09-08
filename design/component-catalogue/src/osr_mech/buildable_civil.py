@@ -189,6 +189,207 @@ def release_packages() -> tuple[ReleasePackage, ...]:
     )
 
 
+def construction_control_payload() -> dict[str, Any]:
+    """Return practical factory/site defaults below the engineering release line."""
+
+    controls = [
+        {
+            "id": "CIV-MFG-010",
+            "scope": "survey, datums and set-out",
+            "sequence": [
+                "establish protected project control outside the work zone",
+                "transfer primary control independently to factory bed or work front",
+                "set mould, foundation, bearing and rail-seat datums from primary control",
+                "record as-built coordinates before the work is concealed or loaded",
+            ],
+            "default": "Use one project grid and vertical datum; close each set-out from two independent control points. Survey all first-article interfaces and every foundation, bearing seat, rail seat, platform edge and movement joint.",
+            "crew_and_plant": "two-person survey crew, total station, digital level and traceable check artefact",
+            "hold": "control closure fails, benchmark disturbed, design/survey revision mismatch, or required accuracy is absent from the released survey plan",
+            "release_evidence": "accepted survey control report, set-out sheets and signed as-built survey",
+        },
+        {
+            "id": "CIV-MFG-020",
+            "scope": "precast mould, reinforcement and inserts",
+            "sequence": [
+                "clean and survey mould/bed datums",
+                "apply release system and fit cages, ducts, drains, lifting anchors and inserts",
+                "independently check cover, restraint and insert templates",
+                "photograph and sign the pre-pour hold point",
+            ],
+            "default": "Use rigid reusable steel moulds with replaceable end boxes and positive insert templates. First mould and every repaired/reset mould receive a full dimensional survey; subsequent pours receive datum, closure and insert checks before each pour.",
+            "crew_and_plant": "mould/carpentry 2–3, reinforcement 4–6, one independent inspector, mould survey kit and cover/insert gauges",
+            "hold": "unreleased reinforcement/prestress drawing, unidentified steel/insert, cover failure, dirty duct, loose insert, mould outside drawing tolerance, or unsigned pre-pour checklist",
+            "release_evidence": "mould acceptance, material lots, cage/insert/cover report and signed pre-pour record",
+        },
+        {
+            "id": "CIV-MFG-030",
+            "scope": "concrete placement, curing and prestress transfer",
+            "sequence": [
+                "accept batch and fresh-concrete tests",
+                "place in the released sequence without displacing cages or ducts",
+                "finish and cure with temperature/maturity records",
+                "confirm specified release/transfer strength before demoulding or prestress transfer",
+            ],
+            "default": "Reject site water addition unless the approved mix procedure permits and records it. Concrete class, exposure, w/c ratio, workability window, test frequency, curing cycle, release strength and prestress sequence remain calculation/specification values—not catalogue defaults.",
+            "crew_and_plant": "placement 6–8 plus pump/crane operator, finishing 2–3, laboratory technician and independent inspector at hold points",
+            "hold": "batch ticket mismatch, workability/temperature outside specification, interrupted placement beyond permitted joint time, curing excursion, failed strength result, or prestress anomaly",
+            "release_evidence": "batch/test records, curing history, transfer/release strength, prestress elongation/force record and approved deviation/NCR closure",
+        },
+        {
+            "id": "CIV-MFG-040",
+            "scope": "demould, dimensional acceptance and storage",
+            "sequence": [
+                "confirm release strength and approved lifting arrangement",
+                "demould without prying at unapproved points",
+                "inspect surfaces, cracks, geometry, inserts, ducts and bearing/rail interfaces",
+                "mark unique ID, orientation, mass and approved support points before storage",
+            ],
+            "default": "Inspect 100% of the first three units of each mould/type and every safety/interface feature thereafter. Routine non-interface dimensions may move to first/last plus 10% minimum three only through an approved control plan. Support units at the drawing-defined points on level, verified bearers.",
+            "crew_and_plant": "lift supervisor, certified crane operator, four riggers, two survey/inspection staff and rated lifting frame",
+            "hold": "strength not accepted, crack/damage beyond acceptance limits, interface out of tolerance, blocked duct/drain, unidentified unit, or storage support not verified",
+            "release_evidence": "dimensional/crack report, concrete and lift records, traceability mark and storage inspection",
+        },
+        {
+            "id": "CIV-MFG-050",
+            "scope": "transport and delivery acceptance",
+            "sequence": [
+                "match unit, mass and centre of gravity to transport schedule",
+                "inspect route, trailer, temporary supports and restraints",
+                "load only from approved points and record restraint installation",
+                "inspect and survey interfaces again after delivery",
+            ],
+            "default": "Use the approved transport orientation and support spacing; do not support on bearing seats, walkway edges, drains or rail plinths. The route survey, permits, dynamic allowances and temporary-state calculation are deployment-specific.",
+            "crew_and_plant": "transport supervisor, certified operator, four riggers, escort/traffic staff as permitted, inspected trailer and rated lifting equipment",
+            "hold": "route/permit absent, actual unit mass exceeds schedule, support/restraint mismatch, weather beyond method limits, transport damage, or delivery survey failure",
+            "release_evidence": "route/permit pack, checked transport calculation, pre/post condition records and delivery acceptance",
+        },
+        {
+            "id": "CIV-MFG-060",
+            "scope": "foundation, pier and cap construction",
+            "sequence": [
+                "verify utilities, ground horizon and formation",
+                "construct/test foundation and survey starter interface",
+                "erect or cast column with temporary stability maintained",
+                "install cap, closure/grout and bearing-seat survey",
+            ],
+            "default": "Release one work front at a time from accepted survey, utility and geotechnical zone data. Never extrapolate a foundation selection across an uninvestigated ground boundary. Keep column/cap temporary stability independent of incomplete permanent connections.",
+            "crew_and_plant": "site engineer, supervisor, survey pair, foundation crew sized to selected method, 4–6 erection riggers and independent quality hold-point inspector",
+            "hold": "unexpected ground/water/utility, foundation test failure, starter or bearing-seat survey failure, uncontrolled temporary state, grout/material mismatch, or open structural NCR",
+            "release_evidence": "ground log, foundation tests, concrete/grout records, temporary-works inspection and pier/cap as-built survey",
+        },
+        {
+            "id": "CIV-MFG-070",
+            "scope": "girder erection, bearings and closures",
+            "sequence": [
+                "accept bearing seats, bearings, unit and erection plant",
+                "set bearing orientation/temperature and install temporary restraints",
+                "lift or launch to the released sequence and survey before de-rigging",
+                "complete diaphragms/closures and remove temporary restraints only at the authorised stage",
+            ],
+            "default": "Plan one lift controller, one command channel and a controlled exclusion zone. Set each bearing by ID and orientation; protect movement surfaces and retain access for inspection/replacement. No person enters beneath a suspended or incompletely restrained unit.",
+            "crew_and_plant": "lift supervisor, crane/launcher operator(s), four riggers, survey pair, two closure/grout workers and safety lead; plant capacity follows the checked lift study",
+            "hold": "seat/bearing/unit not accepted, wind or visibility beyond method limits, plant configuration mismatch, loss of communication, unplanned movement, survey failure, or incomplete restraint",
+            "release_evidence": "checked erection/lift plan, plant and personnel certificates, bearing schedule, lift record, closure strength and final survey",
+        },
+        {
+            "id": "CIV-MFG-080",
+            "scope": "at-grade formation, slab and transition",
+            "sequence": [
+                "prove utilities, drainage outfall and formation level",
+                "place and test ground treatment/subbase by lot",
+                "set rail-seat/duct/drain templates and sign pre-pour hold",
+                "cast/cure, survey and trial the first complete transition panel",
+            ],
+            "default": "Build a full-width trial panel including drainage, ducts and rail-seat fixings before repetitive work. Divide earthworks and pavement testing into traceable lots no larger than one shift or one material/source change; the project specification sets test values and lot size if smaller.",
+            "crew_and_plant": "site engineer, survey pair, earthworks 5–8 plus selected plant, concrete 6–8, laboratory technician and track-interface inspector",
+            "hold": "soft spot or groundwater differs from model, drainage unavailable, compaction/plate test failure, template movement, concrete/cure failure, or transition survey outside released limits",
+            "release_evidence": "formation lot tests, drainage proof, pre-pour record, concrete tests, trial-panel acceptance and as-built survey",
+        },
+        {
+            "id": "CIV-MFG-090",
+            "scope": "track, platform and systems interface handover",
+            "sequence": [
+                "clean and survey rail-seat/plinth, platform and equipment interfaces",
+                "install accepted fastening/rail/turnout products to supplier procedures",
+                "measure gauge, alignment, cant, stepping, clearances, drainage and electrical continuity",
+                "hand over an as-built interface model with all NCRs and temporary conditions visible",
+            ],
+            "default": "Use a common chainage and asset ID across survey, IFC, inspection and maintenance records. Perform 100% measurement at turnouts, movement joints, stations, transitions and first article; routine interval and acceptance values come from the released track/vehicle/interface plan.",
+            "crew_and_plant": "permanent-way supervisor, 6–10 track workers, survey pair, signalling/power representatives, calibrated track gauge and clearance gauge",
+            "hold": "supplier revision mismatch, missing vehicle envelope, failed gauge/cant/stepping/continuity, obstructed drainage/access, or interface NCR not accepted by both owners",
+            "release_evidence": "supplier installation records, track/clearance survey, signed civil-track-station-vehicle ICD and configuration handover",
+        },
+        {
+            "id": "CIV-MFG-100",
+            "scope": "nonconformance, repair and work-front handback",
+            "sequence": [
+                "identify, contain and preserve the original evidence",
+                "assess structural, durability, geometry and downstream interface effects",
+                "obtain authorised use-as-is, rework, repair, return/scrap or design-change disposition",
+                "perform repair and repeat every invalidated inspection before handback",
+            ],
+            "default": "No field cutting, drilling, heat straightening, reinforcement/strand exposure, concrete repair, bearing adjustment, grout substitution or tolerance concession without a written disposition by the accountable designer and checker where required.",
+            "crew_and_plant": "responsible construction engineer, quality lead, accountable designer and independent checker according to consequence; repair team only after disposition",
+            "hold": "unapproved repair, repeat defect trend, hidden defect extent, missing retest, configuration mismatch, or any open safety/structural NCR",
+            "release_evidence": "NCR, engineering assessment, approved repair method, repeat-test/survey result, as-built update and signed handback",
+        },
+    ]
+    return {
+        "schema": "org.opensourcerail.civil-construction-controls.v1",
+        "status": "reference-defaults-not-ifc-release",
+        "authority_boundary": BOUNDARY,
+        "control_count": len(controls),
+        "controls": controls,
+        "workface_release_rule": "No work starts from coordination geometry alone: released drawings/method, accepted inputs, competent people/plant and open-hold-point authorization must all identify the same asset and revision.",
+    }
+
+
+CIVIL_PACKAGE_CONTROLS: dict[str, tuple[str, ...]] = {
+    "CIV-FRP-100": ("CIV-MFG-010", "CIV-MFG-020", "CIV-MFG-030", "CIV-MFG-040", "CIV-MFG-050", "CIV-MFG-070", "CIV-MFG-100"),
+    "CIV-FRP-110": ("CIV-MFG-010", "CIV-MFG-020", "CIV-MFG-030", "CIV-MFG-040", "CIV-MFG-050", "CIV-MFG-060", "CIV-MFG-100"),
+    "CIV-FRP-120": ("CIV-MFG-010", "CIV-MFG-060", "CIV-MFG-070", "CIV-MFG-100"),
+    "CIV-FRP-130": ("CIV-MFG-010", "CIV-MFG-030", "CIV-MFG-080", "CIV-MFG-090", "CIV-MFG-100"),
+    "CIV-INT-200": ("CIV-MFG-010", "CIV-MFG-090", "CIV-MFG-100"),
+    "CIV-INT-210": ("CIV-MFG-010", "CIV-MFG-090", "CIV-MFG-100"),
+}
+
+
+def render_construction_controls(payload: dict[str, Any] | None = None) -> str:
+    data = payload or construction_control_payload()
+    lines = [
+        "# Civil Fabrication and Construction Reference Controls",
+        "",
+        "> Status: **reference defaults — not issued for fabrication or construction**.",
+        "",
+        "This workface handbook fills repeatable moulding, inspection, handling, erection and",
+        "handover gaps around the reusable civil kit. It deliberately leaves site actions,",
+        "ground, reinforcement/prestress, temporary works and statutory release with the",
+        "competent project organisations.",
+        "",
+        "## Workface release rule",
+        "",
+        data["workface_release_rule"],
+        "",
+        data["authority_boundary"],
+        "",
+    ]
+    for control in data["controls"]:
+        lines += [f"## {control['id']} — {control['scope'].title()}", "", "Default sequence:", ""]
+        lines += [f"{index}. {step}." for index, step in enumerate(control["sequence"], 1)]
+        lines += [
+            "",
+            f"Planning default: {control['default']}",
+            "",
+            f"Typical first-shift crew/plant: {control['crew_and_plant']}. This is a resource-planning allowance, not authorisation or a minimum safe crew.",
+            "",
+            f"Hold the work when: {control['hold']}.",
+            "",
+            f"Required handback: {control['release_evidence']}.",
+            "",
+        ]
+    return "\n".join(lines)
+
+
 def _load_types(index_path: Path) -> list[dict[str, Any]]:
     data = json.loads(index_path.read_text(encoding="utf-8"))
     types = data.get("types")
@@ -237,6 +438,21 @@ def build_payload(index_path: Path = DEFAULT_IFC_INDEX) -> dict[str, Any]:
             }
         )
 
+    construction_controls = construction_control_payload()
+    control_ids = {row["id"] for row in construction_controls["controls"]}
+    package_rows = []
+    for package in packages:
+        references = CIVIL_PACKAGE_CONTROLS.get(package.id)
+        if not references or not set(references) <= control_ids:
+            raise ValueError(f"civil package {package.id} has an invalid construction-control route")
+        package_rows.append(
+            asdict(package)
+            | {
+                "status": STATUS,
+                "release_boundary": BOUNDARY,
+                "reference_control_ids": list(references),
+            }
+        )
     payload = {
         "schema": "org.opensourcerail.buildable-civil-release.v1",
         "status": STATUS,
@@ -252,13 +468,19 @@ def build_payload(index_path: Path = DEFAULT_IFC_INDEX) -> dict[str, Any]:
             "tooling_and_gauge_families": len({tool for package in packages for tool in package.tooling_ids}),
         },
         "type_register": rows,
-        "release_packages": [asdict(item) | {"status": STATUS, "release_boundary": BOUNDARY} for item in packages],
+        "release_packages": package_rows,
         "drawing_definitions": [asdict(item) | {"status": STATUS, "release_boundary": BOUNDARY} for item in drawings],
+        "construction_controls": construction_controls,
         "validation": {
             "all_ifc_types_classified_once": True,
             "all_ifc_types_have_drawing_coverage": True,
             "all_packages_have_hold_points": True,
             "site_specific_evidence_remains_open": True,
+            "all_construction_controls_have_hold_and_handback": all(
+                row["hold"] and row["release_evidence"]
+                for row in construction_controls["controls"]
+            ),
+            "all_packages_have_construction_control_routes": True,
         },
     }
     # Keep the in-memory contract identical to its JSON representation so
@@ -296,7 +518,7 @@ def render_packages(payload: dict[str, Any]) -> str:
         "These packages define the smallest reusable handoffs around the current civil kit. Hold points remain open until real project evidence is recorded.", "",
     ]
     for package in payload["release_packages"]:
-        lines += [f"## {package['id']} — {package['title']}", "", f"Lane: `{package['delivery_lane']}`", "", f"Drawing briefs: {_table([f'`{value}`' for value in package['drawing_ids']])}", "", "Tooling/gauges: " + ", ".join(f"`{value}`" for value in package["tooling_ids"]), "", "Controlled outputs:", ""]
+        lines += [f"## {package['id']} — {package['title']}", "", f"Lane: `{package['delivery_lane']}`", "", f"Drawing briefs: {_table([f'`{value}`' for value in package['drawing_ids']])}", "", "Tooling/gauges: " + ", ".join(f"`{value}`" for value in package["tooling_ids"]), "", "Reference workface controls: " + ", ".join(f"[`{value}`](fabrication-and-construction-controls.md)" for value in package["reference_control_ids"]), "", "Controlled outputs:", ""]
         lines += [f"- {value}" for value in package["controlled_outputs"]]
         lines += ["", "Open hold points:", ""] + [f"- [ ] {value}" for value in package["hold_points"]] + [""]
     lines += ["## Authority Boundary", "", BOUNDARY, ""]
@@ -335,6 +557,7 @@ Nothing here is issued for fabrication or construction. Site survey, geotechnics
 | [`reusable-type-release-register.md`](reusable-type-release-register.md) | Exact one-to-one accountability for every deterministic IFC type |
 | [`factory-release-work-packages.md`](factory-release-work-packages.md) | Outputs, tools/gauges, and open hold points for six release packages |
 | [`factory-drawings/index.md`](factory-drawings/index.md) | Nine controlled, non-issued drawing-definition briefs |
+| [`fabrication-and-construction-controls.md`](fabrication-and-construction-controls.md) | Ten practical moulding, survey, precast, transport, erection, track-interface and handback controls |
 | [`evidence/civil-release-record-template.json`](evidence/civil-release-record-template.json) | Empty evidence record that project authorities must complete |
 | [`reusable-type-release-register.json`](reusable-type-release-register.json) | Machine-readable register, packages, briefs, and validation flags |
 
@@ -358,6 +581,14 @@ def write_outputs(out_dir: Path = DEFAULT_CATALOG_DIR, index_path: Path = DEFAUL
     (out_dir / "reusable-type-release-register.md").write_text(render_register(payload), encoding="utf-8")
     (out_dir / "factory-release-work-packages.json").write_text(json.dumps(payload["release_packages"], indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (out_dir / "factory-release-work-packages.md").write_text(render_packages(payload), encoding="utf-8")
+    (out_dir / "fabrication-and-construction-controls.json").write_text(
+        json.dumps(payload["construction_controls"], indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (out_dir / "fabrication-and-construction-controls.md").write_text(
+        render_construction_controls(payload["construction_controls"]),
+        encoding="utf-8",
+    )
     drawings = payload["drawing_definitions"]
     index_lines = ["# Civil Drawing-Definition Briefs", "", "> All entries are definition seeds, not issued fabrication or construction drawings.", "", "| ID | Title | Owner | IFC types |", "|---|---|---|---:|"]
     for drawing in drawings:

@@ -12,6 +12,8 @@ Drawing briefs: `CIV-SUP-100`<br>`CIV-SUP-110`<br>`CIV-EGR-120`
 
 Tooling/gauges: `CIV-TOL-001`, `CIV-MLD-010`, `CIV-JIG-020`, `CIV-GGE-030`
 
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-020`](fabrication-and-construction-controls.md), [`CIV-MFG-030`](fabrication-and-construction-controls.md), [`CIV-MFG-040`](fabrication-and-construction-controls.md), [`CIV-MFG-050`](fabrication-and-construction-controls.md), [`CIV-MFG-070`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
+
 Controlled outputs:
 
 - checked product drawings
@@ -32,6 +34,8 @@ Lane: `hybrid-project-product`
 Drawing briefs: `CIV-SUB-200`<br>`CIV-SUB-210`
 
 Tooling/gauges: `CIV-TPL-100`, `CIV-MLD-110`, `CIV-GGE-120`
+
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-020`](fabrication-and-construction-controls.md), [`CIV-MFG-030`](fabrication-and-construction-controls.md), [`CIV-MFG-040`](fabrication-and-construction-controls.md), [`CIV-MFG-050`](fabrication-and-construction-controls.md), [`CIV-MFG-060`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
 
 Controlled outputs:
 
@@ -54,6 +58,8 @@ Drawing briefs: `CIV-BRG-300`
 
 Tooling/gauges: `CIV-TPL-200`, `CIV-JCK-210`, `CIV-GGE-220`
 
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-060`](fabrication-and-construction-controls.md), [`CIV-MFG-070`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
+
 Controlled outputs:
 
 - bearing and movement schedule
@@ -74,6 +80,8 @@ Lane: `deployment-led-product`
 Drawing briefs: `CIV-ATG-400`
 
 Tooling/gauges: `CIV-RIG-300`, `CIV-TPL-310`, `CIV-GGE-320`
+
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-030`](fabrication-and-construction-controls.md), [`CIV-MFG-080`](fabrication-and-construction-controls.md), [`CIV-MFG-090`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
 
 Controlled outputs:
 
@@ -96,6 +104,8 @@ Drawing briefs: `CIV-INT-500`
 
 Tooling/gauges: `CIV-GGE-400`, `CIV-CHK-410`
 
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-090`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
+
 Controlled outputs:
 
 - supplier interface control document
@@ -115,6 +125,8 @@ Lane: `coordination-interface`
 Drawing briefs: `CIV-INT-510`
 
 Tooling/gauges: `CIV-GGE-500`, `CIV-CHK-510`
+
+Reference workface controls: [`CIV-MFG-010`](fabrication-and-construction-controls.md), [`CIV-MFG-090`](fabrication-and-construction-controls.md), [`CIV-MFG-100`](fabrication-and-construction-controls.md)
 
 Controlled outputs:
 

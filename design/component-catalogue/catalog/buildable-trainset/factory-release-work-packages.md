@@ -12,6 +12,7 @@ Individual drafting briefs are under [`factory-drawings/`](factory-drawings/inde
 - Work packages: `16`
 - Controlled product rows represented: `80`
 - Registered tooling referenced: `30`
+- Reference work instructions: [`manufacturing-and-assembly-controls.md`](manufacturing-and-assembly-controls.md)
 - Boundary: These work packages define drawing and evidence scope. They are not approved drawings, supplier selections, signed calculations or physical first-article records.
 
 ## Package index
@@ -74,6 +75,8 @@ Release boundary: No steel cutting release until structural calculations, WPS/PQ
 
 Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-020`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-020 — one-metre exterior module variant and retention drawing pack
 
 Release boundary: Module skins remain non-structural and may not close primary carbody or roof-equipment load paths.
@@ -110,6 +113,8 @@ Release boundary: Module skins remain non-structural and may not close primary c
 
 Tooling: `LM3-TOOL-SIDE-MOULD`, `LM3-TOOL-SIDE-VARIANT-NEST`, `LM3-TOOL-ROOF-MOULD`, `LM3-TOOL-TRIM-DRILL`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-040`](manufacturing-and-assembly-controls.md), [`LM3-MFG-050`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-030 — panoramic front-glass carrier, seal and drainage interface pack
 
 Release boundary: The selected glazing supplier retains responsibility for pane construction and its bonded cassette process.
@@ -145,6 +150,8 @@ Release boundary: The selected glazing supplier retains responsibility for pane 
 
 Tooling: `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-GLASS-CARRIER-NEST`, `LM3-TOOL-WATER-TEST`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-040`](manufacturing-and-assembly-controls.md), [`LM3-MFG-050`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-040 — reversible front-lamp cassette and fascia-service pack
 
 Release boundary: The jig establishes mechanical aim only; supplier and vehicle photometric evidence remains mandatory.
@@ -179,6 +186,8 @@ Release boundary: The jig establishes mechanical aim only; supplier and vehicle 
 - service-hatch and cassette removal demonstration
 
 Tooling: `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-LAMP-AIM`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-050`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
 
 ## LM3-FRP-050 — roof curb, HVAC, PV, antenna, fairing and access-zone pack
 
@@ -220,6 +229,8 @@ Release boundary: No supplier unit or person load may be reacted through a clip-
 - service-removal demonstration with adjacent equipment retained
 
 Tooling: `LM3-TOOL-ROOF-MOULD`, `LM3-TOOL-ROOF-FAIRING-MOULD`, `LM3-TOOL-WATER-TEST`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-040`](manufacturing-and-assembly-controls.md), [`LM3-MFG-060`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
 
 ## LM3-FRP-060 — interior moulding, floor, service-access and fitout pack
 
@@ -271,6 +282,8 @@ Release boundary: Interior finish panels carry no seat, handrail, equipment or p
 
 Tooling: `LM3-TOOL-INT-CEILING-MOULD`, `LM3-TOOL-INT-SIDE-MOULD`, `LM3-TOOL-INT-STRAKE-MOULD`, `LM3-TOOL-INT-DOOR-PRM-MOULD`, `LM3-TOOL-FLOOR-TEMPLATE`, `LM3-TOOL-SERVICE-RAIL`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-050`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-070 — common service rail, fastener and fixture-adapter pack
 
 Release boundary: Each adapter needs its own released load case; one generic proof result cannot qualify every fixture.
@@ -304,6 +317,8 @@ Release boundary: Each adapter needs its own released load case; one generic pro
 - egress, snag, isolation and timed replacement inspection
 
 Tooling: `LM3-TOOL-SERVICE-RAIL`, `LM3-TOOL-FIXTURE-PROOF`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
 
 ## LM3-FRP-080 — pre-cut exterior film artwork, application and repair pack
 
@@ -345,6 +360,8 @@ Release boundary: Film replaces decorative masking only and never substitutes fo
 
 Tooling: `LM3-TOOL-FILM-TEMPLATE`, `LM3-TOOL-COATING-COUPON`.
 
+Reference controls: [`LM3-MFG-090`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-090 — radiative roof-coating coupon and one-car trial pack
 
 Release boundary: Research values are screening targets only; the baseline qualified light roof finish remains available if the trial fails.
@@ -380,6 +397,8 @@ Release boundary: Research values are screening targets only; the baseline quali
 
 Tooling: `LM3-TOOL-RADIATIVE-COUPON`, `LM3-TOOL-COATING-RACK`.
 
+Reference controls: [`LM3-MFG-060`](manufacturing-and-assembly-controls.md), [`LM3-MFG-090`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-100 — vehicle jacking, lifting, towing and field-rerailing interface pack
 
 Release boundary: Automotive scissor jacks, unilateral lifts and work beneath an uncribbed hydraulic load remain prohibited.
@@ -411,6 +430,8 @@ Release boundary: Automotive scissor jacks, unilateral lifts and work beneath an
 - timed depot lift and field rerailing demonstration by trained crews
 
 Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-LIFT-COLUMNS`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-080`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
 
 ## LM3-FRP-110 — primary end, battery, door and window structural-interface pack
 
@@ -449,6 +470,8 @@ Release boundary: Reference envelopes do not release load paths, glazing retenti
 
 Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-DOOR-GAUGE`, `LM3-TOOL-WINDOW-GAUGE`, `LM3-TOOL-SEAL-GAUGE`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-020`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-040`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-120 — configurable train-end and articulation structural-interface pack
 
 Release boundary: Exactly one end option is fitted at each position; neither option is released by this definition seed alone.
@@ -486,6 +509,8 @@ Release boundary: Exactly one end option is fitted at each position; neither opt
 
 Tooling: `LM3-TOOL-STEEL-FIXTURE`, `LM3-TOOL-DATUM-GAUGE`, `LM3-TOOL-COWL-MOULD`, `LM3-TOOL-WATER-TEST`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-040`](manufacturing-and-assembly-controls.md), [`LM3-MFG-080`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-130 — powered-bogie local frame, bracket and harness drawing pack
 
 Release boundary: The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.
@@ -521,6 +546,8 @@ Release boundary: The package prohibits reuse of freight bogie frames and does n
 
 Tooling: `LM3-TOOL-BOGIE-STAND`, `LM3-TOOL-MOTOR-ALIGN`, `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-DATUM-GAUGE`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-020`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-140 — trailer-bogie local frame, bracket and harness drawing pack
 
 Release boundary: The package prohibits reuse of freight bogie frames and does not release a bogie before supplier certificates and physical tests close.
@@ -554,6 +581,8 @@ Release boundary: The package prohibits reuse of freight bogie frames and does n
 - supplier dry fit, harness motion sweep, continuity and insulation tests
 
 Tooling: `LM3-TOOL-BOGIE-STAND`, `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-DATUM-GAUGE`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-020`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
 
 ## LM3-FRP-150 — battery tray, high-voltage and coolant local-hardware pack
 
@@ -589,6 +618,8 @@ Release boundary: No battery or HV hardware may be energised from this drawing d
 
 Tooling: `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-FINAL-DATUM`, `LM3-TOOL-SEAL-GAUGE`.
 
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-080`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).
+
 ## LM3-FRP-160 — low-voltage trainline harness and terminal-distribution pack
 
 Release boundary: Harness routes remain unissued until supplier connector data, EMC/fire evidence and safety I/O ownership are frozen.
@@ -620,3 +651,5 @@ Release boundary: Harness routes remain unissued until supplier connector data, 
 - installed bend-radius, chafe, service access and network-enumeration inspection
 
 Tooling: `LM3-TOOL-HARNESS-BOARD`, `LM3-TOOL-FINAL-DATUM`.
+
+Reference controls: [`LM3-MFG-010`](manufacturing-and-assembly-controls.md), [`LM3-MFG-030`](manufacturing-and-assembly-controls.md), [`LM3-MFG-070`](manufacturing-and-assembly-controls.md), [`LM3-MFG-100`](manufacturing-and-assembly-controls.md).

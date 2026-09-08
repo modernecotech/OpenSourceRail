@@ -1682,6 +1682,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "cots_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.md",
         "reference_defaults": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/default-product-specifications.json",
         "reference_defaults_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md",
+        "manufacturing_controls": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.json",
+        "manufacturing_controls_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
@@ -1771,6 +1773,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             "all_tooling_ids_in_registry": True,
             "all_controlled_bought_in_rows_link_reference_defaults": True,
             "all_make_rows_have_factory_drawing_coverage": True,
+            "all_packages_have_reference_controls": True,
             "package_ids_unique": True,
         }
         if (
@@ -1781,6 +1784,16 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or factory_release.get("validation") != expected_validation
         ):
             findings.append(Finding(paths["factory_release"], "LM3 factory drawing/interface package coverage changed"))
+    if paths["manufacturing_controls"].is_file():
+        controls = json.loads(paths["manufacturing_controls"].read_text(encoding="utf-8"))
+        rows = controls.get("controls", [])
+        if (
+            controls.get("status") != "reference-defaults-not-production-release"
+            or controls.get("control_count") != 10
+            or len({row.get("id") for row in rows}) != 10
+            or any(not row.get("stop_conditions") or not row.get("replacement_evidence") for row in rows)
+        ):
+            findings.append(Finding(paths["manufacturing_controls"], "LM3 manufacturing-control coverage changed"))
     if paths["factory_release_record"].is_file() and paths["factory_release"].is_file():
         factory_record = json.loads(paths["factory_release_record"].read_text(encoding="utf-8"))
         record_packages = factory_record.get("packages", [])

@@ -8,12 +8,13 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 ## Reviewed Open Work
 
-The 2026-09-04 repository review found no failing committed software, city,
+The 2026-09-08 repository review found no failing committed software, city,
 project-twin, link, or browser acceptance baseline. The documentation audit
 also reconciled the current rolling-stock product, assembly, tooling, factory,
-mass and evidence-package counts; regenerated the global index and reader
-book; and added checks that make those front-door claims fail when their
-machine-readable contracts change.
+mass and evidence-package counts; added mechanical and civil workface controls
+plus the owner–builder–operator mobilisation plan; regenerated the global index
+and reader book; and added checks that make those front-door claims fail when
+their machine-readable contracts change.
 
 The following work remains genuinely open and must not be represented as
 complete merely by adding documentation:
@@ -26,6 +27,15 @@ complete merely by adding documentation:
 | Control electronics | Exact pilot SKUs, real harness/enclosure/power packs, deployable signed images, bench evidence, and KiCad fabrication data where a custom board is selected | [Control-electronics release checklist](../control-electronics/release-checklist.md) |
 | Software and operations | Ops Core now has local authenticated RBAC, managed evidence/documents, server attestations and verified backup archives. Production TLS/SSO/MFA, hosted secret/backup operations, signed live train actions, production transports, HIL and operator validation remain. | [Operations Portal](operations-portal/README.md), [certification](certification/README.md) and [operations validation](operations/validation-checklist.md) |
 | Approval | Supplier qualification, physical tests, independent safety assessment and national/operator authorization | [Safety case](safety-case/README.md) and [certification](certification/README.md) |
+
+The rolling-stock packages now link to ten [manufacturing and assembly
+controls](../design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md),
+and the civil packages link to ten [fabrication and construction
+controls](../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md).
+These fill ordinary work-sequence, inspection, handling and handback gaps; they
+do not close the supplier, drawing, calculation, site or authority evidence in
+the table. The [owner–builder–operator plan](owner-builder-operator-setup.md)
+assigns an institutional route for closing those gaps.
 
 Repository work that can advance without external evidence remains visible in
 the analysis register and workstream table: charger duty, station analyses,
@@ -40,6 +50,7 @@ evidence but cannot close the external release gates above.
 | Workstream | Target outcome |
 |---|---|
 | Documentation accessibility | One root front door and source registry are enforced; local READMEs retain only discipline/city evidence, with generated inventory and link/drift checks |
+| Owner–builder–operator institution | Establish the public owner, ring-fenced delivery/operator company, independent assurance, accountable executives, competence pipeline, management systems and gated move from development to revenue service |
 | Rolling-stock detail package | Close the 16 factory packages and 117 active mass rows with supplier-exact envelopes, production solids/masses, weld maps, tolerance stacks, harness clamp locations, FEA-ready brackets, 2D drawings, NC/flat-pattern outputs and calibrated weight/balance evidence |
 | Mechanical CAD | The candidate layer and generated FreeCAD/IFC review geometry are implemented; next closure is supplier-returned exact configurations, mass/envelopes, released drawings and production CAD/NC data |
 | Control-electronics integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |

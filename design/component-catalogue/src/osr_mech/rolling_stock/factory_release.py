@@ -853,6 +853,7 @@ def factory_release_record_template(payload: dict[str, object]) -> dict[str, obj
                 "title": package["title"],
                 "release_status": "open-unissued",
                 "release_boundary": package["release_boundary"],
+                "reference_control_ids": package.get("reference_control_ids", []),
                 "prerequisite_records": [
                     {
                         "requirement": requirement,

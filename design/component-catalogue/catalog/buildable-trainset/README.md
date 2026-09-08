@@ -22,7 +22,7 @@ current basic design and what must be closed before first steel cut.
 | First-article lead | [`first-article-baseline.json`](first-article-baseline.json) | Hold `LM3-FA-001`, assign the 81 [public work packages](first-article-work-packages.md), and manage closure only through the controlled state file |
 | Test / assurance lead | [`first-article-evidence-status.md`](first-article-evidence-status.md) | Separate current screening from the 13 still-open supplier, structural, physical, thermal, electrical, HIL, manufacturing and mass-properties release gates |
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
-| Drawing/interface lead | [`factory-release-readiness.md`](factory-release-readiness.md) | Execute the 10 chassis, module, fascia, roof, interior, finish and recovery packages through issued drawings, released tooling and performed verification |
+| Drawing/interface lead | [`factory-release-readiness.md`](factory-release-readiness.md) | Execute the 16 chassis, module, fascia, roof, interior, finish and recovery packages through issued drawings, released tooling and performed verification |
 | Drafting/checking team | [`factory-drawings/index.md`](factory-drawings/index.md) | Develop the 29 drawing-definition seeds covering all 62 locally made rows into checked production drawings without treating design envelopes as manufacturing dimensions |
 | Train configuration engineer | [`train-end-interface.md`](train-end-interface.md) | Select panoramic glass outer ends or the optional mid open train-to-train connection on the common end interface |
 | Vehicle mechanical / interior engineer | [`small-component-standard.md`](small-component-standard.md) | Freeze the common rail, four fastener families, adapters, keyed connectors, lighting modules, and door/window service boundaries |
@@ -32,6 +32,7 @@ current basic design and what must be closed before first steel cut.
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
 | Mass-properties engineer | [`mass-closure-ledger.md`](mass-closure-ledger.md) | Close all 117 active product responsibilities with production-CAD, supplier and calibrated weighed evidence; use [`mass-budget.md`](mass-budget.md) for the nine-category control total |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
+| Manufacturing / quality lead | [`manufacturing-and-assembly-controls.md`](manufacturing-and-assembly-controls.md) | Adopt or replace the ten reference datum, steel, joint, bonding, moulding, roof, interior, lifting, finish and NCR controls |
 | Buyer / supplier manager | [`supplier-anchors.md`](supplier-anchors.md) | Source all 56 bought-in rows from 27 real supplier/research families or qualify a controlled local equivalent, then issue the per-part RFQ/evidence definitions |
 | Buyer preparing enquiries | [`cots-candidates.md`](cots-candidates.md) | Use 41 manufacturer/research catalogue/RFQ candidates covering all 56 bought-in rows, while preserving the exact fit and evidence still required |
 | Buyer needing a costable starting point | [`default-product-specifications.md`](default-product-specifications.md) | Start every 34 `BID` and 24 `SOURCE` product row from one controlled affordable reference, then override it when fit, duty, evidence or whole-life cost requires |
@@ -85,7 +86,8 @@ The intended sequence is:
    nine-category mass budget, then close joint-control rows as supplier,
    production-CAD and calibrated weighed evidence becomes available.
 10. Use travelers as the shop-routing, material/process-control, and QA
-   template.
+   template, applying `manufacturing-and-assembly-controls.md` wherever a
+   released procedure has not yet superseded its reference control.
 11. Run the ordered procurement and rig sequence in
     `first-article-execution-pack.md`; begin supplier and test records from the
     controlled templates under `evidence/`.

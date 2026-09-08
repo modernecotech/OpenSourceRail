@@ -59,6 +59,8 @@ more:
 
 ## Relationship To Other Docs
 
+- Organisational mobilisation, governance, staffing and stage gates:
+  [`owner-builder-operator-setup.md`](owner-builder-operator-setup.md)
 - Unified city/deployment pipeline:
   [`deployment-model.md`](deployment-model.md)
 - First adoptable product:

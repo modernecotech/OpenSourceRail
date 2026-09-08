@@ -54,6 +54,11 @@ from osr_mech.rolling_stock.factory_release import (
     render_factory_release_readiness,
 )
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
+from osr_mech.rolling_stock.manufacturing_controls import (
+    FACTORY_PACKAGE_CONTROLS,
+    manufacturing_control_payload,
+    render_manufacturing_controls,
+)
 from osr_mech.rolling_stock.mass_closure import (
     mass_closure_payload as build_mass_closure_payload,
     mass_properties_record_template,
@@ -5258,6 +5263,9 @@ def factory_release_work_package_payload(
     reference_default_ids = {
         row.product_id for row in default_product_specifications(design.product_items)
     }
+    manufacturing_control_ids = {
+        row["id"] for row in manufacturing_control_payload()["controls"]
+    }
     make_product_ids = {
         item.id for item in design.product_items if item.route is Route.MAKE
     }
@@ -5301,7 +5309,14 @@ def factory_release_work_package_payload(
         unknown_tools = sorted(set(package["tooling_ids"]) - set(TOOL_BUILDERS))
         if unknown_tools:
             raise ValueError(f"{package_id} references unknown tooling {unknown_tools}")
+        package_controls = FACTORY_PACKAGE_CONTROLS.get(package_id)
+        if not package_controls:
+            raise ValueError(f"{package_id} has no manufacturing control route")
+        unknown_controls = sorted(set(package_controls) - manufacturing_control_ids)
+        if unknown_controls:
+            raise ValueError(f"{package_id} references unknown manufacturing controls {unknown_controls}")
         package["product_rows"] = product_rows
+        package["reference_control_ids"] = list(package_controls)
         enriched_packages.append(package)
     payload["packages"] = enriched_packages
     payload["controlled_product_count"] = len(controlled_products)
@@ -5313,6 +5328,7 @@ def factory_release_work_package_payload(
         "all_product_ids_in_manifest": True,
         "all_product_ids_have_geometry": True,
         "all_tooling_ids_in_registry": True,
+        "all_packages_have_reference_controls": True,
         "package_ids_unique": True,
         "all_controlled_bought_in_rows_link_reference_defaults": all(
             row["reference_default"].startswith("default-product-specifications.json::")
@@ -5344,6 +5360,7 @@ def render_factory_release_work_packages(design: BuildableTrainsetDesign) -> str
         f"- Work packages: `{payload['package_count']}`",
         f"- Controlled product rows represented: `{payload['controlled_product_count']}`",
         f"- Registered tooling referenced: `{len(payload['tooling_ids'])}`",
+        "- Reference work instructions: [`manufacturing-and-assembly-controls.md`](manufacturing-and-assembly-controls.md)",
         f"- Boundary: {payload['global_release_boundary']}",
         "",
         "## Package index",
@@ -5394,6 +5411,7 @@ def render_factory_release_work_packages(design: BuildableTrainsetDesign) -> str
             lines.extend(["", f"### {heading}", ""])
             lines.extend(f"- {value}" for value in row[key])
         lines.extend(["", "Tooling: " + ", ".join(f"`{tool}`" for tool in row["tooling_ids"]) + "."])
+        lines.extend(["", "Reference controls: " + ", ".join(f"[`{control}`](manufacturing-and-assembly-controls.md)" for control in row["reference_control_ids"]) + "."])
     lines.append("")
     return "\n".join(lines)
 
@@ -5428,6 +5446,8 @@ def write_outputs(
     finish_md = out_dir / "exterior-finish-system.md"
     defaults_json = out_dir / "default-product-specifications.json"
     defaults_md = out_dir / "default-product-specifications.md"
+    controls_json = out_dir / "manufacturing-and-assembly-controls.json"
+    controls_md = out_dir / "manufacturing-and-assembly-controls.md"
     factory_release_json = out_dir / "factory-release-work-packages.json"
     factory_release_md = out_dir / "factory-release-work-packages.md"
     factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
@@ -5504,6 +5524,12 @@ def write_outputs(
         ),
         encoding="utf-8",
     )
+    controls = manufacturing_control_payload()
+    controls_json.write_text(
+        json.dumps(controls, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    controls_md.write_text(render_manufacturing_controls(controls), encoding="utf-8")
     factory_release = factory_release_work_package_payload(design)
     factory_release_json.write_text(
         json.dumps(factory_release, indent=2, sort_keys=True) + "\n",

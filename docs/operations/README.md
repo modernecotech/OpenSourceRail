@@ -54,6 +54,12 @@ Actual purchase orders, deliveries, invoices, payments and progress remain
 separate persisted Ops Core records; a generated plan never becomes an issued
 commercial record by itself.
 
+The institutional route for turning those records into an accountable railway is
+the [owner–builder–operator setup plan](../owner-builder-operator-setup.md). It
+defines the retained public owner, ring-fenced delivery/operator company,
+independent assurance, responsible executives, competence build and staged
+transition from development through revenue service.
+
 Healthy trainsets use distributed overnight stabling at powered passenger
 stations under [`dispatcher/s6-shift-end.md`](dispatcher/s6-shift-end.md).
 The main depot remains responsible for defects, inspections beyond the

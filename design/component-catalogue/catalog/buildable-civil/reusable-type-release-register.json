@@ -1,5 +1,154 @@
 {
   "authority_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
+  "construction_controls": {
+    "authority_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
+    "control_count": 10,
+    "controls": [
+      {
+        "crew_and_plant": "two-person survey crew, total station, digital level and traceable check artefact",
+        "default": "Use one project grid and vertical datum; close each set-out from two independent control points. Survey all first-article interfaces and every foundation, bearing seat, rail seat, platform edge and movement joint.",
+        "hold": "control closure fails, benchmark disturbed, design/survey revision mismatch, or required accuracy is absent from the released survey plan",
+        "id": "CIV-MFG-010",
+        "release_evidence": "accepted survey control report, set-out sheets and signed as-built survey",
+        "scope": "survey, datums and set-out",
+        "sequence": [
+          "establish protected project control outside the work zone",
+          "transfer primary control independently to factory bed or work front",
+          "set mould, foundation, bearing and rail-seat datums from primary control",
+          "record as-built coordinates before the work is concealed or loaded"
+        ]
+      },
+      {
+        "crew_and_plant": "mould/carpentry 2\u20133, reinforcement 4\u20136, one independent inspector, mould survey kit and cover/insert gauges",
+        "default": "Use rigid reusable steel moulds with replaceable end boxes and positive insert templates. First mould and every repaired/reset mould receive a full dimensional survey; subsequent pours receive datum, closure and insert checks before each pour.",
+        "hold": "unreleased reinforcement/prestress drawing, unidentified steel/insert, cover failure, dirty duct, loose insert, mould outside drawing tolerance, or unsigned pre-pour checklist",
+        "id": "CIV-MFG-020",
+        "release_evidence": "mould acceptance, material lots, cage/insert/cover report and signed pre-pour record",
+        "scope": "precast mould, reinforcement and inserts",
+        "sequence": [
+          "clean and survey mould/bed datums",
+          "apply release system and fit cages, ducts, drains, lifting anchors and inserts",
+          "independently check cover, restraint and insert templates",
+          "photograph and sign the pre-pour hold point"
+        ]
+      },
+      {
+        "crew_and_plant": "placement 6\u20138 plus pump/crane operator, finishing 2\u20133, laboratory technician and independent inspector at hold points",
+        "default": "Reject site water addition unless the approved mix procedure permits and records it. Concrete class, exposure, w/c ratio, workability window, test frequency, curing cycle, release strength and prestress sequence remain calculation/specification values\u2014not catalogue defaults.",
+        "hold": "batch ticket mismatch, workability/temperature outside specification, interrupted placement beyond permitted joint time, curing excursion, failed strength result, or prestress anomaly",
+        "id": "CIV-MFG-030",
+        "release_evidence": "batch/test records, curing history, transfer/release strength, prestress elongation/force record and approved deviation/NCR closure",
+        "scope": "concrete placement, curing and prestress transfer",
+        "sequence": [
+          "accept batch and fresh-concrete tests",
+          "place in the released sequence without displacing cages or ducts",
+          "finish and cure with temperature/maturity records",
+          "confirm specified release/transfer strength before demoulding or prestress transfer"
+        ]
+      },
+      {
+        "crew_and_plant": "lift supervisor, certified crane operator, four riggers, two survey/inspection staff and rated lifting frame",
+        "default": "Inspect 100% of the first three units of each mould/type and every safety/interface feature thereafter. Routine non-interface dimensions may move to first/last plus 10% minimum three only through an approved control plan. Support units at the drawing-defined points on level, verified bearers.",
+        "hold": "strength not accepted, crack/damage beyond acceptance limits, interface out of tolerance, blocked duct/drain, unidentified unit, or storage support not verified",
+        "id": "CIV-MFG-040",
+        "release_evidence": "dimensional/crack report, concrete and lift records, traceability mark and storage inspection",
+        "scope": "demould, dimensional acceptance and storage",
+        "sequence": [
+          "confirm release strength and approved lifting arrangement",
+          "demould without prying at unapproved points",
+          "inspect surfaces, cracks, geometry, inserts, ducts and bearing/rail interfaces",
+          "mark unique ID, orientation, mass and approved support points before storage"
+        ]
+      },
+      {
+        "crew_and_plant": "transport supervisor, certified operator, four riggers, escort/traffic staff as permitted, inspected trailer and rated lifting equipment",
+        "default": "Use the approved transport orientation and support spacing; do not support on bearing seats, walkway edges, drains or rail plinths. The route survey, permits, dynamic allowances and temporary-state calculation are deployment-specific.",
+        "hold": "route/permit absent, actual unit mass exceeds schedule, support/restraint mismatch, weather beyond method limits, transport damage, or delivery survey failure",
+        "id": "CIV-MFG-050",
+        "release_evidence": "route/permit pack, checked transport calculation, pre/post condition records and delivery acceptance",
+        "scope": "transport and delivery acceptance",
+        "sequence": [
+          "match unit, mass and centre of gravity to transport schedule",
+          "inspect route, trailer, temporary supports and restraints",
+          "load only from approved points and record restraint installation",
+          "inspect and survey interfaces again after delivery"
+        ]
+      },
+      {
+        "crew_and_plant": "site engineer, supervisor, survey pair, foundation crew sized to selected method, 4\u20136 erection riggers and independent quality hold-point inspector",
+        "default": "Release one work front at a time from accepted survey, utility and geotechnical zone data. Never extrapolate a foundation selection across an uninvestigated ground boundary. Keep column/cap temporary stability independent of incomplete permanent connections.",
+        "hold": "unexpected ground/water/utility, foundation test failure, starter or bearing-seat survey failure, uncontrolled temporary state, grout/material mismatch, or open structural NCR",
+        "id": "CIV-MFG-060",
+        "release_evidence": "ground log, foundation tests, concrete/grout records, temporary-works inspection and pier/cap as-built survey",
+        "scope": "foundation, pier and cap construction",
+        "sequence": [
+          "verify utilities, ground horizon and formation",
+          "construct/test foundation and survey starter interface",
+          "erect or cast column with temporary stability maintained",
+          "install cap, closure/grout and bearing-seat survey"
+        ]
+      },
+      {
+        "crew_and_plant": "lift supervisor, crane/launcher operator(s), four riggers, survey pair, two closure/grout workers and safety lead; plant capacity follows the checked lift study",
+        "default": "Plan one lift controller, one command channel and a controlled exclusion zone. Set each bearing by ID and orientation; protect movement surfaces and retain access for inspection/replacement. No person enters beneath a suspended or incompletely restrained unit.",
+        "hold": "seat/bearing/unit not accepted, wind or visibility beyond method limits, plant configuration mismatch, loss of communication, unplanned movement, survey failure, or incomplete restraint",
+        "id": "CIV-MFG-070",
+        "release_evidence": "checked erection/lift plan, plant and personnel certificates, bearing schedule, lift record, closure strength and final survey",
+        "scope": "girder erection, bearings and closures",
+        "sequence": [
+          "accept bearing seats, bearings, unit and erection plant",
+          "set bearing orientation/temperature and install temporary restraints",
+          "lift or launch to the released sequence and survey before de-rigging",
+          "complete diaphragms/closures and remove temporary restraints only at the authorised stage"
+        ]
+      },
+      {
+        "crew_and_plant": "site engineer, survey pair, earthworks 5\u20138 plus selected plant, concrete 6\u20138, laboratory technician and track-interface inspector",
+        "default": "Build a full-width trial panel including drainage, ducts and rail-seat fixings before repetitive work. Divide earthworks and pavement testing into traceable lots no larger than one shift or one material/source change; the project specification sets test values and lot size if smaller.",
+        "hold": "soft spot or groundwater differs from model, drainage unavailable, compaction/plate test failure, template movement, concrete/cure failure, or transition survey outside released limits",
+        "id": "CIV-MFG-080",
+        "release_evidence": "formation lot tests, drainage proof, pre-pour record, concrete tests, trial-panel acceptance and as-built survey",
+        "scope": "at-grade formation, slab and transition",
+        "sequence": [
+          "prove utilities, drainage outfall and formation level",
+          "place and test ground treatment/subbase by lot",
+          "set rail-seat/duct/drain templates and sign pre-pour hold",
+          "cast/cure, survey and trial the first complete transition panel"
+        ]
+      },
+      {
+        "crew_and_plant": "permanent-way supervisor, 6\u201310 track workers, survey pair, signalling/power representatives, calibrated track gauge and clearance gauge",
+        "default": "Use a common chainage and asset ID across survey, IFC, inspection and maintenance records. Perform 100% measurement at turnouts, movement joints, stations, transitions and first article; routine interval and acceptance values come from the released track/vehicle/interface plan.",
+        "hold": "supplier revision mismatch, missing vehicle envelope, failed gauge/cant/stepping/continuity, obstructed drainage/access, or interface NCR not accepted by both owners",
+        "id": "CIV-MFG-090",
+        "release_evidence": "supplier installation records, track/clearance survey, signed civil-track-station-vehicle ICD and configuration handover",
+        "scope": "track, platform and systems interface handover",
+        "sequence": [
+          "clean and survey rail-seat/plinth, platform and equipment interfaces",
+          "install accepted fastening/rail/turnout products to supplier procedures",
+          "measure gauge, alignment, cant, stepping, clearances, drainage and electrical continuity",
+          "hand over an as-built interface model with all NCRs and temporary conditions visible"
+        ]
+      },
+      {
+        "crew_and_plant": "responsible construction engineer, quality lead, accountable designer and independent checker according to consequence; repair team only after disposition",
+        "default": "No field cutting, drilling, heat straightening, reinforcement/strand exposure, concrete repair, bearing adjustment, grout substitution or tolerance concession without a written disposition by the accountable designer and checker where required.",
+        "hold": "unapproved repair, repeat defect trend, hidden defect extent, missing retest, configuration mismatch, or any open safety/structural NCR",
+        "id": "CIV-MFG-100",
+        "release_evidence": "NCR, engineering assessment, approved repair method, repeat-test/survey result, as-built update and signed handback",
+        "scope": "nonconformance, repair and work-front handback",
+        "sequence": [
+          "identify, contain and preserve the original evidence",
+          "assess structural, durability, geometry and downstream interface effects",
+          "obtain authorised use-as-is, rework, repair, return/scrap or design-change disposition",
+          "perform repair and repeat every invalidated inspection before handback"
+        ]
+      }
+    ],
+    "schema": "org.opensourcerail.civil-construction-controls.v1",
+    "status": "reference-defaults-not-ifc-release",
+    "workface_release_rule": "No work starts from coordination geometry alone: released drawings/method, accepted inputs, competent people/plant and open-hold-point authorization must all identify the same asset and revision."
+  },
   "drawing_definitions": [
     {
       "frozen_inputs": [
@@ -303,6 +452,15 @@
         "first mould and girder accepted"
       ],
       "id": "CIV-FRP-100",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-020",
+        "CIV-MFG-030",
+        "CIV-MFG-040",
+        "CIV-MFG-050",
+        "CIV-MFG-070",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "precast superstructure and guideway edge",
@@ -331,6 +489,15 @@
         "first cap accepted"
       ],
       "id": "CIV-FRP-110",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-020",
+        "CIV-MFG-030",
+        "CIV-MFG-040",
+        "CIV-MFG-050",
+        "CIV-MFG-060",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "pier column and precast cap",
@@ -357,6 +524,12 @@
         "trial jack/replacement method accepted"
       ],
       "id": "CIV-FRP-120",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-060",
+        "CIV-MFG-070",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "bearing, restraint and replacement interfaces",
@@ -383,6 +556,13 @@
         "trial panel accepted"
       ],
       "id": "CIV-FRP-130",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-030",
+        "CIV-MFG-080",
+        "CIV-MFG-090",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "at-grade slab and transition",
@@ -408,6 +588,11 @@
         "interdisciplinary review signed"
       ],
       "id": "CIV-INT-200",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-090",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "track and station-deck interfaces",
@@ -432,6 +617,11 @@
         "interdisciplinary review signed"
       ],
       "id": "CIV-INT-210",
+      "reference_control_ids": [
+        "CIV-MFG-010",
+        "CIV-MFG-090",
+        "CIV-MFG-100"
+      ],
       "release_boundary": "Planning/RFQ definition only. Fabrication or construction release requires project survey, geotechnical model, checked calculations, reinforcement/prestress design, supplier data, temporary-works design and signed engineering acceptance.",
       "status": "definition-seed-not-issued",
       "title": "station and vehicle envelope interfaces",
@@ -741,8 +931,10 @@
     }
   ],
   "validation": {
+    "all_construction_controls_have_hold_and_handback": true,
     "all_ifc_types_classified_once": true,
     "all_ifc_types_have_drawing_coverage": true,
+    "all_packages_have_construction_control_routes": true,
     "all_packages_have_hold_points": true,
     "site_specific_evidence_remains_open": true
   }

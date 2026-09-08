@@ -1,7 +1,12 @@
 import json
 from pathlib import Path
 
-from osr_mech.buildable_civil import build_payload, drawing_definitions, release_packages
+from osr_mech.buildable_civil import (
+    build_payload,
+    construction_control_payload,
+    drawing_definitions,
+    release_packages,
+)
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -40,6 +45,16 @@ def test_packages_have_real_hold_points_and_tools() -> None:
     assert {drawing for package in release_packages() for drawing in package.drawing_ids} == drawings
 
 
+def test_construction_controls_cover_execution_and_stop_conditions() -> None:
+    controls = construction_control_payload()
+    assert controls["control_count"] == 10
+    assert all(row["sequence"] and row["hold"] and row["release_evidence"] for row in controls["controls"])
+    text = json.dumps(controls).lower()
+    for scope in ("precast mould", "transport", "girder erection", "at-grade", "track", "nonconformance"):
+        assert scope in text
+    assert "not-ifc-release" in controls["status"]
+
+
 def test_tracked_generated_register_matches_generator() -> None:
     tracked = json.loads(
         (ROOT / "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json").read_text()
@@ -50,4 +65,7 @@ def test_tracked_generated_register_matches_generator() -> None:
         "all_ifc_types_have_drawing_coverage": True,
         "all_packages_have_hold_points": True,
         "site_specific_evidence_remains_open": True,
+        "all_construction_controls_have_hold_and_handback": True,
+        "all_packages_have_construction_control_routes": True,
     }
+    assert all(row["reference_control_ids"] for row in tracked["release_packages"])

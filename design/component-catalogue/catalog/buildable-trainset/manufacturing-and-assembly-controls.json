@@ -1,0 +1,289 @@
+{
+  "authority_boundary": "Reference defaults for first-article planning only. A released drawing, joint calculation, qualified process specification, supplier instruction, or authorised deviation takes precedence. These values do not release a vehicle, structural joint, glazing system, pressure boundary, HV system, lifting operation, or safety-critical installation.",
+  "control_count": 10,
+  "controls": [
+    {
+      "applies_to": [
+        "all MAKE parts",
+        "all assembly fixtures",
+        "all marriage interfaces"
+      ],
+      "id": "LM3-MFG-010",
+      "inspection": "100% first article and all safety/interface datums; routine non-safety dimensions use first-off, last-off and at least one in ten, with a minimum of three per batch.",
+      "reference_defaults": [
+        "Use vehicle coordinates X forward, Y left and Z up; identify the car centre plane, bogie-centre planes and underframe top plane on every assembly drawing.",
+        "Locate work by a 3-2-1 datum scheme. Do not dimension serial features from one another or use an unverified body panel as a master datum.",
+        "Treat CAD nominal geometry as basic only where the released drawing provides a geometric tolerance; otherwise the dimension is not released for manufacture.",
+        "For non-safety brackets and trim only, use a provisional general shop tolerance of \u00b10.5 mm to 300 mm, \u00b11.0 mm from 300\u20131,000 mm and \u00b12.0 mm above 1,000 mm; hole position \u00b10.5 mm. A drawing-specific tolerance is mandatory at bogie, coupler, door, glazing, bearing, articulation and crash interfaces.",
+        "Verify each fixture at installation, after any move or repair, and before each first-article batch against traceable artefacts; record as-found and as-left results."
+      ],
+      "replacement_evidence": "checked detail/assembly drawing, tolerance analysis, inspection plan and calibrated measurement record",
+      "scope": "drawing, datum and measurement control",
+      "stop_conditions": [
+        "missing drawing revision",
+        "damaged or out-of-calibration gauge",
+        "datum disagreement above released tolerance",
+        "unrecorded CAD or NC revision"
+      ]
+    },
+    {
+      "applies_to": [
+        "underframe",
+        "body frame",
+        "bolsters",
+        "end rings",
+        "roof frame",
+        "bogie frame if locally manufactured"
+      ],
+      "id": "LM3-MFG-020",
+      "inspection": "100% visual inspection and dimensional survey of first article; NDT method, extent and acceptance follow the released weld map and qualified procedure, never this default.",
+      "reference_defaults": [
+        "Receive material by heat/lot and preserve traceability through cutting and kitting; quarantine unidentified offcuts from structural use.",
+        "Deburr and remove cutting dross; keep weld lands free of oil, moisture, scale, coating and zinc unless the qualified procedure explicitly permits it.",
+        "Dry-build in the surveyed fixture, restrain only at released hard points, and record diagonals, twist, bogie centres, coupler centreline and door-portal datums before welding.",
+        "Use a balanced weld sequence from the centre outward, with inter-pass temperature, consumables, tack removal and distortion correction controlled by the qualified WPS.",
+        "No flame straightening, weld repair, weld-size substitution or hole enlargement is permitted without an approved repair/deviation instruction."
+      ],
+      "replacement_evidence": "released weld map/WPS, welder qualifications, material certificates, NDT plan and signed dimensional report",
+      "scope": "steel preparation, fit-up and welding",
+      "stop_conditions": [
+        "material certificate mismatch",
+        "unqualified welder or WPS",
+        "fit-up outside drawing tolerance",
+        "arc strike or crack",
+        "fixture movement"
+      ]
+    },
+    {
+      "applies_to": [
+        "service rails",
+        "interior modules",
+        "removable panels",
+        "roof equipment",
+        "structural bolted interfaces"
+      ],
+      "id": "LM3-MFG-030",
+      "inspection": "100% identity and witness-mark check on safety, roof, door, glazing, bogie, coupler, articulation and HV enclosure joints; normal service-rail joints first/last and 10% minimum three.",
+      "reference_defaults": [
+        "Kit fasteners by joint ID, grade, coating, locking device and lot; do not mix visually similar hardware or substitute stainless/plated pairs without galvanic review.",
+        "Bring multi-fastener joints to contact by hand, seat in a cross-pattern, then apply the released final torque in at least two stages.",
+        "Use sockets within the calibrated tool range, record actual tool ID and setting, and apply a visible witness mark after final acceptance.",
+        "Do not publish or infer numerical torque from nominal diameter. Lubrication, coating, insert strength, prevailing-torque devices and supplier bearing limits control preload.",
+        "Replace single-use prevailing-torque fasteners and any fastener rejected by the released reuse rule; never re-torque a witness-marked joint unless the procedure requires it."
+      ],
+      "replacement_evidence": "joint calculation or supplier instruction, released joint schedule, batch record and signed torque trace",
+      "scope": "bolted and captive-fastener joints",
+      "stop_conditions": [
+        "no numerical torque authority",
+        "tool outside calibration",
+        "cross-threading or spinning insert",
+        "witness mark broken",
+        "joint gap after seating"
+      ]
+    },
+    {
+      "applies_to": [
+        "panoramic end glass",
+        "side glazing",
+        "bonded GFRP",
+        "roof PV laminates",
+        "sealed penetrations"
+      ],
+      "id": "LM3-MFG-040",
+      "inspection": "100% first article, every safety glazing perimeter and every roof penetration; retain witness coupons by material lot and shift through the defined evidence-retention period.",
+      "reference_defaults": [
+        "Work in an enclosed clean zone at 18\u201330 \u00b0C, 30\u201375% RH and at least 3 \u00b0C above dew point unless the qualified product procedure is narrower.",
+        "Record substrate, cleaner, primer, adhesive/sealant and applicator batch/expiry; perform the supplier surface-preparation route and a witnessed adhesion coupon at the start of each shift/material combination.",
+        "Dry-fit with hard locators before priming. The released drawing must state glass edge clearance, adhesive bite/thickness, spacer hardness, drain path and installation gap.",
+        "Record start/end application times, environmental readings, bead continuity and clamp/removal time. Supplier open-time and cure limits are mandatory and are not replaced by this default.",
+        "Protect bond lines from movement, water, dust and coating until released cure; water-test glazing and roof penetrations before interior closure."
+      ],
+      "replacement_evidence": "supplier-qualified bonding procedure, released glazing/bond drawing, coupon results, environment log and leak-test record",
+      "scope": "adhesive bonding, sealing and glazing",
+      "stop_conditions": [
+        "substrate below dew-point margin",
+        "expired or unmatched batch",
+        "missed open time",
+        "primer contamination",
+        "bead discontinuity",
+        "glass edge contact"
+      ]
+    },
+    {
+      "applies_to": [
+        "side and roof panels",
+        "front fascia pieces",
+        "lamp bezels",
+        "interior liners",
+        "fairings"
+      ],
+      "id": "LM3-MFG-050",
+      "inspection": "100% first article visual, thickness, mass, trim, insert and master-gauge inspection; production sampling follows the qualified control plan, while every safety insert remains individually traceable.",
+      "reference_defaults": [
+        "Survey each mould from tooling datums before first use and after repair; clean, release and inspect it before lay-up.",
+        "Issue a ply/cut kit and resin/gelcoat batch traveler. Fibre type, orientation, overlap, core, resin ratio, vacuum level and cure cycle come from the qualified laminate schedule.",
+        "Use moulded or drill-jigged locator features; CNC-trim only from released datums and trial-fit the first part in the master body/fascia frame before drilling production parts.",
+        "Bond or mould inserts only with positive anti-rotation/pull-out features and witness samples; prevent exposed fibre and seal all trimmed edges and penetrations.",
+        "The fascia master gauge must simultaneously accept the glass dummy, lamp gauges, washer/sensor keep-outs and removable service panels without forced fit."
+      ],
+      "replacement_evidence": "qualified laminate/process specification, mould acceptance, coupon/mechanical evidence, trim program revision and signed first-article report",
+      "scope": "GFRP body, fascia and roof moulded parts",
+      "stop_conditions": [
+        "mould datum out",
+        "unreleased laminate schedule",
+        "cure excursion",
+        "dry fibre/void/delamination",
+        "insert movement",
+        "forced master-gauge fit"
+      ]
+    },
+    {
+      "applies_to": [
+        "HVAC modules",
+        "PV rails and laminates",
+        "fairings",
+        "cable glands",
+        "condensate and roof drains"
+      ],
+      "id": "LM3-MFG-060",
+      "inspection": "100% roof fasteners, penetrations, drains, isolation labels and leak-test zones on every car.",
+      "reference_defaults": [
+        "Complete a bench dry-build of rails, HVAC support frame, fairings, glands, drain paths and removable envelopes before the car roof is closed.",
+        "Lift equipment only from supplier points with a released lift plan; do not use PV rails, fairings or duct flanges as lifting points.",
+        "Maintain physical segregation between HV/PV, LV/data, condensate and fresh-air paths; route drains continuously downhill and provide cleanable traps only where shown.",
+        "Install replaceable equipment without permanent adhesive across its removal boundary; preserve roof access, fall-protection and emergency-isolation zones.",
+        "Perform staged water tests after bare roof sealing, after equipment installation and after fairing closure; electrically test bonding, insulation and PV isolation before energisation."
+      ],
+      "replacement_evidence": "released roof arrangement and load calculation, supplier manuals, lift plan, water-test map, electrical test and mass/CG record",
+      "scope": "roof HVAC, solar and weatherproofing assembly",
+      "stop_conditions": [
+        "standing water",
+        "unsealed penetration",
+        "blocked removal path",
+        "missing lift point",
+        "failed bond/insulation test",
+        "supplier mass/CG absent"
+      ]
+    },
+    {
+      "applies_to": [
+        "floors",
+        "seats",
+        "panels",
+        "lighting",
+        "grab rails",
+        "PIS/CCTV",
+        "harnesses",
+        "hoses"
+      ],
+      "id": "LM3-MFG-070",
+      "inspection": "100% concealed-route photo/map, connector identity, safety fixture and accessibility check; cosmetic modules use first/last plus 10% minimum three.",
+      "reference_defaults": [
+        "Complete concealed harness, duct, drain and fire-barrier inspection before floors, ceilings or service panels close the zone.",
+        "Use the common service rail and keyed connectors for non-structural modular fit-out; passenger load-bearing fixtures require a released load path and proof evidence.",
+        "Route cables and hoses in dedicated trays, protect every edge crossing, support branches close to connectors, and preserve supplier minimum bend radius and service loop.",
+        "Apply unique labels at both ends and every branch; run continuity/insulation/network checks before energisation and again after panel closure.",
+        "Dry-fit floors and panels from the centre datum outward, preserve drainage/inspection hatches, eliminate trip lips and sharp edges, then gauge PRM aisle, door circulation and emergency access."
+      ],
+      "replacement_evidence": "released routing and fit-out drawings, fixture load calculation/test, cable test report, fire-material evidence and dimensional gauge record",
+      "scope": "interior fit-out and service routing",
+      "stop_conditions": [
+        "unreleased routing drawing",
+        "chafing or unsupported span",
+        "mixed HV/LV zone",
+        "blocked access panel",
+        "failed fire barrier",
+        "PRM gauge obstruction"
+      ]
+    },
+    {
+      "applies_to": [
+        "body-to-bogie marriage",
+        "battery/HVAC modules",
+        "train ends",
+        "articulation",
+        "jacking and rerailing points"
+      ],
+      "id": "LM3-MFG-080",
+      "inspection": "100% lift-point identity, equipment certificates, pre-use check, lift log and post-marriage geometry for every vehicle movement.",
+      "reference_defaults": [
+        "Weigh each accepted module and record centre of gravity before planning the lift; compare cumulative body mass and reactions with the controlled mass ledger.",
+        "Use only marked, rated and proof-accepted lifting/jacking points with positive cribbing and a released synchronous lift plan; establish an exclusion zone and appoint one lift controller.",
+        "Mobile lifting columns are the factory default for carbody/bogie marriage. Portable screw or scissor jacks are a recovery option only when the selected units, foundations/packing, side-load restraint and vehicle jacking pads are specifically engineered and proof tested.",
+        "Raise in defined increments while monitoring level and pad load; stop on unequal load, unexpected deformation, loss of communication or support movement.",
+        "After marriage, record ride heights, axle loads, clearances, hoses/cables, retention devices and fastener witness marks before static energisation."
+      ],
+      "replacement_evidence": "checked lift/recovery plan, equipment schedule/certificates, jacking-pad calculation and proof test, lift log and post-marriage survey",
+      "scope": "module marriage, lifting and recovery interfaces",
+      "stop_conditions": [
+        "unknown mass/CG",
+        "expired lifting certificate",
+        "unverified ground or cribbing",
+        "side-loaded jack",
+        "pad load imbalance",
+        "person beneath unsupported vehicle"
+      ]
+    },
+    {
+      "applies_to": [
+        "steel structure",
+        "GFRP exterior",
+        "livery film",
+        "roof radiative coating trial"
+      ],
+      "id": "LM3-MFG-090",
+      "inspection": "100% hidden base protection, prohibited zones and first livery/roof trial; routine film appearance and edge adhesion by first/last plus 10% minimum three zones.",
+      "reference_defaults": [
+        "Inspect and record hidden steel preparation and base corrosion system before panels, floors or equipment conceal it.",
+        "Use pre-coloured GFRP and replaceable rail-rated livery film on approved smooth zones to reduce spray finishing; seal cut edges and keep film clear of joints, vents, drains, labels, sensors and inspection areas.",
+        "Apply film to a clean dry surface within the film supplier temperature window, use knifeless tape at visible boundaries and record batch, installer and adhesion trial.",
+        "Calcium-carbonate nanoparticle roof coating remains a controlled trial over the mandatory fire/UV/weathering-compatible base system; it must not cover PV, bonded joints, walkways, vents, drains or earth bonds.",
+        "Compare trial and control coupons for adhesion, fire/smoke, UV/weathering, cleanability, solar reflectance and thermal benefit before fleet use."
+      ],
+      "replacement_evidence": "released finish-zone map, coating/film supplier system, environmental log, coupon qualification and signed appearance/corrosion inspection",
+      "scope": "finish, corrosion protection and livery",
+      "stop_conditions": [
+        "unprotected steel",
+        "surface contamination",
+        "film over inspection/safety feature",
+        "roof coating without compatible base",
+        "failed coupon or peel edge"
+      ]
+    },
+    {
+      "applies_to": [
+        "all parts",
+        "all suppliers",
+        "all build cells",
+        "all test stages"
+      ],
+      "id": "LM3-MFG-100",
+      "inspection": "100% NCR and concession traceability; quality independently verifies closure and configuration reconciliation before the next release gate.",
+      "reference_defaults": [
+        "Tag and segregate nonconforming material or digitally inhibit its next operation; never erase the original result or repair before disposition.",
+        "Disposition is use-as-is, rework to the original requirement, repair to an approved instruction, return/scrap, or design change. Only the named design authority may approve use-as-is, repair or design change.",
+        "Repeat all inspections invalidated by rework and extend the check to adjacent features that could have been affected.",
+        "Before cell handback, reconcile installed serial/lot numbers, software/configuration IDs, concessions, open work, tool records and measured mass with the as-built record.",
+        "A red-line is temporary build evidence, not a revised design; incorporate accepted changes into controlled source and reissue before repetition."
+      ],
+      "replacement_evidence": "approved NCR disposition, repair instruction, repeat-inspection evidence, updated design revision and signed configuration handback",
+      "scope": "NCR, rework and configuration handback",
+      "stop_conditions": [
+        "unidentified part",
+        "unapproved repair",
+        "repeat defect trend",
+        "missing retest",
+        "as-built/configuration mismatch",
+        "open safety NCR"
+      ]
+    }
+  ],
+  "sampling_rule": {
+    "escalation": "on any failure, stop the batch, contain since last accepted check and inspect 100% until the approved control plan restores sampling",
+    "first_article": "100% of defined characteristics",
+    "routine_non_safety": "first-off, last-off and 10%, minimum three per batch",
+    "safety_and_interfaces": "100% unless an approved control plan says more"
+  },
+  "schema": "org.opensourcerail.lm3-manufacturing-controls.v1",
+  "status": "reference-defaults-not-production-release"
+}

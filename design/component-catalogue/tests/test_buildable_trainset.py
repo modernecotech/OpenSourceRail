@@ -419,6 +419,11 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "train-end-interface.md").exists()
     assert (tmp_path / "small-component-standard.json").exists()
     assert (tmp_path / "small-component-standard.md").exists()
+    assert (tmp_path / "manufacturing-and-assembly-controls.json").exists()
+    assert (tmp_path / "manufacturing-and-assembly-controls.md").exists()
+    controls = json.loads((tmp_path / "manufacturing-and-assembly-controls.json").read_text())
+    assert controls["control_count"] == 10
+    assert all(row["stop_conditions"] and row["replacement_evidence"] for row in controls["controls"])
     standard = render_small_component_standard()
     assert "OSR-RAIL-42" in standard
     assert "Four fastener families" in standard

@@ -21,6 +21,7 @@ release gates are tracked in
 | [`depot-bogie-change-interface.md`](depot-bogie-change-interface.md) | Shared LM3 jack-point datum, synchronized depot lift, pit, and bogie-extraction assembly contract |
 | [`wayside-rerailing-access-interface.md`](wayside-rerailing-access-interface.md) | Optional selected-node hardstanding, offload, bridge-bearing, handling-route, and exclusion-zone contract for portable LM3 rerailing |
 | [`../../design/component-catalogue/catalog/buildable-civil/`](../../design/component-catalogue/catalog/buildable-civil/) | Generated accountability for all 19 reusable IFC types, six civil release packages, nine drawing-definition briefs, and the empty project release record |
+| [`../../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md`](../../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md) | Ten reference workface controls for survey, precast production, transport, erection, at-grade work, interfaces and NCR handback |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
 | [`viaduct-design-basis.md`](viaduct-design-basis.md) | Rapid Viaduct Kit catalogue boundary, structural actions, geometry rules, and release evidence |
 | [`viaduct-load-model.toml`](viaduct-load-model.toml) | Machine-readable 12-axle load/action seed |
@@ -33,6 +34,7 @@ release gates are tracked in
 | [`bonsai-ifc-workflow.md`](bonsai-ifc-workflow.md) | IFC4.3/Bonsai civil federation, IDS delivery audit, BCF coordination, quantities, 4D sequencing, and engineering-authority boundary |
 | [`Samawah/engineering/alignment/`](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/) | Current three-line Samawah planning OSR-ALN package, provenance, and survey replacement gates |
 | [`deployment-release-checklist.md`](deployment-release-checklist.md) | Survey, geotechnical, structure, station, energy-site, and permit release gates |
+| [`../owner-builder-operator-setup.md`](../owner-builder-operator-setup.md) | Default public owner, ring-fenced delivery/operator company, independent assurance and staged mobilisation |
 
 ## Related Tools
 

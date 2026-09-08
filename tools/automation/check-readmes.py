@@ -122,6 +122,7 @@ def main() -> int:
         "manifest": trainset_root / "buildable-trainset-manifest.json",
         "mass": trainset_root / "mass-closure-ledger.json",
         "factory": trainset_root / "factory-release-work-packages.json",
+        "manufacturing_controls": trainset_root / "manufacturing-and-assembly-controls.json",
         "methods": trainset_root / "manufacturing-methods.json",
         "cots": trainset_root / "cots-candidates.json",
         "evidence": REPO_ROOT / "lib/templates/lm3-first-article-evidence.toml",
@@ -164,6 +165,7 @@ def main() -> int:
                 "factory-release-work-packages.md",
                 f"{drawing_count} [drawing-definition seeds]",
                 "mass-closure-ledger.md",
+                "owner-builder-operator-setup.md",
             ),
             REPO_ROOT / "docs/ROADMAP.md": (
                 f"{products}-product-row/{assemblies}-assembly",
@@ -183,6 +185,8 @@ def main() -> int:
                 "factory-release-work-packages.md",
                 "factory-release-readiness.md",
                 "factory-drawings/index.md",
+                "manufacturing-and-assembly-controls.md",
+                "fabrication-and-construction-controls.md",
                 "first-article-evidence-status.md",
             ),
             trainset_root / "README.md": (
@@ -194,6 +198,7 @@ def main() -> int:
                 "factory-drawings/index.md",
                 "exterior-finish-system.md",
                 "mass-closure-ledger.md",
+                "manufacturing-and-assembly-controls.md",
             ),
             REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/README.md": (
                 "station-product-reconciliation.md",
@@ -209,6 +214,7 @@ def main() -> int:
                 "9 drawing-definition briefs",
                 "reusable-type-release-register.md",
                 "civil-release-record-template.json",
+                "fabrication-and-construction-controls.md",
             ),
         }
         for path, snippets in current_contracts.items():

@@ -11,6 +11,7 @@ Nothing here is issued for fabrication or construction. Site survey, geotechnics
 | [`reusable-type-release-register.md`](reusable-type-release-register.md) | Exact one-to-one accountability for every deterministic IFC type |
 | [`factory-release-work-packages.md`](factory-release-work-packages.md) | Outputs, tools/gauges, and open hold points for six release packages |
 | [`factory-drawings/index.md`](factory-drawings/index.md) | Nine controlled, non-issued drawing-definition briefs |
+| [`fabrication-and-construction-controls.md`](fabrication-and-construction-controls.md) | Ten practical moulding, survey, precast, transport, erection, track-interface and handback controls |
 | [`evidence/civil-release-record-template.json`](evidence/civil-release-record-template.json) | Empty evidence record that project authorities must complete |
 | [`reusable-type-release-register.json`](reusable-type-release-register.json) | Machine-readable register, packages, briefs, and validation flags |
 

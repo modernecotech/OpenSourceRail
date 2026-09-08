@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1489**.
+Indexed Markdown files: **1492**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **1489**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 412 |
-| [docs](#docs) | 143 |
+| [design](#design) | 414 |
+| [docs](#docs) | 144 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -992,6 +992,7 @@ Indexed Markdown files: **1489**.
 | [`design/component-catalogue/README.md`](../design/component-catalogue/README.md) | Parametric Component Catalogue |
 | [`design/component-catalogue/catalog/README.md`](../design/component-catalogue/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`design/component-catalogue/catalog/buildable-civil/README.md`](../design/component-catalogue/catalog/buildable-civil/README.md) | Buildable Civil Release Catalogue |
+| [`design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md`](../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md) | Civil Fabrication and Construction Reference Controls |
 | [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-ATG-400.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-ATG-400.md) | CIV-ATG-400 — at-grade slab and elevated/at-grade transition |
 | [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-BRG-300.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-BRG-300.md) | CIV-BRG-300 — bearing, restraint, movement and jacking schedule |
 | [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-EGR-120.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-EGR-120.md) | CIV-EGR-120 — walkway cassette, parapet, drainage and services edge |
@@ -1236,6 +1237,7 @@ Indexed Markdown files: **1489**.
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md) | LM3 first-article execution pack |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md) | LM3 First-Article Public Work Packages |
 | [`design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md`](../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
+| [`design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md`](../design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md) | LM3 Manufacturing and Assembly Reference Controls |
 | [`design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md`](../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.md) | LM3 manufacturing methods and tooling |
 | [`design/component-catalogue/catalog/buildable-trainset/mass-budget.md`](../design/component-catalogue/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
 | [`design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md`](../design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md) | LM3 product-level mass closure and lightweighting ledger |
@@ -1473,6 +1475,7 @@ Indexed Markdown files: **1489**.
 | [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
+| [`docs/owner-builder-operator-setup.md`](../docs/owner-builder-operator-setup.md) | Owner–Builder–Operator Setup Plan |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
 | [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |
