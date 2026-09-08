@@ -176,6 +176,11 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     assert "266-city / 44-country" not in portfolio
     assert "Lyon" not in portfolio
     assert "Lyon" not in deployment
+    assert "turnkey external capital = turnkey price × 90%" in portfolio
+    for case in ("Low", "Default", "High"):
+        assert f"| {case} |" in portfolio
+    for turnkey_total in ("$403.23B", "$537.64B", "$806.45B"):
+        assert turnkey_total in portfolio
     assert not (REPO_ROOT / "cities/catalogue/europe/France/NATIONAL-BRIEF.md").exists()
     lyon = (REPO_ROOT / "cities/catalogue/europe/France/Lyon/README.md").read_text()
     assert "Technical comparison only" in lyon

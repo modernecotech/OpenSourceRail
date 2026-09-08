@@ -14,15 +14,21 @@ This is the current aggregation of generated city models in the developing-world
 
 ## Foreign-turnkey sensitivity
 
-The default comparison uses the controlled 2.0× total-cost and 90% external-capital assumptions. Country financing schedules and rates remain unchanged between cases.
+The comparison holds the modelled railway scope and each country's financing terms constant. It changes only the foreign-turnkey price multiplier; all cases assume 90% of that price needs foreign currency or international capital:
 
-| Measure | Current aggregate |
-|---|---:|
-| Equivalent foreign-turnkey total | $537.64B |
-| Foreign-turnkey external capital | $483.87B |
-| OSR external capital avoided | **$417.79B (86.3%)** |
-| External interest avoided | **$522.43B** |
-| External capital plus interest avoided | **$940.22B** |
+```text
+turnkey price            = OpenSourceRail CAPEX × price multiplier
+turnkey external capital = turnkey price × 90%
+external capital avoided = turnkey external capital − OpenSourceRail imports
+```
+
+| Case | Price multiplier | Turnkey total | Turnkey external capital | External capital avoided | Capital + external interest avoided |
+|---|---:|---:|---:|---:|---:|
+| Low | 1.5× | $403.23B | $362.90B | **$296.82B (81.8%)** | **$667.99B** |
+| Default | 2.0× | $537.64B | $483.87B | **$417.79B (86.3%)** | **$940.22B** |
+| High | 3.0× | $806.45B | $725.81B | **$659.72B (90.9%)** | **$1.48T** |
+
+The default row is the front-page illustration at portfolio scale: $417.79B (86.3%) less external capital and $522.43B less external interest. The comparator treats all foreign-turnkey external capital as debt; the OpenSourceRail case retains its generated grant/debt split. Debt on both sides uses the same country construction periods, rates and repayment tenors.
 
 Individual city imported shares range from 19.0% to 27.5%. Replace the imported shares, cost multiplier and financing terms with audited supplier capability, normalized bids and signed lender terms before an investment decision.
 

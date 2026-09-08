@@ -43,8 +43,14 @@ def money(value: float) -> str:
     return f"${value / 1_000_000:,.1f}M"
 
 
-def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
-    """Calculate the canonical developing-world capital metrics once."""
+def _portfolio_data() -> tuple[
+    int,
+    int,
+    dict[str, float],
+    list[float],
+    dict[str, dict[str, float]],
+]:
+    """Calculate capital metrics and every controlled turnkey sensitivity."""
 
     load_city = runpy.run_path(
         str(REPO_ROOT / "tools/automation/generate-national-briefs.py")
@@ -67,6 +73,9 @@ def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
             "external_saved", "interest_saved", "lifetime_saved",
         )
     }
+    case_totals: dict[str, dict[str, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
     imported_shares: list[float] = []
     for code, cities in grouped.items():
         factory = max(city.vehicle_modules for city in cities) * NATIONAL_FACTORY_PER_VEHICLE_USD
@@ -74,7 +83,8 @@ def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
             [city.breakdown for city in cities], national_factory_usd=factory
         )
         plan = funding_plan(national, _load_country_finance(code))
-        comparison = foreign_turnkey_cases(national, plan)["default"]
+        comparisons = foreign_turnkey_cases(national, plan)
+        comparison = comparisons["default"]
         totals["total"] += national.total_usd
         totals["external"] += national.imported_usd
         totals["local"] += national.local_usd
@@ -88,13 +98,36 @@ def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
         totals["external_saved"] += comparison.external_capital_avoided_usd
         totals["interest_saved"] += comparison.external_interest_avoided_usd
         totals["lifetime_saved"] += comparison.lifetime_external_financing_avoided_usd
+        for case, candidate in comparisons.items():
+            case_values = case_totals[case]
+            case_values["multiplier"] = candidate.cost_multiplier
+            case_values["foreign_total"] += candidate.foreign_total_usd
+            case_values["foreign_external"] += candidate.foreign_external_usd
+            case_values["external_saved"] += candidate.external_capital_avoided_usd
+            case_values["interest_saved"] += candidate.external_interest_avoided_usd
+            case_values[
+                "lifetime_saved"
+            ] += candidate.lifetime_external_financing_avoided_usd
         imported_shares.extend(city.breakdown.imported_share for city in cities)
 
-    return city_count, len(grouped), totals, imported_shares
+    return (
+        city_count,
+        len(grouped),
+        totals,
+        imported_shares,
+        {case: dict(values) for case, values in case_totals.items()},
+    )
+
+
+def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
+    """Return the stable public metrics API used by other generators."""
+
+    city_count, country_count, totals, imported_shares, _ = _portfolio_data()
+    return city_count, country_count, totals, imported_shares
 
 
 def build_summary() -> str:
-    city_count, country_count, totals, imported_shares = portfolio_metrics()
+    city_count, country_count, totals, imported_shares, case_totals = _portfolio_data()
     imported_pct = totals["external"] / totals["total"]
     reduction = totals["external_saved"] / totals["foreign_external"]
     out = [
@@ -118,17 +151,34 @@ def build_summary() -> str:
         "",
         "## Foreign-turnkey sensitivity",
         "",
-        "The default comparison uses the controlled 2.0× total-cost and 90% "
-        "external-capital assumptions. Country financing schedules and rates remain "
-        "unchanged between cases.",
+        "The comparison holds the modelled railway scope and each country's financing "
+        "terms constant. It changes only the foreign-turnkey price multiplier; all "
+        "cases assume 90% of that price needs foreign currency or international capital:",
         "",
-        "| Measure | Current aggregate |",
-        "|---|---:|",
-        f"| Equivalent foreign-turnkey total | {money(totals['foreign_total'])} |",
-        f"| Foreign-turnkey external capital | {money(totals['foreign_external'])} |",
-        f"| OSR external capital avoided | **{money(totals['external_saved'])} ({reduction:.1%})** |",
-        f"| External interest avoided | **{money(totals['interest_saved'])}** |",
-        f"| External capital plus interest avoided | **{money(totals['lifetime_saved'])}** |",
+        "```text",
+        "turnkey price            = OpenSourceRail CAPEX × price multiplier",
+        "turnkey external capital = turnkey price × 90%",
+        "external capital avoided = turnkey external capital − OpenSourceRail imports",
+        "```",
+        "",
+        "| Case | Price multiplier | Turnkey total | Turnkey external capital | External capital avoided | Capital + external interest avoided |",
+        "|---|---:|---:|---:|---:|---:|",
+        *[
+            f"| {case.title()} | {values['multiplier']:.1f}× | "
+            f"{money(values['foreign_total'])} | "
+            f"{money(values['foreign_external'])} | "
+            f"**{money(values['external_saved'])} "
+            f"({values['external_saved'] / values['foreign_external']:.1%})** | "
+            f"**{money(values['lifetime_saved'])}** |"
+            for case, values in case_totals.items()
+        ],
+        "",
+        f"The default row is the front-page illustration at portfolio scale: "
+        f"{money(totals['external_saved'])} ({reduction:.1%}) less external capital "
+        f"and {money(totals['interest_saved'])} less external interest. The comparator "
+        "treats all foreign-turnkey external capital as debt; the OpenSourceRail case "
+        "retains its generated grant/debt split. Debt on both sides uses the same country "
+        "construction periods, rates and repayment tenors.",
         "",
         f"Individual city imported shares range from {min(imported_shares):.1%} to "
         f"{max(imported_shares):.1%}. Replace the imported shares, cost multiplier and "
