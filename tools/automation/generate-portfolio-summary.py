@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""Generate the developing-world capital summary from current city models."""
+"""Generate human- and machine-readable capital evidence from current city models."""
 
 from __future__ import annotations
 
 import argparse
+import json
 import runpy
 import sys
 import tempfile
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "design/city-generation/src"))
 
 from osr_scenario.capital import (  # noqa: E402
+    FOREIGN_TURNKEY_BASIS,
     NATIONAL_FACTORY_PER_VEHICLE_USD,
     aggregate_breakdowns,
     foreign_turnkey_cases,
@@ -21,7 +24,10 @@ from osr_scenario.capital import (  # noqa: E402
 )
 from osr_scenario.network_readme import _load_country_finance  # noqa: E402
 
-OUTPUT = REPO_ROOT / "docs/portfolio-summary.md"
+MARKDOWN_OUTPUT = REPO_ROOT / "docs/portfolio-summary.md"
+JSON_OUTPUT = REPO_ROOT / "docs/portfolio-summary.json"
+# Retained for callers written against the original single-output generator.
+OUTPUT = MARKDOWN_OUTPUT
 DEVELOPING_WORLD_REGIONS = {
     "central-africa",
     "east-africa",
@@ -35,6 +41,15 @@ DEVELOPING_WORLD_REGIONS = {
 }
 
 
+@dataclass(frozen=True)
+class PortfolioData:
+    city_count: int
+    country_count: int
+    totals: dict[str, float]
+    imported_shares: list[float]
+    case_totals: dict[str, dict[str, float]]
+
+
 def money(value: float) -> str:
     if abs(value) >= 1_000_000_000_000:
         return f"${value / 1_000_000_000_000:,.2f}T"
@@ -43,13 +58,7 @@ def money(value: float) -> str:
     return f"${value / 1_000_000:,.1f}M"
 
 
-def _portfolio_data() -> tuple[
-    int,
-    int,
-    dict[str, float],
-    list[float],
-    dict[str, dict[str, float]],
-]:
+def _portfolio_data() -> PortfolioData:
     """Calculate capital metrics and every controlled turnkey sensitivity."""
 
     load_city = runpy.run_path(
@@ -110,24 +119,29 @@ def _portfolio_data() -> tuple[
             ] += candidate.lifetime_external_financing_avoided_usd
         imported_shares.extend(city.breakdown.imported_share for city in cities)
 
-    return (
-        city_count,
-        len(grouped),
-        totals,
-        imported_shares,
-        {case: dict(values) for case, values in case_totals.items()},
+    return PortfolioData(
+        city_count=city_count,
+        country_count=len(grouped),
+        totals=totals,
+        imported_shares=imported_shares,
+        case_totals={case: dict(values) for case, values in case_totals.items()},
     )
 
 
 def portfolio_metrics() -> tuple[int, int, dict[str, float], list[float]]:
     """Return the stable public metrics API used by other generators."""
 
-    city_count, country_count, totals, imported_shares, _ = _portfolio_data()
-    return city_count, country_count, totals, imported_shares
+    data = _portfolio_data()
+    return data.city_count, data.country_count, data.totals, data.imported_shares
 
 
-def build_summary() -> str:
-    city_count, country_count, totals, imported_shares, case_totals = _portfolio_data()
+def build_summary(data: PortfolioData | None = None) -> str:
+    data = data or _portfolio_data()
+    city_count = data.city_count
+    country_count = data.country_count
+    totals = data.totals
+    imported_shares = data.imported_shares
+    case_totals = data.case_totals
     imported_pct = totals["external"] / totals["total"]
     reduction = totals["external_saved"] / totals["foreign_external"]
     out = [
@@ -140,6 +154,8 @@ def build_summary() -> str:
         "comparison designs remain in the engineering catalogue but are excluded here. "
         "This is a planning screen, not a financing commitment, audited origin "
         "declaration, supplier quotation, or vendor bid.",
+        "",
+        "Machine-readable values: [`portfolio-summary.json`](portfolio-summary.json).",
         "",
         f"| {city_count}-city / {country_count}-country catalogue | Planning value | Annual construction draw across country programmes |",
         "|---|---:|---:|",
@@ -192,23 +208,132 @@ def build_summary() -> str:
     return "\n".join(out)
 
 
+def build_json(data: PortfolioData | None = None) -> str:
+    """Render the public machine-readable portfolio evidence."""
+
+    data = data or _portfolio_data()
+    totals = data.totals
+    imported_share = totals["external"] / totals["total"]
+    default_case = data.case_totals["default"]
+    external_share = default_case["foreign_external"] / default_case["foreign_total"]
+
+    payload = {
+        "schema_version": 1,
+        "currency": "USD",
+        "scope": {
+            "city_count": data.city_count,
+            "country_count": data.country_count,
+            "regions": sorted(DEVELOPING_WORLD_REGIONS),
+            "european_comparison_models_excluded": True,
+            "national_factory_treatment": "one shared trainset factory per country",
+        },
+        "open_source_rail": {
+            "total_capex_usd": round(totals["total"], 2),
+            "imported_external_capital_usd": round(totals["external"], 2),
+            "imported_external_share": round(imported_share, 9),
+            "local_domestic_value_usd": round(totals["local"], 2),
+            "local_domestic_share": round(1.0 - imported_share, 9),
+            "local_currency_bonds_usd": round(totals["bond"], 2),
+            "local_public_equity_other_usd": round(totals["equity"], 2),
+            "annual_total_construction_draw_usd": round(totals["annual_total"], 2),
+            "annual_external_construction_draw_usd": round(
+                totals["annual_external"], 2
+            ),
+            "annual_local_construction_draw_usd": round(totals["annual_local"], 2),
+        },
+        "foreign_turnkey_comparator": {
+            "basis": FOREIGN_TURNKEY_BASIS,
+            "external_capital_share": round(external_share, 9),
+            "debt_treatment": (
+                "All foreign-turnkey external capital is treated as debt; the "
+                "OpenSourceRail case retains each country's generated grant/debt split."
+            ),
+            "formulas": {
+                "turnkey_total": "open_source_rail_total_capex * price_multiplier",
+                "turnkey_external_capital": (
+                    "turnkey_total * external_capital_share"
+                ),
+                "external_capital_avoided": (
+                    "turnkey_external_capital - open_source_rail_imported_capital"
+                ),
+            },
+            "cases": {
+                case: {
+                    "price_multiplier": values["multiplier"],
+                    "turnkey_total_usd": round(values["foreign_total"], 2),
+                    "turnkey_external_capital_usd": round(
+                        values["foreign_external"], 2
+                    ),
+                    "external_capital_avoided_usd": round(
+                        values["external_saved"], 2
+                    ),
+                    "external_capital_reduction": round(
+                        values["external_saved"] / values["foreign_external"], 9
+                    ),
+                    "external_interest_avoided_usd": round(
+                        values["interest_saved"], 2
+                    ),
+                    "external_capital_plus_interest_avoided_usd": round(
+                        values["lifetime_saved"], 2
+                    ),
+                }
+                for case, values in data.case_totals.items()
+            },
+        },
+        "observed_city_imported_share_range": {
+            "minimum": round(min(data.imported_shares), 9),
+            "maximum": round(max(data.imported_shares), 9),
+        },
+        "sources": [
+            "lib/templates/capex-costs.toml",
+            "lib/templates/country-finance.toml",
+            "cities/catalogue/*/*/*/design.toml",
+            "tools/automation/generate-national-briefs.py",
+            "tools/automation/generate-portfolio-summary.py",
+        ],
+        "caveats": [
+            "Planning sensitivity only; not a bid, financing offer, or audited origin declaration.",
+            "Replace local/import shares with a country supplier and rules-of-origin audit.",
+            "Replace comparator multipliers and financing terms with normalized bids and signed lender terms.",
+            "Lifetime avoided financing excludes local-bond interest and operating expenditure.",
+        ],
+    }
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    expected = build_summary()
+    data = _portfolio_data()
+    expected_outputs = {
+        MARKDOWN_OUTPUT: build_summary(data),
+        JSON_OUTPUT: build_json(data),
+    }
     if args.check:
-        if not OUTPUT.is_file() or OUTPUT.read_text(encoding="utf-8") != expected:
-            print(f"stale: {OUTPUT.relative_to(REPO_ROOT)}", file=sys.stderr)
+        stale = [
+            path
+            for path, expected in expected_outputs.items()
+            if not path.is_file() or path.read_text(encoding="utf-8") != expected
+        ]
+        for path in stale:
+            print(f"stale: {path.relative_to(REPO_ROOT)}", file=sys.stderr)
+        if stale:
             return 1
-        print(f"current: {OUTPUT.relative_to(REPO_ROOT)}")
+        print(
+            "current: "
+            + ", ".join(str(path.relative_to(REPO_ROOT)) for path in expected_outputs)
+        )
         return 0
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", dir=OUTPUT.parent, delete=False, encoding="utf-8") as handle:
-        handle.write(expected)
-        temporary = Path(handle.name)
-    temporary.replace(OUTPUT)
-    print(f"wrote {OUTPUT.relative_to(REPO_ROOT)}")
+    for output, expected in expected_outputs.items():
+        output.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            "w", dir=output.parent, delete=False, encoding="utf-8"
+        ) as handle:
+            handle.write(expected)
+            temporary = Path(handle.name)
+        temporary.replace(output)
+        print(f"wrote {output.relative_to(REPO_ROOT)}")
     return 0
 
 

@@ -36,7 +36,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
 | [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |
-| [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into `docs/portfolio-summary.md` |
+| [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into human-readable `docs/portfolio-summary.md` and machine-readable `docs/portfolio-summary.json` evidence |
 | [`generate-public-overview.py`](generate-public-overview.py) | Generate and drift-check the GitHub-native Markdown brief and landscape HTML/print edition from the design catalogue and LM3 build-cost record |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |

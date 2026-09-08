@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import runpy
 import subprocess
 from pathlib import Path
@@ -170,6 +171,9 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
 
 def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     portfolio = (REPO_ROOT / "docs/portfolio-summary.md").read_text(encoding="utf-8")
+    portfolio_json = json.loads(
+        (REPO_ROOT / "docs/portfolio-summary.json").read_text(encoding="utf-8")
+    )
     deployment = (REPO_ROOT / "docs/deployment-model.md").read_text(encoding="utf-8")
     assert "265-city / 43-country" in portfolio
     assert "European comparison designs" in portfolio
@@ -181,6 +185,18 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
         assert f"| {case} |" in portfolio
     for turnkey_total in ("$403.23B", "$537.64B", "$806.45B"):
         assert turnkey_total in portfolio
+    assert portfolio_json["schema_version"] == 1
+    assert portfolio_json["scope"]["city_count"] == 265
+    assert portfolio_json["scope"]["country_count"] == 43
+    assert set(portfolio_json["foreign_turnkey_comparator"]["cases"]) == {
+        "low",
+        "default",
+        "high",
+    }
+    default_case = portfolio_json["foreign_turnkey_comparator"]["cases"]["default"]
+    assert default_case["turnkey_total_usd"] == (
+        2.0 * portfolio_json["open_source_rail"]["total_capex_usd"]
+    )
     assert not (REPO_ROOT / "cities/catalogue/europe/France/NATIONAL-BRIEF.md").exists()
     lyon = (REPO_ROOT / "cities/catalogue/europe/France/Lyon/README.md").read_text()
     assert "Technical comparison only" in lyon

@@ -4,6 +4,8 @@
 
 This is the current aggregation of generated city models in the developing-world evidence scope, including one shared trainset factory per country. European comparison designs remain in the engineering catalogue but are excluded here. This is a planning screen, not a financing commitment, audited origin declaration, supplier quotation, or vendor bid.
 
+Machine-readable values: [`portfolio-summary.json`](portfolio-summary.json).
+
 | 265-city / 43-country catalogue | Planning value | Annual construction draw across country programmes |
 |---|---:|---:|
 | External capital for imported components and machinery | **$66.08B (24.6%)** | **$10.55B/year** |

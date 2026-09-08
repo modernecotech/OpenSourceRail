@@ -1,0 +1,89 @@
+{
+  "caveats": [
+    "Planning sensitivity only; not a bid, financing offer, or audited origin declaration.",
+    "Replace local/import shares with a country supplier and rules-of-origin audit.",
+    "Replace comparator multipliers and financing terms with normalized bids and signed lender terms.",
+    "Lifetime avoided financing excludes local-bond interest and operating expenditure."
+  ],
+  "currency": "USD",
+  "foreign_turnkey_comparator": {
+    "basis": "Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.",
+    "cases": {
+      "default": {
+        "external_capital_avoided_usd": 417788857653.2,
+        "external_capital_plus_interest_avoided_usd": 940222168625.15,
+        "external_capital_reduction": 0.863428078,
+        "external_interest_avoided_usd": 522433310971.95,
+        "price_multiplier": 2.0,
+        "turnkey_external_capital_usd": 483872216348.46,
+        "turnkey_total_usd": 537635795942.74
+      },
+      "high": {
+        "external_capital_avoided_usd": 659724965827.43,
+        "external_capital_plus_interest_avoided_usd": 1484692372644.32,
+        "external_capital_reduction": 0.908952052,
+        "external_interest_avoided_usd": 824967406816.89,
+        "price_multiplier": 3.0,
+        "turnkey_external_capital_usd": 725808324522.69,
+        "turnkey_total_usd": 806453693914.1
+      },
+      "low": {
+        "external_capital_avoided_usd": 296820803566.08,
+        "external_capital_plus_interest_avoided_usd": 667987066615.56,
+        "external_capital_reduction": 0.817904104,
+        "external_interest_avoided_usd": 371166263049.48,
+        "price_multiplier": 1.5,
+        "turnkey_external_capital_usd": 362904162261.35,
+        "turnkey_total_usd": 403226846957.05
+      }
+    },
+    "debt_treatment": "All foreign-turnkey external capital is treated as debt; the OpenSourceRail case retains each country's generated grant/debt split.",
+    "external_capital_share": 0.9,
+    "formulas": {
+      "external_capital_avoided": "turnkey_external_capital - open_source_rail_imported_capital",
+      "turnkey_external_capital": "turnkey_total * external_capital_share",
+      "turnkey_total": "open_source_rail_total_capex * price_multiplier"
+    }
+  },
+  "observed_city_imported_share_range": {
+    "maximum": 0.275473487,
+    "minimum": 0.190281428
+  },
+  "open_source_rail": {
+    "annual_external_construction_draw_usd": 10547420852.01,
+    "annual_local_construction_draw_usd": 32357055519.08,
+    "annual_total_construction_draw_usd": 42904476371.08,
+    "imported_external_capital_usd": 66083358695.27,
+    "imported_external_share": 0.24582946,
+    "local_currency_bonds_usd": 162187631420.88,
+    "local_domestic_share": 0.75417054,
+    "local_domestic_value_usd": 202734539276.1,
+    "local_public_equity_other_usd": 40546907855.22,
+    "total_capex_usd": 268817897971.37
+  },
+  "schema_version": 1,
+  "scope": {
+    "city_count": 265,
+    "country_count": 43,
+    "european_comparison_models_excluded": true,
+    "national_factory_treatment": "one shared trainset factory per country",
+    "regions": [
+      "central-africa",
+      "east-africa",
+      "latin-america",
+      "north-africa",
+      "south-africa",
+      "south-asia",
+      "southeast-asia",
+      "west-africa",
+      "west-asia"
+    ]
+  },
+  "sources": [
+    "lib/templates/capex-costs.toml",
+    "lib/templates/country-finance.toml",
+    "cities/catalogue/*/*/*/design.toml",
+    "tools/automation/generate-national-briefs.py",
+    "tools/automation/generate-portfolio-summary.py"
+  ]
+}

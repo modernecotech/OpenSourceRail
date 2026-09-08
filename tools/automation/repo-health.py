@@ -1312,19 +1312,24 @@ def check_generated_cost_model() -> list[Finding]:
 
 
 def check_generated_portfolio_summary() -> list[Finding]:
-    path = REPO_ROOT / "docs/portfolio-summary.md"
     generator = REPO_ROOT / "tools/automation/generate-portfolio-summary.py"
     module = runpy.run_path(str(generator))
-    expected = module["build_summary"]()
     findings: list[Finding] = []
-    if not path.is_file() or path.read_text() != expected:
-        findings.append(
-            Finding(
-                path,
-                "generated portfolio summary is stale; run tools/automation/generate-portfolio-summary.py",
+    data = module["_portfolio_data"]()
+    expected_outputs = {
+        REPO_ROOT / "docs/portfolio-summary.md": module["build_summary"](data),
+        REPO_ROOT / "docs/portfolio-summary.json": module["build_json"](data),
+    }
+    for path, expected in expected_outputs.items():
+        if not path.is_file() or path.read_text() != expected:
+            findings.append(
+                Finding(
+                    path,
+                    "generated portfolio evidence is stale; run "
+                    "tools/automation/generate-portfolio-summary.py",
+                )
             )
-        )
-    _, _, capital, _ = module["portfolio_metrics"]()
+    capital = data.totals
     imported_pct = float(capital["external"]) / float(capital["total"])
     foreign_external_multiple = float(capital["foreign_external"]) / float(capital["total"])
     external_saved_per_100m = 100.0 * (
