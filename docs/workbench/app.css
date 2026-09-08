@@ -5,7 +5,7 @@
   color: #e8f0f6;
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; display: grid; grid-template-rows: auto auto auto auto auto 1fr; }
+body { margin: 0; min-height: 100vh; display: grid; grid-template-rows: auto auto auto auto auto auto 1fr; }
 .shell-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #111f2b; border-bottom: 1px solid #29404f; }
 .eyebrow { margin: 0; color: #72c9bd; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 h1 { margin: 2px 0 0; font-size: 22px; }
@@ -23,6 +23,24 @@ button.active { background: #22786f; border-color: #64cfc0; }
 button[hidden] { display: none; }
 button:disabled { opacity: .4; cursor: not-allowed; }
 .handoff { margin-left: auto; background: #6c4f20; border-color: #c89f52; }
+.portfolio-panel { background: #11242f; border-block: 1px solid #29404f; }
+.portfolio-panel summary { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 10px 20px; cursor: pointer; }
+.portfolio-panel summary::after { content: "▾"; color: #72c9bd; font-size: 18px; }
+.portfolio-panel[open] summary::after { content: "▴"; }
+.portfolio-panel summary strong { display: block; margin-top: 2px; }
+#portfolioHeadline { color: #a9dcd3; font-size: 13px; text-align: right; }
+.portfolio-body { padding: 0 20px 12px; }
+.portfolio-body > p { margin: 0 0 8px; color: #b8cbd5; font-size: 12px; }
+.portfolio-metrics { display: grid; grid-template-columns: repeat(3, minmax(150px, 1fr)); gap: 8px; margin-bottom: 10px; }
+.portfolio-metrics span { padding: 8px 10px; background: #172f3c; border: 1px solid #365363; border-radius: 5px; }
+.portfolio-metrics b, .portfolio-metrics small { display: block; }
+.portfolio-metrics b { color: #72c9bd; font-size: 17px; }
+.portfolio-metrics small { margin-top: 2px; color: #9fb2bf; }
+.portfolio-table-wrap { overflow-x: auto; }
+.portfolio-panel table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.portfolio-panel th, .portfolio-panel td { padding: 7px 9px; border-bottom: 1px solid #29404f; text-align: right; white-space: nowrap; }
+.portfolio-panel th:first-child, .portfolio-panel td:first-child { text-align: left; }
+.portfolio-caveat { margin-top: 8px !important; font-size: 11px !important; }
 .twin-launcher { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(220px, 320px) auto minmax(180px, 260px) auto; gap: 12px; align-items: center; padding: 10px 20px; background: #142833; border-block: 1px solid #29404f; }
 .twin-launcher strong, .twin-launcher small { display: block; }
 .twin-launcher small { margin-top: 3px; color: #9fb2bf; line-height: 1.3; }
@@ -36,5 +54,8 @@ iframe { width: 100%; height: 100%; min-height: 760px; display: block; border: 0
   .shell-header { align-items: flex-start; gap: 10px; }
   .selectors { flex-direction: column; }
   .module-nav { overflow-x: auto; }
+  .portfolio-panel summary { align-items: flex-start; flex-direction: column; }
+  #portfolioHeadline { text-align: left; }
+  .portfolio-metrics { grid-template-columns: 1fr; }
   .twin-launcher { grid-template-columns: 1fr; }
 }

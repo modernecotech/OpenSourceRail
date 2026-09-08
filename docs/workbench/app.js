@@ -166,6 +166,30 @@ async function loadTwinCatalogue() {
   }
 }
 
+async function loadPortfolio() {
+  try {
+    const payload = await fetch("/api/portfolio").then(checkedJson);
+    const osr = payload.open_source_rail;
+    const cases = payload.foreign_turnkey_comparator.cases;
+    document.getElementById("portfolioHeadline").textContent =
+      `${percent(osr.local_domestic_share)} domestic value · ${money(osr.imported_external_capital_usd)} external capital`;
+    document.getElementById("portfolioScope").textContent =
+      `${payload.scope.city_count} cities in ${payload.scope.country_count} countries. Read-only planning evidence; expand to compare controlled sensitivities.`;
+    document.getElementById("portfolioTotal").textContent = money(osr.total_capex_usd);
+    document.getElementById("portfolioLocal").textContent =
+      `${money(osr.local_domestic_value_usd)} · ${percent(osr.local_domestic_share)}`;
+    document.getElementById("portfolioExternal").textContent =
+      `${money(osr.imported_external_capital_usd)} · ${percent(osr.imported_external_share)}`;
+    document.getElementById("portfolioCases").innerHTML = ["low", "default", "high"].map((caseName) => {
+      const row = cases[caseName];
+      return `<tr><td>${escapeHtml(caseName[0].toUpperCase() + caseName.slice(1))} · ${row.price_multiplier.toFixed(1)}×</td><td>${money(row.turnkey_total_usd)}</td><td>${money(row.turnkey_external_capital_usd)}</td><td>${money(row.external_capital_avoided_usd)} · ${percent(row.external_capital_reduction)}</td><td>${money(row.external_capital_plus_interest_avoided_usd)}</td></tr>`;
+    }).join("");
+    document.getElementById("portfolioCaveat").textContent = payload.caveats.join(" ");
+  } catch (error) {
+    document.getElementById("portfolioHeadline").textContent = error.message;
+  }
+}
+
 async function generateTwin() {
   const slug = document.getElementById("twinCity").value;
   const button = document.getElementById("generateTwin");
@@ -228,6 +252,23 @@ function escapeHtml(value) {
   })[character]);
 }
 
+function money(value) {
+  return new Intl.NumberFormat("en", {
+    style: "currency",
+    currency: "USD",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(Number(value));
+}
+
+function percent(value) {
+  return new Intl.NumberFormat("en", {
+    style: "percent",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(Number(value));
+}
+
 function setOptional(key, value, pattern) {
   const checked = valid(value, pattern);
   if (checked) context[key] = checked;
@@ -244,4 +285,5 @@ function valid(value, pattern) {
 }
 
 loadTwinCatalogue();
+loadPortfolio();
 enforceAccess();

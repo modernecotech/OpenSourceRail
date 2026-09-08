@@ -5,6 +5,12 @@ one origin while preserving their authority boundaries. Shared URL context
 links the city, immutable revision, approved baseline, simulation run and
 selected asset.
 
+The collapsible **Economic planning sensitivity** panel reads the generated
+[`portfolio-summary.json`](../portfolio-summary.json) through a read-only
+Workbench endpoint. It shows the current OSR domestic/external capital split
+and low/default/high foreign-turnkey comparisons without creating or approving
+a financing record.
+
 The **Generate a city digital twin** bar lists all 266 tracked catalogue
 cities. One button creates that city's asset register, family-scoped assembly
 plan, finite-resource critical path, budget work packages, supplier/order-by

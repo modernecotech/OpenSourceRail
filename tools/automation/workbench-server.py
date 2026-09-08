@@ -74,6 +74,13 @@ def main() -> int:
     design_path = (project / project_config["inputs"]["base_design"]).resolve()
     operations_path = design_path.parent / "operations" / f"{city_slug}-operations.json.gz"
     operations_url = "/" + operations_path.relative_to(REPO_ROOT).as_posix()
+    portfolio_path = REPO_ROOT / "docs" / "portfolio-summary.json"
+    if not portfolio_path.is_file():
+        raise SystemExit(
+            "missing docs/portfolio-summary.json; run "
+            "tools/automation/generate-portfolio-summary.py"
+        )
+    portfolio_evidence = json.loads(portfolio_path.read_text(encoding="utf-8"))
 
     db_path = args.db.resolve()
     db_path.parent.mkdir(parents=True, exist_ok=True)
@@ -107,6 +114,7 @@ def main() -> int:
         city_port = args.city_port
         bootstrap = {"city": city_slug, "operations_data": operations_url}
         project_twins = twin_manager
+        portfolio = portfolio_evidence
 
     server = OPS.ThreadingHTTPServer((args.host, args.port), Handler)
     signal.signal(signal.SIGTERM, stop_server)
@@ -132,11 +140,15 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
     city_port: int
     bootstrap: dict[str, str]
     project_twins: "ProjectTwinManager"
+    portfolio: dict
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
         if path == "/api/workbench":
             self._send_json(200, self.bootstrap)
+            return
+        if path == "/api/portfolio":
+            self._send_json(200, self.portfolio)
             return
         if path == "/api/twins/catalogue":
             self._send_json(200, {"cities": self.project_twins.catalogue()})
@@ -200,6 +212,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
             and not path.startswith("/api/ops-core/")
             and not path.startswith("/api/ops-auth/")
             and not path.startswith("/api/twins/")
+            and path != "/api/portfolio"
             and path != "/api/workbench"
         )
 

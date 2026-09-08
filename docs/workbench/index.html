@@ -52,6 +52,33 @@
     <button id="occHandoff" class="handoff" hidden>Open run in OCC training</button>
   </nav>
 
+  <details id="portfolioPanel" class="portfolio-panel">
+    <summary>
+      <span>
+        <span class="eyebrow">Economic planning sensitivity</span>
+        <strong>Localisation versus foreign-turnkey capital</strong>
+      </span>
+      <span id="portfolioHeadline">Portfolio evidence loading…</span>
+    </summary>
+    <div class="portfolio-body">
+      <p id="portfolioScope"></p>
+      <div class="portfolio-metrics" aria-label="OpenSourceRail portfolio metrics">
+        <span><b id="portfolioTotal">—</b><small>OSR programme CAPEX</small></span>
+        <span><b id="portfolioLocal">—</b><small>domestic value</small></span>
+        <span><b id="portfolioExternal">—</b><small>external capital</small></span>
+      </div>
+      <div class="portfolio-table-wrap">
+        <table>
+          <thead>
+            <tr><th>Turnkey case</th><th>Price</th><th>External capital</th><th>External capital avoided</th><th>Capital + interest avoided</th></tr>
+          </thead>
+          <tbody id="portfolioCases"></tbody>
+        </table>
+      </div>
+      <p id="portfolioCaveat" class="portfolio-caveat"></p>
+    </div>
+  </details>
+
   <section class="twin-launcher" aria-labelledby="twinLauncherTitle">
     <div>
       <p class="eyebrow">Delivery planning</p>
