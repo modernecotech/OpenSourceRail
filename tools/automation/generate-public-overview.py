@@ -65,7 +65,6 @@ def overview_values() -> dict[str, str]:
         for path in design_paths
         if path.relative_to(REPO_ROOT / "cities/catalogue").parts[0] in DEVELOPING_WORLD_REGIONS
     ]
-    catalogue = len(design_paths)
     cities = len(public_paths)
     countries = len(
         {path.relative_to(REPO_ROOT / "cities/catalogue").parts[1] for path in public_paths}
@@ -76,8 +75,12 @@ def overview_values() -> dict[str, str]:
     metric_cities, metric_countries, capital, _ = portfolio["portfolio_metrics"]()
     if metric_cities != cities or metric_countries != countries:
         raise ValueError("public overview and portfolio-summary city/country scopes disagree")
+    osr_total = float(capital["total"])
+    foreign_total = float(capital["foreign_total"])
+    osr_external = float(capital["external"])
+    foreign_external = float(capital["foreign_external"])
+    external_avoided = foreign_external - osr_external
     return {
-        "catalogue": str(catalogue),
         "cities": str(cities),
         "countries": str(countries),
         "regions": str(len(DEVELOPING_WORLD_REGIONS)),
@@ -86,6 +89,15 @@ def overview_values() -> dict[str, str]:
         "local_share": f"{capital['local'] / capital['total']:.0%}",
         "local_value": rounded_billions(capital["local"]),
         "external_need": rounded_billions(capital["external"]),
+        "osr_local_per_100m": f"${100 * float(capital['local']) / osr_total:.1f}M",
+        "osr_external_per_100m": f"${100 * osr_external / osr_total:.1f}M",
+        "foreign_total_per_100m": f"${100 * foreign_total / osr_total:.1f}M",
+        "foreign_local_per_100m": (
+            f"${100 * (foreign_total - foreign_external) / osr_total:.1f}M"
+        ),
+        "foreign_external_per_100m": f"${100 * foreign_external / osr_total:.1f}M",
+        "external_avoided_per_100m": f"${100 * external_avoided / osr_total:.1f}M",
+        "external_reduction": f"{external_avoided / foreign_external:.1%}",
         "trainset_product_rows": str(len(trainset_manifest["product_items"])),
     }
 
@@ -104,23 +116,29 @@ def render() -> str:
     @page {{ size: A4 landscape; margin: 9mm; }}
     * {{ box-sizing: border-box; }}
     body {{ margin: 0; color: #10233d; background: #edf3f8; font: 10pt/1.35 "DejaVu Sans", Arial, sans-serif; }}
-    main {{ width: 100%; min-height: 190mm; padding: 7mm; background: #f9fcff; border: 1px solid #c8d6e6; }}
+    main {{ position: relative; width: 100%; height: 190mm; overflow: hidden; padding: 4mm; background: #f9fcff; border: 1px solid #c8d6e6; }}
     header {{ display: grid; grid-template-columns: 1.25fr 1fr; gap: 7mm; align-items: center; }}
     h1 {{ margin: 0; font-size: 29pt; line-height: 1; }}
     h2 {{ margin: 0 0 2mm; font-size: 13pt; }}
-    p {{ margin: 0 0 2.5mm; }}
+    p {{ margin: 0 0 1.5mm; }}
     .tag {{ display: inline-block; margin-bottom: 3mm; padding: 1.2mm 3mm; border-radius: 9mm; color: white; background: #0a6840; font-weight: 700; }}
-    .hero {{ width: 100%; height: 64mm; object-fit: contain; background: white; border: 1px solid #c8d6e6; border-radius: 3mm; }}
-    .metrics {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 5mm 0; }}
-    .metric, .card {{ padding: 3mm; background: white; border: 1px solid #c8d6e6; border-radius: 2.5mm; }}
+    .hero {{ width: 100%; height: 44mm; object-fit: contain; background: white; border: 1px solid #c8d6e6; border-radius: 3mm; }}
+    .metrics {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 3mm 0; }}
+    .metric, .card {{ padding: 2.3mm; background: white; border: 1px solid #c8d6e6; border-radius: 2.5mm; }}
     .metric strong {{ display: block; color: #0a6840; font-size: 17pt; }}
     .metric span {{ color: #526277; font-size: 8pt; }}
     .content {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }}
+    .compare {{ width: 100%; margin: 1.5mm 0; border-collapse: collapse; font-size: 7.5pt; }}
+    .compare th, .compare td {{ padding: .65mm; border-bottom: 1px solid #dce5ef; text-align: right; }}
+    .compare th:first-child, .compare td:first-child {{ text-align: left; }}
     ul {{ margin: 0; padding-left: 4.5mm; }}
     li {{ margin-bottom: 1.1mm; font-size: 8.7pt; }}
     .shots {{ display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; }}
     .shots img {{ width: 100%; height: 37mm; object-fit: cover; border: 1px solid #c8d6e6; }}
-    .foot {{ display: grid; grid-template-columns: 1.25fr 1fr; gap: 4mm; margin-top: 4mm; }}
+    .foot {{ position: absolute; right: 4mm; bottom: 4mm; left: 4mm; display: grid; grid-template-columns: 1.25fr 1fr; gap: 3mm; }}
+    .foot .card {{ padding: 2mm; }}
+    .foot h2 {{ font-size: 11pt; }}
+    .foot p {{ margin-bottom: 1mm; font-size: 8pt; line-height: 1.25; }}
     .small {{ color: #526277; font-size: 7.6pt; }}
     a {{ color: #0757a0; }}
   </style>
@@ -147,13 +165,15 @@ def render() -> str:
 
   <section class="content">
     <div class="card">
-      <h2>Local manufacture and economic value</h2>
-      <ul>
-        <li>Localise civil materials, vehicle structures/interiors, wiring, cabinets, installation, software integration and maintenance.</li>
-        <li>Limit imported value to specialist machinery and components not yet qualified domestically; current aggregate planning need is {values['external_need']}.</li>
-        <li>Reuse one shared national trainset factory and open tooling instead of purchasing a separate opaque production system for every city.</li>
-        <li>Retain engineering knowledge, supplier development, skilled employment and lifecycle maintenance capability.</li>
-      </ul>
+      <h2>Why local delivery changes finance</h2>
+      <p class="small">Open design lets a country procure ordinary civil work, fabrication, software, integration and maintenance locally, importing specialist components only where needed.</p>
+      <table class="compare">
+        <tr><th>$100M same-scope example</th><th>OSR</th><th>Turnkey</th></tr>
+        <tr><td>Total price</td><td>$100.0M</td><td>{values['foreign_total_per_100m']}</td></tr>
+        <tr><td>No external capital</td><td>{values['osr_local_per_100m']}</td><td>{values['foreign_local_per_100m']}</td></tr>
+        <tr><td>External capital</td><td><strong>{values['osr_external_per_100m']}</strong></td><td><strong>{values['foreign_external_per_100m']}</strong></td></tr>
+      </table>
+      <p class="small"><strong>{values['external_avoided_per_100m']} less external capital ({values['external_reduction']}) before interest.</strong> When debt-financed, external capital becomes loan principal. The editable default is a 2× turnkey price and 90% external share—not a vendor bid.</p>
     </div>
     <div class="card">
       <h2>Design, regenerate and operate</h2>
@@ -174,7 +194,6 @@ def render() -> str:
     <div class="card">
       <h2>Buildable pathway, visible gaps</h2>
       <p>Reference packages cover all {values['trainset_product_rows']} LM3 product rows, nine timed manufacturing methods, 30 mould/tooling families, modular rolling stock, stations, civil works, battery traction, renewable charging, operations and assurance. Supplier freeze, detailed drawings, proof testing, certification and authority approval remain explicit release gates.</p>
-      <p class="small">The engineering catalogue contains {values['catalogue']} models. European comparison designs are retained for technical inspection but excluded from public evidence totals and examples.</p>
     </div>
     <div class="card">
       <h2>Review or collaborate</h2>
@@ -212,17 +231,28 @@ commitments.
 |---|---|---|---|
 | Roughly {values['local_share']} modeled domestic value across {values['countries']} country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record {values['estimate']} | Traceable LM3 parts and assemblies with visible supplier and release gaps |
 
-## Local manufacture and economic value
+## Why local delivery changes finance
 
-- Localise civil materials, vehicle structures and interiors, wiring,
-  cabinets, installation, software integration and maintenance.
-- Limit imported value to specialist machinery and components not yet
-  qualified domestically; current aggregate planning need is
-  {values['external_need']}.
-- Reuse one shared national trainset factory and open tooling instead of
-  purchasing a separate opaque production system for every city.
-- Retain engineering knowledge, supplier development, skilled employment and
-  lifecycle maintenance capability.
+Open design lets a country competitively procure ordinary civil work, vehicle
+structures and interiors, wiring, software, integration and maintenance
+locally, importing specialist components only where domestic suppliers are not
+yet qualified.
+
+For the **same modelled railway scope**, suppose the OpenSourceRail case is
+**$100M**. The foreign-turnkey column uses the editable default sensitivity: a
+2.0× delivered price with 90% requiring foreign currency or international
+capital.
+
+| Where the money goes | Localisation-first OpenSourceRail | Foreign-vendor turnkey sensitivity |
+|---|---:|---:|
+| Total programme price | **$100.0M** | **{values['foreign_total_per_100m']}** |
+| Value not requiring external capital | {values['osr_local_per_100m']} | {values['foreign_local_per_100m']} |
+| External-capital requirement | **{values['osr_external_per_100m']}** `██░░░░░░░░` | **{values['foreign_external_per_100m']}** `█████████░` |
+
+That is **{values['external_avoided_per_100m']} less external capital
+({values['external_reduction']}) before interest**. When debt-financed, the
+external requirement becomes loan principal; interest depends on country terms.
+This is a controlled sensitivity—not a vendor quotation or financing offer.
 
 ## Design, regenerate and operate
 
@@ -244,10 +274,6 @@ rows, nine timed manufacturing methods, 30 mould/tooling families, modular
 rolling stock, stations, civil works, battery traction, renewable charging,
 operations and assurance. Supplier freeze, detailed drawings, proof testing,
 certification and authority approval remain explicit release gates.
-
-The engineering catalogue contains {values['catalogue']} models. European
-comparison designs are retained for technical inspection but excluded from
-public evidence totals and examples.
 
 ## Review or collaborate
 

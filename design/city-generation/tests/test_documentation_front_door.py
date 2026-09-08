@@ -147,7 +147,16 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
     for output, expected in rendered.items():
         assert output.read_text(encoding="utf-8") == expected
     actual = "\n".join(rendered.values())
-    for current_metric in ("265", "43", "$900k", "$885k"):
+    for current_metric in (
+        "265",
+        "43",
+        "$900k",
+        "$885k",
+        "$24.6M",
+        "$180.0M",
+        "$155.4M",
+        "86.3%",
+    ):
         assert current_metric in actual
     for excluded in ("$2.98M", "Lyon", "campaign", "hayder@modernecotech.com"):
         assert excluded.lower() not in actual.lower()

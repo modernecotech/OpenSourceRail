@@ -18,17 +18,28 @@ commitments.
 |---|---|---|---|
 | Roughly 75% modeled domestic value across 43 country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record $885k | Traceable LM3 parts and assemblies with visible supplier and release gaps |
 
-## Local manufacture and economic value
+## Why local delivery changes finance
 
-- Localise civil materials, vehicle structures and interiors, wiring,
-  cabinets, installation, software integration and maintenance.
-- Limit imported value to specialist machinery and components not yet
-  qualified domestically; current aggregate planning need is
-  about $66B.
-- Reuse one shared national trainset factory and open tooling instead of
-  purchasing a separate opaque production system for every city.
-- Retain engineering knowledge, supplier development, skilled employment and
-  lifecycle maintenance capability.
+Open design lets a country competitively procure ordinary civil work, vehicle
+structures and interiors, wiring, software, integration and maintenance
+locally, importing specialist components only where domestic suppliers are not
+yet qualified.
+
+For the **same modelled railway scope**, suppose the OpenSourceRail case is
+**$100M**. The foreign-turnkey column uses the editable default sensitivity: a
+2.0× delivered price with 90% requiring foreign currency or international
+capital.
+
+| Where the money goes | Localisation-first OpenSourceRail | Foreign-vendor turnkey sensitivity |
+|---|---:|---:|
+| Total programme price | **$100.0M** | **$200.0M** |
+| Value not requiring external capital | $75.4M | $20.0M |
+| External-capital requirement | **$24.6M** `██░░░░░░░░` | **$180.0M** `█████████░` |
+
+That is **$155.4M less external capital
+(86.3%) before interest**. When debt-financed, the
+external requirement becomes loan principal; interest depends on country terms.
+This is a controlled sensitivity—not a vendor quotation or financing offer.
 
 ## Design, regenerate and operate
 
@@ -50,10 +61,6 @@ rows, nine timed manufacturing methods, 30 mould/tooling families, modular
 rolling stock, stations, civil works, battery traction, renewable charging,
 operations and assurance. Supplier freeze, detailed drawings, proof testing,
 certification and authority approval remain explicit release gates.
-
-The engineering catalogue contains 266 models. European
-comparison designs are retained for technical inspection but excluded from
-public evidence totals and examples.
 
 ## Review or collaborate
 
