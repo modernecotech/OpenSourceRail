@@ -160,6 +160,10 @@ packages:
 Start with the repository’s configuration, QA, maintenance and evidence records,
 then qualify the deployed CDE/ERP/EAM/identity/signature systems. A Git commit or
 server attestation is useful provenance but is not a legal signature or approval.
+The [mobilisation status](owner-builder-operator-mobilisation-status.md) now carries
+these eleven systems as accountable, gate-linked records. Each stays
+`not-established` until all required controlled documents, evidence references and
+named approval are present.
 
 ## Commercial And Industrial Structure
 
@@ -199,7 +203,8 @@ condition. Build schedule and headcount from the selected corridor’s resource-
 project twin after survey and procurement strategy replace the planning assumptions.
 The machine-readable [mobilisation status](owner-builder-operator-mobilisation-status.md)
 turns this sequence into 18 dependency-checked work packages over the default
-month 0–60 planning horizon; every package and gate is open in the template.
+month 0–60 planning horizon and eleven management-system records; every role,
+system, package and gate is open in the template.
 
 ## First 90 Days
 
@@ -239,8 +244,8 @@ deck:
 ## Repository Handoffs
 
 - [Machine-readable mobilisation status](owner-builder-operator-mobilisation-status.md)
-  — thirteen accountable roles, three independent parties and gates G0–G7,
-  deliberately open in the repository template.
+  — thirteen accountable roles, three independent parties, eleven management
+  systems and gates G0–G7, deliberately open in the repository template.
 - [Mobilisation source template](../lib/templates/owner-builder-operator-mobilisation.toml)
   — copy to the controlled deployment workspace and bind decisions to evidence.
 - [Deployment role boundary](deployment-roles.md) — legal and evidence-carrying roles.

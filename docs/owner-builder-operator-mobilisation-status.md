@@ -4,7 +4,7 @@
 
 Project: `unassigned template`
 
-Entity model complete: **no** · Roles ready: **0/13** · Independent parties ready: **0/3** · Work packages complete: **0/18** · Gates accepted: **0/8**
+Entity model complete: **no** · Roles ready: **0/13** · Independent parties ready: **0/3** · Management systems ready: **0/11** · Work packages complete: **0/18** · Gates accepted: **0/8**
 
 This template organises mobilisation evidence. It does not create a legal entity, delegate a statutory duty, appoint a competent person, approve expenditure, release construction, certify safety or authorise railway operation.
 
@@ -33,6 +33,22 @@ This template organises mobilisation evidence. It does not create a legal entity
 | `IND-ASSESSOR` | independent safety assessor | open | no |
 | `IND-CHECKER` | independent design checker | open | no |
 | `IND-AUDITOR` | external auditor | open | no |
+
+## Management-System Readiness
+
+| ID | System | Accountable | Required by | Evidence | Status | Ready |
+|---|---|---|---|---:|---|---|
+| `MS-ASSET` | asset maintenance spares warranty and return to service | `ROLE-ASSET` | `G5` | 0/4 | `not-established` | no |
+| `MS-COM` | commercial supplier and local-content management | `ROLE-COMMERCIAL` | `G3` | 0/4 | `not-established` | no |
+| `MS-COMP` | competence authorisation fitness and fatigue | `ROLE-PEOPLE` | `G3` | 0/4 | `not-established` | no |
+| `MS-DIG` | digital information cybersecurity backup and OT boundary | `ROLE-DIGITAL` | `G2` | 0/4 | `not-established` | no |
+| `MS-ENG` | requirements engineering interfaces configuration and change | `ROLE-ENGINEERING` | `G2` | 0/4 | `not-established` | no |
+| `MS-ENV` | environment social land utilities and construction impacts | `ROLE-INFRASTRUCTURE` | `G2` | 0/4 | `not-established` | no |
+| `MS-FIN` | finance treasury affordability and renewals reserve | `ROLE-FINANCE` | `G1` | 0/4 | `not-established` | no |
+| `MS-GOV` | governance delegations risk and audit | `ROLE-OWNER` | `G1` | 0/4 | `not-established` | no |
+| `MS-PC` | programme scope schedule cost risk and benefits control | `ROLE-PROGRAMME` | `G2` | 0/4 | `not-established` | no |
+| `MS-QUA` | factory site quality nonconformance and calibration | `ROLE-MANUFACTURING` | `G3` | 0/4 | `not-established` | no |
+| `MS-SAF` | safety assurance human factors and emergency management | `ROLE-SAFETY` | `G2` | 0/4 | `not-established` | no |
 
 ## Mobilisation Gates
 

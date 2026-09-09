@@ -424,6 +424,8 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "evidence/manufacturing-control-record-template.json").exists()
     assert (tmp_path / "first-article-inspection-plan.json").exists()
     assert (tmp_path / "first-article-inspection-plan.md").exists()
+    assert (tmp_path / "production-data-release-register.json").exists()
+    assert (tmp_path / "production-data-release-register.md").exists()
     controls = json.loads((tmp_path / "manufacturing-and-assembly-controls.json").read_text())
     assert controls["control_count"] == 10
     assert all(row["stop_conditions"] and row["replacement_evidence"] for row in controls["controls"])
@@ -435,6 +437,10 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert inspection_plan["package_count"] == 16
     assert inspection_plan["characteristic_count"] == 416
     assert all(inspection_plan["validation"].values())
+    production_data = json.loads((tmp_path / "production-data-release-register.json").read_text())
+    assert production_data["make_product_count"] == 62
+    assert production_data["open_product_count"] == 62
+    assert all(production_data["validation"].values())
     standard = render_small_component_standard()
     assert "OSR-RAIL-42" in standard
     assert "Four fastener families" in standard

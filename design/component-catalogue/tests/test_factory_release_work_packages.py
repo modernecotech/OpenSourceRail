@@ -18,6 +18,11 @@ from osr_mech.rolling_stock.factory_release import (
     render_factory_drawing_seed,
     render_factory_release_readiness,
 )
+from osr_mech.rolling_stock.inspection_plan import factory_inspection_plan_payload
+from osr_mech.rolling_stock.production_data import (
+    production_data_release_payload,
+    render_production_data_release,
+)
 
 
 def test_factory_release_packages_cover_requested_dedicated_scope() -> None:
@@ -79,6 +84,45 @@ def test_generated_factory_release_artifacts_are_current() -> None:
     payload = factory_release_work_package_payload(design)
     assert json.loads((root / "factory-release-work-packages.json").read_text(encoding="utf-8")) == payload
     assert (root / "factory-release-work-packages.md").read_text(encoding="utf-8") == render_factory_release_work_packages(design)
+
+
+def test_production_data_register_covers_every_make_row_and_stays_fail_closed() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    factory = factory_release_work_package_payload(design)
+    payload = production_data_release_payload(
+        design.product_items, factory, factory_inspection_plan_payload(factory),
+        factory_drawing_seed_payloads(factory),
+    )
+    assert payload["make_product_count"] == 62
+    assert payload["open_product_count"] == 62
+    assert {row["product_id"] for row in payload["products"]} == {
+        item.id for item in design.product_items if item.route.value == "MAKE"
+    }
+    assert all(payload["validation"].values())
+    assert all(row["drawing_ids"] and row["tooling_ids"] for row in payload["products"])
+    assert all(row["inspection_characteristic_ids"] for row in payload["products"])
+    assert all(
+        artifact["status"] == "open-unissued" and not artifact["artifact_ref"]
+        for row in payload["products"]
+        for artifact in row["required_artifacts"]
+    )
+    by_id = {row["product_id"]: row for row in payload["products"]}
+    assert by_id["LM3-CWL-P011"]["planning_route"] == "composite-mould-trim-and-fit"
+    assert by_id["LM3-CTRL-P040"]["planning_route"] == "harness-cut-terminate-formboard-and-test"
+    assert by_id["LM3-BOG-P010"]["planning_route"] == "cut-form-machine-fixture-and-join"
+    assert "all locally made production data open" in render_production_data_release(payload)
+
+
+def test_generated_production_data_register_is_current() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    factory = factory_release_work_package_payload(design)
+    payload = production_data_release_payload(
+        design.product_items, factory, factory_inspection_plan_payload(factory),
+        factory_drawing_seed_payloads(factory),
+    )
+    root = Path(__file__).resolve().parents[1] / "catalog/buildable-trainset"
+    assert json.loads((root / "production-data-release-register.json").read_text()) == payload
+    assert (root / "production-data-release-register.md").read_text() == render_production_data_release(payload)
 
 
 def test_factory_release_record_covers_every_package_without_claiming_release() -> None:

@@ -1714,6 +1714,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "manufacturing_control_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/manufacturing-control-record-template.json",
         "inspection_plan": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.json",
         "inspection_plan_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.md",
+        "production_data": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/production-data-release-register.json",
+        "production_data_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/production-data-release-register.md",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
@@ -1849,6 +1851,26 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or any(row.get("execution_status") != "not-performed" for row in rows)
         ):
             findings.append(Finding(paths["inspection_plan"], "LM3 first-article inspection-plan coverage changed or claims performed work"))
+    if paths["production_data"].is_file() and paths["product_manifest"].is_file():
+        production_data = json.loads(paths["production_data"].read_text(encoding="utf-8"))
+        production_manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
+        products = production_data.get("products", [])
+        artifacts = [artifact for row in products for artifact in row.get("required_artifacts", [])]
+        expected_make_ids = {
+            row.get("id") for row in production_manifest.get("product_items", [])
+            if row.get("route") == "MAKE"
+        }
+        if (
+            production_data.get("status") != "all-locally-made-production-data-open-unissued"
+            or production_data.get("make_product_count") != 62
+            or production_data.get("open_product_count") != 62
+            or production_data.get("required_artifact_count") != 472
+            or {row.get("product_id") for row in products} != expected_make_ids
+            or not all(production_data.get("validation", {}).values())
+            or any(row.get("release_status") != "open-unissued" for row in products)
+            or any(artifact.get("status") != "open-unissued" or artifact.get("artifact_ref") for artifact in artifacts)
+        ):
+            findings.append(Finding(paths["production_data"], "LM3 production-data register is incomplete or claims unsupported release"))
     if paths["factory_release_record"].is_file() and paths["factory_release"].is_file():
         factory_record = json.loads(paths["factory_release_record"].read_text(encoding="utf-8"))
         record_packages = factory_record.get("packages", [])
@@ -2152,6 +2174,8 @@ def check_owner_builder_operator_mobilisation() -> list[Finding]:
         or summary.get("independent_parties_total") != 3
         or summary.get("gates_total") != 8
         or summary.get("work_packages_total") != 18
+        or summary.get("management_systems_total") != 11
+        or summary.get("management_systems_ready") != 0
         or summary.get("work_packages_complete") != 0
         or summary.get("default_programme_start_month") != 0
         or summary.get("default_programme_end_month") != 60

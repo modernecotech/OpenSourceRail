@@ -22,6 +22,10 @@ EXPECTED_ROLES = {
 EXPECTED_GATES = {f"G{number}" for number in range(8)}
 EXPECTED_INDEPENDENT = {"IND-ASSESSOR", "IND-CHECKER", "IND-AUDITOR"}
 EXPECTED_WORK_PACKAGES = {f"MOB-{number:03d}" for number in range(10, 181, 10)}
+EXPECTED_MANAGEMENT_SYSTEMS = {
+    "MS-GOV", "MS-ENG", "MS-SAF", "MS-COMP", "MS-COM", "MS-PC",
+    "MS-QUA", "MS-ASSET", "MS-ENV", "MS-FIN", "MS-DIG",
+}
 
 
 def _unique(rows: list[dict], field: str, label: str) -> set[str]:
@@ -37,10 +41,12 @@ def build_status(source: Path = SOURCE) -> dict:
     parties = list(data.get("independent_party", []))
     gates = list(data.get("gate", []))
     work_packages = list(data.get("work_package", []))
+    management_systems = list(data.get("management_system", []))
     role_ids = _unique(roles, "id", "role")
     party_ids = _unique(parties, "id", "independent-party")
     gate_ids = _unique(gates, "id", "gate")
     work_package_ids = _unique(work_packages, "id", "work-package")
+    management_system_ids = _unique(management_systems, "id", "management-system")
     if role_ids != EXPECTED_ROLES:
         raise ValueError(f"role set changed: missing={sorted(EXPECTED_ROLES-role_ids)}, new={sorted(role_ids-EXPECTED_ROLES)}")
     if party_ids != EXPECTED_INDEPENDENT:
@@ -49,10 +55,19 @@ def build_status(source: Path = SOURCE) -> dict:
         raise ValueError("G0-G7 mobilisation gates must all be present")
     if work_package_ids != EXPECTED_WORK_PACKAGES:
         raise ValueError("MOB-010 through MOB-180 work packages must all be present")
+    if management_system_ids != EXPECTED_MANAGEMENT_SYSTEMS:
+        raise ValueError("owner-builder-operator management-system set changed")
     if len(data.get("governance", {}).get("independence_rules", [])) < 5:
         raise ValueError("governance independence rules are incomplete")
     if any(not row.get("accountable_for") for row in roles):
         raise ValueError("every role requires accountable scope")
+    for system in management_systems:
+        if system.get("accountable_role_id") not in role_ids or system.get("required_by_gate_id") not in gate_ids:
+            raise ValueError(f"{system['id']} has unresolved role or gate")
+        if len(system.get("required_documents", [])) < 4:
+            raise ValueError(f"{system['id']} has insufficient controlled documents")
+        if system.get("status") not in {"not-established", "in-development", "established", "suspended"}:
+            raise ValueError(f"{system['id']} has invalid status")
     for gate in gates:
         accountable = set(gate.get("accountable_role_ids", []))
         if not accountable or not accountable <= role_ids:
@@ -148,6 +163,24 @@ def build_status(source: Path = SOURCE) -> dict:
             }
         )
 
+    management_system_rows = []
+    for row in sorted(management_systems, key=lambda value: value["id"]):
+        evidence_refs = list(row.get("evidence_refs", []))
+        ready = (
+            row.get("status") == "established"
+            and len(evidence_refs) >= len(row["required_documents"])
+            and bool(row.get("approved_by"))
+            and bool(row.get("approved_at"))
+        )
+        management_system_rows.append(
+            {
+                **row,
+                "required_document_count": len(row["required_documents"]),
+                "evidence_count": len(evidence_refs),
+                "ready": ready,
+            }
+        )
+
     project = dict(data.get("project", {}))
     entity = dict(data.get("entity_model", {}))
     entity_ready = all(
@@ -159,7 +192,7 @@ def build_status(source: Path = SOURCE) -> dict:
         )
     )
     result = {
-        "schema": "org.opensourcerail.owner-builder-operator-mobilisation-status.v1",
+        "schema": "org.opensourcerail.owner-builder-operator-mobilisation-status.v2",
         "source": str(source.relative_to(ROOT)),
         "source_schema_version": data.get("schema_version"),
         "template_revision": data.get("template_revision"),
@@ -176,12 +209,15 @@ def build_status(source: Path = SOURCE) -> dict:
             "gates_total": len(gate_rows),
             "work_packages_complete": sum(row["complete"] for row in work_rows),
             "work_packages_total": len(work_rows),
+            "management_systems_ready": sum(row["ready"] for row in management_system_rows),
+            "management_systems_total": len(management_system_rows),
             "default_programme_start_month": min(row["start_month"] for row in work_rows),
             "default_programme_end_month": max(row["end_month"] for row in work_rows),
-            "mobilisation_ready": entity_ready and all(row["ready"] for row in role_rows) and all(row["ready"] for row in party_rows) and all(row["complete"] for row in work_rows) and all(row["accepted"] for row in gate_rows),
+            "mobilisation_ready": entity_ready and all(row["ready"] for row in role_rows) and all(row["ready"] for row in party_rows) and all(row["ready"] for row in management_system_rows) and all(row["complete"] for row in work_rows) and all(row["accepted"] for row in gate_rows),
         },
         "roles": role_rows,
         "independent_parties": party_rows,
+        "management_systems": management_system_rows,
         "gates": sorted(gate_rows, key=lambda row: row["id"]),
         "work_packages": work_rows,
         "validation": {
@@ -194,6 +230,9 @@ def build_status(source: Path = SOURCE) -> dict:
             "work_package_set_complete": True,
             "work_package_dependencies_acyclic": True,
             "all_work_package_roles_and_gates_resolve": True,
+            "management_system_set_complete": True,
+            "all_management_system_roles_and_gates_resolve": True,
+            "all_management_system_document_sets_defined": True,
         },
     }
     return result
@@ -209,7 +248,7 @@ def render_status(status: dict) -> str:
         "",
         f"Project: `{project_id}`",
         "",
-        f"Entity model complete: **{'yes' if status['entity_model']['ready'] else 'no'}** · Roles ready: **{summary['roles_ready']}/{summary['roles_total']}** · Independent parties ready: **{summary['independent_parties_ready']}/{summary['independent_parties_total']}** · Work packages complete: **{summary['work_packages_complete']}/{summary['work_packages_total']}** · Gates accepted: **{summary['gates_accepted']}/{summary['gates_total']}**",
+        f"Entity model complete: **{'yes' if status['entity_model']['ready'] else 'no'}** · Roles ready: **{summary['roles_ready']}/{summary['roles_total']}** · Independent parties ready: **{summary['independent_parties_ready']}/{summary['independent_parties_total']}** · Management systems ready: **{summary['management_systems_ready']}/{summary['management_systems_total']}** · Work packages complete: **{summary['work_packages_complete']}/{summary['work_packages_total']}** · Gates accepted: **{summary['gates_accepted']}/{summary['gates_total']}**",
         "",
         status["authority_boundary"],
         "",
@@ -233,6 +272,19 @@ def render_status(status: dict) -> str:
     for party in status["independent_parties"]:
         reference = " / ".join(value for value in (party["organisation"], party["appointment_ref"]) if value) or "open"
         lines.append(f"| `{party['id']}` | {party['title']} | {reference} | {'yes' if party['ready'] else 'no'} |")
+    lines += [
+        "",
+        "## Management-System Readiness",
+        "",
+        "| ID | System | Accountable | Required by | Evidence | Status | Ready |",
+        "|---|---|---|---|---:|---|---|",
+    ]
+    for system in status["management_systems"]:
+        lines.append(
+            f"| `{system['id']}` | {system['title']} | `{system['accountable_role_id']}` | "
+            f"`{system['required_by_gate_id']}` | {system['evidence_count']}/{system['required_document_count']} | "
+            f"`{system['status']}` | {'yes' if system['ready'] else 'no'} |"
+        )
     lines += [
         "",
         "## Mobilisation Gates",
@@ -299,6 +351,7 @@ def main() -> int:
     print(
         "owner-builder-operator mobilisation: "
         f"{summary['roles_ready']}/{summary['roles_total']} roles, "
+        f"{summary['management_systems_ready']}/{summary['management_systems_total']} management systems, "
         f"{summary['work_packages_complete']}/{summary['work_packages_total']} work packages, "
         f"{summary['gates_accepted']}/{summary['gates_total']} gates accepted"
     )

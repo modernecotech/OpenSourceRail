@@ -1,4 +1,4 @@
-schema_version = "1.0"
+schema_version = "1.1"
 template_revision = "2026-09-09"
 template_status = "unfilled-all-gates-open"
 authority_boundary = "This template organises mobilisation evidence. It does not create a legal entity, delegate a statutory duty, appoint a competent person, approve expenditure, release construction, certify safety or authorise railway operation."
@@ -158,6 +158,127 @@ appointment_ref = ""
 conflict_check_ref = ""
 scope_ref = ""
 status = "not-appointed"
+
+[[management_system]]
+id = "MS-GOV"
+title = "governance delegations risk and audit"
+accountable_role_id = "ROLE-OWNER"
+required_by_gate_id = "G1"
+required_documents = ["governance manual and reserved matters", "delegations and decision register", "enterprise risk and escalation procedure", "audit conflicts and whistleblowing procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-ENG"
+title = "requirements engineering interfaces configuration and change"
+accountable_role_id = "ROLE-ENGINEERING"
+required_by_gate_id = "G2"
+required_documents = ["engineering management plan", "requirements and verification plan", "interface management plan", "configuration change and concession procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-SAF"
+title = "safety assurance human factors and emergency management"
+accountable_role_id = "ROLE-SAFETY"
+required_by_gate_id = "G2"
+required_documents = ["safety management and assurance plan", "hazard and risk management procedure", "human factors integration plan", "emergency planning and exercise procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-COMP"
+title = "competence authorisation fitness and fatigue"
+accountable_role_id = "ROLE-PEOPLE"
+required_by_gate_id = "G3"
+required_documents = ["competence management system", "role authorisation matrix", "medical and fitness standard", "fatigue and working-time control"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-COM"
+title = "commercial supplier and local-content management"
+accountable_role_id = "ROLE-COMMERCIAL"
+required_by_gate_id = "G3"
+required_documents = ["commercial and procurement manual", "supplier qualification procedure", "contract change and claims control", "local-content skills and technology-transfer measurement plan"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-PC"
+title = "programme scope schedule cost risk and benefits control"
+accountable_role_id = "ROLE-PROGRAMME"
+required_by_gate_id = "G2"
+required_documents = ["programme controls plan", "integrated baseline and change procedure", "cost cashflow and contingency control", "risk opportunity and benefits realisation plan"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-QUA"
+title = "factory site quality nonconformance and calibration"
+accountable_role_id = "ROLE-MANUFACTURING"
+required_by_gate_id = "G3"
+required_documents = ["quality management plan", "inspection test and release procedure", "nonconformance concession and corrective-action procedure", "measuring equipment calibration and traceability procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-ASSET"
+title = "asset maintenance spares warranty and return to service"
+accountable_role_id = "ROLE-ASSET"
+required_by_gate_id = "G5"
+required_documents = ["asset and maintenance management plan", "maintenance development and task-approval procedure", "spares obsolescence and warranty plan", "defect isolation and return-to-service procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-ENV"
+title = "environment social land utilities and construction impacts"
+accountable_role_id = "ROLE-INFRASTRUCTURE"
+required_by_gate_id = "G2"
+required_documents = ["environmental and social management plan", "land stakeholder and grievance procedure", "utilities survey and protection procedure", "construction pollution resource and waste control"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-FIN"
+title = "finance treasury affordability and renewals reserve"
+accountable_role_id = "ROLE-FINANCE"
+required_by_gate_id = "G1"
+required_documents = ["financial regulations and control manual", "treasury cash and external-currency policy", "affordability funding and borrowing control", "asset renewals reserve and lifecycle funding plan"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
+
+[[management_system]]
+id = "MS-DIG"
+title = "digital information cybersecurity backup and OT boundary"
+accountable_role_id = "ROLE-DIGITAL"
+required_by_gate_id = "G2"
+required_documents = ["information and CDE management plan", "identity access and privileged-account procedure", "cybersecurity and IT-OT boundary plan", "backup restore retention and incident-response procedure"]
+evidence_refs = []
+status = "not-established"
+approved_by = ""
+approved_at = ""
 
 [[gate]]
 id = "G0"

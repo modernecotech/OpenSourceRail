@@ -58,6 +58,10 @@ from osr_mech.rolling_stock.inspection_plan import (
     factory_inspection_plan_payload,
     render_factory_inspection_plan,
 )
+from osr_mech.rolling_stock.production_data import (
+    production_data_release_payload,
+    render_production_data_release,
+)
 from osr_mech.rolling_stock.manufacturing_controls import (
     FACTORY_PACKAGE_CONTROLS,
     manufacturing_control_record_template,
@@ -5460,6 +5464,8 @@ def write_outputs(
     factory_release_readiness_md = out_dir / "factory-release-readiness.md"
     inspection_plan_json = out_dir / "first-article-inspection-plan.json"
     inspection_plan_md = out_dir / "first-article-inspection-plan.md"
+    production_data_json = out_dir / "production-data-release-register.json"
+    production_data_md = out_dir / "production-data-release-register.md"
     factory_drawings_dir = out_dir / "factory-drawings"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
@@ -5568,8 +5574,22 @@ def write_outputs(
         render_factory_inspection_plan(inspection_plan),
         encoding="utf-8",
     )
-    factory_drawings_dir.mkdir(parents=True, exist_ok=True)
     drawing_seeds = factory_drawing_seed_payloads(factory_release)
+    production_data = production_data_release_payload(
+        design.product_items,
+        factory_release,
+        inspection_plan,
+        drawing_seeds,
+    )
+    production_data_json.write_text(
+        json.dumps(production_data, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    production_data_md.write_text(
+        render_production_data_release(production_data),
+        encoding="utf-8",
+    )
+    factory_drawings_dir.mkdir(parents=True, exist_ok=True)
     for seed in drawing_seeds:
         drawing_id = str(seed["drawing_id"])
         (factory_drawings_dir / f"{drawing_id}.json").write_text(

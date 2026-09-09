@@ -21,6 +21,8 @@ def test_blank_mobilisation_baseline_is_complete_and_fail_closed() -> None:
         "gates_total": 8,
         "work_packages_complete": 0,
         "work_packages_total": 18,
+        "management_systems_ready": 0,
+        "management_systems_total": 11,
         "default_programme_start_month": 0,
         "default_programme_end_month": 60,
         "mobilisation_ready": False,
@@ -31,6 +33,11 @@ def test_blank_mobilisation_baseline_is_complete_and_fail_closed() -> None:
         f"MOB-{number:03d}" for number in range(10, 181, 10)
     }
     assert all(row["status"] == "not-started" and not row["complete"] for row in status["work_packages"])
+    assert {row["id"] for row in status["management_systems"]} == {
+        "MS-GOV", "MS-ENG", "MS-SAF", "MS-COMP", "MS-COM", "MS-PC",
+        "MS-QUA", "MS-ASSET", "MS-ENV", "MS-FIN", "MS-DIG",
+    }
+    assert all(row["status"] == "not-established" and not row["ready"] for row in status["management_systems"])
 
 
 def test_tracked_mobilisation_outputs_match_source() -> None:
