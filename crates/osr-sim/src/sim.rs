@@ -521,6 +521,8 @@ pub enum EventKind {
         soc: f32,
     },
     DepartStation,
+    /// Empty same-line movement toward the declared overnight home.
+    ReturnToStabling,
     ChargingTick {
         power_kw: f32,
         energy_added_kwh: f32,
@@ -886,7 +888,19 @@ pub fn run_with_event_recording(
             // Launch waiting home stock before recirculating arrivals consume
             // its slots. A held/low-energy train still cannot reserve a slot.
             train_step_order.sort_by_key(|&idx| {
-                !matches!(trains[idx].phase, TrainPhase::AwaitingDispatch { .. })
+                let train = &trains[idx];
+                let priority = if matches!(train.phase, TrainPhase::AwaitingDispatch { .. })
+                    && train.service_role == ServiceRole::Revenue
+                {
+                    if train.in_depot {
+                        1
+                    } else {
+                        0
+                    }
+                } else {
+                    2
+                };
+                (priority, train.id.0)
             });
         }
         for &idx in &train_step_order {
@@ -1663,14 +1677,14 @@ fn step_train(
             }
 
             if returning_home {
-                // Preserve the most restrictive scheduled spacing on empty
-                // run-in moves; the overnight clock reset cannot block them.
+                // Empty returns use the line's existing peak-service spacing.
+                // Energy and movement-authority gates still admit every move.
                 let headway = fleet
                     .schedule
                     .windows
                     .iter()
                     .map(|w| w.headway_s)
-                    .max()
+                    .min()
                     .unwrap();
                 if !throttle.can_return_to_stabling(&key, t) {
                     trains[idx].phase = TrainPhase::Dwelling {
@@ -1747,7 +1761,11 @@ fn step_train(
                     line: line.name.clone(),
                     station: Some(station),
                     station_name: Some(s.name.clone()),
-                    kind: EventKind::DepartStation,
+                    kind: if returning_home {
+                        EventKind::ReturnToStabling
+                    } else {
+                        EventKind::DepartStation
+                    },
                 },
             );
             let mut entry = SectionEntryContext {
@@ -2211,6 +2229,7 @@ fn event_kind_name(kind: &EventKind) -> &'static str {
         EventKind::Dispatched => "Dispatched",
         EventKind::ArriveStation { .. } => "ArriveStation",
         EventKind::DepartStation => "DepartStation",
+        EventKind::ReturnToStabling => "ReturnToStabling",
         EventKind::ChargingTick { .. } => "ChargingTick",
         EventKind::Turnaround => "Turnaround",
         EventKind::DepotServiceStart { .. } => "DepotServiceStart",

@@ -2,7 +2,7 @@
   "city": "hurghada",
   "cost_template_sha256": "9e811b8eaae14be9c57aaef4ca6ad9577703ad20ec54ae71f861de85dd689446",
   "deployment_release_ready": false,
-  "depot_template_sha256": "3a49882369f12d68c9cd2124f07efb384a5f7fe52921e215aa52201faaac2a45",
+  "depot_template_sha256": "e2b58276182b8c0fd958734a279f7f3d9681239bd22ce4447d5092d360c20b52",
   "depots": [
     {
       "additional_pv_kw": 4400.0,
@@ -46,7 +46,7 @@
   "design_sha256": "9792a0513ae189cbebfea2c139d8c4ee7a98bd68870fcff5bc010d0094858136",
   "energy_template_sha256": "e6abdbc3184605720d9cda58fb120b829b44d6d17763f94e4383bbb2a22dc713",
   "fleet_trainsets": 80,
-  "generator_sha256": "cb99237191c887de50653e4bcb87943fa7040e65312abd3412e1b94d1de42770",
+  "generator_sha256": "8a609c168a084956201fba10a6856601bf6524f32edc747a919cb0f5c8a5c900",
   "initial_dispatch_requirements": [
     {
       "initial_trainset_count": 15,
@@ -123,13 +123,15 @@
     "coordinated morning starts and conflict-aware evening run-in/morning run-out"
   ],
   "overnight_stabling_policy": {
-    "defect_return_policy": "route-to-main-heavy",
+    "defect_return_policy": "hold-and-recover-to-same-line-service-point",
     "enabled": true,
+    "interline_train_transfers": false,
     "minimum_station_power_kw": 150,
     "morning_start_policy": "simultaneous-from-stabled-stations",
     "requires_cctv_monitoring": true,
     "requires_grid_connection": true,
-    "requires_remote_isolation": true
+    "requires_remote_isolation": true,
+    "storage_assignment_policy": "same-line-service-point"
   },
   "passed": false,
   "quantities_reconciled": true,
@@ -137,7 +139,7 @@
   "scenario_sha256": "c988bc50ec7fd84fdeb90eac003e64fe641607f27a29213a66c4246340de9f4a",
   "schema_version": 1,
   "scope_model_sha256": "4cee526efafae40aa6c5fce2a9859ad1e2bc27a156e6b2f84b6dd03ae3063ace",
-  "simulator_source_sha256": "6533012dad1b845860234fe8c36164024e0c99c8452845bafa5d5e30b553bffe",
+  "simulator_source_sha256": "6df141b2cd9b03ae82d53cffb0f7291bac3e588b7260e060879893d1e0407840",
   "source_paths": {
     "cost_template_sha256": "lib/templates/capex-costs.toml",
     "depot_template_sha256": "lib/templates/depots.toml",

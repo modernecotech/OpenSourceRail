@@ -18,10 +18,12 @@ passenger stations or layups near their first morning trip instead of
 all running empty to a terminal depot. This reduces depot stall
 requirements, avoids wasteful dead mileage, and lets first departures
 begin across the line at the same time. The main-heavy remains the
-maintenance authority; any red defect or scheduled heavy work routes
-the trainset back to depot. Two revenue trains per selected station form the
-morning launch stock; remaining revenue trains and reserves stable at declared
-depots on storage tracks sized separately from workshop bays.
+maintenance authority. Defective trains are held and recovered to a service
+point on their own line; maintenance planning must not assume an interline
+rail connection. Two revenue trains per selected station form the
+morning launch stock; remaining revenue trains and reserves stable at a
+powered service point on their own line. Storage tracks are sized separately
+from workshop bays, using reusable depot/layup blocks.
 
 | Archetype | Catalogue max stalls | Heavy maintenance | Overhaul throughput | Notes |
 |---|---|---|---|---|
@@ -83,8 +85,9 @@ archetype set covers:
   deployment, where heavy maintenance happens.
 - **`secondary-medium`** — for deployments whose geography makes
   defect and light-maintenance access to the main depot impractical.
-- **`layup-minimal`** — an explicit exception only where a passenger
-  station cannot provide secure powered stabling.
+- **`layup-minimal`** — storage at a line’s powered service location for
+  stock beyond the two-train station provision; no separate heavy workshop
+  or interline connection is implied.
 
 The catalogue provides reference envelopes. A workshop exceeding the reference
 bay count needs a controlled extension at the deployment main depot, including
@@ -106,13 +109,15 @@ remaining revenue trains and reserves use separate depot stabling tracks:
 ```
 
 The two-train station provision is an overnight allocation constraint. Allocate
-remaining revenue trains and all reserves to declared depots, preserving total
+remaining revenue trains and all reserves to same-line storage, preserving total
 fleet inventory. Depot storage positions and usable track lengths are sized
 separately from workshop bays. Samawah allocates 40 trains to stations and 68
-to its main depot: 57 revenue, eight spare and three cold reserve. Those 68
-storage positions require 4,046 m of usable slots at 59.5 m per train, in
-addition to the separately planned 17 workshop bays. Depot access and yard
-movements require detailed design.
+to storage on their own lines: 37 on Line 1, 16 on Line 2 and 15 on Line 3.
+These comprise 57 revenue, eight spare and three cold reserve trains. The
+storage requirement totals 4,046 m of usable slots at 59.5 m per train,
+separately from the existing 17 main-depot workshop bays. Lines 2 and 3 reuse
+their powered service terminals. Local storage layouts need detailed design;
+interline depot connections are not part of the operating requirement.
 
 - `peak_revenue_trainsets` = what the schedule requires at peak.
   Sized from the physical round-trip cycle vs. the peak headway:

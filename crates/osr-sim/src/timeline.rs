@@ -187,7 +187,7 @@ fn resolve_at_time(
                         .unwrap_or(0.0);
                     (station_m, "dwelling", last_text, *soc)
                 }
-                EventKind::DepartStation => {
+                EventKind::DepartStation | EventKind::ReturnToStabling => {
                     // Interpolate toward the next Arrive event (or the
                     // next dispatched station).
                     let start_m = b

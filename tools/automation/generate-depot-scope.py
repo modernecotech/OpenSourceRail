@@ -152,7 +152,7 @@ def build_report(design_path: Path) -> dict:
 def render_markdown(report: dict) -> str:
     lines = [f"# {report['city']} depot scope reconciliation", "",
              f"Depot energy quantities reconciled: **{'yes' if report['quantities_reconciled'] else 'no'}**. Physical/cost/stabling closure: **open**.", "",
-             "The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to declared depots. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.", "",
+             "The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to storage on its own line. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.", "",
              "| Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |",
              "|---|---:|---:|---:|---:|"]
     for d in report["depots"]:

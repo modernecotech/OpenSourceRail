@@ -1,12 +1,20 @@
 # Station and depot overnight allocation
 
-Plan: **192 trainsets at stations + 348 at depots = 540 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **192 trainsets at stations + 348 at depots = 540 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-1-0132-1530-s048163 | 348 | 42,108.0 | 81 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-0132-1530-s048163 | line-1 | declared-depot | 69 | 8,349.0 | 81 |
+| line-2-0671-0283-s028411 | line-2 | storage-at-existing-powered-service-point | 31 | 3,751.0 | 0 |
+| line-3-1078-0454-s032783 | line-3 | storage-at-existing-powered-service-point | 42 | 5,082.0 | 0 |
+| line-4-0271-1579-s032211 | line-4 | storage-at-existing-powered-service-point | 46 | 5,566.0 | 0 |
+| line-5-0679-1528-s031071 | line-5 | storage-at-existing-powered-service-point | 40 | 4,840.0 | 0 |
+| line-6-0373-0506-s037771 | line-6 | storage-at-existing-powered-service-point | 49 | 5,929.0 | 0 |
+| line-7-0944-0978-s023409 | line-7 | storage-at-existing-powered-service-point | 27 | 3,267.0 | 0 |
+| line-8-0173-0646-s032053 | line-8 | storage-at-existing-powered-service-point | 40 | 4,840.0 | 0 |
+| line-9-0807-0385-s073947 | line-9 | storage-at-existing-powered-service-point | 4 | 484.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -189,33 +197,31 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0132-1530-s048163 | depot | — | revenue | 60 |
 | line-1 | line-1-0132-1530-s048163 | depot | — | spare | 8 |
 | line-1 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-2 | line-1-0132-1530-s048163 | depot | — | revenue | 26 |
-| line-2 | line-1-0132-1530-s048163 | depot | — | spare | 4 |
-| line-2 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-3 | line-1-0132-1530-s048163 | depot | — | revenue | 36 |
-| line-3 | line-1-0132-1530-s048163 | depot | — | spare | 5 |
-| line-3 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-4 | line-1-0132-1530-s048163 | depot | — | revenue | 40 |
-| line-4 | line-1-0132-1530-s048163 | depot | — | spare | 5 |
-| line-4 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-5 | line-1-0132-1530-s048163 | depot | — | revenue | 34 |
-| line-5 | line-1-0132-1530-s048163 | depot | — | spare | 5 |
-| line-5 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-6 | line-1-0132-1530-s048163 | depot | — | revenue | 42 |
-| line-6 | line-1-0132-1530-s048163 | depot | — | spare | 6 |
-| line-6 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-7 | line-1-0132-1530-s048163 | depot | — | revenue | 23 |
-| line-7 | line-1-0132-1530-s048163 | depot | — | spare | 3 |
-| line-7 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-8 | line-1-0132-1530-s048163 | depot | — | revenue | 34 |
-| line-8 | line-1-0132-1530-s048163 | depot | — | spare | 5 |
-| line-8 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
-| line-9 | line-1-0132-1530-s048163 | depot | — | spare | 3 |
-| line-9 | line-1-0132-1530-s048163 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0671-0283-s028411 | depot | — | revenue | 26 |
+| line-2 | line-2-0671-0283-s028411 | depot | — | spare | 4 |
+| line-2 | line-2-0671-0283-s028411 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-1078-0454-s032783 | depot | — | revenue | 36 |
+| line-3 | line-3-1078-0454-s032783 | depot | — | spare | 5 |
+| line-3 | line-3-1078-0454-s032783 | depot | — | cold_reserve | 1 |
+| line-4 | line-4-0271-1579-s032211 | depot | — | revenue | 40 |
+| line-4 | line-4-0271-1579-s032211 | depot | — | spare | 5 |
+| line-4 | line-4-0271-1579-s032211 | depot | — | cold_reserve | 1 |
+| line-5 | line-5-0679-1528-s031071 | depot | — | revenue | 34 |
+| line-5 | line-5-0679-1528-s031071 | depot | — | spare | 5 |
+| line-5 | line-5-0679-1528-s031071 | depot | — | cold_reserve | 1 |
+| line-6 | line-6-0373-0506-s037771 | depot | — | revenue | 42 |
+| line-6 | line-6-0373-0506-s037771 | depot | — | spare | 6 |
+| line-6 | line-6-0373-0506-s037771 | depot | — | cold_reserve | 1 |
+| line-7 | line-7-0944-0978-s023409 | depot | — | revenue | 23 |
+| line-7 | line-7-0944-0978-s023409 | depot | — | spare | 3 |
+| line-7 | line-7-0944-0978-s023409 | depot | — | cold_reserve | 1 |
+| line-8 | line-8-0173-0646-s032053 | depot | — | revenue | 34 |
+| line-8 | line-8-0173-0646-s032053 | depot | — | spare | 5 |
+| line-8 | line-8-0173-0646-s032053 | depot | — | cold_reserve | 1 |
+| line-9 | line-9-0807-0385-s073947 | depot | — | spare | 3 |
+| line-9 | line-9-0807-0385-s073947 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-2 (31 trains), line-3 (42 trains), line-4 (46 trains), line-5 (40 trains), line-6 (49 trains), line-7 (27 trains), line-8 (40 trains), line-9 (4 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/coimbatore-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark

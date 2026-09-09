@@ -83,6 +83,9 @@ def test_committed_candidates_and_source_records_are_current():
         assert hashlib.sha256(candidate.encode()).hexdigest() == report['candidate_sha256']
         assert report['passed'] is False
         hybrid = report['hybrid_allocation']
+        assert not hybrid['depot_access_requirements']
+        lines = {line['id']: {r['id'] for r in line['stations']} for line in tomllib.loads(candidate)['lines']}
+        assert all(r['station'] in lines[r['line']] for r in hybrid['allocations'])
         assert hybrid['capacity']['passed']
         assert hybrid['station_trainsets'] + hybrid['depot_trainsets'] == report['fleet_trainsets']
         assert all(n <= 2 for n in hybrid['station_trainsets_by_location'].values())

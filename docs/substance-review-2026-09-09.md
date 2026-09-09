@@ -187,13 +187,14 @@ allocations. Physical capacity, daytime headway delivery, storage-only outage
 resilience and failed-train recovery remain open; package gates remain failed.
 
 **Station/depot allocation corrected:** two revenue trains per selected station
-provide Samawah's morning launch stock (40 sets); the remaining 68 are assigned
-to the existing main depot (57 revenue, eight spare and three cold reserve).
+provide Samawah's morning launch stock (40 sets); the remaining 68 stay on
+their own lines: 37 on Line 1, 16 on Line 2 and 15 on Line 3 (57 revenue,
+eight spare and three cold reserve in total).
 The previous interpretation treated those 68 as unresolved station overflow.
 The new allocation conserves all 108 trains and passes the two-train station
 check, with 68 explicit depot storage positions requiring 4,046 m of usable
-slots, separately from 17 workshop bays. Interline depot access for Lines 2
-and 3 and executable evening/yard movements still need detailing.
+slots, separately from 17 workshop bays. Lines 2 and 3 use existing powered
+service terminals. No interline depot connection is required.
 
 All 266 city plans now include explicit station/depot allocations and depot
 storage requirements. Missing morning directions, where a line has insufficient
@@ -208,9 +209,16 @@ movements after closing, depot holding and morning dispatch. A connected
 8-train fixture passes two continuous cycles with six station and two depot
 trains, preserved inventory and parked reserves. The CSV separates depot stock
 from station queues. Capacity/role mismatches and disconnected depot homes fail
-loading. Native candidates are generated for Uíge, Quelimane and Edéa; other
-cities report incomplete morning allocation or depot access. Samawah's Lines 2
-and 3 still require explicit connections to its main depot. Yard geometry,
+loading. Line-local storage now enables 182 native city candidates, including
+Samawah; the remaining 84 report incomplete morning allocations. The hybrid
+city screen checks full-day home returns and station launch stock. Station
+launch trains have priority over depot stock, with train IDs resolving ties;
+empty returns use the existing peak-service spacing and have a distinct event
+kind, so overnight passenger departures cannot be hidden among return moves.
+Two-day screens pass for Samawah, Uíge, Quelimane and Edéa. Samawah preserves
+40 station and 68 line-local depot trains and restarts all 34 directions on
+each morning; a raw minimum SoC of 0.19999853 is within the city validator’s
+0.001-percentage-point numerical tolerance. Yard geometry,
 turnbacks and city-scale evening timetables remain unverified.
 
 **Fleet-sizing documentation drift:** RFC 0014's former 35 km/h commercial-speed

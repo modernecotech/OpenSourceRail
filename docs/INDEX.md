@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **2033**.
+Indexed Markdown files: **2037**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **2033**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 1398 |
+| [cities](#cities) | 1402 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
@@ -141,6 +141,7 @@ Indexed Markdown files: **2033**.
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md) | Uige Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md) | uige depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/east-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md) | Uige Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/README.md) | Eldoret — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md) | Eldoret Planning OSR-ALN Package |
@@ -264,6 +265,7 @@ Indexed Markdown files: **2033**.
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/README.md) | Quelimane Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md) | quelimane depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/operations/acceptance-evidence-report.md) | Quelimane Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Tete/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/README.md) | Tete — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/README.md) | Tete Planning OSR-ALN Package |
@@ -928,6 +930,7 @@ Indexed Markdown files: **2033**.
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/alignment/README.md) | Edea Planning OSR-ALN Package |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md) | edea depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md) | Edea Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md) | Garoua Planning OSR-ALN Package |
@@ -1221,6 +1224,7 @@ Indexed Markdown files: **2033**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) | Samawah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md) | Overnight operating comparison |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md) | Station redistribution requirements |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md) | Continuous service-cycle stabling screen |

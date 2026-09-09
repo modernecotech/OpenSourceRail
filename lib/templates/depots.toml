@@ -2,9 +2,9 @@
 #
 # Per RFC 0014, there are three archetypes. Every OSR deployment
 # has exactly one `main-heavy`. `secondary-medium` and `layup-minimal`
-# are explicit site exceptions when geography, security, or utility capacity
-# prevents powered passenger-station stabling; the generator does not emit
-# them by default.
+# are reusable blocks for local maintenance and storage. Overnight overflow
+# stays at a powered service point on its own line; the operating allocator
+# does not require interline rail connections.
 #
 # City design.toml references an archetype per depot site:
 #
@@ -17,7 +17,7 @@
 # The `fleet_stalls` field now means concurrent workshop/inspection bays:
 #     bays = max(4, ceil(total_fleet × 0.15))
 # Two revenue sets per selected station support morning starts. Remaining
-# revenue stock and reserves stable at declared depots, with storage tracks
+# revenue stock and reserves stable on their own line, with storage tracks
 # sized separately from workshop bays. Archetype values are site envelopes.
 
 [energy_scope]
@@ -44,7 +44,7 @@ recharge_target_soc         = 0.95
 
 [operations.overnight_distributed_stabling]
 # Two revenue trains per selected station stable near their first morning
-# trip; the remaining fleet returns to declared depot storage tracks.
+# trip; the remaining fleet returns to storage at its own line service point.
 # This reduces depot stall pressure and avoids later first departures at the
 # far end of a line. The main-heavy still owns heavy maintenance and defect
 # rectification; distributed stabling is for clean, telemetry-healthy sets.
@@ -54,7 +54,9 @@ requires_grid_connection    = true
 requires_cctv_monitoring    = true
 requires_remote_isolation   = true
 morning_start_policy        = "simultaneous-from-stabled-stations"
-defect_return_policy        = "route-to-main-heavy"
+defect_return_policy        = "hold-and-recover-to-same-line-service-point"
+storage_assignment_policy   = "same-line-service-point"
+interline_train_transfers   = false
 
 # ---- Main-heavy: primary depot per deployment, with overhaul bay --------
 

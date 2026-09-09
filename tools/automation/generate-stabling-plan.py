@@ -104,7 +104,7 @@ def build(design_path: Path):
         'additional_usable_stabling_length_m': sum(row['additional_usable_stabling_length_m'] for row in capacity),
         'initial_station_count': len(counts), 'maximum_initial_trainsets_at_one_station': max(counts.values()),
         'initial_station_trainsets': dict(sorted(counts.items())), 'initial_allocations': allocations,
-        'policy': {'healthy_fleet_location': 'two revenue trainsets per selected station; remaining fleet at declared depots',
+        'policy': {'healthy_fleet_location': 'two revenue trainsets per selected station; remaining fleet at storage on its own line',
                    'depot_role': 'overnight stabling of remaining revenue trains and reserves, maintenance, inspection and defective trains',
                    'holding_charge_power_kw_per_train': 150, 'holding_target_soc': 0.95,
                    'start_rule': 'line service start, subject to energy, headway and movement-authority gates'},
@@ -133,10 +133,10 @@ def build(design_path: Path):
 def markdown(report):
     hybrid = report['hybrid_allocation']
     rows = ['# Station and depot overnight allocation', '',
-            f"Plan: **{hybrid['station_trainsets']} trainsets at stations + {hybrid['depot_trainsets']} at depots = {hybrid['fleet_trainsets']} total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.", '',
+            f"Plan: **{hybrid['station_trainsets']} trainsets at stations + {hybrid['depot_trainsets']} at depots = {hybrid['fleet_trainsets']} total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.", '',
             f"Allocation check: **{'PASS' if hybrid['allocation_passed'] else 'FAIL'}**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.", '',
-            '| Depot station | Stabling positions required | Usable slot length m | Workshop bays |', '|---|---:|---:|---:|']
-    rows += [f"| {r['station']} | {r['stabling_positions_required']} | {r['usable_stabling_length_required_m']:,.1f} | {r['workshop_bays']} |" for r in hybrid['depot_requirements']]
+            '| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |', '|---|---|---|---:|---:|---:|']
+    rows += [f"| {r['station']} | {', '.join(r['lines'])} | {r['site_basis']} | {r['stabling_positions_required']} | {r['usable_stabling_length_required_m']:,.1f} | {r['workshop_bays']} |" for r in hybrid['depot_requirements']]
     rows += ['', '| Line | Location | Type | Direction | Role | Trainsets |', '|---|---|---|---|---|---:|']
     rows += [f"| {r['line']} | {r['station']} | {r['location_type']} | {r.get('heading', '—')} | {r['service_role']} | {r['trainset_count']} |" for r in hybrid['allocations']]
     if hybrid['depot_access_requirements']:

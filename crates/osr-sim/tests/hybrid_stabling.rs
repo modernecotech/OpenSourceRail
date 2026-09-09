@@ -70,9 +70,31 @@ fn two_continuous_days_return_to_station_and_depot_homes_and_restart() {
             .iter()
             .all(|r| r[column("soc")].parse::<f32>().unwrap() >= 0.20));
     }
+    assert!(result
+        .events
+        .iter()
+        .any(|e| matches!(e.kind, EventKind::ReturnToStabling)));
+    assert!(result.events.iter().all(|e| {
+        let tod = (e.sim_time_s + 5 * 3600 + 30 * 60) % 86400;
+        if matches!(e.kind, EventKind::DepartStation | EventKind::Dispatched) {
+            (19800..20700).contains(&tod)
+        } else if matches!(e.kind, EventKind::ReturnToStabling) {
+            !(19800..20700).contains(&tod)
+        } else {
+            true
+        }
+    }));
     // Train 7 is the depot revenue set. It must really leave and return;
     // train 8 is the spare and remains in depot storage throughout.
     for day in [0, 86400, 2 * 86400] {
+        for station_launch_train in [1, 3, 4, 5] {
+            assert!(result
+                .events
+                .iter()
+                .any(|e| e.train.0 == station_launch_train
+                    && matches!(e.kind, EventKind::Dispatched)
+                    && (day..=day + 60).contains(&e.sim_time_s)));
+        }
         assert!(result.events.iter().any(|e| e.train.0 == 7
             && matches!(e.kind, EventKind::Dispatched)
             && (day..day + 900).contains(&e.sim_time_s)));

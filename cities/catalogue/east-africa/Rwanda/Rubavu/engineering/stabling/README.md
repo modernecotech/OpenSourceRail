@@ -1,12 +1,14 @@
 # Station and depot overnight allocation
 
-Plan: **38 trainsets at stations + 53 at depots = 91 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **38 trainsets at stations + 53 at depots = 91 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-2-0253-0189-s015878 | 53 | 2,597.0 | 14 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-0255-0427-s015332 | line-1 | storage-at-existing-powered-service-point | 16 | 784.0 | 0 |
+| line-2-0253-0189-s015878 | line-2 | declared-depot | 19 | 931.0 | 14 |
+| line-3-0492-0723-s014930 | line-3 | storage-at-existing-powered-service-point | 18 | 882.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -42,19 +44,17 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-3 | line-3-0427-0530-s010296 | station | forward | revenue | 1 |
 | line-3 | line-3-0427-0530-s010296 | station | reverse | revenue | 1 |
 | line-3 | line-3-0492-0723-s014930 | station | reverse | revenue | 2 |
-| line-1 | line-2-0253-0189-s015878 | depot | — | revenue | 13 |
-| line-1 | line-2-0253-0189-s015878 | depot | — | spare | 2 |
-| line-1 | line-2-0253-0189-s015878 | depot | — | cold_reserve | 1 |
+| line-1 | line-1-0255-0427-s015332 | depot | — | revenue | 13 |
+| line-1 | line-1-0255-0427-s015332 | depot | — | spare | 2 |
+| line-1 | line-1-0255-0427-s015332 | depot | — | cold_reserve | 1 |
 | line-2 | line-2-0253-0189-s015878 | depot | — | revenue | 16 |
 | line-2 | line-2-0253-0189-s015878 | depot | — | spare | 2 |
 | line-2 | line-2-0253-0189-s015878 | depot | — | cold_reserve | 1 |
-| line-3 | line-2-0253-0189-s015878 | depot | — | revenue | 15 |
-| line-3 | line-2-0253-0189-s015878 | depot | — | spare | 2 |
-| line-3 | line-2-0253-0189-s015878 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-0492-0723-s014930 | depot | — | revenue | 15 |
+| line-3 | line-3-0492-0723-s014930 | depot | — | spare | 2 |
+| line-3 | line-3-0492-0723-s014930 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-1 (16 trains), line-3 (18 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/rubavu-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark

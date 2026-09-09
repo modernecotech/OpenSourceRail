@@ -1,12 +1,17 @@
 # Station and depot overnight allocation
 
-Plan: **110 trainsets at stations + 156 at depots = 266 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **110 trainsets at stations + 156 at depots = 266 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-3-0864-0002-s043419 | 156 | 13,260.0 | 40 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-0997-1082-s033077 | line-1 | storage-at-existing-powered-service-point | 34 | 2,890.0 | 0 |
+| line-2-1244-0409-s028792 | line-2 | storage-at-existing-powered-service-point | 25 | 2,125.0 | 0 |
+| line-3-0864-0002-s043419 | line-3 | declared-depot | 43 | 3,655.0 | 40 |
+| line-4-0120-0429-s025005 | line-4 | storage-at-existing-powered-service-point | 29 | 2,465.0 | 0 |
+| line-5-1500-0637-s023296 | line-5 | storage-at-existing-powered-service-point | 20 | 1,700.0 | 0 |
+| line-6-0829-0502-s069371 | line-6 | storage-at-existing-powered-service-point | 5 | 425.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -110,28 +115,26 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-6 | line-6-1154-0501-s059026 | station | reverse | revenue | 1 |
 | line-6 | line-6-1301-0783-s049920 | station | forward | revenue | 1 |
 | line-6 | line-6-1301-0783-s049920 | station | reverse | revenue | 1 |
-| line-1 | line-3-0864-0002-s043419 | depot | — | revenue | 29 |
-| line-1 | line-3-0864-0002-s043419 | depot | — | spare | 4 |
-| line-1 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
-| line-2 | line-3-0864-0002-s043419 | depot | — | revenue | 20 |
-| line-2 | line-3-0864-0002-s043419 | depot | — | spare | 4 |
-| line-2 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
+| line-1 | line-1-0997-1082-s033077 | depot | — | revenue | 29 |
+| line-1 | line-1-0997-1082-s033077 | depot | — | spare | 4 |
+| line-1 | line-1-0997-1082-s033077 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-1244-0409-s028792 | depot | — | revenue | 20 |
+| line-2 | line-2-1244-0409-s028792 | depot | — | spare | 4 |
+| line-2 | line-2-1244-0409-s028792 | depot | — | cold_reserve | 1 |
 | line-3 | line-3-0864-0002-s043419 | depot | — | revenue | 37 |
 | line-3 | line-3-0864-0002-s043419 | depot | — | spare | 5 |
 | line-3 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
-| line-4 | line-3-0864-0002-s043419 | depot | — | revenue | 25 |
-| line-4 | line-3-0864-0002-s043419 | depot | — | spare | 3 |
-| line-4 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
-| line-5 | line-3-0864-0002-s043419 | depot | — | revenue | 16 |
-| line-5 | line-3-0864-0002-s043419 | depot | — | spare | 3 |
-| line-5 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
-| line-6 | line-3-0864-0002-s043419 | depot | — | revenue | 2 |
-| line-6 | line-3-0864-0002-s043419 | depot | — | spare | 2 |
-| line-6 | line-3-0864-0002-s043419 | depot | — | cold_reserve | 1 |
+| line-4 | line-4-0120-0429-s025005 | depot | — | revenue | 25 |
+| line-4 | line-4-0120-0429-s025005 | depot | — | spare | 3 |
+| line-4 | line-4-0120-0429-s025005 | depot | — | cold_reserve | 1 |
+| line-5 | line-5-1500-0637-s023296 | depot | — | revenue | 16 |
+| line-5 | line-5-1500-0637-s023296 | depot | — | spare | 3 |
+| line-5 | line-5-1500-0637-s023296 | depot | — | cold_reserve | 1 |
+| line-6 | line-6-0829-0502-s069371 | depot | — | revenue | 2 |
+| line-6 | line-6-0829-0502-s069371 | depot | — | spare | 2 |
+| line-6 | line-6-0829-0502-s069371 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-1 (34 trains), line-2 (25 trains), line-4 (29 trains), line-5 (20 trains), line-6 (5 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/vijayawada-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark

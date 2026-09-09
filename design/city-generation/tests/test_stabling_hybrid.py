@@ -28,14 +28,19 @@ def test_samawah_station_launch_stock_and_depot_remainder():
     station = [r for r in report['allocations'] if r['location_type'] == 'station']
     assert len(station) == 34
     assert all(r['service_role'] == 'revenue' for r in station)
-    depot, = report['depot_requirements']
-    assert depot['service_roles'] == {'revenue': 57, 'spare': 8, 'cold_reserve': 3}
-    assert depot['stabling_positions_required'] == 68
-    assert depot['usable_stabling_length_required_m'] == 4046
-    assert depot['workshop_bays'] == 17
-    assert depot['verified_stabling_positions'] is None
+    assert [r['stabling_positions_required'] for r in report['depot_requirements']] == [37, 16, 15]
+    roles = Counter()
+    for depot in report['depot_requirements']:
+        roles.update(depot['service_roles'])
+        assert depot['verified_stabling_positions'] is None
+        assert len(depot['lines']) == 1
+    assert roles == {'revenue': 57, 'spare': 8, 'cold_reserve': 3}
+    assert sum(r['usable_stabling_length_required_m'] for r in report['depot_requirements']) == 4046
+    assert sum(r['workshop_bays'] for r in report['depot_requirements']) == 17
     assert not report['physical_release_ready']
-    assert [(r['line'], r['trainsets']) for r in report['depot_access_requirements']] == [('line-2', 16), ('line-3', 15)]
+    assert report['depot_access_requirements'] == []
+    lines = {l['id']: {s['id'] for s in l['stations']} for l in doc['lines']}
+    assert all(r['station'] in lines[r['line']] for r in report['allocations'])
 
 
 def test_stock_is_conserved_per_line_and_role():
@@ -67,12 +72,17 @@ def test_revenue_shortage_retains_inventory_and_reports_missing_directions():
     assert not report['allocation_passed']
 
 
-def test_native_candidate_rejects_samawah_missing_interline_access():
+def test_samawah_native_candidate_uses_local_storage_without_new_line_connections():
     from osr_scenario.stabling_hybrid import native_hybrid_candidate
     doc, design, profiles = inputs()
+    path = ROOT / 'cities/catalogue/west-asia/Iraq/Samawah/samawah.toml'
+    source, _ = distributed_candidate(path.read_text(), design['fleets'])
     allocation = station_and_depot_allocation(doc, design, profiles)
-    with pytest.raises(ValueError, match='interline depot access'):
-        native_hybrid_candidate('', allocation)
+    result = tomllib.loads(native_hybrid_candidate(source, allocation))
+    assert result['lines'] == doc['lines']
+    assert result['sites'] == doc['sites']
+    assert sum(s.get('depot_stabling_positions', 0) for s in result['stations']) == 68
+    assert sum(s.get('is_depot', False) for s in result['stations']) == 3
 
 
 def test_connected_native_candidate_preserves_service_energy_and_inventory():

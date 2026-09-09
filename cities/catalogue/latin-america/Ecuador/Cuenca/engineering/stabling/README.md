@@ -1,12 +1,14 @@
 # Station and depot overnight allocation
 
-Plan: **40 trainsets at stations + 129 at depots = 169 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **40 trainsets at stations + 129 at depots = 169 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-1-0708-0006-s026117 | 129 | 7,675.5 | 26 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-0708-0006-s026117 | line-1 | declared-depot | 45 | 2,677.5 | 26 |
+| line-2-0512-0354-s024071 | line-2 | storage-at-existing-powered-service-point | 46 | 2,737.0 | 0 |
+| line-3-1025-0987-s020711 | line-3 | storage-at-existing-powered-service-point | 38 | 2,261.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -47,16 +49,14 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0708-0006-s026117 | depot | — | revenue | 39 |
 | line-1 | line-1-0708-0006-s026117 | depot | — | spare | 5 |
 | line-1 | line-1-0708-0006-s026117 | depot | — | cold_reserve | 1 |
-| line-2 | line-1-0708-0006-s026117 | depot | — | revenue | 40 |
-| line-2 | line-1-0708-0006-s026117 | depot | — | spare | 5 |
-| line-2 | line-1-0708-0006-s026117 | depot | — | cold_reserve | 1 |
-| line-3 | line-1-0708-0006-s026117 | depot | — | revenue | 33 |
-| line-3 | line-1-0708-0006-s026117 | depot | — | spare | 4 |
-| line-3 | line-1-0708-0006-s026117 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0512-0354-s024071 | depot | — | revenue | 40 |
+| line-2 | line-2-0512-0354-s024071 | depot | — | spare | 5 |
+| line-2 | line-2-0512-0354-s024071 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-1025-0987-s020711 | depot | — | revenue | 33 |
+| line-3 | line-3-1025-0987-s020711 | depot | — | spare | 4 |
+| line-3 | line-3-1025-0987-s020711 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-2 (46 trains), line-3 (38 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/cuenca-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark

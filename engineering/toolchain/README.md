@@ -161,14 +161,14 @@ gates. The equipment sensitivity is not applied to city CAPEX.
 The [distributed station-stabling workflow](../../docs/operations/distributed-stabling.md)
 generates a station/depot plan plus a separate station-only native benchmark.
 Plans assign two revenue trains per selected station where fleet permits and
-all remaining stock to declared depots. `hybrid_allocation` records inventory,
+all remaining stock to storage on its own line. `hybrid_allocation` records inventory,
 depot stabling positions and usable lengths separately from workshop bays;
 `allocation_passed` covers inventory and morning direction coverage. The separate `native_hybrid_candidate` records a runnable home-return candidate
 only where the allocation and same-line depot access permit it. The connected
 `lib/examples/hybrid-stabling.toml` fixture exercises depot returns and restart
 through two service cycles; yard geometry and city operating acceptance remain
 open. Samawah's plan
-is 40 station trains plus 68 depot trains. Retained canonical scenarios remain
+is 40 station trains plus 37/16/15 stored on Lines 1/2/3. Retained canonical scenarios remain
 source evidence for their existing operations.
 `generate-stabling-plan.py --all` refreshes the plans; `screen-stabling-plan.py
 --design path/to/design.toml` builds the native simulator and compares the
@@ -199,3 +199,11 @@ two-train station provision. The optional `redistribution-study.json` remains
 failed for physical/movement release and is included in package/source checks.
 It can analyse a replay with passing behavior but failed capacity; this does
 not waive the capacity gate for either the observed or target allocation.
+
+`screen-hybrid-stabling.py --design path/to/design.toml --days 2` runs the
+separate native hybrid candidate. It checks explicit homes, station/depot
+capacity, passenger-service closure and station launch directions. Empty
+`ReturnToStabling` movements are counted separately from passenger departures. The
+optional `hybrid-cycle-screen.json` participates in package and source checks.
+`--analyze-existing` reuses a run only after matching candidate, binary and
+raw-output hashes. No interline depot connection is assumed.

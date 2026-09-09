@@ -206,7 +206,9 @@ Declare each station once. Referenced by `id` from lines and fleets.
   explicit `depot_stabling_positions` on an existing `is_depot = true` station,
   and every home must be a powered dispatch point on the fleet's own line.
   Assigned trains return home after closing and appear as `station` or `depot`
-  in CSV `stabling_location`; yard tracks and turnbacks remain abstract.
+  in CSV `stabling_location`. Empty returns emit `ReturnToStabling` events and
+  use the line’s peak-service headway. Station launch stock precedes depot
+  stock, with train ID resolving ties; yard tracks and turnbacks remain abstract.
 - `dispatch_points` — an array of `{ station, heading }`. Trains are
   distributed round-robin across this list at start-up unless explicit overnight
   homes are supplied, and each entry acts

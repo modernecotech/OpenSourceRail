@@ -1,12 +1,17 @@
 # Station and depot overnight allocation
 
-Plan: **106 trainsets at stations + 162 at depots = 268 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **106 trainsets at stations + 162 at depots = 268 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-1-1342-0089-s036836 | 162 | 13,770.0 | 41 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-1342-0089-s036836 | line-1 | declared-depot | 37 | 3,145.0 | 41 |
+| line-2-0853-0635-s033101 | line-2 | storage-at-existing-powered-service-point | 35 | 2,975.0 | 0 |
+| line-3-1362-1559-s029607 | line-3 | storage-at-existing-powered-service-point | 30 | 2,550.0 | 0 |
+| line-4-0298-0291-s026523 | line-4 | storage-at-existing-powered-service-point | 25 | 2,125.0 | 0 |
+| line-5-0770-1075-s026784 | line-5 | storage-at-existing-powered-service-point | 29 | 2,465.0 | 0 |
+| line-6-0558-0435-s070247 | line-6 | storage-at-existing-powered-service-point | 6 | 510.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -109,25 +114,23 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-1342-0089-s036836 | depot | — | revenue | 31 |
 | line-1 | line-1-1342-0089-s036836 | depot | — | spare | 5 |
 | line-1 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
-| line-2 | line-1-1342-0089-s036836 | depot | — | revenue | 30 |
-| line-2 | line-1-1342-0089-s036836 | depot | — | spare | 4 |
-| line-2 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
-| line-3 | line-1-1342-0089-s036836 | depot | — | revenue | 25 |
-| line-3 | line-1-1342-0089-s036836 | depot | — | spare | 4 |
-| line-3 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
-| line-4 | line-1-1342-0089-s036836 | depot | — | revenue | 21 |
-| line-4 | line-1-1342-0089-s036836 | depot | — | spare | 3 |
-| line-4 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
-| line-5 | line-1-1342-0089-s036836 | depot | — | revenue | 24 |
-| line-5 | line-1-1342-0089-s036836 | depot | — | spare | 4 |
-| line-5 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
-| line-6 | line-1-1342-0089-s036836 | depot | — | revenue | 3 |
-| line-6 | line-1-1342-0089-s036836 | depot | — | spare | 2 |
-| line-6 | line-1-1342-0089-s036836 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0853-0635-s033101 | depot | — | revenue | 30 |
+| line-2 | line-2-0853-0635-s033101 | depot | — | spare | 4 |
+| line-2 | line-2-0853-0635-s033101 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-1362-1559-s029607 | depot | — | revenue | 25 |
+| line-3 | line-3-1362-1559-s029607 | depot | — | spare | 4 |
+| line-3 | line-3-1362-1559-s029607 | depot | — | cold_reserve | 1 |
+| line-4 | line-4-0298-0291-s026523 | depot | — | revenue | 21 |
+| line-4 | line-4-0298-0291-s026523 | depot | — | spare | 3 |
+| line-4 | line-4-0298-0291-s026523 | depot | — | cold_reserve | 1 |
+| line-5 | line-5-0770-1075-s026784 | depot | — | revenue | 24 |
+| line-5 | line-5-0770-1075-s026784 | depot | — | spare | 4 |
+| line-5 | line-5-0770-1075-s026784 | depot | — | cold_reserve | 1 |
+| line-6 | line-6-0558-0435-s070247 | depot | — | revenue | 3 |
+| line-6 | line-6-0558-0435-s070247 | depot | — | spare | 2 |
+| line-6 | line-6-0558-0435-s070247 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-2 (35 trains), line-3 (30 trains), line-4 (25 trains), line-5 (29 trains), line-6 (6 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/madurai-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark

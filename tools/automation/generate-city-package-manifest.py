@@ -97,6 +97,10 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
         ("service-cycle-screen", "screen-stabling-cycles.py", {
             "cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_cycles.py",
         }),
+        ("hybrid-cycle-screen", "screen-hybrid-stabling.py", {
+            "hybrid_cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_hybrid_cycles.py",
+            "report_model": REPO_ROOT / "crates/osr-sim/src/report.rs",
+        }),
         ("redistribution-study", "screen-stabling-cycles.py", {
             "cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_cycles.py",
             "cycle_report": city_dir / "engineering/stabling/service-cycle-screen.json",
@@ -114,7 +118,8 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
             "energy_model": REPO_ROOT / "crates/osr-sim/src/energy.rs",
             "train_model": REPO_ROOT / "crates/osr-sim/src/train.rs",
             "physics_model": REPO_ROOT / "crates/osr-sim/src/physics.rs",
-            "direction_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_evidence.py",
+            **({"direction_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_evidence.py"}
+               if screen_name != "hybrid-cycle-screen" else {}),
             **extra_sources,
         }.items():
             actual = sha256(source) if source.is_file() else None
@@ -201,7 +206,7 @@ def main() -> int:
         city_dir / "operations" / f"{slug}-budget-work-packages.csv",
         city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
-    for screen_name in ("operating-screen", "service-cycle-screen", "redistribution-study"):
+    for screen_name in ("operating-screen", "service-cycle-screen", "redistribution-study", "hybrid-cycle-screen"):
         screen = city_dir / f"engineering/stabling/{screen_name}.json"
         if screen.is_file():
             required.extend([screen, screen.with_suffix(".md")])

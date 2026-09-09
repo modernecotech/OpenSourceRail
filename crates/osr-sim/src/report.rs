@@ -79,6 +79,7 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
                 EventKind::Dispatched => "Dispatched",
                 EventKind::ArriveStation { .. } => "ArriveStation",
                 EventKind::DepartStation => "DepartStation",
+                EventKind::ReturnToStabling => "ReturnToStabling",
                 EventKind::ChargingTick { .. } => "ChargingTick",
                 EventKind::Turnaround => "Turnaround",
                 EventKind::DepotServiceStart { .. } => "DepotServiceStart",

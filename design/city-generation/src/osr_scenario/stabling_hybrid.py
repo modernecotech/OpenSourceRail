@@ -11,7 +11,9 @@ def station_and_depot_allocation(doc, design, profiles):
     depots = {d.get('station') or d.get('station_id'): d for d in design.get('depots', [])}
     if not depots:
         raise ValueError('station/depot allocation needs a declared depot')
-    known = {s['id'] for s in doc['stations']}
+    stations = {s['id']: s for s in doc['stations']}
+    known = set(stations)
+    site_basis = {s: 'declared-depot' for s in depots}
     if not set(depots) <= known:
         raise ValueError('declared depot is absent from the operating network')
     remaining = {line: f['trainset_count'] - f.get('spare_count', 0) - f.get('cold_reserve_count', 0)
@@ -41,12 +43,24 @@ def station_and_depot_allocation(doc, design, profiles):
                     'service_role': 'revenue', 'trainset_count': n}
                    for (line, station, heading), n in sorted(station_rows.items())]
     demand = Counter()
-    access = []
     for line, fleet in fleets.items():
         on_line = {r['id'] for r in lines[line]['stations']}
-        local = [s for s in depots if s in on_line]
-        eligible = local or list(depots)
-        destination = min(eligible, key=lambda s: (depots[s]['archetype'] != 'main-heavy', demand[s], s))
+        powered = {p['station'] for p in fleet['dispatch_points']}
+        local = [s for s in depots if s in on_line and s in powered]
+        if local:
+            destination = min(local, key=lambda s: (depots[s]['archetype'] != 'main-heavy', demand[s], s))
+        else:
+            # Independent lines use their own existing powered service point.
+            # Prefer the designated servicing terminal; no connecting railway
+            # or separate heavy workshop is inferred from overnight storage.
+            eligible = [r['id'] for r in lines[line]['stations'] if r['id'] in powered]
+            if not eligible:
+                raise ValueError(f'{line}: no powered location for line-local storage')
+            destination = min(eligible, key=lambda s: (
+                not stations[s].get('depot_service', False),
+                not stations[s].get('is_terminal', False), s))
+            depots[destination] = {'archetype': 'layup-minimal', 'fleet_stalls': 0}
+            site_basis[destination] = 'storage-at-existing-powered-service-point'
         role_counts = {'revenue': remaining[line], 'spare': fleet.get('spare_count', 0),
                        'cold_reserve': fleet.get('cold_reserve_count', 0)}
         for role, count in role_counts.items():
@@ -54,9 +68,6 @@ def station_and_depot_allocation(doc, design, profiles):
                 allocations.append({'line': line, 'station': destination, 'location_type': 'depot',
                                     'service_role': role, 'trainset_count': count})
                 demand[destination] += count
-        if sum(role_counts.values()) and not local:
-            access.append({'line': line, 'depot_station': destination,
-                           'trainsets': sum(role_counts.values()), 'status': 'interline-depot-access-to-be-detailed'})
     requirements = []
     for station, count in sorted(demand.items()):
         rows = [r for r in allocations if r['location_type'] == 'depot' and r['station'] == station]
@@ -66,6 +77,7 @@ def station_and_depot_allocation(doc, design, profiles):
             roles[r['service_role']] += r['trainset_count']
             length += r['trainset_count'] * (profiles[families[r['line']]]['length_m'] + 10)
         requirements.append({'station': station, 'archetype': depots[station]['archetype'],
+                             'site_basis': site_basis[station], 'lines': sorted({r['line'] for r in rows}),
                              'stabling_positions_required': count, 'service_roles': dict(roles),
                              'usable_stabling_length_required_m': length,
                              'workshop_bays': depots[station].get('fleet_stalls', 0),
@@ -76,9 +88,9 @@ def station_and_depot_allocation(doc, design, profiles):
             'fleet_trainsets': sum(f['trainset_count'] for f in fleets.values()),
             'station_trainsets_by_location': dict(sorted(counts.items())),
             'allocations': allocations, 'depot_requirements': requirements,
-            'capacity': capacity, 'missing_morning_directions': missing, 'depot_access_requirements': access,
+            'capacity': capacity, 'missing_morning_directions': missing, 'depot_access_requirements': [],
             'physical_release_ready': False,
-            'scope': 'Two revenue trainsets per station where fleet permits; all remaining revenue stock and reserves allocated to declared depots'}
+            'scope': 'Two revenue trainsets per station where fleet permits; all remaining revenue stock and reserves allocated to storage on their own line'}
 
 
 def native_hybrid_candidate(text, allocation):
@@ -93,7 +105,7 @@ def native_hybrid_candidate(text, allocation):
     if not allocation['allocation_passed']:
         raise ValueError('morning station allocation is incomplete')
     if allocation['depot_access_requirements']:
-        raise ValueError('interline depot access is absent from the native track graph')
+        raise ValueError('cross-line depot assignments are not allowed')
     doc = tomllib.loads(text)
     requirements = {r['station']: r['stabling_positions_required'] for r in allocation['depot_requirements']}
     q = json.dumps
@@ -123,9 +135,17 @@ def native_hybrid_candidate(text, allocation):
         station = tomllib.loads(match.group())['stations'][0]
         if station['id'] not in requirements:
             continue
-        if not station.get('is_depot') or 'depot_stabling_positions' in station:
-            raise ValueError('requires an existing depot without a conflicting storage declaration')
-        replacement = match.group().rstrip() + f"\ndepot_stabling_positions = {requirements[station['id']]}\n\n"
+        if 'depot_stabling_positions' in station:
+            raise ValueError('conflicting depot storage declaration')
+        block = match.group().rstrip()
+        if 'is_depot' in station:
+            block = re.sub(r'(?m)^is_depot\s*=\s*false\b', 'is_depot = true', block)
+            depot_flag = ''
+        else:
+            depot_flag = '\nis_depot = true'
+        # This is a storage declaration at an existing node; workshop, charging
+        # quantities and all interstation geometry are preserved.
+        replacement = block + depot_flag + f"\ndepot_stabling_positions = {requirements[station['id']]}\n\n"
         candidate = candidate[:match.start()] + replacement + candidate[match.end():]
     parsed = tomllib.loads(candidate)
     assert {k: v for k, v in parsed.items() if k not in ('fleets', 'stations')} == {

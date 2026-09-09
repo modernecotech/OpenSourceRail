@@ -33,13 +33,15 @@ combined replay now fails the explicit two-train station-capacity gate.
 Queues still reach 18 then 19 trains; recurring physical capacity, daytime
 headways and outage/recovery duties remain unverified.
 The overnight plan now assigns two revenue trains per selected station and the
-remaining fleet to declared depots. Samawah allocates 40 to stations and 68 to
-the main depot, with depot storage sized separately from workshop bays. The
+remaining fleet to storage on its own line. Samawah allocates 40 to stations
+and 37/16/15 to Line 1/2/3 storage, separately from workshop bays. The
 station-only replay and seven-train redistribution study remain diagnostic
 benchmarks. Explicit native home allocations now support same-line depot
 returns and morning dispatch, validated across two cycles on a connected
-eight-train fixture. Samawah still needs interline depot access; physical yard
-routing and city-scale evening placement remain open. The corrected RFC records the emitter's family-specific
+eight-train fixture. Two-day city hybrid screens now pass for Samawah, Uíge, Quelimane and Edéa,
+checking actual homes, storage capacity and morning launch stock. Lines operate independently, with no
+interline depot connections; physical yard routing and city evening placement
+remain subject to verification. The corrected RFC records the emitter's family-specific
 fleet assumptions instead of the stale uniform 10% recovery factor.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.

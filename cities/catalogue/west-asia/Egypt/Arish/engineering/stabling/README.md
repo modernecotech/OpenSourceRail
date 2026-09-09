@@ -1,12 +1,13 @@
 # Station and depot overnight allocation
 
-Plan: **16 trainsets at stations + 22 at depots = 38 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+Plan: **16 trainsets at stations + 22 at depots = 38 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
-| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
-|---|---:|---:|---:|
-| line-1-0307-0518-s012933 | 22 | 1,078.0 | 6 |
+| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---|---|---:|---:|---:|
+| line-1-0307-0518-s012933 | line-1 | declared-depot | 16 | 784.0 | 6 |
+| line-2-0349-0427-s004328 | line-2 | storage-at-existing-powered-service-point | 6 | 294.0 | 0 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -25,13 +26,11 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0307-0518-s012933 | depot | — | revenue | 13 |
 | line-1 | line-1-0307-0518-s012933 | depot | — | spare | 2 |
 | line-1 | line-1-0307-0518-s012933 | depot | — | cold_reserve | 1 |
-| line-2 | line-1-0307-0518-s012933 | depot | — | revenue | 4 |
-| line-2 | line-1-0307-0518-s012933 | depot | — | spare | 1 |
-| line-2 | line-1-0307-0518-s012933 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0349-0427-s004328 | depot | — | revenue | 4 |
+| line-2 | line-2-0349-0427-s004328 | depot | — | spare | 1 |
+| line-2 | line-2-0349-0427-s004328 | depot | — | cold_reserve | 1 |
 
-Interline access to the assigned depot must be detailed for: line-2 (6 trains).
-
-Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+Native hybrid candidate: `build/engineering/stabling/arish-hybrid.toml`; generation only, operating validation pending.
 
 
 ## Station-only native benchmark
