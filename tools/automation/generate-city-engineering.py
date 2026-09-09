@@ -330,6 +330,7 @@ def main() -> int:
             "input_issue_count": len(summary.get("input_issues", [])),
             "gis_generation_passed": True if args.skip_gis else bool(gis_summary.get("generation_passed")),
             "energy_solver_passed": True if args.skip_energy else bool(energy_summary.get("solver_passed")),
+            "energy_screen_passed": True if args.skip_energy else bool(energy_summary.get("passed")),
             "energy_finding_count": len(energy_summary.get("design_findings", [])),
             "line_count": summary.get("line_count", 0),
             "return_code": return_code,
@@ -409,7 +410,7 @@ def main() -> int:
                 energy_current = args.skip_energy
                 if energy_summary_path.is_file() and not args.skip_energy:
                     energy_summary = json.loads(energy_summary_path.read_text(encoding="utf-8"))
-                    energy_current = bool(energy_summary.get("solver_passed")) and (
+                    energy_current = bool(energy_summary.get("passed")) and (
                         energy_summary.get("design_sha256") == current_hash
                     ) and (energy_summary.get("scenario_sha256") == scenario_hash)
                     energy_current = energy_current and (
@@ -470,6 +471,7 @@ def main() -> int:
                         "input_issue_count": len(summary.get("input_issues", [])),
                         "gis_generation_passed": True,
                         "energy_solver_passed": True,
+                        "energy_screen_passed": True,
                         "energy_finding_count": (
                             0 if args.skip_energy else len(energy_summary.get("design_findings", []))
                         ),

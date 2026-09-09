@@ -1942,6 +1942,7 @@ def render_readme(
     *,
     screenshot_slug: str | None = None,
     detailed: bool = False,
+    allow_stale_evidence: bool = False,
 ) -> str:
     """Return a concise local README, or the legacy detailed report on request."""
     design = _load(design_path)
@@ -2075,9 +2076,20 @@ def render_readme(
     if not detailed:
         # Reuse the detailed finaliser as a fail-closed evidence validator, but
         # keep its explanatory output on the canonical common reference page.
-        _finalise_readme(
-            [], design_path, scenario_path, stats, screenshot_slug, rel
-        )
+        evidence_error = ""
+        try:
+            _finalise_readme(
+                [], design_path, scenario_path, stats, screenshot_slug, rel
+            )
+        except ValueError as error:
+            if not allow_stale_evidence:
+                raise
+            evidence_error = str(error)
+
+        def evidence_status(passed: bool) -> str:
+            if not passed:
+                return "missing/fail"
+            return "unverified" if evidence_error else "pass"
 
         total_fleet = (
             stats.revenue_fleet
@@ -2089,6 +2101,10 @@ def render_readme(
         catchment_text = f"{catchment:,}" if catchment is not None else "unavailable"
         common_reference = rel("docs/deployment-planning-reference.md")
         national_brief = "../NATIONAL-BRIEF.md"
+        comparison_only = (_repo_root() / "cities/catalogue/europe") in design_path.resolve().parents
+        country_line = f"**Country:** {stats.country_iso} · **Population:** {stats.population:,}"
+        if (design_path.parent.parent / "NATIONAL-BRIEF.md").is_file() and not comparison_only:
+            country_line += f" · [National brief]({national_brief})"
         quality_file = f"{screenshot_slug}.design-quality.yaml"
         operations_manifest = (
             design_path.parent
@@ -2136,13 +2152,17 @@ def render_readme(
         out: list[str] = [
             f"# {stats.city_name} — Urban Rail Network",
             "",
-            f"**Country:** {stats.country_iso} · **Population:** {stats.population:,} · "
-            f"[National brief]({national_brief})",
+            country_line,
             "",
             f"This page contains only {stats.city_name}-specific results. Shared routing, "
             f"service, energy, civil, cost, finance, QA and validation methods are defined "
             f"once in the [deployment planning reference]({common_reference}).",
             "",
+            *([
+                "> [!NOTE]",
+                "> **Technical comparison only.** This model is retained for regression and engineering inspection.",
+                "> It is excluded from the developing-world programme, portfolio, national briefs, reader-book city evidence, and public examples.",
+            ] if comparison_only else [
             "> [!IMPORTANT]",
             f"> **Foreign-capital advantage:** against the default equivalent "
             f"foreign-turnkey sensitivity, this local "
@@ -2152,6 +2172,7 @@ def render_readme(
             f"interest**. Capital plus saved interest totals "
             f"**{_fmt_usd(headline_turnkey.lifetime_external_financing_avoided_usd)}**. "
             f"See the common reference for interpretation and limitations.",
+            ]),
             "",
             "Auto-planned by the OpenSourceRail design pipeline from the controlled city "
             "catalogue, source-locked geospatial inputs and shared templates.",
@@ -2244,25 +2265,37 @@ def render_readme(
                 "",
                 "## Local Evidence",
                 "",
+                *([
+                    "**Evidence refresh required.** Retained passing results below are unverified.",
+                    "The strict README generator rejected the evidence: "
+                    + evidence_error.replace(str(design_path.parent) + "/", "")
+                    + ". This audit view does not accept or replace the retained solver results.",
+                    "",
+                ] if evidence_error else []),
                 "| Package | Current status | Evidence |",
                 "|---|---|---|",
-                f"| Finance | {'pass' if finance.get('passed') else 'missing/fail'} | "
+                f"| Finance | {evidence_status(finance.get('passed'))} | "
                 "[`summary.json`](engineering/finance/summary.json) |",
                 f"| Native simulation + degraded cases | "
-                f"{'pass' if simulation.get('passed') else 'missing/fail'} | "
+                f"{evidence_status(simulation.get('passed'))} | "
                 "[`validation-summary.json`](engineering/simulation/validation-summary.json) |",
                 f"| SUMO timetable | "
-                f"{'pass' if engineering['sumo'].get('simulation_passed') else 'missing/fail'} | "
+                f"{evidence_status(engineering['sumo'].get('simulation_passed'))} | "
                 "[`summary.json`](engineering/sumo/summary.json) |",
                 f"| Independent OSR/SUMO running-time cross-check | "
-                f"{'pass' if operations_crosscheck.get('automatic_crosscheck_passed') else 'missing/fail'}; "
+                f"{evidence_status(operations_crosscheck.get('automatic_crosscheck_passed'))}; "
                 f"junction/authority gate {'closed' if operations_crosscheck.get('authority_accepted') else 'open'} | "
-                "[`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |",
+                + (
+                    "[`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |"
+                    if crosscheck_path.with_suffix(".md").is_file()
+                    else "not generated |"
+                ),
                 f"| GIS package | "
-                f"{'pass' if engineering['gis'].get('generation_passed') else 'missing/fail'} | "
+                f"{evidence_status(engineering['gis'].get('generation_passed'))} | "
                 "[`summary.json`](engineering/gis/summary.json) |",
                 f"| Grid/charging/solar | "
-                f"{'pass' if engineering['energy'].get('solver_passed') else 'missing/fail'} | "
+                f"{evidence_status(engineering['energy'].get('passed'))}; "
+                f"{len(engineering['energy'].get('design_findings', []))} findings | "
                 "[`summary.json`](engineering/energy/summary.json) |",
                 f"| Operations, QA and maintenance | "
                 f"{operations.get('totals', {}).get('assets', 0):,} assets / "
@@ -3053,7 +3086,7 @@ def _finalise_readme(
         grid_case = cases.get("peak_charge_grid_only", {})
         coordinated = cases.get("coordinated_daylight", {})
         out.append(
-            f"| pandapower/pvlib | Solver "
+            f"| pandapower/pvlib | Design screen {'passed' if energy.get('passed') else 'failed'}; solver "
             f"{'passed' if energy.get('solver_passed') else 'failed'}; "
             f"grid-only max transformer loading "
             f"{grid_case.get('maximum_transformer_loading_percent', 0):.1f}%; "
@@ -3866,6 +3899,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--design", type=Path, required=True)
     ap.add_argument("--scenario", type=Path, required=True)
     ap.add_argument(
+        "--allow-stale-evidence", action="store_true",
+        help="write an audit view with explicit unverified labels when strict evidence validation fails",
+    )
+    ap.add_argument(
         "--out", type=Path, required=True,
         help="output path (typically <design-folder>/README.md)",
     )
@@ -3873,6 +3910,7 @@ def main(argv: list[str] | None = None) -> int:
     text = render_readme(
         design_path=args.design,
         scenario_path=args.scenario,
+        allow_stale_evidence=args.allow_stale_evidence,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(text)

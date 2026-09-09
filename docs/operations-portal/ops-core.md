@@ -57,8 +57,8 @@ system.
 - CSV export for work orders, defects, and audit events.
 - SQLite storage through `tools/automation/ops-core-server.py` for a simple
   owner-operator deployment.
-- Browser-local storage fallback when the portal is served as static
-  files only.
+- Atomic city revisions reject stale saves; rejected edits remain an explicit
+  unsaved draft with retry and download/reload controls.
 
 ## Not Included
 

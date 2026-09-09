@@ -73,13 +73,17 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 ## Local Evidence
 
+**Evidence refresh required.** Retained passing results below are unverified.
+The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 153dac7327255bf2d4a68de8c12bb2838e02887f0aba432205c3ed7a8f8554e2, but rajshahi.toml is b07406c78180f168d3cfb091d6f204b1e37b7016f4a0e2be94abde1de1b13351; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
+
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
-| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Grid/charging/solar | pass | [`summary.json`](engineering/energy/summary.json) |
+| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | missing/fail; junction/authority gate open | not generated |
+| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
+| Grid/charging/solar | missing/fail; 5 findings | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 201 assets / 926 tasks | [`rajshahi-operations-manifest.json`](operations/rajshahi-operations-manifest.json) |
 
 ## Local Files And Regeneration

@@ -4,13 +4,24 @@
   "deployment_release_ready": false,
   "drainage": {
     "analysis_id": "OSR-AN-STN-DRA-001",
+    "assumptions": {
+      "branch_fall_m": 0.4,
+      "branch_length_m": 40.0,
+      "roof_runoff_coefficient": 1.0,
+      "routing_method": "DYNWAVE",
+      "routing_step_seconds": 1,
+      "water_balance_tolerance_percent": 1.0,
+      "wet_step_seconds": 10
+    },
     "limitations": [
       "One representative 300 mm gravity branch per platform/auxiliary roof bay with ideal free outfall; no header/manifold, surveyed levels, tailwater, blockage, climate factor, overland exceedance or municipal network.",
+      "The 1% branch gradient is an explicit planning assumption, not surveyed geometry. Dynamic-wave routing avoids the former flat-pipe kinematic-wave peak distortion.",
       "The 75 mm/h storm is a reproducibility assumption and must be replaced with local IDF rainfall and authority return period.",
       "Platform, track, depot yard, pollutants, oil interception and groundwater are outside this roof-catchment screen."
     ],
     "passed": true,
     "storm": {
+      "depth_mm": 25.0,
       "duration_minutes": 20,
       "intensity_mm_per_hour": 75.0
     },
@@ -21,126 +32,259 @@
     "variants": {
       "depot-terminal": {
         "canopy_catchment_area_m2": 1640.6,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 49.71515151515151,
         "drainage_outlet_count": 33,
+        "expected_roof_peak_lps": 1.0357323232323232,
+        "expected_runoff_volume_m3": 1.242878787878788,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/depot-terminal.inp",
-        "input_sha256": "e0e5d61dec2a755aa5a8cf9ee99a9c0826d153e9bfca45008b5940e6f7cd8ab8",
+        "input_sha256": "ecb6b5c1e7df45856bb8bfe744eca1db26d5bb316e8e87d21a6e20317a3e3a2f",
+        "observed_precipitation_mm": 25.00000000000006,
         "passed": true,
-        "peak_conduit_flow_lps": 0.1767128311561383,
-        "peak_inlet_depth_m": 0.07148832080259121,
-        "rational_method_peak_lps": 32.47020833333333,
-        "station_aggregate_peak_flow_lps": 5.831523428152564,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.0357383487444094,
+        "peak_inlet_depth_m": 0.021831718963548394,
+        "peak_runoff_lps": 1.0357383487444132,
+        "rational_method_peak_lps": 34.17916666666667,
+        "runoff_volume_error_percent": 0.00859498315091134,
+        "runoff_volume_m3": 1.2429856131011923,
+        "station_aggregate_peak_flow_lps": 34.17936550856551,
+        "step_count": 3600
       },
       "halt": {
         "canopy_catchment_area_m2": 439.0,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 39.90909090909091,
         "drainage_outlet_count": 11,
+        "expected_roof_peak_lps": 0.8314393939393939,
+        "expected_runoff_volume_m3": 0.9977272727272727,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/halt.inp",
-        "input_sha256": "258290809d4514fc913db63e9aa5faff765dc9b40a79d466f5cd99c1930e4069",
+        "input_sha256": "d4fc04294d360aff30c78a6917423c3f8f9cb2a8f39aaca77bb7467b54171e41",
+        "observed_precipitation_mm": 25.000000000000043,
         "passed": true,
-        "peak_conduit_flow_lps": 0.15700444280277778,
-        "peak_inlet_depth_m": 0.06655940126951546,
-        "rational_method_peak_lps": 8.688541666666667,
-        "station_aggregate_peak_flow_lps": 1.7270488708305556,
-        "step_count": 359
+        "peak_conduit_flow_lps": 0.8314442373500265,
+        "peak_inlet_depth_m": 0.019679640597183252,
+        "peak_runoff_lps": 0.8314442373500267,
+        "rational_method_peak_lps": 9.145833333333334,
+        "runoff_volume_error_percent": 0.018622337566331915,
+        "runoff_volume_m3": 0.9979130728679914,
+        "station_aggregate_peak_flow_lps": 9.145886610850292,
+        "step_count": 3600
       },
       "interchange": {
         "canopy_catchment_area_m2": 2878.0,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 57.56,
         "drainage_outlet_count": 50,
+        "expected_roof_peak_lps": 1.1991666666666667,
+        "expected_runoff_volume_m3": 1.439,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/interchange.inp",
-        "input_sha256": "6811b5a61781b87f86b800d96fbe5c7957e88901f79de67b97b551b455e359d9",
+        "input_sha256": "85776215513597bd9982428a65d72187e050171951bf5441d676416b60812ff9",
+        "observed_precipitation_mm": 25.000000000000004,
         "passed": true,
-        "peak_conduit_flow_lps": 0.1934349722691897,
-        "peak_inlet_depth_m": 0.07482193436864792,
-        "rational_method_peak_lps": 56.96041666666667,
-        "station_aggregate_peak_flow_lps": 9.671748613459485,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.1991736795268302,
+        "peak_inlet_depth_m": 0.023440552797977705,
+        "peak_runoff_lps": 1.1991736795268328,
+        "rational_method_peak_lps": 59.958333333333336,
+        "runoff_volume_error_percent": 0.000699237612766801,
+        "runoff_volume_m3": 1.4390100620292476,
+        "station_aggregate_peak_flow_lps": 59.95868397634151,
+        "step_count": 3600
       },
       "interchange-elevated": {
         "canopy_catchment_area_m2": 3252.0,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 62.53846153846154,
         "drainage_outlet_count": 52,
+        "expected_roof_peak_lps": 1.3028846153846154,
+        "expected_runoff_volume_m3": 1.5634615384615387,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/interchange-elevated.inp",
-        "input_sha256": "51eb0114c43b591a90b0893a5056dadc7f4fc21074e9632d56c17fb0668e62f3",
+        "input_sha256": "bc8e3fad8efe9260f6b7dafe62c48f74b36a6802095c35028b24ab18d297bdb4",
+        "observed_precipitation_mm": 25.000000000000053,
         "passed": true,
-        "peak_conduit_flow_lps": 0.2010917463179173,
-        "peak_inlet_depth_m": 0.07676764179463089,
-        "rational_method_peak_lps": 64.3625,
-        "station_aggregate_peak_flow_lps": 10.456770808531699,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.3028922027474157,
+        "peak_inlet_depth_m": 0.024385941056985827,
+        "peak_runoff_lps": 1.3028922027474221,
+        "rational_method_peak_lps": 67.75,
+        "runoff_volume_error_percent": -0.004328190077784733,
+        "runoff_volume_m3": 1.563393868874361,
+        "station_aggregate_peak_flow_lps": 67.75039454286562,
+        "step_count": 3600
       },
       "major": {
         "canopy_catchment_area_m2": 2100.8,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 65.65,
         "drainage_outlet_count": 32,
+        "expected_roof_peak_lps": 1.3677083333333333,
+        "expected_runoff_volume_m3": 1.6412500000000003,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/major.inp",
-        "input_sha256": "f248503aea1b320c76ec73d080d88d552bc537f9b48fe552623fe18438f20f2e",
+        "input_sha256": "978bdde692d1d9674cfb94ec051661f28e039f448e08a91ccefe2dd5f2f39254",
+        "observed_precipitation_mm": 25.00000000000004,
         "passed": true,
-        "peak_conduit_flow_lps": 0.20464995356835217,
-        "peak_inlet_depth_m": 0.07788674594452125,
-        "rational_method_peak_lps": 41.57833333333333,
-        "station_aggregate_peak_flow_lps": 6.548798514187269,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.367716331843912,
+        "peak_inlet_depth_m": 0.024932000998800417,
+        "peak_runoff_lps": 1.3677163318439258,
+        "rational_method_peak_lps": 43.766666666666666,
+        "runoff_volume_error_percent": -0.007482592985286196,
+        "runoff_volume_m3": 1.6411271919426293,
+        "station_aggregate_peak_flow_lps": 43.766922619005186,
+        "step_count": 3600
       },
       "standard": {
         "canopy_catchment_area_m2": 1813.0,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 67.14814814814815,
         "drainage_outlet_count": 27,
+        "expected_roof_peak_lps": 1.39891975308642,
+        "expected_runoff_volume_m3": 1.6787037037037038,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/standard.inp",
-        "input_sha256": "b80d56ed03d365e1fde3182f862ddb5a440337be0e9c7b101f41024118f7acd0",
+        "input_sha256": "d21ded5cecea17273250e6834fb0ed513c42d728e368348676c851b8d14650f5",
+        "observed_precipitation_mm": 25.000000000000053,
         "passed": true,
-        "peak_conduit_flow_lps": 0.208067344172157,
-        "peak_inlet_depth_m": 0.07841581014146073,
-        "rational_method_peak_lps": 35.88229166666667,
-        "station_aggregate_peak_flow_lps": 5.617818292648239,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.3989279727053212,
+        "peak_inlet_depth_m": 0.025192776734727678,
+        "peak_runoff_lps": 1.3989279727053403,
+        "rational_method_peak_lps": 37.770833333333336,
+        "runoff_volume_error_percent": -0.009005625992808408,
+        "runoff_volume_m3": 1.6785525259266207,
+        "station_aggregate_peak_flow_lps": 37.77105526304367,
+        "step_count": 3600
       },
       "terminal": {
         "canopy_catchment_area_m2": 2575.6,
+        "checks": {
+          "conduit_peak": true,
+          "continuity": true,
+          "impervious_roof": true,
+          "inlet_depth": true,
+          "no_flooding": true,
+          "rainfall_depth": true,
+          "runoff_peak": true,
+          "runoff_volume": true,
+          "simulation_completed": true
+        },
         "continuity": {
-          "routing_error_percent": 0.0,
-          "runoff_error_percent": 0.0
+          "routing_error_percent": 9.999999974752427e-07,
+          "runoff_error_percent": 9.999999974752427e-07
         },
         "design_branch_area_m2": 67.77894736842104,
         "drainage_outlet_count": 38,
+        "expected_roof_peak_lps": 1.4120614035087717,
+        "expected_runoff_volume_m3": 1.6944736842105261,
+        "flooding_volume_m3": 0.0,
+        "infiltration_m3": 0.0,
         "input_path": "engineering/analysis/stations/inputs/swmm/terminal.inp",
-        "input_sha256": "254bcfe4969ff577bdd26835696ac2724af36d80f78f19ed024fd18f2d022474",
+        "input_sha256": "d56e47062017ad0a40b456b84f0623bb9d5dfa6081004fbcfadf02ae94be10f2",
+        "observed_precipitation_mm": 24.999999999999957,
         "passed": true,
-        "peak_conduit_flow_lps": 0.20924265821464036,
-        "peak_inlet_depth_m": 0.07863602963401854,
-        "rational_method_peak_lps": 50.97541666666667,
-        "station_aggregate_peak_flow_lps": 7.951221012156334,
-        "step_count": 359
+        "peak_conduit_flow_lps": 1.412069716225911,
+        "peak_inlet_depth_m": 0.02530192904046602,
+        "peak_runoff_lps": 1.412069716225936,
+        "rational_method_peak_lps": 53.65833333333333,
+        "runoff_volume_error_percent": -0.009648191082256563,
+        "runoff_volume_m3": 1.6943101981516349,
+        "station_aggregate_peak_flow_lps": 53.65864921658462,
+        "step_count": 3600
       }
     }
   },
-  "generator_sha256": "55a7d4dfe81abbe3ffac54ed9ce7a0df14666e20f0684535358ea1ce9db767f6",
+  "generator_sha256": "a23106b817d9f6f2902df2cced9785363776e16cb1312ab0d1dbc3d9064eae45",
   "manifest_sha256": "f90e31c14898bb0530a317f80c6315bbb679a66c43ead91c287ac873895c2fd7",
   "optional_solver_inputs": {
     "energyplus": {

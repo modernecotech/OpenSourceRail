@@ -414,11 +414,31 @@ def test_readme_is_concise_local_summary_with_common_reference() -> None:
     assert "| Native simulation + degraded cases | pass |" in text
     assert "| SUMO timetable | pass |" in text
     assert "| GIS package | pass |" in text
-    assert "| Grid/charging/solar | pass |" in text
+    assert "| Grid/charging/solar | missing/fail; 7 findings |" in text
     assert "| Lowest traversal charging margin |" in text
     assert len(text.splitlines()) < 140
     assert "## Construction QA system" not in text
     assert "## Broad economic benefits (planning proxy)" not in text
+
+
+def test_readme_audit_mode_does_not_promote_stale_evidence(monkeypatch) -> None:
+    import osr_scenario.network_readme as readme
+
+    def stale(*args):
+        raise ValueError("native simulation references an older scenario")
+
+    monkeypatch.setattr(readme, "_finalise_readme", stale)
+    with pytest.raises(ValueError, match="older scenario"):
+        render_readme(design_path=SAMAWAH_DESIGN, scenario_path=SAMAWAH_SCENARIO)
+    text = render_readme(
+        design_path=SAMAWAH_DESIGN, scenario_path=SAMAWAH_SCENARIO,
+        allow_stale_evidence=True,
+    )
+    assert "Evidence refresh required" in text
+    assert "older scenario" in text
+    assert "| Native simulation + degraded cases | unverified |" in text
+    assert "| Grid/charging/solar | missing/fail; 7 findings |" in text
+    assert "| pass |" not in text
 
 
 def test_consist_matches_light_metro_family() -> None:

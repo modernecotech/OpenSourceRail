@@ -57,6 +57,9 @@ python3 tools/automation/generate-doc-index.py
 cargo test --workspace
 pytest design/city-generation/tests -q
 PYTHONPATH=design/component-catalogue/src pytest design/component-catalogue/tests -q
+pytest tools/automation/tests -q
+python3 tools/automation/audit-project-twins.py
+npm run test:frontend:unit
 ```
 
 For Samawah/RFC consistency:

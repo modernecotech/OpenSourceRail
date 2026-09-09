@@ -73,13 +73,17 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 ## Local Evidence
 
+**Evidence refresh required.** Retained passing results below are unverified.
+The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 015b74c3c7bc77b6088f240756455e24332fe4d32dfbf0b3cd982b0a4ce89b23, but mazar-e-sharif.toml is 51f23fb3543a8dbdda870c2b1b2a124ba6919eaa5edd767b6e3756b00833cf75; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
+
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
-| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Grid/charging/solar | pass | [`summary.json`](engineering/energy/summary.json) |
+| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | missing/fail; junction/authority gate open | not generated |
+| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
+| Grid/charging/solar | missing/fail; 10 findings | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 271 assets / 1,308 tasks | [`mazar-e-sharif-operations-manifest.json`](operations/mazar-e-sharif-operations-manifest.json) |
 
 ## Local Files And Regeneration

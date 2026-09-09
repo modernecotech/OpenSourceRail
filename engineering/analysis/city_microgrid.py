@@ -25,6 +25,7 @@ GRID_EXPORT_INVERTER_EFFICIENCY = 0.97
 DAYLIGHT_PV_FACTOR = 0.60
 COORDINATED_STORAGE_FACTOR = 0.50
 TRANSFORMER_PLANNING_HEADROOM = 1.25
+CONNECTION_TOLERANCE_KW = 0.001  # numerical tolerance, not design headroom
 
 
 def atomic_json(path: Path, value: object) -> None:
@@ -54,6 +55,9 @@ def build_network(
         station = str(site["station"])
         bus = pp.create_bus(network, vn_kv=0.4, name=station)
         grid_import_kw = float(site["grid_import_kw"])
+        grid_export_kw = float(site["grid_export_kw"])
+        if any(not math.isfinite(value) or value < 0 for value in (grid_import_kw, grid_export_kw)):
+            raise ValueError(f"{station}: connection limits must be finite and nonnegative")
         connected_charge_kw = charging_by_station.get(station, 0.0)
         # This is the AC-grid equivalent of a DC-native station. PV, storage,
         # and train charging remain on the DC bus; only residual import passes
@@ -79,6 +83,9 @@ def build_network(
             pfe_kw=1.0,
             i0_percent=0.2,
             name=f"{station}:site-transformer",
+            station=station,
+            grid_import_limit_kw=grid_import_kw,
+            grid_export_limit_kw=grid_export_kw,
         )
         charge_kw = connected_charge_kw
         pv_kw = float(site["pv_nameplate_kw"]) * pv_factor
@@ -114,6 +121,30 @@ def run_case(network: pp.pandapowerNet, output: Path) -> dict[str, object]:
     pp.to_json(network, str(output))
     transformer_loading = network.res_trafo.loading_percent.astype(float)
     bus_voltage = network.res_bus.vm_pu.astype(float)
+    connections = []
+    for index, transformer in network.trafo.iterrows():
+        # Positive HV active power is grid import; negative is export. This
+        # point includes transformer losses as well as converter losses.
+        exchange_kw = float(network.res_trafo.at[index, "p_hv_mw"]) * 1000.0
+        import_kw, export_kw = max(exchange_kw, 0.0), max(-exchange_kw, 0.0)
+        import_limit = float(transformer.grid_import_limit_kw)
+        export_limit = float(transformer.grid_export_limit_kw)
+        import_excess = max(import_kw - import_limit, 0.0)
+        export_excess = max(export_kw - export_limit, 0.0)
+        connections.append({
+            "station": str(transformer.station),
+            "grid_import_kw": round(import_kw, 6),
+            "grid_export_kw": round(export_kw, 6),
+            "grid_import_limit_kw": import_limit,
+            "grid_export_limit_kw": export_limit,
+            "import_exceedance_kw": round(import_excess, 6),
+            "export_exceedance_kw": round(export_excess, 6),
+            "passed": bool(
+                math.isfinite(exchange_kw)
+                and import_excess <= CONNECTION_TOLERANCE_KW
+                and export_excess <= CONNECTION_TOLERANCE_KW
+            ),
+        })
     return {
         "converged": bool(network.converged),
         "minimum_bus_voltage_pu": round(float(bus_voltage.min()), 6),
@@ -122,6 +153,8 @@ def run_case(network: pp.pandapowerNet, output: Path) -> dict[str, object]:
         "overloaded_transformer_count": int((transformer_loading > 100.0).sum()),
         "undervoltage_bus_count": int((bus_voltage < 0.95).sum()),
         "overvoltage_bus_count": int((bus_voltage > 1.05).sum()),
+        "connection_limit_exceedance_count": sum(not row["passed"] for row in connections),
+        "site_connections": connections,
     }
 
 
@@ -226,6 +259,13 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
             }
         )
     for name, result in cases.items():
+        for connection in result.get("site_connections", []):
+            if not connection["passed"]:
+                findings.append({
+                    "code": "site-grid-connection-limit-exceeded",
+                    "case": name,
+                    **connection,
+                })
         if result.get("overloaded_transformer_count", 0):
             findings.append(
                 {
@@ -276,6 +316,9 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
             "grid_export_inverter_efficiency": GRID_EXPORT_INVERTER_EFFICIENCY,
             "site_transformer_sizing_basis": "greater of installed rectifier input or declared grid import, divided by power factor, with 25% planning headroom",
             "site_transformer_planning_headroom": TRANSFORMER_PLANNING_HEADROOM,
+            "connection_limit_basis": "site transformer HV active power, including transformer and converter losses; positive import and negative export checked separately",
+            "connection_limit_tolerance_kw": CONNECTION_TOLERANCE_KW,
+            "connection_limit_response": "report and fail the screen; no implicit connection upgrade, charger derating or PV curtailment",
             "coordinated_daylight_pv_fraction": DAYLIGHT_PV_FACTOR,
             "coordinated_storage_discharge_fraction": COORDINATED_STORAGE_FACTOR,
             "clear_sky_weather_status": "pvlib theoretical envelope; not measured weather",
@@ -284,7 +327,13 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
         "cases": cases,
         "design_findings": findings,
         "solver_passed": solver_passed,
-        "passed": solver_passed,
+        "passed": solver_passed and not findings,
+        "deployment_release_ready": False,
+        "limitations": [
+            "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
+            "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
+            "Exceedances require a controlled connection upgrade, charging schedule/derating or export-control design with timetable and cost reconciliation.",
+        ],
         "tools": {
             "pandapower": pp.__version__,
             "pvlib": pvlib.__version__,

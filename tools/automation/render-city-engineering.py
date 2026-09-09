@@ -184,7 +184,10 @@ def render_sumo(slug: str, sumo: dict, energy: dict, output: Path) -> None:
         float(cases.get("peak_charge_grid_only", {}).get("maximum_transformer_loading_percent", 0)),
         float(cases.get("coordinated_daylight", {}).get("maximum_transformer_loading_percent", 0)),
     ]
-    status_colors = ["#06d6a0" if value <= 100 else "#ef476f" for value in values]
+    status_colors = [
+        "#06d6a0" if (value == 100 if index < 2 else value <= 100) else "#ef476f"
+        for index, value in enumerate(values)
+    ]
     ax2.barh(range(4), values, color=status_colors, height=0.58)
     ax2.set_yticks(range(4), labels, color="white")
     ax2.invert_yaxis()
@@ -194,7 +197,14 @@ def render_sumo(slug: str, sumo: dict, energy: dict, output: Path) -> None:
         ax2.text(value + 2, index, f"{value:.1f}%", va="center", color="white", fontsize=9)
     fig.suptitle(f"{slug.replace('-', ' ').title()} · SUMO executed timetable validation", x=0.04, ha="left", color="white", fontsize=20, fontweight="bold")
     fig.text(0.04, 0.91, f"{sumo.get('arrived_services', 0)}/{sumo.get('scheduled_services', 0)} services arrived · {len(lines)} lines · {sumo.get('station_count', 0)} stations · status {sumo.get('simulation_status', 'unknown').upper()}", color="#9fc3d5", fontsize=10)
-    fig.tight_layout(rect=(0.02, 0.02, 0.98, 0.88))
+    fig.text(
+        0.04, 0.035,
+        f"Energy design screen: {'PASS' if energy.get('passed') else 'FAIL'} · "
+        f"{len(energy.get('design_findings', []))} findings · "
+        "transformer loading alone does not establish grid connection capacity",
+        color="#9fc3d5" if energy.get("passed") else "#ef476f", fontsize=10,
+    )
+    fig.tight_layout(rect=(0.02, 0.06, 0.98, 0.88))
     fig.savefig(output, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 

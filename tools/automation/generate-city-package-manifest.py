@@ -26,6 +26,41 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | None]]:
+    """A passing retained report cannot close a package against different inputs."""
+    sources = {
+        "design_sha256": city_dir / "design.toml",
+        "scenario_sha256": city_dir / f"{slug}.toml",
+    }
+    families = {
+        "simulation/validation-summary.json": {
+            **sources, "generator_sha256": REPO_ROOT / "tools/automation/validate-city-simulation.py",
+        },
+        "energy/summary.json": {
+            **sources, "generator_sha256": REPO_ROOT / "engineering/analysis/city_microgrid.py",
+            "climate_sha256": REPO_ROOT / "lib/templates/climate.toml",
+        },
+        "gis/summary.json": {
+            **sources, "generator_sha256": REPO_ROOT / "engineering/analysis/city_package.py",
+            "corridor_sha256": city_dir / f"{slug}.corridor.geojson",
+        },
+    }
+    findings = []
+    for relative, inputs in families.items():
+        path = city_dir / "engineering" / relative
+        if not path.is_file():
+            continue  # missing-artifact gate handles absent reports
+        report = json.loads(path.read_text(encoding="utf-8"))
+        for key, source in inputs.items():
+            actual = sha256(source) if source.is_file() else None
+            if actual is None or report.get(key) != actual:
+                findings.append({
+                    "artifact": f"engineering/{relative}", "source": key,
+                    "expected_sha256": actual, "recorded_sha256": report.get(key),
+                })
+    return findings
+
+
 def atomic_json(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", dir=path.parent, delete=False, encoding="utf-8") as handle:
@@ -137,7 +172,8 @@ def main() -> int:
             == sha256(operations_bundle)
         )
 
-    passed = not missing and not failed_summaries and not local_path_files and operations_hash_current
+    stale_sources = stale_analysis_sources(city_dir, slug)
+    passed = not missing and not failed_summaries and not stale_sources and not local_path_files and operations_hash_current
     revision = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         cwd=REPO_ROOT,
@@ -172,6 +208,7 @@ def main() -> int:
         },
         "missing_artifacts": missing,
         "failed_summaries": failed_summaries,
+        "stale_analysis_sources": stale_sources,
         "absolute_local_path_artifacts": sorted(local_path_files),
         "operations_bundle_hash_current": operations_hash_current,
         "external_release_gates": [

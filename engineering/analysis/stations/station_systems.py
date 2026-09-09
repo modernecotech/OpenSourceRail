@@ -261,6 +261,8 @@ def passenger_screen(variants: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def swmm_input(archetype: str, area_m2: float) -> str:
+    if not math.isfinite(area_m2) or area_m2 <= 0:
+        raise ValueError("roof area must be finite and positive")
     area_ha = area_m2 / 10_000.0
     width_m = max(10.0, math.sqrt(area_m2))
     return f"""[TITLE]
@@ -269,16 +271,16 @@ OpenSourceRail {archetype} station roof-drainage screen
 [OPTIONS]
 FLOW_UNITS           LPS
 INFILTRATION         HORTON
-FLOW_ROUTING         KINWAVE
+FLOW_ROUTING         DYNWAVE
 START_DATE           01/01/2020
 START_TIME           00:00:00
 REPORT_START_DATE    01/01/2020
 REPORT_START_TIME    00:00:00
 END_DATE             01/01/2020
 END_TIME             01:00:00
-WET_STEP             00:01:00
+WET_STEP             00:00:10
 DRY_STEP             00:05:00
-ROUTING_STEP         00:00:10
+ROUTING_STEP         00:00:01
 REPORT_STEP          00:01:00
 ALLOW_PONDING        NO
 
@@ -289,7 +291,8 @@ CONSTANT             0.0
 Gage1 INTENSITY 0:05 1.0 TIMESERIES Storm
 
 [SUBCATCHMENTS]
-Roof Gage1 Inlet {area_ha:.6f} {width_m:.3f} 1.0 100 0
+;;Name RainGage Outlet Area_ha PercentImpervious Width_m Slope_percent CurbLength_m
+Roof Gage1 Inlet {area_ha:.9f} 100 {width_m:.3f} 1.0 0
 
 [SUBAREAS]
 Roof 0.01 0.10 0.00 0.00 0 OUTLET
@@ -298,7 +301,8 @@ Roof 0.01 0.10 0.00 0.00 0 OUTLET
 Roof 75 10 4 7 0
 
 [JUNCTIONS]
-Inlet 0 1.0 0 0 0
+;;Planning assumption: 0.4 m fall over 40 m; replace with surveyed levels.
+Inlet 0.4 1.0 0 0 0
 
 [OUTFALLS]
 Outfall 0 FREE NO
@@ -312,8 +316,10 @@ Drain CIRCULAR 0.300 0 0 0 1
 [TIMESERIES]
 Storm 01/01/2020 00:00 0
 Storm 01/01/2020 00:05 75
-Storm 01/01/2020 00:25 75
-Storm 01/01/2020 00:30 0
+Storm 01/01/2020 00:10 75
+Storm 01/01/2020 00:15 75
+Storm 01/01/2020 00:20 75
+Storm 01/01/2020 00:25 0
 
 [REPORT]
 INPUT NO
@@ -334,8 +340,67 @@ Roof -10 10
 """
 
 
+def run_drainage_branch(run_path: Path, area_m2: float) -> dict[str, Any]:
+    """Check a solver run against the declared impermeable-roof water balance."""
+    from pyswmm import Links, Nodes, Simulation, Subcatchments
+
+    peak_flow_lps = peak_depth_m = 0.0
+    continuity: dict[str, float] = {}
+    with Simulation(str(run_path)) as simulation:
+        link = Links(simulation)["Drain"]
+        node = Nodes(simulation)["Inlet"]
+        roof = Subcatchments(simulation)["Roof"]
+
+        def read_continuity() -> None:
+            # SWMM finalizes mass balance at swmm_end, after iteration ends.
+            continuity.update(
+                runoff_error_percent=float(simulation.runoff_error),
+                routing_error_percent=float(simulation.flow_routing_error),
+            )
+
+        simulation.add_after_end(read_continuity)
+        step_count = 0
+        for _ in simulation:
+            step_count += 1
+            peak_flow_lps = max(peak_flow_lps, float(link.flow))
+            peak_depth_m = max(peak_depth_m, float(node.depth))
+        roof_stats = roof.statistics
+        flooding_m3 = float(node.statistics["flooding_volume"])
+
+    expected_volume_m3 = area_m2 * 0.025  # 75 mm/h for 20 minutes
+    expected_peak_lps = area_m2 * 75.0 / 3600.0  # C=1, zero roof losses
+    volume_error_pct = 100.0 * (float(roof_stats["runoff"]) / expected_volume_m3 - 1.0)
+    peak_error_pct = 100.0 * (float(roof_stats["peak_runoff_rate"]) / expected_peak_lps - 1.0)
+    checks = {
+        "simulation_completed": step_count > 0,
+        "rainfall_depth": abs(float(roof_stats["precipitation"]) - 25.0) <= 1e-6,
+        "impervious_roof": abs(float(roof_stats["infiltration"])) <= 1e-9,
+        "runoff_volume": abs(volume_error_pct) <= 1.0,
+        "runoff_peak": abs(peak_error_pct) <= 1.0,
+        "conduit_peak": 0.90 * expected_peak_lps <= peak_flow_lps <= 1.01 * expected_peak_lps,
+        "continuity": all(abs(error) <= 1.0 for error in continuity.values()),
+        "no_flooding": flooding_m3 <= 1e-9,
+        "inlet_depth": peak_depth_m < 0.80,
+    }
+    return {
+        "passed": all(checks.values()),
+        "checks": checks,
+        "continuity": continuity,
+        "observed_precipitation_mm": float(roof_stats["precipitation"]),
+        "infiltration_m3": float(roof_stats["infiltration"]),
+        "runoff_volume_m3": float(roof_stats["runoff"]),
+        "expected_runoff_volume_m3": expected_volume_m3,
+        "runoff_volume_error_percent": volume_error_pct,
+        "peak_runoff_lps": float(roof_stats["peak_runoff_rate"]),
+        "expected_roof_peak_lps": expected_peak_lps,
+        "peak_conduit_flow_lps": peak_flow_lps,
+        "peak_inlet_depth_m": peak_depth_m,
+        "flooding_volume_m3": flooding_m3,
+        "step_count": step_count,
+    }
+
+
 def drainage_screen(variants: list[dict[str, Any]], input_root: Path) -> dict[str, Any]:
-    from pyswmm import Links, Nodes, Simulation
 
     results: dict[str, Any] = {}
     input_root.mkdir(parents=True, exist_ok=True)
@@ -355,50 +420,35 @@ def drainage_screen(variants: list[dict[str, Any]], input_root: Path) -> dict[st
             source_path.write_text(swmm_input(archetype, branch_area_m2), encoding="utf-8")
             run_path = run_root / source_path.name
             shutil.copy2(source_path, run_path)
-            peak_flow_lps = 0.0
-            peak_depth_m = 0.0
-            with Simulation(str(run_path)) as simulation:
-                link = Links(simulation)["Drain"]
-                node = Nodes(simulation)["Inlet"]
-                step_count = 0
-                for _ in simulation:
-                    step_count += 1
-                    peak_flow_lps = max(peak_flow_lps, float(link.flow))
-                    peak_depth_m = max(peak_depth_m, float(node.depth))
-                runoff_error = float(simulation.runoff_error)
-                routing_error = float(simulation.flow_routing_error)
-            rational_peak_lps = 0.95 * 75.0 * area_m2 / 3600.0
-            passed = (
-                step_count > 0
-                and abs(runoff_error) <= 1.0
-                and abs(routing_error) <= 1.0
-                and peak_depth_m < 0.80
-            )
+            branch = run_drainage_branch(run_path, branch_area_m2)
             results[archetype] = {
+                **branch,
                 "canopy_catchment_area_m2": area_m2,
                 "design_branch_area_m2": branch_area_m2,
                 "drainage_outlet_count": outlet_count,
-                "continuity": {
-                    "routing_error_percent": routing_error,
-                    "runoff_error_percent": runoff_error,
-                },
                 "input_path": str(source_path.relative_to(REPO_ROOT)),
                 "input_sha256": sha256(source_path),
-                "peak_conduit_flow_lps": peak_flow_lps,
-                "station_aggregate_peak_flow_lps": peak_flow_lps * outlet_count,
-                "peak_inlet_depth_m": peak_depth_m,
-                "rational_method_peak_lps": rational_peak_lps,
-                "passed": passed,
-                "step_count": step_count,
+                "station_aggregate_peak_flow_lps": branch["peak_conduit_flow_lps"] * outlet_count,
+                "rational_method_peak_lps": 75.0 * area_m2 / 3600.0,
             }
     return {
         "analysis_id": "OSR-AN-STN-DRA-001",
         "passed": all(bool(item["passed"]) for item in results.values()),
-        "storm": {"duration_minutes": 20, "intensity_mm_per_hour": 75.0},
+        "storm": {"duration_minutes": 20, "intensity_mm_per_hour": 75.0, "depth_mm": 25.0},
+        "assumptions": {
+            "roof_runoff_coefficient": 1.0,
+            "branch_length_m": 40.0,
+            "branch_fall_m": 0.4,
+            "routing_method": "DYNWAVE",
+            "wet_step_seconds": 10,
+            "routing_step_seconds": 1,
+            "water_balance_tolerance_percent": 1.0,
+        },
         "tool": {"name": "EPA SWMM via PySWMM", "version": version("pyswmm")},
         "variants": results,
         "limitations": [
             "One representative 300 mm gravity branch per platform/auxiliary roof bay with ideal free outfall; no header/manifold, surveyed levels, tailwater, blockage, climate factor, overland exceedance or municipal network.",
+            "The 1% branch gradient is an explicit planning assumption, not surveyed geometry. Dynamic-wave routing avoids the former flat-pipe kinematic-wave peak distortion.",
             "The 75 mm/h storm is a reproducibility assumption and must be replaced with local IDF rainfall and authority return period.",
             "Platform, track, depot yard, pollutants, oil interception and groundwater are outside this roof-catchment screen.",
         ],
@@ -741,10 +791,18 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.append(
             f"| `{archetype}` | {scenarios['normal']['clearance_time_s']:.2f} | {scenarios['degraded']['clearance_time_s']:.2f} | {scenarios['egress']['clearance_time_s']:.2f} | {'PASS' if result['passed'] else 'FAIL'} |"
         )
-    lines.extend(["", "## Drainage cases", "", "| Variant | Catchment / branches | SWMM branch / aggregate L/s | Rational aggregate L/s | Inlet depth m | Result |", "|---|---:|---:|---:|---:|---|"])
+    lines.extend([
+        "", "## Drainage cases", "",
+        "The storm supplies 25 mm over 20 minutes. The roof and rational check both use C=1 (no losses).",
+        "Each 300 mm branch assumes a 0.4 m fall over 40 m; these are planning levels requiring site survey.",
+        "Dynamic-wave routing uses a 1 s hydraulic step and 10 s runoff step. Rainfall, zero infiltration,",
+        "runoff volume/peak, conduit peak, continuity and no flooding are separate pass gates.", "",
+        "| Variant | Catchment / branches | SWMM branch / aggregate L/s | Rational aggregate L/s | Rain mm / volume error % | Inlet depth m | Result |",
+        "|---|---:|---:|---:|---:|---:|---|",
+    ])
     for archetype, result in drainage["variants"].items():
         lines.append(
-            f"| `{archetype}` | {result['canopy_catchment_area_m2']:.1f} m² / {result['drainage_outlet_count']} | {result['peak_conduit_flow_lps']:.2f} / {result['station_aggregate_peak_flow_lps']:.2f} | {result['rational_method_peak_lps']:.2f} | {result['peak_inlet_depth_m']:.3f} | {'PASS' if result['passed'] else 'FAIL'} |"
+            f"| `{archetype}` | {result['canopy_catchment_area_m2']:.1f} m² / {result['drainage_outlet_count']} | {result['peak_conduit_flow_lps']:.2f} / {result['station_aggregate_peak_flow_lps']:.2f} | {result['rational_method_peak_lps']:.2f} | {result['observed_precipitation_mm']:.2f} / {result['runoff_volume_error_percent']:.3f} | {result['peak_inlet_depth_m']:.3f} | {'PASS' if result['passed'] else 'FAIL'} |"
         )
     if optional["energyplus"].get("solver_completed") or optional["fds"].get("solver_completed"):
         lines.extend(["", "## Depot thermal and fire design response", ""])

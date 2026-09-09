@@ -3,6 +3,9 @@
   "analysis_id": "OSR-AN-ENE-CITY-MICROGRID:tabora",
   "assumptions": {
     "clear_sky_weather_status": "pvlib theoretical envelope; not measured weather",
+    "connection_limit_basis": "site transformer HV active power, including transformer and converter losses; positive import and negative export checked separately",
+    "connection_limit_response": "report and fail the screen; no implicit connection upgrade, charger derating or PV curtailment",
+    "connection_limit_tolerance_kw": 0.001,
     "coordinated_daylight_pv_fraction": 0.6,
     "coordinated_storage_discharge_fraction": 0.5,
     "grid_export_inverter_efficiency": 0.97,
@@ -15,21 +18,227 @@
   },
   "cases": {
     "coordinated_daylight": {
+      "connection_limit_exceedance_count": 0,
       "converged": true,
       "maximum_bus_voltage_pu": 1.003488,
       "maximum_transformer_loading_percent": 76.557,
       "minimum_bus_voltage_pu": 0.998325,
       "overloaded_transformer_count": 0,
       "overvoltage_bus_count": 0,
+      "site_connections": [
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 73.19597,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0425-0237-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 73.206324,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0381-0373-s003463"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 500.0,
+          "grid_import_kw": 73.213124,
+          "grid_import_limit_kw": 500.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0463-0411-s006024"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 2895.680483,
+          "grid_export_limit_kw": 3000.0,
+          "grid_import_kw": 0.0,
+          "grid_import_limit_kw": 3000.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0707-0423-s012342"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 73.19597,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0418-0315-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 73.206324,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0381-0373-s001575"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 73.19597,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0367-0469-s003929"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 73.19597,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0391-0244-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 73.206324,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0381-0373-s002852"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 73.19597,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0396-0442-s004879"
+        }
+      ],
       "undervoltage_bus_count": 0
     },
     "peak_charge_grid_only": {
+      "connection_limit_exceedance_count": 1,
       "converged": true,
       "maximum_bus_voltage_pu": 1.0,
       "maximum_transformer_loading_percent": 81.209,
       "minimum_bus_voltage_pu": 0.987203,
       "overloaded_transformer_count": 0,
       "overvoltage_bus_count": 0,
+      "site_connections": [
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 518.095924,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0425-0237-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 518.651952,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0381-0373-s003463"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 500.0,
+          "grid_import_kw": 519.020434,
+          "grid_import_limit_kw": 500.0,
+          "import_exceedance_kw": 19.020434,
+          "passed": false,
+          "station": "line-1-0463-0411-s006024"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 3000.0,
+          "grid_import_kw": 516.894736,
+          "grid_import_limit_kw": 3000.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0707-0423-s012342"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 518.095924,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0418-0315-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 518.651952,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0381-0373-s001575"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 518.095924,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0367-0469-s003929"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 518.095924,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0391-0244-s000000"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 518.651952,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0381-0373-s002852"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 800.0,
+          "grid_import_kw": 518.095924,
+          "grid_import_limit_kw": 800.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0396-0442-s004879"
+        }
+      ],
       "undervoltage_bus_count": 0
     }
   },
@@ -39,19 +248,38 @@
   "climate_preset": "tropical-arid",
   "climate_sha256": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
   "connected_charging_power_kw": 5000.0,
+  "deployment_release_ready": false,
   "derated_planning_pv_energy_mwh_per_year": 5699.7,
   "derated_planning_specific_yield_kwh_per_kwp": 740.2,
-  "design_findings": [],
+  "design_findings": [
+    {
+      "case": "peak_charge_grid_only",
+      "code": "site-grid-connection-limit-exceeded",
+      "export_exceedance_kw": 0.0,
+      "grid_export_kw": 0.0,
+      "grid_export_limit_kw": 500.0,
+      "grid_import_kw": 519.020434,
+      "grid_import_limit_kw": 500.0,
+      "import_exceedance_kw": 19.020434,
+      "passed": false,
+      "station": "line-1-0463-0411-s006024"
+    }
+  ],
   "design_input": "cities/catalogue/east-africa/Tanzania/Tabora/design.toml",
   "design_sha256": "6169fd7b66fc1fd25876dc5683bd31abe52289a1389f4819866f9e4c0181e816",
-  "generator_sha256": "ae362f0f16d172da593fcf7958755191389c2f84e04861d1acb82a5326a47cb7",
+  "generator_sha256": "f85481ef49662289595a5546ea3971ab40b8acdc2968780652a92d78d82c5709",
   "grid_import_capacity_kw": 9300.0,
-  "passed": true,
+  "limitations": [
+    "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
+    "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
+    "Exceedances require a controlled connection upgrade, charging schedule/derating or export-control design with timetable and cost reconciliation."
+  ],
+  "passed": false,
   "pv_nameplate_kw": 7700.0,
   "scenario_ambient_c": 29.0,
   "scenario_input": "cities/catalogue/east-africa/Tanzania/Tabora/tabora.toml",
   "scenario_peak_sun_hours": 6.5,
-  "scenario_sha256": "08a76ce41e86d85054e0d769139d7e529e7058b3704d371afd2d74c07e0aebec",
+  "scenario_sha256": "9c91cac93ac5a0e37430339dec8f82239ebef7cb55cbfa1dffb12d704e56c23d",
   "site_count": 10,
   "solver_passed": true,
   "storage_capacity_kwh": 44500.0,

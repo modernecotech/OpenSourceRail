@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4197,
-      "sha256": "5591e27a4648dad0c7f921b6675534d4730a725afca570f00e1785336ef9be97"
+      "bytes": 4217,
+      "sha256": "739d56ef89edc017d0bc9d62f15a6760df9be07e4c31d12a5bef205a156dfbd4"
     },
     "design.toml": {
       "bytes": 17329,
@@ -26,20 +26,20 @@
       "sha256": "25bd0260b55f9a0a6ee8d4adee28dd16be6343f611ac34784a34546aaa73b17e"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2617,
-      "sha256": "5189cc0123f64093e9fde9efe1be84d6c9f99dc6c1cb6caead74d0e70a6f807a"
+      "bytes": 19449,
+      "sha256": "8c63644c3849f4d7171628cf91f28e52bb72c5299bb302c1ab4e4b7dfff42b56"
     },
     "engineering/finance/summary.json": {
       "bytes": 12567,
-      "sha256": "fdc39d88f610399bd5a574574bf9beccd0345a596f3631ec79beef854e6fe703"
+      "sha256": "8c91602e15369c9a237419cefcdb98c67f6245e75889f9f7049ef513b12e8089"
     },
     "engineering/gis/summary.json": {
       "bytes": 1227,
       "sha256": "2f58ce27ddc02563769ad0b54989e29990f28ed62c620c1f25a0d21c33b38aec"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 35155,
-      "sha256": "ba28a359ae03133b1959087cfc6749e9bebd4c3160473c81a85faa35c5a2a1ab"
+      "bytes": 36213,
+      "sha256": "ad24f2b9c282b03b50b467c9473df23be4bb49efe492dd6c5a3d1d9462cf0d13"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 585,
@@ -47,7 +47,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1032,
-      "sha256": "d0e2352f0294e5ca06873762c3e8db481d48991fa332c5f14838370daf45e6c0"
+      "sha256": "8dc777c1ea9b73c2b6316aacbd7a0481ffac282d29f372ed56bc1202a0c5fdda"
     },
     "engineering/screenshots/samawah-network-visualizer.png": {
       "bytes": 66914,
@@ -75,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 9457,
-      "sha256": "5074162473cf3f4624ef82e5de29c11c6e0aaa555afb86c911385b3bcd385eb2"
+      "sha256": "971cbaf6bc92506ba1b147fd230cc28b22f6c43c763e47aefe811e3a4300d1c8"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3913,
@@ -163,7 +163,7 @@
     },
     "operations/samawah-operations-manifest.json": {
       "bytes": 895,
-      "sha256": "4d03c7413f4e7d04edea4021f278034d43a435a356fdd7e164089aadb6334972"
+      "sha256": "281150eb249723401da6d21d4a2f3ce03deb36c39c7b7b184f39f34c1ecb05fd"
     },
     "samawah-network-map.png": {
       "bytes": 1385418,
@@ -194,9 +194,11 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "89d98644713e6acb53be2d76ba2700f16c363efb6d8a33aca4a7e383e81426a6",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/samawah.gpkg": {
       "bytes": 270336,
@@ -224,9 +226,9 @@
       "sha256": "5a96d05988966593b6197bcdb1246f0a966b21d852365553f15b75d9df2eda36"
     },
     "operations/samawah-operations.json.gz": {
-      "bytes": 2814288,
+      "bytes": 2814510,
       "required_in_git_checkout": false,
-      "sha256": "312f844b996443eefa97fc71d96bc07ce0ca4122ddc3362c9a54e3b3a6cf7d89"
+      "sha256": "42fd996bc4598d333255cb87b6c32183daf6c2248188a5a641e335e50b40f218"
     },
     "operations/samawah-procurement-plan.csv": {
       "bytes": 6561391,
@@ -236,8 +238,9 @@
   },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "a94095969592b7c3efb2d040cd65cd9352724444"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": []
 }

@@ -38,15 +38,20 @@ reproducible engineering screens, not construction release or authority approval
 
 ## Drainage cases
 
-| Variant | Catchment / branches | SWMM branch / aggregate L/s | Rational aggregate L/s | Inlet depth m | Result |
-|---|---:|---:|---:|---:|---|
-| `halt` | 439.0 m² / 11 | 0.16 / 1.73 | 8.69 | 0.067 | PASS |
-| `standard` | 1813.0 m² / 27 | 0.21 / 5.62 | 35.88 | 0.078 | PASS |
-| `major` | 2100.8 m² / 32 | 0.20 / 6.55 | 41.58 | 0.078 | PASS |
-| `interchange` | 2878.0 m² / 50 | 0.19 / 9.67 | 56.96 | 0.075 | PASS |
-| `interchange-elevated` | 3252.0 m² / 52 | 0.20 / 10.46 | 64.36 | 0.077 | PASS |
-| `terminal` | 2575.6 m² / 38 | 0.21 / 7.95 | 50.98 | 0.079 | PASS |
-| `depot-terminal` | 1640.6 m² / 33 | 0.18 / 5.83 | 32.47 | 0.071 | PASS |
+The storm supplies 25 mm over 20 minutes. The roof and rational check both use C=1 (no losses).
+Each 300 mm branch assumes a 0.4 m fall over 40 m; these are planning levels requiring site survey.
+Dynamic-wave routing uses a 1 s hydraulic step and 10 s runoff step. Rainfall, zero infiltration,
+runoff volume/peak, conduit peak, continuity and no flooding are separate pass gates.
+
+| Variant | Catchment / branches | SWMM branch / aggregate L/s | Rational aggregate L/s | Rain mm / volume error % | Inlet depth m | Result |
+|---|---:|---:|---:|---:|---:|---|
+| `halt` | 439.0 m² / 11 | 0.83 / 9.15 | 9.15 | 25.00 / 0.019 | 0.020 | PASS |
+| `standard` | 1813.0 m² / 27 | 1.40 / 37.77 | 37.77 | 25.00 / -0.009 | 0.025 | PASS |
+| `major` | 2100.8 m² / 32 | 1.37 / 43.77 | 43.77 | 25.00 / -0.007 | 0.025 | PASS |
+| `interchange` | 2878.0 m² / 50 | 1.20 / 59.96 | 59.96 | 25.00 / 0.001 | 0.023 | PASS |
+| `interchange-elevated` | 3252.0 m² / 52 | 1.30 / 67.75 | 67.75 | 25.00 / -0.004 | 0.024 | PASS |
+| `terminal` | 2575.6 m² / 38 | 1.41 / 53.66 | 53.66 | 25.00 / -0.010 | 0.025 | PASS |
+| `depot-terminal` | 1640.6 m² / 33 | 1.04 / 34.18 | 34.18 | 25.00 / 0.009 | 0.022 | PASS |
 
 ## Depot thermal and fire design response
 

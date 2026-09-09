@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4114,
-      "sha256": "a40ec9a1d10e4055586cfdb2eadd5a8a059de932e9ecd8d49a298f3007957473"
+      "bytes": 4745,
+      "sha256": "9892b76a3ceb28b6715bea877f3a4df57c61bed6c60a80e70e421143a79b1432"
     },
     "design.toml": {
       "bytes": 26923,
@@ -26,20 +26,20 @@
       "sha256": "cb6437033c389fcce653b9de6ff4fb5e8591bb81953678ae3b0aea5f1ae679a4"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2663,
-      "sha256": "b8ec0d348bfe38299baf897d89749e4e9708c56853315b357636af87a3159987"
+      "bytes": 19756,
+      "sha256": "4b3f390ab33859c71e84d7e30c59b3a53625b0e84a4fc4e1b7b5e010ad9ca946"
     },
     "engineering/finance/summary.json": {
       "bytes": 12694,
-      "sha256": "705c92aa834a4d3790a1de803aad9abadfb265c77543482b9fb6696c295b2bb9"
+      "sha256": "b22fe099dfba60887a582f841f5fac9f3b8330e70be6d78e6066e309769ac450"
     },
     "engineering/gis/summary.json": {
       "bytes": 1306,
-      "sha256": "0e06ef28916fc5fb8b6851f386e6f88a139ab372e633cc1bc2491d59a32f7a2e"
+      "sha256": "0b2a1a0793b7d8a010d537f44fa24c7efea0fc91e41d1974ce50e202cfac3b82"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 43250,
-      "sha256": "7905b529ec34875fb1eb47e085bc9570d42f7fbca4a7b2c5f0bf4dd439d6aa0e"
+      "bytes": 44573,
+      "sha256": "6a349b6675323b78f708d2bba11145d197b2f32d17d935e9528c1f9df264d6b3"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 591,
@@ -47,7 +47,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "607773f2484a1e2562c68cb1aa86bfc5a1b74d5ba8ba69afde412e94f1dbf7eb"
+      "sha256": "d1e7cce6dfcbdd07da16073266a6a6601a576fb1b66b7cd764302ce0dc7d19c3"
     },
     "engineering/screenshots/zanzibar-city-network-visualizer.png": {
       "bytes": 67736,
@@ -67,7 +67,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 10032,
-      "sha256": "028f4159a845c39255a65812e26a7494539070093954bb801bc15b9c63bd54b0"
+      "sha256": "48acb87807be673e26b0f45bbcf008a37d5a8608d4bbf1a7e22a3cef49bea2da"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3828,
@@ -79,7 +79,7 @@
     },
     "operations/zanzibar-city-operations-manifest.json": {
       "bytes": 908,
-      "sha256": "c5aa2b6e0a42b6389b887b8c7f5c55ad421318598b8329e2754741d9c05753ba"
+      "sha256": "f3c679f9ace7c1b8f9e374cd35b714be60e5e3e8f1688abe96b6f29c9c39062f"
     },
     "zanzibar-city-network-map.png": {
       "bytes": 1821202,
@@ -110,14 +110,16 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "d4a33b4a19e8e977bd46200b1b50246709fce7ba77d3bcb90fbb4dcc2e7bcd31",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/zanzibar-city.gpkg": {
       "bytes": 270336,
       "required_in_git_checkout": false,
-      "sha256": "ce2f9a7cbbd87e8443a9fe6759083be8a73d24b157f126ec05f71a00e3db00a4"
+      "sha256": "48a8bb2c2525b824ffa06f68bce7c2448cb0ed2e39d082b4ae2b90b1b7f14e64"
     },
     "operations/zanzibar-city-acceptance-evidence-matrix.csv": {
       "bytes": 860537,
@@ -140,9 +142,9 @@
       "sha256": "aa65db978f542ac6ded018433d9245b2710767559efcacf89463d36cb21635e0"
     },
     "operations/zanzibar-city-operations.json.gz": {
-      "bytes": 3443015,
+      "bytes": 3443672,
       "required_in_git_checkout": false,
-      "sha256": "6d694f32c69cc72f143f169a1a01bad2746f51a4251c21d262c7a1322574a79e"
+      "sha256": "b14a69e526eecec3bfc4bc175300fa89e049adc301491f0373c75d613123ea02"
     },
     "operations/zanzibar-city-procurement-plan.csv": {
       "bytes": 8173724,
@@ -150,10 +152,46 @@
       "sha256": "7a465f8e40132ccbf6a25f1fc5886d76cf9da22d817e81e10de5eb277edd2784"
     }
   },
-  "missing_artifacts": [],
+  "missing_artifacts": [
+    "engineering/survey/field-evidence-brief.json",
+    "engineering/survey/field-evidence-brief.md",
+    "engineering/survey/survey-input-manifest.csv",
+    "engineering/survey/control-processing-readiness.json",
+    "engineering/survey/control-processing-readiness.md",
+    "engineering/survey/ground-model-readiness.json",
+    "engineering/survey/ground-model-readiness.md",
+    "engineering/survey/surveyed-alignment-input-manifest.csv",
+    "engineering/survey/surveyed-alignment-readiness.json",
+    "engineering/survey/surveyed-alignment-readiness.md",
+    "engineering/survey/route-station-fit-input-manifest.csv",
+    "engineering/survey/route-station-fit-readiness.json",
+    "engineering/survey/route-station-fit-readiness.md",
+    "engineering/survey/drainage-ground-input-manifest.csv",
+    "engineering/survey/drainage-ground-readiness.json",
+    "engineering/survey/drainage-ground-readiness.md",
+    "engineering/survey/structural-release-input-manifest.csv",
+    "engineering/survey/structural-release-readiness.json",
+    "engineering/survey/structural-release-readiness.md",
+    "engineering/simulation/operations-crosscheck.json",
+    "engineering/simulation/operations-crosscheck.md"
+  ],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "231cf1f565763bb6fbfb815088321d96c680ed82"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": [
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "d1d380e29977cdfa7c332a840bd38c356e28b9ee845c3e5038684cd3134df0c9",
+      "recorded_sha256": "3b008dc98d8617e6b3180496dc10ab08adf689c98ab164f70be2ef2bd288480d",
+      "source": "scenario_sha256"
+    },
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+      "recorded_sha256": "665ce14d875f98638986cabffea8442cb15c5d19723ea684a87c1db0331484ae",
+      "source": "generator_sha256"
+    }
+  ]
 }

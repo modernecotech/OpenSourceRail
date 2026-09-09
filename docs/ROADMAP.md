@@ -8,6 +8,15 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 ## Reviewed Open Work
 
+The [2026-09-09 substance review](substance-review-2026-09-09.md) now records
+completed roof-drainage input/physical-balance repairs and per-site electrical
+import/export gates. All seven drainage variants pass the corrected planning
+screen. The electrical correction exposes insufficient declared connections,
+including seven Samawah sites; the affected city and full-package results now
+fail. Connection upgrades or charging changes must be reconciled with timetable
+and cost. Depot energy scope, physical stabling allocation, procurement/calendar
+cashflow, battery renewal and shared factory scheduling remain open.
+
 The 2026-09-08 repository review found no failing committed software, city,
 project-twin, link, or browser acceptance baseline. The documentation audit
 also reconciled the current rolling-stock product, assembly, tooling, factory,

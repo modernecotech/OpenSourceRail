@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4298,
-      "sha256": "051e2f4cd3177031f79f06d7c12302257ee37e84e5bd933facae976408162ac3"
+      "bytes": 4930,
+      "sha256": "b45222ab6cd87153a04ab1311320f49aef7aa9f3192f11a0d05d936296b82906"
     },
     "design.toml": {
       "bytes": 48326,
@@ -38,20 +38,20 @@
       "sha256": "3c89f187c636522b63a8508753eabe45758afddbef60deec51926a7efe79dff7"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2657,
-      "sha256": "3281c9f4b7ba29e0d699a8516e67a330eedcf7e433131a899b349026d181db94"
+      "bytes": 62467,
+      "sha256": "378872cee8cf3da7ead6200f72946cb724021d6a6497b0931f56188950197a54"
     },
     "engineering/finance/summary.json": {
       "bytes": 12642,
-      "sha256": "fe4ebbe4b31a4f558fc07e6840afec2ab49da275eaa2691784a4e5261e5826f3"
+      "sha256": "a38b02e119abf086e3ac1c4deb39a4309be310fdbeeffa2b58bbfc17d1648b95"
     },
     "engineering/gis/summary.json": {
       "bytes": 1291,
-      "sha256": "6b291231548f05d3f8d1f559bc60e53fbf4a338c8efcb0b425ec26675ca99744"
+      "sha256": "5688410c398de7794f9cccdd9976627cf55643dc851f8e93f9fec7c704e54371"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 80076,
-      "sha256": "7a137f2d116bb4876d2cdb3ef2c996aad47de504b92ee3bdd62f22d62737466c"
+      "bytes": 81399,
+      "sha256": "37181c57357f7594848524a119d89a6c96e734808163f6e6112bac545b91a1cf"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 591,
@@ -59,7 +59,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "57b358e19b78f95a93144b9d51f03182e23f28214173cfe7418110ea5e8d3122"
+      "sha256": "ac5b8db0bee7bea4336bb94acbb69c9c1ba8338a7878991b9e261ca088e1862e"
     },
     "engineering/screenshots/visakhapatnam-network-visualizer.png": {
       "bytes": 114727,
@@ -79,7 +79,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 33326,
-      "sha256": "ff7cfb3ba06bf4648fd53be06629e579d0e18865ec1bd0ec0bd90e365043a508"
+      "sha256": "82cb1cab3643b59fc22ed2b7c5758f6d2ecaa959c9acf6228c9fd0d505667244"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7496,
@@ -91,7 +91,7 @@
     },
     "operations/visakhapatnam-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "719bb9af0e028de94b37d8db95093e07272cf6f958390e674a6474eec1ea7086"
+      "sha256": "09716b4b78f4bd07279c2261e0b3a0e1e15704e6e6a7aebb7f989b91a7384d60"
     },
     "visakhapatnam-network-map.png": {
       "bytes": 3077106,
@@ -122,14 +122,16 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "d4a33b4a19e8e977bd46200b1b50246709fce7ba77d3bcb90fbb4dcc2e7bcd31",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/visakhapatnam.gpkg": {
       "bytes": 356352,
       "required_in_git_checkout": false,
-      "sha256": "2de7dbc7cee7019ab8541d6f90abc6b24725219f8029336ddcb7bc93aedebe16"
+      "sha256": "440c35452d584518553aebc19fe3fa093c468df6db1a70bc4a94120afa30c75d"
     },
     "operations/visakhapatnam-acceptance-evidence-matrix.csv": {
       "bytes": 2032348,
@@ -152,9 +154,9 @@
       "sha256": "4df1080519d047fc501f0c6395c5e5a4228131ea12f11c5224aa41c0543e9d88"
     },
     "operations/visakhapatnam-operations.json.gz": {
-      "bytes": 1665688,
+      "bytes": 1665907,
       "required_in_git_checkout": false,
-      "sha256": "2db6297ba5c80beadbfd925723d57050dea7b2b4a2611159dee5e389856b5ff0"
+      "sha256": "76fea3cf11ad4991352ec3d085b53988af67407b6bf21a2f5afeb741fa6e7645"
     },
     "operations/visakhapatnam-procurement-plan.csv": {
       "bytes": 2526053,
@@ -162,10 +164,46 @@
       "sha256": "76d0d394b45c4037ee451e7e30940ac7d0de87a14a6bcd355237e85b081f6849"
     }
   },
-  "missing_artifacts": [],
+  "missing_artifacts": [
+    "engineering/survey/field-evidence-brief.json",
+    "engineering/survey/field-evidence-brief.md",
+    "engineering/survey/survey-input-manifest.csv",
+    "engineering/survey/control-processing-readiness.json",
+    "engineering/survey/control-processing-readiness.md",
+    "engineering/survey/ground-model-readiness.json",
+    "engineering/survey/ground-model-readiness.md",
+    "engineering/survey/surveyed-alignment-input-manifest.csv",
+    "engineering/survey/surveyed-alignment-readiness.json",
+    "engineering/survey/surveyed-alignment-readiness.md",
+    "engineering/survey/route-station-fit-input-manifest.csv",
+    "engineering/survey/route-station-fit-readiness.json",
+    "engineering/survey/route-station-fit-readiness.md",
+    "engineering/survey/drainage-ground-input-manifest.csv",
+    "engineering/survey/drainage-ground-readiness.json",
+    "engineering/survey/drainage-ground-readiness.md",
+    "engineering/survey/structural-release-input-manifest.csv",
+    "engineering/survey/structural-release-readiness.json",
+    "engineering/survey/structural-release-readiness.md",
+    "engineering/simulation/operations-crosscheck.json",
+    "engineering/simulation/operations-crosscheck.md"
+  ],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "231cf1f565763bb6fbfb815088321d96c680ed82"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": [
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "526bdd7691ea48fedaa776c866fcbf5c388fdb0eb969dffa771e829d50f7a972",
+      "recorded_sha256": "09786ae3a16853ea034a9abdc02d7a341b406333b378f7dc3b7b781d1c99f946",
+      "source": "scenario_sha256"
+    },
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+      "recorded_sha256": "665ce14d875f98638986cabffea8442cb15c5d19723ea684a87c1db0331484ae",
+      "source": "generator_sha256"
+    }
+  ]
 }

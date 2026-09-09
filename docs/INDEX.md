@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1496**.
+Indexed Markdown files: **1497**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1496**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 417 |
-| [docs](#docs) | 145 |
+| [docs](#docs) | 146 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1553,6 +1553,7 @@ Indexed Markdown files: **1496**.
 | [`docs/stations/standard-archetype/drawing-register.md`](../docs/stations/standard-archetype/drawing-register.md) | `standard` station — architectural drawing register (v2) |
 | [`docs/stations/standard-archetype/envelope.md`](../docs/stations/standard-archetype/envelope.md) | `standard` Archetype Envelope |
 | [`docs/stations/standard-archetype/services.md`](../docs/stations/standard-archetype/services.md) | Station Services - `standard` Archetype Worked Example |
+| [`docs/substance-review-2026-09-09.md`](../docs/substance-review-2026-09-09.md) | Engineering and delivery substance review — 2026-09-09 |
 | [`docs/workbench/README.md`](../docs/workbench/README.md) | OSR Workbench |
 
 ## engineering

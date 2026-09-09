@@ -82,7 +82,7 @@ For every selected city it writes:
 - a SUMO node, edge and route deck containing every declared line and station,
   with edge shapes taken from the canonical corridor GeoJSON;
 - pandapower grid-only and coordinated-daylight networks and a pvlib PV-yield
-  envelope, with electrical overload/voltage findings retained in the result;
+  envelope, with overload, voltage and per-site import/export limit findings;
 - a machine-readable result with source hash, tool version, service arrivals,
   per-line journey times and explicit input-quality findings;
 - a station occurrence map resolving every city station to its shared station
@@ -105,23 +105,36 @@ continue. Omitting that flag makes input gaps fail the command. A full solver
 batch is selected by omitting `--generate-only`.
 Use `--resume` after an interrupted or partially successful solver batch; it
 reuses only summaries whose design, corridor, scenario and station-manifest
-hashes still match and whose simulation, GIS generation, energy solvers and
+hashes still match and whose simulation, GIS generation, energy design screen and
 station-product map passed. Transient launcher failures are retried
 automatically at reduced concurrency.
 
-Samawah and Mosul are full acceptance examples; Songea exercises the same code
+Samawah and Mosul carry the full pilot evidence scope, with open electrical
+connection findings; Songea exercises the same code
 path as a portability check. The generator discovers all 266 canonical designs, and every one
 currently has the required `<slug>.corridor.geojson` and `<slug>.toml`
 companions. GIS layers use EPSG:4326. SUMO uses a city-local metric projection
 for visual geometry while retaining canonical chainage as edge length.
-Electrical results are planning screens: the transformer model assumes each
-declared site grid-import limit defines its transformer rating, and pvlib
-clear-sky output is an envelope rather than measured weather.
+Electrical results are planning screens. Transformer sizing uses the greater
+of installed rectifier input and declared import with 25% headroom; each site's
+solved HV import/export is independently checked against its declared limit,
+including transformer and converter losses. `solver_passed` records convergence;
+`passed` additionally requires no design findings. The screen reports exceedances
+without changing connection limits, charging demand or export controls. Feeder
+and utility capacity remain unmodelled. pvlib clear-sky output is an envelope
+rather than measured weather.
 
 These are screening packages. Surveyed geometry, city demand and dwell
 calibration, connected interchange/junction topology, road interactions,
 local climate/fire inputs and competent review cannot be generated from the
 current catalogue and therefore remain explicitly pending.
+
+The September 2026 provenance review also identifies 264 retained native
+simulation reports requiring scenario/validator and resilience refresh.
+Their full-package manifests list the stale sources. Strict README generation
+continues to reject stale evidence; `osr_scenario.network_readme
+--allow-stale-evidence` writes an explicitly unverified audit view without
+changing solver results or package acceptance.
 
 Each checked-in city deliverable uses only two generated subfolders:
 `engineering/` contains alignment, solver results, simulation, screenshots,

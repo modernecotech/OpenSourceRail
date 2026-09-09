@@ -149,29 +149,34 @@ a later revision must name the record it supersedes.
 Create and verify a consistent SQLite/evidence backup with:
 
 ```bash
-python3 tools/automation/ops-core-backup.py create backups/ops-core.zip
-python3 tools/automation/ops-core-backup.py verify backups/ops-core.zip
+python3 tools/automation/ops-core-backup.py create ../osr-private-backups/ops-core.zip
+python3 tools/automation/ops-core-backup.py verify ../osr-private-backups/ops-core.zip
 ```
 
 The archive deliberately excludes the password store and server signing key.
+Keep backup archives outside the repository's public asset directories. The
+server serves only explicit public roots and does not expose directory listings.
 Back those up separately in the deployment's secret vault. Recovery remains an
 operator-controlled procedure so the tool cannot overwrite a live database.
 
 Samawah is the default dataset. To open another generated city, pass its
 repository-relative operations bundle in the `data` query parameter.
 
-## Static Fallback
+## Save Conflicts And Recovery
 
-The portal can still run as a static site:
+Use the localhost Ops Core server for demonstrations and the authenticated
+server for shared consoles. A server rejection or connection failure keeps the
+portal attached to SQLite and displays the error. Edits remain an unsaved draft;
+they do not become accepted records in browser storage. Retry a recoverable
+failure, or use **Download draft and reload server records** before reviewing
+and reapplying changes. Reauthenticate after a session expires.
 
-```bash
-python3 -m http.server 8008
-```
+Every save carries the city revision read by the client. SQLite checks it in
+the same transaction as the write and returns HTTP 409 for stale snapshots.
+Inspection and approval order is assigned by the server; an older pass cannot
+release work after a newer failed inspection.
 
-In that mode the Ops Core tab falls back to browser local storage and has no
-accountable identity or managed files. Use it only for demonstration. Use the
-authenticated SQLite server for shared consoles, backup, or handover
-evidence. Manufacturing rows become normal Ops Core work orders with
+Manufacturing rows become normal Ops Core work orders with
 `source_type = manufacturing`, so production tasks share the same evidence,
 defect/NCR, audit, and reconciliation path as QA and maintenance work.
 The portal blocks successor manufacturing work until predecessor rows are

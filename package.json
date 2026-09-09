@@ -6,7 +6,8 @@
   "scripts": {
     "frontend:build": "bash tools/automation/build-web-frontends.sh",
     "workbench": "npm run frontend:build && python3 tools/automation/workbench-server.py --port 8090",
-    "test:frontend": "npm run frontend:build && playwright test",
+    "test:frontend": "npm run test:frontend:unit && npm run frontend:build && playwright test",
+    "test:frontend:unit": "node --test tests/frontend-unit/*.test.mjs",
     "test:frontend:quick": "playwright test tests/frontend/browser-surfaces.spec.mjs"
   },
   "devDependencies": {

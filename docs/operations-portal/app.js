@@ -30,6 +30,8 @@ const state = {
   coreSave: {
     pending: "",
     inFlight: false,
+    blocked: false,
+    error: "",
   },
   activeTab: "dashboard",
   qaVisible: [],
@@ -219,6 +221,21 @@ function bindExports() {
 }
 
 function bindCoreActions() {
+  document.getElementById("retryCoreSave")?.addEventListener("click", () => {
+    state.coreSave.blocked = false;
+    flushCoreSave();
+  });
+  document.getElementById("reloadCoreState")?.addEventListener("click", async () => {
+    const draft = state.coreSave.pending || JSON.stringify(state.core);
+    const url = URL.createObjectURL(new Blob([draft], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${state.data.meta.city_slug}-unsaved-draft.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    state.core = await loadCoreState();
+    renderAll();
+  });
   document.getElementById("workOrderForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     createQuickWorkOrder();
@@ -661,7 +678,7 @@ function renderSelectedWorkOrder() {
   }
   setFormDisabled(form, !actorHasRole("admin", "inspector"));
   setFormDisabled(approvalForm, wo.status !== "ready_to_close" || !actorHasRole("admin", "approver"));
-  const recent = state.core.inspections.find((row) => row.wo_id === wo.id);
+  const recent = latestCoreRecord(state.core.inspections, wo.id);
   const approval = latestApproval(wo.id);
   panel.innerHTML = `<dl class="summary-list">
     <div><dt>Work</dt><dd><code>${escapeHtml(wo.id)}</code> ${escapeHtml(wo.title)}</dd></div>
@@ -1029,6 +1046,10 @@ function holdWorkOrder(id) {
 async function saveInspection() {
   const wo = currentWorkOrder();
   if (!wo) return;
+  if (state.core.inspections.some((row) => row.wo_id === wo.id && !row.signature)) {
+    alert("Save or resolve the pending inspection before recording another result for this work order.");
+    return;
+  }
   if (!actorHasRole("admin", "inspector")) {
     alert("Authenticated inspector authority is required.");
     return;
@@ -1074,6 +1095,10 @@ async function saveInspection() {
 function saveApproval() {
   const wo = currentWorkOrder();
   if (!wo || wo.status !== "ready_to_close") return;
+  if (state.core.approvals.some((row) => row.wo_id === wo.id && !row.signature)) {
+    alert("Save or resolve the pending approval before recording another decision for this work order.");
+    return;
+  }
   const inspection = latestPassingInspection(wo.id);
   if (!inspection) {
     alert("A passing inspection is required before handback.");
@@ -1160,11 +1185,22 @@ async function saveDocumentRevision() {
 }
 
 function latestApproval(woId) {
-  return state.core.approvals.find((row) => row.wo_id === woId) || null;
+  return latestCoreRecord(state.core.approvals, woId);
 }
 
 function latestPassingInspection(woId) {
-  return state.core.inspections.find((row) => row.wo_id === woId && row.result === "pass") || null;
+  const latest = latestCoreRecord(state.core.inspections, woId);
+  return latest?.result === "pass" ? latest : null;
+}
+
+function latestCoreRecord(rows, woId) {
+  // Unsaved local additions must also block use of an older passing result.
+  return rows.filter((row) => row.wo_id === woId).sort((a, b) => (
+    Number(!b.signature) - Number(!a.signature)
+    || Number(b.server_sequence || 0) - Number(a.server_sequence || 0)
+    || String(b.signed_at || b.recorded_at || "").localeCompare(String(a.signed_at || a.recorded_at || ""))
+    || String(b.id).localeCompare(String(a.id))
+  ))[0] || null;
 }
 
 function closeoutBlocker(wo, next) {
@@ -1245,6 +1281,7 @@ function mergeLocalToSqlite() {
   const before = reconciliationSummary();
   if (!before.localRecords) return;
   const merged = emptyCoreState();
+  merged._revision = state.core._revision;
   CORE_RECORD_KEYS.forEach((key) => {
     merged[key] = mergeRecordRows(state.core[key], local[key]);
   });
@@ -1392,6 +1429,7 @@ function navigateWorkbench(module) {
 async function loadCoreState() {
   const fallback = emptyCoreState();
   const apiUrl = coreApiUrl();
+  state.coreStore = { mode: "sqlite", label: "Storage: SQLite", apiUrl };
   try {
     const response = await authFetch(apiUrl, {
       cache: "no-store",
@@ -1405,23 +1443,19 @@ async function loadCoreState() {
         label: "Storage: SQLite",
         apiUrl,
       };
+      state.coreSave.pending = "";
+      state.coreSave.blocked = false;
+      state.coreSave.error = "";
+      renderSaveError();
       return normalizeCoreState(payload.state || payload);
     }
-  } catch {
-    // The static server has no API; local fallback keeps the portal usable.
-  }
-
-  state.coreStore = {
-    mode: "local",
-    label: "Storage: browser local",
-    apiUrl: "",
-  };
-  try {
-    const raw = localStorage.getItem(coreStorageKey());
-    if (!raw) return fallback;
-    return normalizeCoreState(JSON.parse(raw));
-  } catch {
-    return fallback;
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload.error || `Could not load server records (${response.status}).`);
+  } catch (error) {
+    state.coreSave.blocked = true;
+    state.coreSave.error = `${error.message} Reload server records before saving.`;
+    renderSaveError();
+    return state.core || fallback;
   }
 }
 
@@ -1439,7 +1473,7 @@ function saveCoreState() {
 }
 
 async function flushCoreSave() {
-  if (state.coreSave.inFlight || !state.coreSave.pending) return;
+  if (state.coreSave.inFlight || state.coreSave.blocked || !state.coreSave.pending) return;
   state.coreSave.inFlight = true;
   const body = state.coreSave.pending;
   state.coreSave.pending = "";
@@ -1461,31 +1495,35 @@ async function flushCoreSave() {
       state.core = normalizeCoreState(payload.state);
     }
     if (payload.actor) state.actor = payload.actor;
+    state.coreSave.error = "";
+    renderSaveError();
     state.coreStore.label = "Storage: SQLite";
     renderCore();
   } catch (error) {
     console.error(error);
-    state.coreStore = {
-      mode: "local",
-      label: "Storage: browser local fallback",
-      apiUrl: "",
-    };
-    try {
-      localStorage.setItem(coreStorageKey(), JSON.stringify(state.core));
-    } catch {
-      return;
-    }
+    state.coreSave.pending = state.coreSave.pending || body;
+    state.coreSave.blocked = true;
+    state.coreSave.error = `Changes were not saved: ${error.message} Review the error before retrying, or download your draft and reload server records.`;
+    state.coreStore.label = "Storage: SQLite — unsaved changes";
+    renderSaveError();
     renderCoreMetrics();
   } finally {
     state.coreSave.inFlight = false;
-    if (state.coreStore.mode === "sqlite" && state.coreSave.pending) {
+    if (state.coreStore.mode === "sqlite" && state.coreSave.pending && !state.coreSave.blocked) {
       flushCoreSave();
     }
   }
 }
 
+function renderSaveError() {
+  const panel = document.getElementById("coreSaveError");
+  panel.hidden = !state.coreSave.error;
+  document.getElementById("coreSaveErrorMessage").textContent = state.coreSave.error;
+}
+
 function rebasePendingAttestations(pendingBody, sealedState) {
   const pending = normalizeCoreState(JSON.parse(pendingBody));
+  pending._revision = sealedState._revision;
   for (const key of ["inspections", "approvals", "documents", "audit"]) {
     const sealed = new Map((sealedState[key] || []).map((row) => [row.id, row]));
     pending[key] = pending[key].map((row) => sealed.get(row.id) || row);
@@ -1495,6 +1533,7 @@ function rebasePendingAttestations(pendingBody, sealedState) {
 
 function emptyCoreState() {
   return {
+    _revision: 0,
     workOrders: [],
     inspections: [],
     approvals: [],
@@ -1527,6 +1566,7 @@ function emptyCoreState() {
 function normalizeCoreState(value) {
   const core = emptyCoreState();
   if (!value || typeof value !== "object") return core;
+  core._revision = Number.isSafeInteger(value._revision) ? value._revision : 0;
   core.workOrders = Array.isArray(value.workOrders) ? value.workOrders : [];
   core.inspections = Array.isArray(value.inspections) ? value.inspections : [];
   core.approvals = Array.isArray(value.approvals) ? value.approvals : [];

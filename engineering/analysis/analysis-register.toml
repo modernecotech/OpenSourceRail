@@ -41,9 +41,9 @@ status = "screening"
 tool = "EPA SWMM / PySWMM 2.1.0"
 input_paths = ["design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json", "engineering/analysis/stations/station_systems.py", "engineering/analysis/stations/inputs/swmm/halt.inp", "engineering/analysis/stations/inputs/swmm/standard.inp", "engineering/analysis/stations/inputs/swmm/major.inp", "engineering/analysis/stations/inputs/swmm/interchange.inp", "engineering/analysis/stations/inputs/swmm/interchange-elevated.inp", "engineering/analysis/stations/inputs/swmm/terminal.inp", "engineering/analysis/stations/inputs/swmm/depot-terminal.inp"]
 result_path = "engineering/analysis/stations/screening-summary.json"
-acceptance_criterion = "All seven representative 300 mm roof-bay branches complete a 75 mm/h 20-minute storm with <=1% continuity error and inlet depth <0.80 m"
+acceptance_criterion = "All seven 300 mm roof-bay branches receive 25 mm in 20 minutes, with zero infiltration, runoff volume/peak within 1% of C=1 rainfall balance, conduit peak within 90-101% of roof peak, <=1% continuity error, no flooding and inlet depth <0.80 m"
 converged = true
-limitations = "Ideal repeatable branch/free outfall model; local IDF rainfall, surveyed levels, headers, tailwater, blockage, climate allowance, track/yard drainage and exceedance routing require deployment design."
+limitations = "Ideal repeatable branch/free outfall model with assumed 0.4 m fall over 40 m and dynamic-wave routing; local IDF rainfall, surveyed levels, headers, tailwater, blockage, climate allowance, track/yard drainage and exceedance routing require deployment design."
 
 [[analysis]]
 id = "OSR-AN-STN-THM-001"
@@ -163,10 +163,10 @@ title = "Samawah station microgrid and PV planning screen"
 status = "screening"
 tool = "pandapower 3.5.3 / pvlib 0.15.2"
 input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml", "lib/templates/climate.toml", "engineering/analysis/city_microgrid.py"]
-result_path = "build/engineering/cities/samawah/energy/summary.json"
-acceptance_criterion = "Grid-only and coordinated-daylight load flows converge and PV assumptions/results are recorded"
+result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/summary.json"
+acceptance_criterion = "Both load flows converge, site HV import/export stays within declared connection limits, transformer loading and voltage meet screening limits, and PV/climate assumptions are consistent. Solver convergence alone is insufficient."
 converged = true
-limitations = "Planning transformer model and clear-sky/climate envelope only; utility topology, fault levels, measured load coincidence, tariffs and measured weather are not calibrated."
+limitations = "Seven Samawah grid-only connections exceed their declared import limits. Planning transformer model and clear-sky/climate envelope only; utility topology, fault levels, measured load coincidence, tariffs and measured weather are not calibrated."
 
 [[analysis]]
 id = "OSR-AN-IFC-STN-001"

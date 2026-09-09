@@ -28,8 +28,26 @@ def _coverage(city_dir: Path) -> float:
 def main() -> int:
     public_rows: list[str] = []
     comparison_rows: list[str] = []
+    complete_packages = 0
+    energy_passes = 0
+    energy_failed_sites = 0
+    stale_packages = 0
     for design_path in sorted(DESIGNS.glob("*/*/*/design.toml")):
         design = tomllib.loads(design_path.read_text())
+        manifest_path = design_path.parent / "package-manifest.json"
+        manifest = json.loads(manifest_path.read_text()) if manifest_path.is_file() else {}
+        if manifest.get("passed") is True:
+            complete_packages += 1
+        stale_count = len(manifest.get("stale_analysis_sources", []))
+        stale_packages += stale_count > 0
+        energy_path = design_path.parent / "engineering/energy/summary.json"
+        energy = json.loads(energy_path.read_text()) if energy_path.is_file() else {}
+        energy_passes += energy.get("passed") is True
+        failed_sites = {
+            row["station"] for row in energy.get("design_findings", [])
+            if row.get("code") == "site-grid-connection-limit-exceeded"
+        }
+        energy_failed_sites += len(failed_sites)
         city = design.get("city", {})
         lines = design.get("lines", [])
         fleets = design.get("fleets", [])
@@ -42,7 +60,9 @@ def main() -> int:
             f"| [{city.get('name', design_path.parent.name)}]({target}) "
             f"| `{family}` | {len(lines)} | {len(design.get('stations', []))} | "
             f"{route_km:.1f} | {sum(int(item.get('trainset_count', 0)) for item in fleets)} "
-            f"| {_coverage(design_path.parent):.0%} |"
+            f"| {_coverage(design_path.parent):.0%} "
+            f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
+            f"| [{'complete' if manifest.get('passed') else 'incomplete'}; {stale_count} stale sources]({target}package-manifest.json) |"
         )
         if relative.parts[0] == "europe":
             comparison_rows.append(row)
@@ -113,9 +133,17 @@ def main() -> int:
         "validation summaries, operations asset index, acceptance report, and integrity",
         "manifest in one city directory. Raw solver networks, GeoPackages, compressed event",
         "bundles, and exploded manufacturing CSVs remain reproducible local outputs so the",
-        "Git repository stays usable. Mosul and Samawah remain the full acceptance references.",
+        "Git repository stays usable. Mosul and Samawah carry the full pilot evidence scope.",
         "",
         "## Validation status",
+        "",
+        f"Current full-package manifests: **{complete_packages} complete and {len(actual) - complete_packages} incomplete**.",
+        f"**{stale_packages} packages retain stale analysis sources** requiring solver-evidence refresh.",
+        "Each city's `package-manifest.json` lists missing evidence, failed summaries and stale sources. Package completeness",
+        "is separate from the topology checks below and is not engineering or deployment approval.",
+        "See the [substance review](../../docs/substance-review-2026-09-09.md) for model limitations.",
+        f"Electrical design screens: **{energy_passes} pass, {len(actual) - energy_passes} fail/missing; {energy_failed_sites:,} sites exceed declared connection limits**.",
+        "The site count includes any screened import/export exceedance; it is distinct from solver convergence.",
         "",
         "The retained",
         "[`ring-interchange-validation.json`](ring-interchange-validation.json) report checks",
@@ -135,8 +163,8 @@ def main() -> int:
         "[`engineering-batch-summary-aleppo-amman.json`](engineering-batch-summary-aleppo-amman.json)",
         "is explicitly scoped to those two cities and is not catalogue-wide evidence.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage |",
-        "|---|---|---:|---:|---:|---:|---:|",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package |",
+        "|---|---|---:|---:|---:|---:|---:|---|---|",
         *public_rows,
         "",
         "## Technical comparison model",
@@ -145,8 +173,8 @@ def main() -> int:
         "inspection. It is excluded from the public programme, portfolio, national",
         "briefs, reader-book city evidence, and front-page examples.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage |",
-        "|---|---|---:|---:|---:|---:|---:|",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package |",
+        "|---|---|---:|---:|---:|---:|---:|---|---|",
         *comparison_rows,
         "",
         "```bash",

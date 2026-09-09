@@ -24,7 +24,9 @@ with each city under `engineering/project-twin/summary.json`.
 
 Install and launch it through the root [one-command setup](../../README.md#one-command-linux-setup).
 
-Open <http://127.0.0.1:8090/>. Planning and training modes cannot emit live OCC
+Open <http://127.0.0.1:8090/>. Workbench binds only to localhost; its trusted development identity
+is unsuitable for a shared network endpoint. Use the authenticated standalone
+Ops Core server for shared operations records. Planning and training modes cannot emit live OCC
 commands; live mode does not expose design or simulation modules. Actor and
 role fields provide navigation context, not authentication. The versioned
 contract is [`context-contract.schema.json`](context-contract.schema.json).

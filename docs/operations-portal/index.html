@@ -37,6 +37,11 @@
   </nav>
 
   <main>
+    <section class="surface" id="coreSaveError" role="alert" hidden>
+      <p id="coreSaveErrorMessage"></p>
+      <button class="text-button" id="retryCoreSave" type="button">Retry save</button>
+      <button class="text-button" id="reloadCoreState" type="button">Download draft and reload server records</button>
+    </section>
     <section class="panel active" id="dashboard">
       <div class="metrics" id="metrics"></div>
       <div class="split">

@@ -56,6 +56,10 @@ ROLE_COLLECTIONS = {
 }
 
 
+class StateConflict(ValueError):
+    """The submitted snapshot is no longer the current city revision."""
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Serve the operations portal and persist Ops Core records in SQLite."
@@ -158,9 +162,6 @@ class OpsCoreHandler(SimpleHTTPRequestHandler):
             self._send_json(400, {"error": str(exc)})
             return
         if route is None:
-            if not self._static_path_allowed(path):
-                self.send_error(404)
-                return
             super().do_GET()
             return
         city, tail = route
@@ -203,9 +204,14 @@ class OpsCoreHandler(SimpleHTTPRequestHandler):
             return
         try:
             state = self._read_json()
+            if not isinstance(state, dict) or "_revision" not in state:
+                raise ValueError("Read the city state and include its _revision before saving")
             with connect(self.database_path) as con:
                 init_db(con)
                 saved = save_state(con, city, state, actor=actor, signing_key=self.attestation_key)
+        except StateConflict as exc:
+            self._send_json(409, {"error": str(exc)})
+            return
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})
             return
@@ -273,18 +279,36 @@ class OpsCoreHandler(SimpleHTTPRequestHandler):
         return route[0] if route is not None and not route[1] else None
 
     def _static_path_allowed(self, request_path: str) -> bool:
-        relative = unquote(request_path).lstrip("/")
-        target = (REPO_ROOT / relative).resolve()
+        target = Path(self.translate_path(request_path)).resolve()
         try:
             target.relative_to(REPO_ROOT)
         except ValueError:
             return False
-        if ".git" in target.relative_to(REPO_ROOT).parts:
+        if any(part.startswith(".") for part in target.relative_to(REPO_ROOT).parts):
             return False
         for private in self.private_paths:
             if target == private or (private.is_dir() and private in target.parents):
                 return False
-        return True
+        public_roots = (
+            "docs", "cities/catalogue", "design", "engineering", "control-electronics",
+            "lib", "deployment", "build/frontend", "build/generated-operations",
+            "build/workbench/project-twins",
+        )
+        public_files = {"README.md", "LICENSE.md", "CONTRIBUTING.md", "GOVERNANCE.md", "CHANGELOG.md", "VERSION", "OpenSourceRail-Book.pdf"}
+        return (
+            target.parent == REPO_ROOT and target.name in public_files
+        ) or any((REPO_ROOT / root).resolve() in target.parents for root in public_roots)
+
+    def send_head(self):
+        # Shared by GET and HEAD, including Workbench's translated asset routes.
+        if not self._static_path_allowed(self.path):
+            self.send_error(404)
+            return None
+        return super().send_head()
+
+    def list_directory(self, path):
+        self.send_error(404)
+        return None
 
     def _read_json(self) -> dict:
         length = int(self.headers.get("Content-Length", "0") or "0")
@@ -699,6 +723,7 @@ def init_db(con: sqlite3.Connection) -> None:
     _ensure_column(con, "inspections", "note", "TEXT")
     _ensure_column(con, "defects", "finding", "TEXT")
     _ensure_column(con, "audit_events", "detail", "TEXT")
+    _ensure_column(con, "city_state", "revision", "INTEGER NOT NULL DEFAULT 0")
 
 
 def _ensure_column(con: sqlite3.Connection, table: str, column: str, sql_type: str) -> None:
@@ -711,6 +736,18 @@ def _ensure_column(con: sqlite3.Connection, table: str, column: str, sql_type: s
 
 
 def load_state(con: sqlite3.Connection, city: str) -> dict:
+    # Keep the version and all collections in a single SQLite read snapshot.
+    owns_transaction = not con.in_transaction
+    if owns_transaction:
+        con.execute("BEGIN")
+    try:
+        return _load_state(con, city)
+    finally:
+        if owns_transaction:
+            con.rollback()
+
+
+def _load_state(con: sqlite3.Connection, city: str) -> dict:
     counters = {
         row["kind"]: int(row["value"])
         for row in con.execute(
@@ -718,6 +755,8 @@ def load_state(con: sqlite3.Connection, city: str) -> dict:
         )
     }
     state = empty_state()
+    revision = con.execute("SELECT revision FROM city_state WHERE city_slug = ?", (city,)).fetchone()
+    state["_revision"] = int(revision["revision"]) if revision else 0
     state["counters"].update(counters)
     for key, table in RECORD_TABLES.items():
         rows = con.execute(
@@ -742,19 +781,23 @@ def save_state(
     signing_key: bytes | None = None,
 ) -> dict:
     state = normalize_state(raw_state)
-    if actor is not None:
-        state = authorize_and_attest_state(
-            con, city, load_state(con, city), state, actor, signing_key or b""
-        )
-    now = utc_now()
     with con:
+        con.execute("BEGIN IMMEDIATE")
+        current = load_state(con, city)
+        if state["_revision"] != current["_revision"]:
+            raise StateConflict("City records changed in another session. Reload server records and review your unsaved draft.")
+        if actor is not None:
+            state = authorize_and_attest_state(
+                con, city, current, state, actor, signing_key or b""
+            )
+        state["_revision"] = current["_revision"] + 1
         con.execute(
             """
-            INSERT INTO city_state (city_slug, updated_at)
-            VALUES (?, ?)
-            ON CONFLICT(city_slug) DO UPDATE SET updated_at = excluded.updated_at
+            INSERT INTO city_state (city_slug, updated_at, revision)
+            VALUES (?, ?, ?)
+            ON CONFLICT(city_slug) DO UPDATE SET updated_at = excluded.updated_at, revision = excluded.revision
             """,
-            (city, now),
+            (city, utc_now(), state["_revision"]),
         )
         con.execute("DELETE FROM counters WHERE city_slug = ?", (city,))
         con.executemany(
@@ -776,6 +819,7 @@ def save_state(
 
 def empty_state() -> dict:
     return {
+        "_revision": 0,
         "workOrders": [],
         "inspections": [],
         "approvals": [],
@@ -809,6 +853,10 @@ def normalize_state(raw_state: dict) -> dict:
     if not isinstance(raw_state, dict):
         raise ValueError("state must be a JSON object")
     state = empty_state()
+    revision = raw_state.get("_revision", 0)
+    if type(revision) is not int or revision < 0:
+        raise ValueError("_revision must be a non-negative integer")
+    state["_revision"] = revision
     for key in RECORD_TABLES:
         rows = raw_state.get(key, [])
         if not isinstance(rows, list):
@@ -914,6 +962,28 @@ def authorize_and_attest_state(
         raise PermissionError("read-only role cannot append audit records")
 
     result = normalize_state(proposed)
+    # A snapshot cannot establish the chronology of multiple new decisions
+    # about the same order. Require separate server receipts for those events.
+    for key in ("inspections", "approvals"):
+        existing = _by_id(current[key])
+        new_orders: set[str] = set()
+        for row in result[key]:
+            if str(row.get("id")) in existing:
+                continue
+            wo_id = str(row.get("wo_id", ""))
+            if wo_id in new_orders:
+                raise ValueError(f"save each {key} event for work order {wo_id} separately")
+            new_orders.add(wo_id)
+    sequence = max(
+        (int(row.get("server_sequence", 0)) for key in immutable for row in current[key]),
+        default=0,
+    )
+
+    def attest(row: dict, kind: str) -> dict:
+        nonlocal sequence
+        sequence += 1
+        return _attest({**row, "server_sequence": sequence}, kind, actor, signing_key)
+
     for key in immutable:
         for index, row in enumerate(result[key]):
             if str(row.get("id")) in _by_id(current[key]) and not row.get("signature"):
@@ -933,7 +1003,7 @@ def authorize_and_attest_state(
         row = dict(row)
         row["recorded_by"] = actor["display_name"]
         row["recorded_role"] = ", ".join(actor.get("roles", []))
-        result["inspections"][index] = _attest(row, "inspection", actor, signing_key)
+        result["inspections"][index] = attest(row, "inspection")
 
     all_inspections = _by_id(result["inspections"])
     current_approvals = _by_id(current["approvals"])
@@ -943,14 +1013,15 @@ def authorize_and_attest_state(
         if not actor_has_role(actor, {"admin", "approver"}):
             raise PermissionError("handback approval authority required")
         inspection = all_inspections.get(str(row.get("inspection_id", "")))
-        if inspection is None or inspection.get("result") != "pass":
+        latest = latest_record(result["inspections"], str(row.get("wo_id", "")))
+        if inspection is None or inspection.get("result") != "pass" or inspection != latest:
             raise ValueError("handback approval must reference a passing inspection")
         if str(inspection.get("signed_by_user_id", "")) == actor["user_id"]:
             raise PermissionError("inspector and handback approver must be different authenticated users")
         row = dict(row)
         row["approved_by"] = actor["display_name"]
         row["approver_role"] = ", ".join(actor.get("roles", []))
-        result["approvals"][index] = _attest(row, "handback-approval", actor, signing_key)
+        result["approvals"][index] = attest(row, "handback-approval")
 
     current_documents = _by_id(current["documents"])
     documents_by_control: dict[str, list[dict]] = {}
@@ -984,14 +1055,22 @@ def authorize_and_attest_state(
         row = dict(row)
         row["uploaded_by"] = actor["display_name"]
         row["uploaded_by_user_id"] = actor["user_id"]
-        result["documents"][index] = _attest(row, "controlled-document", actor, signing_key)
+        result["documents"][index] = attest(row, "controlled-document")
 
     current_audit = _by_id(current["audit"])
     for index, row in enumerate(result["audit"]):
         if str(row.get("id")) not in current_audit:
-            result["audit"][index] = _attest(row, "audit-event", actor, signing_key)
+            result["audit"][index] = attest(row, "audit-event")
     validate_workflow(result)
     return result
+
+
+def latest_record(rows: list[dict], wo_id: str) -> dict | None:
+    return max(
+        (row for row in rows if row.get("wo_id") == wo_id),
+        key=lambda row: (int(row.get("server_sequence", 0)), str(row.get("signed_at", "")), str(row.get("id", ""))),
+        default=None,
+    )
 
 
 def validate_workflow(state: dict) -> None:
@@ -1010,16 +1089,13 @@ def validate_workflow(state: dict) -> None:
         if work_order.get("status") != "closed":
             continue
         wo_id = work_order["id"]
-        passing = next(
-            (row for row in state["inspections"] if row.get("wo_id") == wo_id and row.get("result") == "pass"),
-            None,
-        )
-        approval = next((row for row in state["approvals"] if row.get("wo_id") == wo_id), None)
+        passing = latest_record(state["inspections"], wo_id)
+        approval = latest_record(state["approvals"], wo_id)
         open_defect = next(
             (row for row in state["defects"] if row.get("wo_id") == wo_id and row.get("status") != "resolved"),
             None,
         )
-        if passing is None or approval is None or approval.get("decision") != "approved":
+        if passing is None or passing.get("result") != "pass" or approval is None or approval.get("decision") != "approved":
             raise ValueError(f"closed work order {wo_id} lacks passing inspection and approval")
         if approval.get("inspection_id") != passing.get("id"):
             raise ValueError(f"closed work order {wo_id} approval is not for the latest passing inspection")

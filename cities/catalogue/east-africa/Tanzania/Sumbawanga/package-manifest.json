@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4047,
-      "sha256": "1f1a34cc6751a8231b0a252326cc44a187452961d4755e1f7d9de3e61a90a1b6"
+      "bytes": 4673,
+      "sha256": "09bbb30399cb2ec3d4b0bee0a6c75e882981f5492092d0c10e4c73d760535fc4"
     },
     "design.toml": {
       "bytes": 12447,
@@ -26,20 +26,20 @@
       "sha256": "495d4d6523ff89f5ffb5267297528cd6d87615204ff7012b73738bd3101c7d9c"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2644,
-      "sha256": "6c627d853c4f7bcb44fcba859ba4366deb536fd2b08c1a956e12607066ba08d9"
+      "bytes": 10165,
+      "sha256": "07fa3ea2c506d93296f716e47b7f9a767823ad049a5420664a19f915a7767987"
     },
     "engineering/finance/summary.json": {
       "bytes": 12675,
-      "sha256": "fe14cdcd6f9c805ab500cbeefe452d89eb56c2a91bbb9aa54906c00540e086ca"
+      "sha256": "c5556f403cd01420c2fcd885b20790e2000cb888ef54a2ae66515188a8b27399"
     },
     "engineering/gis/summary.json": {
       "bytes": 1279,
-      "sha256": "194e5aa62c6904f40f430dd299a9e934448e2874cb842cb0d4ffcc22146601f0"
+      "sha256": "ebd5e2f41bd77e2aa83b9e6881c2414dc9d1b7e79f0c7ad857c4e2f156f127f7"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 18231,
-      "sha256": "33e3f9f2b8ce09dd3db4dfae575511c18423abab39e80cfe7d5ff5957fe20929"
+      "bytes": 19554,
+      "sha256": "dde4edab2f8df43462e5d04ed1d680f662fdd39317ca77ef2909d00d9e8d400e"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -47,7 +47,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "e623786dcf55d5a17c56d5af7e24edb184a8657066bdb4e454645d9e1232a8ca"
+      "sha256": "8e73431549dd67c93a7798444e7f34a7fced96ef6b15862c8c8b098eb374ba81"
     },
     "engineering/screenshots/sumbawanga-network-visualizer.png": {
       "bytes": 53241,
@@ -67,7 +67,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 4738,
-      "sha256": "32288ca6b1d75eae118710d672428b95f11a466690568fb5af6611a2ee72062b"
+      "sha256": "0da564be57543568bfc951906f3b2ab2c57bf322af26a16be92984f87fbbe1ab"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3345,
@@ -79,7 +79,7 @@
     },
     "operations/sumbawanga-operations-manifest.json": {
       "bytes": 888,
-      "sha256": "56a86442f0ce7f0a3ec2089af2d719b377d84ae5a5f1da060456a367e43d996b"
+      "sha256": "4eac7929d25e59ca3a3348bf31064e04fd95e9c0a7e31daabc1aa12326c9ddcf"
     },
     "sumbawanga-network-map.png": {
       "bytes": 3897907,
@@ -112,12 +112,12 @@
   ],
   "failed_summaries": [],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "d4a33b4a19e8e977bd46200b1b50246709fce7ba77d3bcb90fbb4dcc2e7bcd31",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/sumbawanga.gpkg": {
       "bytes": 245760,
       "required_in_git_checkout": false,
-      "sha256": "7d343bb1679108440a6150d759e25797869915ff14c1f0160a0674d404fdde8d"
+      "sha256": "1dbfa04ac99b9086aaf9cb8f93b0645c54191d5e75a97573355935a269ad4dd4"
     },
     "operations/sumbawanga-acceptance-evidence-matrix.csv": {
       "bytes": 275685,
@@ -140,9 +140,9 @@
       "sha256": "566a9715d18ff32fec0b90ded75ec1812613d927dd5c8fc46d2fb228198e405f"
     },
     "operations/sumbawanga-operations.json.gz": {
-      "bytes": 203672,
+      "bytes": 204062,
       "required_in_git_checkout": false,
-      "sha256": "ce850eb758d65ed3dc5acf27bb64e968391f5092440073fa94d29cf8f39df168"
+      "sha256": "3b9d339b0de13ed08c8ba94cfe802eaa0a837d5480db5fbd2232806b26450715"
     },
     "operations/sumbawanga-procurement-plan.csv": {
       "bytes": 340458,
@@ -150,10 +150,46 @@
       "sha256": "9f5c6b144160933f0eed433d41b2c878cc6391d22fd7062ca747895e211c6c12"
     }
   },
-  "missing_artifacts": [],
+  "missing_artifacts": [
+    "engineering/survey/field-evidence-brief.json",
+    "engineering/survey/field-evidence-brief.md",
+    "engineering/survey/survey-input-manifest.csv",
+    "engineering/survey/control-processing-readiness.json",
+    "engineering/survey/control-processing-readiness.md",
+    "engineering/survey/ground-model-readiness.json",
+    "engineering/survey/ground-model-readiness.md",
+    "engineering/survey/surveyed-alignment-input-manifest.csv",
+    "engineering/survey/surveyed-alignment-readiness.json",
+    "engineering/survey/surveyed-alignment-readiness.md",
+    "engineering/survey/route-station-fit-input-manifest.csv",
+    "engineering/survey/route-station-fit-readiness.json",
+    "engineering/survey/route-station-fit-readiness.md",
+    "engineering/survey/drainage-ground-input-manifest.csv",
+    "engineering/survey/drainage-ground-readiness.json",
+    "engineering/survey/drainage-ground-readiness.md",
+    "engineering/survey/structural-release-input-manifest.csv",
+    "engineering/survey/structural-release-readiness.json",
+    "engineering/survey/structural-release-readiness.md",
+    "engineering/simulation/operations-crosscheck.json",
+    "engineering/simulation/operations-crosscheck.md"
+  ],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "231cf1f565763bb6fbfb815088321d96c680ed82"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": [
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "38ec94e6031731af08d1004cae22ae1d47b028688e70ad7d8ce17a1ec5fd95b4",
+      "recorded_sha256": "46cf2bdff2ff20599d2dbd5b60ea5b0bb2f51adebbd8b0042a9196a06e6febbe",
+      "source": "scenario_sha256"
+    },
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+      "recorded_sha256": "665ce14d875f98638986cabffea8442cb15c5d19723ea684a87c1db0331484ae",
+      "source": "generator_sha256"
+    }
+  ]
 }

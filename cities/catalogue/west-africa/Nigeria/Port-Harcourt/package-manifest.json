@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4238,
-      "sha256": "77618e16789802ccba17a53a1d08863ffe1adc739c84f51b2d0ded7abf99ada5"
+      "bytes": 4870,
+      "sha256": "2801edb143a633743a85a54b73e5e9a14965bebf4711adbe76e9f500720063de"
     },
     "design.toml": {
       "bytes": 47817,
@@ -34,20 +34,20 @@
       "sha256": "57bb3fac870532c9b135093474fb9ff94219015a154e8bdb513c557cee7c2484"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2662,
-      "sha256": "1f6f5b7cc236bc7f9b31a15bb24c5c04cd084cc675cc0690b32ab5e89d726073"
+      "bytes": 57728,
+      "sha256": "71ef35ca90ed3767196872e6c88496994b00ee5b7def8f45bdf3495c92d34f00"
     },
     "engineering/finance/summary.json": {
       "bytes": 12673,
-      "sha256": "12a4d23ef987c70df5b22a52f441f980864a9c32b414a2cc4345d5aa8cada017"
+      "sha256": "96b824be721615f9f47de3a210d1846c166d6404c4947861deace079e2c016e2"
     },
     "engineering/gis/summary.json": {
       "bytes": 1303,
-      "sha256": "3766c84bee833f715212362b9cc7bbd020420dd002c6b252e3efc40cc8a73c4a"
+      "sha256": "e7a75ba57fc83f35fe395d141497f1d0e878d3b1f67afb0df8c503c8755acb07"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 66520,
-      "sha256": "873f4e652038509fda5fcf626b1925803cb167cfd3997c9a7ffd0d4a1368e536"
+      "bytes": 67578,
+      "sha256": "3ee045469dba2cb37a8fcb18d53da27d74500b2d4dd859b9c0cdda918c167f38"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 895,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "9af7417abc24c8e0c145818f4c493bca161275d1c7079fab8d7eb22a327fd6f1"
+      "sha256": "6fa309a35f5aa35d1b79d822f373868fadbb0dbcdfc453cbcc40674c20a33994"
     },
     "engineering/screenshots/port-harcourt-network-visualizer.png": {
       "bytes": 119578,
@@ -75,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 30345,
-      "sha256": "a5e1375b15e8692caf693383c69de906c0a72fa84b30e08d559a91794cdd25bb"
+      "sha256": "6ff25b52ef102d226e1b094040aae97f9f75698b67b42ecde0b848c133c5f0e8"
     },
     "engineering/sumo/summary.json": {
       "bytes": 6668,
@@ -87,7 +87,7 @@
     },
     "operations/port-harcourt-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "57f0f59683c7fbbe5ebab2a97c9c9b448bb7367108f8834e51bdd5b3cb17c084"
+      "sha256": "b47c7ec551686f7de43ad9decc7781152f5ebd2aa06217f6e1b756c97b7bbb47"
     },
     "port-harcourt-network-map.png": {
       "bytes": 4082767,
@@ -118,14 +118,16 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "d4a33b4a19e8e977bd46200b1b50246709fce7ba77d3bcb90fbb4dcc2e7bcd31",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/port-harcourt.gpkg": {
       "bytes": 335872,
       "required_in_git_checkout": false,
-      "sha256": "904f5ca48f55c8144468d084836621b5780601c8fc5adabb9ff128b195189f91"
+      "sha256": "7540404f00449226b8a86f426e7c06c03bdb09acf7ff3e556eeb98f0551c5cae"
     },
     "operations/port-harcourt-acceptance-evidence-matrix.csv": {
       "bytes": 1706729,
@@ -148,9 +150,9 @@
       "sha256": "bf4bf5c7d7208f195f0ec7f5e9f04e1f1b679ca59f400270ea2f7051311a38f5"
     },
     "operations/port-harcourt-operations.json.gz": {
-      "bytes": 1438355,
+      "bytes": 1438729,
       "required_in_git_checkout": false,
-      "sha256": "df039de3a127196adedba3d03d6ce0628da0e6f751498cb02716602237d9fc13"
+      "sha256": "f38e6dffd3731ec4e15d81b071e280aaefff5de43460b91e9650eb679a257b51"
     },
     "operations/port-harcourt-procurement-plan.csv": {
       "bytes": 2197066,
@@ -158,10 +160,46 @@
       "sha256": "1fa31815602d09df06fcb90a0100d356fa678f8f5aa748474bbf8e84fea48330"
     }
   },
-  "missing_artifacts": [],
+  "missing_artifacts": [
+    "engineering/survey/field-evidence-brief.json",
+    "engineering/survey/field-evidence-brief.md",
+    "engineering/survey/survey-input-manifest.csv",
+    "engineering/survey/control-processing-readiness.json",
+    "engineering/survey/control-processing-readiness.md",
+    "engineering/survey/ground-model-readiness.json",
+    "engineering/survey/ground-model-readiness.md",
+    "engineering/survey/surveyed-alignment-input-manifest.csv",
+    "engineering/survey/surveyed-alignment-readiness.json",
+    "engineering/survey/surveyed-alignment-readiness.md",
+    "engineering/survey/route-station-fit-input-manifest.csv",
+    "engineering/survey/route-station-fit-readiness.json",
+    "engineering/survey/route-station-fit-readiness.md",
+    "engineering/survey/drainage-ground-input-manifest.csv",
+    "engineering/survey/drainage-ground-readiness.json",
+    "engineering/survey/drainage-ground-readiness.md",
+    "engineering/survey/structural-release-input-manifest.csv",
+    "engineering/survey/structural-release-readiness.json",
+    "engineering/survey/structural-release-readiness.md",
+    "engineering/simulation/operations-crosscheck.json",
+    "engineering/simulation/operations-crosscheck.md"
+  ],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "231cf1f565763bb6fbfb815088321d96c680ed82"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": [
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "cfb173b3e2678c8e94fac6144dac1c9b89689076f0638455e707486c1d7d5c2c",
+      "recorded_sha256": "d04276c85c15132e71d3865a961bf66054dc5628b8ef61e53a2c9aa3266ce47e",
+      "source": "scenario_sha256"
+    },
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+      "recorded_sha256": "665ce14d875f98638986cabffea8442cb15c5d19723ea684a87c1db0331484ae",
+      "source": "generator_sha256"
+    }
+  ]
 }

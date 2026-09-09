@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4392,
-      "sha256": "e91a567c944bb97115b6ba07b144aef67e1647048af6e57c03265e76642967d4"
+      "bytes": 5019,
+      "sha256": "1f66babd95e0021281d3dda9861ab0572bf07a2ffba10dd530f22a9e989b26b1"
     },
     "design.toml": {
       "bytes": 90199,
@@ -50,20 +50,20 @@
       "sha256": "7e7e076f5dc701ffb31354857ea60792aeb9087b914d7018b2e5d78d5e291931"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2635,
-      "sha256": "f75cc87cdd9302a03c94a6c773643a9428b583a741dce23b30d304f2ee8e90fe"
+      "bytes": 113895,
+      "sha256": "e113be5185ec54988c4064870d1188ba01ec9f5a1857e1156458409a57708840"
     },
     "engineering/finance/summary.json": {
       "bytes": 12610,
-      "sha256": "5c7f4c41a0b6b1271280061f18445397a17cb9156699f883ca99c91b2339c4eb"
+      "sha256": "f675ab809deaed82625bbe83d58d774258b21aee9de7715b84db248ff7bcf2b9"
     },
     "engineering/gis/summary.json": {
       "bytes": 1257,
-      "sha256": "7809039f5ef79c900e8247e79a1e9bc193433a0326d1daf271e6f5658a68cd23"
+      "sha256": "ca8f55c580222ff92b6e0ec119fe9516ea8623361d3b9f1f93b043d287469377"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 114337,
-      "sha256": "13a904440b25624e26ffc33e4841c04fbd5cae0b23279fe5893fe5bc851aa5c4"
+      "bytes": 115660,
+      "sha256": "2f804781df8dbeb59b00fcedf1a8418bcef4d07d89723b7a52bcdb0cc7095aa2"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 1184,
@@ -79,7 +79,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "cd2c863f17a5e15553310db699ef116cb40595b891092e5c7ddda4e17a218d7b"
+      "sha256": "28fb113e0e2c145a2e9950ca79263322a06530ffb77604ca8dd252f71e85817b"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9523,
@@ -91,7 +91,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 59740,
-      "sha256": "2e8f9fa0e346401d31158fd6d73d5dcda3848f4fdddc4bf5ef14d8e0762ec26c"
+      "sha256": "47d3d850e9b446bd147f0e4c05ae8b8d9e18790c3d44f7232af67fa8a116c98d"
     },
     "engineering/sumo/summary.json": {
       "bytes": 11433,
@@ -123,7 +123,7 @@
     },
     "operations/khartoum-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "5e9f9145ccd65eea37f569c7fd867d0c16bc99d3fd788d19b5e477d8e2f2c091"
+      "sha256": "69fe5305be7649cebcac1d31866ac97db10d37644f345a5a86df78b80f4788d3"
     }
   },
   "city": "khartoum",
@@ -134,14 +134,16 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "d4a33b4a19e8e977bd46200b1b50246709fce7ba77d3bcb90fbb4dcc2e7bcd31",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/khartoum.gpkg": {
       "bytes": 454656,
       "required_in_git_checkout": false,
-      "sha256": "3c31a4d0fe9b2831e4b956a37f3c4dcb20622cc3d5020f8e67517aca9229037b"
+      "sha256": "0ca682391599001cc7a7c47c921265a27666c9a7362c0c332dbb639e1b06eb45"
     },
     "operations/khartoum-acceptance-evidence-matrix.csv": {
       "bytes": 4126231,
@@ -164,9 +166,9 @@
       "sha256": "c63744ab6ae950d6c0d76e1458ce51fc204af79de2d24c7d23de1613f0e48324"
     },
     "operations/khartoum-operations.json.gz": {
-      "bytes": 3330617,
+      "bytes": 3330851,
       "required_in_git_checkout": false,
-      "sha256": "adc7a5af09f74e07bbd50a31f821d99824b4b310ab691cdfe785831de5cefc0e"
+      "sha256": "054c5b4c194b15f344fff7387b0822d4565de5a4b897b0125636a77a02501145"
     },
     "operations/khartoum-procurement-plan.csv": {
       "bytes": 4945520,
@@ -174,10 +176,46 @@
       "sha256": "befb742709da2c1fd84c57d71626be97da52c99c8f9466fc5ee89cb0b472bb12"
     }
   },
-  "missing_artifacts": [],
+  "missing_artifacts": [
+    "engineering/survey/field-evidence-brief.json",
+    "engineering/survey/field-evidence-brief.md",
+    "engineering/survey/survey-input-manifest.csv",
+    "engineering/survey/control-processing-readiness.json",
+    "engineering/survey/control-processing-readiness.md",
+    "engineering/survey/ground-model-readiness.json",
+    "engineering/survey/ground-model-readiness.md",
+    "engineering/survey/surveyed-alignment-input-manifest.csv",
+    "engineering/survey/surveyed-alignment-readiness.json",
+    "engineering/survey/surveyed-alignment-readiness.md",
+    "engineering/survey/route-station-fit-input-manifest.csv",
+    "engineering/survey/route-station-fit-readiness.json",
+    "engineering/survey/route-station-fit-readiness.md",
+    "engineering/survey/drainage-ground-input-manifest.csv",
+    "engineering/survey/drainage-ground-readiness.json",
+    "engineering/survey/drainage-ground-readiness.md",
+    "engineering/survey/structural-release-input-manifest.csv",
+    "engineering/survey/structural-release-readiness.json",
+    "engineering/survey/structural-release-readiness.md",
+    "engineering/simulation/operations-crosscheck.json",
+    "engineering/simulation/operations-crosscheck.md"
+  ],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "231cf1f565763bb6fbfb815088321d96c680ed82"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": [
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "6c4333fa51c39d185d5c39f55bc24c878ae46e589134aa713e1722e1881b5a2d",
+      "recorded_sha256": "b0d1e3e0fc4d33198387815e89aa01a7e278ec50303bce6ecd103b794fb87a5b",
+      "source": "scenario_sha256"
+    },
+    {
+      "artifact": "engineering/simulation/validation-summary.json",
+      "expected_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+      "recorded_sha256": "665ce14d875f98638986cabffea8442cb15c5d19723ea684a87c1db0331484ae",
+      "source": "generator_sha256"
+    }
+  ]
 }

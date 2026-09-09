@@ -46,6 +46,8 @@ def main() -> int:
     parser.add_argument("--db", type=Path, default=REPO_ROOT / "var" / "ops-core.sqlite3")
     parser.add_argument("--reset-db", action="store_true")
     args = parser.parse_args()
+    if args.host not in {"127.0.0.1", "localhost"}:
+        parser.error("Workbench is loopback-only until all mutable routes support authenticated access")
 
     for required in [
         REPO_ROOT / "build" / "frontend" / "sim" / "index.html",

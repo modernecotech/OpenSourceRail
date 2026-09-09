@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4355,
-      "sha256": "10e88b1e2fa4074c981fae687a51f0b94cdd83e1f6cd012c49f8a7837d1f71e6"
+      "bytes": 4376,
+      "sha256": "65f9cd1b6959391ce0e00f497d1f393c386c6d7dd93978313eef7f0bbfacaf1c"
     },
     "design.toml": {
       "bytes": 42893,
@@ -38,20 +38,20 @@
       "sha256": "20b840ddb481533c3787497cc004d748e57fd0fe35e53e0f93c4c6e5d15d98cc"
     },
     "engineering/energy/summary.json": {
-      "bytes": 2609,
-      "sha256": "63bc79656b4ec8c44e1053f414a4b5a2b7f89967650fd0b81be6d20eef561f46"
+      "bytes": 52697,
+      "sha256": "d72a46a9077f45d7c449b0db46b1faaaae4ff903de154f49b49d06876dbfa86e"
     },
     "engineering/finance/summary.json": {
       "bytes": 12607,
-      "sha256": "ddf7a82a535e220a18b076de8b1b50ddbc6727334384dc7fec3f5cd06a1d77aa"
+      "sha256": "ba101e8a3f70b0a0622c0ae849ccf65a6064afe485974b2688dd89a25798ef9f"
     },
     "engineering/gis/summary.json": {
       "bytes": 1211,
       "sha256": "3ec8d6b02a04079ba87228620c983b0d737bfae89f140fc8bd3184e574e9bc38"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 67519,
-      "sha256": "032a0d819b1f638da32d4313e90304dd36ee912c3bb7e28512bfb26030e8b6c1"
+      "bytes": 68577,
+      "sha256": "1fb6008cd761ddfabc2d3d4d5e2d291d0bb1ac26e564670e989fb3ebe0d835b6"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 583,
@@ -59,7 +59,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1026,
-      "sha256": "0792e1d7a5460960e3cb8f867165f3a93e0ed863c7d82d89de716650a48569a6"
+      "sha256": "4ba5e2d3cd79b0957ef0417a433f48ac86e538bd9c19350cc93126426ba94a0d"
     },
     "engineering/screenshots/mosul-network-visualizer.png": {
       "bytes": 99900,
@@ -87,7 +87,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 30101,
-      "sha256": "66711bffc7184d68f5c4089e4d8f04790f6cace95156a9f45a90987541196618"
+      "sha256": "e64696ae6f268d36204950dee7387a6030db8cb958febf5e27899f8e68d323b0"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7361,
@@ -195,7 +195,7 @@
     },
     "operations/mosul-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "89d9d1e3251149715f62484271bffe5b0e4806167bab3f1c00c5da8af5c5d0cc"
+      "sha256": "674a9d45a77559f0bf07396f97bff4a58ee8648e94a383e8ab3b3335831bd6e0"
     }
   },
   "city": "mosul",
@@ -206,9 +206,11 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/energy/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "89d98644713e6acb53be2d76ba2700f16c363efb6d8a33aca4a7e383e81426a6",
+  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
   "local_reproducible_artifacts": {
     "engineering/gis/mosul.gpkg": {
       "bytes": 339968,
@@ -236,9 +238,9 @@
       "sha256": "7af2d3725b0c672445b514c16c3326da8793dc15ddda161cee9e95fd46f1c49c"
     },
     "operations/mosul-operations.json.gz": {
-      "bytes": 1460912,
+      "bytes": 1461062,
       "required_in_git_checkout": false,
-      "sha256": "fc7430b6d266924dd0827bec7501b1a8f0726a1767dba82d7c9d7b8a9fa49c4d"
+      "sha256": "ce6b348463f30d3607030cd59a2c5622a97ad7cc06139e5e3787c00f56897c52"
     },
     "operations/mosul-procurement-plan.csv": {
       "bytes": 2222037,
@@ -248,8 +250,9 @@
   },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
-  "package_status": "screening-passed",
-  "passed": true,
+  "package_status": "incomplete",
+  "passed": false,
   "schema_version": "1.0",
-  "source_revision": "a94095969592b7c3efb2d040cd65cd9352724444"
+  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "stale_analysis_sources": []
 }

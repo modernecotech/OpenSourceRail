@@ -7,6 +7,8 @@ import json
 import tomllib
 from pathlib import Path
 
+import pytest
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = REPO_ROOT / "engineering/analysis/stations/station_systems.py"
@@ -100,6 +102,38 @@ def test_station_drainage_input_uses_one_repeatable_branch() -> None:
     assert "Drain Inlet Outfall 40 0.013" in deck
     assert "Drain CIRCULAR 0.300" in deck
     assert "Storm 01/01/2020 00:05 75" in deck
+
+
+@pytest.mark.parametrize("area_m2", [35.0, 67.15, 150.0])
+def test_roof_runoff_matches_independent_rainfall_volume_and_peak(tmp_path: Path, area_m2: float) -> None:
+    path = tmp_path / "roof.inp"
+    path.write_text(station_systems.swmm_input("test", area_m2))
+    result = station_systems.run_drainage_branch(path, area_m2)
+
+    assert result["passed"], result
+    assert result["observed_precipitation_mm"] == pytest.approx(25.0)
+    assert result["infiltration_m3"] == 0.0
+    assert result["runoff_volume_m3"] == pytest.approx(area_m2 * 0.025, rel=0.01)
+    assert result["peak_runoff_lps"] == pytest.approx(area_m2 / 48.0, rel=0.01)
+    assert result["peak_conduit_flow_lps"] == pytest.approx(area_m2 / 48.0, rel=0.01)
+
+
+@pytest.mark.parametrize("defect", ["roof_columns", "missing_rain", "flat_kinematic_pipe"])
+def test_drainage_screen_rejects_original_modelling_defects(tmp_path: Path, defect: str) -> None:
+    deck = station_systems.swmm_input("test", 67.15)
+    if defect == "roof_columns":
+        deck = deck.replace("100 10.000 1.0 0", "10.000 1.0 100 0")
+    elif defect == "missing_rain":
+        deck = deck.replace("Storm 01/01/2020 00:10 75\n", "").replace("Storm 01/01/2020 00:15 75\n", "")
+    else:
+        deck = deck.replace("DYNWAVE", "KINWAVE").replace("Inlet 0.4 1.0", "Inlet 0 1.0")
+    path = tmp_path / "defect.inp"
+    path.write_text(deck)
+    result = station_systems.run_drainage_branch(path, 67.15)
+
+    assert not result["passed"], result
+    failed_check = {"roof_columns": "impervious_roof", "missing_rain": "rainfall_depth", "flat_kinematic_pipe": "conduit_peak"}[defect]
+    assert not result["checks"][failed_check], result
 
 
 def test_depot_mitigation_work_packages_are_actionable_and_reference_real_products() -> None:
