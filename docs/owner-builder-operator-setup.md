@@ -201,6 +201,10 @@ an unnamed future monopoly supplier.
 Timing overlaps intentionally; passing a later gate never waives an earlier open
 condition. Build schedule and headcount from the selected corridor’s resource-loaded
 project twin after survey and procurement strategy replace the planning assumptions.
+The reference organisation is editable: responsibilities may be combined where
+compatible, while required independence remains explicit. A workshop adopting
+the non-safety tools does not have to create this full organisation.
+
 The machine-readable [mobilisation status](owner-builder-operator-mobilisation-status.md)
 turns this sequence into 18 dependency-checked work packages over the default
 month 0–60 planning horizon and eleven management-system records; every role,
@@ -259,3 +263,15 @@ deck:
 This plan establishes capability; it does not grant permission to construct or
 operate. Each deployment remains responsible for competent design, independent
 checking, supplier qualification, physical testing, insurance and statutory approval.
+
+### Validate a tailored deployment
+
+Copy the mobilisation TOML, declare `deployment_scope`, and select the roles,
+management systems, evidence, work packages and dependencies needed for that
+scope. `entity_model.required_fields` declares applicable entity evidence.
+The validator checks references and evidence against that selection; it does
+not enforce the reference job titles, committee structure or document counts.
+
+```bash
+.venv/bin/python tools/automation/validate-owner-builder-operator-mobilisation.py --source /path/to/deployment.toml --output-dir /path/to/deployment-status
+```

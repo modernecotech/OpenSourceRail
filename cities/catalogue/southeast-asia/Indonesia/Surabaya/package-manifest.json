@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 5014,
-      "sha256": "c71489b486bd1133d563d89bfd6ee91fb2159f5b2f62d92387c4ecb34a1ae142"
+      "bytes": 5068,
+      "sha256": "e10916cc928812355b4c57fbe4d404b982c322ff2a829e2d92833a41d9662e34"
     },
     "design.toml": {
       "bytes": 119233,
@@ -54,24 +54,24 @@
       "sha256": "6bfb05ade39cde3d8f8f16a963d277e0ce078cdc2a46313fa300f83020f1102e"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 10923,
-      "sha256": "f0641379a1ec0298e31cf174bab33525b81cbd0635563e5bcead514012ca560d"
+      "bytes": 10887,
+      "sha256": "31a55c005d35bfd3c11efebf37637023bfe693f2634309bc256089be83718f4b"
     },
     "engineering/energy/summary.json": {
-      "bytes": 79656,
-      "sha256": "42d0859478244125a0fc86799f14089a6e26b1ec03ad2a675df833580609011a"
+      "bytes": 80282,
+      "sha256": "c96cf5fd366896a845a72af09561cbb7c2eabaa7821fb8e0e55e50e4e05cf067"
     },
     "engineering/finance/summary.json": {
       "bytes": 12638,
-      "sha256": "9617f4c50146d9c064ba7621dc4f019a2c204378e9fbdb99fe3c26964340b4ac"
+      "sha256": "7a9d9084f93e1a77b0e2d5670aaca7af1a800a91a3e3e016ebd5a848268300c9"
     },
     "engineering/gis/summary.json": {
       "bytes": 1280,
       "sha256": "e1b57b08d977b3f7f6fa2faa61836aef2d22740fe5b169201320a079caed2fc4"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 121434,
-      "sha256": "b82710e79eda1dc405b5e6f3205549861cc208d19f2398579831114eb9604e4b"
+      "bytes": 121699,
+      "sha256": "62a7fd419ae8cdc09d7fd0df18006688e0acc43523fe2efeea5e7ac6febfefdf"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 586,
@@ -79,7 +79,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "ad659d449323a9656c59c805cb3663360edc813ac8b5e5b500c8d6b11c61441d"
+      "sha256": "51ffcc7f48dcecd1e050b3f5c3ca4af14c34f57014d268a43df73ed91ed649b3"
     },
     "engineering/screenshots/surabaya-network-visualizer.png": {
       "bytes": 114879,
@@ -99,7 +99,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 179075,
-      "sha256": "d1e583359d28c1efd5e47deeb7e4551cb7eb5f2d3d0b6ba1f5f4a13f5511b912"
+      "sha256": "e4f1dea61cc86eeb12fc703be9e597769be601c894650382561aaafe7939470f"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -119,7 +119,7 @@
     },
     "operations/surabaya-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "045218948768da127d50dffbfd8f7168933b07f350d36076906929f13178d806"
+      "sha256": "465fa2c58894d32d77fd2940db3a8f5562d70c09b04b5868d3e555ef7cf27fb0"
     },
     "surabaya-network-map.png": {
       "bytes": 4161597,
@@ -143,6 +143,8 @@
     }
   },
   "city": "surabaya",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -151,12 +153,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/surabaya.gpkg": {
       "bytes": 507904,
@@ -184,9 +185,9 @@
       "sha256": "e5a49f1874ff47d948bec1a7a2a98d994f6de643cf382b055815f3d51ec072b3"
     },
     "operations/surabaya-operations.json.gz": {
-      "bytes": 2438591,
+      "bytes": 2438599,
       "required_in_git_checkout": false,
-      "sha256": "bf297826c7cc6e108c4d5fa7e332a120afb41005e56d9718e2def80dba63cafa"
+      "sha256": "4408b10c9e2abf139713b24b63e53bbd85147d7bb5420759a93d2f885485a30d"
     },
     "operations/surabaya-procurement-plan.csv": {
       "bytes": 3659806,
@@ -221,7 +222,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

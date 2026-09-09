@@ -88,7 +88,7 @@ The strict README generator rejected the evidence: engineering/simulation/valida
 | SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | missing/fail; junction/authority gate open | not generated |
 | GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Grid/charging/solar | missing/fail; 55 findings | [`summary.json`](engineering/energy/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 55 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 1,183 assets / 5,465 tasks | [`kanpur-operations-manifest.json`](operations/kanpur-operations-manifest.json) |
 
 ## Local Files And Regeneration

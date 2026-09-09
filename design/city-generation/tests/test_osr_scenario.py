@@ -414,7 +414,7 @@ def test_readme_is_concise_local_summary_with_common_reference() -> None:
     assert "| Native simulation + degraded cases | pass |" in text
     assert "| SUMO timetable | pass |" in text
     assert "| GIS package | pass |" in text
-    assert "| Grid/charging/solar | missing/fail; 7 findings |" in text
+    assert "| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 7 grid-only diagnostics |" in text
     assert "| Lowest traversal charging margin |" in text
     assert len(text.splitlines()) < 140
     assert "## Construction QA system" not in text
@@ -437,7 +437,7 @@ def test_readme_audit_mode_does_not_promote_stale_evidence(monkeypatch) -> None:
     assert "Evidence refresh required" in text
     assert "older scenario" in text
     assert "| Native simulation + degraded cases | unverified |" in text
-    assert "| Grid/charging/solar | missing/fail; 7 findings |" in text
+    assert "| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 7 grid-only diagnostics |" in text
     assert "| pass |" not in text
 
 

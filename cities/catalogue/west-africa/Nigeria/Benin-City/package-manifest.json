@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4821,
-      "sha256": "5aa429c8e22222f209c0f56ca92021897472b704e526f266e8f60d0acdf7663f"
+      "bytes": 4875,
+      "sha256": "703bfd6b6cee3a49a6eb93d9f3fe9bd57bcd73f73670e89e5ed7efbbb5e72933"
     },
     "benin-city-network-map.png": {
       "bytes": 3776726,
@@ -58,24 +58,24 @@
       "sha256": "773f79abd3e73a93c33a13d768e6abf30c27b1ed0d1625284cb70184c199a375"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8305,
-      "sha256": "8508f7c59813c276e64bdf91cabd70780a77677387dff8bfce08b7dfcc330d52"
+      "bytes": 8269,
+      "sha256": "a3b8590f061550f4055d881c21ad0c4c0ebac85bdcc20b48f9f5d6b00e455303"
     },
     "engineering/energy/summary.json": {
-      "bytes": 38929,
-      "sha256": "87c6a7724734482652e22820a903e6142b2f8930d71aeff8e7c3a2988fa059ef"
+      "bytes": 39655,
+      "sha256": "3babe2e9ad0938054c21dffd8fd2dc3aadf718eac9db4d5cc061168f64952174"
     },
     "engineering/finance/summary.json": {
       "bytes": 12622,
-      "sha256": "58f12b2c7bdb1625454f7f96fa11a697d9ae143df170ee98d86706b45c1588c0"
+      "sha256": "df17d877a43185c008b5da82451b6a17d3ea1143ca6464831f91213412219433"
     },
     "engineering/gis/summary.json": {
       "bytes": 1275,
       "sha256": "5b6e9011474505066fa490b0a9b08109bfc68c0c46faaffb74492bd994c4c117"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 38504,
-      "sha256": "69018f37da3e6870ac963c0ee035bb9313619fe9701b45f771cc782b32d03a62"
+      "bytes": 38769,
+      "sha256": "26741ca6ca0c2b61e1ec2fe51d6bafa14036f2d316982e1e3bfca5d26edc0828"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 838,
@@ -91,7 +91,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "a048061598b185e01aeffe939a87c8c798281f55ffe8e1eb81ace443392cba74"
+      "sha256": "4a2ae6f728a3e8c61a6ee9776de1d3c0ba37c63c3032f71950b76fa866d3d271"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9457,
@@ -103,7 +103,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 85375,
-      "sha256": "6797f75be2a27b1bd538c2cc3321cf330bcd0772287a5ca50b581690032848a8"
+      "sha256": "a88caac9de48821bc482899cd3eaa657425034dce20f1e324d34453c4574c644"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -123,10 +123,12 @@
     },
     "operations/benin-city-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "ac1a832600b8e8471149e787ab940f0711ff883a4bb2151e1e1abd1e308cada4"
+      "sha256": "ed4ffc52b08c6147e9e15d5c242b3f28b2a7e9c09fad18cdf819d1265011d40c"
     }
   },
   "city": "benin-city",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -135,12 +137,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/benin-city.gpkg": {
       "bytes": 348160,
@@ -168,9 +169,9 @@
       "sha256": "cb6e98f1b48cda8653f73130d93352f998b6a85b713099380dd0e94000073c25"
     },
     "operations/benin-city-operations.json.gz": {
-      "bytes": 1043556,
+      "bytes": 1043611,
       "required_in_git_checkout": false,
-      "sha256": "d5e29647796e95ad87924ec0abb6aa1427ec2f85e185cbcaa08e9d5060af7c09"
+      "sha256": "188cacc9b2e41192f91b3678be579de7819b3e66532c95f57a712070e855d970"
     },
     "operations/benin-city-procurement-plan.csv": {
       "bytes": 1564208,
@@ -205,7 +206,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

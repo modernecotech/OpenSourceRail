@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4668,
-      "sha256": "855d041d5473be0b72ea2c32cf5725e19ca698c8339aefcfeddf1b57c63c41ba"
+      "bytes": 4722,
+      "sha256": "338a664217dd1c49833dd7fa76f66cc2f3ffda1ddfd6dd95f2227213a93034c7"
     },
     "design.toml": {
       "bytes": 14634,
@@ -30,24 +30,24 @@
       "sha256": "bab34509990f69b6701289278eb350140e933b0272454228980dc92f068f01e6"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7000,
-      "sha256": "092a216df79a3eea2b74076b08d1f8691a299db7c93fbabc0075e891bc2c0dd2"
+      "bytes": 6964,
+      "sha256": "94543232343505009b7e7ccf9db14a5fcb2ad97ddf9862b83daeac1e430f6d1f"
     },
     "engineering/energy/summary.json": {
-      "bytes": 13705,
-      "sha256": "5c38007b9a490974dd5ac79b24b7f2f845d7f84ab75148fd2486d3a566ffc521"
+      "bytes": 14304,
+      "sha256": "723f32b5b9ebc872151a48dc43e8031cf22dadb396e91fb277fe72be26f254d9"
     },
     "engineering/finance/summary.json": {
       "bytes": 12702,
-      "sha256": "abacc5b1fc876ec72e9eedfa60436038fd0ec7dc00fd53adf6c3f8fdd4ccd916"
+      "sha256": "75753adcb3134b73d5ccbe5a01e449021f1789c3672dfd6a77dec98543766312"
     },
     "engineering/gis/summary.json": {
       "bytes": 1270,
       "sha256": "70b8888dd758783f891f486b885c5f9db8fc09fca0d4ff638af7935003b5ae1c"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 28015,
-      "sha256": "3899c5aa8f9bf97a589c955ec91748928c835ba18ecff40ac48efc6fc7fa6609"
+      "bytes": 28280,
+      "sha256": "6ae93ce29b378d79ce9e0695a3fa0e45d1414a69ab1079a880378dd636b4e6fd"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 587,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1038,
-      "sha256": "21f14e195923d2e5ba47c6cd49dfa31b0223fda18f590dd4d9ec861d55c0961e"
+      "sha256": "b694cca633f31ff6e0bc0d80b22224efad2cf778b309924113e35c522a342e30"
     },
     "engineering/screenshots/shinyanga-network-visualizer.png": {
       "bytes": 59023,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 32553,
-      "sha256": "803dedb3475a47d6e53f6c1f481c1d4de66e0cdde125aba88a5dd876f63131e4"
+      "sha256": "e0c801ab2c8f740a2c4aa95da1a1152ab7d5f23476711cd2e1babe73b243df27"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 729,
@@ -95,7 +95,7 @@
     },
     "operations/shinyanga-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "ed52e1c7a2f39856abf65d3e874a4b49c28df9b6b6f84903c1034644ad5b7397"
+      "sha256": "9c71de5ffbded60514a81f4bbc89e5537aae213e48f55e56b5470e99d35a0819"
     },
     "shinyanga-network-map.png": {
       "bytes": 2989711,
@@ -119,6 +119,8 @@
     }
   },
   "city": "shinyanga",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/shinyanga.gpkg": {
       "bytes": 270336,
@@ -160,9 +161,9 @@
       "sha256": "baf7b3e1641ad71370d2e51da40438038389e90e69fd71879c6a5b5f9a0748da"
     },
     "operations/shinyanga-operations.json.gz": {
-      "bytes": 336710,
+      "bytes": 336846,
       "required_in_git_checkout": false,
-      "sha256": "444eb04dc284d3073ea761a685d0cada3be65e774355e49f7062848c1325a025"
+      "sha256": "cb62d0a96317032e9bfc562949ae60145b5da0f8874a6cf82276f093043db2b8"
     },
     "operations/shinyanga-procurement-plan.csv": {
       "bytes": 544581,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

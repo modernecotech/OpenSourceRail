@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4697,
-      "sha256": "1b871b8c30067c9adf56565b448150dff74c24041ad31c56c56af6220e3fbafe"
+      "bytes": 4751,
+      "sha256": "8948c793fb448fa2cf26fac8419a46c2baa1d0cf2e6ea6ea34fa1831c983dc12"
     },
     "design.toml": {
       "bytes": 20043,
@@ -30,24 +30,24 @@
       "sha256": "9289a33b2fe2ac72d413680dc8aabecf72048a3416bb09e154a7fa6a12f3e1d4"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7011,
-      "sha256": "3b28dab9eb470f03ec491e1ac7b46a0f1019c161f23ea230aa2c36403eb2f726"
+      "bytes": 6975,
+      "sha256": "6f2e87878364011fe0bd3af6d4560dea05607580c526b88902d5a88e8d8eba3b"
     },
     "engineering/energy/summary.json": {
-      "bytes": 26162,
-      "sha256": "5a0a4a563e5591ede34e9cf974fd6ac61bbb56ca244c7d0b3e2cdbfcfd5242a0"
+      "bytes": 26761,
+      "sha256": "855497a6ed4cdabe3de776722695c8b1ea13e2fa753bcd6f31d20e97f32577c1"
     },
     "engineering/finance/summary.json": {
       "bytes": 12584,
-      "sha256": "0e0f0e07c9c246045b3912057ee4af5214749a4ee13c02711ce6400e1b4f09a4"
+      "sha256": "fc9e889ca8d870f2d8439491319e387caa711bfcb994e6ac0f427bd53cb01ae7"
     },
     "engineering/gis/summary.json": {
       "bytes": 1266,
       "sha256": "8daeb8ec7f7a2cfc10bdc2b9cecbe0d53630c64de13740f765082ef9438388be"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 36795,
-      "sha256": "25fead67ef5b93b95fdd71bfc44aa20afc2e1ffb8cc65fb42c0fea2e5b3131f9"
+      "bytes": 37060,
+      "sha256": "53d7682907373f1ce0c9b95b462e09a674b8493765e200edf452d6cd74090e2a"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 587,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1038,
-      "sha256": "4f91b4335e99f3da81a51ce0eead1b4dfea266bdd2054a8e27d6bee0a5003449"
+      "sha256": "bdd3688f6f88552511402f6930ef3e6d4bb9f3c839d0bdd4dd27d7494161b884"
     },
     "engineering/screenshots/vientiane-network-visualizer.png": {
       "bytes": 79005,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 57256,
-      "sha256": "036209349d7d36cddf8cb0644e78feaf055cc40cc90bfdca0ab5189094336973"
+      "sha256": "6ca3b9bf493b7ab68414773db119f7c36f0c06fe45d38a2949039902c53fbd85"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 729,
@@ -95,7 +95,7 @@
     },
     "operations/vientiane-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "ae2dd72620081adc9015937490509d4ef409a3d70e16be476568c1530796e0eb"
+      "sha256": "6fe5252af5cf557d699200c7cee320e274a8ea7b84e5fa7d4a561ba5393b395c"
     },
     "vientiane-network-map.png": {
       "bytes": 4103376,
@@ -119,6 +119,8 @@
     }
   },
   "city": "vientiane",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/vientiane.gpkg": {
       "bytes": 266240,
@@ -160,9 +161,9 @@
       "sha256": "09509a258357f42e5fd8fb18c695911dc3676af79e7d6d7e2bb94a9120749ebc"
     },
     "operations/vientiane-operations.json.gz": {
-      "bytes": 4029788,
+      "bytes": 4029845,
       "required_in_git_checkout": false,
-      "sha256": "d9b799d25c9604cfac36913304a3d8196f7ac3d3264fc7adf390461929ac0cf2"
+      "sha256": "c7089964b36ec9620d7091df55b92e353f8d15029489dd8fe3a138ff40216557"
     },
     "operations/vientiane-procurement-plan.csv": {
       "bytes": 9407334,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

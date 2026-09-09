@@ -199,8 +199,8 @@ def render_sumo(slug: str, sumo: dict, energy: dict, output: Path) -> None:
     fig.text(0.04, 0.91, f"{sumo.get('arrived_services', 0)}/{sumo.get('scheduled_services', 0)} services arrived · {len(lines)} lines · {sumo.get('station_count', 0)} stations · status {sumo.get('simulation_status', 'unknown').upper()}", color="#9fc3d5", fontsize=10)
     fig.text(
         0.04, 0.035,
-        f"Energy design screen: {'PASS' if energy.get('passed') else 'FAIL'} · "
-        f"{len(energy.get('design_findings', []))} findings · "
+        f"Solar/storage snapshot: {'PASS' if energy.get('passed') else 'FAIL'} · "
+        f"{len(energy.get('design_findings', []))} findings · grid-only diagnostics {len(energy.get('contingency_findings', []))} · "
         "transformer loading alone does not establish grid connection capacity",
         color="#9fc3d5" if energy.get("passed") else "#ef476f", fontsize=10,
     )

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4664,
-      "sha256": "0cce8faf200ff776a8832721525ee737fc304089590b63500a4cff8fedc6ecda"
+      "bytes": 4718,
+      "sha256": "f573815483017cbea0d8c225abeea289fdbba07f3b083714ed7b5764358b155f"
     },
     "design.toml": {
       "bytes": 21280,
@@ -30,24 +30,24 @@
       "sha256": "3c4087ff29f61f2e5b07a232eb8bf3655bab766ccfccc27ec0bc83063c93f24d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7000,
-      "sha256": "6253e92702c8d8ecadd8b33cc75996a05b6b42b1cb7a4fbcd936d650f53b1c1a"
+      "bytes": 6964,
+      "sha256": "d6ac2d3334bbcb35c8fda6a005fb7e1e1cb3186cfa2a18333b2b86fdf3af945e"
     },
     "engineering/energy/summary.json": {
-      "bytes": 16717,
-      "sha256": "edc4718fcfe0081f56d4ea37ea2d77b93fcfc0d4d7b810130666c4d7f2b17a67"
+      "bytes": 17316,
+      "sha256": "4c756856867d06f56deead2c2d2a0b0ef023f9c97a9bcdc44a2e6a2464495920"
     },
     "engineering/finance/summary.json": {
       "bytes": 12582,
-      "sha256": "17b0f065bc1c01517ac636f24f4e1c5ca3afb331cfa1df58736a28c516a2e94a"
+      "sha256": "cb843ec709b77c205dc5fa569fd3d346220a1a970bc6138b3a4943be78986442"
     },
     "engineering/gis/summary.json": {
       "bytes": 1265,
       "sha256": "657603e02acb0de753547e226ae60e13931126304c5df461e3e89026e6b49dcc"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 26674,
-      "sha256": "e27030d5d3c95d25a29c0aeae1be812e17628b37e64755db2bdcac5b0c12dff9"
+      "bytes": 26939,
+      "sha256": "9003b9df13b050decd9d131a4a95a08086796654d4ec6b410841de2c56d9eb6d"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 586,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "2ea72ace48c6161d53837f16f48143d2baa340156b4fac8be89bfe97958fe15d"
+      "sha256": "cb9c7983c14c454db3bd9f45cdde05b6e2018429fcfdf0d300fba5a42e5d2b23"
     },
     "engineering/screenshots/rajshahi-network-visualizer.png": {
       "bytes": 64982,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 40064,
-      "sha256": "5240c380bd2f3fcbab1df9c9d6b894868d55db94134a20a93d6cc03b0708fd81"
+      "sha256": "770829ac104b15ffaca72d3770287e37acda7c58b14aa0b8de452e9d3745a7cb"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 728,
@@ -95,7 +95,7 @@
     },
     "operations/rajshahi-operations-manifest.json": {
       "bytes": 893,
-      "sha256": "f612a630f0f4f5ad6f2b29a4d92bdd2976babaca89db758599f4b200b350bd83"
+      "sha256": "3ae41675a8d8adea6f45448c7ee752a57666039a02c66b733585ba1925396071"
     },
     "rajshahi-network-map.png": {
       "bytes": 2031406,
@@ -119,6 +119,8 @@
     }
   },
   "city": "rajshahi",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/rajshahi.gpkg": {
       "bytes": 274432,
@@ -160,9 +161,9 @@
       "sha256": "5fcdcfcfb192ab37459d4a4fe3f1067baad0337950860b277918646a02074175"
     },
     "operations/rajshahi-operations.json.gz": {
-      "bytes": 2422752,
+      "bytes": 2422803,
       "required_in_git_checkout": false,
-      "sha256": "6b9b0499cc8a8abce3a600991b78340a0a0876385f31101e6b37cdc08e595660"
+      "sha256": "29b4fe962cf84c211933744ae3450af96b9a4b2f2999f599b189d9613fa4bf15"
     },
     "operations/rajshahi-procurement-plan.csv": {
       "bytes": 5658183,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

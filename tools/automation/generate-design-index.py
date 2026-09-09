@@ -44,7 +44,7 @@ def main() -> int:
         energy = json.loads(energy_path.read_text()) if energy_path.is_file() else {}
         energy_passes += energy.get("passed") is True
         failed_sites = {
-            row["station"] for row in energy.get("design_findings", [])
+            row["station"] for row in energy.get("contingency_findings", [])
             if row.get("code") == "site-grid-connection-limit-exceeded"
         }
         energy_failed_sites += len(failed_sites)
@@ -143,8 +143,8 @@ def main() -> int:
         "Each city's `package-manifest.json` lists missing evidence, failed summaries and stale sources. Package completeness",
         "is separate from the topology checks below and is not engineering or deployment approval.",
         "See the [substance review](../../docs/substance-review-2026-09-09.md) for model limitations.",
-        f"Electrical design screens: **{energy_passes} pass, {len(actual) - energy_passes} fail/missing; {energy_failed_sites:,} sites exceed declared connection limits**.",
-        "The site count includes any screened import/export exceedance; it is distinct from solver convergence.",
+        f"Solar/storage snapshot screens: **{energy_passes} pass, {len(actual) - energy_passes} fail/missing; {energy_failed_sites:,} sites have grid-only contingency exceedances**.",
+        "The site count includes grid-only diagnostics with solar and storage disabled. It is not a grid-upgrade requirement; snapshot passes do not establish operating endurance.",
         "",
         "The retained",
         "[`ring-interchange-validation.json`](ring-interchange-validation.json) report checks",

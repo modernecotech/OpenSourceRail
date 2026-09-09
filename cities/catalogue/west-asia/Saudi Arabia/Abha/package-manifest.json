@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4619,
-      "sha256": "5db5d48d0a6f6319cdf9589d39c0cb85786e1a91f644f944b1e2929801081a7a"
+      "bytes": 4673,
+      "sha256": "51a51a271b9dfce22fa0f15dd983724916459109ef30356096b9f232c92a3c55"
     },
     "abha-network-map.png": {
       "bytes": 2602853,
@@ -50,24 +50,24 @@
       "sha256": "7c0f8c03d4c272ee0678bbccfa66129147bf1105c54095211301b462f12c4f3d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 6993,
-      "sha256": "35ca63688472f02e2c7b0a69d56e0548420db5ca826297a57519a5776147f326"
+      "bytes": 6957,
+      "sha256": "da64987ccfb84be07f3a9977c095043ad62fa1afab54959ff7d9c2894cc88530"
     },
     "engineering/energy/summary.json": {
-      "bytes": 21036,
-      "sha256": "5b2021fabcf9cf0aa848b4677f0d7df99e42858f8fc149504219baa2933e4b9b"
+      "bytes": 21635,
+      "sha256": "2cf723d9b2e8032ba8b2a20848ab915e00ce3c9b59fa0811a3576df6ce3af640"
     },
     "engineering/finance/summary.json": {
       "bytes": 12545,
-      "sha256": "2a5afdb0f50efcf4341aa4b50c6ea46151d85686473020d5f68007c4eec00144"
+      "sha256": "7be4c459d6d651c75b774cd91a7745410053a8c52677d79264d3e9cfeb5d1277"
     },
     "engineering/gis/summary.json": {
       "bytes": 1233,
       "sha256": "09cea63041f7962c7537e2b6f76a7456e8cd79730f77489b15ba09e1cfa8550d"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 39556,
-      "sha256": "f80ec8e41fe2ca66aa7274fbe693cf47d6ea4ad9e22455a9b2d3e6b5c5a4b6e5"
+      "bytes": 39821,
+      "sha256": "4c92acbc88068e1a6222c272c0f8d0f2462d01f6bd672b8ea1058b793fd1239d"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 582,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1023,
-      "sha256": "9f1b07b52d221a428ce82b55e74a5a9b991e898e2169abccace0b374cfb587d9"
+      "sha256": "2232d2bd61ecb53461ce1c749d9290a99692b8c0db442c1c8db12c3f26ebdb15"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9520,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 45960,
-      "sha256": "7ff5cef22019a54dd5327a2ce32717eb4dcd70b04872665f2a0d163636e2434c"
+      "sha256": "fc7e6c0f402164d7068f19e8bbd5f16ba3020ee5adf58ef829ff7417bd1ff544"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 724,
@@ -111,7 +111,7 @@
     },
     "operations/abha-operations-manifest.json": {
       "bytes": 889,
-      "sha256": "87c43e10d15c82f56ad8fd492de9ef1f8d6b54a70ed3be4044355452c42649f8"
+      "sha256": "240a4d1ceac68a1024241f8b4469a0d86a1bf0bf75225afbf109ab050071f5f4"
     },
     "operations/acceptance-evidence-report.md": {
       "bytes": 5633,
@@ -119,6 +119,8 @@
     }
   },
   "city": "abha",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/abha.gpkg": {
       "bytes": 249856,
@@ -160,9 +161,9 @@
       "sha256": "da24559457190d11626ee7e0399bdf0ce69f741844bf065d5ae1ba3e3e2030d7"
     },
     "operations/abha-operations.json.gz": {
-      "bytes": 3227608,
+      "bytes": 3227752,
       "required_in_git_checkout": false,
-      "sha256": "ccedbd26d9184a61c7fe032a3e971188ad92c0eac87bd15ce2ae4117a7877005"
+      "sha256": "18f949093c0ff7f973fd56f0c9949bb2c7936c2e79ac88a144579351e8781c96"
     },
     "operations/abha-procurement-plan.csv": {
       "bytes": 7532993,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

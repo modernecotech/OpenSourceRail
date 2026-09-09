@@ -164,9 +164,9 @@ status = "screening"
 tool = "pandapower 3.5.3 / pvlib 0.15.2"
 input_paths = ["cities/catalogue/west-asia/Iraq/Samawah/design.toml", "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml", "lib/templates/climate.toml", "engineering/analysis/city_microgrid.py"]
 result_path = "cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/summary.json"
-acceptance_criterion = "Both load flows converge, site HV import/export stays within declared connection limits, transformer loading and voltage meet screening limits, and PV/climate assumptions are consistent. Solver convergence alone is insufficient."
+acceptance_criterion = "Load flows converge; the stipulated solar/storage snapshot meets connection, transformer, voltage and climate checks. Grid-only stress findings are diagnostic. A snapshot pass does not accept the full operating energy duty."
 converged = true
-limitations = "Seven Samawah grid-only connections exceed their declared import limits. Planning transformer model and clear-sky/climate envelope only; utility topology, fault levels, measured load coincidence, tariffs and measured weather are not calibrated."
+limitations = "Seven Samawah connections exceed import limits only with solar/storage disabled; this is not a grid-upgrade requirement. Storage endurance, replenishment and service delivery remain unverified by these snapshots."
 
 [[analysis]]
 id = "OSR-AN-IFC-STN-001"

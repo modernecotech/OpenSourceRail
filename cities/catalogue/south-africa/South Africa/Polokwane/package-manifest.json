@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4681,
-      "sha256": "9e86491c7adc2722ed39d5be08c1f0962bb691ba24aba5e303b5899073ac3eff"
+      "bytes": 4735,
+      "sha256": "bbd2d32c2e1a34a59c0efa1255155563d03266db8f40fdf8aacb83e524223027"
     },
     "design.toml": {
       "bytes": 16089,
@@ -30,24 +30,24 @@
       "sha256": "34847ebd87a17131db073cc38750036fa7d502a77a5aa73c45ef034c59e2ae9d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7017,
-      "sha256": "f3ddabba37958d0026b853c75203404a4cba253752a8b6855d1b114cfdb256a9"
+      "bytes": 6981,
+      "sha256": "7e85b27cd1cf6da70d15c44a5140c3c18dc05398105c78933bc661ac1e644f77"
     },
     "engineering/energy/summary.json": {
-      "bytes": 17779,
-      "sha256": "1b84f9c2be9c989b5530a0c67a00373efa443216fae0262ba371dcb7e83b02fa"
+      "bytes": 18378,
+      "sha256": "b1ff4300587975fce675dc34744de28cf8f37f9f5fb367cfce95fea5ba9312d6"
     },
     "engineering/finance/summary.json": {
       "bytes": 12562,
-      "sha256": "adc610d6c8d33d89729b80d04f42f7cc4d2ca027942487cedda4c1bf96a619b7"
+      "sha256": "9816db6f8c8773eaa282df29a3ba970152aea31f59ff86989f4bdb2365201444"
     },
     "engineering/gis/summary.json": {
       "bytes": 1290,
       "sha256": "2ff98c42ee358c65d39a86c7e222134e1467e3179656145ff5e380c3d2c9e226"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 37589,
-      "sha256": "c9319c886f6c081a6ae8d70f2b4b7a7b25ed56effe7fe5c9648824cae0536d6f"
+      "bytes": 37854,
+      "sha256": "4ed44d86dde8b4c68b644e49ee08790eebf823eda6c98c682b8a721aa5dbcd62"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 587,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1038,
-      "sha256": "08731719a812b896b8da54137477b6d5e7c1a0b1ffbda5efed39faae9e8bf5f1"
+      "sha256": "d7226cb003ff0e853b31f8bf4687f1b1a32883938a2aad23e4b4c2738afd6cd1"
     },
     "engineering/screenshots/polokwane-network-visualizer.png": {
       "bytes": 67063,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 42083,
-      "sha256": "6e9870b58dd9fca662d8408829d1db896840288473b86bca3c803ce436e6f957"
+      "sha256": "b2636249d17e676821a0cfa9fd397c87b84b8abbce6697934a56a132ecd43340"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 729,
@@ -95,7 +95,7 @@
     },
     "operations/polokwane-operations-manifest.json": {
       "bytes": 899,
-      "sha256": "fff3dcc17fcebac3b3f75b7122a1e516c4516f479438c75193415a2ef951920e"
+      "sha256": "559dfbd03658bd0127cc45bda4824d27ac725ddbc98ff73eb720d60fd91314b2"
     },
     "polokwane-network-map.png": {
       "bytes": 2743060,
@@ -119,6 +119,8 @@
     }
   },
   "city": "polokwane",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/polokwane.gpkg": {
       "bytes": 274432,
@@ -160,9 +161,9 @@
       "sha256": "be159115bf2d2c3fc11e69011ad1c4f3b9d81c7a0603ead50ac4e2ca184d851a"
     },
     "operations/polokwane-operations.json.gz": {
-      "bytes": 2843735,
+      "bytes": 2843933,
       "required_in_git_checkout": false,
-      "sha256": "48c3d31913b1cd497389c54e70915a68bf4855b66ac78377972adbe0fe1bb6ab"
+      "sha256": "35633f80d4a66f33ddc972cff594e11a77e6f7d9697560494bd6482741c4a221"
     },
     "operations/polokwane-procurement-plan.csv": {
       "bytes": 6680662,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

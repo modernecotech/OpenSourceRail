@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4646,
-      "sha256": "b7b5cdaa641a13195d6ac65d13f1d91e5dbb07c43513656e9edccc950f4e6023"
+      "bytes": 4700,
+      "sha256": "e41950a206b29f7866ceb1069c5d9ae7a4ab0f4a2a42579580fc4cb2f6f70f93"
     },
     "design.toml": {
       "bytes": 11386,
@@ -26,24 +26,24 @@
       "sha256": "a536642fd5bfb47a84cd6ae2668c82c79ecffef7ee72e0101f84fc96d11ec274"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 6358,
-      "sha256": "86d09263797c1516ddf6c8a7b54abf895e827c78a22e85fb47aba688279853e0"
+      "bytes": 6322,
+      "sha256": "fb0cfc2b3cba4a1ef3e9e471e54cef3bca12423fed6481f1a1c8400c5ceae003"
     },
     "engineering/energy/summary.json": {
-      "bytes": 9908,
-      "sha256": "b81dccfab585f13098191c2339eab305b378ab5f8ab50ba5e4025023377b9a07"
+      "bytes": 10507,
+      "sha256": "da262ae2d2c57271eb174afa2fa95d74a2ac146844e8b1b7e80277edc26e05f1"
     },
     "engineering/finance/summary.json": {
       "bytes": 12664,
-      "sha256": "2d6b69c8837fe73d06b37d1a3ff4471365bebabee302b5d5710e45113f91aa49"
+      "sha256": "9efe1fc1646421f9d28790bdcbc72c2457019b21f2e3694073e0613a3afebe3a"
     },
     "engineering/gis/summary.json": {
       "bytes": 1281,
       "sha256": "1ac6a07770f4b369ae6a1d7158a36a01ce69298d99120f26de1fa3fd4e8ed887"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 17394,
-      "sha256": "e065608262c7676bfb061cbc2bf50f7ffb4ba6def02bb937937c10a4b64e02cc"
+      "bytes": 17659,
+      "sha256": "bc7f73e156dd64f1690dd61b3e82fe444ec8564caf93ae01f45eff7060c24c0f"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 589,
@@ -51,7 +51,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1044,
-      "sha256": "179ab32b32b8de554bce4ce275e34a8e412379abc3165283c2cf319fb1dc19c0"
+      "sha256": "94e3df2343caca9868522fb079d68e496e22610ca75665d9e92a942a0cad3bfd"
     },
     "engineering/screenshots/sheikhupura-network-visualizer.png": {
       "bytes": 59657,
@@ -71,7 +71,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 24203,
-      "sha256": "cdde83d45a842157935aa0862d73a529dac44829c97edee07002604575a6de3c"
+      "sha256": "8f8e240be64e78c28f13c04784413aad8a2664b254a1ce6848375886cbf00210"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -91,7 +91,7 @@
     },
     "operations/sheikhupura-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "ecc391bfd1ed1fd40c72a9920d5e7708f611e9d73124d29b2833b099cde90514"
+      "sha256": "bde4d58ff47b7e54a72d44f62712da7f81050b958f924ee3589ffbb9dffc5b68"
     },
     "sheikhupura-network-map.png": {
       "bytes": 1937447,
@@ -115,6 +115,8 @@
     }
   },
   "city": "sheikhupura",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -123,12 +125,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/sheikhupura.gpkg": {
       "bytes": 233472,
@@ -156,9 +157,9 @@
       "sha256": "e78dee83c0330cae779e7c35ac9c4606e8821ee4d74e00f710c611ad90e71e63"
     },
     "operations/sheikhupura-operations.json.gz": {
-      "bytes": 970591,
+      "bytes": 970851,
       "required_in_git_checkout": false,
-      "sha256": "780bf6456a187bf97bba8b7ae96a3bf117d6a016fb39c867d848e19cf85e2fb8"
+      "sha256": "36b014ff2b8344ef3bfa4417f9cfa0cbf8380d3b1ca5d35ed51d16d8801ebd81"
     },
     "operations/sheikhupura-procurement-plan.csv": {
       "bytes": 2306462,
@@ -193,7 +194,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

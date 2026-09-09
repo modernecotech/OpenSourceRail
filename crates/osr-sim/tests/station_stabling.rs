@@ -141,7 +141,9 @@ fn pre_service_trains_do_not_move_or_charge_above_the_holding_target() {
 fn station_stabling_rejects_unpowered_duplicate_or_outward_points() {
     for invalid in [
         scenario().replace("charging_power_kw = 500", "charging_power_kw = 0"),
-        scenario().replace("grid_import_kw = 500.0", "grid_import_kw = 0.0"),
+        scenario()
+            .replace("grid_import_kw = 500.0", "grid_import_kw = 0.0")
+            .replace("storage_capacity_kwh = 500.0", "storage_capacity_kwh = 0.0"),
         scenario().replace(
             "station = \"c\", heading = \"reverse\"",
             "station = \"a\", heading = \"forward\"",
@@ -304,7 +306,7 @@ fn sufficient_energy_crosses_the_gap_and_preserves_the_reserve() {
 
 #[test]
 fn unavailable_destination_requires_energy_for_the_return_to_a_working_charger() {
-    for kind in ["charging_pad_outage", "grid_outage"] {
+    for kind in ["charging_pad_outage"] {
         let text = charging_gap_scenario(15000, false)
             + &format!(
                 r#"
@@ -345,4 +347,44 @@ to = "06:30"
 "#;
     let config = load_scenario_from_str(&text).unwrap();
     assert_eq!(sim::run(&config, &runtime(60)).total_train_km, 0.0);
+}
+
+#[test]
+fn grid_outage_preserves_battery_backed_destination() {
+    let text = charging_gap_scenario(15000, false)
+        + r#"
+[[faults]]
+name = "C grid unavailable"
+kind = "grid_outage"
+station = "c"
+from = "05:30"
+to = "06:30"
+"#;
+    let config = load_scenario_from_str(&text).unwrap();
+    assert!(sim::run(&config, &runtime(60)).total_train_km > 0.0);
+    let empty = text.replace("storage_initial_soc = 0.5", "storage_initial_soc = 0.0");
+    assert_eq!(
+        sim::run(&load_scenario_from_str(&empty).unwrap(), &runtime(60)).total_train_km,
+        0.0
+    );
+}
+
+#[test]
+fn off_grid_lower_power_stations_charge_and_restart() {
+    let text = scenario()
+        .replace("grid_import_kw = 500.0", "grid_import_kw = 0.0")
+        .replace("charging_power_kw = 500", "charging_power_kw = 50");
+    let config = load_scenario_from_str(&text).unwrap();
+    let result = sim::run(&config, &runtime(3 * 3600 + 31 * 60 + 1));
+    assert_eq!(result.total_grid_imported_kwh, 0.0);
+    assert!(result.total_energy_charged_kwh > 0.0);
+    assert_eq!(
+        result
+            .events
+            .iter()
+            .filter(|e| matches!(e.kind, EventKind::DepartStation))
+            .count(),
+        4
+    );
+    assert!(result.invariant_violations.is_empty());
 }

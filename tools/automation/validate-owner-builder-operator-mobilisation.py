@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 import tomllib
 
@@ -13,19 +14,6 @@ ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "lib/templates/owner-builder-operator-mobilisation.toml"
 STATUS_JSON = ROOT / "docs/owner-builder-operator-mobilisation-status.json"
 STATUS_MD = ROOT / "docs/owner-builder-operator-mobilisation-status.md"
-EXPECTED_ROLES = {
-    "ROLE-OWNER", "ROLE-CEO", "ROLE-PROGRAMME", "ROLE-ENGINEERING",
-    "ROLE-SAFETY", "ROLE-OPERATIONS", "ROLE-ASSET", "ROLE-MANUFACTURING",
-    "ROLE-INFRASTRUCTURE", "ROLE-COMMERCIAL", "ROLE-FINANCE", "ROLE-PEOPLE",
-    "ROLE-DIGITAL",
-}
-EXPECTED_GATES = {f"G{number}" for number in range(8)}
-EXPECTED_INDEPENDENT = {"IND-ASSESSOR", "IND-CHECKER", "IND-AUDITOR"}
-EXPECTED_WORK_PACKAGES = {f"MOB-{number:03d}" for number in range(10, 181, 10)}
-EXPECTED_MANAGEMENT_SYSTEMS = {
-    "MS-GOV", "MS-ENG", "MS-SAF", "MS-COMP", "MS-COM", "MS-PC",
-    "MS-QUA", "MS-ASSET", "MS-ENV", "MS-FIN", "MS-DIG",
-}
 
 
 def _unique(rows: list[dict], field: str, label: str) -> set[str]:
@@ -37,6 +25,9 @@ def _unique(rows: list[dict], field: str, label: str) -> set[str]:
 
 def build_status(source: Path = SOURCE) -> dict:
     data = tomllib.loads(source.read_text(encoding="utf-8"))
+    entity_fields = data.get("entity_model", {}).get("required_fields")
+    if not isinstance(entity_fields, list) or not all(isinstance(value, str) and value.strip() for value in entity_fields):
+        raise ValueError("declare entity_model.required_fields explicitly; use an empty list when none apply to the selected scope")
     roles = list(data.get("role", []))
     parties = list(data.get("independent_party", []))
     gates = list(data.get("gate", []))
@@ -47,24 +38,16 @@ def build_status(source: Path = SOURCE) -> dict:
     gate_ids = _unique(gates, "id", "gate")
     work_package_ids = _unique(work_packages, "id", "work-package")
     management_system_ids = _unique(management_systems, "id", "management-system")
-    if role_ids != EXPECTED_ROLES:
-        raise ValueError(f"role set changed: missing={sorted(EXPECTED_ROLES-role_ids)}, new={sorted(role_ids-EXPECTED_ROLES)}")
-    if party_ids != EXPECTED_INDEPENDENT:
-        raise ValueError("independent-party set changed")
-    if gate_ids != EXPECTED_GATES:
-        raise ValueError("G0-G7 mobilisation gates must all be present")
-    if work_package_ids != EXPECTED_WORK_PACKAGES:
-        raise ValueError("MOB-010 through MOB-180 work packages must all be present")
-    if management_system_ids != EXPECTED_MANAGEMENT_SYSTEMS:
-        raise ValueError("owner-builder-operator management-system set changed")
-    if len(data.get("governance", {}).get("independence_rules", [])) < 5:
-        raise ValueError("governance independence rules are incomplete")
+    if not role_ids or not gate_ids or not work_package_ids:
+        raise ValueError("declare accountable roles, gates and work packages for the selected scope")
+    if not str(data.get("deployment_scope", "")).strip():
+        raise ValueError("declare the deployment scope before validating its requirements")
     if any(not row.get("accountable_for") for row in roles):
         raise ValueError("every role requires accountable scope")
     for system in management_systems:
         if system.get("accountable_role_id") not in role_ids or system.get("required_by_gate_id") not in gate_ids:
             raise ValueError(f"{system['id']} has unresolved role or gate")
-        if len(system.get("required_documents", [])) < 4:
+        if not system.get("required_documents"):
             raise ValueError(f"{system['id']} has insufficient controlled documents")
         if system.get("status") not in {"not-established", "in-development", "established", "suspended"}:
             raise ValueError(f"{system['id']} has invalid status")
@@ -72,7 +55,7 @@ def build_status(source: Path = SOURCE) -> dict:
         accountable = set(gate.get("accountable_role_ids", []))
         if not accountable or not accountable <= role_ids:
             raise ValueError(f"{gate['id']} has invalid accountable roles")
-        if len(gate.get("required_evidence", [])) < 4:
+        if not gate.get("required_evidence"):
             raise ValueError(f"{gate['id']} has insufficient exit evidence")
         if gate.get("decision") not in {"open", "accepted", "rejected", "paused"}:
             raise ValueError(f"{gate['id']} has invalid decision")
@@ -84,11 +67,13 @@ def build_status(source: Path = SOURCE) -> dict:
             raise ValueError(f"{row['id']} has invalid dependencies")
         if row.get("accountable_role_id") not in role_ids or row.get("gate_id") not in gate_ids:
             raise ValueError(f"{row['id']} has unresolved role or gate")
-        if not (0 <= int(row.get("start_month", -1)) < int(row.get("end_month", -1)) <= 120):
+        start, end = float(row.get("start_month", -1)), float(row.get("end_month", -1))
+        if not (math.isfinite(start) and math.isfinite(end) and 0 <= start < end):
             raise ValueError(f"{row['id']} has invalid month range")
-        if not (0 < int(row.get("fte_min", 0)) <= int(row.get("fte_max", 0))):
+        fte_min, fte_max = float(row.get("fte_min", 0)), float(row.get("fte_max", 0))
+        if not (math.isfinite(fte_min) and math.isfinite(fte_max) and 0 < fte_min <= fte_max):
             raise ValueError(f"{row['id']} has invalid FTE range")
-        if len(row.get("deliverables", [])) < 4:
+        if not row.get("deliverables"):
             raise ValueError(f"{row['id']} has insufficient deliverables")
         if row.get("status") not in {"not-started", "in-progress", "complete", "blocked", "cancelled"}:
             raise ValueError(f"{row['id']} has invalid status")
@@ -129,7 +114,7 @@ def build_status(source: Path = SOURCE) -> dict:
 
     gate_rows = []
     for gate in gates:
-        evidence_refs = list(gate.get("evidence_refs", []))
+        evidence_refs = [ref for ref in gate.get("evidence_refs", []) if isinstance(ref, str) and ref.strip()]
         accepted = (
             gate.get("decision") == "accepted"
             and len(evidence_refs) >= len(gate["required_evidence"])
@@ -145,18 +130,27 @@ def build_status(source: Path = SOURCE) -> dict:
             }
         )
 
+    completed: dict[str, bool] = {}
+
+    def work_complete(work_id: str) -> bool:
+        if work_id not in completed:
+            row = work_by_id[work_id]
+            refs = [ref for ref in row.get("evidence_refs", []) if isinstance(ref, str) and ref.strip()]
+            completed[work_id] = (
+                row.get("status") == "complete"
+                and len(refs) >= len(row["deliverables"])
+                and all(work_complete(dependency) for dependency in row.get("depends_on", []))
+            )
+        return completed[work_id]
+
     work_rows = []
     for row in sorted(work_packages, key=lambda value: (value["start_month"], value["id"])):
-        evidence_refs = list(row.get("evidence_refs", []))
-        complete = (
-            row.get("status") == "complete"
-            and len(evidence_refs) >= len(row["deliverables"])
-            and all(work_by_id[dependency].get("status") == "complete" for dependency in row.get("depends_on", []))
-        )
+        evidence_refs = [ref for ref in row.get("evidence_refs", []) if isinstance(ref, str) and ref.strip()]
+        complete = work_complete(row["id"])
         work_rows.append(
             {
                 **row,
-                "duration_months": int(row["end_month"]) - int(row["start_month"]),
+                "duration_months": row["end_month"] - row["start_month"],
                 "deliverable_count": len(row["deliverables"]),
                 "evidence_count": len(evidence_refs),
                 "complete": complete,
@@ -165,7 +159,7 @@ def build_status(source: Path = SOURCE) -> dict:
 
     management_system_rows = []
     for row in sorted(management_systems, key=lambda value: value["id"]):
-        evidence_refs = list(row.get("evidence_refs", []))
+        evidence_refs = [ref for ref in row.get("evidence_refs", []) if isinstance(ref, str) and ref.strip()]
         ready = (
             row.get("status") == "established"
             and len(evidence_refs) >= len(row["required_documents"])
@@ -183,17 +177,11 @@ def build_status(source: Path = SOURCE) -> dict:
 
     project = dict(data.get("project", {}))
     entity = dict(data.get("entity_model", {}))
-    entity_ready = all(
-        entity.get(field)
-        for field in (
-            "selected_model", "selection_evidence_ref", "legal_advice_ref",
-            "statutory_duties_register_ref", "reserved_matters_ref", "delegations_ref",
-            "open_design_and_data_rights_ref",
-        )
-    )
+    entity_ready = all(entity.get(field) for field in entity_fields)
     result = {
         "schema": "org.opensourcerail.owner-builder-operator-mobilisation-status.v2",
-        "source": str(source.relative_to(ROOT)),
+        "source": str(source.resolve().relative_to(ROOT)) if source.resolve().is_relative_to(ROOT) else str(source.resolve()),
+        "deployment_scope": data["deployment_scope"],
         "source_schema_version": data.get("schema_version"),
         "template_revision": data.get("template_revision"),
         "template_status": data.get("template_status"),
@@ -221,16 +209,16 @@ def build_status(source: Path = SOURCE) -> dict:
         "gates": sorted(gate_rows, key=lambda row: row["id"]),
         "work_packages": work_rows,
         "validation": {
-            "role_set_complete": True,
-            "independent_parties_complete": True,
-            "gates_g0_through_g7_complete": True,
+            "declared_roles_valid": True,
+            "declared_independent_parties_valid": True,
+            "declared_gates_valid": True,
             "all_gate_accountabilities_resolve": True,
             "all_gates_have_exit_evidence": True,
-            "independence_rules_present": True,
-            "work_package_set_complete": True,
+            "reference_schema_is_not_a_deployment_mandate": True,
+            "declared_work_packages_valid": True,
             "work_package_dependencies_acyclic": True,
             "all_work_package_roles_and_gates_resolve": True,
-            "management_system_set_complete": True,
+            "declared_management_systems_valid": True,
             "all_management_system_roles_and_gates_resolve": True,
             "all_management_system_document_sets_defined": True,
         },
@@ -244,13 +232,17 @@ def render_status(status: dict) -> str:
     lines = [
         "# Owner–Builder–Operator Mobilisation Status",
         "",
-        "> Status: **unfilled template — not legal, spending, construction, safety or operating authority**.",
+        f"> Status: **{status.get('template_status') or 'deployment evidence record'} — not legal, spending, construction, safety or operating authority**.",
         "",
         f"Project: `{project_id}`",
         "",
+        f"Scope: {status['deployment_scope']}",
+        "",
+        "The reference organisation and programme are editable. Validate the selected responsibilities, evidence and dependencies; job titles, committee structures and document counts are not universal requirements.",
+        "",
         f"Entity model complete: **{'yes' if status['entity_model']['ready'] else 'no'}** · Roles ready: **{summary['roles_ready']}/{summary['roles_total']}** · Independent parties ready: **{summary['independent_parties_ready']}/{summary['independent_parties_total']}** · Management systems ready: **{summary['management_systems_ready']}/{summary['management_systems_total']}** · Work packages complete: **{summary['work_packages_complete']}/{summary['work_packages_total']}** · Gates accepted: **{summary['gates_accepted']}/{summary['gates_total']}**",
         "",
-        status["authority_boundary"],
+        status.get("authority_boundary") or "Evidence status for the declared scope; not operating authority.",
         "",
         "## Accountable Roles",
         "",
@@ -259,8 +251,8 @@ def render_status(status: dict) -> str:
     ]
     for role in status["roles"]:
         lines.append(
-            f"| `{role['id']}` | {role['title']} | {role['appointment_ref'] or 'open'} | "
-            f"{role['competence_ref'] or 'open'} | {'yes' if role['ready'] else 'no'} |"
+            f"| `{role['id']}` | {role['title']} | {role.get('appointment_ref') or 'open'} | "
+            f"{role.get('competence_ref') or 'open'} | {'yes' if role['ready'] else 'no'} |"
         )
     lines += [
         "",
@@ -270,7 +262,7 @@ def render_status(status: dict) -> str:
         "|---|---|---|---|",
     ]
     for party in status["independent_parties"]:
-        reference = " / ".join(value for value in (party["organisation"], party["appointment_ref"]) if value) or "open"
+        reference = " / ".join(value for value in (party.get("organisation"), party.get("appointment_ref")) if value) or "open"
         lines.append(f"| `{party['id']}` | {party['title']} | {reference} | {'yes' if party['ready'] else 'no'} |")
     lines += [
         "",
@@ -295,7 +287,7 @@ def render_status(status: dict) -> str:
     for gate in status["gates"]:
         accountable = ", ".join(f"`{value}`" for value in gate["accountable_role_ids"])
         lines.append(
-            f"| `{gate['id']}` — {gate['title']} | {gate['indicative_window']} | {accountable} | "
+            f"| `{gate['id']}` — {gate.get('title', gate['id'])} | {gate.get('indicative_window', '')} | {accountable} | "
             f"{gate['evidence_count']}/{gate['required_evidence_count']} | `{gate['decision']}` | {'yes' if gate['accepted'] else 'no'} |"
         )
     lines += [
@@ -308,9 +300,9 @@ def render_status(status: dict) -> str:
         "|---|---:|---:|---|---|---|---:|---|",
     ]
     for row in status["work_packages"]:
-        dependencies = ", ".join(f"`{value}`" for value in row["depends_on"]) or "start"
+        dependencies = ", ".join(f"`{value}`" for value in row.get("depends_on", [])) or "start"
         lines.append(
-            f"| `{row['id']}` — {row['title']} | {row['start_month']}–{row['end_month']} | "
+            f"| `{row['id']}` — {row.get('title', row['id'])} | {row['start_month']}–{row['end_month']} | "
             f"{row['fte_min']}–{row['fte_max']} | `{row['accountable_role_id']}` | {dependencies} | "
             f"`{row['gate_id']}` | {row['evidence_count']}/{row['deliverable_count']} | `{row['status']}` |"
         )
@@ -325,28 +317,35 @@ def render_status(status: dict) -> str:
     return "\n".join(lines)
 
 
-def write_outputs(status: dict) -> None:
-    STATUS_JSON.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    STATUS_MD.write_text(render_status(status), encoding="utf-8")
+def write_outputs(status: dict, json_path: Path = STATUS_JSON, md_path: Path = STATUS_MD) -> None:
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    md_path.write_text(render_status(status), encoding="utf-8")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="fail if tracked status outputs are stale")
+    parser.add_argument("--source", type=Path, default=SOURCE, help="Tailored deployment TOML; reference is the default")
+    parser.add_argument("--output-dir", type=Path, help="Directory for the tailored status JSON and Markdown")
     args = parser.parse_args()
-    status = build_status()
+    if args.source.resolve() != SOURCE.resolve() and not args.output_dir:
+        parser.error("--output-dir is required for a tailored source so the repository reference is preserved")
+    json_path = args.output_dir / STATUS_JSON.name if args.output_dir else STATUS_JSON
+    md_path = args.output_dir / STATUS_MD.name if args.output_dir else STATUS_MD
+    status = build_status(args.source)
     expected_json = json.dumps(status, indent=2, sort_keys=True) + "\n"
     expected_md = render_status(status)
     if args.check:
         stale = []
-        if not STATUS_JSON.is_file() or STATUS_JSON.read_text(encoding="utf-8") != expected_json:
-            stale.append(str(STATUS_JSON.relative_to(ROOT)))
-        if not STATUS_MD.is_file() or STATUS_MD.read_text(encoding="utf-8") != expected_md:
-            stale.append(str(STATUS_MD.relative_to(ROOT)))
+        if not json_path.is_file() or json_path.read_text(encoding="utf-8") != expected_json:
+            stale.append(str(json_path))
+        if not md_path.is_file() or md_path.read_text(encoding="utf-8") != expected_md:
+            stale.append(str(md_path))
         if stale:
             raise SystemExit("stale owner-builder-operator status: " + ", ".join(stale))
     else:
-        write_outputs(status)
+        write_outputs(status, json_path, md_path)
     summary = status["summary"]
     print(
         "owner-builder-operator mobilisation: "

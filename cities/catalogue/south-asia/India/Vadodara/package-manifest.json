@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4843,
-      "sha256": "bac1045fd7066a4cbfe6fb62d00745c224864d7cee85e792407629804dceef5f"
+      "bytes": 4897,
+      "sha256": "642192a4978c9f88ed9c235456704336ea43e24a16fb8f0c95914c5438da7be2"
     },
     "design.toml": {
       "bytes": 39676,
@@ -42,24 +42,24 @@
       "sha256": "b94ab3ee972115016ade43b09bd2d36d363277e9616ab5ef52e7bf3ff3429226"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8939,
-      "sha256": "2c1f15adf0562d6ce79416a875af19b8e2948baf9222afc57bacc85e40c8cb1f"
+      "bytes": 8903,
+      "sha256": "007df0400dd3d3a7f9dc9de2c705153d9e28c160178cb7decbc1b241bf9bc670"
     },
     "engineering/energy/summary.json": {
-      "bytes": 49604,
-      "sha256": "e34497c238d51776d56e6dfe03e5445d4228e136052c8e9c98e0f977c35319d5"
+      "bytes": 50346,
+      "sha256": "688394f80b277c9b05953e386779616dbd7eb8098c8716d90f77034df39de3cf"
     },
     "engineering/finance/summary.json": {
       "bytes": 12630,
-      "sha256": "e5b13a8fe14af0e1e4b881fc89f3dd1fc43c2b71b0cf9788fee3574cf0615af5"
+      "sha256": "fb92bf45df8b0db822149326d6bd935e8b1a9a670e5d5848d814807e62c00dc8"
     },
     "engineering/gis/summary.json": {
       "bytes": 1245,
       "sha256": "908ce7615250e02b9415fc97bd251151463363605328bc92f8e3f590232ebcc0"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 44269,
-      "sha256": "4d03f329a7e32ea0e1ff1d9d6ba79f127b4a889496da0a7d1468bfa0ba8b5ae4"
+      "bytes": 44534,
+      "sha256": "6f51e660d52d5266a5ef39bd14c71dd34182cf8af9c76a4fbfa3303f442c9e0a"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 890,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "e613d65752d9dc262cc850cc47a1cd797554767be461e3fe7a432c8399924d5b"
+      "sha256": "5bc64707c2509d7c13854dfa11cc61fff6a2aa9a1c39981ccd8e391bac1a429a"
     },
     "engineering/screenshots/vadodara-network-visualizer.png": {
       "bytes": 100018,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 111634,
-      "sha256": "c3f14ccad9d4694d452591b2141bf7019eeb849f289d8425b3f2dfa6567ae348"
+      "sha256": "87cfd4eeb849f5a3ec4cf27ad3085693625fd86a2a35c396e4fd7a21d08cba86"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 728,
@@ -107,7 +107,7 @@
     },
     "operations/vadodara-operations-manifest.json": {
       "bytes": 896,
-      "sha256": "86318d5e79464bf71b5dba57abc50f842f238f933bdbe8b33db34e6869c533c7"
+      "sha256": "05df1f0708fd9762d03d80648daf405b2576c26ab7cd1a29dbe9ded51a5bc325"
     },
     "vadodara-network-map.png": {
       "bytes": 2918774,
@@ -131,6 +131,8 @@
     }
   },
   "city": "vadodara",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/vadodara.gpkg": {
       "bytes": 348160,
@@ -172,9 +173,9 @@
       "sha256": "bc01a17cb2f61f58a8d608c8e015c1be71749414a5ac7c432cb35ad9bf0dc7a1"
     },
     "operations/vadodara-operations.json.gz": {
-      "bytes": 1328699,
+      "bytes": 1328835,
       "required_in_git_checkout": false,
-      "sha256": "d4606c3cd13198d3346e9f39e5226226486fc038d3d5bffa1656f047c5af3eff"
+      "sha256": "0cdb534357459b9b769aa105cd5d773740f00cfe6713e73b123f1b843ec6f9b1"
     },
     "operations/vadodara-procurement-plan.csv": {
       "bytes": 1935915,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

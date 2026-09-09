@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4870,
-      "sha256": "2801edb143a633743a85a54b73e5e9a14965bebf4711adbe76e9f500720063de"
+      "bytes": 4924,
+      "sha256": "7e33fc4946992989272d444c5910f56c8f0deaf3f612a67b7ce6f48339f603a4"
     },
     "design.toml": {
       "bytes": 47817,
@@ -38,24 +38,24 @@
       "sha256": "e599b38a9134d50ab0fd9f53d3a394d496a62bd4b61432f53f66c8c1c1555472"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8321,
-      "sha256": "023134a7b352d4be6eff78cc502345f1111fa4dc67824eb6a72d3d66c1b66336"
+      "bytes": 8285,
+      "sha256": "6bf7ba5b3b0486b5a861b42b03c4bd9db654bfc5f9cd2c0eac5a5504ddda0099"
     },
     "engineering/energy/summary.json": {
-      "bytes": 57728,
-      "sha256": "71ef35ca90ed3767196872e6c88496994b00ee5b7def8f45bdf3495c92d34f00"
+      "bytes": 58582,
+      "sha256": "922208df55c28263b6a2144a4fcdb66a42c905b17581dd2602ad9c2b8c64ba77"
     },
     "engineering/finance/summary.json": {
       "bytes": 12673,
-      "sha256": "96b824be721615f9f47de3a210d1846c166d6404c4947861deace079e2c016e2"
+      "sha256": "5ecd4f1c9b5c56bd909aa4e2280e1b3a54ad023ab8eda883a4ad4975d705ec1f"
     },
     "engineering/gis/summary.json": {
       "bytes": 1303,
       "sha256": "e7a75ba57fc83f35fe395d141497f1d0e878d3b1f67afb0df8c503c8755acb07"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 67578,
-      "sha256": "3ee045469dba2cb37a8fcb18d53da27d74500b2d4dd859b9c0cdda918c167f38"
+      "bytes": 67843,
+      "sha256": "1b40e8efd4c38686bc188c4baf376480596256c3a596ad8617398048f4649c30"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 895,
@@ -63,7 +63,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "6fa309a35f5aa35d1b79d822f373868fadbb0dbcdfc453cbcc40674c20a33994"
+      "sha256": "28b9f72a5bb1474f5c6d57734dd144074a6dfd0944c77e8fde5ecf5cd3943585"
     },
     "engineering/screenshots/port-harcourt-network-visualizer.png": {
       "bytes": 119578,
@@ -83,7 +83,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 117759,
-      "sha256": "49e3de384e2df5b48fa1c6034c87248ae22efafa4ec25b7e8cc53a4c868f7940"
+      "sha256": "2fff0ea7d431884cf73e0abf1a7dd650a7ce91dd039f1532cae61d4d38a230ba"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 734,
@@ -103,7 +103,7 @@
     },
     "operations/port-harcourt-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "69ab11b7cd857369cd89cca3508a75b57a639933c504c24772fa9bdc0f1fcfad"
+      "sha256": "6b34811de070c43932853ec62083d67f7688b5daa141768d262f35210417260f"
     },
     "port-harcourt-network-map.png": {
       "bytes": 4082767,
@@ -127,6 +127,8 @@
     }
   },
   "city": "port-harcourt",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -135,12 +137,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/port-harcourt.gpkg": {
       "bytes": 335872,
@@ -168,9 +169,9 @@
       "sha256": "bf4bf5c7d7208f195f0ec7f5e9f04e1f1b679ca59f400270ea2f7051311a38f5"
     },
     "operations/port-harcourt-operations.json.gz": {
-      "bytes": 1438723,
+      "bytes": 1438832,
       "required_in_git_checkout": false,
-      "sha256": "6341810840dea4093c02cbe790b344e0fac130861a9c8c32c12037df9dfe2750"
+      "sha256": "107e05e38f0155f20c810016ef0fdc068c3f0b16fc8cb6720117c9f0adaf28aa"
     },
     "operations/port-harcourt-procurement-plan.csv": {
       "bytes": 2197066,
@@ -205,7 +206,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

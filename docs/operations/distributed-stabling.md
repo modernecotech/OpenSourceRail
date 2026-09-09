@@ -58,7 +58,10 @@ station, departure heading, location type, role and train count. Depot stations
 also declare `depot_stabling_positions`; `is_depot` and workshop bays alone
 provide no storage allowance. The loader checks complete fleet/role inventory,
 at most two station homes per shared station, depot capacity, powered dispatch
-locations and access on the train's own line.
+locations and access on the train's own line. Station batteries can supply
+charging without grid import; a grid outage does not itself disable a charger.
+Positive installed charging/source capability selects a candidate. The
+continuous replay, rather than a universal 150 kW minimum, tests its duty.
 
 At closing, active trains finish their journeys along real sections until they
 reach their assigned homes. Return moves retain energy and movement-authority
@@ -141,6 +144,9 @@ continuous replay retains positions, train batteries and site storage between
 days. Its largest overnight station queues reach 18 and 19 trains, so its
 combined acceptance result fails the two-train station limit.
 
+Those failures describe historical station-only benchmarks. Their source hashes
+remain attached to the original experiments; the package manifest records
+them as diagnostics, including any source drift, outside selected-plan acceptance.
 Those failures describe the station-only benchmark. They do not invalidate
 the 40-station/68-depot planning split or demonstrate its execution. The earlier
 [seven-train redistribution study](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md)

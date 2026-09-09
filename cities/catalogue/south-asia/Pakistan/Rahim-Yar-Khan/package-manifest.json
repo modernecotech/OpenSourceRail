@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4763,
-      "sha256": "47aabfa5f2494df272398582339d9ffd0e0775da1411125e74a5c86b27e3afa8"
+      "bytes": 4817,
+      "sha256": "e5fdac77dda9cd607bcf09ec768abc36eddf363d83bf487300856623aa58d7cb"
     },
     "design.toml": {
       "bytes": 16415,
@@ -30,24 +30,24 @@
       "sha256": "6a2f80bb8af4abd3ab0873bf206bb54bfed139bed71d23686a2b719c440b564d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7027,
-      "sha256": "617b39f961cd55681a666de5165175abafc78701e5a882fa38daabc9643d0808"
+      "bytes": 6991,
+      "sha256": "c012a25ee96bf7bbfba922370c6768c16a6d90136e70d1dd4ca077fd82696414"
     },
     "engineering/energy/summary.json": {
-      "bytes": 15534,
-      "sha256": "3e6ce336066f2a4664fb1079989fa5abce83879873707d5d22d78b00a0af45e7"
+      "bytes": 16134,
+      "sha256": "b6bc4794b96c65867471407a7e75b0fc2f1b39405b88a64752a6bb15d28ed0e6"
     },
     "engineering/finance/summary.json": {
       "bytes": 12688,
-      "sha256": "f486a66772f873ea3fe3e9ccdeb0312d22f22752340569acc0ab0dd7800279a1"
+      "sha256": "65e387e9d8685b41dae59b43b778a8efdfa49a73d8349235197585f349fb6e17"
     },
     "engineering/gis/summary.json": {
       "bytes": 1310,
       "sha256": "bfd2310df9da364002f8763ab4319ddbdf19f6ca5ba4e7a029fd818671d006ea"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 33586,
-      "sha256": "99fe334816ac433973fd947a0003526660660de86a6c8b1f87d93675dda2eac1"
+      "bytes": 33851,
+      "sha256": "803c995b577fd5315c580b616c104f6694ccda8303779e3cd21dcda2d1821a34"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 592,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1053,
-      "sha256": "a452296891e3fa620919106a1e23ade76018a9065f7c47346e0c2b45c27458e1"
+      "sha256": "9b0a322be5501b54b0c4c4588f8942dbad9903dfd400efbbc1b73623e3e29bac"
     },
     "engineering/screenshots/rahim-yar-khan-network-visualizer.png": {
       "bytes": 66079,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 37235,
-      "sha256": "1d76bf233fea6ee447a25238a3be84d6b40ba99663c9f7730168297749232dbe"
+      "sha256": "7723197848f97fff500600590bb0b42078c8ab1ce1c143eabe0e68a9f63f2e90"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 734,
@@ -95,7 +95,7 @@
     },
     "operations/rahim-yar-khan-operations-manifest.json": {
       "bytes": 909,
-      "sha256": "24556c0cc8f5509c307b82602681a53d8bfb2703ed7d6c6133349f7d16a9afc2"
+      "sha256": "b55f217f7b052aa0ab47395b9723ca84a05e7236bf78f6df8e59e1bdd2d00d9f"
     },
     "rahim-yar-khan-network-map.png": {
       "bytes": 1403116,
@@ -119,6 +119,8 @@
     }
   },
   "city": "rahim-yar-khan",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/rahim-yar-khan.gpkg": {
       "bytes": 270336,
@@ -160,9 +161,9 @@
       "sha256": "908256507cc770101aaf2da0ff1687ed681097fc9333307827fdad246b4e167b"
     },
     "operations/rahim-yar-khan-operations.json.gz": {
-      "bytes": 3262851,
+      "bytes": 3262894,
       "required_in_git_checkout": false,
-      "sha256": "46185ad1608b1530b5a4e361c5c942e5eb0789a046ac76074f3bcbd0e5bb3743"
+      "sha256": "9d2f209bd1c55d635a384634e2042c0fa1f51bc94133ae251417a778f52552d4"
     },
     "operations/rahim-yar-khan-procurement-plan.csv": {
       "bytes": 7811721,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

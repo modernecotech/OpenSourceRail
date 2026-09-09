@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4686,
-      "sha256": "a6fc2c8dc0336b24a01e4ddd608f8dbc4b6547ecc19130c24bba1157b524c27e"
+      "bytes": 4740,
+      "sha256": "5c9db03c409a5361a67a39c3ec41c974f080f0b15011c40d395d35029dff661a"
     },
     "biratnagar-network-map.png": {
       "bytes": 3458800,
@@ -50,24 +50,24 @@
       "sha256": "276338df2ade22f568e411dae2846627eb5d7fc231490cb78b0da360f1d31adc"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 6994,
-      "sha256": "c745a80a04e871cc523a1d08951b54cdae60043b2f02181d431dbabf36d9b77d"
+      "bytes": 6958,
+      "sha256": "346ccb333d24ec823f8d5cb2a1e62e5f8ddaca2a1d97212b4d4a84209870fa32"
     },
     "engineering/energy/summary.json": {
-      "bytes": 14358,
-      "sha256": "cd76a436d35a0aad98f1d55b2d6039b522b7308859c44e7179a8db265358ef86"
+      "bytes": 14957,
+      "sha256": "d843da02b7de884d621a1fad010109af64eb383f9e609b37f9ef2dc494ed2967"
     },
     "engineering/finance/summary.json": {
       "bytes": 12616,
-      "sha256": "1f670e22bf791e59c736802af0c3f5242ad8712a840d2c4573a86d2eb60a82b0"
+      "sha256": "67bd496565f0589ae47cf6344589be7af563a34f202187410ce03691711261de"
     },
     "engineering/gis/summary.json": {
       "bytes": 1262,
       "sha256": "4c6f6b04ff3a0170dac6c87591fb2950a0fc272afa42605aa895773908e2c16b"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 21215,
-      "sha256": "80a0403affd9ea53fcb22cac00a27ef62d7eac4e8187a18288818570211847ec"
+      "bytes": 21480,
+      "sha256": "922c52e7e1d0563d566201e2c2fa2511088a8afa65a2d451001646faba35abd9"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "2f4494001941cdd6ad8e3111715cf0139d6e12d23121a4f73324de0923d651ce"
+      "sha256": "b40eea9271e34ae71c64eed08d80fc4e0dde901627fd547ab89bfaf5ec2a3f54"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9524,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 34122,
-      "sha256": "bf0e274ad3b963abd7b69c52ac3bdbfdc167c75f1f894cd052fbc99a52a89394"
+      "sha256": "3d9a8bce99582367a0abd10c28bb37df487f04f546bbeae8b95596c5323dd9e1"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -115,10 +115,12 @@
     },
     "operations/biratnagar-operations-manifest.json": {
       "bytes": 893,
-      "sha256": "fe64f5aec996cec686fb58bc1944b035029515fa22c82d60f87e634aea30234c"
+      "sha256": "866df0029146793b4c367e2dd35318440415466c3179fa4cd1d2c08b0af371e5"
     }
   },
   "city": "biratnagar",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/biratnagar.gpkg": {
       "bytes": 258048,
@@ -160,9 +161,9 @@
       "sha256": "9de2e5c286f4b8337ab1cd6614d994a983533f9eccfacf6b91d8c4b641e483f1"
     },
     "operations/biratnagar-operations.json.gz": {
-      "bytes": 333578,
+      "bytes": 333715,
       "required_in_git_checkout": false,
-      "sha256": "0168f9c809104217a7bffcc769dd614ace69c8e9f5455c7a4483fab09d00762d"
+      "sha256": "ac8f63d77c4b07e0436894e5ab714431e7f6fb0fee97ad02c1f3c5aba520bdfe"
     },
     "operations/biratnagar-procurement-plan.csv": {
       "bytes": 519039,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

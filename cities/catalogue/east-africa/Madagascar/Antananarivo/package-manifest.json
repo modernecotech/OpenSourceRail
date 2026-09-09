@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 5077,
-      "sha256": "09eb35740879507417d3810534b813b1391af3d6363c0b628d435c715b3b8806"
+      "bytes": 5131,
+      "sha256": "0a7fb1f310c3d26a6d48a76101e17d19fd6ed1f3d1169389ebb894c78254359d"
     },
     "antananarivo-network-map.png": {
       "bytes": 4613848,
@@ -74,24 +74,24 @@
       "sha256": "28b6c81aa7deb522468e53586556c15e3f0c77e8da4c7ef5afe233c94280697e"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 10935,
-      "sha256": "ce140a5e528a7fa1921993a0db00391b49d3b398864f30d3be93aabf9d1df9a6"
+      "bytes": 10899,
+      "sha256": "46c4b1978e3e11d9f03e3f07dadb8d4c15fc84a9e3045d0a0ccb85d1b16a8eff"
     },
     "engineering/energy/summary.json": {
-      "bytes": 76500,
-      "sha256": "6d4d37ce4b69c4b81d6906b7e16267e8b6df024c48c2c45134469db217b89030"
+      "bytes": 77138,
+      "sha256": "ad032db784630d507468891d6edacfcb9ec29be8811f2dfa583ac63228ae0abe"
     },
     "engineering/finance/summary.json": {
       "bytes": 12685,
-      "sha256": "2709e474629f695e4ce4419b3f17d50cb6ee371e91f358e875589093ac9f7c80"
+      "sha256": "7099ccfdc978034e5d89977b89fac2d028c4789b223f3fda948ee9781c6fe5ab"
     },
     "engineering/gis/summary.json": {
       "bytes": 1307,
       "sha256": "bfbe4f18476bba61490ee31b767ffada7cc55d4979ef70c5fe89483193d31b3c"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 134686,
-      "sha256": "26502d0fe644b103326b0853010c261ce5dba982d157c9685cfefb20153e7ba3"
+      "bytes": 134951,
+      "sha256": "b735f17a7586bf706798b4bdd03fd656640f7ffdedf7cfa2b8f6e39730aa503e"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 894,
@@ -107,7 +107,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1047,
-      "sha256": "f1fb45025b1a233dac095a872c166cee1c317b6965d380aac14c4d1a89c54308"
+      "sha256": "f12b62a260bb697576185d119af9ade9652ca90517908340ff65962850fecb07"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9607,
@@ -119,7 +119,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 177598,
-      "sha256": "84840b58473d2c27637081fb90c275bafcbd31bf1758c4752c0b72fc860af144"
+      "sha256": "f8a985b11d2a565641bc4132d8e8ec2a11d0f5ec4a134ee2659326f8280e69e3"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 734,
@@ -139,10 +139,12 @@
     },
     "operations/antananarivo-operations-manifest.json": {
       "bytes": 908,
-      "sha256": "163c9b27cc7f6626eeb59254b49a2d6757a6628df5bb181ea39bc7e4f87e081d"
+      "sha256": "d19aa9a4e43caa633e9b8aa50bba73e79239e5ce48e7d3b78d86bcaee1a2c609"
     }
   },
   "city": "antananarivo",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -151,12 +153,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/antananarivo.gpkg": {
       "bytes": 421888,
@@ -184,9 +185,9 @@
       "sha256": "86da2271991cecc2f472bfacdcb7b327361aa8d2677e7dec640f7865fb7ab1b3"
     },
     "operations/antananarivo-operations.json.gz": {
-      "bytes": 2440606,
+      "bytes": 2440689,
       "required_in_git_checkout": false,
-      "sha256": "c186ca9695d02128249a3410142032d21ddb53bfce076ec2b0b4adbbe7b04e80"
+      "sha256": "ccd8ddb52416163d5558c7ac9f105e7c94c90fa0b4565f1bf4679ce86075334a"
     },
     "operations/antananarivo-procurement-plan.csv": {
       "bytes": 3777245,
@@ -221,7 +222,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

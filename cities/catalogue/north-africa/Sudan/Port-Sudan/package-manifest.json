@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4692,
-      "sha256": "1445d94d1136db7f8dcc19632fe61c8e5e39d728b3a3c2ec0f13545a097f96df"
+      "bytes": 4746,
+      "sha256": "bd42115f24ecb487d1bf92b8c10e42e31fcec80f05cfc65e56f4009921857529"
     },
     "design.toml": {
       "bytes": 14580,
@@ -30,24 +30,24 @@
       "sha256": "6c1c805c217dca45ff85525f7ec9611dc5ba1770597590a00428db0aad38628c"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7000,
-      "sha256": "065dc1987f03bddd0e7ad96228c78883812ec5b8fff9c649b14359290efed3f3"
+      "bytes": 6964,
+      "sha256": "9f337f3d73aefd8785edf6145d9339e65de76f7a2c3df608a52b37b150dfe62f"
     },
     "engineering/energy/summary.json": {
-      "bytes": 15013,
-      "sha256": "564384175a89a9ce04243ab1428b4550b323dd9f900b7e019a5b037de4513ec5"
+      "bytes": 15612,
+      "sha256": "7a279f19b9469b872c96a7361d18f9b0a9e6142cdd92c4380a197fa6f5c1b62d"
     },
     "engineering/finance/summary.json": {
       "bytes": 12621,
-      "sha256": "fa08afe9344f341f9b61601eedf301341f5656e4e103c76aed2f715acedb0557"
+      "sha256": "7452be23e2370e2200961b877a2cacdc66f08bf3128cebdbfc043cd3a8925846"
     },
     "engineering/gis/summary.json": {
       "bytes": 1270,
       "sha256": "7b984240e1ab1e88c6e39964c8027c2061eaf741a88928e4dc2dbafaf5969c80"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 29555,
-      "sha256": "a67d3d63e02ee4ed4b2670e928df5b0ffb28d09b63352b7532656aab6f7e529e"
+      "bytes": 29820,
+      "sha256": "d1afda028c4b176d9645025ac03a840d464aee909621cb27c03217884b4936ac"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "1378102d576379152972546f6278c0ad4a7e4ec278915783b5a64560043cea01"
+      "sha256": "a18bc558372ac90e2d3914c233f012bf283be0611ba13ba3f86ac5ab0716fd43"
     },
     "engineering/screenshots/port-sudan-network-visualizer.png": {
       "bytes": 58867,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 36110,
-      "sha256": "a8aa3e8c0e64abbf0cdcb42adfd9be6b292a02d7b433657930785cc1989e77d7"
+      "sha256": "d4339b1d647f825698dc5d902cdf84102c46d13c5f5305d2e155d9c5e28a37b2"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -95,7 +95,7 @@
     },
     "operations/port-sudan-operations-manifest.json": {
       "bytes": 896,
-      "sha256": "4561b78a067e1ed8bee8d1e4da4c74d82c12eba3e07c9a3ba006dbfb3adbb893"
+      "sha256": "85e46f625aeb1bb531a11b6fb8c87273f1c97c3c3b0ec75901b0731b1c46ad0d"
     },
     "port-sudan-network-map.png": {
       "bytes": 2143958,
@@ -119,6 +119,8 @@
     }
   },
   "city": "port-sudan",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/port-sudan.gpkg": {
       "bytes": 266240,
@@ -160,9 +161,9 @@
       "sha256": "6377e86412ed847a9b0e218f0e1dbaae17a8f40543cb3b0038919ae8f432c590"
     },
     "operations/port-sudan-operations.json.gz": {
-      "bytes": 1978264,
+      "bytes": 1978362,
       "required_in_git_checkout": false,
-      "sha256": "bab291f013d9b16a363904cec2a63047893dd7728eb4e1c63b7f8218396dc6d5"
+      "sha256": "9378807778a8de093d5171baa0dda1cfc713514b2c556a98b0fa91061d8e85f1"
     },
     "operations/port-sudan-procurement-plan.csv": {
       "bytes": 4654717,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

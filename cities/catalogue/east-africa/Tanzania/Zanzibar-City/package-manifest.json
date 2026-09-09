@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4745,
-      "sha256": "9892b76a3ceb28b6715bea877f3a4df57c61bed6c60a80e70e421143a79b1432"
+      "bytes": 4799,
+      "sha256": "57894f3eeb2951ab4c91921283434361e56027ab516e3c822e98efa83c5c70c7"
     },
     "design.toml": {
       "bytes": 26923,
@@ -30,24 +30,24 @@
       "sha256": "79fd8e618c2f206b0fd62ad778a53df6c922305462b713a0c44f56151bed79ff"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7028,
-      "sha256": "7d3bf9791d6fba071e03c027ebdcbea90750f7596e170fe3747c9d15845c108e"
+      "bytes": 6992,
+      "sha256": "c04947d4066969526dda9ed1e9e719ccd35f1fba6a9e58518e220b6d3870d199"
     },
     "engineering/energy/summary.json": {
-      "bytes": 19756,
-      "sha256": "4b3f390ab33859c71e84d7e30c59b3a53625b0e84a4fc4e1b7b5e010ad9ca946"
+      "bytes": 20355,
+      "sha256": "a2681fb302a60df78c2bbfcc25983254545f609ec595e4e27413ce77d69c6961"
     },
     "engineering/finance/summary.json": {
       "bytes": 12694,
-      "sha256": "b22fe099dfba60887a582f841f5fac9f3b8330e70be6d78e6066e309769ac450"
+      "sha256": "8407e3ca6c4a2c69a72d3ef9fdf62b29c536f60e71d7636df5af35f9e28996d7"
     },
     "engineering/gis/summary.json": {
       "bytes": 1306,
       "sha256": "0b2a1a0793b7d8a010d537f44fa24c7efea0fc91e41d1974ce50e202cfac3b82"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 44573,
-      "sha256": "6a349b6675323b78f708d2bba11145d197b2f32d17d935e9528c1f9df264d6b3"
+      "bytes": 44838,
+      "sha256": "292222c3cb8533cac9ee4034caf3b30d718021f4df1bd90f6347d5e94baecffa"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 591,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "d1e7cce6dfcbdd07da16073266a6a6601a576fb1b66b7cd764302ce0dc7d19c3"
+      "sha256": "16bcf3d35e4444cefbbd710268fb4f491f9a3f3514fb90c9620f769727262445"
     },
     "engineering/screenshots/zanzibar-city-network-visualizer.png": {
       "bytes": 67736,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 48018,
-      "sha256": "2d9e6180075790fb71077ecacf289154ea1a175601eaa5f78e962e98d2eae095"
+      "sha256": "c15a70e6f9b9684af62380aff3fb85ed14550acbdb32cfd565bb23f3b88cdd13"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 733,
@@ -95,7 +95,7 @@
     },
     "operations/zanzibar-city-operations-manifest.json": {
       "bytes": 908,
-      "sha256": "d387c88655374c1fbb49393ccf6dbb2bbfbb7f1a9aa194deb75677cfc8495cdc"
+      "sha256": "da431d8909e1578a1b28618c6cfa6289a38a686bda19858f328f405c3be574c0"
     },
     "zanzibar-city-network-map.png": {
       "bytes": 1821202,
@@ -119,6 +119,8 @@
     }
   },
   "city": "zanzibar-city",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/zanzibar-city.gpkg": {
       "bytes": 270336,
@@ -160,9 +161,9 @@
       "sha256": "aa65db978f542ac6ded018433d9245b2710767559efcacf89463d36cb21635e0"
     },
     "operations/zanzibar-city-operations.json.gz": {
-      "bytes": 3443662,
+      "bytes": 3443779,
       "required_in_git_checkout": false,
-      "sha256": "ae145c3c3f9f1e43c975a35f4e52dedbccbdef8edf705d33e626e868a270630d"
+      "sha256": "b61220b827fcdff96df9519a820a427c43bf4d1d8ccc784b1a58c3deba518d85"
     },
     "operations/zanzibar-city-procurement-plan.csv": {
       "bytes": 8173724,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

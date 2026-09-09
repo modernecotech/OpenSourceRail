@@ -89,7 +89,7 @@ The strict README generator rejected the evidence: engineering/simulation/valida
 | SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | missing/fail; junction/authority gate open | not generated |
 | GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Grid/charging/solar | missing/fail; 77 findings | [`summary.json`](engineering/energy/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 77 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 1,667 assets / 7,838 tasks | [`baghdad-operations-manifest.json`](operations/baghdad-operations-manifest.json) |
 
 ## Local Files And Regeneration

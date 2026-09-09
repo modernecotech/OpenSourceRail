@@ -87,9 +87,14 @@ def build_network(
             grid_import_limit_kw=grid_import_kw,
             grid_export_limit_kw=grid_export_kw,
         )
-        charge_kw = connected_charge_kw
+        charger_efficiency = float(site.get("charger_efficiency", 0.98))
+        if not math.isfinite(charger_efficiency) or not 0 < charger_efficiency <= 1:
+            raise ValueError(f"{station}: charger efficiency must be in (0, 1]")
+        charge_kw = connected_charge_kw / charger_efficiency
         pv_kw = float(site["pv_nameplate_kw"]) * pv_factor
-        storage_kw = min(charge_kw, float(site["storage_max_discharge_kw"]) * storage_factor)
+        # Solar serves the DC demand first. Battery support is a power limit,
+        # not an instruction to discharge storage into an existing PV surplus.
+        storage_kw = min(max(charge_kw - pv_kw, 0.0), float(site["storage_max_discharge_kw"]) * storage_factor)
         local_dc_kw = pv_kw + storage_kw
         residual_dc_kw = charge_kw - local_dc_kw
         if residual_dc_kw >= 0.0:
@@ -258,16 +263,19 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
                 ),
             }
         )
+    contingency_findings: list[dict[str, object]] = []
     for name, result in cases.items():
+        case_findings = contingency_findings if name == "peak_charge_grid_only" else findings
+        result["scope"] = "grid-only contingency diagnostic" if name == "peak_charge_grid_only" else "stipulated solar/storage snapshot"
         for connection in result.get("site_connections", []):
             if not connection["passed"]:
-                findings.append({
+                case_findings.append({
                     "code": "site-grid-connection-limit-exceeded",
                     "case": name,
                     **connection,
                 })
         if result.get("overloaded_transformer_count", 0):
-            findings.append(
+            case_findings.append(
                 {
                     "code": "site-transformer-overload",
                     "case": name,
@@ -276,7 +284,7 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
                 }
             )
         if result.get("undervoltage_bus_count", 0) or result.get("overvoltage_bus_count", 0):
-            findings.append(
+            case_findings.append(
                 {
                     "code": "site-voltage-outside-screening-band",
                     "case": name,
@@ -318,7 +326,8 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
             "site_transformer_planning_headroom": TRANSFORMER_PLANNING_HEADROOM,
             "connection_limit_basis": "site transformer HV active power, including transformer and converter losses; positive import and negative export checked separately",
             "connection_limit_tolerance_kw": CONNECTION_TOLERANCE_KW,
-            "connection_limit_response": "report and fail the screen; no implicit connection upgrade, charger derating or PV curtailment",
+            "connection_limit_response": "coordinated snapshot findings fail that screen; grid-only contingency findings are reported separately and do not require upgrades",
+            "charger_conversion": "train-side demand divided by each site's configured DC/DC efficiency before dispatching PV, battery and residual rectifier import",
             "coordinated_daylight_pv_fraction": DAYLIGHT_PV_FACTOR,
             "coordinated_storage_discharge_fraction": COORDINATED_STORAGE_FACTOR,
             "clear_sky_weather_status": "pvlib theoretical envelope; not measured weather",
@@ -326,13 +335,17 @@ def generate(design_path: Path, output: Path) -> dict[str, object]:
         },
         "cases": cases,
         "design_findings": findings,
+        "contingency_findings": contingency_findings,
+        "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
+        "operating_energy_validated": False,
         "solver_passed": solver_passed,
         "passed": solver_passed and not findings,
         "deployment_release_ready": False,
         "limitations": [
             "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
             "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
-            "Exceedances require a controlled connection upgrade, charging schedule/derating or export-control design with timetable and cost reconciliation.",
+            "Grid-only full-power operation is a contingency diagnostic, not a requirement of the solar/storage architecture.",
+            "A passing snapshot does not establish battery replenishment, operating endurance or service delivery; these require the continuous solar/storage duty.",
         ],
         "tools": {
             "pandapower": pp.__version__,

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4717,
-      "sha256": "693a101ebae8588574054c98e40f0be37db0356f9ecdf3648931bde102b1fabe"
+      "bytes": 4771,
+      "sha256": "2fb951f4f9f57f6366e88d7046be4f78193cc5a4ddb19d13cf27994db1c3a07d"
     },
     "deir-ez-zor-network-map.png": {
       "bytes": 1619571,
@@ -50,24 +50,24 @@
       "sha256": "d6094ab65ec3b2fcf7768c7ef53ded3bb413eef1f2898792566de11901de6c1a"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7009,
-      "sha256": "3fac24d81c96e3707a1ec800afd1f7dc82f89d48d216c656fcac2f2a8aec4173"
+      "bytes": 6973,
+      "sha256": "3e5e3ebf44064996116a6c29850fc95380331600505bf00da97f3f2acd02d989"
     },
     "engineering/energy/summary.json": {
-      "bytes": 15406,
-      "sha256": "f1ffcf2234e96ee94823da951be10a94b5fc418fb5ace7ea86631a6d322b7bcd"
+      "bytes": 16005,
+      "sha256": "adc90bf713cb4fcc5fec808f52aea9c72b3c1dedfb2d5e1de022f505cf190ca9"
     },
     "engineering/finance/summary.json": {
       "bytes": 12652,
-      "sha256": "e2592880319d5868fb2e7891e6e7aaa15177b7be5f8710f26e06acbcacd386d0"
+      "sha256": "c5097ade971a9d947d02abe8bf22c50bf992178a9cb336026fc2c01f14190c86"
     },
     "engineering/gis/summary.json": {
       "bytes": 1268,
       "sha256": "050505ce59f3b6777f4addda6b3716ca86939b33a3d8ed48fc31e772547cfc63"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 35056,
-      "sha256": "1e2f3112bc3ad0b4afc6940a33aea83a0e8009b65fbafc69de4549b3082649f4"
+      "bytes": 35321,
+      "sha256": "2a0af0aeb7d10fd44f439ad736360baa65e9ef0ad17091a5e53556878d052544"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 589,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1044,
-      "sha256": "20435831b6eba90d3dd40edd68d50825610255bc739fc10dc91b724e357b63dd"
+      "sha256": "26592175eaecf1c988f31cf2b9cef059568e33889b49c717a32c4382f0b024fa"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9646,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 37674,
-      "sha256": "7bbf3fcbc52450328103f67a57f9b36ff2f3c98bc1543dcd3cb08202ef799faf"
+      "sha256": "e602e277cff2227f2bfcf79298fc53901055beda8ba6067ac1f78c36f771658c"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 731,
@@ -115,10 +115,12 @@
     },
     "operations/deir-ez-zor-operations-manifest.json": {
       "bytes": 904,
-      "sha256": "f31ae88374b915e9269a2bc261d394cf440dbf156809d6035f77c42aeb728f4c"
+      "sha256": "6464bd7707d356a252ef8fc17abba89b4eeda6b4c15f1a7bf533fadd3ce9d4cd"
     }
   },
   "city": "deir-ez-zor",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/deir-ez-zor.gpkg": {
       "bytes": 270336,
@@ -160,9 +161,9 @@
       "sha256": "4f9ae9c3def2f90b8f32dbadf2c1249b2be3704d8f9a179ffa59e97478e45330"
     },
     "operations/deir-ez-zor-operations.json.gz": {
-      "bytes": 3602375,
+      "bytes": 3602431,
       "required_in_git_checkout": false,
-      "sha256": "52fa844ae1dee1327d31968cd9d3a382da4fbb769d0b0a7a54fea66a95da67d5"
+      "sha256": "6b7a3aaeb73ac847a9e602ef5c7dd1f1f8439ebc68219f9ac0ec7aa0d66715e9"
     },
     "operations/deir-ez-zor-procurement-plan.csv": {
       "bytes": 8566452,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

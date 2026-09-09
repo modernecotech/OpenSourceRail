@@ -2293,9 +2293,10 @@ def render_readme(
                 f"| GIS package | "
                 f"{evidence_status(engineering['gis'].get('generation_passed'))} | "
                 "[`summary.json`](engineering/gis/summary.json) |",
-                f"| Grid/charging/solar | "
+                f"| Solar/storage snapshot (operating duty unverified) | "
                 f"{evidence_status(engineering['energy'].get('passed'))}; "
-                f"{len(engineering['energy'].get('design_findings', []))} findings | "
+                f"{len(engineering['energy'].get('design_findings', []))} findings; "
+                f"{len(engineering['energy'].get('contingency_findings', []))} grid-only diagnostics | "
                 "[`summary.json`](engineering/energy/summary.json) |",
                 f"| Operations, QA and maintenance | "
                 f"{operations.get('totals', {}).get('assets', 0):,} assets / "
@@ -3086,7 +3087,7 @@ def _finalise_readme(
         grid_case = cases.get("peak_charge_grid_only", {})
         coordinated = cases.get("coordinated_daylight", {})
         out.append(
-            f"| pandapower/pvlib | Design screen {'passed' if energy.get('passed') else 'failed'}; solver "
+            f"| pandapower/pvlib | Solar/storage snapshot {'passed' if energy.get('passed') else 'failed'}; solver "
             f"{'passed' if energy.get('solver_passed') else 'failed'}; "
             f"grid-only max transformer loading "
             f"{grid_case.get('maximum_transformer_loading_percent', 0):.1f}%; "

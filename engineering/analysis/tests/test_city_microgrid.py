@@ -55,19 +55,30 @@ def test_solver_failure_cannot_be_reported_as_convergence(tmp_path, monkeypatch)
     assert "test convergence failure" in result["error"]
 
 
-def test_city_generation_fails_design_despite_converged_solver(tmp_path, monkeypatch):
+def test_grid_only_contingency_does_not_fail_buffered_snapshot(tmp_path, monkeypatch):
     design = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah/design.toml"
     monkeypatch.setattr(microgrid, "clear_sky_specific_yield", lambda *args: 2000.0)
     report = microgrid.generate(design, tmp_path)
 
     assert report["solver_passed"] is True
-    assert report["passed"] is False
+    assert report["passed"] is True
+    assert report["operating_energy_validated"] is False
     assert report["deployment_release_ready"] is False
-    findings = [row for row in report["design_findings"] if row["code"] == "site-grid-connection-limit-exceeded"]
+    assert report["design_findings"] == []
+    findings = [row for row in report["contingency_findings"] if row["code"] == "site-grid-connection-limit-exceeded"]
     assert len(findings) == 7
     assert all(row["case"] == "peak_charge_grid_only" for row in findings)
     assert all(row["import_exceedance_kw"] > 500 / 0.97 - 500 for row in findings)
-    assert json.loads((tmp_path / "summary.json").read_text())["passed"] is False
+    assert json.loads((tmp_path / "summary.json").read_text())["passed"] is True
+
+
+def test_charger_loss_and_solar_priority(tmp_path):
+    battery = {**site(500, 3000, 5000), "storage_max_discharge_kw": 10000, "charger_efficiency": 0.98}
+    network = microgrid.build_network([battery], {"test": 500}, pv_factor=0.6, storage_factor=0.5)
+    # Surplus is PV minus charger input: storage must not discharge into export.
+    assert network.sgen.p_mw.iloc[0] == pytest.approx((3000 - 500 / .98) * .97 / 1000)
+    night = microgrid.build_network([battery], {"test": 500}, pv_factor=0, storage_factor=0)
+    assert night.load.p_mw.iloc[0] == pytest.approx(500 / .98 / .97 / 1000)
 
 
 def test_catalogue_energy_summaries_are_current_and_fail_closed():
@@ -97,3 +108,15 @@ def test_catalogue_gis_and_plots_reference_current_inputs():
             assert manifest["sources"][f"{name}_summary_sha256"] == microgrid.source_hash(engineering / name / "summary.json"), path
         for record in manifest["screenshots"].values():
             assert record["sha256"] == microgrid.source_hash(engineering / "screenshots" / record["path"]), path
+
+
+def test_failed_coordinated_snapshot_still_blocks_its_screen(tmp_path, monkeypatch):
+    monkeypatch.setattr(microgrid, 'clear_sky_specific_yield', lambda *args: 2000.0)
+    monkeypatch.setattr(microgrid, 'DAYLIGHT_PV_FACTOR', 0.0)
+    monkeypatch.setattr(microgrid, 'COORDINATED_STORAGE_FACTOR', 0.0)
+    report = microgrid.generate(REPO_ROOT / 'cities/catalogue/west-asia/Iraq/Samawah/design.toml', tmp_path)
+    assert report['solver_passed']
+    assert not report['passed']
+    assert len(report['design_findings']) == 7
+    assert all(row['case'] == 'coordinated_daylight' for row in report['design_findings'])
+    assert len(report['contingency_findings']) == 7

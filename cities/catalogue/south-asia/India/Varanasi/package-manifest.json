@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4846,
-      "sha256": "d509059552666360a2602fa64d820af261b1bc538985cdefd14391fd57392558"
+      "bytes": 4900,
+      "sha256": "9d71a1fa660561a3b0c6b29b7e458d6a8a35629310c223ef5355be62d4f6f5ba"
     },
     "design.toml": {
       "bytes": 41826,
@@ -42,24 +42,24 @@
       "sha256": "5e7be69b3d1e86fcd626f21905a5a73f7ab3796fafd1f774cf5d3db61cac306b"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8943,
-      "sha256": "c2e3f592c7f0a47d138f1eb5339abda58be4a2ff584e8f7226fcbd3e89a29006"
+      "bytes": 8907,
+      "sha256": "1af81008a7e1d0460fcdd80f12a00406ec2c44f2fb6f7b816f0619d3235ff0c8"
     },
     "engineering/energy/summary.json": {
-      "bytes": 53339,
-      "sha256": "6a64847224523f5a1d96c2916b8e95eba8098f47fca6364101cdeda1c57ae147"
+      "bytes": 54185,
+      "sha256": "ad249d9402def14f9483e1be9f1d45159d45424170e8867ca4a741b04e520cea"
     },
     "engineering/finance/summary.json": {
       "bytes": 12670,
-      "sha256": "cf05cd48691854efad8f32ea80e4c05131485e24a988630cabe785a131088551"
+      "sha256": "c5406dad857a301cf504978ca289ea8b81aab44673f6a772c4917229758ad4b4"
     },
     "engineering/gis/summary.json": {
       "bytes": 1245,
       "sha256": "f3d0c3d7d8e991a729f212e8c9461462d1f7476cfb5e59c0e3248f81140752a2"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 50228,
-      "sha256": "8ce5ceeaea2ae35a81de3504852121bd34ad24e580be731e0a88089f07b3d457"
+      "bytes": 50493,
+      "sha256": "a8f880daacb8f804e0e053b63c72ed29790e839bbd7ca11b45b03a289a5ff96d"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 586,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "3709ef8f761c06fed1a68cfa7bd3146f5ec5f659764a8c9163526ad239387d66"
+      "sha256": "7a13a2624f2c87830d894112f7ac7ed0cb83dae67c50dc23e6f5d37f2fb7c02e"
     },
     "engineering/screenshots/varanasi-network-visualizer.png": {
       "bytes": 102538,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 112958,
-      "sha256": "1752a3de00e1d380f527ebbbc72dcb6ca1dcd3ef6fa48ccec81efa234ea604de"
+      "sha256": "17940eda176b89765afbf2a64b004cc936198ada4f890c6d8ef36fc49b8ee137"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 728,
@@ -107,7 +107,7 @@
     },
     "operations/varanasi-operations-manifest.json": {
       "bytes": 896,
-      "sha256": "4e36f6618a3cae2208c578753eb2ba4424fdfdbfe04a20352e113937ba9a629e"
+      "sha256": "9900b796ef59f617e6377e34892700367743a11989ad4908a0c810708259e809"
     },
     "varanasi-network-map.png": {
       "bytes": 4760117,
@@ -131,6 +131,8 @@
     }
   },
   "city": "varanasi",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/varanasi.gpkg": {
       "bytes": 344064,
@@ -172,9 +173,9 @@
       "sha256": "8f0cd1ec22a8fcef749c3f30beb4ead13d530bd212bb6c9dc9b1342289e0afc7"
     },
     "operations/varanasi-operations.json.gz": {
-      "bytes": 1420658,
+      "bytes": 1420698,
       "required_in_git_checkout": false,
-      "sha256": "f09337ab33936d4369deb77a694edc2df55b56584f5acc018a1d3452c7e71cab"
+      "sha256": "cb5faa789173ceb67e306bd38c998f671b31a857313947ee454af14ef0f83eb5"
     },
     "operations/varanasi-procurement-plan.csv": {
       "bytes": 2103294,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

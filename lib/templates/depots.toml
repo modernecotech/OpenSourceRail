@@ -49,8 +49,8 @@ recharge_target_soc         = 0.95
 # far end of a line. The main-heavy still owns heavy maintenance and defect
 # rectification; distributed stabling is for clean, telemetry-healthy sets.
 enabled                     = true
-minimum_station_power_kw    = 150
-requires_grid_connection    = true
+# Charging rates are capped by installed equipment; replay proves overnight duty.
+requires_grid_connection    = false
 requires_cctv_monitoring    = true
 requires_remote_isolation   = true
 morning_start_policy        = "simultaneous-from-stabled-stations"

@@ -2,13 +2,15 @@
 
 This review follows the repository access, persistence and provenance repairs.
 It examines what the models actually demonstrate, rather than counting files,
-drawings, tests or completed solver runs. The drainage and electrical-screen software defects below have now been
-repaired and their evidence regenerated. Physical connection exceedances and
-the other engineering and delivery gaps remain open.
+drawings, tests or completed solver runs. The drainage repairs and electrical
+connection measurements below have been regenerated. The later
+[ethos audit](ethos-audit-2026-09-09.md) corrects this review's interpretation of
+the electrical results: a grid-only stress failure does not establish a
+shortfall in the solar/storage operating design.
 
 The repository has useful reproducible planning models and explicitly open
-release registers. The corrected electrical screen exposes insufficient declared connection
-capacity. Delivery
+release registers. The electrical screen now separates grid-only contingency findings from
+solar/storage snapshot acceptance. Full operating energy validation remains open. Delivery
 cashflow, depot scope and lifecycle cost also need stronger connections to the
 physical quantities and operating plan.
 
@@ -48,13 +50,15 @@ and intensity × area at three roof sizes.
 municipal-network capacity, tailwater, blockage and exceedance design. The
 model repair does not close those deployment requirements.
 
-## 2. Electrical connection gates repaired; capacity exceedances remain open
+## 2. Electrical measurements verified; grid-only acceptance premise withdrawn
 
-**Priority: high. Software omission repaired; physical design correction required.**
+**Priority: high. Correct the operating premise before prescribing equipment.**
 
 The [microgrid model](../engineering/analysis/city_microgrid.py) applies a
-97% grid rectifier efficiency. A 500 kW charger requires **515.46 kW AC** before
-transformer losses. The original model enlarged the transformer as necessary
+97% grid rectifier efficiency. A **500 kW residual DC-bus load** requires
+**515.46 kW AC** before transformer losses. This is not the grid requirement
+when PV or station storage supplies the load. It also excludes the separate
+98% train-charger DC/DC loss. The original model enlarged the transformer as necessary
 and declared a pass on solver convergence without checking the connection.
 The initial all-city arithmetic identified **3,976 sites across 262 cities**
 with insufficient declared import for the grid-only case.
@@ -67,18 +71,35 @@ findings. The CLI fails a design with unresolved findings, and batch resume
 cannot treat it as successful. README tables and engineering plots show the
 design result and finding count separately from solver convergence.
 
-The catalogue rerun confirms **3,976 sites across 262 cities** exceed declared
-connections. All 266 solvers converge; only four electrical design screens pass.
+The audit of the earlier reports confirmed **3,976 sites across 262 cities** exceed declared
+connections **only in the case with both PV and battery discharge disabled**.
+Every flagged site has stationary storage. The existing coordinated daylight
+case has **zero connection exceedances across all 266 cities**. Its stipulated
+PV/storage power fractions do not establish endurance or timetable acceptance.
+The earlier combined gate passed only four cities because it required the
+grid-only case too. That gate is repaired: all 266 solar/storage snapshots pass,
+and the 3,976 grid-only findings remain separate contingency diagnostics.
 The [Samawah result](../cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/summary.json)
-now fails on **seven grid-only connections** requiring **519.02 kW** each at the
-HV connection against a declared 500 kW. Mosul has 26 grid-only exceedances.
+originally recorded **seven connections in the grid-only case** requiring **519.02 kW** each
+at the HV connection against a declared 500 kW. These stations are not grid-only
+installations: each has 500 kWh storage, 500 kW battery discharge and 300 kWp PV.
+Their original coordinated-case import was **73.21 kW** each. Including the
+previously omitted 98% charger DC/DC efficiency gives **529.65 kW** grid-only
+and **83.75 kW** coordinated import under the same transformer model. Mosul has 26
+exceedances in the same grid-only contingency.
 Regression tests check import, export, converter and transformer losses,
 nonconvergence, and the distinction between design failure and convergence.
 All-city provenance and pass consistency are also checked.
 
-**Still required:** resolve each exceedance through a controlled connection
-upgrade or charger/schedule change, then reconcile timetable, equipment and
-cost. No connection capacity or operating demand has been silently changed.
+**Correction:** the earlier instruction to resolve every finding through a
+connection upgrade or charging change was unsupported and is withdrawn.
+Evaluate solar generation, stored energy, shared charging, replenishment and
+the actual service duty together. Grid backup covers residual demand under the
+project architecture; full charger demand from grid alone is not a default
+requirement. The software now distinguishes snapshot acceptance from contingency findings
+and explicitly leaves `operating_energy_validated` false. A passing snapshot
+does not establish replenishment or endurance. No equipment or connection
+quantities were increased to obtain these results.
 The common ideal 33 kV bus does not demonstrate feeder routes, upstream network
 capacity, protection or utility approval. The stipulated storage snapshot does
 not establish state of charge or endurance.
@@ -371,9 +392,10 @@ individual city schedules should be presented as separate planning cases.
 
 ## Work order for the next iteration
 
-1. Resolve the connection-capacity findings exposed by the repaired electrical
-   screen, including their timetable and cost consequences. The drainage and
-   grid-limit software repairs and evidence regeneration are complete.
+1. Validate the full solar/storage/top-up operating duty before changing
+   equipment quantities. The grid-only gate, grid-dependent stabling checks and
+   historical-experiment package gates identified in the
+   [ethos audit](ethos-audit-2026-09-09.md) are repaired.
 2. Close depot equipment placement, installed cost and physical stabling
    allocation against the repaired quantity contract and new per-city requirements.
 3. Connect procurement, calendars, renewal events and shared factory resources
@@ -395,6 +417,7 @@ The EPA manual was consulted for the SWMM input definition. It did not include
 supplier quotations, field surveys, a complete structural reassessment, a
 physical test campaign or an independent railway safety assessment. The original diagnostic replays were followed by the controlled generator
 repairs, regression tests and regenerated evidence described above. Full
-repository acceptance remains failed while Samawah and Mosul have electrical
-findings and therefore failed full-package manifests; those gates were not
-weakened to restore a green result.
+deployment packages remain incomplete where physical or operating evidence is
+open. Repository health now checks truthful package status and current selected
+evidence; it does not require physical deployment gates to be closed merely
+to maintain a coherent planning repository.

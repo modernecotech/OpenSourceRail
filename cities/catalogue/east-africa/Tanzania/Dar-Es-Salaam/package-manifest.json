@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 5104,
-      "sha256": "df43028385cd05c2bf4d9eef4ab280d9ab15b85b1b38a036e81abfd11713e984"
+      "bytes": 5158,
+      "sha256": "ec190226085ad3d7e1cc2bbd87356ca7d6c896ed25b5f8b4f0f1b91678e3f68b"
     },
     "dar-es-salaam-network-map.png": {
       "bytes": 2950482,
@@ -74,24 +74,24 @@
       "sha256": "a5dca7ca99a8286e7b6dff89a4bdb250ae1bfe04f07ed7bbafe6b0e383b52107"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 10936,
-      "sha256": "feb98b3c5e75d7dfc350effd4b4b1f45080cdbee79973833a23a7a815d9f16fa"
+      "bytes": 10900,
+      "sha256": "483065991f0a864fc0026095cbf5bcdc1a1f595602579660cb08b31641419e03"
     },
     "engineering/energy/summary.json": {
-      "bytes": 96205,
-      "sha256": "6cbb51357dcb2d8a44ab88b3880db870b4ca41dd80d2105df69934cfd844a883"
+      "bytes": 96860,
+      "sha256": "ea93ea46df2506621ff9f7118c5babd187a5b694f798c5a5436133071f7a63c7"
     },
     "engineering/finance/summary.json": {
       "bytes": 12663,
-      "sha256": "9a51ef2c302d22d527af40a95f7c96bdf8c6d77f9ef9085a8ea018aed1371f13"
+      "sha256": "ff69e5797103fd6806ddce832bd2aef698b9fe2fea0e4a467ade389af950dbd9"
     },
     "engineering/gis/summary.json": {
       "bytes": 1310,
       "sha256": "97fe6aeed088ba6b9791091af9f68de5259df179698b059e69f551cca0b5742b"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 132348,
-      "sha256": "b1180f53741356134ad8fb8d6768f92d5d41d81cddaaed47d9e0c1f13897f290"
+      "bytes": 132613,
+      "sha256": "614886dfad4c77863fc5cab58ca5fb35c39578dd5cf25e69811ff2107b85be2b"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 591,
@@ -107,7 +107,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "99f49f05ef93a593afd0f459cf2a143c9bfe66a1a0cf05ff027b35e37e8b8837"
+      "sha256": "21a4752baeeb120d86d3601b754ee87616520954783828e785cbbc517355c5e6"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9575,
@@ -119,7 +119,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 216648,
-      "sha256": "1682786894cb292799415ff090752194f5e55f6a518de588adc56eeb76fccadd"
+      "sha256": "d19bb03ae160643fbe610613485b506e7d1d878353ec8912d715bccf375caa12"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 735,
@@ -139,10 +139,12 @@
     },
     "operations/dar-es-salaam-operations-manifest.json": {
       "bytes": 916,
-      "sha256": "d7f0548061b3f05735b4b3ffc92dff8940385ee9e529634bf29b0aef14172b00"
+      "sha256": "e9d5b47ea2b48a2208ded91aea5147697beb680eeb1b446e2bb0a92b77ec542e"
     }
   },
   "city": "dar-es-salaam",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -151,12 +153,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/dar-es-salaam.gpkg": {
       "bytes": 471040,
@@ -184,9 +185,9 @@
       "sha256": "7e37849e8569ef5d6bca713291322bd2edb9b951c084fb73df06e098aa2b8f36"
     },
     "operations/dar-es-salaam-operations.json.gz": {
-      "bytes": 3339195,
+      "bytes": 3339267,
       "required_in_git_checkout": false,
-      "sha256": "dcff480dc7b27e4a1b12287decaaa5ad25b2975c09971be592ec9dd58718d7b7"
+      "sha256": "a319c8fd3184e147887bce335c88f1a61e25fc00d7c5ae2522d4c9b064d63f06"
     },
     "operations/dar-es-salaam-procurement-plan.csv": {
       "bytes": 5120091,
@@ -221,7 +222,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

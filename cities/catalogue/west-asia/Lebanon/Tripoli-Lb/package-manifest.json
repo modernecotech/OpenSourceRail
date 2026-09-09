@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4696,
-      "sha256": "2a4434cdb8248de7fade6c700c4b0062106ba2784e9e5355e68d5e5ff29268e9"
+      "bytes": 4750,
+      "sha256": "7df609ec2084c8581735810fb759b7e505b31c163144e19bdb2aeae75457aa36"
     },
     "design.toml": {
       "bytes": 16141,
@@ -30,24 +30,24 @@
       "sha256": "63287982cd170cce75311528e80368adc4993136f3ddd622967b70a82354f4a1"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7001,
-      "sha256": "71fc3af2baa7c8a8c261c3abee3bc101fe0178a5b329070f6d45fb03ff5733bd"
+      "bytes": 6965,
+      "sha256": "b7e29ffb8bfabc167632dfb80aca62eea53f49fdaec60bf4ce7989ff69a65778"
     },
     "engineering/energy/summary.json": {
-      "bytes": 20263,
-      "sha256": "65df19cf1631ae7c7432dd6bc797d7b6de230613c9d8eb751ae5f02f5d45d1fa"
+      "bytes": 20862,
+      "sha256": "847ccc66c8fd6b5603d398713b1d19b167b377ca37a0a03b45f4c9bb10b83577"
     },
     "engineering/finance/summary.json": {
       "bytes": 12652,
-      "sha256": "aa3df6b07a83a57d6b92455632813d39ac40bec7e55c09306098d6278fec3d56"
+      "sha256": "4d99bcab52e64a49a08c85ebf4d90c098eadf70c04f61091183a81e4a4e199aa"
     },
     "engineering/gis/summary.json": {
       "bytes": 1267,
       "sha256": "4bf20cfc680a8d2170113a4097776a231e607d6056b89928ff6bd088033b7e44"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 27385,
-      "sha256": "520e8a8c5cc87ae9332c97993e29b87cc3e8371b03e1cf6b02b56558f193062e"
+      "bytes": 27650,
+      "sha256": "27bea85a4fd6b9e284172ff0452688d3d1ee8deb7d5b4d4cabeaa295fda16afa"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -55,7 +55,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "08ce2cfac8951f0668e3a4ccd2f4c112e06d9390bf9f67b34b4794da63d2e97f"
+      "sha256": "5287ff57e1671a05e4f6d6ca8b7877b4093bdff0ed950918db19f4482b7e539e"
     },
     "engineering/screenshots/tripoli-lb-network-visualizer.png": {
       "bytes": 65204,
@@ -75,7 +75,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 45380,
-      "sha256": "cce93af2c40ba42bccec1fdebbdf68b97fedc404fc52980902cdc5096fb4b618"
+      "sha256": "6906e7c4d0ca83252f00e9afe0886bb55577e8fac87ca38866dce70fc26dfb88"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 730,
@@ -95,7 +95,7 @@
     },
     "operations/tripoli-lb-operations-manifest.json": {
       "bytes": 898,
-      "sha256": "d8666532f51c9016a9a38dcaf704e73ae54c2d50988c3dcc7bb682d9f7869b7e"
+      "sha256": "7933960e096450c0f733d438212887e8d62db985a64374b268be6003624f7ea0"
     },
     "tripoli-lb-network-map.png": {
       "bytes": 2610890,
@@ -119,6 +119,8 @@
     }
   },
   "city": "tripoli-lb",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/tripoli-lb.gpkg": {
       "bytes": 274432,
@@ -160,9 +161,9 @@
       "sha256": "b4490779279925b377aa8e96a3e2ae271049cd1c38f933398514e6591f0c1836"
     },
     "operations/tripoli-lb-operations.json.gz": {
-      "bytes": 2609444,
+      "bytes": 2609813,
       "required_in_git_checkout": false,
-      "sha256": "c130888f279058cbddf4f3d0808be5d39e7650504fb923bb46e79f3edbf0b498"
+      "sha256": "626bb4f1e4ce8a070d228bd2c67bac0fc3e811ec082e1b4ae7972beb1239ef3d"
     },
     "operations/tripoli-lb-procurement-plan.csv": {
       "bytes": 6072101,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4786,
-      "sha256": "8c2eb2ee013e49eb449935bda61f62d3015dc0d1782dd1b0f053fc068870fdae"
+      "bytes": 4840,
+      "sha256": "ca03f8a2074a8db08bccc1a090f2b920ff44a6967b96c07e8ac8fe57b32cce2d"
     },
     "design.toml": {
       "bytes": 63999,
@@ -38,24 +38,24 @@
       "sha256": "7db7c9b1f08b24952c2b5787d2eb6804e69c59519e78a08fff62760a0225daea"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8311,
-      "sha256": "649bfb05b1beaa50db91237f0dc164935a43605e5dbde4a14ef52977f2f05326"
+      "bytes": 8275,
+      "sha256": "1ec2b6882d55c6b11868595096eaf8ffb73a797dd96b9de99eff736443076aee"
     },
     "engineering/energy/summary.json": {
-      "bytes": 56506,
-      "sha256": "a3b6654c7d0aa115dba500f38c950bc5d26f91ce2d71f8db01b437d0a7b20315"
+      "bytes": 57141,
+      "sha256": "edd070ba964bb563f7da10c954e20d3110fa9c0d53ed93ba8e60f8e8bcfb2dd0"
     },
     "engineering/finance/summary.json": {
       "bytes": 12673,
-      "sha256": "d65f92e30c169d9bac91d1d3da5e20c5eb12051ecb6208b9d3f15c69e3e76ca0"
+      "sha256": "5bfbeee2be033d189fd1e5882f861285ee28afe4c07c93120a2b91640495182a"
     },
     "engineering/gis/summary.json": {
       "bytes": 1253,
       "sha256": "ef97691868fbb5ce34d921916d13c33383b025be8ab83c436951ecfe2c666ffd"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 82943,
-      "sha256": "4f3bb97bdf97e05910d6678320de59d140b3d9e43376452eefa04f3de75144a6"
+      "bytes": 83208,
+      "sha256": "2b07a0b41d0060efd7fc3a8b1bf42983e4c5af17d119849bf7eb28b284a01a82"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 585,
@@ -63,7 +63,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1032,
-      "sha256": "d2373eba3bb22fd1c8e8c4bb41f8648ff18d6f7b09eb8c3ff6321a9f8c0779e7"
+      "sha256": "e6b7fcb30a05c77fadfb9d24916586aa9ca1a0d93291bc4b325b6dc9958a7c43"
     },
     "engineering/screenshots/yaounde-network-visualizer.png": {
       "bytes": 127694,
@@ -83,7 +83,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 120729,
-      "sha256": "a8cb7345934c9965463c14e0946a4b8321fcf01978e4651fc0be65c13a61e7a9"
+      "sha256": "b107acc39c01e987597efe7ed7878e34022ca0a294109ef18f7222947e3afbb8"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 727,
@@ -103,7 +103,7 @@
     },
     "operations/yaounde-operations-manifest.json": {
       "bytes": 895,
-      "sha256": "88b629b01256daa1e605e2a40abcffccfd3bf7b3eb22d4492390c460afc54857"
+      "sha256": "8d434bea72d38e013d82586a9ab3c3743917d564a536e6e97601141ef4e5642f"
     },
     "yaounde-network-map.png": {
       "bytes": 4580378,
@@ -127,6 +127,8 @@
     }
   },
   "city": "yaounde",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -135,12 +137,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/yaounde.gpkg": {
       "bytes": 356352,
@@ -168,9 +169,9 @@
       "sha256": "99aec0fcc619fed8efc6397ffc5618b6e9127cfe1e813c19dfcacf5ea664f0f3"
     },
     "operations/yaounde-operations.json.gz": {
-      "bytes": 1620440,
+      "bytes": 1620493,
       "required_in_git_checkout": false,
-      "sha256": "6500385b8c6533e6294c7f26365bf1e2ab7885435be8f5ca26b50bde62ba2c6c"
+      "sha256": "1dc974e3dd00ce57ce979568f435decd7c2443e2c16e20400fbfb0ca55d58423"
     },
     "operations/yaounde-procurement-plan.csv": {
       "bytes": 2492588,
@@ -205,7 +206,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

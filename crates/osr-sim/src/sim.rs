@@ -1459,7 +1459,9 @@ fn step_train(
             {
                 let headroom = (DEPOT_TOP_UP_SOC - trains[idx].soc).max(0.0)
                     * trains[idx].battery_capacity_kwh();
-                let requested = (DEPOT_CHARGE_POWER_KW / 3600.0) * dt;
+                let charging_kw =
+                    DEPOT_CHARGE_POWER_KW.min(network.station(station).charging_power_kw as f32);
+                let requested = (charging_kw / 3600.0) * dt;
                 let requested = if fleet.station_stabling {
                     requested.min(headroom)
                 } else {
@@ -1499,6 +1501,7 @@ fn step_train(
                             climate,
                             fleet,
                             faults,
+                            energy,
                         )
                         && entry_candidate(
                             idx,
@@ -1545,7 +1548,7 @@ fn step_train(
                 // train transfers to a stabling charger for its top-up.
                 let depot_top_up = (s.is_depot && remaining_s <= 0.0) || station_holding;
                 let charging_power_kw = if depot_top_up {
-                    DEPOT_CHARGE_POWER_KW
+                    DEPOT_CHARGE_POWER_KW.min(s.charging_power_kw as f32)
                 } else {
                     s.charging_power_kw as f32
                 };
@@ -1656,6 +1659,7 @@ fn step_train(
                 climate,
                 fleet,
                 faults,
+                energy,
             ) || entry_candidate(
                 idx,
                 trains,
@@ -2060,8 +2064,9 @@ fn entry_candidate(
 
 /// Distributed operation needs enough stored energy to reach a selected
 /// charging station, not just to enter the next section. No future solar or
-/// charging delivery is credited. Known pad/grid outages exclude a destination;
-/// storage-only resilience and faults arising en route need separate planning.
+/// charging delivery is credited. A grid outage alone does not disable storage.
+/// Source availability is checked now and charging is metered again on arrival;
+/// this does not reserve battery energy against other trains' future draws.
 fn can_reach_stabling_charger(
     train: &Train,
     departure_heading: Heading,
@@ -2069,6 +2074,7 @@ fn can_reach_stabling_charger(
     climate: &ClimateModel,
     fleet: &LineFleet,
     faults: &FaultEngine,
+    energy: &EnergySystem,
 ) -> bool {
     if !fleet.station_stabling {
         return true;
@@ -2089,8 +2095,7 @@ fn can_reach_stabling_charger(
         if train.soc * train.battery_capacity_kwh() + f32::EPSILON < required {
             return false;
         }
-        if fleet.stables_at(next) && !faults.pad_disabled_at(next) && !faults.grid_disabled_at(next)
-        {
+        if fleet.stables_at(next) && energy.can_supply_at_station(next, faults) {
             return true;
         }
         current = next;

@@ -325,6 +325,22 @@ pub struct EnergySystem {
 }
 
 impl EnergySystem {
+    /// Present source availability, not a reservation of future arrival energy.
+    /// Draws debit the shared site state; arrival charging is checked again.
+    pub fn can_supply_at_station(
+        &self,
+        station: StationId,
+        faults: &crate::fault::FaultEngine,
+    ) -> bool {
+        !faults.pad_disabled_at(station)
+            && self.sites.get(&station).is_some_and(|site| {
+                site.charger_power_limit_kw() > 0.0
+                    && ((site.config.storage_max_discharge_kw > 0.0
+                        && site.storage_stored_kwh() > f32::EPSILON)
+                        || (!faults.grid_disabled_at(station) && site.config.grid_import_kw > 0.0))
+            })
+    }
+
     pub fn new(configs: Vec<EnergySiteConfig>, peak_sun_hours: f32) -> Self {
         let sites = configs
             .into_iter()

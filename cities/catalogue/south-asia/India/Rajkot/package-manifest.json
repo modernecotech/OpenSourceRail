@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4766,
-      "sha256": "386350e960fd299458253c36f0bffc7fe64994cea637b3fc23fa548a92db9ad0"
+      "bytes": 4820,
+      "sha256": "aacb64f01df6427572df2cf8bc84de05af2fc8030ea2b7d0ac89754fb4da2b72"
     },
     "design.toml": {
       "bytes": 31381,
@@ -38,24 +38,24 @@
       "sha256": "da6a4ac220ec1a57e2a8f9d6ee34fc720019ef8aeb7e5fe114ddd35d5d12bd6d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8286,
-      "sha256": "76c0e655d7f6ab41205b344ea2e1654aed6016f0e04d73f826a916d2931120d5"
+      "bytes": 8250,
+      "sha256": "52ff0a8c1c02ed2c5fd0f2981d15f688e5f3063e349557ced7a044118b4c94d6"
     },
     "engineering/energy/summary.json": {
-      "bytes": 32716,
-      "sha256": "9234d6f970fad0c6bcbd512dc6718c457e5f491b6c342e6c8b8d6ddc6a28f5b8"
+      "bytes": 33410,
+      "sha256": "d8657b55b8fe2e1abf03c660ded347780cafa142adf62e211168beab0b7075e4"
     },
     "engineering/finance/summary.json": {
       "bytes": 12668,
-      "sha256": "7c1f811bbf79b7746054b10427fc41b2dd60b270618a1e786172c3630197088e"
+      "sha256": "ad50c34c5cae7968e47a68e72cc4e7116fce744e22017c1bdfbf81383e699aea"
     },
     "engineering/gis/summary.json": {
       "bytes": 1227,
       "sha256": "28f0fb8cc88601f244230667f4ad22dd747fc221dbb60598e6424ee0a90ca4f6"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 47549,
-      "sha256": "249a6e16aa6dc477ff3e7d485ba1fec9db1cf96dbae28aea5677a2f17ae27564"
+      "bytes": 47814,
+      "sha256": "b319c95ac514cf7b4df26a6133a62d3494837e184ab32be1bc8d0d9a841d2088"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 584,
@@ -63,7 +63,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1029,
-      "sha256": "060ff21569fb95d7f8d5e1942e66a66eb1f7c9b6b5b32ff4acc29c4987d256c9"
+      "sha256": "dd5ec84b5522e7e2897e1e200b9c4d1a94d2080a79051e5fff2b08acefd8e381"
     },
     "engineering/screenshots/rajkot-network-visualizer.png": {
       "bytes": 93516,
@@ -83,7 +83,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 78583,
-      "sha256": "74a87b5b0dc40d38b30350fcb0a0df84a6a0dec06cab9975adb333e0e830959e"
+      "sha256": "73665a59fd624e29f275f79add2b551ae022a48746b90d374da424082c4a9e14"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 726,
@@ -103,7 +103,7 @@
     },
     "operations/rajkot-operations-manifest.json": {
       "bytes": 891,
-      "sha256": "4a67450a68028f7f0561fe62203a3330de6c9684788f6c78b63da0cdd3b57cb6"
+      "sha256": "5be22fcdd1ca2c9d4b204c0017e401e0f33765fc52da145acf63a2266dafbe90"
     },
     "rajkot-network-map.png": {
       "bytes": 2627840,
@@ -127,6 +127,8 @@
     }
   },
   "city": "rajkot",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -135,12 +137,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/rajkot.gpkg": {
       "bytes": 331776,
@@ -168,9 +169,9 @@
       "sha256": "b70f799ffe6e79d5f4b4b2f9a8067ff5afa0c6199c4c906d8ab6af6d03ce2e7f"
     },
     "operations/rajkot-operations.json.gz": {
-      "bytes": 944831,
+      "bytes": 944882,
       "required_in_git_checkout": false,
-      "sha256": "64194ac82147c98fa116c80c10b1949e4045d2785284036d97ff664779b8c4bc"
+      "sha256": "5caf1e006ba99eab7743b1d233a9996e95a75f6b800f3fdffa00152885ed7549"
     },
     "operations/rajkot-procurement-plan.csv": {
       "bytes": 1459329,
@@ -205,7 +206,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4909,
-      "sha256": "80b1aa146bb520f92b40da60e1142b27b7df580d044b48a5e124819997be10c3"
+      "bytes": 4963,
+      "sha256": "c482ae07e4e886ce47339065c61b90087350f23cba8d10971ddf3935dec4a728"
     },
     "design.toml": {
       "bytes": 52166,
@@ -42,24 +42,24 @@
       "sha256": "9201cc521b36942740376add1ff10888335f20dda0e3783d93f5974aa77309f6"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8979,
-      "sha256": "303c76b9edc3415f971d3bc5e0132ff1711bd457b72d0bbf1206af48d1ae4a87"
+      "bytes": 8943,
+      "sha256": "1ac3f4f04712663f36cc7d7f1fa49acb1c3e079a8a61ab2e064ac8e85370fcd0"
     },
     "engineering/energy/summary.json": {
-      "bytes": 58745,
-      "sha256": "9ebd606a80304b1a511cf4ab4b7e83268be44bab9d603ac7a99debcc104b25b8"
+      "bytes": 59511,
+      "sha256": "fb835c21ab619ab50ef6b4d8ddec1d00be8f458b75379aef86f5a95ca08048f7"
     },
     "engineering/finance/summary.json": {
       "bytes": 12620,
-      "sha256": "d036997ac4a5abf63404ad0f9c2ba251c4d70939569f67450779f33ae76435bd"
+      "sha256": "84a85e4462a9b5a7fe1317ba07ee8d0e58613360936e885320b296e40db4a590"
     },
     "engineering/gis/summary.json": {
       "bytes": 1318,
       "sha256": "2ebe5e8205a28f3c2c57b9a1fec386d5655a5c6aa0e9e959771c6b34811c8922"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 86257,
-      "sha256": "573a4d61af348ecb1bf04580050b8eb6226cd66023f22819dd4c37bc65cf582f"
+      "bytes": 86522,
+      "sha256": "101f7af360deb544f2b9a78aa77fbb1dada7e8b67e1c8c696cc9b636b609f0c8"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 590,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1047,
-      "sha256": "9a077242aa53a242b5221a5daf62cd2687e3fe4c58b3ce8c4bed44ef7c92ef9f"
+      "sha256": "55b2f4319aa0b2fa5681f89dd724f125fc605230e0a5b5ca992f6594bc071402"
     },
     "engineering/screenshots/san-salvador-network-visualizer.png": {
       "bytes": 118093,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 138095,
-      "sha256": "d804f4dc5f1063769bfeaaac3c662d1de3e26c37a2849a4342e764998e2a8fc0"
+      "sha256": "49f2f3fcd865ddf42b9c16e44ee37da5449f05de98cf229d089d9169799d94e5"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 733,
@@ -107,7 +107,7 @@
     },
     "operations/san-salvador-operations-manifest.json": {
       "bytes": 905,
-      "sha256": "2c5411a8b69a30a256d41b5712c42dba033384811533bb225821ba7e3eb114a3"
+      "sha256": "b7fdf117bcefe9a4f863aef01f1c7ba4e8fbf1df7a3eaecec3bf0a5be1e5e833"
     },
     "san-salvador-network-map.png": {
       "bytes": 3776546,
@@ -131,6 +131,8 @@
     }
   },
   "city": "san-salvador",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/san-salvador.gpkg": {
       "bytes": 339968,
@@ -172,9 +173,9 @@
       "sha256": "0a199481a858a0a05a40d2be3820b9621c2a8fc47e78e6c3cfbcc7026696ddbd"
     },
     "operations/san-salvador-operations.json.gz": {
-      "bytes": 1756819,
+      "bytes": 1756886,
       "required_in_git_checkout": false,
-      "sha256": "f88ec3034dba2a8e219f453e7eb49fe42a1b597e610729682474cc07fcb6a3f7"
+      "sha256": "93328396732fc284b3b0156064474a2faca8be3a69dd86331ad0ef6968568700"
     },
     "operations/san-salvador-procurement-plan.csv": {
       "bytes": 2690733,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4804,
-      "sha256": "502b7a93bedc1688f2a5d78e158580e9fbc4964ac53d23957c0eb347bf4e2ae1"
+      "bytes": 4858,
+      "sha256": "fd948a7e370d75fa20528f86a48e95f0f1a3f7f466120387708020deeb35df0b"
     },
     "design.toml": {
       "bytes": 43317,
@@ -42,24 +42,24 @@
       "sha256": "067ab95c0088b08823e9df2bdf5fa0c3b409b3b95674fc4e485312594881893f"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8930,
-      "sha256": "944d255476af78142742a3e03f31407a395f9761afa943df1bd93819e1fd2a00"
+      "bytes": 8894,
+      "sha256": "464e01becb41983a0d3df5e32eea0beed5a1da9f518d085cb2d2040beba5013b"
     },
     "engineering/energy/summary.json": {
-      "bytes": 51654,
-      "sha256": "852a3d56ee29cda125445af58ee55f3393dc87c8842039c34b72037f1c99a161"
+      "bytes": 52452,
+      "sha256": "2b40435dbf1fb6f140097ae1f6b61d4e23e0406d26d397ccfff3635a703db9e2"
     },
     "engineering/finance/summary.json": {
       "bytes": 12619,
-      "sha256": "6b9b66d8745281fd08d28c837aec8b53b6655d7881708f3517b9f95902ff5e9f"
+      "sha256": "499c35cef3f053c9b6f4162f804038b9c868402f4a3c4ea1c92e4f006e9d4a50"
     },
     "engineering/gis/summary.json": {
       "bytes": 1219,
       "sha256": "5cae071e264a65db0be883c818055a4b4b2b714505508379fc078d29e6b861e0"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 44648,
-      "sha256": "d14102052dc1dca6802cc78db0b13404fbf1046450402b7de552824bab4781b9"
+      "bytes": 44913,
+      "sha256": "96509960c050701cbf6634e2e83336cc40ccb261b5eaf516a66fcb5994bc83e4"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 1179,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1026,
-      "sha256": "93b64f74ea88d35e352b9e79fbaf877847099508cd5c72744b6f721445fb08fc"
+      "sha256": "5dc348677de826427ed99e6131463fe500933549f464c53422437b478a5278bf"
     },
     "engineering/screenshots/patna-network-visualizer.png": {
       "bytes": 99656,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 112120,
-      "sha256": "459a3d1e9647b1fea440e576baf7ef0dc7bea800a8228d0b45b71372913be25c"
+      "sha256": "74a159e49a3a87150b811d79996cf8e4510e5a8dc719f8f84449248af7a41a75"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 726,
@@ -107,7 +107,7 @@
     },
     "operations/patna-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "d54dfe838650069c25e8c68b66594f58887f5af02861dffd74ea480717230f06"
+      "sha256": "748864221ec153de723e8afede47f34189ab2aea41ea9649783a8dfa17fb25ea"
     },
     "patna-network-map.png": {
       "bytes": 3803941,
@@ -131,6 +131,8 @@
     }
   },
   "city": "patna",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/patna.gpkg": {
       "bytes": 348160,
@@ -172,9 +173,9 @@
       "sha256": "04b6b64c50c4c1a1c6eeea6bd5ef90f89352bd7778d50ffa20bf54cda00b4b35"
     },
     "operations/patna-operations.json.gz": {
-      "bytes": 1345079,
+      "bytes": 1345145,
       "required_in_git_checkout": false,
-      "sha256": "4ab490c5809360455392cdf44c971193eb353445522a22ecb0e5f94ca8eaf970"
+      "sha256": "909760dcc17fdb4eb5e7091d35e8f3d1921feb6be0d1378bb6f523892b698638"
     },
     "operations/patna-procurement-plan.csv": {
       "bytes": 1961510,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

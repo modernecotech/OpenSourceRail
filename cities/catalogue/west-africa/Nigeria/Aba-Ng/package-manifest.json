@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4631,
-      "sha256": "726472ffca1ed842e3885eb3ec16bc31fe57d0fe859343e75c5b3e48d354ed44"
+      "bytes": 4685,
+      "sha256": "f8e53f8a1b04f94a4c7232ac11cb57838e9c294dd562ddacf9ad5ad6bf114e23"
     },
     "aba-ng-network-map.png": {
       "bytes": 3762888,
@@ -50,24 +50,24 @@
       "sha256": "7e0bd7861d82d9dc05c7689396a8573d08e5805a56d7ad56a92727255f5ea58c"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 6984,
-      "sha256": "c0e8498e2ceb64ea95242f19172672d311e345b1acdf55926f459c952993dfea"
+      "bytes": 6948,
+      "sha256": "2b28af5a414d76e6a03c90ad359864791e7dea50e809f7520d6b5b79844f26db"
     },
     "engineering/energy/summary.json": {
-      "bytes": 13689,
-      "sha256": "aee976fd27bc5bd7023f66e650e35753690e9957784b98c5a5f89c36f6e27f50"
+      "bytes": 14288,
+      "sha256": "8e44278a1d2bd930af1dcbfc14cfca39982b0ab486c4b76e531726c2a6e5e5e6"
     },
     "engineering/finance/summary.json": {
       "bytes": 12577,
-      "sha256": "a1217dce15ff0e149e53498b66fae09d612ffb6ef8a8219b367b724ebf1c1d21"
+      "sha256": "988a6fe6d0667d6a09044aaf1fb1e4ffab52f4bd6416b5e6a2899f4ebc0e1540"
     },
     "engineering/gis/summary.json": {
       "bytes": 1239,
       "sha256": "c8f07bf401c2ebe3ffb8d73af1969ba67ba81232dedba660110e2bdafd333558"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 27010,
-      "sha256": "b345271e52e3c77dd1b14b61033f667aebc0ace3fc17a4fb17b263287925e363"
+      "bytes": 27275,
+      "sha256": "d9a4aae94329d56486d063985a504c5f27ba348952ce5ed2b6744ce52770cd62"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 584,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1029,
-      "sha256": "d4735a60941664b4a87cb4b210a566ee08d0e81fca0ea8cc6df50b6c9fe1438a"
+      "sha256": "21c2be8006c652d8fa733fe134c6b72c1f39d660bf061d182b810a929df3ff8b"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9622,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 32576,
-      "sha256": "68d69fc35520a357664ae22459839db0f899d4f42f08dd7de9b47ff764c9243e"
+      "sha256": "6884836c38db7db0d839b818b0e9ff50bd00cf1cdc4b39d892ef52a8087612e6"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 726,
@@ -111,7 +111,7 @@
     },
     "operations/aba-ng-operations-manifest.json": {
       "bytes": 887,
-      "sha256": "4813633c8c692feb16dc6696cdcf73c1826be2a103e2f7e82b9a175bec9acf55"
+      "sha256": "09872836630acb56dd70337bd5cb744559bd736d96fd19a524f03a040ed923db"
     },
     "operations/acceptance-evidence-report.md": {
       "bytes": 5631,
@@ -119,6 +119,8 @@
     }
   },
   "city": "aba-ng",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/aba-ng.gpkg": {
       "bytes": 262144,
@@ -160,9 +161,9 @@
       "sha256": "bd23ea9908357cd673bf7ff3f63515376063c0f919d6496c7fe45fc004dcb8e5"
     },
     "operations/aba-ng-operations.json.gz": {
-      "bytes": 1800780,
+      "bytes": 1800825,
       "required_in_git_checkout": false,
-      "sha256": "efe58bf6e1b1066d8d296da2e79f78ca61088e126d5133035b40aee47c8ec5f0"
+      "sha256": "061e7ed7838f0154bcfbb65ba9c18e1fa9420d0d99b742259f6d904aab9985fb"
     },
     "operations/aba-ng-procurement-plan.csv": {
       "bytes": 4231871,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

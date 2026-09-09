@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 5045,
-      "sha256": "ebefd6a81dd8da75543526dcb5db9fbc796c44a4dd2d48ea587a9dee66715cdf"
+      "bytes": 5099,
+      "sha256": "571a4bbf620786879bad28a5a68ca65ce3cc06d4d5dc311d61ecc54f354e6362"
     },
     "coimbatore-network-map.png": {
       "bytes": 4721208,
@@ -74,24 +74,24 @@
       "sha256": "d0ac77f615701e6416c996d63ed0c3fb1d5bbf2762c72f0af06b977df5c613ba"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 10915,
-      "sha256": "50fc42f82c03ef602e44c983e2c8b4b62c22287bc431d9c0689b312245e28857"
+      "bytes": 10879,
+      "sha256": "3f22a2284b7729f5c77fcfc1a138e67a7a0da520807ded073c92df05a6ba71e9"
     },
     "engineering/energy/summary.json": {
-      "bytes": 82957,
-      "sha256": "43c2d58af47b45f9eda16f376fc66e0a200c01f5b7a92765e2e4aa7fdf928204"
+      "bytes": 83596,
+      "sha256": "440a8fde123cbe0ec097e6bb36ba73f3eba222ecebe257576585d10f54ec37b6"
     },
     "engineering/finance/summary.json": {
       "bytes": 12596,
-      "sha256": "2fa38e2061ac23cc8d0bf31bbb50530d51a4dfd882ace9c93290807860143bda"
+      "sha256": "3af2e61f2147993e88f5d485b01ad7afc769417ae84f6a23e94efbc717157a66"
     },
     "engineering/gis/summary.json": {
       "bytes": 1265,
       "sha256": "7fbcf9b0e1a154e07ae97d56de1e2a1a270689a222f53078ff2610444ae86c5b"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 140915,
-      "sha256": "9c04fa457578c4ef40a51e7dcfdd4230e5c4b03f1752d97239d5caa2ab24b01a"
+      "bytes": 141180,
+      "sha256": "dd3035fe88ed728cb4405f780be56b6f9c5eed46aab6d7df5cc69001661b6e9a"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -107,7 +107,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "d8af4602c4721f20717a33d277971c97ed753f687bc5954991fc567ad0e08f56"
+      "sha256": "019626cef4537363cd89c9174aaca0bbc0003ce191563e87c30801f28c3c48cd"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9625,
@@ -119,7 +119,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 192399,
-      "sha256": "4210e2bd6aeaaf450a3d076821bb79d7dd0d5f3c93679de0421ef0a42576ed86"
+      "sha256": "b10120e0013c43899674a2fed0b2ce1eb96f04b9cd70d0f7eeee535b3f6f5e22"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 732,
@@ -139,10 +139,12 @@
     },
     "operations/coimbatore-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "91bb4cd4a6276729e7cae6ff2809faf52a6c8f4a5d13052967a1799d48b60d71"
+      "sha256": "076209c9a5cf17f7f470d1f1c8988b57039f67ef855af4a63c49ad8ea7af3d3d"
     }
   },
   "city": "coimbatore",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -151,12 +153,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/coimbatore.gpkg": {
       "bytes": 438272,
@@ -184,9 +185,9 @@
       "sha256": "bd2cba1a3d15baa128e5a88195679dd79186f0fc88b9fa0e6c8a148bc6e0370a"
     },
     "operations/coimbatore-operations.json.gz": {
-      "bytes": 2651993,
+      "bytes": 2652107,
       "required_in_git_checkout": false,
-      "sha256": "af71bc866464c0e4124896c0d0dcf6d6acddcbb05e2a3a331297e682942c0419"
+      "sha256": "7db1ff9c2ff59780f25107ef87d25d5a365eca1e6d2867a13b02f38be222311d"
     },
     "operations/coimbatore-procurement-plan.csv": {
       "bytes": 4080636,
@@ -221,7 +222,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

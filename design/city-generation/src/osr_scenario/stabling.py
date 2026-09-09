@@ -47,17 +47,23 @@ def distributed_candidate(text: str, fleet_roles: list[dict] | None = None) -> t
         points = []
         for i, station in enumerate(ids):
             site = sites.get(station, {})
-            values = (stations[station].get('charging_power_kw', 0), site.get('grid_import_kw', 0), site.get('charger_max_kw', 500))
+            values = (stations[station].get('charging_power_kw', 0), site.get('charger_max_kw', 500),
+                      site.get('storage_capacity_kwh', 0), site.get('storage_max_discharge_kw', 0),
+                      site.get('grid_import_kw', 0))
             if not all(math.isfinite(float(value)) for value in values):
                 raise ValueError(f'{station}: nonfinite charging input')
-            if values[0] < 150 or values[1] <= 0 or values[2] < 150:
+            # Installed capability selects candidates; actual energy and time
+            # are checked in the continuous replay. Grid backup is optional.
+            if values[0] <= 0 or values[1] <= 0 or not (
+                (values[2] > 0 and values[3] > 0) or values[4] > 0
+            ):
                 continue
             if line.get('is_ring', False) or i < len(ids) - 1:
                 points.append({'station': station, 'heading': 'forward'})
             if line.get('is_ring', False) or i > 0:
                 points.append({'station': station, 'heading': 'reverse'})
         if not points:
-            raise ValueError(f"{fleet['line']}: no powered, grid-connected station can support stabling")
+            raise ValueError(f"{fleet['line']}: no station with charging and storage/source capability can support stabling")
         # If fleet size is smaller than the number of station/direction choices,
         # cover the route at even intervals instead of filling its first stops.
         if count < len(points):

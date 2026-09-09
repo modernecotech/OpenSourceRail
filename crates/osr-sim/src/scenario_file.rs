@@ -1118,20 +1118,23 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         let line = &network.lines[fleet.line_index];
         let mut seen = std::collections::HashSet::new();
         for &(station, heading) in &fleet.dispatch_points {
-            let powered = network.station(station).charging_power_kw >= 150
+            let powered = network.station(station).charging_power_kw > 0
                 && energy_sites.iter().any(|site| {
                     site.station == station
-                        && site.grid_import_kw.is_finite()
-                        && site.grid_import_kw > 0.0
                         && site.charger_max_kw.is_finite()
-                        && site.charger_max_kw >= 150.0
+                        && site.charger_max_kw > 0.0
+                        && ((site.storage_capacity_kwh.is_finite()
+                            && site.storage_capacity_kwh > 0.0
+                            && site.storage_max_discharge_kw.is_finite()
+                            && site.storage_max_discharge_kw > 0.0)
+                            || (site.grid_import_kw.is_finite() && site.grid_import_kw > 0.0))
                 });
             let valid_heading = line.is_ring
                 || !((line.stations.first() == Some(&station) && heading == Heading::Reverse)
                     || (line.stations.last() == Some(&station) && heading == Heading::Forward));
             if !powered || !valid_heading || !seen.insert((station, heading)) {
                 return Err(LoadError::InvalidStationStabling(format!(
-                    "{} at {} requires a unique inward dispatch heading, >=150 kW charging and a grid-connected energy site",
+                    "{} at {} requires a unique inward dispatch heading and positive charging with storage/source capability",
                     line.name, network.station(station).name
                 )));
             }

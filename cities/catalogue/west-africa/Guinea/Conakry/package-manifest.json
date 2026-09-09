@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4663,
-      "sha256": "4b60eaba867fd89db9f31dd5f7e88801eca689f1d1f741e970a8501863071fe7"
+      "bytes": 4717,
+      "sha256": "1584e02a0da8629da40c951d241c30fc9b754cc4b96c3e87939fd9bfe13cefbe"
     },
     "conakry-network-map.png": {
       "bytes": 2620093,
@@ -50,24 +50,24 @@
       "sha256": "cfe0bb768bf6507f5a72e56595dc3f7e76076f3c1e5c49a6df4ec4f2a6af2afa"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 6994,
-      "sha256": "f64d0b8c4f92959846846272a73ed0d0e44af74b66fc7ecb30301fe5066069dd"
+      "bytes": 6958,
+      "sha256": "083685251c3bac6912c4cbf4541a1637e8f8ffe0991966e030f0f949311e9f8d"
     },
     "engineering/energy/summary.json": {
-      "bytes": 27402,
-      "sha256": "911a039e00db40b55140d4bba9f7aa54f93a9bd1b153f4a2a65606b8a4f56135"
+      "bytes": 28136,
+      "sha256": "d7bf4fdd51c943a8607796c15f538b4fb238c6f5a3c59738e4f7e15ef5821e9e"
     },
     "engineering/finance/summary.json": {
       "bytes": 12635,
-      "sha256": "71a4a0156cd0dac3e952192f6624c5f8d3d024a1ec2e1a32d8c912110d5a68bf"
+      "sha256": "a3f56e85818afe1ece15b8b53d53c2fa4cc8a908c62d1461dd0433bb681c3996"
     },
     "engineering/gis/summary.json": {
       "bytes": 1244,
       "sha256": "6a650771a7513515e65b6744f9eabace3d3293f954e360802f1f6477ac5ebfb0"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 29429,
-      "sha256": "d2183786361a9f32d370cba6691876af02c02b6eba7f20a7beeefa6b491168c2"
+      "bytes": 29694,
+      "sha256": "520e7d66d3ca85e2ab6097b334aefcf0c0ecf224d0011d4dafcc3ad04a6cb7de"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 585,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1032,
-      "sha256": "1a94a925a900f2ffd6d629d4141dbf7ea1c82aadd1eb940440d0f0c96af883a7"
+      "sha256": "ac99897471ad61f2720b9f08640b9a92529f14d96634c7fdf246219f6c3944cd"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9517,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 52037,
-      "sha256": "825d6835476d4742c781a9f570d49cb9355e6d65a7bd339c3b0d5d07d448dbc4"
+      "sha256": "a24ba9a5b384e5528d0dfda749b63364b7b9ee949e8fcc7ba8cc3ad223c49b98"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 727,
@@ -115,10 +115,12 @@
     },
     "operations/conakry-operations-manifest.json": {
       "bytes": 888,
-      "sha256": "d3d18d3cbf3b5a39d618464b07d747ffb0c34ab5473f4326d69fa62cf8c4f168"
+      "sha256": "b5d9dcf9e6c69b6158d1cb200bb5200b9ca56d15a27c8b3f74d17ecb3dfd1f3a"
     }
   },
   "city": "conakry",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/conakry.gpkg": {
       "bytes": 274432,
@@ -160,9 +161,9 @@
       "sha256": "08afb4b45155a319c65c47a3e056da8018ceea73bdc0f2ebc053abf3da5d2b1f"
     },
     "operations/conakry-operations.json.gz": {
-      "bytes": 522259,
+      "bytes": 522345,
       "required_in_git_checkout": false,
-      "sha256": "3f0d5bbc87b390a5e18b5a6a9cc1670d9bd8a0f360a0d05bd32e2057e0f3a9b6"
+      "sha256": "267b3ff70d395e33cf53e594f1e96dda55d2a55f7bf08ce4d830130b9a09f941"
     },
     "operations/conakry-procurement-plan.csv": {
       "bytes": 809517,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

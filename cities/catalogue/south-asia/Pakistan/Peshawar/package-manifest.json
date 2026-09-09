@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4795,
-      "sha256": "aaa0a5e213397a9fbedcf903a789894292fd5c8d3f130310aff16de036297271"
+      "bytes": 4849,
+      "sha256": "4c42e1cbd7de1552ddc440f5bccd110fc723de707dfe54ed539d4095cea71aea"
     },
     "design.toml": {
       "bytes": 38806,
@@ -38,24 +38,24 @@
       "sha256": "84902f8aadfe5306df692bf5f2db1f9e830ad90a0aedd239fbe989b037accc9d"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8301,
-      "sha256": "b1d92975f6731abd5b09b08acf02417f7b3b89aa4a48a224a3d34e19378d12bc"
+      "bytes": 8265,
+      "sha256": "3a900983ab2f0202356105dd7e37d8d27fb68f3c178e1ca0908e12ce38803f8b"
     },
     "engineering/energy/summary.json": {
-      "bytes": 49806,
-      "sha256": "39fbc846aa8744b400fc379fa339041ce1b76bd4f14b3f26ee69b33bc961514d"
+      "bytes": 50620,
+      "sha256": "407d1337ab062578b38298a7ce42a885a8c8112ca49fd5aa7c49a93a13c05667"
     },
     "engineering/finance/summary.json": {
       "bytes": 12679,
-      "sha256": "03c3429c5a6e249dec830056fa219ef94037b2a2cf5a4cc11feecb8318f264d7"
+      "sha256": "8486a26d92e976c5125cbba8d5da43d304b1fedd4b8f1400afc476eb895a3df0"
     },
     "engineering/gis/summary.json": {
       "bytes": 1257,
       "sha256": "05931970f6d6025260bbf254516c48bb60f6a7c6d1bc39c2e9bef1ad3ac179fd"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 46537,
-      "sha256": "93fc0293c9f3caf90d07aef9125b9e7d9603009cfd384c4bf1927ccb6780b2ca"
+      "bytes": 46802,
+      "sha256": "21973ae6862cd1e138355800161bba6a5cea999dfb0fdf5534888a8b28bab7cb"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 586,
@@ -63,7 +63,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1035,
-      "sha256": "32c2446bc5d78e86bb106ea0e6137e7fcc9b661a661503323a8b2087aced0a14"
+      "sha256": "20eb93d5e3ef5b19493993392dbcc8972e84415ce7f3c7b5a17d5a5337d1e84d"
     },
     "engineering/screenshots/peshawar-network-visualizer.png": {
       "bytes": 113419,
@@ -83,7 +83,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 105487,
-      "sha256": "a491249356f8f737b4a784ccf2b66831028d6852c35e4e1c28abb1a0af2f17b7"
+      "sha256": "9e53238bd10e47e6da3cf0108e5d82740dac5f8a04f769a75217cd07ee4cb119"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 728,
@@ -103,7 +103,7 @@
     },
     "operations/peshawar-operations-manifest.json": {
       "bytes": 896,
-      "sha256": "c9a4d6d619d58c5605a0263ef09d80b832ee582fa47ce514bdd3983e0173d9dd"
+      "sha256": "d727ab34e9e8149e3fe46dc17ba98210990090be851a2d3f81e938f9e59f3913"
     },
     "peshawar-network-map.png": {
       "bytes": 3404633,
@@ -127,6 +127,8 @@
     }
   },
   "city": "peshawar",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -135,12 +137,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/peshawar.gpkg": {
       "bytes": 319488,
@@ -168,9 +169,9 @@
       "sha256": "a26dbbdca50f929aa354c55422d46ec17c57b13a2e6dca6d7e8d1574ffe2a69b"
     },
     "operations/peshawar-operations.json.gz": {
-      "bytes": 1320431,
+      "bytes": 1320521,
       "required_in_git_checkout": false,
-      "sha256": "8ed892095a43320ddf1b17ebb13d141e8f880cf0baf9db246353c96752d90269"
+      "sha256": "73ea82e1b7a7d75a013ca81ce0b08b4f6c554f98af895dcd050d97927b7d4285"
     },
     "operations/peshawar-procurement-plan.csv": {
       "bytes": 2001270,
@@ -205,7 +206,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

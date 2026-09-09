@@ -20,13 +20,19 @@ LOCAL_REPRODUCIBLE_SUFFIXES = {".gz", ".gpkg"}
 LOCAL_PATH = re.compile(
     r"(?:/home/[^/]+/|/Users/[^/]+/|/tmp/|[A-Za-z]:[\\/](?:Users|Temp)[\\/])"
 )
+STABLING_DIAGNOSTICS = {"operating-screen", "service-cycle-screen", "redistribution-study"}
+
+
+def is_stabling_diagnostic(relative: str) -> bool:
+    path = Path(relative)
+    return path.parent.as_posix() == "engineering/stabling" and path.stem in STABLING_DIAGNOSTICS
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | None]]:
+def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bool = False) -> list[dict[str, str | None]]:
     """A passing retained report cannot close a package against different inputs."""
     sources = {
         "design_sha256": city_dir / "design.toml",
@@ -108,6 +114,8 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
             "redistribution_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_redistribution.py",
         }),
     ):
+        if screen_name in STABLING_DIAGNOSTICS and not include_diagnostics:
+            continue
         screen_path = city_dir / f"engineering/stabling/{screen_name}.json"
         if not screen_path.is_file():
             continue
@@ -206,7 +214,9 @@ def main() -> int:
         city_dir / "operations" / f"{slug}-budget-work-packages.csv",
         city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
-    for screen_name in ("operating-screen", "service-cycle-screen", "redistribution-study", "hybrid-cycle-screen"):
+    # The selected operating configuration is the line-local hybrid plan.
+    # Superseded station-only experiments retain provenance below, not gates.
+    for screen_name in ("hybrid-cycle-screen",):
         screen = city_dir / f"engineering/stabling/{screen_name}.json"
         if screen.is_file():
             required.extend([screen, screen.with_suffix(".md")])
@@ -285,6 +295,20 @@ def main() -> int:
         },
         "missing_artifacts": missing,
         "failed_summaries": failed_summaries,
+        "selected_stabling_configuration": "line-local-station-depot",
+        "diagnostic_artifacts": {
+            str(path.relative_to(city_dir)): {
+                "sha256": sha256(path),
+                "passed": json.loads(path.read_text()).get("passed"),
+                "scope": "superseded station-only experiment; not selected-plan acceptance",
+            }
+            for name in sorted(STABLING_DIAGNOSTICS)
+            if (path := city_dir / f"engineering/stabling/{name}.json").is_file()
+        },
+        "diagnostic_stale_sources": [
+            row for row in stale_analysis_sources(city_dir, slug, include_diagnostics=True)
+            if is_stabling_diagnostic(row["artifact"])
+        ],
         "stale_analysis_sources": stale_sources,
         "absolute_local_path_artifacts": sorted(local_path_files),
         "operations_bundle_hash_current": operations_hash_current,

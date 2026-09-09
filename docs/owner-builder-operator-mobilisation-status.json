@@ -1,11 +1,21 @@
 {
   "authority_boundary": "This template organises mobilisation evidence. It does not create a legal entity, delegate a statutory duty, appoint a competent person, approve expenditure, release construction, certify safety or authorise railway operation.",
+  "deployment_scope": "Reference full railway delivery and operation; tailor responsibilities and evidence to the selected deployment",
   "entity_model": {
     "delegations_ref": "",
     "legal_advice_ref": "",
     "open_design_and_data_rights_ref": "",
     "ready": false,
     "recommended_default": "public asset owner plus ring-fenced delivery and operating company",
+    "required_fields": [
+      "selected_model",
+      "selection_evidence_ref",
+      "legal_advice_ref",
+      "statutory_duties_register_ref",
+      "reserved_matters_ref",
+      "delegations_ref",
+      "open_design_and_data_rights_ref"
+    ],
     "reserved_matters_ref": "",
     "selected_model": "",
     "selection_evidence_ref": "",
@@ -648,7 +658,7 @@
   ],
   "schema": "org.opensourcerail.owner-builder-operator-mobilisation-status.v2",
   "source": "lib/templates/owner-builder-operator-mobilisation.toml",
-  "source_schema_version": "1.1",
+  "source_schema_version": "1.2",
   "summary": {
     "default_programme_end_month": 60,
     "default_programme_start_month": 0,
@@ -672,13 +682,13 @@
     "all_management_system_document_sets_defined": true,
     "all_management_system_roles_and_gates_resolve": true,
     "all_work_package_roles_and_gates_resolve": true,
-    "gates_g0_through_g7_complete": true,
-    "independence_rules_present": true,
-    "independent_parties_complete": true,
-    "management_system_set_complete": true,
-    "role_set_complete": true,
-    "work_package_dependencies_acyclic": true,
-    "work_package_set_complete": true
+    "declared_gates_valid": true,
+    "declared_independent_parties_valid": true,
+    "declared_management_systems_valid": true,
+    "declared_roles_valid": true,
+    "declared_work_packages_valid": true,
+    "reference_schema_is_not_a_deployment_mandate": true,
+    "work_package_dependencies_acyclic": true
   },
   "work_packages": [
     {

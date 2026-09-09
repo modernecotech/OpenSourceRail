@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4882,
-      "sha256": "bb64103f6f59411dd2e7beaeeb3fc597d5f61f4b0057aae7772549bde4f77c6d"
+      "bytes": 4936,
+      "sha256": "ac2b841dd45c3bcdccd372c4e7f00b9e1f614ff638c7a01b51756d2ae56ec4e0"
     },
     "design.toml": {
       "bytes": 50622,
@@ -42,24 +42,24 @@
       "sha256": "b628bab1151d453b775beeb239097f20bbb247cc59cefa5b4b91d5dd6b8c0711"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8953,
-      "sha256": "ec24d00f944c155c2009d7bb79c13c5c14ad7480c93151019fbe23b6f8d7e34b"
+      "bytes": 8917,
+      "sha256": "7078f6f0450408754765a0a09aa7a92a23bf3baace3948296e8add68091b436e"
     },
     "engineering/energy/summary.json": {
-      "bytes": 49307,
-      "sha256": "9a9974c70806a68f5012c35d4ffbae92aea5171fad3bed6d111d14a3765f1f06"
+      "bytes": 50097,
+      "sha256": "e9cdca0645fdb25e2c14d7ee366b64ec2d31cead1462f5a26d7f57cdbd8d39b6"
     },
     "engineering/finance/summary.json": {
       "bytes": 12632,
-      "sha256": "8e0e7f9d384d24ca1d4317bd64bad7d0f8eed28674c675b07d328587ea2beebb"
+      "sha256": "12b745dcac7de7ce19642a53a4bf327e1f02cf84f6f8daf2afc0e37e45a6f83d"
     },
     "engineering/gis/summary.json": {
       "bytes": 1265,
       "sha256": "05a0c7c8be7bfb1ed5039e54e58ecbc65d4e728dc06f334d3931df364f241216"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 74394,
-      "sha256": "2f801fa89d5ad6b08948736dadbe5149ca585fa4eeea41ac0bcd9439069b7285"
+      "bytes": 74659,
+      "sha256": "46e0bef0f89beaf7d8ace4a1c0773a0dfcce6c8cdbdc392721cb2748eac5fe77"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "3d0778116660846b7442f49066c18d0f4e120dc5a9b6ff6b87dbe5eab88694fd"
+      "sha256": "6be4dee74acb8e33a73dd6f26fe0aca9d58d56260711597de8db599951371338"
     },
     "engineering/screenshots/vijayawada-network-visualizer.png": {
       "bytes": 106729,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 112993,
-      "sha256": "988a40390f689a0254ca0d41470bf7dcba44d6cfddf45680586597ba004055f8"
+      "sha256": "a368fa9f79f045b61e4582a8120073f18e4607d1b4efe960b3c3656f7149e02f"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 731,
@@ -107,7 +107,7 @@
     },
     "operations/vijayawada-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "45836ccd9f76dbdf911533a8c149a3a6b53d11e142ce2ec8a94d49cb748b1c2f"
+      "sha256": "8674150fc527ee140043bdd03981833d6d3a7dcf42895d099f2edf88d2815466"
     },
     "vijayawada-network-map.png": {
       "bytes": 3871898,
@@ -131,6 +131,8 @@
     }
   },
   "city": "vijayawada",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/vijayawada.gpkg": {
       "bytes": 356352,
@@ -172,9 +173,9 @@
       "sha256": "dcfa5a553f09b8a581c88a702b12b4519b3da29459dfd1495c20409949849fab"
     },
     "operations/vijayawada-operations.json.gz": {
-      "bytes": 1451310,
+      "bytes": 1451405,
       "required_in_git_checkout": false,
-      "sha256": "535029b381e12cc1002e6cc8954818a0c5fc5de9b4da3f91c5bd35b64490261b"
+      "sha256": "d6c9e663faaaa8edfb1d91401428018880fefa48fa347517063ff8d1ba2ef777"
     },
     "operations/vijayawada-procurement-plan.csv": {
       "bytes": 2235413,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

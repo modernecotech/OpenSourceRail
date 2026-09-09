@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4882,
-      "sha256": "cb656a854979513f175c884927184abda70daf9fe3a60aff17eeb76489a0f065"
+      "bytes": 4936,
+      "sha256": "11c2b476ec5d1c928d7a06a439a1391fbf8a6f2332c8dd618c110a15478dbb35"
     },
     "design.toml": {
       "bytes": 52489,
@@ -42,24 +42,24 @@
       "sha256": "e9d6de818d603c7a21bcc16d70b965c9101bbaf851cf2ddd40900237fe4fbc78"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8967,
-      "sha256": "3335e8b9bc214a19980f5205eebaa39f1bf203265fd5b67689ca562b2ec7e855"
+      "bytes": 8931,
+      "sha256": "dc1a067f3abc204a454195090d53f1884f474799d6309646b80485cdfc342965"
     },
     "engineering/energy/summary.json": {
-      "bytes": 56476,
-      "sha256": "f7b3a101a96e4fbbcb370a93303b7bec258ec3f37b47ca60e8511f9aebd56f27"
+      "bytes": 57250,
+      "sha256": "63ebac9230cf8c538b848f0b4b2c788d0da67dca174a6005a29797425b754f03"
     },
     "engineering/finance/summary.json": {
       "bytes": 12649,
-      "sha256": "e4c3cab8f759c14ccb483bd41f9fd2c6c0f4b7ad442682e5ef5c02babcd62121"
+      "sha256": "130810ff87e2d96179a289c0d91f045975c88609e30fce3555a880ff1b5ac2b0"
     },
     "engineering/gis/summary.json": {
       "bytes": 1292,
       "sha256": "90324e0cc41572d9987b85ec41d7904556d4e4c126f9a277584f19f30e8992b2"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 58925,
-      "sha256": "dd33ea98e4589a722a70b2071f4524d9bf55e653fa3f2dcc2b9facb72fd6297f"
+      "bytes": 59190,
+      "sha256": "07132a6da1eb2b0daf21c01d1c6d8daf85a55f969dc2eea493b88149004a0368"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 588,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "2cdf620fc1d2e0235088f8c2b20453b93ed6a1d8fddb99532246f2f76492a63f"
+      "sha256": "a4cd7109c0dab850cc9eb8e78ae881364566b4f61f04d4063d0c998b90e81299"
     },
     "engineering/screenshots/phnom-penh-network-visualizer.png": {
       "bytes": 117563,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 133242,
-      "sha256": "5fadec4f4aaf8b01e3c5e1e598469677468427208993b15d36a04b8ae5f6b4f3"
+      "sha256": "ce2f81c0b319bf950755fea24f2cf3c215f4173d84cdcea1f6d635705743126d"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 731,
@@ -107,7 +107,7 @@
     },
     "operations/phnom-penh-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "be931dbada519ac58eda4ff7a157ca523af58636bb745edc7dbffa470f10cf54"
+      "sha256": "4048fba2cc5c57913b3cad3589f6190068ff4d5c250db53aafb95373d5dad43e"
     },
     "phnom-penh-network-map.png": {
       "bytes": 3865592,
@@ -131,6 +131,8 @@
     }
   },
   "city": "phnom-penh",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/phnom-penh.gpkg": {
       "bytes": 339968,
@@ -172,9 +173,9 @@
       "sha256": "a16cd9fdf634d94f64f521f03190aea43b8acd8783a26452ccc4be1355cb1f28"
     },
     "operations/phnom-penh-operations.json.gz": {
-      "bytes": 1713535,
+      "bytes": 1713583,
       "required_in_git_checkout": false,
-      "sha256": "24c33458ee60610c69256540134472ff821c35d4988582b80955f2483098be5e"
+      "sha256": "94a720935a974454ea73dbdfa37a6f00629a0c503ab36c8faeb7753cd534168a"
     },
     "operations/phnom-penh-procurement-plan.csv": {
       "bytes": 2590222,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

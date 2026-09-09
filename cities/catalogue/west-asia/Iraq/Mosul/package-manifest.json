@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4376,
-      "sha256": "65f9cd1b6959391ce0e00f497d1f393c386c6d7dd93978313eef7f0bbfacaf1c"
+      "bytes": 4424,
+      "sha256": "1218a8e48b983fb84679f8845db655f27b6e27530d2dd66ec0beea3fda3539bd"
     },
     "design.toml": {
       "bytes": 42893,
@@ -42,24 +42,24 @@
       "sha256": "d7c438bb7f6ecc35298e4f543a2e3d42879d006ab7eeda08a02b544b44ab6f07"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8927,
-      "sha256": "a55f3ecc3236a3daa66050f667760167d598bb488f46172b9dc14b7b4bb49c92"
+      "bytes": 8891,
+      "sha256": "76da6b47431b847cea9eeb395399d7aa9d72ae8f5260af359dadd1b639c4ac79"
     },
     "engineering/energy/summary.json": {
-      "bytes": 52697,
-      "sha256": "d72a46a9077f45d7c449b0db46b1faaaae4ff903de154f49b49d06876dbfa86e"
+      "bytes": 53503,
+      "sha256": "9003f03c5c010941e36e1eec15e57b1df93462a5ff9495991bda42773c83614f"
     },
     "engineering/finance/summary.json": {
       "bytes": 12607,
-      "sha256": "ba101e8a3f70b0a0622c0ae849ccf65a6064afe485974b2688dd89a25798ef9f"
+      "sha256": "62008ac045c1f843dfda87f1777b8c042388dc7f90c33716f30fc73c5338577e"
     },
     "engineering/gis/summary.json": {
       "bytes": 1211,
       "sha256": "3ec8d6b02a04079ba87228620c983b0d737bfae89f140fc8bd3184e574e9bc38"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 68577,
-      "sha256": "1fb6008cd761ddfabc2d3d4d5e2d291d0bb1ac26e564670e989fb3ebe0d835b6"
+      "bytes": 68842,
+      "sha256": "4303f1547e56a6bb684e6a5cf1821473b80cfd590bb6c72cc6125cf799978f50"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 583,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1026,
-      "sha256": "4ba5e2d3cd79b0957ef0417a433f48ac86e538bd9c19350cc93126426ba94a0d"
+      "sha256": "aff5899251dc73d675036700d4b20c273d678823b069b8d796d6a57e9031c4de"
     },
     "engineering/screenshots/mosul-network-visualizer.png": {
       "bytes": 99900,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 115197,
-      "sha256": "48b1e07d6f69a78dad1e211825ceda05c1cc15394f4aa6277d8e56e0cf08bf2c"
+      "sha256": "247f242d24cd057c626eac5d55ac5b1147e087da3fb2d0873085eeabc0ba348f"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 726,
@@ -211,10 +211,12 @@
     },
     "operations/mosul-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "1f9cf4a60dc858be43d73c49011bd1c2bb7270395e47e9faee27fe7faeefe604"
+      "sha256": "5fcb04601e6f117e04633babc1c566f603560a3c2a812b7a3182f8e624a30408"
     }
   },
   "city": "mosul",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -223,12 +225,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/mosul.gpkg": {
       "bytes": 339968,
@@ -256,9 +257,9 @@
       "sha256": "7af2d3725b0c672445b514c16c3326da8793dc15ddda161cee9e95fd46f1c49c"
     },
     "operations/mosul-operations.json.gz": {
-      "bytes": 1461056,
+      "bytes": 1461123,
       "required_in_git_checkout": false,
-      "sha256": "0144425504460669031e48e600d88e0764729b40ddc46ba33b6909a59e70ab61"
+      "sha256": "57ad45f0d928cf0a97c2ac42a03610c6029d43574809c224ae91187cd5597bf5"
     },
     "operations/mosul-procurement-plan.csv": {
       "bytes": 2222037,
@@ -271,6 +272,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": []
 }

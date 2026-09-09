@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4791,
-      "sha256": "a0da52813a31aa5d157671707a0f98f7b41d39ce8beb20352946b1aaf7bfd311"
+      "bytes": 4845,
+      "sha256": "5f581d18ec4bcd79f4ca7188432f7a4d6a3af3ab9fde2895a7ea80d5075ad4c1"
     },
     "design.toml": {
       "bytes": 28573,
@@ -34,24 +34,24 @@
       "sha256": "e9a1b45aae48fda9f877fd00dfe99d25565c6ff40729ad54e35e808fa60ed181"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7658,
-      "sha256": "ac2a94c3bdce09753cf43518c0cc9b30e638c54fd5d42b66222a0fd7f162a1a3"
+      "bytes": 7622,
+      "sha256": "dbf9443908a01139517f1dd96a794b3426d7e389366e745e1d23ece73730eabf"
     },
     "engineering/energy/summary.json": {
-      "bytes": 38238,
-      "sha256": "79e88632c2c3ce7e2614af02e5839bf5071e9d23d46bbfdd1f541e2b92338395"
+      "bytes": 39004,
+      "sha256": "0051feb44bac7b076d5917189a2e01f777ccdf1e52388a5a3139a0f65fd51169"
     },
     "engineering/finance/summary.json": {
       "bytes": 12653,
-      "sha256": "e73c52d5d414db250d877512226c35bbc48dcb43d40a1ee34d0241c87592e34b"
+      "sha256": "a4de559efb9e47c2057957d283a730f09ec928131fcc8428000181b39ee065db"
     },
     "engineering/gis/summary.json": {
       "bytes": 1273,
       "sha256": "f2e842f992a1cb80a4d78f52781cb776d9924ea7707b4e01d5e31145f0e96f7f"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 31745,
-      "sha256": "dc62d00fb29e4f47f3f1c922d0aee9a350ba4c95d2462b58eeb3df1b052d2a02"
+      "bytes": 32010,
+      "sha256": "b5b3748cd69e72e0f2f945fb35acbf8138a4823392316b7b99d62bf8b6cc156a"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 590,
@@ -59,7 +59,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1047,
-      "sha256": "101b2179ae6f4e7b87569172d2212cd0bd8691f1d199d7b89cd09d82911f8387"
+      "sha256": "1166a3d93f1fa78863fade3bc68a61df0d5e904a85d158b4e08cf54a23820f42"
     },
     "engineering/screenshots/sulaymaniyah-network-visualizer.png": {
       "bytes": 114336,
@@ -79,7 +79,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 78411,
-      "sha256": "2c1f997676ea11ce679633f27fa16185f6a3c1fcd4d8163abe85b9082ac50d59"
+      "sha256": "564a9049f2b82ab90e4b72add583dbb3fdcb9cc818fce5c097600a2a50d7b510"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 732,
@@ -99,7 +99,7 @@
     },
     "operations/sulaymaniyah-operations-manifest.json": {
       "bytes": 903,
-      "sha256": "547c2428eb77061532cba4f9d866c01f0d7085f36dbb9f658ff475240c7bec65"
+      "sha256": "31f8d25ad613f05e57b1b958a578e3f8f53882c38f7ade0f3c6de37df658ea00"
     },
     "sulaymaniyah-network-map.png": {
       "bytes": 2785525,
@@ -123,6 +123,8 @@
     }
   },
   "city": "sulaymaniyah",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -131,12 +133,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/sulaymaniyah.gpkg": {
       "bytes": 311296,
@@ -164,9 +165,9 @@
       "sha256": "6f303c284b71dff18b92e8ee7be88ccc81b9255ed4d8a0e855e7c1185bdd5e63"
     },
     "operations/sulaymaniyah-operations.json.gz": {
-      "bytes": 877887,
+      "bytes": 877939,
       "required_in_git_checkout": false,
-      "sha256": "5a7168b5f7f82ee01e0aec9b197042a6e59df4780a088b324a7c54cad52f2fef"
+      "sha256": "dc2f0f7e52b134002e683f438f0496964ad0bcb85a2b58568e495ed2f16a7dd6"
     },
     "operations/sulaymaniyah-procurement-plan.csv": {
       "bytes": 1344184,
@@ -201,7 +202,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

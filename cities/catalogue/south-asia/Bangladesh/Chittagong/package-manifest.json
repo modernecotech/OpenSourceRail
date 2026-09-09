@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 5002,
-      "sha256": "011928a5dc90313063de874bd637553c78727830672692e0b4bccb27209c4cac"
+      "bytes": 5056,
+      "sha256": "0fbd85b8e52e85f5955d32bac8242621d68ff90a37e1a849ca36c8005d6a7427"
     },
     "chittagong-network-map.png": {
       "bytes": 2216536,
@@ -70,24 +70,24 @@
       "sha256": "decee03f89a4a9d6f9f91ad3c3a76f60e18075f382bdf53397efcaafbdd521db"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 10275,
-      "sha256": "c3b6cc574a0b85941915c6d5172749d506c3b95e1b82381c5ca0285b248e3f23"
+      "bytes": 10239,
+      "sha256": "2e03190f26058554d79c4be4c83e5ac7d106e9f7d4edd7ab805a9533595e8157"
     },
     "engineering/energy/summary.json": {
-      "bytes": 78473,
-      "sha256": "bde98bff488e842c6fad49b566d1134396a00876d1c76a90aa4d0ea5afe6ac6a"
+      "bytes": 79124,
+      "sha256": "79b7f62c676e1965c54dc05bf6854d0b8960212e304dd361bbd0cc7c088c8dbb"
     },
     "engineering/finance/summary.json": {
       "bytes": 12645,
-      "sha256": "e87346e135ddbb5f1bcbebcc6d4d043b6566ab675ac25a0b0b8e12cbce601456"
+      "sha256": "470c0c73022763dedcd4c1c3f5731b8f1c30ff3095c5bcce2cb426d69d52fa5c"
     },
     "engineering/gis/summary.json": {
       "bytes": 1286,
       "sha256": "df6edecfd7129bc40d8a01975b21d3ed374c2a271631249a2b76da82c99b14e8"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 97010,
-      "sha256": "c26741718368f091c6acf31117507d3aec743a2ac157dce720317eae5b259bf2"
+      "bytes": 97275,
+      "sha256": "1e603f9515d068a1038395f5f00424ece5cde933da6a3db67c301326d6c939f3"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 839,
@@ -103,7 +103,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1041,
-      "sha256": "a6d7b451fb35a09d9baef9beabcde4b031f0339da17870070096fb4998202074"
+      "sha256": "751d6ebeae61d5d7d45f62ff50a0217b6ec20397550525a61876bed2dfa78785"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9584,
@@ -115,7 +115,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 172149,
-      "sha256": "a08bd127596e030a94a1b936e939bbdbdfb6faafaeafb6e058da8391e38996b7"
+      "sha256": "48954ca80af8e887cd123be0fa0c823d8ced3cd454c3aaafa0385e316c08996b"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 732,
@@ -135,10 +135,12 @@
     },
     "operations/chittagong-operations-manifest.json": {
       "bytes": 903,
-      "sha256": "40540c1b6665ddac8a7ffe152090c423081c7e3dc4e1703f2c3ac5ae594a2b7e"
+      "sha256": "850e9e571b7620fc4ff91509e35e428b145465da7cfd69c8cd94e7cd98abbe0a"
     }
   },
   "city": "chittagong",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -147,12 +149,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/chittagong.gpkg": {
       "bytes": 434176,
@@ -180,9 +181,9 @@
       "sha256": "bab76b1036a5403a5f1c849ef742f44f7e49714bd884d2a71d23b1a3923b4201"
     },
     "operations/chittagong-operations.json.gz": {
-      "bytes": 2541419,
+      "bytes": 2541549,
       "required_in_git_checkout": false,
-      "sha256": "fe64be86555129aaebb9683f75c7d38ac0f707fd5104a829651fbfbb40014b36"
+      "sha256": "45d38684e1c37e6be1046b53ca078b4991fad34e03e12ebfe40d66215fc121a3"
     },
     "operations/chittagong-procurement-plan.csv": {
       "bytes": 3840920,
@@ -217,7 +218,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

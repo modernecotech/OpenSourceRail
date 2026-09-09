@@ -45,3 +45,46 @@ def test_tracked_mobilisation_outputs_match_source() -> None:
     status = module["build_status"]()
     assert json.loads((ROOT / "docs/owner-builder-operator-mobilisation-status.json").read_text()) == status
     assert (ROOT / "docs/owner-builder-operator-mobilisation-status.md").read_text() == module["render_status"](status)
+
+
+def test_small_workshop_scope_uses_its_own_roles_and_evidence(tmp_path):
+    module = runpy.run_path(str(SCRIPT))
+    source = tmp_path / 'workshop.toml'
+    source.write_text('''
+deployment_scope = "Existing workshop adopting non-safety inspection records"
+[entity_model]
+required_fields = []
+[[role]]
+id = "WORKSHOP"
+title = "Workshop responsible engineer"
+accountable_for = ["inspection records"]
+status = "vacant"
+[[gate]]
+id = "PILOT"
+accountable_role_ids = ["WORKSHOP"]
+required_evidence = ["record integrity demonstration"]
+decision = "open"
+[[work_package]]
+id = "RECORDS"
+accountable_role_id = "WORKSHOP"
+gate_id = "PILOT"
+start_month = 0
+end_month = 0.5
+fte_min = 0.25
+fte_max = 0.5
+deliverables = ["tested local installation"]
+status = "not-started"
+''')
+    report = module['build_status'](source)
+    assert 'Existing workshop' in module['render_status'](report)
+    assert report['summary']['roles_total'] == 1
+    assert report['summary']['gates_total'] == 1
+    assert report['summary']['management_systems_total'] == 0
+    assert report['work_packages'][0]['duration_months'] == 0.5
+    assert report['summary']['mobilisation_ready'] is False
+    source.write_text(source.read_text().replace('decision = "open"', 'decision = "accepted"\ndecided_by = "owner"\ndecided_at = "2026-09-09"\nevidence_refs = [""]'))
+    assert module['build_status'](source)['gates'][0]['accepted'] is False
+    import pytest
+    source.write_text(source.read_text().replace('gate_id = "PILOT"', 'gate_id = "UNKNOWN"'))
+    with pytest.raises(ValueError, match='unresolved role or gate'):
+        module['build_status'](source)

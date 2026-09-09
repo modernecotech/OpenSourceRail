@@ -1,8 +1,12 @@
 # Owner–Builder–Operator Mobilisation Status
 
-> Status: **unfilled template — not legal, spending, construction, safety or operating authority**.
+> Status: **unfilled-all-gates-open — not legal, spending, construction, safety or operating authority**.
 
 Project: `unassigned template`
+
+Scope: Reference full railway delivery and operation; tailor responsibilities and evidence to the selected deployment
+
+The reference organisation and programme are editable. Validate the selected responsibilities, evidence and dependencies; job titles, committee structures and document counts are not universal requirements.
 
 Entity model complete: **no** · Roles ready: **0/13** · Independent parties ready: **0/3** · Management systems ready: **0/11** · Work packages complete: **0/18** · Gates accepted: **0/8**
 

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4930,
-      "sha256": "b45222ab6cd87153a04ab1311320f49aef7aa9f3192f11a0d05d936296b82906"
+      "bytes": 4984,
+      "sha256": "8f70706161cfa9788c0b300fd9353feac2ed727ef014e149a8b6d6cf08714736"
     },
     "design.toml": {
       "bytes": 48326,
@@ -42,24 +42,24 @@
       "sha256": "598c4595fb05a9504658cb8c69151b626435d6676969f78709b4ed9548e281bc"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8963,
-      "sha256": "86ace5755434f64c5fefa5041ee9b4845133c396e39986ec650980e397217262"
+      "bytes": 8927,
+      "sha256": "c7f249326f303bbaa21947b8979a549434eb1066750245098aa03e7dcf555ad5"
     },
     "engineering/energy/summary.json": {
-      "bytes": 62467,
-      "sha256": "378872cee8cf3da7ead6200f72946cb724021d6a6497b0931f56188950197a54"
+      "bytes": 63337,
+      "sha256": "1329c6964a08a1af92e254a7d384ae688da5c156d9a7dfcbd2349b8973bd8c6b"
     },
     "engineering/finance/summary.json": {
       "bytes": 12642,
-      "sha256": "a38b02e119abf086e3ac1c4deb39a4309be310fdbeeffa2b58bbfc17d1648b95"
+      "sha256": "a34037ff40586bf445c606993a6ee1c98c82956fbf8ea3c56d85e237b9bc2c9d"
     },
     "engineering/gis/summary.json": {
       "bytes": 1291,
       "sha256": "5688410c398de7794f9cccdd9976627cf55643dc851f8e93f9fec7c704e54371"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 81399,
-      "sha256": "37181c57357f7594848524a119d89a6c96e734808163f6e6112bac545b91a1cf"
+      "bytes": 81664,
+      "sha256": "391d3b8147cb842b249016c8b3467d37793491d5004f5689da6327fb99557330"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 591,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1050,
-      "sha256": "ac5b8db0bee7bea4336bb94acbb69c9c1ba8338a7878991b9e261ca088e1862e"
+      "sha256": "357640ec49003505d6d5a6dafe22a2b922a77b516371b9d0aac8b21d7334485b"
     },
     "engineering/screenshots/visakhapatnam-network-visualizer.png": {
       "bytes": 114727,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 129031,
-      "sha256": "deed28b822a79052e80fab636e1fc85e524719be135944e7746e08565723ce72"
+      "sha256": "58207c6fb17fccd01e3600a121f7f01b66e272e4d917701bd5572c1351462ab5"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 734,
@@ -107,7 +107,7 @@
     },
     "operations/visakhapatnam-operations-manifest.json": {
       "bytes": 906,
-      "sha256": "dcbb852ebb93a20a40f5b062bf5109f878ff7b6f08a2b2572fdf1232f47011e5"
+      "sha256": "bce76d37385523b6b47885441bf759cfa9889919538ebd276a14ae1c434dc6c2"
     },
     "visakhapatnam-network-map.png": {
       "bytes": 3077106,
@@ -131,6 +131,8 @@
     }
   },
   "city": "visakhapatnam",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/visakhapatnam.gpkg": {
       "bytes": 356352,
@@ -172,9 +173,9 @@
       "sha256": "4df1080519d047fc501f0c6395c5e5a4228131ea12f11c5224aa41c0543e9d88"
     },
     "operations/visakhapatnam-operations.json.gz": {
-      "bytes": 1665900,
+      "bytes": 1665953,
       "required_in_git_checkout": false,
-      "sha256": "548b6526810f47cf396e4315541f4c2130e3f60c1589b78ecf1d72f9bc9dac20"
+      "sha256": "30ed9739ca85dee3b2aebd57f2985a54f6aa5c984f66a0604debe198061ef184"
     },
     "operations/visakhapatnam-procurement-plan.csv": {
       "bytes": 2526053,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

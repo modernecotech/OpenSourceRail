@@ -1,4 +1,5 @@
-schema_version = "1.1"
+schema_version = "1.2"
+deployment_scope = "Reference full railway delivery and operation; tailor responsibilities and evidence to the selected deployment"
 template_revision = "2026-09-09"
 template_status = "unfilled-all-gates-open"
 authority_boundary = "This template organises mobilisation evidence. It does not create a legal entity, delegate a statutory duty, appoint a competent person, approve expenditure, release construction, certify safety or authorise railway operation."
@@ -14,6 +15,9 @@ board_approval_ref = ""
 funding_envelope_ref = ""
 
 [entity_model]
+# Select applicable entity evidence for the deployment; existing workshops need
+# not create a new company to adopt the non-safety owner/operator tools.
+required_fields = ["selected_model", "selection_evidence_ref", "legal_advice_ref", "statutory_duties_register_ref", "reserved_matters_ref", "delegations_ref", "open_design_and_data_rights_ref"]
 recommended_default = "public asset owner plus ring-fenced delivery and operating company"
 selected_model = ""
 selection_evidence_ref = ""
@@ -24,7 +28,7 @@ delegations_ref = ""
 open_design_and_data_rights_ref = ""
 
 [governance]
-required_committees = ["owner board", "audit and risk", "safety environment and assurance"]
+reference_committees = ["owner board", "audit and risk", "safety environment and assurance"]
 reserved_decisions = ["route and service outcomes", "total budget and borrowing", "land acquisition", "major contract awards", "safety policy", "public trial entry", "revenue-service entry", "asset disposal", "open-design and data rights"]
 independence_rules = ["quality may stop work and does not report to inspected production", "chief engineer controls technical acceptance independently of schedule pressure", "independent assessor and checker have direct owner-board access", "regulator is not the project designer", "no role title or software record constitutes self-certification"]
 

@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4891,
-      "sha256": "a03e14aa7181af9344f80c82e16a15606afb017b46df4810e5bdc279d9ea50cf"
+      "bytes": 4945,
+      "sha256": "ec3bd6b2502f59504e5f7abbf36bbc585e0e121ab3ae55797c216301209fd2a8"
     },
     "design.toml": {
       "bytes": 43207,
@@ -42,24 +42,24 @@
       "sha256": "729b02cb6f1114ff2ba98a27f593e554b95d38eaeff4d5152fa345c803b1625c"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8971,
-      "sha256": "5184bcbf768b7b8f21d40cec19f190e07cfc78dac6e7357d542ea514e75341d5"
+      "bytes": 8935,
+      "sha256": "b0e13638f3d8972d8331f427c3c36f61345ba9b311b027a0467b47b947a013cc"
     },
     "engineering/energy/summary.json": {
-      "bytes": 68112,
-      "sha256": "4cd959ead88f5654f26c42f904aae6c5aad514e76b16f1ddc3f922338a8693f0"
+      "bytes": 69030,
+      "sha256": "30d0c53af3042f49e4db109c539a3ac6ce006210d1409f20b82910cf25cba33f"
     },
     "engineering/finance/summary.json": {
       "bytes": 12743,
-      "sha256": "25d368988864bc5683f87b203c0fb6dc7bb0d2200c2b6f39676f55183aa3aabf"
+      "sha256": "ae57ce56cfb0e451899f00ad77e92a2979e972e3541a4cb4f37c506dcff1e81a"
     },
     "engineering/gis/summary.json": {
       "bytes": 1304,
       "sha256": "8a48e1e9438de4796bc3fc74ff545278a1ba83c6a045be5ae87606a17a069994"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 55479,
-      "sha256": "59f7f9aff40499a91c9b8dd734ef06e8ada1d8051f669a2737a493eb42a109b0"
+      "bytes": 55744,
+      "sha256": "4ecfdb46cd51f31f0e72e6ba2e7924e0afa47657630cea9ef21b09a8ae46240e"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 893,
@@ -67,7 +67,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1044,
-      "sha256": "ea9944a6008fa6f1a98d2d3cc6c7f4dee40a2b34d2f7d3e4b92add7bf9d79192"
+      "sha256": "69134fa2c756502165a3609ae4408b34a7a15acc43f4a12d39fbdccf55c15955"
     },
     "engineering/screenshots/ouagadougou-network-visualizer.png": {
       "bytes": 109964,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 137208,
-      "sha256": "0442b85e1e2cb5be80ff59b79fe75a8445bb9f43aa67b2c9c7c339e4c547b459"
+      "sha256": "0b0dd6c9cff2307cc1dc1653fe567692c79b18c803a68322018903be780dcef4"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 731,
@@ -107,7 +107,7 @@
     },
     "operations/ouagadougou-operations-manifest.json": {
       "bytes": 902,
-      "sha256": "f785733b492a427d077cee643897b74fa445c7cef6c03082035c74f2cf802a87"
+      "sha256": "43d787a30c701f8d1d5f09f2ff8520e5d34ad542fedc6772506c884cf0183f99"
     },
     "ouagadougou-network-map.png": {
       "bytes": 5489191,
@@ -131,6 +131,8 @@
     }
   },
   "city": "ouagadougou",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/ouagadougou.gpkg": {
       "bytes": 335872,
@@ -172,9 +173,9 @@
       "sha256": "b4a320e3533f5c20b9b8b7cca35656f55ca80f786076c5b62a83e554d7f5f963"
     },
     "operations/ouagadougou-operations.json.gz": {
-      "bytes": 1702263,
+      "bytes": 1702293,
       "required_in_git_checkout": false,
-      "sha256": "954df1d645783cac693f7863aae00ad1ab9384d5fb004744ce807aa6f69360a4"
+      "sha256": "79b322205f1dd74a2fe43f81552341a9253204b8b4f230dde469411656bbc944"
     },
     "operations/ouagadougou-procurement-plan.csv": {
       "bytes": 2496789,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

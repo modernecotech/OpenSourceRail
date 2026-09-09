@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4645,
-      "sha256": "b662f41b48a48f3b044334623c5abfda0ecf5276f22f47aea97e83218b00def0"
+      "bytes": 4699,
+      "sha256": "8cc53addc04716761f053720d628eaca2f0f867c0969071d5edf95ab09fbfa70"
     },
     "arusha-network-map.png": {
       "bytes": 4340458,
@@ -50,24 +50,24 @@
       "sha256": "98d2aa26bd190894091d155e94ea79b2aa181d48bbd42626973aa6b48dd43033"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 7001,
-      "sha256": "6d5a40a0e58ad6bf68dd0404a55136623b30e67dd9d9572b27df4a3d38e4edbf"
+      "bytes": 6965,
+      "sha256": "e967a64404058280086e81c1b0854bf1b9e53fe83701d2c0fe5b0589277725c7"
     },
     "engineering/energy/summary.json": {
-      "bytes": 19853,
-      "sha256": "23b6487a7b28b3834c863c14fbbed5dbed88eab1458167cb7260f0ac48d40d6f"
+      "bytes": 20452,
+      "sha256": "9b75f44bf678b3bcdb1c512a07c51dbbd0a292805bc3d647cfba583da111e3ed"
     },
     "engineering/finance/summary.json": {
       "bytes": 12630,
-      "sha256": "41b97fe1681b8139126993168e6e96b9ca74b48d889ba47de3201c4ebcd92849"
+      "sha256": "700a554d584e4105289233cb21573f36558a8306bbe7b253e9070ff4211af85c"
     },
     "engineering/gis/summary.json": {
       "bytes": 1243,
       "sha256": "71808f3f0b9b0450f602619230bae094087333d5f3ba423106afd9362e788773"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 36039,
-      "sha256": "941a1927253acacb716125579c9e88c74f295a563a579525f2d96f8df5e4202c"
+      "bytes": 36304,
+      "sha256": "975757fd70dee8bcfa0fe2aeeec5e5e31c6dbdf79ca44b6eb6f343be6860dbb1"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 584,
@@ -83,7 +83,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1029,
-      "sha256": "722dd1f4582df1a768f5c690a0a5be544afec2c05317bb3869a7e2cb15a065bb"
+      "sha256": "bde78514051ff7f11261ddeae105fc32d754d1fbec6da36c905044fa55403897"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9584,
@@ -95,7 +95,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 46667,
-      "sha256": "328c2f31b221ba4d7f29474bc4cb97a60227b799111b566636a0e276de8cf360"
+      "sha256": "1c787e91b758f0c370b1dc3bac0fba022c03d7568a584713329c7ce5d2ef47cf"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 726,
@@ -115,10 +115,12 @@
     },
     "operations/arusha-operations-manifest.json": {
       "bytes": 894,
-      "sha256": "1e25742af8b4dcea409ec628cc0034ea7ab09e3c935c07ed3062e29b91ce59c9"
+      "sha256": "7647c239a251e921e3fd58c7c1a4890c441b512a893b013b45f678d118beef42"
     }
   },
   "city": "arusha",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -127,12 +129,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/arusha.gpkg": {
       "bytes": 266240,
@@ -160,9 +161,9 @@
       "sha256": "93f42ec9ccf7a90879ca0349cbac2ca7311f831012997a09da70382afc260a4e"
     },
     "operations/arusha-operations.json.gz": {
-      "bytes": 3865948,
+      "bytes": 3866025,
       "required_in_git_checkout": false,
-      "sha256": "cc687796630a03e450f65b2462ae86c472e1f357e25ce22b9f17089ab49c4a4d"
+      "sha256": "bcab8913746576b30d92332f7cca1ff514dda001375d38c5d43f8bdcdc4137a1"
     },
     "operations/arusha-procurement-plan.csv": {
       "bytes": 9107249,
@@ -197,7 +198,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

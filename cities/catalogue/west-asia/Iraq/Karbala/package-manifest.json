@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4833,
-      "sha256": "37fe63cd1a7b42d8f532135d60e187107301fd2128484ea2ccfe3863f2f55854"
+      "bytes": 4887,
+      "sha256": "4ca0c3abe9357bc48eda90f22601e5fa4467fc38d37451cea267fc1eb08d8b55"
     },
     "design.toml": {
       "bytes": 36941,
@@ -42,24 +42,24 @@
       "sha256": "52954899c00c0c54945c94b4290cef3a040f4ac2df8839b723732fc4f2d077c1"
     },
     "engineering/depot-scope/summary.json": {
-      "bytes": 8935,
-      "sha256": "39678f21496b96b6b9123a2aaf7d2a9404faa3f7621a4865c72db567606692bd"
+      "bytes": 8899,
+      "sha256": "6a4de7736459bc64a60b70b9b44c29592d6ba74a7cc069ac413d590f07ced51b"
     },
     "engineering/energy/summary.json": {
-      "bytes": 43256,
-      "sha256": "4e64be3aacd90b159c4336c00c06197d1b1cc6ff39ecbe441b6857e4313cd760"
+      "bytes": 43990,
+      "sha256": "b591b5e9ba80e1f90569465a4a9024877ac46574c1510b1cf19a6f555e3f6f2c"
     },
     "engineering/finance/summary.json": {
       "bytes": 12601,
-      "sha256": "6640c874e0e6dd7a396fcb4b618dadc36023207b8c8e924b4f754dd25f2db87d"
+      "sha256": "fad78832f035a5bef9e49bdd02f7ca521355c8a19c83c1a9d1339801c28e98c0"
     },
     "engineering/gis/summary.json": {
       "bytes": 1229,
       "sha256": "2d6437fde94eda364aaf85656e57937408e39b50d87564aab3932bc88325a028"
     },
     "engineering/project-twin/summary.json": {
-      "bytes": 56140,
-      "sha256": "1f1c0be5864598f306b356c1599e769cc5d54412a2ed49b32b663d82d65d80d0"
+      "bytes": 56405,
+      "sha256": "1dfe0ffef0e37d1c964376524c00169235bd5a47c9a3190825489ddb53a7806a"
     },
     "engineering/ring-interchange-summary.json": {
       "bytes": 585,
@@ -75,7 +75,7 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1032,
-      "sha256": "ce229280550335e0bb7e140fef5b642c3c9a6c9c85e5a3d7e4924e6bedaf968e"
+      "sha256": "18e6ccb04324ae9ec2227cc5048c7fdfc57ca4eb6b5d08f6327ff71045d028f8"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9533,
@@ -87,7 +87,7 @@
     },
     "engineering/stabling/summary.json": {
       "bytes": 101772,
-      "sha256": "e2e383773def941f92ec2247b626cd855cee8f23fef7eae7ee3175895b79a4dc"
+      "sha256": "fa97632319bef286baed0092cd3024f16a8c15a5cb4c7e831930397bf6ffec14"
     },
     "engineering/station-cluster-summary.json": {
       "bytes": 728,
@@ -127,10 +127,12 @@
     },
     "operations/karbala-operations-manifest.json": {
       "bytes": 894,
-      "sha256": "0b05210d6e3b222b2c41a073b9bdfebaeef800d8957d07d978fd9c28604420b2"
+      "sha256": "5f741fbe0ee53e477268168e40aa938d96f83b98e45e717cdd3b62e82c24d0dc"
     }
   },
   "city": "karbala",
+  "diagnostic_artifacts": {},
+  "diagnostic_stale_sources": [],
   "external_release_gates": [
     "surveyed alignment and property/utility control",
     "calibrated passenger demand and operator timetable",
@@ -139,12 +141,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "9ee5a6cdb42515a299ebedbce311f2e63c43c7aa45ed43ed4f9fadb9a39ff78b",
+  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
   "local_reproducible_artifacts": {
     "engineering/gis/karbala.gpkg": {
       "bytes": 335872,
@@ -172,9 +173,9 @@
       "sha256": "667c95bc92533b37b82ab98c25cda342a1f6d515314a8f57bbe07bcb9aca1784"
     },
     "operations/karbala-operations.json.gz": {
-      "bytes": 1183355,
+      "bytes": 1183372,
       "required_in_git_checkout": false,
-      "sha256": "023de9db9329adf7d65fba1aba05e55d9ad0757bb80bb68606d85820bc84f369"
+      "sha256": "cbcb8abdb32ca04c853646ba88661c6de135a40e4ed82b1621d2163cf4115840"
     },
     "operations/karbala-procurement-plan.csv": {
       "bytes": 1781898,
@@ -209,7 +210,8 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "53ebc6136b4fee7053b427bb8b1ede57fc41d7a9",
+  "selected_stabling_configuration": "line-local-station-depot",
+  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

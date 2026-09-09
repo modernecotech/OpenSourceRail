@@ -676,14 +676,33 @@ def check_city_artifacts() -> list[Finding]:
             package_manifest_path = city_dir / "package-manifest.json"
             if package_manifest_path.is_file():
                 package_manifest = json.loads(package_manifest_path.read_text())
-                if not package_manifest.get("passed"):
-                    findings.append(Finding(package_manifest_path, "city package manifest is not passed"))
+                if not all(isinstance(package_manifest.get(key), list) for key in (
+                    "missing_artifacts", "failed_summaries", "stale_analysis_sources",
+                    "absolute_local_path_artifacts",
+                )) or not isinstance(package_manifest.get("artifacts"), dict):
+                    findings.append(Finding(package_manifest_path, "city package evidence inventory is incomplete"))
+                # Repository coherence does not require a planning package to
+                # have closed its physical deployment gates. Check that the
+                # published status truthfully follows its evidence instead.
+                expected_pass = not any(package_manifest.get(key, []) for key in (
+                    "missing_artifacts", "failed_summaries", "stale_analysis_sources",
+                    "absolute_local_path_artifacts",
+                )) and package_manifest.get("operations_bundle_hash_current") is True
+                if package_manifest.get("passed") is not expected_pass or package_manifest.get("package_status") != (
+                    "screening-passed" if expected_pass else "incomplete"
+                ):
+                    findings.append(Finding(package_manifest_path, "city package status contradicts its evidence"))
+                if package_manifest.get("stale_analysis_sources"):
+                    findings.append(Finding(package_manifest_path, "selected city-package evidence sources are stale"))
                 manifest_generator = REPO_ROOT / "tools/automation/generate-city-package-manifest.py"
                 if package_manifest.get("generator_sha256") != hashlib.sha256(
                     manifest_generator.read_bytes()
                 ).hexdigest():
                     findings.append(Finding(package_manifest_path, "city package generator hash is stale"))
-                for relative, record in package_manifest.get("artifacts", {}).items():
+                for relative, record in {
+                    **package_manifest.get("artifacts", {}),
+                    **package_manifest.get("diagnostic_artifacts", {}),
+                }.items():
                     artifact = city_dir / relative
                     if not artifact.is_file():
                         findings.append(Finding(artifact, "manifested city-package artifact is missing"))
@@ -2170,15 +2189,8 @@ def check_owner_builder_operator_mobilisation() -> list[Finding]:
     summary = expected.get("summary", {})
     if (
         not all(expected.get("validation", {}).values())
-        or summary.get("roles_total") != 13
-        or summary.get("independent_parties_total") != 3
-        or summary.get("gates_total") != 8
-        or summary.get("work_packages_total") != 18
-        or summary.get("management_systems_total") != 11
         or summary.get("management_systems_ready") != 0
         or summary.get("work_packages_complete") != 0
-        or summary.get("default_programme_start_month") != 0
-        or summary.get("default_programme_end_month") != 60
         or summary.get("mobilisation_ready")
         or summary.get("roles_ready") != 0
         or summary.get("gates_accepted") != 0

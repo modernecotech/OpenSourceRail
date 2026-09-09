@@ -11,10 +11,16 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 The [2026-09-09 substance review](substance-review-2026-09-09.md) now records
 completed roof-drainage input/physical-balance repairs and per-site electrical
 import/export gates. All seven drainage variants pass the corrected planning
-screen. The electrical correction exposes insufficient declared connections,
-including seven Samawah sites; the affected city and full-package results now
-fail. Connection upgrades or charging changes must be reconciled with timetable
-and cost. The depot energy quantity contract is now shared by operating tiers,
+screen. The [ethos audit](ethos-audit-2026-09-09.md) corrects the electrical
+interpretation: the reported connection exceedances occur with PV and storage
+disabled, while every existing coordinated daylight case meets connection
+limits. The repaired gate reports grid-only findings as diagnostics; all 266
+solar/storage snapshots pass, with full operating energy validation still open.
+Stabling now accepts storage-backed stations without grid import or a 150 kW
+minimum, and a grid outage alone does not disable a battery-backed destination.
+The four two-day hybrid city replays pass against the repaired code. Historical
+station-only experiments remain outside selected-plan package acceptance.
+These findings do not prescribe grid upgrades. The depot energy quantity contract is now shared by operating tiers,
 layout requirements and the BOM, with all 266 cities reporting PV area,
 equipment-cost sensitivity and initial dispatch capacity requirements. Located
 equipment, installed-cost reconciliation, physical stabling allocation,

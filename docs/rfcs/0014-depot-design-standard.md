@@ -186,7 +186,7 @@ fleet-wide depot parking.
 Distributed overnight stabling does **not** increase the service-rotation
 fleet. End-of-service dispatch assigns healthy trainsets to powered
 stations with CCTV monitoring, remote isolation, and at least
-150 kW low-C charging access. Morning dispatch releases those sets from
+low-C charging access capped by installed equipment. The 150 kW rate is a top-up target, not a minimum station rating. Morning dispatch releases those sets from
 their stabled stations so outer stops do not wait for trains to run out
 from the terminal depot. The main-heavy stall formula remains sized for
 maintenance, inspection, overhaul, spares, and growth rather than for
@@ -367,15 +367,18 @@ A future physical distributed-stabling model must satisfy these requirements:
 ### 8.1 Executable station-stabling candidate
 
 The simulator supports `station_stabling = true` in scenario `[[fleets]]`,
-with selected powered-station `dispatch_points`. Waiting trains use 150 kW
-low-C top-up to 95% SoC; after closing, returning trains hold at selected
+with selected powered-station `dispatch_points`. Stations may use solar/storage
+without grid import. Waiting trains use up to 150 kW, capped by installed
+station and shared cabinet/source limits, for low-C top-up to 95% SoC; after closing, returning trains hold at selected
 stations and resume under schedule, energy and movement-authority gates.
 This does not require returning healthy trains to the main depot.
 Before departure, a distributed train must retain the 20% reserve over the
 route to the next selected charging station, including unpowered stops and
-terminal reversals. Active pad/grid outages exclude a charging destination.
-The nominal energy calculation does not credit future charging or solar;
-storage-only resilience and faults arising en route remain separate work.
+terminal reversals. A failed pad or unavailable energy source excludes a
+destination. A grid outage alone does not disable a battery-backed charger.
+The gate checks current source availability; it does not reserve future energy
+against other arrivals. Actual charging debits shared storage, and each next
+departure rechecks the onboard reserve. Continuous replay verifies the duty.
 Optional `spare_count` and `cold_reserve_count` are included in each fleet's
 total inventory and default to zero. Candidates use the city's declared
 counts; these trains remain parked and can charge without routine dispatch.
