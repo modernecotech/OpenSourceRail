@@ -54,6 +54,10 @@ from osr_mech.rolling_stock.factory_release import (
     render_factory_release_readiness,
 )
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
+from osr_mech.rolling_stock.inspection_plan import (
+    factory_inspection_plan_payload,
+    render_factory_inspection_plan,
+)
 from osr_mech.rolling_stock.manufacturing_controls import (
     FACTORY_PACKAGE_CONTROLS,
     manufacturing_control_record_template,
@@ -5454,6 +5458,8 @@ def write_outputs(
     factory_release_md = out_dir / "factory-release-work-packages.md"
     factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
     factory_release_readiness_md = out_dir / "factory-release-readiness.md"
+    inspection_plan_json = out_dir / "first-article-inspection-plan.json"
+    inspection_plan_md = out_dir / "first-article-inspection-plan.md"
     factory_drawings_dir = out_dir / "factory-drawings"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
@@ -5551,6 +5557,15 @@ def write_outputs(
     )
     factory_release_readiness_md.write_text(
         render_factory_release_readiness(factory_release_record),
+        encoding="utf-8",
+    )
+    inspection_plan = factory_inspection_plan_payload(factory_release)
+    inspection_plan_json.write_text(
+        json.dumps(inspection_plan, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    inspection_plan_md.write_text(
+        render_factory_inspection_plan(inspection_plan),
         encoding="utf-8",
     )
     factory_drawings_dir.mkdir(parents=True, exist_ok=True)

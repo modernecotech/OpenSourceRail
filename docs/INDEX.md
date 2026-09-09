@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1493**.
+Indexed Markdown files: **1495**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1493**.
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [design](#design) | 414 |
+| [design](#design) | 416 |
 | [docs](#docs) | 145 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
@@ -1004,6 +1004,7 @@ Indexed Markdown files: **1493**.
 | [`design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-110.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/CIV-SUP-110.md) | CIV-SUP-110 — elevated slab, plinth and rail-seat definition |
 | [`design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md`](../design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md) | Civil Drawing-Definition Briefs |
 | [`design/component-catalogue/catalog/buildable-civil/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-civil/factory-release-work-packages.md) | Civil Factory/Release Work Packages |
+| [`design/component-catalogue/catalog/buildable-civil/inspection-and-test-plan.md`](../design/component-catalogue/catalog/buildable-civil/inspection-and-test-plan.md) | Civil Inspection and Test Plan |
 | [`design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md`](../design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md) | Reusable Civil Type Release Register |
 | [`design/component-catalogue/catalog/buildable-stations/README.md`](../design/component-catalogue/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
 | [`design/component-catalogue/catalog/buildable-stations/default-product-specifications.md`](../design/component-catalogue/catalog/buildable-stations/default-product-specifications.md) | Station open-product reference defaults |
@@ -1235,6 +1236,7 @@ Indexed Markdown files: **1493**.
 | [`design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) | LM3 v2A factory drawing and interface-release work packages |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-evidence-status.md) | LM3 First-Article Evidence Status |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md) | LM3 first-article execution pack |
+| [`design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.md) | LM3 First-Article Inspection and Test Plan |
 | [`design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md`](../design/component-catalogue/catalog/buildable-trainset/first-article-work-packages.md) | LM3 First-Article Public Work Packages |
 | [`design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md`](../design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md`](../design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md) | LM3 Manufacturing and Assembly Reference Controls |

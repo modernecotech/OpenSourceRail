@@ -188,6 +188,7 @@ def main() -> int:
                 "factory-drawings/index.md",
                 "manufacturing-and-assembly-controls.md",
                 "manufacturing-control-record-template.json",
+                "first-article-inspection-plan.md",
                 "fabrication-and-construction-controls.md",
                 "first-article-evidence-status.md",
             ),
@@ -202,6 +203,7 @@ def main() -> int:
                 "mass-closure-ledger.md",
                 "manufacturing-and-assembly-controls.md",
                 "manufacturing-control-record-template.json",
+                "first-article-inspection-plan.md",
             ),
             REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/README.md": (
                 "station-product-reconciliation.md",
@@ -219,6 +221,7 @@ def main() -> int:
                 "civil-release-record-template.json",
                 "fabrication-and-construction-controls.md",
                 "construction-control-record-template.json",
+                "inspection-and-test-plan.md",
             ),
         }
         for path, snippets in current_contracts.items():

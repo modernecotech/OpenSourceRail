@@ -422,6 +422,8 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "manufacturing-and-assembly-controls.json").exists()
     assert (tmp_path / "manufacturing-and-assembly-controls.md").exists()
     assert (tmp_path / "evidence/manufacturing-control-record-template.json").exists()
+    assert (tmp_path / "first-article-inspection-plan.json").exists()
+    assert (tmp_path / "first-article-inspection-plan.md").exists()
     controls = json.loads((tmp_path / "manufacturing-and-assembly-controls.json").read_text())
     assert controls["control_count"] == 10
     assert all(row["stop_conditions"] and row["replacement_evidence"] for row in controls["controls"])
@@ -429,6 +431,10 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert record["template_status"] == "unfilled-not-execution-evidence"
     assert len(record["controls"]) == 10
     assert all(step["status"] == "not-performed" for row in record["controls"] for step in row["steps"])
+    inspection_plan = json.loads((tmp_path / "first-article-inspection-plan.json").read_text())
+    assert inspection_plan["package_count"] == 16
+    assert inspection_plan["characteristic_count"] == 416
+    assert all(inspection_plan["validation"].values())
     standard = render_small_component_standard()
     assert "OSR-RAIL-42" in standard
     assert "Four fastener families" in standard

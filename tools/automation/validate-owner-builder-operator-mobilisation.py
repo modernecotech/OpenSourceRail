@@ -21,6 +21,7 @@ EXPECTED_ROLES = {
 }
 EXPECTED_GATES = {f"G{number}" for number in range(8)}
 EXPECTED_INDEPENDENT = {"IND-ASSESSOR", "IND-CHECKER", "IND-AUDITOR"}
+EXPECTED_WORK_PACKAGES = {f"MOB-{number:03d}" for number in range(10, 181, 10)}
 
 
 def _unique(rows: list[dict], field: str, label: str) -> set[str]:
@@ -35,15 +36,19 @@ def build_status(source: Path = SOURCE) -> dict:
     roles = list(data.get("role", []))
     parties = list(data.get("independent_party", []))
     gates = list(data.get("gate", []))
+    work_packages = list(data.get("work_package", []))
     role_ids = _unique(roles, "id", "role")
     party_ids = _unique(parties, "id", "independent-party")
     gate_ids = _unique(gates, "id", "gate")
+    work_package_ids = _unique(work_packages, "id", "work-package")
     if role_ids != EXPECTED_ROLES:
         raise ValueError(f"role set changed: missing={sorted(EXPECTED_ROLES-role_ids)}, new={sorted(role_ids-EXPECTED_ROLES)}")
     if party_ids != EXPECTED_INDEPENDENT:
         raise ValueError("independent-party set changed")
     if gate_ids != EXPECTED_GATES:
         raise ValueError("G0-G7 mobilisation gates must all be present")
+    if work_package_ids != EXPECTED_WORK_PACKAGES:
+        raise ValueError("MOB-010 through MOB-180 work packages must all be present")
     if len(data.get("governance", {}).get("independence_rules", [])) < 5:
         raise ValueError("governance independence rules are incomplete")
     if any(not row.get("accountable_for") for row in roles):
@@ -56,6 +61,39 @@ def build_status(source: Path = SOURCE) -> dict:
             raise ValueError(f"{gate['id']} has insufficient exit evidence")
         if gate.get("decision") not in {"open", "accepted", "rejected", "paused"}:
             raise ValueError(f"{gate['id']} has invalid decision")
+
+    work_by_id = {row["id"]: row for row in work_packages}
+    for row in work_packages:
+        dependencies = set(row.get("depends_on", []))
+        if not dependencies <= work_package_ids or row["id"] in dependencies:
+            raise ValueError(f"{row['id']} has invalid dependencies")
+        if row.get("accountable_role_id") not in role_ids or row.get("gate_id") not in gate_ids:
+            raise ValueError(f"{row['id']} has unresolved role or gate")
+        if not (0 <= int(row.get("start_month", -1)) < int(row.get("end_month", -1)) <= 120):
+            raise ValueError(f"{row['id']} has invalid month range")
+        if not (0 < int(row.get("fte_min", 0)) <= int(row.get("fte_max", 0))):
+            raise ValueError(f"{row['id']} has invalid FTE range")
+        if len(row.get("deliverables", [])) < 4:
+            raise ValueError(f"{row['id']} has insufficient deliverables")
+        if row.get("status") not in {"not-started", "in-progress", "complete", "blocked", "cancelled"}:
+            raise ValueError(f"{row['id']} has invalid status")
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(work_id: str) -> None:
+        if work_id in visiting:
+            raise ValueError(f"mobilisation dependency cycle at {work_id}")
+        if work_id in visited:
+            return
+        visiting.add(work_id)
+        for dependency in work_by_id[work_id].get("depends_on", []):
+            visit(dependency)
+        visiting.remove(work_id)
+        visited.add(work_id)
+
+    for work_id in work_package_ids:
+        visit(work_id)
 
     role_rows = []
     for role in roles:
@@ -92,6 +130,24 @@ def build_status(source: Path = SOURCE) -> dict:
             }
         )
 
+    work_rows = []
+    for row in sorted(work_packages, key=lambda value: (value["start_month"], value["id"])):
+        evidence_refs = list(row.get("evidence_refs", []))
+        complete = (
+            row.get("status") == "complete"
+            and len(evidence_refs) >= len(row["deliverables"])
+            and all(work_by_id[dependency].get("status") == "complete" for dependency in row.get("depends_on", []))
+        )
+        work_rows.append(
+            {
+                **row,
+                "duration_months": int(row["end_month"]) - int(row["start_month"]),
+                "deliverable_count": len(row["deliverables"]),
+                "evidence_count": len(evidence_refs),
+                "complete": complete,
+            }
+        )
+
     project = dict(data.get("project", {}))
     entity = dict(data.get("entity_model", {}))
     entity_ready = all(
@@ -118,11 +174,16 @@ def build_status(source: Path = SOURCE) -> dict:
             "independent_parties_total": len(party_rows),
             "gates_accepted": sum(row["accepted"] for row in gate_rows),
             "gates_total": len(gate_rows),
-            "mobilisation_ready": entity_ready and all(row["ready"] for row in role_rows) and all(row["ready"] for row in party_rows) and all(row["accepted"] for row in gate_rows),
+            "work_packages_complete": sum(row["complete"] for row in work_rows),
+            "work_packages_total": len(work_rows),
+            "default_programme_start_month": min(row["start_month"] for row in work_rows),
+            "default_programme_end_month": max(row["end_month"] for row in work_rows),
+            "mobilisation_ready": entity_ready and all(row["ready"] for row in role_rows) and all(row["ready"] for row in party_rows) and all(row["complete"] for row in work_rows) and all(row["accepted"] for row in gate_rows),
         },
         "roles": role_rows,
         "independent_parties": party_rows,
         "gates": sorted(gate_rows, key=lambda row: row["id"]),
+        "work_packages": work_rows,
         "validation": {
             "role_set_complete": True,
             "independent_parties_complete": True,
@@ -130,6 +191,9 @@ def build_status(source: Path = SOURCE) -> dict:
             "all_gate_accountabilities_resolve": True,
             "all_gates_have_exit_evidence": True,
             "independence_rules_present": True,
+            "work_package_set_complete": True,
+            "work_package_dependencies_acyclic": True,
+            "all_work_package_roles_and_gates_resolve": True,
         },
     }
     return result
@@ -145,7 +209,7 @@ def render_status(status: dict) -> str:
         "",
         f"Project: `{project_id}`",
         "",
-        f"Entity model complete: **{'yes' if status['entity_model']['ready'] else 'no'}** · Roles ready: **{summary['roles_ready']}/{summary['roles_total']}** · Independent parties ready: **{summary['independent_parties_ready']}/{summary['independent_parties_total']}** · Gates accepted: **{summary['gates_accepted']}/{summary['gates_total']}**",
+        f"Entity model complete: **{'yes' if status['entity_model']['ready'] else 'no'}** · Roles ready: **{summary['roles_ready']}/{summary['roles_total']}** · Independent parties ready: **{summary['independent_parties_ready']}/{summary['independent_parties_total']}** · Work packages complete: **{summary['work_packages_complete']}/{summary['work_packages_total']}** · Gates accepted: **{summary['gates_accepted']}/{summary['gates_total']}**",
         "",
         status["authority_boundary"],
         "",
@@ -184,6 +248,22 @@ def render_status(status: dict) -> str:
         )
     lines += [
         "",
+        "## Default Mobilisation Work Programme",
+        "",
+        f"Planning horizon: month **{summary['default_programme_start_month']}–{summary['default_programme_end_month']}**. Overlap is intentional; local approvals, procurement and construction determine the actual baseline.",
+        "",
+        "| Work package | Months | Planning FTE | Accountable | Depends on | Gate | Evidence | Status |",
+        "|---|---:|---:|---|---|---|---:|---|",
+    ]
+    for row in status["work_packages"]:
+        dependencies = ", ".join(f"`{value}`" for value in row["depends_on"]) or "start"
+        lines.append(
+            f"| `{row['id']}` — {row['title']} | {row['start_month']}–{row['end_month']} | "
+            f"{row['fte_min']}–{row['fte_max']} | `{row['accountable_role_id']}` | {dependencies} | "
+            f"`{row['gate_id']}` | {row['evidence_count']}/{row['deliverable_count']} | `{row['status']}` |"
+        )
+    lines += [
+        "",
         "Use the [setup plan](owner-builder-operator-setup.md) to mobilise the organisation.",
         "Copy [`owner-builder-operator-mobilisation.toml`](../lib/templates/owner-builder-operator-mobilisation.toml)",
         "into a controlled deployment workspace, fill it with evidence references, and retain this repository file as the blank default.",
@@ -219,6 +299,7 @@ def main() -> int:
     print(
         "owner-builder-operator mobilisation: "
         f"{summary['roles_ready']}/{summary['roles_total']} roles, "
+        f"{summary['work_packages_complete']}/{summary['work_packages_total']} work packages, "
         f"{summary['gates_accepted']}/{summary['gates_total']} gates accepted"
     )
     return 0

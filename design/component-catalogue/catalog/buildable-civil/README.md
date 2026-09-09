@@ -13,6 +13,7 @@ Nothing here is issued for fabrication or construction. Site survey, geotechnics
 | [`factory-drawings/index.md`](factory-drawings/index.md) | Nine controlled, non-issued drawing-definition briefs |
 | [`fabrication-and-construction-controls.md`](fabrication-and-construction-controls.md) | Ten practical moulding, survey, precast, transport, erection, track-interface and handback controls |
 | [`evidence/construction-control-record-template.json`](evidence/construction-control-record-template.json) | Blank workfront execution, hold-point, inspection and next-trade handback record |
+| [`inspection-and-test-plan.md`](inspection-and-test-plan.md) | Package-specific hold, witness and record-review characteristics covering all reusable IFC types |
 | [`evidence/civil-release-record-template.json`](evidence/civil-release-record-template.json) | Empty evidence record that project authorities must complete |
 | [`reusable-type-release-register.json`](reusable-type-release-register.json) | Machine-readable register, packages, briefs, and validation flags |
 

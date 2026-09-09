@@ -439,22 +439,514 @@
   "source": "lib/templates/owner-builder-operator-mobilisation.toml",
   "source_schema_version": "1.0",
   "summary": {
+    "default_programme_end_month": 60,
+    "default_programme_start_month": 0,
     "gates_accepted": 0,
     "gates_total": 8,
     "independent_parties_ready": 0,
     "independent_parties_total": 3,
     "mobilisation_ready": false,
     "roles_ready": 0,
-    "roles_total": 13
+    "roles_total": 13,
+    "work_packages_complete": 0,
+    "work_packages_total": 18
   },
   "template_revision": "2026-09-09",
   "template_status": "unfilled-all-gates-open",
   "validation": {
     "all_gate_accountabilities_resolve": true,
     "all_gates_have_exit_evidence": true,
+    "all_work_package_roles_and_gates_resolve": true,
     "gates_g0_through_g7_complete": true,
     "independence_rules_present": true,
     "independent_parties_complete": true,
-    "role_set_complete": true
-  }
+    "role_set_complete": true,
+    "work_package_dependencies_acyclic": true,
+    "work_package_set_complete": true
+  },
+  "work_packages": [
+    {
+      "accountable_role_id": "ROLE-OWNER",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "sponsor decision",
+        "service outcome",
+        "initial budget",
+        "corridor protection",
+        "statutory-duty map"
+      ],
+      "depends_on": [],
+      "duration_months": 3,
+      "end_month": 3,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 4,
+      "fte_min": 2,
+      "gate_id": "G0",
+      "id": "MOB-010",
+      "start_month": 0,
+      "status": "not-started",
+      "title": "secure public mandate and accountable sponsorship"
+    },
+    {
+      "accountable_role_id": "ROLE-OWNER",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "legal-form decision",
+        "constitutional documents",
+        "reserved matters",
+        "statutory duties register",
+        "open design and data rights"
+      ],
+      "depends_on": [
+        "MOB-010"
+      ],
+      "duration_months": 5,
+      "end_month": 6,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 5,
+      "fte_min": 2,
+      "gate_id": "G1",
+      "id": "MOB-020",
+      "start_month": 1,
+      "status": "not-started",
+      "title": "establish legal entity and owner-company agreement"
+    },
+    {
+      "accountable_role_id": "ROLE-FINANCE",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "board and committee calendar",
+        "delegations",
+        "conflicts and whistleblowing",
+        "bank and treasury controls",
+        "procurement and audit rules"
+      ],
+      "depends_on": [
+        "MOB-010"
+      ],
+      "duration_months": 5,
+      "end_month": 6,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 6,
+      "fte_min": 3,
+      "gate_id": "G1",
+      "id": "MOB-030",
+      "start_month": 1,
+      "status": "not-started",
+      "title": "stand up governance finance audit and procurement controls"
+    },
+    {
+      "accountable_role_id": "ROLE-CEO",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "role descriptions",
+        "conflict-checked appointments",
+        "competence assessments",
+        "interim delegations",
+        "leadership induction"
+      ],
+      "depends_on": [
+        "MOB-010"
+      ],
+      "duration_months": 8,
+      "end_month": 9,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 5,
+      "fte_min": 2,
+      "gate_id": "G2",
+      "id": "MOB-040",
+      "start_month": 1,
+      "status": "not-started",
+      "title": "recruit and authorise core accountable leadership"
+    },
+    {
+      "accountable_role_id": "ROLE-DIGITAL",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "controlled CDE",
+        "requirements and configuration workflow",
+        "identity and access",
+        "backup restore test",
+        "asset-ID and data dictionary"
+      ],
+      "depends_on": [
+        "MOB-010"
+      ],
+      "duration_months": 7,
+      "end_month": 8,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 7,
+      "fte_min": 3,
+      "gate_id": "G2",
+      "id": "MOB-050",
+      "start_month": 1,
+      "status": "not-started",
+      "title": "deploy CDE configuration cybersecurity and asset-ID controls"
+    },
+    {
+      "accountable_role_id": "ROLE-SAFETY",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "safety management plan",
+        "hazard and assurance plan",
+        "security and emergency strategy",
+        "independent assessor/checker scopes",
+        "regulator engagement route"
+      ],
+      "depends_on": [
+        "MOB-010",
+        "MOB-040"
+      ],
+      "duration_months": 16,
+      "end_month": 18,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 9,
+      "fte_min": 4,
+      "gate_id": "G2",
+      "id": "MOB-080",
+      "start_month": 2,
+      "status": "not-started",
+      "title": "establish safety assurance security and authorisation strategy"
+    },
+    {
+      "accountable_role_id": "ROLE-FINANCE",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "cost and schedule baseline",
+        "funding and financing plan",
+        "local and external currency cashflow",
+        "risk and contingency authority",
+        "benefits and local-value measurement plan"
+      ],
+      "depends_on": [
+        "MOB-010",
+        "MOB-030"
+      ],
+      "duration_months": 13,
+      "end_month": 15,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 8,
+      "fte_min": 4,
+      "gate_id": "G2",
+      "id": "MOB-090",
+      "start_month": 2,
+      "status": "not-started",
+      "title": "develop affordability funding cashflow and benefits baseline"
+    },
+    {
+      "accountable_role_id": "ROLE-ENGINEERING",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "concept of operations",
+        "service and maintenance concepts",
+        "system requirements",
+        "interface register",
+        "development configuration baseline"
+      ],
+      "depends_on": [
+        "MOB-010",
+        "MOB-040"
+      ],
+      "duration_months": 9,
+      "end_month": 12,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 15,
+      "fte_min": 8,
+      "gate_id": "G2",
+      "id": "MOB-060",
+      "start_month": 3,
+      "status": "not-started",
+      "title": "freeze concept of operations and development requirements"
+    },
+    {
+      "accountable_role_id": "ROLE-INFRASTRUCTURE",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "survey control and scope",
+        "ground investigation plan",
+        "utility records and trials",
+        "land and stakeholder strategy",
+        "environmental and permit route"
+      ],
+      "depends_on": [
+        "MOB-010"
+      ],
+      "duration_months": 12,
+      "end_month": 15,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 12,
+      "fte_min": 6,
+      "gate_id": "G2",
+      "id": "MOB-070",
+      "start_month": 3,
+      "status": "not-started",
+      "title": "complete survey ground utility land and consent evidence plan"
+    },
+    {
+      "accountable_role_id": "ROLE-PEOPLE",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "workforce and roster model",
+        "competence standards",
+        "training providers",
+        "apprenticeships and local counterparts",
+        "authorisation and fatigue records"
+      ],
+      "depends_on": [
+        "MOB-040",
+        "MOB-060"
+      ],
+      "duration_months": 26,
+      "end_month": 30,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 10,
+      "fte_min": 4,
+      "gate_id": "G3",
+      "id": "MOB-120",
+      "start_month": 4,
+      "status": "not-started",
+      "title": "build workforce apprenticeship and competence pipeline"
+    },
+    {
+      "accountable_role_id": "ROLE-COMMERCIAL",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "package responsibility matrix",
+        "competition and market-engagement plan",
+        "supplier qualification",
+        "contract data IP and step-in schedules",
+        "auditable local-content method"
+      ],
+      "depends_on": [
+        "MOB-060",
+        "MOB-070",
+        "MOB-080",
+        "MOB-090"
+      ],
+      "duration_months": 10,
+      "end_month": 18,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 12,
+      "fte_min": 6,
+      "gate_id": "G3",
+      "id": "MOB-100",
+      "start_month": 8,
+      "status": "not-started",
+      "title": "package procure and qualify delivery supply chain"
+    },
+    {
+      "accountable_role_id": "ROLE-MANUFACTURING",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "facility layouts and leases/land",
+        "production and depot equipment plans",
+        "metrology and quality room",
+        "OCC and simulator plan",
+        "utilities fire and environmental approvals plan"
+      ],
+      "depends_on": [
+        "MOB-060",
+        "MOB-070"
+      ],
+      "duration_months": 12,
+      "end_month": 20,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 14,
+      "fte_min": 6,
+      "gate_id": "G3",
+      "id": "MOB-110",
+      "start_month": 8,
+      "status": "not-started",
+      "title": "mobilise factory depot OCC and civil production facilities"
+    },
+    {
+      "accountable_role_id": "ROLE-MANUFACTURING",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "released tooling and drawings",
+        "built first articles",
+        "performed ITP and tests",
+        "NCR and design learning",
+        "accepted configuration and production baseline"
+      ],
+      "depends_on": [
+        "MOB-100",
+        "MOB-110",
+        "MOB-120"
+      ],
+      "duration_months": 15,
+      "end_month": 30,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 25,
+      "fte_min": 12,
+      "gate_id": "G4",
+      "id": "MOB-130",
+      "start_month": 15,
+      "status": "not-started",
+      "title": "execute and accept vehicle and reusable-product first articles"
+    },
+    {
+      "accountable_role_id": "ROLE-INFRASTRUCTURE",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "released workfronts",
+        "constructed civil track station and energy assets",
+        "performed ITPs",
+        "progressive as-builts",
+        "accepted construction handovers"
+      ],
+      "depends_on": [
+        "MOB-070",
+        "MOB-100"
+      ],
+      "duration_months": 21,
+      "end_month": 36,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 20,
+      "fte_min": 10,
+      "gate_id": "G4",
+      "id": "MOB-140",
+      "start_month": 15,
+      "status": "not-started",
+      "title": "deliver enabling works and site-specific civil construction"
+    },
+    {
+      "accountable_role_id": "ROLE-OPERATIONS",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "rulebook and procedures",
+        "trained rosters",
+        "OCC station and degraded-mode trials",
+        "emergency exercises",
+        "trial timetable and readiness report"
+      ],
+      "depends_on": [
+        "MOB-080",
+        "MOB-110",
+        "MOB-120"
+      ],
+      "duration_months": 18,
+      "end_month": 36,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 22,
+      "fte_min": 10,
+      "gate_id": "G5",
+      "id": "MOB-150",
+      "start_month": 18,
+      "status": "not-started",
+      "title": "build operator and complete operational readiness trials"
+    },
+    {
+      "accountable_role_id": "ROLE-ASSET",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "asset register and maintenance plans",
+        "depot tooling and calibrated equipment",
+        "spares warranty and obsolescence",
+        "maintainer competence",
+        "asset acceptance and return-to-service controls"
+      ],
+      "depends_on": [
+        "MOB-130",
+        "MOB-140"
+      ],
+      "duration_months": 18,
+      "end_month": 36,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 16,
+      "fte_min": 8,
+      "gate_id": "G5",
+      "id": "MOB-160",
+      "start_month": 18,
+      "status": "not-started",
+      "title": "establish maintenance asset information spares and handover"
+    },
+    {
+      "accountable_role_id": "ROLE-OWNER",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "accepted safety case",
+        "independent assessment",
+        "insurance and liability close",
+        "regulatory decision",
+        "owner board entry-to-service decision"
+      ],
+      "depends_on": [
+        "MOB-130",
+        "MOB-140",
+        "MOB-150",
+        "MOB-160"
+      ],
+      "duration_months": 12,
+      "end_month": 42,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 12,
+      "fte_min": 6,
+      "gate_id": "G6",
+      "id": "MOB-170",
+      "start_month": 30,
+      "status": "not-started",
+      "title": "obtain trial and revenue-service authorisation"
+    },
+    {
+      "accountable_role_id": "ROLE-CEO",
+      "complete": false,
+      "deliverable_count": 5,
+      "deliverables": [
+        "reliability growth and defect closure",
+        "audited benefits and local value",
+        "renewals reserve",
+        "warranty closeout",
+        "controlled lessons and replication decision"
+      ],
+      "depends_on": [
+        "MOB-170"
+      ],
+      "duration_months": 18,
+      "end_month": 60,
+      "evidence_count": 0,
+      "evidence_refs": [],
+      "fte_max": 10,
+      "fte_min": 5,
+      "gate_id": "G7",
+      "id": "MOB-180",
+      "start_month": 42,
+      "status": "not-started",
+      "title": "stabilise service and release replication baseline"
+    }
+  ]
 }

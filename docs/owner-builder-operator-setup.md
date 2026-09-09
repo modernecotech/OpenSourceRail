@@ -197,6 +197,9 @@ an unnamed future monopoly supplier.
 Timing overlaps intentionally; passing a later gate never waives an earlier open
 condition. Build schedule and headcount from the selected corridor’s resource-loaded
 project twin after survey and procurement strategy replace the planning assumptions.
+The machine-readable [mobilisation status](owner-builder-operator-mobilisation-status.md)
+turns this sequence into 18 dependency-checked work packages over the default
+month 0–60 planning horizon; every package and gate is open in the template.
 
 ## First 90 Days
 

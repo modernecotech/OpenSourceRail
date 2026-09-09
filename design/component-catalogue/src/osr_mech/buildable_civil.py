@@ -484,6 +484,180 @@ def construction_control_record_template(
     }
 
 
+def civil_inspection_plan_payload(release_payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert civil release packages into an unperformed inspection/test plan."""
+
+    package_types: dict[str, list[dict[str, Any]]] = {}
+    for row in release_payload["type_register"]:
+        package_types.setdefault(row["package_id"], []).append(row)
+    all_ids: set[str] = set()
+    packages = []
+    for package in release_payload["release_packages"]:
+        prefix = f"CIV-ITP-{str(package['id']).split('-')[-1]}"
+        characteristics: list[dict[str, Any]] = []
+
+        def add(
+            category: str,
+            values: list[Any],
+            point_type: str,
+            stage: str,
+            requirement: Any,
+            method: str,
+            authority: str,
+        ) -> None:
+            for index, value in enumerate(values, 1):
+                characteristic_id = f"{prefix}-{category}-{index:02d}"
+                if characteristic_id in all_ids:
+                    raise ValueError(f"duplicate civil ITP characteristic {characteristic_id}")
+                all_ids.add(characteristic_id)
+                subject_id, text = requirement(value)
+                characteristics.append(
+                    {
+                        "characteristic_id": characteristic_id,
+                        "point_type": point_type,
+                        "stage": stage,
+                        "subject_id": subject_id,
+                        "requirement": text,
+                        "method": method,
+                        "sampling": "100% first article and all safety/interface assets; routine sampling only through the accepted project ITP",
+                        "acceptance_authority": authority,
+                        "execution_status": "not-performed",
+                        "result": "",
+                        "result_ref": "",
+                        "inspected_by": "",
+                        "witnessed_by": "",
+                        "performed_at": "",
+                        "ncr_or_rfi_refs": [],
+                    }
+                )
+
+        add(
+            "HLD", list(package["hold_points"]), "H", "workfront-release",
+            lambda value: (package["id"], str(value)),
+            "controlled prerequisite/evidence review before work authorisation",
+            "designer, construction authority and independent checker where classified",
+        )
+        add(
+            "DRW", list(package["drawing_ids"]), "R", "drawing-and-method-release",
+            lambda value: (str(value), "issued drawing, method and referenced inputs identify the same asset/configuration revision"),
+            "revision, approval, source and interface review",
+            "designer/checker and information manager",
+        )
+        add(
+            "TYP", package_types.get(package["id"], []), "H", "product-or-interface-acceptance",
+            lambda value: (str(value["type_id"]), f"{value['asset_class']} type selected/adapted for the project and its {value['occurrence_count']} reference occurrences reconciled"),
+            "type schedule, calculation, supplier and as-built interface review",
+            str(package["delivery_lane"]) + " accountable engineer",
+        )
+        add(
+            "TOL", list(package["tooling_ids"]), "H", "tool-gauge-and-plant-release",
+            lambda value: (str(value), "identity, revision, survey/calibration/certificate and operating range accepted"),
+            "tool/gauge/plant register and pre-use record review",
+            "construction engineering and quality",
+        )
+        add(
+            "CTL", list(package["reference_control_ids"]), "W", "workface-execution",
+            lambda value: (str(value), "applicable sequence completed or superseded by approved method; hold triggers and NCR/RFI actions resolved"),
+            "completed construction-control record plus witness evidence",
+            "site engineer and independent quality inspector",
+        )
+        add(
+            "OUT", list(package["controlled_outputs"]), "R", "handover",
+            lambda value: (package["id"], str(value)),
+            "artifact/revision/hash, test and as-built record review",
+            "responsible engineer, quality and receiving asset owner/trade",
+        )
+        counts = {kind: sum(row["point_type"] == kind for row in characteristics) for kind in ("H", "W", "R")}
+        packages.append(
+            {
+                "package_id": package["id"],
+                "title": package["title"],
+                "delivery_lane": package["delivery_lane"],
+                "plan_status": "unfilled-protocol-not-construction-evidence",
+                "lot_definition": "one identified asset/workfront and one accepted revision set; the project ITP may define a smaller production/test lot",
+                "release_boundary": package["release_boundary"],
+                "characteristic_count": len(characteristics),
+                "point_type_counts": counts,
+                "characteristics": characteristics,
+                "package_disposition": "open",
+                "accepted_by": "",
+                "accepted_at": "",
+            }
+        )
+    return {
+        "schema": "org.opensourcerail.civil-inspection-test-plan.v1",
+        "status": "unfilled-protocol-not-construction-evidence",
+        "source_release_register": "reusable-type-release-register.json",
+        "package_count": len(packages),
+        "characteristic_count": sum(package["characteristic_count"] for package in packages),
+        "point_types": {
+            "H": "mandatory hold point; work cannot proceed until acceptance",
+            "W": "witness point; notice, attendance or authorised waiver must be recorded",
+            "R": "document/record review point",
+        },
+        "common_rules": [
+            "bind every result to project, asset/workfront, location, drawing/method revision, people, plant and date",
+            "coordination IFC, an empty form or planned inspection is not performed evidence",
+            "stop and contain affected work on failure; link the accepted NCR/RFI disposition and repeated inspection before release",
+            "do not sample away survey control, foundations, lifting, bearings, movement joints, track geometry, platform stepping or other safety/interface characteristics",
+            "handover requires accepted as-builts, tests, temporary-condition register, NCR status and receiving-party signature",
+        ],
+        "packages": packages,
+        "validation": {
+            "all_release_packages_covered_once": True,
+            "all_characteristic_ids_unique": True,
+            "all_ifc_types_covered": {
+                row["subject_id"]
+                for package in packages
+                for row in package["characteristics"]
+                if "-TYP-" in row["characteristic_id"]
+            }
+            == {row["type_id"] for row in release_payload["type_register"]},
+            "all_results_unperformed": all(
+                row["execution_status"] == "not-performed"
+                for package in packages
+                for row in package["characteristics"]
+            ),
+            "all_package_dispositions_open": True,
+        },
+    }
+
+
+def render_civil_inspection_plan(payload: dict[str, Any]) -> str:
+    lines = [
+        "# Civil Inspection and Test Plan",
+        "",
+        "> Status: **unfilled protocol — not fabrication, construction, inspection or test evidence**.",
+        "",
+        "This plan assigns unique characteristics to every civil package prerequisite, drawing,",
+        "reusable IFC type, tool/gauge, workface control and handover output. Project-specific",
+        "values and results remain blank until competent teams execute an authorised workfront.",
+        "",
+        f"Packages: **{payload['package_count']}** · Characteristics: **{payload['characteristic_count']}**.",
+        "",
+        "Point types: **H** mandatory hold, **W** witness, **R** record review.",
+        "",
+        "| Package | Lane | Characteristics | H | W | R | Status |",
+        "|---|---|---:|---:|---:|---:|---|",
+    ]
+    for package in payload["packages"]:
+        counts = package["point_type_counts"]
+        lines.append(
+            f"| `{package['package_id']}` — {package['title']} | `{package['delivery_lane']}` | "
+            f"{package['characteristic_count']} | {counts['H']} | {counts['W']} | {counts['R']} | `{package['package_disposition']}` |"
+        )
+    lines += ["", "## Execution Rules", ""]
+    lines += [f"- {rule}" for rule in payload["common_rules"]]
+    lines += [
+        "",
+        "Use [`construction-control-record-template.json`](evidence/construction-control-record-template.json)",
+        "for each asset/workfront and retain the ITP characteristic IDs when importing into a project QMS.",
+        "All project release evidence remains governed by the [deployment checklist](../../../../docs/civil/deployment-release-checklist.md).",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def _load_types(index_path: Path) -> list[dict[str, Any]]:
     data = json.loads(index_path.read_text(encoding="utf-8"))
     types = data.get("types")
@@ -653,6 +827,7 @@ Nothing here is issued for fabrication or construction. Site survey, geotechnics
 | [`factory-drawings/index.md`](factory-drawings/index.md) | Nine controlled, non-issued drawing-definition briefs |
 | [`fabrication-and-construction-controls.md`](fabrication-and-construction-controls.md) | Ten practical moulding, survey, precast, transport, erection, track-interface and handback controls |
 | [`evidence/construction-control-record-template.json`](evidence/construction-control-record-template.json) | Blank workfront execution, hold-point, inspection and next-trade handback record |
+| [`inspection-and-test-plan.md`](inspection-and-test-plan.md) | Package-specific hold, witness and record-review characteristics covering all reusable IFC types |
 | [`evidence/civil-release-record-template.json`](evidence/civil-release-record-template.json) | Empty evidence record that project authorities must complete |
 | [`reusable-type-release-register.json`](reusable-type-release-register.json) | Machine-readable register, packages, briefs, and validation flags |
 
@@ -693,6 +868,15 @@ def write_outputs(out_dir: Path = DEFAULT_CATALOG_DIR, index_path: Path = DEFAUL
         + "\n",
         encoding="utf-8",
     )
+    inspection_plan = civil_inspection_plan_payload(payload)
+    (out_dir / "inspection-and-test-plan.json").write_text(
+        json.dumps(inspection_plan, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (out_dir / "inspection-and-test-plan.md").write_text(
+        render_civil_inspection_plan(inspection_plan),
+        encoding="utf-8",
+    )
     drawings = payload["drawing_definitions"]
     index_lines = ["# Civil Drawing-Definition Briefs", "", "> All entries are definition seeds, not issued fabrication or construction drawings.", "", "| ID | Title | Owner | IFC types |", "|---|---|---|---:|"]
     for drawing in drawings:
@@ -710,6 +894,8 @@ def write_outputs(out_dir: Path = DEFAULT_CATALOG_DIR, index_path: Path = DEFAUL
         "calculation_and_independent_check_evidence": [],
         "supplier_and_first_article_evidence": [],
         "construction_control_records": [],
+        "inspection_and_test_plan_ref": "design/component-catalogue/catalog/buildable-civil/inspection-and-test-plan.json",
+        "inspection_characteristic_result_refs": [],
         "nonconformances_and_dispositions": [],
         "approvals": {"designer": "", "checker": "", "construction_authority": "", "date": ""},
         "release_statement": "",

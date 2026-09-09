@@ -1279,6 +1279,18 @@ def check_civil_build_package() -> list[Finding]:
             )
         ):
             findings.append(Finding(control_record_path, "civil construction-control record is incomplete or claims performed work"))
+    inspection_plan_path = CIVIL_CATALOG / "inspection-and-test-plan.json"
+    if inspection_plan_path.is_file():
+        plan = json.loads(inspection_plan_path.read_text(encoding="utf-8"))
+        rows = [row for package in plan.get("packages", []) for row in package.get("characteristics", [])]
+        if (
+            plan.get("status") != "unfilled-protocol-not-construction-evidence"
+            or plan.get("package_count") != 6
+            or plan.get("characteristic_count") != 114
+            or not all(plan.get("validation", {}).values())
+            or any(row.get("execution_status") != "not-performed" for row in rows)
+        ):
+            findings.append(Finding(inspection_plan_path, "civil inspection/test plan coverage changed or claims performed work"))
     return findings
 
 
@@ -1700,6 +1712,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "manufacturing_controls": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.json",
         "manufacturing_controls_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md",
         "manufacturing_control_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/manufacturing-control-record-template.json",
+        "inspection_plan": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.json",
+        "inspection_plan_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.md",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
@@ -1824,6 +1838,17 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             )
         ):
             findings.append(Finding(paths["manufacturing_control_record"], "LM3 manufacturing-control record is incomplete or claims performed work"))
+    if paths["inspection_plan"].is_file():
+        plan = json.loads(paths["inspection_plan"].read_text(encoding="utf-8"))
+        rows = [row for package in plan.get("packages", []) for row in package.get("characteristics", [])]
+        if (
+            plan.get("status") != "unfilled-protocol-not-execution-evidence"
+            or plan.get("package_count") != 16
+            or plan.get("characteristic_count") != 416
+            or not all(plan.get("validation", {}).values())
+            or any(row.get("execution_status") != "not-performed" for row in rows)
+        ):
+            findings.append(Finding(paths["inspection_plan"], "LM3 first-article inspection-plan coverage changed or claims performed work"))
     if paths["factory_release_record"].is_file() and paths["factory_release"].is_file():
         factory_record = json.loads(paths["factory_release_record"].read_text(encoding="utf-8"))
         record_packages = factory_record.get("packages", [])
@@ -2126,6 +2151,10 @@ def check_owner_builder_operator_mobilisation() -> list[Finding]:
         or summary.get("roles_total") != 13
         or summary.get("independent_parties_total") != 3
         or summary.get("gates_total") != 8
+        or summary.get("work_packages_total") != 18
+        or summary.get("work_packages_complete") != 0
+        or summary.get("default_programme_start_month") != 0
+        or summary.get("default_programme_end_month") != 60
         or summary.get("mobilisation_ready")
         or summary.get("roles_ready") != 0
         or summary.get("gates_accepted") != 0

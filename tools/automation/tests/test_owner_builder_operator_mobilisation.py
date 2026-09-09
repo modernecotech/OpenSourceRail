@@ -19,10 +19,18 @@ def test_blank_mobilisation_baseline_is_complete_and_fail_closed() -> None:
         "independent_parties_total": 3,
         "gates_accepted": 0,
         "gates_total": 8,
+        "work_packages_complete": 0,
+        "work_packages_total": 18,
+        "default_programme_start_month": 0,
+        "default_programme_end_month": 60,
         "mobilisation_ready": False,
     }
     assert all(status["validation"].values())
     assert {row["id"] for row in status["gates"]} == {f"G{number}" for number in range(8)}
+    assert {row["id"] for row in status["work_packages"]} == {
+        f"MOB-{number:03d}" for number in range(10, 181, 10)
+    }
+    assert all(row["status"] == "not-started" and not row["complete"] for row in status["work_packages"])
 
 
 def test_tracked_mobilisation_outputs_match_source() -> None:

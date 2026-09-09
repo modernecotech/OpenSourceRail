@@ -32,9 +32,11 @@ The rolling-stock packages now link to ten [manufacturing and assembly
 controls](../design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md),
 and the civil packages link to ten [fabrication and construction
 controls](../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md).
-These fill ordinary work-sequence, inspection, handling and handback gaps; they
-do not close the supplier, drawing, calculation, site or authority evidence in
-the table. Blank mechanical and civil execution records prevent planned checks
+These fill ordinary work-sequence, inspection, handling and handback gaps. The
+linked inspection plans now expose 416 LM3 and 114 civil package characteristics
+as explicit hold, witness or review points. They do not close the supplier,
+drawing, calculation, site or authority evidence in the table. Blank mechanical
+and civil execution records prevent planned checks
 from being mistaken for performed work. The [owner–builder–operator
 plan](owner-builder-operator-setup.md) and its [fail-closed mobilisation
 status](owner-builder-operator-mobilisation-status.md) assign an institutional

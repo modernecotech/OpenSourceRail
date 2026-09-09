@@ -3,6 +3,7 @@ from pathlib import Path
 
 from osr_mech.buildable_civil import (
     build_payload,
+    civil_inspection_plan_payload,
     construction_control_record_template,
     construction_control_payload,
     drawing_definitions,
@@ -59,6 +60,19 @@ def test_construction_controls_cover_execution_and_stop_conditions() -> None:
     assert len(record["controls"]) == 10
     assert all(row["control_disposition"] == "open" for row in record["controls"])
     assert all(step["status"] == "not-performed" for row in record["controls"] for step in row["steps"])
+
+
+def test_civil_itp_covers_packages_and_ifc_types_without_claiming_results() -> None:
+    plan = civil_inspection_plan_payload(build_payload())
+    assert plan["package_count"] == 6
+    assert plan["characteristic_count"] == 114
+    assert all(plan["validation"].values())
+    assert all(package["package_disposition"] == "open" for package in plan["packages"])
+    assert all(
+        row["execution_status"] == "not-performed"
+        for package in plan["packages"]
+        for row in package["characteristics"]
+    )
 
 
 def test_tracked_generated_register_matches_generator() -> None:
