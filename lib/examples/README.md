@@ -192,7 +192,10 @@ Declare each station once. Referenced by `id` from lines and fleets.
   remain parked and can charge, but do not enter routine service. Automatic
   reserve activation is not yet modelled.
 - `station_stabling` *(default false)* — enables overnight holding and low-C
-  charging at the selected powered dispatch stations. See the
+  charging at the selected powered dispatch stations. Departure also requires
+  enough energy to reach a selected charging station along the route while
+  retaining the 20% reserve; active pad/grid outages exclude that destination.
+  See the
   [station-stabling workflow](../../docs/operations/distributed-stabling.md)
   for location requirements and evidence limits.
 - `dispatch_points` — an array of `{ station, heading }`. Trains are

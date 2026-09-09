@@ -25,6 +25,15 @@ selected station; they hold there until service resumes. No train is moved back
 to its starting station by resetting its position. Both valid departure
 headings receive headway control, including the return direction.
 
+Before dispatch, distributed trains must carry enough energy to reach the next
+selected charging station along their route with the 20% operating reserve
+intact. The search follows direction, terminal reversals and ring closure,
+skipping destinations with active pad or grid outages. A held train can keep
+charging without consuming a timetable slot. This uses the existing nominal
+traction/HVAC energy model; it credits no future solar or charging delivery.
+Storage-only operation during grid outages and faults arising after departure
+still need separate resilience planning.
+
 Morning departures remain subject to the published schedule, headway,
 energy-reserve, movement-authority and fault gates. A coordinated start does
 not override a safety hold or guarantee simultaneous departure in a fault case.
@@ -64,19 +73,23 @@ positions rather than assuming the initial allocation is restored.
 The [two-day replay](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
 starts at 05:30 and runs continuously through two complete service days and
 their following mornings. Train positions, batteries and site storage are not
-reset between days. It **fails the overnight placement check**, despite all
-34 planned departure directions restarting within 60 seconds on both mornings.
+reset between days. After the charging-reachability repair, it **passes the
+operating screen**: all 108 trains finish each night at the 20 selected powered
+stations, and all 34 planned departure directions restart within 60 seconds.
+There are no departures between 02:30 and 05:30, no routine reserve departures
+and no invariant violations on either cycle.
 
-After day one, six revenue trains remain at the unpowered Line 1 station
-`line-1-0814-0268-s019260`; after day two, ten remain there. Their SoC ranges
-from 21.3–27.5% and 20.5–27.1%, respectively. This station has no declared
-charging power and is excluded from the candidate's stabling locations.
-The native departure gate protects energy for the next section, but does not
-prove a train can reach the next powered station. Charging reachability and
-recovery therefore need explicit treatment before this candidate is accepted.
+The earlier next-section-only gate left six revenue trains at the unpowered
+Line 1 halt `line-1-0814-0268-s019260` after day one and ten after day two.
+Requiring energy through to the next selected charger removes that stranding
+in this replay, while retaining the 20% reserve. Minimum night SoC is 24.2%
+then 22.2%; the minimum over the whole run remains just above 20%. This is not
+a guarantee against outages or different operating/energy conditions.
 
-The largest observed overnight queue reaches **20 trains after day one** and
-**13 after day two**. The short replay's eight-train maximum is not a design
+The largest observed overnight queue reaches **18 trains after day one** and
+**19 after day two**. Each night has **63 train positions beyond the reference
+platform envelope**, equivalent to 3,748.5 m of usable slots under its observed
+allocation. The short replay's eight-train maximum is not a design
 capacity for continuous operation. The new report calculates reference
 platform space requirements from each actual night allocation and rejects
 trains parked outside their line's selected stabling locations. It also checks

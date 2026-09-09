@@ -26,10 +26,11 @@ Reference platform comparisons expose unresolved stabling space; verified
 track capacity, reserve activation and full-day timetable/energy acceptance
 remain open. See the
 [station-stabling workflow](operations/distributed-stabling.md).
-The continuous two-day Samawah screen fails placement: six then ten revenue
-trains remain at an unpowered station, while queues reach 20 then 13 trains.
-Charging reachability and recurring evening placement must be resolved before
-using the short replay's results for stabling capacity or service acceptance.
+The charging-reachability gate repairs the six/ten-train overnight stranding
+found in Samawah's first continuous replay. Both service cycles now pass
+placement and morning restart, with all trains at selected powered stations.
+Queues still reach 18 then 19 trains; recurring physical capacity, daytime
+headways and outage/recovery duties remain unverified.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.
 

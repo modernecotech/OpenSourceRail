@@ -247,3 +247,102 @@ fn invalid_and_overflowing_reserve_counts_are_rejected() {
             .contains("reserve counts"));
     }
 }
+
+fn charging_gap_scenario(distance_m: u32, start_at_c: bool) -> String {
+    let mut text = scenario()
+        .replace("01:59", "05:30")
+        .replace("trainset_count = 4", "trainset_count = 1")
+        .replace(
+            "distance_from_prev_m = 2000",
+            &format!("distance_from_prev_m = {distance_m}"),
+        )
+        .replace("  { station = \"b\", heading = \"forward\" },\n", "")
+        .replace("  { station = \"b\", heading = \"reverse\" },\n", "")
+        .replace(
+            "name = \"b\"\ncharging_power_kw = 500",
+            "name = \"b\"\ncharging_power_kw = 0",
+        );
+    // Keep both destinations configured; reverse their order for the reverse test.
+    if start_at_c {
+        text = text.replace(
+            "  { station = \"a\", heading = \"forward\" },\n  { station = \"c\", heading = \"reverse\" },",
+            "  { station = \"c\", heading = \"reverse\" },\n  { station = \"a\", heading = \"forward\" },",
+        );
+    }
+    text
+}
+
+#[test]
+fn charging_gap_holds_both_directions_before_an_unpowered_station() {
+    // Each 30 km section fits above the reserve; the 60 km charging gap does not.
+    for reverse in [false, true] {
+        let text = charging_gap_scenario(30000, reverse);
+        let config = load_scenario_from_str(&text).unwrap();
+        let result = sim::run(&config, &runtime(60));
+        assert_eq!(result.total_train_km, 0.0);
+        assert!(
+            result.events.is_empty(),
+            "a held train must not consume a dispatch slot"
+        );
+        let legacy = load_scenario_from_str(
+            &text.replace("station_stabling = true", "station_stabling = false"),
+        )
+        .unwrap();
+        assert!(sim::run(&legacy, &runtime(60)).total_train_km > 0.0);
+    }
+}
+
+#[test]
+fn sufficient_energy_crosses_the_gap_and_preserves_the_reserve() {
+    let config = load_scenario_from_str(&charging_gap_scenario(15000, false)).unwrap();
+    let result = sim::run(&config, &runtime(11000));
+    assert!(result.total_train_km >= 30.0);
+    assert!(result.per_train_final_soc[0].3 >= 0.2);
+    assert!(result.total_energy_charged_kwh > 0.0);
+    assert!(result.invariant_violations.is_empty());
+}
+
+#[test]
+fn unavailable_destination_requires_energy_for_the_return_to_a_working_charger() {
+    for kind in ["charging_pad_outage", "grid_outage"] {
+        let text = charging_gap_scenario(15000, false)
+            + &format!(
+                r#"
+[[faults]]
+name = "C charger unavailable"
+kind = "{kind}"
+station = "c"
+from = "05:30"
+to = "06:30"
+"#
+            );
+        let config = load_scenario_from_str(&text).unwrap();
+        assert_eq!(sim::run(&config, &runtime(60)).total_train_km, 0.0);
+    }
+}
+
+#[test]
+fn ring_with_all_chargers_unavailable_holds_without_unbounded_route_search() {
+    let text = charging_gap_scenario(2000, false)
+        .replace(
+            "name = \"L1\"",
+            "name = \"L1\"\nis_ring = true\nring_wrap_length_m = 2000",
+        )
+        .replace("is_terminal = true", "is_terminal = false")
+        + r#"
+[[faults]]
+name = "A pad unavailable"
+kind = "charging_pad_outage"
+station = "a"
+from = "05:30"
+to = "06:30"
+[[faults]]
+name = "C pad unavailable"
+kind = "charging_pad_outage"
+station = "c"
+from = "05:30"
+to = "06:30"
+"#;
+    let config = load_scenario_from_str(&text).unwrap();
+    assert_eq!(sim::run(&config, &runtime(60)).total_train_km, 0.0);
+}

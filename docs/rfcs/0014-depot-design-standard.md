@@ -335,6 +335,11 @@ with selected powered-station `dispatch_points`. Waiting trains use 150 kW
 low-C top-up to 95% SoC; after closing, returning trains hold at selected
 stations and resume under schedule, energy and movement-authority gates.
 This does not require returning healthy trains to the main depot.
+Before departure, a distributed train must retain the 20% reserve over the
+route to the next selected charging station, including unpowered stops and
+terminal reversals. Active pad/grid outages exclude a charging destination.
+The nominal energy calculation does not credit future charging or solar;
+storage-only resilience and faults arising en route remain separate work.
 Optional `spare_count` and `cold_reserve_count` are included in each fleet's
 total inventory and default to zero. Candidates use the city's declared
 counts; these trains remain parked and can charge without routine dispatch.

@@ -173,6 +173,8 @@ with reference platform berths, leaving actual track availability unverified.
 service days without resetting trains or site storage. It checks each following
 morning by elapsed time, rejects trains outside selected stabling locations and
 compares observed night allocations with reference platform space. Samawah's
-retained two-day result fails placement despite passing direction restarts;
-the optional `service-cycle-screen.json` is included in package failure and
-source-drift checks. Neither replay proves daytime headway delivery.
+two-day result passes after the departure gate was extended to preserve energy
+through to the next selected charger. Queues of 18–19 trains still need physical
+capacity evidence. The optional `service-cycle-screen.json` is included in
+package failure and source-drift checks. Neither replay proves daytime headway
+delivery or outage resilience.

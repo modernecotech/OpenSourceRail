@@ -173,17 +173,18 @@ that envelope (3,689 m of usable slots under the initial allocation). These
 remain unverified space requirements, pending existing-track surveys and
 allocation changes; they do not justify additional depots by themselves.
 
-**Continuous-operation gap exposed:** the new [two-day replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
-fails overnight placement. Six revenue trains remain at an unpowered Line 1
-station after day one, rising to ten after day two, even though all 34 planned
-departure directions restart. Maximum station queues are 20 and 13 trains,
-respectively. The short replay's eight-train maximum and the initial allocation
-cannot establish recurring overnight capacity. The new check uses elapsed-time
-snapshots, verifies every train's stabling location and recalculates space from
-observed allocations. Next-section energy protection does not establish
-reachability to the next charger; charging reachability and failed-train
-recovery need explicit modelling. The failed result is included in Samawah's
-package manifest.
+**Charging-reachability repair:** the initial two-day check left six then ten
+revenue trains at an unpowered Line 1 halt. The distributed departure gate now
+requires energy through to the next selected charger with the 20% reserve
+intact, accounting for direction, terminal reversal and active pad/grid outages.
+The refreshed [two-day replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
+passes: all 108 trains finish both nights at selected powered stations and
+all 34 departure directions restart. Maximum queues are 18 then 19 trains,
+with 63 positions beyond the reference platform envelope on each night.
+The short replay's eight-train maximum cannot establish recurring capacity.
+The check uses elapsed-time snapshots and recalculates space from observed
+allocations. Physical capacity, daytime headway delivery, storage-only outage
+resilience and failed-train recovery remain open; package gates remain failed.
 
 **Remaining additions:** a station-by-station healthy-fleet overnight allocation
 with usable track lengths,

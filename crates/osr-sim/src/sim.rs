@@ -1463,6 +1463,14 @@ fn step_train(
             match fleet.schedule.headway_at(clock) {
                 Some(hw)
                     if throttle.can_dispatch(&key, t)
+                        && can_reach_stabling_charger(
+                            &trains[idx],
+                            heading,
+                            network,
+                            climate,
+                            fleet,
+                            faults,
+                        )
                         && entry_candidate(
                             idx,
                             trains,
@@ -1593,7 +1601,14 @@ fn step_train(
             // events until both the energy-reserve gate and the movement-
             // authority gate admit the next section.  A held train keeps
             // charging and retries on the next tick.
-            if entry_candidate(
+            if !can_reach_stabling_charger(
+                &trains[idx],
+                departure_heading,
+                network,
+                climate,
+                fleet,
+                faults,
+            ) || entry_candidate(
                 idx,
                 trains,
                 network,
@@ -1968,6 +1983,49 @@ fn entry_candidate(
     ma_log
         .section_available_to(train.id, section_id)
         .then_some((to_station, section_id))
+}
+
+/// Distributed operation needs enough stored energy to reach a selected
+/// charging station, not just to enter the next section. No future solar or
+/// charging delivery is credited. Known pad/grid outages exclude a destination;
+/// storage-only resilience and faults arising en route need separate planning.
+fn can_reach_stabling_charger(
+    train: &Train,
+    departure_heading: Heading,
+    network: &Network,
+    climate: &ClimateModel,
+    fleet: &LineFleet,
+    faults: &FaultEngine,
+) -> bool {
+    if !fleet.station_stabling {
+        return true;
+    }
+    let line = &network.lines[train.line_index];
+    let mut current = current_station(train);
+    let mut heading = departure_heading;
+    let mut distance_km = 0.0;
+    // A radial return or one ring circuit can reach the originating charger.
+    // Bound the search when all selected chargers are unavailable.
+    for _ in 0..2 * line.stations.len() {
+        let Some((next, section)) = next_station_for_heading(line, current, heading) else {
+            return false;
+        };
+        distance_km += network.section(section).length_mm as f32 / 1_000_000.0;
+        let required = train.kwh_per_km(climate.hvac_uplift_frac) * distance_km
+            + train.battery_capacity_kwh() * SOC_OPERATING_RESERVE;
+        if train.soc * train.battery_capacity_kwh() + f32::EPSILON < required {
+            return false;
+        }
+        if fleet.stables_at(next) && !faults.pad_disabled_at(next) && !faults.grid_disabled_at(next)
+        {
+            return true;
+        }
+        current = next;
+        if !line.is_ring && network.station(current).is_terminal {
+            heading = heading.flip();
+        }
+    }
+    false
 }
 
 fn direction_for_heading(h: Heading) -> Direction {

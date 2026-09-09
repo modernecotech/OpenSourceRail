@@ -78,18 +78,23 @@ def test_invalid_service_window_and_nonfinite_soc_are_rejected():
         inspect_cycles(doc, result, snapshots, 2)
 
 
-def test_samawah_continuous_evidence_is_current_and_keeps_failed_placement_open():
+def test_samawah_continuous_evidence_is_current_after_charging_reachability_repair():
     root = Path(__file__).resolve().parents[3]
     folder = root / 'cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling'
     report = json.loads((folder / 'service-cycle-screen.json').read_text())
     plan = json.loads((folder / 'summary.json').read_text())
     assert report['candidate_sha256'] == report['scenario_sha256'] == plan['candidate_sha256']
     assert report['service_days'] == 2
-    assert report['passed'] is False
+    assert report['passed'] is True
     assert report['deployment_release_ready'] is False
     for key, relative in report['source_paths'].items():
         assert report['source_sha256'][key] == hashlib.sha256((root / relative).read_bytes()).hexdigest()
-    assert [len(c['trainsets_outside_selected_stabling_stations']) for c in report['cycles']] == [6, 10]
+    assert [len(c['trainsets_outside_selected_stabling_stations']) for c in report['cycles']] == [0, 0]
+    assert all(c['parked_trainsets'] == 108 and c['parked_station_count'] == 20 for c in report['cycles'])
+    assert all(c['passed'] and c['departures_between_0230_and_0530'] == 0 for c in report['cycles'])
+    assert all(not c['directional_service']['reserve_departures'] for c in report['cycles'])
     assert all(c['directional_service']['directions_restarting_within_tolerance'] == 34 for c in report['cycles'])
     manifest = json.loads((folder.parents[1] / 'package-manifest.json').read_text())
-    assert 'engineering/stabling/service-cycle-screen.json' in manifest['failed_summaries']
+    assert 'engineering/stabling/service-cycle-screen.json' not in manifest['failed_summaries']
+    assert 'engineering/stabling/summary.json' in manifest['failed_summaries']
+    assert manifest['passed'] is False
