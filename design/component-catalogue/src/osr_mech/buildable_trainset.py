@@ -56,6 +56,7 @@ from osr_mech.rolling_stock.factory_release import (
 from osr_mech.rolling_stock.manufacturing_tooling import TOOL_BUILDERS
 from osr_mech.rolling_stock.manufacturing_controls import (
     FACTORY_PACKAGE_CONTROLS,
+    manufacturing_control_record_template,
     manufacturing_control_payload,
     render_manufacturing_controls,
 )
@@ -5448,6 +5449,7 @@ def write_outputs(
     defaults_md = out_dir / "default-product-specifications.md"
     controls_json = out_dir / "manufacturing-and-assembly-controls.json"
     controls_md = out_dir / "manufacturing-and-assembly-controls.md"
+    controls_record_json = out_dir / "evidence" / "manufacturing-control-record-template.json"
     factory_release_json = out_dir / "factory-release-work-packages.json"
     factory_release_md = out_dir / "factory-release-work-packages.md"
     factory_release_record_json = out_dir / "evidence" / "factory-release-record-template.json"
@@ -5530,6 +5532,11 @@ def write_outputs(
         encoding="utf-8",
     )
     controls_md.write_text(render_manufacturing_controls(controls), encoding="utf-8")
+    controls_record_json.parent.mkdir(parents=True, exist_ok=True)
+    controls_record_json.write_text(
+        json.dumps(manufacturing_control_record_template(controls), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     factory_release = factory_release_work_package_payload(design)
     factory_release_json.write_text(
         json.dumps(factory_release, indent=2, sort_keys=True) + "\n",

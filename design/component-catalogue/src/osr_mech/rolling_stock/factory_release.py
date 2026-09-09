@@ -947,6 +947,7 @@ def factory_release_record_template(payload: dict[str, object]) -> dict[str, obj
         "template_status": "unfilled-not-release-evidence",
         "design_id": payload["design_id"],
         "source_work_packages": "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
+        "manufacturing_control_record_template": "design/component-catalogue/catalog/buildable-trainset/evidence/manufacturing-control-record-template.json",
         "first_article_id": "LM3-FA-001",
         "coverage": {
             "package_count": len(packages),
@@ -960,6 +961,7 @@ def factory_release_record_template(payload: dict[str, object]) -> dict[str, obj
             "bind every issued drawing, prerequisite and result artifact by repository-relative reference and SHA-256",
             "record exact supplier configurations and production-part revisions before drawing approval",
             "do not mark a verification complete from design-reference geometry or an unperformed template",
+            "link completed per-work-order manufacturing-control records for every applicable reference control",
             "release a package only when all prerequisites, drawings, product configurations, tooling, outputs, verifications and approvals are accepted",
         ],
         "packages": packages,

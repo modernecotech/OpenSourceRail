@@ -235,6 +235,11 @@ deck:
 
 ## Repository Handoffs
 
+- [Machine-readable mobilisation status](owner-builder-operator-mobilisation-status.md)
+  — thirteen accountable roles, three independent parties and gates G0–G7,
+  deliberately open in the repository template.
+- [Mobilisation source template](../lib/templates/owner-builder-operator-mobilisation.toml)
+  — copy to the controlled deployment workspace and bind decisions to evidence.
 - [Deployment role boundary](deployment-roles.md) — legal and evidence-carrying roles.
 - [Deployment model](deployment-model.md) — city selection through operations.
 - [LM3 manufacturing controls](../design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md) — factory work instructions and stop rules.

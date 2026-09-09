@@ -1,0 +1,248 @@
+schema_version = "1.0"
+template_revision = "2026-09-09"
+template_status = "unfilled-all-gates-open"
+authority_boundary = "This template organises mobilisation evidence. It does not create a legal entity, delegate a statutory duty, appoint a competent person, approve expenditure, release construction, certify safety or authorise railway operation."
+
+[project]
+project_id = ""
+jurisdiction = ""
+public_sponsor = ""
+asset_owner_legal_name = ""
+delivery_operator_legal_name = ""
+accountable_officer = ""
+board_approval_ref = ""
+funding_envelope_ref = ""
+
+[entity_model]
+recommended_default = "public asset owner plus ring-fenced delivery and operating company"
+selected_model = ""
+selection_evidence_ref = ""
+legal_advice_ref = ""
+statutory_duties_register_ref = ""
+reserved_matters_ref = ""
+delegations_ref = ""
+open_design_and_data_rights_ref = ""
+
+[governance]
+required_committees = ["owner board", "audit and risk", "safety environment and assurance"]
+reserved_decisions = ["route and service outcomes", "total budget and borrowing", "land acquisition", "major contract awards", "safety policy", "public trial entry", "revenue-service entry", "asset disposal", "open-design and data rights"]
+independence_rules = ["quality may stop work and does not report to inspected production", "chief engineer controls technical acceptance independently of schedule pressure", "independent assessor and checker have direct owner-board access", "regulator is not the project designer", "no role title or software record constitutes self-certification"]
+
+[[role]]
+id = "ROLE-OWNER"
+title = "owner accountable officer"
+accountable_for = ["public value", "funding", "land", "statutory sponsor duties"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-CEO"
+title = "chief executive"
+accountable_for = ["company performance", "organisational competence", "adequate resources"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-PROGRAMME"
+title = "programme director"
+accountable_for = ["scope", "schedule", "interfaces", "benefits baseline"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-ENGINEERING"
+title = "chief engineer and design authority"
+accountable_for = ["requirements", "technical baseline", "interfaces", "engineering concessions"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-SAFETY"
+title = "safety and assurance director"
+accountable_for = ["safety management system", "hazard record", "assurance plan", "risk escalation"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-OPERATIONS"
+title = "operations director"
+accountable_for = ["rulebook", "OCC", "stations", "service", "emergency response"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-ASSET"
+title = "asset and maintenance director"
+accountable_for = ["maintenance system", "depot", "spares", "asset condition", "return to service"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-MANUFACTURING"
+title = "manufacturing director"
+accountable_for = ["factory output", "tooling", "industrialisation", "production conformity"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-INFRASTRUCTURE"
+title = "infrastructure director"
+accountable_for = ["survey", "utilities", "civil track and station delivery", "construction handover"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-COMMERCIAL"
+title = "commercial and local-content director"
+accountable_for = ["procurement packaging", "competition", "supplier performance", "local-value evidence"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-FINANCE"
+title = "finance director"
+accountable_for = ["financial control", "cash and treasury", "audit", "affordability"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-PEOPLE"
+title = "people and competence director"
+accountable_for = ["workforce plan", "labour relations", "competence system", "fatigue controls"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[role]]
+id = "ROLE-DIGITAL"
+title = "digital and configuration director"
+accountable_for = ["CDE", "asset identifiers", "cybersecurity", "software and data custody"]
+appointment_ref = ""
+competence_ref = ""
+status = "vacant"
+
+[[independent_party]]
+id = "IND-ASSESSOR"
+title = "independent safety assessor"
+organisation = ""
+appointment_ref = ""
+conflict_check_ref = ""
+scope_ref = ""
+status = "not-appointed"
+
+[[independent_party]]
+id = "IND-CHECKER"
+title = "independent design checker"
+organisation = ""
+appointment_ref = ""
+conflict_check_ref = ""
+scope_ref = ""
+status = "not-appointed"
+
+[[independent_party]]
+id = "IND-AUDITOR"
+title = "external auditor"
+organisation = ""
+appointment_ref = ""
+conflict_check_ref = ""
+scope_ref = ""
+status = "not-appointed"
+
+[[gate]]
+id = "G0"
+title = "public mandate"
+indicative_window = "month 0-3"
+accountable_role_ids = ["ROLE-OWNER"]
+required_evidence = ["named sponsor and accountable officer", "defined transport problem and service outcome", "initial development funding", "corridor protection decision", "recorded statutory-duty route"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G1"
+title = "entity and controls"
+indicative_window = "month 2-6"
+accountable_role_ids = ["ROLE-OWNER", "ROLE-CEO", "ROLE-FINANCE"]
+required_evidence = ["selected legal form and legal advice", "board committees and reserved matters", "delegations and conflicts policy", "bank audit and procurement controls", "owner-held design data and step-in rights"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G2"
+title = "development baseline"
+indicative_window = "month 4-12"
+accountable_role_ids = ["ROLE-PROGRAMME", "ROLE-ENGINEERING", "ROLE-OPERATIONS", "ROLE-SAFETY"]
+required_evidence = ["survey ground utility and land evidence plan", "concept of operations", "system requirements and configuration baseline", "cost funding cash risk and benefits baseline", "safety assurance and authorisation plan"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G3"
+title = "procure and prototype"
+indicative_window = "month 9-18"
+accountable_role_ids = ["ROLE-PROGRAMME", "ROLE-COMMERCIAL", "ROLE-MANUFACTURING", "ROLE-INFRASTRUCTURE"]
+required_evidence = ["approved package and competition plan", "supplier qualification and local-content method", "factory site and depot mobilisation plans", "first-article plans", "training and local-counterpart agreements"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G4"
+title = "first articles and enabling works"
+indicative_window = "month 15-30"
+accountable_role_ids = ["ROLE-MANUFACTURING", "ROLE-INFRASTRUCTURE", "ROLE-ENGINEERING", "ROLE-SAFETY"]
+required_evidence = ["accepted tooling and first products", "performed vehicle and civil first-article tests", "checked site-specific designs", "closed or accepted NCR learning", "operations recruitment and competence records"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G5"
+title = "construction and operational readiness"
+indicative_window = "programme-derived"
+accountable_role_ids = ["ROLE-PROGRAMME", "ROLE-OPERATIONS", "ROLE-ASSET", "ROLE-SAFETY"]
+required_evidence = ["released workfronts and progressive handover", "asset information maintainability and spares", "trained and assessed rosters", "trial timetable", "completed emergency and degraded-mode exercises"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G6"
+title = "trial and revenue service"
+indicative_window = "authority-derived"
+accountable_role_ids = ["ROLE-OWNER", "ROLE-OPERATIONS", "ROLE-SAFETY"]
+required_evidence = ["accepted safety case", "independent assessment report", "insurance and liability arrangements", "regulator or authorising-body decision", "asset acceptance and owner-board entry decision"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""
+
+[[gate]]
+id = "G7"
+title = "stable operation and replication"
+indicative_window = "first 12-24 service months"
+accountable_role_ids = ["ROLE-CEO", "ROLE-OPERATIONS", "ROLE-ASSET", "ROLE-FINANCE"]
+required_evidence = ["reliability and maintenance performance", "defect and warranty closure", "audited benefits and local-value results", "funded renewals reserve", "controlled lessons incorporated into the reusable baseline"]
+evidence_refs = []
+decision = "open"
+decided_by = ""
+decided_at = ""

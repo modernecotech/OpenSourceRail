@@ -61,6 +61,8 @@ more:
 
 - Organisational mobilisation, governance, staffing and stage gates:
   [`owner-builder-operator-setup.md`](owner-builder-operator-setup.md)
+- Fail-closed role, independence and G0–G7 evidence state:
+  [`owner-builder-operator-mobilisation-status.md`](owner-builder-operator-mobilisation-status.md)
 - Unified city/deployment pipeline:
   [`deployment-model.md`](deployment-model.md)
 - First adoptable product:

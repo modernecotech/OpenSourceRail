@@ -421,9 +421,14 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "small-component-standard.md").exists()
     assert (tmp_path / "manufacturing-and-assembly-controls.json").exists()
     assert (tmp_path / "manufacturing-and-assembly-controls.md").exists()
+    assert (tmp_path / "evidence/manufacturing-control-record-template.json").exists()
     controls = json.loads((tmp_path / "manufacturing-and-assembly-controls.json").read_text())
     assert controls["control_count"] == 10
     assert all(row["stop_conditions"] and row["replacement_evidence"] for row in controls["controls"])
+    record = json.loads((tmp_path / "evidence/manufacturing-control-record-template.json").read_text())
+    assert record["template_status"] == "unfilled-not-execution-evidence"
+    assert len(record["controls"]) == 10
+    assert all(step["status"] == "not-performed" for row in record["controls"] for step in row["steps"])
     standard = render_small_component_standard()
     assert "OSR-RAIL-42" in standard
     assert "Four fastener families" in standard

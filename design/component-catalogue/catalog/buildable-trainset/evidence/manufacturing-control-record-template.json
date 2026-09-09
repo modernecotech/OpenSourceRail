@@ -1,0 +1,688 @@
+{
+  "applicable_control_ids": [],
+  "approvals": {
+    "accepted_at": "",
+    "cell_lead": "",
+    "design_authority_if_required": "",
+    "manufacturing_engineering": "",
+    "quality": ""
+  },
+  "authority_boundary": "Reference defaults for first-article planning only. A released drawing, joint calculation, qualified process specification, supplier instruction, or authorised deviation takes precedence. These values do not release a vehicle, structural joint, glazing system, pressure boundary, HV system, lifting operation, or safety-critical installation.",
+  "configuration_handback": {
+    "as_built_record_ref": "",
+    "concession_refs": [],
+    "handback_status": "open",
+    "installed_serials_and_lots_reconciled": "not-performed",
+    "mass_record_ref": "",
+    "open_work_refs": []
+  },
+  "controls": [
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-010",
+      "inspection_requirement": "100% first article and all safety/interface datums; routine non-safety dimensions use first-off, last-off and at least one in ten, with a minimum of three per batch.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "checked detail/assembly drawing, tolerance analysis, inspection plan and calibrated measurement record",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Use vehicle coordinates X forward, Y left and Z up; identify the car centre plane, bogie-centre planes and underframe top plane on every assembly drawing.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Locate work by a 3-2-1 datum scheme. Do not dimension serial features from one another or use an unverified body panel as a master datum.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Treat CAD nominal geometry as basic only where the released drawing provides a geometric tolerance; otherwise the dimension is not released for manufacture.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "For non-safety brackets and trim only, use a provisional general shop tolerance of \u00b10.5 mm to 300 mm, \u00b11.0 mm from 300\u20131,000 mm and \u00b12.0 mm above 1,000 mm; hole position \u00b10.5 mm. A drawing-specific tolerance is mandatory at bogie, coupler, door, glazing, bearing, articulation and crash interfaces.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Verify each fixture at installation, after any move or repair, and before each first-article batch against traceable artefacts; record as-found and as-left results.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "missing drawing revision",
+        "damaged or out-of-calibration gauge",
+        "datum disagreement above released tolerance",
+        "unrecorded CAD or NC revision"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-020",
+      "inspection_requirement": "100% visual inspection and dimensional survey of first article; NDT method, extent and acceptance follow the released weld map and qualified procedure, never this default.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "released weld map/WPS, welder qualifications, material certificates, NDT plan and signed dimensional report",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Receive material by heat/lot and preserve traceability through cutting and kitting; quarantine unidentified offcuts from structural use.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Deburr and remove cutting dross; keep weld lands free of oil, moisture, scale, coating and zinc unless the qualified procedure explicitly permits it.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Dry-build in the surveyed fixture, restrain only at released hard points, and record diagonals, twist, bogie centres, coupler centreline and door-portal datums before welding.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use a balanced weld sequence from the centre outward, with inter-pass temperature, consumables, tack removal and distortion correction controlled by the qualified WPS.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "No flame straightening, weld repair, weld-size substitution or hole enlargement is permitted without an approved repair/deviation instruction.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "material certificate mismatch",
+        "unqualified welder or WPS",
+        "fit-up outside drawing tolerance",
+        "arc strike or crack",
+        "fixture movement"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-030",
+      "inspection_requirement": "100% identity and witness-mark check on safety, roof, door, glazing, bogie, coupler, articulation and HV enclosure joints; normal service-rail joints first/last and 10% minimum three.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "joint calculation or supplier instruction, released joint schedule, batch record and signed torque trace",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Kit fasteners by joint ID, grade, coating, locking device and lot; do not mix visually similar hardware or substitute stainless/plated pairs without galvanic review.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Bring multi-fastener joints to contact by hand, seat in a cross-pattern, then apply the released final torque in at least two stages.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use sockets within the calibrated tool range, record actual tool ID and setting, and apply a visible witness mark after final acceptance.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Do not publish or infer numerical torque from nominal diameter. Lubrication, coating, insert strength, prevailing-torque devices and supplier bearing limits control preload.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Replace single-use prevailing-torque fasteners and any fastener rejected by the released reuse rule; never re-torque a witness-marked joint unless the procedure requires it.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "no numerical torque authority",
+        "tool outside calibration",
+        "cross-threading or spinning insert",
+        "witness mark broken",
+        "joint gap after seating"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-040",
+      "inspection_requirement": "100% first article, every safety glazing perimeter and every roof penetration; retain witness coupons by material lot and shift through the defined evidence-retention period.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "supplier-qualified bonding procedure, released glazing/bond drawing, coupon results, environment log and leak-test record",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Work in an enclosed clean zone at 18\u201330 \u00b0C, 30\u201375% RH and at least 3 \u00b0C above dew point unless the qualified product procedure is narrower.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Record substrate, cleaner, primer, adhesive/sealant and applicator batch/expiry; perform the supplier surface-preparation route and a witnessed adhesion coupon at the start of each shift/material combination.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Dry-fit with hard locators before priming. The released drawing must state glass edge clearance, adhesive bite/thickness, spacer hardness, drain path and installation gap.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Record start/end application times, environmental readings, bead continuity and clamp/removal time. Supplier open-time and cure limits are mandatory and are not replaced by this default.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Protect bond lines from movement, water, dust and coating until released cure; water-test glazing and roof penetrations before interior closure.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "substrate below dew-point margin",
+        "expired or unmatched batch",
+        "missed open time",
+        "primer contamination",
+        "bead discontinuity",
+        "glass edge contact"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-050",
+      "inspection_requirement": "100% first article visual, thickness, mass, trim, insert and master-gauge inspection; production sampling follows the qualified control plan, while every safety insert remains individually traceable.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "qualified laminate/process specification, mould acceptance, coupon/mechanical evidence, trim program revision and signed first-article report",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Survey each mould from tooling datums before first use and after repair; clean, release and inspect it before lay-up.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Issue a ply/cut kit and resin/gelcoat batch traveler. Fibre type, orientation, overlap, core, resin ratio, vacuum level and cure cycle come from the qualified laminate schedule.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use moulded or drill-jigged locator features; CNC-trim only from released datums and trial-fit the first part in the master body/fascia frame before drilling production parts.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Bond or mould inserts only with positive anti-rotation/pull-out features and witness samples; prevent exposed fibre and seal all trimmed edges and penetrations.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "The fascia master gauge must simultaneously accept the glass dummy, lamp gauges, washer/sensor keep-outs and removable service panels without forced fit.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "mould datum out",
+        "unreleased laminate schedule",
+        "cure excursion",
+        "dry fibre/void/delamination",
+        "insert movement",
+        "forced master-gauge fit"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-060",
+      "inspection_requirement": "100% roof fasteners, penetrations, drains, isolation labels and leak-test zones on every car.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "released roof arrangement and load calculation, supplier manuals, lift plan, water-test map, electrical test and mass/CG record",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Complete a bench dry-build of rails, HVAC support frame, fairings, glands, drain paths and removable envelopes before the car roof is closed.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Lift equipment only from supplier points with a released lift plan; do not use PV rails, fairings or duct flanges as lifting points.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Maintain physical segregation between HV/PV, LV/data, condensate and fresh-air paths; route drains continuously downhill and provide cleanable traps only where shown.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Install replaceable equipment without permanent adhesive across its removal boundary; preserve roof access, fall-protection and emergency-isolation zones.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Perform staged water tests after bare roof sealing, after equipment installation and after fairing closure; electrically test bonding, insulation and PV isolation before energisation.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "standing water",
+        "unsealed penetration",
+        "blocked removal path",
+        "missing lift point",
+        "failed bond/insulation test",
+        "supplier mass/CG absent"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-070",
+      "inspection_requirement": "100% concealed-route photo/map, connector identity, safety fixture and accessibility check; cosmetic modules use first/last plus 10% minimum three.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "released routing and fit-out drawings, fixture load calculation/test, cable test report, fire-material evidence and dimensional gauge record",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Complete concealed harness, duct, drain and fire-barrier inspection before floors, ceilings or service panels close the zone.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use the common service rail and keyed connectors for non-structural modular fit-out; passenger load-bearing fixtures require a released load path and proof evidence.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Route cables and hoses in dedicated trays, protect every edge crossing, support branches close to connectors, and preserve supplier minimum bend radius and service loop.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Apply unique labels at both ends and every branch; run continuity/insulation/network checks before energisation and again after panel closure.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Dry-fit floors and panels from the centre datum outward, preserve drainage/inspection hatches, eliminate trip lips and sharp edges, then gauge PRM aisle, door circulation and emergency access.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "unreleased routing drawing",
+        "chafing or unsupported span",
+        "mixed HV/LV zone",
+        "blocked access panel",
+        "failed fire barrier",
+        "PRM gauge obstruction"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-080",
+      "inspection_requirement": "100% lift-point identity, equipment certificates, pre-use check, lift log and post-marriage geometry for every vehicle movement.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "checked lift/recovery plan, equipment schedule/certificates, jacking-pad calculation and proof test, lift log and post-marriage survey",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Weigh each accepted module and record centre of gravity before planning the lift; compare cumulative body mass and reactions with the controlled mass ledger.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use only marked, rated and proof-accepted lifting/jacking points with positive cribbing and a released synchronous lift plan; establish an exclusion zone and appoint one lift controller.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Mobile lifting columns are the factory default for carbody/bogie marriage. Portable screw or scissor jacks are a recovery option only when the selected units, foundations/packing, side-load restraint and vehicle jacking pads are specifically engineered and proof tested.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Raise in defined increments while monitoring level and pad load; stop on unequal load, unexpected deformation, loss of communication or support movement.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "After marriage, record ride heights, axle loads, clearances, hoses/cables, retention devices and fastener witness marks before static energisation.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "unknown mass/CG",
+        "expired lifting certificate",
+        "unverified ground or cribbing",
+        "side-loaded jack",
+        "pad load imbalance",
+        "person beneath unsupported vehicle"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-090",
+      "inspection_requirement": "100% hidden base protection, prohibited zones and first livery/roof trial; routine film appearance and edge adhesion by first/last plus 10% minimum three zones.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "released finish-zone map, coating/film supplier system, environmental log, coupon qualification and signed appearance/corrosion inspection",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Inspect and record hidden steel preparation and base corrosion system before panels, floors or equipment conceal it.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Use pre-coloured GFRP and replaceable rail-rated livery film on approved smooth zones to reduce spray finishing; seal cut edges and keep film clear of joints, vents, drains, labels, sensors and inspection areas.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Apply film to a clean dry surface within the film supplier temperature window, use knifeless tape at visible boundaries and record batch, installer and adhesion trial.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Calcium-carbonate nanoparticle roof coating remains a controlled trial over the mandatory fire/UV/weathering-compatible base system; it must not cover PV, bonded joints, walkways, vents, drains or earth bonds.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Compare trial and control coupons for adhesion, fire/smoke, UV/weathering, cleanability, solar reflectance and thermal benefit before fleet use.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "unprotected steel",
+        "surface contamination",
+        "film over inspection/safety feature",
+        "roof coating without compatible base",
+        "failed coupon or peel edge"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    },
+    {
+      "applicability": "not-assessed",
+      "control_disposition": "open",
+      "control_id": "LM3-MFG-100",
+      "inspection_requirement": "100% NCR and concession traceability; quality independently verifies closure and configuration reconciliation before the next release gate.",
+      "inspection_results": [],
+      "ncr_refs": [],
+      "not_applicable_reason": "",
+      "replacement_evidence_requirement": "approved NCR disposition, repair instruction, repeat-inspection evidence, updated design revision and signed configuration handback",
+      "steps": [
+        {
+          "evidence_refs": [],
+          "instruction": "Tag and segregate nonconforming material or digitally inhibit its next operation; never erase the original result or repair before disposition.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 1,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Disposition is use-as-is, rework to the original requirement, repair to an approved instruction, return/scrap, or design change. Only the named design authority may approve use-as-is, repair or design change.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 2,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Repeat all inspections invalidated by rework and extend the check to adjacent features that could have been affected.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 3,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "Before cell handback, reconcile installed serial/lot numbers, software/configuration IDs, concessions, open work, tool records and measured mass with the as-built record.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 4,
+          "status": "not-performed"
+        },
+        {
+          "evidence_refs": [],
+          "instruction": "A red-line is temporary build evidence, not a revised design; incorporate accepted changes into controlled source and reissue before repetition.",
+          "performed_at": "",
+          "performed_by": "",
+          "sequence": 5,
+          "status": "not-performed"
+        }
+      ],
+      "stop_condition_triggered": "not-assessed",
+      "stop_conditions": [
+        "unidentified part",
+        "unapproved repair",
+        "repeat defect trend",
+        "missing retest",
+        "as-built/configuration mismatch",
+        "open safety NCR"
+      ],
+      "superseding_procedure_ref": "",
+      "verified_at": "",
+      "verified_by_quality": ""
+    }
+  ],
+  "environment_readings": [],
+  "equipment": [],
+  "instructions": [
+    "copy this template into the controlled build record; do not edit the canonical blank template",
+    "identify one work order, product/assembly configuration, drawing set, traveler and factory package revision",
+    "mark every control applicable, not-applicable with reason, or superseded with an approved procedure reference",
+    "record actual observations and evidence references; a pre-filled check box is not execution evidence",
+    "stop on any triggered stop condition and link the NCR before resuming work",
+    "quality verifies the record independently from the operator who performed the work"
+  ],
+  "material_and_supplier_lots": [],
+  "people": {
+    "cell_lead": "",
+    "design_authority": "",
+    "manufacturing_engineer": "",
+    "operator_ids": [],
+    "quality_inspector": ""
+  },
+  "record_header": {
+    "configuration_id": "",
+    "drawing_revisions": [],
+    "factory_package_id": "",
+    "product_or_assembly_ids": [],
+    "record_id": "",
+    "shift_completed_at": "",
+    "shift_started_at": "",
+    "traveler_revision": "",
+    "work_cell": "",
+    "work_order_id": ""
+  },
+  "schema": "org.opensourcerail.lm3-manufacturing-control-record.v1",
+  "template_status": "unfilled-not-execution-evidence"
+}

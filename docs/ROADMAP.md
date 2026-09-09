@@ -34,8 +34,11 @@ and the civil packages link to ten [fabrication and construction
 controls](../design/component-catalogue/catalog/buildable-civil/fabrication-and-construction-controls.md).
 These fill ordinary work-sequence, inspection, handling and handback gaps; they
 do not close the supplier, drawing, calculation, site or authority evidence in
-the table. The [owner–builder–operator plan](owner-builder-operator-setup.md)
-assigns an institutional route for closing those gaps.
+the table. Blank mechanical and civil execution records prevent planned checks
+from being mistaken for performed work. The [owner–builder–operator
+plan](owner-builder-operator-setup.md) and its [fail-closed mobilisation
+status](owner-builder-operator-mobilisation-status.md) assign an institutional
+route for closing those gaps.
 
 Repository work that can advance without external evidence remains visible in
 the analysis register and workstream table: charger duty, station analyses,

@@ -390,6 +390,100 @@ def render_construction_controls(payload: dict[str, Any] | None = None) -> str:
     return "\n".join(lines)
 
 
+def construction_control_record_template(
+    payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return an unfilled workfront record; no field is pre-accepted."""
+
+    data = payload or construction_control_payload()
+    return {
+        "schema": "org.opensourcerail.civil-construction-control-record.v1",
+        "template_status": "unfilled-not-construction-evidence",
+        "authority_boundary": data["authority_boundary"],
+        "instructions": [
+            "copy into the project CDE and bind the record to one asset/workfront, release package and drawing/method revision",
+            "do not start from IFC coordination geometry or this blank template",
+            "mark each referenced control applicable, not-applicable with reason, or superseded by an approved method",
+            "record people, plant, calibration/certification, material lots, observations and evidence as work occurs",
+            "hold the work on any stated trigger and link the accepted NCR or revised method before resuming",
+            "complete quality and engineering handback before the next trade conceals or loads the work",
+        ],
+        "workfront": {
+            "record_id": "",
+            "project_id": "",
+            "asset_ids": [],
+            "chainage_or_location": "",
+            "release_package_id": "",
+            "drawing_and_method_revisions": [],
+            "survey_control_revision": "",
+            "temporary_works_revision": "",
+            "started_at": "",
+            "completed_at": "",
+        },
+        "people_and_authorisations": {
+            "construction_manager": "",
+            "site_engineer": "",
+            "supervisor": "",
+            "survey_lead": "",
+            "quality_inspector": "",
+            "temporary_works_coordinator": "",
+            "designer_or_representative": "",
+            "crew_authorisation_refs": [],
+        },
+        "plant_and_equipment": [],
+        "material_and_product_lots": [],
+        "weather_and_environment": [],
+        "applicable_control_ids": [],
+        "controls": [
+            {
+                "control_id": control["id"],
+                "applicability": "not-assessed",
+                "not_applicable_reason": "",
+                "superseding_method_ref": "",
+                "steps": [
+                    {
+                        "sequence": sequence,
+                        "instruction": instruction,
+                        "status": "not-performed",
+                        "performed_by": "",
+                        "performed_at": "",
+                        "evidence_refs": [],
+                    }
+                    for sequence, instruction in enumerate(control["sequence"], 1)
+                ],
+                "planning_default": control["default"],
+                "planned_crew_and_plant": control["crew_and_plant"],
+                "hold_condition": control["hold"],
+                "hold_triggered": "not-assessed",
+                "ncr_or_rfi_refs": [],
+                "required_handback": control["release_evidence"],
+                "inspection_and_test_results": [],
+                "control_disposition": "open",
+                "verified_by_quality": "",
+                "verified_at": "",
+            }
+            for control in data["controls"]
+        ],
+        "handback": {
+            "as_built_survey_ref": "",
+            "material_and_test_dossier_ref": "",
+            "open_ncr_rfi_refs": [],
+            "temporary_condition_refs": [],
+            "asset_information_updated": "not-performed",
+            "next_trade_acceptance": "",
+            "handback_status": "open",
+        },
+        "approvals": {
+            "construction_manager": "",
+            "quality": "",
+            "designer_if_required": "",
+            "independent_checker_if_required": "",
+            "asset_owner_representative": "",
+            "accepted_at": "",
+        },
+    }
+
+
 def _load_types(index_path: Path) -> list[dict[str, Any]]:
     data = json.loads(index_path.read_text(encoding="utf-8"))
     types = data.get("types")
@@ -558,6 +652,7 @@ Nothing here is issued for fabrication or construction. Site survey, geotechnics
 | [`factory-release-work-packages.md`](factory-release-work-packages.md) | Outputs, tools/gauges, and open hold points for six release packages |
 | [`factory-drawings/index.md`](factory-drawings/index.md) | Nine controlled, non-issued drawing-definition briefs |
 | [`fabrication-and-construction-controls.md`](fabrication-and-construction-controls.md) | Ten practical moulding, survey, precast, transport, erection, track-interface and handback controls |
+| [`evidence/construction-control-record-template.json`](evidence/construction-control-record-template.json) | Blank workfront execution, hold-point, inspection and next-trade handback record |
 | [`evidence/civil-release-record-template.json`](evidence/civil-release-record-template.json) | Empty evidence record that project authorities must complete |
 | [`reusable-type-release-register.json`](reusable-type-release-register.json) | Machine-readable register, packages, briefs, and validation flags |
 
@@ -589,6 +684,15 @@ def write_outputs(out_dir: Path = DEFAULT_CATALOG_DIR, index_path: Path = DEFAUL
         render_construction_controls(payload["construction_controls"]),
         encoding="utf-8",
     )
+    (out_dir / "evidence/construction-control-record-template.json").write_text(
+        json.dumps(
+            construction_control_record_template(payload["construction_controls"]),
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     drawings = payload["drawing_definitions"]
     index_lines = ["# Civil Drawing-Definition Briefs", "", "> All entries are definition seeds, not issued fabrication or construction drawings.", "", "| ID | Title | Owner | IFC types |", "|---|---|---|---:|"]
     for drawing in drawings:
@@ -605,6 +709,7 @@ def write_outputs(out_dir: Path = DEFAULT_CATALOG_DIR, index_path: Path = DEFAUL
         "survey_and_ground_evidence": [],
         "calculation_and_independent_check_evidence": [],
         "supplier_and_first_article_evidence": [],
+        "construction_control_records": [],
         "nonconformances_and_dispositions": [],
         "approvals": {"designer": "", "checker": "", "construction_authority": "", "date": ""},
         "release_statement": "",

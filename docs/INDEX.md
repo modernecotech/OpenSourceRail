@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1492**.
+Indexed Markdown files: **1493**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1492**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 414 |
-| [docs](#docs) | 144 |
+| [docs](#docs) | 145 |
 | [engineering](#engineering) | 10 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -1475,6 +1475,7 @@ Indexed Markdown files: **1492**.
 | [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
+| [`docs/owner-builder-operator-mobilisation-status.md`](../docs/owner-builder-operator-mobilisation-status.md) | Owner–Builder–Operator Mobilisation Status |
 | [`docs/owner-builder-operator-setup.md`](../docs/owner-builder-operator-setup.md) | Owner–Builder–Operator Setup Plan |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |

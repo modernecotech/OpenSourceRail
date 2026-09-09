@@ -253,3 +253,91 @@ def render_manufacturing_controls(payload: dict[str, Any] | None = None) -> str:
             "",
         ]
     return "\n".join(lines)
+
+
+def manufacturing_control_record_template(
+    payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return an unfilled, signable execution record for one build order."""
+
+    data = payload or manufacturing_control_payload()
+    return {
+        "schema": "org.opensourcerail.lm3-manufacturing-control-record.v1",
+        "template_status": "unfilled-not-execution-evidence",
+        "authority_boundary": data["authority_boundary"],
+        "instructions": [
+            "copy this template into the controlled build record; do not edit the canonical blank template",
+            "identify one work order, product/assembly configuration, drawing set, traveler and factory package revision",
+            "mark every control applicable, not-applicable with reason, or superseded with an approved procedure reference",
+            "record actual observations and evidence references; a pre-filled check box is not execution evidence",
+            "stop on any triggered stop condition and link the NCR before resuming work",
+            "quality verifies the record independently from the operator who performed the work",
+        ],
+        "record_header": {
+            "record_id": "",
+            "work_order_id": "",
+            "factory_package_id": "",
+            "product_or_assembly_ids": [],
+            "configuration_id": "",
+            "drawing_revisions": [],
+            "traveler_revision": "",
+            "work_cell": "",
+            "shift_started_at": "",
+            "shift_completed_at": "",
+        },
+        "people": {
+            "operator_ids": [],
+            "cell_lead": "",
+            "quality_inspector": "",
+            "manufacturing_engineer": "",
+            "design_authority": "",
+        },
+        "equipment": [],
+        "material_and_supplier_lots": [],
+        "environment_readings": [],
+        "applicable_control_ids": [],
+        "controls": [
+            {
+                "control_id": control["id"],
+                "applicability": "not-assessed",
+                "not_applicable_reason": "",
+                "superseding_procedure_ref": "",
+                "steps": [
+                    {
+                        "sequence": sequence,
+                        "instruction": instruction,
+                        "status": "not-performed",
+                        "performed_by": "",
+                        "performed_at": "",
+                        "evidence_refs": [],
+                    }
+                    for sequence, instruction in enumerate(control["reference_defaults"], 1)
+                ],
+                "inspection_requirement": control["inspection"],
+                "inspection_results": [],
+                "stop_conditions": list(control["stop_conditions"]),
+                "stop_condition_triggered": "not-assessed",
+                "ncr_refs": [],
+                "replacement_evidence_requirement": control["replacement_evidence"],
+                "control_disposition": "open",
+                "verified_by_quality": "",
+                "verified_at": "",
+            }
+            for control in data["controls"]
+        ],
+        "configuration_handback": {
+            "installed_serials_and_lots_reconciled": "not-performed",
+            "mass_record_ref": "",
+            "open_work_refs": [],
+            "concession_refs": [],
+            "as_built_record_ref": "",
+            "handback_status": "open",
+        },
+        "approvals": {
+            "cell_lead": "",
+            "quality": "",
+            "manufacturing_engineering": "",
+            "design_authority_if_required": "",
+            "accepted_at": "",
+        },
+    }

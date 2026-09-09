@@ -166,6 +166,7 @@ def main() -> int:
                 f"{drawing_count} [drawing-definition seeds]",
                 "mass-closure-ledger.md",
                 "owner-builder-operator-setup.md",
+                "owner-builder-operator-mobilisation-status.md",
             ),
             REPO_ROOT / "docs/ROADMAP.md": (
                 f"{products}-product-row/{assemblies}-assembly",
@@ -186,6 +187,7 @@ def main() -> int:
                 "factory-release-readiness.md",
                 "factory-drawings/index.md",
                 "manufacturing-and-assembly-controls.md",
+                "manufacturing-control-record-template.json",
                 "fabrication-and-construction-controls.md",
                 "first-article-evidence-status.md",
             ),
@@ -199,6 +201,7 @@ def main() -> int:
                 "exterior-finish-system.md",
                 "mass-closure-ledger.md",
                 "manufacturing-and-assembly-controls.md",
+                "manufacturing-control-record-template.json",
             ),
             REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/README.md": (
                 "station-product-reconciliation.md",
@@ -215,6 +218,7 @@ def main() -> int:
                 "reusable-type-release-register.md",
                 "civil-release-record-template.json",
                 "fabrication-and-construction-controls.md",
+                "construction-control-record-template.json",
             ),
         }
         for path, snippets in current_contracts.items():

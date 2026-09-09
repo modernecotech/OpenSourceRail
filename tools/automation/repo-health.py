@@ -1264,6 +1264,21 @@ def check_civil_build_package() -> list[Finding]:
             findings.append(Finding(register_path, "civil reusable-type/release coverage changed"))
         if register.get("status") != "definition-seed-not-issued":
             findings.append(Finding(register_path, "civil catalogue must not claim construction release"))
+    control_record_path = CIVIL_CATALOG / "evidence/construction-control-record-template.json"
+    if control_record_path.is_file():
+        record = json.loads(control_record_path.read_text(encoding="utf-8"))
+        controls = record.get("controls", [])
+        if (
+            record.get("template_status") != "unfilled-not-construction-evidence"
+            or len(controls) != 10
+            or any(row.get("control_disposition") != "open" for row in controls)
+            or any(
+                step.get("status") != "not-performed"
+                for row in controls
+                for step in row.get("steps", [])
+            )
+        ):
+            findings.append(Finding(control_record_path, "civil construction-control record is incomplete or claims performed work"))
     return findings
 
 
@@ -1684,6 +1699,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "reference_defaults_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/default-product-specifications.md",
         "manufacturing_controls": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.json",
         "manufacturing_controls_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-and-assembly-controls.md",
+        "manufacturing_control_record": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/evidence/manufacturing-control-record-template.json",
         "execution_pack": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         "factory_release": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json",
         "factory_release_guide": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md",
@@ -1794,6 +1810,20 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             or any(not row.get("stop_conditions") or not row.get("replacement_evidence") for row in rows)
         ):
             findings.append(Finding(paths["manufacturing_controls"], "LM3 manufacturing-control coverage changed"))
+    if paths["manufacturing_control_record"].is_file():
+        record = json.loads(paths["manufacturing_control_record"].read_text(encoding="utf-8"))
+        control_rows = record.get("controls", [])
+        if (
+            record.get("template_status") != "unfilled-not-execution-evidence"
+            or len(control_rows) != 10
+            or any(row.get("control_disposition") != "open" for row in control_rows)
+            or any(
+                step.get("status") != "not-performed"
+                for row in control_rows
+                for step in row.get("steps", [])
+            )
+        ):
+            findings.append(Finding(paths["manufacturing_control_record"], "LM3 manufacturing-control record is incomplete or claims performed work"))
     if paths["factory_release_record"].is_file() and paths["factory_release"].is_file():
         factory_record = json.loads(paths["factory_release_record"].read_text(encoding="utf-8"))
         record_packages = factory_record.get("packages", [])
@@ -2066,6 +2096,44 @@ def check_simulation_component_coverage() -> list[Finding]:
     return []
 
 
+def check_owner_builder_operator_mobilisation() -> list[Finding]:
+    """Keep the organisational baseline complete, current and fail-closed."""
+
+    validator = REPO_ROOT / "tools/automation/validate-owner-builder-operator-mobilisation.py"
+    source = REPO_ROOT / "lib/templates/owner-builder-operator-mobilisation.toml"
+    status_json = REPO_ROOT / "docs/owner-builder-operator-mobilisation-status.json"
+    status_md = REPO_ROOT / "docs/owner-builder-operator-mobilisation-status.md"
+    tracked = set(subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines())
+    findings: list[Finding] = []
+    for path in (validator, source, status_json, status_md):
+        if not path.is_file():
+            findings.append(Finding(path, "owner-builder-operator mobilisation artifact is missing"))
+        elif path.relative_to(REPO_ROOT).as_posix() not in tracked:
+            findings.append(Finding(path, "owner-builder-operator mobilisation artifact is not tracked"))
+    if findings:
+        return findings
+    module = runpy.run_path(str(validator))
+    expected = module["build_status"]()
+    expected_json = json.dumps(expected, indent=2, sort_keys=True) + "\n"
+    expected_md = module["render_status"](expected)
+    if status_json.read_text(encoding="utf-8") != expected_json:
+        findings.append(Finding(status_json, "owner-builder-operator mobilisation JSON is stale"))
+    if status_md.read_text(encoding="utf-8") != expected_md:
+        findings.append(Finding(status_md, "owner-builder-operator mobilisation report is stale"))
+    summary = expected.get("summary", {})
+    if (
+        not all(expected.get("validation", {}).values())
+        or summary.get("roles_total") != 13
+        or summary.get("independent_parties_total") != 3
+        or summary.get("gates_total") != 8
+        or summary.get("mobilisation_ready")
+        or summary.get("roles_ready") != 0
+        or summary.get("gates_accepted") != 0
+    ):
+        findings.append(Finding(status_json, "blank mobilisation baseline is incomplete or claims unsupported readiness"))
+    return findings
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
@@ -2084,6 +2152,7 @@ def run_checks() -> list[Finding]:
     findings.extend(check_cost_reference_tables())
     findings.extend(check_readme_corpus())
     findings.extend(check_simulation_component_coverage())
+    findings.extend(check_owner_builder_operator_mobilisation())
     findings.extend(check_public_bim_review_set())
     findings.extend(check_public_animation_set())
     findings.extend(check_trainset_manufacturing_package())
