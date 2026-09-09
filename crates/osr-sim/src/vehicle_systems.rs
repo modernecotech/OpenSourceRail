@@ -329,6 +329,7 @@ mod tests {
 
     fn train(phase: TrainPhase) -> Train {
         Train {
+            service_role: crate::train::ServiceRole::Revenue,
             id: TrainId::new(1),
             line_index: 0,
             consist: ConsistDescriptor::reference_3car(),

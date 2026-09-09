@@ -168,8 +168,9 @@ Declare each station once. Referenced by `id` from lines and fleets.
   Terminals typically 1000; mid-line charging stations 300–500.
 - `is_terminal` *(default false)* — trains flip direction here on linear
   lines. Rings have no terminals.
-- `is_depot` *(default false)* — marks a maintenance/layup site (cosmetic
-  for now; future versions use it for overnight charging).
+- `is_depot` *(default false)* — marks a maintenance/layup site. Held trains
+  can receive low-C top-up toward 95% SoC, subject to energy-site supply and
+  charging-pad availability.
 
 #### `[[lines]]`
 
@@ -185,7 +186,15 @@ Declare each station once. Referenced by `id` from lines and fleets.
 #### `[[fleets]]`
 
 - `line` — must match a line `id`.
-- `trainset_count` — how many trainsets operate this line.
+- `trainset_count` — total train inventory assigned to this line, including reserves.
+- `spare_count`, `cold_reserve_count` *(default 0 each)* — included in the
+  total inventory; their sum must not exceed `trainset_count`. These trains
+  remain parked and can charge, but do not enter routine service. Automatic
+  reserve activation is not yet modelled.
+- `station_stabling` *(default false)* — enables overnight holding and low-C
+  charging at the selected powered dispatch stations. See the
+  [station-stabling workflow](../../docs/operations/distributed-stabling.md)
+  for location requirements and evidence limits.
 - `dispatch_points` — an array of `{ station, heading }`. Trains are
   distributed round-robin across this list at start-up, and each entry acts
   as a **throttle point**: trains arriving or re-dispatching here must wait

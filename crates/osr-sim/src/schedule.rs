@@ -93,6 +93,8 @@ pub struct DispatchThrottle {
     /// Train-seconds parked at dispatch points outside service hours
     /// (overnight, or pre-service morning).
     pub out_of_service_held_s: u64,
+    /// Train-seconds retained as declared spare/cold-reserve stock.
+    pub reserve_held_s: u64,
     /// Number of dispatches made at a headway widened by the energy controller.
     pub energy_adaptive_dispatches: u64,
     /// Cumulative headway seconds added by the energy controller.

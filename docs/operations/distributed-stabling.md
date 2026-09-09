@@ -12,6 +12,12 @@ Its `dispatch_points` select powered station locations and initial headings.
 The loader requires a grid-connected energy site, at least 150 kW charging,
 unique station/direction pairs and valid inward headings at radial endpoints.
 
+Optional `spare_count` and `cold_reserve_count` are included in the total
+`trainset_count`; omitted counts default to zero. Candidates carry these roles
+from the city design. Reserve trains remain parked and can charge, but do not
+enter routine service. Automatic reserve activation and defective-train routing
+remain to be implemented.
+
 Selected passenger stations can hold trains and request up to 150 kW per train
 to a 95% SoC target. Shared site supply/converter limits and pad outages still
 apply. After closing, moving trains finish their section and continue to a
@@ -34,6 +40,7 @@ preserves the retained scenario's non-fleet inputs, fleet counts and service
 windows, including existing city-specific charging settings.
 
 For Samawah, the candidate initially allocates **108 trainsets to 20 stations**.
+These comprise **97 revenue trains, eight spares and three cold reserves**.
 The [01:30–06:00 comparison](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md)
 found:
 
@@ -41,8 +48,10 @@ found:
 |---|---:|---:|
 | Occupied stations at 05:29 | 6 | 20 |
 | Largest overnight station queue | 27 | 8 |
-| Departures between 02:30 and 05:30 | 0 | 0 |
+| Departures between 02:30 and 05:30 | 4 | 0 |
 | All occupied stations restart within 60 seconds of opening | Yes | Yes |
+| Planned line/station/direction departures within 60 seconds | 6 / 6 | 34 / 34 |
+| Declared reserve trains entering routine service | No roles declared | 0 |
 | Invariant violations | 0 | 0 |
 
 Both runs begin at 95% train SoC at 01:30. They test closing, holding, charging
@@ -56,9 +65,18 @@ An eight-train station queue remains an abstract queue. No surveyed stabling
 roads, platform occupancy or charging connectors are created by this allocator.
 Each location needs usable track lengths and train assignments, access and
 turnout checks, charger-sharing arrangements, CCTV/remote isolation, inspection
-release and an evening/morning movement plan. Spare, cold-reserve and defective
-sets still need explicit roles; the inherited simulation currently makes the
-whole fleet available for dispatch.
+release and an evening/morning movement plan. The static reserve roles need
+activation rules, inspection duties and defective-train recovery movements.
+
+The allocation reports now compare each station's train inventory with the
+reference platform count and usable length, allowing 5 m clearance at each end
+of a train. Samawah has **62 train positions beyond that reference envelope**,
+equivalent to **3,689 m of additional usable stabling slots** under the initial
+allocation. This is an unresolved space requirement, not a finding that new
+tracks or depots are necessary. Existing sidings, revised train placement and
+actual platform availability must be checked. Reference platform berths are
+not verified overnight capacity; the comparison does not model access or
+conflicting movements.
 
 Check these station arrangements before proposing additional sidings or depot
 sites. Reassess depot and station PV/storage against the resulting duties.

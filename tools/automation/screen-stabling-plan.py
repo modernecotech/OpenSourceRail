@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location('stabling_plan', ROOT / 'tools/automation/generate-stabling-plan.py')
 PLAN = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(PLAN)
+from osr_scenario.stabling_evidence import inspect_morning_service  # noqa: E402
 
 
 def replay(text, label, folder, binary):
@@ -57,6 +58,7 @@ def replay(text, label, folder, binary):
     departures = [e for e in result['events'] if e['kind'] in ('DepartStation', 'Dispatched')]
     # The loader assigns StationIds in source order; events preserve those IDs.
     station_numbers = {i + 1: s['id'] for i, s in enumerate(doc['stations'])}
+    directional = inspect_morning_service(doc, result["events"], final_night)
     first_morning = {}
     for event in departures:
         if event['sim_time_s'] >= 14400:
@@ -65,10 +67,12 @@ def replay(text, label, folder, binary):
     fleet = sum(f['trainset_count'] for f in doc['fleets'])
     all_parked = sum(parked.values()) == fleet and len(final_night) == fleet
     resumed = all(station in first_morning and first_morning[station] <= 60 for station in parked)
-    passed = run.returncode == 0 and not result['invariant_violations'] and all_parked and not late_night and resumed
+    passed = run.returncode == 0 and not result['invariant_violations'] and all_parked and not late_night and resumed and directional['passed']
     return {
         'passed': passed, 'scenario_sha256': PLAN.digest(scenario),
         'simulator_exit_code': run.returncode, 'invariant_violations': result['invariant_violations'],
+        'directional_service': directional,
+        'reserve_held_s': result.get('reserve_held_s', 0),
         'fleet_trainsets': fleet, 'parked_trainsets_at_0529': sum(parked.values()),
         'parked_station_count_at_0529': len(parked), 'parked_station_trainsets_at_0529': dict(sorted(parked.items())),
         'largest_overnight_station_queue': max(parked.values(), default=0),
@@ -98,23 +102,28 @@ def main():
     }
     sources = {**plan['source_paths'], 'screen_generator': str(Path(__file__).relative_to(ROOT)),
                'energy_model': 'crates/osr-sim/src/energy.rs', 'train_model': 'crates/osr-sim/src/train.rs',
-               'physics_model': 'crates/osr-sim/src/physics.rs'}
+               'physics_model': 'crates/osr-sim/src/physics.rs',
+               'direction_model': 'design/city-generation/src/osr_scenario/stabling_evidence.py'}
     report = {'schema_version': 1, 'city': plan['city'], 'passed': cases['distributed_stations']['passed'],
               'deployment_release_ready': False, 'candidate_sha256': plan['candidate_sha256'],
               'source_paths': sources, 'source_sha256': {k:PLAN.digest(ROOT/v) for k,v in sources.items()},
               'simulator_sha256': PLAN.digest(binary), 'cases': cases,
-              'scope': '01:30–06:00 operating comparison with 60-second station restart tolerance',
+              'scope': '01:30–06:00 operating comparison with a 60-second restart gate for every planned line/station/direction and no reserve dispatch',
               'limitations': ['Both cases start at 95% train SoC at 01:30; this is not a full-day energy-sizing or degraded-weather acceptance run.',
                               'CSV phase/location/SoC are used; its nominal charging-power column is not treated as metered delivery.',
+                              'Candidate spares and cold reserves are held out of routine service; activation, defect routing and maintenance release remain unmodelled.',
                               'Station berths and crossovers remain abstract; physical track capacity, train health, maintenance routing and security are unverified.']}
     out = args.design.resolve().parent / 'engineering/stabling'
     out.mkdir(parents=True, exist_ok=True)
     (out / 'operating-screen.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
     rows = ['# Overnight operating comparison', '', f"Operating screen: **{'PASS' if report['passed'] else 'FAIL'}**. Physical/deployment release: **open**.", '',
-            '| Case | Parked trainsets / stations at 05:29 | Largest station queue | 02:30–05:30 departures | All occupied stations restart within 60 s | Invariant violations |',
-            '|---|---:|---:|---:|---|---:|']
+            '| Case | Parked trainsets / stations at 05:29 | Largest station queue | 02:30–05:30 departures | All occupied stations restart within 60 s | Planned directions starting within 60 s | Reserve departures | Invariant violations |',
+            '|---|---:|---:|---:|---|---:|---:|---:|']
     for name, case in cases.items():
-        rows.append(f"| {name} | {case['parked_trainsets_at_0529']} / {case['parked_station_count_at_0529']} | {case['largest_overnight_station_queue']} | {case['departures_between_0230_and_0530']} | {case['every_occupied_station_restarts_within_60s']} | {len(case['invariant_violations'])} |")
+        rows.append(f"| {name} | {case['parked_trainsets_at_0529']} / {case['parked_station_count_at_0529']} | {case['largest_overnight_station_queue']} | {case['departures_between_0230_and_0530']} | {case['every_occupied_station_restarts_within_60s']} | {case['directional_service']['directions_restarting_within_tolerance']} / {case['directional_service']['planned_direction_count']} | {len(case['directional_service']['reserve_departures'])} | {len(case['invariant_violations'])} |")
+    rows += ['', '## Planned direction departures', '', '| Line | Station | Direction | Ready revenue trains at 05:29 | First departure delay s | Result |', '|---|---|---|---:|---:|---|']
+    for row in cases['distributed_stations']['directional_service']['directional_departures']:
+        rows.append(f"| {row['line']} | {row['station']} | {row['heading']} | {row['ready_revenue_trainsets_at_0529']} | {row['first_morning_departure_delay_s'] if row['first_morning_departure_delay_s'] is not None else 'missing'} | {'PASS' if row['passed'] else 'FAIL'} |")
     rows += ['', *[f'- {x}' for x in report['limitations']], '', 'Evidence and source hashes: [operating-screen.json](operating-screen.json). This is candidate evidence; the canonical city scenario and its acceptance results have not been replaced.', '']
     (out / 'operating-screen.md').write_text('\n'.join(rows))
     print(json.dumps({'city':report['city'], 'passed': report['passed'], 'cases': {k:{x:v[x] for x in ('parked_station_count_at_0529','largest_overnight_station_queue','every_occupied_station_restarts_within_60s')} for k,v in cases.items()}}))

@@ -43,6 +43,12 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
         r.out_of_service_held_s,
         r.out_of_service_held_s as f64 / 60.0
     );
+    if r.reserve_held_s > 0 {
+        println!(
+            "Reserve held       : {:>10} train-s (excluded from routine dispatch)",
+            r.reserve_held_s
+        );
+    }
     if r.energy_adaptive_dispatches > 0 {
         println!(
             "Energy-adapted svc : {:>10} departures (+{:.1} headway-h, max {} min)",

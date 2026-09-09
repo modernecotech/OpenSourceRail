@@ -45,7 +45,7 @@ use crate::proto_systems::{self, ProtoSystemsShadow, ProtoSystemsSummary};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::selftest_systems::{self, SelftestSystemsSummary};
 use crate::time_sync::{self, TimeSyncShadow, TimeSyncSummary};
-use crate::train::{Heading, Train, TrainPhase};
+use crate::train::{Heading, ServiceRole, Train, TrainPhase};
 use crate::vehicle_systems::{
     self, VehicleSystemsShadow, VehicleSystemsSummary, VehicleSystemsTickReport,
 };
@@ -421,6 +421,8 @@ pub struct LineFleet {
     /// This is an operating model; it does not certify physical berth capacity.
     pub station_stabling: bool,
     pub trainset_count: u32,
+    pub spare_count: u32,
+    pub cold_reserve_count: u32,
     /// Time-of-day schedule. Headway varies by window per RFC 0003 §4.1.
     pub schedule: LineSchedule,
 }
@@ -563,6 +565,8 @@ pub struct SimResult {
     /// Train-seconds spent parked at dispatch points outside service hours
     /// (overnight idle). Expected to be roughly `(fleet_size × night_hours)`.
     pub out_of_service_held_s: u64,
+    #[serde(default)]
+    pub reserve_held_s: u64,
     /// Departures whose non-peak headway was widened by the deterministic
     /// energy-adaptive service controller.
     #[serde(default)]
@@ -782,7 +786,7 @@ pub fn run_with_event_recording(
                 let mut w = std::io::BufWriter::new(f);
                 let _ = writeln!(
                     w,
-                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh,roof_pv_charged_kwh,section_id,section_position_m,section_speed_mps,section_accel_mps2,motion_phase,battery_draw_power_kw,mechanical_traction_power_kw,mechanical_brake_power_kw,roof_pv_kw,roof_pv_cleaner_power_kw,station_charge_power_kw"
+                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh,roof_pv_charged_kwh,section_id,section_position_m,section_speed_mps,section_accel_mps2,motion_phase,battery_draw_power_kw,mechanical_traction_power_kw,mechanical_brake_power_kw,roof_pv_kw,roof_pv_cleaner_power_kw,station_charge_power_kw,heading,departure_heading,service_role,station_id"
                 );
                 csv_writer = Some(w);
             }
@@ -1186,6 +1190,7 @@ pub fn run_with_event_recording(
         total_roof_pv_charged_kwh: trains.iter().map(|t| t.energy_roof_pv_kwh).sum(),
         in_service_held_s: throttle.in_service_held_s,
         out_of_service_held_s: throttle.out_of_service_held_s,
+        reserve_held_s: throttle.reserve_held_s,
         energy_adaptive_dispatches: throttle.energy_adaptive_dispatches,
         energy_adaptive_headway_added_s: throttle.energy_adaptive_headway_added_s,
         maximum_effective_headway_s: throttle.maximum_effective_headway_s,
@@ -1321,6 +1326,16 @@ fn init_fleet(config: &ScenarioConfig) -> Vec<Train> {
                 consist: config.consist.clone(),
                 energy_kwh_per_car_km: config.energy_kwh_per_car_km,
                 heading,
+                service_role: if i < fleet.trainset_count
+                    - fleet.spare_count
+                    - fleet.cold_reserve_count
+                {
+                    ServiceRole::Revenue
+                } else if i < fleet.trainset_count - fleet.cold_reserve_count {
+                    ServiceRole::Spare
+                } else {
+                    ServiceRole::ColdReserve
+                },
                 phase: TrainPhase::AwaitingDispatch {
                     station: start_station,
                 },
@@ -1424,6 +1439,13 @@ fn step_train(
                 let delivered = energy.draw_at_station(station, requested, dt, faults);
                 let applied = trains[idx].apply_energy_kwh(delivered);
                 trains[idx].energy_charged_kwh += f64::from(applied);
+            }
+            if trains[idx].service_role != ServiceRole::Revenue {
+                // Preserve the train, its parking demand and real charging draw;
+                // it does not become routine revenue stock merely because a
+                // timetable slot is free. Fault substitution is not invented.
+                throttle.reserve_held_s += dt as u64;
+                return MovementControlEffect::None;
             }
             let heading = trains[idx].heading;
             let key = (line_idx, station, heading);
@@ -2342,10 +2364,33 @@ fn write_csv_snapshot<W: std::io::Write>(
         } else {
             RoofPvPowerBreakdown::default()
         };
+        let current_heading = match tr.heading {
+            Heading::Forward => "forward",
+            Heading::Reverse => "reverse",
+        };
+        let (station_id, departure_heading) = match tr.phase {
+            TrainPhase::AwaitingDispatch { station } => (station.0.to_string(), tr.heading),
+            TrainPhase::Dwelling { station, .. } => {
+                let departure = if network.station(station).is_terminal
+                    && !network.lines[tr.line_index].is_ring
+                {
+                    tr.heading.flip()
+                } else {
+                    tr.heading
+                };
+                (station.0.to_string(), departure)
+            }
+            _ => (String::new(), tr.heading),
+        };
+        let departure_heading = match departure_heading {
+            Heading::Forward => "forward",
+            Heading::Reverse => "reverse",
+        };
         let _ = writeln!(
             w,
-            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2},{roof_charged:.2},{section_id},{position_m:.2},{speed_mps:.3},{accel_mps2:.3},{motion_phase},{battery_draw_power_kw:.2},{traction_power_kw:.2},{brake_power_kw:.2},{roof_kw:.2},{cleaner_kw:.2},{station_charge_power_kw:.2}",
+            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2},{roof_charged:.2},{section_id},{position_m:.2},{speed_mps:.3},{accel_mps2:.3},{motion_phase},{battery_draw_power_kw:.2},{traction_power_kw:.2},{brake_power_kw:.2},{roof_kw:.2},{cleaner_kw:.2},{station_charge_power_kw:.2},{current_heading},{departure_heading},{service_role},{station_id}",
             id = tr.id,
+            service_role = tr.service_role.as_str(),
             line = csv_escape(&line_name),
             station = csv_escape(&station),
             soc = tr.soc,

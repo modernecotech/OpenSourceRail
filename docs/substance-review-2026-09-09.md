@@ -158,16 +158,26 @@ powered-station holding, 150 kW charging to 95% SoC, closing-time stops and
 schedule/energy/MA-gated morning departures. All 266 cities have separate
 runnable allocation candidates. The [Samawah replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md)
 keeps all 108 trains at 20 stations overnight, reduces the largest queue from
-27 to eight and restarts all occupied stations within 60 seconds, with no
-invariant violations. This is a 01:30–06:00 comparison, not full-day energy
+27 to eight and restarts all 34 planned line/station/direction combinations
+within 60 seconds, with no invariant violations. The candidate uses the
+declared 97 revenue, eight spare and three cold-reserve trains; none of the
+11 reserves enters routine service. Its overnight hold has zero departures;
+the retained endpoint scenario has four. This is a 01:30–06:00 comparison, not full-day energy
 acceptance. Canonical endpoint scenarios remain retained; candidates do not
 claim physical capacity or close package gates. See the
 [implementation and limits](operations/distributed-stabling.md).
 
+All catalogue plans now compare allocated train lengths and clearances with
+the reference passenger-platform envelope. Samawah has 62 positions beyond
+that envelope (3,689 m of usable slots under the initial allocation). These
+remain unverified space requirements, pending existing-track surveys and
+allocation changes; they do not justify additional depots by themselves.
+
 **Remaining additions:** a station-by-station healthy-fleet overnight allocation
 with usable track lengths,
 train lengths, clearance points, charger sharing and access; evening run-in,
-morning run-out and failed-train recovery schedules; maintenance possessions;
+morning run-out and failed-train recovery schedules; reserve activation;
+maintenance possessions;
 and an occupancy-constrained simulation. First assess powered station tracks and the morning service pattern. Cost
 additional station sidings or secure service locations only where that
 allocation demonstrates a need; fleet-wide depot parking is not the default.

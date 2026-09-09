@@ -335,11 +335,16 @@ with selected powered-station `dispatch_points`. Waiting trains use 150 kW
 low-C top-up to 95% SoC; after closing, returning trains hold at selected
 stations and resume under schedule, energy and movement-authority gates.
 This does not require returning healthy trains to the main depot.
+Optional `spare_count` and `cold_reserve_count` are included in each fleet's
+total inventory and default to zero. Candidates use the city's declared
+counts; these trains remain parked and can charge without routine dispatch.
 
 The [distributed-stabling workflow](../operations/distributed-stabling.md)
 generates separate candidates for all catalogue cities and records the Samawah
-overnight comparison. Physical slots, security, inspection release, reserve and
-defect roles, full-day energy duty and deployment acceptance remain open.
+overnight comparison, checking each planned line/station/direction at opening.
+Plans compare allocated train lengths with the reference platform envelope.
+Verified physical slots, security, inspection release, reserve activation,
+defective-train routing, full-day energy duty and deployment acceptance remain open.
 
 ## 9. Pitfalls and decisions
 

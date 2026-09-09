@@ -78,6 +78,9 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
         "simulator": REPO_ROOT / "crates/osr-sim/src/sim.rs",
         "loader": REPO_ROOT / "crates/osr-sim/src/scenario_file.rs",
         "schedule": REPO_ROOT / "crates/osr-sim/src/schedule.rs",
+        "station_template": REPO_ROOT / "lib/templates/stations.toml",
+        "rolling_stock_template": REPO_ROOT / "lib/templates/rolling-stock.toml",
+        "train_model": REPO_ROOT / "crates/osr-sim/src/train.rs",
     }
     if stabling_path.is_file():
         report = json.loads(stabling_path.read_text())
@@ -96,6 +99,7 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
             "energy_model": REPO_ROOT / "crates/osr-sim/src/energy.rs",
             "train_model": REPO_ROOT / "crates/osr-sim/src/train.rs",
             "physics_model": REPO_ROOT / "crates/osr-sim/src/physics.rs",
+            "direction_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_evidence.py",
         }.items():
             actual = sha256(source) if source.is_file() else None
             recorded = screen.get("source_sha256", {}).get(key)

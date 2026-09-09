@@ -1335,6 +1335,7 @@ mod tests {
 
     fn mock_train() -> Train {
         Train {
+            service_role: crate::train::ServiceRole::Revenue,
             id: TrainId::new(7),
             line_index: 0,
             consist: ConsistDescriptor::reference_3car(),

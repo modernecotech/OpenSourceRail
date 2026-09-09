@@ -184,3 +184,66 @@ to = "05:30"
         .all(|site| site.delivered_to_trains_kwh > 0.0));
     assert!(result.invariant_violations.is_empty());
 }
+
+#[test]
+fn declared_reserves_remain_parked_while_revenue_trains_dispatch() {
+    let text = scenario().replace("01:59", "05:30").replace(
+        "trainset_count = 4",
+        "trainset_count = 4\nspare_count = 1\ncold_reserve_count = 1",
+    );
+    let config = load_scenario_from_str(&text).unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let csv = directory.path().join("roles.csv");
+    let mut run = runtime(60);
+    run.csv_out = Some(csv.clone());
+    let result = sim::run(&config, &run);
+    let dispatched: Vec<_> = result
+        .events
+        .iter()
+        .filter(|event| matches!(event.kind, EventKind::Dispatched))
+        .map(|event| event.train.0)
+        .collect();
+    assert_eq!(dispatched, vec![1, 2]);
+    assert_eq!(result.reserve_held_s, 120);
+    let data = std::fs::read_to_string(csv).unwrap();
+    let mut lines = data.lines();
+    let header: Vec<_> = lines.next().unwrap().split(',').collect();
+    let role = header
+        .iter()
+        .position(|value| *value == "service_role")
+        .unwrap();
+    let heading = header
+        .iter()
+        .position(|value| *value == "departure_heading")
+        .unwrap();
+    let station = header
+        .iter()
+        .position(|value| *value == "station_id")
+        .unwrap();
+    let rows: Vec<_> = lines
+        .map(|line| line.split(',').collect::<Vec<_>>())
+        .collect();
+    assert_eq!(rows[2][role], "spare");
+    assert_eq!(rows[3][role], "cold_reserve");
+    assert_eq!(rows[2][heading], "reverse");
+    assert_eq!(rows[3][heading], "reverse");
+    assert_eq!(rows[2][station], "2");
+    assert_eq!(rows[3][station], "3");
+}
+
+#[test]
+fn invalid_and_overflowing_reserve_counts_are_rejected() {
+    for roles in [
+        "spare_count = 3\ncold_reserve_count = 2",
+        "spare_count = 4294967295\ncold_reserve_count = 1",
+    ] {
+        let text = scenario().replace(
+            "trainset_count = 4",
+            &format!("trainset_count = 4\n{roles}"),
+        );
+        assert!(load_scenario_from_str(&text)
+            .unwrap_err()
+            .to_string()
+            .contains("reserve counts"));
+    }
+}

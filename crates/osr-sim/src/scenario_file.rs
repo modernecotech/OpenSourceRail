@@ -237,6 +237,10 @@ pub struct LineStationRef {
 pub struct FleetSpec {
     pub line: String,
     pub trainset_count: u32,
+    #[serde(default)]
+    pub spare_count: u32,
+    #[serde(default)]
+    pub cold_reserve_count: u32,
     pub dispatch_points: Vec<DispatchPointSpec>,
     /// Selected powered stations support overnight holding and low-C charging.
     #[serde(default)]
@@ -433,6 +437,7 @@ pub enum LoadError {
     },
     InvalidHeading(String),
     InvalidStationStabling(String),
+    InvalidFleetRoles(String),
     DuplicateStationId(String),
     DuplicateLineId(String),
     UnknownStation {
@@ -515,6 +520,7 @@ impl std::fmt::Display for LoadError {
         match self {
             Parse(m) => write!(f, "parse error: {m}"),
             InvalidTime { field, value } => write!(f, "invalid time in {field}: '{value}' (expected HH:MM)"),
+            InvalidFleetRoles(line) => write!(f, "fleet reserve counts exceed total fleet for {line}"),
             InvalidStationStabling(message) => write!(f, "invalid station stabling: {message}"),
             InvalidHeading(h) => write!(f, "invalid heading '{h}' (expected 'forward' or 'reverse')"),
             DuplicateStationId(id) => write!(f, "duplicate station id '{id}'"),
@@ -857,6 +863,13 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
                 id: spec.line.clone(),
             })?;
 
+        if spec
+            .spare_count
+            .checked_add(spec.cold_reserve_count)
+            .is_none_or(|count| count > spec.trainset_count)
+        {
+            return Err(LoadError::InvalidFleetRoles(spec.line.clone()));
+        }
         if spec.dispatch_points.is_empty() {
             return Err(LoadError::EmptyFleetDispatchPoints(spec.line.clone()));
         }
@@ -927,6 +940,8 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             dispatch_points,
             station_stabling: spec.station_stabling,
             trainset_count: spec.trainset_count,
+            spare_count: spec.spare_count,
+            cold_reserve_count: spec.cold_reserve_count,
             schedule: LineSchedule {
                 service_start_s,
                 service_end_s,

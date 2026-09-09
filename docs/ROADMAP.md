@@ -21,7 +21,10 @@ equipment, installed-cost reconciliation, physical stabling allocation,
 procurement/calendar cashflow, battery renewal and shared factory scheduling
 remain open. Distributed station holding, low-C charging and morning restart
 now have an executable candidate and a passing Samawah overnight comparison;
-track capacity and full-day timetable/energy acceptance remain open. See the
+declared reserve roles and every planned departure direction are now checked.
+Reference platform comparisons expose unresolved stabling space; verified
+track capacity, reserve activation and full-day timetable/energy acceptance
+remain open. See the
 [station-stabling workflow](operations/distributed-stabling.md).
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.

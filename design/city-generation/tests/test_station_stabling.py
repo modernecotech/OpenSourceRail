@@ -102,3 +102,9 @@ def test_samawah_operating_evidence_is_bound_to_current_candidate_and_sources():
     assert distributed['departures_between_0230_and_0530'] == 0
     assert distributed['every_occupied_station_restarts_within_60s']
     assert distributed['invariant_violations'] == []
+    assert plan['fleet_roles'] == {'revenue': 97, 'spare': 8, 'cold_reserve': 3}
+    assert plan['trainsets_beyond_reference_platform_berths'] == 62
+    directions = distributed['directional_service']
+    assert directions['directions_restarting_within_tolerance'] == directions['planned_direction_count'] == 34
+    assert directions['reserve_departures'] == []
+    assert directions['snapshot_roles'] == plan['fleet_roles']

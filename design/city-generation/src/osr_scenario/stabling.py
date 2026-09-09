@@ -12,15 +12,18 @@ import tomllib
 from collections import Counter
 
 
-def distributed_candidate(text: str) -> tuple[str, list[dict]]:
+def distributed_candidate(text: str, fleet_roles: list[dict] | None = None) -> tuple[str, list[dict]]:
     scenario = tomllib.loads(text)
     stations = {s['id']: s for s in scenario['stations']}
     sites = {s['station']: s for s in scenario.get('sites', [])}
     lines = {line['id']: line for line in scenario['lines']}
+    roles_by_line = {f["line"]: f for f in fleet_roles} if fleet_roles is not None else {}
+    if fleet_roles is not None and len(roles_by_line) != len(fleet_roles):
+        raise ValueError("duplicate fleet role declarations")
     allocations = []
     replacements = []
     for fleet in scenario['fleets']:
-        allowed = {'line', 'trainset_count', 'dispatch_points', 'service_start', 'service_end', 'schedule', 'station_stabling'}
+        allowed = {'line', 'trainset_count', 'dispatch_points', 'service_start', 'service_end', 'schedule', 'station_stabling', 'spare_count', 'cold_reserve_count'}
         if set(fleet) - allowed:
             raise ValueError(f"unsupported fleet fields: {set(fleet) - allowed}")
         line = lines[fleet['line']]
@@ -30,6 +33,17 @@ def distributed_candidate(text: str) -> tuple[str, list[dict]]:
         count = fleet['trainset_count']
         if type(count) is not int or count <= 0:
             raise ValueError(f"{fleet['line']}: fleet must contain positive integer trainsets")
+        roles = roles_by_line.get(fleet['line'], fleet)
+        if fleet_roles is not None and fleet['line'] not in roles_by_line:
+            raise ValueError(f"{fleet['line']}: missing fleet role declaration")
+        spare = roles.get('spare_count', 0)
+        cold = roles.get('cold_reserve_count', 0)
+        if any(type(v) is not int or v < 0 for v in (spare, cold)) or spare + cold >= count:
+            raise ValueError(f"{fleet['line']}: reserve roles leave no valid revenue fleet")
+        if roles.get('trainset_count', count) != count:
+            raise ValueError(f"{fleet['line']}: role inventory differs from scenario fleet")
+        if 'peak_count' in roles and roles['peak_count'] + roles.get('service_rotation_count', 0) + spare + cold != count:
+            raise ValueError(f"{fleet['line']}: role counts do not reconcile")
         points = []
         for i, station in enumerate(ids):
             site = sites.get(station, {})
@@ -51,12 +65,13 @@ def distributed_candidate(text: str) -> tuple[str, list[dict]]:
         assignments = Counter()
         for i in range(count):
             point = points[i % len(points)]
-            assignments[(point['station'], point['heading'])] += 1
-        for (station, heading), assigned in assignments.items():
+            role = 'revenue' if i < count - spare - cold else ('spare' if i < count - cold else 'cold_reserve')
+            assignments[(point['station'], point['heading'], role)] += 1
+        for (station, heading, role), assigned in assignments.items():
             allocations.append({'line': fleet['line'], 'station': station, 'heading': heading,
-                                'trainset_count': assigned, 'verified_track_slots': None})
+                                'trainset_count': assigned, 'service_role': role, 'verified_track_slots': None})
         q = json.dumps
-        output = ['[[fleets]]', f"line = {q(fleet['line'])}", f'trainset_count = {count}', 'station_stabling = true', 'dispatch_points = [']
+        output = ['[[fleets]]', f"line = {q(fleet['line'])}", f'trainset_count = {count}', f'spare_count = {spare}', f'cold_reserve_count = {cold}', 'station_stabling = true', 'dispatch_points = [']
         output += [f"    {{ station = {q(p['station'])}, heading = {q(p['heading'])} }}," for p in points]
         output += [']', f"service_start = {q(fleet['service_start'])}", f"service_end = {q(fleet['service_end'])}", 'schedule = [']
         output += [f"    {{ from = {q(w['from'])}, to = {q(w['to'])}, headway_min = {w['headway_min']} }}," for w in fleet['schedule']]

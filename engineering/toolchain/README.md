@@ -164,3 +164,7 @@ adds operating candidates without replacing retained canonical scenarios.
 --design path/to/design.toml` builds the native simulator and compares the
 retained and candidate 01:30–06:00 operations. Its passing operating result does
 not close the plan's physical or full-day energy gates.
+Candidates retain the design's spare and cold-reserve counts as parked roles.
+The replay checks each planned line/station/direction at morning opening and
+rejects routine reserve departures. Plans compare train lengths and clearances
+with reference platform berths, leaving actual track availability unverified.

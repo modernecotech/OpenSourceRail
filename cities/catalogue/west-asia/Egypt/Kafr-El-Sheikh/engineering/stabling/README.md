@@ -6,28 +6,56 @@ Operating allocation: **65 trainsets at 11 stations**; largest initial station q
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-| Line | Station | Direction | Initial trainsets | Verified track slots |
-|---|---|---|---:|---|
-| line-1 | line-1-0120-0669-s000000 | forward | 6 | pending |
-| line-1 | line-1-0277-0448-s005721 | forward | 5 | pending |
-| line-1 | line-1-0277-0448-s005721 | reverse | 5 | pending |
-| line-1 | line-1-0376-0378-s009010 | forward | 5 | pending |
-| line-1 | line-1-0376-0378-s009010 | reverse | 5 | pending |
-| line-1 | line-1-0490-0183-s015744 | reverse | 5 | pending |
-| line-2 | line-2-0217-0202-s000000 | forward | 4 | pending |
-| line-2 | line-2-0316-0305-s003132 | forward | 4 | pending |
-| line-2 | line-2-0316-0305-s003132 | reverse | 3 | pending |
-| line-2 | line-2-0376-0378-s005867 | forward | 3 | pending |
-| line-2 | line-2-0376-0378-s005867 | reverse | 3 | pending |
-| line-2 | line-2-0512-0417-s009573 | reverse | 3 | pending |
-| line-3 | line-3-0291-0458-s000000 | forward | 4 | pending |
-| line-3 | line-3-0376-0378-s003122 | forward | 4 | pending |
-| line-3 | line-3-0376-0378-s003122 | reverse | 3 | pending |
-| line-3 | line-3-0505-0432-s006312 | reverse | 3 | pending |
+Fleet roles: **58 revenue, 4 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
+
+| Line | Station | Direction | Role | Initial trainsets | Verified track slots |
+|---|---|---|---|---:|---|
+| line-1 | line-1-0120-0669-s000000 | forward | revenue | 5 | pending |
+| line-1 | line-1-0277-0448-s005721 | forward | revenue | 5 | pending |
+| line-1 | line-1-0277-0448-s005721 | reverse | revenue | 5 | pending |
+| line-1 | line-1-0376-0378-s009010 | forward | revenue | 5 | pending |
+| line-1 | line-1-0376-0378-s009010 | reverse | revenue | 4 | pending |
+| line-1 | line-1-0490-0183-s015744 | reverse | revenue | 4 | pending |
+| line-1 | line-1-0376-0378-s009010 | reverse | spare | 1 | pending |
+| line-1 | line-1-0490-0183-s015744 | reverse | spare | 1 | pending |
+| line-1 | line-1-0120-0669-s000000 | forward | cold_reserve | 1 | pending |
+| line-2 | line-2-0217-0202-s000000 | forward | revenue | 3 | pending |
+| line-2 | line-2-0316-0305-s003132 | forward | revenue | 3 | pending |
+| line-2 | line-2-0316-0305-s003132 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0376-0378-s005867 | forward | revenue | 3 | pending |
+| line-2 | line-2-0376-0378-s005867 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0512-0417-s009573 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0217-0202-s000000 | forward | spare | 1 | pending |
+| line-2 | line-2-0316-0305-s003132 | forward | cold_reserve | 1 | pending |
+| line-3 | line-3-0291-0458-s000000 | forward | revenue | 3 | pending |
+| line-3 | line-3-0376-0378-s003122 | forward | revenue | 3 | pending |
+| line-3 | line-3-0376-0378-s003122 | reverse | revenue | 3 | pending |
+| line-3 | line-3-0505-0432-s006312 | reverse | revenue | 3 | pending |
+| line-3 | line-3-0291-0458-s000000 | forward | spare | 1 | pending |
+| line-3 | line-3-0376-0378-s003122 | forward | cold_reserve | 1 | pending |
+
+## Reference platform capacity comparison
+
+**35 trainsets exceed the reference platform envelope**, requiring **1,715.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+
+| Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
+|---|---:|---:|---:|---:|
+| line-1-0120-0669-s000000 | 6 | 2 | 4 | 196.0 |
+| line-1-0277-0448-s005721 | 10 | 4 | 6 | 294.0 |
+| line-1-0376-0378-s009010 | 10 | 4 | 6 | 294.0 |
+| line-1-0490-0183-s015744 | 5 | 2 | 3 | 147.0 |
+| line-2-0217-0202-s000000 | 4 | 2 | 2 | 98.0 |
+| line-2-0316-0305-s003132 | 7 | 2 | 5 | 245.0 |
+| line-2-0376-0378-s005867 | 6 | 4 | 2 | 98.0 |
+| line-2-0512-0417-s009573 | 3 | 2 | 1 | 49.0 |
+| line-3-0291-0458-s000000 | 4 | 2 | 2 | 98.0 |
+| line-3-0376-0378-s003122 | 7 | 4 | 3 | 147.0 |
+| line-3-0505-0432-s006312 | 3 | 2 | 1 | 49.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
-- The legacy model makes the entire fleet available; spare, cold-reserve and defective-set assignments still need explicit operational roles.
+- Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.
 - Returning trains hold at selected powered stations after service ends; no train is teleported back to its initial placement.
+- Reference platform berths are an optimistic length/count comparison, not verified parking capacity; dedicated sidings and workshop bays receive no automatic credit.
 - Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.
 - Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.
 

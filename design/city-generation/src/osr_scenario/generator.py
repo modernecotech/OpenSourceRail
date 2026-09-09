@@ -795,6 +795,8 @@ class ScenarioGenerator:
             out.append(f"trainset_count = {int(f['trainset_count'])}\n")
             if f.get("station_stabling", False):
                 out.append("station_stabling = true\n")
+                out.append(f"spare_count = {int(f.get('spare_count', 0))}\n")
+                out.append(f"cold_reserve_count = {int(f.get('cold_reserve_count', 0))}\n")
             dispatch_points = list(f.get("dispatch_points") or [])
             if not dispatch_points:
                 stns = line_stations.get(line_id, [])

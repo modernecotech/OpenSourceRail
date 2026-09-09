@@ -21,6 +21,25 @@ impl Heading {
     }
 }
 
+/// Static fleet role. Reserve activation requires an explicit operating model.
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ServiceRole {
+    #[default]
+    Revenue,
+    Spare,
+    ColdReserve,
+}
+
+impl ServiceRole {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Revenue => "revenue",
+            Self::Spare => "spare",
+            Self::ColdReserve => "cold_reserve",
+        }
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum TrainPhase {
     /// Train is at a station.
@@ -57,6 +76,8 @@ pub struct Train {
     /// Nominal net traction + auxiliary draw before climate uplift.
     pub energy_kwh_per_car_km: f32,
     pub heading: Heading,
+    #[serde(default)]
+    pub service_role: ServiceRole,
     pub phase: TrainPhase,
     /// State of charge, 0.0..1.0
     pub soc: f32,
