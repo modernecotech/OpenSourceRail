@@ -20,22 +20,24 @@ equipment-cost sensitivity and initial dispatch capacity requirements. Located
 equipment, installed-cost reconciliation, physical stabling allocation,
 procurement/calendar cashflow, battery renewal and shared factory scheduling
 remain open. Distributed station holding, low-C charging and morning restart
-now have an executable candidate and a passing Samawah overnight comparison;
+now have an executable candidate and passing Samawah holding/restart behavior;
 declared reserve roles and every planned departure direction are now checked.
 Reference platform comparisons expose unresolved stabling space; verified
 track capacity, reserve activation and full-day timetable/energy acceptance
 remain open. See the
 [station-stabling workflow](operations/distributed-stabling.md).
 The charging-reachability gate repairs the six/ten-train overnight stranding
-found in Samawah's first continuous replay. Both service cycles now pass
-placement and morning restart, with all trains at selected powered stations.
+found in Samawah's first continuous replay. Both service cycles pass placement
+and morning restart, with all trains at selected powered stations, but the
+combined replay now fails the explicit two-train station-capacity gate.
 Queues still reach 18 then 19 trains; recurring physical capacity, daytime
 headways and outage/recovery duties remain unverified.
-Two trainsets per selected station would provide only 40 positions for
-Samawah's retained 108-train fleet. A counterfactual redistribution study reaches
-a seven-train maximum but requires substantial transfers and retains the
-physical gap. Reconcile fleet sizing, station capacity and an executable
-evening plan; the corrected RFC now records the emitter's family-specific
+The overnight plan now assigns two revenue trains per selected station and the
+remaining fleet to declared depots. Samawah allocates 40 to stations and 68 to
+the main depot, with depot storage sized separately from workshop bays. The
+station-only replay and seven-train redistribution study remain diagnostic
+benchmarks; depot access, yard movements and evening placement are the next
+operating additions. The corrected RFC records the emitter's family-specific
 fleet assumptions instead of the stale uniform 10% recovery factor.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.

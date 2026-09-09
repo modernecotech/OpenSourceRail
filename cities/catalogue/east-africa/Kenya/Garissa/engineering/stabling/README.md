@@ -1,12 +1,58 @@
-# Distributed station stabling candidate
+# Station and depot overnight allocation
 
-Healthy trains stay at powered stations for coordinated morning starts. Depot bays serve maintenance, inspection and defective sets.
+Plan: **26 trainsets at stations + 31 at depots = 57 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+
+Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
+
+| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---:|---:|---:|
+| line-2-0210-0463-s012395 | 31 | 1,519.0 | 9 |
+
+| Line | Location | Type | Direction | Role | Trainsets |
+|---|---|---|---|---|---:|
+| line-1 | line-1-0318-0258-s008245 | station | reverse | revenue | 2 |
+| line-1 | line-1-0365-0303-s006173 | station | forward | revenue | 1 |
+| line-1 | line-1-0365-0303-s006173 | station | reverse | revenue | 1 |
+| line-1 | line-1-0374-0375-s004109 | station | forward | revenue | 1 |
+| line-1 | line-1-0374-0375-s004109 | station | reverse | revenue | 1 |
+| line-1 | line-1-0449-0371-s002061 | station | forward | revenue | 1 |
+| line-1 | line-1-0449-0371-s002061 | station | reverse | revenue | 1 |
+| line-1 | line-1-0530-0342-s000000 | station | forward | revenue | 2 |
+| line-2 | line-2-0210-0463-s012395 | station | reverse | revenue | 2 |
+| line-2 | line-2-0278-0389-s009874 | station | forward | revenue | 1 |
+| line-2 | line-2-0278-0389-s009874 | station | reverse | revenue | 1 |
+| line-2 | line-2-0374-0375-s007350 | station | forward | revenue | 1 |
+| line-2 | line-2-0374-0375-s007350 | station | reverse | revenue | 1 |
+| line-2 | line-2-0408-0437-s005715 | station | forward | revenue | 1 |
+| line-2 | line-2-0408-0437-s005715 | station | reverse | revenue | 1 |
+| line-2 | line-2-0644-0475-s000000 | station | forward | revenue | 2 |
+| line-3 | line-3-0330-0343-s000000 | station | forward | revenue | 2 |
+| line-3 | line-3-0374-0375-s001415 | station | forward | revenue | 1 |
+| line-3 | line-3-0374-0375-s001415 | station | reverse | revenue | 1 |
+| line-3 | line-3-0454-0260-s004710 | station | reverse | revenue | 2 |
+| line-1 | line-2-0210-0463-s012395 | depot | — | revenue | 7 |
+| line-1 | line-2-0210-0463-s012395 | depot | — | spare | 1 |
+| line-1 | line-2-0210-0463-s012395 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0210-0463-s012395 | depot | — | revenue | 13 |
+| line-2 | line-2-0210-0463-s012395 | depot | — | spare | 2 |
+| line-2 | line-2-0210-0463-s012395 | depot | — | cold_reserve | 1 |
+| line-3 | line-2-0210-0463-s012395 | depot | — | revenue | 4 |
+| line-3 | line-2-0210-0463-s012395 | depot | — | spare | 1 |
+| line-3 | line-2-0210-0463-s012395 | depot | — | cold_reserve | 1 |
+
+Interline access to the assigned depot must be detailed for: line-1 (9 trains), line-3 (6 trains).
+
+## Station-only native benchmark
+
+The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
 Operating allocation: **57 trainsets at 13 stations**; largest initial station queue **7**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
 Fleet roles: **50 revenue, 4 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
+
+Two-train station-capacity check: **FAIL**. Selected stations provide **26 positions**; **31 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **12 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|

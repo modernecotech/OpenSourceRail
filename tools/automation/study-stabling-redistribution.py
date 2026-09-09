@@ -27,8 +27,8 @@ def main():
     folder = args.design.resolve().parent / 'engineering/stabling'
     cycle_path = folder / 'service-cycle-screen.json'
     screen = json.loads(cycle_path.read_text())
-    if not screen['passed'] or screen['candidate_sha256'] != plan['candidate_sha256']:
-        raise ValueError('requires a passing continuous replay of the current candidate')
+    if not screen['operating_behavior_passed'] or screen['candidate_sha256'] != plan['candidate_sha256']:
+        raise ValueError('requires passing continuous operating behavior for the current candidate; capacity may remain failed')
     for key, relative in screen['source_paths'].items():
         if PLAN.digest(ROOT / relative) != screen['source_sha256'][key]:
             raise ValueError(f'continuous replay has stale source {key}; regenerate it')
@@ -54,6 +54,7 @@ def main():
                                   max_speed_kmh=consist['max_speed_kmh'])
         capacity = PLAN.capacity_requirements(design, target['target_allocations'], profiles, archetypes)
         target.update({'after_service_day': night['after_service_day'],
+                       'station_capacity': PLAN.two_train_station_capacity(doc, target['target_allocations']),
                        'night_snapshot_elapsed_s': night['night_snapshot_elapsed_s'],
                        'station_capacity_requirements': capacity,
                        'trainsets_beyond_reference_platform_berths': sum(r['trainsets_beyond_reference_platform_berths'] for r in capacity),
@@ -99,7 +100,7 @@ def main():
 
 def markdown(report):
     rows = ['# Station redistribution requirements', '',
-            '**Counterfactual allocation study; movement and physical release remain open.**', '',
+            '**Counterfactual allocation study; movement and physical release remain open. A balanced target must also pass the two-train station-capacity gate.**', '',
             f"The fleet has **{report['fleet_trainsets']} trains** and the selected stations have **{report['reference_platform_berths']} reference platform berths**. Even perfect redistribution leaves at least **{report['unavoidable_positions_beyond_selected_platform_envelope']} positions** beyond that envelope.", '',
             f"A uniform **two-trainsets-per-station** provision gives **{report['two_trainsets_per_station_reference']['trainset_positions']} positions at {report['two_trainsets_per_station_reference']['station_count']} stations**, leaving **{report['two_trainsets_per_station_reference']['fleet_positions_elsewhere_or_to_resolve']} fleet positions** elsewhere or unresolved. The larger platform reference includes four-berth interchange variants. Neither comparison verifies physical stabling capacity.", '',
             '| After service day | Observed largest queue | Target largest queue | Queue lower bound | Trains to move | Transfer train-km | Origin precharge kWh | Beyond platform envelope |',

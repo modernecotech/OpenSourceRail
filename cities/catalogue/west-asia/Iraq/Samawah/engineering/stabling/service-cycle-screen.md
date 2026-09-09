@@ -1,11 +1,53 @@
 # Continuous service-cycle stabling screen
 
-Operating screen: **PASS** after **2 complete service days**. Physical/deployment release: **open**.
+Operating screen: **FAIL** after **2 complete service days**. Physical/deployment release: **open**.
+
+Holding/charging/restart behavior: **PASS**. Two-train station capacity: **FAIL**. A behavior pass does not override excess station occupancy.
 
 | After service day | Parked trains / stations | Largest queue | Outside selected stabling locations | Directions restarting within 60 s | Minimum night SoC | Beyond reference platform berths | Result |
 |---|---:|---:|---:|---:|---:|---:|---|
-| 1 | 108 / 20 | 18 | 0 | 34 / 34 | 24.2% | 63 | PASS |
-| 2 | 108 / 20 | 19 | 0 | 34 / 34 | 22.2% | 63 | PASS |
+| 1 | 108 / 20 | 18 | 0 | 34 / 34 | 24.2% | 63 | FAIL |
+| 2 | 108 / 20 | 19 | 0 | 34 / 34 | 22.2% | 63 | FAIL |
+
+## Two-train station capacity
+
+| Day | Station | Parked trainsets | Allowed | Excess |
+|---|---|---:|---:|---:|
+| 1 | line-1-0274-0515-s003012 | 3 | 2 | 1 |
+| 1 | line-1-0351-0524-s004627 | 5 | 2 | 3 |
+| 1 | line-1-0436-0475-s007631 | 3 | 2 | 1 |
+| 1 | line-1-0493-0475-s009151 | 5 | 2 | 3 |
+| 1 | line-1-0581-0418-s012247 | 7 | 2 | 5 |
+| 1 | line-1-0704-0377-s015761 | 11 | 2 | 9 |
+| 1 | line-1-0985-0109-s025566 | 18 | 2 | 16 |
+| 1 | line-2-0275-0378-s012812 | 3 | 2 | 1 |
+| 1 | line-2-0337-0443-s010631 | 4 | 2 | 2 |
+| 1 | line-2-0400-0417-s008456 | 5 | 2 | 3 |
+| 1 | line-2-0493-0475-s005930 | 6 | 2 | 4 |
+| 1 | line-2-0604-0513-s003028 | 7 | 2 | 5 |
+| 1 | line-2-0700-0586-s000000 | 3 | 2 | 1 |
+| 1 | line-3-0455-0592-s003014 | 6 | 2 | 4 |
+| 1 | line-3-0459-0690-s000000 | 3 | 2 | 1 |
+| 1 | line-3-0471-0521-s004727 | 6 | 2 | 4 |
+| 1 | line-3-0493-0352-s009079 | 4 | 2 | 2 |
+| 1 | line-3-0493-0475-s006126 | 6 | 2 | 4 |
+| 2 | line-1-0351-0524-s004627 | 3 | 2 | 1 |
+| 2 | line-1-0436-0475-s007631 | 3 | 2 | 1 |
+| 2 | line-1-0493-0475-s009151 | 4 | 2 | 2 |
+| 2 | line-1-0581-0418-s012247 | 10 | 2 | 8 |
+| 2 | line-1-0704-0377-s015761 | 11 | 2 | 9 |
+| 2 | line-1-0985-0109-s025566 | 19 | 2 | 17 |
+| 2 | line-2-0275-0378-s012812 | 3 | 2 | 1 |
+| 2 | line-2-0337-0443-s010631 | 4 | 2 | 2 |
+| 2 | line-2-0400-0417-s008456 | 6 | 2 | 4 |
+| 2 | line-2-0493-0475-s005930 | 4 | 2 | 2 |
+| 2 | line-2-0604-0513-s003028 | 8 | 2 | 6 |
+| 2 | line-2-0700-0586-s000000 | 3 | 2 | 1 |
+| 2 | line-3-0455-0592-s003014 | 6 | 2 | 4 |
+| 2 | line-3-0459-0690-s000000 | 3 | 2 | 1 |
+| 2 | line-3-0471-0521-s004727 | 6 | 2 | 4 |
+| 2 | line-3-0493-0352-s009079 | 4 | 2 | 2 |
+| 2 | line-3-0493-0475-s006126 | 6 | 2 | 4 |
 
 ## Trains outside selected stabling locations
 

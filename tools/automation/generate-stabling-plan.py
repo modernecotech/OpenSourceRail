@@ -14,6 +14,8 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'design/city-generation/src'))
 from osr_scenario.stabling import distributed_candidate  # noqa: E402
+from osr_scenario.stabling_capacity import two_train_station_capacity  # noqa: E402
+from osr_scenario.stabling_hybrid import station_and_depot_allocation  # noqa: E402
 
 
 def digest(path):
@@ -69,6 +71,7 @@ def build(design_path: Path):
     scenario = tomllib.loads(candidate)
     profiles = tomllib.loads((ROOT / 'lib/templates/rolling-stock.toml').read_text())['profiles']
     archetypes = tomllib.loads((ROOT / 'lib/templates/stations.toml').read_text())['archetypes']
+    hybrid = station_and_depot_allocation(scenario, design, profiles)
     capacity = capacity_requirements(design, allocations, profiles, archetypes)
     roles = Counter()
     for allocation in allocations:
@@ -82,7 +85,9 @@ def build(design_path: Path):
                'loader': ROOT / 'crates/osr-sim/src/scenario_file.rs', 'schedule': ROOT / 'crates/osr-sim/src/schedule.rs',
                'station_template': ROOT / 'lib/templates/stations.toml',
                'rolling_stock_template': ROOT / 'lib/templates/rolling-stock.toml',
-               'train_model': ROOT / 'crates/osr-sim/src/train.rs'}
+               'train_model': ROOT / 'crates/osr-sim/src/train.rs',
+               'capacity_model': ROOT / 'design/city-generation/src/osr_scenario/stabling_capacity.py',
+               'hybrid_model': ROOT / 'design/city-generation/src/osr_scenario/stabling_hybrid.py'}
     report = {
         'schema_version': 1, 'city': slug, 'status': 'operating-candidate-physical-allocation-open',
         'generation_passed': True, 'passed': False, 'deployment_release_ready': False,
@@ -91,13 +96,16 @@ def build(design_path: Path):
         'candidate_sha256': hashlib.sha256(candidate.encode()).hexdigest(),
         'candidate_local_path': f'build/engineering/stabling/{slug}.toml',
         'fleet_trainsets': sum(f['trainset_count'] for f in scenario['fleets']),
+        'hybrid_allocation': hybrid,
+        'candidate_scope': 'station-only native operating benchmark; depot yard movements not implemented',
         'fleet_roles': dict(roles), 'station_capacity_requirements': capacity,
+        'station_capacity': two_train_station_capacity(scenario, allocations),
         'trainsets_beyond_reference_platform_berths': sum(row['trainsets_beyond_reference_platform_berths'] for row in capacity),
         'additional_usable_stabling_length_m': sum(row['additional_usable_stabling_length_m'] for row in capacity),
         'initial_station_count': len(counts), 'maximum_initial_trainsets_at_one_station': max(counts.values()),
         'initial_station_trainsets': dict(sorted(counts.items())), 'initial_allocations': allocations,
-        'policy': {'healthy_fleet_location': 'powered stations near first morning trips',
-                   'depot_role': 'maintenance, inspection and defective trains',
+        'policy': {'healthy_fleet_location': 'two revenue trainsets per selected station; remaining fleet at declared depots',
+                   'depot_role': 'overnight stabling of remaining revenue trains and reserves, maintenance, inspection and defective trains',
                    'holding_charge_power_kw_per_train': 150, 'holding_target_soc': 0.95,
                    'start_rule': 'line service start, subject to energy, headway and movement-authority gates'},
         'open_gates': ['track-by-track capacity and platform/turnout access', 'charger sharing and overnight delivery',
@@ -114,11 +122,22 @@ def build(design_path: Path):
 
 
 def markdown(report):
-    rows = ['# Distributed station stabling candidate', '',
-            'Healthy trains stay at powered stations for coordinated morning starts. Depot bays serve maintenance, inspection and defective sets.', '',
+    hybrid = report['hybrid_allocation']
+    rows = ['# Station and depot overnight allocation', '',
+            f"Plan: **{hybrid['station_trainsets']} trainsets at stations + {hybrid['depot_trainsets']} at depots = {hybrid['fleet_trainsets']} total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.", '',
+            f"Allocation check: **{'PASS' if hybrid['allocation_passed'] else 'FAIL'}**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.", '',
+            '| Depot station | Stabling positions required | Usable slot length m | Workshop bays |', '|---|---:|---:|---:|']
+    rows += [f"| {r['station']} | {r['stabling_positions_required']} | {r['usable_stabling_length_required_m']:,.1f} | {r['workshop_bays']} |" for r in hybrid['depot_requirements']]
+    rows += ['', '| Line | Location | Type | Direction | Role | Trainsets |', '|---|---|---|---|---|---:|']
+    rows += [f"| {r['line']} | {r['station']} | {r['location_type']} | {r.get('heading', '—')} | {r['service_role']} | {r['trainset_count']} |" for r in hybrid['allocations']]
+    if hybrid['depot_access_requirements']:
+        rows += ['', 'Interline access to the assigned depot must be detailed for: ' + ', '.join(f"{r['line']} ({r['trainsets']} trains)" for r in hybrid['depot_access_requirements']) + '.']
+    rows += ['', '## Station-only native benchmark', '',
+            'The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.', '',
             f"Operating allocation: **{report['fleet_trainsets']} trainsets at {report['initial_station_count']} stations**; largest initial station queue **{report['maximum_initial_trainsets_at_one_station']}**. Physical release: **open**.", '',
             'This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.', '',
             f"Fleet roles: **{report['fleet_roles'].get('revenue', 0)} revenue, {report['fleet_roles'].get('spare', 0)} spare, {report['fleet_roles'].get('cold_reserve', 0)} cold reserve**. Reserves are held out of routine dispatch.", '',
+            f"Two-train station-capacity check: **{'PASS' if report['station_capacity']['passed'] else 'FAIL'}**. Selected stations provide **{report['station_capacity']['available_station_positions']} positions**; **{report['station_capacity']['inventory_excess_trainsets']} fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **{report['station_capacity']['over_capacity_station_count']} stations**. Four-berth reference platforms do not override the two-train provision.", '',
             '| Line | Station | Direction | Role | Initial trainsets | Verified track slots |', '|---|---|---|---|---:|---|']
     rows += [f"| {r['line']} | {r['station']} | {r['heading']} | {r['service_role']} | {r['trainset_count']} | pending |" for r in report['initial_allocations']]
     rows += ['', '## Reference platform capacity comparison', '',
@@ -149,7 +168,7 @@ def main():
         local.write_text(candidate)
         (folder / 'summary.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
         (folder / 'README.md').write_text(markdown(report))
-        print(f"{report['city']}: {report['fleet_trainsets']} trainsets at {report['initial_station_count']} stations; physical allocation open")
+        print(f"{report['city']}: {report['hybrid_allocation']['station_trainsets']} at stations + {report['hybrid_allocation']['depot_trainsets']} at depots; allocation passed={report['hybrid_allocation']['allocation_passed']}")
     return 0
 
 

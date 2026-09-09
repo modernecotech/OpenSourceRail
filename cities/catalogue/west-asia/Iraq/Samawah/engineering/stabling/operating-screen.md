@@ -1,11 +1,20 @@
 # Overnight operating comparison
 
-Operating screen: **PASS**. Physical/deployment release: **open**.
+Operating screen: **FAIL**. Physical/deployment release: **open**.
+
+Holding/charging/restart behavior: **PASS**. Two-train station capacity: **FAIL**. Capacity counts every train, including reserves.
 
 | Case | Parked trainsets / stations at 05:29 | Largest station queue | 02:30–05:30 departures | All occupied stations restart within 60 s | Planned directions starting within 60 s | Reserve departures | Invariant violations |
 |---|---:|---:|---:|---|---:|---:|---:|
 | retained_endpoints | 108 / 6 | 27 | 4 | True | 6 / 6 | 0 | 0 |
 | distributed_stations | 108 / 20 | 8 | 0 | True | 34 / 34 | 0 | 0 |
+
+## Two-train station capacity
+
+| Case | Available station positions | Inventory excess | Over-capacity stations |
+|---|---:|---:|---:|
+| retained_endpoints | 12 | 96 | 6 |
+| distributed_stations | 40 | 68 | 18 |
 
 ## Planned direction departures
 

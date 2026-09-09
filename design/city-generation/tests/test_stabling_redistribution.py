@@ -99,5 +99,7 @@ def test_committed_study_is_source_bound_and_cannot_close_physical_gates():
         assert cycle['planned_revenue_directions_preserved'] == 34
         assert cycle['reserve_trainsets_moved'] == 0
         assert cycle['trainsets_beyond_reference_platform_berths'] == 62
+        assert cycle['station_capacity']['passed'] is False
+        assert cycle['station_capacity']['inventory_excess_trainsets'] == 68
     manifest = json.loads((folder.parents[1] / 'package-manifest.json').read_text())
     assert 'engineering/stabling/redistribution-study.json' in manifest['failed_summaries']

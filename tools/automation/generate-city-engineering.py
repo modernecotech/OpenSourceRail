@@ -493,7 +493,7 @@ def main() -> int:
                     source_paths = stabling.get("source_paths", {})
                     stabling_current = (
                         source_paths.get("generator") == "tools/automation/generate-stabling-plan.py"
-                        and set(source_paths) == {"design", "scenario", "generator", "allocation_model", "depot_policy", "simulator", "loader", "schedule", "station_template", "rolling_stock_template", "train_model"}
+                        and set(source_paths) == {"design", "scenario", "generator", "allocation_model", "depot_policy", "simulator", "loader", "schedule", "station_template", "rolling_stock_template", "train_model", "capacity_model", "hybrid_model"}
                         and all(
                             (REPO_ROOT / relative).is_file()
                             and stabling.get("source_sha256", {}).get(key) == hashlib.sha256((REPO_ROOT / relative).read_bytes()).hexdigest()

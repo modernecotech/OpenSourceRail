@@ -178,7 +178,7 @@ revenue trains at an unpowered Line 1 halt. The distributed departure gate now
 requires energy through to the next selected charger with the 20% reserve
 intact, accounting for direction, terminal reversal and active pad/grid outages.
 The refreshed [two-day replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
-passes: all 108 trains finish both nights at selected powered stations and
+passes its behavior checks: all 108 trains finish both nights at selected powered stations and
 all 34 departure directions restart. Maximum queues are 18 then 19 trains,
 with 63 positions beyond the reference platform envelope on each night.
 The short replay's eight-train maximum cannot establish recurring capacity.
@@ -186,16 +186,21 @@ The check uses elapsed-time snapshots and recalculates space from observed
 allocations. Physical capacity, daytime headway delivery, storage-only outage
 resilience and failed-train recovery remain open; package gates remain failed.
 
-**Two-train station provision is not enforced:** 20 selected stations provide
-40 positions at two trains each, leaving 68 of the retained 108 fleet positions
-elsewhere or unresolved. The reference platform comparison instead counts 46
-berths because three interchange variants provide four. Neither is verified
-overnight capacity. The [redistribution study](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md)
-can reduce the abstract maximum queue to seven while preserving direction
-coverage and reserve locations, requiring 15/20 transfers totalling 274/318
-train-km after the respective nights. This still exceeds a two-train provision
-and leaves 62 positions beyond the platform envelope. Charging and movement
-requirements must become a validated earlier evening plan.
+**Station/depot allocation corrected:** two revenue trains per selected station
+provide Samawah's morning launch stock (40 sets); the remaining 68 are assigned
+to the existing main depot (57 revenue, eight spare and three cold reserve).
+The previous interpretation treated those 68 as unresolved station overflow.
+The new allocation conserves all 108 trains and passes the two-train station
+check, with 68 explicit depot storage positions requiring 4,046 m of usable
+slots, separately from 17 workshop bays. Interline depot access for Lines 2
+and 3 and executable evening/yard movements still need detailing.
+
+All 266 city plans now include explicit station/depot allocations and depot
+storage requirements. Missing morning directions, where a line has insufficient
+revenue stock, remain visible in the allocation report. The native station-only
+replays and seven-train redistribution study remain diagnostic benchmarks;
+they do not simulate this hybrid allocation. Their capacity failures must not
+be interpreted as a need to park the entire fleet at stations or reduce it.
 
 **Fleet-sizing documentation drift:** RFC 0014's former 35 km/h commercial-speed
 proxy, fixed 10% recovery factor and 10% charging margin did not match the
@@ -205,8 +210,7 @@ describe that implementation. Retained city fleet counts require a separate
 regeneration/reconciliation audit before changing inventory or treating fleet
 size as consistent with a two-train station capacity.
 
-**Remaining additions:** a station-by-station healthy-fleet overnight allocation
-with usable track lengths,
+**Remaining additions:** detailed station and depot storage layouts with usable track lengths,
 train lengths, clearance points, charger sharing and access; evening run-in,
 morning run-out and failed-train recovery schedules; reserve activation;
 maintenance possessions;

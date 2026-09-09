@@ -159,11 +159,18 @@ written; their `passed: false` preserves the unresolved physical/cost/stabling
 gates. The equipment sensitivity is not applied to city CAPEX.
 
 The [distributed station-stabling workflow](../../docs/operations/distributed-stabling.md)
-adds operating candidates without replacing retained canonical scenarios.
+generates a station/depot plan plus a separate station-only native benchmark.
+Plans assign two revenue trains per selected station where fleet permits and
+all remaining stock to declared depots. `hybrid_allocation` records inventory,
+depot stabling positions and usable lengths separately from workshop bays;
+`allocation_passed` covers inventory and morning direction coverage. Depot
+access and yard movements remain outside the native benchmark. Samawah's plan
+is 40 station trains plus 68 depot trains. Retained canonical scenarios remain
+source evidence for their existing operations.
 `generate-stabling-plan.py --all` refreshes the plans; `screen-stabling-plan.py
 --design path/to/design.toml` builds the native simulator and compares the
-retained and candidate 01:30–06:00 operations. Its passing operating result does
-not close the plan's physical or full-day energy gates.
+retained and candidate 01:30–06:00 operations. The combined result now requires
+both operating behavior and the two-train station-capacity check to pass.
 Candidates retain the design's spare and cold-reserve counts as parked roles.
 The replay checks each planned line/station/direction at morning opening and
 rejects routine reserve departures. Plans compare train lengths and clearances
@@ -173,9 +180,10 @@ with reference platform berths, leaving actual track availability unverified.
 service days without resetting trains or site storage. It checks each following
 morning by elapsed time, rejects trains outside selected stabling locations and
 compares observed night allocations with reference platform space. Samawah's
-two-day result passes after the departure gate was extended to preserve energy
-through to the next selected charger. Queues of 18–19 trains still need physical
-capacity evidence. The optional `service-cycle-screen.json` is included in
+two-day holding/restart behavior passes after the departure gate was extended
+to preserve energy through to the next selected charger. Queues of 18–19 trains
+fail the two-train capacity gate, so the combined replay fails. The optional
+`service-cycle-screen.json` is included in
 package failure and source-drift checks. Neither replay proves daytime headway
 delivery or outage resilience.
 
@@ -186,3 +194,5 @@ charging/time requirements while preserving reserve locations and every
 planned revenue direction. Samawah's seven-train target remains above a
 two-train station provision. The optional `redistribution-study.json` remains
 failed for physical/movement release and is included in package/source checks.
+It can analyse a replay with passing behavior but failed capacity; this does
+not waive the capacity gate for either the observed or target allocation.

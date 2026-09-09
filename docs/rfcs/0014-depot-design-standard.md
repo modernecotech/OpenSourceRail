@@ -19,7 +19,9 @@ all running empty to a terminal depot. This reduces depot stall
 requirements, avoids wasteful dead mileage, and lets first departures
 begin across the line at the same time. The main-heavy remains the
 maintenance authority; any red defect or scheduled heavy work routes
-the trainset back to depot.
+the trainset back to depot. Two revenue trains per selected station form the
+morning launch stock; remaining revenue trains and reserves stable at declared
+depots on storage tracks sized separately from workshop bays.
 
 | Archetype | Catalogue max stalls | Heavy maintenance | Overhaul throughput | Notes |
 |---|---|---|---|---|
@@ -90,15 +92,27 @@ access, equipment and staffing capacity.
 
 ## 4. Fleet-sizing formula
 
-The main depot is sized for concurrent maintenance and inspection, not one
-parking stall per train. Healthy sets stable at powered passenger stations:
+Workshop bays are sized for concurrent maintenance and inspection. Two revenue
+sets stable at each selected powered passenger station where fleet permits;
+remaining revenue trains and reserves use separate depot stabling tracks:
 
 ```text
   main_depot_workshop_bays = max(4, ceil(total_fleet × 0.15))
   secondary_depot_bays = site-specific exception
   service_rotation = 0  # depot service is prohibited in peak windows
   total_fleet = peak_revenue_trainsets + service_rotation + spare + cold_reserve
+  station_overnight_positions = 2 × unique_selected_station_count
+  depot_overnight_trainsets = total_fleet - station_overnight_trainsets
 ```
+
+The two-train station provision is an overnight allocation constraint. Allocate
+remaining revenue trains and all reserves to declared depots, preserving total
+fleet inventory. Depot storage positions and usable track lengths are sized
+separately from workshop bays. Samawah allocates 40 trains to stations and 68
+to its main depot: 57 revenue, eight spare and three cold reserve. Those 68
+storage positions require 4,046 m of usable slots at 59.5 m per train, in
+addition to the separately planned 17 workshop bays. Depot access and yard
+movements require detailed design.
 
 - `peak_revenue_trainsets` = what the schedule requires at peak.
   Sized from the physical round-trip cycle vs. the peak headway:
@@ -365,6 +379,11 @@ The [distributed-stabling workflow](../operations/distributed-stabling.md)
 generates separate candidates for all catalogue cities and records the Samawah
 overnight comparison, checking each planned line/station/direction at opening.
 Plans compare allocated train lengths with the reference platform envelope.
+The planning/replay acceptance gate also limits overnight allocation to two
+trainsets per selected station, including reserves. Shared station IDs count
+once; a four-berth reference platform does not override this provision. The
+simulator exposes over-capacity queues for diagnosis, and the combined replay
+fails even when holding, charging and morning departures otherwise pass.
 Verified physical slots, security, inspection release, reserve activation,
 defective-train routing, full-day energy duty and deployment acceptance remain open.
 

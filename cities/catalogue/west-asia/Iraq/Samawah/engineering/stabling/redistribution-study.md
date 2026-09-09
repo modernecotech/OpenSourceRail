@@ -1,6 +1,6 @@
 # Station redistribution requirements
 
-**Counterfactual allocation study; movement and physical release remain open.**
+**Counterfactual allocation study; movement and physical release remain open. A balanced target must also pass the two-train station-capacity gate.**
 
 The fleet has **108 trains** and the selected stations have **46 reference platform berths**. Even perfect redistribution leaves at least **62 positions** beyond that envelope.
 

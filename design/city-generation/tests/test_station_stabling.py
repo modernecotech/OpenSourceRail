@@ -82,6 +82,10 @@ def test_committed_candidates_and_source_records_are_current():
         assert (path.parent / 'engineering/stabling/README.md').read_text() == module.markdown(report)
         assert hashlib.sha256(candidate.encode()).hexdigest() == report['candidate_sha256']
         assert report['passed'] is False
+        hybrid = report['hybrid_allocation']
+        assert hybrid['capacity']['passed']
+        assert hybrid['station_trainsets'] + hybrid['depot_trainsets'] == report['fleet_trainsets']
+        assert all(n <= 2 for n in hybrid['station_trainsets_by_location'].values())
 
 
 def test_samawah_operating_evidence_is_bound_to_current_candidate_and_sources():
@@ -89,7 +93,9 @@ def test_samawah_operating_evidence_is_bound_to_current_candidate_and_sources():
     report = json.loads((folder / 'operating-screen.json').read_text())
     plan = json.loads((folder / 'summary.json').read_text())
     assert report['candidate_sha256'] == plan['candidate_sha256']
-    assert report['passed'] is True
+    assert report['passed'] is False
+    assert report['operating_behavior_passed'] is True
+    assert report['station_capacity_passed'] is False
     assert report['deployment_release_ready'] is False
     for key, relative in report['source_paths'].items():
         assert report['source_sha256'][key] == hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
@@ -104,6 +110,9 @@ def test_samawah_operating_evidence_is_bound_to_current_candidate_and_sources():
     assert distributed['invariant_violations'] == []
     assert plan['fleet_roles'] == {'revenue': 97, 'spare': 8, 'cold_reserve': 3}
     assert plan['trainsets_beyond_reference_platform_berths'] == 62
+    assert plan['station_capacity']['available_station_positions'] == 40
+    assert plan['station_capacity']['inventory_excess_trainsets'] == 68
+    assert distributed['station_capacity']['passed'] is False
     directions = distributed['directional_service']
     assert directions['directions_restarting_within_tolerance'] == directions['planned_direction_count'] == 34
     assert directions['reserve_departures'] == []

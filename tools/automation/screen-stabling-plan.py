@@ -67,9 +67,11 @@ def replay(text, label, folder, binary):
     fleet = sum(f['trainset_count'] for f in doc['fleets'])
     all_parked = sum(parked.values()) == fleet and len(final_night) == fleet
     resumed = all(station in first_morning and first_morning[station] <= 60 for station in parked)
-    passed = run.returncode == 0 and not result['invariant_violations'] and all_parked and not late_night and resumed and directional['passed']
+    behavior_passed = run.returncode == 0 and not result['invariant_violations'] and all_parked and not late_night and resumed and directional['passed']
+    capacity = PLAN.two_train_station_capacity(doc, [{'station': s, 'trainset_count': n} for s, n in parked.items()])
     return {
-        'passed': passed, 'scenario_sha256': PLAN.digest(scenario),
+        'passed': behavior_passed and capacity['passed'], 'operating_behavior_passed': behavior_passed,
+        'station_capacity': capacity, 'scenario_sha256': PLAN.digest(scenario),
         'simulator_exit_code': run.returncode, 'invariant_violations': result['invariant_violations'],
         'directional_service': directional,
         'reserve_held_s': result.get('reserve_held_s', 0),
@@ -105,10 +107,12 @@ def main():
                'physics_model': 'crates/osr-sim/src/physics.rs',
                'direction_model': 'design/city-generation/src/osr_scenario/stabling_evidence.py'}
     report = {'schema_version': 1, 'city': plan['city'], 'passed': cases['distributed_stations']['passed'],
+              'operating_behavior_passed': cases['distributed_stations']['operating_behavior_passed'],
+              'station_capacity_passed': cases['distributed_stations']['station_capacity']['passed'],
               'deployment_release_ready': False, 'candidate_sha256': plan['candidate_sha256'],
               'source_paths': sources, 'source_sha256': {k:PLAN.digest(ROOT/v) for k,v in sources.items()},
               'simulator_sha256': PLAN.digest(binary), 'cases': cases,
-              'scope': '01:30–06:00 operating comparison with a 60-second restart gate for every planned line/station/direction and no reserve dispatch',
+              'scope': '01:30–06:00 comparison with a two-train station-capacity gate, a 60-second restart gate for every planned line/station/direction and no reserve dispatch',
               'limitations': ['Both cases start at 95% train SoC at 01:30; this is not a full-day energy-sizing or degraded-weather acceptance run.',
                               'CSV phase/location/SoC are used; its nominal charging-power column is not treated as metered delivery.',
                               'Candidate spares and cold reserves are held out of routine service; activation, defect routing and maintenance release remain unmodelled.',
@@ -117,10 +121,15 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     (out / 'operating-screen.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
     rows = ['# Overnight operating comparison', '', f"Operating screen: **{'PASS' if report['passed'] else 'FAIL'}**. Physical/deployment release: **open**.", '',
+            f"Holding/charging/restart behavior: **{'PASS' if report['operating_behavior_passed'] else 'FAIL'}**. Two-train station capacity: **{'PASS' if report['station_capacity_passed'] else 'FAIL'}**. Capacity counts every train, including reserves.", '',
             '| Case | Parked trainsets / stations at 05:29 | Largest station queue | 02:30–05:30 departures | All occupied stations restart within 60 s | Planned directions starting within 60 s | Reserve departures | Invariant violations |',
             '|---|---:|---:|---:|---|---:|---:|---:|']
     for name, case in cases.items():
         rows.append(f"| {name} | {case['parked_trainsets_at_0529']} / {case['parked_station_count_at_0529']} | {case['largest_overnight_station_queue']} | {case['departures_between_0230_and_0530']} | {case['every_occupied_station_restarts_within_60s']} | {case['directional_service']['directions_restarting_within_tolerance']} / {case['directional_service']['planned_direction_count']} | {len(case['directional_service']['reserve_departures'])} | {len(case['invariant_violations'])} |")
+    rows += ['', '## Two-train station capacity', '', '| Case | Available station positions | Inventory excess | Over-capacity stations |', '|---|---:|---:|---:|']
+    for name, case in cases.items():
+        c = case['station_capacity']
+        rows.append(f"| {name} | {c['available_station_positions']} | {c['inventory_excess_trainsets']} | {c['over_capacity_station_count']} |")
     rows += ['', '## Planned direction departures', '', '| Line | Station | Direction | Ready revenue trains at 05:29 | First departure delay s | Result |', '|---|---|---|---:|---:|---|']
     for row in cases['distributed_stations']['directional_service']['directional_departures']:
         rows.append(f"| {row['line']} | {row['station']} | {row['heading']} | {row['ready_revenue_trainsets_at_0529']} | {row['first_morning_departure_delay_s'] if row['first_morning_departure_delay_s'] is not None else 'missing'} | {'PASS' if row['passed'] else 'FAIL'} |")

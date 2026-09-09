@@ -1,12 +1,47 @@
-# Distributed station stabling candidate
+# Station and depot overnight allocation
 
-Healthy trains stay at powered stations for coordinated morning starts. Depot bays serve maintenance, inspection and defective sets.
+Plan: **16 trainsets at stations + 22 at depots = 38 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+
+Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
+
+| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---:|---:|---:|
+| line-1-0307-0518-s012933 | 22 | 1,078.0 | 6 |
+
+| Line | Location | Type | Direction | Role | Trainsets |
+|---|---|---|---|---|---:|
+| line-1 | line-1-0307-0518-s012933 | station | reverse | revenue | 2 |
+| line-1 | line-1-0359-0450-s010861 | station | forward | revenue | 1 |
+| line-1 | line-1-0359-0450-s010861 | station | reverse | revenue | 1 |
+| line-1 | line-1-0381-0389-s008785 | station | forward | revenue | 1 |
+| line-1 | line-1-0381-0389-s008785 | station | reverse | revenue | 1 |
+| line-1 | line-1-0437-0446-s006727 | station | forward | revenue | 1 |
+| line-1 | line-1-0437-0446-s006727 | station | reverse | revenue | 1 |
+| line-1 | line-1-0697-0528-s000000 | station | forward | revenue | 2 |
+| line-2 | line-2-0349-0427-s004328 | station | reverse | revenue | 2 |
+| line-2 | line-2-0368-0517-s000000 | station | forward | revenue | 2 |
+| line-2 | line-2-0381-0389-s003032 | station | forward | revenue | 1 |
+| line-2 | line-2-0381-0389-s003032 | station | reverse | revenue | 1 |
+| line-1 | line-1-0307-0518-s012933 | depot | — | revenue | 13 |
+| line-1 | line-1-0307-0518-s012933 | depot | — | spare | 2 |
+| line-1 | line-1-0307-0518-s012933 | depot | — | cold_reserve | 1 |
+| line-2 | line-1-0307-0518-s012933 | depot | — | revenue | 4 |
+| line-2 | line-1-0307-0518-s012933 | depot | — | spare | 1 |
+| line-2 | line-1-0307-0518-s012933 | depot | — | cold_reserve | 1 |
+
+Interline access to the assigned depot must be detailed for: line-2 (6 trains).
+
+## Station-only native benchmark
+
+The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
 Operating allocation: **38 trainsets at 8 stations**; largest initial station queue **7**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
 Fleet roles: **33 revenue, 3 spare, 2 cold reserve**. Reserves are held out of routine dispatch.
+
+Two-train station-capacity check: **FAIL**. Selected stations provide **16 positions**; **22 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **8 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|

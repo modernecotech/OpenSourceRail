@@ -138,7 +138,7 @@ def build_report(design_path: Path) -> dict:
         "depots": depots, "initial_dispatch_requirements": allocations,
         "fleet_trainsets": sum(r["initial_trainset_count"] for r in allocations),
         "passed": False, "deployment_release_ready": False,
-        "open_gates": ["site PV and stationary-storage placement", "itemised depot energy budget and allowance reconciliation", "station-by-station healthy-fleet overnight allocation with usable tracks", "coordinated morning starts and conflict-aware evening run-in/morning run-out"],
+        "open_gates": ["site PV and stationary-storage placement", "itemised depot energy budget and allowance reconciliation", "station and depot storage layouts with usable tracks", "coordinated morning starts and conflict-aware evening run-in/morning run-out"],
         "limitations": [
             "Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.",
             "PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.",
@@ -152,7 +152,7 @@ def build_report(design_path: Path) -> dict:
 def render_markdown(report: dict) -> str:
     lines = [f"# {report['city']} depot scope reconciliation", "",
              f"Depot energy quantities reconciled: **{'yes' if report['quantities_reconciled'] else 'no'}**. Physical/cost/stabling closure: **open**.", "",
-             "The configured policy is distributed overnight stabling at powered stations, with coordinated morning starts. Main-depot bays serve maintenance and defective trains. The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.", "",
+             "The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to declared depots. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.", "",
              "| Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |",
              "|---|---:|---:|---:|---:|"]
     for d in report["depots"]:

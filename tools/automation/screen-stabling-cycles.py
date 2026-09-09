@@ -64,6 +64,7 @@ def main():
     conservation_ok = all(site['conservation_errors'] == 0 for site in result['energy_sites'])
     report = {**evidence, 'schema_version': 1, 'city': plan['city'],
               'passed': evidence['passed'] and run.returncode == 0 and conservation_ok,
+              'operating_behavior_passed': evidence['operating_behavior_passed'] and run.returncode == 0 and conservation_ok,
               'deployment_release_ready': False, 'service_days': args.days,
               'duration_s': result['sim_duration_s'], 'simulator_exit_code': run.returncode,
               'candidate_sha256': plan['candidate_sha256'], 'scenario_sha256': PLAN.digest(scenario),
@@ -77,7 +78,7 @@ def main():
               'energy_adaptive_dispatches': result['energy_adaptive_dispatches'],
               'raw_result_local_path': str(result_path.relative_to(ROOT)), 'raw_result_sha256': PLAN.digest(result_path),
               'csv_local_path': str(csv_path.relative_to(ROOT)), 'csv_sha256': PLAN.digest(csv_path),
-              'scope': 'Continuous full service days followed by overnight placement and direction-specific morning restart checks',
+              'scope': 'Continuous full service days with a two-train station-capacity gate, overnight placement and direction-specific morning restart checks',
               'limitations': [
                   'Starts at 95% train SoC once; trains, site storage and positions are not reset between days.',
                   'Nominal scenario weather and existing grid/charging quantities are retained; degraded-weather and electrical acceptance remain separate.',
@@ -99,11 +100,18 @@ def main():
 def markdown(report):
     rows = ['# Continuous service-cycle stabling screen', '',
             f"Operating screen: **{'PASS' if report['passed'] else 'FAIL'}** after **{report['service_days']} complete service days**. Physical/deployment release: **open**.", '',
+            f"Holding/charging/restart behavior: **{'PASS' if report['operating_behavior_passed'] else 'FAIL'}**. Two-train station capacity: **{'PASS' if report['station_capacity_passed'] else 'FAIL'}**. A behavior pass does not override excess station occupancy.", '',
             '| After service day | Parked trains / stations | Largest queue | Outside selected stabling locations | Directions restarting within 60 s | Minimum night SoC | Beyond reference platform berths | Result |',
             '|---|---:|---:|---:|---:|---:|---:|---|']
     for c in report['cycles']:
         d = c['directional_service']
         rows.append(f"| {c['after_service_day']} | {c['parked_trainsets']} / {c['parked_station_count']} | {c['largest_station_queue']} | {len(c['trainsets_outside_selected_stabling_stations'])} | {d['directions_restarting_within_tolerance']} / {d['planned_direction_count']} | {c['minimum_train_soc']:.1%} | {c['trainsets_beyond_reference_platform_berths']} | {'PASS' if c['passed'] else 'FAIL'} |")
+    rows += ['', '## Two-train station capacity', '',
+             '| Day | Station | Parked trainsets | Allowed | Excess |', '|---|---|---:|---:|---:|']
+    for c in report['cycles']:
+        for station in c['station_capacity']['stations']:
+            if not station['passed']:
+                rows.append(f"| {c['after_service_day']} | {station['station']} | {station['allocated_trainsets']} | {station['allowed_trainsets']} | {station['excess_trainsets']} |")
     rows += ['', '## Trains outside selected stabling locations', '',
              '| After service day | Train | Line | Station | Role | SoC |', '|---|---|---|---|---|---:|']
     for c in report['cycles']:

@@ -1,12 +1,57 @@
-# Distributed station stabling candidate
+# Station and depot overnight allocation
 
-Healthy trains stay at powered stations for coordinated morning starts. Depot bays serve maintenance, inspection and defective sets.
+Plan: **25 trainsets at stations + 25 at depots = 50 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+
+Allocation check: **FAIL**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
+
+| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---:|---:|---:|
+| line-1-0931-1133-s025786 | 25 | 2,125.0 | 8 |
+
+| Line | Location | Type | Direction | Role | Trainsets |
+|---|---|---|---|---|---:|
+| line-1 | line-1-0541-0230-s000000 | station | forward | revenue | 2 |
+| line-1 | line-1-0624-0501-s007023 | station | forward | revenue | 1 |
+| line-1 | line-1-0624-0501-s007023 | station | reverse | revenue | 1 |
+| line-1 | line-1-0717-0760-s013679 | station | forward | revenue | 1 |
+| line-1 | line-1-0717-0760-s013679 | station | reverse | revenue | 1 |
+| line-1 | line-1-0723-0698-s012278 | station | forward | revenue | 1 |
+| line-1 | line-1-0723-0698-s012278 | station | reverse | revenue | 1 |
+| line-1 | line-1-0798-0802-s016188 | station | forward | revenue | 1 |
+| line-1 | line-1-0798-0802-s016188 | station | reverse | revenue | 1 |
+| line-1 | line-1-0841-0806-s018323 | station | forward | revenue | 1 |
+| line-1 | line-1-0841-0806-s018323 | station | reverse | revenue | 1 |
+| line-1 | line-1-0866-0940-s021343 | station | forward | revenue | 1 |
+| line-1 | line-1-0866-0940-s021343 | station | reverse | revenue | 1 |
+| line-1 | line-1-0931-1133-s025786 | station | reverse | revenue | 2 |
+| line-2 | line-2-0697-0843-s006015 | station | forward | revenue | 1 |
+| line-2 | line-2-0703-0867-s009030 | station | forward | revenue | 1 |
+| line-2 | line-2-0703-0867-s009030 | station | reverse | revenue | 1 |
+| line-2 | line-2-0717-0760-s003798 | station | forward | revenue | 1 |
+| line-2 | line-2-0775-0702-s001902 | station | reverse | revenue | 1 |
+| line-2 | line-2-0794-0628-s000000 | station | forward | revenue | 1 |
+| line-2 | line-2-0794-0628-s000000 | station | reverse | revenue | 1 |
+| line-2 | line-2-0795-0819-s011675 | station | reverse | revenue | 1 |
+| line-2 | line-2-0845-0820-s015185 | station | reverse | revenue | 1 |
+| line-1 | line-1-0931-1133-s025786 | depot | — | revenue | 19 |
+| line-1 | line-1-0931-1133-s025786 | depot | — | spare | 3 |
+| line-1 | line-1-0931-1133-s025786 | depot | — | cold_reserve | 1 |
+| line-2 | line-1-0931-1133-s025786 | depot | — | spare | 1 |
+| line-2 | line-1-0931-1133-s025786 | depot | — | cold_reserve | 1 |
+
+Interline access to the assigned depot must be detailed for: line-2 (2 trains).
+
+## Station-only native benchmark
+
+The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
 Operating allocation: **50 trainsets at 17 stations**; largest initial station queue **6**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
 Fleet roles: **44 revenue, 4 spare, 2 cold reserve**. Reserves are held out of routine dispatch.
+
+Two-train station-capacity check: **FAIL**. Selected stations provide **34 positions**; **16 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **7 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|

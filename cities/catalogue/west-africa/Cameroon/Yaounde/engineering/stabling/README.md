@@ -1,12 +1,147 @@
-# Distributed station stabling candidate
+# Station and depot overnight allocation
 
-Healthy trains stay at powered stations for coordinated morning starts. Depot bays serve maintenance, inspection and defective sets.
+Plan: **112 trainsets at stations + 200 at depots = 312 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at declared depots.
+
+Allocation check: **FAIL**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
+
+| Depot station | Stabling positions required | Usable slot length m | Workshop bays |
+|---|---:|---:|---:|
+| line-2-0094-0108-s047440 | 200 | 24,200.0 | 47 |
+
+| Line | Location | Type | Direction | Role | Trainsets |
+|---|---|---|---|---|---:|
+| line-1 | line-1-0366-1351-s000000 | station | forward | revenue | 2 |
+| line-1 | line-1-0471-1322-s002675 | station | forward | revenue | 1 |
+| line-1 | line-1-0471-1322-s002675 | station | reverse | revenue | 1 |
+| line-1 | line-1-0574-1208-s007011 | station | forward | revenue | 1 |
+| line-1 | line-1-0574-1208-s007011 | station | reverse | revenue | 1 |
+| line-1 | line-1-0682-1112-s010457 | station | forward | revenue | 1 |
+| line-1 | line-1-0682-1112-s010457 | station | reverse | revenue | 1 |
+| line-1 | line-1-0787-1043-s013481 | station | forward | revenue | 1 |
+| line-1 | line-1-0787-1043-s013481 | station | reverse | revenue | 1 |
+| line-1 | line-1-0796-0979-s015380 | station | forward | revenue | 1 |
+| line-1 | line-1-0796-0979-s015380 | station | reverse | revenue | 1 |
+| line-1 | line-1-0870-0965-s017280 | station | forward | revenue | 1 |
+| line-1 | line-1-0870-0965-s017280 | station | reverse | revenue | 1 |
+| line-1 | line-1-0940-0906-s019505 | station | forward | revenue | 1 |
+| line-1 | line-1-0940-0906-s019505 | station | reverse | revenue | 1 |
+| line-1 | line-1-1048-0879-s022520 | station | forward | revenue | 1 |
+| line-1 | line-1-1048-0879-s022520 | station | reverse | revenue | 1 |
+| line-1 | line-1-1080-0781-s025522 | station | forward | revenue | 1 |
+| line-1 | line-1-1080-0781-s025522 | station | reverse | revenue | 1 |
+| line-1 | line-1-1122-0735-s027060 | station | forward | revenue | 1 |
+| line-1 | line-1-1122-0735-s027060 | station | reverse | revenue | 1 |
+| line-1 | line-1-1180-0748-s028536 | station | forward | revenue | 1 |
+| line-1 | line-1-1180-0748-s028536 | station | reverse | revenue | 1 |
+| line-1 | line-1-1232-0633-s032039 | station | forward | revenue | 1 |
+| line-1 | line-1-1232-0633-s032039 | station | reverse | revenue | 1 |
+| line-1 | line-1-1659-0305-s045213 | station | reverse | revenue | 2 |
+| line-2 | line-2-0094-0108-s047440 | station | reverse | revenue | 2 |
+| line-2 | line-2-0611-0631-s030743 | station | forward | revenue | 1 |
+| line-2 | line-2-0611-0631-s030743 | station | reverse | revenue | 1 |
+| line-2 | line-2-0786-0845-s023790 | station | forward | revenue | 1 |
+| line-2 | line-2-0786-0845-s023790 | station | reverse | revenue | 1 |
+| line-2 | line-2-0819-0915-s021703 | station | forward | revenue | 1 |
+| line-2 | line-2-0819-0915-s021703 | station | reverse | revenue | 1 |
+| line-2 | line-2-0870-0965-s019635 | station | forward | revenue | 1 |
+| line-2 | line-2-0870-0965-s019635 | station | reverse | revenue | 1 |
+| line-2 | line-2-0915-1007-s017770 | station | forward | revenue | 1 |
+| line-2 | line-2-0915-1007-s017770 | station | reverse | revenue | 1 |
+| line-2 | line-2-1010-1040-s014758 | station | forward | revenue | 1 |
+| line-2 | line-2-1010-1040-s014758 | station | reverse | revenue | 1 |
+| line-2 | line-2-1022-1148-s012120 | station | forward | revenue | 1 |
+| line-2 | line-2-1022-1148-s012120 | station | reverse | revenue | 1 |
+| line-2 | line-2-1204-1258-s007010 | station | forward | revenue | 1 |
+| line-2 | line-2-1204-1258-s007010 | station | reverse | revenue | 1 |
+| line-2 | line-2-1387-1479-s000000 | station | forward | revenue | 2 |
+| line-3 | line-3-0792-0520-s035370 | station | reverse | revenue | 2 |
+| line-3 | line-3-0830-0794-s027788 | station | forward | revenue | 1 |
+| line-3 | line-3-0830-0794-s027788 | station | reverse | revenue | 1 |
+| line-3 | line-3-0852-0648-s031585 | station | forward | revenue | 1 |
+| line-3 | line-3-0852-0648-s031585 | station | reverse | revenue | 1 |
+| line-3 | line-3-0870-0965-s022012 | station | forward | revenue | 1 |
+| line-3 | line-3-0870-0965-s022012 | station | reverse | revenue | 1 |
+| line-3 | line-3-0899-1081-s018739 | station | forward | revenue | 1 |
+| line-3 | line-3-0899-1081-s018739 | station | reverse | revenue | 1 |
+| line-3 | line-3-0903-0872-s024768 | station | forward | revenue | 1 |
+| line-3 | line-3-0903-0872-s024768 | station | reverse | revenue | 1 |
+| line-3 | line-3-0911-1159-s016794 | station | forward | revenue | 1 |
+| line-3 | line-3-0911-1159-s016794 | station | reverse | revenue | 1 |
+| line-3 | line-3-0926-1190-s015267 | station | forward | revenue | 1 |
+| line-3 | line-3-0926-1190-s015267 | station | reverse | revenue | 1 |
+| line-3 | line-3-0951-1250-s013766 | station | forward | revenue | 1 |
+| line-3 | line-3-0951-1250-s013766 | station | reverse | revenue | 1 |
+| line-3 | line-3-1086-1755-s000000 | station | forward | revenue | 2 |
+| line-4 | line-4-0961-0525-s020399 | station | reverse | revenue | 2 |
+| line-4 | line-4-0987-0668-s015536 | station | forward | revenue | 1 |
+| line-4 | line-4-0987-0668-s015536 | station | reverse | revenue | 1 |
+| line-4 | line-4-0991-0806-s012527 | station | forward | revenue | 1 |
+| line-4 | line-4-0991-0806-s012527 | station | reverse | revenue | 1 |
+| line-4 | line-4-1035-0932-s009510 | station | forward | revenue | 1 |
+| line-4 | line-4-1035-0932-s009510 | station | reverse | revenue | 1 |
+| line-4 | line-4-1044-1308-s000000 | station | forward | revenue | 2 |
+| line-4 | line-4-1069-1044-s006493 | station | forward | revenue | 1 |
+| line-4 | line-4-1069-1044-s006493 | station | reverse | revenue | 1 |
+| line-4 | line-4-1082-1133-s004214 | station | forward | revenue | 1 |
+| line-4 | line-4-1082-1133-s004214 | station | reverse | revenue | 1 |
+| line-5 | line-5-0415-0974-s007019 | station | forward | revenue | 1 |
+| line-5 | line-5-0415-0974-s007019 | station | reverse | revenue | 1 |
+| line-5 | line-5-0459-1240-s014029 | station | forward | revenue | 1 |
+| line-5 | line-5-0471-1322-s015768 | station | forward | revenue | 1 |
+| line-5 | line-5-0471-1322-s015768 | station | reverse | revenue | 1 |
+| line-5 | line-5-0479-1119-s010513 | station | forward | revenue | 1 |
+| line-5 | line-5-0479-1119-s010513 | station | reverse | revenue | 1 |
+| line-5 | line-5-0679-1266-s021030 | station | forward | revenue | 1 |
+| line-5 | line-5-0679-1266-s021030 | station | reverse | revenue | 1 |
+| line-5 | line-5-0780-1234-s024036 | station | reverse | revenue | 1 |
+| line-5 | line-5-0858-1212-s025925 | station | forward | revenue | 1 |
+| line-5 | line-5-0858-1212-s025925 | station | reverse | revenue | 1 |
+| line-5 | line-5-0926-1190-s027835 | station | forward | revenue | 1 |
+| line-5 | line-5-0961-0525-s055804 | station | forward | revenue | 1 |
+| line-5 | line-5-0961-0525-s055804 | station | reverse | revenue | 1 |
+| line-5 | line-5-1000-1159-s030059 | station | forward | revenue | 1 |
+| line-5 | line-5-1000-1159-s030059 | station | reverse | revenue | 1 |
+| line-5 | line-5-1027-0603-s053148 | station | forward | revenue | 1 |
+| line-5 | line-5-1027-0603-s053148 | station | reverse | revenue | 1 |
+| line-5 | line-5-1082-1133-s032231 | station | forward | revenue | 1 |
+| line-5 | line-5-1082-1133-s032231 | station | reverse | revenue | 1 |
+| line-5 | line-5-1122-0735-s048731 | station | forward | revenue | 1 |
+| line-5 | line-5-1159-1099-s034180 | station | reverse | revenue | 1 |
+| line-5 | line-5-1171-0830-s046103 | station | forward | revenue | 1 |
+| line-5 | line-5-1171-0830-s046103 | station | reverse | revenue | 1 |
+| line-5 | line-5-1237-1093-s036144 | station | forward | revenue | 1 |
+| line-5 | line-5-1237-1093-s036144 | station | reverse | revenue | 1 |
+| line-5 | line-5-1243-0900-s043086 | station | reverse | revenue | 1 |
+| line-5 | line-5-1306-0977-s040082 | station | forward | revenue | 1 |
+| line-5 | line-5-1306-0977-s040082 | station | reverse | revenue | 1 |
+| line-1 | line-2-0094-0108-s047440 | depot | — | revenue | 50 |
+| line-1 | line-2-0094-0108-s047440 | depot | — | spare | 7 |
+| line-1 | line-2-0094-0108-s047440 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0094-0108-s047440 | depot | — | revenue | 61 |
+| line-2 | line-2-0094-0108-s047440 | depot | — | spare | 8 |
+| line-2 | line-2-0094-0108-s047440 | depot | — | cold_reserve | 1 |
+| line-3 | line-2-0094-0108-s047440 | depot | — | revenue | 39 |
+| line-3 | line-2-0094-0108-s047440 | depot | — | spare | 5 |
+| line-3 | line-2-0094-0108-s047440 | depot | — | cold_reserve | 1 |
+| line-4 | line-2-0094-0108-s047440 | depot | — | revenue | 19 |
+| line-4 | line-2-0094-0108-s047440 | depot | — | spare | 3 |
+| line-4 | line-2-0094-0108-s047440 | depot | — | cold_reserve | 1 |
+| line-5 | line-2-0094-0108-s047440 | depot | — | spare | 3 |
+| line-5 | line-2-0094-0108-s047440 | depot | — | cold_reserve | 1 |
+
+Interline access to the assigned depot must be detailed for: line-1 (58 trains), line-3 (45 trains), line-4 (23 trains), line-5 (4 trains).
+
+## Station-only native benchmark
+
+The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
 Operating allocation: **312 trainsets at 62 stations**; largest initial station queue **10**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
 Fleet roles: **281 revenue, 26 spare, 5 cold reserve**. Reserves are held out of routine dispatch.
+
+Two-train station-capacity check: **FAIL**. Selected stations provide **124 positions**; **188 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **41 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|

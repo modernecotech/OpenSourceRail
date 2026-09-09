@@ -85,16 +85,19 @@ def test_samawah_continuous_evidence_is_current_after_charging_reachability_repa
     plan = json.loads((folder / 'summary.json').read_text())
     assert report['candidate_sha256'] == report['scenario_sha256'] == plan['candidate_sha256']
     assert report['service_days'] == 2
-    assert report['passed'] is True
+    assert report['passed'] is False
+    assert report['operating_behavior_passed'] is True
+    assert report['station_capacity_passed'] is False
     assert report['deployment_release_ready'] is False
     for key, relative in report['source_paths'].items():
         assert report['source_sha256'][key] == hashlib.sha256((root / relative).read_bytes()).hexdigest()
     assert [len(c['trainsets_outside_selected_stabling_stations']) for c in report['cycles']] == [0, 0]
     assert all(c['parked_trainsets'] == 108 and c['parked_station_count'] == 20 for c in report['cycles'])
-    assert all(c['passed'] and c['departures_between_0230_and_0530'] == 0 for c in report['cycles'])
+    assert all(c['operating_behavior_passed'] and not c['passed'] and c['departures_between_0230_and_0530'] == 0 for c in report['cycles'])
+    assert all(c['station_capacity']['inventory_excess_trainsets'] == 68 for c in report['cycles'])
     assert all(not c['directional_service']['reserve_departures'] for c in report['cycles'])
     assert all(c['directional_service']['directions_restarting_within_tolerance'] == 34 for c in report['cycles'])
     manifest = json.loads((folder.parents[1] / 'package-manifest.json').read_text())
-    assert 'engineering/stabling/service-cycle-screen.json' not in manifest['failed_summaries']
+    assert 'engineering/stabling/service-cycle-screen.json' in manifest['failed_summaries']
     assert 'engineering/stabling/summary.json' in manifest['failed_summaries']
     assert manifest['passed'] is False

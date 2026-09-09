@@ -16,8 +16,9 @@
 #
 # The `fleet_stalls` field now means concurrent workshop/inspection bays:
 #     bays = max(4, ceil(total_fleet × 0.15))
-# Healthy sets remain on powered passenger tracks overnight. The archetype
-# values below remain catalogue envelopes for local site adaptation.
+# Two revenue sets per selected station support morning starts. Remaining
+# revenue stock and reserves stable at declared depots, with storage tracks
+# sized separately from workshop bays. Archetype values are site envelopes.
 
 [energy_scope]
 # Active equipment quantities come from the referenced energy-sites.toml tier.
@@ -42,8 +43,8 @@ recharge_power_kw           = 150
 recharge_target_soc         = 0.95
 
 [operations.overnight_distributed_stabling]
-# End-of-service healthy trains stable at powered passenger stations near
-# their first morning trip instead of returning to a terminal depot.
+# Two revenue trains per selected station stable near their first morning
+# trip; the remaining fleet returns to declared depot storage tracks.
 # This reduces depot stall pressure and avoids later first departures at the
 # far end of a line. The main-heavy still owns heavy maintenance and defect
 # rectification; distributed stabling is for clean, telemetry-healthy sets.

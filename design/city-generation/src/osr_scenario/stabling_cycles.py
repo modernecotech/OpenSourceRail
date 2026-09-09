@@ -3,6 +3,7 @@ from collections import Counter
 import math
 
 from .stabling_evidence import inspect_morning_service
+from .stabling_capacity import two_train_station_capacity
 
 
 DAY_S = 86400
@@ -62,6 +63,8 @@ def inspect_cycles(doc, result, snapshots, days):
         late = [e for e in result['events'] if e['kind'] in ('Dispatched', 'DepartStation')
                 and opening - 10800 <= e['sim_time_s'] < opening]
         all_parked = directional['snapshot_covers_fleet'] and sum(parked.values()) == fleet
+        capacity = two_train_station_capacity(doc, [{'station': s, 'trainset_count': n} for s, n in parked.items()])
+        behavior_passed = all_parked and not misplaced and valid_soc and not late and directional['passed']
         cycles.append({
             'after_service_day': day, 'opening_elapsed_s': opening,
             'night_snapshot_elapsed_s': sample_time,
@@ -69,6 +72,7 @@ def inspect_cycles(doc, result, snapshots, days):
             'parked_station_trainsets': dict(sorted(parked.items())),
             'largest_station_queue': max(parked.values(), default=0),
             'all_trainsets_parked': all_parked,
+            'station_capacity': capacity, 'operating_behavior_passed': behavior_passed,
             'trainsets_outside_selected_stabling_stations': misplaced,
             'observed_allocations': [{'line': line, 'station': station, 'service_role': role,
                                       'trainset_count': count}
@@ -78,10 +82,12 @@ def inspect_cycles(doc, result, snapshots, days):
             'night_soc_within_20_percent_reserve_and_capacity': valid_soc,
             'departures_between_0230_and_0530': len(late),
             'directional_service': directional,
-            'passed': all_parked and not misplaced and valid_soc and not late and directional['passed'],
+            'passed': behavior_passed and capacity['passed'],
         })
     minimum = min((row[3] for row in result['per_train_final_soc']), default=None)
     reserve_preserved = minimum is not None and math.isfinite(minimum) and minimum >= 0.2 - 1e-6
     return {'cycles': cycles, 'minimum_train_soc_during_run': minimum,
             'battery_reserve_preserved': reserve_preserved,
+            'operating_behavior_passed': reserve_preserved and not result['invariant_violations'] and all(c['operating_behavior_passed'] for c in cycles),
+            'station_capacity_passed': all(c['station_capacity']['passed'] for c in cycles),
             'passed': reserve_preserved and not result['invariant_violations'] and all(c['passed'] for c in cycles)}
