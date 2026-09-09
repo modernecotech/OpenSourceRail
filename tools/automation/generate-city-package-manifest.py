@@ -69,6 +69,39 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
                     "artifact": f"engineering/{relative}", "source": key,
                     "expected_sha256": actual, "recorded_sha256": report.get(key),
                 })
+    stabling_path = city_dir / "engineering/stabling/summary.json"
+    stabling_sources = {
+        "design": city_dir / "design.toml", "scenario": city_dir / f"{slug}.toml",
+        "generator": REPO_ROOT / "tools/automation/generate-stabling-plan.py",
+        "allocation_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling.py",
+        "depot_policy": REPO_ROOT / "lib/templates/depots.toml",
+        "simulator": REPO_ROOT / "crates/osr-sim/src/sim.rs",
+        "loader": REPO_ROOT / "crates/osr-sim/src/scenario_file.rs",
+        "schedule": REPO_ROOT / "crates/osr-sim/src/schedule.rs",
+    }
+    if stabling_path.is_file():
+        report = json.loads(stabling_path.read_text())
+        for key, source in stabling_sources.items():
+            actual = sha256(source) if source.is_file() else None
+            recorded = report.get("source_sha256", {}).get(key)
+            if actual is None or recorded != actual:
+                findings.append({"artifact": "engineering/stabling/summary.json", "source": key,
+                                 "expected_sha256": actual, "recorded_sha256": recorded})
+    screen_path = city_dir / "engineering/stabling/operating-screen.json"
+    if screen_path.is_file():
+        screen = json.loads(screen_path.read_text())
+        for key, source in {
+            **stabling_sources,
+            "screen_generator": REPO_ROOT / "tools/automation/screen-stabling-plan.py",
+            "energy_model": REPO_ROOT / "crates/osr-sim/src/energy.rs",
+            "train_model": REPO_ROOT / "crates/osr-sim/src/train.rs",
+            "physics_model": REPO_ROOT / "crates/osr-sim/src/physics.rs",
+        }.items():
+            actual = sha256(source) if source.is_file() else None
+            recorded = screen.get("source_sha256", {}).get(key)
+            if actual is None or recorded != actual:
+                findings.append({"artifact": "engineering/stabling/operating-screen.json", "source": key,
+                                 "expected_sha256": actual, "recorded_sha256": recorded})
     return findings
 
 
@@ -102,6 +135,8 @@ def main() -> int:
         city_dir / "engineering/energy/summary.json",
         city_dir / "engineering/depot-scope/summary.json",
         city_dir / "engineering/depot-scope/README.md",
+        city_dir / "engineering/stabling/summary.json",
+        city_dir / "engineering/stabling/README.md",
         city_dir / "engineering/finance/summary.json",
         city_dir / "engineering/project-twin/summary.json",
         city_dir / "engineering/gis/summary.json",
@@ -146,6 +181,9 @@ def main() -> int:
         city_dir / "operations" / f"{slug}-budget-work-packages.csv",
         city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
+    screen = city_dir / "engineering/stabling/operating-screen.json"
+    if screen.is_file():
+        required.extend([screen, screen.with_suffix(".md")])
     for line in design.get("lines", []):
         line_id = str(line.get("id") or line.get("name")).replace("-", "")
         required.append(city_dir / "engineering/alignment" / f"{slug}-{line_id}.aln.toml")

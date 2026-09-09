@@ -1,0 +1,211 @@
+{
+  "candidate_local_path": "build/engineering/stabling/shinyanga.toml",
+  "candidate_sha256": "68aa545e9d4b5c17e331e1b998e35153c130506226a6db50f0eb809a4200631d",
+  "city": "shinyanga",
+  "deployment_release_ready": false,
+  "fleet_trainsets": 76,
+  "generation_passed": true,
+  "initial_allocations": [
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0031-0708-s000000",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0244-0502-s007009",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0244-0502-s007009",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0371-0457-s010027",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0371-0457-s010027",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0380-0374-s012522",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0380-0374-s012522",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0494-0328-s015942",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0254-0114-s000000",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0316-0339-s005201",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0316-0339-s005201",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0380-0374-s006876",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0380-0374-s006876",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0468-0382-s009583",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-3",
+      "station": "line-3-0422-0428-s000000",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-3",
+      "station": "line-3-0380-0374-s002061",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-3",
+      "station": "line-3-0380-0374-s002061",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-3",
+      "station": "line-3-0459-0299-s005315",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-3",
+      "station": "line-3-0459-0299-s005315",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-3",
+      "station": "line-3-0661-0272-s011259",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    }
+  ],
+  "initial_station_count": 13,
+  "initial_station_trainsets": {
+    "line-1-0031-0708-s000000": 4,
+    "line-1-0244-0502-s007009": 8,
+    "line-1-0371-0457-s010027": 8,
+    "line-1-0380-0374-s012522": 8,
+    "line-1-0494-0328-s015942": 4,
+    "line-2-0254-0114-s000000": 4,
+    "line-2-0316-0339-s005201": 7,
+    "line-2-0380-0374-s006876": 6,
+    "line-2-0468-0382-s009583": 3,
+    "line-3-0380-0374-s002061": 8,
+    "line-3-0422-0428-s000000": 4,
+    "line-3-0459-0299-s005315": 8,
+    "line-3-0661-0272-s011259": 4
+  },
+  "limitations": [
+    "Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.",
+    "The legacy model makes the entire fleet available; spare, cold-reserve and defective-set assignments still need explicit operational roles.",
+    "Returning trains hold at selected powered stations after service ends; no train is teleported back to its initial placement.",
+    "Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.",
+    "Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized."
+  ],
+  "maximum_initial_trainsets_at_one_station": 8,
+  "open_gates": [
+    "track-by-track capacity and platform/turnout access",
+    "charger sharing and overnight delivery",
+    "security, CCTV, remote isolation and release inspection",
+    "reserve/defect/maintenance allocation",
+    "evening placement and morning demand/headway validation"
+  ],
+  "passed": false,
+  "policy": {
+    "depot_role": "maintenance, inspection and defective trains",
+    "healthy_fleet_location": "powered stations near first morning trips",
+    "holding_charge_power_kw_per_train": 150,
+    "holding_target_soc": 0.95,
+    "start_rule": "line service start, subject to energy, headway and movement-authority gates"
+  },
+  "schema_version": 1,
+  "source_paths": {
+    "allocation_model": "design/city-generation/src/osr_scenario/stabling.py",
+    "depot_policy": "lib/templates/depots.toml",
+    "design": "cities/catalogue/east-africa/Tanzania/Shinyanga/design.toml",
+    "generator": "tools/automation/generate-stabling-plan.py",
+    "loader": "crates/osr-sim/src/scenario_file.rs",
+    "scenario": "cities/catalogue/east-africa/Tanzania/Shinyanga/shinyanga.toml",
+    "schedule": "crates/osr-sim/src/schedule.rs",
+    "simulator": "crates/osr-sim/src/sim.rs"
+  },
+  "source_sha256": {
+    "allocation_model": "ccc89548cc2a7e35ae6652f427328dec6fd5268b1ae0674134eeefbdb50fa0ac",
+    "depot_policy": "f4e3dfe069c996f4a1081fa2128d5a177069ceb0a6cf802afe3feb3f59df43a3",
+    "design": "3527574d0634768e619fd9786bbf3b9cab15533e59a747ba1e246b7054876612",
+    "generator": "88ad74d8fe5365470446dd27792669758a98e0ca309440df022fa15b89d1ce84",
+    "loader": "7d22be73345ba5595adccc3c07c41de4fb090e17802894ae8e183db2ce64889d",
+    "scenario": "b7814478614ef88f38cb9ef406b5b96e30e4d3cae6e9757f9ecc0625efb6cd38",
+    "schedule": "237e996a1266be6bb4ee181a798f1a52f45d97ad9d66935e8175b898a8128a01",
+    "simulator": "66e5900237859b85652aeb2b69dd76fd45d39ce061905e70252d7ddc02204978"
+  },
+  "status": "operating-candidate-physical-allocation-open"
+}

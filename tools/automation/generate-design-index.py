@@ -63,7 +63,7 @@ def main() -> int:
             f"| {_coverage(design_path.parent):.0%} "
             f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
             f"| [{'complete' if manifest.get('passed') else 'incomplete'}; {stale_count} stale sources]({target}package-manifest.json) |"
-            f" [scope / stabling]({target}engineering/depot-scope/README.md) |"
+            f" [energy scope]({target}engineering/depot-scope/README.md); [station stabling]({target}engineering/stabling/README.md) |"
         )
         if relative.parts[0] == "europe":
             comparison_rows.append(row)

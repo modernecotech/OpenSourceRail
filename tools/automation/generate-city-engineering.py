@@ -198,6 +198,10 @@ def main() -> int:
                 [sys.executable, str(REPO_ROOT / "tools/automation/generate-depot-scope.py"), "--design", str(design_path)],
             ),
             (
+                "stabling_plan",
+                [sys.executable, str(REPO_ROOT / "tools/automation/generate-stabling-plan.py"), "--design", str(design_path)],
+            ),
+            (
                 "station_clusters",
                 [
                     sys.executable,
@@ -482,7 +486,21 @@ def main() -> int:
                             for key, relative in source_paths.items()
                         )
                     )
-                if station_map_passed and gis_current and energy_current and visuals_current and ring_current and station_clusters_current and depot_scope_current:
+                stabling_path = output_root / "stabling/summary.json"
+                stabling_current = False
+                if stabling_path.is_file():
+                    stabling = json.loads(stabling_path.read_text())
+                    source_paths = stabling.get("source_paths", {})
+                    stabling_current = (
+                        source_paths.get("generator") == "tools/automation/generate-stabling-plan.py"
+                        and set(source_paths) == {"design", "scenario", "generator", "allocation_model", "depot_policy", "simulator", "loader", "schedule"}
+                        and all(
+                            (REPO_ROOT / relative).is_file()
+                            and stabling.get("source_sha256", {}).get(key) == hashlib.sha256((REPO_ROOT / relative).read_bytes()).hexdigest()
+                            for key, relative in source_paths.items()
+                        )
+                    )
+                if station_map_passed and gis_current and energy_current and visuals_current and ring_current and station_clusters_current and depot_scope_current and stabling_current:
                     results_by_city[slug] = {
                         "attempts": 0,
                         "city": slug,

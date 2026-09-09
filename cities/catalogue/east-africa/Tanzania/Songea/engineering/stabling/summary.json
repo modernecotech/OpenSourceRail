@@ -1,0 +1,135 @@
+{
+  "candidate_local_path": "build/engineering/stabling/songea.toml",
+  "candidate_sha256": "1c4109da29c19bc3218af3a0c2b5c5870ea359514a44ce8e0b3526479093c8ed",
+  "city": "songea",
+  "deployment_release_ready": false,
+  "fleet_trainsets": 37,
+  "generation_passed": true,
+  "initial_allocations": [
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0347-0350-s000000",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "station": "line-1-0290-0389-s003011",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0290-0389-s003011",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "station": "line-1-0172-0388-s005672",
+      "trainset_count": 3,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0364-0009-s000000",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0332-0287-s006778",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0332-0287-s006778",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "station": "line-2-0373-0373-s009592",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0373-0373-s009592",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "station": "line-2-0325-0358-s011140",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    }
+  ],
+  "initial_station_count": 7,
+  "initial_station_trainsets": {
+    "line-1-0172-0388-s005672": 3,
+    "line-1-0290-0389-s003011": 6,
+    "line-1-0347-0350-s000000": 4,
+    "line-2-0325-0358-s011140": 4,
+    "line-2-0332-0287-s006778": 8,
+    "line-2-0364-0009-s000000": 4,
+    "line-2-0373-0373-s009592": 8
+  },
+  "limitations": [
+    "Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.",
+    "The legacy model makes the entire fleet available; spare, cold-reserve and defective-set assignments still need explicit operational roles.",
+    "Returning trains hold at selected powered stations after service ends; no train is teleported back to its initial placement.",
+    "Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.",
+    "Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized."
+  ],
+  "maximum_initial_trainsets_at_one_station": 8,
+  "open_gates": [
+    "track-by-track capacity and platform/turnout access",
+    "charger sharing and overnight delivery",
+    "security, CCTV, remote isolation and release inspection",
+    "reserve/defect/maintenance allocation",
+    "evening placement and morning demand/headway validation"
+  ],
+  "passed": false,
+  "policy": {
+    "depot_role": "maintenance, inspection and defective trains",
+    "healthy_fleet_location": "powered stations near first morning trips",
+    "holding_charge_power_kw_per_train": 150,
+    "holding_target_soc": 0.95,
+    "start_rule": "line service start, subject to energy, headway and movement-authority gates"
+  },
+  "schema_version": 1,
+  "source_paths": {
+    "allocation_model": "design/city-generation/src/osr_scenario/stabling.py",
+    "depot_policy": "lib/templates/depots.toml",
+    "design": "cities/catalogue/east-africa/Tanzania/Songea/design.toml",
+    "generator": "tools/automation/generate-stabling-plan.py",
+    "loader": "crates/osr-sim/src/scenario_file.rs",
+    "scenario": "cities/catalogue/east-africa/Tanzania/Songea/songea.toml",
+    "schedule": "crates/osr-sim/src/schedule.rs",
+    "simulator": "crates/osr-sim/src/sim.rs"
+  },
+  "source_sha256": {
+    "allocation_model": "ccc89548cc2a7e35ae6652f427328dec6fd5268b1ae0674134eeefbdb50fa0ac",
+    "depot_policy": "f4e3dfe069c996f4a1081fa2128d5a177069ceb0a6cf802afe3feb3f59df43a3",
+    "design": "bd6b1193a4df807bb99dbcdcc9c97cec1e408fc8ccda9d0bfa22a1f898ebda76",
+    "generator": "88ad74d8fe5365470446dd27792669758a98e0ca309440df022fa15b89d1ce84",
+    "loader": "7d22be73345ba5595adccc3c07c41de4fb090e17802894ae8e183db2ce64889d",
+    "scenario": "96e556ecf546dba14c8139a4a1de8b7d3b9b8b3b722bdc8a10a4bfbdd42f2a2e",
+    "schedule": "237e996a1266be6bb4ee181a798f1a52f45d97ad9d66935e8175b898a8128a01",
+    "simulator": "66e5900237859b85652aeb2b69dd76fd45d39ce061905e70252d7ddc02204978"
+  },
+  "status": "operating-candidate-physical-allocation-open"
+}

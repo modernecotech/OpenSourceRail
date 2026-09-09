@@ -328,6 +328,19 @@ A future physical distributed-stabling model must satisfy these requirements:
 - Feeds the depot battery bank into the network-wide energy
   balance.
 
+### 8.1 Executable station-stabling candidate
+
+The simulator supports `station_stabling = true` in scenario `[[fleets]]`,
+with selected powered-station `dispatch_points`. Waiting trains use 150 kW
+low-C top-up to 95% SoC; after closing, returning trains hold at selected
+stations and resume under schedule, energy and movement-authority gates.
+This does not require returning healthy trains to the main depot.
+
+The [distributed-stabling workflow](../operations/distributed-stabling.md)
+generates separate candidates for all catalogue cities and records the Samawah
+overnight comparison. Physical slots, security, inspection release, reserve and
+defect roles, full-day energy duty and deployment acceptance remain open.
+
 ## 9. Pitfalls and decisions
 
 - **At-grade only, per RFC 0011.** Depots are large; elevating

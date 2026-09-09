@@ -121,7 +121,7 @@ carry the resulting quantities into procurement and replacement events.
 
 ## 4. Prove that the distributed stabling plan fits the railway
 
-**Priority: high. Missing operating/physical feasibility evidence.**
+**Priority: high. Operating candidate implemented; physical allocation remains open.**
 
 The intended policy is to keep healthy trains at powered passenger stations
 near their first morning trips, allowing coordinated starts across the network
@@ -132,7 +132,7 @@ simultaneous morning starts from those locations. However, the
 round-robin over configured dispatch points, without a stabling-track capacity
 allocation.
 
-Samawah has **108 trainsets**, with fleets of **53, 28 and 27**, each assigned
+The retained canonical scenario still uses endpoint dispatch. Samawah has **108 trainsets**, with fleets of **53, 28 and 27**, each assigned
 to just **two dispatch points**. The first line consequently initializes
 27 and 26 trainsets at its two endpoints. Those queues diagnose an incomplete
 simulator initialization; they are not the intended overnight allocation. The design includes 17 concurrent
@@ -152,6 +152,17 @@ a ten-bay main-depot default, while the template minimum is four; it needs
 explicit oversize handling and city-specific workshop geometry. The legacy
 Python planner still emits depot exceptions by default and needs alignment
 with the current Rust emitter policy.
+
+**Operating implementation added:** the native simulator now supports selected
+powered-station holding, 150 kW charging to 95% SoC, closing-time stops and
+schedule/energy/MA-gated morning departures. All 266 cities have separate
+runnable allocation candidates. The [Samawah replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md)
+keeps all 108 trains at 20 stations overnight, reduces the largest queue from
+27 to eight and restarts all occupied stations within 60 seconds, with no
+invariant violations. This is a 01:30–06:00 comparison, not full-day energy
+acceptance. Canonical endpoint scenarios remain retained; candidates do not
+claim physical capacity or close package gates. See the
+[implementation and limits](operations/distributed-stabling.md).
 
 **Remaining additions:** a station-by-station healthy-fleet overnight allocation
 with usable track lengths,

@@ -19,7 +19,11 @@ layout requirements and the BOM, with all 266 cities reporting PV area,
 equipment-cost sensitivity and initial dispatch capacity requirements. Located
 equipment, installed-cost reconciliation, physical stabling allocation,
 procurement/calendar cashflow, battery renewal and shared factory scheduling
-remain open. Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
+remain open. Distributed station holding, low-C charging and morning restart
+now have an executable candidate and a passing Samawah overnight comparison;
+track capacity and full-day timetable/energy acceptance remain open. See the
+[station-stabling workflow](operations/distributed-stabling.md).
+Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.
 
 The 2026-09-08 repository review found no failing committed software, city,

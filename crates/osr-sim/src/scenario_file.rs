@@ -238,6 +238,9 @@ pub struct FleetSpec {
     pub line: String,
     pub trainset_count: u32,
     pub dispatch_points: Vec<DispatchPointSpec>,
+    /// Selected powered stations support overnight holding and low-C charging.
+    #[serde(default)]
+    pub station_stabling: bool,
     /// "HH:MM"
     pub service_start: String,
     /// "HH:MM"
@@ -429,6 +432,7 @@ pub enum LoadError {
         value: String,
     },
     InvalidHeading(String),
+    InvalidStationStabling(String),
     DuplicateStationId(String),
     DuplicateLineId(String),
     UnknownStation {
@@ -511,6 +515,7 @@ impl std::fmt::Display for LoadError {
         match self {
             Parse(m) => write!(f, "parse error: {m}"),
             InvalidTime { field, value } => write!(f, "invalid time in {field}: '{value}' (expected HH:MM)"),
+            InvalidStationStabling(message) => write!(f, "invalid station stabling: {message}"),
             InvalidHeading(h) => write!(f, "invalid heading '{h}' (expected 'forward' or 'reverse')"),
             DuplicateStationId(id) => write!(f, "duplicate station id '{id}'"),
             DuplicateLineId(id) => write!(f, "duplicate line id '{id}'"),
@@ -920,6 +925,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         fleets.push(LineFleet {
             line_index,
             dispatch_points,
+            station_stabling: spec.station_stabling,
             trainset_count: spec.trainset_count,
             schedule: LineSchedule {
                 service_start_s,
@@ -965,6 +971,36 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             charger_efficiency: site.charger_efficiency,
             charger_contact_count: site.charger_contact_count,
         });
+    }
+
+    // Opt-in stabling points must have actual energy-site inputs and a valid
+    // departure direction. CCTV, isolation and physical berths remain external
+    // evidence; accepting this schema never certifies those requirements.
+    for fleet in &fleets {
+        if !fleet.station_stabling {
+            continue;
+        }
+        let line = &network.lines[fleet.line_index];
+        let mut seen = std::collections::HashSet::new();
+        for &(station, heading) in &fleet.dispatch_points {
+            let powered = network.station(station).charging_power_kw >= 150
+                && energy_sites.iter().any(|site| {
+                    site.station == station
+                        && site.grid_import_kw.is_finite()
+                        && site.grid_import_kw > 0.0
+                        && site.charger_max_kw.is_finite()
+                        && site.charger_max_kw >= 150.0
+                });
+            let valid_heading = line.is_ring
+                || !((line.stations.first() == Some(&station) && heading == Heading::Reverse)
+                    || (line.stations.last() == Some(&station) && heading == Heading::Forward));
+            if !powered || !valid_heading || !seen.insert((station, heading)) {
+                return Err(LoadError::InvalidStationStabling(format!(
+                    "{} at {} requires a unique inward dispatch heading, >=150 kW charging and a grid-connected energy site",
+                    line.name, network.station(station).name
+                )));
+            }
+        }
     }
 
     // --- Faults -------------------------------------------------------------

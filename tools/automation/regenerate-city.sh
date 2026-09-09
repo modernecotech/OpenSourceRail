@@ -206,6 +206,8 @@ echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simu
 echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engineering/project-twin/"
 "$PYTHON" "$REPO/tools/automation/generate-depot-scope.py" \
     --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/tools/automation/generate-stabling-plan.py" \
+    --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \

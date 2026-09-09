@@ -417,9 +417,18 @@ pub struct LineFleet {
     /// Stations from which trains dispatch, paired with their initial heading.
     /// Trains are distributed round-robin across this list.
     pub dispatch_points: Vec<(StationId, Heading)>,
+    /// Opt-in powered-station holding and low-C charging at dispatch locations.
+    /// This is an operating model; it does not certify physical berth capacity.
+    pub station_stabling: bool,
     pub trainset_count: u32,
     /// Time-of-day schedule. Headway varies by window per RFC 0003 §4.1.
     pub schedule: LineSchedule,
+}
+
+impl LineFleet {
+    fn stables_at(&self, station: StationId) -> bool {
+        self.station_stabling && self.dispatch_points.iter().any(|(id, _)| *id == station)
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -797,6 +806,18 @@ pub fn run_with_event_recording(
             seconds_until_next_service(&fleet.schedule, config.start_time_s_after_midnight);
         for (station, heading) in &fleet.dispatch_points {
             throttle.register((fleet.line_index, *station, *heading), initial_next_allowed);
+            if fleet.station_stabling {
+                // Returning trains may berth facing the opposite direction.
+                // Give that morning queue the same timetable protection.
+                let line = &config.network.lines[fleet.line_index];
+                let opposite = heading.flip();
+                if line.is_ring
+                    || !((line.stations.first() == Some(station) && opposite == Heading::Reverse)
+                        || (line.stations.last() == Some(station) && opposite == Heading::Forward))
+                {
+                    throttle.register((fleet.line_index, *station, opposite), initial_next_allowed);
+                }
+            }
         }
     }
 
@@ -1384,22 +1405,28 @@ fn step_train(
 
     match phase {
         TrainPhase::AwaitingDispatch { station } => {
-            // A train waiting in a depot stabling road remains connected to
-            // its low-C charger. This matters for spare sets rotated into
-            // service later in the day and for overnight recovery runs.
-            if network.station(station).is_depot
+            let line_idx = trains[idx].line_index;
+            let fleet = fleet_for_line(fleets, line_idx);
+            // Waiting healthy trains can charge at selected powered stations.
+            // draw_at_station keeps the site's shared source/converter limits.
+            if (network.station(station).is_depot || fleet.stables_at(station))
                 && !faults.pad_disabled_at(station)
                 && trains[idx].soc < DEPOT_TOP_UP_SOC
             {
+                let headroom = (DEPOT_TOP_UP_SOC - trains[idx].soc).max(0.0)
+                    * trains[idx].battery_capacity_kwh();
                 let requested = (DEPOT_CHARGE_POWER_KW / 3600.0) * dt;
+                let requested = if fleet.station_stabling {
+                    requested.min(headroom)
+                } else {
+                    requested
+                };
                 let delivered = energy.draw_at_station(station, requested, dt, faults);
                 let applied = trains[idx].apply_energy_kwh(delivered);
                 trains[idx].energy_charged_kwh += f64::from(applied);
             }
-            let line_idx = trains[idx].line_index;
             let heading = trains[idx].heading;
             let key = (line_idx, station, heading);
-            let fleet = fleet_for_line(fleets, line_idx);
 
             if safety_stop_active || dispatch_hold_active {
                 if fleet.schedule.headway_at(clock).is_some() {
@@ -1450,11 +1477,14 @@ fn step_train(
         } => {
             let depot_service_was_active = depot_service_remaining_s > 0.0;
             let s = network.station(station);
+            let fleet = fleet_for_line(fleets, trains[idx].line_index);
+            let station_holding = fleet.stables_at(station)
+                && (remaining_s <= 0.0 || fleet.schedule.headway_at(clock).is_none());
             let pad_up = !faults.pad_disabled_at(station);
             if pad_up && s.charging_power_kw > 0 && trains[idx].soc < 1.0 {
                 // Once normal platform dwell has elapsed at a depot, the
                 // train transfers to a stabling charger for its top-up.
-                let depot_top_up = s.is_depot && remaining_s <= 0.0;
+                let depot_top_up = (s.is_depot && remaining_s <= 0.0) || station_holding;
                 let charging_power_kw = if depot_top_up {
                     DEPOT_CHARGE_POWER_KW
                 } else {
@@ -1508,6 +1538,21 @@ fn step_train(
                     energy_added_kwh,
                 };
                 return MovementControlEffect::DepartureInhibited;
+            }
+
+            // Finish an in-flight section and berth at the selected station;
+            // do not send a healthy train onward to a depot after service ends.
+            // Keep its arrival heading, so a terminal reverses exactly once on
+            // the eventual morning departure.
+            if fleet.stables_at(station) && fleet.schedule.headway_at(clock).is_none() {
+                trains[idx].phase = TrainPhase::Dwelling {
+                    station,
+                    remaining_s: 0.0,
+                    depot_service_remaining_s,
+                    energy_added_kwh,
+                };
+                throttle.record_out_of_service_held(dt);
+                return MovementControlEffect::None;
             }
 
             // Dwell expired. Check if this station + departure heading is a

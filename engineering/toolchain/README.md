@@ -81,6 +81,8 @@ For every selected city it writes:
   `engineering/depot-scope/`, with source hashes, PV module area and equipment
   cost sensitivity; physical placement, installed cost and stabling gates
   remain open until controlled evidence exists;
+- a distributed-station overnight allocation candidate under `engineering/stabling/`,
+  with a local runnable scenario and explicit physical-capacity gates;
 - a QGIS/GDAL GeoPackage plus GeoJSON review layers for corridors, stations,
   civil segments, energy sites, depots and input issues;
 - a SUMO node, edge and route deck containing every declared line and station,
@@ -155,3 +157,10 @@ Regenerate depot reconciliation alone with
 `--design path/to/design.toml`). A successful command means the reports were
 written; their `passed: false` preserves the unresolved physical/cost/stabling
 gates. The equipment sensitivity is not applied to city CAPEX.
+
+The [distributed station-stabling workflow](../../docs/operations/distributed-stabling.md)
+adds operating candidates without replacing retained canonical scenarios.
+`generate-stabling-plan.py --all` refreshes the plans; `screen-stabling-plan.py
+--design path/to/design.toml` builds the native simulator and compares the
+retained and candidate 01:30–06:00 operations. Its passing operating result does
+not close the plan's physical or full-day energy gates.
