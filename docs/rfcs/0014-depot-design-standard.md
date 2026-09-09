@@ -104,25 +104,42 @@ parking stall per train. Healthy sets stable at powered passenger stations:
   Sized from the physical round-trip cycle vs. the peak headway:
 
   ```text
-    traversal_energy_kwh = line_length_km × cars × 2.4 × 1.25 × 1.10
+    traversal_energy_kwh = line_length_km × cars × 2.4 × 1.25 × 1.25
     charging_dwell_s = ceil_30s(3600 × traversal_energy_kwh / sum(charger_kw))
     charging_dwell_s = clamp(charging_dwell_s, 120, 600)
     added_dwell_min  = charging_stops × max(charging_dwell_s / 60 - 1, 0)
-    one_way_min      = (line_length_km / commercial_speed_kmh) × 60
-    round_trip_min   = 2 × one_way_min + 2 × turnback_min + 2 × added_dwell_min
-    peak_revenue_trainsets = ceil(round_trip_min × 1.10 / headway_min)
+    stop_count       = station_count - 2  # radial; station_count for a ring
+    one_way_min      = (line_length_km / cruise_speed_kmh) × 60
+                       + stop_count × stop_penalty_min
+    radial_cycle_min = 2 × one_way_min + 2 × 3 + 2 × added_dwell_min
+    ring_cycle_min   = one_way_min + added_dwell_min
+    peak_revenue_trainsets = max(2, ceil(cycle_min × recovery_factor / headway_min))
   ```
 
-  v0.2 calibration: `commercial_speed = 35 km/h` (Tehran Line 1 33,
-  Cairo Line 3 32, Tokyo Chuo Rapid 38 — the right band for 100 km/h
-  max with roughly 1.5 km station spacing), `headway = 3 min`, `turnback =
-  3 min` per end (driverless GoA 4 single-tail changeover, RFC 0015).
-  Commercial speed carries a one-minute reference stop; the formula adds
-  only the calculated charging dwell above that reference. The energy balance
-  uses the maximum 25% climate uplift and a 10% charging margin. A final 10%
-  cycle recovery allowance protects the published peak frequency.
+  Current [native emitter](../../crates/osr-design/src/emit.rs) parameters:
 
-- `spare` = 1 trainset per 10 revenue trainsets, for planned
+  | Family | Cruise km/h | Stop penalty min | Recovery factor | 500 kW cabinets per powered station |
+  |---|---:|---:|---:|---:|
+  | tram-2car | 48 | 1.45 | 1.10 | 1 |
+  | light-metro-3car | 62 | 1.35 | 1.62 | 1 |
+  | metro-4car | 72 | 1.30 | 1.30 | 3 |
+  | metro-6car | 72 | 1.30 | 1.45 | 4 |
+
+  Radials use a three-minute peak headway and a three-minute turnback at
+  each end; rings use a six-minute peak headway. The stop penalty includes
+  the one-minute reference dwell, and only charging dwell above that reference
+  is added. The energy balance uses a 25% climate uplift and a separate 25%
+  charging margin. The larger recovery factors include the emitter's retained
+  onboard-energy resilience allowance; they are planning assumptions requiring
+  city-specific service and energy evidence, not a uniform 10% timetable margin.
+
+  These parameters replace the former written 35 km/h proxy and uniform
+  1.10 recovery factor. Existing city fleet inventories remain declared inputs;
+  reconcile regeneration changes with timetable, energy, cost and physical
+  stabling evidence before adopting a different count. This formula does not
+  enforce two trainsets per station. Station capacity must be checked separately.
+
+- `spare` = max(1, floor(peak_revenue_trainsets / 10)), for planned
   maintenance rotation.
 - `cold_reserve` = 1 per line, for unplanned incidents per
   [RFC 0013 §7](0013-operations-rulebook.md#7-incident-categorisation).

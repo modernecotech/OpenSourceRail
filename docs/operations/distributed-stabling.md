@@ -97,6 +97,37 @@ complete fleet snapshots, overnight departures and battery reserve retention.
 Daytime headway delivery, adverse weather and physical charging access remain
 separate acceptance work.
 
+## Two-train provision and redistribution requirements
+
+Two trainsets at each of the 20 selected stations provide **40 positions**.
+With the retained 108-train fleet, **68 positions remain elsewhere or unresolved**.
+Even assigning all 11 spares/cold reserves elsewhere leaves 57 revenue trains
+beyond that two-per-station provision. The model currently requires a revenue
+train for every planned departure direction; it does not enforce a two-train
+station capacity. The 46 reference platform berths used above include three
+four-berth interchange variants and must not be confused with a uniform
+two-train provision.
+
+The [redistribution study](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md)
+constructs an abstract seven-train maximum from the observed nights, preserving
+all 34 departure directions and keeping reserves at their recorded locations.
+Seven is the queue lower bound with the retained fleet and selected locations:
+Line 1 alone assigns 53 trains to eight stations. This target still leaves
+62 positions beyond the reference platform envelope; it does not satisfy a
+two-train station limit.
+
+Reaching that target from the two night snapshots requires 15 then 20 train
+transfers, totalling 274.1 then 317.9 train-km. Nominal origin precharge totals
+are 131.2 then 212.5 kWh. Some individual precharges alone require more than
+30 minutes at 150 kW, before shared supply, travel or turnback time. These are
+counterfactual requirements from 05:29 positions and rounded SoC values, not
+an executable evening timetable. Earlier service transitions, charging and
+actual tracks need validation before any redistribution is adopted.
+
+```bash
+.venv/bin/python tools/automation/study-stabling-redistribution.py --design cities/catalogue/west-asia/Iraq/Samawah/design.toml
+```
+
 ## Remaining physical and operating work
 
 A simulated station queue remains an abstract queue. No surveyed stabling

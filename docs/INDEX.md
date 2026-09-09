@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **2032**.
+Indexed Markdown files: **2033**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **2032**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 1397 |
+| [cities](#cities) | 1398 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
@@ -1222,6 +1222,7 @@ Indexed Markdown files: **2032**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) | Samawah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | Distributed station stabling candidate |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md) | Overnight operating comparison |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md) | Station redistribution requirements |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md) | Continuous service-cycle stabling screen |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md) | Samawah survey-control processing |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md) | Samawah drainage and ground-design gate |

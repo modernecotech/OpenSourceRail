@@ -178,3 +178,11 @@ through to the next selected charger. Queues of 18–19 trains still need physic
 capacity evidence. The optional `service-cycle-screen.json` is included in
 package failure and source-drift checks. Neither replay proves daytime headway
 delivery or outage resilience.
+
+`study-stabling-redistribution.py --design path/to/design.toml` consumes the
+source-checked continuous replay and its local native CSV. It produces a
+counterfactual station allocation, explicit transfer routes and nominal
+charging/time requirements while preserving reserve locations and every
+planned revenue direction. Samawah's seven-train target remains above a
+two-train station provision. The optional `redistribution-study.json` remains
+failed for physical/movement release and is included in package/source checks.

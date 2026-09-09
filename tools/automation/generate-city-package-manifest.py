@@ -95,6 +95,12 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
         ("service-cycle-screen", "screen-stabling-cycles.py", {
             "cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_cycles.py",
         }),
+        ("redistribution-study", "screen-stabling-cycles.py", {
+            "cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_cycles.py",
+            "cycle_report": city_dir / "engineering/stabling/service-cycle-screen.json",
+            "study_generator": REPO_ROOT / "tools/automation/study-stabling-redistribution.py",
+            "redistribution_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_redistribution.py",
+        }),
     ):
         screen_path = city_dir / f"engineering/stabling/{screen_name}.json"
         if not screen_path.is_file():
@@ -193,7 +199,7 @@ def main() -> int:
         city_dir / "operations" / f"{slug}-budget-work-packages.csv",
         city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
-    for screen_name in ("operating-screen", "service-cycle-screen"):
+    for screen_name in ("operating-screen", "service-cycle-screen", "redistribution-study"):
         screen = city_dir / f"engineering/stabling/{screen_name}.json"
         if screen.is_file():
             required.extend([screen, screen.with_suffix(".md")])

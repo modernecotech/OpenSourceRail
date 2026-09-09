@@ -31,6 +31,12 @@ found in Samawah's first continuous replay. Both service cycles now pass
 placement and morning restart, with all trains at selected powered stations.
 Queues still reach 18 then 19 trains; recurring physical capacity, daytime
 headways and outage/recovery duties remain unverified.
+Two trainsets per selected station would provide only 40 positions for
+Samawah's retained 108-train fleet. A counterfactual redistribution study reaches
+a seven-train maximum but requires substantial transfers and retains the
+physical gap. Reconcile fleet sizing, station capacity and an executable
+evening plan; the corrected RFC now records the emitter's family-specific
+fleet assumptions instead of the stale uniform 10% recovery factor.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.
 

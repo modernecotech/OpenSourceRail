@@ -186,6 +186,25 @@ The check uses elapsed-time snapshots and recalculates space from observed
 allocations. Physical capacity, daytime headway delivery, storage-only outage
 resilience and failed-train recovery remain open; package gates remain failed.
 
+**Two-train station provision is not enforced:** 20 selected stations provide
+40 positions at two trains each, leaving 68 of the retained 108 fleet positions
+elsewhere or unresolved. The reference platform comparison instead counts 46
+berths because three interchange variants provide four. Neither is verified
+overnight capacity. The [redistribution study](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md)
+can reduce the abstract maximum queue to seven while preserving direction
+coverage and reserve locations, requiring 15/20 transfers totalling 274/318
+train-km after the respective nights. This still exceeds a two-train provision
+and leaves 62 positions beyond the platform envelope. Charging and movement
+requirements must become a validated earlier evening plan.
+
+**Fleet-sizing documentation drift:** RFC 0014's former 35 km/h commercial-speed
+proxy, fixed 10% recovery factor and 10% charging margin did not match the
+current emitter. The emitter uses family-specific cruise/stop parameters,
+recovery factors up to 1.62 and a 25% charging margin. The RFC is corrected to
+describe that implementation. Retained city fleet counts require a separate
+regeneration/reconciliation audit before changing inventory or treating fleet
+size as consistent with a two-train station capacity.
+
 **Remaining additions:** a station-by-station healthy-fleet overnight allocation
 with usable track lengths,
 train lengths, clearance points, charger sharing and access; evening run-in,
