@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:indore",
+  "city": "indore",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3431.409,
+      "sumo_mean_trip_time_s": 3142.0,
+      "delta_s": -289.409,
+      "delta_percent_of_osr": -8.434,
+      "tolerance_s": 514.711,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3614.136,
+      "sumo_mean_trip_time_s": 3350.0,
+      "delta_s": -264.136,
+      "delta_percent_of_osr": -7.308,
+      "tolerance_s": 542.12,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3954.864,
+      "sumo_mean_trip_time_s": 3657.5,
+      "delta_s": -297.364,
+      "delta_percent_of_osr": -7.519,
+      "tolerance_s": 593.23,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 4069.773,
+      "sumo_mean_trip_time_s": 3784.0,
+      "delta_s": -285.773,
+      "delta_percent_of_osr": -7.022,
+      "tolerance_s": 610.466,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 3605.227,
+      "sumo_mean_trip_time_s": 3269.5,
+      "delta_s": -335.727,
+      "delta_percent_of_osr": -9.312,
+      "tolerance_s": 540.784,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3151.864,
+      "sumo_mean_trip_time_s": 2895.5,
+      "delta_s": -256.364,
+      "delta_percent_of_osr": -8.134,
+      "tolerance_s": 472.78,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 3560.318,
+      "sumo_mean_trip_time_s": 3268.0,
+      "delta_s": -292.318,
+      "delta_percent_of_osr": -8.21,
+      "tolerance_s": 534.048,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 8870.955,
+      "sumo_mean_trip_time_s": 8094.5,
+      "delta_s": -776.455,
+      "delta_percent_of_osr": -8.753,
+      "tolerance_s": 1330.643,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "2dc8116d9c97bcd541c617b8b0e19673ef168e44521fd2969eda119868349ed2",
+    "sumo_summary_sha256": "a8147cc77dd5942256f6c9bba526d8ec1e80fb1eb6c1640f00f776d131e89899",
+    "simulation_summary_sha256": "6b2629222dba9f48a4cfcc321baef06761bbb1b014525dad0a988bc90aaaf731",
+    "native_timing_reference_sha256": "8c0a280ca6940244f80c59f7c9a9441fea85315d24fddcbc3eadf985181c3142"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/India/Indore/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/India/Indore/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/India/Indore/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/India/Indore/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

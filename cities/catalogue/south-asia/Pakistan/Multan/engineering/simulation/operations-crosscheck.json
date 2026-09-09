@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:multan",
+  "city": "multan",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1825.045,
+      "sumo_mean_trip_time_s": 1774.5,
+      "delta_s": -50.545,
+      "delta_percent_of_osr": -2.77,
+      "tolerance_s": 273.757,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1906.954,
+      "sumo_mean_trip_time_s": 1837.0,
+      "delta_s": -69.954,
+      "delta_percent_of_osr": -3.668,
+      "tolerance_s": 286.043,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1575.364,
+      "sumo_mean_trip_time_s": 1498.5,
+      "delta_s": -76.864,
+      "delta_percent_of_osr": -4.879,
+      "tolerance_s": 236.305,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 1615.0,
+      "sumo_mean_trip_time_s": 1532.0,
+      "delta_s": -83.0,
+      "delta_percent_of_osr": -5.139,
+      "tolerance_s": 242.25,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 3787.937,
+      "sumo_mean_trip_time_s": 3824.5,
+      "delta_s": 36.563,
+      "delta_percent_of_osr": 0.965,
+      "tolerance_s": 568.191,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "23735e5f2157f8fb36fe248b10bce62d3ffd0327894b8111cdf8d6f1dc638c8b",
+    "sumo_summary_sha256": "0e7fa99038eb3160c9dfaf01cdf057bd6923b9d41c82273b8b9cfa90df456519",
+    "simulation_summary_sha256": "73f5c21a8e83cbbe4b92cde220f0bdfa89979800086400498029dcc2b88ef513",
+    "native_timing_reference_sha256": "0edb32f4dfa66e65d5eee618c8291daeb6f43ff8cd716e62432812075d37fc4a"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Pakistan/Multan/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Pakistan/Multan/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

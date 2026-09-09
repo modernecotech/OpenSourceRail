@@ -1,0 +1,259 @@
+{
+  "city": "fort-portal",
+  "closed_gate_count": 4,
+  "deployment_release_ready": false,
+  "design_sha256": "964a2a0811cc555b77efcaad65f4b223514fd99c389e5bc9f3c6e9a9c8c7d977",
+  "evidence_sha256": {
+    "depot-scope/summary.json": "533260f3a65b3630d4cf30e2827648cd42dfd1b458fdec97bf5c6a8fd9a77b2b",
+    "energy/summary.json": "a4c36be696e9b6d68ebfd368ea055ae8f52f35ad0536219bd7c8ffe61f061863",
+    "simulation/operations-crosscheck.json": "118caccbf72b6798765ea8d2a1381c59d83def90833516b62db46dfb38571773",
+    "simulation/validation-summary.json": "85d4f155f3dc79e69473123f59cba1d7fe756bb55af950fc2c46439fec8cb76f",
+    "soil/summary.json": "0b8e1d2d2bfab99158f3040f32e0b943a9bacf6da1f749c6844e862dbef3423e",
+    "stabling/summary.json": "2995d0f757efc60d18549a5f7fb7fcf437056d58c13a62712e0b0b80f63e39f6",
+    "survey/control-processing-readiness.json": "cdcc094ef419602098621a4d61ae8181765fbbdf03e2a3ce5a394d2366190210",
+    "survey/drainage-ground-readiness.json": "ec0fa6c43c0ffffc9293ce6ec4ac56ca24fc92fa314ec1df62316b50e01c80c5",
+    "survey/ground-model-readiness.json": "32248573b0f739308397bbbaaab6eedc784735f6bf0e18e1a903191e40112b27",
+    "survey/route-station-fit-readiness.json": "b9196e26036a4928ca32f4f7609ddca2532bd703f08876274ea882f90105b7f3",
+    "survey/structural-release-readiness.json": "b46c9cb17bc593a44a5a40faabd3a832e65e8c4f35f23599dc965b6c876f05b5",
+    "survey/surveyed-alignment-readiness.json": "e2f715c78e0aa9724413153960dcca449a135fdbbf618b102073b3da9eacb8ca"
+  },
+  "gates": [
+    {
+      "closure_action": "Sample current station and civil geometry from the pinned soilDB source and retain means, uncertainty and nodata.",
+      "detail": null,
+      "evidence": "soil/summary.json",
+      "id": "soil-desktop-inputs",
+      "owner_role": "civil/geotechnical designer",
+      "status": "closed"
+    },
+    {
+      "closure_action": "Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct.",
+      "detail": {
+        "missing_profiles": 0
+      },
+      "evidence": "soil/civil-investigation-plan.json",
+      "id": "soil-coverage",
+      "owner_role": "geotechnical investigator",
+      "status": "closed"
+    },
+    {
+      "closure_action": "Receive survey control observations; process and check the project CRS, datum and residuals.",
+      "detail": {
+        "missing_technical_roles": [],
+        "report_status": "awaiting-field-data"
+      },
+      "evidence": "survey/control-processing-readiness.json",
+      "id": "control-processing",
+      "owner_role": "survey team",
+      "status": "open"
+    },
+    {
+      "closure_action": "Receive and inspect the terrain, point cloud and ground-model deliveries against independent control.",
+      "detail": {
+        "missing_technical_roles": [
+          "control_acceptance_report",
+          "topographic_features",
+          "terrain_dtm",
+          "checkpoint_residuals",
+          "odm_processing_report",
+          "orthophoto",
+          "registered_point_cloud",
+          "cloudcompare_qa_report",
+          "void_register",
+          "master_ground_model"
+        ],
+        "report_status": "awaiting-ground-model-data"
+      },
+      "evidence": "survey/ground-model-readiness.json",
+      "id": "ground-model",
+      "owner_role": "survey team",
+      "status": "open"
+    },
+    {
+      "closure_action": "Replace or confirm generated geometry with checked survey alignment and platform reconciliation.",
+      "detail": {
+        "missing_technical_roles": [
+          "*:ground_model_readiness",
+          "*:interface_verification_report",
+          "line-1:surveyed_osr_aln",
+          "line-1:landxml_export",
+          "line-1:landxml_roundtrip_report",
+          "line-2:surveyed_osr_aln",
+          "line-2:landxml_export",
+          "line-2:landxml_roundtrip_report",
+          "line-3:surveyed_osr_aln",
+          "line-3:landxml_export",
+          "line-3:landxml_roundtrip_report"
+        ],
+        "report_status": "awaiting-surveyed-alignments"
+      },
+      "evidence": "survey/surveyed-alignment-readiness.json",
+      "id": "surveyed-alignment",
+      "owner_role": "alignment designer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Resolve utilities, land/access, flood levels, station access and construction staging against the current route.",
+      "detail": {
+        "missing_technical_roles": [
+          "ground_model_readiness",
+          "surveyed_alignment_readiness",
+          "utility_coordination",
+          "land_access",
+          "flood_drainage",
+          "station_access",
+          "intercity_yard_integration",
+          "road_traffic_management",
+          "construction_logistics",
+          "possession_staging",
+          "route_fit_verification_report",
+          "route_fit_issue_register"
+        ],
+        "report_status": "awaiting-route-fit-evidence"
+      },
+      "evidence": "survey/route-station-fit-readiness.json",
+      "id": "route-station-fit",
+      "owner_role": "civil/station designer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Use the soil investigation plan to collect local geotechnics and groundwater, size foundations/treatment, and check drainage with local rainfall and surveyed levels.",
+      "detail": {
+        "missing_technical_roles": [
+          "ground_model_readiness",
+          "route_station_fit_readiness",
+          "accepted_hydrology_basis",
+          "swmm_model",
+          "swmm_processing_report",
+          "geotechnical_ground_model",
+          "foundation_ground_schedule",
+          "ground_design_verification_report",
+          "groundwater_coupling_decision"
+        ],
+        "report_status": "awaiting-drainage-ground-evidence"
+      },
+      "evidence": "survey/drainage-ground-readiness.json",
+      "id": "drainage-ground",
+      "owner_role": "civil/geotechnical designer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Complete route-specific support/span, foundation, movement and erection calculations and close checking comments.",
+      "detail": {
+        "missing_technical_roles": [
+          "drainage_ground_readiness",
+          "structural_design_basis",
+          "structural_asset_schedule",
+          "load_case_register",
+          "opensees_model",
+          "opensees_report",
+          "calculix_input",
+          "calculix_report",
+          "structural_verification_report",
+          "independent_check_record"
+        ],
+        "report_status": "awaiting-structural-evidence"
+      },
+      "evidence": "survey/structural-release-readiness.json",
+      "id": "structural-release",
+      "owner_role": "structural designer and checker",
+      "status": "open"
+    },
+    {
+      "closure_action": "Reconcile current native reference journey times with SUMO using the same scenario dwells and route.",
+      "detail": {
+        "failed_lines": []
+      },
+      "evidence": "simulation/operations-crosscheck.json",
+      "id": "model-timing-comparison",
+      "owner_role": "simulation engineer",
+      "status": "closed"
+    },
+    {
+      "closure_action": "Run current nominal and degraded full-service cases against the current scenario and simulator; retain failures and exact provenance.",
+      "detail": null,
+      "evidence": "simulation/validation-summary.json",
+      "id": "full-service-validation",
+      "owner_role": "simulation engineer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
+      "detail": null,
+      "evidence": "simulation/operations-crosscheck.json",
+      "id": "operating-release",
+      "owner_role": "operator",
+      "status": "open"
+    },
+    {
+      "closure_action": "Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.",
+      "detail": {
+        "depot_trainsets": 46,
+        "missing_morning_directions": [],
+        "station_trainsets": 30
+      },
+      "evidence": "stabling/summary.json",
+      "id": "morning-fleet-allocation",
+      "owner_role": "service planner",
+      "status": "closed"
+    },
+    {
+      "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
+      "detail": null,
+      "evidence": "stabling/hybrid-cycle-screen.json",
+      "id": "continuous-stabling-replay",
+      "owner_role": "simulation engineer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.",
+      "detail": {
+        "open_gates": [
+          "track-by-track capacity and platform/turnout access",
+          "charger sharing and overnight delivery",
+          "security, CCTV, remote isolation and release inspection",
+          "reserve activation, defect routing and maintenance allocation",
+          "evening placement and morning demand/headway validation"
+        ]
+      },
+      "evidence": "stabling/summary.json",
+      "id": "stabling-physical-fit",
+      "owner_role": "track/station designer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
+      "detail": {
+        "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
+        "retained_run_delivered_kwh": 78915.4773702247,
+        "retained_run_duration_s": 90000,
+        "retained_run_grid_imported_kwh": 52000.94694835551,
+        "retained_run_pv_generated_kwh": 44348.792652686316,
+        "snapshot_passed": true
+      },
+      "evidence": "energy/summary.json",
+      "id": "solar-storage-endurance",
+      "owner_role": "energy designer",
+      "status": "open"
+    },
+    {
+      "closure_action": "Place the declared PV/storage inventory within the controlled site layout and reconcile itemised installed costs and renewal scope with existing allowances.",
+      "detail": {
+        "open_gates": [
+          "site PV and stationary-storage placement",
+          "itemised depot energy budget and allowance reconciliation",
+          "station and depot storage layouts with usable tracks",
+          "coordinated morning starts and conflict-aware evening run-in/morning run-out"
+        ]
+      },
+      "evidence": "depot-scope/summary.json",
+      "id": "depot-placement-and-budget",
+      "owner_role": "depot and cost designer",
+      "status": "open"
+    }
+  ],
+  "generator_sha256": "0509fa2ebc712d28f4c816c2fccc2102affc93ea2e13a71b3a3d661fdc5c8324",
+  "open_gate_count": 12,
+  "schema_version": 1,
+  "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
+}

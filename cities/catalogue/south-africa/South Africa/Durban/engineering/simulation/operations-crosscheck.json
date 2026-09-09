@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:durban",
+  "city": "durban",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 5300.955,
+      "sumo_mean_trip_time_s": 4930.5,
+      "delta_s": -370.455,
+      "delta_percent_of_osr": -6.988,
+      "tolerance_s": 795.143,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3894.5,
+      "sumo_mean_trip_time_s": 3563.0,
+      "delta_s": -331.5,
+      "delta_percent_of_osr": -8.512,
+      "tolerance_s": 584.175,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 4440.864,
+      "sumo_mean_trip_time_s": 4092.5,
+      "delta_s": -348.364,
+      "delta_percent_of_osr": -7.845,
+      "tolerance_s": 666.13,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2199.864,
+      "sumo_mean_trip_time_s": 2004.0,
+      "delta_s": -195.864,
+      "delta_percent_of_osr": -8.903,
+      "tolerance_s": 329.98,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 3434.318,
+      "sumo_mean_trip_time_s": 3166.0,
+      "delta_s": -268.318,
+      "delta_percent_of_osr": -7.813,
+      "tolerance_s": 515.148,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3006.318,
+      "sumo_mean_trip_time_s": 2784.0,
+      "delta_s": -222.318,
+      "delta_percent_of_osr": -7.395,
+      "tolerance_s": 450.948,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 3035.5,
+      "sumo_mean_trip_time_s": 2806.0,
+      "delta_s": -229.5,
+      "delta_percent_of_osr": -7.561,
+      "tolerance_s": 455.325,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 2607.818,
+      "sumo_mean_trip_time_s": 2396.5,
+      "delta_s": -211.318,
+      "delta_percent_of_osr": -8.103,
+      "tolerance_s": 391.173,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 9035.727,
+      "sumo_mean_trip_time_s": 8430.5,
+      "delta_s": -605.227,
+      "delta_percent_of_osr": -6.698,
+      "tolerance_s": 1355.359,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "b418f23eb027f7585072976a41282a989f0bf9f5fbadbf934106ff98454df670",
+    "sumo_summary_sha256": "e15ecd46510bfaf55dd113d5817fb18936e07288c59b4f35dd128ce3896987df",
+    "simulation_summary_sha256": "fd9141642c5b0af24c88f7bb281d6d76f99a5b79a5d08ed98d03c639e249a6ae",
+    "native_timing_reference_sha256": "dcdb06a61b6239746383124124d3cba04cc08a512f304b081b1d3b2622fc8b06"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-africa/South Africa/Durban/design.toml",
+    "sumo_summary": "cities/catalogue/south-africa/South Africa/Durban/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

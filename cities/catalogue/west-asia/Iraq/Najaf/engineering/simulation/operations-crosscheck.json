@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:najaf",
+  "city": "najaf",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2322.727,
+      "sumo_mean_trip_time_s": 2226.0,
+      "delta_s": -96.727,
+      "delta_percent_of_osr": -4.164,
+      "tolerance_s": 348.409,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3207.909,
+      "sumo_mean_trip_time_s": 3065.0,
+      "delta_s": -142.909,
+      "delta_percent_of_osr": -4.455,
+      "tolerance_s": 481.186,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1700.318,
+      "sumo_mean_trip_time_s": 1629.5,
+      "delta_s": -70.818,
+      "delta_percent_of_osr": -4.165,
+      "tolerance_s": 255.048,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2473.227,
+      "sumo_mean_trip_time_s": 2364.5,
+      "delta_s": -108.727,
+      "delta_percent_of_osr": -4.396,
+      "tolerance_s": 370.984,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 1890.818,
+      "sumo_mean_trip_time_s": 1782.0,
+      "delta_s": -108.818,
+      "delta_percent_of_osr": -5.755,
+      "tolerance_s": 283.623,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 2989.364,
+      "sumo_mean_trip_time_s": 2880.0,
+      "delta_s": -109.364,
+      "delta_percent_of_osr": -3.658,
+      "tolerance_s": 448.405,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "6bf5de10052d90d4fa655f09c3dfefcae98caa535c2cdd9556cbf7b8c89b8d8d",
+    "sumo_summary_sha256": "0e469297fcc91d8b45ea056bcb465bae19cedb9e745807f1b3a3a15d19c91efc",
+    "simulation_summary_sha256": "2dbdd8b3ce9838315e4247f8797542c451feca1cb1575d4970befd2cdebd30ee",
+    "native_timing_reference_sha256": "7a06cd5ab268108864531ffdd6171bcdf4f6ffb95f5be1a5918e060eaafbb410"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Iraq/Najaf/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Iraq/Najaf/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

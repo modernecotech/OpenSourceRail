@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:surabaya",
+  "city": "surabaya",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3096.364,
+      "sumo_mean_trip_time_s": 2854.0,
+      "delta_s": -242.364,
+      "delta_percent_of_osr": -7.827,
+      "tolerance_s": 464.455,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3097.909,
+      "sumo_mean_trip_time_s": 2854.0,
+      "delta_s": -243.909,
+      "delta_percent_of_osr": -7.873,
+      "tolerance_s": 464.686,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3329.591,
+      "sumo_mean_trip_time_s": 3079.0,
+      "delta_s": -250.591,
+      "delta_percent_of_osr": -7.526,
+      "tolerance_s": 499.439,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2235.0,
+      "sumo_mean_trip_time_s": 2030.0,
+      "delta_s": -205.0,
+      "delta_percent_of_osr": -9.172,
+      "tolerance_s": 335.25,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2917.545,
+      "sumo_mean_trip_time_s": 2673.5,
+      "delta_s": -244.045,
+      "delta_percent_of_osr": -8.365,
+      "tolerance_s": 437.632,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 2232.409,
+      "sumo_mean_trip_time_s": 2068.0,
+      "delta_s": -164.409,
+      "delta_percent_of_osr": -7.365,
+      "tolerance_s": 334.861,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 1949.364,
+      "sumo_mean_trip_time_s": 1766.0,
+      "delta_s": -183.364,
+      "delta_percent_of_osr": -9.406,
+      "tolerance_s": 292.405,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 1822.818,
+      "sumo_mean_trip_time_s": 1659.5,
+      "delta_s": -163.318,
+      "delta_percent_of_osr": -8.96,
+      "tolerance_s": 273.423,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 5892.545,
+      "sumo_mean_trip_time_s": 5526.0,
+      "delta_s": -366.545,
+      "delta_percent_of_osr": -6.22,
+      "tolerance_s": 883.882,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "d144c3be80ae35794f27950e370dbf8d9a2d6f34487229d5ca7c80b4307917a4",
+    "sumo_summary_sha256": "aa38e90420530705c130f485386093fd9c7d90f0cc3e048f923dc09ce4a0962a",
+    "simulation_summary_sha256": "4ae258b554b7a17929a17aeebda507c3f2b70ab5dddd4922de010bebe65dfd81",
+    "native_timing_reference_sha256": "34f8e8fc9f1560353681da6a2fb1c08d79084ee1022522c27485bb0b64f5c497"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/southeast-asia/Indonesia/Surabaya/design.toml",
+    "sumo_summary": "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

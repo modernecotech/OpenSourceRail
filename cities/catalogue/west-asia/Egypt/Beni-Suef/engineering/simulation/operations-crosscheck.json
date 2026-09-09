@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:beni-suef",
+  "city": "beni-suef",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1939.955,
+      "sumo_mean_trip_time_s": 1875.0,
+      "delta_s": -64.955,
+      "delta_percent_of_osr": -3.348,
+      "tolerance_s": 290.993,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1564.727,
+      "sumo_mean_trip_time_s": 1512.5,
+      "delta_s": -52.227,
+      "delta_percent_of_osr": -3.338,
+      "tolerance_s": 234.709,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 914.864,
+      "sumo_mean_trip_time_s": 867.0,
+      "delta_s": -47.864,
+      "delta_percent_of_osr": -5.232,
+      "tolerance_s": 137.23,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "c8f17ae2b1f079f84f945541459be454dcf14cbc2cab3fea8d9418b74d9a5543",
+    "sumo_summary_sha256": "19373ea90b9a93b194577e1b03f7c8828614258ed376fcfb6ee73dacf7567827",
+    "simulation_summary_sha256": "6cfe08215c90757ad66377d9facf6fe3c5601ad17c87f403200b789293769def",
+    "native_timing_reference_sha256": "3f3f8affa78f690ea013f43c879195305c8cfe11f703e2dc3153c8b975bff17d"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Egypt/Beni-Suef/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

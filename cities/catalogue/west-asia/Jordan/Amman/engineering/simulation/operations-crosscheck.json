@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:amman",
+  "city": "amman",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 4218.955,
+      "sumo_mean_trip_time_s": 3920.0,
+      "delta_s": -298.955,
+      "delta_percent_of_osr": -7.086,
+      "tolerance_s": 632.843,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 4493.318,
+      "sumo_mean_trip_time_s": 4153.0,
+      "delta_s": -340.318,
+      "delta_percent_of_osr": -7.574,
+      "tolerance_s": 673.998,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2757.273,
+      "sumo_mean_trip_time_s": 2533.0,
+      "delta_s": -224.273,
+      "delta_percent_of_osr": -8.134,
+      "tolerance_s": 413.591,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2091.364,
+      "sumo_mean_trip_time_s": 1919.0,
+      "delta_s": -172.364,
+      "delta_percent_of_osr": -8.242,
+      "tolerance_s": 313.705,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2831.045,
+      "sumo_mean_trip_time_s": 2605.5,
+      "delta_s": -225.545,
+      "delta_percent_of_osr": -7.967,
+      "tolerance_s": 424.657,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3004.045,
+      "sumo_mean_trip_time_s": 2755.0,
+      "delta_s": -249.045,
+      "delta_percent_of_osr": -8.29,
+      "tolerance_s": 450.607,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 2499.591,
+      "sumo_mean_trip_time_s": 2283.0,
+      "delta_s": -216.591,
+      "delta_percent_of_osr": -8.665,
+      "tolerance_s": 374.939,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 3100.227,
+      "sumo_mean_trip_time_s": 2856.5,
+      "delta_s": -243.727,
+      "delta_percent_of_osr": -7.862,
+      "tolerance_s": 465.034,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 8110.909,
+      "sumo_mean_trip_time_s": 7525.5,
+      "delta_s": -585.409,
+      "delta_percent_of_osr": -7.218,
+      "tolerance_s": 1216.636,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "0f0317b8efb5ad53be83d3d84607185a4af4b0c68a08b5d0996adc0a0a4c1b96",
+    "sumo_summary_sha256": "b1575108bd4f5a13d9959a8765d53a31d5c13037cf9f44812312e1ce2f66019b",
+    "simulation_summary_sha256": "348b3a07a2b51ee7b125ef48f528e56bc3cbd7191f0d8e5bc33d7f489de46929",
+    "native_timing_reference_sha256": "4045e955c1b8925c7b8d1e7eff83b0b33a4dc9e345083a2fabdab187ba9c4269"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Jordan/Amman/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Jordan/Amman/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

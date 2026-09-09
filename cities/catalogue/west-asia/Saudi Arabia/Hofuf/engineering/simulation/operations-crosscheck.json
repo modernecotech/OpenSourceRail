@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:hofuf",
+  "city": "hofuf",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2943.091,
+      "sumo_mean_trip_time_s": 2833.5,
+      "delta_s": -109.591,
+      "delta_percent_of_osr": -3.724,
+      "tolerance_s": 441.464,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3272.455,
+      "sumo_mean_trip_time_s": 3164.5,
+      "delta_s": -107.955,
+      "delta_percent_of_osr": -3.299,
+      "tolerance_s": 490.868,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2995.773,
+      "sumo_mean_trip_time_s": 2888.0,
+      "delta_s": -107.773,
+      "delta_percent_of_osr": -3.597,
+      "tolerance_s": 449.366,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "accfed2392780b4b86bba963d832f6fcd4b71ceee1f39b1fba9678f71f786dac",
+    "sumo_summary_sha256": "401e0b45dc094566110072bfb65a31be0b2bc59df4ba57e70e8c1ddfe2e69809",
+    "simulation_summary_sha256": "248b6c338a9137e97bb15e1314f8ca9e1bf5a33902fdae53067df53f2fdc8d83",
+    "native_timing_reference_sha256": "bdebdcada9ec18106eda89bbab4147d90d0b5d4c43b80f8686b8f86cdfaec673"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Hofuf/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

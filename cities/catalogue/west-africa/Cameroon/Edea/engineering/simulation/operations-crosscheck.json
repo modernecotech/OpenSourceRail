@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:edea",
+  "city": "edea",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 928.368,
+      "sumo_mean_trip_time_s": 941.5,
+      "delta_s": 13.132,
+      "delta_percent_of_osr": 1.415,
+      "tolerance_s": 139.255,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "8d3b02ec6197d9352ca78216d1fd1e0bc1093e18b49143b32bb5632210a0edcf",
+    "sumo_summary_sha256": "6cc91ab60c9fa35d21f9cbfa5e8c17bdbaa0a2fa79fb431dd8c094ff5f07c7ef",
+    "simulation_summary_sha256": "93f6a4befd5e21c56165ac30a6ebe552e887f5513c10dfb50359baa7a4c6aa6d",
+    "native_timing_reference_sha256": "d5bdc793059b5e3af77a15c9e94507756f8f8de44e4d59074fcedea04bd638a0"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-africa/Cameroon/Edea/design.toml",
+    "sumo_summary": "cities/catalogue/west-africa/Cameroon/Edea/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:kakamega",
+  "city": "kakamega",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1223.877,
+      "sumo_mean_trip_time_s": 1239.5,
+      "delta_s": 15.623,
+      "delta_percent_of_osr": 1.277,
+      "tolerance_s": 183.582,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1504.495,
+      "sumo_mean_trip_time_s": 1521.5,
+      "delta_s": 17.005,
+      "delta_percent_of_osr": 1.13,
+      "tolerance_s": 225.674,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1199.5,
+      "sumo_mean_trip_time_s": 1210.0,
+      "delta_s": 10.5,
+      "delta_percent_of_osr": 0.875,
+      "tolerance_s": 179.925,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "d0ff525f00fee5d984b6750c47c4f0a5281e49d600961865293844ec1a1ebdcf",
+    "sumo_summary_sha256": "07611352bd9405f8f409382272eb88a1cd94136a1b0a111dea7b6236e38414d0",
+    "simulation_summary_sha256": "64981fe0c6be6901687251689bf21b184d93f5bf63accd18591f82eb0e095d02",
+    "native_timing_reference_sha256": "4009302fcca26219c99680e621f51eafb5866e14f4ac32600a8272bbc988d462"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Kenya/Kakamega/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Kenya/Kakamega/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:hail",
+  "city": "hail",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3078.227,
+      "sumo_mean_trip_time_s": 2975.5,
+      "delta_s": -102.727,
+      "delta_percent_of_osr": -3.337,
+      "tolerance_s": 461.734,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2663.273,
+      "sumo_mean_trip_time_s": 2575.5,
+      "delta_s": -87.773,
+      "delta_percent_of_osr": -3.296,
+      "tolerance_s": 399.491,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1446.818,
+      "sumo_mean_trip_time_s": 1363.5,
+      "delta_s": -83.318,
+      "delta_percent_of_osr": -5.759,
+      "tolerance_s": 217.023,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "45a6b54cde4417e12ef6322fe7c3930f89d13d6279977197a59b635af0a7be9b",
+    "sumo_summary_sha256": "3ca7d0c8c487f4216389fa0c1dd054ccef664054db6a4993e8517577063ad58d",
+    "simulation_summary_sha256": "527ffb9973041181e58509b4a6724e8915dd1d7b18a2d7846858ac790390cc91",
+    "native_timing_reference_sha256": "8a9ff3b5ff9ebd97086640804d74bfc28fbae65a60ec5d3bec6b42ea454cfecc"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Hail/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

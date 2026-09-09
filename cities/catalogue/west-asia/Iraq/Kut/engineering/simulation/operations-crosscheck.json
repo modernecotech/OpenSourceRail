@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:kut",
+  "city": "kut",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2522.545,
+      "sumo_mean_trip_time_s": 2421.5,
+      "delta_s": -101.045,
+      "delta_percent_of_osr": -4.006,
+      "tolerance_s": 378.382,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1051.182,
+      "sumo_mean_trip_time_s": 1010.0,
+      "delta_s": -41.182,
+      "delta_percent_of_osr": -3.918,
+      "tolerance_s": 157.677,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1469.727,
+      "sumo_mean_trip_time_s": 1405.0,
+      "delta_s": -64.727,
+      "delta_percent_of_osr": -4.404,
+      "tolerance_s": 220.459,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "87f728eee0e762140a20aa87fd4c28a9e1ce08d2cfc05011e7924d93007826bd",
+    "sumo_summary_sha256": "346c3125e0542b051255ec10d4f1977ccdc4ad9bdfde75ce35ec115ab1b70991",
+    "simulation_summary_sha256": "6f4d32a441b4f3f44e190ea141ca285f4111c6f755ffabd80b62542fab2612b5",
+    "native_timing_reference_sha256": "01548e78d4ca6aa2e882c180aac73e6fa40e746cef3176c8a34b5fdd221e617a"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Iraq/Kut/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Iraq/Kut/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

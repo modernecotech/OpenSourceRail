@@ -34,6 +34,8 @@ def read_requirements(path: Path = DEFAULT_REQUIREMENTS) -> dict[str, Any]:
 
 
 def write_placeholder_manifest(path: Path, requirements: dict[str, Any]) -> None:
+    if path.exists():
+        return
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")

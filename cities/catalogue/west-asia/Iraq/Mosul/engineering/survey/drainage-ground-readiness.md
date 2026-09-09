@@ -17,6 +17,8 @@
 - Authority findings:
   - drainage/ground acceptance record not received
 
+[Desktop soil inputs and route/station investigation priorities](../soil/README.md) are available. These do not replace the received geotechnical ground model.
+
 ## Controlled workflow
 
 Keep borehole logs, laboratory results, sensitive asset data, native calculations and large model results in controlled project storage. Git carries requirements, receipts, hashes, reproducible exchange inputs and non-sensitive summaries.

@@ -57,6 +57,15 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
             **sources, "generator_sha256": REPO_ROOT / "engineering/analysis/city_microgrid.py",
             "climate_sha256": REPO_ROOT / "lib/templates/climate.toml",
         },
+        "sumo/summary.json": {
+            **sources, "generator_sha256": REPO_ROOT / "engineering/analysis/benchmarks/sumo/city_timetable.py",
+            "corridor_sha256": city_dir / f"{slug}.corridor.geojson",
+            "rolling_stock_sha256": REPO_ROOT / "lib/templates/rolling-stock.toml",
+        },
+        "simulation/native-timing-reference.json": {
+            "generator_sha256": REPO_ROOT / "tools/automation/generate-deployment-evidence.py",
+            **sources, "simulator_source_sha256": REPO_ROOT / "crates/osr-sim/src/sim.rs",
+        },
         "gis/summary.json": {
             **sources, "generator_sha256": REPO_ROOT / "engineering/analysis/city_package.py",
             "corridor_sha256": city_dir / f"{slug}.corridor.geojson",
@@ -75,6 +84,36 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
                     "artifact": f"engineering/{relative}", "source": key,
                     "expected_sha256": actual, "recorded_sha256": report.get(key),
                 })
+    for relative, generator in (
+        ("soil/summary.json", "engineering/analysis/city_soils.py"),
+        ("deployment/summary.json", "engineering/analysis/city_deployment.py"),
+        ("simulation/operations-crosscheck.json", "engineering/analysis/operations_crosscheck.py"),
+    ):
+        path = city_dir / "engineering" / relative
+        if not path.is_file():
+            continue
+        report = json.loads(path.read_text())
+        bindings = {"generator_sha256": REPO_ROOT / generator}
+        if relative.startswith("soil/"):
+            bindings.update({"samples_sha256": path.parent / "samples.csv", "source_receipt_sha256": path.parent / "source-receipt.json", "civil_plan_sha256": path.parent / "civil-investigation-plan.json", "sample_locations_sha256": path.parent / "sample-locations.geojson"})
+            for key, value in report.get("source_paths", {}).items():
+                source = REPO_ROOT / value
+                if not source.is_file() or report.get("input_sha256", {}).get(key) != sha256(source):
+                    findings.append({"artifact": "engineering/"+relative, "source": key, "expected_sha256": sha256(source) if source.is_file() else None, "recorded_sha256": report.get("input_sha256", {}).get(key)})
+        if relative.startswith("deployment/"):
+            for evidence, recorded in report.get("evidence_sha256", {}).items():
+                source = city_dir / "engineering" / evidence
+                if not source.is_file() or recorded != sha256(source):
+                    findings.append({"artifact": "engineering/"+relative, "source": evidence, "expected_sha256": sha256(source) if source.is_file() else None, "recorded_sha256": recorded})
+        if relative.startswith("simulation/"):
+            for key, value in report.get("sources", {}).items():
+                source = REPO_ROOT / value
+                hash_key = "native_timing_reference_sha256" if key == "native_timing_reference" else key+"_sha256"
+                if not source.is_file() or report.get("evidence_hashes", {}).get(hash_key) != sha256(source):
+                    findings.append({"artifact": "engineering/"+relative, "source": key, "expected_sha256": sha256(source) if source.is_file() else None, "recorded_sha256": report.get("evidence_hashes", {}).get(hash_key)})
+        for key, source in bindings.items():
+            if not source.is_file() or report.get(key) != sha256(source):
+                findings.append({"artifact": "engineering/"+relative, "source": key, "expected_sha256": sha256(source) if source.is_file() else None, "recorded_sha256": report.get(key)})
     stabling_path = city_dir / "engineering/stabling/summary.json"
     stabling_sources = {
         "design": city_dir / "design.toml", "scenario": city_dir / f"{slug}.toml",
@@ -165,6 +204,15 @@ def main() -> int:
         city_dir / f"{slug}.stations.json",
         city_dir / f"{slug}.design-quality.yaml",
         city_dir / "engineering/alignment/README.md",
+        city_dir / "engineering/soil/summary.json",
+        city_dir / "engineering/soil/samples.csv",
+        city_dir / "engineering/soil/source-receipt.json",
+        city_dir / "engineering/soil/civil-investigation-plan.json",
+        city_dir / "engineering/soil/sample-locations.geojson",
+        city_dir / "engineering/soil/README.md",
+        city_dir / "engineering/deployment/summary.json",
+        city_dir / "engineering/deployment/README.md",
+        city_dir / "engineering/simulation/native-timing-reference.json",
         city_dir / "engineering/energy/summary.json",
         city_dir / "engineering/depot-scope/summary.json",
         city_dir / "engineering/depot-scope/README.md",

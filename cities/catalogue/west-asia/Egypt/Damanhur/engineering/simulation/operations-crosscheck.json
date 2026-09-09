@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:damanhur",
+  "city": "damanhur",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1050.364,
+      "sumo_mean_trip_time_s": 1011.0,
+      "delta_s": -39.364,
+      "delta_percent_of_osr": -3.748,
+      "tolerance_s": 157.555,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2095.954,
+      "sumo_mean_trip_time_s": 2016.5,
+      "delta_s": -79.454,
+      "delta_percent_of_osr": -3.791,
+      "tolerance_s": 314.393,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2083.773,
+      "sumo_mean_trip_time_s": 1990.0,
+      "delta_s": -93.773,
+      "delta_percent_of_osr": -4.5,
+      "tolerance_s": 312.566,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "f701eb14232f0ceadd4f8191a8354643a67f88cc61c583cba087e0a075d25c4c",
+    "sumo_summary_sha256": "a254e84a8abe4c731335a3b40c4cb1fa0376c300106637b2aeec755d88512979",
+    "simulation_summary_sha256": "babf89f7bb3b2d246cf4152b640950a7666813ef0f585d13bd6a289b59a959b9",
+    "native_timing_reference_sha256": "e844ad6e07af0004ffddd5aa0f98de32230fd521b2484d7e15b6d6a619ba6653"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Egypt/Damanhur/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Egypt/Damanhur/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

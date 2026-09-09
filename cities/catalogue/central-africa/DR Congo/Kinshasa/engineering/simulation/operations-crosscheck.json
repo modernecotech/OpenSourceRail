@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:kinshasa",
+  "city": "kinshasa",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3925.364,
+      "sumo_mean_trip_time_s": 3675.5,
+      "delta_s": -249.864,
+      "delta_percent_of_osr": -6.365,
+      "tolerance_s": 588.805,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3489.909,
+      "sumo_mean_trip_time_s": 3256.0,
+      "delta_s": -233.909,
+      "delta_percent_of_osr": -6.702,
+      "tolerance_s": 523.486,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3002.773,
+      "sumo_mean_trip_time_s": 2752.0,
+      "delta_s": -250.773,
+      "delta_percent_of_osr": -8.351,
+      "tolerance_s": 450.416,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3175.091,
+      "sumo_mean_trip_time_s": 2928.5,
+      "delta_s": -246.591,
+      "delta_percent_of_osr": -7.766,
+      "tolerance_s": 476.264,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 4950.409,
+      "sumo_mean_trip_time_s": 4593.0,
+      "delta_s": -357.409,
+      "delta_percent_of_osr": -7.22,
+      "tolerance_s": 742.561,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3982.955,
+      "sumo_mean_trip_time_s": 3680.5,
+      "delta_s": -302.455,
+      "delta_percent_of_osr": -7.594,
+      "tolerance_s": 597.443,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 3860.773,
+      "sumo_mean_trip_time_s": 3565.0,
+      "delta_s": -295.773,
+      "delta_percent_of_osr": -7.661,
+      "tolerance_s": 579.116,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 3210.682,
+      "sumo_mean_trip_time_s": 2943.0,
+      "delta_s": -267.682,
+      "delta_percent_of_osr": -8.337,
+      "tolerance_s": 481.602,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 8118.364,
+      "sumo_mean_trip_time_s": 7742.0,
+      "delta_s": -376.364,
+      "delta_percent_of_osr": -4.636,
+      "tolerance_s": 1217.755,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "20d210152031781108652b529d5bb007e8dedcbd73c4e9fca8e8c4e927d32f35",
+    "sumo_summary_sha256": "f3b725071b22cd286add1c5745b3a007bd7add20b68051381d451e3d2c2824fe",
+    "simulation_summary_sha256": "c1da4320b1769cb08dd53c74c931e7a4715c6fb5cec0fb153a16a4587e4edf18",
+    "native_timing_reference_sha256": "7270c52be67f3e0348aae7d85b5f21bd485e1d33ff52992d1fc025acf7435bdf"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/central-africa/DR Congo/Kinshasa/design.toml",
+    "sumo_summary": "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

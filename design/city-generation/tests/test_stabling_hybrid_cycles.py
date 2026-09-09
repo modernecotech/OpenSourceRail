@@ -107,8 +107,10 @@ def test_city_hybrid_screens_are_current_and_keep_physical_release_open():
     from pathlib import Path
     root = Path(__file__).resolve().parents[3]
     reports = list(root.glob('cities/catalogue/*/*/*/engineering/stabling/hybrid-cycle-screen.json'))
-    assert len(reports) == 4
-    assert {json.loads(p.read_text())['city'] for p in reports} == {'samawah', 'uige', 'quelimane', 'edea'}
+    # New city evidence may extend coverage without changing the contract.
+    assert {'samawah', 'uige', 'quelimane', 'edea', 'bukavu'} <= {
+        json.loads(p.read_text())['city'] for p in reports
+    }
     for path in reports:
         report = json.loads(path.read_text())
         plan = json.loads(path.with_name('summary.json').read_text())

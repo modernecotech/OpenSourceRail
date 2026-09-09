@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:mahalla",
+  "city": "mahalla",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1271.591,
+      "sumo_mean_trip_time_s": 1221.0,
+      "delta_s": -50.591,
+      "delta_percent_of_osr": -3.979,
+      "tolerance_s": 190.739,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2083.227,
+      "sumo_mean_trip_time_s": 2002.5,
+      "delta_s": -80.727,
+      "delta_percent_of_osr": -3.875,
+      "tolerance_s": 312.484,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 698.091,
+      "sumo_mean_trip_time_s": 668.0,
+      "delta_s": -30.091,
+      "delta_percent_of_osr": -4.31,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "8de4952bd2211088265cd8afa7fdd02a3fb745793dfe85437c3118a518f6eb3e",
+    "sumo_summary_sha256": "2e075fa010343bc5d9bac7ce516a6aee5531be2ce3ddc8459b02dc1e77c96a0c",
+    "simulation_summary_sha256": "86b98703e1aa7da8b4b642626929061c8264d577bd6ea798b1856e9ddfe77a2e",
+    "native_timing_reference_sha256": "a8361168151f606797662f7534442ca2bbcb6f8c1a8337c243597adab4c4b598"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Egypt/Mahalla/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Egypt/Mahalla/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

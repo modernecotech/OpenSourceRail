@@ -12,11 +12,17 @@ what a deployment partner must add before civil/station design freeze.
 | Bearings and movement | Eight-bearing interior/four-bearing end schedule, fixed/guided/free axes, deck gaps, jacking, thermal/creep/shrinkage, and CWR bridge interaction | Responsible engineer and track engineer jointly release the movement schedule |
 | Transport and erection | Permit-load route, transporter, lifting points, temporary bracing, crane/launcher reactions, wind limits, contingency landing, and first-article trial | Temporary-works designer, lifting appointed person, and structural engineer close hold point |
 | Station fit | Platform length, access route, drainage, lighting, PSD/edge protection, emergency egress, accessibility audit | Station archetype matches local code and passenger flow |
-| Energy site | Solar yield, grid interconnect, charger thermal study, battery/fire separation, utility approval | Station charging assumptions are replaced by site-specific design |
+| Energy site | Solar yield and storage replenishment under actual charging duty, charger thermal study, battery/fire separation; interconnect and utility approval where residual grid backup is selected | Station charging assumptions are replaced by site-specific design |
 | Permits and stakeholders | Road closures, land access, environmental clearance, emergency-services access, operator acceptance | Permit register has owner, due date, and approval status |
 
-For Samawah, this checklist closes the roadmap item for survey-grade
-alignment replacement and deployment-specific assumptions.
+For every city, this checklist defines the evidence needed to close survey-grade
+alignment replacement and deployment-specific assumptions. Generating the
+checklist does not close those gates.
+
+The [city soil and deployment workflow](../city-deployment-evidence.md) supplies
+soilDB predictions and uncertainty at planned station and civil-segment sample
+locations. Its investigation plan feeds the drainage/ground readiness report;
+it supplies regional context, not accepted bearing capacity or deep stratigraphy.
 
 Issue the project information request from the canonical
 [`field-evidence.toml`](../../lib/templates/field-evidence.toml) template. The

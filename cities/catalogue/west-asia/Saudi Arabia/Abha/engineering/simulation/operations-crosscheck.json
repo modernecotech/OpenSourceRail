@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:abha",
+  "city": "abha",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2507.773,
+      "sumo_mean_trip_time_s": 2432.5,
+      "delta_s": -75.273,
+      "delta_percent_of_osr": -3.002,
+      "tolerance_s": 376.166,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2648.045,
+      "sumo_mean_trip_time_s": 2546.0,
+      "delta_s": -102.045,
+      "delta_percent_of_osr": -3.854,
+      "tolerance_s": 397.207,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1567.5,
+      "sumo_mean_trip_time_s": 1496.0,
+      "delta_s": -71.5,
+      "delta_percent_of_osr": -4.561,
+      "tolerance_s": 235.125,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "20a187334bc114e47eb72718ad969fabd31e971be1dc63ec4faa76bb9467b77d",
+    "sumo_summary_sha256": "d0f076366b59d7efba065519dede99ab167be7269a695814460cf464971dac0c",
+    "simulation_summary_sha256": "df056a97eee9afcdd4e0030aa437faf605552ad20693c7296f6f18da717f35b0",
+    "native_timing_reference_sha256": "4f8008d59b384068203440fefa60bd2a5468ed2ce6e3883bbb00c58ab93ad315"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Abha/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

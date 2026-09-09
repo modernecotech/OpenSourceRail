@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 4680,
-      "sha256": "556cfe0e7ec7edf10061660e9b01f0df9842c708c6adb7a069592aa514185b1b"
+      "bytes": 4742,
+      "sha256": "506626266e33bb217bf6f7b1b1b4f770133f49e8af5c9bef7a5b8dee10d36e53"
     },
     "design.toml": {
       "bytes": 17712,
@@ -24,6 +24,14 @@
     "engineering/alignment/luxor-line3.aln.toml": {
       "bytes": 30279,
       "sha256": "f548a15a58dc48a3b8f62999e6dbd98fef4c2e70d6a1275503660456e44f734f"
+    },
+    "engineering/deployment/README.md": {
+      "bytes": 3926,
+      "sha256": "7a8faf35c5f440c89e56e62c5114745b6f13a7d59f511d7a196aaf22c1bcca21"
+    },
+    "engineering/deployment/summary.json": {
+      "bytes": 11001,
+      "sha256": "4ca3ee109b74f5a0881975cc7e650d2a207ae9cbc70aa51faf38df001be6d572"
     },
     "engineering/depot-scope/README.md": {
       "bytes": 2612,
@@ -63,11 +71,47 @@
     },
     "engineering/screenshots/manifest.json": {
       "bytes": 1026,
-      "sha256": "b779fe88cd97d70251981625a1b9c4803d864b8abd4f8cf7b110e3176a565119"
+      "sha256": "f237d9471333fe8ac7c7a0ec62ab0e55bbcc7115639802c176ccf93a73a809d7"
+    },
+    "engineering/simulation/native-timing-reference.json": {
+      "bytes": 750,
+      "sha256": "4ff71e43e4ce4e72f3bd2c83b421f51776bbd0f0ec7dcfe38b8220ef11781d57"
+    },
+    "engineering/simulation/operations-crosscheck.json": {
+      "bytes": 2923,
+      "sha256": "738c045d81c81c69bdf3ed620b93df248284a8361e7eec99a0689b5d87490c8b"
+    },
+    "engineering/simulation/operations-crosscheck.md": {
+      "bytes": 1076,
+      "sha256": "c212b4d1d255735c323202b72c0cdc85006fe21ddb4d63a226cb23fb42cb29f3"
     },
     "engineering/simulation/validation-summary.json": {
       "bytes": 9583,
       "sha256": "1f49a43b01a890a81352a37263f37e8242c6a3b763872a52c2d92b4039434443"
+    },
+    "engineering/soil/README.md": {
+      "bytes": 2980,
+      "sha256": "d69b19c5056e16a5161f5c63db6883912a2483ce31702d712c1dfa00aa8c73f2"
+    },
+    "engineering/soil/civil-investigation-plan.json": {
+      "bytes": 34747,
+      "sha256": "1a63ab822d00b391c428d8226deba1bb7980f9f24bc13bb06505475e5958be25"
+    },
+    "engineering/soil/sample-locations.geojson": {
+      "bytes": 75362,
+      "sha256": "b93cd47d5720b08d0f8bc857506016a55350d72d853340953430b2fe7a8c184c"
+    },
+    "engineering/soil/samples.csv": {
+      "bytes": 69311,
+      "sha256": "1ad4b7ae72db60c0e0741a9ffaf9bde51e6c38e007accb250b8b10031a448e02"
+    },
+    "engineering/soil/source-receipt.json": {
+      "bytes": 50204,
+      "sha256": "08fce4b2ebc2a01f07b3d74bd806d1c58a5c9b5738c691c0390791d3a0a5924a"
+    },
+    "engineering/soil/summary.json": {
+      "bytes": 6994,
+      "sha256": "32dd3157de6d8f1d1697f85bc0956b8c6ff572bfb7f995cd2452d7baeb3c7712"
     },
     "engineering/stabling/README.md": {
       "bytes": 10167,
@@ -86,8 +130,84 @@
       "sha256": "ad4d087fd02f6d229793463c98f3c1e05be827f8413324f73836a1b8a97cb43a"
     },
     "engineering/sumo/summary.json": {
-      "bytes": 3665,
-      "sha256": "59864cd7de22c1f0454eed637656b464118b3cff30e36a8de240f9ccfb7a6d15"
+      "bytes": 3828,
+      "sha256": "94d3a9fa68a5da4b72c7f9fb8f4ecb35f447754193334a0844f721a7009364b4"
+    },
+    "engineering/survey/control-processing-readiness.json": {
+      "bytes": 2581,
+      "sha256": "034c5b2e1ab43828b28061a8556271764a68f7c6736cececc4ece0b3b331d775"
+    },
+    "engineering/survey/control-processing-readiness.md": {
+      "bytes": 1685,
+      "sha256": "d9680f27b3af0875aae9bd443c015ffd1a5f6e8737edea1e3e49abfc6ac0097e"
+    },
+    "engineering/survey/drainage-ground-input-manifest.csv": {
+      "bytes": 686,
+      "sha256": "677a9ac6e94e81d1a4833ed184190cd31c05dc7de8c4cb7bbb91eb903fb822df"
+    },
+    "engineering/survey/drainage-ground-readiness.json": {
+      "bytes": 3608,
+      "sha256": "882893173161d9472d8d956892ab6f68ede8610dbb4d5fa993a4e93403c00719"
+    },
+    "engineering/survey/drainage-ground-readiness.md": {
+      "bytes": 2151,
+      "sha256": "6ba1fff4eb4a88a4e321eb9c52bde9cb7a67632d599c3b1fd2f28a2bef009b24"
+    },
+    "engineering/survey/field-evidence-brief.json": {
+      "bytes": 11387,
+      "sha256": "ee970e316290818f5c2d2f7d546813f108eebbf018ac95460374f703e0510139"
+    },
+    "engineering/survey/field-evidence-brief.md": {
+      "bytes": 10558,
+      "sha256": "5641506ac56d1d9b7037165a291e1fabd23d3265e654fd2ee64b2a737c55a387"
+    },
+    "engineering/survey/ground-model-readiness.json": {
+      "bytes": 2917,
+      "sha256": "f2752acef9b81cd9019d24aaf44aaa8af1c0b037c4f2daa974949ed61e19d547"
+    },
+    "engineering/survey/ground-model-readiness.md": {
+      "bytes": 1928,
+      "sha256": "cc1589f4002da2b244781d56d16a9cd101a1e2a4a9ec3da9a9ae5103b002de50"
+    },
+    "engineering/survey/route-station-fit-input-manifest.csv": {
+      "bytes": 689,
+      "sha256": "baedc238306252f9fae811dbd498e538151467bb628550f78c262625fd34785d"
+    },
+    "engineering/survey/route-station-fit-readiness.json": {
+      "bytes": 2997,
+      "sha256": "41aa39c38a7c441b46b349b9d79ce31d64e4892d0de005ed846a369d90686226"
+    },
+    "engineering/survey/route-station-fit-readiness.md": {
+      "bytes": 1865,
+      "sha256": "648d99cfaa4b74f417a35875d774288aeed0ca052739ad6d758e139bf37a5c10"
+    },
+    "engineering/survey/structural-release-input-manifest.csv": {
+      "bytes": 598,
+      "sha256": "d92a17adcd7e29f0fd1b6f00535523c23841991c3ba6008ad6e1db63de4aee82"
+    },
+    "engineering/survey/structural-release-readiness.json": {
+      "bytes": 1998,
+      "sha256": "438524cdf74962c9ebe65f27d046fa59447482a4b2bdceb0251f525ca2f2d3a4"
+    },
+    "engineering/survey/structural-release-readiness.md": {
+      "bytes": 1526,
+      "sha256": "38e672098fec181f0f050345063a139c6f34fcc534631369540122d64f0f7895"
+    },
+    "engineering/survey/survey-input-manifest.csv": {
+      "bytes": 481,
+      "sha256": "6b621aeabe1a0d59b16aab2da1e26045dfca2e2cec3847044bcce8b4f9a77029"
+    },
+    "engineering/survey/surveyed-alignment-input-manifest.csv": {
+      "bytes": 706,
+      "sha256": "d510f8732804c37ab88fedd652a0ae39692109a088331ee7c07640f90e36963c"
+    },
+    "engineering/survey/surveyed-alignment-readiness.json": {
+      "bytes": 2521,
+      "sha256": "07c0e45ffd7a2b596784c9717cab8b1c2824a11f6766386666570468d9adb630"
+    },
+    "engineering/survey/surveyed-alignment-readiness.md": {
+      "bytes": 1811,
+      "sha256": "de4bb5d20b633eed294c718e605b6302736f95c72d5951b7c324cea9f19233ab"
     },
     "luxor-network-map.png": {
       "bytes": 2570491,
@@ -133,7 +253,7 @@
     "engineering/stabling/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "600e4f917a99c14b88b7cead10cd8d3791cffe2b97cd64e6560edaf413a67f94",
+  "generator_sha256": "8c41346645b288298a8701bd2dcb7490b522435c25381c8dfc6e699cae88e3c8",
   "local_reproducible_artifacts": {
     "engineering/gis/luxor.gpkg": {
       "bytes": 274432,
@@ -171,35 +291,13 @@
       "sha256": "a43486ed45494f49e4af6673ce8e054ce1b9c224074a69873def2f3fe4a46c93"
     }
   },
-  "missing_artifacts": [
-    "engineering/survey/field-evidence-brief.json",
-    "engineering/survey/field-evidence-brief.md",
-    "engineering/survey/survey-input-manifest.csv",
-    "engineering/survey/control-processing-readiness.json",
-    "engineering/survey/control-processing-readiness.md",
-    "engineering/survey/ground-model-readiness.json",
-    "engineering/survey/ground-model-readiness.md",
-    "engineering/survey/surveyed-alignment-input-manifest.csv",
-    "engineering/survey/surveyed-alignment-readiness.json",
-    "engineering/survey/surveyed-alignment-readiness.md",
-    "engineering/survey/route-station-fit-input-manifest.csv",
-    "engineering/survey/route-station-fit-readiness.json",
-    "engineering/survey/route-station-fit-readiness.md",
-    "engineering/survey/drainage-ground-input-manifest.csv",
-    "engineering/survey/drainage-ground-readiness.json",
-    "engineering/survey/drainage-ground-readiness.md",
-    "engineering/survey/structural-release-input-manifest.csv",
-    "engineering/survey/structural-release-readiness.json",
-    "engineering/survey/structural-release-readiness.md",
-    "engineering/simulation/operations-crosscheck.json",
-    "engineering/simulation/operations-crosscheck.md"
-  ],
+  "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
   "selected_stabling_configuration": "line-local-station-depot",
-  "source_revision": "b5e3b301ab4cd2d1ca026387e67f9163b0f2ee8e",
+  "source_revision": "10690d63872553b2df939ab9d50ac91372770ab5",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

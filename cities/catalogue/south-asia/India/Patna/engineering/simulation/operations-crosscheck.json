@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:patna",
+  "city": "patna",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2630.455,
+      "sumo_mean_trip_time_s": 2511.0,
+      "delta_s": -119.455,
+      "delta_percent_of_osr": -4.541,
+      "tolerance_s": 394.568,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1744.591,
+      "sumo_mean_trip_time_s": 1669.5,
+      "delta_s": -75.091,
+      "delta_percent_of_osr": -4.304,
+      "tolerance_s": 261.689,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1535.227,
+      "sumo_mean_trip_time_s": 1471.0,
+      "delta_s": -64.227,
+      "delta_percent_of_osr": -4.184,
+      "tolerance_s": 230.284,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2140.227,
+      "sumo_mean_trip_time_s": 2065.5,
+      "delta_s": -74.727,
+      "delta_percent_of_osr": -3.492,
+      "tolerance_s": 321.034,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2212.273,
+      "sumo_mean_trip_time_s": 2107.5,
+      "delta_s": -104.773,
+      "delta_percent_of_osr": -4.736,
+      "tolerance_s": 331.841,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 5020.765,
+      "sumo_mean_trip_time_s": 4981.5,
+      "delta_s": -39.265,
+      "delta_percent_of_osr": -0.782,
+      "tolerance_s": 753.115,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "84a0c9fa7f9a5e0fbd1a1a077caf9c85050d758c125e9d4c62a2aeeb6b92e27d",
+    "sumo_summary_sha256": "157c0f5f224d547433d6e19d789b6aeff2a67fa1572bb9ab6fb8894e23b12bf1",
+    "simulation_summary_sha256": "a94107fb5f4ca0816d5b09c398473dcbb9a42347de8c0f913fd48f9b70c78e41",
+    "native_timing_reference_sha256": "359e57e5b1709bc4901c24e1ebe885bd6cc1c145ccbb1cb73c5993df8e61d80f"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/India/Patna/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/India/Patna/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/India/Patna/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/India/Patna/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

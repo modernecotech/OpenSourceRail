@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:safi",
+  "city": "safi",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2388.364,
+      "sumo_mean_trip_time_s": 2315.5,
+      "delta_s": -72.864,
+      "delta_percent_of_osr": -3.051,
+      "tolerance_s": 358.255,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1095.0,
+      "sumo_mean_trip_time_s": 1049.0,
+      "delta_s": -46.0,
+      "delta_percent_of_osr": -4.201,
+      "tolerance_s": 164.25,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 946.636,
+      "sumo_mean_trip_time_s": 913.5,
+      "delta_s": -33.136,
+      "delta_percent_of_osr": -3.5,
+      "tolerance_s": 141.995,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "9ca7c850bafa021758683e4d13a7700209fae08fb99fa60f4ae3d68721b83128",
+    "sumo_summary_sha256": "943932ab4a6676883a3e5bb5ea4db49baff137c8e112480acc6654b15d3aaf99",
+    "simulation_summary_sha256": "0842baec1c1cf55ecb003957be649de2fbfe04af9d44ec28e5cc85083f6e4431",
+    "native_timing_reference_sha256": "37f82ed90b99da2b90911d8556ab7758bc3cd408faa979c96e776c6fdb2962e5"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Morocco/Safi/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Morocco/Safi/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

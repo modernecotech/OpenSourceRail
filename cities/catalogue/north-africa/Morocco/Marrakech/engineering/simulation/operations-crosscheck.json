@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:marrakech",
+  "city": "marrakech",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2525.273,
+      "sumo_mean_trip_time_s": 2410.0,
+      "delta_s": -115.273,
+      "delta_percent_of_osr": -4.565,
+      "tolerance_s": 378.791,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2356.409,
+      "sumo_mean_trip_time_s": 2247.0,
+      "delta_s": -109.409,
+      "delta_percent_of_osr": -4.643,
+      "tolerance_s": 353.461,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2071.136,
+      "sumo_mean_trip_time_s": 1954.5,
+      "delta_s": -116.636,
+      "delta_percent_of_osr": -5.632,
+      "tolerance_s": 310.67,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2217.227,
+      "sumo_mean_trip_time_s": 2103.0,
+      "delta_s": -114.227,
+      "delta_percent_of_osr": -5.152,
+      "tolerance_s": 332.584,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2726.909,
+      "sumo_mean_trip_time_s": 2579.5,
+      "delta_s": -147.409,
+      "delta_percent_of_osr": -5.406,
+      "tolerance_s": 409.036,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 4412.091,
+      "sumo_mean_trip_time_s": 4347.5,
+      "delta_s": -64.591,
+      "delta_percent_of_osr": -1.464,
+      "tolerance_s": 661.814,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "eecb71c99aba3a2beb310bfaca7e3c88bd82259761168b9368deb4e1bf7a90e6",
+    "sumo_summary_sha256": "3bd43adb2fea4c796e43c2c047198575cddfe31ca522989ca02d4a33232e41c3",
+    "simulation_summary_sha256": "a6bb471badd1532157b7bfb95a41bc137b7d0a18cd7ccf981ccfa53aef90e623",
+    "native_timing_reference_sha256": "945fd72d12a55bf8b7ebea460926967c8937b1108f5d00ec3e733790f3e8f812"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Morocco/Marrakech/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Morocco/Marrakech/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

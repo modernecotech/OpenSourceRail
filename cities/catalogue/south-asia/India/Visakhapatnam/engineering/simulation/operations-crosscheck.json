@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:visakhapatnam",
+  "city": "visakhapatnam",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3533.409,
+      "sumo_mean_trip_time_s": 3385.0,
+      "delta_s": -148.409,
+      "delta_percent_of_osr": -4.2,
+      "tolerance_s": 530.011,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 4057.227,
+      "sumo_mean_trip_time_s": 3878.0,
+      "delta_s": -179.227,
+      "delta_percent_of_osr": -4.417,
+      "tolerance_s": 608.584,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2736.682,
+      "sumo_mean_trip_time_s": 2603.5,
+      "delta_s": -133.182,
+      "delta_percent_of_osr": -4.867,
+      "tolerance_s": 410.502,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2146.727,
+      "sumo_mean_trip_time_s": 2039.0,
+      "delta_s": -107.727,
+      "delta_percent_of_osr": -5.018,
+      "tolerance_s": 322.009,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 1836.091,
+      "sumo_mean_trip_time_s": 1750.5,
+      "delta_s": -85.591,
+      "delta_percent_of_osr": -4.662,
+      "tolerance_s": 275.414,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 6094.046,
+      "sumo_mean_trip_time_s": 5873.5,
+      "delta_s": -220.546,
+      "delta_percent_of_osr": -3.619,
+      "tolerance_s": 914.107,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "4a9cb6ea3cd052134445044b7b4b90897507d822a917dfaed2111d108510eb0d",
+    "sumo_summary_sha256": "207064ab9624a4f127371d3ddaf70880ec821304947d787f72f41e88b5e66647",
+    "simulation_summary_sha256": "982e112f6761f1fc80219d46a9b9a1162d8c2c3a729243925b7d0fb92482c55c",
+    "native_timing_reference_sha256": "7883f8e1ebc5f5045c631ee33808251afa52d70c149bda4b2aa73d8de9eab25d"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/India/Visakhapatnam/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/India/Visakhapatnam/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:agadir",
+  "city": "agadir",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3629.773,
+      "sumo_mean_trip_time_s": 3522.0,
+      "delta_s": -107.773,
+      "delta_percent_of_osr": -2.969,
+      "tolerance_s": 544.466,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3023.5,
+      "sumo_mean_trip_time_s": 2913.5,
+      "delta_s": -110.0,
+      "delta_percent_of_osr": -3.638,
+      "tolerance_s": 453.525,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3287.273,
+      "sumo_mean_trip_time_s": 3170.5,
+      "delta_s": -116.773,
+      "delta_percent_of_osr": -3.552,
+      "tolerance_s": 493.091,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "511f61767ed572779565bf84c4d9c3bfabfbd5607e5fa9d1ea72b58c0f1d425b",
+    "sumo_summary_sha256": "affec5c98fb269f5ef703f98190fe70c35822488f80e5f2ed8be742535286a8e",
+    "simulation_summary_sha256": "936fdcd9cca996fc3f75acf284cf31b82fbd9e1fa1021d0852891e395ad6d09d",
+    "native_timing_reference_sha256": "63103f954e3b4f6665705340483838bb1fcace0e69b50d7e1934b97ceeec7e2d"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Morocco/Agadir/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Morocco/Agadir/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:bamenda",
+  "city": "bamenda",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2312.727,
+      "sumo_mean_trip_time_s": 2228.5,
+      "delta_s": -84.227,
+      "delta_percent_of_osr": -3.642,
+      "tolerance_s": 346.909,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2007.773,
+      "sumo_mean_trip_time_s": 1941.0,
+      "delta_s": -66.773,
+      "delta_percent_of_osr": -3.326,
+      "tolerance_s": 301.166,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1645.0,
+      "sumo_mean_trip_time_s": 1581.5,
+      "delta_s": -63.5,
+      "delta_percent_of_osr": -3.86,
+      "tolerance_s": 246.75,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "29e2e6a6ebbb5f956d014eee885df89e754579543129f271b59b3331d6ad7329",
+    "sumo_summary_sha256": "9b7d69d2362ddc70ab4152f1d85147fcf90dce2333a2d22783674b1cbe3d52dc",
+    "simulation_summary_sha256": "c27035df7461e4a1761e181c601a0efa0e752fd03b3ecbfc27d979c8f43101be",
+    "native_timing_reference_sha256": "8f5a0534f71c60b909d1fff55200cd604e3699fddbbcadf8e24247e88f3d890d"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-africa/Cameroon/Bamenda/design.toml",
+    "sumo_summary": "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

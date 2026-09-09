@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:al-kharj",
+  "city": "al-kharj",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2694.773,
+      "sumo_mean_trip_time_s": 2598.5,
+      "delta_s": -96.273,
+      "delta_percent_of_osr": -3.573,
+      "tolerance_s": 404.216,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2769.864,
+      "sumo_mean_trip_time_s": 2679.5,
+      "delta_s": -90.364,
+      "delta_percent_of_osr": -3.262,
+      "tolerance_s": 415.48,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2557.727,
+      "sumo_mean_trip_time_s": 2471.0,
+      "delta_s": -86.727,
+      "delta_percent_of_osr": -3.391,
+      "tolerance_s": 383.659,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "4a4272f3c5dac5414af9e4807d6a9be653600edc606ccec7e9828c043cbe8fa3",
+    "sumo_summary_sha256": "6ae2621d95616ee090f6dfeefd02ea6de2e50e9c150a7f83254c1006e0bc510f",
+    "simulation_summary_sha256": "3dbfe9da0954a61acb82136cfd1ff6f2d9d4fa42e7acfbf4f4f6836163757b1d",
+    "native_timing_reference_sha256": "f1092c9ea62c16878e17964ff2c67b9cd8fbea37dc9fc20f49eb602c01ada205"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:lichinga",
+  "city": "lichinga",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 882.957,
+      "sumo_mean_trip_time_s": 899.5,
+      "delta_s": 16.543,
+      "delta_percent_of_osr": 1.874,
+      "tolerance_s": 132.444,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 476.595,
+      "sumo_mean_trip_time_s": 479.0,
+      "delta_s": 2.405,
+      "delta_percent_of_osr": 0.505,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "6d075ef07ee055d224984321f4326bb6bd7a4f1e087c17da439f89e216a45704",
+    "sumo_summary_sha256": "3de07e1049254f855cc1af1822bd591fdfa288a33c16f04a1a5ce36bb0d204e3",
+    "simulation_summary_sha256": "ff8eca37cce45128f33b238de6c3dfdefe271fb3f70a4536f9deba2dcb91f569",
+    "native_timing_reference_sha256": "b1a7e68e9ced05d21f60503c6d8abd64e88ac2214a99b1de5ee3cf78164d33aa"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:machakos",
+  "city": "machakos",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1150.642,
+      "sumo_mean_trip_time_s": 1166.5,
+      "delta_s": 15.858,
+      "delta_percent_of_osr": 1.378,
+      "tolerance_s": 172.596,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 688.853,
+      "sumo_mean_trip_time_s": 702.0,
+      "delta_s": 13.147,
+      "delta_percent_of_osr": 1.908,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 899.825,
+      "sumo_mean_trip_time_s": 906.0,
+      "delta_s": 6.175,
+      "delta_percent_of_osr": 0.686,
+      "tolerance_s": 134.974,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "ccdf8cb8491870a79ebec0155e8432ff47f4e9a3bd22bda3ef7acfc88439e9a4",
+    "sumo_summary_sha256": "203355e3209763ad464b55b68fc0d666a143faf94c7af962fef1f6f28a27dd88",
+    "simulation_summary_sha256": "1f93668951f89c7e97f951604241f56046d48a0e411a3d450637e102e8ead91d",
+    "native_timing_reference_sha256": "3fb97026ebee94f7d64094eb95b3142bd7c7196ebf1d30522be5c21ff2db1a96"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Kenya/Machakos/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Kenya/Machakos/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

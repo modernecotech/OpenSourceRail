@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:basra",
+  "city": "basra",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 4032.727,
+      "sumo_mean_trip_time_s": 3693.0,
+      "delta_s": -339.727,
+      "delta_percent_of_osr": -8.424,
+      "tolerance_s": 604.909,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1778.5,
+      "sumo_mean_trip_time_s": 1633.5,
+      "delta_s": -145.0,
+      "delta_percent_of_osr": -8.153,
+      "tolerance_s": 266.775,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 4195.227,
+      "sumo_mean_trip_time_s": 3845.5,
+      "delta_s": -349.727,
+      "delta_percent_of_osr": -8.336,
+      "tolerance_s": 629.284,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3477.045,
+      "sumo_mean_trip_time_s": 3203.0,
+      "delta_s": -274.045,
+      "delta_percent_of_osr": -7.882,
+      "tolerance_s": 521.557,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 3671.909,
+      "sumo_mean_trip_time_s": 3384.0,
+      "delta_s": -287.909,
+      "delta_percent_of_osr": -7.841,
+      "tolerance_s": 550.786,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 2566.0,
+      "sumo_mean_trip_time_s": 2336.0,
+      "delta_s": -230.0,
+      "delta_percent_of_osr": -8.963,
+      "tolerance_s": 384.9,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 8087.273,
+      "sumo_mean_trip_time_s": 7457.0,
+      "delta_s": -630.273,
+      "delta_percent_of_osr": -7.793,
+      "tolerance_s": 1213.091,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "2e80b8069cdb375c3d3cd868f12038ddf56d434e70ebd96b709889b64b600e18",
+    "sumo_summary_sha256": "6da454e00a967dbdb6990b24f4912429b6ded022bf6ccaa0cd6d4bad08354699",
+    "simulation_summary_sha256": "fba67485baa38aea68a0493abffb0d78484fc31b4fbe2b44daf8cbe6617e8a74",
+    "native_timing_reference_sha256": "fe99c3a8b3a3fddba4325d0f78e2796431905752483b7070da4b1f983dea6c70"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Iraq/Basra/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Iraq/Basra/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

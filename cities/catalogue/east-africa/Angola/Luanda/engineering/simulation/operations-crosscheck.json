@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:luanda",
+  "city": "luanda",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 5404.682,
+      "sumo_mean_trip_time_s": 4982.0,
+      "delta_s": -422.682,
+      "delta_percent_of_osr": -7.821,
+      "tolerance_s": 810.702,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2783.409,
+      "sumo_mean_trip_time_s": 2581.5,
+      "delta_s": -201.909,
+      "delta_percent_of_osr": -7.254,
+      "tolerance_s": 417.511,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3773.909,
+      "sumo_mean_trip_time_s": 3436.5,
+      "delta_s": -337.409,
+      "delta_percent_of_osr": -8.941,
+      "tolerance_s": 566.086,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3814.364,
+      "sumo_mean_trip_time_s": 3522.0,
+      "delta_s": -292.364,
+      "delta_percent_of_osr": -7.665,
+      "tolerance_s": 572.155,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 3595.364,
+      "sumo_mean_trip_time_s": 3295.5,
+      "delta_s": -299.864,
+      "delta_percent_of_osr": -8.34,
+      "tolerance_s": 539.305,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 2874.954,
+      "sumo_mean_trip_time_s": 2652.0,
+      "delta_s": -222.954,
+      "delta_percent_of_osr": -7.755,
+      "tolerance_s": 431.243,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 3122.545,
+      "sumo_mean_trip_time_s": 2872.5,
+      "delta_s": -250.045,
+      "delta_percent_of_osr": -8.008,
+      "tolerance_s": 468.382,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 3034.273,
+      "sumo_mean_trip_time_s": 2804.0,
+      "delta_s": -230.273,
+      "delta_percent_of_osr": -7.589,
+      "tolerance_s": 455.141,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 7619.136,
+      "sumo_mean_trip_time_s": 7092.0,
+      "delta_s": -527.136,
+      "delta_percent_of_osr": -6.919,
+      "tolerance_s": 1142.87,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "1d7a3a84619c9dc853cd5618d8cc4807586940b3047d944a2715fc11b13674c5",
+    "sumo_summary_sha256": "9c174682abc4b6f1c4a6258e020cb8b18154f9157965904f1d28311be98fb439",
+    "simulation_summary_sha256": "d498458a1421523bddad0f35e5175938f6496ea7bbe6a2b01d436fbf6efe24bb",
+    "native_timing_reference_sha256": "ea0297656ff14da489e61c6645ba12112b04abea9237f5a93c695de59bf02837"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Angola/Luanda/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Angola/Luanda/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

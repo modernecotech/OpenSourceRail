@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:meru-ke",
+  "city": "meru-ke",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1173.619,
+      "sumo_mean_trip_time_s": 1187.5,
+      "delta_s": 13.881,
+      "delta_percent_of_osr": 1.183,
+      "tolerance_s": 176.043,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 423.881,
+      "sumo_mean_trip_time_s": 422.5,
+      "delta_s": -1.381,
+      "delta_percent_of_osr": -0.326,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 829.442,
+      "sumo_mean_trip_time_s": 835.0,
+      "delta_s": 5.558,
+      "delta_percent_of_osr": 0.67,
+      "tolerance_s": 124.416,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "9b5902755c21d2584e6f6d145a0d24d4441ffe815c206fa757951919aa66aeaa",
+    "sumo_summary_sha256": "82adb5b00ebe521d8064a856b120ec0f048adaeff44dd2b05b97fea692a1d298",
+    "simulation_summary_sha256": "add5e6a6e42bd7ca44af8f7bbab58c8c20973e12b411f037e6a1d6429e0cc604",
+    "native_timing_reference_sha256": "af5c063a03ba9691b4ea311190fb6aff424a06e1547bf060d13fb91e24c3513b"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Kenya/Meru-Ke/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:kandy",
+  "city": "kandy",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3293.045,
+      "sumo_mean_trip_time_s": 3174.5,
+      "delta_s": -118.545,
+      "delta_percent_of_osr": -3.6,
+      "tolerance_s": 493.957,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2786.454,
+      "sumo_mean_trip_time_s": 2667.5,
+      "delta_s": -118.954,
+      "delta_percent_of_osr": -4.269,
+      "tolerance_s": 417.968,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2536.273,
+      "sumo_mean_trip_time_s": 2432.0,
+      "delta_s": -104.273,
+      "delta_percent_of_osr": -4.111,
+      "tolerance_s": 380.441,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "f8f35a9b49585fddaf99c5a57abd534aabdede5757bc6f21172564dbd7144742",
+    "sumo_summary_sha256": "5aa22f7f62ceaee009bdea4c6f8b579330e8ece120b4aec79d70eabb8e2881fd",
+    "simulation_summary_sha256": "5dc88d7c601c5357ee4b8363e4363e787f539807113d821b331c313182744002",
+    "native_timing_reference_sha256": "13b5d0175fbf76376fe05c05d9c35da65115ff34afae6fb2bc53e0497e690ef1"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Sri Lanka/Kandy/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

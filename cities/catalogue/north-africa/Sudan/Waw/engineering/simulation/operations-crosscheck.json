@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:waw",
+  "city": "waw",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 714.516,
+      "sumo_mean_trip_time_s": 723.0,
+      "delta_s": 8.484,
+      "delta_percent_of_osr": 1.187,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 592.584,
+      "sumo_mean_trip_time_s": 595.0,
+      "delta_s": 2.416,
+      "delta_percent_of_osr": 0.408,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 133.606,
+      "sumo_mean_trip_time_s": 128.0,
+      "delta_s": -5.606,
+      "delta_percent_of_osr": -4.196,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "00ad013582f177f6fd7922579d920b9be2727788ff5801d9be05f88e00508f07",
+    "sumo_summary_sha256": "4a51d9c217e2b6f4f35e564135fa4017500f58760884ca912b9434c6f08888a0",
+    "simulation_summary_sha256": "783b4c14220829ce4ee14bb3e52f281198775b98c63a9209386cbdda44956d7a",
+    "native_timing_reference_sha256": "0277c59d104358e969d2e54ed342d59be0858692918fac09441014ff7a6eb9be"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Sudan/Waw/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Sudan/Waw/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

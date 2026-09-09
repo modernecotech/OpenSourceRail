@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:fort-portal",
+  "city": "fort-portal",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1152.545,
+      "sumo_mean_trip_time_s": 1168.0,
+      "delta_s": 15.455,
+      "delta_percent_of_osr": 1.341,
+      "tolerance_s": 172.882,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 904.762,
+      "sumo_mean_trip_time_s": 916.0,
+      "delta_s": 11.238,
+      "delta_percent_of_osr": 1.242,
+      "tolerance_s": 135.714,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1381.402,
+      "sumo_mean_trip_time_s": 1396.0,
+      "delta_s": 14.598,
+      "delta_percent_of_osr": 1.057,
+      "tolerance_s": 207.21,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "964a2a0811cc555b77efcaad65f4b223514fd99c389e5bc9f3c6e9a9c8c7d977",
+    "sumo_summary_sha256": "f69588c1abbf26f41d057b563add759e932c835df1f3ed46bdb58a3c8f1d8d64",
+    "simulation_summary_sha256": "85d4f155f3dc79e69473123f59cba1d7fe756bb55af950fc2c46439fec8cb76f",
+    "native_timing_reference_sha256": "cd9e31ce9ac6fbfc30e6ea681d393bb496e196bf0c85f8536c89a700b30b3ed2"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Uganda/Fort-Portal/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

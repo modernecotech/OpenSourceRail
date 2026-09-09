@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:tripoli-lb",
+  "city": "tripoli-lb",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1396.455,
+      "sumo_mean_trip_time_s": 1348.5,
+      "delta_s": -47.955,
+      "delta_percent_of_osr": -3.434,
+      "tolerance_s": 209.468,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2262.909,
+      "sumo_mean_trip_time_s": 2188.5,
+      "delta_s": -74.409,
+      "delta_percent_of_osr": -3.288,
+      "tolerance_s": 339.436,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1590.5,
+      "sumo_mean_trip_time_s": 1534.0,
+      "delta_s": -56.5,
+      "delta_percent_of_osr": -3.552,
+      "tolerance_s": 238.575,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "8e8a86ae853dc639340890dcca7c7a5eef7dfdf841db4d76b78e3512679056d4",
+    "sumo_summary_sha256": "40bb443ba1b23faabb0509519b997708c01d649b7d05c526261d3909e073d9a2",
+    "simulation_summary_sha256": "6e83a1502e8c142e9cd64e771750dabc9a55eb9f85b92fb6705ad8515a3b7e7b",
+    "native_timing_reference_sha256": "f55d356bf9a5d18a9dbe97ddee7bf71ae3d695cc570332bc66ab2c31d616930b"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

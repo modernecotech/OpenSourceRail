@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:tetouan",
+  "city": "tetouan",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2169.136,
+      "sumo_mean_trip_time_s": 2093.0,
+      "delta_s": -76.136,
+      "delta_percent_of_osr": -3.51,
+      "tolerance_s": 325.37,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2643.045,
+      "sumo_mean_trip_time_s": 2553.5,
+      "delta_s": -89.545,
+      "delta_percent_of_osr": -3.388,
+      "tolerance_s": 396.457,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1160.545,
+      "sumo_mean_trip_time_s": 1097.0,
+      "delta_s": -63.545,
+      "delta_percent_of_osr": -5.475,
+      "tolerance_s": 174.082,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "58dc177b5426e5051b398345390174e1ac0af7266c48265695164550ced31330",
+    "sumo_summary_sha256": "fcbd808e46376b30f98ed80fed9e06d99c8186cf861c6575393284dc995bbf2d",
+    "simulation_summary_sha256": "dad0ed69bc664d9dafa401ac257ad2a177e6c51d2fa6b6d25518f28faa93dcc4",
+    "native_timing_reference_sha256": "ae30b1ab976129130e0beca9b7e87d635a3c107ee8795d4d7e52e64e447f0f6d"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Morocco/Tetouan/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Morocco/Tetouan/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

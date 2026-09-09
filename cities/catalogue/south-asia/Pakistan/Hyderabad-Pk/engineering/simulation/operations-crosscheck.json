@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:hyderabad-pk",
+  "city": "hyderabad-pk",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1559.773,
+      "sumo_mean_trip_time_s": 1505.0,
+      "delta_s": -54.773,
+      "delta_percent_of_osr": -3.512,
+      "tolerance_s": 233.966,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1804.273,
+      "sumo_mean_trip_time_s": 1721.5,
+      "delta_s": -82.773,
+      "delta_percent_of_osr": -4.588,
+      "tolerance_s": 270.641,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1604.091,
+      "sumo_mean_trip_time_s": 1522.5,
+      "delta_s": -81.591,
+      "delta_percent_of_osr": -5.086,
+      "tolerance_s": 240.614,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2454.636,
+      "sumo_mean_trip_time_s": 2332.5,
+      "delta_s": -122.136,
+      "delta_percent_of_osr": -4.976,
+      "tolerance_s": 368.195,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2728.227,
+      "sumo_mean_trip_time_s": 2599.5,
+      "delta_s": -128.727,
+      "delta_percent_of_osr": -4.718,
+      "tolerance_s": 409.234,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 5355.046,
+      "sumo_mean_trip_time_s": 5155.0,
+      "delta_s": -200.046,
+      "delta_percent_of_osr": -3.736,
+      "tolerance_s": 803.257,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "b2e13d686ed11a7a12bd80d133dec530dc9816fba5d17c58471f84d26d10ea31",
+    "sumo_summary_sha256": "795362b68a8d6b9b0e68c82497f5a7be251b611dec242a557f7a4384c8d356d2",
+    "simulation_summary_sha256": "22bdbdb536fbcec052bc2d8fe53804fa7fdffef36484d1908cfe0d8003d3f9c8",
+    "native_timing_reference_sha256": "486260f3e25dcfe4869cf1fb9eafbd461cf12668b3b371d6717b490bb7aa51fe"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

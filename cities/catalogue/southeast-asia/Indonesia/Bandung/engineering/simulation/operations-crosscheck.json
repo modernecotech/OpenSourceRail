@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:bandung",
+  "city": "bandung",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3658.091,
+      "sumo_mean_trip_time_s": 3526.0,
+      "delta_s": -132.091,
+      "delta_percent_of_osr": -3.611,
+      "tolerance_s": 548.714,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 4074.409,
+      "sumo_mean_trip_time_s": 3907.5,
+      "delta_s": -166.909,
+      "delta_percent_of_osr": -4.097,
+      "tolerance_s": 611.161,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2229.5,
+      "sumo_mean_trip_time_s": 2152.5,
+      "delta_s": -77.0,
+      "delta_percent_of_osr": -3.454,
+      "tolerance_s": 334.425,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3195.545,
+      "sumo_mean_trip_time_s": 3078.5,
+      "delta_s": -117.045,
+      "delta_percent_of_osr": -3.663,
+      "tolerance_s": 479.332,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2852.409,
+      "sumo_mean_trip_time_s": 2737.0,
+      "delta_s": -115.409,
+      "delta_percent_of_osr": -4.046,
+      "tolerance_s": 427.861,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 6722.364,
+      "sumo_mean_trip_time_s": 6498.0,
+      "delta_s": -224.364,
+      "delta_percent_of_osr": -3.338,
+      "tolerance_s": 1008.355,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "89b5a47669cc5926ac96a395e7692ddcd048567859a3c3ac6fc284243ca75fc3",
+    "sumo_summary_sha256": "652db622b3a321ff797debe3966437eb9ae1bd6b9e41f3241ce268cc1eef8a22",
+    "simulation_summary_sha256": "61a26c90aa9308f9027e9cfb07b8b1fef26043596016be000076b1e531e781ef",
+    "native_timing_reference_sha256": "3a4b14682dfe8d581926a66fd181f02ad457c09bdaf4303d84c2381338d2d5c7"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/southeast-asia/Indonesia/Bandung/design.toml",
+    "sumo_summary": "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

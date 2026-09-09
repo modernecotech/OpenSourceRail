@@ -166,6 +166,9 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 
 def write_manifest(path: Path, datasets: list[dict[str, Any]]) -> None:
+    # Receipts are project records, not disposable generated output.
+    if path.exists():
+        return
     fields = [
         "dataset_id", "file_role", "package_revision", "file_path", "sha256", "capture_date",
         "coordinate_system", "vertical_datum", "producer", "checker", "acceptance_status",

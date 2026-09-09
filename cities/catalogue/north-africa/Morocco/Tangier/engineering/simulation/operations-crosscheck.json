@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:tangier",
+  "city": "tangier",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2013.091,
+      "sumo_mean_trip_time_s": 1930.5,
+      "delta_s": -82.591,
+      "delta_percent_of_osr": -4.103,
+      "tolerance_s": 301.964,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2099.0,
+      "sumo_mean_trip_time_s": 2006.0,
+      "delta_s": -93.0,
+      "delta_percent_of_osr": -4.431,
+      "tolerance_s": 314.85,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1653.818,
+      "sumo_mean_trip_time_s": 1566.5,
+      "delta_s": -87.318,
+      "delta_percent_of_osr": -5.28,
+      "tolerance_s": 248.073,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2537.136,
+      "sumo_mean_trip_time_s": 2411.5,
+      "delta_s": -125.636,
+      "delta_percent_of_osr": -4.952,
+      "tolerance_s": 380.57,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 5293.136,
+      "sumo_mean_trip_time_s": 5221.0,
+      "delta_s": -72.136,
+      "delta_percent_of_osr": -1.363,
+      "tolerance_s": 793.97,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "79d08081bf3556dbf3422b4a65fc2bb63237e41880015df50cd79d31ff68994f",
+    "sumo_summary_sha256": "f280277fdb1e25625ba7669f6ad92a4d4e490d9fcc26971a6b8b1d40bae68046",
+    "simulation_summary_sha256": "cd4960a55d8b510fbf00ac7d4177d4f5c2164615d960fe4e10e6349b1c4a0fc9",
+    "native_timing_reference_sha256": "bf30d76a4d2f4f05eea0384226aad5d5b2d1b624e816a3e8a8ecbc9f9b229a65"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Morocco/Tangier/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Morocco/Tangier/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

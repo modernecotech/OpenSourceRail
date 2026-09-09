@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:ranchi",
+  "city": "ranchi",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3197.591,
+      "sumo_mean_trip_time_s": 3073.0,
+      "delta_s": -124.591,
+      "delta_percent_of_osr": -3.896,
+      "tolerance_s": 479.639,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2347.227,
+      "sumo_mean_trip_time_s": 2247.5,
+      "delta_s": -99.727,
+      "delta_percent_of_osr": -4.249,
+      "tolerance_s": 352.084,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2039.909,
+      "sumo_mean_trip_time_s": 1954.5,
+      "delta_s": -85.409,
+      "delta_percent_of_osr": -4.187,
+      "tolerance_s": 305.986,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2592.636,
+      "sumo_mean_trip_time_s": 2478.5,
+      "delta_s": -114.136,
+      "delta_percent_of_osr": -4.402,
+      "tolerance_s": 388.895,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2510.227,
+      "sumo_mean_trip_time_s": 2414.0,
+      "delta_s": -96.227,
+      "delta_percent_of_osr": -3.833,
+      "tolerance_s": 376.534,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 6987.49,
+      "sumo_mean_trip_time_s": 6793.0,
+      "delta_s": -194.49,
+      "delta_percent_of_osr": -2.783,
+      "tolerance_s": 1048.124,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "724d3dc976fc79383a0f4a8cfa942e0ec02ded823d3e6bc483605a620c67db1d",
+    "sumo_summary_sha256": "0f24f2dce36a68ed74e80907bf5efa8a232007f4236508adba2da2dd7e950ef6",
+    "simulation_summary_sha256": "a598ad963174ba2ea1a118516c56759aeeaec12c4caeee02c7e0a8efb4ce123f",
+    "native_timing_reference_sha256": "899f247048c9770f1af0f4f3372845b34262ecbaf73e4e4fc356b5934c3d4700"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/India/Ranchi/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/India/Ranchi/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/India/Ranchi/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/India/Ranchi/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

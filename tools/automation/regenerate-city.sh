@@ -153,55 +153,11 @@ echo "6) SUMO + QGIS + energy engineering package → $DESIGN_DIR/engineering/"
 "$REPO/tools/automation/engineering-toolchain.sh" --cities \
     --design "$DESIGN_DIR/design.toml" --jobs 1 --skip-shared-models
 
-echo "6a) field-evidence brief → $DESIGN_DIR/engineering/survey/"
-"$PYTHON" "$REPO/engineering/analysis/survey_package.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --output-dir "$DESIGN_DIR/engineering/survey"
-"$PYTHON" "$REPO/engineering/analysis/survey_control.py" \
-    --city "$SLUG" \
-    --manifest "$DESIGN_DIR/engineering/survey/survey-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey"
-"$PYTHON" "$REPO/engineering/analysis/ground_model.py" \
-    --city "$SLUG" \
-    --manifest "$DESIGN_DIR/engineering/survey/survey-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey"
-"$PYTHON" "$REPO/engineering/analysis/surveyed_alignment.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --manifest "$DESIGN_DIR/engineering/survey/surveyed-alignment-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey" \
-    --write-placeholder-manifest
-"$PYTHON" "$REPO/engineering/analysis/route_station_fit.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --manifest "$DESIGN_DIR/engineering/survey/route-station-fit-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey" \
-    --write-placeholder-manifest
-"$PYTHON" "$REPO/engineering/analysis/drainage_ground_design.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --manifest "$DESIGN_DIR/engineering/survey/drainage-ground-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey" \
-    --write-placeholder-manifest
-"$PYTHON" "$REPO/engineering/analysis/structural_release.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --manifest "$DESIGN_DIR/engineering/survey/structural-release-input-manifest.csv" \
-    --evidence-root "$DESIGN_DIR/engineering/survey" \
-    --output-dir "$DESIGN_DIR/engineering/survey" \
-    --write-placeholder-manifest
-
 echo "6b) full-window OSR simulation validation → $DESIGN_DIR/engineering/simulation/"
 "$PYTHON" "$REPO/tools/automation/validate-city-simulation.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml" --resilience
 "$PYTHON" "$REPO/tools/automation/render-sim-screenshots.py" \
     --scenario "$DESIGN_DIR/$SLUG.toml"
-"$PYTHON" "$REPO/engineering/analysis/operations_crosscheck.py" \
-    --design "$DESIGN_DIR/design.toml" \
-    --sumo-summary "$DESIGN_DIR/engineering/sumo/summary.json" \
-    --simulation-summary "$DESIGN_DIR/engineering/simulation/validation-summary.json" \
-    --output-dir "$DESIGN_DIR/engineering/simulation"
 
 echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engineering/project-twin/"
 "$PYTHON" "$REPO/tools/automation/generate-depot-scope.py" \
@@ -214,6 +170,9 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
     --out-dir "$DESIGN_DIR/operations"
 "$PYTHON" "$REPO/tools/automation/generate-acceptance-evidence-report.py" \
     --bundle "$DESIGN_DIR/operations/$SLUG-operations.json.gz"
+
+"$PYTHON" "$REPO/tools/automation/generate-deployment-evidence.py" \
+    --design "$DESIGN_DIR/design.toml" --reuse-sumo --fetch-soils
 
 echo "8) per-network README → $DESIGN_DIR/README.md"
 "$PYTHON" -m osr_scenario.network_readme \

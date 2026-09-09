@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:karachi",
+  "city": "karachi",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 4417.5,
+      "sumo_mean_trip_time_s": 4077.0,
+      "delta_s": -340.5,
+      "delta_percent_of_osr": -7.708,
+      "tolerance_s": 662.625,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3639.455,
+      "sumo_mean_trip_time_s": 3359.5,
+      "delta_s": -279.955,
+      "delta_percent_of_osr": -7.692,
+      "tolerance_s": 545.918,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 5134.318,
+      "sumo_mean_trip_time_s": 4740.0,
+      "delta_s": -394.318,
+      "delta_percent_of_osr": -7.68,
+      "tolerance_s": 770.148,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3439.818,
+      "sumo_mean_trip_time_s": 3161.0,
+      "delta_s": -278.818,
+      "delta_percent_of_osr": -8.106,
+      "tolerance_s": 515.973,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 4362.682,
+      "sumo_mean_trip_time_s": 4034.0,
+      "delta_s": -328.682,
+      "delta_percent_of_osr": -7.534,
+      "tolerance_s": 654.402,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3790.636,
+      "sumo_mean_trip_time_s": 3477.0,
+      "delta_s": -313.636,
+      "delta_percent_of_osr": -8.274,
+      "tolerance_s": 568.595,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 4246.227,
+      "sumo_mean_trip_time_s": 3922.0,
+      "delta_s": -324.227,
+      "delta_percent_of_osr": -7.636,
+      "tolerance_s": 636.934,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 3458.409,
+      "sumo_mean_trip_time_s": 3175.0,
+      "delta_s": -283.409,
+      "delta_percent_of_osr": -8.195,
+      "tolerance_s": 518.761,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 9710.818,
+      "sumo_mean_trip_time_s": 8967.0,
+      "delta_s": -743.818,
+      "delta_percent_of_osr": -7.66,
+      "tolerance_s": 1456.623,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "13b1ab0f14e6b449a7d414bed22cf585362f15bc6fda9ffb94919290ff7b2db4",
+    "sumo_summary_sha256": "436977c1190948d7a9a8b653eecebe6d3a02a58d721e4004f53ffb38482e19cc",
+    "simulation_summary_sha256": "929c30b4dd58a84e957ebfe393088acbb2ba1a202e078e5646f011b6932498c5",
+    "native_timing_reference_sha256": "196234829fe318e10869dfdfe1887268ea4550b2ef86527034ba8682f84ca6fa"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Pakistan/Karachi/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Pakistan/Karachi/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

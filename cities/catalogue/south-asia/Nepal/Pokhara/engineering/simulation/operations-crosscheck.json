@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:pokhara",
+  "city": "pokhara",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3568.727,
+      "sumo_mean_trip_time_s": 3435.5,
+      "delta_s": -133.227,
+      "delta_percent_of_osr": -3.733,
+      "tolerance_s": 535.309,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2849.955,
+      "sumo_mean_trip_time_s": 2746.0,
+      "delta_s": -103.955,
+      "delta_percent_of_osr": -3.648,
+      "tolerance_s": 427.493,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3193.818,
+      "sumo_mean_trip_time_s": 3070.5,
+      "delta_s": -123.318,
+      "delta_percent_of_osr": -3.861,
+      "tolerance_s": 479.073,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "719c6b7c76b3e8d010825ad0b23f126214208aefe9f2323451c7947456a514a8",
+    "sumo_summary_sha256": "be2cc08d59224b73f2bd725490d81213aee489d295b95d321ccf825ae167a65e",
+    "simulation_summary_sha256": "4a3d26178f32522c8d503c86d36435f2d6adfba7f375980eddbc898f5531056f",
+    "native_timing_reference_sha256": "69a086d6ff51659b512ae3a1d05e237b9630b2d2e0740e185bc075c4a0b36dc0"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Nepal/Pokhara/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Nepal/Pokhara/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

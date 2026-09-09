@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:lobito",
+  "city": "lobito",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2157.227,
+      "sumo_mean_trip_time_s": 2077.5,
+      "delta_s": -79.727,
+      "delta_percent_of_osr": -3.696,
+      "tolerance_s": 323.584,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1072.318,
+      "sumo_mean_trip_time_s": 1018.0,
+      "delta_s": -54.318,
+      "delta_percent_of_osr": -5.065,
+      "tolerance_s": 160.848,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 792.045,
+      "sumo_mean_trip_time_s": 764.0,
+      "delta_s": -28.045,
+      "delta_percent_of_osr": -3.541,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "9938cc87e7dcfe0ecd043fdef709db3c5ce5844ef4e28c3325040635e56c88d3",
+    "sumo_summary_sha256": "76e779ce979d4e77db9a7d8b815a52b773f55184d18c978d8a7cb6c2cb5d0a5f",
+    "simulation_summary_sha256": "24b3bd708675f3e4ccb2ce11e45e1fee6bc77079ec8020af3b119ab0c11cac3b",
+    "native_timing_reference_sha256": "02e54cc38e9f03939c9b5375c672bbcd2a17a9cf2cde2e99dfcfa8c1b8736840"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Angola/Lobito/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Angola/Lobito/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

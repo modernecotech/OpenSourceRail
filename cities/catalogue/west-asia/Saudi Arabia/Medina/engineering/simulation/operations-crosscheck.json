@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:medina",
+  "city": "medina",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3014.455,
+      "sumo_mean_trip_time_s": 2878.0,
+      "delta_s": -136.455,
+      "delta_percent_of_osr": -4.527,
+      "tolerance_s": 452.168,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1965.955,
+      "sumo_mean_trip_time_s": 1886.0,
+      "delta_s": -79.955,
+      "delta_percent_of_osr": -4.067,
+      "tolerance_s": 294.893,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1638.818,
+      "sumo_mean_trip_time_s": 1544.5,
+      "delta_s": -94.318,
+      "delta_percent_of_osr": -5.755,
+      "tolerance_s": 245.823,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 1958.636,
+      "sumo_mean_trip_time_s": 1860.0,
+      "delta_s": -98.636,
+      "delta_percent_of_osr": -5.036,
+      "tolerance_s": 293.795,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 1431.636,
+      "sumo_mean_trip_time_s": 1347.0,
+      "delta_s": -84.636,
+      "delta_percent_of_osr": -5.912,
+      "tolerance_s": 214.745,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 5501.864,
+      "sumo_mean_trip_time_s": 5264.5,
+      "delta_s": -237.364,
+      "delta_percent_of_osr": -4.314,
+      "tolerance_s": 825.28,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "04e1bf34e63210ed066b785fca9a61bcfb6c6e0682a3beefffeaad942bc6810c",
+    "sumo_summary_sha256": "bd498d66167db1c2889b8deca7a6437a724f4d890ba7b6dc84980eb081e7d071",
+    "simulation_summary_sha256": "9f262da29c2cd4aa2c199ae92a64b0acf847439941d0672599dd4b1c5b0624c7",
+    "native_timing_reference_sha256": "e548e360dc2db2cd63ad2d8f4a23e4cc879c80f1979c9947bb208b69e692a079"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Medina/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

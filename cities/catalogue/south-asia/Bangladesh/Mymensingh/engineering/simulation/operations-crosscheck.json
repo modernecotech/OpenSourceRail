@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:mymensingh",
+  "city": "mymensingh",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1241.227,
+      "sumo_mean_trip_time_s": 1194.0,
+      "delta_s": -47.227,
+      "delta_percent_of_osr": -3.805,
+      "tolerance_s": 186.184,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1123.682,
+      "sumo_mean_trip_time_s": 1078.5,
+      "delta_s": -45.182,
+      "delta_percent_of_osr": -4.021,
+      "tolerance_s": 168.552,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2132.136,
+      "sumo_mean_trip_time_s": 2045.0,
+      "delta_s": -87.136,
+      "delta_percent_of_osr": -4.087,
+      "tolerance_s": 319.82,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "45738a986a2d3482877f9336848186e2687cc58a0ee3d30b5de4c847e2dd50c4",
+    "sumo_summary_sha256": "adb954a4196174ab90d1de3179748efebb79c7475de3d5da1b70b5fbb6ac0428",
+    "simulation_summary_sha256": "048e71cf345e5aaed251f8b4d487aa2cc4b4c0d203109952ae3162682a38c573",
+    "native_timing_reference_sha256": "0f15f7048b06fafb5d24ca6ffca5d7138aaa8a236d213fbfb01f297e78cc1f45"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Bangladesh/Mymensingh/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

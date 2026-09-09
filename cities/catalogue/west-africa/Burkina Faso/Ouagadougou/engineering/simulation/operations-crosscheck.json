@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:ouagadougou",
+  "city": "ouagadougou",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3283.227,
+      "sumo_mean_trip_time_s": 3132.0,
+      "delta_s": -151.227,
+      "delta_percent_of_osr": -4.606,
+      "tolerance_s": 492.484,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2240.682,
+      "sumo_mean_trip_time_s": 2153.5,
+      "delta_s": -87.182,
+      "delta_percent_of_osr": -3.891,
+      "tolerance_s": 336.102,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2573.045,
+      "sumo_mean_trip_time_s": 2467.0,
+      "delta_s": -106.045,
+      "delta_percent_of_osr": -4.121,
+      "tolerance_s": 385.957,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2845.364,
+      "sumo_mean_trip_time_s": 2724.0,
+      "delta_s": -121.364,
+      "delta_percent_of_osr": -4.265,
+      "tolerance_s": 426.805,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2613.091,
+      "sumo_mean_trip_time_s": 2481.0,
+      "delta_s": -132.091,
+      "delta_percent_of_osr": -5.055,
+      "tolerance_s": 391.964,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 5934.318,
+      "sumo_mean_trip_time_s": 5707.0,
+      "delta_s": -227.318,
+      "delta_percent_of_osr": -3.831,
+      "tolerance_s": 890.148,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "b999c5fe2a1960030d1b8c06159eacfcab5a8e45737836a43d34552d20807081",
+    "sumo_summary_sha256": "e49d3f5e6c1f1610b3df3a8f9f7ca0b9f9cfa86cb7044178facd777b983caada",
+    "simulation_summary_sha256": "5a2fcd8e4512b8c64924dffa2da1ba237cc8d9b39c00ac9790f1b022a454a251",
+    "native_timing_reference_sha256": "2fd949e0545f2ea623387531227fcc5aec51979c8251a681605670b8422c62de"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/design.toml",
+    "sumo_summary": "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

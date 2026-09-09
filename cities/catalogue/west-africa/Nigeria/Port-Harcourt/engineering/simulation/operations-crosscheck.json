@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:port-harcourt",
+  "city": "port-harcourt",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3387.0,
+      "sumo_mean_trip_time_s": 3234.5,
+      "delta_s": -152.5,
+      "delta_percent_of_osr": -4.503,
+      "tolerance_s": 508.05,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2583.773,
+      "sumo_mean_trip_time_s": 2477.5,
+      "delta_s": -106.273,
+      "delta_percent_of_osr": -4.113,
+      "tolerance_s": 387.566,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2718.682,
+      "sumo_mean_trip_time_s": 2614.0,
+      "delta_s": -104.682,
+      "delta_percent_of_osr": -3.85,
+      "tolerance_s": 407.802,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2761.273,
+      "sumo_mean_trip_time_s": 2644.5,
+      "delta_s": -116.773,
+      "delta_percent_of_osr": -4.229,
+      "tolerance_s": 414.191,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 5977.682,
+      "sumo_mean_trip_time_s": 5753.0,
+      "delta_s": -224.682,
+      "delta_percent_of_osr": -3.759,
+      "tolerance_s": 896.652,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "da76ee4696773ebed0b89809604838893ff07062a67d1d80ac18423a7d5370c3",
+    "sumo_summary_sha256": "a7449f4a3a880076e779c4473f36e9cf38c7ebccd48416e7a9e3ceb0df18e26b",
+    "simulation_summary_sha256": "95375af3ac4921ef6a2941513ed6a7b8528199b718e956133facc637a383803b",
+    "native_timing_reference_sha256": "016fdee13621ec7dfb14d9b4fa12a0b5a733979429014340d97c83a0506287c4"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-africa/Nigeria/Port-Harcourt/design.toml",
+    "sumo_summary": "cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

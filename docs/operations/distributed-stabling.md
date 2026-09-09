@@ -118,6 +118,7 @@ The following line-local hybrid screens pass two continuous service days:
 | [Uíge](../../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md) | 12 / 15 | 10 / 10 |
 | [Quelimane](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/hybrid-cycle-screen.md) | 10 / 13 | 8 / 8 |
 | [Edéa](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/hybrid-cycle-screen.md) | 10 / 10 | 8 / 8 |
+| [Bukavu](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/stabling/hybrid-cycle-screen.md) | 44 / 86 | 38 / 38 |
 
 All trains reach their assigned homes before opening, depot and station counts
 meet the declared allocation, and reserves remain parked. There are no

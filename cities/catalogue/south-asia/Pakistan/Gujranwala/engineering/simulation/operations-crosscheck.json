@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:gujranwala",
+  "city": "gujranwala",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3323.682,
+      "sumo_mean_trip_time_s": 3167.0,
+      "delta_s": -156.682,
+      "delta_percent_of_osr": -4.714,
+      "tolerance_s": 498.552,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2864.455,
+      "sumo_mean_trip_time_s": 2734.5,
+      "delta_s": -129.955,
+      "delta_percent_of_osr": -4.537,
+      "tolerance_s": 429.668,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1610.909,
+      "sumo_mean_trip_time_s": 1520.5,
+      "delta_s": -90.409,
+      "delta_percent_of_osr": -5.612,
+      "tolerance_s": 241.636,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2772.591,
+      "sumo_mean_trip_time_s": 2638.5,
+      "delta_s": -134.091,
+      "delta_percent_of_osr": -4.836,
+      "tolerance_s": 415.889,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 5315.773,
+      "sumo_mean_trip_time_s": 5113.0,
+      "delta_s": -202.773,
+      "delta_percent_of_osr": -3.815,
+      "tolerance_s": 797.366,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "dcb70abb7299b57c9b225bb88529322771f20a045047d8acb4c0076c3ed497e9",
+    "sumo_summary_sha256": "ce6c7a1058e38d940fea5aaa9f4c3cf23a0ddb39f13d5754433582bae48c1105",
+    "simulation_summary_sha256": "6cdb68640599b1cf99c3fd7a0850fe6d2826db7f7e2bfd757d16ec93741cb6dc",
+    "native_timing_reference_sha256": "9a5183abe12dc78c9910264577aea9f05627202240f0b95b5865bb3adfd3e5fb"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Pakistan/Gujranwala/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

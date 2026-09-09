@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:arish",
+  "city": "arish",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1189.214,
+      "sumo_mean_trip_time_s": 1210.0,
+      "delta_s": 20.786,
+      "delta_percent_of_osr": 1.748,
+      "tolerance_s": 178.382,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 379.653,
+      "sumo_mean_trip_time_s": 382.0,
+      "delta_s": 2.347,
+      "delta_percent_of_osr": 0.618,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "b95acb231d476292ac506a5537d6f7aa7596f353bffcd6a7528d86638c1c9040",
+    "sumo_summary_sha256": "334e63bbb3e7f9ee2d696a6f413923462dc177427d78ab7655c5b5db1c46e935",
+    "simulation_summary_sha256": "63e758da54cc43944fb4aebd19f7dfe16e66848ed06d7f5a885775bf73961778",
+    "native_timing_reference_sha256": "d98b9ba9111ad9647f0b3df0f587368eef88958d8a13ff3d9173d06b3e4e209f"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Egypt/Arish/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Egypt/Arish/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

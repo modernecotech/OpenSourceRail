@@ -8,6 +8,11 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 ## Reviewed Open Work
 
+The [city deployment evidence workflow](city-deployment-evidence.md) now covers
+the complete catalogue with soilDB civil screening, preserved field receipts,
+current native/SUMO timing comparisons and per-city deployment gap registers.
+The registers distinguish completed software/data work from outstanding site evidence.
+
 The [2026-09-09 substance review](substance-review-2026-09-09.md) now records
 completed roof-drainage input/physical-balance repairs and per-site electrical
 import/export gates. All seven drainage variants pass the corrected planning

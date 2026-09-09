@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:benguela",
+  "city": "benguela",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2525.955,
+      "sumo_mean_trip_time_s": 2434.0,
+      "delta_s": -91.955,
+      "delta_percent_of_osr": -3.64,
+      "tolerance_s": 378.893,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1829.091,
+      "sumo_mean_trip_time_s": 1758.5,
+      "delta_s": -70.591,
+      "delta_percent_of_osr": -3.859,
+      "tolerance_s": 274.364,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1162.864,
+      "sumo_mean_trip_time_s": 1099.0,
+      "delta_s": -63.864,
+      "delta_percent_of_osr": -5.492,
+      "tolerance_s": 174.43,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "c9bae7602c96dda78766b80f199222822191a94f1db130430fd09723c0833fbb",
+    "sumo_summary_sha256": "0adcb99d2eb62a02ae78ceff3da56431b57454b7f5723eb6e95f3c15ca5349cc",
+    "simulation_summary_sha256": "280d2b52c8e55be9f9008767a65acdd7781b590817b074aed9a75736b93fdd8b",
+    "native_timing_reference_sha256": "1cfb0abcb500a114be3deceb872f78675793d85aa2b831a33172932d18fd95c5"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Angola/Benguela/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Angola/Benguela/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

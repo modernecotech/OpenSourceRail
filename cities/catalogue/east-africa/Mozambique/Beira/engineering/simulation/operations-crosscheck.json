@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:beira",
+  "city": "beira",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1971.864,
+      "sumo_mean_trip_time_s": 1905.0,
+      "delta_s": -66.864,
+      "delta_percent_of_osr": -3.391,
+      "tolerance_s": 295.78,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1378.318,
+      "sumo_mean_trip_time_s": 1334.5,
+      "delta_s": -43.818,
+      "delta_percent_of_osr": -3.179,
+      "tolerance_s": 206.748,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1581.909,
+      "sumo_mean_trip_time_s": 1509.0,
+      "delta_s": -72.909,
+      "delta_percent_of_osr": -4.609,
+      "tolerance_s": 237.286,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "c2df9183ebe0b5755932d14af9f316b1cb0c00b5161b4c962fad255110ed17fd",
+    "sumo_summary_sha256": "64159cd62b275f418bdbfb0d16291f9b3d3737314e40bc52a27651beb94b456c",
+    "simulation_summary_sha256": "c640b427f71ad6f9c2e45b728930c72a0f460bac3e9887f408a3c60d6962b6c3",
+    "native_timing_reference_sha256": "0355164525d29f6d79baf16021be17d1e81f4f143dc92d35f1354f2819efd551"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Mozambique/Beira/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Mozambique/Beira/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -41,3 +41,23 @@ def test_missing_osr_reference_is_not_silently_accepted(tmp_path: Path) -> None:
     report = operations_crosscheck.build_report(design, sumo, simulation)
     assert report["line_scope_matches"] is False
     assert report["automatic_crosscheck_passed"] is False
+
+
+def test_separate_native_reference_is_bound_to_current_inputs(tmp_path):
+    design, sumo, simulation = inputs(tmp_path)
+    simulation.write_text(json.dumps({'passed': True, 'runs': [{}]}))
+    scenario = tmp_path / 'test-city.toml'
+    scenario.write_text('[scenario]\nname="test"\n')
+    reference = tmp_path / 'reference.json'
+    data = {'scope':'kinematic-reference-only', 'generation_passed':True,
+            'design_sha256':operations_crosscheck.sha256(design),
+            'scenario_sha256':operations_crosscheck.sha256(scenario),
+            'per_line_reference_trip_time_s':[['line-1',1000.0]]}
+    reference.write_text(json.dumps(data))
+    report = operations_crosscheck.build_report(design,sumo,simulation,reference_path=reference)
+    assert report['automatic_crosscheck_passed']
+    assert not report['authority_accepted']
+    scenario.write_text('[scenario]\nname="changed"\n')
+    report = operations_crosscheck.build_report(design,sumo,simulation,reference_path=reference)
+    assert not report['automatic_crosscheck_passed']
+    assert report['reference_findings']

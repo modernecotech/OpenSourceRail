@@ -79,13 +79,35 @@ def build_report(
     absolute_tolerance_s: float = 120.0,
     junction_evidence_path: Path | None = None,
     acceptance_record_path: Path | None = None,
+    reference_path: Path | None = None,
 ) -> dict[str, Any]:
     city, design_lines = city_and_lines(design_path)
     sumo = read_json(sumo_path)
     simulation = read_json(simulation_path)
+    scenario_path = design_path.parent / f"{city}.toml"
+    # A current timing calculation does not refresh an older service replay.
+    service_bindings = {
+        "design_sha256": design_path,
+        "scenario_sha256": scenario_path,
+        "generator_sha256": REPO_ROOT / "tools/automation/validate-city-simulation.py",
+        "simulator_sha256": REPO_ROOT / "target/release/osr-sim",
+    }
+    service_evidence_current = all(
+        path.is_file() and simulation.get(field) == sha256(path)
+        for field, path in service_bindings.items()
+    )
     runs = simulation.get("runs", [])
     full_run = runs[0] if isinstance(runs, list) and runs and isinstance(runs[0], dict) else {}
     osr_times = pairs(full_run.get("per_line_reference_trip_time_s"))
+    reference_findings: list[str] = []
+    if reference_path is not None:
+        reference = read_json(reference_path)
+        scenario_path = design_path.parent / f"{city}.toml"
+        if reference.get("design_sha256") != sha256(design_path) or reference.get("scenario_sha256") != sha256(scenario_path):
+            reference_findings.append("native timing reference is bound to different inputs")
+        if reference.get("scope") != "kinematic-reference-only" or reference.get("generation_passed") is not True:
+            reference_findings.append("native timing reference was not generated successfully")
+        osr_times = pairs(reference.get("per_line_reference_trip_time_s"))
     sumo_times = {
         str(row.get("line")): float(row.get("mean_trip_duration_s", 0.0))
         for row in sumo.get("lines", [])
@@ -116,14 +138,17 @@ def build_report(
         design_lines
         and line_scope_matches
         and sumo.get("passed") is True
-        and simulation.get("passed") is True
+        and (reference_path is not None or simulation.get("passed") is True)
         and all(row["passed"] for row in comparisons)
+        and not reference_findings
     )
     hashes = {
         "design_sha256": sha256(design_path),
         "sumo_summary_sha256": sha256(sumo_path),
         "simulation_summary_sha256": sha256(simulation_path),
     }
+    if reference_path is not None:
+        hashes["native_timing_reference_sha256"] = sha256(reference_path)
 
     junction_findings = ["independently reviewed junction-occupancy evidence not received"]
     junction_evidence_sha256 = None
@@ -157,7 +182,9 @@ def build_report(
         )
         if acceptance.get("decision") != "accepted":
             acceptance_findings.append("operational acceptance decision is not accepted")
-    authority_accepted = bool(automatic_passed and junction_passed and not acceptance_findings)
+    authority_accepted = bool(automatic_passed and junction_passed and not acceptance_findings
+                              and service_evidence_current and simulation.get("passed") is True
+                              and simulation.get("resilience_required") is True and simulation.get("resilience_passed") is True)
     if not automatic_passed:
         status = "automatic-crosscheck-failed"
     elif not junction_passed:
@@ -174,7 +201,11 @@ def build_report(
         "passed": automatic_passed,
         "status": status,
         "automatic_crosscheck_passed": automatic_passed,
+        "full_service_evidence_current": service_evidence_current,
+        "full_service_evidence_passed": service_evidence_current and simulation.get("passed") is True and simulation.get("resilience_required") is True and simulation.get("resilience_passed") is True,
         "line_scope_matches": line_scope_matches,
+        "reference_findings": reference_findings,
+        "reference_basis": "separately generated kinematic reference; not a service replay" if reference_path else "retained simulator reference timings",
         "relative_tolerance": relative_tolerance,
         "absolute_tolerance_s": absolute_tolerance_s,
         "line_comparisons": comparisons,
@@ -190,6 +221,7 @@ def build_report(
             "design": display_path(design_path),
             "sumo_summary": display_path(sumo_path),
             "simulation_summary": display_path(simulation_path),
+            **({"native_timing_reference": display_path(reference_path)} if reference_path else {}),
         },
         "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
         "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release.",
@@ -202,6 +234,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         f"- Status: **{report['status']}**",
         f"- Automatic running-time cross-check: **{'passed' if report['automatic_crosscheck_passed'] else 'failed'}**",
+        f"- Retained full-service replay matches current inputs/tools: **{'yes' if report.get('full_service_evidence_current') else 'no'}**",
         f"- Junction occupancy evidence: **{'passed' if report['junction_occupancy_passed'] else 'pending'}**",
         f"- Authority accepted: **{'yes' if report['authority_accepted'] else 'no'}**",
         "",
@@ -239,6 +272,7 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--junction-evidence", type=Path)
     parser.add_argument("--acceptance-record", type=Path)
+    parser.add_argument("--native-reference", type=Path)
     parser.add_argument("--relative-tolerance", type=float, default=0.15)
     parser.add_argument("--absolute-tolerance-s", type=float, default=120.0)
     args = parser.parse_args()
@@ -249,6 +283,7 @@ def main() -> int:
         output_dir=args.output_dir.resolve(),
         junction_evidence_path=args.junction_evidence.resolve() if args.junction_evidence else None,
         acceptance_record_path=args.acceptance_record.resolve() if args.acceptance_record else None,
+        reference_path=args.native_reference.resolve() if args.native_reference else None,
         relative_tolerance=args.relative_tolerance,
         absolute_tolerance_s=args.absolute_tolerance_s,
     )

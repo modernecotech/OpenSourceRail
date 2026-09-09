@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:aqaba",
+  "city": "aqaba",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1461.763,
+      "sumo_mean_trip_time_s": 1481.0,
+      "delta_s": 19.237,
+      "delta_percent_of_osr": 1.316,
+      "tolerance_s": 219.264,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 930.117,
+      "sumo_mean_trip_time_s": 943.0,
+      "delta_s": 12.883,
+      "delta_percent_of_osr": 1.385,
+      "tolerance_s": 139.518,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 949.608,
+      "sumo_mean_trip_time_s": 959.5,
+      "delta_s": 9.892,
+      "delta_percent_of_osr": 1.042,
+      "tolerance_s": 142.441,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "f216d28ee420911e548305cbad9b04ef7baa2beab6d7a75df1fe69331ecdb5df",
+    "sumo_summary_sha256": "f0dd90b7e3e4777bb435c5e0cafb4498bee163e7c7d5ebe0abba2a3dcd70ac62",
+    "simulation_summary_sha256": "44d2cd769db347b82d349d9f8f67887294cb7be4e52ff55eec147f4c4df8de04",
+    "native_timing_reference_sha256": "b41c2f76e5f37659969af45f60143368457c064c1973ad30c9fdd17552d5aee8"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Jordan/Aqaba/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Jordan/Aqaba/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

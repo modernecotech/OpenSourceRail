@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:buraidah",
+  "city": "buraidah",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3391.455,
+      "sumo_mean_trip_time_s": 3263.0,
+      "delta_s": -128.455,
+      "delta_percent_of_osr": -3.788,
+      "tolerance_s": 508.718,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2587.182,
+      "sumo_mean_trip_time_s": 2516.0,
+      "delta_s": -71.182,
+      "delta_percent_of_osr": -2.751,
+      "tolerance_s": 388.077,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2292.318,
+      "sumo_mean_trip_time_s": 2222.5,
+      "delta_s": -69.818,
+      "delta_percent_of_osr": -3.046,
+      "tolerance_s": 343.848,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "0f93cded9bdd05f70d9051c10a4f2d59907cbb1ae1150c38ac996ee75b841df6",
+    "sumo_summary_sha256": "8f648526783304089af59464d834657088ece63326ff630d6d1eca12c6a15c1a",
+    "simulation_summary_sha256": "75cfdf7e1c1f39fdc1082a871ba4bd2cc65f62982309d9e8a9a90e70bc3e5f29",
+    "native_timing_reference_sha256": "2cf8a3000a3090941f6f3495a4919ebb6b295150f76dc3caff7ff8ec4c85bda7"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Buraidah/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:kassala",
+  "city": "kassala",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 951.818,
+      "sumo_mean_trip_time_s": 906.0,
+      "delta_s": -45.818,
+      "delta_percent_of_osr": -4.814,
+      "tolerance_s": 142.773,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 640.682,
+      "sumo_mean_trip_time_s": 611.0,
+      "delta_s": -29.682,
+      "delta_percent_of_osr": -4.633,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 575.591,
+      "sumo_mean_trip_time_s": 535.0,
+      "delta_s": -40.591,
+      "delta_percent_of_osr": -7.052,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "2cef1c3b31829df29360885666add1436889c5f73a92240553ea7f64d49b1874",
+    "sumo_summary_sha256": "2e10044615a6f0308c4e46eda7ef78f79004f76e4365cfbfce7fca87982bca3d",
+    "simulation_summary_sha256": "ca99aa37fd0e427208d362eee49e0f822f6284efa4cb90e400184364ea440e77",
+    "native_timing_reference_sha256": "53b2ba6d21e0835218dd473c1c55a2fb7aa4f1e576a4149b1aaa0959442aa4cc"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/north-africa/Sudan/Kassala/design.toml",
+    "sumo_summary": "cities/catalogue/north-africa/Sudan/Kassala/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:malanje",
+  "city": "malanje",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 954.591,
+      "sumo_mean_trip_time_s": 919.5,
+      "delta_s": -35.091,
+      "delta_percent_of_osr": -3.676,
+      "tolerance_s": 143.189,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 485.182,
+      "sumo_mean_trip_time_s": 458.5,
+      "delta_s": -26.682,
+      "delta_percent_of_osr": -5.499,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "1ba739fb3769688d683419dfbeb1afd81980b6c4151e600c1e7170a853b5efe3",
+    "sumo_summary_sha256": "f0a91d12d34aaa7e5a597b54f7743b5b9e4c0318739078593cba17106a170038",
+    "simulation_summary_sha256": "3f603eb60f5eb0adcb6177e0a70f69b2bf77855dc5e0ecb2b6e3815ee0eb452d",
+    "native_timing_reference_sha256": "00993ab907ce98e0587ef3dbb78f466adf6a1b1fa2879fea4bd31a3f089d526c"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Angola/Malanje/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Angola/Malanje/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

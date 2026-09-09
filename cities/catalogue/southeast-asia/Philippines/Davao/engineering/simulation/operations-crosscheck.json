@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:davao",
+  "city": "davao",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 4145.409,
+      "sumo_mean_trip_time_s": 3977.5,
+      "delta_s": -167.909,
+      "delta_percent_of_osr": -4.05,
+      "tolerance_s": 621.811,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3555.227,
+      "sumo_mean_trip_time_s": 3410.0,
+      "delta_s": -145.227,
+      "delta_percent_of_osr": -4.085,
+      "tolerance_s": 533.284,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3073.091,
+      "sumo_mean_trip_time_s": 2932.0,
+      "delta_s": -141.091,
+      "delta_percent_of_osr": -4.591,
+      "tolerance_s": 460.964,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 3316.591,
+      "sumo_mean_trip_time_s": 3184.5,
+      "delta_s": -132.091,
+      "delta_percent_of_osr": -3.983,
+      "tolerance_s": 497.489,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2736.955,
+      "sumo_mean_trip_time_s": 2613.5,
+      "delta_s": -123.455,
+      "delta_percent_of_osr": -4.511,
+      "tolerance_s": 410.543,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 7765.701,
+      "sumo_mean_trip_time_s": 7637.0,
+      "delta_s": -128.701,
+      "delta_percent_of_osr": -1.657,
+      "tolerance_s": 1164.855,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "7a1b302cdd63dedf9c21c1a80ba3c76507c934cc07748f6f2a52da8ee41b306f",
+    "sumo_summary_sha256": "8e13da563ed33456749b813f8eb28498653e4ddbf1272ba75e8a4d70230c85d9",
+    "simulation_summary_sha256": "7a239d4818632533209fc4172eeb269c4417711978780641cb273b71e50f8c19",
+    "native_timing_reference_sha256": "bbd277a525f2046acb60ab657271ee9ee7b63f13ff93b1bb16f457c374153dae"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/southeast-asia/Philippines/Davao/design.toml",
+    "sumo_summary": "cities/catalogue/southeast-asia/Philippines/Davao/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

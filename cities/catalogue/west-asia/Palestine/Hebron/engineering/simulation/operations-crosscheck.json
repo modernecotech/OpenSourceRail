@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:hebron",
+  "city": "hebron",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2212.182,
+      "sumo_mean_trip_time_s": 2125.0,
+      "delta_s": -87.182,
+      "delta_percent_of_osr": -3.941,
+      "tolerance_s": 331.827,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2021.045,
+      "sumo_mean_trip_time_s": 1956.5,
+      "delta_s": -64.545,
+      "delta_percent_of_osr": -3.194,
+      "tolerance_s": 303.157,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2566.864,
+      "sumo_mean_trip_time_s": 2459.5,
+      "delta_s": -107.364,
+      "delta_percent_of_osr": -4.183,
+      "tolerance_s": 385.03,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "7a57fe92ac88c16a83ec7880261f59288ddb8a067f3db85163c4a878cc5c28ab",
+    "sumo_summary_sha256": "ec96f285b5dd0c3c6e213a60917a66c586842987d57a22d8365df621261c3f40",
+    "simulation_summary_sha256": "891052e1f7d2c8ad3483ec78eaaca18ca533fe781a633ff0a6d5674aba439403",
+    "native_timing_reference_sha256": "017bc4959b23de5d7074dabe2c201f0ab09aa87d7d5bf0bf11067fef43ac4d2c"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Palestine/Hebron/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Palestine/Hebron/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

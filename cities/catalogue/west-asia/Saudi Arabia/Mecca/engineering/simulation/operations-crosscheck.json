@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:mecca",
+  "city": "mecca",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2915.727,
+      "sumo_mean_trip_time_s": 2825.5,
+      "delta_s": -90.227,
+      "delta_percent_of_osr": -3.095,
+      "tolerance_s": 437.359,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2147.955,
+      "sumo_mean_trip_time_s": 2048.0,
+      "delta_s": -99.955,
+      "delta_percent_of_osr": -4.653,
+      "tolerance_s": 322.193,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3396.864,
+      "sumo_mean_trip_time_s": 3257.0,
+      "delta_s": -139.864,
+      "delta_percent_of_osr": -4.117,
+      "tolerance_s": 509.53,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 2900.955,
+      "sumo_mean_trip_time_s": 2778.5,
+      "delta_s": -122.455,
+      "delta_percent_of_osr": -4.221,
+      "tolerance_s": 435.143,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2054.591,
+      "sumo_mean_trip_time_s": 1952.5,
+      "delta_s": -102.091,
+      "delta_percent_of_osr": -4.969,
+      "tolerance_s": 308.189,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 6536.318,
+      "sumo_mean_trip_time_s": 6301.0,
+      "delta_s": -235.318,
+      "delta_percent_of_osr": -3.6,
+      "tolerance_s": 980.448,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "5ae925a1885d383fb8efe72458229c5ffa4adaa0ebb5843503870f6a59d65d81",
+    "sumo_summary_sha256": "8f33fe8746fc6bf5ee38f68f808761fcfbe9fff3719d45c9db870c573d45ea86",
+    "simulation_summary_sha256": "d0bf111e4b0a0e63b113bd0262c361b7ea370697c21510244e0ef3fe16fc1c48",
+    "native_timing_reference_sha256": "6e4397aac602d83a05cc6a4e2b048f839f5e3a674e52fd622953814de65dc85c"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-asia/Saudi Arabia/Mecca/design.toml",
+    "sumo_summary": "cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:pemba-mz",
+  "city": "pemba-mz",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1413.729,
+      "sumo_mean_trip_time_s": 1434.5,
+      "delta_s": 20.771,
+      "delta_percent_of_osr": 1.469,
+      "tolerance_s": 212.059,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 695.745,
+      "sumo_mean_trip_time_s": 700.0,
+      "delta_s": 4.255,
+      "delta_percent_of_osr": 0.612,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 980.054,
+      "sumo_mean_trip_time_s": 993.5,
+      "delta_s": 13.446,
+      "delta_percent_of_osr": 1.372,
+      "tolerance_s": 147.008,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "71c5d40013acc19edbb92eeb2163f84d2b43a985f25bd7df2ad75f7d4e25d00e",
+    "sumo_summary_sha256": "d4d3987bcd765b58349ef2add6d6f390b9015075ffa331e1f3a684c9909fc49d",
+    "simulation_summary_sha256": "68fa56f5b64486c0c476a0fc6b29fd45f221c7f87ada247fc9165e4b50b70ce3",
+    "native_timing_reference_sha256": "dfe3bc70c45cccc3dcaa63eabec6cd633d792fc66e78a63fd3ab61d67cfd8ac2"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

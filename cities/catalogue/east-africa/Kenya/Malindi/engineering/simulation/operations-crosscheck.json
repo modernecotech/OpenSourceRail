@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:malindi",
+  "city": "malindi",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 951.511,
+      "sumo_mean_trip_time_s": 963.5,
+      "delta_s": 11.989,
+      "delta_percent_of_osr": 1.26,
+      "tolerance_s": 142.727,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 967.094,
+      "sumo_mean_trip_time_s": 980.0,
+      "delta_s": 12.906,
+      "delta_percent_of_osr": 1.335,
+      "tolerance_s": 145.064,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 819.413,
+      "sumo_mean_trip_time_s": 828.5,
+      "delta_s": 9.087,
+      "delta_percent_of_osr": 1.109,
+      "tolerance_s": 122.912,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "be150df1b0ac4abadf37760240d1d1e27c500e7a532f611095c70dfedd87a5e6",
+    "sumo_summary_sha256": "f420637a6a36106c72e836143889254a3806fbf34dff76d891cd6c5dc675bee9",
+    "simulation_summary_sha256": "6f55ed9cbc18017eb3a482897ac60e1b0c7dd896617f273454cb819d0f0675df",
+    "native_timing_reference_sha256": "8590e3f6781c57ed1fdfbdf14319186d3a0efd48545ad26d748e0a85793c5412"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/east-africa/Kenya/Malindi/design.toml",
+    "sumo_summary": "cities/catalogue/east-africa/Kenya/Malindi/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

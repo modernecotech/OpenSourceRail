@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:yangon",
+  "city": "yangon",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3704.136,
+      "sumo_mean_trip_time_s": 3424.0,
+      "delta_s": -280.136,
+      "delta_percent_of_osr": -7.563,
+      "tolerance_s": 555.62,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 3304.0,
+      "sumo_mean_trip_time_s": 3035.0,
+      "delta_s": -269.0,
+      "delta_percent_of_osr": -8.142,
+      "tolerance_s": 495.6,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 4266.909,
+      "sumo_mean_trip_time_s": 3937.0,
+      "delta_s": -329.909,
+      "delta_percent_of_osr": -7.732,
+      "tolerance_s": 640.036,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 4649.091,
+      "sumo_mean_trip_time_s": 4284.0,
+      "delta_s": -365.091,
+      "delta_percent_of_osr": -7.853,
+      "tolerance_s": 697.364,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 4128.045,
+      "sumo_mean_trip_time_s": 3851.0,
+      "delta_s": -277.045,
+      "delta_percent_of_osr": -6.711,
+      "tolerance_s": 619.207,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 3404.182,
+      "sumo_mean_trip_time_s": 3139.5,
+      "delta_s": -264.682,
+      "delta_percent_of_osr": -7.775,
+      "tolerance_s": 510.627,
+      "passed": true
+    },
+    {
+      "line_id": "line-7",
+      "osr_reference_trip_time_s": 3945.455,
+      "sumo_mean_trip_time_s": 3632.0,
+      "delta_s": -313.455,
+      "delta_percent_of_osr": -7.945,
+      "tolerance_s": 591.818,
+      "passed": true
+    },
+    {
+      "line_id": "line-8",
+      "osr_reference_trip_time_s": 3360.773,
+      "sumo_mean_trip_time_s": 3123.0,
+      "delta_s": -237.773,
+      "delta_percent_of_osr": -7.075,
+      "tolerance_s": 504.116,
+      "passed": true
+    },
+    {
+      "line_id": "line-9",
+      "osr_reference_trip_time_s": 7668.773,
+      "sumo_mean_trip_time_s": 7094.0,
+      "delta_s": -574.773,
+      "delta_percent_of_osr": -7.495,
+      "tolerance_s": 1150.316,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "aa683cf1118b1e8414e9f117e5c57ec860bcac77d6706c0cee07cca08e01a33e",
+    "sumo_summary_sha256": "4740b3b040cf1385cf1afbb7722f9f80459a46b2c175389d00e6be838c4c5324",
+    "simulation_summary_sha256": "3e8f379f910c2c4a2e005ae50e63d347476db868344482a679e5247fc4fab372",
+    "native_timing_reference_sha256": "f552b8b5be25860f51f0619bed3080213252884cea5c9d08016a5d063d937d1b"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/southeast-asia/Myanmar/Yangon/design.toml",
+    "sumo_summary": "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

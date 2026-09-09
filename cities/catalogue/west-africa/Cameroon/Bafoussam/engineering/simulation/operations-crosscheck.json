@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:bafoussam",
+  "city": "bafoussam",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2714.727,
+      "sumo_mean_trip_time_s": 2619.5,
+      "delta_s": -95.227,
+      "delta_percent_of_osr": -3.508,
+      "tolerance_s": 407.209,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2940.682,
+      "sumo_mean_trip_time_s": 2840.0,
+      "delta_s": -100.682,
+      "delta_percent_of_osr": -3.424,
+      "tolerance_s": 441.102,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 3139.636,
+      "sumo_mean_trip_time_s": 3032.5,
+      "delta_s": -107.136,
+      "delta_percent_of_osr": -3.412,
+      "tolerance_s": 470.945,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "1ddf73ecc6420b2e09cbb1fb6ea1b2823790b309fdd263c2ee0dfdaee3eae259",
+    "sumo_summary_sha256": "c50923aa2ce6f6e77bf55c584ca436e3cc44456ad8676066c94f4eb1a3d8af59",
+    "simulation_summary_sha256": "528a128da36163b57813d49869534b90161e0303721d9b60853a874cea41fd9d",
+    "native_timing_reference_sha256": "19a20b35e74a8f760ff6180023869266e73e5d39701be5d36ef78efce30a8194"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/west-africa/Cameroon/Bafoussam/design.toml",
+    "sumo_summary": "cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

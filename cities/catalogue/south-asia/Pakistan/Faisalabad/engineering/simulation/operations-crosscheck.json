@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:faisalabad",
+  "city": "faisalabad",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 2826.182,
+      "sumo_mean_trip_time_s": 2619.5,
+      "delta_s": -206.682,
+      "delta_percent_of_osr": -7.313,
+      "tolerance_s": 423.927,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1901.046,
+      "sumo_mean_trip_time_s": 1731.0,
+      "delta_s": -170.046,
+      "delta_percent_of_osr": -8.945,
+      "tolerance_s": 285.157,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 1908.364,
+      "sumo_mean_trip_time_s": 1736.0,
+      "delta_s": -172.364,
+      "delta_percent_of_osr": -9.032,
+      "tolerance_s": 286.255,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 1896.0,
+      "sumo_mean_trip_time_s": 1725.0,
+      "delta_s": -171.0,
+      "delta_percent_of_osr": -9.019,
+      "tolerance_s": 284.4,
+      "passed": true
+    },
+    {
+      "line_id": "line-5",
+      "osr_reference_trip_time_s": 2244.773,
+      "sumo_mean_trip_time_s": 2063.0,
+      "delta_s": -181.773,
+      "delta_percent_of_osr": -8.098,
+      "tolerance_s": 336.716,
+      "passed": true
+    },
+    {
+      "line_id": "line-6",
+      "osr_reference_trip_time_s": 4306.864,
+      "sumo_mean_trip_time_s": 4022.0,
+      "delta_s": -284.864,
+      "delta_percent_of_osr": -6.614,
+      "tolerance_s": 646.03,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "b24b802d46a06b773346a74a8a06f6eb503346f87f3556bf726c030dfb3eec3e",
+    "sumo_summary_sha256": "b7fdc9c9ef56d82c39214b10b399b34cc0fbd397f8cdd09ce3abe6c6002d5ba8",
+    "simulation_summary_sha256": "14b40fda130f44537c81a6230622438cc17c08205d45c1bd97af7944de90d52f",
+    "native_timing_reference_sha256": "9ef8c1706917419a478ee77952f72ba23b7c31c544c3cf9a857c120f057f7e19"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Pakistan/Faisalabad/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

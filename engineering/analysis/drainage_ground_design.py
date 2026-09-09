@@ -170,6 +170,18 @@ def inspect_ground_report(
 
 def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, requirements_path: Path = DEFAULT_REQUIREMENTS, inspect: bool = False) -> dict[str, Any]:
     city, lines, stations = surveyed_alignment.load_design(design_path)
+    soil_path = design_path.parent / "engineering/soil/summary.json"
+    soil_context = {"status": "not-generated", "accepted_ground_model": False}
+    if soil_path.is_file():
+        soil = json.loads(soil_path.read_text())
+        soil_context = {
+            "status": soil["status"], "accepted_ground_model": False,
+            "summary_sha256": survey_control.sha256(soil_path),
+            "civil_investigation_plan_sha256": soil["civil_plan_sha256"],
+            "sample_count": soil["sample_count"],
+            "missing_profile_count": soil["missing_profile_count"],
+            "use": "Target field investigation using the adjacent soil/civil-investigation-plan.json; regional predictions do not satisfy received geotechnical evidence.",
+        }
     requirements = read_requirements(requirements_path)
     received, receipt_findings = route_station_fit.validate_receipt(manifest_path, evidence_root, requirements)
     authority_role = "drainage_ground_acceptance_record"
@@ -256,6 +268,7 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
     return {
         "schema_version": "1.0", "analysis_id": f"OSR-DRAINAGE-GROUND:{city}", "city": city,
         "status": status, "report_valid": not receipt_findings, "line_ids": [line["id"] for line in lines],
+        "desktop_soil_context": soil_context,
         "station_ids": [station["id"] for station in stations], "receipt_findings": receipt_findings,
         "missing_technical_roles": missing, "duplicate_roles": duplicates, "unreviewed_technical_roles": unreviewed,
         "inspection_requested": inspect, "inspection_completed": can_inspect, "inspection": inspection,
@@ -282,6 +295,8 @@ def render_markdown(report: dict[str, Any]) -> str:
     for title, values in (("Receipt findings", report["receipt_findings"]), ("Inspection findings", report["inspection_findings"]), ("Authority findings", report["authority_record_findings"])):
         if values:
             lines.extend([f"- {title}:", *[f"  - {item}" for item in values]])
+    if report.get("desktop_soil_context", {}).get("summary_sha256"):
+        lines.extend(["", "[Desktop soil inputs and route/station investigation priorities](../soil/README.md) are available. These do not replace the received geotechnical ground model."])
     lines.extend(["", "## Controlled workflow", "", report["controlled_storage_policy"], "",
         "1. Accept the ground model, route fit, hydrology basis and geotechnical model.",
         "2. Run the project SWMM model; retain its input, report, source hashes and continuity results.",

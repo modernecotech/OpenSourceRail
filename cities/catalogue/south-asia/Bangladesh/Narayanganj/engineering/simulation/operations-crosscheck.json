@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:narayanganj",
+  "city": "narayanganj",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": false,
+  "full_service_evidence_passed": false,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 3725.591,
+      "sumo_mean_trip_time_s": 3611.0,
+      "delta_s": -114.591,
+      "delta_percent_of_osr": -3.076,
+      "tolerance_s": 558.839,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 2619.591,
+      "sumo_mean_trip_time_s": 2521.0,
+      "delta_s": -98.591,
+      "delta_percent_of_osr": -3.764,
+      "tolerance_s": 392.939,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 2673.864,
+      "sumo_mean_trip_time_s": 2579.5,
+      "delta_s": -94.364,
+      "delta_percent_of_osr": -3.529,
+      "tolerance_s": 401.08,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "c07edb65616aed7d425df8217fa810314325dbaa6807828168ba5bedc72ad569",
+    "sumo_summary_sha256": "f2d8a2cb4810a928cf3a66d3aeefdba270199981482670657ea2b0c3cdcfa26a",
+    "simulation_summary_sha256": "e31f737d5ed82ea2bfa99ec2b5fd60c018845dd014fbe4c7ff42cee3e89ab026",
+    "native_timing_reference_sha256": "6e227685ce4ee8c03846f411d78bc85ab828e652c8481d507ecbea920da58e08"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "sources": {
+    "design": "cities/catalogue/south-asia/Bangladesh/Narayanganj/design.toml",
+    "sumo_summary": "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/native-timing-reference.json"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}
