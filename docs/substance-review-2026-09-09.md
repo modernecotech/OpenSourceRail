@@ -173,6 +173,18 @@ that envelope (3,689 m of usable slots under the initial allocation). These
 remain unverified space requirements, pending existing-track surveys and
 allocation changes; they do not justify additional depots by themselves.
 
+**Continuous-operation gap exposed:** the new [two-day replay](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
+fails overnight placement. Six revenue trains remain at an unpowered Line 1
+station after day one, rising to ten after day two, even though all 34 planned
+departure directions restart. Maximum station queues are 20 and 13 trains,
+respectively. The short replay's eight-train maximum and the initial allocation
+cannot establish recurring overnight capacity. The new check uses elapsed-time
+snapshots, verifies every train's stabling location and recalculates space from
+observed allocations. Next-section energy protection does not establish
+reachability to the next charger; charging reachability and failed-train
+recovery need explicit modelling. The failed result is included in Samawah's
+package manifest.
+
 **Remaining additions:** a station-by-station healthy-fleet overnight allocation
 with usable track lengths,
 train lengths, clearance points, charger sharing and access; evening run-in,

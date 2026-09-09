@@ -168,3 +168,11 @@ Candidates retain the design's spare and cold-reserve counts as parked roles.
 The replay checks each planned line/station/direction at morning opening and
 rejects routine reserve departures. Plans compare train lengths and clearances
 with reference platform berths, leaving actual track availability unverified.
+
+`screen-stabling-cycles.py --design path/to/design.toml --days 2` runs continuous
+service days without resetting trains or site storage. It checks each following
+morning by elapsed time, rejects trains outside selected stabling locations and
+compares observed night allocations with reference platform space. Samawah's
+retained two-day result fails placement despite passing direction restarts;
+the optional `service-cycle-screen.json` is included in package failure and
+source-drift checks. Neither replay proves daytime headway delivery.

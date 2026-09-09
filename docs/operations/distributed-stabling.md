@@ -59,9 +59,34 @@ and restart behaviour; they do not establish full-day energy endurance or
 correct depot/station energy sizing. The replay records the actual final-night
 positions rather than assuming the initial allocation is restored.
 
+## Continuous service-day check
+
+The [two-day replay](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
+starts at 05:30 and runs continuously through two complete service days and
+their following mornings. Train positions, batteries and site storage are not
+reset between days. It **fails the overnight placement check**, despite all
+34 planned departure directions restarting within 60 seconds on both mornings.
+
+After day one, six revenue trains remain at the unpowered Line 1 station
+`line-1-0814-0268-s019260`; after day two, ten remain there. Their SoC ranges
+from 21.3–27.5% and 20.5–27.1%, respectively. This station has no declared
+charging power and is excluded from the candidate's stabling locations.
+The native departure gate protects energy for the next section, but does not
+prove a train can reach the next powered station. Charging reachability and
+recovery therefore need explicit treatment before this candidate is accepted.
+
+The largest observed overnight queue reaches **20 trains after day one** and
+**13 after day two**. The short replay's eight-train maximum is not a design
+capacity for continuous operation. The new report calculates reference
+platform space requirements from each actual night allocation and rejects
+trains parked outside their line's selected stabling locations. It also checks
+complete fleet snapshots, overnight departures and battery reserve retention.
+Daytime headway delivery, adverse weather and physical charging access remain
+separate acceptance work.
+
 ## Remaining physical and operating work
 
-An eight-train station queue remains an abstract queue. No surveyed stabling
+A simulated station queue remains an abstract queue. No surveyed stabling
 roads, platform occupancy or charging connectors are created by this allocator.
 Each location needs usable track lengths and train assignments, access and
 turnout checks, charger-sharing arrangements, CCTV/remote isolation, inspection
@@ -91,6 +116,7 @@ regeneration, including daytime timetable and energy consequences.
 ```bash
 .venv/bin/python tools/automation/generate-stabling-plan.py --all
 .venv/bin/python tools/automation/screen-stabling-plan.py --design cities/catalogue/west-asia/Iraq/Samawah/design.toml
+.venv/bin/python tools/automation/screen-stabling-cycles.py --design cities/catalogue/west-asia/Iraq/Samawah/design.toml --days 2
 ```
 
 The replay tool builds the current release simulator and records source,

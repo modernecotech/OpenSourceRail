@@ -90,21 +90,29 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
             if actual is None or recorded != actual:
                 findings.append({"artifact": "engineering/stabling/summary.json", "source": key,
                                  "expected_sha256": actual, "recorded_sha256": recorded})
-    screen_path = city_dir / "engineering/stabling/operating-screen.json"
-    if screen_path.is_file():
+    for screen_name, generator, extra_sources in (
+        ("operating-screen", "screen-stabling-plan.py", {}),
+        ("service-cycle-screen", "screen-stabling-cycles.py", {
+            "cycle_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_cycles.py",
+        }),
+    ):
+        screen_path = city_dir / f"engineering/stabling/{screen_name}.json"
+        if not screen_path.is_file():
+            continue
         screen = json.loads(screen_path.read_text())
         for key, source in {
             **stabling_sources,
-            "screen_generator": REPO_ROOT / "tools/automation/screen-stabling-plan.py",
+            "screen_generator": REPO_ROOT / "tools/automation" / generator,
             "energy_model": REPO_ROOT / "crates/osr-sim/src/energy.rs",
             "train_model": REPO_ROOT / "crates/osr-sim/src/train.rs",
             "physics_model": REPO_ROOT / "crates/osr-sim/src/physics.rs",
             "direction_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_evidence.py",
+            **extra_sources,
         }.items():
             actual = sha256(source) if source.is_file() else None
             recorded = screen.get("source_sha256", {}).get(key)
             if actual is None or recorded != actual:
-                findings.append({"artifact": "engineering/stabling/operating-screen.json", "source": key,
+                findings.append({"artifact": f"engineering/stabling/{screen_name}.json", "source": key,
                                  "expected_sha256": actual, "recorded_sha256": recorded})
     return findings
 
@@ -185,9 +193,10 @@ def main() -> int:
         city_dir / "operations" / f"{slug}-budget-work-packages.csv",
         city_dir / "operations" / f"{slug}-cashflow-requirements.csv",
     ]
-    screen = city_dir / "engineering/stabling/operating-screen.json"
-    if screen.is_file():
-        required.extend([screen, screen.with_suffix(".md")])
+    for screen_name in ("operating-screen", "service-cycle-screen"):
+        screen = city_dir / f"engineering/stabling/{screen_name}.json"
+        if screen.is_file():
+            required.extend([screen, screen.with_suffix(".md")])
     for line in design.get("lines", []):
         line_id = str(line.get("id") or line.get("name")).replace("-", "")
         required.append(city_dir / "engineering/alignment" / f"{slug}-{line_id}.aln.toml")

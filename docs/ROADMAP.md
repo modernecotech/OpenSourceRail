@@ -26,6 +26,10 @@ Reference platform comparisons expose unresolved stabling space; verified
 track capacity, reserve activation and full-day timetable/energy acceptance
 remain open. See the
 [station-stabling workflow](operations/distributed-stabling.md).
+The continuous two-day Samawah screen fails placement: six then ten revenue
+trains remain at an unpowered station, while queues reach 20 then 13 trains.
+Charging reachability and recurring evening placement must be resolved before
+using the short replay's results for stabling capacity or service acceptance.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.
 
