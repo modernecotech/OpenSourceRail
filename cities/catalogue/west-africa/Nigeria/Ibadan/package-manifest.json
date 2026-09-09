@@ -33,6 +33,14 @@
       "bytes": 56542,
       "sha256": "7cbb269ccbfee99dd460576b2216811120d512daf850d1dba67f0c6d86b2d8a6"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2811,
+      "sha256": "3e82b9bb47e8fdc6eed4fa67c667d2d42765eb68f1dcbb789bbf8e5957659ac6"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8195,
+      "sha256": "fde86d3eed7eb5ab70d255cf6ec4c2cc68ce56d7bfdfbc136ba7f38f1c75d2d8"
+    },
     "engineering/energy/summary.json": {
       "bytes": 48565,
       "sha256": "1a1ca90de21d4b17c3c846bd4b8c8304462deb8105e6346cebc211935dafa621"
@@ -75,7 +83,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 24378,
-      "sha256": "1c615422e4d853c57a94e64a23bc01c1dce4bf7952095a0bc2a6ea52aa43db93"
+      "sha256": "7534ba3a4b562aa2a7897752c570371bc63f350c69f2a546c0cb34e814def43f"
     },
     "engineering/sumo/summary.json": {
       "bytes": 6134,
@@ -107,7 +115,7 @@
     },
     "operations/ibadan-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "ebbbda8b27845cae328714baf6824fac56ac3c2f9225054bbd219a2defdd37df"
+      "sha256": "e6858a58403265cf0e3264c1405c28da48fa3218ca0596c9746e3292ca13ac09"
     }
   },
   "city": "ibadan",
@@ -119,10 +127,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/ibadan.gpkg": {
       "bytes": 348160,
@@ -150,9 +159,9 @@
       "sha256": "2f131d70608417d0d9ab20caebd3766ce5c4f99b52712165e90f9472a8f1c307"
     },
     "operations/ibadan-operations.json.gz": {
-      "bytes": 1245333,
+      "bytes": 1245324,
       "required_in_git_checkout": false,
-      "sha256": "88a6016a88bda150236b45c10762283d0f81b76af34eb050022ab26197ae179d"
+      "sha256": "e6980d8cf26e1690807362ec253d0706fb4347dc8f9f23cabb35954933b54fb0"
     },
     "operations/ibadan-procurement-plan.csv": {
       "bytes": 1861117,
@@ -187,7 +196,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

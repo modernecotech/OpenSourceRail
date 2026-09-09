@@ -25,6 +25,14 @@
       "bytes": 24545,
       "sha256": "f238258e00337d4e686b49c17f80ff27b84d651e010c57e35db6b47b7e6155c8"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2500,
+      "sha256": "a0f8b0650413512ed4fb4eb093e47785594950263f0571822f3bd34b01a2a164"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6884,
+      "sha256": "3228ce12efdab3d4fe6773d6423c6e4d1580b0e47eb2966426f95f4e6c70b875"
+    },
     "engineering/energy/summary.json": {
       "bytes": 13553,
       "sha256": "7eb62ee9fb5d9816cc926fe61de88ae685712cd46e823add39dfb4b909c0efc3"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 6853,
-      "sha256": "baf55d4218d90fff167e57a0259f2695dc8bfeeda96a3a7e168515110f1291c4"
+      "sha256": "69c40db8f38450aa9b7fe595592a69c77e48dd77ecaf5f3ab58789f5d16505f7"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3526,
@@ -99,7 +107,7 @@
     },
     "operations/kumba-operations-manifest.json": {
       "bytes": 887,
-      "sha256": "a6a0d2660ae5942152dde79c040f2b8f132f8c540ce932c41a704386bf294522"
+      "sha256": "6579250a7eefa1ee5e95ba3fc1564716377c84703eec5d941325b49004971542"
     }
   },
   "city": "kumba",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kumba.gpkg": {
       "bytes": 262144,
@@ -142,9 +151,9 @@
       "sha256": "db132faa39cbc4bb40545a0c2d12911fecbcb4124e084d39af60c15c39e67f4c"
     },
     "operations/kumba-operations.json.gz": {
-      "bytes": 2298386,
+      "bytes": 2298382,
       "required_in_git_checkout": false,
-      "sha256": "dcffc843766e922ed4adcc887d41fd5875abf263efa2dc772b04c996f2ca88b2"
+      "sha256": "2c1504376b3088ec0a73556d3b0d879676eecadaeab3af6acb2ac2c9246535e4"
     },
     "operations/kumba-procurement-plan.csv": {
       "bytes": 5391374,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

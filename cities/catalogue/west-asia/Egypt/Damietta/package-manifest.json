@@ -45,6 +45,14 @@
       "bytes": 31082,
       "sha256": "c9c536c65dc61660c46b347245d913af70de0736be3f3ee2659cfa4985cca53c"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2519,
+      "sha256": "02167658d9198f47af57d84ea82e65405313cfa0c3f1d0192651d6d1829e528f"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6895,
+      "sha256": "dd922e9f30c9b5f1ce6c270420109ae17a083a7b54dcc4ba5b9c0ba33fa03b7e"
+    },
     "engineering/energy/summary.json": {
       "bytes": 23392,
       "sha256": "46619319ce1605334c632c93ac01837dce4d84dc4b6a0850129a599969432ed6"
@@ -87,7 +95,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 10782,
-      "sha256": "864da42c5941e27289bf8bdf7ee3407503a4dc672e1aec74f57b4803405a449f"
+      "sha256": "56926735c805fc5abcab30db89830ee8b559c7945dda772decd287105154c9e5"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3866,
@@ -99,7 +107,7 @@
     },
     "operations/damietta-operations-manifest.json": {
       "bytes": 898,
-      "sha256": "9df1f8f3190179f9bfc8ca0884cc73a4ddcdc688566fab13739640446427dc8f"
+      "sha256": "084ae59a034f24946fe187b01faa4a241515d3ecbde395240532e90c2d000ff4"
     }
   },
   "city": "damietta",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/damietta.gpkg": {
       "bytes": 270336,
@@ -142,9 +151,9 @@
       "sha256": "7db20e13e8b2a7624cc5a4c8c3e783c5d97f444783884058b346ade96fd4a9e7"
     },
     "operations/damietta-operations.json.gz": {
-      "bytes": 3973560,
+      "bytes": 3973549,
       "required_in_git_checkout": false,
-      "sha256": "7dbf6ece8ef883050f62718711285cca7d7e8461326259067b5a5353bb7565b3"
+      "sha256": "7267249cf7715a1e640fbdf46a9a0dafcea2babe6a9848a1b26921b026ceb627"
     },
     "operations/damietta-procurement-plan.csv": {
       "bytes": 9382699,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

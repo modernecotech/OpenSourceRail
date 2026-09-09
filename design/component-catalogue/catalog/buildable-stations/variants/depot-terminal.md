@@ -30,6 +30,13 @@ traveler, FreeCAD installed/exploded states and IFC4.3 assembly.
 | `depot_archetype` | none | main-heavy |
 | `depot_reference_stalls` | 0 | 4 |
 | `depot_throat_turnouts` | 0 | 2 |
+| `depot_energy_tier` | not-used | depot-main |
+| `depot_pv_nameplate_kw` | not-used | 5000.0 |
+| `depot_storage_capacity_kwh` | not-used | 40000.0 |
+| `depot_storage_module_kwh` | not-used | 500.0 |
+| `depot_storage_module_count` | not-used | 80 |
+| `depot_required_pv_module_area_m2` | not-used | 33333.333333333336 |
+| `depot_energy_placement_released` | not-used | False |
 
 Unique product rows: `STN-CHG-P020`, `STN-TRK-P010`, `STN-TRK-P020`, `STN-TRK-P030`, `STN-TRK-P040`, `STN-TRK-P050`, `STN-TRK-P060`, `STN-TRK-P070`, `STN-DEP-P010`, `STN-DEP-P020`, `STN-DEP-P030`, `STN-DEP-P040`, `STN-DEP-P050`, `STN-DEP-P060`, `STN-DEP-P070`
 

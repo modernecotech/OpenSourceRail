@@ -25,6 +25,14 @@
       "bytes": 34239,
       "sha256": "7ada653002b3705d9ff8ace2e17a2457eea818759d1b0f66f5dd9e457dc8c8d7"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2491,
+      "sha256": "2d415c002b0b55be30c10b8e416e27cb86960e877379efb32ef6ccf311aa53a5"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6866,
+      "sha256": "bf666506d6be295128efa17ee90cfefaae043bd07744be387ed3e2623621910f"
+    },
     "engineering/energy/summary.json": {
       "bytes": 18130,
       "sha256": "69f905e3b0ec0b42b7e4b282f1709262189d1a01a9e02a8eacb7cb40bd43303f"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 8196,
-      "sha256": "65f8b1947b5dfa9c7de059786c491bcf07675795aae6dbe1d296636ccb3ab5ec"
+      "sha256": "e39675cd42842636068b7b34f00b4b9f2fdf5a370bfb001b435b4c2ea8d34c1a"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3622,
@@ -99,7 +107,7 @@
     },
     "operations/homs-operations-manifest.json": {
       "bytes": 885,
-      "sha256": "43af8577c956a8c4a116eb160d888d54b15471dd24198c716c6cc9b14ddb3bd0"
+      "sha256": "2536b85eaf52432f2d6e9f464f75d0b4037717946ead60d4ea5b7bbd26a0fc7e"
     }
   },
   "city": "homs",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/homs.gpkg": {
       "bytes": 274432,
@@ -142,9 +151,9 @@
       "sha256": "0a3e823c28769065ec6a46aa7d938df2429d7456fe181d7142a7b3f569920fdc"
     },
     "operations/homs-operations.json.gz": {
-      "bytes": 2289402,
+      "bytes": 2289395,
       "required_in_git_checkout": false,
-      "sha256": "768ba6f2b2962f2c5ee238966d158aac3cbcc473423c615fc2484ac423ae6744"
+      "sha256": "32f7105fecae6e8e63b6de10fa0de5caa3cb6ff912662c90809493ebc0b93fed"
     },
     "operations/homs-procurement-plan.csv": {
       "bytes": 5274256,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

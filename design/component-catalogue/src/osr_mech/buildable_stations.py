@@ -21,6 +21,7 @@ from pathlib import Path
 from osr_mech.civil.platform_l_unit import units_per_platform
 from osr_mech.common import ConsistFamily, StationArchetype, archetype_platform_length_m
 from osr_mech.depot import throat_turnout_count
+from osr_mech.depot.energy import depot_energy_scope
 from osr_mech.station.canopy import bay_count
 from osr_mech.station.auxiliary_canopy import (
     AUX_MODULE_AREA_M2,
@@ -655,6 +656,7 @@ def station_variant(
         )
     if bool(config.get("is_depot", False)):
         depot = _main_depot_reference()
+        energy = depot_energy_scope("main-heavy", templates_root=DEFAULT_DEPOT_TEMPLATE.parent)
         depot_stalls = int(depot["default_fleet_stalls"])
         depot_turnouts = throat_turnout_count(depot_stalls)
         items.extend(
@@ -714,9 +716,11 @@ def station_variant(
                     1,
                     "energy-site kit",
                     "STN-DEP-SA850",
-                    f"{depot['pv_canopy_m2']} m2 / {depot['pv_nominal_kwp']} kWp PV with {depot['battery_kwh']} kWh storage",
+                    f"{energy['energy_site_tier']}: {energy['pv_nameplate_kw']:g} kWp PV requiring {energy['required_pv_module_area_m2']:.1f} m2 of modules; "
+                    f"{energy['storage_module_count']} x {energy['storage_module_kwh']:g} kWh = {energy['storage_capacity_kwh']:g} kWh storage; "
+                    f"only {energy['reference_pv_canopy_m2']:g} m2 reference canopy, additional PV/storage placement and cost closure pending",
                     ("structural/PV layout release", "utility/protection approval", "cell-to-pack propagation and heat-release evidence", "outdoor compound separation/ventilation/containment review", "remote isolation and gas/fire detection proof", "energy-site SAT"),
-                    ("lib/templates/depots.toml", "RFC 0014 §5.3", "RFC 0002", "engineering/analysis/stations/screening-summary.md"),
+                    ("lib/templates/depots.toml", "lib/templates/energy-sites.toml", "depot/energy.py", "RFC 0014 §5.3", "RFC 0002", "engineering/analysis/stations/screening-summary.md"),
                     "buildable-after-energy-site-and-supplier-freeze",
                 ),
                 _item(
@@ -966,6 +970,15 @@ def station_variant(
         "depot_archetype": "main-heavy" if depot_stalls else "none",
         "depot_reference_stalls": depot_stalls,
         "depot_throat_turnouts": depot_turnouts,
+        **({
+            "depot_energy_tier": energy["energy_site_tier"],
+            "depot_pv_nameplate_kw": energy["pv_nameplate_kw"],
+            "depot_storage_capacity_kwh": energy["storage_capacity_kwh"],
+            "depot_storage_module_kwh": energy["storage_module_kwh"],
+            "depot_storage_module_count": energy["storage_module_count"],
+            "depot_required_pv_module_area_m2": energy["required_pv_module_area_m2"],
+            "depot_energy_placement_released": False,
+        } if depot_stalls else {}),
     }
     return StationVariant(
         archetype.value,

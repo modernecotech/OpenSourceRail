@@ -45,6 +45,14 @@
       "bytes": 21748,
       "sha256": "29dfc43355357062003a89313e7ead30296bb481dea55f8b276533177f48830d"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2507,
+      "sha256": "fd8b0c01f86310625973445672339121ab4f235c6502c1393273e41eb351650a"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6895,
+      "sha256": "87180c8415543fa1eb0c6c88f72b714af7763582e57fe5da8ed15a88d3c7ca8a"
+    },
     "engineering/energy/summary.json": {
       "bytes": 17892,
       "sha256": "8bd4afcdbc2c0ba43fb2367cde9fd2cf1dc7cdeee4f0f5b7cb19e9fbf496feda"
@@ -87,7 +95,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 8178,
-      "sha256": "8146a890832645fdc3ab25b4214b08124fcd990dff32495dc549921034ff9e61"
+      "sha256": "fc01f1089669067ce99400b53584946bbfd21eeb6f49596a15efc4da9c022198"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3653,
@@ -99,7 +107,7 @@
     },
     "operations/benguela-operations-manifest.json": {
       "bytes": 897,
-      "sha256": "240297947a5ec0957f6de9b9af235537dd7bf4eeed00b1543c398a1d8eb2ea8f"
+      "sha256": "2e030c7c0e3af9dbc9b64fcc760df70a4e3b3b4f8fa998b790030f7b02c1195f"
     }
   },
   "city": "benguela",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/benguela.gpkg": {
       "bytes": 270336,
@@ -142,9 +151,9 @@
       "sha256": "24c7ff2740d80594691397140ba536edd95c39dd284013bbd4b59c8408625e50"
     },
     "operations/benguela-operations.json.gz": {
-      "bytes": 2813063,
+      "bytes": 2813055,
       "required_in_git_checkout": false,
-      "sha256": "fda9d0ac8280458f7bfdb61b05e79995b4ec06695e360da6fa4953b567281920"
+      "sha256": "eb0bd1df04cad2777098b5053fb9a296cb0c91d50675ff242b2c973ee4823259"
     },
     "operations/benguela-procurement-plan.csv": {
       "bytes": 6629270,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

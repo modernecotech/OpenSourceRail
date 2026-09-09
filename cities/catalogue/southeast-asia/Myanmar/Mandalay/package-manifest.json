@@ -37,6 +37,14 @@
       "bytes": 42377,
       "sha256": "5e71d47a485a6a004a3d833dc2e5dd5d81e3d76271212d6ef9f66c23a2d7d218"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2971,
+      "sha256": "ced2dad31c319fd08c1a0a7ab7f60888a248b49f849c20ac04b2668f10fb047f"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8851,
+      "sha256": "e96cf7c5936bdf8c168749cd5be234c37875f162811b90babefaed3d9ec6797f"
+    },
     "engineering/energy/summary.json": {
       "bytes": 51719,
       "sha256": "70718824bbb075ae3398d66abe324fc58bd0e964268c4158d4ca80dcc7640a88"
@@ -79,7 +87,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 32866,
-      "sha256": "7308a700ace135c49c9e6fbff8d318bb4a65e222353b6c656feb938ae3f12ee0"
+      "sha256": "1c39efb37bb8429f3ff3b42d3be6a76fee88721b0bec5a3843d556db95d5e9d6"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7449,
@@ -111,7 +119,7 @@
     },
     "operations/mandalay-operations-manifest.json": {
       "bytes": 896,
-      "sha256": "36739c714a4dfef75e86370b351e28c6b5ed7d34a5589b75fd218023a10e505b"
+      "sha256": "f7848b2a8f1642cd78fe0528319bee88aae03254b523665f8e9ebb228aee8bff"
     }
   },
   "city": "mandalay",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/mandalay.gpkg": {
       "bytes": 364544,
@@ -154,9 +163,9 @@
       "sha256": "a5f0c3741a63fc8b26ed9b81d7dd7edd0d873564d5a7899e8ed712590fc1b02d"
     },
     "operations/mandalay-operations.json.gz": {
-      "bytes": 1564305,
+      "bytes": 1564300,
       "required_in_git_checkout": false,
-      "sha256": "e95ff26bf08435164e9813c5366dc57eb99577c4d2f44b733fe8d3b161a57dbc"
+      "sha256": "9688f54a8555794ee0c3fc819061c494f3a4a55db64877a3419eaaba197a7fc1"
     },
     "operations/mandalay-procurement-plan.csv": {
       "bytes": 2414650,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

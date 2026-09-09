@@ -49,6 +49,14 @@
       "bytes": 58132,
       "sha256": "9e28f35eada447be0352ee6bbe47fabf5a8fe691cbe93681cf4e8fc442a50442"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 3427,
+      "sha256": "c6429a4531b8045fa42b581c3ea6e7b5c0ac5176eac63b293d2332d731c0bc93"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 10794,
+      "sha256": "ff1971d21929340a5c8e84ee2519ef30b119f7908c2520e635def713816771d1"
+    },
     "engineering/energy/summary.json": {
       "bytes": 113747,
       "sha256": "1048cf485aa630dbe7be48b66ffb4e8a32397517f0105dec215ed808ef557a4d"
@@ -91,7 +99,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 61790,
-      "sha256": "fa17c617eefebdec9aeb5f5a7f90e0ed537c20aefa5bb7464fc9f1350a856145"
+      "sha256": "c26bffc86d6268d9e8c74586ceea3556d11570c927c33684381b4bf37b5b4364"
     },
     "engineering/sumo/summary.json": {
       "bytes": 11593,
@@ -123,7 +131,7 @@
     },
     "operations/kano-operations-manifest.json": {
       "bytes": 899,
-      "sha256": "2afeff3910b087304417778954ada35a5315299f2d0a421461868a730f88aebb"
+      "sha256": "b9471f706522e8f25af723fdc547562734ba4ba653034f35c7eb7f94bc00bd39"
     }
   },
   "city": "kano",
@@ -135,10 +143,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kano.gpkg": {
       "bytes": 434176,
@@ -166,9 +175,9 @@
       "sha256": "2d5c0dc27cc4e53af2dbfa2b00bfc1aac329169760842dbb9a3cf06032ee3a6f"
     },
     "operations/kano-operations.json.gz": {
-      "bytes": 3427227,
+      "bytes": 3427218,
       "required_in_git_checkout": false,
-      "sha256": "b44a6d49a2aa5e00329d9ae158760481c233fa00701eb8843f9652de6d1da493"
+      "sha256": "f96a649783ef5128ecb2a507d7bb75b62ae20b84c155bd3b9e6b5b9d779243fd"
     },
     "operations/kano-procurement-plan.csv": {
       "bytes": 5153686,
@@ -203,7 +212,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

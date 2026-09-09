@@ -14,8 +14,13 @@ import/export gates. All seven drainage variants pass the corrected planning
 screen. The electrical correction exposes insufficient declared connections,
 including seven Samawah sites; the affected city and full-package results now
 fail. Connection upgrades or charging changes must be reconciled with timetable
-and cost. Depot energy scope, physical stabling allocation, procurement/calendar
-cashflow, battery renewal and shared factory scheduling remain open.
+and cost. The depot energy quantity contract is now shared by operating tiers,
+layout requirements and the BOM, with all 266 cities reporting PV area,
+equipment-cost sensitivity and initial dispatch capacity requirements. Located
+equipment, installed-cost reconciliation, physical stabling allocation,
+procurement/calendar cashflow, battery renewal and shared factory scheduling
+remain open. Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
+overrides represented explicitly in reproducible design inputs.
 
 The 2026-09-08 repository review found no failing committed software, city,
 project-twin, link, or browser acceptance baseline. The documentation audit

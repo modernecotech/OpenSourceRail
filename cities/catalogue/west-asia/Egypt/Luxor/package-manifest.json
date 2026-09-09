@@ -25,6 +25,14 @@
       "bytes": 30279,
       "sha256": "f548a15a58dc48a3b8f62999e6dbd98fef4c2e70d6a1275503660456e44f734f"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2504,
+      "sha256": "c2fe5242d3c2f00d8ed6c3fce60b5d5748f813d92495809ef5692eebf34007a9"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6877,
+      "sha256": "c5b2517b265ec3411545f3f9cc9f91ab241419dc0b41db499d7bda161a19d17c"
+    },
     "engineering/energy/summary.json": {
       "bytes": 16292,
       "sha256": "d1ae2cff70753eb5ad1569f68187c476992ad1115060b5897f4587f3cedbf06a"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 8605,
-      "sha256": "85408672241422b150710bc1ed34ab22d8901ef3bf06b4249ad7d0af72b53cec"
+      "sha256": "9df51cd6318bb46538d2f118c671ac36fb199de6adb97e442413178089c9ceb3"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3665,
@@ -99,7 +107,7 @@
     },
     "operations/luxor-operations-manifest.json": {
       "bytes": 891,
-      "sha256": "891b1b4070710cdf136d426c633da35b4fa91eddce637196cb78ca2ca2e4823d"
+      "sha256": "711e7e1d922570e5d099e7cd71e87e56be4997fe45c53b3989fb7239dfaef019"
     }
   },
   "city": "luxor",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/luxor.gpkg": {
       "bytes": 274432,
@@ -142,9 +151,9 @@
       "sha256": "fe0f350422d64b504f1cb88c3f14431edd0acd6eb3e4669ba3ab069b66ef57cb"
     },
     "operations/luxor-operations.json.gz": {
-      "bytes": 2862830,
+      "bytes": 2862826,
       "required_in_git_checkout": false,
-      "sha256": "1d9c4207bc65b098e6988c7975771520fad3b513c456bd2344d5da75cf0f1726"
+      "sha256": "c03c624016be3bf26dfec73f3e8ea40f384ff4110ec7847fef0c51beb20944ba"
     },
     "operations/luxor-procurement-plan.csv": {
       "bytes": 6656693,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

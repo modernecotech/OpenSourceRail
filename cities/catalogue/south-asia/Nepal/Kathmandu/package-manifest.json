@@ -37,6 +37,14 @@
       "bytes": 74174,
       "sha256": "bdb299e605ea7aceb3714bf1b73d14afc0527cc6bc34c664f0f09a65d76d513d"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2968,
+      "sha256": "f937abee520af423b6b07b9113bbdd1e7031dd50526a2ac6930d9b99bf319557"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8841,
+      "sha256": "ea61d9a49bc72990799075a0c7c602a135b5caf3a95979cf47feabc5a724dff1"
+    },
     "engineering/energy/summary.json": {
       "bytes": 51604,
       "sha256": "2001e2ba03a459e25cb14c0afa60d5b2e26317992fdba1dddb6cf3728dcd6e30"
@@ -79,7 +87,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 29861,
-      "sha256": "5ce516e1ec2fc27c4301c9fcb2a7b7f829a4a2cfc474d579f38bdd2203ef6f48"
+      "sha256": "bcd4f668c648cf309106239d921a320bd6a29e97cf0bfc3b742e2b16aaeaffa6"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7188,
@@ -111,7 +119,7 @@
     },
     "operations/kathmandu-operations-manifest.json": {
       "bytes": 898,
-      "sha256": "ffc5baef685b67c07d0e974a4cca11a22eb1adfad65a897d05f5fdba5b0b68b6"
+      "sha256": "8b430157b72e8c96b5cc35384088d3b75c5259aac68be4f3baa8e25803c182e5"
     }
   },
   "city": "kathmandu",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kathmandu.gpkg": {
       "bytes": 393216,
@@ -154,9 +163,9 @@
       "sha256": "6953f8add341e1ad0c8f2efef3d46a101c79e2d9d2a2dea292b28db67ab99093"
     },
     "operations/kathmandu-operations.json.gz": {
-      "bytes": 1455117,
+      "bytes": 1455115,
       "required_in_git_checkout": false,
-      "sha256": "1fa05695127db19a47264bce5191a929039bd17394560cb23fd91472a75e3881"
+      "sha256": "c9c6afda8d884da4509131fe889c9fa48f89a26d5448783c0259dd72225b036d"
     },
     "operations/kathmandu-procurement-plan.csv": {
       "bytes": 2196060,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

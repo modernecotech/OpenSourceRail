@@ -16,3 +16,9 @@ component geometry.
 
 Structural release calculations, surveys, ground data, supplier drawings and
 jurisdictional approvals remain deployment-specific gates.
+
+City `engineering/depot-scope/` reports reconcile the operating depot inventory
+with the station BOM, reference canopy, cost allowances and initial dispatch
+requirements. See the [Samawah reconciliation](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md).
+These reports quantify outstanding work; they do not establish equipment
+placement, an installed budget or overnight stabling feasibility.

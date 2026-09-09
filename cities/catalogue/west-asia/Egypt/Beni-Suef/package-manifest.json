@@ -45,6 +45,14 @@
       "bytes": 20784,
       "sha256": "74f8f88427dcb17c445867e3f38516371bcd25921d9958bde778458d17482cdc"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2500,
+      "sha256": "02b3395c6600eceedc4ed97a35c3b37a0f987532c619814b5a3194f2029952a6"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6888,
+      "sha256": "2f8c6ad4c580e8232c92aa2c3f80b7e15dd774322ff4ba0ae83be16e7dd751b3"
+    },
     "engineering/energy/summary.json": {
       "bytes": 17100,
       "sha256": "f723396967506bff7126b3962f7a25fcf6d356926307aa741459546e8db41ef3"
@@ -87,7 +95,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 7723,
-      "sha256": "141da5cf04b14fe3fce4841f9cc20a9f1b69ba8adfec034b66bd22e03ceadf5b"
+      "sha256": "9feb156698f1515051205a6b628f84c33991a445a205b41bcded50153b4684e7"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3608,
@@ -99,7 +107,7 @@
     },
     "operations/beni-suef-operations-manifest.json": {
       "bytes": 895,
-      "sha256": "103538fe82b40a6c09e8d28a06b703e3ce563a4986a82464b52e10e5eaae9bf5"
+      "sha256": "bdbadefea11d74d0e8dd052fdbabf992acd2c79ebb13db05a031613f90c6c90b"
     }
   },
   "city": "beni-suef",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/beni-suef.gpkg": {
       "bytes": 274432,
@@ -142,9 +151,9 @@
       "sha256": "96d0eeb938dd9a28ad50629999eae42d75b35231689b95c8f7ec0176468eedc1"
     },
     "operations/beni-suef-operations.json.gz": {
-      "bytes": 2279465,
+      "bytes": 2279454,
       "required_in_git_checkout": false,
-      "sha256": "276f9064450553a8f082ba0d56371288a98a3511d2f3d8ddbdaa110e82c977ae"
+      "sha256": "b60d46b756960023dfd85769eb09d08ddccbd5f46bb32179b3012a9766a942d1"
     },
     "operations/beni-suef-procurement-plan.csv": {
       "bytes": 5314412,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

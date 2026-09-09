@@ -25,6 +25,14 @@
       "bytes": 30246,
       "sha256": "9a77361b40c3941f96ebfd6ff9fb0cc87fc3fd1eb1822a2320e78341f3b92e84"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2507,
+      "sha256": "5e3ee5828fd650381a7506a2391a95bf757a2e1fe6ede0199194c21a44dbd453"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6889,
+      "sha256": "91a186b7e0c3d5eac5295f6f8687beca0fe5f62f45993ef4a3ddea5172cfbc13"
+    },
     "engineering/energy/summary.json": {
       "bytes": 21288,
       "sha256": "ce228690c928cf067b18675179c95eecfd5c058a29ea37c71e333aebd75c8f6d"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 10285,
-      "sha256": "c2eab7a1edfef2d2fdc1ac0438c7245c3e65adb6accf3c6e0269a4f5f9751170"
+      "sha256": "e60827bf310ee18186c1a9aa9df59242a9f7002da9d355d63531d0a808000ade"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3819,
@@ -99,7 +107,7 @@
     },
     "operations/hail-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "3184b50429e39ce20af7614d772cd2672d4490cc6a441e69955a9fa2b82a583f"
+      "sha256": "8bdc610ea064a92df327fe75248cd06bc5e95955e981508ed6cc7853d9389fc5"
     }
   },
   "city": "hail",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/hail.gpkg": {
       "bytes": 270336,
@@ -142,9 +151,9 @@
       "sha256": "71efa9e956acbd2193cad795b9891a0621e2262dbb31be94534c64f932f05b3f"
     },
     "operations/hail-operations.json.gz": {
-      "bytes": 3425209,
+      "bytes": 3425197,
       "required_in_git_checkout": false,
-      "sha256": "f2bbf3564dba5fb1e241f5e9af250db1d5630df6f957e95922f93c69b6648c03"
+      "sha256": "69fad67e87a461d4864ef954ceaddd8f446203ca2f2c37808d1a0d109ce57a38"
     },
     "operations/hail-procurement-plan.csv": {
       "bytes": 7965640,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

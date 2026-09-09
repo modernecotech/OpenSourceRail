@@ -37,6 +37,13 @@ engineering approvals, supplier documents, and inspector signatures are required
 | `depot_archetype` | main-heavy |
 | `depot_reference_stalls` | 4 |
 | `depot_throat_turnouts` | 2 |
+| `depot_energy_tier` | depot-main |
+| `depot_pv_nameplate_kw` | 5000.0 |
+| `depot_storage_capacity_kwh` | 40000.0 |
+| `depot_storage_module_kwh` | 500.0 |
+| `depot_storage_module_count` | 80 |
+| `depot_required_pv_module_area_m2` | 33333.333333333336 |
+| `depot_energy_placement_released` | False |
 
 ## `STN-CIV-SA100` — site, foundation, drainage, and track/depot interface works
 

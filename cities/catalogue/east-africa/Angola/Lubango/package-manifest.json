@@ -25,6 +25,14 @@
       "bytes": 36548,
       "sha256": "1881342f79471ed77c4f29c504bd865748c87452afeabd9f5504a7ef3c33b68a"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2506,
+      "sha256": "d50d744f12cc2ac1957c958ba6ea7272838646688b16b123483b03a95671aff4"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6891,
+      "sha256": "ae0e21449a5487d66d2e82578810bc26df5c88c7dde07a9739d772cc355e78c3"
+    },
     "engineering/energy/summary.json": {
       "bytes": 20903,
       "sha256": "5e641d7c91155cd80dc710981720a5b470b685a75675b8f1df3d8fcecde1f256"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 9897,
-      "sha256": "71419ab133aa9645f21850cba9e310ecaeb1a3c2691741c1db25af6b5cd9b43a"
+      "sha256": "cc8f23d9d894be6f53ea6596c4556c758c07d52d5c9fa36a491aa1bbbb1f9953"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3794,
@@ -99,7 +107,7 @@
     },
     "operations/lubango-operations-manifest.json": {
       "bytes": 895,
-      "sha256": "04bcbbbd5ce7a7c392cdd92e09159b54f5d400ea503b0a6c0ccd41e0f9c04670"
+      "sha256": "ac1b20bf9bfdc6c1eb8046852738b4795affd139b491fc6d2d930db758179a08"
     }
   },
   "city": "lubango",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/lubango.gpkg": {
       "bytes": 282624,
@@ -142,9 +151,9 @@
       "sha256": "15015bde843d49e0680558068ad9b87f102c9f292489d844b6f6605082c2f486"
     },
     "operations/lubango-operations.json.gz": {
-      "bytes": 3097947,
+      "bytes": 3097939,
       "required_in_git_checkout": false,
-      "sha256": "f66af5b6bc4f721559eaa40b3d820b80b2ce225fe60b257332d4954a85ab2432"
+      "sha256": "bcfabb630495feac9574d7634765f6da4902f32c821ebe6800baaea2615bbe84"
     },
     "operations/lubango-procurement-plan.csv": {
       "bytes": 7205570,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

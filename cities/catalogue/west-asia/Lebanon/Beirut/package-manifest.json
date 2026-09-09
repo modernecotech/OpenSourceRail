@@ -57,6 +57,14 @@
       "bytes": 64135,
       "sha256": "f5a22a6ddfc64afdb52d25c7d1f4b3ac8441263c928210200f12cea3f2410bd7"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2961,
+      "sha256": "c8911df1d1f2dc0da2b472091515ccd15ee54f4088cb5487b1e17fbcd786dc53"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8828,
+      "sha256": "d1a2e60f2d62ed6a9e74a3be3c272a07bd3a9ba3f7d5d176a59a9c552f426a5f"
+    },
     "engineering/energy/summary.json": {
       "bytes": 39216,
       "sha256": "7bc754cf163ee30faf5ac3dca039160d04e12c36add9d16dfcb49a5ab0f1dc04"
@@ -99,7 +107,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 22277,
-      "sha256": "029c8800abb7e7168980d12696cdddc4ed21317e85be8226bb7c4166385ab396"
+      "sha256": "c679f707d21180014bcb070154480b5b683f21cfe9ab6ff2c01614665d758321"
     },
     "engineering/sumo/summary.json": {
       "bytes": 6516,
@@ -111,7 +119,7 @@
     },
     "operations/beirut-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "595a0e33177a481fb095bb2e211b9fa8c5e1c992e60b4d41434bfd2f96e5490f"
+      "sha256": "3e9510f577a5c9f29b0065e3eff1439f0218557a772aad7c65b758ea415a02ce"
     }
   },
   "city": "beirut",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/beirut.gpkg": {
       "bytes": 380928,
@@ -154,9 +163,9 @@
       "sha256": "c490945ac68d18b2918ed46b5c7cc9e35fde27a7e732d34f89a73aa48e3ab4b5"
     },
     "operations/beirut-operations.json.gz": {
-      "bytes": 1109687,
+      "bytes": 1109679,
       "required_in_git_checkout": false,
-      "sha256": "dd64d73a00bd1b1c28b1222cea3977bee855b0e1e475fe0249510751922e2872"
+      "sha256": "f55cd0aba69c1b3281a66e3c0b54055cbdea0ac09cc0f54c99bbf2a503ec0a1d"
     },
     "operations/beirut-procurement-plan.csv": {
       "bytes": 1642081,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

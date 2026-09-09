@@ -25,6 +25,14 @@
       "bytes": 23898,
       "sha256": "963ff701e0009be7c44f77eac966d8d63e50e8ad0ae47265466e9581e77fd183"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2493,
+      "sha256": "f4fc5a10b266307f11b00f41bf2ef3a32c59ec3b29bac371586a2cd2fcbafdd5"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6880,
+      "sha256": "b881d2bcb94bd9e47ebc55f8534bf993c61b34662473035e0989e25192b3c367"
+    },
     "engineering/energy/summary.json": {
       "bytes": 18405,
       "sha256": "16fa8567609e20399d2e5e3787c9fbdcb2a651b1a888ec79854f0aaf34ca398b"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 8558,
-      "sha256": "4f11b667d339dbe4cf0c8fd348ca2bfe29251431e91dd26cf335d30e4e0aaf58"
+      "sha256": "fb89b7dbddd3b81d7729dfb57319446ce499b1b95005f3da5477bf24f8be8a61"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3655,
@@ -99,7 +107,7 @@
     },
     "operations/namibe-operations-manifest.json": {
       "bytes": 886,
-      "sha256": "e936774150aec76eeb8ffc64d09dcc7716aa5a23471a0688b2ae49a6c18b33c1"
+      "sha256": "e144d767ec00d3c28d129e4ee29b2ac3a84e8e63fd5defb1c89bc430c109c84a"
     }
   },
   "city": "namibe",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/namibe.gpkg": {
       "bytes": 282624,
@@ -142,9 +151,9 @@
       "sha256": "ec3c1dda89a8403f9e1282c693587edf81a05bdac70d7e6a96a624934f08fb68"
     },
     "operations/namibe-operations.json.gz": {
-      "bytes": 431417,
+      "bytes": 431411,
       "required_in_git_checkout": false,
-      "sha256": "3bbfe15b24673945a6437ef29c87e8d00892499f6c28c7aadd9ba19fedbcd7d7"
+      "sha256": "520890f7ebdedb619a2afb8c26a2d8cc8d690112fb0aa0b1cb45bff62d35237e"
     },
     "operations/namibe-procurement-plan.csv": {
       "bytes": 671521,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

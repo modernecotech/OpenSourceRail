@@ -19,6 +19,13 @@
 # Healthy sets remain on powered passenger tracks overnight. The archetype
 # values below remain catalogue envelopes for local site adaptation.
 
+[energy_scope]
+# Active equipment quantities come from the referenced energy-sites.toml tier.
+# Baseline allowances below describe the earlier physical envelope, not a
+# second operational configuration or proof that additions are included in CAPEX.
+pv_nameplate_kw_per_m2 = 0.15
+placement_status = "additional PV and stationary storage require a controlled site layout"
+
 [operations.turnaround_service]
 # Performed at a designated powered service point; only defect/heavy work
 # requires the main depot. Mobile teams can use a staffed terminal platform.
@@ -53,14 +60,15 @@ defect_return_policy        = "route-to-main-heavy"
 [archetypes.main-heavy]
 # One main-heavy per deployment per RFC 0014 §1. Sized below for a
 # fleet; larger deployments scale by maintenance concurrency up to the
-# 20-bay catalogue ceiling before a second main-heavy is needed.
+# 20-bay reference envelope; larger workshops need a controlled site extension.
 default_fleet_stalls        = 4           # minimum workshop/inspection bays
-max_fleet_stalls_catalog    = 20          # beyond this, add a 2nd main-heavy
+max_fleet_stalls_catalog    = 20          # beyond this, controlled site extension
 workshop_m2                 = 1800        # includes overhaul bay
 overhead_crane_t            = 40          # 40 t for bogie drop per RFC 0014 §5.2
 pv_canopy_m2                = 4000        # per RFC 0014 §5.3
-pv_nominal_kwp              = 600         # 150 W/m² nominal yield
-battery_kwh                 = 2000        # Stationary LFP per RFC 0021
+energy_site_tier            = "depot-main"
+baseline_pv_nominal_kwp     = 600
+baseline_battery_kwh        = 2000
 stabling_length_m           = 400         # four workshop/inspection roads
 wheel_lathe                 = true
 overhaul_bay                = true
@@ -80,8 +88,9 @@ max_fleet_stalls_catalog    = 12
 workshop_m2                 = 900
 overhead_crane_t            = 12           # light module handling
 pv_canopy_m2                = 1500         # per RFC 0014 §6
-pv_nominal_kwp              = 225          # 150 W/m² nominal
-battery_kwh                 = 500          # per RFC 0014 §6
+energy_site_tier            = "depot-secondary"
+baseline_pv_nominal_kwp     = 225
+baseline_battery_kwh        = 500
 stabling_length_m           = 800
 wheel_lathe                 = false
 overhaul_bay                = false
@@ -99,8 +108,9 @@ max_fleet_stalls_catalog    = 6
 workshop_m2                 = 0            # no workshop
 overhead_crane_t            = 0
 pv_canopy_m2                = 600          # per RFC 0014 §7
-pv_nominal_kwp              = 90           # 150 W/m² nominal
-battery_kwh                 = 150          # per RFC 0014 §7
+energy_site_tier            = "depot-layup"
+baseline_pv_nominal_kwp     = 90
+baseline_battery_kwh        = 150
 stabling_length_m           = 300
 wheel_lathe                 = false
 overhaul_bay                = false

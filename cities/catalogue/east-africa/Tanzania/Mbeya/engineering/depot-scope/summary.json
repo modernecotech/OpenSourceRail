@@ -1,0 +1,155 @@
+{
+  "city": "mbeya",
+  "cost_template_sha256": "9e811b8eaae14be9c57aaef4ca6ad9577703ad20ec54ae71f861de85dd689446",
+  "deployment_release_ready": false,
+  "depot_template_sha256": "f4e3dfe069c996f4a1081fa2128d5a177069ceb0a6cf802afe3feb3f59df43a3",
+  "depots": [
+    {
+      "additional_pv_kw": 4400.0,
+      "additional_pv_module_area_m2": 29333.333333333336,
+      "additional_storage_kwh": 38000.0,
+      "archetype": "main-heavy",
+      "catalogue_bom_quantities_reconciled": true,
+      "cost_reconciliation": {
+        "additional_equipment_reference_usd": 5930000.0,
+        "additional_pv_reference_usd": 3080000.0,
+        "additional_storage_reference_usd": 2850000.0,
+        "applied_to_city_capex": false,
+        "basis": "sensitivity using existing utility-PV and 500 kWh battery equipment rates; not an installed depot quotation",
+        "depot_base_allowance_usd": 8000000.0,
+        "included_in_existing_allowance_verified": false,
+        "pv_reference_usd_per_kw": 700.0,
+        "storage_reference_usd_per_kwh": 75.0,
+        "unpriced_scope": [
+          "canopy/racking and foundations",
+          "power conversion and DC distribution",
+          "utility/protection works",
+          "battery compound and fire separation",
+          "installation and renewal/disposal"
+        ]
+      },
+      "deployment_release_ready": false,
+      "energy_site_tier": "depot-main",
+      "placement_status": "additional PV and stationary storage require a controlled site layout",
+      "pv_nameplate_kw": 5000.0,
+      "reference_pv_canopy_m2": 4000.0,
+      "required_pv_module_area_m2": 33333.333333333336,
+      "site_override_from_catalogue": false,
+      "station": "line-2-0708-0058-s022608",
+      "storage_capacity_kwh": 40000.0,
+      "storage_compound_area_m2": null,
+      "storage_module_count": 80,
+      "storage_module_kwh": 500.0,
+      "workshop_bays": 17
+    }
+  ],
+  "design_sha256": "b7a9a4f5a35763e0e8456a884f99c0ee98b39222982b05382dd278fd30aba7c5",
+  "energy_template_sha256": "e6abdbc3184605720d9cda58fb120b829b44d6d17763f94e4383bbb2a22dc713",
+  "fleet_trainsets": 112,
+  "generator_sha256": "7387e26c5bbcd9d217938ca33a086302f77f3e1fea4ca218f00706b6355eec85",
+  "initial_dispatch_requirements": [
+    {
+      "initial_trainset_count": 21,
+      "line": "line-1",
+      "minimum_slot_length_with_clearance_m": 1249.5,
+      "station": "line-1-0448-0937-s000000",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 1039.5,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 20,
+      "line": "line-1",
+      "minimum_slot_length_with_clearance_m": 1190.0,
+      "station": "line-1-0733-0298-s019814",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 990.0,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 24,
+      "line": "line-2",
+      "minimum_slot_length_with_clearance_m": 1428.0,
+      "station": "line-2-0609-0917-s000000",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 1188.0,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 23,
+      "line": "line-2",
+      "minimum_slot_length_with_clearance_m": 1368.5,
+      "station": "line-2-0708-0058-s022608",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 1138.5,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 12,
+      "line": "line-3",
+      "minimum_slot_length_with_clearance_m": 714.0,
+      "station": "line-3-0451-0402-s000000",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 594.0,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 12,
+      "line": "line-3",
+      "minimum_slot_length_with_clearance_m": 714.0,
+      "station": "line-3-0781-0464-s010598",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 594.0,
+      "train_length_m": 49.5,
+      "verified_stabling_slots": null
+    }
+  ],
+  "limitations": [
+    "Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.",
+    "PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.",
+    "Battery footprint and separation require supplier/fire-engineering data; no area or approval is invented.",
+    "Dispatch queues are initial simulator placements, not an overnight operating plan. Slot lengths use one train plus 5 m at each end from RFC 0014.",
+    "Workshop bays and passenger platforms are not credited as verified overnight stabling slots."
+  ],
+  "open_gates": [
+    "site PV and stationary-storage placement",
+    "itemised depot energy budget and allowance reconciliation",
+    "station-by-station healthy-fleet overnight allocation with usable tracks",
+    "coordinated morning starts and conflict-aware evening run-in/morning run-out"
+  ],
+  "overnight_stabling_policy": {
+    "defect_return_policy": "route-to-main-heavy",
+    "enabled": true,
+    "minimum_station_power_kw": 150,
+    "morning_start_policy": "simultaneous-from-stabled-stations",
+    "requires_cctv_monitoring": true,
+    "requires_grid_connection": true,
+    "requires_remote_isolation": true
+  },
+  "passed": false,
+  "quantities_reconciled": true,
+  "rolling_stock_template_sha256": "92882a4fea0b9a626cc8af8983f30ed13c3fa2df44a8ff7cc5ba3bc453cccfd7",
+  "scenario_sha256": "602f90c9a8187309558b4979a8774f23e05d53503680ded1ffe043409a10e5e8",
+  "schema_version": 1,
+  "scope_model_sha256": "4cee526efafae40aa6c5fce2a9859ad1e2bc27a156e6b2f84b6dd03ae3063ace",
+  "simulator_source_sha256": "81f01742b483054ce425f718e0423f9bf5b06b7a2338d61229ea4c6bd61337e0",
+  "source_paths": {
+    "cost_template_sha256": "lib/templates/capex-costs.toml",
+    "depot_template_sha256": "lib/templates/depots.toml",
+    "design_sha256": "cities/catalogue/east-africa/Tanzania/Mbeya/design.toml",
+    "energy_template_sha256": "lib/templates/energy-sites.toml",
+    "generator_sha256": "tools/automation/generate-depot-scope.py",
+    "rolling_stock_template_sha256": "lib/templates/rolling-stock.toml",
+    "scenario_sha256": "cities/catalogue/east-africa/Tanzania/Mbeya/mbeya.toml",
+    "scope_model_sha256": "design/component-catalogue/src/osr_mech/depot/energy.py",
+    "simulator_source_sha256": "crates/osr-sim/src/sim.rs",
+    "station_manifest_sha256": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
+  },
+  "station_manifest_sha256": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
+  "workshop_bays_are_fleet_parking": false
+}

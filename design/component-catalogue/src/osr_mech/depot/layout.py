@@ -36,6 +36,7 @@ from osr_mech.cad import (
 from osr_mech.track.turnout import TurnoutTangent, turnout
 
 from .bogie_change import depot_bogie_change_bay
+from .energy import depot_energy_scope
 
 
 class DepotArchetype(str, Enum):
@@ -62,6 +63,7 @@ class DepotFootprint:
     has_wheel_lathe: bool
     """Whether a training-wing block is included."""
     has_training_wing: bool
+    energy_requirements: dict
 
 
 CEILING = {
@@ -145,6 +147,7 @@ def depot_footprint(
         has_training_wing=(
             with_training_wing and archetype == DepotArchetype.MAIN_HEAVY
         ),
+        energy_requirements=depot_energy_scope(archetype.value),
     )
 
 

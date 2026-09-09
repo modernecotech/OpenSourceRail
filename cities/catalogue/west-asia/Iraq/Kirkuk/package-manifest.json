@@ -33,6 +33,14 @@
       "bytes": 42507,
       "sha256": "61e282d7d6dc075fd3102664842228c1e44ed0b89106ae37d33b6612f844dfe0"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2815,
+      "sha256": "63902d2d8912df20ad790d7dcfb6d94a59e4562a5353e43473cbf4a1f5810f1a"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8178,
+      "sha256": "24b12fd230132d50fb38534c535ba13f5fe440dc19be402ceabb9a79fe463a02"
+    },
     "engineering/energy/summary.json": {
       "bytes": 45702,
       "sha256": "0e7f9cf1aa4fdd97060e810c4c4e775af05b531ff6db1b20c83acc5f18937dce"
@@ -75,7 +83,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 22861,
-      "sha256": "a0d727623e5b322d413b7287e30d599143ccfdeb6b28f02de7324c6e2ebd5c3c"
+      "sha256": "9de3a4ba9676861429596eea7cb9f3b6074dad725ad8b83eb6ec2a0c12ee175a"
     },
     "engineering/sumo/summary.json": {
       "bytes": 6008,
@@ -107,7 +115,7 @@
     },
     "operations/kirkuk-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "74ee215d2e5213f2fe23d8968df2a96a0bd4ada766f3d982474c41226685dba9"
+      "sha256": "15bf50f1f25f28ea4a82bb657112f089d6ec141793fc8cb9e6264edf6c36ff2f"
     }
   },
   "city": "kirkuk",
@@ -119,10 +127,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kirkuk.gpkg": {
       "bytes": 315392,
@@ -150,9 +159,9 @@
       "sha256": "b32afea265919cf79969ab6fa79232f6606df83d31e218dd412e5b629b891c22"
     },
     "operations/kirkuk-operations.json.gz": {
-      "bytes": 1126226,
+      "bytes": 1126218,
       "required_in_git_checkout": false,
-      "sha256": "2a5ea35bd130cb066a72a515956e050b6d429a842d4c1c78a2ffac6830415840"
+      "sha256": "3bfa97be376b396e626faed7ef303fa3d5fb9c29e529c407466caa78f36d3a4a"
     },
     "operations/kirkuk-procurement-plan.csv": {
       "bytes": 1644214,
@@ -187,7 +196,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

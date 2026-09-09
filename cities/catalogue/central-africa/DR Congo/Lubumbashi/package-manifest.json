@@ -33,6 +33,14 @@
       "bytes": 51351,
       "sha256": "07350258c0b265002d15d0be6fd0b337011a41c37c31fca2c4abc0dfb301dbd2"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2812,
+      "sha256": "0746643ddfa38aeaccf46d79c842e94b16d80143e8861fbc9405d759320f2253"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8208,
+      "sha256": "8e22512421930251c5943dce764222473fcc9d42c3236582529b800be31c312e"
+    },
     "engineering/energy/summary.json": {
       "bytes": 34698,
       "sha256": "b2f3bdf99108aa3ed77b9fcb99df9f10729003a57534b271f38d27824dd41144"
@@ -75,7 +83,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 18067,
-      "sha256": "46a0e89c46c1ff151e70c8c56e953d309e744e1cad113f476f0886eb32e70318"
+      "sha256": "bcda0bcacbac73dfbf27ce52a168aabe5ee42c49013619bb95e688562507cf4c"
     },
     "engineering/sumo/summary.json": {
       "bytes": 5646,
@@ -107,7 +115,7 @@
     },
     "operations/lubumbashi-operations-manifest.json": {
       "bytes": 899,
-      "sha256": "80db3421d62bf634dbd3cd181f814102cb4e4a39015d23b5d582a883cba0255c"
+      "sha256": "689f7dd9bbe166c9adfb364f7881d5b66c673d2cd86594ea1089f5d81210eff3"
     }
   },
   "city": "lubumbashi",
@@ -119,10 +127,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/lubumbashi.gpkg": {
       "bytes": 323584,
@@ -150,9 +159,9 @@
       "sha256": "7e0f136eb53b6eb1b4b0f513b204cb99babd5bc6bd6f8eabbfc8c19e887b79bc"
     },
     "operations/lubumbashi-operations.json.gz": {
-      "bytes": 901906,
+      "bytes": 901900,
       "required_in_git_checkout": false,
-      "sha256": "52dec12010009c3d8e21adeb848e0b34fe15e66d73efd2daaaa9c19fefc19518"
+      "sha256": "29e3057d6aad44590c529c31adba37770c4a5fc42f218a527036cc0a59066ca1"
     },
     "operations/lubumbashi-procurement-plan.csv": {
       "bytes": 1372583,
@@ -187,7 +196,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

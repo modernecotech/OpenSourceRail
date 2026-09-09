@@ -1,0 +1,34 @@
+# lyon depot scope reconciliation
+
+Depot energy quantities reconciled: **yes**. Physical/cost/stabling closure: **open**.
+
+The configured policy is distributed overnight stabling at powered stations, with coordinated morning starts. Main-depot bays serve maintenance and defective trains. The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.
+
+| Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
+|---|---:|---:|---:|---:|
+| line-1-0216-0122-s055193 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+
+The equipment reference is an unapproved sensitivity using existing repository rates. It is not added to CAPEX; allowance inclusion and installed scope remain unverified.
+
+| Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
+|---|---|---:|---:|---:|---|
+| line-1-1481-1549-s000000 | line-1 | 44 | 3,300.0 | 3,740.0 | unverified |
+| line-1-0216-0122-s055193 | line-1 | 43 | 3,225.0 | 3,655.0 | unverified |
+| line-2-1221-0021-s000000 | line-2 | 34 | 2,550.0 | 2,890.0 | unverified |
+| line-2-0656-1448-s043552 | line-2 | 34 | 2,550.0 | 2,890.0 | unverified |
+| line-3-0579-1093-s000000 | line-3 | 20 | 1,500.0 | 1,700.0 | unverified |
+| line-3-0834-0322-s023968 | line-3 | 20 | 1,500.0 | 1,700.0 | unverified |
+| line-4-1637-0509-s000000 | line-4 | 38 | 2,850.0 | 3,230.0 | unverified |
+| line-4-0018-1047-s045552 | line-4 | 37 | 2,775.0 | 3,145.0 | unverified |
+| line-5-0533-0026-s000000 | line-5 | 24 | 1,800.0 | 2,040.0 | unverified |
+| line-5-1153-0961-s029852 | line-5 | 24 | 1,800.0 | 2,040.0 | unverified |
+| line-6-0662-0383-s000000 | line-6 | 15 | 1,125.0 | 1,275.0 | unverified |
+| line-6-0786-0396-s068814 | line-6 | 14 | 1,050.0 | 1,190.0 | unverified |
+
+- Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
+- PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.
+- Battery footprint and separation require supplier/fire-engineering data; no area or approval is invented.
+- Dispatch queues are initial simulator placements, not an overnight operating plan. Slot lengths use one train plus 5 m at each end from RFC 0014.
+- Workshop bays and passenger platforms are not credited as verified overnight stabling slots.
+
+Required closure records: a supplier equipment/footprint schedule; located PV and battery layout; itemised budget with explicit baseline inclusions; a station-by-station healthy-fleet allocation with track IDs, usable lengths, assigned trainsets, charger sharing, security/isolation and access; and coordinated morning departures with conflict-aware evening/morning repositioning evidence.

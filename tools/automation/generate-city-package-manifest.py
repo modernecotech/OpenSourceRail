@@ -33,6 +33,17 @@ def stale_analysis_sources(city_dir: Path, slug: str) -> list[dict[str, str | No
         "scenario_sha256": city_dir / f"{slug}.toml",
     }
     families = {
+        "depot-scope/summary.json": {
+            **sources,
+            "generator_sha256": REPO_ROOT / "tools/automation/generate-depot-scope.py",
+            "scope_model_sha256": REPO_ROOT / "design/component-catalogue/src/osr_mech/depot/energy.py",
+            "depot_template_sha256": REPO_ROOT / "lib/templates/depots.toml",
+            "energy_template_sha256": REPO_ROOT / "lib/templates/energy-sites.toml",
+            "cost_template_sha256": REPO_ROOT / "lib/templates/capex-costs.toml",
+            "rolling_stock_template_sha256": REPO_ROOT / "lib/templates/rolling-stock.toml",
+            "station_manifest_sha256": REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+            "simulator_source_sha256": REPO_ROOT / "crates/osr-sim/src/sim.rs",
+        },
         "simulation/validation-summary.json": {
             **sources, "generator_sha256": REPO_ROOT / "tools/automation/validate-city-simulation.py",
         },
@@ -89,6 +100,8 @@ def main() -> int:
         city_dir / f"{slug}.design-quality.yaml",
         city_dir / "engineering/alignment/README.md",
         city_dir / "engineering/energy/summary.json",
+        city_dir / "engineering/depot-scope/summary.json",
+        city_dir / "engineering/depot-scope/README.md",
         city_dir / "engineering/finance/summary.json",
         city_dir / "engineering/project-twin/summary.json",
         city_dir / "engineering/gis/summary.json",

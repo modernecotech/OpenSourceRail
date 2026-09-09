@@ -3016,7 +3016,7 @@
           "applicable_variants": [
             {
               "quantity": 1,
-              "quantity_basis": "4000 m2 / 600 kWp PV with 2000 kWh storage",
+              "quantity_basis": "depot-main: 5000 kWp PV requiring 33333.3 m2 of modules; 80 x 500 kWh = 40000 kWh storage; only 4000 m2 reference canopy, additional PV/storage placement and cost closure pending",
               "title": "depot PV canopy, inverter, microgrid switchgear, and separated outdoor stationary-battery package",
               "unit": "energy-site kit",
               "variant": "depot-terminal"
@@ -3033,6 +3033,8 @@
           "route": "BID",
           "source_refs": [
             "lib/templates/depots.toml",
+            "lib/templates/energy-sites.toml",
+            "depot/energy.py",
             "RFC 0014 \u00a75.3",
             "RFC 0002",
             "engineering/analysis/stations/screening-summary.md"

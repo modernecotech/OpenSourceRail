@@ -53,6 +53,14 @@
       "bytes": 54322,
       "sha256": "b180116f3a9f5f0e7aed4db88a61bdecdc570bb0c9229da88f1e58fc462344e7"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2815,
+      "sha256": "244ffc57ae3c8d633d5df9dddcc93c1bfcbdb769fe9c0df494107be81babdc2e"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8201,
+      "sha256": "d5f537b9a84cbc6c0f617a5b2c1825fec1b220df6fb7c75dba0a6764ce5fad98"
+    },
     "engineering/energy/summary.json": {
       "bytes": 38929,
       "sha256": "87c6a7724734482652e22820a903e6142b2f8930d71aeff8e7c3a2988fa059ef"
@@ -95,7 +103,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 21646,
-      "sha256": "d60fd003ba544f6444f48a10a7a8352bfa95d82e700fbf9d62958ef59e66e24d"
+      "sha256": "be9542deae6e4ad3fb4cb0b0e05202f7a60f16728bec2992c98023f62dab7a9c"
     },
     "engineering/sumo/summary.json": {
       "bytes": 5930,
@@ -107,7 +115,7 @@
     },
     "operations/benin-city-operations-manifest.json": {
       "bytes": 900,
-      "sha256": "73456734a0acfa4d03fd045a95b3686839266b1f645b4d9318ff802fc26e8806"
+      "sha256": "ac1a832600b8e8471149e787ab940f0711ff883a4bb2151e1e1abd1e308cada4"
     }
   },
   "city": "benin-city",
@@ -119,10 +127,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/benin-city.gpkg": {
       "bytes": 348160,
@@ -150,9 +159,9 @@
       "sha256": "cb6e98f1b48cda8653f73130d93352f998b6a85b713099380dd0e94000073c25"
     },
     "operations/benin-city-operations.json.gz": {
-      "bytes": 1043563,
+      "bytes": 1043556,
       "required_in_git_checkout": false,
-      "sha256": "2bbd99130ce9f007a73ee56ccb1f700ba86c0eb0280ae57141fbd7ab4a746bab"
+      "sha256": "d5e29647796e95ad87924ec0abb6aa1427ec2f85e185cbcaa08e9d5060af7c09"
     },
     "operations/benin-city-procurement-plan.csv": {
       "bytes": 1564208,
@@ -187,7 +196,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

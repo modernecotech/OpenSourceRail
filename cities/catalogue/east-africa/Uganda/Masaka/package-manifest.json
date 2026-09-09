@@ -25,6 +25,14 @@
       "bytes": 14104,
       "sha256": "072ef1d23979c80a0d98ee80a2d85b51725320c56d8885321ff27fb747e2948f"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2493,
+      "sha256": "6449753f6067e6dbd9140c6ffc1a0e3a3aa1a76b12328292c1353814b9d1893b"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6880,
+      "sha256": "8cde1288539f9bed990ec40f1e4b6195a9f6c840270db53e4df8dcda8bcb94b4"
+    },
     "engineering/energy/summary.json": {
       "bytes": 16440,
       "sha256": "1b3a980956e1d4e90f5d4eeb5dd908e2dba035f05c147305ece797e3c3fd4bc6"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 7352,
-      "sha256": "ec97a2fa8e254216f999451bfd53935cc4f3d187c4dcd5e6f6499fe2946276ee"
+      "sha256": "820fd93ac43fdd2c078a5b84197399b9ee90997fbe9be94a3841220f73084a72"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3544,
@@ -99,7 +107,7 @@
     },
     "operations/masaka-operations-manifest.json": {
       "bytes": 885,
-      "sha256": "b1309724751c2e93a610ff4f0afac67091227927179e28d2f7b5054a238d5e12"
+      "sha256": "018509f616d358f62ea471b0eba72208761a06c8d008b885a6a07cefc83641fa"
     }
   },
   "city": "masaka",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/masaka.gpkg": {
       "bytes": 258048,
@@ -142,9 +151,9 @@
       "sha256": "c4e80fd1e63a87e9c63b8d425074d8969a6832552f40735ec5397bfebd2bf432"
     },
     "operations/masaka-operations.json.gz": {
-      "bytes": 359846,
+      "bytes": 359840,
       "required_in_git_checkout": false,
-      "sha256": "1b305a831d4af4f2b026abc1f9d0946d96a2afa47e88e2206141ec3bfc224ff5"
+      "sha256": "e6302e80cb8fe8e2afc1ce5a9a65dc50446996ca9b929816e70b15b036a97aba"
     },
     "operations/masaka-procurement-plan.csv": {
       "bytes": 560056,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

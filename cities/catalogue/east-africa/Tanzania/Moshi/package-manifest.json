@@ -25,6 +25,14 @@
       "bytes": 26121,
       "sha256": "473d870ad2ec7126002561f021293a0a24569dfc244359d7d9c3d9dd3bcfc264"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2491,
+      "sha256": "b10dc65b975a16a37502efb3e095fcab6eeaec670904c7e2e7f8679e05ea13b3"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6879,
+      "sha256": "6f335fbdf3a770a588c31ae178dbb9e7722a5fdd9950bc60f8158ed753d6b183"
+    },
     "engineering/energy/summary.json": {
       "bytes": 14341,
       "sha256": "4ab83030441a5b37e329352db19bb88799d4fc9920acc0cbae93eb111b1e17d8"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 6503,
-      "sha256": "e4828c7d53a25ab6fd8057f2a03fa1af2dbbfc5e93857a108e0327c1ef06ba95"
+      "sha256": "0d4edfe59ff61e776dc15a51f4b679ed1f4a7d5055706a8372453da31298d056"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3472,
@@ -99,7 +107,7 @@
     },
     "operations/moshi-operations-manifest.json": {
       "bytes": 883,
-      "sha256": "07c51c7f9224c49aae407616370c0f00d96a1c014e09649b7103d685e7dd97fa"
+      "sha256": "ff69d18b5daf8166e03fa88dc27e2d71abcc2e70fb338e07d776f66b9b872e31"
     }
   },
   "city": "moshi",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/moshi.gpkg": {
       "bytes": 266240,
@@ -142,9 +151,9 @@
       "sha256": "6a695ecb66945c83d274db65f956db58b150f1d311bf6596ec5189cc29e70e90"
     },
     "operations/moshi-operations.json.gz": {
-      "bytes": 340162,
+      "bytes": 340157,
       "required_in_git_checkout": false,
-      "sha256": "e20cfdea0d06b37544c3a51d15ce1020295b7788e42c005adfee0819619beba1"
+      "sha256": "f7a00b219015261cb58872e9c0ac63c8fdd2fea814093105a491ccba49a90099"
     },
     "operations/moshi-procurement-plan.csv": {
       "bytes": 530962,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

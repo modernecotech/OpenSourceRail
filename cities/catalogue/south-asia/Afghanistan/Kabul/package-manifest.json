@@ -41,6 +41,14 @@
       "bytes": 71641,
       "sha256": "55cbb2fddf307b067a62246e821660cfb079435f3d388bd268b95d3daf26d807"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 3124,
+      "sha256": "725b713354af0b2e31cb04f436a310742e61cd86543d072e5869a206ecb1f53d"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 9503,
+      "sha256": "f8a2c7ee55008f3de255e18397f869ebe8d794569d36f6893f51330c45ba76d0"
+    },
     "engineering/energy/summary.json": {
       "bytes": 71051,
       "sha256": "332842fbd72712c370480c155ac15ec4becad8d504605f6964de978dc9134b85"
@@ -83,7 +91,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 35093,
-      "sha256": "50242087022dfa1c42ac7f361ccefd175d06e0142ccc15e8e54bebf831cb6a0e"
+      "sha256": "f0e96363c9f8205d37cb39fbacdfedbbace48ad7cf035b172a416cd9419eef73"
     },
     "engineering/sumo/summary.json": {
       "bytes": 8195,
@@ -115,7 +123,7 @@
     },
     "operations/kabul-operations-manifest.json": {
       "bytes": 891,
-      "sha256": "e2b88a03c8107b776346ad047c56ff3b73c23542367789912dfc7575af89a0b2"
+      "sha256": "4d3d71e9a31609a375707d20caa652ff1a2b0f391ad900bb3c8cc5cbe7ca302e"
     }
   },
   "city": "kabul",
@@ -127,10 +135,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kabul.gpkg": {
       "bytes": 385024,
@@ -158,9 +167,9 @@
       "sha256": "55616263e5c8f382d568c5b2d4dec5dcce9afc58c1e984dc02a8c36ef7d2bcdd"
     },
     "operations/kabul-operations.json.gz": {
-      "bytes": 1893357,
+      "bytes": 1893351,
       "required_in_git_checkout": false,
-      "sha256": "04154c735f15f08718e436fd7873ca16b0260df108fc8a7c59839eeb8703254c"
+      "sha256": "1b43030b458428eb4e14bafc5c9fa24d1d9741f198071e684c206d8c1abdb32c"
     },
     "operations/kabul-procurement-plan.csv": {
       "bytes": 2799662,
@@ -195,7 +204,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

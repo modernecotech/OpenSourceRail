@@ -63,6 +63,7 @@ def main() -> int:
             f"| {_coverage(design_path.parent):.0%} "
             f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
             f"| [{'complete' if manifest.get('passed') else 'incomplete'}; {stale_count} stale sources]({target}package-manifest.json) |"
+            f" [scope / stabling]({target}engineering/depot-scope/README.md) |"
         )
         if relative.parts[0] == "europe":
             comparison_rows.append(row)
@@ -163,8 +164,8 @@ def main() -> int:
         "[`engineering-batch-summary-aleppo-amman.json`](engineering-batch-summary-aleppo-amman.json)",
         "is explicitly scoped to those two cities and is not catalogue-wide evidence.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package |",
-        "|---|---|---:|---:|---:|---:|---:|---|---|",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package | Depot requirements |",
+        "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *public_rows,
         "",
         "## Technical comparison model",
@@ -173,8 +174,8 @@ def main() -> int:
         "inspection. It is excluded from the public programme, portfolio, national",
         "briefs, reader-book city evidence, and front-page examples.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package |",
-        "|---|---|---:|---:|---:|---:|---:|---|---|",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package | Depot requirements |",
+        "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *comparison_rows,
         "",
         "```bash",

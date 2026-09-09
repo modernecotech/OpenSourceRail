@@ -25,6 +25,14 @@
       "bytes": 41225,
       "sha256": "718aada2ade94f563b65f779038ddcc9eaf2902fcb020af3956f5499528062b5"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2516,
+      "sha256": "4ba941cf933d15e2246dde62de8038b3cb7da829e25ed047d899220e6ede12ae"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6897,
+      "sha256": "b099dde0270113261e4ac9ebf67a10b149ab2513b7812c46787718dad0e05028"
+    },
     "engineering/energy/summary.json": {
       "bytes": 25356,
       "sha256": "35f12db54f7fb84fee8852e27ff4c724ced57d01ac0a68650e981e74c7bc4289"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 11537,
-      "sha256": "e272f6fc344c5ff60623a389f13e2a2275a4cf5d943b6a8cae309376deda330d"
+      "sha256": "b5f9d9cfa432d2a88690d11ce94c93c2eca5b9911b18cf847ababa9b5d75cdba"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3933,
@@ -99,7 +107,7 @@
     },
     "operations/hofuf-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "2db44180999b42a0ed84abb472c78635b7fad462eebd9040aed4e3844d6a497d"
+      "sha256": "31677aa97bb18083e70623e4e049bf54ba0c7a2d4bf2208bbf79672092dd84ab"
     }
   },
   "city": "hofuf",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/hofuf.gpkg": {
       "bytes": 266240,
@@ -142,9 +151,9 @@
       "sha256": "91acc954d47da4ec016737bfdf6aa837a789bbbf4e6d86efb7941031f3cc10ac"
     },
     "operations/hofuf-operations.json.gz": {
-      "bytes": 4200276,
+      "bytes": 4200265,
       "required_in_git_checkout": false,
-      "sha256": "c56a087a9fb7531b25c50d5f8263a145981226ea592122798fa24a242f8bd390"
+      "sha256": "86acb23c332fc1a3b47c503e46b8e27d2bdf6e1fb2514f27520f14f792832ccf"
     },
     "operations/hofuf-procurement-plan.csv": {
       "bytes": 9761167,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

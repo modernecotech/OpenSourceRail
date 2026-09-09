@@ -25,6 +25,14 @@
       "bytes": 11373,
       "sha256": "878eca85bbe8fc0c1829c4a315da912d718e73c972c698e31e1dabe6f4522a0c"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2498,
+      "sha256": "379ab85553f9eeef06e3f2c48d483bacb769357c8937a120347f670474caad22"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6879,
+      "sha256": "be8ff648adf5c003b1aff7a8c7204ddecf1eea73e6361bd14f073ac2a1731ec7"
+    },
     "engineering/energy/summary.json": {
       "bytes": 21024,
       "sha256": "f3a75082b1d554d5ed85bed993dd81f68f183a364d7d3ac02bb8310a715dd59a"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 9009,
-      "sha256": "eb168a9be8dba933deaa008286d41e348814b6f56e6b867fa736750e3eee0b2e"
+      "sha256": "cf58330089aab5f5427a8acba2356be46e2b6f9071e6819420336ba75c53bee4"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3710,
@@ -99,7 +107,7 @@
     },
     "operations/nyala-operations-manifest.json": {
       "bytes": 888,
-      "sha256": "b399b592a601fe373faeb4bc9c003349c843ca70db83044e2aebd684048d012d"
+      "sha256": "ec86ed393362a4bb7730ba3c09bf91afb9618eef6c2ab1a6d050b8606a0452ad"
     }
   },
   "city": "nyala",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/nyala.gpkg": {
       "bytes": 270336,
@@ -142,9 +151,9 @@
       "sha256": "6d858ef01e7a706674912e36cce403b5d8864608ee58e144bfbeacab644a806e"
     },
     "operations/nyala-operations.json.gz": {
-      "bytes": 2603380,
+      "bytes": 2603369,
       "required_in_git_checkout": false,
-      "sha256": "bbed280a3e340f96be0eedb0fd26a730a376a3bfa72f67ba77342c23e2f880bc"
+      "sha256": "bb5d80b276786972b611a6305702c886d0cee49f0bfbd819f2b953dca788d6d3"
     },
     "operations/nyala-procurement-plan.csv": {
       "bytes": 6003547,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

@@ -41,6 +41,14 @@
       "bytes": 29488,
       "sha256": "01fdcb13aedac0c148d7dd8e9ff981b9076bc098f7608e467d3d538f4a7e114d"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2362,
+      "sha256": "38ee9c0362a438a80e1b3b3fd851bca68a7320e4b48caf716f921c6f06113e0a"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6254,
+      "sha256": "d8135f5a76ce93424b04fb567d300ed4019e725d26c5e7e96235af8ad758302c"
+    },
     "engineering/energy/summary.json": {
       "bytes": 11736,
       "sha256": "95290995fe92d6ee6cda2fa95ceee00d7881f8a0912bcfbff7645f3842c10773"
@@ -83,7 +91,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 5625,
-      "sha256": "97bb0a3eb2a5ea714a5c1f35b909505ad9e0eaf3331845892e3e9c59ad38cd92"
+      "sha256": "baa0513425741fc47362e92cf130223679ad0388e6b7edb0cd21adebb763bf52"
     },
     "engineering/sumo/summary.json": {
       "bytes": 2851,
@@ -95,7 +103,7 @@
     },
     "operations/chimoio-operations-manifest.json": {
       "bytes": 890,
-      "sha256": "829b20defff2ab8fb525eec4f1c9b449947abfe65c2100b445084fdd171e7e1a"
+      "sha256": "96e8b165c91c3a6db20b6adbc46bb6e81ce8362ce6a242cbe20687a3ee63a1f0"
     }
   },
   "city": "chimoio",
@@ -107,10 +115,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/chimoio.gpkg": {
       "bytes": 253952,
@@ -138,9 +147,9 @@
       "sha256": "b00fb5d5b12b8c2a177957b13b95d2da3243b831f3799f94e4b1d0f694eb4fed"
     },
     "operations/chimoio-operations.json.gz": {
-      "bytes": 2058171,
+      "bytes": 2058167,
       "required_in_git_checkout": false,
-      "sha256": "fadbab9695e28ef20ae781716cf57aaa0a6654e827fe9b06c424af9393d9886d"
+      "sha256": "65ff1573e8b4b281a2c7a63064a11399f8c8b3b311ac05073682cc09e0b38cf0"
     },
     "operations/chimoio-procurement-plan.csv": {
       "bytes": 4900147,
@@ -175,7 +184,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

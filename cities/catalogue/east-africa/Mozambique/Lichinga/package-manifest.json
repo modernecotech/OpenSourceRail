@@ -21,6 +21,14 @@
       "bytes": 18744,
       "sha256": "03216e9c729ff8a838efe907304279c41850196b244603f26ac90ed915d36868"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2349,
+      "sha256": "a4d7e474503fe7a996115059c4eddd9464eeea1956ca7beba5cdf469134a4845"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6249,
+      "sha256": "494e123d2ebc427292ffb2f44744f5a9895e576a55606ff7992c29a67b205a7b"
+    },
     "engineering/energy/summary.json": {
       "bytes": 8850,
       "sha256": "46a5fb88f286f99b1700990e75c67bf4175e099da59408f2c6ebcd5af79d7cf7"
@@ -63,7 +71,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 3936,
-      "sha256": "27f09b0a30b443a540391ca750db3b43e43cbc2bffdec704aed1bca0c7196922"
+      "sha256": "982249081d076f98fcc0d1db6957165a7d7d0c4fca0197eaf6c45e247cefd264"
     },
     "engineering/sumo/summary.json": {
       "bytes": 2689,
@@ -95,7 +103,7 @@
     },
     "operations/lichinga-operations-manifest.json": {
       "bytes": 881,
-      "sha256": "e9b354c77fd5c6f884eea2c6923855ddeaaf2513087f8f460b051de5f7153ad1"
+      "sha256": "b35ec319c7bfbb4b35c780e8355fddbc8cb04a24a859191b577e59fb705b3687"
     }
   },
   "city": "lichinga",
@@ -106,9 +114,11 @@
     "supplier-frozen battery, charger, traction and mechanical equipment",
     "independent safety assessment and construction release"
   ],
-  "failed_summaries": [],
+  "failed_summaries": [
+    "engineering/depot-scope/summary.json"
+  ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/lichinga.gpkg": {
       "bytes": 233472,
@@ -136,9 +146,9 @@
       "sha256": "fe66cd7a11ed093a0864d93576f29d98cfb6d764d11fafe368da512b435da795"
     },
     "operations/lichinga-operations.json.gz": {
-      "bytes": 169144,
+      "bytes": 169138,
       "required_in_git_checkout": false,
-      "sha256": "05c479a58d4a8166d35d45c58bcf2ccba46348de6babb0f6e49f3bb4769a829c"
+      "sha256": "e243a9922e3af6bcaedc020557d1fb21a19950a69408a560319d7f1aba0eea6b"
     },
     "operations/lichinga-procurement-plan.csv": {
       "bytes": 283108,
@@ -173,7 +183,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

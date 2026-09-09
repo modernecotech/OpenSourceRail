@@ -37,6 +37,14 @@
       "bytes": 54443,
       "sha256": "77964380485df0924fc95787560bd65cc2cd602ca33fc427985c5e1ae45043ef"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2967,
+      "sha256": "59c2d5fbbd6c29420439aae43172286b7671ed742f59d62ef2a2f3d334341482"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8842,
+      "sha256": "22c0be716ab8ecc15dca043f42ca882354db8b269b3e8480cd59563792921f62"
+    },
     "engineering/energy/summary.json": {
       "bytes": 57699,
       "sha256": "9ebbd928b841a11d0437993a364dc7000e42fbf100e5ddc710062b3921d1dd05"
@@ -79,7 +87,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 28101,
-      "sha256": "6c5c8ecce73da52fe61558ab1dc0b42bfa116f33360518b80b12d049cbbce4a0"
+      "sha256": "5a7d464413c7e94592b0f02b5376b24a51e63e38e1548d8b984b33a516461818"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7031,
@@ -111,7 +119,7 @@
     },
     "operations/maputo-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "cc5e571e604e5d16b89edd75d24accb1019112ae7fba01fc326ff70695a04da4"
+      "sha256": "25227af357b232ed99bd2b0a67e2f8a34cdd13bb0b58be4f962a7c81b85d2640"
     }
   },
   "city": "maputo",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/maputo.gpkg": {
       "bytes": 348160,
@@ -154,9 +163,9 @@
       "sha256": "5e92a2257bcd0ed7671d3468febda7a790c9b4a4b10a5d38bd2cbc67f346fa82"
     },
     "operations/maputo-operations.json.gz": {
-      "bytes": 1363269,
+      "bytes": 1363266,
       "required_in_git_checkout": false,
-      "sha256": "c20329aa710375ff65f92e26977089699eb33139755345a7882bddb9fbdf8155"
+      "sha256": "a5287268e1aaa0528769881e7008fb4873e2d4bbe1404685bfec862b09434351"
     },
     "operations/maputo-procurement-plan.csv": {
       "bytes": 2014755,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

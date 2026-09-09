@@ -25,6 +25,14 @@
       "bytes": 26678,
       "sha256": "c962b6746a326d7da4d36d624150122f078a68673a8364de905f5131dd7baa41"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2491,
+      "sha256": "ddce514beaad559b8d64c9eb7f48270df24d982e5f68db85f785f8cdd8328363"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6872,
+      "sha256": "b7108d285a4c222d6b06eb8697383a88f087722325a62dbddf2c15a501c5e635"
+    },
     "engineering/energy/summary.json": {
       "bytes": 14332,
       "sha256": "075f0a1ac77ff6e0cab35ef7b381a2c95cdcb34de2c6f22decc14f0526ad88f1"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 7702,
-      "sha256": "d7411a3257a3ec9e008e213fbf855e2465397697535ff97839cc1fe4e1a92743"
+      "sha256": "188897a11d6d1a62cb6e5b2d38a809ee4244545e638cc64b1b75a3398661006a"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3576,
@@ -99,7 +107,7 @@
     },
     "operations/huye-operations-manifest.json": {
       "bytes": 882,
-      "sha256": "7f9634d7b8b1fc35f8becb0a8d22da1a5fa829ea649e924f5edcc0a6beaf7285"
+      "sha256": "84957f5777c5cecf4c893481e1323fbe635c5d76aa06cf837b113a1a3e00e605"
     }
   },
   "city": "huye",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/huye.gpkg": {
       "bytes": 278528,
@@ -142,9 +151,9 @@
       "sha256": "6d02f6850b51eeb2fb3fb311aa80e9a7b6e0ac855ab7af9599ac360cdbb2b996"
     },
     "operations/huye-operations.json.gz": {
-      "bytes": 405351,
+      "bytes": 405346,
       "required_in_git_checkout": false,
-      "sha256": "db5dc1b35eeb87c78f7f93115c887a227a9a7144ba6ae21334e42ec14f6b2015"
+      "sha256": "2f9767a4383bbe531d11cb26dabdbe8dda2be6d24c5fec922d126804aa07426d"
     },
     "operations/huye-procurement-plan.csv": {
       "bytes": 644425,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

@@ -85,32 +85,48 @@ not establish state of charge or endurance.
 
 ## 3. Reconcile depot energy scope across the physical and operating models
 
-**Priority: high. Conflicting reference definitions.**
+**Priority: high. Quantity contract repaired; placement and installed cost remain open.**
 
-The [depot template](../lib/templates/depots.toml) specifies 600 kWp PV and
-2,000 kWh storage for `main-heavy`. The [energy-site template](../lib/templates/energy-sites.toml)
-specifies **5,000 kWp and 40,000 kWh** for `depot-main`. Samawah's emitted
-scenario uses the latter. Its depot CAPEX remains the fixed **$8M** unit,
-with a **$250k** depot-terminal charging interface allowance in the
-[cost template](../lib/templates/capex-costs.toml).
+The [depot template](../lib/templates/depots.toml) now selects a tier from the
+[energy-site template](../lib/templates/energy-sites.toml). The scenario generator,
+layout requirements and station BOM consume this common inventory: **5,000 kWp
+PV and 40,000 kWh storage (80 × 500 kWh modules)** for `main-heavy`.
+The former 600 kWp / 2,000 kWh figures are explicitly retained as baseline
+allowances, not a competing equipment definition. Conflicting legacy per-depot
+quantities now fail generation. All 266 generated scenario outputs are unchanged
+by this repair; stored operating capacities were preserved. This reconciles
+what the model assumes, not whether that capacity is necessary. Reassess depot
+and station PV/storage against distributed overnight placement and charging
+duties before treating the operating inventory as an equipment requirement.
 
-This does not prove that the total allowance is insufficient. It establishes
-that there is no clear, shared quantity contract demonstrating which depot
-PV/storage configuration the physical layout, procurement and fixed allowance
-represent. A 20-fold storage difference must be a controlled configuration
-decision, not an implicit difference between templates.
+Every city now has a source-hashed depot reconciliation, linked from the
+[catalogue](../cities/catalogue/README.md). The
+[Samawah report](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md)
+requires **33,333 m² of PV modules**, compared with the **4,000 m² reference
+canopy**. Gross land area and battery compound dimensions still require a
+controlled layout and supplier/fire-engineering inputs. Existing CAD geometry
+does not place this complete inventory.
 
-**Amendments:** introduce one depot energy configuration consumed by the
-scenario, site layout, BOM and cost model; distinguish baseline equipment from
-capacity additions; price additions from explicit kW/kWh quantities; account
-for their footprints, installation and replacement scope.
+The fixed depot allowance remains **$8M**, with a **$250k** station charging
+interface allowance. The additional 4,400 kWp and 38,000 kWh above the old
+baseline represent a **$5.93M equipment sensitivity** at existing repository
+rates ($700/kW PV and $75/kWh storage). This is neither a supplier quotation nor
+an amount added to CAPEX: baseline inclusions, conversion equipment, civil
+works, protection, installation and renewal remain unreconciled. The reports
+therefore keep physical/cost/stabling acceptance failed.
+
+**Remaining amendments:** locate the full equipment inventory, obtain itemised
+installed scope and reconcile allowance inclusions before changing the budget;
+carry the resulting quantities into procurement and replacement events.
 
 ## 4. Prove that the distributed stabling plan fits the railway
 
 **Priority: high. Missing operating/physical feasibility evidence.**
 
-Reduced depot cost and footprint depend on healthy trains stabling at powered
-passenger stations. [RFC 0014](rfcs/0014-depot-design-standard.md) describes
+The intended policy is to keep healthy trains at powered passenger stations
+near their first morning trips, allowing coordinated starts across the network
+and limiting depots to maintenance needs. The review preserves that policy;
+it does not recommend concentrating the fleet at depots. [RFC 0014](rfcs/0014-depot-design-standard.md) describes
 simultaneous morning starts from those locations. However, the
 [simulator fleet initializer](../crates/osr-sim/src/sim.rs) distributes trains
 round-robin over configured dispatch points, without a stabling-track capacity
@@ -118,17 +134,32 @@ allocation.
 
 Samawah has **108 trainsets**, with fleets of **53, 28 and 27**, each assigned
 to just **two dispatch points**. The first line consequently initializes
-27 and 26 trainsets at its two endpoints. The design includes 17 concurrent
+27 and 26 trainsets at its two endpoints. Those queues diagnose an incomplete
+simulator initialization; they are not the intended overnight allocation. The design includes 17 concurrent
 main-depot workshop bays; workshop capacity is not evidence of adequate
 overnight parking. The simulator's abstract awaiting-dispatch queue does not
 establish that these trains fit on passenger tracks or can reach their morning
 starting locations without conflicts.
 
-**Additions:** a track-by-track overnight allocation with usable lengths,
+**Quantification added:** all 266 city reports reproduce initial dispatch
+allocations and calculate train-body and clearance-inclusive slot lengths.
+Samawah's 27-set queue requires **1,336.5 m of train bodies**, or **1,606.5 m
+of individual slots** with the RFC's 5 m clearance at each end. These are
+capacity requirements, not located tracks or a proven operating arrangement.
+No workshop bay or passenger platform is credited as verified overnight space.
+The legacy depot CAD also clamps requested bays to catalogue maxima and retains
+a ten-bay main-depot default, while the template minimum is four; it needs
+explicit oversize handling and city-specific workshop geometry. The legacy
+Python planner still emits depot exceptions by default and needs alignment
+with the current Rust emitter policy.
+
+**Remaining additions:** a station-by-station healthy-fleet overnight allocation
+with usable track lengths,
 train lengths, clearance points, charger sharing and access; evening run-in,
 morning run-out and failed-train recovery schedules; maintenance possessions;
-and an occupancy-constrained simulation. Reassess depot savings if additional
-sidings or secure service locations are required.
+and an occupancy-constrained simulation. First assess powered station tracks and the morning service pattern. Cost
+additional station sidings or secure service locations only where that
+allocation demonstrates a need; fleet-wide depot parking is not the default.
 
 ## 5. Make cashflow follow supplier terms and the working calendar
 
@@ -218,6 +249,12 @@ status with links to the detailed findings. The current
 technical inspection count must not imply equal evidence maturity for all
 266 models.
 
+An additional generation comparison found existing energy-site drift in
+**Gulu, Rahim Yar Khan and Tanta**: their retained charging/grid settings differ
+from fresh generation. The depot repair does not introduce that drift or
+replace those settings. These cities need explicit design overrides and a
+controlled scenario/evidence regeneration before reproducibility can be claimed.
+
 ## 8. Extend station analysis from repeatable routes to actual passenger loads
 
 **Priority: medium. Acknowledged gap with a concrete next model.**
@@ -261,7 +298,8 @@ individual city schedules should be presented as separate planning cases.
 1. Resolve the connection-capacity findings exposed by the repaired electrical
    screen, including their timetable and cost consequences. The drainage and
    grid-limit software repairs and evidence regeneration are complete.
-2. Close the depot energy quantity contract and physical stabling allocation.
+2. Close depot equipment placement, installed cost and physical stabling
+   allocation against the repaired quantity contract and new per-city requirements.
 3. Connect procurement, calendars, renewal events and shared factory resources
    to the delivery and financial model.
 4. Extend passenger/station and junction-conflict cases using controlled demand

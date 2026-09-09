@@ -194,6 +194,10 @@ def main() -> int:
             sumo_command.append("--allow-input-gaps")
         commands: list[tuple[str, list[str]]] = [
             (
+                "depot_scope",
+                [sys.executable, str(REPO_ROOT / "tools/automation/generate-depot-scope.py"), "--design", str(design_path)],
+            ),
+            (
                 "station_clusters",
                 [
                     sys.executable,
@@ -464,7 +468,21 @@ def main() -> int:
                         ).hexdigest() == item.get("sha256")
                         for item in visual_manifest.get("screenshots", {}).values()
                     )
-                if station_map_passed and gis_current and energy_current and visuals_current and ring_current and station_clusters_current:
+                depot_scope_path = output_root / "depot-scope/summary.json"
+                depot_scope_current = False
+                if depot_scope_path.is_file():
+                    depot_scope = json.loads(depot_scope_path.read_text())
+                    source_paths = depot_scope.get("source_paths", {})
+                    depot_scope_current = (
+                        depot_scope.get("generator_sha256") == hashlib.sha256((REPO_ROOT / "tools/automation/generate-depot-scope.py").read_bytes()).hexdigest()
+                        and len(source_paths) == 10
+                        and all(
+                            (REPO_ROOT / relative).is_file()
+                            and depot_scope.get(key) == hashlib.sha256((REPO_ROOT / relative).read_bytes()).hexdigest()
+                            for key, relative in source_paths.items()
+                        )
+                    )
+                if station_map_passed and gis_current and energy_current and visuals_current and ring_current and station_clusters_current and depot_scope_current:
                     results_by_city[slug] = {
                         "attempts": 0,
                         "city": slug,

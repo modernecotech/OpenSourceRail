@@ -25,6 +25,14 @@
       "bytes": 26883,
       "sha256": "c7daf4084b148477beb4632d5cb2599e0d5f35d7d28b6a0278e8983c25313a0b"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2492,
+      "sha256": "d1e7d18237b82e1e31593076c01b21de1fc0c128bb7b029895fea02c5b97ecaa"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6874,
+      "sha256": "e6818f62a26ea1fb88a98b27fdcd21944825b19006d2053796cf47f007d20f6a"
+    },
     "engineering/energy/summary.json": {
       "bytes": 15251,
       "sha256": "91a750b673f308922720f38474b4863aa460e1830c7e1903e7358856aae3f407"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 7316,
-      "sha256": "7c8ff2c5d88618978abae7bb22c87b100a55015fd9121bbe9b1a13fc1dc90ffa"
+      "sha256": "648e280149f07e4f55c26096cfaf61b40700f8611970d64f1b6bf59ccf2f9eef"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3539,
@@ -99,7 +107,7 @@
     },
     "operations/nyeri-operations-manifest.json": {
       "bytes": 884,
-      "sha256": "11244abd403575328be617fb8655f2576646ca66a37a14c294be0decc292d153"
+      "sha256": "0078bffa2a7980d6352a917b7cb04dc0c718ceb90f22dfcc742dcea9c643ccd8"
     }
   },
   "city": "nyeri",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/nyeri.gpkg": {
       "bytes": 266240,
@@ -142,9 +151,9 @@
       "sha256": "83ca2023091f53c59239c84e5ff4ca04e2625314c4173d1577fdb9b9968f2df7"
     },
     "operations/nyeri-operations.json.gz": {
-      "bytes": 368148,
+      "bytes": 368139,
       "required_in_git_checkout": false,
-      "sha256": "5e20f194ad03a46dfafea2ba823c9ef9327f46352da1a2f8862fe7d60830de22"
+      "sha256": "8f52782383ba412032ac506ca579abf8736af00e9715bb3ef2e72ca573d3ae1e"
     },
     "operations/nyeri-procurement-plan.csv": {
       "bytes": 582878,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

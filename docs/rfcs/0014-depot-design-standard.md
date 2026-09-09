@@ -23,15 +23,14 @@ the trainset back to depot.
 
 | Archetype | Catalogue max stalls | Heavy maintenance | Overhaul throughput | Notes |
 |---|---|---|---|---|
-| `main-heavy` | 20 | Yes — overhaul bay, wheelset lathe | ≤ 40 trainsets | Larger deployments add a second `main-heavy` |
+| `main-heavy` | 20 | Yes — overhaul bay, wheelset lathe | ≤ 40 trainsets | Larger workshops require a controlled site-specific extension |
 | `secondary-medium` | 12 | Light only — brake disc, door actuator, HVAC modules | — | Second depot on a long line |
 | `layup-minimal` | 6 | None — overnight stabling only | — | Remote-terminal layup |
 
-The **catalogue max** is the upper limit of the template default;
-the **per-deployment stall count** comes from the §4 formula
-(`stalls = ceil(fleet × 1.25)`). An 8-trainset starter line
-lands on 10 stalls in its `main-heavy`, not 20 - the template's
-20 is the ceiling, not the target.
+The **catalogue max** is the reference layout envelope. The per-deployment
+workshop requirement comes from §4 (`max(4, ceil(fleet × 0.15))`). It is not
+an overnight parking allowance. Requirements beyond that envelope need an
+explicit site design; a template ceiling must not silently truncate them.
 
 Plus one optional type for edge cases:
 
@@ -67,7 +66,8 @@ depot at-grade has an alignment problem, not a depot problem.
   Karachi Cantt, Maputo Machava, etc.), [RFC 0027](0027-brownfield-pilot-asset-recovery.md)
   governs the conversion of the existing site into an OSR depot.
   This RFC's archetypes are the **greenfield** envelope; the
-  brownfield path swaps greenfield depot CAPEX ($10.0 M / $4.0 M / $0.6 M) for
+  brownfield path swaps greenfield depot CAPEX (use the current
+  [cost template](../../lib/templates/capex-costs.toml) and reconcile energy inclusions) for
   workshop rehabilitation (~$0.5–2 M building + $1–3 M new
   OSR-specific tooling) — an order-of-magnitude saving that the
   per-deployment plan should commit to whenever assets are real.
@@ -84,9 +84,9 @@ archetype set covers:
 - **`layup-minimal`** — an explicit exception only where a passenger
   station cannot provide secure powered stabling.
 
-No intermediate sizes, no bespoke main-heavy variants. A 30-stall
-main-heavy is two `main-heavy` depots side-by-side (common in
-megacity deployments) — not a bespoke 30-stall design.
+The catalogue provides reference envelopes. A workshop exceeding the reference
+bay count needs a controlled extension at the deployment main depot, including
+access, equipment and staffing capacity.
 
 ## 4. Fleet-sizing formula
 
@@ -144,7 +144,7 @@ but does not repeat the full inspection on the same round trip.
 
 The 15% workshop concurrency allowance covers overhaul, defect repair,
 incoming inspection, and planned maintenance. Growth beyond the 20-bay
-catalogue envelope adds a second common `main-heavy`; it does not restore
+catalogue envelope requires a controlled workshop extension; it does not restore
 fleet-wide depot parking.
 
 Distributed overnight stabling does **not** increase the service-rotation
@@ -160,10 +160,10 @@ Example (current generated Samawah output, 3-min peak headway):
 
 - The authoritative generated summary is
   [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../../cities/catalogue/west-asia/Iraq/Samawah/README.md).
-- As of the current generated model: `line-1` is 25.6 km / 41
-  trainsets, `line-2` is 21.8 km / 36 trainsets, and `line-3` is
-  11.0 km / 19 trainsets, for 96 total 3-car trainsets: 86 peak,
-  no dedicated depot-service rotation, 7 planned spares, and 3 cold reserves.
+- The September 2026 design has fleets of 53, 28 and 27 trainsets: 108 total.
+  The [depot reconciliation](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md)
+  derives initial placements and slot-length requirements from the stored
+  scenario. Physical overnight allocation remains unverified.
 - `design.toml` emits the depot archetype, terminal assignment, and
 `fleet_stalls` as workshop/inspection bays from the same run. Older 1.25×
 fleet-parking examples and hand-calculated 6/4/8
@@ -177,7 +177,8 @@ The emitter (RFC 0014 v2) computes this from the design.toml's
 
 ### 5.1 Functions
 
-- Overnight stabling of the primary fleet (stall count per §4).
+- Workshop holding for inspection, scheduled work and defective trainsets
+  (bay count per §4); overnight fleet allocation requires a separate plan.
 - Daily inspection of every incoming trainset.
 - Weekly inspection (7-day service).
 - 30-day inspection (A-class service per EN 50126).
@@ -197,22 +198,37 @@ The emitter (RFC 0014 v2) computes this from the design.toml's
 | Weekly bay | Pit + roof walkway for upper-body access |
 | Overhaul bay | Pit + overhead crane (40 t) + wheel-lathe trench |
 | Wash track | Two-pass automatic with water recycling |
-| PV canopy | Over stabling + inspection tracks; 4 000 m² target for an 8-stall main-heavy |
+| PV canopy | 4 000 m² reference allowance; full operating PV inventory needs additional located area (§5.3) |
 | Classroom + office | ≥ 200 m² for operators + trainers |
 | Stores | ≥ 600 m² with rack storage for spare modules |
 
 Total `main-heavy` footprint: ~5 000 m² gross for a 10-stall
-facility, ~8 000 m² for a 20-stall.
+facility, ~8 000 m² for a 20-stall. These historical workshop envelopes do
+not include the complete operating PV/storage inventory and cannot be used as
+total deployment land requirements.
 
 ### 5.3 Energy
 
-- PV canopy as above. 10-stall main-heavy → 4 000 m² PV → 600 kWp
-  nominal → 3.2 GWh / year (Samawah climate).
-- Battery bank: repeated 500 kWh stationary LFP modules, sized by the depot
-  timetable and energy study, feeding the RFC 0021 500 kW DC charging modules.
-- Grid tie: export surplus at off-peak; import during overcast
-  weeks. Per [RFC 0002](0002-energy-sizing.md).
-- Every depot is a full `osr-energy-site` instance.
+- [`depots.toml`](../../lib/templates/depots.toml) selects the canonical
+  [`energy-sites.toml`](../../lib/templates/energy-sites.toml) tier. `main-heavy`
+  uses `depot-main`: **5,000 kWp PV and 40,000 kWh storage**, comprising
+  **80 × 500 kWh stationary modules**. Scenario, BOM and layout requirements
+  resolve the same inventory; explicit site overrides must remain traceable.
+  These are retained operating assumptions, not validated depot sizing.
+  Reassess energy duties with distributed overnight station charging before
+  freezing procurement or depot land requirements.
+- The old **4,000 m² / 600 kWp / 2,000 kWh** scope is a reference allowance.
+  At the catalogue density of 0.15 kWp/m², 5,000 kWp requires **33,333 m² of
+  modules**, before access, setbacks and packing. Additional land/canopy and
+  the battery compound are not yet located by the reference CAD.
+- Annual PV generation must come from the city energy study with declared
+  weather and loss assumptions. A nameplate rating alone is not annual yield.
+- Stationary storage feeds the RFC 0021 DC charging system. Supplier dimensions,
+  conversion/protection equipment, fire separation and installed cost require
+  explicit reconciliation with the fixed depot allowance.
+- Grid import/export must satisfy the declared connection limits and utility
+  study. Per [RFC 0002](0002-energy-sizing.md), every depot is one physical
+  `osr-energy-site`, including when co-located with a passenger station.
 
 ### 5.4 Signalling
 
@@ -246,8 +262,9 @@ facility, ~8 000 m² for a 20-stall.
 - **No overhaul bay. No wheel lathe. No bogie-lift.** Anything
   heavier is trips back to the main-heavy.
 - Footprint: ~2 500 m² for 8 stalls.
-- PV canopy: 1 500 m² → 225 kWp nominal.
-- Battery bank: 500 kWh.
+- Reference PV canopy: 1,500 m² / 225 kWp, with 500 kWh baseline storage.
+- Operating `depot-secondary` tier: 1,500 kWp PV and 5,000 kWh storage
+  (10 × 500 kWh modules); additional placement and installed cost remain open.
 - Signalling: same as main-heavy but smaller zone.
 - Classroom: none. Reuse the nearest `major` station's
   community room if needed.
@@ -261,8 +278,8 @@ facility, ~8 000 m² for a 20-stall.
   is no pit inspection, repair work, or heavy maintenance.
 - Footprint: ~1 000 m² for 4 stalls.
 - PV canopy: 600 m² → 90 kWp.
-- Battery bank: optional 150 kWh for opportunity charging
-  during dwell; the main-heavy is primary.
+- Operating `depot-layup` tier: one 150 kWh stationary package for
+  opportunity charging during dwell; the main-heavy is primary.
 - Train top-up: 150 kW low-C per occupied stabling road, used while a set is
   held between duties and overnight; passenger-platform fast charging remains
   a separate terminal function.
@@ -288,17 +305,16 @@ Every depot writes a record into `design.toml`:
 
 ```toml
 [[depots]]
-id              = "line1-east-depot"
-archetype       = "main-heavy"
-at_station      = "line-a-east"
-fleet_stalls    = 10
-pv_canopy_m2    = 4000
-battery_kwh     = 2000
+station          = "line-a-east"
+archetype        = "main-heavy"
+fleet_stalls     = 4  # illustrative workshop bays; calculate per §4
+energy_site_tier = "depot-main"  # optional: selected by the archetype
 ```
 
-The simulator ([`osr-sim`](../../crates/osr-sim/)) reads the depot
-records today and the distributed-stabling extension must preserve
-these behaviours:
+The scenario generator resolves depot energy tiers into `[[sites]]` and
+operating service settings into the simulator input. The simulator
+([`osr-sim`](../../crates/osr-sim/)) models service countdowns and energy flows.
+A future physical distributed-stabling model must satisfy these requirements:
 
 - Charges each trainset at depot pad power while held and overnight.
 - Treat powered passenger stations and layups as valid overnight stabling
@@ -307,8 +323,8 @@ these behaviours:
 - Holds a returning train for the configured clean/inspect/recharge slot at
   one designated depot per line and emits service-start/service-complete
   evidence.
-- Sizes and dispatches the explicit service-rotation fleet separately from
-  planned spares and cold reserve.
+- Preserves the zero dedicated service-rotation policy and distinguishes
+  planned spares and cold reserve from revenue fleet requirements.
 - Feeds the depot battery bank into the network-wide energy
   balance.
 
@@ -343,10 +359,10 @@ these behaviours:
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | [`lib/templates/depots.toml`](../../lib/templates/depots.toml) aligned with §§5–7 (PV canopy m², nominal kWp, battery kWh, workshop flags); §1 clarified "catalogue max" vs §4 formula (done 2026-04-22) | v0 |
-| **v2** ✅ | Emitter picks depot archetypes (main-heavy at depot-terminal, layup-minimal at other terminals) + writes `[[depots]]` with `fleet_stalls` from the §4 formula (done 2026-04-22) | v0, RFC 0010 v2 |
-| **v3** ✅ | `osr-sim` turnaround-service state (clean / inspect / diagnostics / recharge), explicit service-rotation fleet and event evidence (done 2026-08-12) | v2 |
-| **v4** | Generated site plan for the current Samawah depot and layup set from `cities/catalogue/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
+| **v1** | Shared energy tier, BOM quantities and layout requirements reconciled (2026-09-09); full equipment placement and installed cost remain open | v0 |
+| **v2** | Current Rust emitter uses one main depot and powered-station stabling; legacy Python planner exception policy still needs alignment | v0, RFC 0010 v2 |
+| **v3** ✅ | `osr-sim` turnaround-service state (clean / inspect / diagnostics / recharge), service countdown and event evidence (done 2026-08-12) | v2 |
+| **v4** | Generated site plan for the current Samawah depot and distributed stabling locations from `cities/catalogue/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
 | **v5** | Reference depot CAD under CERN-OHL-S v2 | v4 |
 
 ## 11. Relationship to existing work
@@ -395,5 +411,6 @@ these behaviours:
 - [x] Rollout ordered (§10)
 - [x] Relationship to existing software + templates (§11)
 
-The next session picks up at **v1 — amend
-`lib/templates/depots.toml`** to match this RFC exactly.
+Next: locate the full PV/storage inventory, reconcile installed cost, and
+provide track-by-track overnight allocation and conflict-aware run-in/run-out
+evidence. The quantity contract alone does not satisfy those release gates.

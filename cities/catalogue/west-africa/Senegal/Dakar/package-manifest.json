@@ -57,6 +57,14 @@
       "bytes": 57084,
       "sha256": "4cf7943bec8d108dab2e5700b5a382173cd1aea5590e63fe78810b18b134cbf4"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2972,
+      "sha256": "b1681d4f93ccda03a8201b572d0500e6477597fa879f4a75147e8ae10de1a2b6"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8847,
+      "sha256": "8009633dc240a402905f647e3f3269aae807faae218281e8d9f7436d7fd101c3"
+    },
     "engineering/energy/summary.json": {
       "bytes": 72231,
       "sha256": "731836527dfee1792f2e55f65099521a10f16c1a1c662ef40834755b0dcbc001"
@@ -99,7 +107,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 35912,
-      "sha256": "b1fc155f3f151acc7f315bc2fbb9e29acd4f1d987a3e31c89219a1cb7c88960c"
+      "sha256": "10e475a67279b8799ecd8075331c422c9aea5a667c0b827188275ed1936931ea"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7682,
@@ -111,7 +119,7 @@
     },
     "operations/dakar-operations-manifest.json": {
       "bytes": 891,
-      "sha256": "911cd85af711295c3bbac148f637cf439593aa814545c0d51470e5ea83c4f8a8"
+      "sha256": "95af11252734cdeb6915da1a539686ddd11ab5eb4a11d7b4ec3fd3457f57d5c3"
     }
   },
   "city": "dakar",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/dakar.gpkg": {
       "bytes": 344064,
@@ -154,9 +163,9 @@
       "sha256": "ea59e5412c23415efba84d71306daa8d4d56b4ba421e4d5bb445d9904a783162"
     },
     "operations/dakar-operations.json.gz": {
-      "bytes": 1859202,
+      "bytes": 1859194,
       "required_in_git_checkout": false,
-      "sha256": "c703af4713abc09db4831c749ee883cb6adc368e7f9cff7b6d2a155a9e4dc3cb"
+      "sha256": "8a50a936452668c31ee132482250f02aed226787ab219491f3c1088fb267c3ea"
     },
     "operations/dakar-procurement-plan.csv": {
       "bytes": 2764280,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

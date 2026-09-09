@@ -49,6 +49,14 @@
       "bytes": 48436,
       "sha256": "28852ff76ca0d6ab898a6710ce2297a125604c33ede501d8dc4317a4085896a0"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 3429,
+      "sha256": "bc2273376733747065243098e775d4b7fff8dbf7782046d19b2f7973d4df5eb5"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 10799,
+      "sha256": "c06043d141454b5b965fc2f404ee33dcb295a3c81815d2df061d10bb36e7d2e2"
+    },
     "engineering/energy/summary.json": {
       "bytes": 95900,
       "sha256": "2454ce4241853668127566e05940cd5387e619d2fd1dd9c13f846d619e7c4f21"
@@ -91,7 +99,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 55497,
-      "sha256": "5ae715ae4392cc6a3b249030dece29914bc4a2717aad4a1fbe278cf28e705adc"
+      "sha256": "baa1456efdee49a7d87f8accd9945108a86d591b7263061e68e6abb60948b411"
     },
     "engineering/sumo/summary.json": {
       "bytes": 11061,
@@ -123,7 +131,7 @@
     },
     "operations/luanda-operations-manifest.json": {
       "bytes": 903,
-      "sha256": "1a94dd5ccc3777d6fc93fe41720ab76f9fc26226f6989b11cbbf57df24d73588"
+      "sha256": "213d4253515ab02f245d33919545304ee0239433096c53117bed6741978a9c72"
     }
   },
   "city": "luanda",
@@ -135,10 +143,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/luanda.gpkg": {
       "bytes": 417792,
@@ -166,9 +175,9 @@
       "sha256": "24b1d4b593e842c6b7ec0af6793af4001180298d42f6ad9f330ee834851bbb14"
     },
     "operations/luanda-operations.json.gz": {
-      "bytes": 3087325,
+      "bytes": 3087312,
       "required_in_git_checkout": false,
-      "sha256": "a12255ec28f6f9991b2644d6eb27bbf54bfac8e3fb798d6301143fc7d07294e5"
+      "sha256": "a7d14d7262c3cc02163a1027a527c7f0ebd315cb63fdd7bf0551cf7c30843392"
     },
     "operations/luanda-procurement-plan.csv": {
       "bytes": 4653553,
@@ -203,7 +212,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

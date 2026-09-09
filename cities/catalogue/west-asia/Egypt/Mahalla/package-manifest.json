@@ -25,6 +25,14 @@
       "bytes": 17999,
       "sha256": "bec1857723c29b1b025020e31a11e7e91e4277f9cdfa8f36418981b78f5a45c1"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2498,
+      "sha256": "915e35d6ceb69c67b6786a066d31072fda935f6031781b2139083b32c3bc9a52"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 6879,
+      "sha256": "350d88d7e2931a06b4556bc9909286914a4a5c32be15204dae70954b632efba3"
+    },
     "engineering/energy/summary.json": {
       "bytes": 14731,
       "sha256": "7b675714b5168323f6c284a95ee38e5292c6272fc3c6fcfce02ad186e8c34a44"
@@ -67,7 +75,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 7346,
-      "sha256": "1c11bc669bcb24c4bde487213ab54f2c35265c21227579bcd7b555a7e96c1902"
+      "sha256": "46f5624f478d6c0a6ee2486393c1ed4536d834d2b946b7f00229a13cbd8b5b5c"
     },
     "engineering/sumo/summary.json": {
       "bytes": 3563,
@@ -99,7 +107,7 @@
     },
     "operations/mahalla-operations-manifest.json": {
       "bytes": 891,
-      "sha256": "63c48bc7a63e08313c510b1d5acf9acf5989b9912e30543f850d840cf25ea397"
+      "sha256": "0963c7c18d5f2d376dfb3c5ee0af9e2d30b9eeece8bed695c50a230c6af99cf1"
     }
   },
   "city": "mahalla",
@@ -111,10 +119,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/mahalla.gpkg": {
       "bytes": 266240,
@@ -142,9 +151,9 @@
       "sha256": "332faeae138ad3482058f22f382b80a92d6f5874f35934fcb80965d5017b64e6"
     },
     "operations/mahalla-operations.json.gz": {
-      "bytes": 2170296,
+      "bytes": 2170285,
       "required_in_git_checkout": false,
-      "sha256": "5ab7c6e1839c010d547cb2be008a1c6881f651c36b318e17dc94f39c3af33a51"
+      "sha256": "abfdb2ae6830e1a2795e8d97c20126c9c6b28004de753cf0a5391d8fa09c23e3"
     },
     "operations/mahalla-procurement-plan.csv": {
       "bytes": 5090415,
@@ -179,7 +188,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

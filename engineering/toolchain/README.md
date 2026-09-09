@@ -77,6 +77,10 @@ result artifacts.
 discovers `cities/catalogue/*/*/*/design.toml`; it does not maintain a second city list.
 For every selected city it writes:
 
+- a depot energy inventory and initial-dispatch capacity reconciliation under
+  `engineering/depot-scope/`, with source hashes, PV module area and equipment
+  cost sensitivity; physical placement, installed cost and stabling gates
+  remain open until controlled evidence exists;
 - a QGIS/GDAL GeoPackage plus GeoJSON review layers for corridors, stations,
   civil segments, energy sites, depots and input issues;
 - a SUMO node, edge and route deck containing every declared line and station,
@@ -106,7 +110,7 @@ batch is selected by omitting `--generate-only`.
 Use `--resume` after an interrupted or partially successful solver batch; it
 reuses only summaries whose design, corridor, scenario and station-manifest
 hashes still match and whose simulation, GIS generation, energy design screen and
-station-product map passed. Transient launcher failures are retried
+station-product map passed, and the depot-scope source hashes remain current. Transient launcher failures are retried
 automatically at reduced concurrency.
 
 Samawah and Mosul carry the full pilot evidence scope, with open electrical
@@ -145,3 +149,9 @@ under `build/engineering/`.
 The same command runs EnergyPlus's `1ZoneUncontrolled` design-day example and
 the tracked FDS empty-box fixture, then requires each solver's explicit
 successful-completion marker.
+
+Regenerate depot reconciliation alone with
+`.venv/bin/python tools/automation/generate-depot-scope.py --all` (or
+`--design path/to/design.toml`). A successful command means the reports were
+written; their `passed: false` preserves the unresolved physical/cost/stabling
+gates. The equipment sensitivity is not applied to city CAPEX.

@@ -94,6 +94,7 @@ charger_contact_count    = 2
 # ---- Depot-secondary: small layup + yard PV -----------------------------
 
 [tiers.depot-secondary]
+storage_module_kwh       = 500
 pv_nameplate_kw          = 1500
 storage_capacity_kwh     = 5000
 storage_max_charge_kw    = 2000
@@ -105,6 +106,8 @@ grid_export_kw           = 1000
 # ---- Depot-layup: overnight terminal stabling + low-C top-up ------------
 
 [tiers.depot-layup]
+# A distinct compact 150 kWh package; not a fractional 500 kWh module.
+storage_module_kwh       = 150
 pv_nameplate_kw          = 90
 storage_capacity_kwh     = 150
 storage_max_charge_kw    = 600
@@ -116,6 +119,7 @@ grid_export_kw           = 100
 # ---- Depot-main: main depot microgrid -----------------------------------
 
 [tiers.depot-main]
+storage_module_kwh       = 500
 pv_nameplate_kw          = 5000
 storage_capacity_kwh     = 40000
 storage_max_charge_kw    = 10000

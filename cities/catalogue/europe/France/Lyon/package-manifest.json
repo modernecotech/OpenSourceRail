@@ -37,6 +37,14 @@
       "bytes": 75041,
       "sha256": "8757a81e5a556b57b3e034373881da20e5d1406b4e85adeed58fbadda5de3a66"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2971,
+      "sha256": "4502fdddf2eb20c159c2475b72232dafea8a84bffd1182aa6b3510a279318fc1"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8819,
+      "sha256": "8de172bf200bca2a57b1c7c0cf0affe47fa222de2c6e491b228ab46ef5158b03"
+    },
     "engineering/energy/summary.json": {
       "bytes": 65847,
       "sha256": "02d5d1b9f4da7a7d6cc1095870542921200be81955dc38bdc61c9bb867269fd9"
@@ -79,7 +87,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 36999,
-      "sha256": "f15ef3bc31ef065d158b37c600e7dec0c8bbdb8a606b7201b3576d6bf087a6e9"
+      "sha256": "84e79d00de10eb893edc6f3f104d06590c0905ce708d95531ea2475f2b1e4ae4"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7767,
@@ -111,7 +119,7 @@
     },
     "operations/lyon-operations-manifest.json": {
       "bytes": 889,
-      "sha256": "4e409ea87f4753dd44ee1ae3970c7819fb4ff2a3338b94dce48f3e35c7f6bd21"
+      "sha256": "7954593ad73e488f09b44c890268ae7fb35c614aff050cd0adb91af9fd99e68f"
     }
   },
   "city": "lyon",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/lyon.gpkg": {
       "bytes": 364544,
@@ -154,9 +163,9 @@
       "sha256": "d87f2031b959f00d1c3a6f88c41e17f9f379d4b9f395507235668731cac56b13"
     },
     "operations/lyon-operations.json.gz": {
-      "bytes": 1931118,
+      "bytes": 1931115,
       "required_in_git_checkout": false,
-      "sha256": "63890933ae6f6eda89516d945bf7e2b314fd4d7856db661dceabc448715f8945"
+      "sha256": "526c550856de6d6e0a4bdc3adeaae6b6c20e218657205bfb4e5992f062489fd3"
     },
     "operations/lyon-procurement-plan.csv": {
       "bytes": 2847960,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

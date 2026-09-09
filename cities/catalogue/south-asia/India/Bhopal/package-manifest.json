@@ -57,6 +57,14 @@
       "bytes": 59658,
       "sha256": "d9a59d8b38a9635bf15d453590173f8a08862f750a4be16f1395979caa4b8869"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 2967,
+      "sha256": "e7e40b15fe0d71c5cf563755074791be8a2e483b18fb8ae047962ed1d145ec86"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 8830,
+      "sha256": "34ef4f3a1a565fc5ce9bf7cc7dab8efbd06c5561fe39f96ab7bd51e5cb0438ae"
+    },
     "engineering/energy/summary.json": {
       "bytes": 58928,
       "sha256": "87b16bbf48a5ef1be914f51a20831a153944412ce7b137a75b188797c9630a85"
@@ -99,7 +107,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 31792,
-      "sha256": "ba50bbcd097e9b8e638c1d2b066685c9df02601cb086374c2cf51e183323ceda"
+      "sha256": "58d6ed75d28d703a2941e4c100855437c2be0749b548492709c0c74d688b54c6"
     },
     "engineering/sumo/summary.json": {
       "bytes": 7311,
@@ -111,7 +119,7 @@
     },
     "operations/bhopal-operations-manifest.json": {
       "bytes": 892,
-      "sha256": "6c4f92c487324794ed0a1cba5e4fc04d49189af016e7ce87bccc324daa1e546d"
+      "sha256": "fe541ff7d51f7e08dde50d5eef34555ecf39fd93a64bdff1b99d638b0c6688c6"
     }
   },
   "city": "bhopal",
@@ -123,10 +131,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/bhopal.gpkg": {
       "bytes": 348160,
@@ -154,9 +163,9 @@
       "sha256": "5a21070639d275105fd76b40cf969d7b930c8524686696d3e6e1592bf1409731"
     },
     "operations/bhopal-operations.json.gz": {
-      "bytes": 1546908,
+      "bytes": 1546896,
       "required_in_git_checkout": false,
-      "sha256": "9f6b53fbecd3719ed193b0e56a2dd5146e99402d30311179b86e91417814dede"
+      "sha256": "19639fd1b8c81190b959e12889401406e266228e47bbb5a0e7f9fc325249766b"
     },
     "operations/bhopal-procurement-plan.csv": {
       "bytes": 2274389,
@@ -191,7 +200,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

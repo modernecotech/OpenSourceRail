@@ -58,15 +58,6 @@ _SITE_TIER_DEFAULTS: dict[str, dict[str, float]] = {
                          "charger_max_kw": 500.0, "charger_max_current_a": 825.0,
                          "charger_bus_voltage_v": 650.0, "charger_efficiency": 0.98,
                          "charger_contact_count": 2.0},
-    "depot-secondary": {"pv_nameplate_kw": 1500.0, "storage_capacity_kwh": 5000.0,
-                         "storage_max_charge_kw": 2000.0, "storage_max_discharge_kw": 2000.0,
-                         "storage_initial_soc": 0.6,  "grid_import_kw": 1000.0, "grid_export_kw": 1000.0},
-    "depot-layup":     {"pv_nameplate_kw": 90.0,   "storage_capacity_kwh": 150.0,
-                         "storage_max_charge_kw": 600.0, "storage_max_discharge_kw": 600.0,
-                         "storage_initial_soc": 0.6,  "grid_import_kw": 600.0, "grid_export_kw": 100.0},
-    "depot-main":      {"pv_nameplate_kw": 5000.0, "storage_capacity_kwh": 40000.0,
-                         "storage_max_charge_kw": 10000.0, "storage_max_discharge_kw": 10000.0,
-                         "storage_initial_soc": 0.7,  "grid_import_kw": 3000.0, "grid_export_kw": 3000.0},
 }
 
 # Archetype → energy-site tier mapping (used when design.toml carries
@@ -146,6 +137,7 @@ class ScenarioGenerator:
     templates_root: Path
     station_archetypes: dict[str, dict[str, Any]] = field(default_factory=dict)
     site_tiers: dict[str, dict[str, float]] = field(default_factory=dict)
+    depot_archetypes: dict[str, dict[str, Any]] = field(default_factory=dict)
     climate_presets: dict[str, dict[str, Any]] = field(default_factory=dict)
     trainset_systems: dict[str, Any] = field(default_factory=dict)
     depot_service_seconds: int = 720
@@ -172,6 +164,7 @@ class ScenarioGenerator:
         depot_path = self.templates_root / "depots.toml"
         if depot_path.exists():
             depot = tomllib.loads(depot_path.read_text())
+            self.depot_archetypes = depot.get("archetypes", {})
             turnaround = depot.get("operations", {}).get("turnaround_service", {})
             self.depot_service_seconds = int(
                 turnaround.get("duration_seconds", self.depot_service_seconds)
@@ -199,6 +192,8 @@ class ScenarioGenerator:
     def site_defaults(self, tier: str) -> dict[str, float]:
         """Resolve operational defaults for a site tier."""
         tpl = self.site_tiers.get(tier, {})
+        if tier.startswith("depot-") and not tpl:
+            raise GeneratorError(f"missing canonical energy-sites.toml tier {tier!r}; depot capacities have no fallback")
         out = dict(_SITE_TIER_DEFAULTS.get(tier, {}))
         for k, v in tpl.items():
             out[k] = v
@@ -959,6 +954,19 @@ class ScenarioGenerator:
             ):
                 if k in overrides:
                     d[k] = overrides[k]
+            for depot in self.design.get("depots", []):
+                if (depot.get("station") or depot.get("station_id")) != s["station"]:
+                    continue
+                archetype = depot.get("archetype", "main-heavy")
+                expected_tier = depot.get("energy_site_tier") or self.depot_archetypes.get(archetype, {}).get("energy_site_tier") or _DEPOT_TIER_MAP.get(archetype)
+                if tier != expected_tier:
+                    raise GeneratorError(f"depot {s['station']}: expected tier {expected_tier!r}, got {tier!r}")
+                for legacy, current in (("pv_nominal_kwp", "pv_nameplate_kw"), ("battery_kwh", "storage_capacity_kwh")):
+                    if legacy in depot and float(depot[legacy]) != float(d[current]):
+                        raise GeneratorError(
+                            f"depot {s['station']}: {legacy} conflicts with energy-site {current}; "
+                            "declare the intended configuration in [[sites]] and remove the duplicate depot quantity"
+                        )
             out.append(f"[[sites]]\n")
             out.append(f'station = "{_escape(s["station"])}"\n')
             out.append(f'tier = "{_escape(tier)}"\n')
@@ -994,7 +1002,7 @@ class ScenarioGenerator:
         # already emitted one.
         for d in self.design.get("depots", []):
             arch = d.get("archetype", "main-heavy")
-            tier = _DEPOT_TIER_MAP.get(arch, "")
+            tier = d.get("energy_site_tier") or self.depot_archetypes.get(arch, {}).get("energy_site_tier") or _DEPOT_TIER_MAP.get(arch, "")
             if not tier:
                 continue
             # Rust emits depot rows keyed by `station = "..."`; older

@@ -45,6 +45,14 @@
       "bytes": 58080,
       "sha256": "9aefb1cd18dba1053cb8b3c72e80298aeb36ae8b130160e0e9ababe104025b39"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 3277,
+      "sha256": "4a31d6b9304c666edac74b191cb25cf596cf93e27241d4a4349c0867988dbec2"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 10145,
+      "sha256": "7931bda97c2f9070fe9e96076d5944146c09ae32c73546c69f0d0dd057fe8e33"
+    },
     "engineering/energy/summary.json": {
       "bytes": 93517,
       "sha256": "d28bf869f26d0425ea9a329f6e57036e6124d52c63f30698edf50fa3f2d10d36"
@@ -87,7 +95,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 49285,
-      "sha256": "65247f93c9bd0d33b45c142a10a04f0561516c6a2f479895d3476a66e022648a"
+      "sha256": "2b6d39d105c67b08638a10e826a98a3b78f5afd8cb9bfd214d0e843545046f18"
     },
     "engineering/sumo/summary.json": {
       "bytes": 9967,
@@ -119,7 +127,7 @@
     },
     "operations/kanpur-operations-manifest.json": {
       "bytes": 898,
-      "sha256": "1cfb298ee0de7dd846e4dbf83de3063f0a533e332b367bdf922492df0636779c"
+      "sha256": "15c4490cad086d8612df1a135116e8a18fd3037ffcc372ec6deec77b981dffb2"
     }
   },
   "city": "kanpur",
@@ -131,10 +139,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/kanpur.gpkg": {
       "bytes": 421888,
@@ -162,9 +171,9 @@
       "sha256": "ee3759f9bb4b0005e089da43cd0ba783f08bd4904c6c533fccd711dee7df6798"
     },
     "operations/kanpur-operations.json.gz": {
-      "bytes": 2735366,
+      "bytes": 2735359,
       "required_in_git_checkout": false,
-      "sha256": "c5ba676c695c3f0b77c8b0950c8645a9099f1945a9ba49b1f4bf55ab8984a732"
+      "sha256": "c7ee85e520732f7286bf643679e8da4ca8002ee5d4388b80d8d44281bc3d27d6"
     },
     "operations/kanpur-procurement-plan.csv": {
       "bytes": 4078468,
@@ -199,7 +208,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",

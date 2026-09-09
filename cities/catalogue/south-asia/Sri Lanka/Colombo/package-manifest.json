@@ -69,6 +69,14 @@
       "bytes": 76860,
       "sha256": "749c90abbe3f7acbf0d142705de42f2fbdaad2428baa2d1ab9ecf3dbf5964ee4"
     },
+    "engineering/depot-scope/README.md": {
+      "bytes": 3430,
+      "sha256": "9e28e448a457baa3843d7bbea753f982fe4cb7b93a076fed6663bb324ae40fde"
+    },
+    "engineering/depot-scope/summary.json": {
+      "bytes": 10807,
+      "sha256": "9f98ce68aa0b031f9074b0a1fb3225ef77b254683a3960f45a89f455d99a10fa"
+    },
     "engineering/energy/summary.json": {
       "bytes": 86917,
       "sha256": "776c36b8d255882f32e823fd62a744563cf22134d55cfdfecb9a719f2c2fc2d2"
@@ -111,7 +119,7 @@
     },
     "engineering/station-product-map.json": {
       "bytes": 46651,
-      "sha256": "2eeef779762b6427588fff85c579bcb2d463830edbf7d887877ab60e09512660"
+      "sha256": "105f131b50c734648fa7f7f5433699ef50b4ed0e24895fb759a8bb1a28cef89d"
     },
     "engineering/sumo/summary.json": {
       "bytes": 10313,
@@ -123,7 +131,7 @@
     },
     "operations/colombo-operations-manifest.json": {
       "bytes": 898,
-      "sha256": "509a35da7288d42393c60d29e133e54e3a5abdaeea0507536d7a10bdff917072"
+      "sha256": "aeeae6abe1481835dccd8199ee0462761fcc50b4df6126948dcabe0ca2605e5f"
     }
   },
   "city": "colombo",
@@ -135,10 +143,11 @@
     "independent safety assessment and construction release"
   ],
   "failed_summaries": [
-    "engineering/energy/summary.json"
+    "engineering/energy/summary.json",
+    "engineering/depot-scope/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "55f77de98d5ba471ffe8451311c3346e3dc6de4881de24502ea58a7ac3f6faf9",
+  "generator_sha256": "15ec4af8ae8564f24cab00770b931d17690dfa251d3549217e708dda712ac43c",
   "local_reproducible_artifacts": {
     "engineering/gis/colombo.gpkg": {
       "bytes": 466944,
@@ -166,9 +175,9 @@
       "sha256": "9790e1eb705d8df6d0a9842ca99bf9e5be4412349060eb880492dee8a5b5df35"
     },
     "operations/colombo-operations.json.gz": {
-      "bytes": 2603116,
+      "bytes": 2603115,
       "required_in_git_checkout": false,
-      "sha256": "f559fb9b5419731b324977fdf143870b91876145406c3843a9a3529e91e51f16"
+      "sha256": "5c78227459a942fe6d2519795a63e0df4148515eda520badc88df292f2815eb7"
     },
     "operations/colombo-procurement-plan.csv": {
       "bytes": 3841908,
@@ -203,7 +212,7 @@
   "package_status": "incomplete",
   "passed": false,
   "schema_version": "1.0",
-  "source_revision": "5205c40d2bb02209509641e8d56944df6e10c7ec",
+  "source_revision": "a1248699b6db3c5a4bb96930c4ff45c010e9981f",
   "stale_analysis_sources": [
     {
       "artifact": "engineering/simulation/validation-summary.json",
