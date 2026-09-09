@@ -40,14 +40,58 @@ turnouts, charging access, security and inspection arrangements are verified.
 .venv/bin/python tools/automation/generate-stabling-plan.py --all
 ```
 
-## Native operating evidence
+## Native hybrid operation
+
+The simulator accepts explicit `overnight_allocations` for every fleet, with
+station, departure heading, location type, role and train count. Depot stations
+also declare `depot_stabling_positions`; `is_depot` and workshop bays alone
+provide no storage allowance. The loader checks complete fleet/role inventory,
+at most two station homes per shared station, depot capacity, powered dispatch
+locations and access on the train's own line.
+
+At closing, active trains finish their journeys along real sections until they
+reach their assigned homes. Return moves retain energy and movement-authority
+checks and use the largest scheduled headway for spacing, independently of the
+closed passenger timetable. This is a conservative run-in policy, not an
+optimised evening timetable. At home, trains berth with the declared morning
+heading and top up under the shared site limits. CSV `stabling_location`
+distinguishes station, depot and in-transit stock. Waiting launch stock gets
+priority over recirculating arrivals; schedule, faults and energy still gate
+morning departures. Reserves remain in depot storage.
+
+The [connected eight-train fixture](../../lib/examples/hybrid-stabling.toml)
+passes two continuous service cycles: two trains at each of three stations,
+one revenue train and one spare at the depot, real depot departures/returns,
+charging and no movement-authority invariant violations. Train positions and
+batteries are retained between cycles. A repeat-run test also compares the full
+per-train CSV byte for byte, event sequence, distance and energy totals. With
+the same simulator build, input ordering, scheduled faults and time step, both
+runs match exactly. This establishes repeatability for the tested model; it is
+not a proof of real-world timing or bitwise equivalence across platforms.
+Depot berthing and heading changes are
+abstract node operations; yard roads, throats and turnback geometry remain
+outside the physical graph.
+
+The generator emits a separate `*-hybrid.toml` only where allocation and
+same-line depot access allow it. Uíge, Quelimane and Edéa currently qualify for
+candidate generation; this does not establish service-day acceptance. Other
+reports give a reason for withholding the native candidate. Samawah's 40/68
+plan remains intact, but Lines 2 and 3 need modelled rail connections to the
+Line 1 main depot before its full hybrid operation can run.
+
+```bash
+cargo test -p osr-sim --test hybrid_stabling
+cargo run --release --bin osr-sim -- --config lib/examples/hybrid-stabling.toml --duration 173701 --time-step 5 --ma-check-every 0 --csv-out /tmp/hybrid-stabling.csv
+```
+
+## Retained station-only operating evidence
 
 The existing native candidate is a **station-only benchmark**. It implements
 station holding, shared charging up to 150 kW per train toward 95% SoC,
 schedule/headway/movement-authority gated starts, and sufficient departure
 energy to reach the next selected charger with the 20% reserve. Spare and
 cold-reserve roles remain parked and do not enter routine service. Automatic
-reserve activation and depot yard movements are still to be implemented.
+reserve activation and physical yard routing remain to be implemented.
 
 Samawah's [short overnight replay](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md)
 and [continuous two-day replay](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md)
@@ -73,7 +117,7 @@ Compact reports record source, candidate, binary and raw-output hashes.
 ## Remaining implementation
 
 Add depot storage tracks and interline access to the physical model, then
-schedule evening depot arrivals and morning departures while retaining two
-station launch trains. Verify shared charging, daytime headways, inspection
+validate the conservative home-return policy against city evening and morning
+timetables while retaining two station launch trains. Verify shared charging, daytime headways, inspection
 release, reserve activation and defective-train recovery against those duties.
 Reassess depot and station energy sizing from the resulting operation.

@@ -88,6 +88,9 @@ Allocation check: **FAIL**. Depot stabling positions are planning requirements, 
 
 Interline access to the assigned depot must be detailed for: line-1 (15 trains), line-2 (14 trains), line-4 (3 trains).
 
+Native hybrid candidate unavailable: morning station allocation is incomplete.
+
+
 ## Station-only native benchmark
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.

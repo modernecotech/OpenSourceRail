@@ -45,7 +45,7 @@ use crate::proto_systems::{self, ProtoSystemsShadow, ProtoSystemsSummary};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::selftest_systems::{self, SelftestSystemsSummary};
 use crate::time_sync::{self, TimeSyncShadow, TimeSyncSummary};
-use crate::train::{Heading, ServiceRole, Train, TrainPhase};
+use crate::train::{Heading, OvernightHome, ServiceRole, Train, TrainPhase};
 use crate::vehicle_systems::{
     self, VehicleSystemsShadow, VehicleSystemsSummary, VehicleSystemsTickReport,
 };
@@ -420,6 +420,7 @@ pub struct LineFleet {
     /// Opt-in powered-station holding and low-C charging at dispatch locations.
     /// This is an operating model; it does not certify physical berth capacity.
     pub station_stabling: bool,
+    pub overnight_homes: Vec<OvernightHome>,
     pub trainset_count: u32,
     pub spare_count: u32,
     pub cold_reserve_count: u32,
@@ -786,7 +787,7 @@ pub fn run_with_event_recording(
                 let mut w = std::io::BufWriter::new(f);
                 let _ = writeln!(
                     w,
-                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh,roof_pv_charged_kwh,section_id,section_position_m,section_speed_mps,section_accel_mps2,motion_phase,battery_draw_power_kw,mechanical_traction_power_kw,mechanical_brake_power_kw,roof_pv_kw,roof_pv_cleaner_power_kw,station_charge_power_kw,heading,departure_heading,service_role,station_id"
+                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh,roof_pv_charged_kwh,section_id,section_position_m,section_speed_mps,section_accel_mps2,motion_phase,battery_draw_power_kw,mechanical_traction_power_kw,mechanical_brake_power_kw,roof_pv_kw,roof_pv_cleaner_power_kw,station_charge_power_kw,heading,departure_heading,service_role,station_id,stabling_location"
                 );
                 csv_writer = Some(w);
             }
@@ -830,6 +831,8 @@ pub fn run_with_event_recording(
 
     print_header(config, runtime, &trains);
 
+    let mut train_step_order: Vec<usize> = (0..trains.len()).collect();
+    let hybrid_stabling = config.fleets.iter().any(|f| !f.overnight_homes.is_empty());
     let mut t: u32 = 0;
     let mut next_status = if status_every > 0 {
         status_every
@@ -879,7 +882,14 @@ pub fn run_with_event_recording(
         );
 
         let mut occ_reports = Vec::with_capacity(trains.len());
-        for idx in 0..trains.len() {
+        if hybrid_stabling {
+            // Launch waiting home stock before recirculating arrivals consume
+            // its slots. A held/low-energy train still cannot reserve a slot.
+            train_step_order.sort_by_key(|&idx| {
+                !matches!(trains[idx].phase, TrainPhase::AwaitingDispatch { .. })
+            });
+        }
+        for &idx in &train_step_order {
             let habd_stop_active = habd_systems_shadow.stop_active_for(trains[idx].id);
             let habd_speed_limit_mps = habd_systems_shadow.speed_limit_mps_for(trains[idx].id);
             let occ_dispatch_hold = occ_systems_shadow.line_dispatch_held(trains[idx].line_index);
@@ -1318,7 +1328,11 @@ fn init_fleet(config: &ScenarioConfig) -> Vec<Train> {
         );
         for i in 0..fleet.trainset_count {
             let dp_idx = (i as usize) % fleet.dispatch_points.len();
-            let (start_station, heading) = fleet.dispatch_points[dp_idx];
+            let home = fleet.overnight_homes.get(i as usize).cloned();
+            let (start_station, heading) = home
+                .as_ref()
+                .map(|h| (h.station, h.heading))
+                .unwrap_or(fleet.dispatch_points[dp_idx]);
 
             trains.push(Train {
                 id: TrainId::new(next_train_num),
@@ -1326,10 +1340,9 @@ fn init_fleet(config: &ScenarioConfig) -> Vec<Train> {
                 consist: config.consist.clone(),
                 energy_kwh_per_car_km: config.energy_kwh_per_car_km,
                 heading,
-                service_role: if i < fleet.trainset_count
-                    - fleet.spare_count
-                    - fleet.cold_reserve_count
-                {
+                service_role: if let Some(home) = &home {
+                    home.service_role
+                } else if i < fleet.trainset_count - fleet.spare_count - fleet.cold_reserve_count {
                     ServiceRole::Revenue
                 } else if i < fleet.trainset_count - fleet.cold_reserve_count {
                     ServiceRole::Spare
@@ -1339,6 +1352,8 @@ fn init_fleet(config: &ScenarioConfig) -> Vec<Train> {
                 phase: TrainPhase::AwaitingDispatch {
                     station: start_station,
                 },
+                in_depot: home.as_ref().is_some_and(|h| h.in_depot),
+                overnight_home: home,
                 soc: 0.95,
                 odometer_km: 0.0,
                 energy_consumed_kwh: 0.0,
@@ -1570,11 +1585,30 @@ fn step_train(
                 return MovementControlEffect::DepartureInhibited;
             }
 
+            // Hybrid trains return along real sections to their assigned home.
+            // Berthing changes location type at this node; no position reset or
+            // interline transfer is allowed. Physical yard throats are abstract.
+            let returning_home =
+                trains[idx].overnight_home.is_some() && fleet.schedule.headway_at(clock).is_none();
+            if returning_home {
+                let home = trains[idx].overnight_home.as_ref().unwrap();
+                if home.station == station {
+                    trains[idx].heading = home.heading;
+                    trains[idx].in_depot = home.in_depot;
+                    trains[idx].phase = TrainPhase::AwaitingDispatch { station };
+                    throttle.record_out_of_service_held(dt);
+                    return MovementControlEffect::None;
+                }
+            }
+
             // Finish an in-flight section and berth at the selected station;
             // do not send a healthy train onward to a depot after service ends.
             // Keep its arrival heading, so a terminal reverses exactly once on
             // the eventual morning departure.
-            if fleet.stables_at(station) && fleet.schedule.headway_at(clock).is_none() {
+            if !returning_home
+                && fleet.stables_at(station)
+                && fleet.schedule.headway_at(clock).is_none()
+            {
                 trains[idx].phase = TrainPhase::Dwelling {
                     station,
                     remaining_s: 0.0,
@@ -1628,7 +1662,27 @@ fn step_train(
                 return MovementControlEffect::None;
             }
 
-            if throttle.is_throttle_point(&key) {
+            if returning_home {
+                // Preserve the most restrictive scheduled spacing on empty
+                // run-in moves; the overnight clock reset cannot block them.
+                let headway = fleet
+                    .schedule
+                    .windows
+                    .iter()
+                    .map(|w| w.headway_s)
+                    .max()
+                    .unwrap();
+                if !throttle.can_return_to_stabling(&key, t) {
+                    trains[idx].phase = TrainPhase::Dwelling {
+                        station,
+                        remaining_s: 0.0,
+                        depot_service_remaining_s,
+                        energy_added_kwh,
+                    };
+                    return MovementControlEffect::None;
+                }
+                throttle.mark_return_to_stabling(key, t, headway);
+            } else if throttle.is_throttle_point(&key) {
                 let fleet = fleet_for_line(fleets, line_idx);
                 let in_service = fleet.schedule.headway_at(clock);
                 match in_service {
@@ -1899,6 +1953,7 @@ fn enter_next_section(
     .expect("entry gates were checked immediately before section entry");
     let from_station = current_station(&trains[idx]);
     trains[idx].heading = departure_heading;
+    trains[idx].in_depot = false;
 
     // Authorised — emit a position report placing the train in the
     // new section. This is what a committed `TrainPositionReport`
@@ -2446,9 +2501,11 @@ fn write_csv_snapshot<W: std::io::Write>(
         };
         let _ = writeln!(
             w,
-            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2},{roof_charged:.2},{section_id},{position_m:.2},{speed_mps:.3},{accel_mps2:.3},{motion_phase},{battery_draw_power_kw:.2},{traction_power_kw:.2},{brake_power_kw:.2},{roof_kw:.2},{cleaner_kw:.2},{station_charge_power_kw:.2},{current_heading},{departure_heading},{service_role},{station_id}",
+            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2},{roof_charged:.2},{section_id},{position_m:.2},{speed_mps:.3},{accel_mps2:.3},{motion_phase},{battery_draw_power_kw:.2},{traction_power_kw:.2},{brake_power_kw:.2},{roof_kw:.2},{cleaner_kw:.2},{station_charge_power_kw:.2},{current_heading},{departure_heading},{service_role},{station_id},{stabling_location}",
             id = tr.id,
             service_role = tr.service_role.as_str(),
+            stabling_location = if matches!(tr.phase, TrainPhase::Traveling { .. }) { "in_transit" }
+                else if tr.in_depot { "depot" } else { "station" },
             line = csv_escape(&line_name),
             station = csv_escape(&station),
             soc = tr.soc,

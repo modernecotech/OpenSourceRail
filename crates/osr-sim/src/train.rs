@@ -40,6 +40,16 @@ impl ServiceRole {
     }
 }
 
+/// Declared overnight home; depot storage is separate from passenger berths.
+/// Access uses the train's own line. Yard geometry remains outside the graph.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct OvernightHome {
+    pub station: StationId,
+    pub heading: Heading,
+    pub service_role: ServiceRole,
+    pub in_depot: bool,
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum TrainPhase {
     /// Train is at a station.
@@ -79,6 +89,10 @@ pub struct Train {
     #[serde(default)]
     pub service_role: ServiceRole,
     pub phase: TrainPhase,
+    #[serde(default)]
+    pub overnight_home: Option<OvernightHome>,
+    #[serde(default)]
+    pub in_depot: bool,
     /// State of charge, 0.0..1.0
     pub soc: f32,
     /// Cumulative odometer in km since sim start.

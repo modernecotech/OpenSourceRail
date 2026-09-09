@@ -163,8 +163,11 @@ generates a station/depot plan plus a separate station-only native benchmark.
 Plans assign two revenue trains per selected station where fleet permits and
 all remaining stock to declared depots. `hybrid_allocation` records inventory,
 depot stabling positions and usable lengths separately from workshop bays;
-`allocation_passed` covers inventory and morning direction coverage. Depot
-access and yard movements remain outside the native benchmark. Samawah's plan
+`allocation_passed` covers inventory and morning direction coverage. The separate `native_hybrid_candidate` records a runnable home-return candidate
+only where the allocation and same-line depot access permit it. The connected
+`lib/examples/hybrid-stabling.toml` fixture exercises depot returns and restart
+through two service cycles; yard geometry and city operating acceptance remain
+open. Samawah's plan
 is 40 station trains plus 68 depot trains. Retained canonical scenarios remain
 source evidence for their existing operations.
 `generate-stabling-plan.py --all` refreshes the plans; `screen-stabling-plan.py

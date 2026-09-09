@@ -329,6 +329,8 @@ mod tests {
 
     fn train(phase: TrainPhase) -> Train {
         Train {
+            overnight_home: None,
+            in_depot: false,
             service_role: crate::train::ServiceRole::Revenue,
             id: TrainId::new(1),
             line_index: 0,

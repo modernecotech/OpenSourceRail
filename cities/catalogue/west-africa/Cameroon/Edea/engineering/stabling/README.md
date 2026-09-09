@@ -22,6 +22,9 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0442-0432-s009610 | depot | — | spare | 1 |
 | line-1 | line-1-0442-0432-s009610 | depot | — | cold_reserve | 1 |
 
+Native hybrid candidate: `build/engineering/stabling/edea-hybrid.toml`; generation only, operating validation pending.
+
+
 ## Station-only native benchmark
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.

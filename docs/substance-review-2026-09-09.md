@@ -202,6 +202,17 @@ replays and seven-train redistribution study remain diagnostic benchmarks;
 they do not simulate this hybrid allocation. Their capacity failures must not
 be interpreted as a need to park the entire fleet at stations or reduce it.
 
+**Native home-return implementation added:** explicit per-fleet overnight
+homes and depot storage counts now drive initialization, same-line return
+movements after closing, depot holding and morning dispatch. A connected
+8-train fixture passes two continuous cycles with six station and two depot
+trains, preserved inventory and parked reserves. The CSV separates depot stock
+from station queues. Capacity/role mismatches and disconnected depot homes fail
+loading. Native candidates are generated for Uíge, Quelimane and Edéa; other
+cities report incomplete morning allocation or depot access. Samawah's Lines 2
+and 3 still require explicit connections to its main depot. Yard geometry,
+turnbacks and city-scale evening timetables remain unverified.
+
 **Fleet-sizing documentation drift:** RFC 0014's former 35 km/h commercial-speed
 proxy, fixed 10% recovery factor and 10% charging margin did not match the
 current emitter. The emitter uses family-specific cruise/stop parameters,

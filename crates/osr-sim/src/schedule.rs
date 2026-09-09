@@ -84,6 +84,8 @@ pub struct DispatchThrottle {
     /// Earliest sim-elapsed second at which the next train may depart from
     /// this (line, station, heading) tuple.
     next_allowed: HashMap<ThrottleKey, u32>,
+    /// Return-to-home moves keep spacing independently of the closed timetable.
+    stabling_next_allowed: HashMap<ThrottleKey, u32>,
     /// Set of tuples that are throttled (i.e., configured as dispatch
     /// points). Stations *not* in this set are not throttled.
     throttle_points: std::collections::HashSet<ThrottleKey>,
@@ -106,6 +108,15 @@ pub struct DispatchThrottle {
 impl DispatchThrottle {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn can_return_to_stabling(&self, key: &ThrottleKey, now: u32) -> bool {
+        now >= self.stabling_next_allowed.get(key).copied().unwrap_or(0)
+    }
+
+    pub fn mark_return_to_stabling(&mut self, key: ThrottleKey, now: u32, headway: u32) {
+        self.stabling_next_allowed
+            .insert(key, now.saturating_add(headway));
     }
 
     /// Register a throttle point with an initial `next_allowed` time.

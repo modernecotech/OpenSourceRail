@@ -1,7 +1,7 @@
 {
   "additional_usable_stabling_length_m": 1666.0,
   "candidate_local_path": "build/engineering/stabling/hurghada.toml",
-  "candidate_scope": "station-only native operating benchmark; depot yard movements not implemented",
+  "candidate_scope": "station-only native operating benchmark; no depot home allocation selected",
   "candidate_sha256": "b39d3da82e556201ad7af33072b13a4fa4ea4ae37b812cb25a86bb3aa6d6857c",
   "city": "hurghada",
   "deployment_release_ready": false,
@@ -823,6 +823,10 @@
     "Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized."
   ],
   "maximum_initial_trainsets_at_one_station": 6,
+  "native_hybrid_candidate": {
+    "generation_passed": false,
+    "reason": "interline depot access is absent from the native track graph"
+  },
   "open_gates": [
     "track-by-track capacity and platform/turnout access",
     "charger sharing and overnight delivery",
@@ -859,15 +863,15 @@
     "capacity_model": "d89fbd985e541465eeb0235494c6c8723c0dad879913024cd6e395a6df31ec38",
     "depot_policy": "3a49882369f12d68c9cd2124f07efb384a5f7fe52921e215aa52201faaac2a45",
     "design": "9792a0513ae189cbebfea2c139d8c4ee7a98bd68870fcff5bc010d0094858136",
-    "generator": "20f3ea8c1dd6f513b3dfb227b1b68ad283128188b4bc586d707c2ba1280a6e4e",
-    "hybrid_model": "2df09396f722e6cfcd95b0eb097aaa32ee7f2cc32669b6b091256e2f51a4a5ef",
-    "loader": "673e13374b9a603e0b30b48902ed15ba329068352a0e9d59cd3b5d5bccb51b1e",
+    "generator": "0445a78d537d21d4b090db92f18bc368f966bc47bf9ffa616aab908446b2a6fc",
+    "hybrid_model": "885f476a76602e95b92eb4918ddd28f69bf3e8eeffd40afde88b8f9b2668dc2d",
+    "loader": "943dc90156468478e1eb626069a782a6608adf8845c91b7306cacfc76d58c848",
     "rolling_stock_template": "92882a4fea0b9a626cc8af8983f30ed13c3fa2df44a8ff7cc5ba3bc453cccfd7",
     "scenario": "c988bc50ec7fd84fdeb90eac003e64fe641607f27a29213a66c4246340de9f4a",
-    "schedule": "92efab8b073269fb599e579e81b0bb794d235ae0d11d5ebc0d569ab6660ca68e",
-    "simulator": "3401a3d9ff6ff61a2ad3d42cdd65d7d230f3d6341065815ed13f1c715a2b7fe5",
+    "schedule": "420ab2c9e4529d456bb38245e06055c4516ff7510f91b6c1aad015fee6292ef5",
+    "simulator": "6533012dad1b845860234fe8c36164024e0c99c8452845bafa5d5e30b553bffe",
     "station_template": "fdb0283a5c88e5527c4091fa61c8aa596c000facf9ef18d0c6bce3c0987574bd",
-    "train_model": "5cb281a2509d18d47cf38e08d020558274144460195b193f66b89493407ead86"
+    "train_model": "866b0c613d3174919e999e8ebc0bf13573afe0eef650a75676751fb9590d43a9"
   },
   "station_capacity": {
     "allocated_trainsets": 80,

@@ -65,3 +65,30 @@ def test_revenue_shortage_retains_inventory_and_reports_missing_directions():
     assert report['capacity']['inventory_complete']
     assert report['missing_morning_directions']
     assert not report['allocation_passed']
+
+
+def test_native_candidate_rejects_samawah_missing_interline_access():
+    from osr_scenario.stabling_hybrid import native_hybrid_candidate
+    doc, design, profiles = inputs()
+    allocation = station_and_depot_allocation(doc, design, profiles)
+    with pytest.raises(ValueError, match='interline depot access'):
+        native_hybrid_candidate('', allocation)
+
+
+def test_connected_native_candidate_preserves_service_energy_and_inventory():
+    from osr_scenario.stabling_hybrid import native_hybrid_candidate
+    path = next(ROOT.glob('cities/catalogue/*/*/*/uige.toml'))
+    design = tomllib.loads(path.with_name('design.toml').read_text())
+    source, _ = distributed_candidate(path.read_text(), design['fleets'])
+    doc = tomllib.loads(source)
+    profiles = inputs()[2]
+    allocation = station_and_depot_allocation(doc, design, profiles)
+    result = tomllib.loads(native_hybrid_candidate(source, allocation))
+    assert {k: v for k, v in result.items() if k not in ('fleets', 'stations')} == {
+        k: v for k, v in doc.items() if k not in ('fleets', 'stations')}
+    for old, new in zip(doc['fleets'], result['fleets']):
+        assert {k: v for k, v in new.items() if k != 'overnight_allocations'} == old
+        assert sum(r['trainset_count'] for r in new['overnight_allocations']) == old['trainset_count']
+    for old, new in zip(doc['stations'], result['stations']):
+        assert {k: v for k, v in new.items() if k != 'depot_stabling_positions'} == old
+    assert sum(s.get('depot_stabling_positions', 0) for s in result['stations']) == allocation['depot_trainsets']

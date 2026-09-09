@@ -36,8 +36,10 @@ The overnight plan now assigns two revenue trains per selected station and the
 remaining fleet to declared depots. Samawah allocates 40 to stations and 68 to
 the main depot, with depot storage sized separately from workshop bays. The
 station-only replay and seven-train redistribution study remain diagnostic
-benchmarks; depot access, yard movements and evening placement are the next
-operating additions. The corrected RFC records the emitter's family-specific
+benchmarks. Explicit native home allocations now support same-line depot
+returns and morning dispatch, validated across two cycles on a connected
+eight-train fixture. Samawah still needs interline depot access; physical yard
+routing and city-scale evening placement remain open. The corrected RFC records the emitter's family-specific
 fleet assumptions instead of the stale uniform 10% recovery factor.
 Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
 overrides represented explicitly in reproducible design inputs.

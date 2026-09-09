@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'design/city-generation/src'))
 from osr_scenario.stabling import distributed_candidate  # noqa: E402
 from osr_scenario.stabling_capacity import two_train_station_capacity  # noqa: E402
-from osr_scenario.stabling_hybrid import station_and_depot_allocation  # noqa: E402
+from osr_scenario.stabling_hybrid import station_and_depot_allocation, native_hybrid_candidate  # noqa: E402
 
 
 def digest(path):
@@ -97,7 +97,7 @@ def build(design_path: Path):
         'candidate_local_path': f'build/engineering/stabling/{slug}.toml',
         'fleet_trainsets': sum(f['trainset_count'] for f in scenario['fleets']),
         'hybrid_allocation': hybrid,
-        'candidate_scope': 'station-only native operating benchmark; depot yard movements not implemented',
+        'candidate_scope': 'station-only native operating benchmark; no depot home allocation selected',
         'fleet_roles': dict(roles), 'station_capacity_requirements': capacity,
         'station_capacity': two_train_station_capacity(scenario, allocations),
         'trainsets_beyond_reference_platform_berths': sum(row['trainsets_beyond_reference_platform_berths'] for row in capacity),
@@ -118,6 +118,15 @@ def build(design_path: Path):
                         'Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.',
                         'Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.'],
     }
+    try:
+        native = native_hybrid_candidate(candidate, hybrid)
+        report['native_hybrid_candidate'] = {
+            'generation_passed': True, 'local_path': f'build/engineering/stabling/{slug}-hybrid.toml',
+            'sha256': hashlib.sha256(native.encode()).hexdigest(),
+            'scope': 'same-line home returns and separate depot storage; yard geometry unverified',
+        }
+    except ValueError as error:
+        report['native_hybrid_candidate'] = {'generation_passed': False, 'reason': str(error)}
     return candidate, report
 
 
@@ -132,6 +141,8 @@ def markdown(report):
     rows += [f"| {r['line']} | {r['station']} | {r['location_type']} | {r.get('heading', '—')} | {r['service_role']} | {r['trainset_count']} |" for r in hybrid['allocations']]
     if hybrid['depot_access_requirements']:
         rows += ['', 'Interline access to the assigned depot must be detailed for: ' + ', '.join(f"{r['line']} ({r['trainsets']} trains)" for r in hybrid['depot_access_requirements']) + '.']
+    native = report['native_hybrid_candidate']
+    rows += ['', ('Native hybrid candidate: `' + native['local_path'] + '`; generation only, operating validation pending.') if native['generation_passed'] else ('Native hybrid candidate unavailable: ' + native['reason'] + '.'), '']
     rows += ['', '## Station-only native benchmark', '',
             'The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.', '',
             f"Operating allocation: **{report['fleet_trainsets']} trainsets at {report['initial_station_count']} stations**; largest initial station queue **{report['maximum_initial_trainsets_at_one_station']}**. Physical release: **open**.", '',
@@ -166,6 +177,9 @@ def main():
         local = ROOT / report['candidate_local_path']
         local.parent.mkdir(parents=True, exist_ok=True)
         local.write_text(candidate)
+        if report['native_hybrid_candidate']['generation_passed']:
+            hybrid_path = ROOT / report['native_hybrid_candidate']['local_path']
+            hybrid_path.write_text(native_hybrid_candidate(candidate, report['hybrid_allocation']))
         (folder / 'summary.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
         (folder / 'README.md').write_text(markdown(report))
         print(f"{report['city']}: {report['hybrid_allocation']['station_trainsets']} at stations + {report['hybrid_allocation']['depot_trainsets']} at depots; allocation passed={report['hybrid_allocation']['allocation_passed']}")

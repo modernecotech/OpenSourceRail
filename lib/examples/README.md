@@ -44,8 +44,8 @@ at a glance.
 |---|---|
 | [`example-simple.toml`](example-simple.toml) | Three-station shuttle, one train. The smallest viable config — copy this as a template for a new city. |
 | [`minimal-city.toml`](minimal-city.toml) | Slightly richer fixture exercising every required block. |
-| Built-in `samawah` scenario (compiled into `osr-sim` — pass `--scenario samawah`) | Legacy compiled fixture retained for regression tests. Prefer generated city TOML via `--config` for deployment work. |
-| Built-in `samawah-line1` scenario | Line 1 only; useful for isolating radial-line behaviour. |
+| Default Samawah scenario (omit `--config`) | Compiled canonical Samawah input. Use `--config` to select another file; the CLI has no `--scenario` flag. |
+| [`hybrid-stabling.toml`](hybrid-stabling.toml) | Connected three-station fixture: six station launch trains and two depot trains, for continuous return/restart tests. |
 | [`cities/catalogue/west-asia/Iraq/Samawah/samawah.toml`](../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml) | The auto-planned three-line `light-metro-3car` Samawah network emitted by `osr-design` from real OSM + WorldPop data. Pass via `--config` to `osr-sim`. |
 
 ## File format
@@ -198,13 +198,24 @@ Declare each station once. Referenced by `id` from lines and fleets.
   See the
   [station-stabling workflow](../../docs/operations/distributed-stabling.md)
   for location requirements and evidence limits.
+- `overnight_allocations` *(optional)* — explicit `{ station, heading,
+  location_type, service_role, trainset_count }` homes. `location_type` is
+  `"station"` or `"depot"`; roles are `"revenue"`, `"spare"`, `"cold_reserve"`.
+  Requires `station_stabling` and a complete allocation for every fleet.
+  Station homes total at most two per physical station. Depot homes require
+  explicit `depot_stabling_positions` on an existing `is_depot = true` station,
+  and every home must be a powered dispatch point on the fleet's own line.
+  Assigned trains return home after closing and appear as `station` or `depot`
+  in CSV `stabling_location`; yard tracks and turnbacks remain abstract.
 - `dispatch_points` — an array of `{ station, heading }`. Trains are
-  distributed round-robin across this list at start-up, and each entry acts
+  distributed round-robin across this list at start-up unless explicit overnight
+  homes are supplied, and each entry acts
   as a **throttle point**: trains arriving or re-dispatching here must wait
   their scheduled slot. `heading` is `"forward"` or `"reverse"`, interpreted
   relative to the line's station order.
 - `service_start`, `service_end` — `"HH:MM"`. Outside this window,
-  dispatches are blocked. If `service_end` is earlier than
+  passenger dispatches are blocked; explicitly assigned home-return moves may
+  continue with energy, movement-authority and return-headway checks. If `service_end` is earlier than
   `service_start`, the service window crosses midnight, e.g. `05:30` to
   `02:00`.
 - `schedule` — ordered array of `{ from, to, headway_min }` windows. Any

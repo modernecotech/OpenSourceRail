@@ -18,7 +18,7 @@ use crate::sim::{
     ClimateModel, EnergyAdaptiveServiceConfig, LineFleet, RoofPvAirCleanerConfig, RoofPvConfig,
     ScenarioConfig, TrainsetSystemsConfig,
 };
-use crate::train::Heading;
+use crate::train::{Heading, OvernightHome, ServiceRole};
 use crate::wayside_asset_systems::{LevelCrossingAssetConfig, SwitchAssetConfig};
 
 // ===========================================================================
@@ -204,6 +204,9 @@ pub struct StationSpec {
     pub is_terminal: bool,
     #[serde(default)]
     pub is_depot: bool,
+    /// Explicit storage slots, separately from workshop bays.
+    #[serde(default)]
+    pub depot_stabling_positions: u32,
     /// This depot performs the scheduled turnaround clean/inspection. Other
     /// depot/layup stations may still top up and stable trains.
     #[serde(default)]
@@ -245,11 +248,23 @@ pub struct FleetSpec {
     /// Selected powered stations support overnight holding and low-C charging.
     #[serde(default)]
     pub station_stabling: bool,
+    #[serde(default)]
+    pub overnight_allocations: Vec<OvernightAllocationSpec>,
     /// "HH:MM"
     pub service_start: String,
     /// "HH:MM"
     pub service_end: String,
     pub schedule: Vec<WindowSpec>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct OvernightAllocationSpec {
+    pub station: String,
+    pub heading: String,
+    pub service_role: String,
+    pub location_type: String,
+    pub trainset_count: u32,
 }
 
 #[derive(Debug, Deserialize)]
@@ -854,6 +869,21 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     // --- Fleets -------------------------------------------------------------
     let mut fleets: Vec<LineFleet> = Vec::new();
+    let mut overnight_counts = std::collections::HashMap::new();
+    if file
+        .fleets
+        .iter()
+        .any(|f| !f.overnight_allocations.is_empty())
+        && file
+            .fleets
+            .iter()
+            .any(|f| f.overnight_allocations.is_empty())
+    {
+        return Err(LoadError::InvalidStationStabling(
+            "hybrid allocation must account for every fleet; cannot mix unallocated station queues"
+                .into(),
+        ));
+    }
 
     for spec in &file.fleets {
         let &line_index = line_indices
@@ -901,6 +931,95 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             dispatch_points.push((station, heading));
         }
 
+        let mut overnight_homes = Vec::new();
+        if !spec.overnight_allocations.is_empty() {
+            let invalid = |reason: &str| {
+                LoadError::InvalidStationStabling(format!(
+                    "{} overnight allocation: {reason}",
+                    spec.line
+                ))
+            };
+            if !spec.station_stabling
+                || spec
+                    .overnight_allocations
+                    .iter()
+                    .map(|a| u64::from(a.trainset_count))
+                    .sum::<u64>()
+                    != u64::from(spec.trainset_count)
+            {
+                return Err(invalid(
+                    "requires station_stabling and complete fleet inventory",
+                ));
+            }
+            for allocation in &spec.overnight_allocations {
+                let station = *station_ids
+                    .get(&allocation.station)
+                    .ok_or_else(|| invalid("unknown home station"))?;
+                let heading = parse_heading(&allocation.heading)?;
+                // No rail connection may be inferred from a shared depot label.
+                if !line_station_set.contains(&station) {
+                    return Err(invalid("home depot/station is not connected to this line"));
+                }
+                if !dispatch_points.contains(&(station, heading)) {
+                    return Err(invalid(
+                        "home requires a selected powered dispatch point and heading",
+                    ));
+                }
+                let in_depot = match allocation.location_type.as_str() {
+                    "station" => false,
+                    "depot" => true,
+                    _ => return Err(invalid("location_type must be station or depot")),
+                };
+                let role = match allocation.service_role.as_str() {
+                    "revenue" => ServiceRole::Revenue,
+                    "spare" => ServiceRole::Spare,
+                    "cold_reserve" => ServiceRole::ColdReserve,
+                    _ => return Err(invalid("unknown fleet role")),
+                };
+                if !in_depot && role != ServiceRole::Revenue {
+                    return Err(invalid("reserve homes must use depot storage"));
+                }
+                let site = file
+                    .stations
+                    .iter()
+                    .find(|s| s.id == allocation.station)
+                    .unwrap();
+                let capacity = if in_depot && site.is_depot {
+                    site.depot_stabling_positions
+                } else if in_depot {
+                    0
+                } else {
+                    2
+                };
+                let count = overnight_counts.entry((station, in_depot)).or_insert(0_u64);
+                *count += u64::from(allocation.trainset_count);
+                if *count > u64::from(capacity) {
+                    return Err(invalid(
+                        "station limit or explicit depot storage capacity exceeded",
+                    ));
+                }
+                overnight_homes.extend((0..allocation.trainset_count).map(|_| OvernightHome {
+                    station,
+                    heading,
+                    service_role: role,
+                    in_depot,
+                }));
+            }
+            if overnight_homes
+                .iter()
+                .filter(|h| h.service_role == ServiceRole::Spare)
+                .count()
+                != spec.spare_count as usize
+                || overnight_homes
+                    .iter()
+                    .filter(|h| h.service_role == ServiceRole::ColdReserve)
+                    .count()
+                    != spec.cold_reserve_count as usize
+            {
+                return Err(invalid("allocated roles differ from fleet inventory"));
+            }
+        }
+
         // Schedule.
         let service_start_s = parse_time("service_start", &spec.service_start)?;
         let service_end_s = parse_time("service_end", &spec.service_end)?;
@@ -939,6 +1058,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             line_index,
             dispatch_points,
             station_stabling: spec.station_stabling,
+            overnight_homes,
             trainset_count: spec.trainset_count,
             spare_count: spec.spare_count,
             cold_reserve_count: spec.cold_reserve_count,

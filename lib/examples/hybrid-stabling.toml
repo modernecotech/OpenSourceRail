@@ -1,0 +1,91 @@
+# Connected operating fixture: six station launch trains and two depot trains.
+# Depot storage is an abstract node; this is not a yard track layout.
+[scenario]
+name = "station and depot overnight return"
+start_time = "05:30"
+[climate]
+ambient_c = 25.0
+peak_sun_hours = 6.0
+[consist]
+car_count = 3
+length_m = 49.5
+mass_kg = 78750
+max_speed_kmh = 80.0
+battery_capacity_kwh = 540
+service_accel_mps2 = 1.0
+[[lines]]
+id = "l1"
+name = "L1"
+stations = [{ id = "a", distance_from_prev_m = 0 }, { id = "b", distance_from_prev_m = 2000 }, { id = "c", distance_from_prev_m = 2000 }]
+[[fleets]]
+line = "l1"
+trainset_count = 8
+spare_count = 1
+station_stabling = true
+dispatch_points = [{ station = "a", heading = "forward" }, { station = "b", heading = "forward" }, { station = "b", heading = "reverse" }, { station = "c", heading = "reverse" }]
+overnight_allocations = [
+  { station = "a", heading = "forward", location_type = "station", service_role = "revenue", trainset_count = 2 },
+  { station = "b", heading = "forward", location_type = "station", service_role = "revenue", trainset_count = 1 },
+  { station = "b", heading = "reverse", location_type = "station", service_role = "revenue", trainset_count = 1 },
+  { station = "c", heading = "reverse", location_type = "station", service_role = "revenue", trainset_count = 2 },
+  { station = "a", heading = "forward", location_type = "depot", service_role = "revenue", trainset_count = 1 },
+  { station = "a", heading = "forward", location_type = "depot", service_role = "spare", trainset_count = 1 },
+]
+# Deliberately short service window for multi-day return/restart tests.
+service_start = "05:30"
+service_end = "05:45"
+schedule = [{ from = "05:30", to = "05:45", headway_min = 1 }]
+
+[[stations]]
+id = "a"
+name = "a"
+charging_power_kw = 500
+dwell_seconds = 30
+is_terminal = true
+is_depot = true
+depot_stabling_positions = 2
+[[sites]]
+station = "a"
+pv_nameplate_kw = 0.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[stations]]
+id = "b"
+name = "b"
+charging_power_kw = 500
+dwell_seconds = 30
+is_terminal = false
+is_depot = false
+depot_stabling_positions = 0
+[[sites]]
+station = "b"
+pv_nameplate_kw = 0.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[stations]]
+id = "c"
+name = "c"
+charging_power_kw = 500
+dwell_seconds = 30
+is_terminal = true
+is_depot = false
+depot_stabling_positions = 0
+[[sites]]
+station = "c"
+pv_nameplate_kw = 0.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0

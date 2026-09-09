@@ -44,6 +44,9 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 
 Interline access to the assigned depot must be detailed for: line-1 (11 trains), line-3 (11 trains).
 
+Native hybrid candidate unavailable: interline depot access is absent from the native track graph.
+
+
 ## Station-only native benchmark
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.

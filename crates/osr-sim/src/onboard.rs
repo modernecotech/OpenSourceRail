@@ -1335,6 +1335,8 @@ mod tests {
 
     fn mock_train() -> Train {
         Train {
+            overnight_home: None,
+            in_depot: false,
             service_role: crate::train::ServiceRole::Revenue,
             id: TrainId::new(7),
             line_index: 0,

@@ -79,3 +79,55 @@ def station_and_depot_allocation(doc, design, profiles):
             'capacity': capacity, 'missing_morning_directions': missing, 'depot_access_requirements': access,
             'physical_release_ready': False,
             'scope': 'Two revenue trainsets per station where fleet permits; all remaining revenue stock and reserves allocated to declared depots'}
+
+
+def native_hybrid_candidate(text, allocation):
+    """Serialize the plan only when every depot is accessible on its own line.
+
+    This declares storage slots at existing depot nodes, not new rail links.
+    """
+    import json
+    import re
+    import tomllib
+
+    if not allocation['allocation_passed']:
+        raise ValueError('morning station allocation is incomplete')
+    if allocation['depot_access_requirements']:
+        raise ValueError('interline depot access is absent from the native track graph')
+    doc = tomllib.loads(text)
+    requirements = {r['station']: r['stabling_positions_required'] for r in allocation['depot_requirements']}
+    q = json.dumps
+    candidate = text
+    for match in reversed(list(re.finditer(r'(?ms)^\[\[fleets\]\][ \t]*\n.*?(?=^\[|\Z)', text))):
+        fleet = tomllib.loads(match.group())['fleets'][0]
+        points = {(p['station'], p['heading']) for p in fleet['dispatch_points']}
+        homes = []
+        for row in allocation['allocations']:
+            if row['line'] != fleet['line']:
+                continue
+            headings = [p['heading'] for p in fleet['dispatch_points'] if p['station'] == row['station']]
+            if not headings:
+                raise ValueError(f"{fleet['line']}: depot needs a powered on-line dispatch point")
+            heading = row.get('heading', headings[0])
+            if (row['station'], heading) not in points:
+                raise ValueError('home heading is absent from dispatch points')
+            homes.append('{ ' + ', '.join(f'{key} = {q(value)}' for key, value in {
+                'station': row['station'], 'heading': heading, 'location_type': row['location_type'],
+                'service_role': row['service_role'], 'trainset_count': row['trainset_count'],
+            }.items()) + ' }')
+        if 'overnight_allocations' in fleet:
+            raise ValueError('expected a station-only source candidate')
+        replacement = match.group().rstrip() + '\novernight_allocations = [\n  ' + ',\n  '.join(homes) + '\n]\n\n'
+        candidate = candidate[:match.start()] + replacement + candidate[match.end():]
+    for match in reversed(list(re.finditer(r'(?ms)^\[\[stations\]\][ \t]*\n.*?(?=^\[|\Z)', candidate))):
+        station = tomllib.loads(match.group())['stations'][0]
+        if station['id'] not in requirements:
+            continue
+        if not station.get('is_depot') or 'depot_stabling_positions' in station:
+            raise ValueError('requires an existing depot without a conflicting storage declaration')
+        replacement = match.group().rstrip() + f"\ndepot_stabling_positions = {requirements[station['id']]}\n\n"
+        candidate = candidate[:match.start()] + replacement + candidate[match.end():]
+    parsed = tomllib.loads(candidate)
+    assert {k: v for k, v in parsed.items() if k not in ('fleets', 'stations')} == {
+        k: v for k, v in doc.items() if k not in ('fleets', 'stations')}
+    return candidate
