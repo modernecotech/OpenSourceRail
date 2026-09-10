@@ -21,6 +21,10 @@ user inspect or build the system. Reproducible scratch output still belongs in
   These reports are allowed to record inherited planning failures, but their
   source and validator hashes must remain current; reviewed references must
   pass both validators.
+- Compact per-city soil/deployment and workforce/design review packages, including
+  workforce CSVs and their input hashes. Large local operations bundles are bound
+  through their tracked compressed-hash manifests; checking a compact report does
+  not require downloading a complete operations bundle.
 - One generated `NATIONAL-BRIEF.md` per country, aggregating city CAPEX,
   imported/external capital, local funding, and the single shared trainset factory.
 - Two complete end-to-end acceptance references, Samawah

@@ -87,6 +87,7 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
     for relative, generator in (
         ("soil/summary.json", "engineering/analysis/city_soils.py"),
         ("deployment/summary.json", "engineering/analysis/city_deployment.py"),
+        ("delivery/summary.json", "engineering/analysis/city_delivery.py"),
         ("simulation/operations-crosscheck.json", "engineering/analysis/operations_crosscheck.py"),
     ):
         path = city_dir / "engineering" / relative
@@ -94,6 +95,13 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
             continue
         report = json.loads(path.read_text())
         bindings = {"generator_sha256": REPO_ROOT / generator}
+        if relative.startswith("delivery/"):
+            for value, recorded in report.get("input_sha256", {}).items():
+                source = REPO_ROOT / value
+                if not source.is_file() or recorded != sha256(source):
+                    findings.append({"artifact": "engineering/"+relative, "source": value,
+                                     "expected_sha256": sha256(source) if source.is_file() else None,
+                                     "recorded_sha256": recorded})
         if relative.startswith("soil/"):
             bindings.update({"samples_sha256": path.parent / "samples.csv", "source_receipt_sha256": path.parent / "source-receipt.json", "civil_plan_sha256": path.parent / "civil-investigation-plan.json", "sample_locations_sha256": path.parent / "sample-locations.geojson"})
             for key, value in report.get("source_paths", {}).items():
@@ -211,6 +219,9 @@ def main() -> int:
         city_dir / "engineering/soil/sample-locations.geojson",
         city_dir / "engineering/soil/README.md",
         city_dir / "engineering/deployment/summary.json",
+        city_dir / "engineering/delivery/summary.json",
+        city_dir / "engineering/delivery/README.md",
+        city_dir / "engineering/delivery/workforce.csv",
         city_dir / "engineering/deployment/README.md",
         city_dir / "engineering/simulation/native-timing-reference.json",
         city_dir / "engineering/energy/summary.json",

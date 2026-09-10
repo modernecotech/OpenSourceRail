@@ -15,7 +15,7 @@ records, release authorities, and predecessor controls must be closed.
 | Manufacturing material/BOM rows | 4,580 |
 | Manufacturing QA verification rows | 2,218 |
 | Construction QA action rows | 1,849 |
-| Maintenance handover schedule rows | 2,400 |
+| Maintenance handover schedule rows | 3,011 |
 | Manufacturing rows with material refs | 2,218 / 2,218 |
 | Manufacturing rows with verification refs | 2,218 / 2,218 |
 | Manufacturing rows linked to QA actions | 2,218 / 2,218 |

@@ -1,15 +1,17 @@
 {
   "city": "soroti",
-  "closed_gate_count": 4,
+  "closed_gate_count": 6,
   "deployment_release_ready": false,
   "design_sha256": "486f6157c6cc8726c92c64d331206c404ce1123a8549e7caaa72dcc0cfb8021a",
   "evidence_sha256": {
-    "depot-scope/summary.json": "2e85d2034fd5aaadf44a7710e5f5dbd5e5b04aa33612bc8d10552086048b7bbb",
-    "energy/summary.json": "aaca7bb32d852ea44a7e027249b656eff5016545285ddd1a88d61e78bc452ed3",
-    "simulation/operations-crosscheck.json": "d34873455bdbc83c0d2ee8406c3393304cbf8c2ebd4c0ed165ae9918a5e18ac8",
-    "simulation/validation-summary.json": "46e7185da9bb5a55cfe16a3af0861e44cf0a2f0e14535008f601354b029f02e1",
+    "delivery/summary.json": "519d0420d7c3a3f687be2dc072d4e9a47d408a20d0e3f44a8d8b71bda4a037e2",
+    "depot-scope/summary.json": "a1abcd84709aa63bf748f7e9b2a6425151214afce5d2be6d89f5733494276918",
+    "energy/summary.json": "8ef7613ab35552ac907783ae162c4e4fe31e639820bcec8ed418340934919fef",
+    "simulation/operations-crosscheck.json": "60817bb7cf8d3baac1063a074db7e54f1450ab1ae8eb1c97dd2f8caa612a0dc8",
+    "simulation/validation-summary.json": "f2ea00122141ae05e6a6b3339583103f98739b0c6063d90e250dc57691644ddd",
     "soil/summary.json": "e1f2c0c6efd5bd2831108d8288f91b64cdb1a85ddea03a8aa06b9459b0765390",
-    "stabling/summary.json": "9dded1789c76e673bc07d2ba99681fa69acbab39c013d366e29e296000ba40ad",
+    "stabling/hybrid-cycle-screen.json": "903ed44b34dd6b8f036bd1ad8d265a56c5c8cf1d2c82644d25a523a3f3066ba6",
+    "stabling/summary.json": "de500db464f31d7b653bc3870035c20a580d8cd7391ac3b09c49a0cefe5c5d24",
     "survey/control-processing-readiness.json": "cbcb9c09ba9520e31a7b8dff8453c478550821d6c1ebac89af60b6cf8a308aa9",
     "survey/drainage-ground-readiness.json": "879c17fc9e4e73ff8c8f35b389465f2f9cff3af660f5a43bf181fe6c105fcb5b",
     "survey/ground-model-readiness.json": "fea091cca3ae0b51c104b775fb88bccbc1cd6d7b97cdbb8227b5ad2159aec123",
@@ -172,7 +174,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -196,11 +198,13 @@
     },
     {
       "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
-      "detail": null,
+      "detail": {
+        "evidence_current": true
+      },
       "evidence": "stabling/hybrid-cycle-screen.json",
       "id": "continuous-stabling-replay",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.",
@@ -222,10 +226,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 19322.288159325704,
+        "retained_run_delivered_kwh": 19322.288149426924,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 9247.215179462859,
-        "retained_run_pv_generated_kwh": 31333.38611231548,
+        "retained_run_grid_imported_kwh": 9247.213932198472,
+        "retained_run_pv_generated_kwh": 31333.387445593755,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -247,10 +251,20 @@
       "id": "depot-placement-and-budget",
       "owner_role": "depot and cost designer",
       "status": "open"
+    },
+    {
+      "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
+      "detail": {
+        "planning_fte": 129
+      },
+      "evidence": "delivery/summary.json",
+      "id": "workforce-duty-and-workload",
+      "owner_role": "city operating lead",
+      "status": "open"
     }
   ],
-  "generator_sha256": "0509fa2ebc712d28f4c816c2fccc2102affc93ea2e13a71b3a3d661fdc5c8324",
-  "open_gate_count": 12,
+  "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
+  "open_gate_count": 11,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

@@ -84,7 +84,7 @@ The strict README generator rejected the evidence: engineering/simulation/valida
 | Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 11 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 222 assets / 1,023 tasks | [`jos-operations-manifest.json`](operations/jos-operations-manifest.json) |
+| Operations, QA and maintenance | 222 assets / 1,285 tasks | [`jos-operations-manifest.json`](operations/jos-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

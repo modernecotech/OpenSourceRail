@@ -1212,6 +1212,8 @@ def _maintenance_targets(task_id: str) -> list[str]:
         return ["switch"]
     if task_id == "structures-annual":
         return ["structure"]
+    if task_id == "civil-joint-drain-finish":
+        return ["structure", "track-section", "station"]
     if task_id.startswith("energy-"):
         return ["energy"]
     if task_id.startswith("systems-"):

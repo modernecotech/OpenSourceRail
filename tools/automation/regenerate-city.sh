@@ -174,6 +174,9 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
 "$PYTHON" "$REPO/tools/automation/generate-deployment-evidence.py" \
     --design "$DESIGN_DIR/design.toml" --reuse-sumo --fetch-soils
 
+"$PYTHON" "$REPO/engineering/analysis/city_delivery.py" --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/engineering/analysis/city_deployment.py" --design "$DESIGN_DIR/design.toml"
+
 echo "8) per-network README → $DESIGN_DIR/README.md"
 "$PYTHON" -m osr_scenario.network_readme \
     --design "$DESIGN_DIR/design.toml" \

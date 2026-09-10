@@ -4,6 +4,7 @@
   "deployment_release_ready": false,
   "design_sha256": "eca3751031e3434de1e20ff0968b8d1419d330c48a051d4c5d4eaf9fb092f98e",
   "evidence_sha256": {
+    "delivery/summary.json": "4c44bb4c4fd1220afdc3fd2a571b314f6267b356e20609bc9b479e4f48dfea50",
     "depot-scope/summary.json": "b9032de5cfa33921749db500fb6eb592ac665cab962ed77f9f1b14e74c15755d",
     "energy/summary.json": "3d569f62464104ba64a548412bb4431c9e627588884b872ba2cbec4278062d30",
     "simulation/operations-crosscheck.json": "eeb5e8a14d39c23b4eff66d82a0f6d83a0b1631d27c5c89bcc708a11b37286a5",
@@ -199,7 +200,9 @@
     },
     {
       "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
-      "detail": null,
+      "detail": {
+        "evidence_current": false
+      },
       "evidence": "stabling/hybrid-cycle-screen.json",
       "id": "continuous-stabling-replay",
       "owner_role": "simulation engineer",
@@ -250,10 +253,20 @@
       "id": "depot-placement-and-budget",
       "owner_role": "depot and cost designer",
       "status": "open"
+    },
+    {
+      "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
+      "detail": {
+        "planning_fte": 275
+      },
+      "evidence": "delivery/summary.json",
+      "id": "workforce-duty-and-workload",
+      "owner_role": "city operating lead",
+      "status": "open"
     }
   ],
-  "generator_sha256": "0509fa2ebc712d28f4c816c2fccc2102affc93ea2e13a71b3a3d661fdc5c8324",
-  "open_gate_count": 13,
+  "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
+  "open_gate_count": 14,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

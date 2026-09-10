@@ -1,127 +1,242 @@
-# Workforce archetypes — roles, headcount rules, training footprint.
-#
-# The OSR mission includes workforce domestication: the people who design,
-# build, and operate the system should be from the country. Templates
-# express the headcount model per role so the generator can produce a
-# staffing plan alongside the BOM.
-#
-# Reference at city level (optional — generator computes if omitted):
-#     [workforce]
-#     scaling = "mid-city"
-#
-# Headcount formulas (interpreted by the generator):
-#   - per_depot        → one per depot of main-heavy archetype
-#   - per_layup        → one per depot of secondary-medium or layup-minimal
-#   - per_trainset     → multiply by revenue fleet size
-#   - per_station      → multiply by station count
-#   - per_shift        → multiply by shift count (from service-hours)
-#   - per_line         → one per line
+# City operating roles. Replaces the obsolete per-train driver staffing template.
+# Weights split existing driverless finance FTE; they are editable planning choices.
+# One FTE minimum per function where the group permits; remainder uses largest remainder.
+# Functions may share a competent person; validate actual shift and leave rosters locally.
+[schema]
+version = 2
 
-[roles.dispatcher]
-category                 = "operations"
-per_line                 = 1             # one dispatcher per line, per shift
-per_shift                = true
-skill_tier               = "advanced"
-training_weeks           = 12
-salary_usd_annual_base   = 45000
+[policy]
+basis = "Budget-neutral allocation of existing GoA 4 labour groups; local staffing proposal, not a measured workload or accepted roster."
+shared_country_capabilities = ["rolling-stock and precast manufacturing", "software and reference design", "specialist laboratory, structural/geotechnical checking and training"]
+shared_service_rule = "Shared domestic capability: allocate factory staff/cost across actual city orders; do not duplicate a national factory headcount in every city."
 
-[roles.train-operator]
-category                 = "operations"
-per_trainset             = 1             # plus relief pool
-relief_multiplier        = 0.35
-per_shift                = true
-skill_tier               = "intermediate"
-training_weeks           = 10
-salary_usd_annual_base   = 32000
+[[role]]
+id = "occ-lead"
+group = "occ_remote_assist"
+weight = 15
+minimum_fte = 1
+title = "Shift leadership and degraded-operation authority"
+reports_to = "City director"
+skills = "GoA 4 incident command; dispatch competence"
+tasks = "Own service start; coordinate recovery and same-line depot releases"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.station-agent]
-category                 = "operations"
-per_station              = 2
-per_shift                = true
-# Only at archetype in ["major", "interchange", "terminal", "depot-terminal"].
-skill_tier               = "basic"
-training_weeks           = 4
-salary_usd_annual_base   = 22000
+[[role]]
+id = "dispatcher"
+group = "occ_remote_assist"
+weight = 40
+minimum_fte = 1
+title = "Line dispatch and control"
+reports_to = "OCC lead"
+skills = "Timetable supervision; protected movement authority"
+tasks = "Monitor headways and station berths; authorise line-local recovery"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.fare-inspector]
-category                 = "operations"
-per_line                 = 4
-per_shift                = false         # roving
-skill_tier               = "basic"
-training_weeks           = 3
-salary_usd_annual_base   = 20000
+[[role]]
+id = "remote-assist"
+group = "occ_remote_assist"
+weight = 45
+minimum_fte = 1
+title = "Remote assistance"
+reports_to = "OCC lead"
+skills = "Vehicle fault diagnosis; passenger emergency response"
+tasks = "Resolve remote-assist requests; coordinate on-site responders"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.signalling-engineer]
-category                 = "maintenance"
-per_depot                = 2
-per_line                 = 1
-per_shift                = false
-on_call_pool             = 2
-skill_tier               = "expert"
-training_weeks           = 24
-salary_usd_annual_base   = 85000
+[[role]]
+id = "station-lead"
+group = "station_platform"
+weight = 15
+minimum_fte = 1
+title = "Station team coordination"
+reports_to = "OCC lead"
+skills = "Accessible evacuation; platform protection"
+tasks = "Allocate mobile teams; inspect opening and closing readiness"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.traction-mechanic]
-category                 = "maintenance"
-per_depot                = 4             # main-heavy
-per_layup                = 1
-per_shift                = false
-skill_tier               = "advanced"
-training_weeks           = 16
-salary_usd_annual_base   = 38000
+[[role]]
+id = "platform-assistance"
+group = "station_platform"
+weight = 85
+minimum_fte = 1
+title = "Platform and accessibility assistance"
+reports_to = "Station lead"
+skills = "Accessibility assistance; crowd management; first aid"
+tasks = "Assist boarding; manage obstructions and platform incidents"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.permanent-way-crew]
-category                 = "maintenance"
-per_line                 = 6             # for CBM-driven inspection + repair
-per_shift                = false
-skill_tier               = "intermediate"
-training_weeks           = 6
-salary_usd_annual_base   = 26000
+[[role]]
+id = "customer-service"
+group = "passenger_service"
+weight = 55
+minimum_fte = 1
+title = "Passenger service and fare support"
+reports_to = "City director"
+skills = "Accessible communication; fare-system support"
+tasks = "Resolve passenger queries; verify fare equipment and complaints"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.electrical-crew]
-category                 = "maintenance"
-per_depot                = 2
-per_layup                = 1
-per_line                 = 2             # stations + TPSS
-per_shift                = false
-skill_tier               = "advanced"
-training_weeks           = 12
-salary_usd_annual_base   = 34000
+[[role]]
+id = "station-cleaning"
+group = "passenger_service"
+weight = 45
+minimum_fte = 1
+title = "Station cleaning and waste"
+reports_to = "Station lead"
+skills = "Product compatibility; wet-floor control; waste segregation"
+tasks = "Clean measured public areas; record defects and wash-water disposal"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.software-engineer]
-category                 = "engineering"
-# Not per-deployment — shared across the OSR project. One team per
-# country serves multiple cities.
-per_country              = 6
-skill_tier               = "expert"
-training_weeks           = 0             # hired with skills
-salary_usd_annual_base   = 65000
+[[role]]
+id = "workshop-lead"
+group = "fleet_maintenance"
+weight = 10
+minimum_fte = 1
+title = "Fleet workshop supervision"
+reports_to = "Chief engineer"
+skills = "Isolation authority; work planning; calibrated tooling"
+tasks = "Allocate same-line workshop slots; control defect and release records"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[roles.trainer]
-category                 = "workforce-development"
-per_depot                = 1             # main-heavy only; carries training wing
-skill_tier               = "expert"
-training_weeks           = 0
-salary_usd_annual_base   = 48000
+[[role]]
+id = "fleet-mechanical"
+group = "fleet_maintenance"
+weight = 35
+minimum_fte = 1
+title = "Mechanical technicians"
+reports_to = "Workshop lead"
+skills = "Wheels/brakes; joint inspection; controlled fastener assembly"
+tasks = "Inspect bogies and brakes; replace modules; record torque/preload evidence"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-# ---- Scaling presets (shortcuts for the generator) --------------
+[[role]]
+id = "fleet-electrical"
+group = "fleet_maintenance"
+weight = 30
+minimum_fte = 1
+title = "Electrical and battery technicians"
+reports_to = "Workshop lead"
+skills = "HV isolation; LFP diagnostics; controls and harness repair"
+tasks = "Diagnose packs, HVAC and controllers; verify protective interlocks"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[scaling.small-city]
-# Single line, tram-class, < 10 trainsets. Stripped-down roles.
-disabled_roles           = ["station-agent", "trainer"]
-relief_multiplier_override = 0.20
+[[role]]
+id = "fleet-finish-cleaning"
+group = "fleet_maintenance"
+weight = 25
+minimum_fte = 1
+title = "Vehicle cleaning and finish repair"
+reports_to = "Workshop lead"
+skills = "GFRP/EPDM compatibility; coating preparation; controlled washing"
+tasks = "Turnaround clean; inspect seals; repair finish damage under qualified process"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[scaling.mid-city]
-# Samawah tier — 2 lines, mid-size fleet. Default.
-disabled_roles           = []
-relief_multiplier_override = 0.35
+[[role]]
+id = "infrastructure-lead"
+group = "infrastructure_energy"
+weight = 10
+minimum_fte = 1
+title = "Infrastructure work supervision"
+reports_to = "Chief engineer"
+skills = "Track access; lifting and electrical isolation coordination"
+tasks = "Plan possessions; check civil and energy defect closure"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[scaling.large-city]
-# 3+ lines, 40+ trainsets. Full role set + extra depots.
-disabled_roles           = []
-relief_multiplier_override = 0.45
+[[role]]
+id = "civil-track"
+group = "infrastructure_energy"
+weight = 40
+minimum_fte = 1
+title = "Track and civil technicians"
+reports_to = "Infrastructure lead"
+skills = "Survey checks; track geometry; bearing/joint inspection"
+tasks = "Inspect settlement, track, deck joints, drainage and walkways"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
 
-[scaling.major-city]
-# 6+ lines, 100+ trainsets. Adds control-room supervisors.
-disabled_roles           = []
-relief_multiplier_override = 0.50
+[[role]]
+id = "solar-storage"
+group = "infrastructure_energy"
+weight = 35
+minimum_fte = 1
+title = "Solar and station storage technicians"
+reports_to = "Infrastructure lead"
+skills = "PV DC safety; storage BMS; charger and protection testing"
+tasks = "Maintain PV/storage/top-up equipment; measure soiling and energy balance"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "wayside-comms"
+group = "infrastructure_energy"
+weight = 15
+minimum_fte = 1
+title = "Wayside and communications technicians"
+reports_to = "Infrastructure lead"
+skills = "Fail-restrictive controls; networking; configuration control"
+tasks = "Maintain point/crossing equipment where installed; test communications and recovery"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "city-director"
+group = "admin_training"
+weight = 0
+minimum_fte = 1
+title = "City accountable lead"
+reports_to = "Local owner board"
+skills = "Local operating governance; budget and emergency accountability"
+tasks = "Own city delivery and operations; coordinate shared domestic capabilities"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "chief-engineer"
+group = "admin_training"
+weight = 10
+minimum_fte = 1
+title = "Engineering authority"
+reports_to = "City director"
+skills = "Systems integration; configuration and design checking"
+tasks = "Own interfaces and technical concessions; commission competent discipline checks"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "quality-safety"
+group = "admin_training"
+weight = 20
+minimum_fte = 1
+title = "Quality and safety assurance"
+reports_to = "Local owner board (independent escalation)"
+skills = "Independent inspection; hazard review; traceability"
+tasks = "Audit evidence; raise stop-work/hold points independently of production"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "training"
+group = "admin_training"
+weight = 20
+minimum_fte = 1
+title = "Training and competence assessors"
+reports_to = "City director"
+skills = "Practical assessment; instruction; competence records"
+tasks = "Train local recruits and apprentices; witness competence before unsupervised work"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "procurement-stores"
+group = "admin_training"
+weight = 25
+minimum_fte = 1
+title = "Procurement and stores"
+reports_to = "City director"
+skills = "BOM traceability; repairable spares; supplier quality"
+tasks = "Purchase controlled common parts; manage local repair loops and critical stock"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."
+
+[[role]]
+id = "finance-people"
+group = "admin_training"
+weight = 20
+minimum_fte = 1
+title = "Finance and people administration"
+reports_to = "City director"
+skills = "Payroll; cost control; roster and employment administration"
+tasks = "Maintain local pay/leave inputs; reconcile labour budget and workload"
+competence_evidence = "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed."

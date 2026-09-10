@@ -1,6 +1,6 @@
 # Hofuf deployment gaps
 
-3 closed checks; 13 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
+3 closed checks; 14 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
 
 [Soil inputs](../soil/README.md) include a route/station investigation plan.
 
@@ -22,5 +22,6 @@
 | [stabling-physical-fit](../stabling/summary.json) | open | track/station designer | Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots. |
 | [solar-storage-endurance](../energy/summary.json) | open | energy designer | Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly. |
 | [depot-placement-and-budget](../depot-scope/summary.json) | open | depot and cost designer | Place the declared PV/storage inventory within the controlled site layout and reconcile itemised installed costs and renewal scope with existing allowances. |
+| [workforce-duty-and-workload](../delivery/summary.json) | open | city operating lead | Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs. |
 
 city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers.

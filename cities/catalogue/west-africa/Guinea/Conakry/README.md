@@ -84,7 +84,7 @@ The strict README generator rejected the evidence: engineering/simulation/valida
 | Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 17 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 230 assets / 983 tasks | [`conakry-operations-manifest.json`](operations/conakry-operations-manifest.json) |
+| Operations, QA and maintenance | 230 assets / 1,228 tasks | [`conakry-operations-manifest.json`](operations/conakry-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

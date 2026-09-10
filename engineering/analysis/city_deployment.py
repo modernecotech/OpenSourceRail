@@ -14,6 +14,17 @@ ROOT=Path(__file__).resolve().parents[2]
 def sha(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def hybrid_evidence_current(report, city_dir, slug):
+    paths=report.get('source_paths',{}); hashes=report.get('source_sha256',{})
+    required={'design','scenario','screen_generator','hybrid_cycle_model','simulator','loader','energy_model','schedule','train_model'}
+    if not required.issubset(paths): return False
+    if (ROOT/paths['design']).resolve() != (city_dir/'design.toml').resolve(): return False
+    if (ROOT/paths['scenario']).resolve() != (city_dir/f'{slug}.toml').resolve(): return False
+    if any(not (ROOT/p).is_file() or hashes.get(key)!=sha(ROOT/p) for key,p in paths.items()): return False
+    binary=ROOT/'target/release/osr-sim'
+    return binary.is_file() and report.get('simulator_sha256')==sha(binary)
+
+
 def generate(city_dir):
     design=tomllib.loads((city_dir/'design.toml').read_text())
     engineering=city_dir/'engineering'; sources={}; reports={}
@@ -48,7 +59,8 @@ def generate(city_dir):
     stabling=read('stabling/summary.json'); allocation=stabling.get('hybrid_allocation',{})
     gate('morning-fleet-allocation',allocation.get('allocation_passed') is True,'service planner','Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.','stabling/summary.json',{'missing_morning_directions':allocation.get('missing_morning_directions',[]),'station_trainsets':allocation.get('station_trainsets'),'depot_trainsets':allocation.get('depot_trainsets')})
     hybrid=read('stabling/hybrid-cycle-screen.json')
-    gate('continuous-stabling-replay',hybrid.get('passed') is True,'simulation engineer','Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.','stabling/hybrid-cycle-screen.json')
+    hybrid_current=hybrid_evidence_current(hybrid,city_dir,design['city']['slug'])
+    gate('continuous-stabling-replay',hybrid.get('passed') is True and hybrid_current,'simulation engineer','Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.','stabling/hybrid-cycle-screen.json',{'evidence_current':hybrid_current})
     gate('stabling-physical-fit',stabling.get('deployment_release_ready') is True,'track/station designer','Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.','stabling/summary.json',{'open_gates':stabling.get('open_gates',[])})
     energy=read('energy/summary.json')
     simulation=read('simulation/validation-summary.json')
@@ -56,6 +68,8 @@ def generate(city_dir):
     gate('solar-storage-endurance',energy.get('operating_energy_validated') is True,'energy designer','Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.','energy/summary.json',{'snapshot_passed':energy.get('passed'),'retained_run_duration_s':full.get('duration_s'),'retained_run_pv_generated_kwh':full.get('trackside_pv_generated_kwh'),'retained_run_grid_imported_kwh':full.get('trackside_grid_imported_kwh'),'retained_run_delivered_kwh':full.get('trackside_energy_delivered_kwh'),'interpretation':'Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.'})
     depot=read('depot-scope/summary.json')
     gate('depot-placement-and-budget',depot.get('deployment_release_ready') is True,'depot and cost designer','Place the declared PV/storage inventory within the controlled site layout and reconcile itemised installed costs and renewal scope with existing allowances.','depot-scope/summary.json',{'open_gates':depot.get('open_gates',[])})
+    delivery=read('delivery/summary.json')
+    gate('workforce-duty-and-workload',delivery.get('organisation',{}).get('roster_validated') is True,'city operating lead','Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.','delivery/summary.json',{'planning_fte':delivery.get('organisation',{}).get('finance_basis',{}).get('total_fte')})
     report=dict(schema_version=1,city=design['city']['slug'],scope='city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers',design_sha256=sha(city_dir/'design.toml'),generator_sha256=sha(__file__),evidence_sha256=sources,gates=gaps,open_gate_count=sum(g['status']=='open' for g in gaps),closed_gate_count=sum(g['status']=='closed' for g in gaps),deployment_release_ready=all(g['status']=='closed' for g in gaps))
     output=engineering/'deployment';output.mkdir(parents=True,exist_ok=True)
     (output/'summary.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\n')

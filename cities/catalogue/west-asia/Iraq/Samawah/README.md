@@ -81,7 +81,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 7 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 236 assets / 1,087 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
+| Operations, QA and maintenance | 236 assets / 1,363 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

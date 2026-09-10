@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4685**.
+Indexed Markdown files: **4957**.
 
 ## Sections
 
@@ -22,13 +22,13 @@ Indexed Markdown files: **4685**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4047 |
+| [cities](#cities) | 4317 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 417 |
-| [docs](#docs) | 149 |
-| [engineering](#engineering) | 11 |
+| [docs](#docs) | 150 |
+| [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -62,6 +62,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City Design Catalogue |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/README.md) | Bukavu — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/README.md) | Bukavu Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/delivery/README.md) | Bukavu organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/deployment/README.md) | Bukavu deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/depot-scope/README.md) | bukavu depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/simulation/operations-crosscheck.md) | Bukavu operations cross-check |
@@ -78,6 +79,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/operations/acceptance-evidence-report.md) | Bukavu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Goma/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/README.md) | Goma — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/README.md) | Goma Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Goma/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/delivery/README.md) | Goma organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/deployment/README.md) | Goma deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/depot-scope/README.md) | goma depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/simulation/operations-crosscheck.md) | Goma operations cross-check |
@@ -93,6 +95,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Goma/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Goma/operations/acceptance-evidence-report.md) | Goma Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/README.md) | Kananga — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/alignment/README.md) | Kananga Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/delivery/README.md) | Kananga organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/deployment/README.md) | Kananga deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/depot-scope/README.md) | kananga depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/simulation/operations-crosscheck.md) | Kananga operations cross-check |
@@ -108,6 +111,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Kananga/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Kananga/operations/acceptance-evidence-report.md) | Kananga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/README.md) | Kinshasa — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/alignment/README.md) | Kinshasa Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/delivery/README.md) | Kinshasa organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/deployment/README.md) | Kinshasa deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/depot-scope/README.md) | kinshasa depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/operations-crosscheck.md) | Kinshasa operations cross-check |
@@ -123,6 +127,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/operations/acceptance-evidence-report.md) | Kinshasa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/README.md) | Kisangani — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/README.md) | Kisangani Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/delivery/README.md) | Kisangani organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/deployment/README.md) | Kisangani deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/depot-scope/README.md) | kisangani depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/simulation/operations-crosscheck.md) | Kisangani operations cross-check |
@@ -138,6 +143,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/operations/acceptance-evidence-report.md) | Kisangani Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md) | Lubumbashi — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/README.md) | Lubumbashi Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/delivery/README.md) | Lubumbashi organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/deployment/README.md) | Lubumbashi deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/depot-scope/README.md) | lubumbashi depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/simulation/operations-crosscheck.md) | Lubumbashi operations cross-check |
@@ -153,6 +159,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/operations/acceptance-evidence-report.md) | Lubumbashi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md) | Mbuji-Mayi — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/README.md) | Mbuji-Mayi Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/delivery/README.md) | Mbuji-Mayi organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/deployment/README.md) | Mbuji-Mayi deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/depot-scope/README.md) | mbuji-mayi depot scope reconciliation |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/simulation/operations-crosscheck.md) | Mbuji-Mayi operations cross-check |
@@ -169,6 +176,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/central-africa/DR Congo/NATIONAL-BRIEF.md`](../cities/catalogue/central-africa/DR Congo/NATIONAL-BRIEF.md) | DR Congo National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Angola/Benguela/README.md`](../cities/catalogue/east-africa/Angola/Benguela/README.md) | Benguela — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/README.md) | Benguela Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md) | Benguela organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md) | Benguela deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md) | benguela depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md) | Benguela operations cross-check |
@@ -184,6 +192,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md) | Benguela Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Huambo/README.md`](../cities/catalogue/east-africa/Angola/Huambo/README.md) | Huambo — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/README.md) | Huambo Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md) | Huambo organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md) | Huambo deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md) | huambo depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md) | Huambo operations cross-check |
@@ -199,6 +208,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Huambo/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Huambo/operations/acceptance-evidence-report.md) | Huambo Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Lobito/README.md`](../cities/catalogue/east-africa/Angola/Lobito/README.md) | Lobito — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/README.md) | Lobito Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md) | Lobito organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md) | Lobito deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md) | lobito depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md) | Lobito operations cross-check |
@@ -214,6 +224,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Lobito/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Lobito/operations/acceptance-evidence-report.md) | Lobito Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Luanda/README.md`](../cities/catalogue/east-africa/Angola/Luanda/README.md) | Luanda — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/README.md) | Luanda Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md) | Luanda organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md) | Luanda deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md) | luanda depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md) | Luanda operations cross-check |
@@ -229,6 +240,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Luanda/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Luanda/operations/acceptance-evidence-report.md) | Luanda Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Lubango/README.md`](../cities/catalogue/east-africa/Angola/Lubango/README.md) | Lubango — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/alignment/README.md) | Lubango Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md) | Lubango organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md) | Lubango deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md) | lubango depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md) | Lubango operations cross-check |
@@ -244,6 +256,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Lubango/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Lubango/operations/acceptance-evidence-report.md) | Lubango Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Malanje/README.md`](../cities/catalogue/east-africa/Angola/Malanje/README.md) | Malanje — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/README.md) | Malanje Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md) | Malanje organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md) | Malanje deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md) | malanje depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md) | Malanje operations cross-check |
@@ -260,6 +273,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Angola/NATIONAL-BRIEF.md) | Angola National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Angola/Namibe/README.md`](../cities/catalogue/east-africa/Angola/Namibe/README.md) | Namibe — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/README.md) | Namibe Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md) | Namibe organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md) | Namibe deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md) | namibe depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md) | Namibe operations cross-check |
@@ -275,6 +289,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md) | Namibe Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Soyo/README.md`](../cities/catalogue/east-africa/Angola/Soyo/README.md) | Soyo — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/README.md) | Soyo Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md) | Soyo organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md) | Soyo deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md) | soyo depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md) | Soyo operations cross-check |
@@ -290,6 +305,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Soyo/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Soyo/operations/acceptance-evidence-report.md) | Soyo Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Angola/Uige/README.md`](../cities/catalogue/east-africa/Angola/Uige/README.md) | Uige — Urban Rail Network |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md) | Uige Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md) | Uige organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) | Uige deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md) | uige depot scope reconciliation |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md) | Uige operations cross-check |
@@ -306,6 +322,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md) | Uige Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/README.md) | Eldoret — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md) | Eldoret Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/delivery/README.md) | Eldoret organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md) | Eldoret deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/depot-scope/README.md) | eldoret depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/simulation/operations-crosscheck.md) | Eldoret operations cross-check |
@@ -321,6 +338,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Eldoret/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Eldoret/operations/acceptance-evidence-report.md) | Eldoret Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Garissa/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/README.md) | Garissa — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/README.md) | Garissa Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Garissa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/delivery/README.md) | Garissa organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md) | Garissa deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/depot-scope/README.md) | garissa depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/simulation/operations-crosscheck.md) | Garissa operations cross-check |
@@ -336,6 +354,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Garissa/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Garissa/operations/acceptance-evidence-report.md) | Garissa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/README.md) | Kakamega — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/README.md) | Kakamega Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/delivery/README.md) | Kakamega organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md) | Kakamega deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/depot-scope/README.md) | kakamega depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/operations-crosscheck.md) | Kakamega operations cross-check |
@@ -351,6 +370,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Kakamega/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Kakamega/operations/acceptance-evidence-report.md) | Kakamega Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Kisii/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/README.md) | Kisii — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/README.md) | Kisii Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Kisii/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/delivery/README.md) | Kisii organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/deployment/README.md) | Kisii deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/depot-scope/README.md) | kisii depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/simulation/operations-crosscheck.md) | Kisii operations cross-check |
@@ -366,6 +386,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Kisii/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Kisii/operations/acceptance-evidence-report.md) | Kisii Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/README.md) | Kisumu — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/README.md) | Kisumu Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/delivery/README.md) | Kisumu organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/deployment/README.md) | Kisumu deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/depot-scope/README.md) | kisumu depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/simulation/operations-crosscheck.md) | Kisumu operations cross-check |
@@ -381,6 +402,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Kisumu/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Kisumu/operations/acceptance-evidence-report.md) | Kisumu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Kitale/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/README.md) | Kitale — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/README.md) | Kitale Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Kitale/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/delivery/README.md) | Kitale organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/deployment/README.md) | Kitale deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/depot-scope/README.md) | kitale depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/simulation/operations-crosscheck.md) | Kitale operations cross-check |
@@ -396,6 +418,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Kitale/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Kitale/operations/acceptance-evidence-report.md) | Kitale Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Machakos/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/README.md) | Machakos — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/README.md) | Machakos Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Machakos/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/delivery/README.md) | Machakos organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/deployment/README.md) | Machakos deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/depot-scope/README.md) | machakos depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/operations-crosscheck.md) | Machakos operations cross-check |
@@ -411,6 +434,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Machakos/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Machakos/operations/acceptance-evidence-report.md) | Machakos Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Malindi/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/README.md) | Malindi — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/README.md) | Malindi Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Malindi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/delivery/README.md) | Malindi organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/deployment/README.md) | Malindi deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/depot-scope/README.md) | malindi depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/operations-crosscheck.md) | Malindi operations cross-check |
@@ -426,6 +450,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Malindi/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Malindi/operations/acceptance-evidence-report.md) | Malindi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/README.md) | Meru-Ke — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/README.md) | Meru-Ke Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/delivery/README.md) | Meru-Ke organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/deployment/README.md) | Meru-Ke deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/depot-scope/README.md) | meru-ke depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/operations-crosscheck.md) | Meru-Ke operations cross-check |
@@ -441,6 +466,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/operations/acceptance-evidence-report.md) | Meru Ke Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/README.md) | Mombasa — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/alignment/README.md) | Mombasa Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/delivery/README.md) | Mombasa organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/deployment/README.md) | Mombasa deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/depot-scope/README.md) | mombasa depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/simulation/operations-crosscheck.md) | Mombasa operations cross-check |
@@ -457,6 +483,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Kenya/NATIONAL-BRIEF.md) | Kenya National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/README.md) | Nairobi — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/alignment/README.md) | Nairobi Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/delivery/README.md) | Nairobi organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/deployment/README.md) | Nairobi deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/depot-scope/README.md) | nairobi depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/simulation/operations-crosscheck.md) | Nairobi operations cross-check |
@@ -472,6 +499,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Nairobi/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Nairobi/operations/acceptance-evidence-report.md) | Nairobi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/README.md) | Naivasha — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/README.md) | Naivasha Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/delivery/README.md) | Naivasha organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/deployment/README.md) | Naivasha deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/depot-scope/README.md) | naivasha depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/simulation/operations-crosscheck.md) | Naivasha operations cross-check |
@@ -487,6 +515,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Naivasha/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Naivasha/operations/acceptance-evidence-report.md) | Naivasha Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/README.md) | Nakuru — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/alignment/README.md) | Nakuru Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/delivery/README.md) | Nakuru organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/deployment/README.md) | Nakuru deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/depot-scope/README.md) | nakuru depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/simulation/operations-crosscheck.md) | Nakuru operations cross-check |
@@ -502,6 +531,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Nakuru/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Nakuru/operations/acceptance-evidence-report.md) | Nakuru Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/README.md) | Nyeri — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/README.md) | Nyeri Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/delivery/README.md) | Nyeri organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/deployment/README.md) | Nyeri deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/depot-scope/README.md) | nyeri depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/simulation/operations-crosscheck.md) | Nyeri operations cross-check |
@@ -517,6 +547,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Nyeri/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Nyeri/operations/acceptance-evidence-report.md) | Nyeri Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Thika/README.md`](../cities/catalogue/east-africa/Kenya/Thika/README.md) | Thika — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/alignment/README.md) | Thika Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Kenya/Thika/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/delivery/README.md) | Thika organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/deployment/README.md) | Thika deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/depot-scope/README.md) | thika depot scope reconciliation |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/simulation/operations-crosscheck.md) | Thika operations cross-check |
@@ -532,6 +563,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Kenya/Thika/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Thika/operations/acceptance-evidence-report.md) | Thika Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/README.md) | Antananarivo — Urban Rail Network |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/alignment/README.md) | Antananarivo Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/delivery/README.md) | Antananarivo organisation and design work |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/deployment/README.md) | Antananarivo deployment gaps |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/depot-scope/README.md) | antananarivo depot scope reconciliation |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/simulation/operations-crosscheck.md) | Antananarivo operations cross-check |
@@ -548,6 +580,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Madagascar/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Madagascar/NATIONAL-BRIEF.md) | Madagascar National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Mozambique/Beira/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/README.md) | Beira — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/README.md) | Beira Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Beira/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/delivery/README.md) | Beira organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/deployment/README.md) | Beira deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/depot-scope/README.md) | beira depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/operations-crosscheck.md) | Beira operations cross-check |
@@ -563,6 +596,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Beira/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Beira/operations/acceptance-evidence-report.md) | Beira Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/README.md) | Chimoio — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/alignment/README.md) | Chimoio Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/delivery/README.md) | Chimoio organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/deployment/README.md) | Chimoio deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/depot-scope/README.md) | chimoio depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/simulation/operations-crosscheck.md) | Chimoio operations cross-check |
@@ -578,6 +612,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/operations/acceptance-evidence-report.md) | Chimoio Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/README.md) | Lichinga — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/README.md) | Lichinga Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/delivery/README.md) | Lichinga organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/deployment/README.md) | Lichinga deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/depot-scope/README.md) | lichinga depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/operations-crosscheck.md) | Lichinga operations cross-check |
@@ -593,6 +628,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/operations/acceptance-evidence-report.md) | Lichinga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/README.md) | Maputo — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/README.md) | Maputo Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/delivery/README.md) | Maputo organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/deployment/README.md) | Maputo deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/depot-scope/README.md) | maputo depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/simulation/operations-crosscheck.md) | Maputo operations cross-check |
@@ -609,6 +645,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Mozambique/NATIONAL-BRIEF.md) | Mozambique National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/README.md) | Nacala — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/alignment/README.md) | Nacala Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/delivery/README.md) | Nacala organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/deployment/README.md) | Nacala deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/depot-scope/README.md) | nacala depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/simulation/operations-crosscheck.md) | Nacala operations cross-check |
@@ -624,6 +661,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Nacala/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Nacala/operations/acceptance-evidence-report.md) | Nacala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/README.md) | Nampula — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/alignment/README.md) | Nampula Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/delivery/README.md) | Nampula organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/deployment/README.md) | Nampula deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/depot-scope/README.md) | nampula depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/simulation/operations-crosscheck.md) | Nampula operations cross-check |
@@ -639,6 +677,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Nampula/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Nampula/operations/acceptance-evidence-report.md) | Nampula Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md) | Pemba-Mz — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/README.md) | Pemba-Mz Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/delivery/README.md) | Pemba-Mz organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/deployment/README.md) | Pemba-Mz deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/depot-scope/README.md) | pemba-mz depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/operations-crosscheck.md) | Pemba-Mz operations cross-check |
@@ -654,6 +693,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/operations/acceptance-evidence-report.md) | Pemba Mz Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/README.md) | Quelimane — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/README.md) | Quelimane Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/delivery/README.md) | Quelimane organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md) | Quelimane deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md) | quelimane depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/simulation/operations-crosscheck.md) | Quelimane operations cross-check |
@@ -670,6 +710,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/operations/acceptance-evidence-report.md) | Quelimane Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Tete/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/README.md) | Tete — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/README.md) | Tete Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Tete/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/delivery/README.md) | Tete organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/deployment/README.md) | Tete deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/depot-scope/README.md) | tete depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/simulation/operations-crosscheck.md) | Tete operations cross-check |
@@ -685,6 +726,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Tete/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Tete/operations/acceptance-evidence-report.md) | Tete Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md) | Xai-Xai — Urban Rail Network |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/README.md) | Xai-Xai Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/delivery/README.md) | Xai-Xai organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/deployment/README.md) | Xai-Xai deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/depot-scope/README.md) | xai-xai depot scope reconciliation |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/operations-crosscheck.md) | Xai-Xai operations cross-check |
@@ -700,6 +742,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/operations/acceptance-evidence-report.md) | Xai Xai Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Rwanda/Huye/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/README.md) | Huye — Urban Rail Network |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/README.md) | Huye Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Rwanda/Huye/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/delivery/README.md) | Huye organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/deployment/README.md) | Huye deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/depot-scope/README.md) | huye depot scope reconciliation |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/simulation/operations-crosscheck.md) | Huye operations cross-check |
@@ -715,6 +758,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Rwanda/Huye/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Rwanda/Huye/operations/acceptance-evidence-report.md) | Huye Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/README.md) | Kigali — Urban Rail Network |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/README.md) | Kigali Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/delivery/README.md) | Kigali organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/deployment/README.md) | Kigali deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/depot-scope/README.md) | kigali depot scope reconciliation |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/simulation/operations-crosscheck.md) | Kigali operations cross-check |
@@ -731,6 +775,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Rwanda/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Rwanda/NATIONAL-BRIEF.md) | Rwanda National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/README.md) | Rubavu — Urban Rail Network |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/README.md) | Rubavu Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/delivery/README.md) | Rubavu organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/deployment/README.md) | Rubavu deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/depot-scope/README.md) | rubavu depot scope reconciliation |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/simulation/operations-crosscheck.md) | Rubavu operations cross-check |
@@ -746,6 +791,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/operations/acceptance-evidence-report.md) | Rubavu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/README.md) | Mogadishu — Urban Rail Network |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/alignment/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/alignment/README.md) | Mogadishu Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/delivery/README.md) | Mogadishu organisation and design work |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/deployment/README.md) | Mogadishu deployment gaps |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/depot-scope/README.md) | mogadishu depot scope reconciliation |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/operations-crosscheck.md) | Mogadishu operations cross-check |
@@ -762,6 +808,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md) | Somalia National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/README.md) | Arusha — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/alignment/README.md) | Arusha Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/delivery/README.md) | Arusha organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/deployment/README.md) | Arusha deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/depot-scope/README.md) | arusha depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/simulation/operations-crosscheck.md) | Arusha operations cross-check |
@@ -777,6 +824,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Arusha/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Arusha/operations/acceptance-evidence-report.md) | Arusha Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md) | Dar-Es-Salaam — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/alignment/README.md) | Dar-Es-Salaam Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/delivery/README.md) | Dar-Es-Salaam organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/deployment/README.md) | Dar-Es-Salaam deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/depot-scope/README.md) | dar-es-salaam depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/simulation/operations-crosscheck.md) | Dar-Es-Salaam operations cross-check |
@@ -792,6 +840,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/operations/acceptance-evidence-report.md) | Dar Es Salaam Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/README.md) | Dodoma — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/README.md) | Dodoma Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/delivery/README.md) | Dodoma organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/deployment/README.md) | Dodoma deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/depot-scope/README.md) | dodoma depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/simulation/operations-crosscheck.md) | Dodoma operations cross-check |
@@ -807,6 +856,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/operations/acceptance-evidence-report.md) | Dodoma Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/README.md) | Iringa — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/alignment/README.md) | Iringa Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/delivery/README.md) | Iringa organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/deployment/README.md) | Iringa deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/depot-scope/README.md) | iringa depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/simulation/operations-crosscheck.md) | Iringa operations cross-check |
@@ -822,6 +872,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Iringa/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Iringa/operations/acceptance-evidence-report.md) | Iringa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/README.md) | Kigoma — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/README.md) | Kigoma Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/delivery/README.md) | Kigoma organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/deployment/README.md) | Kigoma deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/depot-scope/README.md) | kigoma depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/simulation/operations-crosscheck.md) | Kigoma operations cross-check |
@@ -837,6 +888,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/operations/acceptance-evidence-report.md) | Kigoma Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/README.md) | Mbeya — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/alignment/README.md) | Mbeya Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/delivery/README.md) | Mbeya organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/deployment/README.md) | Mbeya deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/depot-scope/README.md) | mbeya depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/simulation/operations-crosscheck.md) | Mbeya operations cross-check |
@@ -852,6 +904,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/operations/acceptance-evidence-report.md) | Mbeya Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/README.md) | Morogoro — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/alignment/README.md) | Morogoro Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/delivery/README.md) | Morogoro organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/deployment/README.md) | Morogoro deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/depot-scope/README.md) | morogoro depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/simulation/operations-crosscheck.md) | Morogoro operations cross-check |
@@ -867,6 +920,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/operations/acceptance-evidence-report.md) | Morogoro Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/README.md) | Moshi — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/alignment/README.md) | Moshi Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/delivery/README.md) | Moshi organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/deployment/README.md) | Moshi deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/depot-scope/README.md) | moshi depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/simulation/operations-crosscheck.md) | Moshi operations cross-check |
@@ -882,6 +936,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Moshi/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Moshi/operations/acceptance-evidence-report.md) | Moshi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/README.md) | Mwanza — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/alignment/README.md) | Mwanza Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/delivery/README.md) | Mwanza organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/deployment/README.md) | Mwanza deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/depot-scope/README.md) | mwanza depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/simulation/operations-crosscheck.md) | Mwanza operations cross-check |
@@ -898,6 +953,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Tanzania/NATIONAL-BRIEF.md) | Tanzania National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md) | Shinyanga Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/delivery/README.md) | Shinyanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/deployment/README.md) | Shinyanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/depot-scope/README.md) | shinyanga depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/simulation/operations-crosscheck.md) | Shinyanga operations cross-check |
@@ -913,6 +969,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/operations/acceptance-evidence-report.md) | Shinyanga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Songea/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/README.md) | Songea — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/README.md) | Songea Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Songea/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/delivery/README.md) | Songea organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/deployment/README.md) | Songea deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/depot-scope/README.md) | songea depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/simulation/operations-crosscheck.md) | Songea operations cross-check |
@@ -928,11 +985,13 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Songea/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Songea/operations/acceptance-evidence-report.md) | Songea Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md) | Sumbawanga — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/README.md) | Sumbawanga Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/delivery/README.md) | Sumbawanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md) | Sumbawanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/depot-scope/README.md) | sumbawanga depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/simulation/operations-crosscheck.md) | Sumbawanga operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md) | Sumbawanga civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/control-processing-readiness.md) | Sumbawanga survey-control processing |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/drainage-ground-readiness.md) | Sumbawanga drainage and ground-design gate |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/survey/field-evidence-brief.md) | Sumbawanga field-evidence brief |
@@ -943,6 +1002,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/operations/acceptance-evidence-report.md) | Sumbawanga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/README.md) | Tabora — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/alignment/README.md) | Tabora Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/delivery/README.md) | Tabora organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/deployment/README.md) | Tabora deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/depot-scope/README.md) | tabora depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/simulation/operations-crosscheck.md) | Tabora operations cross-check |
@@ -958,6 +1018,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Tabora/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Tabora/operations/acceptance-evidence-report.md) | Tabora Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/README.md) | Tanga — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/alignment/README.md) | Tanga Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/delivery/README.md) | Tanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/deployment/README.md) | Tanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/depot-scope/README.md) | tanga depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/simulation/operations-crosscheck.md) | Tanga operations cross-check |
@@ -973,6 +1034,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Tanga/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Tanga/operations/acceptance-evidence-report.md) | Tanga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md) | Zanzibar-City — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/README.md) | Zanzibar-City Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/delivery/README.md) | Zanzibar-City organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/deployment/README.md) | Zanzibar-City deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/depot-scope/README.md) | zanzibar-city depot scope reconciliation |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/simulation/operations-crosscheck.md) | Zanzibar-City operations cross-check |
@@ -988,6 +1050,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/operations/acceptance-evidence-report.md) | Zanzibar City Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Arua/README.md`](../cities/catalogue/east-africa/Uganda/Arua/README.md) | Arua — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/README.md) | Arua Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Arua/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/delivery/README.md) | Arua organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/deployment/README.md) | Arua deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/depot-scope/README.md) | arua depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/simulation/operations-crosscheck.md) | Arua operations cross-check |
@@ -1003,6 +1066,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Arua/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Arua/operations/acceptance-evidence-report.md) | Arua Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/README.md) | Entebbe — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/README.md) | Entebbe Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/delivery/README.md) | Entebbe organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/deployment/README.md) | Entebbe deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/depot-scope/README.md) | entebbe depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/simulation/operations-crosscheck.md) | Entebbe operations cross-check |
@@ -1018,6 +1082,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Entebbe/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Entebbe/operations/acceptance-evidence-report.md) | Entebbe Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/README.md) | Fort-Portal — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/README.md) | Fort-Portal Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/delivery/README.md) | Fort-Portal organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/deployment/README.md) | Fort-Portal deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/depot-scope/README.md) | fort-portal depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/operations-crosscheck.md) | Fort-Portal operations cross-check |
@@ -1033,6 +1098,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/operations/acceptance-evidence-report.md) | Fort Portal Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Gulu/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/README.md) | Gulu — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/README.md) | Gulu Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Gulu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/delivery/README.md) | Gulu organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/deployment/README.md) | Gulu deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/depot-scope/README.md) | gulu depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/simulation/operations-crosscheck.md) | Gulu operations cross-check |
@@ -1048,6 +1114,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Gulu/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Gulu/operations/acceptance-evidence-report.md) | Gulu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Hoima/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/README.md) | Hoima — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/README.md) | Hoima Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Hoima/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/delivery/README.md) | Hoima organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/deployment/README.md) | Hoima deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/depot-scope/README.md) | hoima depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/simulation/operations-crosscheck.md) | Hoima operations cross-check |
@@ -1063,6 +1130,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Hoima/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Hoima/operations/acceptance-evidence-report.md) | Hoima Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Jinja/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/README.md) | Jinja — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/README.md) | Jinja Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Jinja/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/delivery/README.md) | Jinja organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/deployment/README.md) | Jinja deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/depot-scope/README.md) | jinja depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/simulation/operations-crosscheck.md) | Jinja operations cross-check |
@@ -1078,6 +1146,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Jinja/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Jinja/operations/acceptance-evidence-report.md) | Jinja Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Kampala/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/README.md) | Kampala — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/alignment/README.md) | Kampala Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Kampala/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/delivery/README.md) | Kampala organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/deployment/README.md) | Kampala deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/depot-scope/README.md) | kampala depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/simulation/operations-crosscheck.md) | Kampala operations cross-check |
@@ -1093,6 +1162,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Kampala/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Kampala/operations/acceptance-evidence-report.md) | Kampala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Lira/README.md`](../cities/catalogue/east-africa/Uganda/Lira/README.md) | Lira — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/README.md) | Lira Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Lira/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/delivery/README.md) | Lira organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/deployment/README.md) | Lira deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/depot-scope/README.md) | lira depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/simulation/operations-crosscheck.md) | Lira operations cross-check |
@@ -1108,6 +1178,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Lira/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Lira/operations/acceptance-evidence-report.md) | Lira Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Masaka/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/README.md) | Masaka — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/alignment/README.md) | Masaka Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Masaka/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/delivery/README.md) | Masaka organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md) | Masaka deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/depot-scope/README.md) | masaka depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/simulation/operations-crosscheck.md) | Masaka operations cross-check |
@@ -1123,6 +1194,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Masaka/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Masaka/operations/acceptance-evidence-report.md) | Masaka Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Mbale/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/README.md) | Mbale — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/README.md) | Mbale Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Mbale/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/delivery/README.md) | Mbale organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md) | Mbale deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/depot-scope/README.md) | mbale depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/simulation/operations-crosscheck.md) | Mbale operations cross-check |
@@ -1138,6 +1210,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Mbale/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Mbale/operations/acceptance-evidence-report.md) | Mbale Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/README.md) | Mbarara — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/README.md) | Mbarara Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/delivery/README.md) | Mbarara organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md) | Mbarara deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/depot-scope/README.md) | mbarara depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/simulation/operations-crosscheck.md) | Mbarara operations cross-check |
@@ -1154,11 +1227,13 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Uganda/NATIONAL-BRIEF.md) | Uganda National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/Uganda/Soroti/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/README.md) | Soroti — Urban Rail Network |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/README.md) | Soroti Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Uganda/Soroti/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/delivery/README.md) | Soroti organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) | Soroti deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/depot-scope/README.md) | soroti depot scope reconciliation |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/simulation/operations-crosscheck.md) | Soroti operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | Soroti civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/control-processing-readiness.md) | Soroti survey-control processing |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/drainage-ground-readiness.md) | Soroti drainage and ground-design gate |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/survey/field-evidence-brief.md) | Soroti field-evidence brief |
@@ -1169,6 +1244,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Uganda/Soroti/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Soroti/operations/acceptance-evidence-report.md) | Soroti Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/README.md) | Lusaka — Urban Rail Network |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/README.md) | Lusaka Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/delivery/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/delivery/README.md) | Lusaka organisation and design work |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md) | Lusaka deployment gaps |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/depot-scope/README.md) | lusaka depot scope reconciliation |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/simulation/operations-crosscheck.md) | Lusaka operations cross-check |
@@ -1185,6 +1261,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/east-africa/Zambia/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Zambia/NATIONAL-BRIEF.md) | Zambia National OpenSourceRail Strategy |
 | [`cities/catalogue/europe/France/Lyon/README.md`](../cities/catalogue/europe/France/Lyon/README.md) | Lyon — Urban Rail Network |
 | [`cities/catalogue/europe/France/Lyon/engineering/alignment/README.md`](../cities/catalogue/europe/France/Lyon/engineering/alignment/README.md) | Lyon Planning OSR-ALN Package |
+| [`cities/catalogue/europe/France/Lyon/engineering/delivery/README.md`](../cities/catalogue/europe/France/Lyon/engineering/delivery/README.md) | Lyon organisation and design work |
 | [`cities/catalogue/europe/France/Lyon/engineering/deployment/README.md`](../cities/catalogue/europe/France/Lyon/engineering/deployment/README.md) | Lyon deployment gaps |
 | [`cities/catalogue/europe/France/Lyon/engineering/depot-scope/README.md`](../cities/catalogue/europe/France/Lyon/engineering/depot-scope/README.md) | lyon depot scope reconciliation |
 | [`cities/catalogue/europe/France/Lyon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/europe/France/Lyon/engineering/simulation/operations-crosscheck.md) | Lyon operations cross-check |
@@ -1200,6 +1277,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/europe/France/Lyon/operations/acceptance-evidence-report.md`](../cities/catalogue/europe/France/Lyon/operations/acceptance-evidence-report.md) | Lyon Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/README.md) | La-Paz — Urban Rail Network |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/alignment/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/alignment/README.md) | La-Paz Planning OSR-ALN Package |
+| [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/delivery/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/delivery/README.md) | La-Paz organisation and design work |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md) | La-Paz deployment gaps |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/depot-scope/README.md) | la-paz depot scope reconciliation |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/simulation/operations-crosscheck.md) | La-Paz operations cross-check |
@@ -1216,6 +1294,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/latin-america/Bolivia/NATIONAL-BRIEF.md`](../cities/catalogue/latin-america/Bolivia/NATIONAL-BRIEF.md) | Bolivia National OpenSourceRail Strategy |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/README.md) | Cuenca — Urban Rail Network |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/alignment/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/alignment/README.md) | Cuenca Planning OSR-ALN Package |
+| [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/delivery/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/delivery/README.md) | Cuenca organisation and design work |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/deployment/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/deployment/README.md) | Cuenca deployment gaps |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/depot-scope/README.md) | cuenca depot scope reconciliation |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/simulation/operations-crosscheck.md) | Cuenca operations cross-check |
@@ -1233,6 +1312,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/latin-america/El Salvador/NATIONAL-BRIEF.md`](../cities/catalogue/latin-america/El Salvador/NATIONAL-BRIEF.md) | El Salvador National OpenSourceRail Strategy |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/README.md) | San-Salvador — Urban Rail Network |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/alignment/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/alignment/README.md) | San-Salvador Planning OSR-ALN Package |
+| [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/delivery/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/delivery/README.md) | San-Salvador organisation and design work |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/deployment/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/deployment/README.md) | San-Salvador deployment gaps |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/depot-scope/README.md) | san-salvador depot scope reconciliation |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/simulation/operations-crosscheck.md) | San-Salvador operations cross-check |
@@ -1248,6 +1328,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/operations/acceptance-evidence-report.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/operations/acceptance-evidence-report.md) | San Salvador Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Agadir/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/README.md) | Agadir — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/README.md) | Agadir Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Agadir/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/delivery/README.md) | Agadir organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/deployment/README.md) | Agadir deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/depot-scope/README.md) | agadir depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/operations-crosscheck.md) | Agadir operations cross-check |
@@ -1263,6 +1344,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Agadir/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Agadir/operations/acceptance-evidence-report.md) | Agadir Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md) | Beni-Mellal — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/alignment/README.md) | Beni-Mellal Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/delivery/README.md) | Beni-Mellal organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/deployment/README.md) | Beni-Mellal deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/depot-scope/README.md) | beni-mellal depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/simulation/operations-crosscheck.md) | Beni-Mellal operations cross-check |
@@ -1278,6 +1360,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/operations/acceptance-evidence-report.md) | Beni Mellal Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Fez/README.md`](../cities/catalogue/north-africa/Morocco/Fez/README.md) | Fez — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/README.md) | Fez Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Fez/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/delivery/README.md) | Fez organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/deployment/README.md) | Fez deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/depot-scope/README.md) | fez depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/simulation/operations-crosscheck.md) | Fez operations cross-check |
@@ -1293,6 +1376,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Fez/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Fez/operations/acceptance-evidence-report.md) | Fez Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/README.md) | Kenitra — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/alignment/README.md) | Kenitra Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/delivery/README.md) | Kenitra organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/deployment/README.md) | Kenitra deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/depot-scope/README.md) | kenitra depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/simulation/operations-crosscheck.md) | Kenitra operations cross-check |
@@ -1308,6 +1392,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Kenitra/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Kenitra/operations/acceptance-evidence-report.md) | Kenitra Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/README.md) | Khouribga — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/README.md) | Khouribga Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/delivery/README.md) | Khouribga organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/deployment/README.md) | Khouribga deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/depot-scope/README.md) | khouribga depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/simulation/operations-crosscheck.md) | Khouribga operations cross-check |
@@ -1323,6 +1408,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Khouribga/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Khouribga/operations/acceptance-evidence-report.md) | Khouribga Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/README.md) | Marrakech — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/alignment/README.md) | Marrakech Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/delivery/README.md) | Marrakech organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/deployment/README.md) | Marrakech deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/depot-scope/README.md) | marrakech depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/operations-crosscheck.md) | Marrakech operations cross-check |
@@ -1338,6 +1424,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Marrakech/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Marrakech/operations/acceptance-evidence-report.md) | Marrakech Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Meknes/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/README.md) | Meknes — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/README.md) | Meknes Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Meknes/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/delivery/README.md) | Meknes organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/deployment/README.md) | Meknes deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/depot-scope/README.md) | meknes depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/simulation/operations-crosscheck.md) | Meknes operations cross-check |
@@ -1354,6 +1441,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/NATIONAL-BRIEF.md`](../cities/catalogue/north-africa/Morocco/NATIONAL-BRIEF.md) | Morocco National OpenSourceRail Strategy |
 | [`cities/catalogue/north-africa/Morocco/Nador/README.md`](../cities/catalogue/north-africa/Morocco/Nador/README.md) | Nador — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/README.md) | Nador Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Nador/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/delivery/README.md) | Nador organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/deployment/README.md) | Nador deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/depot-scope/README.md) | nador depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/simulation/operations-crosscheck.md) | Nador operations cross-check |
@@ -1369,6 +1457,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Nador/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Nador/operations/acceptance-evidence-report.md) | Nador Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Oujda/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/README.md) | Oujda — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/README.md) | Oujda Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Oujda/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/delivery/README.md) | Oujda organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/deployment/README.md) | Oujda deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/depot-scope/README.md) | oujda depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/simulation/operations-crosscheck.md) | Oujda operations cross-check |
@@ -1384,6 +1473,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Oujda/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Oujda/operations/acceptance-evidence-report.md) | Oujda Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Safi/README.md`](../cities/catalogue/north-africa/Morocco/Safi/README.md) | Safi — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/README.md) | Safi Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Safi/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/delivery/README.md) | Safi organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/deployment/README.md) | Safi deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/depot-scope/README.md) | safi depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/operations-crosscheck.md) | Safi operations cross-check |
@@ -1399,6 +1489,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Safi/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Safi/operations/acceptance-evidence-report.md) | Safi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Tangier/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/README.md) | Tangier — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/alignment/README.md) | Tangier Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Tangier/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/delivery/README.md) | Tangier organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/deployment/README.md) | Tangier deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/depot-scope/README.md) | tangier depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/operations-crosscheck.md) | Tangier operations cross-check |
@@ -1414,6 +1505,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Tangier/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Tangier/operations/acceptance-evidence-report.md) | Tangier Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/README.md) | Tetouan — Urban Rail Network |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/alignment/README.md) | Tetouan Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/delivery/README.md) | Tetouan organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/deployment/README.md) | Tetouan deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/depot-scope/README.md) | tetouan depot scope reconciliation |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/operations-crosscheck.md) | Tetouan operations cross-check |
@@ -1429,6 +1521,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Morocco/Tetouan/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Tetouan/operations/acceptance-evidence-report.md) | Tetouan Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/README.md) | El-Obeid — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/README.md) | El-Obeid Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/delivery/README.md) | El-Obeid organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/deployment/README.md) | El-Obeid deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/depot-scope/README.md) | el-obeid depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/simulation/operations-crosscheck.md) | El-Obeid operations cross-check |
@@ -1444,6 +1537,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/operations/acceptance-evidence-report.md) | El Obeid Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/Kassala/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/README.md) | Kassala — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/README.md) | Kassala Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Kassala/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/delivery/README.md) | Kassala organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/deployment/README.md) | Kassala deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/depot-scope/README.md) | kassala depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/operations-crosscheck.md) | Kassala operations cross-check |
@@ -1459,6 +1553,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/Kassala/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Kassala/operations/acceptance-evidence-report.md) | Kassala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/README.md) | Khartoum — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/alignment/README.md) | Khartoum Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/delivery/README.md) | Khartoum organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/deployment/README.md) | Khartoum deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/depot-scope/README.md) | khartoum depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/simulation/operations-crosscheck.md) | Khartoum operations cross-check |
@@ -1475,6 +1570,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/NATIONAL-BRIEF.md`](../cities/catalogue/north-africa/Sudan/NATIONAL-BRIEF.md) | Sudan National OpenSourceRail Strategy |
 | [`cities/catalogue/north-africa/Sudan/Nyala/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/README.md) | Nyala — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/README.md) | Nyala Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Nyala/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/delivery/README.md) | Nyala organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/deployment/README.md) | Nyala deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/depot-scope/README.md) | nyala depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/simulation/operations-crosscheck.md) | Nyala operations cross-check |
@@ -1490,6 +1586,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/Nyala/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Nyala/operations/acceptance-evidence-report.md) | Nyala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/README.md) | Omdurman — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/alignment/README.md) | Omdurman Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/delivery/README.md) | Omdurman organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/deployment/README.md) | Omdurman deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/depot-scope/README.md) | omdurman depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/simulation/operations-crosscheck.md) | Omdurman operations cross-check |
@@ -1505,6 +1602,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/Omdurman/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Omdurman/operations/acceptance-evidence-report.md) | Omdurman Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/README.md) | Port-Sudan — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/README.md) | Port-Sudan Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/delivery/README.md) | Port-Sudan organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/deployment/README.md) | Port-Sudan deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/depot-scope/README.md) | port-sudan depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/simulation/operations-crosscheck.md) | Port-Sudan operations cross-check |
@@ -1520,6 +1618,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/operations/acceptance-evidence-report.md) | Port Sudan Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Sudan/Waw/README.md`](../cities/catalogue/north-africa/Sudan/Waw/README.md) | Waw — Urban Rail Network |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/alignment/README.md) | Waw Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md) | Waw organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md) | Waw deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md) | waw depot scope reconciliation |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md) | Waw operations cross-check |
@@ -1536,6 +1635,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Tunisia/NATIONAL-BRIEF.md`](../cities/catalogue/north-africa/Tunisia/NATIONAL-BRIEF.md) | Tunisia National OpenSourceRail Strategy |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/README.md) | Tunis — Urban Rail Network |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/alignment/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/alignment/README.md) | Tunis Planning OSR-ALN Package |
+| [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/delivery/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/delivery/README.md) | Tunis organisation and design work |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/deployment/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/deployment/README.md) | Tunis deployment gaps |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/depot-scope/README.md) | tunis depot scope reconciliation |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/simulation/operations-crosscheck.md) | Tunis operations cross-check |
@@ -1551,6 +1651,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/north-africa/Tunisia/Tunis/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Tunisia/Tunis/operations/acceptance-evidence-report.md) | Tunis Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/README.md) | Bloemfontein — Urban Rail Network |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/README.md) | Bloemfontein Planning OSR-ALN Package |
+| [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/delivery/README.md) | Bloemfontein organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/deployment/README.md) | Bloemfontein deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/depot-scope/README.md) | bloemfontein depot scope reconciliation |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/operations-crosscheck.md) | Bloemfontein operations cross-check |
@@ -1566,6 +1667,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/operations/acceptance-evidence-report.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/operations/acceptance-evidence-report.md) | Bloemfontein Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-africa/South Africa/Durban/README.md`](../cities/catalogue/south-africa/South Africa/Durban/README.md) | Durban — Urban Rail Network |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/alignment/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/alignment/README.md) | Durban Planning OSR-ALN Package |
+| [`cities/catalogue/south-africa/South Africa/Durban/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/delivery/README.md) | Durban organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/deployment/README.md) | Durban deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/depot-scope/README.md) | durban depot scope reconciliation |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/operations-crosscheck.md) | Durban operations cross-check |
@@ -1581,6 +1683,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-africa/South Africa/Durban/operations/acceptance-evidence-report.md`](../cities/catalogue/south-africa/South Africa/Durban/operations/acceptance-evidence-report.md) | Durban Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/README.md) | East-London-Za — Urban Rail Network |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/README.md) | East-London-Za Planning OSR-ALN Package |
+| [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/delivery/README.md) | East-London-Za organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/deployment/README.md) | East-London-Za deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/depot-scope/README.md) | east-london-za depot scope reconciliation |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/simulation/operations-crosscheck.md) | East-London-Za operations cross-check |
@@ -1597,6 +1700,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-africa/South Africa/NATIONAL-BRIEF.md`](../cities/catalogue/south-africa/South Africa/NATIONAL-BRIEF.md) | South Africa National OpenSourceRail Strategy |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/README.md) | Nelspruit — Urban Rail Network |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/README.md) | Nelspruit Planning OSR-ALN Package |
+| [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/delivery/README.md) | Nelspruit organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/deployment/README.md) | Nelspruit deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/depot-scope/README.md) | nelspruit depot scope reconciliation |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/simulation/operations-crosscheck.md) | Nelspruit operations cross-check |
@@ -1612,6 +1716,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/operations/acceptance-evidence-report.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/operations/acceptance-evidence-report.md) | Nelspruit Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/README.md) | Polokwane — Urban Rail Network |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/README.md) | Polokwane Planning OSR-ALN Package |
+| [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/delivery/README.md) | Polokwane organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/deployment/README.md) | Polokwane deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/depot-scope/README.md) | polokwane depot scope reconciliation |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/simulation/operations-crosscheck.md) | Polokwane operations cross-check |
@@ -1627,6 +1732,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-africa/South Africa/Polokwane/operations/acceptance-evidence-report.md`](../cities/catalogue/south-africa/South Africa/Polokwane/operations/acceptance-evidence-report.md) | Polokwane Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/README.md) | Herat — Urban Rail Network |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/README.md) | Herat Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/delivery/README.md) | Herat organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/deployment/README.md) | Herat deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/depot-scope/README.md) | herat depot scope reconciliation |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/simulation/operations-crosscheck.md) | Herat operations cross-check |
@@ -1642,6 +1748,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Afghanistan/Herat/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Afghanistan/Herat/operations/acceptance-evidence-report.md) | Herat Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md) | Jalalabad-Af — Urban Rail Network |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/README.md) | Jalalabad-Af Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/delivery/README.md) | Jalalabad-Af organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/deployment/README.md) | Jalalabad-Af deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/depot-scope/README.md) | jalalabad-af depot scope reconciliation |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/simulation/operations-crosscheck.md) | Jalalabad-Af operations cross-check |
@@ -1657,6 +1764,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/operations/acceptance-evidence-report.md) | Jalalabad Af Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/README.md) | Kabul — Urban Rail Network |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/README.md) | Kabul Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/delivery/README.md) | Kabul organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/deployment/README.md) | Kabul deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/depot-scope/README.md) | kabul depot scope reconciliation |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/simulation/operations-crosscheck.md) | Kabul operations cross-check |
@@ -1672,6 +1780,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/operations/acceptance-evidence-report.md) | Kabul Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/README.md) | Kandahar — Urban Rail Network |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/alignment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/alignment/README.md) | Kandahar Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/delivery/README.md) | Kandahar organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/deployment/README.md) | Kandahar deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/depot-scope/README.md) | kandahar depot scope reconciliation |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/simulation/operations-crosscheck.md) | Kandahar operations cross-check |
@@ -1687,6 +1796,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/operations/acceptance-evidence-report.md) | Kandahar Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md) | Mazar-E-Sharif — Urban Rail Network |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/alignment/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/alignment/README.md) | Mazar-E-Sharif Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/delivery/README.md) | Mazar-E-Sharif organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/deployment/README.md) | Mazar-E-Sharif deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/depot-scope/README.md) | mazar-e-sharif depot scope reconciliation |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/simulation/operations-crosscheck.md) | Mazar-E-Sharif operations cross-check |
@@ -1703,6 +1813,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Afghanistan/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/Afghanistan/NATIONAL-BRIEF.md) | Afghanistan National OpenSourceRail Strategy |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/README.md) | Barisal — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/README.md) | Barisal Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/delivery/README.md) | Barisal organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/deployment/README.md) | Barisal deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/depot-scope/README.md) | barisal depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/simulation/operations-crosscheck.md) | Barisal operations cross-check |
@@ -1718,6 +1829,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/operations/acceptance-evidence-report.md) | Barisal Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/README.md) | Chittagong — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/alignment/README.md) | Chittagong Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/delivery/README.md) | Chittagong organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/deployment/README.md) | Chittagong deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/depot-scope/README.md) | chittagong depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/simulation/operations-crosscheck.md) | Chittagong operations cross-check |
@@ -1733,6 +1845,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/operations/acceptance-evidence-report.md) | Chittagong Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/README.md) | Comilla — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/alignment/README.md) | Comilla Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/delivery/README.md) | Comilla organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/deployment/README.md) | Comilla deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/depot-scope/README.md) | comilla depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/simulation/operations-crosscheck.md) | Comilla operations cross-check |
@@ -1748,6 +1861,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/operations/acceptance-evidence-report.md) | Comilla Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/README.md) | Gazipur — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/README.md) | Gazipur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/delivery/README.md) | Gazipur organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/deployment/README.md) | Gazipur deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/depot-scope/README.md) | gazipur depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/simulation/operations-crosscheck.md) | Gazipur operations cross-check |
@@ -1763,6 +1877,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/operations/acceptance-evidence-report.md) | Gazipur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/README.md) | Khulna — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/README.md) | Khulna Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/delivery/README.md) | Khulna organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/deployment/README.md) | Khulna deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/depot-scope/README.md) | khulna depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/simulation/operations-crosscheck.md) | Khulna operations cross-check |
@@ -1778,6 +1893,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/operations/acceptance-evidence-report.md) | Khulna Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md) | Mymensingh — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/alignment/README.md) | Mymensingh Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/delivery/README.md) | Mymensingh organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/deployment/README.md) | Mymensingh deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/depot-scope/README.md) | mymensingh depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/operations-crosscheck.md) | Mymensingh operations cross-check |
@@ -1794,6 +1910,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/Bangladesh/NATIONAL-BRIEF.md) | Bangladesh National OpenSourceRail Strategy |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md) | Narayanganj Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/delivery/README.md) | Narayanganj organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/deployment/README.md) | Narayanganj deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/depot-scope/README.md) | narayanganj depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/operations-crosscheck.md) | Narayanganj operations cross-check |
@@ -1809,6 +1926,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/operations/acceptance-evidence-report.md) | Narayanganj Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md) | Rajshahi — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/README.md) | Rajshahi Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/delivery/README.md) | Rajshahi organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/deployment/README.md) | Rajshahi deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/depot-scope/README.md) | rajshahi depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/simulation/operations-crosscheck.md) | Rajshahi operations cross-check |
@@ -1824,6 +1942,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/operations/acceptance-evidence-report.md) | Rajshahi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/README.md) | Rangpur — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/README.md) | Rangpur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/delivery/README.md) | Rangpur organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/deployment/README.md) | Rangpur deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/depot-scope/README.md) | rangpur depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/simulation/operations-crosscheck.md) | Rangpur operations cross-check |
@@ -1839,6 +1958,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/operations/acceptance-evidence-report.md) | Rangpur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/README.md) | Sylhet — Urban Rail Network |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/README.md) | Sylhet Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/delivery/README.md) | Sylhet organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/deployment/README.md) | Sylhet deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/depot-scope/README.md) | sylhet depot scope reconciliation |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/simulation/operations-crosscheck.md) | Sylhet operations cross-check |
@@ -1854,6 +1974,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/operations/acceptance-evidence-report.md) | Sylhet Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Agra/README.md`](../cities/catalogue/south-asia/India/Agra/README.md) | Agra — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Agra/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/alignment/README.md) | Agra Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Agra/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/delivery/README.md) | Agra organisation and design work |
 | [`cities/catalogue/south-asia/India/Agra/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/deployment/README.md) | Agra deployment gaps |
 | [`cities/catalogue/south-asia/India/Agra/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/depot-scope/README.md) | agra depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Agra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Agra/engineering/simulation/operations-crosscheck.md) | Agra operations cross-check |
@@ -1869,6 +1990,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Agra/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Agra/operations/acceptance-evidence-report.md) | Agra Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Bhopal/README.md`](../cities/catalogue/south-asia/India/Bhopal/README.md) | Bhopal — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/alignment/README.md) | Bhopal Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Bhopal/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/delivery/README.md) | Bhopal organisation and design work |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/deployment/README.md) | Bhopal deployment gaps |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/depot-scope/README.md) | bhopal depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/simulation/operations-crosscheck.md) | Bhopal operations cross-check |
@@ -1884,6 +2006,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Bhopal/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Bhopal/operations/acceptance-evidence-report.md) | Bhopal Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Coimbatore/README.md`](../cities/catalogue/south-asia/India/Coimbatore/README.md) | Coimbatore — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/alignment/README.md) | Coimbatore Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Coimbatore/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/delivery/README.md) | Coimbatore organisation and design work |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/deployment/README.md) | Coimbatore deployment gaps |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/depot-scope/README.md) | coimbatore depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/simulation/operations-crosscheck.md) | Coimbatore operations cross-check |
@@ -1899,6 +2022,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Coimbatore/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Coimbatore/operations/acceptance-evidence-report.md) | Coimbatore Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Indore/README.md`](../cities/catalogue/south-asia/India/Indore/README.md) | Indore — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Indore/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/alignment/README.md) | Indore Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Indore/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/delivery/README.md) | Indore organisation and design work |
 | [`cities/catalogue/south-asia/India/Indore/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/deployment/README.md) | Indore deployment gaps |
 | [`cities/catalogue/south-asia/India/Indore/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/depot-scope/README.md) | indore depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Indore/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Indore/engineering/simulation/operations-crosscheck.md) | Indore operations cross-check |
@@ -1914,6 +2038,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Indore/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Indore/operations/acceptance-evidence-report.md) | Indore Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Jodhpur/README.md`](../cities/catalogue/south-asia/India/Jodhpur/README.md) | Jodhpur — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/alignment/README.md) | Jodhpur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Jodhpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/delivery/README.md) | Jodhpur organisation and design work |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/deployment/README.md) | Jodhpur deployment gaps |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/depot-scope/README.md) | jodhpur depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/simulation/operations-crosscheck.md) | Jodhpur operations cross-check |
@@ -1929,6 +2054,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Jodhpur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Jodhpur/operations/acceptance-evidence-report.md) | Jodhpur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Kanpur/README.md`](../cities/catalogue/south-asia/India/Kanpur/README.md) | Kanpur — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/alignment/README.md) | Kanpur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Kanpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/delivery/README.md) | Kanpur organisation and design work |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/deployment/README.md) | Kanpur deployment gaps |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/depot-scope/README.md) | kanpur depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/simulation/operations-crosscheck.md) | Kanpur operations cross-check |
@@ -1944,6 +2070,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Kanpur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Kanpur/operations/acceptance-evidence-report.md) | Kanpur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Lucknow/README.md`](../cities/catalogue/south-asia/India/Lucknow/README.md) | Lucknow — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/alignment/README.md) | Lucknow Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Lucknow/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/delivery/README.md) | Lucknow organisation and design work |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/deployment/README.md) | Lucknow deployment gaps |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/depot-scope/README.md) | lucknow depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/simulation/operations-crosscheck.md) | Lucknow operations cross-check |
@@ -1959,6 +2086,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Lucknow/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Lucknow/operations/acceptance-evidence-report.md) | Lucknow Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Madurai/README.md`](../cities/catalogue/south-asia/India/Madurai/README.md) | Madurai — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/alignment/README.md) | Madurai Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Madurai/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/delivery/README.md) | Madurai organisation and design work |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/deployment/README.md) | Madurai deployment gaps |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/depot-scope/README.md) | madurai depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Madurai/engineering/simulation/operations-crosscheck.md) | Madurai operations cross-check |
@@ -1974,6 +2102,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Madurai/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Madurai/operations/acceptance-evidence-report.md) | Madurai Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Meerut/README.md`](../cities/catalogue/south-asia/India/Meerut/README.md) | Meerut — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/alignment/README.md) | Meerut Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Meerut/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/delivery/README.md) | Meerut organisation and design work |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/deployment/README.md) | Meerut deployment gaps |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/depot-scope/README.md) | meerut depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Meerut/engineering/simulation/operations-crosscheck.md) | Meerut operations cross-check |
@@ -1990,6 +2119,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/India/NATIONAL-BRIEF.md) | India National OpenSourceRail Strategy |
 | [`cities/catalogue/south-asia/India/Patna/README.md`](../cities/catalogue/south-asia/India/Patna/README.md) | Patna — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Patna/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/alignment/README.md) | Patna Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Patna/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/delivery/README.md) | Patna organisation and design work |
 | [`cities/catalogue/south-asia/India/Patna/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/deployment/README.md) | Patna deployment gaps |
 | [`cities/catalogue/south-asia/India/Patna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/depot-scope/README.md) | patna depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Patna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Patna/engineering/simulation/operations-crosscheck.md) | Patna operations cross-check |
@@ -2005,6 +2135,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Patna/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Patna/operations/acceptance-evidence-report.md) | Patna Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Raipur/README.md`](../cities/catalogue/south-asia/India/Raipur/README.md) | Raipur — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/alignment/README.md) | Raipur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Raipur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/delivery/README.md) | Raipur organisation and design work |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/deployment/README.md) | Raipur deployment gaps |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/depot-scope/README.md) | raipur depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Raipur/engineering/simulation/operations-crosscheck.md) | Raipur operations cross-check |
@@ -2020,6 +2151,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Raipur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Raipur/operations/acceptance-evidence-report.md) | Raipur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Rajkot/README.md`](../cities/catalogue/south-asia/India/Rajkot/README.md) | Rajkot — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/alignment/README.md) | Rajkot Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Rajkot/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/delivery/README.md) | Rajkot organisation and design work |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/deployment/README.md) | Rajkot deployment gaps |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/depot-scope/README.md) | rajkot depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/simulation/operations-crosscheck.md) | Rajkot operations cross-check |
@@ -2035,6 +2167,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Rajkot/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Rajkot/operations/acceptance-evidence-report.md) | Rajkot Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Ranchi/README.md`](../cities/catalogue/south-asia/India/Ranchi/README.md) | Ranchi — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/alignment/README.md) | Ranchi Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Ranchi/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/delivery/README.md) | Ranchi organisation and design work |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/deployment/README.md) | Ranchi deployment gaps |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/depot-scope/README.md) | ranchi depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/simulation/operations-crosscheck.md) | Ranchi operations cross-check |
@@ -2050,6 +2183,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Ranchi/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Ranchi/operations/acceptance-evidence-report.md) | Ranchi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Vadodara/README.md`](../cities/catalogue/south-asia/India/Vadodara/README.md) | Vadodara — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/alignment/README.md) | Vadodara Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Vadodara/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/delivery/README.md) | Vadodara organisation and design work |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/deployment/README.md) | Vadodara deployment gaps |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/depot-scope/README.md) | vadodara depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/simulation/operations-crosscheck.md) | Vadodara operations cross-check |
@@ -2065,6 +2199,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Vadodara/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Vadodara/operations/acceptance-evidence-report.md) | Vadodara Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Varanasi/README.md`](../cities/catalogue/south-asia/India/Varanasi/README.md) | Varanasi — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/alignment/README.md) | Varanasi Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Varanasi/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/delivery/README.md) | Varanasi organisation and design work |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/deployment/README.md) | Varanasi deployment gaps |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/depot-scope/README.md) | varanasi depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/simulation/operations-crosscheck.md) | Varanasi operations cross-check |
@@ -2080,6 +2215,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Varanasi/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Varanasi/operations/acceptance-evidence-report.md) | Varanasi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Vijayawada/README.md`](../cities/catalogue/south-asia/India/Vijayawada/README.md) | Vijayawada — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/README.md) | Vijayawada Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Vijayawada/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/delivery/README.md) | Vijayawada organisation and design work |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/deployment/README.md) | Vijayawada deployment gaps |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/depot-scope/README.md) | vijayawada depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/simulation/operations-crosscheck.md) | Vijayawada operations cross-check |
@@ -2095,6 +2231,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Vijayawada/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Vijayawada/operations/acceptance-evidence-report.md) | Vijayawada Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/README.md) | Visakhapatnam — Urban Rail Network |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/README.md) | Visakhapatnam Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/delivery/README.md) | Visakhapatnam organisation and design work |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/deployment/README.md) | Visakhapatnam deployment gaps |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/depot-scope/README.md) | visakhapatnam depot scope reconciliation |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/operations-crosscheck.md) | Visakhapatnam operations cross-check |
@@ -2110,6 +2247,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/India/Visakhapatnam/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Visakhapatnam/operations/acceptance-evidence-report.md) | Visakhapatnam Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/README.md) | Biratnagar — Urban Rail Network |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/README.md) | Biratnagar Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/delivery/README.md) | Biratnagar organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/deployment/README.md) | Biratnagar deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/depot-scope/README.md) | biratnagar depot scope reconciliation |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/simulation/operations-crosscheck.md) | Biratnagar operations cross-check |
@@ -2125,6 +2263,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/operations/acceptance-evidence-report.md) | Biratnagar Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/README.md) | Kathmandu — Urban Rail Network |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/alignment/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/alignment/README.md) | Kathmandu Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/delivery/README.md) | Kathmandu organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/deployment/README.md) | Kathmandu deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/depot-scope/README.md) | kathmandu depot scope reconciliation |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/simulation/operations-crosscheck.md) | Kathmandu operations cross-check |
@@ -2141,6 +2280,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Nepal/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/Nepal/NATIONAL-BRIEF.md) | Nepal National OpenSourceRail Strategy |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/README.md) | Pokhara — Urban Rail Network |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/alignment/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/alignment/README.md) | Pokhara Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/delivery/README.md) | Pokhara organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/deployment/README.md) | Pokhara deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/depot-scope/README.md) | pokhara depot scope reconciliation |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/operations-crosscheck.md) | Pokhara operations cross-check |
@@ -2156,6 +2296,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Nepal/Pokhara/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Nepal/Pokhara/operations/acceptance-evidence-report.md) | Pokhara Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md) | Bahawalpur — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/README.md) | Bahawalpur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/delivery/README.md) | Bahawalpur organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/deployment/README.md) | Bahawalpur deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/depot-scope/README.md) | bahawalpur depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/simulation/operations-crosscheck.md) | Bahawalpur operations cross-check |
@@ -2171,6 +2312,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/operations/acceptance-evidence-report.md) | Bahawalpur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/README.md) | Faisalabad — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/README.md) | Faisalabad Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/delivery/README.md) | Faisalabad organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/deployment/README.md) | Faisalabad deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/depot-scope/README.md) | faisalabad depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/operations-crosscheck.md) | Faisalabad operations cross-check |
@@ -2186,6 +2328,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/operations/acceptance-evidence-report.md) | Faisalabad Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/README.md) | Gujranwala — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/alignment/README.md) | Gujranwala Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/delivery/README.md) | Gujranwala organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/deployment/README.md) | Gujranwala deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/depot-scope/README.md) | gujranwala depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/operations-crosscheck.md) | Gujranwala operations cross-check |
@@ -2201,6 +2344,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/operations/acceptance-evidence-report.md) | Gujranwala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md) | Hyderabad-Pk — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/README.md) | Hyderabad-Pk Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/delivery/README.md) | Hyderabad-Pk organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/deployment/README.md) | Hyderabad-Pk deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/depot-scope/README.md) | hyderabad-pk depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/operations-crosscheck.md) | Hyderabad-Pk operations cross-check |
@@ -2216,6 +2360,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/operations/acceptance-evidence-report.md) | Hyderabad Pk Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/README.md) | Karachi — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/alignment/README.md) | Karachi Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/delivery/README.md) | Karachi organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/deployment/README.md) | Karachi deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/depot-scope/README.md) | karachi depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/operations-crosscheck.md) | Karachi operations cross-check |
@@ -2231,6 +2376,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Karachi/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Karachi/operations/acceptance-evidence-report.md) | Karachi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/README.md) | Larkana — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/README.md) | Larkana Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/delivery/README.md) | Larkana organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/deployment/README.md) | Larkana deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/depot-scope/README.md) | larkana depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/operations-crosscheck.md) | Larkana operations cross-check |
@@ -2246,6 +2392,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Larkana/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Larkana/operations/acceptance-evidence-report.md) | Larkana Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Multan/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/README.md) | Multan — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/alignment/README.md) | Multan Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Multan/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/delivery/README.md) | Multan organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/deployment/README.md) | Multan deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/depot-scope/README.md) | multan depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/operations-crosscheck.md) | Multan operations cross-check |
@@ -2262,6 +2409,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/Pakistan/NATIONAL-BRIEF.md) | Pakistan National OpenSourceRail Strategy |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/README.md) | Peshawar — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/alignment/README.md) | Peshawar Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/delivery/README.md) | Peshawar organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md) | Peshawar deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/depot-scope/README.md) | peshawar depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/simulation/operations-crosscheck.md) | Peshawar operations cross-check |
@@ -2277,6 +2425,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/operations/acceptance-evidence-report.md) | Peshawar Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/README.md) | Quetta — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/alignment/README.md) | Quetta Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/delivery/README.md) | Quetta organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md) | Quetta deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/depot-scope/README.md) | quetta depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/simulation/operations-crosscheck.md) | Quetta operations cross-check |
@@ -2292,6 +2441,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Quetta/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Quetta/operations/acceptance-evidence-report.md) | Quetta Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md) | Rahim-Yar-Khan — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/alignment/README.md) | Rahim-Yar-Khan Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/delivery/README.md) | Rahim-Yar-Khan organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md) | Rahim-Yar-Khan deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/depot-scope/README.md) | rahim-yar-khan depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/simulation/operations-crosscheck.md) | Rahim-Yar-Khan operations cross-check |
@@ -2307,11 +2457,13 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/operations/acceptance-evidence-report.md) | Rahim Yar Khan Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md) | Sheikhupura — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/README.md) | Sheikhupura Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/delivery/README.md) | Sheikhupura organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) | Sheikhupura deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/depot-scope/README.md) | sheikhupura depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/simulation/operations-crosscheck.md) | Sheikhupura operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | Sheikhupura civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/control-processing-readiness.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/control-processing-readiness.md) | Sheikhupura survey-control processing |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/drainage-ground-readiness.md) | Sheikhupura drainage and ground-design gate |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/field-evidence-brief.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/survey/field-evidence-brief.md) | Sheikhupura field-evidence brief |
@@ -2322,6 +2474,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/operations/acceptance-evidence-report.md) | Sheikhupura Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/README.md) | Sialkot — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/alignment/README.md) | Sialkot Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/delivery/README.md) | Sialkot organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md) | Sialkot deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/depot-scope/README.md) | sialkot depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/simulation/operations-crosscheck.md) | Sialkot operations cross-check |
@@ -2337,6 +2490,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/operations/acceptance-evidence-report.md) | Sialkot Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/README.md) | Sukkur — Urban Rail Network |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/README.md) | Sukkur Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/delivery/README.md) | Sukkur organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md) | Sukkur deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/depot-scope/README.md) | sukkur depot scope reconciliation |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/simulation/operations-crosscheck.md) | Sukkur operations cross-check |
@@ -2352,6 +2506,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/operations/acceptance-evidence-report.md) | Sukkur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/README.md) | Colombo — Urban Rail Network |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/alignment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/alignment/README.md) | Colombo Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/delivery/README.md) | Colombo organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/deployment/README.md) | Colombo deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/depot-scope/README.md) | colombo depot scope reconciliation |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/simulation/operations-crosscheck.md) | Colombo operations cross-check |
@@ -2367,6 +2522,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/operations/acceptance-evidence-report.md) | Colombo Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/README.md) | Galle — Urban Rail Network |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/README.md) | Galle Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/delivery/README.md) | Galle organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/deployment/README.md) | Galle deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/depot-scope/README.md) | galle depot scope reconciliation |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/simulation/operations-crosscheck.md) | Galle operations cross-check |
@@ -2382,6 +2538,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/operations/acceptance-evidence-report.md) | Galle Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md) | Jaffna — Urban Rail Network |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/README.md) | Jaffna Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/delivery/README.md) | Jaffna organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/deployment/README.md) | Jaffna deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/depot-scope/README.md) | jaffna depot scope reconciliation |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/simulation/operations-crosscheck.md) | Jaffna operations cross-check |
@@ -2397,6 +2554,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/operations/acceptance-evidence-report.md) | Jaffna Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/README.md) | Kandy — Urban Rail Network |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/README.md) | Kandy Planning OSR-ALN Package |
+| [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/delivery/README.md) | Kandy organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/deployment/README.md) | Kandy deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/depot-scope/README.md) | kandy depot scope reconciliation |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/operations-crosscheck.md) | Kandy operations cross-check |
@@ -2414,6 +2572,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Cambodia/NATIONAL-BRIEF.md`](../cities/catalogue/southeast-asia/Cambodia/NATIONAL-BRIEF.md) | Cambodia National OpenSourceRail Strategy |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md) | Phnom-Penh — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/README.md) | Phnom-Penh Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/delivery/README.md) | Phnom-Penh organisation and design work |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/deployment/README.md) | Phnom-Penh deployment gaps |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/depot-scope/README.md) | phnom-penh depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/simulation/operations-crosscheck.md) | Phnom-Penh operations cross-check |
@@ -2429,6 +2588,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/operations/acceptance-evidence-report.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/operations/acceptance-evidence-report.md) | Phnom Penh Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/README.md) | Bandung — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/alignment/README.md) | Bandung Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/delivery/README.md) | Bandung organisation and design work |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/deployment/README.md) | Bandung deployment gaps |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/depot-scope/README.md) | bandung depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/operations-crosscheck.md) | Bandung operations cross-check |
@@ -2445,6 +2605,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Indonesia/NATIONAL-BRIEF.md`](../cities/catalogue/southeast-asia/Indonesia/NATIONAL-BRIEF.md) | Indonesia National OpenSourceRail Strategy |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md) | Surabaya — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/alignment/README.md) | Surabaya Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/delivery/README.md) | Surabaya organisation and design work |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/deployment/README.md) | Surabaya deployment gaps |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/depot-scope/README.md) | surabaya depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/operations-crosscheck.md) | Surabaya operations cross-check |
@@ -2461,6 +2622,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Laos/NATIONAL-BRIEF.md`](../cities/catalogue/southeast-asia/Laos/NATIONAL-BRIEF.md) | Laos National OpenSourceRail Strategy |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/README.md) | Vientiane — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/README.md) | Vientiane Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/delivery/README.md) | Vientiane organisation and design work |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/deployment/README.md) | Vientiane deployment gaps |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/depot-scope/README.md) | vientiane depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/simulation/operations-crosscheck.md) | Vientiane operations cross-check |
@@ -2476,6 +2638,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/operations/acceptance-evidence-report.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/operations/acceptance-evidence-report.md) | Vientiane Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md) | Mandalay — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/README.md) | Mandalay Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/delivery/README.md) | Mandalay organisation and design work |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/deployment/README.md) | Mandalay deployment gaps |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/depot-scope/README.md) | mandalay depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/simulation/operations-crosscheck.md) | Mandalay operations cross-check |
@@ -2492,6 +2655,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Myanmar/NATIONAL-BRIEF.md`](../cities/catalogue/southeast-asia/Myanmar/NATIONAL-BRIEF.md) | Myanmar National OpenSourceRail Strategy |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/README.md) | Yangon — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/README.md) | Yangon Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/delivery/README.md) | Yangon organisation and design work |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/deployment/README.md) | Yangon deployment gaps |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/depot-scope/README.md) | yangon depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/operations-crosscheck.md) | Yangon operations cross-check |
@@ -2507,6 +2671,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/operations/acceptance-evidence-report.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/operations/acceptance-evidence-report.md) | Yangon Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/README.md) | Davao — Urban Rail Network |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/alignment/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/alignment/README.md) | Davao Planning OSR-ALN Package |
+| [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/delivery/README.md) | Davao organisation and design work |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/deployment/README.md) | Davao deployment gaps |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/depot-scope/README.md) | davao depot scope reconciliation |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/operations-crosscheck.md) | Davao operations cross-check |
@@ -2524,6 +2689,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Burkina Faso/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Burkina Faso/NATIONAL-BRIEF.md) | Burkina Faso National OpenSourceRail Strategy |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md) | Ouagadougou — Urban Rail Network |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/README.md) | Ouagadougou Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/delivery/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/delivery/README.md) | Ouagadougou organisation and design work |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/deployment/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/deployment/README.md) | Ouagadougou deployment gaps |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/depot-scope/README.md) | ouagadougou depot scope reconciliation |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/operations-crosscheck.md) | Ouagadougou operations cross-check |
@@ -2539,6 +2705,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/operations/acceptance-evidence-report.md) | Ouagadougou Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/README.md) | Bafoussam — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/alignment/README.md) | Bafoussam Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/delivery/README.md) | Bafoussam organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/deployment/README.md) | Bafoussam deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/depot-scope/README.md) | bafoussam depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/operations-crosscheck.md) | Bafoussam operations cross-check |
@@ -2554,6 +2721,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/operations/acceptance-evidence-report.md) | Bafoussam Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/README.md) | Bamenda — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/README.md) | Bamenda Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/delivery/README.md) | Bamenda organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/deployment/README.md) | Bamenda deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/depot-scope/README.md) | bamenda depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/operations-crosscheck.md) | Bamenda operations cross-check |
@@ -2569,6 +2737,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/operations/acceptance-evidence-report.md) | Bamenda Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/README.md) | Bertoua — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/README.md) | Bertoua Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/delivery/README.md) | Bertoua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/deployment/README.md) | Bertoua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/depot-scope/README.md) | bertoua depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/simulation/operations-crosscheck.md) | Bertoua operations cross-check |
@@ -2584,6 +2753,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/operations/acceptance-evidence-report.md) | Bertoua Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Douala/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/README.md) | Douala — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/alignment/README.md) | Douala Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Douala/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/delivery/README.md) | Douala organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/deployment/README.md) | Douala deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/depot-scope/README.md) | douala depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/simulation/operations-crosscheck.md) | Douala operations cross-check |
@@ -2599,6 +2769,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Douala/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Douala/operations/acceptance-evidence-report.md) | Douala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Edea/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/README.md) | Edea — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/alignment/README.md) | Edea Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Edea/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/delivery/README.md) | Edea organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md) | Edea deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md) | edea depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/operations-crosscheck.md) | Edea operations cross-check |
@@ -2615,6 +2786,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md) | Edea Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md) | Garoua Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/delivery/README.md) | Garoua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/deployment/README.md) | Garoua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/depot-scope/README.md) | garoua depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/simulation/operations-crosscheck.md) | Garoua operations cross-check |
@@ -2630,6 +2802,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Garoua/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Garoua/operations/acceptance-evidence-report.md) | Garoua Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/README.md) | Kumba — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/README.md) | Kumba Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/delivery/README.md) | Kumba organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/deployment/README.md) | Kumba deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/depot-scope/README.md) | kumba depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/simulation/operations-crosscheck.md) | Kumba operations cross-check |
@@ -2645,6 +2818,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Kumba/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Kumba/operations/acceptance-evidence-report.md) | Kumba Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/README.md) | Maroua — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/README.md) | Maroua Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/delivery/README.md) | Maroua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/deployment/README.md) | Maroua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/depot-scope/README.md) | maroua depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/simulation/operations-crosscheck.md) | Maroua operations cross-check |
@@ -2661,6 +2835,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Cameroon/NATIONAL-BRIEF.md) | Cameroon National OpenSourceRail Strategy |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md) | Ngaoundere — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/README.md) | Ngaoundere Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/delivery/README.md) | Ngaoundere organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/deployment/README.md) | Ngaoundere deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/depot-scope/README.md) | ngaoundere depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/simulation/operations-crosscheck.md) | Ngaoundere operations cross-check |
@@ -2676,6 +2851,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/operations/acceptance-evidence-report.md) | Ngaoundere Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/README.md) | Yaounde — Urban Rail Network |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/README.md) | Yaounde Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/delivery/README.md) | Yaounde organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/deployment/README.md) | Yaounde deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/depot-scope/README.md) | yaounde depot scope reconciliation |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/simulation/operations-crosscheck.md) | Yaounde operations cross-check |
@@ -2691,6 +2867,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/operations/acceptance-evidence-report.md) | Yaounde Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Guinea/Conakry/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/README.md) | Conakry — Urban Rail Network |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/README.md) | Conakry Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Guinea/Conakry/engineering/delivery/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/delivery/README.md) | Conakry organisation and design work |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/deployment/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/deployment/README.md) | Conakry deployment gaps |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/depot-scope/README.md) | conakry depot scope reconciliation |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/simulation/operations-crosscheck.md) | Conakry operations cross-check |
@@ -2707,6 +2884,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Guinea/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Guinea/NATIONAL-BRIEF.md) | Guinea National OpenSourceRail Strategy |
 | [`cities/catalogue/west-africa/Mali/Bamako/README.md`](../cities/catalogue/west-africa/Mali/Bamako/README.md) | Bamako — Urban Rail Network |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/README.md) | Bamako Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Mali/Bamako/engineering/delivery/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/delivery/README.md) | Bamako organisation and design work |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/deployment/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/deployment/README.md) | Bamako deployment gaps |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/depot-scope/README.md) | bamako depot scope reconciliation |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/simulation/operations-crosscheck.md) | Bamako operations cross-check |
@@ -2724,6 +2902,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Niger/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Niger/NATIONAL-BRIEF.md) | Niger National OpenSourceRail Strategy |
 | [`cities/catalogue/west-africa/Niger/Niamey/README.md`](../cities/catalogue/west-africa/Niger/Niamey/README.md) | Niamey — Urban Rail Network |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/README.md) | Niamey Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Niger/Niamey/engineering/delivery/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/delivery/README.md) | Niamey organisation and design work |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/deployment/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/deployment/README.md) | Niamey deployment gaps |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/depot-scope/README.md) | niamey depot scope reconciliation |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/simulation/operations-crosscheck.md) | Niamey operations cross-check |
@@ -2739,6 +2918,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Niger/Niamey/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Niger/Niamey/operations/acceptance-evidence-report.md) | Niamey Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md) | Aba-Ng — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/alignment/README.md) | Aba-Ng Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/delivery/README.md) | Aba-Ng organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/deployment/README.md) | Aba-Ng deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/depot-scope/README.md) | aba-ng depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/operations-crosscheck.md) | Aba-Ng operations cross-check |
@@ -2754,6 +2934,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/operations/acceptance-evidence-report.md) | Aba Ng Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/README.md) | Benin-City — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/alignment/README.md) | Benin-City Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/delivery/README.md) | Benin-City organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/deployment/README.md) | Benin-City deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/depot-scope/README.md) | benin-city depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/simulation/operations-crosscheck.md) | Benin-City operations cross-check |
@@ -2769,6 +2950,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/operations/acceptance-evidence-report.md) | Benin City Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/README.md) | Ibadan — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/alignment/README.md) | Ibadan Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/delivery/README.md) | Ibadan organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/deployment/README.md) | Ibadan deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/depot-scope/README.md) | ibadan depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/simulation/operations-crosscheck.md) | Ibadan operations cross-check |
@@ -2784,6 +2966,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/operations/acceptance-evidence-report.md) | Ibadan Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/README.md) | Ilorin — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/README.md) | Ilorin Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/delivery/README.md) | Ilorin organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/deployment/README.md) | Ilorin deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/depot-scope/README.md) | ilorin depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/simulation/operations-crosscheck.md) | Ilorin operations cross-check |
@@ -2799,6 +2982,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/operations/acceptance-evidence-report.md) | Ilorin Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Jos/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/README.md) | Jos — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/README.md) | Jos Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Jos/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/delivery/README.md) | Jos organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/deployment/README.md) | Jos deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/depot-scope/README.md) | jos depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/simulation/operations-crosscheck.md) | Jos operations cross-check |
@@ -2814,6 +2998,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Jos/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Jos/operations/acceptance-evidence-report.md) | Jos Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Kano/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/README.md) | Kano — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/alignment/README.md) | Kano Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Kano/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/delivery/README.md) | Kano organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/deployment/README.md) | Kano deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/depot-scope/README.md) | kano depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/simulation/operations-crosscheck.md) | Kano operations cross-check |
@@ -2829,6 +3014,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Kano/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Kano/operations/acceptance-evidence-report.md) | Kano Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/README.md) | Maiduguri — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/alignment/README.md) | Maiduguri Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/delivery/README.md) | Maiduguri organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/deployment/README.md) | Maiduguri deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/depot-scope/README.md) | maiduguri depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/simulation/operations-crosscheck.md) | Maiduguri operations cross-check |
@@ -2845,6 +3031,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Nigeria/NATIONAL-BRIEF.md) | Nigeria National OpenSourceRail Strategy |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/README.md) | Onitsha — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/alignment/README.md) | Onitsha Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/delivery/README.md) | Onitsha organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/deployment/README.md) | Onitsha deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/depot-scope/README.md) | onitsha depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/simulation/operations-crosscheck.md) | Onitsha operations cross-check |
@@ -2860,6 +3047,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/operations/acceptance-evidence-report.md) | Onitsha Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md) | Port-Harcourt — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/alignment/README.md) | Port-Harcourt Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/delivery/README.md) | Port-Harcourt organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/deployment/README.md) | Port-Harcourt deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/depot-scope/README.md) | port-harcourt depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/operations-crosscheck.md) | Port-Harcourt operations cross-check |
@@ -2875,6 +3063,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/operations/acceptance-evidence-report.md) | Port Harcourt Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/README.md) | Uyo — Urban Rail Network |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/README.md) | Uyo Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/delivery/README.md) | Uyo organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/deployment/README.md) | Uyo deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/depot-scope/README.md) | uyo depot scope reconciliation |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/simulation/operations-crosscheck.md) | Uyo operations cross-check |
@@ -2890,6 +3079,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Nigeria/Uyo/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Uyo/operations/acceptance-evidence-report.md) | Uyo Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-africa/Senegal/Dakar/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/README.md) | Dakar — Urban Rail Network |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/alignment/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/alignment/README.md) | Dakar Planning OSR-ALN Package |
+| [`cities/catalogue/west-africa/Senegal/Dakar/engineering/delivery/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/delivery/README.md) | Dakar organisation and design work |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/deployment/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/deployment/README.md) | Dakar deployment gaps |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/depot-scope/README.md) | dakar depot scope reconciliation |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/simulation/operations-crosscheck.md) | Dakar operations cross-check |
@@ -2906,6 +3096,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-africa/Senegal/NATIONAL-BRIEF.md`](../cities/catalogue/west-africa/Senegal/NATIONAL-BRIEF.md) | Senegal National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Egypt/Arish/README.md`](../cities/catalogue/west-asia/Egypt/Arish/README.md) | Arish — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/README.md) | Arish Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Arish/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/delivery/README.md) | Arish organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/deployment/README.md) | Arish deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/depot-scope/README.md) | arish depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/operations-crosscheck.md) | Arish operations cross-check |
@@ -2921,6 +3112,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Arish/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Arish/operations/acceptance-evidence-report.md) | Arish Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Asyut/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/README.md) | Asyut — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/alignment/README.md) | Asyut Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Asyut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/delivery/README.md) | Asyut organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/deployment/README.md) | Asyut deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/depot-scope/README.md) | asyut depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/simulation/operations-crosscheck.md) | Asyut operations cross-check |
@@ -2936,6 +3128,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Asyut/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Asyut/operations/acceptance-evidence-report.md) | Asyut Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/README.md) | Beni-Suef — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/alignment/README.md) | Beni-Suef Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/delivery/README.md) | Beni-Suef organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/deployment/README.md) | Beni-Suef deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/depot-scope/README.md) | beni-suef depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/operations-crosscheck.md) | Beni-Suef operations cross-check |
@@ -2951,6 +3144,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/operations/acceptance-evidence-report.md) | Beni Suef Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/README.md) | Damanhur — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/alignment/README.md) | Damanhur Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/delivery/README.md) | Damanhur organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/deployment/README.md) | Damanhur deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/depot-scope/README.md) | damanhur depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/operations-crosscheck.md) | Damanhur operations cross-check |
@@ -2966,6 +3160,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Damanhur/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Damanhur/operations/acceptance-evidence-report.md) | Damanhur Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Damietta/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/README.md) | Damietta — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/README.md) | Damietta Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Damietta/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/delivery/README.md) | Damietta organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/deployment/README.md) | Damietta deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/depot-scope/README.md) | damietta depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/simulation/operations-crosscheck.md) | Damietta operations cross-check |
@@ -2981,6 +3176,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Damietta/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Damietta/operations/acceptance-evidence-report.md) | Damietta Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/README.md) | Fayoum — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/alignment/README.md) | Fayoum Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/delivery/README.md) | Fayoum organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/deployment/README.md) | Fayoum deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/depot-scope/README.md) | fayoum depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/simulation/operations-crosscheck.md) | Fayoum operations cross-check |
@@ -2996,6 +3192,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Fayoum/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Fayoum/operations/acceptance-evidence-report.md) | Fayoum Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/README.md) | Hurghada — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/README.md) | Hurghada Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/delivery/README.md) | Hurghada organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/deployment/README.md) | Hurghada deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/depot-scope/README.md) | hurghada depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/simulation/operations-crosscheck.md) | Hurghada operations cross-check |
@@ -3011,6 +3208,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Hurghada/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Hurghada/operations/acceptance-evidence-report.md) | Hurghada Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/README.md) | Ismailia — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/README.md) | Ismailia Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/delivery/README.md) | Ismailia organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/deployment/README.md) | Ismailia deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/depot-scope/README.md) | ismailia depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/simulation/operations-crosscheck.md) | Ismailia operations cross-check |
@@ -3026,6 +3224,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Ismailia/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Ismailia/operations/acceptance-evidence-report.md) | Ismailia Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md) | Kafr-El-Sheikh — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/README.md) | Kafr-El-Sheikh Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/delivery/README.md) | Kafr-El-Sheikh organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/deployment/README.md) | Kafr-El-Sheikh deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/depot-scope/README.md) | kafr-el-sheikh depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/simulation/operations-crosscheck.md) | Kafr-El-Sheikh operations cross-check |
@@ -3041,6 +3240,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/operations/acceptance-evidence-report.md) | Kafr El Sheikh Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Luxor/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/README.md) | Luxor — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/README.md) | Luxor Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Luxor/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/delivery/README.md) | Luxor organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/deployment/README.md) | Luxor deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/depot-scope/README.md) | luxor depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/simulation/operations-crosscheck.md) | Luxor operations cross-check |
@@ -3056,6 +3256,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Luxor/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Luxor/operations/acceptance-evidence-report.md) | Luxor Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/README.md) | Mahalla — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/README.md) | Mahalla Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/delivery/README.md) | Mahalla organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/deployment/README.md) | Mahalla deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/depot-scope/README.md) | mahalla depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/operations-crosscheck.md) | Mahalla operations cross-check |
@@ -3071,6 +3272,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Mahalla/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Mahalla/operations/acceptance-evidence-report.md) | Mahalla Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md) | Mansoura-Eg — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/README.md) | Mansoura-Eg Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/delivery/README.md) | Mansoura-Eg organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/deployment/README.md) | Mansoura-Eg deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/depot-scope/README.md) | mansoura-eg depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/simulation/operations-crosscheck.md) | Mansoura-Eg operations cross-check |
@@ -3086,6 +3288,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/operations/acceptance-evidence-report.md) | Mansoura Eg Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Minya/README.md`](../cities/catalogue/west-asia/Egypt/Minya/README.md) | Minya — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/README.md) | Minya Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Minya/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/delivery/README.md) | Minya organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/deployment/README.md) | Minya deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/depot-scope/README.md) | minya depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/simulation/operations-crosscheck.md) | Minya operations cross-check |
@@ -3102,6 +3305,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Egypt/NATIONAL-BRIEF.md) | Egypt National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/README.md) | Port-Said — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/README.md) | Port-Said Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/delivery/README.md) | Port-Said organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/deployment/README.md) | Port-Said deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/depot-scope/README.md) | port-said depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/simulation/operations-crosscheck.md) | Port-Said operations cross-check |
@@ -3117,6 +3321,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md) | Port Said Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Qena/README.md`](../cities/catalogue/west-asia/Egypt/Qena/README.md) | Qena — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/README.md) | Qena Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Qena/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/delivery/README.md) | Qena organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/deployment/README.md) | Qena deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/depot-scope/README.md) | qena depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/simulation/operations-crosscheck.md) | Qena operations cross-check |
@@ -3132,6 +3337,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Qena/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Qena/operations/acceptance-evidence-report.md) | Qena Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Sohag/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/README.md) | Sohag — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/alignment/README.md) | Sohag Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Sohag/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/delivery/README.md) | Sohag organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/deployment/README.md) | Sohag deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/depot-scope/README.md) | sohag depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/simulation/operations-crosscheck.md) | Sohag operations cross-check |
@@ -3147,6 +3353,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Sohag/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Sohag/operations/acceptance-evidence-report.md) | Sohag Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Suez/README.md`](../cities/catalogue/west-asia/Egypt/Suez/README.md) | Suez — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/README.md) | Suez Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Suez/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/delivery/README.md) | Suez organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/deployment/README.md) | Suez deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/depot-scope/README.md) | suez depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/simulation/operations-crosscheck.md) | Suez operations cross-check |
@@ -3162,6 +3369,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Suez/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Suez/operations/acceptance-evidence-report.md) | Suez Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Tanta/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/README.md) | Tanta — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/alignment/README.md) | Tanta Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Tanta/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/delivery/README.md) | Tanta organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/deployment/README.md) | Tanta deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/depot-scope/README.md) | tanta depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/simulation/operations-crosscheck.md) | Tanta operations cross-check |
@@ -3177,6 +3385,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Tanta/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Tanta/operations/acceptance-evidence-report.md) | Tanta Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/README.md) | Zagazig — Urban Rail Network |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/alignment/README.md) | Zagazig Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/delivery/README.md) | Zagazig organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/deployment/README.md) | Zagazig deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/depot-scope/README.md) | zagazig depot scope reconciliation |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/simulation/operations-crosscheck.md) | Zagazig operations cross-check |
@@ -3192,6 +3401,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Egypt/Zagazig/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Zagazig/operations/acceptance-evidence-report.md) | Zagazig Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Amarah/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/README.md) | Amarah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/README.md) | Amarah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md) | Amarah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md) | Amarah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md) | amarah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md) | Amarah operations cross-check |
@@ -3207,6 +3417,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md) | Amarah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
@@ -3222,6 +3433,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md) | Baghdad Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/README.md) | Baqubah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md) | Baqubah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md) | Baqubah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md) | Baqubah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md) | baqubah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md) | Baqubah operations cross-check |
@@ -3237,6 +3449,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Baqubah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Baqubah/operations/acceptance-evidence-report.md) | Baqubah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Basra/README.md`](../cities/catalogue/west-asia/Iraq/Basra/README.md) | Basra — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/README.md) | Basra Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md) | Basra organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md) | Basra deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md) | basra depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md) | Basra operations cross-check |
@@ -3252,6 +3465,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Basra/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Basra/operations/acceptance-evidence-report.md) | Basra Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/README.md) | Diwaniyah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/README.md) | Diwaniyah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md) | Diwaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md) | Diwaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md) | diwaniyah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md) | Diwaniyah operations cross-check |
@@ -3267,6 +3481,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/operations/acceptance-evidence-report.md) | Diwaniyah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Duhok/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/README.md) | Duhok — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/alignment/README.md) | Duhok Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md) | Duhok organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md) | Duhok deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md) | duhok depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md) | Duhok operations cross-check |
@@ -3282,6 +3497,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Duhok/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Duhok/operations/acceptance-evidence-report.md) | Duhok Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Erbil/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/README.md) | Erbil — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/alignment/README.md) | Erbil Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md) | Erbil organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md) | Erbil deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md) | erbil depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md) | Erbil operations cross-check |
@@ -3297,6 +3513,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Erbil/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Erbil/operations/acceptance-evidence-report.md) | Erbil Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/README.md) | Fallujah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/alignment/README.md) | Fallujah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md) | Fallujah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md) | Fallujah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md) | fallujah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md) | Fallujah operations cross-check |
@@ -3312,6 +3529,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Fallujah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Fallujah/operations/acceptance-evidence-report.md) | Fallujah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Hillah/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/README.md) | Hillah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/README.md) | Hillah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md) | Hillah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md) | Hillah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md) | hillah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md) | Hillah operations cross-check |
@@ -3327,6 +3545,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md) | Hillah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md) | Karbala Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md) | Karbala organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md) | Karbala deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md) | karbala depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md) | Karbala operations cross-check |
@@ -3342,6 +3561,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Karbala/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Karbala/operations/acceptance-evidence-report.md) | Karbala Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/README.md) | Kirkuk — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/alignment/README.md) | Kirkuk Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md) | Kirkuk organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md) | Kirkuk deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md) | kirkuk depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md) | Kirkuk operations cross-check |
@@ -3357,6 +3577,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/operations/acceptance-evidence-report.md) | Kirkuk Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Kut/README.md`](../cities/catalogue/west-asia/Iraq/Kut/README.md) | Kut — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/README.md) | Kut Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md) | Kut organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md) | Kut deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md) | kut depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md) | Kut operations cross-check |
@@ -3372,6 +3593,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Kut/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Kut/operations/acceptance-evidence-report.md) | Kut Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Mosul/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/README.md) | Mosul — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/README.md) | Mosul Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md) | Mosul organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md) | Mosul deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md) | mosul depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md) | Mosul operations cross-check |
@@ -3388,6 +3610,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md) | Iraq National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Iraq/Najaf/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/README.md) | Najaf — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/alignment/README.md) | Najaf Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md) | Najaf organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md) | Najaf deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md) | najaf depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md) | Najaf operations cross-check |
@@ -3403,6 +3626,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Najaf/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Najaf/operations/acceptance-evidence-report.md) | Najaf Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/README.md) | Nasiriyah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/alignment/README.md) | Nasiriyah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md) | Nasiriyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md) | Nasiriyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md) | nasiriyah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md) | Nasiriyah operations cross-check |
@@ -3418,6 +3642,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/operations/acceptance-evidence-report.md) | Nasiriyah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/README.md) | Ramadi — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/README.md) | Ramadi Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md) | Ramadi organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md) | Ramadi deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md) | ramadi depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md) | Ramadi operations cross-check |
@@ -3433,6 +3658,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Ramadi/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Ramadi/operations/acceptance-evidence-report.md) | Ramadi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/README.md) | Samawah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md) | Samawah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md) | Samawah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | Samawah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | samawah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
@@ -3453,6 +3679,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md) | Samawah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md) | Sulaymaniyah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md) | Sulaymaniyah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md) | Sulaymaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md) | Sulaymaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md) | sulaymaniyah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md) | Sulaymaniyah operations cross-check |
@@ -3468,6 +3695,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/operations/acceptance-evidence-report.md) | Sulaymaniyah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Jordan/Amman/README.md`](../cities/catalogue/west-asia/Jordan/Amman/README.md) | Amman — Urban Rail Network |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/alignment/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/alignment/README.md) | Amman Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Jordan/Amman/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/delivery/README.md) | Amman organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/deployment/README.md) | Amman deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/depot-scope/README.md) | amman depot scope reconciliation |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/operations-crosscheck.md) | Amman operations cross-check |
@@ -3483,6 +3711,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Jordan/Amman/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Jordan/Amman/operations/acceptance-evidence-report.md) | Amman Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/README.md) | Aqaba — Urban Rail Network |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/README.md) | Aqaba Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/delivery/README.md) | Aqaba organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/deployment/README.md) | Aqaba deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/depot-scope/README.md) | aqaba depot scope reconciliation |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/operations-crosscheck.md) | Aqaba operations cross-check |
@@ -3498,6 +3727,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Jordan/Aqaba/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Jordan/Aqaba/operations/acceptance-evidence-report.md) | Aqaba Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Jordan/Irbid/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/README.md) | Irbid — Urban Rail Network |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/README.md) | Irbid Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Jordan/Irbid/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/delivery/README.md) | Irbid organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/deployment/README.md) | Irbid deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/depot-scope/README.md) | irbid depot scope reconciliation |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/simulation/operations-crosscheck.md) | Irbid operations cross-check |
@@ -3514,6 +3744,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Jordan/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Jordan/NATIONAL-BRIEF.md) | Jordan National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/README.md) | Zarqa — Urban Rail Network |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/README.md) | Zarqa Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/delivery/README.md) | Zarqa organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/deployment/README.md) | Zarqa deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/depot-scope/README.md) | zarqa depot scope reconciliation |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/simulation/operations-crosscheck.md) | Zarqa operations cross-check |
@@ -3529,6 +3760,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Jordan/Zarqa/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Jordan/Zarqa/operations/acceptance-evidence-report.md) | Zarqa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/README.md) | Beirut — Urban Rail Network |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/alignment/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/alignment/README.md) | Beirut Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/delivery/README.md) | Beirut organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/deployment/README.md) | Beirut deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/depot-scope/README.md) | beirut depot scope reconciliation |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/simulation/operations-crosscheck.md) | Beirut operations cross-check |
@@ -3545,6 +3777,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Lebanon/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Lebanon/NATIONAL-BRIEF.md) | Lebanon National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/README.md) | Sidon — Urban Rail Network |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/README.md) | Sidon Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/delivery/README.md) | Sidon organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/deployment/README.md) | Sidon deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/depot-scope/README.md) | sidon depot scope reconciliation |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/simulation/operations-crosscheck.md) | Sidon operations cross-check |
@@ -3560,6 +3793,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Lebanon/Sidon/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Lebanon/Sidon/operations/acceptance-evidence-report.md) | Sidon Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md) | Tripoli-Lb — Urban Rail Network |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/README.md) | Tripoli-Lb Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/delivery/README.md) | Tripoli-Lb organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/deployment/README.md) | Tripoli-Lb deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/depot-scope/README.md) | tripoli-lb depot scope reconciliation |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/operations-crosscheck.md) | Tripoli-Lb operations cross-check |
@@ -3575,6 +3809,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/operations/acceptance-evidence-report.md) | Tripoli Lb Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/README.md) | Gaza-City — Urban Rail Network |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/README.md) | Gaza-City Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/delivery/README.md) | Gaza-City organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/deployment/README.md) | Gaza-City deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/depot-scope/README.md) | gaza-city depot scope reconciliation |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/simulation/operations-crosscheck.md) | Gaza-City operations cross-check |
@@ -3590,6 +3825,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/operations/acceptance-evidence-report.md) | Gaza City Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Palestine/Hebron/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/README.md) | Hebron — Urban Rail Network |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/README.md) | Hebron Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Palestine/Hebron/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/delivery/README.md) | Hebron organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/deployment/README.md) | Hebron deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/depot-scope/README.md) | hebron depot scope reconciliation |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/operations-crosscheck.md) | Hebron operations cross-check |
@@ -3606,6 +3842,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Palestine/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Palestine/NATIONAL-BRIEF.md) | Palestine National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Palestine/Nablus/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/README.md) | Nablus — Urban Rail Network |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/README.md) | Nablus Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Palestine/Nablus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/delivery/README.md) | Nablus organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/deployment/README.md) | Nablus deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/depot-scope/README.md) | nablus depot scope reconciliation |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/simulation/operations-crosscheck.md) | Nablus operations cross-check |
@@ -3621,6 +3858,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md) | Nablus Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/README.md) | Abha — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/README.md) | Abha Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/delivery/README.md) | Abha organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/deployment/README.md) | Abha deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/depot-scope/README.md) | abha depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/operations-crosscheck.md) | Abha operations cross-check |
@@ -3636,6 +3874,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/operations/acceptance-evidence-report.md) | Abha Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md) | Al-Kharj — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/README.md) | Al-Kharj Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/delivery/README.md) | Al-Kharj organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/deployment/README.md) | Al-Kharj deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/depot-scope/README.md) | al-kharj depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/operations-crosscheck.md) | Al-Kharj operations cross-check |
@@ -3651,6 +3890,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/operations/acceptance-evidence-report.md) | Al Kharj Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md) | Buraidah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/README.md) | Buraidah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/delivery/README.md) | Buraidah organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/deployment/README.md) | Buraidah deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/depot-scope/README.md) | buraidah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/operations-crosscheck.md) | Buraidah operations cross-check |
@@ -3666,6 +3906,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/operations/acceptance-evidence-report.md) | Buraidah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md) | Dammam — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/alignment/README.md) | Dammam Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/delivery/README.md) | Dammam organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/deployment/README.md) | Dammam deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/depot-scope/README.md) | dammam depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/simulation/operations-crosscheck.md) | Dammam operations cross-check |
@@ -3681,6 +3922,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/operations/acceptance-evidence-report.md) | Dammam Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/README.md) | Hail — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/alignment/README.md) | Hail Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/delivery/README.md) | Hail organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/deployment/README.md) | Hail deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/depot-scope/README.md) | hail depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/operations-crosscheck.md) | Hail operations cross-check |
@@ -3696,6 +3938,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/operations/acceptance-evidence-report.md) | Hail Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md) | Hofuf — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/alignment/README.md) | Hofuf Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/delivery/README.md) | Hofuf organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/deployment/README.md) | Hofuf deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/depot-scope/README.md) | hofuf depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/operations-crosscheck.md) | Hofuf operations cross-check |
@@ -3711,6 +3954,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/operations/acceptance-evidence-report.md) | Hofuf Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md) | Jeddah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/alignment/README.md) | Jeddah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/delivery/README.md) | Jeddah organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/deployment/README.md) | Jeddah deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/depot-scope/README.md) | jeddah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/simulation/operations-crosscheck.md) | Jeddah operations cross-check |
@@ -3726,6 +3970,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/operations/acceptance-evidence-report.md) | Jeddah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md) | Jizan — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/alignment/README.md) | Jizan Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/delivery/README.md) | Jizan organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/deployment/README.md) | Jizan deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/depot-scope/README.md) | jizan depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/simulation/operations-crosscheck.md) | Jizan operations cross-check |
@@ -3741,6 +3986,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/operations/acceptance-evidence-report.md) | Jizan Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md) | Khamis-Mushait — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/README.md) | Khamis-Mushait Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/delivery/README.md) | Khamis-Mushait organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/deployment/README.md) | Khamis-Mushait deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/depot-scope/README.md) | khamis-mushait depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/simulation/operations-crosscheck.md) | Khamis-Mushait operations cross-check |
@@ -3756,6 +4002,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/operations/acceptance-evidence-report.md) | Khamis Mushait Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md) | Mecca — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/alignment/README.md) | Mecca Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/delivery/README.md) | Mecca organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/deployment/README.md) | Mecca deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/depot-scope/README.md) | mecca depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/operations-crosscheck.md) | Mecca operations cross-check |
@@ -3771,6 +4018,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/operations/acceptance-evidence-report.md) | Mecca Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/README.md) | Medina — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/README.md) | Medina Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/delivery/README.md) | Medina organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/deployment/README.md) | Medina deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/depot-scope/README.md) | medina depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/operations-crosscheck.md) | Medina operations cross-check |
@@ -3787,6 +4035,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Saudi Arabia/NATIONAL-BRIEF.md) | Saudi Arabia National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/README.md) | Najran — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/alignment/README.md) | Najran Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/delivery/README.md) | Najran organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/deployment/README.md) | Najran deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/depot-scope/README.md) | najran depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/simulation/operations-crosscheck.md) | Najran operations cross-check |
@@ -3802,6 +4051,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/operations/acceptance-evidence-report.md) | Najran Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md) | Tabuk — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/alignment/README.md) | Tabuk Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/delivery/README.md) | Tabuk organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/deployment/README.md) | Tabuk deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/depot-scope/README.md) | tabuk depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/simulation/operations-crosscheck.md) | Tabuk operations cross-check |
@@ -3817,6 +4067,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/operations/acceptance-evidence-report.md) | Tabuk Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/README.md) | Taif — Urban Rail Network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/README.md) | Taif Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/delivery/README.md) | Taif organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/deployment/README.md) | Taif deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/depot-scope/README.md) | taif depot scope reconciliation |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/simulation/operations-crosscheck.md) | Taif operations cross-check |
@@ -3832,6 +4083,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/operations/acceptance-evidence-report.md) | Taif Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Aleppo/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/README.md) | Aleppo — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/alignment/README.md) | Aleppo Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Aleppo/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/delivery/README.md) | Aleppo organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/deployment/README.md) | Aleppo deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/depot-scope/README.md) | aleppo depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/simulation/operations-crosscheck.md) | Aleppo operations cross-check |
@@ -3847,6 +4099,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Aleppo/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Aleppo/operations/acceptance-evidence-report.md) | Aleppo Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Damascus/README.md`](../cities/catalogue/west-asia/Syria/Damascus/README.md) | Damascus — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/README.md) | Damascus Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Damascus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/delivery/README.md) | Damascus organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/deployment/README.md) | Damascus deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/depot-scope/README.md) | damascus depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/simulation/operations-crosscheck.md) | Damascus operations cross-check |
@@ -3862,6 +4115,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Damascus/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Damascus/operations/acceptance-evidence-report.md) | Damascus Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md) | Deir-Ez-Zor — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/alignment/README.md) | Deir-Ez-Zor Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/delivery/README.md) | Deir-Ez-Zor organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/deployment/README.md) | Deir-Ez-Zor deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/depot-scope/README.md) | deir-ez-zor depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/simulation/operations-crosscheck.md) | Deir-Ez-Zor operations cross-check |
@@ -3877,6 +4131,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/operations/acceptance-evidence-report.md) | Deir Ez Zor Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Hama/README.md`](../cities/catalogue/west-asia/Syria/Hama/README.md) | Hama — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/alignment/README.md) | Hama Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Hama/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/delivery/README.md) | Hama organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/deployment/README.md) | Hama deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/depot-scope/README.md) | hama depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/simulation/operations-crosscheck.md) | Hama operations cross-check |
@@ -3892,6 +4147,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Hama/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Hama/operations/acceptance-evidence-report.md) | Hama Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Homs/README.md`](../cities/catalogue/west-asia/Syria/Homs/README.md) | Homs — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/alignment/README.md) | Homs Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Homs/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/delivery/README.md) | Homs organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/deployment/README.md) | Homs deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/depot-scope/README.md) | homs depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/simulation/operations-crosscheck.md) | Homs operations cross-check |
@@ -3907,6 +4163,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Homs/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Homs/operations/acceptance-evidence-report.md) | Homs Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Idlib/README.md`](../cities/catalogue/west-asia/Syria/Idlib/README.md) | Idlib — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/alignment/README.md) | Idlib Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Idlib/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/delivery/README.md) | Idlib organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/deployment/README.md) | Idlib deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/depot-scope/README.md) | idlib depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/simulation/operations-crosscheck.md) | Idlib operations cross-check |
@@ -3922,6 +4179,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Idlib/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Idlib/operations/acceptance-evidence-report.md) | Idlib Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Latakia/README.md`](../cities/catalogue/west-asia/Syria/Latakia/README.md) | Latakia — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/README.md) | Latakia Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Latakia/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/delivery/README.md) | Latakia organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/deployment/README.md) | Latakia deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/depot-scope/README.md) | latakia depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/simulation/operations-crosscheck.md) | Latakia operations cross-check |
@@ -3938,6 +4196,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Syria/NATIONAL-BRIEF.md) | Syria National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Syria/Raqqa/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/README.md) | Raqqa — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/alignment/README.md) | Raqqa Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Raqqa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/delivery/README.md) | Raqqa organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/deployment/README.md) | Raqqa deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/depot-scope/README.md) | raqqa depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/simulation/operations-crosscheck.md) | Raqqa operations cross-check |
@@ -3953,11 +4212,13 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Raqqa/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Raqqa/operations/acceptance-evidence-report.md) | Raqqa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Syria/Tartus/README.md`](../cities/catalogue/west-asia/Syria/Tartus/README.md) | Tartus — Urban Rail Network |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/README.md) | Tartus Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Syria/Tartus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/delivery/README.md) | Tartus organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md) | Tartus deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/depot-scope/README.md) | tartus depot scope reconciliation |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/simulation/operations-crosscheck.md) | Tartus operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md) | Tartus civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/survey/control-processing-readiness.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/survey/control-processing-readiness.md) | Tartus survey-control processing |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/survey/drainage-ground-readiness.md) | Tartus drainage and ground-design gate |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/survey/field-evidence-brief.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/survey/field-evidence-brief.md) | Tartus field-evidence brief |
@@ -3968,6 +4229,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Syria/Tartus/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Tartus/operations/acceptance-evidence-report.md) | Tartus Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Aden/README.md`](../cities/catalogue/west-asia/Yemen/Aden/README.md) | Aden — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/README.md) | Aden Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Aden/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/delivery/README.md) | Aden organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/deployment/README.md) | Aden deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/depot-scope/README.md) | aden depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/simulation/operations-crosscheck.md) | Aden operations cross-check |
@@ -3983,6 +4245,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Aden/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Aden/operations/acceptance-evidence-report.md) | Aden Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/README.md) | Dhamar — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/README.md) | Dhamar Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/delivery/README.md) | Dhamar organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/deployment/README.md) | Dhamar deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/depot-scope/README.md) | dhamar depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/simulation/operations-crosscheck.md) | Dhamar operations cross-check |
@@ -3998,6 +4261,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Dhamar/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Dhamar/operations/acceptance-evidence-report.md) | Dhamar Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/README.md) | Hodeidah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/alignment/README.md) | Hodeidah Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/delivery/README.md) | Hodeidah organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/deployment/README.md) | Hodeidah deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/depot-scope/README.md) | hodeidah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/simulation/operations-crosscheck.md) | Hodeidah operations cross-check |
@@ -4013,6 +4277,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/operations/acceptance-evidence-report.md) | Hodeidah Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Ibb/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/README.md) | Ibb — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/README.md) | Ibb Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Ibb/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/delivery/README.md) | Ibb organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/deployment/README.md) | Ibb deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/depot-scope/README.md) | ibb depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/simulation/operations-crosscheck.md) | Ibb operations cross-check |
@@ -4028,6 +4293,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Ibb/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Ibb/operations/acceptance-evidence-report.md) | Ibb Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Lahij/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/README.md) | Lahij — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/alignment/README.md) | Lahij Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Lahij/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/delivery/README.md) | Lahij organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/deployment/README.md) | Lahij deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/depot-scope/README.md) | lahij depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/simulation/operations-crosscheck.md) | Lahij operations cross-check |
@@ -4043,6 +4309,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Lahij/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Lahij/operations/acceptance-evidence-report.md) | Lahij Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/README.md) | Mukalla — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/alignment/README.md) | Mukalla Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/delivery/README.md) | Mukalla organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/deployment/README.md) | Mukalla deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/depot-scope/README.md) | mukalla depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/simulation/operations-crosscheck.md) | Mukalla operations cross-check |
@@ -4059,6 +4326,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/NATIONAL-BRIEF.md`](../cities/catalogue/west-asia/Yemen/NATIONAL-BRIEF.md) | Yemen National OpenSourceRail Strategy |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/README.md) | Sanaa — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/alignment/README.md) | Sanaa Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/delivery/README.md) | Sanaa organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/deployment/README.md) | Sanaa deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/depot-scope/README.md) | sanaa depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/simulation/operations-crosscheck.md) | Sanaa operations cross-check |
@@ -4074,6 +4342,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Sanaa/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Sanaa/operations/acceptance-evidence-report.md) | Sanaa Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Sayun/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/README.md) | Sayun — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/README.md) | Sayun Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Sayun/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/delivery/README.md) | Sayun organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/deployment/README.md) | Sayun deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/depot-scope/README.md) | sayun depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/simulation/operations-crosscheck.md) | Sayun operations cross-check |
@@ -4089,6 +4358,7 @@ Indexed Markdown files: **4685**.
 | [`cities/catalogue/west-asia/Yemen/Sayun/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Sayun/operations/acceptance-evidence-report.md) | Sayun Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Yemen/Taiz/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/README.md) | Taiz — Urban Rail Network |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/README.md) | Taiz Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Yemen/Taiz/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/delivery/README.md) | Taiz organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/deployment/README.md) | Taiz deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/depot-scope/README.md) | taiz depot scope reconciliation |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/simulation/operations-crosscheck.md) | Taiz operations cross-check |
@@ -4611,6 +4881,7 @@ Indexed Markdown files: **4685**.
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-deployment-evidence.md`](../docs/city-deployment-evidence.md) | City soil inputs and deployment evidence |
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
+| [`docs/city-workforce-design-development.md`](../docs/city-workforce-design-development.md) | City workforce, design refinements and remaining development |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/construction-system-selection.md`](../docs/civil/construction-system-selection.md) | Civil Construction-System Selection |
@@ -4748,6 +5019,7 @@ Indexed Markdown files: **4685**.
 | File | Title |
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | Engineering Integration and Assurance |
+| [`engineering/analysis/city-delivery-index.md`](../engineering/analysis/city-delivery-index.md) | City organisation and design work |
 | [`engineering/analysis/deployment-summary.md`](../engineering/analysis/deployment-summary.md) | Catalogue deployment evidence |
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |

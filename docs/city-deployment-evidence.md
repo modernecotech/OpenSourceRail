@@ -7,6 +7,10 @@ and current result. The [catalogue index](../engineering/analysis/deployment-sum
 aggregates actual open gates. Generated documents do not count as received surveys,
 completed construction or operating approval.
 
+[City workforce and design development](city-workforce-design-development.md)
+adds per-city organisation, skills/tasks, construction work profiles, joint and
+finish maintenance, and climate-informed movement calculations.
+
 ## Soil inputs used for civil planning
 
 The retained catalogue extraction covers **67,033 scope locations**: all
@@ -90,10 +94,11 @@ soil summary and investigation-plan hashes while retaining its field-evidence ga
   or validator inputs, with all 266 predating the current simulator binary.
   Current timing comparisons are separate from the full-service freshness gate;
   stale service acceptance is not carried forward.
-  Samawah has since passed a fresh two-run nominal validation and all eight
-  degraded cases. Its full-service evidence is current; the other 265 cities
-  retain an explicit replay-refresh gate. Bukavu also passed an additional
-  continuous two-day station/depot replay, bringing that evidence to five cities.
+  Samawah, Soroti and Sheikhupura have since passed fresh two-run nominal
+  validation and all eight degraded cases each. The other 263 cities retain an
+  explicit replay-refresh gate. Continuous two-day station/depot replay now
+  passes in nine cities: Samawah, Uige, Quelimane, Edea, Bukavu, Soroti,
+  Sheikhupura, Sumbawanga and Tartus.
 - Soil, timing and deployment evidence is included in city package inventories
   and source-hash checks. Regeneration keeps these outputs connected to the inputs.
 
@@ -123,6 +128,6 @@ Remaining site work includes survey/land/utilities, geotechnical investigation,
 local hydrology, support and erection design, physical stabling and depot
 layouts, installed-cost reconciliation and operator acceptance. Remaining
 operating-model work includes the solar/storage replenishment duty and continuous
-stabling evidence beyond the five retained two-day replays. Per-city fleet
+stabling evidence beyond the nine retained two-day replays. Per-city fleet
 shortfalls remain explicit; neither interline transfers nor a default grid
 upgrade is introduced to hide them.

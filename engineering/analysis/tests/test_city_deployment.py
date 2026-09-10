@@ -41,3 +41,24 @@ def test_current_but_failed_replay_does_not_close_service_gate(tmp_path):
     city=setup_city(tmp_path)
     put(city,'simulation/operations-crosscheck.json',{'full_service_evidence_current':True,'full_service_evidence_passed':False})
     assert statuses(deployment.generate(city))['full-service-validation']=='open'
+
+
+def test_stabling_pass_without_bound_inputs_cannot_close_replay(tmp_path):
+    city=setup_city(tmp_path)
+    put(city,'stabling/hybrid-cycle-screen.json',{'passed':True})
+    assert statuses(deployment.generate(city))['continuous-stabling-replay']=='open'
+
+
+def test_stabling_provenance_rejects_changed_scenario_and_binary(tmp_path,monkeypatch):
+    monkeypatch.setattr(deployment,'ROOT',tmp_path)
+    city=tmp_path/'city';city.mkdir()
+    keys={'design':'city/design.toml','scenario':'city/test.toml',
+          **{k:k+'.py' for k in ('screen_generator','hybrid_cycle_model','simulator','loader','energy_model','schedule','train_model')}}
+    for path in keys.values(): (tmp_path/path).write_text('original')
+    binary=tmp_path/'target/release/osr-sim';binary.parent.mkdir(parents=True);binary.write_bytes(b'original')
+    report={'source_paths':keys,'source_sha256':{k:deployment.sha(tmp_path/p) for k,p in keys.items()},'simulator_sha256':deployment.sha(binary)}
+    assert deployment.hybrid_evidence_current(report,city,'test')
+    (city/'test.toml').write_text('changed')
+    assert not deployment.hybrid_evidence_current(report,city,'test')
+    (city/'test.toml').write_text('original');binary.write_bytes(b'changed')
+    assert not deployment.hybrid_evidence_current(report,city,'test')

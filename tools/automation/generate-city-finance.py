@@ -212,6 +212,16 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "city": slug,
         "status": "planning-screen",
         "passed": True,
+        "workforce": {
+            "basis": "Existing driverless operating labour allowance; indicative FTE, not an accepted roster.",
+            "groups_fte": workforce,
+            "total_fte": sum(workforce.values()),
+            "annual_labour_usd": labour,
+            "annual_cost_per_fte_usd": float(fin["median_monthly_income_usd"]) * 12 * 1.4,
+            "service_hours_per_day": energy.service_hours_per_day,
+            "shift_hours": 8,
+            "relief_multiplier": 1.35,
+        },
         "sources": {
             "design": str(design_path.relative_to(REPO_ROOT)),
             "design_sha256": sha256(design_path),

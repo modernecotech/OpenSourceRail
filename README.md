@@ -102,6 +102,7 @@ Use this only human-facing front door instead of browsing the generated file inv
 | Review costs or the portfolio | [Cost model](docs/cost-model.md) and [developing-world portfolio](docs/portfolio-summary.md) |
 | Review trains, civil works or stations | [LM3 trainset](docs/rolling-stock/light-metro-3car/README.md), [civil](docs/civil/README.md) and [stations](docs/stations/README.md) |
 | Set up a public owner, local builder and operator | [Owner–builder–operator setup plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md) and [deployment roles](docs/deployment-roles.md) |
+| Plan city teams, skills, joints, finishes and cleaning | [City workforce and design work](engineering/analysis/city-delivery-index.md), [methods and open resources](docs/city-workforce-design-development.md), and [remaining deployment gates](engineering/analysis/deployment-summary.md) |
 | Review software, control electronics or operations | [Simulation coverage](docs/simulation-software-coverage.md), [control electronics](control-electronics/README.md) and [operations](docs/operations/README.md) |
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
 | Understand the deployable signalling boundary | [Conservative pilot signalling profile](docs/certification/pilot-signalling-profile.md) and [safety-controller selection gate](control-electronics/safety-controller-selection.md) |

@@ -324,6 +324,8 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
             str(operations_dir / f"{slug}-operations.json.gz"),
         ],
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-deployment-evidence.py"), "--design", str(design_path), "--reuse-sumo", "--fetch-soils"],
+        [sys.executable, str(REPO_ROOT / "engineering/analysis/city_delivery.py"), "--design", str(design_path)],
+        [sys.executable, str(REPO_ROOT / "engineering/analysis/city_deployment.py"), "--design", str(design_path)],
         [
             sys.executable,
             "-m",

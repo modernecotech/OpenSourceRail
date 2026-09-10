@@ -73,7 +73,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 ## Local Evidence
 
 **Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 26428afc391daa30e20d4c9a79ef8e96665b78993043d14ada8a5ab92f15ca97, but soroti.toml is 464a1289642f4bf76e16f3d0a41a8d1426bd0be41ddd8b20e2e2ec976ac58c54; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
+The strict README generator rejected the evidence: engineering/screenshots/manifest.json is stale; rerun the engineering visual renderer. This audit view does not accept or replace the retained solver results.
 
 | Package | Current status | Evidence |
 |---|---|---|
@@ -83,7 +83,7 @@ The strict README generator rejected the evidence: engineering/simulation/valida
 | Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 0 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 61 assets / 251 tasks | [`soroti-operations-manifest.json`](operations/soroti-operations-manifest.json) |
+| Operations, QA and maintenance | 61 assets / 314 tasks | [`soroti-operations-manifest.json`](operations/soroti-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

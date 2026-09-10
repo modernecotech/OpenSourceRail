@@ -200,12 +200,16 @@ pipeline — but it does feed two outputs:
    needs ≥ 1 spare in depot for maintenance (M5) and ≥ 1 cold-
    reserve for I-category incidents. See RFC 0014 §4 for the
    formula.
-2. **Workforce sizing:** from
-   [`lib/templates/workforce.toml`](../../lib/templates/workforce.toml),
-   with the rulebook's shift-structure (§4.5) as the envelope.
+2. **Workforce sizing:** the driverless financial model supplies group FTE;
+   [`lib/templates/workforce.toml`](../../lib/templates/workforce.toml) allocates
+   those totals into city roles, skills and tasks. The
+   [city delivery generator](../../engineering/analysis/city_delivery.py)
+   writes the organisation and spreadsheet. Named duty/leave cover must still
+   be checked against the rulebook's shift structure (§4.5).
 
-Both are parametric in the rulebook, so changing the rulebook
-updates both; the emitter v3 work wires this in.
+Changing this prose does not change software parameters automatically. Update
+the controlled model/template inputs, regenerate and check fleet and workforce
+evidence when operating rules change.
 
 ## 10. Pitfalls and decisions
 

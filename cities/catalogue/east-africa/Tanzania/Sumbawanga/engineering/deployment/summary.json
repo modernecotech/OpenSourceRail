@@ -1,14 +1,16 @@
 {
   "city": "sumbawanga",
-  "closed_gate_count": 4,
+  "closed_gate_count": 5,
   "deployment_release_ready": false,
   "design_sha256": "f9188154a1ae0433dd0517424df5aaae4c52a12b5d329a38f33640936af5746c",
   "evidence_sha256": {
+    "delivery/summary.json": "06c5ff05bbe6b354492ca89c511b5ab75ab0a6dae9bc5fe40567acf1a54601db",
     "depot-scope/summary.json": "98558b30735c3e8aed8f451814307c2f757894a37490fee048bfaad45671e267",
     "energy/summary.json": "68a3dd0521600565fb3a75e02eb6cb1e83e8af931a32d77ed430378d8c8ebcb9",
     "simulation/operations-crosscheck.json": "f417ed417732a38cae41919440d38a25a41be82cff4d3f0abc32a036fb9df7e1",
     "simulation/validation-summary.json": "9a2265e56eb0c0f9d60c58df1bc791c577cb3ba419d12533f914d53a39eb6c62",
     "soil/summary.json": "5d013f772af14a9fa3bc9cfa9b846dbd0a058adf777129b3f340778f69b66c7d",
+    "stabling/hybrid-cycle-screen.json": "70bc9611f01f932043415f52bf69778abf662259da7d46a2886ba2793a26b357",
     "stabling/summary.json": "3b0245d8bf1a09acf664e0cba11f818bbf957cef37c41f700f5cd039ca376cdc",
     "survey/control-processing-readiness.json": "b1dbf21ce758ab51fb37e380083dc484bbe6cc795115947055fcf885c922065f",
     "survey/drainage-ground-readiness.json": "e9eeda5791cfeb1a38b27f92e7c5abb7540b3f3cbf344bedc1ce1ff9b0453717",
@@ -199,11 +201,13 @@
     },
     {
       "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
-      "detail": null,
+      "detail": {
+        "evidence_current": true
+      },
       "evidence": "stabling/hybrid-cycle-screen.json",
       "id": "continuous-stabling-replay",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.",
@@ -250,9 +254,19 @@
       "id": "depot-placement-and-budget",
       "owner_role": "depot and cost designer",
       "status": "open"
+    },
+    {
+      "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
+      "detail": {
+        "planning_fte": 191
+      },
+      "evidence": "delivery/summary.json",
+      "id": "workforce-duty-and-workload",
+      "owner_role": "city operating lead",
+      "status": "open"
     }
   ],
-  "generator_sha256": "0509fa2ebc712d28f4c816c2fccc2102affc93ea2e13a71b3a3d661fdc5c8324",
+  "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
   "open_gate_count": 12,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"

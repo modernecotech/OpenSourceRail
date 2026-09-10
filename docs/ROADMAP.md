@@ -12,6 +12,10 @@ The [city deployment evidence workflow](city-deployment-evidence.md) now covers
 the complete catalogue with soilDB civil screening, preserved field receipts,
 current native/SUMO timing comparisons and per-city deployment gap registers.
 The registers distinguish completed software/data work from outstanding site evidence.
+The [city workforce and design packages](city-workforce-design-development.md)
+add funded role/skills/task breakdowns, construction concurrency, climate-bound
+movement sensitivities and asset-level joint/finish/cleaning work. Named rosters,
+crew sizes and material/site qualification remain explicit closure work.
 
 The [2026-09-09 substance review](substance-review-2026-09-09.md) now records
 completed roof-drainage input/physical-balance repairs and per-site electrical
@@ -23,7 +27,7 @@ limits. The repaired gate reports grid-only findings as diagnostics; all 266
 solar/storage snapshots pass, with full operating energy validation still open.
 Stabling now accepts storage-backed stations without grid import or a 150 kW
 minimum, and a grid outage alone does not disable a battery-backed destination.
-The four two-day hybrid city replays pass against the repaired code. Historical
+The nine retained two-day hybrid city replays pass against the repaired code. Historical
 station-only experiments remain outside selected-plan package acceptance.
 These findings do not prescribe grid upgrades. The depot energy quantity contract is now shared by operating tiers,
 layout requirements and the BOM, with all 266 cities reporting PV area,
@@ -49,7 +53,8 @@ and 37/16/15 to Line 1/2/3 storage, separately from workshop bays. The
 station-only replay and seven-train redistribution study remain diagnostic
 benchmarks. Explicit native home allocations now support same-line depot
 returns and morning dispatch, validated across two cycles on a connected
-eight-train fixture. Two-day city hybrid screens now pass for Samawah, Uíge, Quelimane and Edéa,
+eight-train fixture. Two-day city hybrid screens now pass for Samawah, Uíge,
+Quelimane, Edéa, Bukavu, Soroti, Sheikhupura, Sumbawanga and Tartus,
 checking actual homes, storage capacity and morning launch stock. Lines operate independently, with no
 interline depot connections; physical yard routing and city evening placement
 remain subject to verification. The corrected RFC records the emitter's family-specific
