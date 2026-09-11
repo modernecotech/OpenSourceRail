@@ -104,6 +104,9 @@ pub struct EnergySite {
     pub conservation_errors: u64,
     /// Shared train-side cabinet energy remaining in the current tick.
     charger_budget_kwh: f32,
+    /// Source-side budgets shared across all charging requests this tick.
+    grid_import_budget_kwh: f32,
+    storage_discharge_budget_kwh: f32,
     requests_this_tick: u32,
 }
 
@@ -124,6 +127,8 @@ impl EnergySite {
             controller_evaluations: 0,
             conservation_errors: 0,
             charger_budget_kwh: f32::INFINITY,
+            grid_import_budget_kwh: f32::INFINITY,
+            storage_discharge_budget_kwh: f32::INFINITY,
             requests_this_tick: 0,
         }
     }
@@ -149,6 +154,14 @@ impl EnergySite {
         self.storage_soc * self.config.storage_capacity_kwh
     }
 
+    fn reset_charging_budgets(&mut self, dt_s: f32) {
+        self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
+        self.grid_import_budget_kwh = self.config.grid_import_kw.max(0.0) * dt_s / 3600.0;
+        self.storage_discharge_budget_kwh =
+            self.config.storage_max_discharge_kw.max(0.0) * dt_s / 3600.0;
+        self.requests_this_tick = 0;
+    }
+
     /// Advance this site's internal energy flows for one time step:
     /// generate PV, store what we can, export/curtail the rest.
     /// `pv_factor` is 1.0 under normal operation; a dust event would set it
@@ -161,8 +174,7 @@ impl EnergySite {
         pv_factor: f32,
         grid_disabled: bool,
     ) {
-        self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
-        self.requests_this_tick = 0;
+        self.reset_charging_budgets(dt_s);
         let pv_kw = pv_output_kw(self.config.pv_nameplate_kw, clock_s, peak_sun_hours) * pv_factor;
         let pv_w = kw_to_w(pv_kw);
         let pv_kwh = watts_to_kwh(pv_w, dt_s);
@@ -205,26 +217,33 @@ impl EnergySite {
         if max_kwh <= 0.0 {
             return 0.0;
         }
+        if self.charger_budget_kwh.is_infinite() {
+            self.reset_charging_budgets(dt_s);
+        }
         self.requested_by_trains_kwh += f64::from(max_kwh);
         if self.requests_this_tick > 0 {
             self.overlapping_request_count = self.overlapping_request_count.saturating_add(1);
         }
         self.requests_this_tick = self.requests_this_tick.saturating_add(1);
-        if self.charger_budget_kwh.is_infinite() {
-            self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
-        }
         let requested_delivered = max_kwh.min(self.charger_budget_kwh).max(0.0);
         let efficiency = self.config.charger_efficiency.clamp(0.01, 1.0);
         let stored = self.storage_stored_kwh();
-        let discharge_source_limit_w =
-            energy_limit_w(stored, self.config.storage_max_discharge_kw, dt_s);
+        let discharge_source_limit_w = energy_limit_w(
+            stored.min(self.storage_discharge_budget_kwh),
+            self.config.storage_max_discharge_kw,
+            dt_s,
+        );
         // `osr-energy-site` arbitrates at the train-side DC bus. Convert the
         // source limits through the configured charger efficiency.
         let discharge_bus_limit_w = scale_w(discharge_source_limit_w, efficiency);
         let grid_source_limit_w = if grid_disabled {
             0
         } else {
-            kw_to_w(self.config.grid_import_kw)
+            energy_limit_w(
+                self.grid_import_budget_kwh,
+                self.config.grid_import_kw,
+                dt_s,
+            )
         };
         let grid_bus_limit_w = scale_w(grid_source_limit_w, efficiency);
         let requested_w = energy_to_w(requested_delivered, dt_s);
@@ -251,6 +270,9 @@ impl EnergySite {
             self.storage_soc = self.storage_soc.max(0.0);
         }
         let imported = watts_to_kwh(output.grid_import_w, dt_s) / efficiency;
+        self.storage_discharge_budget_kwh =
+            (self.storage_discharge_budget_kwh - from_storage).max(0.0);
+        self.grid_import_budget_kwh = (self.grid_import_budget_kwh - imported).max(0.0);
         self.grid_imported_kwh += f64::from(imported);
         let delivered = watts_to_kwh(output.to_pad_w, dt_s);
         if delivered + 1e-6 < max_kwh {
@@ -666,5 +688,48 @@ mod tests {
         site.tick_pv(0, 60.0, 5.0, 1.0, false);
         let delivered = site.draw(20.0, 60.0, false);
         approx(delivered, 412.5 / 60.0, 0.01);
+    }
+
+    #[test]
+    fn overlapping_trains_share_grid_and_storage_source_limits() {
+        for dt_s in [1.0, 5.0, 60.0] {
+            for (storage_kw, grid_kw) in [(0.0, 50.0), (100.0, 0.0), (100.0, 50.0)] {
+                let mut site = EnergySite::new(EnergySiteConfig {
+                    station: StationId::new(1),
+                    pv_nameplate_kw: 0.0,
+                    storage_capacity_kwh: 500.0,
+                    storage_max_charge_kw: 500.0,
+                    storage_max_discharge_kw: storage_kw,
+                    storage_initial_soc: 1.0,
+                    grid_import_kw: grid_kw,
+                    grid_export_kw: 0.0,
+                    storage_module_kwh: 500.0,
+                    charger_max_kw: 500.0,
+                    charger_max_current_a: 825.0,
+                    charger_bus_voltage_v: 650.0,
+                    charger_efficiency: 0.98,
+                    charger_contact_count: 2,
+                });
+                // The train-side cabinet has spare capacity, but the source
+                // limits are shared by every train during this same tick.
+                for tick in 0..2 {
+                    site.tick_pv(tick, dt_s, 5.0, 1.0, false);
+                    let stored_before = site.storage_stored_kwh();
+                    let imported_before = site.grid_imported_kwh;
+                    let delivered: f32 = (0..5).map(|_| site.draw(20.0, dt_s, false)).sum();
+                    let expected = (storage_kw + grid_kw) * dt_s / 3600.0 * 0.98;
+                    approx(delivered, expected, 1e-4);
+                    assert!(
+                        site.grid_imported_kwh - imported_before
+                            <= f64::from(grid_kw * dt_s / 3600.0) + 1e-5
+                    );
+                    assert!(
+                        stored_before - site.storage_stored_kwh()
+                            <= storage_kw * dt_s / 3600.0 + 1e-4
+                    );
+                    assert_eq!(site.conservation_errors, 0);
+                }
+            }
+        }
     }
 }

@@ -1,22 +1,22 @@
 {
   "city": "mosul",
-  "closed_gate_count": 2,
+  "closed_gate_count": 3,
   "deployment_release_ready": false,
   "design_sha256": "5252888f89f92bf2c05a5a6dbb11c8eea2c5676f98a8ff6dfd825d210a02e53c",
   "evidence_sha256": {
     "delivery/summary.json": "2ab25d1c35bad508c6a7c9960bac2fc5d1cf287659592e22a4f16bae2a8f4423",
-    "depot-scope/summary.json": "76da6b47431b847cea9eeb395399d7aa9d72ae8f5260af359dadd1b639c4ac79",
+    "depot-scope/summary.json": "f4f64874d563f9e093941e4fbf396c1949471638bc8c0ca6c745cb1bf18973b4",
     "energy/summary.json": "9003f03c5c010941e36e1eec15e57b1df93462a5ff9495991bda42773c83614f",
-    "simulation/operations-crosscheck.json": "f25c9e6d4b524beda55daab3e0c495573a82cf6c719cbf4b5d0d24534e2e4fd4",
-    "simulation/validation-summary.json": "e62c5ebef6c013d70f23b8432b6dd432fd2046d11cc9311110d7a298db0e0d19",
+    "simulation/operations-crosscheck.json": "743233ddfe7bf95a453f2d659cce50a4d1e3907cda017cb579917a887cddb51c",
+    "simulation/validation-summary.json": "1d5a927980ed9d1af75c5188233bb130abc4a04c3b79e5f3c03bbd0c276d26b0",
     "soil/summary.json": "f6bb6daee15252689846dafe94ab4678c87377d9874d6493924ca0aa01870a8a",
-    "stabling/summary.json": "247f242d24cd057c626eac5d55ac5b1147e087da3fb2d0873085eeabc0ba348f",
+    "stabling/summary.json": "a6d01887f455bab169ffbcdd16fa96270c6184bacfb59bc7ba2d8894856ddd78",
     "survey/control-processing-readiness.json": "1fb5dfabc4281bb4c6fb772ffcd90c191899ee8268737ff8d26f12db8ef8c2f0",
     "survey/drainage-ground-readiness.json": "98983e90d027b2b9dd755db4fa1add6c0b4e286bafd3344e5f7549f375bd3d90",
     "survey/ground-model-readiness.json": "e3db0ad3f8c2b8f54a8766ac40a5b5f47f28565c324fc2224e0f7c98ea34adea",
     "survey/route-station-fit-readiness.json": "7bbc210685960308fee500c0fbd090748923fa9b078db82b45655ed9ac97ed19",
     "survey/structural-release-readiness.json": "182338187cf179e11ad2f7e155e6bd1047d8611a1ef5a956f2363529f32997b4",
-    "survey/surveyed-alignment-readiness.json": "1818ffa71e1dd1db7694d5ed609ed48547ec37d1cda813d45ea3c474a7d5f450"
+    "survey/surveyed-alignment-readiness.json": "4b9be7950aeade90d608eceaab28d042832718a0be14dc5e8d9ac783d967dae2"
   },
   "gates": [
     {
@@ -185,7 +185,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -253,9 +253,9 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 860959.5007381854,
+        "retained_run_delivered_kwh": 860959.1344001237,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 700686.2659523914,
+        "retained_run_grid_imported_kwh": 700683.9958928486,
         "retained_run_pv_generated_kwh": 134974.59195004593,
         "snapshot_passed": true
       },
@@ -291,7 +291,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 15,
+  "open_gate_count": 14,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

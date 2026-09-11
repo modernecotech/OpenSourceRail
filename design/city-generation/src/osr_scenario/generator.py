@@ -172,6 +172,20 @@ class ScenarioGenerator:
 
     # ------ Resolution helpers ------
 
+    def charging_cabinet_count(self, family: str) -> int:
+        """Use the same declared equipment quantity as the capital model.
+
+        Older catalogue designs can retain a different cabinet configuration
+        from today's family default. Regeneration must preserve that explicit
+        planning choice in both the charger and its associated energy site.
+        """
+        count = self.design.get("costs", {}).get("technology_basis", {}).get(
+            "station_charging_cabinet_count", _charging_cabinet_count(family)
+        )
+        if type(count) is not int or count < 1:
+            raise GeneratorError("station_charging_cabinet_count must be a positive integer")
+        return count
+
     def station_defaults(self, archetype: str) -> dict[str, Any]:
         """Resolve operational defaults for a station archetype."""
         tpl = self.station_archetypes.get(archetype, {})
@@ -235,7 +249,7 @@ class ScenarioGenerator:
             raise GeneratorError(f"unknown rolling-stock family {family!r}")
         car_count = int(consist["car_count"])
         usable_battery_kwh = float(consist["battery_capacity_kwh"])
-        cabinet_count = _charging_cabinet_count(family)
+        cabinet_count = self.charging_cabinet_count(family)
 
         traction = self.design.get("operations", {}).get("traction_energy", {})
         nominal_kwh_per_car_km = float(
@@ -526,7 +540,7 @@ class ScenarioGenerator:
             lines[0].get("rolling_stock", "light-metro-3car")
             if lines else "light-metro-3car"
         )
-        cabinet_count = _charging_cabinet_count(family)
+        cabinet_count = self.charging_cabinet_count(family)
         ring_policy = self.design.get("operations", {}).get("ring_service", {})
         ring_dwell_seconds = int(ring_policy.get("minimum_dwell_seconds", 120))
         radial_policy = self.design.get("operations", {}).get("radial_service", {})
@@ -918,7 +932,7 @@ class ScenarioGenerator:
             lines[0].get("rolling_stock", "light-metro-3car")
             if lines else "light-metro-3car"
         )
-        cabinet_count = _charging_cabinet_count(family)
+        cabinet_count = self.charging_cabinet_count(family)
         out = ["\n# Trackside energy sites — expanded from tier references.\n"]
         for s in sites_to_emit:
             tier = s["tier"]

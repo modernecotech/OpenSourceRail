@@ -2081,6 +2081,19 @@ fn can_reach_stabling_charger(
     }
     let line = &network.lines[train.line_index];
     let mut current = current_station(train);
+    // Charge past the arithmetic boundary before leaving a working source.
+    // Per-tick f32 SoC updates otherwise accumulate enough roundoff to leave
+    // a train a few Wh short at an unpowered intermediate station. This
+    // 0.001-percentage-point margin is additional stored energy, never a
+    // relaxation of the 20% section-entry reserve. Do not demand a fresh
+    // margin from an unpowered stop where the train cannot top up.
+    let departure_headroom = if energy.can_supply_at_station(current, faults)
+        && network.station(current).charging_power_kw > 0
+    {
+        train.battery_capacity_kwh() * 0.00001
+    } else {
+        0.0
+    };
     let mut heading = departure_heading;
     let mut distance_km = 0.0;
     // A radial return or one ring circuit can reach the originating charger.
@@ -2091,7 +2104,8 @@ fn can_reach_stabling_charger(
         };
         distance_km += network.section(section).length_mm as f32 / 1_000_000.0;
         let required = train.kwh_per_km(climate.hvac_uplift_frac) * distance_km
-            + train.battery_capacity_kwh() * SOC_OPERATING_RESERVE;
+            + train.battery_capacity_kwh() * SOC_OPERATING_RESERVE
+            + departure_headroom;
         if train.soc * train.battery_capacity_kwh() + f32::EPSILON < required {
             return false;
         }
@@ -2809,6 +2823,79 @@ schedule = [
         assert_eq!(
             direct.invariant_violations.len(),
             consensus.invariant_violations.len()
+        );
+    }
+
+    #[test]
+    fn charging_gap_departure_keeps_roundoff_headroom_at_the_powered_origin() {
+        let mut text = simple_two_station_scenario("energy_kwh_per_car_km = 2.4", "12:00")
+            .replace("ambient_c = 30.0", "ambient_c = 28.0")
+            .replace("battery_capacity_kwh = 540", "battery_capacity_kwh = 675")
+            .replace("max_speed_kmh = 80.0", "max_speed_kmh = 90.0")
+            .replace("charging_power_kw = 0", "charging_power_kw = 500")
+            .replace(
+                "{ id = \"b\", distance_from_prev_m = 2000 }",
+                "{ id = \"middle\", distance_from_prev_m = 3499 }, { id = \"b\", distance_from_prev_m = 6305 }",
+            );
+        text.push_str(
+            "\n[[stations]]\nid = \"middle\"\nname = \"Unpowered\"\ndwell_seconds = 60\n",
+        );
+        for station in ["a", "b"] {
+            text.push_str(&format!(
+                "\n[[sites]]\nstation = \"{station}\"\npv_nameplate_kw = 0\nstorage_capacity_kwh = 500\nstorage_max_charge_kw = 500\nstorage_max_discharge_kw = 500\ngrid_import_kw = 150\ngrid_export_kw = 0\n"
+            ));
+        }
+        let mut config = load_scenario_from_str(&text).unwrap();
+        let line = &config.network.lines[0];
+        config.fleets[0].station_stabling = true;
+        config.fleets[0]
+            .dispatch_points
+            .push((line.stations[2], super::Heading::Reverse));
+        let mut train = super::init_fleet(&config).remove(0);
+        let energy = super::EnergySystem::new(config.energy_sites.clone(), 6.0);
+        let faults = FaultEngine::new(vec![]);
+        let intensity = train.kwh_per_km(config.climate.hvac_uplift_frac);
+        let required = intensity * (3.499 + 6.305) + train.battery_capacity_kwh() * 0.2;
+        train.soc = required / train.battery_capacity_kwh();
+        let can_reach = |train: &super::Train| {
+            super::can_reach_stabling_charger(
+                train,
+                super::Heading::Forward,
+                &config.network,
+                &config.climate,
+                &config.fleets[0],
+                &faults,
+                &energy,
+            )
+        };
+        assert!(
+            !can_reach(&train),
+            "charge beyond the exact arithmetic boundary before leaving the powered origin"
+        );
+        train.apply_energy_kwh(train.battery_capacity_kwh() * 0.00002);
+        assert!(can_reach(&train));
+        let section = config.network.section(line.forward_sections[0]);
+        let mut previous_m = 0.0;
+        for elapsed in 1..1000 {
+            let position_m =
+                super::motion_sample_for_section(&train.consist, section, elapsed as f32)
+                    .position_m;
+            train.apply_energy_kwh(-intensity * ((position_m - previous_m) / 1000.0));
+            previous_m = position_m;
+            if position_m >= 3499.0 {
+                break;
+            }
+        }
+        train.phase = super::TrainPhase::AwaitingDispatch {
+            station: line.stations[1],
+        };
+        assert!(
+            can_reach(&train),
+            "per-tick roundoff must not strand the train at the unpowered intermediate stop"
+        );
+        assert!(
+            train.soc * train.battery_capacity_kwh()
+                >= intensity * 6.305 + train.battery_capacity_kwh() * 0.2
         );
     }
 

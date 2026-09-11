@@ -57,6 +57,36 @@ def test_scenario_station_count_matches_design() -> None:
     assert len(scenario["stations"]) == len(design["stations"])
 
 
+@pytest.mark.parametrize("city", ["Gulu", "Rahim-Yar-Khan", "Tanta"])
+def test_retained_charging_configuration_round_trips(city: str) -> None:
+    path = next((REPO_ROOT / "cities/catalogue").glob(f"*/*/{city}/design.toml"))
+    design = _parse(path.read_text())
+    assert design["costs"]["technology_basis"]["station_charging_cabinet_count"] == 2
+    retained = _parse(path.with_name(f'{design["city"]["slug"]}.toml').read_text())
+    regenerated = _parse(generate_from_path(path))
+    # Other retained scenario fields await the catalogue-wide evidence refresh;
+    # the charging and site configuration must survive that regeneration.
+    assert regenerated["stations"] == retained["stations"]
+    assert regenerated["sites"] == retained["sites"]
+    assert all(s.get("charging_power_kw", 0) in (0, 1000) for s in regenerated["stations"])
+    assert all(s["charger_contact_count"] == 4 for s in regenerated["sites"])
+
+
+@pytest.mark.parametrize("count", [0, -1, True, 1.5, "2", None])
+def test_invalid_declared_charging_quantity_fails_closed(count) -> None:
+    design = _parse(SAMAWAH_DESIGN.read_text())
+    design["costs"]["technology_basis"]["station_charging_cabinet_count"] = count
+    with pytest.raises(GeneratorError, match="positive integer"):
+        generate_scenario(design, SAMAWAH_DESIGN, templates_root=TEMPLATES)
+
+
+def test_undeclared_charging_quantity_uses_the_family_default() -> None:
+    design = _parse(SAMAWAH_DESIGN.read_text())
+    expected = generate_scenario(design, SAMAWAH_DESIGN, templates_root=TEMPLATES)
+    del design["costs"]["technology_basis"]["station_charging_cabinet_count"]
+    assert generate_scenario(design, SAMAWAH_DESIGN, templates_root=TEMPLATES) == expected
+
+
 def test_scenario_line_count_matches_design() -> None:
     design = tomllib.loads(SAMAWAH_DESIGN.read_text())
     scenario = _parse(generate_from_path(SAMAWAH_DESIGN))

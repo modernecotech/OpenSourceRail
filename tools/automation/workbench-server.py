@@ -258,7 +258,11 @@ def wait_for_city(port: int, process: subprocess.Popen, timeout: float = 30.0) -
             raise RuntimeError(f"City Studio exited with status {process.returncode}")
         connection = http.client.HTTPConnection("127.0.0.1", port, timeout=1)
         try:
-            connection.request("GET", "/api/project")
+            # Project compilation and artifact inspection can exceed this
+            # short readiness timeout in a large working tree. The static
+            # page proves the loaded project's server is listening without
+            # repeatedly enqueueing expensive project compilations.
+            connection.request("GET", "/")
             if connection.getresponse().status == 200:
                 return
         except OSError:

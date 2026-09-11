@@ -94,9 +94,10 @@ soil summary and investigation-plan hashes while retaining its field-evidence ga
   or validator inputs, with all 266 predating the current simulator binary.
   Current timing comparisons are separate from the full-service freshness gate;
   stale service acceptance is not carried forward.
-  Samawah, Soroti and Sheikhupura have since passed fresh two-run nominal
-  validation and all eight degraded cases each. The other 263 cities retain an
-  explicit replay-refresh gate. Continuous two-day station/depot replay now
+  Following the 2026-09-10 shared-source and charging-headroom corrections,
+  Samawah and Mosul pass fresh two-run nominal validation and all eight
+  degraded cases each. The other 264 cities retain an explicit full-service
+  replay-refresh gate; earlier passes remain bound to their original binaries. Continuous two-day station/depot replay now
   passes in nine cities: Samawah, Uige, Quelimane, Edea, Bukavu, Soroti,
   Sheikhupura, Sumbawanga and Tartus.
 - Soil, timing and deployment evidence is included in city package inventories

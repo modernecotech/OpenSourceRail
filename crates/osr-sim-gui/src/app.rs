@@ -100,7 +100,9 @@ impl EventFilter {
             EventKind::DepartStation => self.show_depart,
             EventKind::ChargingTick { .. } => self.show_charging,
             EventKind::Turnaround => self.show_turnaround,
-            EventKind::DepotServiceStart { .. } | EventKind::DepotServiceComplete => true,
+            EventKind::ReturnToStabling
+            | EventKind::DepotServiceStart { .. }
+            | EventKind::DepotServiceComplete => true,
             EventKind::SocWarning { .. } => self.show_soc_warning,
         }
     }

@@ -306,21 +306,17 @@ fn sufficient_energy_crosses_the_gap_and_preserves_the_reserve() {
 
 #[test]
 fn unavailable_destination_requires_energy_for_the_return_to_a_working_charger() {
-    for kind in ["charging_pad_outage"] {
-        let text = charging_gap_scenario(15000, false)
-            + &format!(
-                r#"
+    let text = charging_gap_scenario(15000, false)
+        + r#"
 [[faults]]
 name = "C charger unavailable"
-kind = "{kind}"
+kind = "charging_pad_outage"
 station = "c"
 from = "05:30"
 to = "06:30"
-"#
-            );
-        let config = load_scenario_from_str(&text).unwrap();
-        assert_eq!(sim::run(&config, &runtime(60)).total_train_km, 0.0);
-    }
+"#;
+    let config = load_scenario_from_str(&text).unwrap();
+    assert_eq!(sim::run(&config, &runtime(60)).total_train_km, 0.0);
 }
 
 #[test]

@@ -62,7 +62,65 @@ surveyed vertical profile, or designed cant. See the
 [`Samawah package notice`](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md)
 for the replacement gates.
 
-## What the v1 converter reads
+## Explicit station, civil and cant companion data
+
+Use `--sidecar line.mapping.toml --design design.toml` with the LandXML
+command above to import reviewed station IDs, civil spans and cant. The
+companion is TOML, so one file holds the three mappings and their provenance.
+It selects a named alignment, including from a multi-alignment XML file.
+
+```toml
+schema_version = 1
+# Use cant = [] here only when the supplied design explicitly has no cant.
+
+[source]
+landxml_sha256 = "<SHA-256 of the exact XML bytes>"
+design_sha256 = "<SHA-256 of the exact design.toml bytes>"
+alignment_name = "Survey A"
+line_id = "line-1"
+crs = "EPSG:32638"
+vertical_datum = "<datum of the supplied elevation data>"
+
+[[station]]
+id = "<station ID on line-1 in design.toml>"
+source_name = "<matching LandXML Station name>"
+station_m = 100.0
+platform_length_m = 61.0
+
+[[civil]]
+from_station_m = 0.0
+to_station_m = 1000.0
+class = "at-grade"
+
+[[cant]]
+from_station_m = 400.0
+to_station_m = 600.0
+max_cant_mm = 30
+transition_in_m = 50.0
+transition_out_m = 50.0
+```
+
+This is a schema illustration, not deployment data. Replace the placeholders,
+include every station on the selected design line, and cover the complete
+alignment with contiguous civil spans. Every XML station name must map once,
+at its original chainage. Additional stations may supply chainages without
+`source_name` when the XML has no corresponding station object. Civil and cant
+spans cannot overlap; cant limits follow the selected preset, with nonzero
+ramps fitting inside each nonzero-cant span.
+
+The importer checks the two source hashes, line/consist/preset/ring identity,
+CRS agreement, finite values, metric metre units and zero-origin chainage.
+It rejects station equations, nonzero chainage origins, incomplete mappings
+and unknown fields. The existing OSR-ALN hard gates also run before output is
+written. CRS and vertical datum are declarations of the supplied coordinates;
+the converter does not transform or independently verify them. Output retains
+all three input hashes and `deployment_release_ready = false`. Passing these
+checks does not replace engineering review or authority approval.
+
+Without `--sidecar`, the existing placeholder workflow and golden fixture
+remain unchanged.
+
+## What the converter reads
 
 From the input LandXML:
 
@@ -73,33 +131,30 @@ From the input LandXML:
 - **`<Alignment>/<Profile>/<ProfAlign>/<PVI>`** — vertical profile
   points, emitted as `[[vertical]]` rows. Sag/crest curves (`<CircCurve>`)
   carry `vc_radius_m`.
-- **`<Alignment>/<StaEquations>`** — station equations (not common
-  in new builds; the converter emits them to a warning log rather
-  than trying to unwrap them).
+- The companion-file path rejects **`<Alignment>/<StaEquations>`**;
+  station-equation transforms are not implemented. The legacy path does not
+  interpret them and must not be used for those exports.
 
-## What the v1 converter does NOT read
+## Remaining format limits
 
 - **Station pin-pointing.** LandXML has `<Station>` on an
   alignment but most civil tools write stations as offsets on a
   separate `Survey` object. In v1 the converter emits a
   placeholder `[[station]]` for each input `<Station>`; the
-  deployment engineer hand-edits to the design.toml station ids.
-  v1.1 will accept a CSV sidecar mapping station-name → station
-  id.
+  deployment engineer can use the companion file above to map names to
+  design.toml station IDs or supply externally derived station chainages.
+  Direct Survey-object interpretation and CSV mapping are not implemented.
 - **Civil classes (at-grade / elevated / bridge).** LandXML has no
   civil-class annotation. The converter emits a placeholder
   `[[civil]]` covering the full length as `at-grade`; the
-  deployment engineer splits it per the RFC 0011 per-segment
-  classification.
+  companion file replaces this placeholder with explicit RFC 0011 spans.
 - **Cant (superelevation).** Bentley OpenRail writes cant into a
   non-standard `<Cant>` extension; Civil 3D writes it as a
-  separate file. v1 leaves `[[cant]]` empty; v1.1 will read
-  Bentley's extension.
+  separate file. The companion file imports explicit `[[cant]]` rows;
+  direct interpretation of vendor cant extensions remains unimplemented.
 
-These gaps are deliberate for v1 — the converter handles the
-geometric bulk of the work (95 %+ of the line by volume of
-decisions) and flags the rest for human review, matching the
-RFC 0009 v3 scope.
+The companion file closes the explicit station/civil/cant mapping task while
+keeping vendor-specific parsing and survey acceptance separate.
 
 ## Synthetic round-trip fixture (not deployment data)
 

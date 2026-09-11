@@ -1,6 +1,6 @@
 # Soroti deployment gaps
 
-6 closed checks; 11 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
+5 closed checks; 12 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
 
 [Soil inputs](../soil/README.md) include a route/station investigation plan.
 
@@ -15,7 +15,7 @@
 | [drainage-ground](../survey/drainage-ground-readiness.json) | open | civil/geotechnical designer | Use the soil investigation plan to collect local geotechnics and groundwater, size foundations/treatment, and check drainage with local rainfall and surveyed levels. |
 | [structural-release](../survey/structural-release-readiness.json) | open | structural designer and checker | Complete route-specific support/span, foundation, movement and erection calculations and close checking comments. |
 | [model-timing-comparison](../simulation/operations-crosscheck.json) | closed | simulation engineer | Reconcile current native reference journey times with SUMO using the same scenario dwells and route. |
-| [full-service-validation](../simulation/validation-summary.json) | closed | simulation engineer | Run current nominal and degraded full-service cases against the current scenario and simulator; retain failures and exact provenance. |
+| [full-service-validation](../simulation/validation-summary.json) | open | simulation engineer | Run current nominal and degraded full-service cases against the current scenario and simulator; retain failures and exact provenance. |
 | [operating-release](../simulation/operations-crosscheck.json) | open | operator | Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence. |
 | [morning-fleet-allocation](../stabling/summary.json) | closed | service planner | Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage. |
 | [continuous-stabling-replay](../stabling/hybrid-cycle-screen.json) | closed | simulation engineer | Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts. |

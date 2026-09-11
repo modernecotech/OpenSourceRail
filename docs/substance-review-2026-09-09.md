@@ -347,10 +347,13 @@ technical inspection count must not imply equal evidence maturity for all
 266 models.
 
 An additional generation comparison found existing energy-site drift in
-**Gulu, Rahim Yar Khan and Tanta**: their retained charging/grid settings differ
-from fresh generation. The depot repair does not introduce that drift or
-replace those settings. These cities need explicit design overrides and a
-controlled scenario/evidence regeneration before reproducibility can be claimed.
+**Gulu, Rahim Yar Khan and Tanta**: their retained charging/grid settings differed
+from fresh generation. The 2026-09-10 follow-up traced this to the scenario
+generator ignoring their existing `costs.technology_basis.station_charging_cabinet_count = 2`.
+Charging validation, station power and site equipment now use that declared
+quantity, and regression checks preserve the retained station/site tables for
+all three cities. Their broader scenario/evidence refresh remains open;
+preserving equipment quantities does not establish operating acceptance.
 
 ## 8. Extend station analysis from repeatable routes to actual passenger loads
 

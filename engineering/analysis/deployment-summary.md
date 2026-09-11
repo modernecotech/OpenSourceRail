@@ -76,7 +76,7 @@ City registers distinguish completed screening and data work from field investig
 | masaka | 70 / 70 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Masaka/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md) |
 | mbale | 114 / 114 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Mbale/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md) |
 | mbarara | 114 / 114 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Mbarara/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md) |
-| soroti | 25 / 25 | 11 | [soil](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) |
+| soroti | 25 / 25 | 12 | [soil](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) |
 | lusaka | 658 / 658 | 14 | [soil](../../cities/catalogue/east-africa/Zambia/Lusaka/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md) |
 | lyon | 605 / 615 | 15 | [soil](../../cities/catalogue/europe/France/Lyon/engineering/soil/README.md) | [register](../../cities/catalogue/europe/France/Lyon/engineering/deployment/README.md) |
 | la-paz | 430 / 434 | 15 | [soil](../../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/soil/README.md) | [register](../../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md) |
@@ -152,7 +152,7 @@ City registers distinguish completed screening and data work from field investig
 | peshawar | 349 / 349 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md) |
 | quetta | 222 / 222 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md) |
 | rahim-yar-khan | 87 / 87 | 13 | [soil](../../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md) |
-| sheikhupura | 38 / 38 | 11 | [soil](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) |
+| sheikhupura | 38 / 38 | 12 | [soil](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) |
 | sialkot | 95 / 95 | 13 | [soil](../../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md) |
 | sukkur | 85 / 97 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md) |
 | colombo | 955 / 963 | 15 | [soil](../../cities/catalogue/south-asia/Sri%20Lanka/Colombo/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Sri%20Lanka/Colombo/engineering/deployment/README.md) |
@@ -222,7 +222,7 @@ City registers distinguish completed screening and data work from field investig
 | karbala | 271 / 297 | 15 | [soil](../../cities/catalogue/west-asia/Iraq/Karbala/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md) |
 | kirkuk | 268 / 270 | 15 | [soil](../../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md) |
 | kut | 89 / 110 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Kut/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md) |
-| mosul | 364 / 386 | 15 | [soil](../../cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md) |
+| mosul | 364 / 386 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md) |
 | najaf | 292 / 328 | 15 | [soil](../../cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md) |
 | nasiriyah | 103 / 106 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md) |
 | ramadi | 81 / 87 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md) |

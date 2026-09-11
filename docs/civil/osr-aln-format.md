@@ -240,9 +240,9 @@ Firms using:
 - **Autodesk Civil 3D** — export via LandXML, then transform
   with `landxml-to-osr-aln`. ✅ v1 (shipping).
 - **Bentley OpenRail** — export via LandXML (OpenRail emits a
-  compatible subset), transform with `landxml-to-osr-aln`. Cant
-  data is written to a non-standard `<Cant>` extension that v1.1
-  will read. ✅ v1.
+  compatible subset), transform with `landxml-to-osr-aln`. Explicit cant can
+  be supplied through the revision-bound TOML companion; the vendor-specific
+  `<Cant>` extension is not parsed directly.
 - **Trimble Business Center** — export via LandXML, transform
   with `landxml-to-osr-aln`. A TCL CSV reader is v1.1. ✅ v1
   via LandXML.
@@ -250,6 +250,14 @@ Firms using:
   supported. ✅ v1.
 
 ## Generated Planning Exports
+
+LandXML imports also accept `--sidecar mapping.toml --design design.toml`.
+The [companion-file contract](../../tools/osr-aln-convert/README.md#explicit-station-civil-and-cant-companion-data)
+maps every current line station, contiguous civil spans and explicit cant
+against hashes of the XML and design inputs. The importer preserves the
+declared vertical datum and all input hashes under `[meta]` and `[provenance]`,
+and runs the hard gates before writing. These imports remain subject to
+survey and engineering acceptance.
 
 `current-network-to-osr-aln` can join a generated city `design.toml` and
 corridor GeoJSON into a deterministic per-line package. Such output is a
@@ -287,6 +295,7 @@ no hard gates fire.
 |---|---|---|
 | 1.0 | 2026-04-22 | Initial spec |
 | 1.1 | 2026-08-11 | Current-network planning export, input provenance hashes, and line-id validation |
+| 1.2 | 2026-09-10 | Revision-bound LandXML station/civil/cant companion imports; OSR-ALN wire schema remains 1.0 |
 
 ## What The Current Toolchain Does NOT Include
 

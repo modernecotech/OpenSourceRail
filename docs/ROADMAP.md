@@ -27,7 +27,8 @@ limits. The repaired gate reports grid-only findings as diagnostics; all 266
 solar/storage snapshots pass, with full operating energy validation still open.
 Stabling now accepts storage-backed stations without grid import or a 150 kW
 minimum, and a grid outage alone does not disable a battery-backed destination.
-The nine retained two-day hybrid city replays pass against the repaired code. Historical
+The 2026-09-10 shared-source and charging-headroom corrections are checked
+with fresh passing two-day hybrid replays in all nine retained cities. Historical
 station-only experiments remain outside selected-plan package acceptance.
 These findings do not prescribe grid upgrades. The depot energy quantity contract is now shared by operating tiers,
 layout requirements and the BOM, with all 266 cities reporting PV area,
@@ -53,14 +54,17 @@ and 37/16/15 to Line 1/2/3 storage, separately from workshop bays. The
 station-only replay and seven-train redistribution study remain diagnostic
 benchmarks. Explicit native home allocations now support same-line depot
 returns and morning dispatch, validated across two cycles on a connected
-eight-train fixture. Two-day city hybrid screens now pass for Samawah, Uíge,
+eight-train fixture. Two-day city hybrid screens pass for Samawah, Uíge,
 Quelimane, Edéa, Bukavu, Soroti, Sheikhupura, Sumbawanga and Tartus,
 checking actual homes, storage capacity and morning launch stock. Lines operate independently, with no
 interline depot connections; physical yard routing and city evening placement
 remain subject to verification. The corrected RFC records the emitter's family-specific
 fleet assumptions instead of the stale uniform 10% recovery factor.
-Gulu, Rahim Yar Khan and Tanta also need their retained charging/grid
-overrides represented explicitly in reproducible design inputs.
+Gulu, Rahim Yar Khan and Tanta already declare two charging cabinets in their
+design cost basis. The scenario generator now applies that count consistently
+to charging validation, station power and site equipment, preserving their
+retained charging/grid settings. This closes the energy-configuration drift;
+their broader scenario and operating-evidence refresh remains open.
 
 The 2026-09-08 repository review found no failing committed software, city,
 project-twin, link, or browser acceptance baseline. The documentation audit
@@ -96,10 +100,28 @@ plan](owner-builder-operator-setup.md) and its [fail-closed mobilisation
 status](owner-builder-operator-mobilisation-status.md) assign an institutional
 route for closing those gaps.
 
+The 2026-09-10 continuation repairs the simulator GUI's depot-return event
+handling, the CI soil-coordinate dependency, a stabling-test lint failure,
+stale Soroti/Sheikhupura engineering plot manifests and Workbench startup.
+Workbench readiness now checks the lightweight page endpoint instead of
+repeatedly compiling project data under a one-second connection timeout. The
+[LandXML companion-file workflow](../tools/osr-aln-convert/README.md#explicit-station-civil-and-cant-companion-data)
+now imports revision-bound station IDs, civil spans and cant with source,
+line, CRS and coverage checks. Vendor-specific survey/cant parsing and
+coordinate transforms remain outside that implementation.
+The operations follow-up also makes overlapping trains share one grid-import
+and battery-discharge allowance per simulation step, including charger losses;
+the previous code shared cabinet output but reapplied source limits to each
+request. Its replay exposed a numerical charging-gap hold in Samawah: T45
+arrived at an unpowered stop about 1 Wh short of the next departure threshold.
+Powered departures now retain an additional 0.001 percentage point of SoC
+headroom; the 20% reserve gate is unchanged. The focused regression and fresh
+Samawah two-day replay pass. Electrical sizing and daytime timetable
+acceptance remain open.
+
 Repository work that can advance without external evidence remains visible in
 the analysis register and workstream table: charger duty, station analyses,
-passenger assignment/pedestrian capacity, native IFC viewing, and LandXML
-station/civil/cant sidecar mapping. The review closed the previously planned
+passenger assignment/pedestrian capacity and native IFC viewing. The review closed the previously planned
 CalculiX thermal-block solver benchmark with a deterministic input, analytical
 acceptance check, and machine-readable result. These tasks improve screening
 evidence but cannot close the external release gates above.

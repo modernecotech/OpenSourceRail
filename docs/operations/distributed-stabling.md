@@ -72,6 +72,12 @@ empty returns can continue until trains are stabled before the morning start.
 At home, trains berth with the declared morning
 heading and top up under the shared site limits. CSV `stabling_location`
 distinguishes station, depot and in-transit stock.
+The cabinet output, grid import and battery discharge each have one budget
+per simulation step, shared by every train at that site. Source budgets include
+charger losses and reset only at the next site tick. The 2026-09-10 correction
+removes the former per-request reuse of grid and discharge allowances; a
+larger cabinet cannot make a smaller source connection available separately
+to each waiting train.
 Station launch trains get priority, followed by waiting depot revenue trains,
 then other trains; train ID resolves ties. Schedule, faults and energy still gate
 morning departures. Reserves remain in depot storage.
@@ -110,7 +116,8 @@ cargo run --release --bin osr-sim -- --config lib/examples/hybrid-stabling.toml 
 
 ## City operating evidence
 
-The following line-local hybrid screens pass two continuous service days:
+The 2026-09-10 replays use the corrected shared grid and battery source limits.
+All nine line-local hybrid screens pass two continuous service days:
 
 | City | Station / depot trains each night | Station directions restarting within 60 s, each morning |
 |---|---:|---:|
@@ -119,14 +126,27 @@ The following line-local hybrid screens pass two continuous service days:
 | [Quelimane](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/hybrid-cycle-screen.md) | 10 / 13 | 8 / 8 |
 | [Edéa](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/hybrid-cycle-screen.md) | 10 / 10 | 8 / 8 |
 | [Bukavu](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/stabling/hybrid-cycle-screen.md) | 44 / 86 | 38 / 38 |
+| [Soroti](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/hybrid-cycle-screen.md) | 12 / 11 | 8 / 8 |
+| [Sheikhupura](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/hybrid-cycle-screen.md) | 18 / 19 | 14 / 14 |
+| [Sumbawanga](../../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/hybrid-cycle-screen.md) | 20 / 20 | 14 / 14 |
+| [Tartus](../../cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/hybrid-cycle-screen.md) | 26 / 34 | 20 / 20 |
 
-All trains reach their assigned homes before opening, depot and station counts
-meet the declared allocation, and reserves remain parked. There are no
+[Samawah](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md)
+passes both nights with 40 station and 68 depot trains and all 34 station launch
+directions on both mornings. The shared-source correction initially exposed a
+numerical hold: T45 reached unpowered `line-1-0814-0268-s019260` about 1 Wh
+short of the next section's reserve-protected departure threshold. Powered
+departures now require an extra 0.001 percentage point of stored SoC (6.75 Wh
+for the 675 kWh LM3), protecting against accumulation in per-tick floating-point
+updates. This is additional charge at the source; the 20% section-entry reserve
+is unchanged and unpowered stops do not require another top-up margin.
+A focused charging-gap regression and the fresh full two-day replay pass.
+
+All nine runs preserve the reserve within the existing 0.001-percentage-point
+numerical tolerance, keep reserves parked, conserve site energy and record no
 passenger departures after closure or movement-authority invariant violations.
-Empty return movements after 02:30 remain visible in each report. Samawah's
-minimum raw SoC is 0.19999853; its reserve comparison uses the existing city
-validator's 0.001-percentage-point floating-point tolerance. Physical layouts,
-electrical acceptance and daytime headway delivery remain open.
+Empty return movements after 02:30 remain visible in each report. Physical
+layouts, electrical acceptance and daytime headway delivery remain open.
 
 ## Retained station-only operating evidence
 
@@ -165,6 +185,7 @@ Compact reports record source, candidate, binary and raw-output hashes.
 
 Detail storage tracks and access within each line’s service location, then
 validate the same-line home-return policy against city evening and morning
-timetables while retaining two station launch trains. Verify shared charging, daytime headways, inspection
+timetables while retaining two station launch trains. The shared source-rate
+budgets are enforced in software; verify the resulting charging duty, daytime headways, inspection
 release, reserve activation and defective-train recovery against those duties.
 Reassess depot and station energy sizing from the resulting operation.
