@@ -856,7 +856,31 @@ impl JobManager {
             "Auditing IFC with IDS and linking BCF review issues",
         )
         .await?;
-        let artifacts = vec![
+        self.progress(
+            id,
+            94,
+            "Tessellating IFC solids for verified browser viewing",
+        )
+        .await?;
+        let mesh_output = Command::new(&python)
+            .arg(
+                self.repository_root
+                    .join("engineering/interchange/ifc_mesh.py"),
+            )
+            .arg("--ifc")
+            .arg(output_dir.join("civil-coordination.ifc"))
+            .arg("--index")
+            .arg(output_dir.join("civil-coordination.index.json"))
+            .arg("--out-dir")
+            .arg(&output_dir)
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await?;
+        if !mesh_output.status.success() {
+            bail!("IFC tessellation failed\n{}", command_log(&mesh_output));
+        }
+        let mut artifacts = vec![
             self.artifact("civil-bim-input", &input_path)?,
             self.artifact(
                 "civil-bim-index",
@@ -888,6 +912,24 @@ impl JobManager {
                 &output_dir.join("civil-coordination-issues.index.json"),
             )?,
         ];
+        artifacts.push(self.artifact(
+            "civil-mesh-manifest",
+            &output_dir.join("civil-mesh-manifest.json"),
+        )?);
+        let mut chunks = fs::read_dir(&output_dir)?
+            .filter_map(|entry| entry.ok().map(|e| e.path()))
+            .filter(|p| {
+                p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
+                    n.starts_with("civil-mesh-")
+                        && n != "civil-mesh-manifest.json"
+                        && n.ends_with(".json")
+                })
+            })
+            .collect::<Vec<_>>();
+        chunks.sort();
+        for chunk in chunks {
+            artifacts.push(self.artifact("civil-mesh-chunk", &chunk)?);
+        }
         Ok((output.status.code().unwrap_or(0), log, artifacts))
     }
 

@@ -4,7 +4,7 @@ City registers distinguish completed screening and data work from field investig
 
 | City | Soil complete / sampled locations | Open deployment gates | Soil inputs | Deployment work |
 |---|---:|---:|---|---|
-| bukavu | 278 / 289 | 13 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/deployment/README.md) |
+| bukavu | 278 / 289 | 12 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Bukavu/engineering/deployment/README.md) |
 | goma | 157 / 164 | 14 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Goma/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Goma/engineering/deployment/README.md) |
 | kananga | 67 / 67 | 14 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Kananga/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Kananga/engineering/deployment/README.md) |
 | kinshasa | 1027 / 1077 | 15 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Kinshasa/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Kinshasa/engineering/deployment/README.md) |
@@ -19,7 +19,7 @@ City registers distinguish completed screening and data work from field investig
 | malanje | 39 / 39 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md) |
 | namibe | 72 / 121 | 14 | [soil](../../cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md) |
 | soyo | 65 / 65 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md) |
-| uige | 20 / 20 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) |
+| uige | 20 / 20 | 11 | [soil](../../cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) |
 | eldoret | 107 / 107 | 13 | [soil](../../cities/catalogue/east-africa/Kenya/Eldoret/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md) |
 | garissa | 70 / 70 | 13 | [soil](../../cities/catalogue/east-africa/Kenya/Garissa/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md) |
 | kakamega | 102 / 102 | 13 | [soil](../../cities/catalogue/east-africa/Kenya/Kakamega/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md) |
@@ -43,7 +43,7 @@ City registers distinguish completed screening and data work from field investig
 | nacala | 84 / 89 | 14 | [soil](../../cities/catalogue/east-africa/Mozambique/Nacala/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Nacala/engineering/deployment/README.md) |
 | nampula | 116 / 116 | 13 | [soil](../../cities/catalogue/east-africa/Mozambique/Nampula/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Nampula/engineering/deployment/README.md) |
 | pemba-mz | 102 / 104 | 14 | [soil](../../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/deployment/README.md) |
-| quelimane | 40 / 40 | 12 | [soil](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md) |
+| quelimane | 40 / 40 | 11 | [soil](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md) |
 | tete | 66 / 79 | 14 | [soil](../../cities/catalogue/east-africa/Mozambique/Tete/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Tete/engineering/deployment/README.md) |
 | xai-xai | 54 / 54 | 13 | [soil](../../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/deployment/README.md) |
 | huye | 105 / 105 | 13 | [soil](../../cities/catalogue/east-africa/Rwanda/Huye/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Rwanda/Huye/engineering/deployment/README.md) |
@@ -61,7 +61,7 @@ City registers distinguish completed screening and data work from field investig
 | mwanza | 395 / 418 | 15 | [soil](../../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/deployment/README.md) |
 | shinyanga | 99 / 99 | 13 | [soil](../../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/deployment/README.md) |
 | songea | 31 / 31 | 13 | [soil](../../cities/catalogue/east-africa/Tanzania/Songea/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Songea/engineering/deployment/README.md) |
-| sumbawanga | 65 / 65 | 12 | [soil](../../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md) |
+| sumbawanga | 65 / 65 | 11 | [soil](../../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md) |
 | tabora | 53 / 53 | 13 | [soil](../../cities/catalogue/east-africa/Tanzania/Tabora/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Tabora/engineering/deployment/README.md) |
 | tanga | 104 / 113 | 14 | [soil](../../cities/catalogue/east-africa/Tanzania/Tanga/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Tanga/engineering/deployment/README.md) |
 | zanzibar-city | 268 / 279 | 14 | [soil](../../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/deployment/README.md) |
@@ -76,7 +76,7 @@ City registers distinguish completed screening and data work from field investig
 | masaka | 70 / 70 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Masaka/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md) |
 | mbale | 114 / 114 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Mbale/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md) |
 | mbarara | 114 / 114 | 13 | [soil](../../cities/catalogue/east-africa/Uganda/Mbarara/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md) |
-| soroti | 25 / 25 | 12 | [soil](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) |
+| soroti | 25 / 25 | 11 | [soil](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) |
 | lusaka | 658 / 658 | 14 | [soil](../../cities/catalogue/east-africa/Zambia/Lusaka/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md) |
 | lyon | 605 / 615 | 15 | [soil](../../cities/catalogue/europe/France/Lyon/engineering/soil/README.md) | [register](../../cities/catalogue/europe/France/Lyon/engineering/deployment/README.md) |
 | la-paz | 430 / 434 | 15 | [soil](../../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/soil/README.md) | [register](../../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md) |
@@ -152,7 +152,7 @@ City registers distinguish completed screening and data work from field investig
 | peshawar | 349 / 349 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md) |
 | quetta | 222 / 222 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md) |
 | rahim-yar-khan | 87 / 87 | 13 | [soil](../../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md) |
-| sheikhupura | 38 / 38 | 12 | [soil](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) |
+| sheikhupura | 38 / 38 | 11 | [soil](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) |
 | sialkot | 95 / 95 | 13 | [soil](../../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md) |
 | sukkur | 85 / 97 | 14 | [soil](../../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md) |
 | colombo | 955 / 963 | 15 | [soil](../../cities/catalogue/south-asia/Sri%20Lanka/Colombo/engineering/soil/README.md) | [register](../../cities/catalogue/south-asia/Sri%20Lanka/Colombo/engineering/deployment/README.md) |
@@ -171,7 +171,7 @@ City registers distinguish completed screening and data work from field investig
 | bamenda | 105 / 105 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/deployment/README.md) |
 | bertoua | 69 / 69 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/deployment/README.md) |
 | douala | 662 / 684 | 15 | [soil](../../cities/catalogue/west-africa/Cameroon/Douala/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Douala/engineering/deployment/README.md) |
-| edea | 21 / 23 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md) |
+| edea | 21 / 23 | 12 | [soil](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md) |
 | garoua | 149 / 149 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Garoua/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Garoua/engineering/deployment/README.md) |
 | kumba | 108 / 108 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Kumba/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Kumba/engineering/deployment/README.md) |
 | maroua | 174 / 174 | 13 | [soil](../../cities/catalogue/west-africa/Cameroon/Maroua/engineering/soil/README.md) | [register](../../cities/catalogue/west-africa/Cameroon/Maroua/engineering/deployment/README.md) |
@@ -260,7 +260,7 @@ City registers distinguish completed screening and data work from field investig
 | idlib | 66 / 66 | 13 | [soil](../../cities/catalogue/west-asia/Syria/Idlib/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Syria/Idlib/engineering/deployment/README.md) |
 | latakia | 103 / 103 | 13 | [soil](../../cities/catalogue/west-asia/Syria/Latakia/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Syria/Latakia/engineering/deployment/README.md) |
 | raqqa | 85 / 86 | 14 | [soil](../../cities/catalogue/west-asia/Syria/Raqqa/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Syria/Raqqa/engineering/deployment/README.md) |
-| tartus | 64 / 64 | 12 | [soil](../../cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md) |
+| tartus | 64 / 64 | 11 | [soil](../../cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md) |
 | aden | 37 / 89 | 14 | [soil](../../cities/catalogue/west-asia/Yemen/Aden/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Yemen/Aden/engineering/deployment/README.md) |
 | dhamar | 131 / 131 | 13 | [soil](../../cities/catalogue/west-asia/Yemen/Dhamar/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Yemen/Dhamar/engineering/deployment/README.md) |
 | hodeidah | 21 / 58 | 14 | [soil](../../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/deployment/README.md) |

@@ -523,8 +523,10 @@ async function main() {
   await click(`[data-demand-edit="${odFlowId}"]`);
   await form("#demand-form", { "demand-passengers": 1200 });
   await cdp.wait(`view.snapshot.demand.flows.find(item => item.id === ${JSON.stringify(odFlowId)})?.passengers_per_hour === 1200`, "OD demand edit");
+  await cdp.wait("document.querySelector('#passenger-sections').textContent.includes('1,200')", "updated passenger section load rendered");
   const odMetric = await cdp.evaluate(`view.snapshot.demand_metrics.find(item => item.flow_id === ${JSON.stringify(odFlowId)})`);
-  assert(odMetric.transfers === 1 && odMetric.capacity_pphpd > 0 && odMetric.utilization_percent > 0, "OD transfer and capacity screen regenerated", `${odMetric.capacity_pphpd} pphpd · ${odMetric.utilization_percent.toFixed(1)}%`);
+  const assignmentView = await cdp.evaluate(`({ sections: view.snapshot.passenger_assignment.sections.length, stations: view.snapshot.passenger_assignment.stations.length, rendered: document.querySelector('#passenger-sections').textContent })`);
+  assert(odMetric.transfers === 1 && odMetric.capacity_pphpd > 0 && odMetric.utilization_percent > 0 && odMetric.route_stations.length > 2 && assignmentView.sections > 0 && assignmentView.stations > 0 && assignmentView.rendered.includes('1,200'), "OD routes and shared-section assignment regenerated", JSON.stringify({ odMetric, assignmentView }));
   record("OD demand intent created and edited", odFlowId);
 
   await click("#compile");
@@ -658,7 +660,8 @@ async function main() {
   assert(civilGeoreferencing.native_ifc_georeferencing && civilGeoreferencing.crs_name === "EPSG:32638", "civil IFC carries selected line map conversion");
 
   const ifcObjectCount = await cdp.evaluate("selectedArtifactPreview.content.objects.length");
-  assert(ifcObjectCount > 20, "IFC object inspector populated", `${ifcObjectCount} objects`);
+  const meshView = await cdp.evaluate(`({ objects: selectedCivilMeshes.size, paths: document.querySelectorAll('[data-geometry="ifc-triangles"]').length, triangles: [...selectedCivilMeshes.values()].reduce((sum, item) => sum + item.triangles.length / 3, 0) })`);
+  assert(ifcObjectCount > 20 && meshView.objects > 20 && meshView.paths === meshView.objects && meshView.triangles > meshView.objects * 12, "IFC object inspector displays native tessellated geometry", `${meshView.objects} objects · ${meshView.triangles} triangles`);
   const ifcTypeEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
     const index = content.objects.findIndex(item => item.ifc_type_id);

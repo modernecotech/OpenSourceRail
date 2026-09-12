@@ -71,17 +71,14 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 808b7b454a638a9b2e3563c213511ed800739524a0c2ed67206adaebbf9441ef, but uige.toml is dd4f3cabed1b7c55265c329c32ed5ddad684b986ebadcfa7591bc4ebf056c1aa; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 4 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 4 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 65 assets / 353 tasks | [`uige-operations-manifest.json`](operations/uige-operations-manifest.json) |
 
 ## Local Files And Regeneration

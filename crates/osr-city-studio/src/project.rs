@@ -60,6 +60,7 @@ struct SnapshotContent<'a> {
     service_metrics: &'a [ServiceMetric],
     demand: &'a DemandFile,
     demand_metrics: &'a [DemandMetric],
+    passenger_assignment: &'a crate::passenger::PassengerAssignment,
     summary: &'a SnapshotSummary,
     changes: &'a [StationChange],
     findings: &'a [ValidationFinding],
@@ -647,14 +648,20 @@ impl CityProject {
                 .cmp(&b.line)
                 .then_with(|| a.day_type.cmp(&b.day_type))
         });
-        let demand_metrics = self.compute_demand_metrics(&stations);
+        let (demand_metrics, passenger_assignment) = crate::passenger::assign(
+            &self.demand,
+            &lines,
+            &stations,
+            &self.config.planning,
+            |line, period| self.line_capacity_for_period(line, period),
+        );
         for metric in &demand_metrics {
             if metric.status == "over-capacity" {
                 findings.push(ValidationFinding {
                     severity: FindingSeverity::Warning,
                     code: "DEMAND_OVER_CAPACITY".to_string(),
                     message: format!(
-                        "OD flow reaches {:.1}% of the indicative scheduled capacity",
+                        "Assigned route reaches {:.1}% of scheduled capacity after combining OD flows",
                         metric.utilization_percent.unwrap_or(0.0)
                     ),
                     object_id: Some(metric.flow_id.clone()),
@@ -663,8 +670,9 @@ impl CityProject {
                 findings.push(ValidationFinding {
                     severity: FindingSeverity::Error,
                     code: "DEMAND_WITHOUT_SERVICE".to_string(),
-                    message: "OD flow has no scheduled capacity during its planning period"
-                        .to_string(),
+                    message:
+                        "OD flow has no connected route with service throughout its planning period"
+                            .to_string(),
                     object_id: Some(metric.flow_id.clone()),
                 });
             }
@@ -727,6 +735,7 @@ impl CityProject {
             service_metrics: &service_metrics,
             demand: &self.demand,
             demand_metrics: &demand_metrics,
+            passenger_assignment: &passenger_assignment,
             summary: &summary,
             changes: &changes,
             findings: &findings,
@@ -753,6 +762,7 @@ impl CityProject {
             service_metrics,
             demand: self.demand.clone(),
             demand_metrics,
+            passenger_assignment,
             summary,
             changes,
             findings,
@@ -2208,52 +2218,6 @@ impl CityProject {
         findings
     }
 
-    fn compute_demand_metrics(&self, stations: &[CompiledStation]) -> Vec<DemandMetric> {
-        let station_by_id = stations
-            .iter()
-            .map(|station| (station.id.as_str(), station))
-            .collect::<BTreeMap<_, _>>();
-        let period_by_id = self
-            .demand
-            .periods
-            .iter()
-            .map(|period| (period.id.as_str(), period))
-            .collect::<BTreeMap<_, _>>();
-        let mut metrics = Vec::new();
-        for flow in &self.demand.flows {
-            let (Some(period), Some(origin), Some(destination)) = (
-                period_by_id.get(flow.period.as_str()),
-                station_by_id.get(flow.origin_station.as_str()),
-                station_by_id.get(flow.destination_station.as_str()),
-            ) else {
-                continue;
-            };
-            let origin_capacity = self.line_capacity_for_period(&origin.line, period);
-            let destination_capacity = self.line_capacity_for_period(&destination.line, period);
-            let capacity_pphpd = origin_capacity.min(destination_capacity);
-            let utilization_percent = (capacity_pphpd > 0)
-                .then(|| f64::from(flow.passengers_per_hour) / f64::from(capacity_pphpd) * 100.0);
-            let status = match utilization_percent {
-                None => "unavailable",
-                Some(value) if value > 100.0 => "over-capacity",
-                Some(value) if value > 85.0 => "near-capacity",
-                Some(_) => "within-capacity",
-            };
-            metrics.push(DemandMetric {
-                flow_id: flow.id.clone(),
-                period: flow.period.clone(),
-                origin_line: origin.line.clone(),
-                destination_line: destination.line.clone(),
-                transfers: u32::from(origin.line != destination.line),
-                capacity_pphpd,
-                utilization_percent,
-                status: status.to_string(),
-            });
-        }
-        metrics.sort_by(|left, right| left.flow_id.cmp(&right.flow_id));
-        metrics
-    }
-
     fn line_capacity_for_period(&self, line: &str, period: &crate::model::DemandPeriod) -> u32 {
         let Some(plan) = self
             .service_plan
@@ -2271,18 +2235,38 @@ impl CityProject {
         else {
             return 0;
         };
-        plan.windows
+        let mut spans = plan
+            .windows
             .iter()
             .filter_map(|window| {
                 let (from, to) =
                     normalized_interval(&window.from, &window.to, service_start).ok()?;
-                (from < period_to && to > period_from).then_some(
-                    self.config.planning.passenger_capacity_per_train * 60
+                (from < period_to && to > period_from).then_some((
+                    from.max(period_from),
+                    to.min(period_to),
+                    self.config
+                        .planning
+                        .passenger_capacity_per_train
+                        .saturating_mul(60)
                         / window.headway_min.max(1),
-                )
+                ))
             })
-            .min()
-            .unwrap_or(0)
+            .collect::<Vec<_>>();
+        spans.sort_unstable();
+        let mut covered_to = period_from;
+        let mut minimum = u32::MAX;
+        for (from, to, capacity) in spans {
+            if from > covered_to {
+                return 0;
+            }
+            covered_to = covered_to.max(to);
+            minimum = minimum.min(capacity);
+        }
+        if covered_to < period_to || minimum == u32::MAX {
+            0
+        } else {
+            minimum
+        }
     }
 
     fn compute_service_metrics(&self, lines: &[CompiledLine]) -> Result<Vec<ServiceMetric>> {
@@ -3724,6 +3708,7 @@ fn compiler_source_hash() -> String {
         ("src/main.rs", include_bytes!("main.rs")),
         ("src/model.rs", include_bytes!("model.rs")),
         ("src/project.rs", include_bytes!("project.rs")),
+        ("src/passenger.rs", include_bytes!("passenger.rs")),
         ("src/server.rs", include_bytes!("server.rs")),
         ("web/app.css", include_bytes!("../web/app.css")),
         ("web/app.js", include_bytes!("../web/app.js")),

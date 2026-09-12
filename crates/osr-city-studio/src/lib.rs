@@ -2,6 +2,7 @@
 
 mod jobs;
 pub mod model;
+pub mod passenger;
 mod project;
 pub mod server;
 

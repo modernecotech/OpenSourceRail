@@ -241,7 +241,7 @@
             <button type="button" id="cancel-demand" class="secondary" hidden>Cancel edit</button>
             <button type="submit" class="primary">Save OD flow</button>
           </div>
-          <small>Indicative screen only: capacity is the conservative scheduled bottleneck across the selected period and does not perform passenger assignment.</small>
+          <small>Planning assignment uses the shortest scheduled-time route, combines OD loads per direction, and allows transfers only at colocated interchange-tagged stations. Loads above capacity are reported, not assumed to board.</small>
         </form>
         <div class="demand-results">
           <div id="demand-summary" class="metric-callout"></div>
@@ -249,6 +249,11 @@
             <thead><tr><th>Origin → destination</th><th>Demand</th><th>Capacity</th><th>Screen</th><th></th></tr></thead>
             <tbody id="demand-flows"></tbody>
           </table>
+          <h3>Directional section loads</h3>
+          <table><thead><tr><th>Section</th><th>Passengers/h</th><th>Capacity/h</th><th>Load</th></tr></thead><tbody id="passenger-sections"></tbody></table>
+          <h3>Station and interchange demand</h3>
+          <table><thead><tr><th>Station</th><th>Board / alight per h</th><th>Transfer boards/h</th><th>Arrivals per headway</th></tr></thead><tbody id="passenger-stations"></tbody></table>
+          <small>Arrivals use one maximum scheduled headway, without denied-boarding queues. Platform area, circulation capacity, arrival variation and evacuation still need project-specific pedestrian analysis.</small>
         </div>
       </div>
     </section>

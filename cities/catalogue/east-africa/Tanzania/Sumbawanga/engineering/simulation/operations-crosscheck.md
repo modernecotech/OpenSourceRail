@@ -2,7 +2,7 @@
 
 - Status: **running-time-screen-passed-awaiting-junction-evidence**
 - Automatic running-time cross-check: **passed**
-- Retained full-service replay matches current inputs/tools: **no**
+- Retained full-service replay matches current inputs/tools: **yes**
 - Junction occupancy evidence: **pending**
 - Authority accepted: **no**
 

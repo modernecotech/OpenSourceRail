@@ -96,7 +96,13 @@ soil summary and investigation-plan hashes while retaining its field-evidence ga
   stale service acceptance is not carried forward.
   Following the 2026-09-10 shared-source and charging-headroom corrections,
   Samawah and Mosul pass fresh two-run nominal validation and all eight
-  degraded cases each. The other 264 cities retain an explicit full-service
+  degraded cases each. The 2026-09-11 expansion repeats that complete suite for
+  Uige, Quelimane, Edea, Bukavu, Soroti, Sheikhupura, Sumbawanga and Tartus:
+  ten cities now have current passing full-service evidence. Six expanded
+  scenarios now explicitly declare the shared trainset systems contract that
+  they previously inherited from simulator defaults; operating values are unchanged.
+  Their dependent hybrid, engineering and deployment reports were regenerated.
+  The other 256 cities retain an explicit full-service
   replay-refresh gate; earlier passes remain bound to their original binaries. Continuous two-day station/depot replay now
   passes in nine cities: Samawah, Uige, Quelimane, Edea, Bukavu, Soroti,
   Sheikhupura, Sumbawanga and Tartus.

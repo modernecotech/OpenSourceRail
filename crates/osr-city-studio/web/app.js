@@ -102,6 +102,7 @@ let jobPollTimer = null;
 let selectedArtifactPreview = null;
 let selectedCoordinationAssetIds = new Set();
 let selectedCivilSequence = null;
+let selectedCivilMeshes = new Map();
 let civilPlaybackTimer = null;
 let civilReviewState = {
   angle_deg: -35,
@@ -1203,8 +1204,15 @@ function renderDemandPlanner() {
     0,
   );
   $("#demand-summary").innerHTML = periodDefinition
-    ? `<strong>${flows.length}</strong> OD flows · <strong>${totalDemand.toLocaleString()}</strong> entered passengers/hour · <strong>${maxUtilization.toFixed(1)}%</strong> highest indicative utilization · ${escapeHtml(periodDefinition.day_type)}`
+    ? `<strong>${flows.length}</strong> OD flows · <strong>${totalDemand.toLocaleString()}</strong> entered passengers/hour · <strong>${maxUtilization.toFixed(1)}%</strong> highest shared-section utilization · ${escapeHtml(periodDefinition.day_type)}`
     : "Configure a source-controlled planning period to begin.";
+  const assignment = view.snapshot.passenger_assignment || { sections: [], stations: [] };
+  $("#passenger-sections").innerHTML = assignment.sections.filter(item => item.period === period).map(item =>
+    `<tr><td>${escapeHtml(stations.get(item.from_station)?.name || item.from_station)} → ${escapeHtml(stations.get(item.to_station)?.name || item.to_station)}</td><td>${item.passengers_per_hour.toLocaleString()}</td><td>${item.capacity_pphpd.toLocaleString()}</td><td>${item.utilization_percent.toFixed(1)}%</td></tr>`
+  ).join("") || '<tr><td colspan="4">No connected passenger routes in this period.</td></tr>';
+  $("#passenger-stations").innerHTML = assignment.stations.filter(item => item.period === period).map(item =>
+    `<tr><td>${escapeHtml(stations.get(item.station)?.name || item.station)}</td><td>${item.boardings_per_hour.toLocaleString()} / ${item.alightings_per_hour.toLocaleString()}</td><td>${item.transfer_boardings_per_hour.toLocaleString()}</td><td>${item.one_headway_arrivals.toFixed(1)}</td></tr>`
+  ).join("") || '<tr><td colspan="4">No assigned boarding or alighting demand.</td></tr>';
   $("#demand-flows").innerHTML = flows.length ? flows.map((flow) => {
     const metric = metrics.get(flow.id);
     const origin = stations.get(flow.origin_station);
@@ -1214,9 +1222,9 @@ function renderDemandPlanner() {
       ? "unavailable"
       : `${metric.utilization_percent.toFixed(1)}%`;
     const status = metric?.status || "unavailable";
-    const transfer = metric?.transfers ? "1 transfer screen" : "direct line screen";
+    const transfer = metric?.transfers ? `${metric.transfers} transfer(s) · ${metric.journey_minutes?.toFixed(1) || "—"} min` : `direct route · ${metric?.journey_minutes?.toFixed(1) || "—"} min`;
     return `<tr data-demand-flow="${escapeHtml(flow.id)}">
-      <td><span class="demand-route"><strong>${escapeHtml(origin?.name || flow.origin_station)} → ${escapeHtml(destination?.name || flow.destination_station)}</strong><small>${escapeHtml(flow.id)} · ${escapeHtml(transfer)}</small></span></td>
+      <td><span class="demand-route"><strong>${escapeHtml(origin?.name || flow.origin_station)} → ${escapeHtml(destination?.name || flow.destination_station)}</strong><small>${escapeHtml(flow.id)} · ${escapeHtml(transfer)}</small><small>${escapeHtml((metric?.route_stations || []).map(id => stations.get(id)?.name || id).join(" → "))}</small></span></td>
       <td>${flow.passengers_per_hour.toLocaleString()} pph</td>
       <td>${capacity} pphpd</td>
       <td><span class="demand-status ${escapeHtml(status)}">${escapeHtml(status.replaceAll("-", " "))} · ${escapeHtml(utilization)}</span></td>
@@ -1242,7 +1250,7 @@ $("#demand-form").addEventListener("submit", async (event) => {
       view = await api.demandFlow(selectedDemandFlowId, {
         passengers_per_hour: Number($("#demand-passengers").value),
       });
-      toast("OD demand updated; capacity screening and revision hash regenerated.");
+      toast("OD demand updated; routes and shared section loads recalculated.");
     } else {
       const result = await api.createDemandFlow({
         period: $("#demand-period").value,
@@ -1358,6 +1366,7 @@ async function openJobArtifact(jobId, index, shouldScroll) {
     const changed = !selectedArtifactPreview
       || selectedArtifactPreview.job_id !== nextPreview.job_id
       || selectedArtifactPreview.artifact_index !== nextPreview.artifact_index;
+    const nextMeshes = new Map();
     if (changed) {
       selectedCoordinationAssetIds.clear();
       stopCivilPlayback();
@@ -1366,6 +1375,24 @@ async function openJobArtifact(jobId, index, shouldScroll) {
         const job = jobView.jobs.find((item) => item.id === jobId);
         const sequenceIndex = job?.artifacts.findIndex((item) => item.kind === "civil-4d-sequence") ?? -1;
         if (sequenceIndex >= 0) selectedCivilSequence = await api.jobArtifact(jobId, sequenceIndex);
+        const meshIndex = job?.artifacts.findIndex((item) => item.kind === "civil-mesh-manifest") ?? -1;
+        if (meshIndex >= 0) {
+          const manifest = (await api.jobArtifact(jobId, meshIndex)).content;
+          if (manifest.ifc_sha256 !== nextPreview.content.ifc_sha256 || manifest.index_sha256 !== nextPreview.artifact.sha256) throw new Error("IFC geometry belongs to a different source revision");
+          const indexed = new Map(nextPreview.content.objects.map(item => [item.asset_id, item.ifc_guid]));
+          for (const chunk of manifest.chunks) {
+            const chunkIndex = job.artifacts.findIndex(item => item.kind === "civil-mesh-chunk" && item.path.split("/").at(-1) === chunk.file && item.sha256 === chunk.sha256);
+            if (chunkIndex < 0) throw new Error("Missing verified IFC geometry chunk");
+            const mesh = (await api.jobArtifact(jobId, chunkIndex)).content;
+            if (mesh.ifc_sha256 !== manifest.ifc_sha256) throw new Error("IFC chunk source mismatch");
+            for (const object of mesh.objects) {
+              if (indexed.get(object.asset_id) !== object.ifc_guid || nextMeshes.has(object.asset_id)) throw new Error("IFC geometry identity mismatch");
+              if (object.vertices.length % 3 || object.triangles.length % 3 || !object.vertices.every(Number.isFinite) || !object.triangles.every(i => Number.isInteger(i) && i >= 0 && i < object.vertices.length / 3)) throw new Error("Invalid IFC triangles");
+              nextMeshes.set(object.asset_id, object);
+            }
+          }
+          if (nextMeshes.size !== manifest.object_count) throw new Error("IFC geometry coverage mismatch");
+        }
         const disciplines = Object.keys(nextPreview.content.summary?.disciplines || {});
         const layers = nextPreview.content.layers?.length
           ? nextPreview.content.layers.map((layer) => layer.layer_id)
@@ -1382,6 +1409,7 @@ async function openJobArtifact(jobId, index, shouldScroll) {
     // Publish the selection only after companion evidence and review state are
     // ready, so API consumers and the GUI cannot observe a half-rendered
     // artifact transition.
+    if (changed) selectedCivilMeshes = nextMeshes;
     selectedArtifactPreview = nextPreview;
     renderJobs();
     renderArtifactViewer();
@@ -1496,6 +1524,7 @@ function renderCivilReviewControls(preview) {
       <input id="civil-stage" type="range" min="0" max="${tasks.length}" step="1" value="${stage}" ${tasks.length ? "" : "disabled"}>
     </label>
     <div class="civil-stage-actions"><button id="civil-playback" type="button" class="secondary" ${tasks.length ? "" : "disabled"}>${civilPlaybackTimer ? "Pause" : "Play 4D"}</button><span class="civil-stage-label">${stage}/${tasks.length} · ${visibleAssets} assets visible</span></div>
+    <small>${selectedCivilMeshes.size ? `${selectedCivilMeshes.size} objects rendered from IFC triangles` : "Envelope view; regenerate civil BIM to view IFC solids"}</small>
     <small>${task ? `${escapeHtml(task.id)} · ${escapeHtml(task.title)} · ${escapeHtml(task.qa_hold)} · ${(task.assigned_asset_ids || []).length} physical outputs · ${(task.review_gate_asset_ids || []).length} virtual review interfaces` : "Pre-construction state"}</small>`;
   host.querySelector("#civil-view-angle").addEventListener("input", (event) => {
     civilReviewState.angle_deg = Number(event.currentTarget.value);
@@ -1586,6 +1615,12 @@ function artifactGraphic(preview) {
       if ((content.systems || []).length
         && !civilReviewState.systems.has(item.functional_system_id)) return [];
       if (stageAssets && !stageAssets.has(item.asset_id)) return [];
+      const mesh = selectedCivilMeshes.get(item.asset_id);
+      if (mesh) {
+        const points = mesh.triangles.map(i => iso(mesh.vertices.slice(i * 3, i * 3 + 3)));
+        points.triangles = true;
+        return points;
+      }
       const box = item.bbox_m;
       if (!Array.isArray(box) || box.length !== 6) return [];
       const corners = [
@@ -1620,12 +1655,8 @@ function artifactGraphic(preview) {
 
 function drawArtifactGraphic(svg, groups) {
   const points = groups.flat();
-  const xs = points.map((point) => point[0]);
-  const ys = points.map((point) => point[1]);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const [x, y] of points) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); }
   const spanX = Math.max(maxX - minX, 1e-9);
   const spanY = Math.max(maxY - minY, 1e-9);
   const scale = Math.min(820 / spanX, 340 / spanY);
@@ -1643,9 +1674,18 @@ function drawArtifactGraphic(svg, groups) {
     }
     path.setAttribute("d", group.map((point, index) => {
       const [x, y] = project(point);
-      return `${index ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+      return group.triangles
+        ? `${index % 3 ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}${index % 3 === 2 ? " Z" : ""}`
+        : `${index ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
     }).join(" "));
+    if (group.triangles) {
+      path.dataset.geometry = "ifc-triangles";
+      path.style.fill = "#9ec7d0";
+      path.style.fillOpacity = "0.25";
+      path.style.strokeWidth = "0.35";
+    }
     svg.append(path);
+    if (group.triangles) return;
     [group[0], group.at(-1)].forEach((point) => {
       const [x, y] = project(point);
       const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");

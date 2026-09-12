@@ -30,6 +30,11 @@ minimum, and a grid outage alone does not disable a battery-backed destination.
 The 2026-09-10 shared-source and charging-headroom corrections are checked
 with fresh passing two-day hybrid replays in all nine retained cities. Historical
 station-only experiments remain outside selected-plan package acceptance.
+The 2026-09-11 broader validation adds Uige, Quelimane, Edea, Bukavu, Soroti,
+Sheikhupura, Sumbawanga and Tartus to Samawah and Mosul: all ten pass two
+nominal runs and eight degraded cases with current source provenance.
+The remaining 256 cities retain their full-service refresh gate; the
+[deployment summary](../engineering/analysis/deployment-summary.md) tracks coverage.
 These findings do not prescribe grid upgrades. The depot energy quantity contract is now shared by operating tiers,
 layout requirements and the BOM, with all 266 cities reporting PV area,
 equipment-cost sensitivity and initial dispatch capacity requirements. Located
@@ -121,7 +126,10 @@ acceptance remain open.
 
 Repository work that can advance without external evidence remains visible in
 the analysis register and workstream table: charger duty, station analyses,
-passenger assignment/pedestrian capacity and native IFC viewing. The review closed the previously planned
+capacity-constrained passenger boarding and physical pedestrian capacity.
+City Studio now assigns OD flows to connected scheduled routes and combines
+directional section and station loads. Civil jobs tessellate native IFC solids
+into source-bound chunks for the existing object/4D viewer. The review closed the previously planned
 CalculiX thermal-block solver benchmark with a deterministic input, analytical
 acceptance check, and machine-readable result. These tasks improve screening
 evidence but cannot close the external release gates above.
@@ -138,7 +146,7 @@ evidence but cannot close the external release gates above.
 | Custom-board release artifacts | KiCad capture, gerbers, board BOMs, DFM review, and assembly drawings only for deployments that choose OSR-specific carrier, power, safety-I/O, or sensor-interface boards |
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | Workbench context plus onboard, station, intrusion and T2G-to-depot CBM/historian/analytics software-in-loop are implemented; signed live actions, production transports, asset-specific points/crossing/fare-gate harnesses, HIL, and authenticated live GUI paths remain |
-| City Studio | Git-backed city projects, source locks, layered offline GIS editing, complete manual line/station/alignment authoring, semantic revision comparison including BCF, OD demand, per-line IFC survey control and revision-locked field-to-structural-release gates, plus controlled engineering jobs, verified viewers and 144-check Playwright browser/restart persistence acceptance (implemented); received field data, native tessellated IFC streaming, passenger assignment and platform/interchange pedestrian capacity next |
+| City Studio | Git-backed city projects, source locks, layered offline GIS editing, complete manual line/station/alignment authoring, semantic revision comparison including BCF, OD demand, per-line IFC survey control and revision-locked field-to-structural-release gates, plus controlled engineering jobs, verified viewers and 144-check Playwright browser/restart persistence acceptance (implemented); native tessellated IFC viewing and routed OD assignment with shared section/station loads are now implemented; received field data, capacity-constrained boarding and platform/interchange pedestrian capacity remain |
 | Certification evidence | Tool-backed/assessor-accepted consensus refinement, qualified safety-controller freeze, residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Close the six civil release packages with survey-grade alignments, ground models, supplier data, per-span checks, reinforcement/prestress, first articles and signed deployment releases; close the station packages against surveyed placement and project evidence |
 

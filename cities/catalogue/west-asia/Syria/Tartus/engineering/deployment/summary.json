@@ -1,17 +1,17 @@
 {
   "city": "tartus",
-  "closed_gate_count": 5,
+  "closed_gate_count": 6,
   "deployment_release_ready": false,
   "design_sha256": "9dbae685c4a2c0efc94c1b29f6ee512b5f44f9054c63e79753027bbf8dfcff61",
   "evidence_sha256": {
-    "delivery/summary.json": "56a9a2f8c9d30e862eaf1be36ba53693321c595f5c0996b0d47a78fc56f9cc66",
-    "depot-scope/summary.json": "88907be3da1bb871a3aa8e6218f89d4c2423071aa03ab84b572ec5fdf4100ac8",
-    "energy/summary.json": "49b2d278c9f04aa8ab9f2c49eee565d673ceb53fc4d4466ace50c37751c24ef8",
-    "simulation/operations-crosscheck.json": "60f6c2d1a9454e74e02baff100451e76c8c926e945dd3b952042b2f8d92f8ddd",
-    "simulation/validation-summary.json": "c130805ee142be87bc0a177747a6778d0d8b21f0e74f5908955ba1b112601e50",
+    "delivery/summary.json": "ce7614867a2196bf7f0dfb48eb0cdb064c147eeb073bc392948a95d4b9cdffdf",
+    "depot-scope/summary.json": "83281789d9d2e9677d918be4e76b67fa7ea4f02622ce7323962ca5f6d6675d92",
+    "energy/summary.json": "ed47ad510781ff4ee1137afcaefa5ef03f4a2e7ace842fba9d39fa9ec5aca8c0",
+    "simulation/operations-crosscheck.json": "9cca803992a965bec562d00db0ac6754f9654ff269acb44fac74e1b7529af112",
+    "simulation/validation-summary.json": "3694c01c94ba6bfa866d98d5329c5699d31b9aaf09e3b2101f4518055a2e2b4f",
     "soil/summary.json": "a074dd4dd94418c2d35ce18e61e6983e4667f69fe74daa15d2fb7d3e316ad05c",
-    "stabling/hybrid-cycle-screen.json": "6ec79f52449f7e453a241af6619b09e4fd32fb0248b70dc79c0ef86c0a26242d",
-    "stabling/summary.json": "39fc05ad6456a0eb80532a6caf89fee793d8110fc93572e8115c860f7fb0e218",
+    "stabling/hybrid-cycle-screen.json": "ce8cc7ec1b50534b5d843aa9256a925a32022896896065bb3eb703e0e0b6c9e4",
+    "stabling/summary.json": "6c146e927901f49f8d4bda78bd118c075a28b2aad7677f4ee5e0825a3cde692b",
     "survey/control-processing-readiness.json": "f226067de59ba4860c99b087390240594ddd0203ff290d406de61d83fac34e33",
     "survey/drainage-ground-readiness.json": "16a55962fde14f261c67d1e800a7060bcd2d3022d9c3a551f3571b89d3bc6a30",
     "survey/ground-model-readiness.json": "5e16e0cf424340f2c52628f4d5a1a7292516690c3021583d3c116e080ca7e324",
@@ -177,7 +177,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -229,10 +229,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 62711.556870121145,
+        "retained_run_delivered_kwh": 62711.552947380434,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 36789.064003627296,
-        "retained_run_pv_generated_kwh": 47502.217758177976,
+        "retained_run_grid_imported_kwh": 36789.050458025304,
+        "retained_run_pv_generated_kwh": 47502.21962058579,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -267,7 +267,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 12,
+  "open_gate_count": 11,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

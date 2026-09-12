@@ -71,17 +71,14 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 0c04e34119a20b4114a550c4a94f556e170f08c37829079c1f2a94bbe705c5c4, but quelimane.toml is d9ff3186596c936752d781835e7096da4d58bff54f77a1c76698ac6190a58969; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 1 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 1 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 55 assets / 298 tasks | [`quelimane-operations-manifest.json`](operations/quelimane-operations-manifest.json) |
 
 ## Local Files And Regeneration

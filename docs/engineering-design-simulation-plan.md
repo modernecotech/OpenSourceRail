@@ -179,8 +179,11 @@ supplier, engineering, client, commercial, and CDE evidence still required.
 
 The city package now also converts canonical catalogue inputs into QGIS/GDAL
 GeoPackages, shapes SUMO edges from the corridor GeoJSON, and runs per-city
-pandapower/pvlib electrical and PV screens. Samawah and Mosul are the full
-acceptance cases and Songea is a portability check. Samawah's Line 1 corridor
+pandapower/pvlib electrical and PV screens. Samawah and Mosul are the primary
+package acceptance cases and Songea is a portability check. Current nominal
+and degraded full-service simulation evidence now covers ten cities, as tracked
+in the [deployment evidence workflow](city-deployment-evidence.md).
+Samawah's Line 1 corridor
 geometry is 2.3% shorter than declared chainage and its maximum station-to-
 corridor offset is 75.3 m; these remain explicit coordination findings pending
 survey-grade alignment. Its peak grid-only case overloads 14

@@ -50,7 +50,7 @@ machine-readable register of nine external engineering decisions, IDS audit,
 and BCF 3.0 release issues for Bonsai.
 The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
-envelopes with object picking, asset-class inheritance, review-group and
+tessellated solids with object picking, asset-class inheritance, review-group and
 functional-system membership, interface-constraint evidence,
 property-template applicability and definition linkage,
 alignment layout, stationing, and unresolved cant/transition evidence,
@@ -58,6 +58,8 @@ planning-rate provenance, quantity drivers, and no-estimate boundaries,
 source-document records and hashes, IDS
 specifications, BCF topics, LandXML, railML,
 stakeout CSV, or simulation results.
+The civil job also produces source-bound native IFC triangle chunks, loaded
+through the verified artifact endpoint with stable object identities.
 The civil viewer joins the verified IFC object index with its verified 4D task
 sequence, supporting view rotation, presentation-layer, coordination-group, and
 functional-system visibility, construction-stage scrubbing/playback,
@@ -77,8 +79,11 @@ Demand periods and OD flows live in `demand/od-matrix.toml`. Flow IDs are
 derived from period/origin/destination identity, capacity screens are rebuilt
 from the corresponding line/day/time service windows, and both intent and
 metrics participate in deterministic revision hashes and semantic comparison.
-This is an indicative planning screen, not observed passenger data or a
-passenger-assignment model.
+The compiler assigns shortest scheduled-time routes through connected,
+colocated interchanges, combines OD flows on directed sections and reports
+station boarding, alighting and transfer loads. Periods require full service
+coverage. This is an all-or-nothing planning assignment; observed OD calibration,
+capacity-constrained boarding and physical pedestrian acceptance remain open.
 
 Civil settings live in `[civil]` in `project.osr.toml`. The API and GUI reject
 values outside the controlled product family before atomically persisting the

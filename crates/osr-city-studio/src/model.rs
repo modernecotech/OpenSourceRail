@@ -92,6 +92,10 @@ pub struct DemandFlowEdit {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct DemandMetric {
+    #[serde(default)]
+    pub route_stations: Vec<String>,
+    #[serde(default)]
+    pub journey_minutes: Option<f64>,
     pub flow_id: String,
     pub period: String,
     pub origin_line: String,
@@ -554,6 +558,8 @@ pub struct CompiledSnapshot {
     pub demand: DemandFile,
     #[serde(default)]
     pub demand_metrics: Vec<DemandMetric>,
+    #[serde(default)]
+    pub passenger_assignment: crate::passenger::PassengerAssignment,
     pub summary: SnapshotSummary,
     pub changes: Vec<StationChange>,
     pub findings: Vec<ValidationFinding>,

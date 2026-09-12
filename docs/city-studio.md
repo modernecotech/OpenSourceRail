@@ -189,11 +189,9 @@ Implemented:
 
 Next:
 
-- native 3D IFC geometry streaming and IDS editing (projected IFC object
-  picking, IDS inspection, multi-asset BCF topic creation, and controlled
-  BCF status, assignment, resolution, and reviewer decisions are implemented);
-- passenger assignment and platform/interchange pedestrian capacity (the
-  deterministic OD intent and scheduled line-capacity screen are implemented);
+- IDS editing and a general-purpose BIM editing environment;
+- capacity-constrained passenger boarding, observed OD calibration, and
+  platform/interchange pedestrian capacity and evacuation analysis;
 - object-aware Git merge assistance.
 
 ## Approval records
@@ -263,13 +261,29 @@ destination, while passengers/hour remains editable without changing object
 identity. Changes are written atomically, included in the candidate hash, and
 survive process restart.
 
-For each valid flow, the compiler finds the origin and destination lines and
-uses the lower scheduled passengers/hour/direction capacity across every
-service window overlapping the period. Cross-line records receive an
-indicative one-transfer screen. The resulting utilization and
-within/near/over-capacity status are useful for early scenario comparison, but
-they do not aggregate flows onto segments, predict ridership, or replace a
-passenger-assignment, interchange, platform-flow, or egress study.
+The compiler assigns each flow to a deterministic shortest scheduled-time route.
+Adjacent stations form directed ride sections; rings include their closing
+section. Travel time uses the declared planning speed and station dwell, with
+half the conservative scheduled headway at boarding. Transfers require both
+stations to be tagged as interchanges and within one metre of each other;
+they add a five-minute planning walk and the next line's expected wait. Nearby
+unconnected stations do not create a route. A line must have service for the
+whole period, including intervals crossing midnight.
+
+Loads from every OD flow accumulate on each directed section. Opposing flows
+remain separate, and each flow's utilization is the highest shared-section
+utilization along its assigned route. The GUI shows the station sequence,
+journey time, section loads, boardings, alightings, transfer boardings and
+arrivals over one maximum scheduled headway. These outputs and their method
+participate in the revision hash; old snapshots deserialize with empty
+assignment fields.
+
+This is an all-or-nothing planning assignment, not a ridership forecast or a
+capacity-constrained boarding simulation. Overloads remain visible; passengers
+are not silently dropped or assumed to board. Arrivals per headway exclude
+accumulated denied-boarding queues. Platform usable areas, directional
+circulation, transfer walking measurements, arrival variability and egress
+still require project-specific pedestrian analysis.
 
 ## Controlled engineering jobs
 
@@ -330,8 +344,7 @@ Studio remains the geometry/service editor for the currently opened workspace.
 Artifact buttons open the evidence viewer. Before returning content, the server
 canonicalizes the path beneath the City Studio build root, enforces a 4 MB
 preview limit, rejects unknown formats, and recalculates SHA-256. GeoJSON and
-alignment/stakeout geometry and isometric IFC object envelopes are plotted
-directly. Individual civil objects expose their stable ID, IFC GUID, class,
+alignment/stakeout geometry and tessellated IFC solids are plotted directly. Individual civil objects expose their stable ID, IFC GUID, class,
 discipline, bounds, detail mode, source, internal asset class, and applicable
 hash-locked source documents. The searchable inspector also exposes the native
 classification, property-dictionary, alignment, planning-rate,
@@ -349,8 +362,17 @@ above-track, or lineside native layers, toggle any native review group or
 functional system, scrub the construction task sequence, or play it
 automatically. The current task title and QA hold are shown beside the
 visible-asset count. This is an interactive
-coordination view of deterministic object envelopes; Bonsai remains the native
-IFC geometry/detail environment.
+coordination view of the source IFC solids. Civil jobs use
+[IfcOpenShell geometry processing](https://docs.ifcopenshell.org/ifcopenshell-python/geometry_processing.html)
+to apply object placements and tessellate native representations in metre-based
+engineering coordinates. A source-bound manifest and JSON chunks below the
+4 MB preview limit are loaded through the verified artifact endpoint; every
+mesh retains its IFC GUID and asset ID for picking, filtering and BCF selection.
+The viewer rejects missing chunks, source/index hash mismatches and duplicate
+or invalid object geometry. Virtual objects without representations and older
+jobs remain explicitly identified envelope views. Map conversion is not applied
+again to these engineering coordinates. Bonsai remains the IFC editing and
+detailed engineering environment.
 
 BCF review decisions are written to
 `cities/workspaces/<slug>/coordination/issues.toml`, not into the selected job artifact.

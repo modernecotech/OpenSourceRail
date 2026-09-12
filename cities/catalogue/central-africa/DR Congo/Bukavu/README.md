@@ -73,17 +73,14 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 8ac9ea1a88d46a0e22519bc8dc609738263f6aa694c95acdbf8cbcba43682a48, but bukavu.toml is 65ba414de2af0630696c82c71c7bc8ed7b19cafcdcb2641e9e085a16abc7c0d7; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 11 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 11 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 267 assets / 1,589 tasks | [`bukavu-operations-manifest.json`](operations/bukavu-operations-manifest.json) |
 
 ## Local Files And Regeneration
