@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenSourceRail · Operating</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <header><a href="/">OpenSourceRail</a><span>Business operations</span></header>
+  <main>
+    <p class="eyebrow">Operating · ERPNext + Frappe HR</p>
+    <h1>Run the organisation.<br>Build and operate the railway.</h1>
+    <p class="intro">Projects, people, materials and money in one operating system.
+      OpenSourceRail connects engineering plans and railway asset references to ERPNext.</p>
+    <p id="connection" role="status">Loading operating platform address…</p>
+    <a id="workspace" class="primary" hidden target="_blank" rel="noopener">Open operating workspace ↗</a>
+    <section class="city-twins" aria-labelledby="twinsHeading">
+      <h2 id="twinsHeading">City operating twins</h2>
+      <p>ERP execution alongside each city's engineering revision. Select a city to inspect its work categories and asset workload.</p>
+      <label for="twinSelector">City and baseline</label>
+      <select id="twinSelector" disabled><option>No ERP snapshots loaded</option></select>
+      <button id="refreshTwins" type="button">Refresh view</button>
+      <p id="twinStatus" role="status">Loading city feedback…</p>
+      <div id="twinSummary"></div>
+      <div id="twinCategories"></div>
+      <div id="twinReadiness"></div>
+      <details id="businessFlow" hidden><summary>Procurement, production and budgets</summary><div id="businessFlowRows"></div></details>
+      <details id="componentsFlow" hidden><summary>Reusable operating components</summary><div id="componentsFlowRows"></div></details>
+      <details id="assetWork" hidden><summary>Railway asset workload</summary><div id="assetWorkRows"></div></details>
+    </section>
+    <section id="modules" aria-label="Business modules"></section>
+    <section class="boundary">
+      <h2>Railway authority stays in OpenSourceRail</h2>
+      <p>Dispatch, signalling, train control, condition monitoring, engineering baselines,
+        inspection evidence and independent handback remain railway functions.
+        Completing a task or repair in ERPNext does not release a train or track section.</p>
+      <a href="/docs/operations-portal/">Open railway works and assurance →</a>
+    </section>
+    <footer><a href="/docs/operating/README.md">Deployment, data ownership and migration guide</a> · <a href="/docs/operating/automation-review.md">ERP integration and automation review</a></footer>
+  </main>
+</body>
+</html>

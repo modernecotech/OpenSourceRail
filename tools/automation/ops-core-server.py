@@ -45,6 +45,9 @@ PROJECT_RECORD_KINDS = {
     "projectRevisions": "project-revision",
 }
 
+# Historic records remain readable; all new business transactions belong to ERPNext.
+ERP_RECORD_KINDS = {"purchaseOrders", "deliveries", "invoices", "payments", "progressUpdates"}
+
 ROLE_COLLECTIONS = {
     "admin": set(RECORD_TABLES) | set(PROJECT_RECORD_KINDS),
     "planner": {"workOrders", "purchaseOrders", "deliveries", "invoices", "payments", "progressUpdates", "projectRevisions"},
@@ -152,6 +155,15 @@ class OpsCoreHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/operating":
+            erp_url = os.environ.get("OSR_ERP_URL", "http://127.0.0.1:8080").rstrip("/")
+            parsed = urlparse(erp_url)
+            if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
+                self._send_json(503, {"error": "Invalid OSR_ERP_URL configuration"})
+                return
+            self._send_json(200, {"provider": "erpnext", "url": erp_url,
+                                 "railway_authority": "opensource-rail"})
+            return
         if path == "/api/ops-auth/session":
             actor = self._actor(required=False)
             self._send_json(200, {"authenticated": actor is not None, "actor": public_actor(actor) if actor else None})
@@ -786,6 +798,8 @@ def save_state(
         current = load_state(con, city)
         if state["_revision"] != current["_revision"]:
             raise StateConflict("City records changed in another session. Reload server records and review your unsaved draft.")
+        if any(state[key] != current[key] for key in ERP_RECORD_KINDS):
+            raise ValueError("Business records are read-only in OSR. Use ERPNext for purchasing, deliveries, invoices, payments and project progress.")
         if actor is not None:
             state = authorize_and_attest_state(
                 con, city, current, state, actor, signing_key or b""

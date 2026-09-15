@@ -62,6 +62,12 @@ jobs:
       - run: python -m pytest -q engineering/analysis/tests
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python -m pytest -q tools/automation/tests
+      - name: Validate business operating deployment
+        run: |
+          python tools/automation/erp-platform.py init
+          python tools/automation/erpnext-city.py validate
+          python tools/automation/erp-components.py validate
+          docker compose --env-file var/erpnext/local.env -f deployment/erpnext/compose.yaml config --quiet
       - run: python tools/automation/audit-project-twins.py
       - run: python tools/automation/check-markdown-links.py
       - run: python tools/automation/validate-host-manifests.py

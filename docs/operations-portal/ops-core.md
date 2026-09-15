@@ -1,6 +1,8 @@
 # OSR Ops Core
 
-OSR Ops Core is the lightweight operating layer for the portal. It keeps
+> **Operating architecture update:** [ERPNext + Frappe HR](../operating/README.md) now own business execution, purchasing, stock, finance and HR. OSR retains railway planning and assurance. Historic SQLite business records are read-only.
+
+OSR Ops Core is the railway assurance and evidence layer for the portal. It keeps
 the generated asset register, manufacturing schedule, QA gates, and
 maintenance schedule as the source of truth, then adds only the records
 needed to run a real railway day without copying a full enterprise EAM
@@ -70,13 +72,13 @@ system.
 - Qualified electronic signatures. Server HMAC attestations prove integrity
   within the deployment; they are not a legal trust service.
 
-These can be added later, but the first operating release should stay
-small enough that a city railway team can understand it, modify it, and
-run it from the same open data that generates the railway design.
+ERPNext and Frappe HR provide the ordinary business workflows outside this
+railway assurance layer. CDE and qualified-signature requirements need separate
+deployment decisions; they are not supplied by the planning integration.
 
 ## Storage
 
-SQLite is the preferred store for real operation because it gives the
+SQLite is the store for railway assurance records because it gives the
 portal a durable file that can be backed up, copied to another console,
 or inspected with normal SQLite tools. The default database is:
 

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4957**.
+Indexed Markdown files: **4962**.
 
 ## Sections
 
@@ -25,9 +25,9 @@ Indexed Markdown files: **4957**.
 | [cities](#cities) | 4317 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
-| [deployment](#deployment) | 1 |
+| [deployment](#deployment) | 2 |
 | [design](#design) | 417 |
-| [docs](#docs) | 150 |
+| [docs](#docs) | 154 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4436,6 +4436,7 @@ Indexed Markdown files: **4957**.
 | File | Title |
 |---|---|
 | [`deployment/README.md`](../deployment/README.md) | Host Deployment Baseline |
+| [`deployment/erpnext/README.md`](../deployment/erpnext/README.md) | ERPNext operating deployment |
 
 ## design
 
@@ -4908,6 +4909,10 @@ Indexed Markdown files: **4957**.
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail — one-page overview |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
+| [`docs/operating/README.md`](../docs/operating/README.md) | OpenSourceRail operating platform |
+| [`docs/operating/automation-review.md`](../docs/operating/automation-review.md) | ERPNext integration and automation review |
+| [`docs/operating/city-platform.md`](../docs/operating/city-platform.md) | Reproducible city operating twins |
+| [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |
 | [`docs/operations/control-centre/c2-communications.md`](../docs/operations/control-centre/c2-communications.md) | C2 — Communications |

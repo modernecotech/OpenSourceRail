@@ -32,3 +32,17 @@ role fields provide navigation context, not authentication. The versioned
 contract is [`context-contract.schema.json`](context-contract.schema.json).
 Simulator and OCC replays expose deterministic onboard, infrastructure, and
 depot-data evidence for the same run; this is software-in-loop, not hardware.
+
+## Operating platform
+
+**Operating · ERPNext** opens the [business operating platform](../operating/README.md).
+ERPNext and Frappe HR own business records and authentication. **Railway works**
+retains the OSR engineering baseline, inspections, NCRs and handback evidence.
+Set `OSR_ERP_URL` before starting Workbench to use another ERPNext installation.
+
+The [city operating twin](../operating/city-platform.md) joins generic and city-specific
+ERP configurations to each engineering baseline. The local `/api/operating/twins`
+endpoint reads private ERP feedback snapshots; the operating page shows city,
+revision, timestamp, task categories, actual task costs and asset workload. The
+Project Twin panel uses an exact city/revision match and requires a unique
+operating baseline. Run `./osr erp feedback start` for five-minute refreshes.

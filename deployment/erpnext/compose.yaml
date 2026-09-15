@@ -1,0 +1,125 @@
+name: osr-erpnext
+
+x-app: &app
+  image: osr/erpnext:15.121.2-hr15.64.0-osr4
+  restart: unless-stopped
+  volumes:
+    - sites:/home/frappe/frappe-bench/sites
+    - logs:/home/frappe/frappe-bench/logs
+
+x-ready: &ready
+  configurator:
+    condition: service_completed_successfully
+
+services:
+  db:
+    image: mariadb:10.6.25
+    restart: unless-stopped
+    command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --skip-character-set-client-handshake]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:?Run ./osr erp init first}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  redis-cache:
+    image: redis:7.2.13-alpine
+    restart: unless-stopped
+  redis-queue:
+    image: redis:7.2.13-alpine
+    restart: unless-stopped
+    command: [redis-server, --appendonly, 'yes']
+    volumes:
+      - redis-data:/data
+  configurator:
+    <<: *app
+    restart: 'no'
+    entrypoint: [bash, -ec]
+    command:
+      - |
+        ls -1 apps > sites/apps.txt
+        bench set-config -g db_host db
+        bench set-config -gp db_port 3306
+        bench set-config -g redis_cache redis://redis-cache:6379
+        bench set-config -g redis_queue redis://redis-queue:6379
+        bench set-config -g redis_socketio redis://redis-queue:6379
+        bench set-config -gp socketio_port 9000
+        # A rebuilt image can have new asset hashes; this cache is shared across sites.
+        env/bin/python -c 'import redis; redis.Redis.from_url("redis://redis-cache:6379").delete("assets_json")'
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+  backend:
+    <<: *app
+    build:
+      context: .
+    depends_on: *ready
+  frontend:
+    <<: *app
+    command: [nginx-entrypoint.sh]
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: ${SITE_NAME:-osr.localhost}
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: 'off'
+      PROXY_READ_TIMEOUT: '120'
+      CLIENT_MAX_BODY_SIZE: 25m
+    ports:
+      - '127.0.0.1:${ERP_PORT:-8080}:8080'
+    depends_on:
+      backend:
+        condition: service_started
+      websocket:
+        condition: service_started
+  websocket:
+    <<: *app
+    command: [node, /home/frappe/frappe-bench/apps/frappe/socketio.js]
+    depends_on: *ready
+  queue-short:
+    <<: *app
+    command: [bench, worker, --queue, 'short,default']
+    depends_on: *ready
+  queue-long:
+    <<: *app
+    command: [bench, worker, --queue, long]
+    depends_on: *ready
+  scheduler:
+    <<: *app
+    command: [bench, schedule]
+    depends_on: *ready
+  create-site:
+    <<: *app
+    restart: 'no'
+    profiles: [setup]
+    environment:
+      SITE_NAME: ${SITE_NAME:-osr.localhost}
+      DB_PASSWORD: ${DB_PASSWORD:?Run ./osr erp init first}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Run ./osr erp init first}
+    entrypoint: [bash, -ec]
+    command:
+      - |
+        if [ ! -f "sites/$$SITE_NAME/site_config.json" ]; then
+          bench new-site "$$SITE_NAME" --db-root-password "$$DB_PASSWORD" --admin-password "$$ADMIN_PASSWORD" --mariadb-user-host-login-scope='%'
+        fi
+        bench --site "$$SITE_NAME" install-app erpnext
+        bench --site "$$SITE_NAME" install-app hrms
+        bench --site "$$SITE_NAME" install-app osr_erpnext
+        bench --site "$$SITE_NAME" migrate
+        bench --site "$$SITE_NAME" enable-scheduler
+        bench --site "$$SITE_NAME" set-config host_name "http://127.0.0.1:${ERP_PORT:-8080}"
+    depends_on: *ready
+
+volumes:
+  sites:
+  logs:
+  db-data:
+  redis-data:

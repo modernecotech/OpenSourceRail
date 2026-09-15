@@ -1,5 +1,7 @@
 # OSR Operations Portal
 
+> **Operating architecture update:** [ERPNext + Frappe HR](../operating/README.md) now own business execution, purchasing, stock, finance and HR. OSR retains railway planning and assurance. Historic SQLite business records are read-only.
+
 Static browser portal for city-level operations data:
 
 - Authenticated OSR Ops Core work orders, managed inspection photos/files,
@@ -88,8 +90,8 @@ order-by days identify long-lead actions that must be resolved before baseline a
 For a repository city, the compact Git-reviewable output is
 `engineering/project-twin/summary.json`. The complete records live in the
 reproducible compressed operations bundle. Planned purchase-order rows are
-explicitly `planned-not-issued`; using **Create draft** persists a distinct
-actual-side record without altering the generated baseline.
+explicitly `planned-not-issued`; review and issue actual purchasing records in ERPNext. The portal retains the
+generated requirement and historic records for reference.
 
 The generated material table links rolling-stock packages to
 `build/bom/rolling_stock_bom.csv` and
@@ -106,8 +108,8 @@ blocking logic, and links to the evidence matrix CSV.
 ## Run With SQLite
 
 Serve the repository root and persist Ops Core work orders, inspections,
-defects, audit events, purchase orders, deliveries, invoices, payments,
-progress updates and project revisions to SQLite:
+defects, audit events and railway project revisions to SQLite. Historic business
+collections remain readable; new purchasing and financial writes are rejected:
 
 ```bash
 python3 tools/automation/ops-core-server.py --port 8008

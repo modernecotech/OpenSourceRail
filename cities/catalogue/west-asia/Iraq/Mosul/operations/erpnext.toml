@@ -1,0 +1,21 @@
+# City-specific ERP overrides. Shared defaults: deployment/erpnext/config/generic.toml
+# Lists replace generic lists; omitted values inherit. Operator dates remain unset.
+
+[city]
+slug = "mosul"
+name = "Mosul"
+country_code = "IQ"
+design_path = "cities/catalogue/west-asia/Iraq/Mosul/design.toml"
+
+[calendar]
+timezone = "Asia/Baghdad"
+# Six-day construction planning assumption, with Friday excluded; confirm locally.
+working_weekdays = [0, 1, 2, 3, 5, 6]
+
+[[city_programme]]
+id = "mosul-delivery-sequence"
+title = "Review Mosul line and depot mobilisation sequence against the city baseline"
+department = "Project Delivery"
+start_day = -30
+finish_day = -10
+depends_on = ["organisation"]

@@ -1,0 +1,77 @@
+schema_version = 1
+release = "1"
+city_programme = []
+
+[organisation]
+company = ""
+departments = ["Project Delivery", "Procurement", "Fleet Maintenance", "Infrastructure Maintenance", "People and Training", "Quality and Assurance"]
+warehouses = ["Main Stores", "Workshop Spares", "Receiving Inspection"]
+
+[calendar]
+# Monday=0. These are planning assumptions; each city can replace them.
+working_weekdays = [0, 1, 2, 3, 4, 5]
+holidays = []
+start_date = ""
+timezone = ""
+
+[tasks]
+manufacturing = true
+maintenance = true
+qa = true
+procurement = true
+programme = true
+
+[departments]
+manufacturing = "Project Delivery"
+maintenance = "Fleet Maintenance"
+infrastructure_maintenance = "Infrastructure Maintenance"
+qa = "Quality and Assurance"
+procurement = "Procurement"
+programme = "Project Delivery"
+
+[[programme]]
+id = "organisation"
+title = "Confirm operating entity, governance and delegated authorities"
+department = "Project Delivery"
+start_day = -60
+finish_day = -45
+
+[[programme]]
+id = "business-masters"
+title = "Approve company accounts, suppliers, warehouses and item masters"
+department = "Procurement"
+start_day = -45
+finish_day = -30
+depends_on = ["organisation"]
+
+[[programme]]
+id = "workforce"
+title = "Approve city workforce plan, recruitment and training requirements"
+department = "People and Training"
+start_day = -45
+finish_day = -20
+depends_on = ["organisation"]
+
+[[programme]]
+id = "maintenance-readiness"
+title = "Map commissioned assets, spares and recurring maintenance schedules"
+department = "Fleet Maintenance"
+start_day = 0
+finish_day = 30
+depends_on = ["business-masters", "workforce"]
+
+[[programme]]
+id = "assurance-interface"
+title = "Agree evidence exchange and independent railway handback responsibilities"
+department = "Quality and Assurance"
+start_day = -30
+finish_day = -10
+depends_on = ["organisation"]
+
+[[programme]]
+id = "recovery"
+title = "Exercise ERP backup recovery and operating continuity"
+department = "Project Delivery"
+start_day = 0
+finish_day = 10
+depends_on = ["business-masters"]

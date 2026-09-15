@@ -130,8 +130,9 @@ test("operations portal persists inspected and independently approved closeout",
   await page.locator('.tab[data-tab="projectTwin"]').click();
   await expect(page.locator("#twinMetrics .metric")).toHaveCount(6);
   await expect(page.locator("#twinCashflowTable tr").first()).toBeVisible();
-  await page.locator("#twinOrderTable [data-adopt-purchase-order]").first().click();
-  await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]").first()).toHaveText("Adopted");
+  await expect(page.locator('#twinOrderTable a').first()).toHaveText("Review in ERPNext");
+  await expect(page.locator('#twinOrderTable a').first()).toHaveAttribute("href", "/docs/operating/");
+  await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]")).toHaveCount(0);
 
   await page.locator('.tab[data-tab="core"]').click();
   const asset = await page.locator("#coreAssetOptions option").first().getAttribute("value");
@@ -193,7 +194,7 @@ test("operations portal persists inspected and independently approved closeout",
   await persistedRow.locator("[data-select-wo]").click();
   await expect(page.locator("#approvalStatus")).toContainText("Playwright verifier");
   await page.locator('.tab[data-tab="projectTwin"]').click();
-  await expect(page.locator("#twinOrderTable [data-adopt-purchase-order]").first()).toHaveText("Adopted");
+  await expect(page.locator('#twinOrderTable a').first()).toHaveText("Review in ERPNext");
   const saved = await page.request.get("http://127.0.0.1:4176/api/ops-core/samawah");
   expect(saved.ok()).toBeTruthy();
   const savedState = (await saved.json()).state;

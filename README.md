@@ -47,7 +47,7 @@ The first adoptable product is the non-safety owner/operator stack: simulator, O
 | Capability | Current implementation |
 |---|---|
 | Deterministic city generation | Reproducible network, station, fleet, energy, engineering, finance and operations packages under [cities/catalogue/](cities/catalogue/README.md). |
-| Generatable project digital twin | Every city regeneration joins its assets, BOM, finite-resource CPM, critical path, manufacturer candidate IDs and selection states, supplier/order-by plan, schedule of values, monthly local/import cash requirements, QA gates and construction-state timeline in one revisioned model. The compact summary is kept on GitHub; issued orders, deliveries, invoices, payments and actual progress persist separately in Ops Core. |
+| Generatable project digital twin | Every city regeneration joins its assets, BOM, finite-resource CPM, critical path, manufacturer candidate IDs and selection states, supplier/order-by plan, schedule of values, monthly local/import cash requirements, QA gates and construction-state timeline in one revisioned model. The compact summary is kept on GitHub; issued orders, deliveries, invoices, payments and actual progress belong in ERPNext. |
 | Integrated Workbench | [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) share city, actor, immutable revision, approved baseline, run and selected-asset context without merging authority boundaries. |
 | Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
@@ -74,7 +74,7 @@ finite-resource CPM → schedule of values → monthly cash requirements
 IFC/visualization state timeline + QA/work orders + recorded actuals
 ```
 
-Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Operations → Project Twin** to inspect the baseline and turn a planned requirement into a persisted draft purchase order. These are planning candidates—not issued contracts or construction releases—until the city records approval and actual commercial data.
+Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Railway works → Project Twin** to inspect the planning baseline. Use **Operating · ERPNext** for reviewed purchases, business execution and actual commercial records.
 
 The model uses about **$0.9M per 3-car light-metro trainset** as a local factory-gate planning target (LM3 build record: $885k) and **$60k per supported vehicle/car module** for one shared country factory. Homologation, supplier qualification, first-of-class engineering, warranty and deployment are separate gates and cannot be compared directly with an OEM delivered price.
 
@@ -217,3 +217,9 @@ Software is Apache 2.0; control-electronics and open physical designs use
 CERN-OHL-S v2; documentation is CC-BY-SA 4.0.
 
 See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md) for full texts.
+
+## Business operating platform
+
+[ERPNext + Frappe HR](docs/operating/README.md) provide projects, purchasing, stock, manufacturing administration, asset maintenance, finance and HR. Railway control, engineering, inspection evidence and handback stay in OSR. Install with `./osr erp init`, `./osr erp build`, `./osr erp up`, then `./osr erp setup`. Open <http://127.0.0.1:8080> or **Workbench → Operating · ERPNext**.
+
+The [reproducible city operating configuration](docs/operating/city-platform.md) combines shared defaults with an override file for every catalogue city. It adds native task dependencies, procurement and programme packages, city departments/warehouses/cost centres, and ERP execution feedback in the digital twin. Start with `./osr erp city validate` and `./osr erp city prepare <slug> --company "Your Company"`.

@@ -1,5 +1,7 @@
 # OSR Operations Portal Gap Analysis
 
+> **Operating architecture update:** [ERPNext + Frappe HR](../operating/README.md) now own business execution, purchasing, stock, finance and HR. OSR retains railway planning and assurance. Historic SQLite business records are read-only.
+
 **Reviewed:** 2026-08-31
 
 This note compares the current OSR Operations Portal against adjacent

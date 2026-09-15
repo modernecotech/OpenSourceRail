@@ -89,7 +89,18 @@ energy, manufacturing, QA, and maintenance software diagrams, see
 
 Each domain has a dedicated section below. Interfaces between domains are deliberately narrow and enumerated in §5.
 
-### 3.1 Design And Delivery Control Plane
+### 3.1 Business operating platform
+
+[ERPNext and Frappe HR](operating/README.md) own projects and task execution,
+purchasing, inventory, manufacturing administration, routine asset maintenance,
+finance and HR. OSR owns railway-specific engineering, control and assurance.
+Shared defaults and 266 city profiles compile versioned operating packages into
+native ERPNext Projects, Tasks, departments, warehouses and cost centres.
+Permission-filtered execution snapshots return to Workbench and the Project Twin
+view. ERP status cannot approve railway handback or command the railway. Historic
+SQLite business records remain readable, with new business writes disabled.
+
+### 3.2 Design And Delivery Control Plane
 
 The [OSR Workbench](workbench/README.md) integrates City Studio, simulation,
 OCC training and Ops Core under one origin. It carries city, actor, immutable

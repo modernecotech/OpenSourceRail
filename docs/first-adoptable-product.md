@@ -4,7 +4,7 @@ The first adoptable OpenSourceRail product should be the non-safety
 owner-operator stack:
 
 ```text
-Ops Core + simulator + asset register + QA/maintenance/evidence portal
+ERPNext + Frappe HR + railway Ops Core + simulator + asset/evidence portal
 for an existing depot, workshop, or pilot corridor
 ```
 
@@ -28,7 +28,7 @@ mode.
 |---|---|
 | SQLite-backed Ops Core work orders | Live movement authority or interlocking control |
 | Generated asset register | Certified train-control functions |
-| Manufacturing schedule and staff tasks | Full EAM/ERP replacement |
+| ERPNext business applications and Frappe HR, with OSR planning references | Automatic migration of an operator's ledgers or staff records |
 | QA gate register and evidence links | Legal certification or safety approval |
 | Maintenance schedule per train, station, track section, waypoint, depot, energy site, and tool | Insurance, finance, or procurement guarantee |
 | Authenticated RBAC, managed photos/files, independent approvals, controlled document revisions and sealed audit trail | Qualified signatures, enterprise SSO/MFA or full offline mobile field app |
@@ -40,7 +40,7 @@ mode.
 1. Select an existing depot, workshop, yard, or short pilot corridor.
 2. Load or generate the asset register.
 3. Import the baseline manufacturing, QA, and maintenance schedules.
-4. Run the SQLite-backed portal.
+4. Set up the [ERPNext operating platform](operating/README.md) for business records and run the SQLite-backed railway assurance portal.
 5. Create work orders from QA, manufacturing, and maintenance rows.
 6. Upload managed evidence and close work through authenticated inspection and independent handback.
 7. Use defects/NCR and audit records to build an acceptance evidence

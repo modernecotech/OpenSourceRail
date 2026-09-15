@@ -41,6 +41,7 @@ const state = {
   workOrdersVisible: [],
   selectedWorkOrderId: null,
   actor: null,
+  operatingTwin: null,
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -61,6 +62,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function startAuthenticatedApp() {
   renderIdentity();
   state.core = await loadCoreState();
+  if (inWorkbench) {
+    try {
+      const response = await fetch("/api/operating/twins");
+      if (response.ok) {
+        const matches = (await response.json()).snapshots.filter(twin =>
+          twin.city === state.data.project_twin?.city && twin.engineering_revision === state.data.project_twin?.revision_id);
+        state.operatingTwin = matches.length === 1 ? matches[0] : null;
+      }
+    } catch { state.operatingTwin = null; }
+  }
   setDefaultDates();
   renderAll();
   applyWorkbenchContext();
@@ -153,7 +164,7 @@ async function loadData() {
 }
 
 function bindTabs() {
-  document.querySelectorAll(".tab").forEach((button) => {
+  document.querySelectorAll(".tab[data-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       activateTab(button.dataset.tab);
       history.replaceState(null, "", `#${button.dataset.tab}`);
@@ -168,7 +179,7 @@ function bindTabs() {
 
 function activateTab(tabId) {
   state.activeTab = tabId;
-  document.querySelectorAll(".tab").forEach((button) => {
+  document.querySelectorAll(".tab[data-tab]").forEach((button) => {
     button.classList.toggle("active", button.dataset.tab === state.activeTab);
   });
   document.querySelectorAll(".panel").forEach((panel) => {
@@ -266,7 +277,6 @@ function bindCoreActions() {
     if (button.dataset.advanceWo) advanceWorkOrder(button.dataset.advanceWo);
     if (button.dataset.holdWo) holdWorkOrder(button.dataset.holdWo);
     if (button.dataset.resolveDefect) resolveDefect(button.dataset.resolveDefect);
-    if (button.dataset.adoptPurchaseOrder) adoptPurchaseOrder(button.dataset.adoptPurchaseOrder);
     if (button.dataset.workbenchModule) navigateWorkbench(button.dataset.workbenchModule);
   });
 }
@@ -293,13 +303,15 @@ function renderProjectTwin() {
   }
   const totals = twin.totals || {};
   const actual = state.core || emptyCoreState();
+  const operating = state.operatingTwin;
+  const purchaseOrders = operating?.business_documents?.["Purchase Order"];
   const metrics = [
     ["Programme days", totals.programme_working_days],
     ["Critical work", totals.critical_work_packages],
     ["Order candidates", totals.planned_purchase_orders],
     ["Pre-NTP actions", totals.pre_ntp_order_actions],
     ["Planned CAPEX", formatUsd(totals.planned_capex_usd)],
-    ["Issued / draft POs", actual.purchaseOrders.length],
+    ["ERP submitted / draft POs", purchaseOrders?.available ? `${purchaseOrders.submitted} / ${purchaseOrders.draft}` : "Snapshot unavailable"],
   ];
   document.getElementById("twinMetrics").innerHTML = metrics.map(([label, value]) => (
     `<article class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? 0)}</strong></article>`
@@ -311,7 +323,8 @@ function renderProjectTwin() {
     ["Scheduler", critical.method],
     ["Critical tasks", critical.critical_task_count],
     ["External gates", (critical.unresolved_external_gates || []).join(", ") || "None unresolved in template graph"],
-    ["Actual progress", `${actual.progressUpdates.length} persisted update(s)`],
+    ["ERP task progress", operating ? `${operating.task_status.Completed || 0} completed / ${operating.task_count} tasks` : "Select or export the matching operating baseline"],
+    ["ERP observation", operating?.observed_at || "No unambiguous matching snapshot"],
   ].map(([label, value]) => `<div class="reconcile-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
 
   const monthly = twin.cashflow?.monthly_requirements || [];
@@ -335,29 +348,9 @@ function renderProjectTwin() {
       <td>day ${escapeHtml(row.order_by_day)}</td>
       <td>day ${escapeHtml(row.required_by_day)}</td>
       <td>${row.planning_cost_usd ? formatUsd(row.planning_cost_usd) : "RFQ required"}</td>
-      <td><button class="mini-button" type="button" data-adopt-purchase-order="${escapeAttr(row.purchase_order_id)}"${adopted ? " disabled" : ""}>${adopted ? "Adopted" : "Create draft"}</button></td>
+      <td><a href="/docs/operating/" target="_blank" rel="noopener">${adopted ? "Historic OSR draft · open ERPNext" : "Review in ERPNext"}</a></td>
     </tr>`;
   }).join("") || emptyRow(7, "No order rows");
-}
-
-function adoptPurchaseOrder(purchaseOrderId) {
-  const plan = state.data.project_twin?.purchase_orders?.find((row) => row.purchase_order_id === purchaseOrderId);
-  if (!plan) return;
-  if (state.core.purchaseOrders.some((row) => row.source_purchase_order_id === purchaseOrderId)) return;
-  const id = nextCoreId("purchaseOrder");
-  state.core.purchaseOrders.unshift({
-    ...plan,
-    id,
-    purchase_order_id: id,
-    source_purchase_order_id: purchaseOrderId,
-    revision_id: state.data.project_twin.revision_id,
-    status: "draft-not-issued",
-    effective_at: new Date().toISOString(),
-  });
-  logAudit("created", id, `draft purchase order from ${purchaseOrderId}`);
-  saveCoreState();
-  renderProjectTwin();
-  renderCoreMetrics();
 }
 
 function renderMetrics() {

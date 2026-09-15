@@ -1,5 +1,7 @@
 # Software Architecture Diagrams
 
+> **Operating architecture update:** [ERPNext + Frappe HR](operating/README.md) replace custom business administration. The diagrams below describe railway and existing assurance components; ERP cannot issue railway release authority.
+
 These diagrams expand the system map in
 [`ARCHITECTURE.md`](ARCHITECTURE.md) and the crate allocations in
 [`RFC 0005`](rfcs/0005-sbc-software-architecture.md). They are intended

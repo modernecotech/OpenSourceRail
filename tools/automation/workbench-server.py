@@ -149,6 +149,16 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         if path == "/api/workbench":
             self._send_json(200, self.bootstrap)
             return
+        if path == "/api/operating/twins":
+            # Workbench is loopback-only. Private ERP feedback is never served by the
+            # standalone/shared Ops Core handler or through the static file roots.
+            source = REPO_ROOT / "var/erpnext/operating-twins.json"
+            try:
+                payload = json.loads(source.read_text()) if source.exists() else {"snapshots": []}
+                self._send_json(200, payload)
+            except (OSError, ValueError):
+                self._send_json(503, {"error": "ERP feedback snapshot is unavailable"})
+            return
         if path == "/api/portfolio":
             self._send_json(200, self.portfolio)
             return
@@ -215,6 +225,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
             and not path.startswith("/api/ops-auth/")
             and not path.startswith("/api/twins/")
             and path != "/api/portfolio"
+            and path != "/api/operating"
             and path != "/api/workbench"
         )
 

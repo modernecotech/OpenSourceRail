@@ -32,3 +32,9 @@ cargo test -p osr-trainset-image --all-targets
 The update contract is deliberately fail-safe: stage and verify an image,
 activate it once, require the role self-test and external watchdog heartbeat,
 and automatically return to the last-known-good slot if either fails.
+
+## Business operating services
+
+[ERPNext deployment](erpnext/README.md) runs on an ordinary business server,
+separate from the five railway control host classes. It provides the operating
+platform without adding ERP dependencies to onboard or wayside images.
