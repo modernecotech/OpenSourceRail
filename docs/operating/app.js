@@ -62,6 +62,7 @@ async function loadTwins() {
     });
     const wanted = new URLSearchParams(location.search).get("city");
     const chosen = twins.findIndex(t => selectedProject ? t.project === selectedProject : t.city === wanted);
+    if (wanted && chosen < 0) throw new Error(`No ERP feedback for ${wanted}. Deploy and export this city's operating baseline first.`);
     selector.value = chosen >= 0 ? chosen : 0;
     selector.disabled = false;
     renderTwin();
@@ -80,6 +81,7 @@ async function loadTwins() {
 function renderTwin() {
   const twin = twins[Number(document.getElementById("twinSelector").value)];
   if (!twin) return;
+  if (parent !== window) parent.postMessage({type:"osr:context",context:{city:twin.city}},location.origin);
   const age = Date.now() - new Date(twin.observed_at).getTime();
   document.getElementById("twinStatus").textContent =
     `Snapshot ${twin.observed_at}${age > 3600000 ? " · more than one hour old" : ""}. Refresh view reads the latest exported ERP snapshot.`;

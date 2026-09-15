@@ -117,7 +117,7 @@ class IntegrationTest(unittest.TestCase):
         link = Path(self.tmp.name) / 'links.json'
         link.write_text(json.dumps({'city':'samawah','environment':'simulation','bindings':[{'asset_id':'SAM-ST-001:charger','ifc':['guid1'],'freecad':['cabinet'],'gis':['station1']}]}))
         for app, identity in [('ifc','guid1'),('freecad','cabinet'),('gis','station1')]:
-            self.assertIn('asset=SAM-ST-001%3Acharger', bridge.resolve(link, app, identity))
+            self.assertIn('selected_asset=SAM-ST-001%3Acharger', bridge.resolve(link, app, identity))
         with self.assertRaises(ValueError): bridge.resolve(link, 'ifc', 'missing')
 
     def test_backup_restore(self):

@@ -35,7 +35,7 @@ depot-data evidence for the same run; this is software-in-loop, not hardware.
 
 ## Operating platform
 
-**Operating · ERPNext** opens the [business operating platform](../operating/README.md).
+**City execution** opens the [business operating platform](../operating/README.md) inside the shell.
 ERPNext and Frappe HR own business records and authentication. **Railway works**
 retains the OSR engineering baseline, inspections, NCRs and handback evidence.
 Set `OSR_ERP_URL` before starting Workbench to use another ERPNext installation.
@@ -46,3 +46,65 @@ endpoint reads private ERP feedback snapshots; the operating page shows city,
 revision, timestamp, task categories, actual task costs and asset workload. The
 Project Twin panel uses an exact city/revision match and requires a unique
 operating baseline. Run `./osr erp feedback start` for five-minute refreshes.
+
+## Integrated lifecycle workspace
+
+The Workbench now embeds **Connected assets**, **City execution**, the native
+ERPNext/Frappe HR screens and **FUXA supervision** alongside City Studio,
+simulation, OCC and railway works. The default lifecycle overview links plan,
+design, procurement, manufacture, construction, commissioning, operation,
+maintenance and renewal. The generic [module registry](modules.json) supplies
+navigation for every city. Existing generic ERP/supervision templates and each
+city's `operations/` configuration continue to own deployment-specific settings.
+
+The City selector carries city, environment and asset identity through the shell.
+Changing city clears revision, baseline, run and asset context. Railway control
+and design views are available only for the workspace passed to
+`workbench-server.py --project`; selecting another city does not rebind its
+controller. Any catalogue city can use delivery generation and its own operating
+bundle. Missing ERP, engineering or supervision packages are shown as unavailable.
+ERP lists retain native multi-project scope; **City execution** opens the exact
+linked ERP project and its **OpenSourceRail → Operating components** actions.
+Native FUXA offers its own city/display selector.
+
+Business and maintenance-case links open inside the shell. ERP Project and Issue
+**Connected lifecycle** buttons return to it. Direct tool links remain available
+for a separate window. URL context includes an optional `environment` for
+simulation/physical asset inspection, independent of railway control mode.
+
+### Authentication and supervisory actions
+
+ERPNext and FUXA keep their native accounts, sessions and permissions. This is a
+shared interface, not single sign-on. The ERP image permits framing only by itself
+and the named local Workbench origins in
+[configure-nginx.py](../../deployment/erpnext/configure-nginx.py). Websocket origin
+checks remain enabled. For another deployment, configure `OSR_ERP_URL` and
+`OSR_FUXA_URL` and explicitly allow its Workbench origin at the service; cross-site
+cookie policies may require a same-site HTTPS deployment.
+
+Connected assets exposes alarm acknowledgement and commands declared by the
+asset package. Enter an independently provisioned, scoped integration credential
+in **Operator actions**; it stays in page memory and is cleared when leaving.
+The gateway enforces identity, city, environment, role, command bounds, lifetime
+and controller ownership. The current pilot permits simulated station lighting
+only. Requested, accepted, completed, rejected and failed states remain visible
+in command history. A transport error requires checking that history before
+retrying. Workbench view roles do not grant these permissions.
+
+FreeCAD, Bonsai and QGIS remain desktop editors. The overview exposes versioned,
+hash-checked engineering downloads; their [selection bridge](../../tools/integration/desktop_bridge.py)
+now opens the selected asset inside the Workbench. Browser execution of those
+desktop applications and physical control deployment are not provided here.
+
+### Verification
+
+Browser tests cover city isolation, embedded links, stale telemetry, command
+credential handling and the existing design → simulation → OCC → works workflow.
+`test_workbench_actions.py` verifies explicit credentials, same-origin mutation
+requests, allowlisted endpoints and preservation of gateway denials.
+The installed-stack check
+[verify-native.mjs](../../deployment/workbench/tests/verify-native.mjs) signs in
+through native ERP/FUXA forms, follows an ERP project back to its asset, and
+checks a simulation lighting request through controller completion. It requires
+the local pilot services and private credentials and intentionally changes simulated
+station lighting to 60% and restores it to 75%; it performs no physical command.

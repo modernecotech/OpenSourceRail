@@ -7,6 +7,7 @@ import argparse
 import http.client
 import importlib.util
 import json
+import os
 import shutil
 import signal
 import subprocess
@@ -146,6 +147,18 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/workbench/services":
+            services = {
+                "erp": os.environ.get("OSR_ERP_URL", "http://127.0.0.1:8080").rstrip("/"),
+                "fuxa": os.environ.get("OSR_FUXA_URL", "http://127.0.0.1:1881").rstrip("/"),
+            }
+            for url in services.values():
+                parsed = urlsplit(url)
+                if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path:
+                    self._send_json(503, {"error": "Tool services must use a valid origin without credentials"})
+                    return
+            self._send_json(200, services)
+            return
         if path == "/api/workbench":
             self._send_json(200, self.bootstrap)
             return
@@ -236,6 +249,9 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith("/api/lifecycle/"):
+            self._lifecycle_action(path.removeprefix("/api/lifecycle/"))
+            return
         if path.startswith("/api/ops-auth/") or path.startswith("/api/ops-core/"):
             super().do_POST()
             return
@@ -256,6 +272,37 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_DELETE(self) -> None:
         self._proxy_city("DELETE")
+
+    def _lifecycle_action(self, endpoint: str) -> None:
+        """Forward only explicit caller credentials; never use the viewer/service secret for writes."""
+        from urllib.error import HTTPError, URLError
+        from urllib.request import Request, urlopen
+        if endpoint not in {"commands", "alarms/acknowledge"}:
+            self._send_json(404, {"error": "Unknown lifecycle action"})
+            return
+        if self.headers.get("Origin") != "http://" + self.headers.get("Host", ""):
+            self._send_json(403, {"error": "Same-origin browser request required"})
+            return
+        authorization = self.headers.get("Authorization", "")
+        if not authorization.startswith("Bearer ") or len(authorization) > 1024:
+            self._send_json(403, {"error": "Scoped integration credential required"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            if not 0 < length <= 16384:
+                raise ValueError("Request too large or empty")
+            payload = json.loads(self.rfile.read(length))
+            request = Request("http://127.0.0.1:8092/" + endpoint,
+                data=json.dumps(payload).encode(), headers={"Authorization": authorization,
+                "Content-Type": "application/json"}, method="POST")
+            with urlopen(request, timeout=5) as response:
+                self._send_json(response.status, json.load(response))
+        except HTTPError as error:
+            self._send_json(error.code, json.loads(error.read()))
+        except (URLError, OSError):
+            self._send_json(503, {"error": "Integration unavailable; check command history before retrying"})
+        except (ValueError, TypeError):
+            self._send_json(400, {"error": "Invalid lifecycle action"})
 
     def translate_path(self, request_path: str) -> str:
         path = unquote(urlsplit(request_path).path)
@@ -384,6 +431,7 @@ class ProjectTwinManager:
                 "trainsets": sum(int(row.get("trainset_count", 0)) for row in design.get("fleets", [])),
                 "planned_capex_usd": capex,
                 "design_path": str(design_path),
+                "operations_data": "/" + (design_path.parent / "operations" / f"{slug}-operations.json.gz").relative_to(self.repository_root).as_posix(),
             }
         return cities
 

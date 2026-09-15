@@ -1,12 +1,25 @@
 const MODES = new Set(["design", "simulation", "training", "live"]);
 const ROLES = new Set(["designer", "dispatcher", "maintainer", "reviewer"]);
-const MODULES = new Set(["studio", "simulator", "occ", "operations"]);
+const registry = await fetch("/workbench/modules.json").then(r => r.json());
+const MODULES = new Set(registry.modules.map(m => m.id));
+const services = await fetch("/api/workbench/services").then(r => r.json());
+const buttons = document.getElementById("moduleButtons");
+for (const group of [...new Set(registry.modules.map(m => m.group))]) {
+  const section = document.createElement("div"); section.className = "module-group";
+  const label = document.createElement("small"); label.textContent = group; section.append(label);
+  for (const module of registry.modules.filter(m => m.group === group)) {
+    const button = document.createElement("button"); button.dataset.module = module.id;
+    button.textContent = module.label; section.append(button);
+  }
+  buttons.append(section);
+}
 const params = new URLSearchParams(location.search);
 const bootstrap = await fetch("/api/workbench").then((response) => response.json());
 
 const context = {
   schema_version: 1,
   city: valid(params.get("city"), /^[a-z0-9][a-z0-9-]{0,63}$/) || bootstrap.city,
+  environment: params.get("environment") === "physical" ? "physical" : "simulation",
   mode: MODES.has(params.get("mode")) ? params.get("mode") : "design",
   role: ROLES.has(params.get("role")) ? params.get("role") : "designer",
   actor: valid(params.get("actor"), /^[A-Za-z0-9][A-Za-z0-9 ._@-]{1,119}$/) || "local-user",
@@ -17,10 +30,17 @@ setOptional("run_id", params.get("run_id"), /^run-[a-f0-9]{16}$/);
 setOptional("selected_asset", params.get("selected_asset"), /^.{1,160}$/);
 if (context.mode === "live" && !context.baseline_sha256) context.mode = "training";
 
-let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "studio";
+let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "overview";
 const frame = document.getElementById("moduleFrame");
 let operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
 let twinJob = null;
+let catalogue = [];
+let detailPath = "";
+document.getElementById("reloadModule").onclick = () => navigate(activeModule, detailPath);
+document.getElementById("citySelector").onchange = event => {
+  updateContext({ city: event.target.value });
+  enforceAccess();
+};
 
 document.getElementById("role").value = context.role;
 document.getElementById("mode").value = context.mode;
@@ -37,7 +57,7 @@ document.getElementById("mode").addEventListener("change", (event) => {
     event.target.value = context.mode;
     return;
   }
-  updateContext({ mode: event.target.value });
+  updateContext({ mode: event.target.value, environment: event.target.value === "live" ? "physical" : "simulation" });
   enforceAccess();
 });
 document.querySelectorAll("[data-module]").forEach((button) => {
@@ -51,7 +71,17 @@ document.getElementById("generateTwin").addEventListener("click", generateTwin);
 document.getElementById("openTwin").addEventListener("click", openGeneratedTwin);
 
 window.addEventListener("message", (event) => {
-  if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+  const expectedOrigin = new URL(frame.src, location.href).origin;
+  if (event.origin !== expectedOrigin || event.source !== frame.contentWindow) return;
+  // Native business apps may navigate to a linked asset but cannot grant railway authority.
+  if (event.origin !== location.origin) {
+    if (event.data?.type === "osr:navigate" && event.data.module === "lifecycle") {
+      updateContext({city:event.data.context?.city, selected_asset:event.data.context?.selected_asset,environment:event.data.context?.environment});
+      navigate("lifecycle");
+    }
+    return;
+  }
+  if (event.data?.type === "osr:open-link") { openToolLink(event.data.url); return; }
   if (event.data?.type === "osr:context") updateContext(event.data.context || {});
   if (event.data?.type === "osr:navigate" && MODULES.has(event.data.module)) {
     updateContext(event.data.context || {});
@@ -59,12 +89,13 @@ window.addEventListener("message", (event) => {
   }
 });
 frame.addEventListener("load", () => {
-  frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
+  if (new URL(frame.src || location.href).origin === location.origin) frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
 });
 
-function navigate(module) {
+function navigate(module, path = "") {
   if (!isAllowed(module)) return;
   activeModule = module;
+  detailPath = path;
   const query = contextQuery();
   const routes = {
     studio: `/studio/?${query}`,
@@ -72,12 +103,31 @@ function navigate(module) {
     occ: `/occ/?${query}`,
     operations: `/operations/?data=${encodeURIComponent(operationsData())}&${query}#core`,
   };
-  frame.src = routes[module];
+  const spec = registry.modules.find(m => m.id === module);
+  const environment = context.environment;
+  routes.lifecycle = `/docs/lifecycle/?${new URLSearchParams({city:context.city,asset:context.selected_asset || "",environment})}`;
+  routes.operating = `/docs/operating/?${query}`;
+  routes.overview = `/workbench/hub/?${query}`;
+  const base = spec.service === "local" ? location.origin : services[spec.service];
+  frame.src = routes[module] || new URL(path || spec.path, base).href;
+  document.getElementById("openNative").href = frame.src;
+  document.getElementById("moduleTitle").textContent = spec.label;
+  document.getElementById("moduleScope").textContent = spec.service === "erp"
+    ? "Native ERP permissions · lists may contain multiple cities; use City execution for the linked project."
+    : spec.service === "fuxa" ? "Native FUXA permissions · select the city display inside supervision."
+    : "Shared city and asset context";
+  history.replaceState(null, "", `/?module=${activeModule}&${contextQuery()}${path ? '&tool_path='+encodeURIComponent(path) : ''}`);
   render();
 }
 
 function updateContext(patch) {
-  if (valid(patch.city, /^[a-z0-9][a-z0-9-]{0,63}$/)) context.city = patch.city;
+  if (valid(patch.city, /^[a-z0-9][a-z0-9-]{0,63}$/) && patch.city !== context.city) {
+    context.city = patch.city;
+    for (const key of ["revision", "baseline_sha256", "run_id", "selected_asset"]) delete context[key];
+    if (context.mode === "live") context.mode = "training";
+    operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
+  }
+  if (["simulation", "physical"].includes(patch.environment)) context.environment = patch.environment;
   if (MODES.has(patch.mode)) context.mode = patch.mode;
   if (ROLES.has(patch.role)) context.role = patch.role;
   if (valid(patch.actor, /^[A-Za-z0-9][A-Za-z0-9 ._@-]{1,119}$/)) context.actor = patch.actor;
@@ -90,18 +140,19 @@ function updateContext(patch) {
   document.getElementById("actor").value = context.actor;
   history.replaceState(null, "", `/?module=${activeModule}&${contextQuery()}`);
   render();
-  frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
+  if (new URL(frame.src || location.href).origin === location.origin) frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
 }
 
 function enforceAccess() {
   if (!isAllowed(activeModule)) {
-    activeModule = context.mode === "live" ? "occ" : "operations";
+    activeModule = context.mode === "live" && isAllowed("occ") ? "occ" : "operations";
   }
   navigate(activeModule);
 }
 
 function isAllowed(module) {
-  if (module === "operations") return true;
+  if (!["studio", "simulator", "occ"].includes(module)) return MODULES.has(module);
+  if (context.city !== bootstrap.city) return false;
   if (module === "studio") return ["designer", "reviewer"].includes(context.role) && ["design", "simulation"].includes(context.mode);
   if (module === "simulator") return ["designer", "dispatcher", "reviewer"].includes(context.role) && context.mode !== "live";
   if (module === "occ") {
@@ -113,14 +164,17 @@ function isAllowed(module) {
 }
 
 function render() {
-  document.getElementById("lifecycleLink").href = "/docs/lifecycle/?" + new URLSearchParams({city:context.city,asset:context.selected_asset || "",environment:context.mode === "live" ? "physical" : "simulation"});
+  document.getElementById("citySelector").value = context.city;
   document.getElementById("contextCity").textContent = context.city;
+  document.getElementById("contextEnvironment").textContent = context.environment;
   document.getElementById("contextRevision").textContent = context.revision || "not selected";
   document.getElementById("contextBaseline").textContent = context.baseline_sha256?.slice(0, 16) || "not approved";
   document.getElementById("contextRun").textContent = context.run_id || "not run";
   document.getElementById("contextAsset").textContent = context.selected_asset || "none";
   document.querySelectorAll("[data-module]").forEach((button) => {
     button.disabled = !isAllowed(button.dataset.module);
+    button.title = ["studio", "simulator", "occ"].includes(button.dataset.module) && context.city !== bootstrap.city
+      ? `This Workbench control workspace is bound to ${bootstrap.city}. Start a Workbench with --project for the required city.` : "";
     button.classList.toggle("active", button.dataset.module === activeModule);
   });
   const banner = document.getElementById("safetyBanner");
@@ -149,12 +203,17 @@ function contextQuery() {
 }
 
 function operationsData() {
-  return operationsOverride || bootstrap.operations_data;
+  const city = catalogue.find(c => c.slug === context.city);
+  return operationsOverride || city?.operations_data || (context.city === bootstrap.city ? bootstrap.operations_data : "");
 }
 
 async function loadTwinCatalogue() {
   try {
     const payload = await fetch("/api/twins/catalogue").then(checkedJson);
+    catalogue = payload.cities;
+    const globalSelector = document.getElementById("citySelector");
+    globalSelector.replaceChildren(...catalogue.map(city => new Option(`${city.country} · ${city.name}`, city.slug)));
+    globalSelector.value = context.city;
     const selector = document.getElementById("twinCity");
     selector.innerHTML = payload.cities.map((city) =>
       `<option value="${escapeHtml(city.slug)}">${escapeHtml(city.country)} · ${escapeHtml(city.name)} · ${escapeHtml(city.rolling_stock_family)}</option>`
@@ -285,6 +344,27 @@ function valid(value, pattern) {
   return value && pattern.test(value) ? value : "";
 }
 
-loadTwinCatalogue();
+await loadTwinCatalogue();
 loadPortfolio();
 enforceAccess();
+const savedPath = params.get("tool_path");
+if (savedPath && registry.modules.find(m=>m.id===activeModule)?.service !== "local") {
+  const spec = registry.modules.find(m=>m.id===activeModule);
+  const url = new URL(savedPath, services[spec.service]);
+  if (url.origin === new URL(services[spec.service]).origin) openToolLink(url.href);
+}
+
+function openToolLink(href) {
+  let url; try { url = new URL(href, location.origin); } catch { return; }
+  if (url.origin === location.origin) {
+    if (url.pathname.startsWith("/docs/operating/")) return navigate("operating");
+    if (url.pathname.startsWith("/docs/operations-portal/")) return navigate("operations");
+    return;
+  }
+  for (const service of ["erp", "fuxa"]) {
+    if (url.origin !== new URL(services[service]).origin || url.username || url.password) continue;
+    const module = registry.modules.find(m => m.service === service && url.pathname.startsWith(m.path));
+    if (service === "erp" && !url.pathname.startsWith("/app/")) return;
+    navigate(module?.id || (service === "erp" ? "erp" : "fuxa"), url.pathname + url.search + url.hash);
+  }
+}

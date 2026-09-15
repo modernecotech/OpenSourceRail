@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-test("Workbench exposes the ERP platform with separate native module links", async ({ page }) => {
+test("Workbench embeds city execution and exposes native ERP module links", async ({ page }) => {
   await page.goto("http://127.0.0.1:4177/");
-  await expect(page.getByRole("link", { name: "Operating · ERPNext" })).toHaveAttribute("href", "/docs/operating/");
+  await page.locator('[data-module="operating"]').click();
+  await expect(page.locator("#moduleFrame")).toHaveAttribute("src", /docs\/operating/);
   await page.goto("http://127.0.0.1:4177/docs/operating/");
   await expect(page.locator("#workspace")).toHaveAttribute("href", "http://127.0.0.1:8080/app/opensourcerail");
   await expect(page.locator("#modules article")).toHaveCount(6);
@@ -58,4 +59,12 @@ test("City feedback selects the correct project and makes stale data visible", a
   await expect(page.locator('#twinReadiness')).toBeEmpty();
   await expect(page.locator('#businessFlow')).toBeHidden();
   await expect(page.locator('#componentsFlow')).toBeHidden();
+});
+
+test('City execution never substitutes another city when feedback is missing',async({page})=>{
+  await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{city:'samawah',project:'PROJ-0001'}]}}));
+  await page.goto('http://127.0.0.1:4177/docs/operating/?city=unconfigured-city');
+  await expect(page.locator('#twinStatus')).toContainText('No ERP feedback for unconfigured-city');
+  await expect(page.locator('#twinSummary')).toBeEmpty();
+  await expect(page.locator('#twinSelector')).toBeDisabled();
 });

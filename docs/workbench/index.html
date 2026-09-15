@@ -13,10 +13,11 @@
       <h1>Workbench</h1>
     </div>
     <div class="selectors">
+      <label>City<select id="citySelector" aria-label="Workbench city"></select></label>
       <label>Actor
         <input id="actor" maxlength="120" value="local-user">
       </label>
-      <label>Role
+      <label>View role
         <select id="role">
           <option value="designer">Designer</option>
           <option value="dispatcher">Dispatcher</option>
@@ -38,6 +39,7 @@
   <section id="safetyBanner" class="safety-banner" aria-live="polite"></section>
   <section class="context-bar" aria-label="Shared workbench context">
     <span><b>City</b><code id="contextCity"></code></span>
+    <span><b>Asset environment</b><code id="contextEnvironment"></code></span>
     <span><b>Revision</b><code id="contextRevision">not selected</code></span>
     <span><b>Baseline</b><code id="contextBaseline">not approved</code></span>
     <span><b>Run</b><code id="contextRun">not run</code></span>
@@ -45,12 +47,7 @@
   </section>
 
   <nav id="moduleNav" class="module-nav" aria-label="Workbench modules">
-    <button data-module="studio">Design</button>
-    <button data-module="simulator">Simulation</button>
-    <button data-module="occ">OCC</button>
-    <button data-module="operations">Railway works</button>
-    <a class="handoff" href="/docs/operating/" target="_blank" rel="noopener">Operating · ERPNext</a>
-    <a id="lifecycleLink" class="handoff" href="/docs/lifecycle/" target="_blank" rel="noopener">Lifecycle · FUXA</a>
+    <div id="moduleButtons"></div>
     <button id="occHandoff" class="handoff" hidden>Open run in OCC training</button>
   </nav>
 
@@ -99,7 +96,8 @@
   </section>
 
   <main>
-    <iframe id="moduleFrame" title="OSR Workbench module"></iframe>
+    <section class="module-toolbar"><strong id="moduleTitle"></strong><span id="moduleScope" role="status"></span><button id="reloadModule">Reload tool</button><a id="openNative" target="_blank" rel="noopener">Open separately ↗</a></section>
+    <iframe referrerpolicy="origin" id="moduleFrame" title="OSR Workbench module"></iframe>
   </main>
   <script type="module" src="/workbench/app.js"></script>
 </body>

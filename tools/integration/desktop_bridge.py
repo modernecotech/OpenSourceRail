@@ -15,7 +15,7 @@ def resolve(link_file, application, object_id):
     if len(candidates) != 1:
         raise ValueError('Select an object with exactly one binding in this city link package')
     row = candidates[0]
-    return 'http://127.0.0.1:8090/docs/lifecycle/?' + urlencode(dict(city=package['city'], environment=package['environment'], asset=row['asset_id']))
+    return 'http://127.0.0.1:8090/?' + urlencode(dict(module='lifecycle', city=package['city'], environment=package['environment'], selected_asset=row['asset_id']))
 
 
 def freecad(link_file):

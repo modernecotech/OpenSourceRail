@@ -1,0 +1,60 @@
+// Local installed-stack acceptance. Credentials are read privately and never logged.
+import {chromium,expect} from '@playwright/test';
+import fs from 'node:fs';
+const browser=await chromium.launch();
+try {
+ const page=await browser.newPage({viewport:{width:1600,height:1100}});
+ page.setDefaultTimeout(30000);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('http://127.0.0.1:8090/?module=erp&city=samawah');
+ const frame=page.frameLocator('#moduleFrame');
+ const env=Object.fromEntries(fs.readFileSync('var/erpnext/local.env','utf8').trim().split('\n').map(l=>[l.split('=')[0],l.slice(l.indexOf('=')+1)]));
+ await frame.locator('#login_email').fill('Administrator');
+ await frame.locator('#login_password').fill(env.ADMIN_PASSWORD);
+ await frame.locator('.btn-login').click();
+ await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
+ console.log('PASS native ERP sign-in inside Workbench');
+ await page.locator('[data-module=projects]').click();
+ await expect(frame.locator('.list-row').first()).toBeVisible({timeout:30000});
+ const erpFrame=page.frames().find(f=>f.url().startsWith('http://127.0.0.1:8080/app/'));
+ await erpFrame.evaluate(()=>frappe.set_route('Form','Project','PROJ-0001'));
+
+ await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
+ await frame.getByText('Connected lifecycle',{exact:true}).click();
+ await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/docs\/lifecycle/);
+ await expect(frame.locator('#overview')).toContainText('SAM-ST-001');
+ console.log('PASS native ERP project to connected asset inside Workbench');
+ await page.locator('[data-module=fuxa]').click();
+ const dialog=frame.locator('mat-dialog-container');await dialog.waitFor();
+ const cfg=JSON.parse(fs.readFileSync('var/supervision/fuxa.json'));
+ await dialog.locator('form input[type=text]').fill('operator');
+ await dialog.locator('input[type=password]').fill(cfg.operator_password);
+ await dialog.getByRole('button',{name:'OK',exact:true}).click();
+ await dialog.waitFor({state:'hidden'});
+ await expect(frame.locator('g[type="svg-ext-value"]').first()).toBeVisible({timeout:30000});
+ await page.screenshot({path:'build/workbench-fuxa-integrated.png',fullPage:true});
+ console.log('PASS native FUXA operator sign-in and rendered supervision inside Workbench');
+ await page.locator('[data-module=lifecycle]').click();
+ await frame.locator('#asset').selectOption('SAM-ST-001:facilities');
+ await frame.locator('#operatorActions summary').click();
+ const credentials=JSON.parse(fs.readFileSync('var/supervision/integration.json'));
+ await frame.locator('#operatorToken').fill(credentials.principals.find(p=>p.role==='operator').token);
+ await frame.locator('#commandValue').fill('60');
+ await frame.locator('#commandForm button').click();
+ await expect(frame.locator('#actionStatus')).toContainText('requested');
+ const requestId=(await frame.locator('#actionStatus').textContent()).match(/[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/)[0];
+ await expect(frame.locator('#commands .record').filter({hasText:requestId})).toContainText('completed',{timeout:30000});
+ await expect(frame.locator('#measurements')).toContainText('60',{timeout:15000});
+ // Restore the documented simulation fixture through the same operator workflow.
+ await frame.locator('#commandValue').fill('75');
+ await frame.locator('#commandForm button').click();
+ await expect(frame.locator('#actionStatus')).toContainText('requested');
+ const restoreId=(await frame.locator('#actionStatus').textContent()).match(/[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/)[0];
+ await expect(frame.locator('#commands .record').filter({hasText:restoreId})).toContainText('completed',{timeout:30000});
+ await expect(frame.locator('#measurements')).toContainText('75',{timeout:15000});
+ await frame.locator('#forgetToken').click();
+ await page.screenshot({path:'build/workbench-lifecycle-integrated.png',fullPage:true});
+ console.log('PASS Workbench request -> scoped gateway -> OSR simulation controller -> completion and measured feedback');
+ expect(errors).toEqual([]);
+ console.log('PASS no browser runtime errors');
+}finally{await browser.close();}
