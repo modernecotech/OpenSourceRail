@@ -38,3 +38,7 @@ and automatically return to the last-known-good slot if either fails.
 [ERPNext deployment](erpnext/README.md) runs on an ordinary business server,
 separate from the five railway control host classes. It provides the operating
 platform without adding ERP dependencies to onboard or wayside images.
+
+## Equipment supervision
+
+[ERPNext + FUXA lifecycle deployment](supervision/README.md) provides generated city equipment packages, a durable telemetry/event gateway and a simulated station pilot.

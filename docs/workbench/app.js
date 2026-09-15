@@ -113,6 +113,7 @@ function isAllowed(module) {
 }
 
 function render() {
+  document.getElementById("lifecycleLink").href = "/docs/lifecycle/?" + new URLSearchParams({city:context.city,asset:context.selected_asset || "",environment:context.mode === "live" ? "physical" : "simulation"});
   document.getElementById("contextCity").textContent = context.city;
   document.getElementById("contextRevision").textContent = context.revision || "not selected";
   document.getElementById("contextBaseline").textContent = context.baseline_sha256?.slice(0, 16) || "not approved";

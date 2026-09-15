@@ -89,6 +89,7 @@ def city_status(project):
         task_count=len(tasks), task_status=dict(Counter(r.status for r in tasks)),
         readiness=task_readiness(tasks, frappe.utils.today()),
         components=component_feedback(project),
+        execution=__import__("osr_erpnext.integration", fromlist=["execution_feedback"]).execution_feedback(project),
         categories={key: dict(value) for key, value in sorted(kinds.items())},
         asset_work={key: dict(value) for key, value in sorted(assets.items())},
         actual_hours=sum(float(r.actual_time or 0) for r in tasks),

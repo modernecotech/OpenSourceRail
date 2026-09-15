@@ -163,3 +163,7 @@ ERPNext and Frappe HR retain GPL-3.0; Frappe Framework retains MIT. OSR's local
 integration source follows the repository Apache-2.0 software license. Upstream
 source/license obligations apply when distributing the combined container;
 the OSR license does not relicense upstream applications.
+
+## Connected lifecycle and equipment supervision
+
+[Lifecycle integration](../lifecycle/README.md) connects the existing ERP platform to FUXA, embedded OSR controllers, FreeCAD, IFC/Bonsai and QGIS. [Run the supervisory pilot](../../deployment/supervision/README.md).

@@ -22,6 +22,7 @@ Usage: ./osr [COMMAND] [arguments]
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
   test               Run Rust, Python, browser, and repository checks
   engineering ...    Run an engineering-toolchain command
+  supervision ...    Generate and operate FUXA, telemetry and lifecycle integration
   erp ...            Manage ERPNext business operations (init/build/up/setup/status/bench)
 EOF
 }
@@ -30,6 +31,9 @@ command_name="${1:-workbench}"
 (( $# == 0 )) || shift
 
 case "$command_name" in
+    supervision)
+        exec python3 tools/automation/supervision.py "$@"
+        ;;
     erp)
         if [[ "${1:-}" == "components" ]]; then
             shift

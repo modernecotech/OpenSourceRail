@@ -1,6 +1,9 @@
 frappe.ui.form.on("Project", {
   refresh(frm) {
     if (!frm.doc.custom_osr_city || frm.is_new()) return;
+    frm.add_custom_button(__("Connected lifecycle"), () => {
+      window.open('http://127.0.0.1:8090/docs/lifecycle/?' + new URLSearchParams({city:frm.doc.custom_osr_city}), '_blank', 'noopener');
+    }, __('OpenSourceRail'));
     frm.add_custom_button(__("Operating twin"), () => {
       frappe.call({
         type: "GET",

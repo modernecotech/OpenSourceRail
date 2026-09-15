@@ -1,0 +1,40 @@
+{
+  "schema": "osr-supervision-profile/1",
+  "template_revision": "station-energy/1",
+  "historian": {"owner": "osr-integration", "retention_days": 7, "sampling_seconds": 2},
+  "templates": {
+    "charger": {
+      "label": "Charger", "component_type_id": "station-charger",
+      "measurements": {
+        "power_kw": {"unit": "kW", "min": 0, "max": 500, "stale_seconds": 10},
+        "temperature_c": {"unit": "degC", "min": -40, "max": 150, "stale_seconds": 10},
+        "energy_kwh": {"unit": "kWh", "min": 0, "max": 1000000000, "stale_seconds": 15}
+      },
+      "alarms": [{"id": "cooling", "measurement": "temperature_c", "high": 70, "clear_below": 60, "delay_seconds": 6, "repeat_seconds": 300, "priority": "high", "response": "Inspect cooling system; local protection remains authoritative", "maintenance": true}]
+    },
+    "battery": {
+      "label": "Battery", "component_type_id": "station-bess",
+      "measurements": {
+        "soc_pct": {"unit": "%", "min": 0, "max": 100, "stale_seconds": 10},
+        "temperature_c": {"unit": "degC", "min": -40, "max": 150, "stale_seconds": 10},
+        "running_hours": {"unit": "h", "min": 0, "max": 1000000, "stale_seconds": 15}
+      },
+      "alarms": [{"id": "temperature", "measurement": "temperature_c", "high": 55, "clear_below": 45, "delay_seconds": 6, "repeat_seconds": 300, "priority": "high", "response": "Inspect battery thermal management under approved local procedure", "maintenance": true}]
+    },
+    "pv": {
+      "label": "Solar inverter", "component_type_id": "station-pv",
+      "measurements": {
+        "power_kw": {"unit": "kW", "min": 0, "max": 1000, "stale_seconds": 10},
+        "energy_kwh": {"unit": "kWh", "min": 0, "max": 1000000000, "stale_seconds": 15}
+      }, "alarms": []
+    },
+    "facilities": {
+      "label": "Facilities", "component_type_id": "station-facilities",
+      "measurements": {
+        "lighting_pct": {"unit": "%", "min": 0, "max": 100, "stale_seconds": 10},
+        "pump_running": {"unit": "bool", "min": 0, "max": 1, "stale_seconds": 10}
+      }, "alarms": [],
+      "commands": {"set_lighting": {"parameter": "level", "min": 20, "max": 100, "max_ttl_seconds": 30, "required_conditions": ["local_remote_enabled"], "simulation_only": true}}
+    }
+  }
+}

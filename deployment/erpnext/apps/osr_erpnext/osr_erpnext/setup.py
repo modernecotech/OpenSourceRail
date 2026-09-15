@@ -6,6 +6,8 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 
 def install():
+    from osr_erpnext.integration_setup import install as integration_install
+    integration_install()
     fields = []
     for name, label, fieldtype in [
         ("source_key", "OSR source key", "Data"),

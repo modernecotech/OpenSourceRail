@@ -198,9 +198,7 @@ Generated files are review evidence, not parallel inputs.
 | Control-electronics integration | [`control-electronics/`](control-electronics/README.md) and governing RFCs | Electronics BOMs, wiring packs and release evidence |
 | Project controls, organisation, operations and safety requirements | [`lib/templates/manufacturing-schedule.toml`](lib/templates/manufacturing-schedule.toml), [`lib/templates/owner-builder-operator-mobilisation.toml`](lib/templates/owner-builder-operator-mobilisation.toml), [`docs/operations/`](docs/operations/README.md), [`docs/certification/`](docs/certification/README.md) and [`engineering/assurance/formal/`](engineering/assurance/formal/README.md) | Per-city CPM/order/cashflow twin, mobilisation gates, portal data, safety-case views and acceptance reports |
 
-The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps.
-The generated [Markdown inventory](docs/INDEX.md) is for search and CI only; it
-does not define architecture, status or reading order.
+The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps. The generated [Markdown inventory](docs/INDEX.md) is for search and CI only; it does not define architecture, status or reading order.
 
 ## Verification
 
@@ -213,13 +211,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
 
 ## License
 
-Software is Apache 2.0; control-electronics and open physical designs use
-CERN-OHL-S v2; documentation is CC-BY-SA 4.0.
+Software is Apache 2.0; control-electronics and open physical designs use CERN-OHL-S v2; documentation is CC-BY-SA 4.0.
 
 See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md) for full texts.
 
 ## Business operating platform
 
-[ERPNext + Frappe HR](docs/operating/README.md) provide projects, purchasing, stock, manufacturing administration, asset maintenance, finance and HR. Railway control, engineering, inspection evidence and handback stay in OSR. Install with `./osr erp init`, `./osr erp build`, `./osr erp up`, then `./osr erp setup`. Open <http://127.0.0.1:8080> or **Workbench → Operating · ERPNext**.
-
-The [reproducible city operating configuration](docs/operating/city-platform.md) combines shared defaults with an override file for every catalogue city. It adds native task dependencies, procurement and programme packages, city departments/warehouses/cost centres, and ERP execution feedback in the digital twin. Start with `./osr erp city validate` and `./osr erp city prepare <slug> --company "Your Company"`.
+[ERPNext + Frappe HR](docs/operating/README.md) handle business execution through [reproducible city configurations](docs/operating/city-platform.md). The [connected lifecycle](docs/lifecycle/README.md) joins ERPNext, FUXA equipment supervision, embedded OSR software, FreeCAD, IFC/Bonsai and QGIS. See the linked setup guides; railway control, engineering acceptance and handback stay in OSR.

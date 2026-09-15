@@ -1,0 +1,163 @@
+"""Failure-oriented integration acceptance tests independent of live ERP/FUXA."""
+import copy
+import importlib.util
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'services/integration'))
+from osr_integration.config import build_package, digest, ifc_guid
+from osr_integration.store import Store
+from osr_integration.server import deliver
+from osr_integration.engineering import package as engineering_package, execution_proposal, ifc_overlay
+from osr_integration.embedded import energy_measurements
+from osr_integration.fuxa import project
+
+
+def iso(t):
+    return datetime.fromtimestamp(t, timezone.utc).isoformat()
+
+
+class IntegrationTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.store = Store(Path(self.tmp.name) / 'db.sqlite')
+        self.generic = json.loads((ROOT / 'deployment/supervision/config/generic.json').read_text())
+        self.package = build_package(self.generic, {'city': 'samawah'}, [{'asset_type': 'station', 'asset_id': 'SAM-ST-001', 'name': 'Station'}], 'rev1')
+        self.store.apply(self.package, 'engineer')
+
+    def message(self, now, value=80, **extra):
+        return dict(city='samawah', environment='simulation', asset_id='SAM-ST-001:charger', measurement='temperature_c', source_id='simulator', sequence=int(now), source_timestamp=iso(now), unit='degC', quality='valid', value=value, **extra)
+
+    def fault(self):
+        for now in [1000, 1003, 1006]: self.store.ingest(self.message(now), 'simulator', now)
+
+    def test_deterministic_and_repeat_safe_package(self):
+        self.assertFalse(self.store.apply(self.package, 'engineer')['created'])
+        updated = copy.deepcopy(self.package); updated['engineering_revision'] = 'rev2'; updated['sha256'] = digest({k: v for k, v in updated.items() if k != 'sha256'})
+        with self.assertRaises(ValueError): self.store.apply(updated, 'engineer')
+        self.store.apply(updated, 'engineer', self.package['sha256'])
+        self.assertEqual(len(self.store.snapshot()['assets']), 4)
+        self.assertEqual(len(ifc_guid('SAM-ST-001:charger')), 22)
+
+    def test_wrong_source_units_and_replay(self):
+        m = self.message(1000)
+        with self.assertRaises(PermissionError): self.store.ingest(m, 'other', 1000)
+        self.store.ingest(m, 'simulator', 1000)
+        self.assertTrue(self.store.ingest(m, 'simulator', 1000)['duplicate'])
+        m['value'] = 99
+        with self.assertRaises(ValueError): self.store.ingest(m, 'simulator', 1000)
+        m = self.message(1001); m['unit'] = 'K'
+        with self.assertRaises(ValueError): self.store.ingest(m, 'simulator', 1001)
+
+    def test_alarm_delay_hysteresis_repeats_and_queue(self):
+        self.fault()
+        self.store.ingest(self.message(1008, 65), 'simulator', 1008)
+        snap = self.store.snapshot(now=1008); alarm = next(a for a in snap['assets'] if a['equipment_type'] == 'charger')['alarms'][0]
+        self.assertEqual(alarm['active'], 1); self.assertEqual(len(snap['outbox']), 1)
+        self.store.ingest(self.message(1010, 59), 'simulator', 1010)
+        self.assertEqual(len(self.store.snapshot()['outbox']), 2)
+        # Alarm clears; case stays attached, maintenance is never auto-closed.
+        with self.store.connect() as db:
+            self.assertEqual(db.execute('SELECT active FROM alarms').fetchone()[0], 0)
+
+    def test_gap_and_invalid_do_not_establish_persistence(self):
+        self.store.ingest(self.message(1000), 'simulator', 1000)
+        self.store.ingest(self.message(1100), 'simulator', 1100)
+        self.assertEqual(self.store.snapshot()['outbox'], [])
+        self.store.ingest(self.message(1103, 200), 'simulator', 1103)
+        self.store.ingest(self.message(1106), 'simulator', 1106)
+        self.assertEqual(self.store.snapshot()['outbox'], [])
+
+    def test_stale_disconnected_and_nan(self):
+        self.store.ingest(self.message(1000), 'simulator', 1000)
+        def reading(t): return next(a for a in self.store.snapshot(now=t)['assets'] if a['equipment_type'] == 'charger')['readings']['temperature_c']
+        self.assertEqual(reading(1011)['quality'], 'stale'); self.assertEqual(reading(1031)['quality'], 'disconnected')
+        with self.assertRaises(ValueError): self.store.ingest(self.message(1001, float('nan')), 'simulator', 1001)
+
+    def test_outage_retry_and_remote_idempotency_contract(self):
+        self.fault(); config = {'url': 'http://erp', 'key': 'x', 'secret': 'y'}
+        with patch('osr_integration.server.request_json', side_effect=OSError()): deliver(self.store, config, 1010)
+        self.assertEqual(self.store.snapshot()['outbox'][0]['attempts'], 1)
+        with patch('osr_integration.server.request_json', return_value={'message': {'issue': 'ISS-1', 'status': 'Open'}}): deliver(self.store, config, 1020)
+        self.assertEqual(self.store.snapshot()['outbox'][0]['state'], 'delivered')
+        restored = Store(self.store.path)
+        self.assertEqual(restored.snapshot()['outbox'][0]['state'], 'delivered')
+
+    def test_commands_expiry_permission_and_controller_result(self):
+        m = dict(request_id='command1', city='samawah', environment='simulation', asset_id='SAM-ST-001:facilities', command='set_lighting', parameters={'level': 75}, created_at=iso(1000), expires_at=iso(1020), required_conditions=['local_remote_enabled'])
+        self.assertEqual(self.store.command(m, 'viewer', False, 1000)['state'], 'rejected')
+        m['request_id'] = 'command2'
+        self.assertEqual(self.store.command(m, 'operator', True, 1000)['state'], 'requested')
+        with self.assertRaises(PermissionError): self.store.controller_result('command2', 'other', 'accepted', '', 1001)
+        self.store.controller_result('command2', 'simulator', 'accepted', 'local conditions checked', 1001)
+        self.assertEqual(self.store.controller_result('command2', 'simulator', 'completed', 'measured level 75', 1002)['state'], 'completed')
+        m['request_id'] = 'command3'; self.store.command(m, 'operator', True, 1000)
+        self.assertEqual(self.store.controller_commands('simulator', 1030), [])
+
+    def test_outbox_preserves_incident_order_during_retry(self):
+        self.fault()
+        self.store.ingest(self.message(1010, 40), 'simulator', 1010)
+        config = {'url': 'http://erp', 'key': 'x', 'secret': 'y'}
+        with patch('osr_integration.server.request_json', side_effect=OSError()) as request:
+            deliver(self.store, config, 1020)
+            self.assertEqual(request.call_count, 1)
+        with patch('osr_integration.server.request_json') as request:
+            deliver(self.store, config, 1021)
+            request.assert_not_called()
+
+    def test_desktop_selected_object_resolves_to_city_asset(self):
+        spec = importlib.util.spec_from_file_location('bridge', ROOT / 'tools/integration/desktop_bridge.py')
+        bridge = importlib.util.module_from_spec(spec); spec.loader.exec_module(bridge)
+        link = Path(self.tmp.name) / 'links.json'
+        link.write_text(json.dumps({'city':'samawah','environment':'simulation','bindings':[{'asset_id':'SAM-ST-001:charger','ifc':['guid1'],'freecad':['cabinet'],'gis':['station1']}]}))
+        for app, identity in [('ifc','guid1'),('freecad','cabinet'),('gis','station1')]:
+            self.assertIn('asset=SAM-ST-001%3Acharger', bridge.resolve(link, app, identity))
+        with self.assertRaises(ValueError): bridge.resolve(link, 'ifc', 'missing')
+
+    def test_backup_restore(self):
+        self.fault(); target = Path(self.tmp.name) / 'backup.sqlite'; self.store.backup(target)
+        self.assertEqual(Store(target).snapshot(now=1006), self.store.snapshot(now=1006))
+
+    def test_ifc_and_engineering_handoff(self):
+        root = Path(self.tmp.name); gid = ifc_guid('asset'); (root/'model.ifc').write_text("#1=IFCBUILDINGELEMENTPROXY('" + gid + "',$,'test',$,$,$,$,$,$);")
+        e = engineering_package(root, dict(city='samawah', asset_id='asset', engineering_revision='rev1', assumptions=['pilot'], artifacts=[dict(path='model.ifc', tool='bonsai', tool_version='test')]))
+        self.assertEqual(e['artifacts'][0]['ifc_objects'][0]['global_id'], gid)
+        self.assertEqual(ifc_overlay(e, [{'ifc_global_id': gid}])['bindings'][0]['ifc_global_id'], gid)
+        with self.assertRaises(ValueError): execution_proposal(e, {})
+        with self.assertRaises(ValueError): engineering_package(root, dict(city='x', asset_id='a', engineering_revision='r', assumptions=[], artifacts=[dict(path='../missing', tool='osr', tool_version='1')]))
+
+    def test_lifecycle_independence_and_replacement(self):
+        def evidence(kind, actor, role, **fields):
+            return self.store.evidence(dict(id=kind+str(len(fields)), kind=kind, city='samawah', environment='simulation', asset_id='SAM-ST-001:charger', engineering_revision='rev1', references=['test-evidence'], **fields), actor, role)
+        evidence('design-review', 'designer', 'engineer')
+        evidence('execution-release', 'reviewer', 'reviewer')
+        evidence('installation', 'installer', 'engineer', serial='S1', batch='B1')
+        evidence('commissioning-test', 'inspector', 'inspector', result='pass')
+        with self.assertRaises(ValueError): evidence('commissioning-release', 'inspector', 'reviewer', test_id='commissioning-test1')
+        evidence('commissioning-release', 'reviewer', 'reviewer', test_id='commissioning-test1')
+        self.assertEqual(len(self.store.affected(batch='B1')), 1)
+        for kind, role in [('design-review','engineer'),('execution-release','reviewer')]:
+            self.store.evidence(dict(id='battery-'+kind,kind=kind,city='samawah',environment='simulation',asset_id='SAM-ST-001:battery',engineering_revision='rev1',references=['test']),role,role)
+        with self.assertRaises(ValueError):
+            self.store.evidence(dict(id='duplicate-serial',kind='installation',city='samawah',environment='simulation',asset_id='SAM-ST-001:battery',engineering_revision='rev1',references=['test'],serial='S1'), 'engineer','engineer')
+
+        evidence('installation', 'installer', 'engineer', serial='S2', batch='B2', replaces_serial='S1')
+        self.assertIsNotNone(self.store.affected(serial='S1')[0]['removed'])
+
+    def test_fuxa_preserves_ids_and_disables_writes(self):
+        f = project([self.package]); self.assertEqual(len(f['devices']), 4)
+        self.assertTrue(all('postTags' not in d['property'] for d in f['devices'].values()))
+        self.assertTrue(any(k.endswith('__temperature_c_quality') for d in f['devices'].values() for k in d['tags']))
+
+    def test_embedded_units(self):
+        r = energy_measurements(dict(schema='osr-energy-site/1', pv_w=240000, to_pad_w=180000, battery_soc_ppt=720))
+        self.assertEqual(r[('pv','power_kw')], 240); self.assertEqual(r[('battery','soc_pct')], 72)
+
+
+if __name__ == '__main__': unittest.main()

@@ -222,6 +222,8 @@ def apply(project, component, key, inputs, fingerprint):
     if target == 'Work Order':
         record.set_work_order_operations()
         record.set_required_items()
+        for item in record.required_items:
+            item.source_warehouse = record.source_warehouse
     record.insert()
     return dict(doctype=target, name=record.name, created=True)
 

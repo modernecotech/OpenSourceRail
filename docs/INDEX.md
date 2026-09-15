@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4962**.
+Indexed Markdown files: **4964**.
 
 ## Sections
 
@@ -25,9 +25,9 @@ Indexed Markdown files: **4962**.
 | [cities](#cities) | 4317 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
-| [deployment](#deployment) | 2 |
+| [deployment](#deployment) | 3 |
 | [design](#design) | 417 |
-| [docs](#docs) | 154 |
+| [docs](#docs) | 155 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4437,6 +4437,7 @@ Indexed Markdown files: **4962**.
 |---|---|
 | [`deployment/README.md`](../deployment/README.md) | Host Deployment Baseline |
 | [`deployment/erpnext/README.md`](../deployment/erpnext/README.md) | ERPNext operating deployment |
+| [`deployment/supervision/README.md`](../deployment/supervision/README.md) | Equipment supervision and lifecycle integration |
 
 ## design
 
@@ -4907,6 +4908,7 @@ Indexed Markdown files: **4962**.
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/ethos-audit-2026-09-09.md`](../docs/ethos-audit-2026-09-09.md) | Audit of today's corrections against the OpenSourceRail design |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
+| [`docs/lifecycle/README.md`](../docs/lifecycle/README.md) | Connected OpenSourceRail lifecycle |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail — one-page overview |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
 | [`docs/operating/README.md`](../docs/operating/README.md) | OpenSourceRail operating platform |

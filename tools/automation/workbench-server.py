@@ -149,6 +149,66 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         if path == "/api/workbench":
             self._send_json(200, self.bootstrap)
             return
+        if path.startswith("/api/lifecycle/"):
+            from urllib.parse import parse_qs, urlencode
+            from urllib.request import Request, urlopen
+            query = {k: v[0] for k, v in parse_qs(urlsplit(self.path).query).items()}
+            endpoint = path.removeprefix("/api/lifecycle/")
+            try:
+                city = query.get("city", "samawah")
+                if not city or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789-" for c in city):
+                    raise ValueError("Invalid city")
+                if endpoint == "artifact":
+                    import hashlib
+                    manifest = json.loads((REPO_ROOT / "build/supervision" / city / "engineering.json").read_text())
+                    record = next(r for r in manifest["artifacts"] if r["sha256"] == query.get("sha256"))
+                    target = (REPO_ROOT / record["path"]).resolve()
+                    source_root = (REPO_ROOT / "crates").resolve()
+                    if not (self._static_path_allowed("/" + record["path"]) or (source_root in target.parents and target.suffix == ".rs")):
+                        raise ValueError("Artifact outside public engineering roots")
+                    data = target.read_bytes()
+                    if hashlib.sha256(data).hexdigest() != record["sha256"]:
+                        self._send_json(409, {"error": "Engineering artifact changed; regenerate and review the package"})
+                        return
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/octet-stream")
+                    self.send_header("Content-Disposition", 'attachment; filename="' + target.name.replace('"', '') + '"')
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
+                if endpoint == "engineering":
+                    source = REPO_ROOT / "build/supervision" / city / "engineering.json"
+                    self._send_json(200, json.loads(source.read_text()))
+                    return
+                if endpoint not in {"snapshot", "history", "affected"}:
+                    self._send_json(404, {"error": "Unknown lifecycle endpoint"})
+                    return
+                config = json.loads((REPO_ROOT / "var/supervision/integration.json").read_text())
+                viewer = next(p for p in config["principals"] if p["role"] == "viewer")
+                request = Request("http://127.0.0.1:8092/" + endpoint + "?" + urlencode(query),
+                                  headers={"Authorization": "Bearer " + viewer["token"]})
+                with urlopen(request, timeout=5) as response:
+                    payload = json.load(response)
+                if endpoint == "snapshot":
+                    actor = self._actor(required=False)
+                    if actor and OPS.actor_can_access_city(actor, city):
+                        with OPS.connect(self.database_path) as con:
+                            assurance = OPS.load_state(con, city)
+                        for asset in payload.get("assets", []):
+                            # Existing assurance records stay in Ops Core. Never infer release.
+                            keys = {asset["asset_id"], asset["parent_asset_id"], *asset.get("source_asset_ids", [])}
+                            orders = [r for r in assurance["workOrders"] if r.get("asset_id") in keys]
+                            order_ids = {r["id"] for r in orders}
+                            asset["osr_assurance"] = {"work_orders": orders,
+                                "inspections": [r for r in assurance["inspections"] if r.get("wo_id") in order_ids],
+                                "approvals": [r for r in assurance["approvals"] if r.get("wo_id") in order_ids],
+                                "defects": [r for r in assurance["defects"] if r.get("asset_id") in keys],
+                                "scope": "existing OSR records; separate from simulation rehearsal evidence"}
+                self._send_json(200, payload)
+            except (OSError, ValueError, StopIteration):
+                self._send_json(503, {"error": "Lifecycle integration unavailable for selected scope"})
+            return
         if path == "/api/operating/twins":
             # Workbench is loopback-only. Private ERP feedback is never served by the
             # standalone/shared Ops Core handler or through the static file roots.
