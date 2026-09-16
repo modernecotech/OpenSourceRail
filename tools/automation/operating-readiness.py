@@ -56,7 +56,11 @@ COMPILER_INPUTS = [
     ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/component_catalogue.py",
     ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/planning.py",
     ROOT / "deployment/supervision/config/generic.json",
+    ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json",
+    ROOT / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+    ROOT / "lib/templates/trainset-manufacturing-methods.toml",
     ROOT / "services/integration/osr_integration/config.py",
+    ROOT / "services/integration/osr_integration/manufacturing.py",
 ]
 
 

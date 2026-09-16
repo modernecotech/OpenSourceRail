@@ -34,6 +34,9 @@ try:
         items=[dict(item_code=raw.name,qty=4,rate=10,warehouse=store,project=project.name,purchase_order=order.name,purchase_order_item=order.items[0].name)])
     receipt.submit()
     feedback=execution_feedback(project.name)
+    mapping_feedback=next(r for r in feedback['execution_mappings'] if r['name']==mapped['mappings'][0])
+    assert mapping_feedback['component_type_id']=='charger-fixture' and mapping_feedback['erp_item_code']==fg.name
+    assert mapping_feedback['production_bom']==bom.name and mapping_feedback['review_reference']=='native-test-review'
     line=next(r for r in feedback['purchase_orders'] if r['document']==order.name)
     assert line['received_qty']==4 and line['outstanding_qty']==6
     assert any(r['document']==receipt.name and r['qty']==4 for r in feedback['receipts'])

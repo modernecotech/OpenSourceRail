@@ -105,6 +105,7 @@ class Store:
             'physical_serial_id': 'telemetry-contract',
             'alarms': 'alarm-maintenance',
             'commands': 'command-boundary',
+            'manufacturing_method': 'design-definition',
             'company_id': 'business-execution',
             'erp_project': 'business-execution',
             'erp_item_code': 'business-execution',
@@ -116,6 +117,8 @@ class Store:
         for field in fields:
             if field in mapping:
                 categories.add(mapping[field])
+        if 'manufacturing_method' in fields:
+            categories.update({'business-execution', 'operator-display'})
         if change_type in ('added', 'removed'):
             categories.update({'design-definition', 'asset-topology', 'operator-display'})
             if asset.get('source_crates'):
@@ -139,6 +142,8 @@ class Store:
                 item = value.get(field, [] if many else '')
                 found.update(item if many else [item])
             return sorted(v for v in found if v)
+        methods = [value.get('manufacturing_method') for value in values
+                   if isinstance(value.get('manufacturing_method'), dict)]
         return {
             'component_type_ids': unique('component_type_id'),
             'parent_asset_ids': unique('parent_asset_id'),
@@ -148,6 +153,9 @@ class Store:
             'erp_projects': unique('erp_project'),
             'erp_item_codes': unique('erp_item_code'),
             'erp_asset_ids': unique('erp_asset_id'),
+            'manufacturing_method_ids': sorted({row.get('method_id') for row in methods if row.get('method_id')}),
+            'manufacturing_product_ids': sorted({item for row in methods for item in row.get('product_ids', [])}),
+            'manufacturing_tooling_ids': sorted({item for row in methods for item in row.get('tooling_ids', [])}),
         }
 
     @staticmethod

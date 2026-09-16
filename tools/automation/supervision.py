@@ -3,6 +3,7 @@
 import argparse
 import base64
 import csv
+from functools import lru_cache
 import hashlib
 import hmac
 import importlib.util
@@ -18,12 +19,14 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services/integration'))
 from osr_integration.config import build_package, merge
+from osr_integration.manufacturing import factory_templates, validate_method_sources
 from osr_integration.fuxa import deployment_review, project, validate_deployment_review
 from osr_integration.server import request_json
 from osr_integration.engineering import package as engineering_package, execution_proposal
 
 PRIVATE = ROOT / 'var/supervision'
 GENERIC = ROOT / 'deployment/supervision/config/generic.json'
+MANUFACTURING_METHODS = ROOT / 'design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json'
 spec = importlib.util.spec_from_file_location('erp_city', ROOT / 'tools/automation/erpnext-city.py')
 cities = importlib.util.module_from_spec(spec); spec.loader.exec_module(cities)
 
@@ -50,7 +53,20 @@ def city_assets(slug):
     return assets, twin['revision_id']
 
 
-def city_package(slug, environment='simulation', first_site=False, first_vehicle=False):
+@lru_cache(maxsize=1)
+def generic_config():
+    config = json.loads(GENERIC.read_text())
+    methods = json.loads(MANUFACTURING_METHODS.read_text())
+    validate_method_sources(methods, ROOT)
+    generated = factory_templates(methods)
+    duplicate = set(config['templates']).intersection(generated)
+    if duplicate:
+        raise ValueError('Factory template identity conflicts with generic supervision')
+    config['templates'].update(generated)
+    return config
+
+
+def city_package(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False):
     path, _ = cities.catalogue()[slug]
     override_path = path.parent / 'operations/supervision.json'
     override = json.loads(override_path.read_text()) if override_path.exists() else {'city': slug}
@@ -61,7 +77,9 @@ def city_package(slug, environment='simulation', first_site=False, first_vehicle
         override['sites'] = [next(a['asset_id'] for a in assets if a['asset_type'] == 'station')]
     if first_vehicle:
         override['sites'] = list(override.get('sites', [])) + [next(a['asset_id'] for a in assets if a['asset_type'] == 'rolling-stock')]
-    return build_package(json.loads(GENERIC.read_text()), override, assets, revision, environment)
+    if first_plant:
+        override['sites'] = list(override.get('sites', [])) + [next(a['asset_id'] for a in assets if a['asset_type'] == 'depots-production')]
+    return build_package(generic_config(), override, assets, revision, environment)
 
 
 def write_private(path, value):
@@ -81,8 +99,8 @@ def api(path, data=None, role='engineer', query=''):
     return request_json('http://127.0.0.1:8092' + path + query, data, {'Authorization': 'Bearer ' + principal['token']})
 
 
-def prepare(slug, environment='simulation', first_site=False, first_vehicle=False):
-    p = city_package(slug, environment, first_site, first_vehicle)
+def prepare(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False):
+    p = city_package(slug, environment, first_site, first_vehicle, first_plant)
     folder = ROOT / 'build/supervision' / slug / environment; folder.mkdir(parents=True, exist_ok=True)
     for name, data in [('package.json', p), ('fuxa-project.json', project([p]))]:
         (folder / name).write_text(json.dumps(data, indent=2) + '\n')
@@ -142,7 +160,7 @@ def main():
     for action in ['init', 'up', 'status', 'setup-fuxa', 'backup', 'init-configs', 'validate', 'simulate']:
         sub.add_parser(action)
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
-    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true')
+    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true'); p.add_argument('--first-plant', action='store_true')
     p = sub.add_parser('review-package'); p.add_argument('package', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected'); p.add_argument('--review', type=Path)
     p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path)
@@ -203,7 +221,7 @@ def main():
         for slug in cities.catalogue():
             equipment += len(city_package(slug)['equipment'])
         print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
-    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle))
+    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle, args.first_plant))
     elif args.command == 'review-package':
         review = api('/packages/preview', {'package': json.loads(args.package.read_text())}, role='viewer')
         args.output.parent.mkdir(parents=True, exist_ok=True)

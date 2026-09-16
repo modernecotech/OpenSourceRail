@@ -24,9 +24,10 @@ def wait(predicate, timeout=40):
 
 try:
     before=json.loads(previous)
-    assert not before.get('cbm_service') and not before.get('points_detection_fault') and not before.get('disconnected'), 'Normal fixture required'
+    assert not before.get('cbm_service') and not before.get('points_detection_fault') and not before.get('factory_process_excursion') and not before.get('disconnected'), 'Normal fixture required'
     scoped={**before,'cities':{**before.get('cities',{}),'samawah':{
-        **before.get('cities',{}).get('samawah',{}),'cbm_service':True,'points_detection_fault':True}}}
+        **before.get('cities',{}).get('samawah',{}),'cbm_service':True,'points_detection_fault':True,
+        'factory_method':'LM3-MFG-020','factory_cycle_progress_pct':42,'factory_process_excursion':True}}}
     s.write_private(controls,json.dumps(scoped))
     def delivered():
         a=asset('samawah')
@@ -44,19 +45,33 @@ try:
     assert point['readings']['detection_unknown']['value']==1
     assert asset('mosul','points')['readings']['detection_unknown']['value']==0
     assert point_alarm['case_id'] != alarm['case_id']
+    def factory_delivered():
+        a=asset('samawah','factory-lm3-mfg-020')
+        alarms=[r for r in a['alarms'] if r['rule']=='quality-hold' and r['active'] and r['case_id']]
+        return (a,alarms[0]) if alarms else None
+    factory,factory_alarm=wait(factory_delivered)
+    assert factory['readings']['cycle_progress_pct']['value']==42
+    assert factory['readings']['quality_hold']['value']==1
+    assert factory['manufacturing_method']['method_id']=='LM3-MFG-020'
+    assert asset('mosul','factory-lm3-mfg-020')['readings']['quality_hold']['value']==0
+    assert factory_alarm['case_id'] not in {alarm['case_id'],point_alarm['case_id']}
     case=alarm['case_id'];occurrences=alarm['occurrences']
     time.sleep(4)
     repeated=next(r for r in asset('samawah')['alarms'] if r['rule']=='component-service')
     assert repeated['case_id']==case and repeated['occurrences']==occurrences
     print('PASS native CBM service flag -> one scoped ERP Issue:',case)
     print('PASS native fail-restrictive point detection -> separate scoped ERP Issue:',point_alarm['case_id'])
+    print('PASS manufacturing-method quality hold -> separate scoped ERP Issue:',factory_alarm['case_id'])
     print('PASS repeated telemetry does not duplicate cases; Mosul remains nominal')
 finally:
     s.write_private(controls,previous)
 wait(lambda:asset('samawah')['readings']['health']['value']==0)
 wait(lambda:asset('samawah','points')['readings']['detection_unknown']['value']==0)
+wait(lambda:asset('samawah','factory-lm3-mfg-020')['readings']['quality_hold']['value']==0)
 a=asset('samawah');alarm=next(r for r in a['alarms'] if r['rule']=='component-service')
 assert not alarm['active'] and alarm['erp_status']=='Open'
 point=asset('samawah','points');point_alarm=next(r for r in point['alarms'] if r['rule']=='position-unknown')
 assert not point_alarm['active'] and point_alarm['erp_status']=='Open'
+factory=asset('samawah','factory-lm3-mfg-020');factory_alarm=next(r for r in factory['alarms'] if r['rule']=='quality-hold')
+assert not factory_alarm['active'] and factory_alarm['erp_status']=='Open'
 print('PASS controller conditions cleared; ERP cases remain open for accountable maintenance')

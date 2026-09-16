@@ -16,6 +16,10 @@ and renewal while each service retains its own permissions and authority.
   auxiliary power, HVAC and condition monitoring, points, level crossings and
   station-aggregate fare gates. Existing switch identities are reused; crossing
   positions remain absent until a city declares real assets.
+- Nine production-plant views generated directly from the validated LM3 method
+  source, covering the 120-product union and 30 tooling families. Explicit cell
+  and quality-hold fixtures route accountable ERP Issues; reviewed Item/BOM
+  mappings constrain native Work Order correlation, with no automatic QA release.
 - Durable, ordered and idempotent condition-event delivery to ERP maintenance
   Issues, plus case-status reconciliation without automatic railway release.
 - A reviewed, repeat-safe Issue-to-Asset-Repair transition with native part/stock
@@ -52,6 +56,9 @@ Production TLS, organisation identity/MFA, commissioned physical MQTT/OPC UA/Mod
 adapters, supplier calibration, signed live actions, HIL, operator validation and
 independent railway acceptance remain deployment work. ERP case closure, alarm
 clearance and local lifecycle evidence do not grant a railway operational release.
+Likewise, simulated factory progress and quality holds are workflow demonstrations:
+performed travelers, process observations, NCR/rework disposition, Quality
+Inspections and manufacturing acceptance require accountable real records.
 
 The repository remains pre-1.0. A v0.4.0 software version is not a safety
 certificate, construction release, production drawing set or deployment approval.

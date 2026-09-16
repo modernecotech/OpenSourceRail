@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services/integration'))
 from osr_integration.embedded import operating_measurements
+from osr_integration.manufacturing import factory_control_state, factory_measurements
 from osr_integration.server import request_json
 
 
@@ -64,11 +65,17 @@ def main():
                     snapshot = request_json(url + f'/snapshot?city={city}&environment=simulation', headers=headers)
                     snapshots[city] = snapshot
                     values_by_site = {}
+                    factory_assets = [a for a in snapshot['assets'] if a.get('manufacturing_method')]
+                    factory_state = factory_control_state(local,
+                        [a['manufacturing_method']['method_id'] for a in factory_assets]) if factory_assets else None
                     for a in snapshot['assets']:
-                        key = city + '|' + a['site_id']
-                        if key not in values_by_site:
-                            values_by_site[key] = bridge.evaluate(key, lighting.get(key, 80), local)
-                        values = values_by_site[key]
+                        if a.get('manufacturing_method'):
+                            values = factory_measurements(a, factory_state)
+                        else:
+                            key = city + '|' + a['site_id']
+                            if key not in values_by_site:
+                                values_by_site[key] = bridge.evaluate(key, lighting.get(key, 80), local)
+                            values = values_by_site[key]
                         for name, m in a['measurements'].items():
                             fixtures = {'temperature_c': 35, 'energy_kwh': 1200, 'running_hours': 40, 'pump_running': 0}
                             value = values.get((a['equipment_type'], name), fixtures.get(name))

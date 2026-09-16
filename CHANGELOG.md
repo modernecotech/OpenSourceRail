@@ -19,6 +19,11 @@
   All 9,097 catalogue switches retain their asset identity; the read-only
   wayside views expose no movement authority or safety command, and crossings
   remain absent where the asset registers contain none.
+- Added nine generated factory-method supervision views to every real production
+  plant, reusing the existing 120-product/30-tooling method source. Explicit
+  unavailable and quality-hold fixtures create scoped ERP Issues; Workbench now
+  correlates native Work Orders only through reviewed execution mappings and
+  keeps inspection, disposition and manufacturing release independent.
 
 - Added scenario-bound, all-line SUMO dwell modelling and a deterministic
   OSR/SUMO running-time cross-check, with explicit external junction-occupancy

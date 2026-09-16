@@ -20,6 +20,7 @@ versioned engineering evidence and native ERP transactions.
 | Other engineering tools | Versioned evidence manifests for SUMO, OSR analysis, OpenSees, EnergyPlus, FDS, SWMM, JuPedSim, CloudCompare, Blender and verification outputs |
 | ERPNext | Reviewed Item/BOM mapping, partial delivery/outstanding quantities, currency-separated commitments/invoices, native manufacturing actuals, condition-driven Issues and reviewed native Asset Repairs |
 | FUXA | Generated station screens for charger, battery, PV and facilities, including quality, timestamp and native gateway status |
+| Factory methods | Nine read-only views generated from the 120-product LM3 method coverage and attached to each real `depots-production` identity; reviewed ERP mappings correlate native Work Orders |
 | OSR assurance | Existing works/inspection/handback/defect records shown alongside the asset; independent authority retained |
 
 Samawah and Mosul have operating **simulation** pilots. Their reference station
@@ -91,6 +92,25 @@ active BOM and returns a fingerprint. `apply_execution` records an immutable
 manufacturing component to create draft Work Orders from the reviewed BOM.
 Native ERP procurement, quality, stock and accounting workflows remain in force.
 
+## Manufacturing-method supervision
+
+Every real production-plant asset receives one view for each of the nine validated
+LM3 methods. This reuses the generated 120-product coverage, 30 tooling families,
+work centres, crew/cycle planning, steps, hold points and release gates; it does
+not copy recipes into a second configuration. FUXA and Workbench show simulated
+cycle progress, cell unavailability and quality hold with timestamp/quality.
+The Workbench filters native Work Orders through immutable `OSR Execution Mapping`
+rows for the selected method or its product IDs and current engineering revision.
+When no reviewed mapping exists, it explicitly reports zero matching work orders
+instead of treating every project production record as affected.
+
+The quality-hold fixture rehearses a method excursion and creates a deduplicated
+ERP Issue after persistence. It deliberately does not invent a process temperature,
+create/complete a Quality Inspection, change Work Order state, accept or reject
+product, or satisfy the method release gate. Actual travelers, observations,
+NCR/rework disposition, inspection evidence and accountable manufacturing release
+remain native ERP/QMS and OSR evidence work.
+
 Before a prepared supervisory revision replaces a live simulation baseline,
 `review-package` now traces exact changed values through existing component,
 parent/source-asset, IFC, Rust-crate and ERP identities. It includes installed
@@ -154,6 +174,9 @@ points condition views and derive one explicitly aggregate AFC view from each
 station. Native level-crossing evaluation and templates are present, but no city
 currently declares a crossing asset, so the audit creates none. FUXA/ERP expose
 no point or barrier command, route state, protection reset or movement authority.
+They also reuse each city's production-plant identity for nine method views,
+without claiming that a planned method, simulated hold or ERP Work Order is a
+performed traveler, accepted product or released first article.
 
 The contract and evidence adapters are reusable; the currently running equipment
 binding is the Rust simulation gateway. Physical Modbus/OPC UA/MQTT/NATS adapters

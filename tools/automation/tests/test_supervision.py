@@ -12,12 +12,14 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'services/integration'))
-from osr_integration.config import build_package, digest, ifc_guid
+from osr_integration.config import build_package, digest, ifc_guid, validate_package
 from osr_integration.store import Store
 from osr_integration.server import deliver
 from osr_integration.engineering import package as engineering_package, execution_proposal, ifc_overlay
 from osr_integration.embedded import energy_measurements, operating_measurements
 from osr_integration.fuxa import deployment_manifest, deployment_review, project, validate_deployment_review
+from osr_integration.manufacturing import (factory_control_state, factory_measurements,
+    factory_templates, validate_method_document, validate_method_sources)
 
 
 def iso(t):
@@ -319,6 +321,48 @@ class IntegrationTest(unittest.TestCase):
             item = next(a for a in package['equipment'] if a['equipment_type'] == equipment_type)
             self.assertEqual(item['commands'], {})
             self.assertTrue(item['source_crates'])
+
+    def test_factory_methods_cover_real_products_and_fail_closed_on_quality_fixture(self):
+        source = json.loads((ROOT / 'design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json').read_text())
+        validate_method_sources(source, ROOT)
+        templates = factory_templates(source)
+        self.assertEqual(len(templates), 9)
+        self.assertEqual(len({product for method in source['method'] for product in method['product_ids']}), 120)
+        plant = {'asset_type':'depots-production','asset_id':'SAM-PLANT-001','name':'Production plant',
+                 'parent_asset':'SAM-ST-009'}
+        package = build_package({**self.generic, 'templates': {**self.generic['templates'], **templates}},
+                                {'city':'samawah'}, [plant], 'rev1')
+        self.assertEqual(len(package['equipment']), 9)
+        composite = next(a for a in package['equipment']
+                         if a['manufacturing_method']['method_id'] == 'LM3-MFG-020')
+        self.assertEqual(composite['component_type_id'], 'LM3-MFG-020')
+        self.assertEqual(len(composite['manufacturing_method']['product_ids']), 27)
+        self.assertEqual(len(composite['manufacturing_method']['tooling_ids']), 10)
+        state = factory_control_state({'factory_method':'LM3-MFG-020',
+            'factory_cycle_progress_pct':42, 'factory_process_excursion':True},
+            [a['manufacturing_method']['method_id'] for a in package['equipment']])
+        values = factory_measurements(composite, state)
+        self.assertEqual(values[(composite['equipment_type'], 'cycle_progress_pct')], 42)
+        self.assertEqual(values[(composite['equipment_type'], 'quality_hold')], 1)
+        other = next(a for a in package['equipment'] if a is not composite)
+        self.assertEqual(factory_measurements(other, state)[(other['equipment_type'], 'quality_hold')], 0)
+        tampered = copy.deepcopy(package)
+        tampered['equipment'][0]['manufacturing_method']['planning_cycle_minutes'] += 1
+        tampered['sha256'] = digest({k: v for k, v in tampered.items() if k != 'sha256'})
+        with self.assertRaisesRegex(ValueError, 'planning cycle'):
+            validate_package(tampered)
+        with self.assertRaises(ValueError):
+            factory_control_state({'factory_method':'UNKNOWN'},
+                [a['manufacturing_method']['method_id'] for a in package['equipment']])
+        broken = copy.deepcopy(source); broken['method'][0]['planning_cycle_minutes'] += 1
+        with self.assertRaisesRegex(ValueError, 'planning cycle'):
+            validate_method_document(broken)
+        broken = copy.deepcopy(source); broken['source_sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'regenerate method coverage'):
+            validate_method_sources(broken, ROOT)
+        broken = copy.deepcopy(source); broken['method'][0]['product_ids'][0] = 'LM3-NOT-A-PRODUCT'
+        with self.assertRaisesRegex(ValueError, 'bound product manifest'):
+            validate_method_sources(broken, ROOT)
 
     def test_embedded_projection_rejects_wrong_schema_environment_and_missing_values(self):
         frame = json.loads((ROOT / 'tests/fixtures/operating-bridge.json').read_text())

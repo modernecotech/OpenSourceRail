@@ -73,8 +73,8 @@ jobs:
       - name: Start and configure the disposable supervision stack
         run: |
           ./osr supervision init
-          ./osr supervision prepare samawah --first-site --first-vehicle
-          ./osr supervision prepare mosul --first-site --first-vehicle
+          ./osr supervision prepare samawah --first-site --first-vehicle --first-plant
+          ./osr supervision prepare mosul --first-site --first-vehicle --first-plant
           ./osr supervision up
           for attempt in $(seq 1 60); do
             if curl -fsS http://127.0.0.1:8092/health >/dev/null \

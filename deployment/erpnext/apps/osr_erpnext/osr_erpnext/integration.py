@@ -238,9 +238,26 @@ def repairs_for_issue(issue):
 def execution_feedback(project):
     """Actual transaction lines, keeping quantities, currency and release separate."""
     p = frappe.get_doc('Project', project); p.check_permission('read')
-    result = {'purchase_orders': [], 'receipts': [], 'invoices': [], 'production': [], 'repairs': [], 'visibility': {},
+    result = {'purchase_orders': [], 'receipts': [], 'invoices': [], 'production': [], 'repairs': [],
+              'execution_mappings': [], 'visibility': {},
               'engineering_accepted_quantity': None, 'installed_quantity': None,
               'authority': 'Native business transactions; installation and engineering acceptance require OSR evidence'}
+    if frappe.has_permission('OSR Execution Mapping', 'read'):
+        result['visibility']['OSR Execution Mapping'] = 'visible-to-current-user'
+        for row in frappe.get_list('OSR Execution Mapping',
+                filters={'company': p.company, 'city': p.custom_osr_city},
+                fields=['name', 'component_type', 'engineering_revision', 'engineering_sha256',
+                        'erp_item', 'source_package'], order_by='modified desc', limit_page_length=0):
+            source = frappe.parse_json(row.source_package)
+            item = source.get('item', {}) if isinstance(source, dict) else {}
+            result['execution_mappings'].append(dict(name=row.name,
+                component_type_id=row.component_type, engineering_revision=row.engineering_revision,
+                engineering_sha256=row.engineering_sha256, erp_item_code=row.erp_item,
+                production_bom=item.get('production_bom'), uom=item.get('uom'),
+                review_reference=(source.get('package', {}).get('mapping', {}).get('review_reference')
+                                  if isinstance(source, dict) else None)))
+    else:
+        result['visibility']['OSR Execution Mapping'] = 'permission-denied'
     for dt, output in [('Purchase Order', 'purchase_orders'), ('Purchase Receipt', 'receipts'), ('Purchase Invoice', 'invoices'), ('Work Order', 'production'), ('Asset Repair', 'repairs')]:
         if not frappe.has_permission(dt, 'read'):
             result['visibility'][dt] = 'permission-denied'; continue

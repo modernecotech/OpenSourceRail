@@ -13,8 +13,8 @@ Start the existing ERP stack first (`./osr erp up`). Then:
 ./osr supervision up
 ./osr supervision setup-fuxa
 ./osr supervision connect-erp samawah mosul
-./osr supervision prepare samawah --first-site
-./osr supervision prepare mosul --first-site
+./osr supervision prepare samawah --first-site --first-vehicle --first-plant
+./osr supervision prepare mosul --first-site --first-vehicle --first-plant
 ./osr supervision apply build/supervision/samawah/simulation/package.json
 ./osr supervision apply build/supervision/mosul/simulation/package.json
 ./osr supervision preview-fuxa \
@@ -70,8 +70,9 @@ existing ERP network. Neither account is an ERP administrator.
    inherit [shared templates](config/generic.json); dictionaries merge and lists
    replace. Set company/project and, optionally, site IDs and equipment bindings.
 3. `./osr supervision prepare <slug>` generates every applicable station, depot,
-   vehicle, points and declared-crossing view; `--first-site` includes that
-   station's real child switch assets for a bounded pilot. The command
+   vehicle, points, declared-crossing and production-method view; `--first-site`
+   includes that station's real child switch/plant assets, while `--first-plant`
+   can select only the first production asset for a bounded factory pilot. The command
    no longer needs the large compressed operations payload. `./osr supervision
    validate` compiles every real asset register, and the generated
    [catalogue audit](../../docs/operating/readiness.md) records counts and hashes.
@@ -203,13 +204,15 @@ It verifies FUXA's disconnected state and hides cached values on gateway loss.
 Use it only against this evaluation deployment. The script restores the simulator
 and gateway in its cleanup block.
 
-## Station, vehicle and wayside embedded integration
+## Station, vehicle, wayside and factory integration
 
 The simulation source now executes nine existing Rust crates for station energy,
 station SCADA, vehicle BMS, auxiliary power, HVAC, condition monitoring, points,
-level crossings and fare gates. Use `prepare CITY --first-site --first-vehicle`
-for the ten-position Samawah or Mosul pilot: five station views, four vehicle
-views and the station's existing switch. Across the catalogue, 9,097 real switch
+level crossings and fare gates. Use
+`prepare CITY --first-site --first-vehicle --first-plant` for the 19-position
+Samawah or Mosul pilot: five station views,
+four vehicle views, the station's existing switch and nine factory-method views
+on the real production-plant identity. Across the catalogue, 9,097 real switch
 IDs are reused. Crossing support remains dormant because no tracked city yet has
 a `level-crossing` asset; the package builder refuses to invent one. Fare gates
 are labelled station aggregates rather than claims about physical gate counts.
@@ -218,3 +221,17 @@ for mappings, reproducibility, state lifetime and the controller-to-ERP test.
 `simulate` rebuilds the adapter and restarts its user service so source updates
 actually take effect. Rebuild/reapply reviewed packages and reimport FUXA views
 when changing generic measurement templates; take a backup first.
+
+The factory views are generated from the validated
+[`manufacturing-methods.json`](../../design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json)
+rather than a second manually maintained recipe list. They cover the source's
+120-product union, nine methods and 30 tooling families, and retain work centre,
+crew, cycle, step/hold-point, source and release-boundary metadata. The simulator
+defaults to an idle cell. `factory_method`, `factory_cycle_progress_pct`,
+`factory_cell_unavailable` and `factory_process_excursion` in the private
+`simulator-control.json` are explicit test fixtures; no cure temperature or
+performed quality result is invented. Unavailability or quality-hold persistence
+can create an ERP Issue. The Workbench lists native Work Orders only when an
+immutable reviewed execution mapping joins the method/product identity to its
+ERP Item/BOM. A hold does not modify a Work Order, create a Quality Inspection,
+accept/reject output or grant manufacturing/railway release.

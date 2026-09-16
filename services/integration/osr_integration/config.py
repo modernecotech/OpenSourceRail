@@ -6,6 +6,8 @@ import math
 import re
 import uuid
 
+from .manufacturing import validate_method_metadata
+
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
@@ -66,7 +68,7 @@ def build_package(generic, city, assets, revision, environment='simulation'):
             identifier(kind)
             planned = f'{site}:{kind}'
             binding = cfg.get('bindings', {}).get(planned, {})
-            equipment.append(dict(asset_id=planned, planned_asset_id=planned, parent_asset_id=site,
+            item = dict(asset_id=planned, planned_asset_id=planned, parent_asset_id=site,
                 site_id=site, source_asset_ids=[site] + (energy_assets_by_parent.get(site, []) if kind in ('charger', 'battery', 'pv') else []), city=slug, company_id=cfg.get('company', ''), environment=environment,
                 name=f"{station['name']} · {template['label']}", equipment_type=kind,
                 component_type_id=template['component_type_id'], engineering_revision=revision,
@@ -78,7 +80,10 @@ def build_package(generic, city, assets, revision, environment='simulation'):
                 source_id='simulator' if environment == 'simulation' else binding.get('source_id', ''),
                 binding_status='simulation' if environment == 'simulation' else 'commissioning-required',
                 supplier_binding=binding.get('supplier_binding', {}), measurements=template['measurements'],
-                alarms=template.get('alarms', []), commands=template.get('commands', {})))
+                alarms=template.get('alarms', []), commands=template.get('commands', {}))
+            if 'manufacturing_method' in template:
+                item['manufacturing_method'] = copy.deepcopy(template['manufacturing_method'])
+            equipment.append(item)
     if not equipment:
         raise ValueError('No station or depot equipment selected')
     package = dict(schema='osr-supervisory/1', city=slug, environment=environment,
@@ -106,6 +111,10 @@ def validate_package(package):
         if aid in ids or a['city'] != package['city'] or a['environment'] != package['environment']:
             raise ValueError('Duplicate identity or wrong city/environment')
         ids.add(aid)
+        if 'manufacturing_method' in a:
+            validate_method_metadata(a['manufacturing_method'])
+            if a['component_type_id'] != a['manufacturing_method']['method_id']:
+                raise ValueError('Factory component and manufacturing method identities differ')
         for name, m in a['measurements'].items():
             identifier(name)
             finite(m['min'], -1e12, 1e12); finite(m['max'], m['min'], 1e12)

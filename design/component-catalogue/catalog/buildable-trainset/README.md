@@ -43,6 +43,7 @@ current basic design and what must be closed before first steel cut.
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
 | Local factory/tooling team | [`manufacturing-methods.md`](manufacturing-methods.md) | Review all 120 product links, 9 timed methods, 30 tooling families, joining parts, mould use, coating, seals, floor/fixture and motor/bogie steps |
+| Factory supervisor | [`../../../../deployment/supervision/README.md`](../../../../deployment/supervision/README.md) | Generate the nine read-only method views on a real city plant, rehearse unavailable/quality-hold routing, and correlate only reviewed ERP Item/BOM mappings |
 
 Open the [120 native FreeCAD parts and 26 assembly files](../../models/cad/README.md),
 the selectable tooling in [`../../models/cad/lm3-manufacturing-tooling.FCStd`](../../models/cad/lm3-manufacturing-tooling.FCStd),
