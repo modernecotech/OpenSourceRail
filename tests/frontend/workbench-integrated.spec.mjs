@@ -41,10 +41,12 @@ test('an unconfigured city refuses FUXA navigation without retaining another cit
   }}));
   await page.route('http://127.0.0.1:1881/**',r=>{fuxaRequests++;return r.fulfill({body:'unexpected FUXA navigation'});});
   await page.goto(base+'/?module=operating&city=basra');
-  const previous=await page.locator('#moduleFrame').getAttribute('src');
+  const moduleFrame=page.locator('#moduleFrame');
+  await expect(moduleFrame).toHaveAttribute('src',/\/docs\/operating\/.*city=basra/);
+  const previous=await moduleFrame.getAttribute('src');
   await page.locator('[data-module=fuxa]').click();
   await expect(page.locator('#moduleScope')).toHaveText('No supervision package for basra / simulation.');
-  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',previous);
+  await expect(moduleFrame).toHaveAttribute('src',previous);
   expect(fuxaRequests).toBe(0);
 });
 test('lifecycle action requires explicit credential and keeps the credential out of shell URLs',async({page})=>{

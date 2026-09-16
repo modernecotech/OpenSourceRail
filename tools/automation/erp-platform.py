@@ -15,6 +15,15 @@ ROOT = Path(__file__).resolve().parents[2]
 ENV_FILE = ROOT / "var/erpnext/local.env"
 
 
+def remove_container_files(compose, *paths, env):
+    """Remove host-copied transfer files despite differing host/container UIDs."""
+    subprocess.run(
+        compose + ["exec", "-T", "--user", "root", "backend", "rm", "-f", *paths],
+        check=True,
+        env=env,
+    )
+
+
 def init():
     ENV_FILE.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     if not ENV_FILE.exists():
@@ -83,7 +92,7 @@ def main():
                 'execute', 'osr_erpnext.components.apply_file', '--kwargs', json.dumps(dict(path=remote,
                 preview_only=int(args.command == 'component-preview')))], check=True, env=env)
         finally:
-            subprocess.run(compose + ['exec', '-T', 'backend', 'rm', '-f', remote], check=True, env=env)
+            remove_container_files(compose, remote, env=env)
         return
     if args.command == "import":
         importer = argparse.ArgumentParser(prog="osr erp import")
@@ -105,7 +114,7 @@ def main():
                 "execute", "osr_erpnext.api.import_file", "--kwargs",
                 json.dumps({"path": remote, "company": selected.company})], check=True, env=env)
         finally:
-            subprocess.run(compose + ["exec", "-T", "backend", "rm", "-f", remote], check=True, env=env)
+            remove_container_files(compose, remote, env=env)
         return
     if args.command == "snapshot":
         if args.args:
@@ -123,7 +132,7 @@ def main():
             temporary.chmod(0o600)
             temporary.replace(destination)
         finally:
-            subprocess.run(compose + ["exec", "-T", "backend", "rm", "-f", remote], check=True, env=env)
+            remove_container_files(compose, remote, env=env)
             temporary.unlink(missing_ok=True)
         print(f"Refreshed private digital-twin feedback: {destination}")
         return

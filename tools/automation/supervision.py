@@ -176,7 +176,9 @@ def main():
             write_private(PRIVATE / 'integration.json', json.dumps(cfg, indent=2))
         finally:
             local.unlink(missing_ok=True)
-            subprocess.run(erp + ['exec', '-T', 'backend', 'rm', '-f', remote, output], check=True, env=env)
+            # docker cp preserves the host UID. Root removes these fixed,
+            # generated transfer paths even when the container UID differs.
+            subprocess.run(erp + ['exec', '-T', '--user', 'root', 'backend', 'rm', '-f', remote, output], check=True, env=env)
         compose(['restart', 'integration'])
     elif args.command == 'init-configs':
         count = 0
