@@ -59,7 +59,7 @@ class IntegrationTest(unittest.TestCase):
         review = self.store.package_review(updated)
         self.assertEqual(review['status'], 'review-required')
         self.store.apply(updated, 'engineer', self.package['sha256'], review['sha256'])
-        self.assertEqual(len(self.store.snapshot()['assets']), 4)
+        self.assertEqual(len(self.store.snapshot()['assets']), 5)
         self.assertEqual(len(ifc_guid('SAM-ST-001:charger')), 22)
 
     def test_change_review_traces_design_embedded_and_lifecycle_impact_without_cross_city_mutation(self):
@@ -296,7 +296,7 @@ class IntegrationTest(unittest.TestCase):
         assets = [{'asset_type':'station','asset_id':'SAM-ST-001','name':'Station'},
                   {'asset_type':'rolling-stock','asset_id':'SAM-RS-L1-001','name':'Vehicle'}]
         package = build_package(self.generic, {'city':'samawah'}, assets, 'rev1')
-        self.assertEqual(len(package['equipment']), 8)
+        self.assertEqual(len(package['equipment']), 9)
         vehicle = [a for a in package['equipment'] if a['parent_asset_id']=='SAM-RS-L1-001']
         self.assertEqual(len(vehicle), 4)
         self.assertTrue(all(a['commands']=={} and a['source_crates'] for a in vehicle))
@@ -304,14 +304,40 @@ class IntegrationTest(unittest.TestCase):
                          {a['asset_id'] for a in self.package['equipment']})
         with self.assertRaises(ValueError): build_package(self.generic, {'city':'samawah','sites':['unknown']}, assets, 'rev1')
 
+    def test_station_selection_reuses_switch_children_and_crossings_require_real_assets(self):
+        assets = [
+            {'asset_type':'station','asset_id':'SAM-ST-001','name':'Station'},
+            {'asset_type':'switch','asset_id':'SAM-SW-001','name':'Point 1','parent_asset':'SAM-ST-001'},
+            {'asset_type':'level-crossing','asset_id':'SAM-LC-001','name':'Crossing 1','parent_asset':'SAM-ST-001'},
+            {'asset_type':'switch','asset_id':'SAM-SW-002','name':'Point 2','parent_asset':'OTHER'},
+        ]
+        package = build_package(self.generic, {'city':'samawah','sites':['SAM-ST-001']}, assets, 'rev1')
+        self.assertIn('SAM-SW-001:points', {a['asset_id'] for a in package['equipment']})
+        self.assertIn('SAM-LC-001:level-crossing', {a['asset_id'] for a in package['equipment']})
+        self.assertNotIn('SAM-SW-002:points', {a['asset_id'] for a in package['equipment']})
+        for equipment_type in ('points', 'level-crossing', 'faregate'):
+            item = next(a for a in package['equipment'] if a['equipment_type'] == equipment_type)
+            self.assertEqual(item['commands'], {})
+            self.assertTrue(item['source_crates'])
+
     def test_embedded_projection_rejects_wrong_schema_environment_and_missing_values(self):
         frame = json.loads((ROOT / 'tests/fixtures/operating-bridge.json').read_text())
         values = operating_measurements(frame)
         self.assertEqual(values[('vehicle-bms','soc_pct')], 72)
         self.assertEqual(values[('vehicle-cbm','brake_remaining_pct')], 90)
         self.assertEqual(values[('vehicle-hvac','compressor_pct')], 100)
+        self.assertEqual(values[('points','detected_position')], 1)
+        self.assertEqual(values[('points','detection_unknown')], 0)
+        self.assertEqual(values[('level-crossing','state')], 0)
+        self.assertEqual(values[('faregate','last_decision')], 1)
         frame['station']['lighting_enabled'][0] = False
         self.assertEqual(operating_measurements(frame)[('facilities','lighting_pct')], 0)
+        for section, key, value in [('points','detected','Between'),
+                                    ('crossing','faulted',1),
+                                    ('faregate','last_decision','Unknown')]:
+            invalid = json.loads((ROOT / 'tests/fixtures/operating-bridge.json').read_text())
+            invalid[section][key] = value
+            with self.assertRaises(ValueError): operating_measurements(invalid)
         for patch in [{'schema':'unknown'}, {'environment':'physical'}]:
             with self.assertRaises(ValueError): operating_measurements(dict(frame, **patch))
         del frame['bms']
@@ -357,7 +383,7 @@ class IntegrationTest(unittest.TestCase):
         self.assertIsNotNone(self.store.affected(serial='S1')[0]['removed'])
 
     def test_fuxa_preserves_ids_and_disables_writes(self):
-        f = project([self.package]); self.assertEqual(len(f['devices']), 4)
+        f = project([self.package]); self.assertEqual(len(f['devices']), 5)
         self.assertTrue(all('postTags' not in d['property'] for d in f['devices'].values()))
         self.assertTrue(any(k.endswith('__temperature_c_quality') for d in f['devices'].values() for k in d['tags']))
 

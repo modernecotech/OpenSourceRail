@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""City-scoped simulation telemetry from native Rust station and vehicle evaluators."""
+"""City-scoped telemetry from native Rust station, vehicle and wayside evaluators."""
 import json
 from pathlib import Path
 import select
@@ -29,7 +29,8 @@ class EmbeddedBridge:
 
     def evaluate(self, key, lighting, controls):
         data = dict(key=key, now_ns=time.monotonic_ns(), lighting_pct=round(lighting))
-        for name in ['station_fault','battery_trip','aux_fault','cbm_service']:
+        for name in ['station_fault','battery_trip','aux_fault','cbm_service',
+                     'points_detection_fault','crossing_motor_fault','faregate_denial']:
             value = controls.get(name, False)
             if type(value) is not bool:
                 raise ValueError('Boolean simulation fixture required')

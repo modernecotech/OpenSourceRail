@@ -69,8 +69,9 @@ existing ERP network. Neither account is an ERP administrator.
 2. Edit `cities/catalogue/.../<city>/operations/supervision.json`. Omitted fields
    inherit [shared templates](config/generic.json); dictionaries merge and lists
    replace. Set company/project and, optionally, site IDs and equipment bindings.
-3. `./osr supervision prepare <slug>` generates every applicable station, depot
-   and vehicle equipment view; `--first-site` makes a bounded pilot. The command
+3. `./osr supervision prepare <slug>` generates every applicable station, depot,
+   vehicle, points and declared-crossing view; `--first-site` includes that
+   station's real child switch assets for a bounded pilot. The command
    no longer needs the large compressed operations payload. `./osr supervision
    validate` compiles every real asset register, and the generated
    [catalogue audit](../../docs/operating/readiness.md) records counts and hashes.
@@ -202,11 +203,16 @@ It verifies FUXA's disconnected state and hides cached values on gateway loss.
 Use it only against this evaluation deployment. The script restores the simulator
 and gateway in its cleanup block.
 
-## Station and vehicle embedded integration
+## Station, vehicle and wayside embedded integration
 
-The simulation source now executes six existing Rust crates for station energy,
-station SCADA, vehicle BMS, auxiliary power, HVAC and condition monitoring. Use
-`prepare CITY --first-site --first-vehicle` for an eight-position city pilot.
+The simulation source now executes nine existing Rust crates for station energy,
+station SCADA, vehicle BMS, auxiliary power, HVAC, condition monitoring, points,
+level crossings and fare gates. Use `prepare CITY --first-site --first-vehicle`
+for the ten-position Samawah or Mosul pilot: five station views, four vehicle
+views and the station's existing switch. Across the catalogue, 9,097 real switch
+IDs are reused. Crossing support remains dormant because no tracked city yet has
+a `level-crossing` asset; the package builder refuses to invent one. Fare gates
+are labelled station aggregates rather than claims about physical gate counts.
 See the [native embedded integration contract](../../docs/lifecycle/embedded-integration.md)
 for mappings, reproducibility, state lifetime and the controller-to-ERP test.
 `simulate` rebuilds the adapter and restarts its user service so source updates

@@ -14,6 +14,11 @@
   matching ERP actuals; changed simulation packages require the fresh review
   hash, while installed retirement, pending-command contract changes and physical
   remapping stay blocked.
+- Extended the versioned native-controller bridge and generated FUXA packages to
+  identified points, declared level crossings and station-aggregate fare gates.
+  All 9,097 catalogue switches retain their asset identity; the read-only
+  wayside views expose no movement authority or safety command, and crossings
+  remain absent where the asset registers contain none.
 
 - Added scenario-bound, all-line SUMO dwell modelling and a deterministic
   OSR/SUMO running-time cross-check, with explicit external junction-occupancy

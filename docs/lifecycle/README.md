@@ -149,6 +149,12 @@ and records which full task payloads are locally materialised. This closes the
 repository configuration/asset-coverage ambiguity; it does not turn simulation
 templates into commissioned physical mappings.
 
+Those packages now reuse all 9,097 catalogue switch identities for read-only
+points condition views and derive one explicitly aggregate AFC view from each
+station. Native level-crossing evaluation and templates are present, but no city
+currently declares a crossing asset, so the audit creates none. FUXA/ERP expose
+no point or barrier command, route state, protection reset or movement authority.
+
 The contract and evidence adapters are reusable; the currently running equipment
 binding is the Rust simulation gateway. Physical Modbus/OPC UA/MQTT/NATS adapters
 need the actual supplier interfaces and deployed broker configuration. No new

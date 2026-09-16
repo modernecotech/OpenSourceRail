@@ -1,6 +1,6 @@
 {
   "schema": "osr-supervision-profile/1",
-  "template_revision": "station-vehicle/2",
+  "template_revision": "station-vehicle-wayside/3",
   "historian": {
     "owner": "osr-integration",
     "retention_days": 7,
@@ -284,6 +284,132 @@
           "maintenance": true
         }
       ]
+    },
+    "faregate": {
+      "label": "Fare-gate aggregate",
+      "component_type_id": "station-faregate-aggregate",
+      "asset_types": [
+        "station"
+      ],
+      "source_crates": [
+        "osr-afc"
+      ],
+      "measurements": {
+        "gate_open": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 10
+        },
+        "last_decision": {
+          "unit": "decision",
+          "min": 0,
+          "max": 2,
+          "stale_seconds": 10
+        },
+        "grant_count": {
+          "unit": "count",
+          "min": 0,
+          "max": 1000000000000,
+          "stale_seconds": 10
+        },
+        "denial_count": {
+          "unit": "count",
+          "min": 0,
+          "max": 1000000000000,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [],
+      "commands": {}
+    },
+    "level-crossing": {
+      "label": "Level crossing status",
+      "component_type_id": "wayside-level-crossing",
+      "asset_types": [
+        "level-crossing"
+      ],
+      "source_crates": [
+        "osr-level-crossing"
+      ],
+      "measurements": {
+        "state": {
+          "unit": "state",
+          "min": 0,
+          "max": 4,
+          "stale_seconds": 5
+        },
+        "fault": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 5
+        },
+        "warning_active": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 5
+        }
+      },
+      "alarms": [
+        {
+          "id": "barrier-fault",
+          "measurement": "fault",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 2,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect the crossing locally; FUXA is not movement authority and cannot reset or command barriers",
+          "maintenance": true
+        }
+      ],
+      "commands": {}
+    },
+    "points": {
+      "label": "Points status",
+      "component_type_id": "wayside-points",
+      "asset_types": [
+        "switch"
+      ],
+      "source_crates": [
+        "osr-wayside-points"
+      ],
+      "measurements": {
+        "detected_position": {
+          "unit": "position",
+          "min": 0,
+          "max": 2,
+          "stale_seconds": 5
+        },
+        "detection_unknown": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 5
+        },
+        "motor_active": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 5
+        }
+      },
+      "alarms": [
+        {
+          "id": "position-unknown",
+          "measurement": "detection_unknown",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 2,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect dual point-position detection locally; the interlocking and consensus log remain authoritative",
+          "maintenance": true
+        }
+      ],
+      "commands": {}
     },
     "vehicle-cbm": {
       "label": "Vehicle condition monitoring",

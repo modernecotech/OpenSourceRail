@@ -23,12 +23,12 @@ def station_measurements(output, lighting_zone):
 
 
 def operating_measurements(frame):
-    """Typed, simulation-only projection of six native Rust evaluators.
+    """Typed, simulation-only projection of nine native Rust evaluators.
 
     Missing values fail the frame instead of becoming invented healthy zeros.
     Physical supplier adapters must have their own commissioned contracts.
     """
-    if frame.get('schema') != 'osr-operating-bridge/1' or frame.get('environment') != 'simulation':
+    if frame.get('schema') != 'osr-operating-bridge/2' or frame.get('environment') != 'simulation':
         raise ValueError('Unsupported operating bridge frame/environment')
     def number(value, low, high):
         if isinstance(value, bool):
@@ -61,5 +61,15 @@ def operating_measurements(frame):
         ('vehicle-cbm', 'health'): enum(frame['cbm']['sample']['worst_health'], ['Nominal','Watch','Service']),
         ('vehicle-cbm', 'brake_remaining_pct'): number(frame['cbm']['sample']['brake_pad_remaining_ppt'][0], 0, 1000) / 10,
         ('vehicle-cbm', 'bearing_vibration_mm_s'): number(frame['cbm']['sample']['bearing_vib_ppt'][0], 0, 1000000) / 1000,
+        ('points', 'detected_position'): enum(frame['points']['detected'], ['Unknown','Normal','Reverse']),
+        ('points', 'detection_unknown'): int(frame['points']['detected'] == 'Unknown'),
+        ('points', 'motor_active'): int(enum(frame['points']['motor'], ['Stop','DriveToNormal','DriveToReverse']) != 0),
+        ('level-crossing', 'state'): enum(frame['crossing']['state'], ['Idle','Warning','Closed','Clearing','Faulted']),
+        ('level-crossing', 'fault'): boolean(frame['crossing']['faulted']),
+        ('level-crossing', 'warning_active'): boolean(frame['crossing']['warning_lights_on']),
+        ('faregate', 'gate_open'): int(enum(frame['faregate']['gate'], ['Closed','Open']) == 1),
+        ('faregate', 'last_decision'): enum(frame['faregate']['last_decision'], ['None','Grant','Deny']),
+        ('faregate', 'grant_count'): number(frame['faregate']['grant_count'], 0, 1e12),
+        ('faregate', 'denial_count'): number(frame['faregate']['denial_count'], 0, 1e12),
     })
     return values

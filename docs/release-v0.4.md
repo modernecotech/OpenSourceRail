@@ -12,8 +12,10 @@ and renewal while each service retains its own permissions and authority.
   procurement, stock, manufacturing, quality, finance, HR and maintenance views.
 - Generated FUXA devices and displays backed by the OSR historian, with explicit
   quality and timestamp tags and no FUXA write-through to railway controls.
-- Native Rust simulation bindings for station energy/SCADA and vehicle BMS,
-  auxiliary power, HVAC and condition monitoring.
+- Native Rust simulation bindings for station energy/SCADA, vehicle BMS,
+  auxiliary power, HVAC and condition monitoring, points, level crossings and
+  station-aggregate fare gates. Existing switch identities are reused; crossing
+  positions remain absent until a city declares real assets.
 - Durable, ordered and idempotent condition-event delivery to ERP maintenance
   Issues, plus case-status reconciliation without automatic railway release.
 - A reviewed, repeat-safe Issue-to-Asset-Repair transition with native part/stock
@@ -43,8 +45,10 @@ and renewal while each service retains its own permissions and authority.
 
 ## Boundary
 
-The local stack is an integration and simulation baseline. Production TLS,
-organisation identity/MFA, commissioned physical MQTT/OPC UA/Modbus or device-bus
+The local stack is an integration and simulation baseline. Supervisory points
+and crossing views are maintenance/status surfaces only: they expose no movement
+authority, point/barrier command, protection reset or interlocking bypass.
+Production TLS, organisation identity/MFA, commissioned physical MQTT/OPC UA/Modbus or device-bus
 adapters, supplier calibration, signed live actions, HIL, operator validation and
 independent railway acceptance remain deployment work. ERP case closure, alarm
 clearance and local lifecycle evidence do not grant a railway operational release.

@@ -14,6 +14,10 @@ asset register, operations manifest and project twin, then compiles all 266 ERP
 profiles, reusable-component packages and real-asset supervision packages. It
 also separates reproducible large payloads from legal-company, calendar, ERP
 master and physical-binding data that the repository cannot safely invent.
+Supervision reuses station, vehicle and all 9,097 switch identities; fare gates
+are labelled station aggregates, and zero crossing positions are generated until
+real level-crossing assets exist. Wayside views remain read-only maintenance
+surfaces and cannot issue safety commands or movement authority.
 
 ## What replaces what
 

@@ -100,6 +100,14 @@ Extending this dependency model into complete CAD assemblies, solver reruns,
 production BOMs, open procurement/WIP/stock disposition and formal evidence
 supersession remains open.
 
+Native operating supervision now also covers the catalogue's 9,097 identified
+switches through the existing fail-restrictive points evaluator, plus one clearly
+labelled AFC aggregate per station. The same adapter and template contract is
+ready for level crossings, but zero city asset registers currently identify one;
+field identities and commissioned sensor bindings remain open rather than being
+invented. These FUXA/ERP views are maintenance-only and expose no safety command,
+reset, route state or movement authority.
+
 | Boundary | Remaining evidence | Authoritative register |
 |---|---|---|
 | City and civil design | The 19 reusable IFC types now have exact accountability across six release packages and nine drawing-definition briefs, separating nine civil-owned types from ten controlled track/station/vehicle interfaces. Shared deployment gates cover field receipts, control, surveyed ground/alignment, route fit, SWMM replay, borehole-zoned foundation selection and an independent OSR/SUMO running-time comparison across every pilot line. Real observations, supplier freezes, first articles, junction-conflict evidence, signed studies, per-span calculations and local approvals remain external. | [Civil type/release register](../design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md), [drawing briefs](../design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md), [Samawah field brief](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md), [alignment](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md), [route fit](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md), [operations cross-check](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md), [drainage/ground](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md) and [civil checklist](civil/deployment-release-checklist.md) |

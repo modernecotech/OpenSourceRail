@@ -59,6 +59,12 @@
     "to_pad_w": 180000
   },
   "environment": "simulation",
+  "faregate": {
+    "denial_count": 0,
+    "gate": "Open",
+    "grant_count": 1,
+    "last_decision": "Grant"
+  },
   "fixtures": {
     "cabin_temperature_dc": 300,
     "cell_temperature_dc": 350
@@ -78,7 +84,17 @@
     "enabled": true,
     "faulted": false
   },
-  "schema": "osr-operating-bridge/1",
+  "crossing": {
+    "faulted": false,
+    "state": "Idle",
+    "warning_lights_on": false
+  },
+  "points": {
+    "detected": "Normal",
+    "fault_reason": null,
+    "motor": "Stop"
+  },
+  "schema": "osr-operating-bridge/2",
   "source_time_ns": 1,
   "station": {
     "cctv_recording": true,

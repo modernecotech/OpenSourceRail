@@ -43,9 +43,20 @@ def build_package(generic, city, assets, revision, environment='simulation'):
         if asset.get('asset_type') == 'energy':
             energy_assets_by_parent.setdefault(asset.get('parent_asset'), []).append(asset['asset_id'])
     if cfg.get('sites'):
-        stations = [a for a in stations if a['asset_id'] in cfg['sites']]
-        if len(stations) != len(set(cfg['sites'])):
+        requested = cfg['sites']
+        selected = set(requested)
+        if len(selected) != len(requested) or not selected.issubset({a['asset_id'] for a in stations}):
             raise ValueError('Unknown or repeated supervised asset identity')
+        # A bounded station pilot still needs real child assets such as its point
+        # machines. Walk the existing parent links instead of inventing or copying
+        # those identities into a city-specific supervision profile.
+        while True:
+            children = {a['asset_id'] for a in stations if a.get('parent_asset') in selected}
+            expanded = selected | children
+            if expanded == selected:
+                break
+            selected = expanded
+        stations = [a for a in stations if a['asset_id'] in selected]
     equipment = []
     for station in stations:
         site = identifier(station['asset_id'])
