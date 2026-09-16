@@ -80,7 +80,7 @@ try:
     assert frappe.db.count('Asset Repair')==before and repair_plan['availability'][0]['available_qty']>=1
     made=apply_repair(created['issue'],proposal,repair_plan['fingerprint']);assert made['created']
     repair=frappe.get_doc('Asset Repair',made['name'])
-    assert repair.docstatus==0 and repair.repair_status=='Pending' and repair.stock_items[0].consumed_quantity==1
+    assert repair.docstatus==0 and repair.repair_status=='Pending' and float(repair.stock_items[0].consumed_quantity)==1
     assert frappe.db.count('ToDo',{'reference_type':'Asset Repair','reference_name':repair.name,
         'allocated_to':'Administrator','status':'Open'})==1
     issue=frappe.get_doc('Issue',created['issue']);issue.status='Closed';issue.save()
