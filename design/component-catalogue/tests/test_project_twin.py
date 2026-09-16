@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 import sqlite3
 import sys
@@ -133,7 +134,7 @@ def test_charging_budget_is_allocated_to_energy_work() -> None:
     assert {row["asset_id"] for row in twin["budget_contracts"]} == {"ENERGY-1"}
 
 
-def test_ops_core_round_trips_project_actuals(tmp_path: Path) -> None:
+def test_ops_core_rejects_business_writes_and_preserves_historic_actuals(tmp_path: Path) -> None:
     spec = importlib.util.spec_from_file_location(
         "ops_core_server", ROOT / "tools/automation/ops-core-server.py"
     )
@@ -150,12 +151,44 @@ def test_ops_core_round_trips_project_actuals(tmp_path: Path) -> None:
         ]
         state["invoices"] = [{"id": "INV-00001", "status": "received"}]
         state["progressUpdates"] = [{"id": "PROG-00001", "status": "reported", "percent": 25}]
-        server.save_state(raw, "test", state)
+        with pytest.raises(ValueError, match="Use ERPNext"):
+            server.save_state(raw, "test", state)
+        assert server.load_state(raw, "test")["_revision"] == 0
+
+        # Pre-migration business history remains readable and survives later
+        # railway-evidence writes, but OSR cannot mutate it.
+        historic = {
+            "purchase-order": state["purchaseOrders"][0],
+            "invoice": state["invoices"][0],
+            "progress-update": state["progressUpdates"][0],
+        }
+        raw.executemany(
+            "INSERT INTO project_records "
+            "(city_slug, kind, id, position, status, effective_at, payload) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [
+                (
+                    "test",
+                    kind,
+                    row["id"],
+                    0,
+                    row["status"],
+                    row.get("effective_at", ""),
+                    json.dumps(row),
+                )
+                for kind, row in historic.items()
+            ],
+        )
+        raw.commit()
+        railway_state = server.load_state(raw, "test")
+        railway_state["projectRevisions"] = [{"id": "REV-00001", "status": "reviewed"}]
+        server.save_state(raw, "test", railway_state)
         restored = server.load_state(raw, "test")
 
     assert restored["purchaseOrders"][0]["id"] == "PO-00001"
     assert restored["invoices"][0]["id"] == "INV-00001"
     assert restored["progressUpdates"][0]["percent"] == 25
+    assert restored["projectRevisions"] == [{"id": "REV-00001", "status": "reviewed"}]
 
 
 def test_ops_core_enforces_authenticated_segregation_and_attests_records(tmp_path: Path) -> None:

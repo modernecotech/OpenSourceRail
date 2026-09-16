@@ -108,6 +108,9 @@ through native ERP/FUXA forms, follows an ERP project back to its asset, and
 checks a simulation lighting request through controller completion. It requires
 the local pilot services and private credentials and intentionally changes simulated
 station lighting to 60% and restores it to 75%; it performs no physical command.
+The `integrated-stack` CI workflow now creates those services from a clean
+checkout, runs this check with the ERP transaction, embedded-condition and FUXA
+checks, verifies outage recovery, and destroys the disposable data volumes.
 
 ## City-aware navigation and deployment inventory
 

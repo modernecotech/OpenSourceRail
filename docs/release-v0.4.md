@@ -26,6 +26,9 @@ and renewal while each service retains its own permissions and authority.
 - A generated catalogue-readiness gate that compiles all 266 ERP/component
   profiles and real-asset supervision packages, preserves per-city hashes and
   distinguishes on-demand task payloads from operator/commissioning inputs.
+- A disposable native-stack CI gate covering ERP transactions and feedback,
+  FUXA/gateway/controller behaviour, Workbench navigation and service
+  outage/recovery, alongside version-pinned Kani proofs.
 
 ## Boundary
 

@@ -1,0 +1,154 @@
+name: integrated-stack
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integrated-stack-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  disposable-pilot:
+    name: Disposable ERPNext, FUXA, gateway, controller and Workbench pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKER_BUILDKIT: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned browser and frontend tools
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          curl -fsSLo /tmp/trunk.tar.gz https://github.com/trunk-rs/trunk/releases/download/v0.21.8/trunk-x86_64-unknown-linux-gnu.tar.gz
+          echo "cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec  /tmp/trunk.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/trunk.tar.gz -C /tmp trunk
+          sudo install -m 0755 /tmp/trunk /usr/local/bin/trunk
+          trunk --version
+
+      - name: Build Workbench applications and native controller bridge
+        run: |
+          npm run frontend:build
+          cargo build -p osr-sim --example operating_bridge
+
+      - name: Build and start a clean ERPNext evaluation site
+        run: |
+          python3 tools/automation/erp-platform.py init
+          python3 tools/automation/erp-platform.py build
+          python3 tools/automation/erp-platform.py up
+          python3 tools/automation/erp-platform.py setup
+          for attempt in $(seq 1 60); do
+            curl -fsS http://127.0.0.1:8080/api/method/ping >/dev/null && break
+            sleep 5
+          done
+          curl -fsS http://127.0.0.1:8080/api/method/ping
+
+      - name: Apply both city ERP baselines
+        run: |
+          ./osr erp bench execute osr_erpnext.setup.create_evaluation_company
+          ./osr erp city prepare samawah --company 'OpenSourceRail Evaluation'
+          ./osr erp import build/erpnext/cities/samawah/plan.json --company 'OpenSourceRail Evaluation'
+          ./osr erp city prepare mosul --company 'OpenSourceRail Evaluation'
+          ./osr erp import build/erpnext/cities/mosul/plan.json --company 'OpenSourceRail Evaluation'
+          ./osr erp snapshot
+
+      - name: Start and configure the disposable supervision stack
+        run: |
+          ./osr supervision init
+          ./osr supervision prepare samawah --first-site --first-vehicle
+          ./osr supervision prepare mosul --first-site --first-vehicle
+          ./osr supervision up
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8092/health >/dev/null \
+              && curl -fsS http://127.0.0.1:1881/ >/dev/null; then
+              break
+            fi
+            sleep 5
+          done
+          curl -fsS http://127.0.0.1:8092/health
+          curl -fsS http://127.0.0.1:1881/ >/dev/null
+          ./osr supervision setup-fuxa
+          ./osr supervision connect-erp samawah mosul
+          for attempt in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8092/health >/dev/null && break
+            sleep 2
+          done
+          ./osr supervision apply build/supervision/samawah/simulation/package.json
+          ./osr supervision apply build/supervision/mosul/simulation/package.json
+          ./osr supervision import-fuxa \
+            build/supervision/samawah/simulation/package.json \
+            build/supervision/mosul/simulation/package.json
+
+      - name: Start the native embedded simulator and Workbench
+        run: |
+          mkdir -p build/integrated-stack
+          nohup python3 tools/automation/supervision-simulator.py \
+            >build/integrated-stack/simulator.log 2>&1 &
+          echo $! > build/integrated-stack/simulator.pid
+          nohup python3 tools/automation/workbench-server.py \
+            --port 8090 --city-port 8091 --db build/integrated-stack/ops.sqlite3 --reset-db \
+            >build/integrated-stack/workbench.log 2>&1 &
+          echo $! > build/integrated-stack/workbench.pid
+          for attempt in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8090/api/workbench >/dev/null && break
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:8090/api/workbench
+
+      - name: Verify native ERP transactions and execution feedback
+        run: |
+          compose=(docker compose --env-file var/erpnext/local.env -f deployment/erpnext/compose.yaml)
+          "${compose[@]}" exec -T backend env/bin/python < deployment/erpnext/tests/verify-components.py
+          "${compose[@]}" exec -T backend env/bin/python < deployment/erpnext/tests/verify-procurement.py
+          "${compose[@]}" exec -T backend env/bin/python < deployment/erpnext/tests/verify-lifecycle.py
+
+      - name: Verify controller, gateway, FUXA and Workbench behaviour
+        run: |
+          node deployment/supervision/tests/verify-fuxa.mjs
+          python3 deployment/supervision/tests/verify-pilot.py
+          python3 deployment/supervision/tests/verify-embedded.py
+          node deployment/workbench/tests/verify-native.mjs
+          node deployment/supervision/tests/verify-outage.mjs
+
+      - name: Collect service logs and stop the disposable deployment
+        if: always()
+        run: |
+          mkdir -p build/integrated-stack
+          docker compose -f deployment/supervision/compose.yaml logs --no-color \
+            > build/integrated-stack/supervision-compose.log 2>&1 || true
+          docker compose --env-file var/erpnext/local.env -f deployment/erpnext/compose.yaml logs --no-color \
+            > build/integrated-stack/erp-compose.log 2>&1 || true
+          for pidfile in build/integrated-stack/simulator.pid build/integrated-stack/workbench.pid; do
+            if [[ -f "$pidfile" ]]; then kill "$(<"$pidfile")" 2>/dev/null || true; fi
+          done
+          docker compose -f deployment/supervision/compose.yaml down --volumes --remove-orphans || true
+          docker compose --env-file var/erpnext/local.env -f deployment/erpnext/compose.yaml down --volumes --remove-orphans || true
+
+      - name: Upload integrated-stack diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integrated-stack-diagnostics
+          path: |
+            build/integrated-stack/
+            build/supervision-fuxa*.png
+            build/workbench-*-integrated.png
+          if-no-files-found: ignore

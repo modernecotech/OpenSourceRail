@@ -14,6 +14,11 @@ test('city switch clears railway authority and uses the selected city bundle',as
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/city=mosul/);
 });
 test('business and supervision navigation stays inside the shell and rejects forged messages',async({page})=>{
+  await page.route('**/api/workbench/city?**',r=>r.fulfill({json:{
+    city:'mosul',environment:'simulation',
+    erp:{state:'unavailable',project:null,stale:true,routes:{projects:'/app/project?custom_osr_city=mosul'}},
+    supervision:{state:'prepared',sites:['MOS-ST-001'],equipment_count:4},
+  }}));
   await page.route('http://127.0.0.1:8080/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Native ERP authentication</h1>'}));
   await page.route('http://127.0.0.1:1881/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Native supervision</h1>'}));
   await page.goto(base+'/?module=operating&city=mosul');
@@ -26,6 +31,21 @@ test('business and supervision navigation stays inside the shell and rejects for
   await page.evaluate(()=>window.postMessage({type:'osr:navigate',module:'occ',context:{city:'samawah',mode:'live',baseline_sha256:'a'.repeat(64)}},location.origin));
   await expect(page.locator('#contextCity')).toHaveText('mosul');
   await expect(page.locator('#mode')).toHaveValue('design');
+});
+test('an unconfigured city refuses FUXA navigation without retaining another city display',async({page})=>{
+  let fuxaRequests=0;
+  await page.route('**/api/workbench/city?**',r=>r.fulfill({json:{
+    city:'basra',environment:'simulation',
+    erp:{state:'unavailable',project:null,stale:true,routes:{projects:'/app/project?custom_osr_city=basra'}},
+    supervision:{state:'unavailable',sites:[],equipment_count:0},
+  }}));
+  await page.route('http://127.0.0.1:1881/**',r=>{fuxaRequests++;return r.fulfill({body:'unexpected FUXA navigation'});});
+  await page.goto(base+'/?module=operating&city=basra');
+  const previous=await page.locator('#moduleFrame').getAttribute('src');
+  await page.locator('[data-module=fuxa]').click();
+  await expect(page.locator('#moduleScope')).toHaveText('No supervision package for basra / simulation.');
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',previous);
+  expect(fuxaRequests).toBe(0);
 });
 test('lifecycle action requires explicit credential and keeps the credential out of shell URLs',async({page})=>{
   let forwarded;

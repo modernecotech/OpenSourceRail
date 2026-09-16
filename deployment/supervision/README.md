@@ -143,6 +143,12 @@ node deployment/supervision/tests/verify-fuxa.mjs
 python3 deployment/supervision/tests/verify-pilot.py
 ```
 
+The `integrated-stack` GitHub workflow creates a clean disposable ERPNext site,
+imports both pilot baselines, starts the gateway and pinned FUXA release, runs the
+native Rust controller bridge and Workbench, then executes the ERP component,
+procurement, lifecycle, FUXA, embedded-condition, browser and outage/recovery
+checks together. It destroys its evaluation volumes after collecting failure logs.
+
 `node deployment/supervision/tests/verify-outage.mjs` deliberately disconnects the
 simulated source, then temporarily stops/restarts the local integration container.
 It verifies FUXA's disconnected state and hides cached values on gateway loss.
