@@ -210,13 +210,25 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                     source = REPO_ROOT / "build/supervision" / city / "engineering.json"
                     self._send_json(200, json.loads(source.read_text()))
                     return
-                if endpoint not in {"snapshot", "history", "affected"}:
+                if endpoint not in {"snapshot", "history", "affected", "change-impact"}:
                     self._send_json(404, {"error": "Unknown lifecycle endpoint"})
                     return
                 config = json.loads((REPO_ROOT / "var/supervision/integration.json").read_text())
                 viewer = next(p for p in config["principals"] if p["role"] == "viewer")
-                request = Request("http://127.0.0.1:8092/" + endpoint + "?" + urlencode(query),
-                                  headers={"Authorization": "Bearer " + viewer["token"]})
+                if endpoint == "change-impact":
+                    environment = query.get("environment", "simulation")
+                    if environment not in {"simulation", "physical"}:
+                        raise ValueError("Invalid environment")
+                    package = json.loads((REPO_ROOT / "build/supervision" / city / environment / "package.json").read_text())
+                    if package.get("city") != city or package.get("environment") != environment:
+                        raise ValueError("Prepared package scope mismatch")
+                    request = Request("http://127.0.0.1:8092/packages/preview",
+                                      data=json.dumps({"package": package}).encode(), method="POST",
+                                      headers={"Authorization": "Bearer " + viewer["token"],
+                                               "Content-Type": "application/json"})
+                else:
+                    request = Request("http://127.0.0.1:8092/" + endpoint + "?" + urlencode(query),
+                                      headers={"Authorization": "Bearer " + viewer["token"]})
                 with urlopen(request, timeout=5) as response:
                     payload = json.load(response)
                 if endpoint == "snapshot":

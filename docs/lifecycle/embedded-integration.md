@@ -77,9 +77,24 @@ ERP project binding and scoped principals. Then:
 ./osr supervision simulate
 ```
 
-For an existing installation, take `./osr supervision backup` and review the
-package diff. `apply --expected PREVIOUS_SHA256` requires the previous package
-hash and preserves asset identity, history and evidence. Physical mapping changes
+For an existing installation, take `./osr supervision backup`, generate the
+machine review and apply only that exact proposal:
+
+```bash
+./osr supervision review-package build/supervision/samawah/simulation/package.json \
+  --output build/supervision/samawah/simulation/change-review.json
+./osr supervision apply build/supervision/samawah/simulation/package.json \
+  --expected PREVIOUS_SHA256 \
+  --review build/supervision/samawah/simulation/change-review.json
+```
+
+The review names changes to source crates, measurement units/ranges/scaling,
+alarm rules, command bounds/permissives, device bindings and engineering
+revision. It also carries the affected installed serials, evidence, open cases
+and pending commands. Apply regenerates it under the database write lock, so a
+package or lifecycle-record change after review is rejected. Clock regression,
+future-clock jumps, replay, wrong units, disconnects, stale data and invalid
+values all have adapter/gateway regression coverage. Physical mapping changes
 remain blocked. The FUXA preview binds the live project checksum to the desired
 project and records included package/revision hashes plus device/view additions,
 changes and removals, along with other project-setting changes. Import requires

@@ -8,6 +8,12 @@
   commands on retirement, and support reviewed reactivation. Alarm
   acknowledgments are immutable per occurrence and reset on reactivation;
   command and alarm contracts are validated before a package is accepted.
+- Added a deterministic prepared-versus-live change review across design and
+  embedded contracts, asset topology, ERP identities, installed serials,
+  evidence, open cases and pending commands. Workbench explains the impact and
+  matching ERP actuals; changed simulation packages require the fresh review
+  hash, while installed retirement, pending-command contract changes and physical
+  remapping stay blocked.
 
 - Added scenario-bound, all-line SUMO dwell modelling and a deterministic
   OSR/SUMO running-time cross-check, with explicit external junction-occupancy

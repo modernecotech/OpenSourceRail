@@ -24,6 +24,10 @@ and renewal while each service retains its own permissions and authority.
 - Revision-safe supervisory updates: removed equipment is retained as retired
   history, pending commands fail, telemetry and new commands are rejected, and a
   later reviewed package can reactivate the stable asset identity.
+- A review-bound package-change workflow and Workbench surface that classify
+  design, embedded, telemetry, alarm, command, ERP and display changes; trace
+  installed serials and append-only evidence; reject stale reviews; isolate city
+  baselines; and block unsafe installed-position or pending-command changes.
 - Review-bound FUXA replacement with a package/device/view manifest, explicit
   add/change/remove sets, stale-review rejection and backups of both the previous
   project and the applied review.

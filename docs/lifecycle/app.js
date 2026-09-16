@@ -2,7 +2,7 @@ import {setupEvidence} from './evidence.js';
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const services = await fetch('/api/workbench/services').then(r=>r.ok?r.json():null).catch(()=>null) || {erp:'http://127.0.0.1:8080',fuxa:'http://127.0.0.1:1881'};
-let selected, snapshot, engineering, business, lastScope;
+let selected, snapshot, engineering, business, impact, lastScope;
 let refreshId=0;
 let syncEvidence=()=>{};
 let traceId=0;
@@ -15,9 +15,27 @@ for (const id of ['city','environment']) if (params.get(id)) {
 }
 function query(extra = {}) {return new URLSearchParams({city:$('city').value,environment:$('environment').value,...extra});}
 async function get(path) {const r=await fetch(path);if(!r.ok) throw new Error(`Service unavailable (${r.status})`);return r.json();}
+function renderImpact(a){
+  if(!impact){$('changeImpact').textContent='No prepared-versus-live review is available for this scope.';return;}
+  const s=impact.summary || {},change=(impact.equipment_changes || []).find(row=>row.asset_id===a.asset_id);
+  const blockers=impact.application?.blockers || [];
+  let html=record(`<b>${esc(impact.status)}</b> · ${s.added || 0} added · ${s.changed || 0} changed · ${s.removed || 0} removed · ${s.unchanged || 0} unchanged · ${s.package_values_changed || 0} package field(s) changed<br>Baseline <code>${esc(impact.baseline_sha256?.slice(0,16) || 'none')}</code> → prepared <code>${esc(impact.proposed_sha256?.slice(0,16))}</code><br>${esc(impact.authority)}`);
+  if(blockers.length)html+=record(`<b class="bad">Automatic apply blocked</b><br>${blockers.map(esc).join('<br>')}`);
+  if(!change){$('changeImpact').innerHTML=html+record('Selected equipment position is unchanged by the prepared package.');return;}
+  const records=change.affected_records || {},dependencies=change.dependencies || {};
+  const values=(change.changed_values || []).map(row=>`<code>${esc(row.path)}</code>: ${esc(row.kind)}`).join('<br>') || `${esc(change.change_type)} equipment position`;
+  const erpItems=new Set(dependencies.erp_item_codes || []),execution=business?.snapshots?.find(row=>(dependencies.erp_projects || []).includes(row.project))?.execution;
+  const matching=(rows,fields)=>erpItems.size?(rows || []).filter(row=>fields.some(field=>erpItems.has(row[field]))):(rows || []);
+  const orders=matching(execution?.purchase_orders,['item']),receipts=matching(execution?.receipts,['item']),production=matching(execution?.production,['item','production_item']);
+  html+=record(`<b>${esc(change.change_type)} · ${esc(change.name)}</b><br>${(change.categories || []).map(value=>`<span class="pill">${esc(value)}</span>`).join(' ')}<br>${values}`);
+  html+=record(`Affected existing records: ${(records.installations || []).length} installation(s), ${(records.evidence || []).length} evidence record(s), ${(records.open_alarms_or_cases || []).length} open alarm/case record(s), ${(records.pending_commands || []).length} pending command(s).<br>Dependencies: ${(dependencies.component_type_ids || []).map(esc).join(', ') || 'none'} · ${(dependencies.source_crates || []).map(esc).join(', ') || 'no source crate'}${erpItems.size?` · ERP item(s) ${[...erpItems].map(esc).join(', ')}`:''}`);
+  if(execution)html+=record(`Matching native ERP feedback: ${orders.length} purchase-order line(s), ${receipts.length} receipt line(s), ${production.length} production record(s). These records are not changed by this review.`);
+  html+=`<details><summary>Required reviews (${(change.required_reviews || []).length})</summary>${(change.required_reviews || []).map(value=>record(esc(value))).join('')}</details>`;
+  $('changeImpact').innerHTML=html;
+}
 function render() {
   selected=snapshot.assets.find(a=>a.asset_id===$('asset').value);
-  for(const id of ['overview','measurements','alarms','links','engineering','execution','assurance','queue','commands','trend']) $(id).innerHTML='';
+  for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend']) $(id).innerHTML='';
   $('commandForm').hidden=true;
   syncEvidence();
   if(!selected) { $('overview').textContent='No equipment deployed for this city and environment.';return; }
@@ -36,8 +54,9 @@ function render() {
   $('links').innerHTML=links.map(([label,url])=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`).join('');
   const engineeringApplies=engineering && [a.asset_id,a.parent_asset_id,...(a.source_asset_ids || [])].includes(engineering.asset_id);
   $('engineering').innerHTML=(engineeringApplies ? engineering.artifacts : null)?.map(r=>record(`<b>${esc(r.tool)}</b> · ${esc(r.tool_version)}<br><a href="/api/lifecycle/artifact?${esc(query({sha256:r.sha256}))}">${esc(r.path.split('/').pop())}</a><br><code>${esc(r.sha256.slice(0,24))}…</code>${r.ifc_objects?` · ${r.ifc_objects.length} IFC identities`:''}`)).join('') || 'No reviewed engineering package linked to this equipment position.';
+  renderImpact(a);
   const execution=business?.snapshots?.find(s=>s.project===a.erp_project)?.execution;
-  $('execution').innerHTML=execution?Object.entries(execution.by_currency).map(([currency,v])=>record(`${esc(currency)} · Ordered ${Number(v.ordered).toLocaleString()} · Unbilled commitment ${Number(v.unbilled_commitment).toLocaleString()} · Invoiced ${Number(v.invoiced).toLocaleString()}`)).join('')+record(`${execution.receipts.length} receipt lines · ${execution.production.length} production records. Installed and engineering-accepted quantities require OSR evidence.`):'Execution feedback not yet available.';
+  $('execution').innerHTML=execution?Object.entries(execution.by_currency || {}).map(([currency,v])=>record(`${esc(currency)} · Ordered ${Number(v.ordered).toLocaleString()} · Unbilled commitment ${Number(v.unbilled_commitment).toLocaleString()} · Invoiced ${Number(v.invoiced).toLocaleString()}`)).join('')+record(`${(execution.receipts || []).length} receipt lines · ${(execution.production || []).length} production records. Installed and engineering-accepted quantities require OSR evidence.`):'Execution feedback not yet available.';
   $('assurance').innerHTML=a.evidence.map(r=>{let body;try{body=JSON.parse(r.body || '{}');}catch{body={};}return record(`<b>${esc(r.kind)}</b> · ${esc(r.actor)}<br><code>${esc(r.id)}</code> · ${esc(timestamp(r.created))}${body.result?` · ${esc(body.result)}`:''}<br>${(body.references || []).map(esc).join('<br>')}`);}).join('') || 'No installation or acceptance evidence recorded.';
   if(a.osr_assurance){const s=a.osr_assurance;$('assurance').innerHTML+=record(`Existing OSR records: ${s.work_orders.length} works · ${s.inspections.length} inspections · ${s.approvals.length} handback records · ${s.defects.length} defects. These are separate from simulation rehearsal evidence.`);}
   $('queue').innerHTML=snapshot.outbox.filter(r=>a.alarms.some(al=>al.incident===r.incident)).map(r=>record(`<b>${esc(r.state)}</b> · ${r.attempts} retries${r.error?`<br><span class="bad">${esc(r.error)}</span>`:''}`)).join('') || 'No queued maintenance events for this asset.';
@@ -49,13 +68,13 @@ function render() {
 async function refresh() {
   const requestId=++refreshId;
   const scope=query().toString();
-  if(lastScope!==scope){snapshot=null;selected=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','execution','assurance','queue','commands','trend'])$(id).innerHTML='';}
+  if(lastScope!==scope){snapshot=null;selected=null;impact=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend'])$(id).innerHTML='';}
   lastScope=scope;
   $('connection').textContent='Refreshing…';$('mode').textContent=$('environment').value==='simulation'?'SIMULATION · Existing OSR controller model with explicit sensor fixtures. Cases are labelled simulation.':'PHYSICAL · Supplier bindings and OSR commissioning evidence are required.';
   try {
-    const result=await Promise.all([get('/api/lifecycle/snapshot?'+query()),get('/api/lifecycle/engineering?'+query()).catch(()=>null),get('/api/operating/twins').catch(()=>null)]);
+    const result=await Promise.all([get('/api/lifecycle/snapshot?'+query()),get('/api/lifecycle/engineering?'+query()).catch(()=>null),get('/api/operating/twins').catch(()=>null),get('/api/lifecycle/change-impact?'+query()).catch(()=>null)]);
     if(requestId!==refreshId)return;
-    [snapshot,engineering,business]=result;
+    [snapshot,engineering,business,impact]=result;
     const old=$('asset').value||params.get('asset');$('asset').replaceChildren(...snapshot.assets.map(a=>new Option(a.asset_id+' · '+a.equipment_type,a.asset_id)));
     if(snapshot.assets.some(a=>a.asset_id===old))$('asset').value=old;
     $('connection').textContent='Connected · '+new Date().toLocaleTimeString();render();

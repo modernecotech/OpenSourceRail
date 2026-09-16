@@ -59,3 +59,44 @@ def test_action_passes_only_caller_token_and_preserves_gateway_denial(endpoint, 
     status, payload = request(action, {'Origin': origin, 'Authorization': 'Bearer caller-token'}, {'city': 'outside-scope'})
     assert status == 403
     assert 'outside authenticated scope' in payload['error']
+
+
+def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(tmp_path, monkeypatch):
+    package = {'city': 'samawah', 'environment': 'simulation', 'sha256': 'prepared'}
+    folder = tmp_path / 'build/supervision/samawah/simulation'
+    folder.mkdir(parents=True)
+    (folder / 'package.json').write_text(json.dumps(package))
+    private = tmp_path / 'var/supervision'
+    private.mkdir(parents=True)
+    (private / 'integration.json').write_text(json.dumps({'principals': [
+        {'role': 'viewer', 'token': 'server-viewer'}]}))
+    monkeypatch.setattr(WB, 'REPO_ROOT', tmp_path)
+
+    class Response(io.BytesIO):
+        status = 200
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            self.close()
+
+    def preview(request, **kwargs):
+        assert request.full_url == 'http://127.0.0.1:8092/packages/preview'
+        assert request.method == 'POST'
+        assert request.get_header('Authorization') == 'Bearer server-viewer'
+        assert json.loads(request.data) == {'package': package}
+        return Response(b'{"schema":"osr-supervisory-change-review/1","status":"no-change"}')
+    monkeypatch.setattr('urllib.request.urlopen', preview)
+
+    class Handler(WB.WorkbenchHandler):
+        def log_message(self, *args):
+            pass
+    server = WB.OPS.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    client = http.client.HTTPConnection('127.0.0.1', server.server_port)
+    client.request('GET', '/api/lifecycle/change-impact?city=samawah&environment=simulation')
+    response = client.getresponse()
+    assert response.status == 200
+    assert json.loads(response.read())['status'] == 'no-change'
+    client.close()
+    server.shutdown(); server.server_close(); thread.join()

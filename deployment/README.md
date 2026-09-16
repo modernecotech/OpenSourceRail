@@ -42,6 +42,8 @@ platform without adding ERP dependencies to onboard or wayside images.
 ## Equipment supervision
 
 [ERPNext + FUXA lifecycle deployment](supervision/README.md) provides generated city equipment packages, a durable telemetry/event gateway and a simulated station pilot.
+Its prepared-package review traces design and embedded contract changes through
+installed/evidence/business identities before a baseline can be replaced.
 The [operating-readiness audit](../docs/operating/readiness.md) compiles all 266
 tracked city asset registers through the supervision package and all 266 ERP and
 component profiles, while retaining operator and physical commissioning inputs

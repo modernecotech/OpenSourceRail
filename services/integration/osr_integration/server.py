@@ -117,9 +117,12 @@ class Handler(BaseHTTPRequestHandler):
             data = json.loads(self.rfile.read(size))
             path = urlsplit(self.path).path
             store = self.server.store
-            if path == '/packages':
+            if path == '/packages/preview':
+                self.authorize(p, data['package'])
+                result = store.package_review(data['package'])
+            elif path == '/packages':
                 self.authorize(p, data['package'], ['engineer'])
-                result = store.apply(data['package'], p['subject'], data.get('expected'))
+                result = store.apply(data['package'], p['subject'], data.get('expected'), data.get('review_sha256'))
             elif path == '/telemetry':
                 self.authorize(p, data, ['controller'])
                 result = store.ingest(data, p['subject'])

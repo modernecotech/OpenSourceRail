@@ -91,6 +91,21 @@ active BOM and returns a fingerprint. `apply_execution` records an immutable
 manufacturing component to create draft Work Orders from the reviewed BOM.
 Native ERP procurement, quality, stock and accounting workflows remain in force.
 
+Before a prepared supervisory revision replaces a live simulation baseline,
+`review-package` now traces exact changed values through existing component,
+parent/source-asset, IFC, Rust-crate and ERP identities. It includes installed
+serials, append-only lifecycle evidence, open alarm/maintenance cases and pending
+commands. The Workbench presents the same review beside matching ERP purchase,
+receipt and production feedback. Evidence is marked for reassessment rather than
+edited or invalidated, and no order is automatically cancelled or changed.
+
+Apply is bound to the accepted baseline hash and the complete review hash; new
+evidence or other in-scope lifecycle state makes an older review stale. Unrelated
+city/environment baselines remain outside the transaction. Automatic apply is
+blocked for component substitution, an installed-position retirement, a pending
+command-contract change and physical remapping. Full CAD/BOM/solver dependency
+graphs and formal order/WIP disposition remain open beyond this supervisory slice.
+
 The native acceptance test purchases ten units, receives four, reports six
 outstanding, manufactures one assembly from its reviewed BOM and checks actual
 production. Its temporary transactions are rolled back. No test production or
@@ -163,6 +178,12 @@ ID and versioned references before submission. A scoped evidence credential is
 required; the gateway enforces roles and prerequisites. A failed reply can be
 retried with the same reviewed ID. Changing the target discards that review and
 clears the evidence credential. Successful recording also clears the credential.
+
+**Engineering & delivery → Prepared change impact** is a read-only usability
+surface. It shows the proposal-wide summary and then narrows to the selected
+equipment position, including exact changed paths, affected records, embedded
+source crates and required human review activities. “Preview only” and any apply
+blockers remain visible; the view cannot approve or apply a package.
 
 Evidence is not a file-upload or electronic-signature service. References identify
 existing versioned sources. Inspector and reviewer must be different identities

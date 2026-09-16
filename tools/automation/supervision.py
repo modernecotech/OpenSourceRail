@@ -143,7 +143,8 @@ def main():
         sub.add_parser(action)
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
     p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true')
-    p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected')
+    p = sub.add_parser('review-package'); p.add_argument('package', type=Path); p.add_argument('--output', required=True, type=Path)
+    p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected'); p.add_argument('--review', type=Path)
     p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--review', required=True, type=Path)
     p = sub.add_parser('engineering'); p.add_argument('manifest', type=Path); p.add_argument('--output', required=True, type=Path)
@@ -203,7 +204,15 @@ def main():
             equipment += len(city_package(slug)['equipment'])
         print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
     elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle))
-    elif args.command == 'apply': print(json.dumps(api('/packages', {'package': json.loads(args.package.read_text()), 'expected': args.expected}), indent=2))
+    elif args.command == 'review-package':
+        review = api('/packages/preview', {'package': json.loads(args.package.read_text())}, role='viewer')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(review, indent=2) + '\n')
+        print(f"Package change review written: {args.output} ({review['status']}, {len(review['equipment_changes'])} affected positions)")
+    elif args.command == 'apply':
+        review = json.loads(args.review.read_text()) if args.review else None
+        print(json.dumps(api('/packages', {'package': json.loads(args.package.read_text()), 'expected': args.expected,
+            'review_sha256': review.get('sha256') if review else None}), indent=2))
     elif args.command in ('preview-fuxa', 'import-fuxa'):
         packages = [json.loads(path.read_text()) for path in args.packages]
         old = fuxa_api('/api/project')

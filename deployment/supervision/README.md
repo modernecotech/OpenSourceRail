@@ -76,12 +76,16 @@ existing ERP network. Neither account is an ERP administrator.
    [catalogue audit](../../docs/operating/readiness.md) records counts and hashes.
 4. Review package, devices, source bindings, units, ranges, alarm limits, response
    references and generated screens. Generic limits are **simulation examples**.
-5. Extend the private principal city scopes before applying. Existing package
-   changes require `apply --expected <previous-sha256>`; an identical apply does
-   nothing. An omitted simulation equipment position is retained as retired
-   history: its pending commands fail and new telemetry/commands are rejected.
-   Reintroducing the same reviewed identity reactivates it. Physical mapping
-   changes cannot silently overwrite commissioned data.
+5. Extend the private principal city scopes before applying. For an existing
+   baseline, run `review-package PACKAGE --output REVIEW`, inspect its exact
+   field/category/dependency and affected-record sets, then run
+   `apply PACKAGE --expected PREVIOUS_SHA256 --review REVIEW`. The gateway
+   regenerates the review inside the apply transaction and rejects changed
+   packages, evidence, installations, open cases or pending commands. An
+   identical apply does nothing. An omitted simulation position is retained as
+   retired history; an installed position cannot be retired automatically and a
+   command contract cannot change while a request is pending. Physical mapping
+   changes require a separately commissioned migration.
 6. Preview the combined set of desired city packages with `preview-fuxa`, review
    its manifest and add/change/remove sets, then supply that exact file to
    `import-fuxa --review`. Any intervening live-project or package change is
@@ -128,6 +132,27 @@ supplied before physical activation. No railway or protection command is exposed
 
 The independent existing OSR assurance records are displayed by Workbench using
 its existing authenticated city access. No integration event changes them.
+
+## Prepared change impact
+
+The read-only package review compares a prepared package with the accepted live
+city/environment baseline. It lists exact changed paths and classifies design,
+asset-topology, embedded-runtime, telemetry, alarm/maintenance, command,
+business-execution and operator-display consequences. Existing parent/source
+asset IDs, component type, IFC GlobalId, source crates, ERP project/Item/Asset,
+installed serials, append-only evidence, open alarm/ERP cases and pending commands
+are reused as dependencies rather than copied into a new registry. Workbench's
+**Prepared change impact** view adds matching native ERP purchase, receipt and
+production feedback when available.
+
+Preview does not mutate the baseline. Apply requires both the expected prior
+package hash and the freshly generated review hash, and the audit records both.
+Another city/environment is outside the transaction. A component-type
+substitution, retirement of a currently installed serial, physical remapping or
+pending-command contract change remains blocked for an explicit replacement or
+commissioned migration workflow. This is configuration impact control; complete
+CAD/BOM dependency graphs, open-order disposition and released-analysis reruns
+remain engineering/ERP work.
 
 ## Backup and recovery
 

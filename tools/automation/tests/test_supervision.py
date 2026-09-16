@@ -56,9 +56,71 @@ class IntegrationTest(unittest.TestCase):
         self.assertFalse(self.store.apply(self.package, 'engineer')['created'])
         updated = copy.deepcopy(self.package); updated['engineering_revision'] = 'rev2'; updated['sha256'] = digest({k: v for k, v in updated.items() if k != 'sha256'})
         with self.assertRaises(ValueError): self.store.apply(updated, 'engineer')
-        self.store.apply(updated, 'engineer', self.package['sha256'])
+        review = self.store.package_review(updated)
+        self.assertEqual(review['status'], 'review-required')
+        self.store.apply(updated, 'engineer', self.package['sha256'], review['sha256'])
         self.assertEqual(len(self.store.snapshot()['assets']), 4)
         self.assertEqual(len(ifc_guid('SAM-ST-001:charger')), 22)
+
+    def test_change_review_traces_design_embedded_and_lifecycle_impact_without_cross_city_mutation(self):
+        mosul = build_package(self.generic, {'city': 'mosul'}, [
+            {'asset_type': 'station', 'asset_id': 'MOS-ST-001', 'name': 'Mosul station'}], 'mosul-rev1')
+        self.store.apply(mosul, 'engineer')
+        mosul_before = self.store.snapshot('mosul', 'simulation', now=1000)
+        base = dict(city='samawah', environment='simulation', asset_id='SAM-ST-001:charger',
+                    engineering_revision='rev1', references=['sha256:review-source'])
+        self.store.evidence(dict(base, id='impact-design', kind='design-review'), 'engineer', 'engineer')
+        self.store.evidence(dict(base, id='impact-execution', kind='execution-release'), 'reviewer', 'reviewer')
+        self.store.evidence(dict(base, id='impact-install', kind='installation', serial='SER-1', batch='BAT-1'), 'engineer', 'engineer')
+
+        updated = copy.deepcopy(self.package)
+        updated['engineering_revision'] = 'rev2'
+        charger = next(a for a in updated['equipment'] if a['equipment_type'] == 'charger')
+        charger['engineering_revision'] = 'rev2'
+        charger['measurements']['temperature_c']['max'] = 160
+        charger['erp_project'] = 'MOSUL-UNRELATED-MUST-NOT-CHANGE-SAMAWAH'
+        updated['sha256'] = digest({k: v for k, v in updated.items() if k != 'sha256'})
+
+        review = self.store.package_review(updated)
+        self.assertEqual(review['summary']['changed'], 1)
+        self.assertEqual(review['summary']['installed_serials_affected'], 1)
+        self.assertEqual(review['summary']['evidence_records_requiring_review'], 3)
+        impact = review['equipment_changes'][0]
+        self.assertEqual(impact['asset_id'], 'SAM-ST-001:charger')
+        self.assertTrue({'design-definition', 'telemetry-contract', 'business-execution'} <= set(impact['categories']))
+        self.assertIn('osr-energy-site', impact['dependencies']['source_crates'])
+        self.assertEqual(impact['affected_records']['installations'][0]['serial'], 'SER-1')
+        self.assertTrue(all(row['review_status'] == 'requires-review' for row in impact['affected_records']['evidence']))
+        self.assertEqual(self.store.snapshot('mosul', 'simulation', now=1000), mosul_before)
+
+        # New evidence after preview invalidates the review without changing either package.
+        self.store.evidence(dict(base, id='impact-analysis', kind='analysis'), 'engineer', 'engineer')
+        with self.assertRaisesRegex(ValueError, 'changed after review'):
+            self.store.apply(updated, 'engineer', self.package['sha256'], review['sha256'])
+        review = self.store.package_review(updated)
+        self.store.apply(updated, 'engineer', self.package['sha256'], review['sha256'])
+        self.assertEqual(self.store.snapshot('mosul', 'simulation', now=1000), mosul_before)
+
+        removal = copy.deepcopy(updated)
+        removal['engineering_revision'] = 'rev3'
+        removal['equipment'] = [a for a in removal['equipment'] if a['equipment_type'] != 'charger']
+        removal['sha256'] = digest({k: v for k, v in removal.items() if k != 'sha256'})
+        blocked = self.store.package_review(removal)
+        self.assertFalse(blocked['application']['automatic_apply_permitted'])
+        self.assertIn('installed serial', ' '.join(blocked['application']['blockers']))
+
+        # A pending controller request also prevents its command contract changing beneath it.
+        command = dict(request_id='impact-command', city='samawah', environment='simulation',
+                       asset_id='SAM-ST-001:facilities', command='set_lighting', parameters={'level': 75},
+                       created_at=iso(1000), expires_at=iso(1020), required_conditions=['local_remote_enabled'])
+        self.store.command(command, 'operator', True, 1000)
+        command_change = copy.deepcopy(updated)
+        command_change['engineering_revision'] = 'rev3'
+        facilities = next(a for a in command_change['equipment'] if a['equipment_type'] == 'facilities')
+        facilities['commands']['set_lighting']['max'] = 90
+        command_change['sha256'] = digest({k: v for k, v in command_change.items() if k != 'sha256'})
+        blocked = self.store.package_review(command_change)
+        self.assertIn('pending', ' '.join(blocked['application']['blockers']))
 
     def test_wrong_source_units_and_replay(self):
         m = self.message(1000)
@@ -69,6 +131,11 @@ class IntegrationTest(unittest.TestCase):
         with self.assertRaises(ValueError): self.store.ingest(m, 'simulator', 1000)
         m = self.message(1001); m['unit'] = 'K'
         with self.assertRaises(ValueError): self.store.ingest(m, 'simulator', 1001)
+        m = self.message(1002); m['source_timestamp'] = iso(999)
+        with self.assertRaisesRegex(ValueError, 'Out-of-order source timestamp'):
+            self.store.ingest(m, 'simulator', 1002)
+        with self.assertRaisesRegex(ValueError, 'Future timestamp'):
+            self.store.ingest(self.message(1010), 'simulator', 1002)
 
     def test_alarm_delay_hysteresis_repeats_and_queue(self):
         self.fault()
@@ -156,7 +223,8 @@ class IntegrationTest(unittest.TestCase):
         for asset in updated['equipment']:
             asset['engineering_revision'] = 'rev2'
         updated['sha256'] = digest({k: v for k, v in updated.items() if k != 'sha256'})
-        self.store.apply(updated, 'engineer', self.package['sha256'])
+        review = self.store.package_review(updated)
+        self.store.apply(updated, 'engineer', self.package['sha256'], review['sha256'])
         retired = {a['equipment_type']: a for a in self.store.snapshot(now=1001)['assets']
                    if a['configuration_status'] == 'retired'}
         self.assertEqual(set(retired), {'facilities', 'charger'})
@@ -172,7 +240,8 @@ class IntegrationTest(unittest.TestCase):
 
         # Reapplying an earlier reviewed package is a supported rollback.
         reactivated = copy.deepcopy(self.package)
-        self.store.apply(reactivated, 'engineer', updated['sha256'])
+        review = self.store.package_review(reactivated)
+        self.store.apply(reactivated, 'engineer', updated['sha256'], review['sha256'])
         charger = next(a for a in self.store.snapshot(now=1001)['assets']
                        if a['equipment_type'] == 'charger')
         self.assertEqual(charger['configuration_status'], 'active')

@@ -33,6 +33,18 @@ test('Engineering documents follow equipment identity within a city',async({page
  await page.locator('#refresh').click();
  await expect(page.locator('#engineering a')).toHaveText('model.ifc');
 });
+test('Prepared change review explains embedded, lifecycle and ERP impact without implying approval',async({page})=>{
+ const reviewed={...asset,parent_asset_id:'SAM-ST-001',source_asset_ids:['SAM-ST-001'],erp_item_code:'STN-CHG-P010',source_crates:['osr-energy-site']};
+ await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[reviewed],outbox:[]}}));
+ await page.route('**/api/lifecycle/change-impact?**',r=>r.fulfill({json:{status:'review-required',baseline_sha256:'a'.repeat(64),proposed_sha256:'b'.repeat(64),authority:'Preview only: accepted baseline unchanged.',summary:{added:0,changed:1,removed:0,unchanged:3},application:{blockers:[]},equipment_changes:[{asset_id:reviewed.asset_id,name:reviewed.name,change_type:'changed',categories:['design-definition','telemetry-contract'],changed_values:[{path:'measurements.temperature_c.max',kind:'changed'}],dependencies:{component_type_ids:['station-charger'],source_crates:['osr-energy-site'],erp_projects:['PROJ-0001'],erp_item_codes:['STN-CHG-P010']},affected_records:{installations:[{}],evidence:[{},{}],open_alarms_or_cases:[{}],pending_commands:[]},required_reviews:['Review units and ranges.']}]}}));
+ await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{project:'PROJ-0001',execution:{purchase_orders:[{item:'STN-CHG-P010'}],receipts:[],production:[{item:'STN-CHG-P010'}]}}]}}));
+ await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+ await expect(page.locator('#changeImpact')).toContainText('review-required');
+ await expect(page.locator('#changeImpact')).toContainText('measurements.temperature_c.max');
+ await expect(page.locator('#changeImpact')).toContainText('1 installation(s), 2 evidence record(s)');
+ await expect(page.locator('#changeImpact')).toContainText('1 purchase-order line(s)');
+ await expect(page.locator('#changeImpact')).toContainText('accepted baseline unchanged');
+});
 test('Alarm acknowledgement submits the displayed occurrence',async({page})=>{
   let request;
   const occurrenceAsset={...asset,alarms:[{...asset.alarms[0],occurrences:3}]};

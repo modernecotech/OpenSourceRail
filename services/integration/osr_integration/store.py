@@ -1,4 +1,5 @@
-"""Transactional identities, telemetry, alarm outbox and command/evidence audit."""
+"""Transactional identities, change review, telemetry and lifecycle audit."""
+import hmac
 import json
 import sqlite3
 import time
@@ -65,7 +66,224 @@ class Store:
     def audit(db, actor, action, scope, body):
         db.execute('INSERT INTO audit(at,actor,action,scope,body) VALUES(?,?,?,?,?)', (time.time(), actor, action, scope, json.dumps(body, allow_nan=False)))
 
-    def apply(self, package, actor, expected=None):
+    @staticmethod
+    def _value_changes(before, after, prefix=''):
+        """Return exact changed leaves without repeating unchanged package bodies."""
+        if before == after:
+            return []
+        if isinstance(before, dict) and isinstance(after, dict):
+            changes = []
+            for key in sorted(before.keys() | after.keys()):
+                path = f'{prefix}.{key}' if prefix else key
+                if key not in before:
+                    changes.append({'path': path, 'kind': 'added', 'before': None, 'after': after[key]})
+                elif key not in after:
+                    changes.append({'path': path, 'kind': 'removed', 'before': before[key], 'after': None})
+                else:
+                    changes.extend(Store._value_changes(before[key], after[key], path))
+            return changes
+        return [{'path': prefix, 'kind': 'changed', 'before': before, 'after': after}]
+
+    @staticmethod
+    def _change_categories(change_type, changes, asset):
+        fields = {row['path'].split('.', 1)[0] for row in changes}
+        categories = set()
+        mapping = {
+            'engineering_revision': 'design-definition',
+            'component_type_id': 'design-definition',
+            'planned_asset_id': 'asset-topology',
+            'parent_asset_id': 'asset-topology',
+            'site_id': 'asset-topology',
+            'source_asset_ids': 'asset-topology',
+            'ifc_global_id': 'asset-topology',
+            'source_crates': 'embedded-runtime',
+            'measurements': 'telemetry-contract',
+            'telemetry_namespace': 'telemetry-contract',
+            'source_id': 'telemetry-contract',
+            'binding_status': 'telemetry-contract',
+            'supplier_binding': 'telemetry-contract',
+            'physical_serial_id': 'telemetry-contract',
+            'alarms': 'alarm-maintenance',
+            'commands': 'command-boundary',
+            'company_id': 'business-execution',
+            'erp_project': 'business-execution',
+            'erp_item_code': 'business-execution',
+            'erp_asset_id': 'business-execution',
+            'name': 'operator-display',
+            'equipment_type': 'operator-display',
+            'fuxa_device_id': 'operator-display',
+        }
+        for field in fields:
+            if field in mapping:
+                categories.add(mapping[field])
+        if change_type in ('added', 'removed'):
+            categories.update({'design-definition', 'asset-topology', 'operator-display'})
+            if asset.get('source_crates'):
+                categories.add('embedded-runtime')
+            if asset.get('measurements'):
+                categories.add('telemetry-contract')
+            if asset.get('alarms'):
+                categories.add('alarm-maintenance')
+            if asset.get('commands'):
+                categories.add('command-boundary')
+            if any(asset.get(key) for key in ('erp_project', 'erp_item_code', 'erp_asset_id')):
+                categories.add('business-execution')
+        return sorted(categories)
+
+    @staticmethod
+    def _dependencies(before, after):
+        values = [value for value in (before, after) if value]
+        def unique(field, many=False):
+            found = set()
+            for value in values:
+                item = value.get(field, [] if many else '')
+                found.update(item if many else [item])
+            return sorted(v for v in found if v)
+        return {
+            'component_type_ids': unique('component_type_id'),
+            'parent_asset_ids': unique('parent_asset_id'),
+            'source_asset_ids': unique('source_asset_ids', True),
+            'source_crates': unique('source_crates', True),
+            'ifc_global_ids': unique('ifc_global_id'),
+            'erp_projects': unique('erp_project'),
+            'erp_item_codes': unique('erp_item_code'),
+            'erp_asset_ids': unique('erp_asset_id'),
+        }
+
+    @staticmethod
+    def _review_steps(change_type, categories, records):
+        steps = set()
+        category_steps = {
+            'design-definition': 'Review drawings, calculations, quantities and derived engineering evidence.',
+            'asset-topology': 'Review CAD/BIM/GIS interfaces, parent assembly and installed-position mapping.',
+            'embedded-runtime': 'Rebuild affected source crates and repeat their native and adapter contract tests.',
+            'telemetry-contract': 'Review units, ranges, scaling, timestamp, disconnect and invalid-value behaviour.',
+            'alarm-maintenance': 'Review alarm persistence, thresholds, response and ERP maintenance routing.',
+            'command-boundary': 'Review controller ownership, bounds, expiry and local permissive conditions.',
+            'business-execution': 'Review ERP Item/BOM mappings and matching procurement, stock and production records.',
+            'operator-display': 'Review FUXA/Workbench labels, navigation and operator task presentation.',
+        }
+        steps.update(category_steps[c] for c in categories if c in category_steps)
+        if records['evidence'] or records['installations']:
+            steps.add('Reassess the listed installation, inspection, commissioning and maintenance evidence; do not overwrite it.')
+        if change_type == 'added':
+            steps.add('Complete the normal execution, installation and commissioning evidence sequence before use.')
+        if change_type == 'removed':
+            steps.add('Confirm safe retirement, unresolved alarms/cases and replacement or removal evidence.')
+        return sorted(steps)
+
+    def _package_review(self, db, package):
+        row = db.execute(
+            'SELECT hash,body FROM packages WHERE city=? AND environment=? ORDER BY created DESC LIMIT 1',
+            (package['city'], package['environment'])).fetchone()
+        baseline = json.loads(row['body']) if row else None
+        before_assets = {a['asset_id']: a for a in baseline['equipment']} if baseline else {}
+        after_assets = {a['asset_id']: a for a in package['equipment']}
+        prefix = package['city'] + '|' + package['environment'] + '|'
+        scoped = 'substr(scope,1,?)=?'
+        scoped_args = (len(prefix), prefix)
+        evidence = {}
+        for item in db.execute(f'SELECT * FROM evidence WHERE {scoped} ORDER BY scope,created,id', scoped_args):
+            body = json.loads(item['body'])
+            evidence.setdefault(item['scope'], []).append({
+                'id': item['id'], 'kind': item['kind'], 'actor': item['actor'],
+                'engineering_revision': body.get('engineering_revision'),
+                'references': body.get('references', []), 'result': body.get('result'),
+                'created': item['created'], 'review_status': 'requires-review',
+            })
+        installations = {}
+        for item in db.execute(f'SELECT * FROM installations WHERE {scoped} ORDER BY scope,installed,id', scoped_args):
+            installations.setdefault(item['scope'], []).append({key: item[key] for key in
+                ('id', 'serial', 'batch', 'revision', 'evidence', 'installed', 'removed')})
+        alarms = {}
+        for item in db.execute(f"SELECT * FROM alarms WHERE {scoped} AND (active=1 OR (case_id IS NOT NULL AND COALESCE(erp_status,'') NOT IN ('Closed','Resolved'))) ORDER BY scope,rule", scoped_args):
+            alarms.setdefault(item['scope'], []).append({key: item[key] for key in
+                ('rule', 'active', 'incident', 'occurrences', 'case_id', 'erp_status')})
+        commands = {}
+        for item in db.execute(f"SELECT * FROM commands WHERE {scoped} AND state IN ('requested','accepted') ORDER BY scope,id", scoped_args):
+            body = json.loads(item['body'])
+            commands.setdefault(item['scope'], []).append({
+                'id': item['id'], 'state': item['state'], 'actor': item['actor'],
+                'command': body.get('command'), 'expires': item['expires'],
+            })
+
+        changes = []
+        for asset_id in sorted(before_assets.keys() | after_assets.keys()):
+            before, after = before_assets.get(asset_id), after_assets.get(asset_id)
+            if before == after:
+                continue
+            change_type = 'added' if before is None else 'removed' if after is None else 'changed'
+            value_changes = [] if change_type != 'changed' else self._value_changes(before, after)
+            reference = after or before
+            categories = self._change_categories(change_type, value_changes, reference)
+            scope = self.scope(package['city'], package['environment'], asset_id)
+            records = {
+                'installations': installations.get(scope, []),
+                'evidence': evidence.get(scope, []),
+                'open_alarms_or_cases': alarms.get(scope, []),
+                'pending_commands': commands.get(scope, []),
+            }
+            changes.append({
+                'asset_id': asset_id, 'name': reference.get('name', asset_id),
+                'change_type': change_type,
+                'before_sha256': digest(before) if before else None,
+                'after_sha256': digest(after) if after else None,
+                'changed_values': value_changes,
+                'categories': categories,
+                'dependencies': self._dependencies(before, after),
+                'affected_records': records,
+                'required_reviews': self._review_steps(change_type, categories, records),
+            })
+
+        package_changes = self._value_changes(
+            {k: v for k, v in (baseline or {}).items() if k not in ('sha256', 'equipment')},
+            {k: v for k, v in package.items() if k not in ('sha256', 'equipment')})
+        summary = {
+            'added': sum(c['change_type'] == 'added' for c in changes),
+            'changed': sum(c['change_type'] == 'changed' for c in changes),
+            'removed': sum(c['change_type'] == 'removed' for c in changes),
+            'unchanged': len(before_assets.keys() & after_assets.keys()) - sum(c['change_type'] == 'changed' for c in changes),
+            'package_values_changed': len(package_changes),
+            'installed_serials_affected': sum(len(c['affected_records']['installations']) for c in changes),
+            'evidence_records_requiring_review': sum(len(c['affected_records']['evidence']) for c in changes),
+            'open_alarms_or_cases': sum(len(c['affected_records']['open_alarms_or_cases']) for c in changes),
+            'pending_commands': sum(len(c['affected_records']['pending_commands']) for c in changes),
+        }
+        blockers = []
+        if baseline and package['environment'] == 'physical':
+            blockers.append('Physical mapping changes require a separately commissioned migration.')
+        for change in changes:
+            if any(row['path'] == 'component_type_id' for row in change['changed_values']):
+                blockers.append(f"{change['asset_id']}: component substitution requires explicit replacement.")
+            if change['change_type'] == 'removed' and any(not row['removed'] for row in change['affected_records']['installations']):
+                blockers.append(f"{change['asset_id']}: installed serial requires recorded removal or replacement.")
+            if change['change_type'] == 'changed' and 'command-boundary' in change['categories'] and change['affected_records']['pending_commands']:
+                blockers.append(f"{change['asset_id']}: command contract cannot change while requests are pending.")
+        status = 'initial-installation' if baseline is None else 'no-change' if not changes and not package_changes else 'review-required'
+        review = {
+            'schema': 'osr-supervisory-change-review/1',
+            'city': package['city'], 'environment': package['environment'],
+            'status': status,
+            'baseline_sha256': row['hash'] if row else None,
+            'proposed_sha256': package['sha256'],
+            'baseline_engineering_revision': baseline.get('engineering_revision') if baseline else None,
+            'proposed_engineering_revision': package['engineering_revision'],
+            'summary': summary, 'package_changes': package_changes, 'equipment_changes': changes,
+            'application': {'automatic_apply_permitted': not blockers, 'blockers': blockers},
+            'scope_isolation': {'target': f"{package['city']}|{package['environment']}",
+                                'other_city_environments_mutated': False},
+            'authority': 'Preview only: the accepted baseline, append-only evidence and other city/environment scopes are unchanged; review is not engineering or railway approval.',
+        }
+        review['sha256'] = digest(review)
+        return review
+
+    def package_review(self, package):
+        """Compare a proposal with the live baseline without changing either."""
+        validate_package(package)
+        with self.connect() as db:
+            return self._package_review(db, package)
+
+    def apply(self, package, actor, expected=None, review_sha256=None):
         validate_package(package)
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
@@ -74,8 +292,11 @@ class Store:
                 return {'created': False, 'sha256': package['sha256']}
             if existing and expected != existing['hash']:
                 raise ValueError('Configuration changed: review diff and provide expected previous hash')
-            if existing and package['environment'] == 'physical':
-                raise ValueError('Physical mapping changes require a separate commissioned migration; no automatic overwrite')
+            review = self._package_review(db, package) if existing else None
+            if existing and (not isinstance(review_sha256, str) or not hmac.compare_digest(review_sha256, review['sha256'])):
+                raise ValueError('Package or affected lifecycle records changed after review; preview again')
+            if review and review['application']['blockers']:
+                raise ValueError('Automatic apply blocked: ' + ' '.join(review['application']['blockers']))
             # Identity rows survive package revisions. Removed positions stay as history.
             package_scopes = {self.scope(a['city'], a['environment'], a['asset_id']) for a in package['equipment']}
             configured = db.execute('SELECT scope,configuration_status FROM assets WHERE city=? AND environment=?',
@@ -100,8 +321,11 @@ class Store:
                     self.audit(db, actor, 'asset-reactivated', scope, {'package': package['sha256']})
             db.execute('INSERT INTO packages VALUES(?,?,?,?,?,?) ON CONFLICT(hash) DO UPDATE SET actor=excluded.actor,created=excluded.created',
                        (package['sha256'], package['city'], package['environment'], json.dumps(package), actor, time.time()))
-            self.audit(db, actor, 'package-applied', package['city'], {'sha256': package['sha256'], 'previous': expected})
-            return {'created': True, 'sha256': package['sha256'], 'equipment': len(package['equipment'])}
+            self.audit(db, actor, 'package-applied', package['city'], {
+                'sha256': package['sha256'], 'previous': expected,
+                'review_sha256': review['sha256'] if review else None})
+            return {'created': True, 'sha256': package['sha256'], 'equipment': len(package['equipment']),
+                    'review_sha256': review['sha256'] if review else None}
 
     def asset(self, db, scope):
         row = db.execute('SELECT body,state,configuration_status FROM assets WHERE scope=?', (scope,)).fetchone()
