@@ -33,6 +33,14 @@ ERPNext's **Work Order** means manufacturing production. Routine maintenance
 uses **Asset Maintenance / Asset Repair**, not a manufacturing Work Order.
 Frappe HR is a separate app; installing ERPNext alone does not supply payroll.
 
+Condition maintenance now joins those native records without replacing them.
+The supervisory gateway deduplicates a condition into an Issue. A maintainer with
+native permissions can preview and create an Asset Repair from that Issue, including
+part requirements, a native technician assignment, expected downtime and links to
+the existing condition/configuration evidence. The repair is deliberately a draft;
+ERPNext owns completion, stock consumption, serial/batch selection, costs and actual
+downtime. OSR continues to own inspection, restrictions and railway handback.
+
 ## Local installation
 
 Requires Docker Engine with Compose and Buildx. The local composition binds

@@ -16,6 +16,9 @@ and renewal while each service retains its own permissions and authority.
   auxiliary power, HVAC and condition monitoring.
 - Durable, ordered and idempotent condition-event delivery to ERP maintenance
   Issues, plus case-status reconciliation without automatic railway release.
+- A reviewed, repeat-safe Issue-to-Asset-Repair transition with native part/stock
+  consumption, technician assignment, expected/actual downtime, linked condition
+  and serial evidence, permission-filtered feedback and no automatic handback.
 - City-scoped Workbench navigation, trends, alarms, serial/batch history,
   lifecycle evidence and bounded simulation-only lighting requests.
 - Revision-safe supervisory updates: removed equipment is retained as retired
@@ -28,7 +31,8 @@ and renewal while each service retains its own permissions and authority.
   distinguishes on-demand task payloads from operator/commissioning inputs.
 - A disposable native-stack CI gate covering ERP transactions and feedback,
   FUXA/gateway/controller behaviour, Workbench navigation and service
-  outage/recovery, alongside version-pinned Kani proofs.
+  outage/recovery, condition-to-repair execution, retained removed-serial history
+  and independent replacement re-release, alongside version-pinned Kani proofs.
 
 ## Boundary
 

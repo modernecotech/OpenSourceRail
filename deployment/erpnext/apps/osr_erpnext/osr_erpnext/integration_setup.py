@@ -18,6 +18,21 @@ def install():
             ('condition', 'OSR observed condition', 'Data', {'read_only': 1}),
             ('condition_history', 'OSR condition events', 'Code', {'options': 'JSON', 'read_only': 1}),
             ('evidence_path', 'OSR evidence and trends', 'Data', {'read_only': 1})]]
+    fields['Asset Repair'] = [dict(fieldname='custom_osr_' + name, label=label, fieldtype=kind,
+        no_copy=1, **extras) for name, label, kind, extras in [
+            ('repair_key', 'OSR repair identity', 'Data', {'unique': 1, 'read_only': 1}),
+            ('repair_sha256', 'OSR reviewed repair checksum', 'Data', {'read_only': 1}),
+            ('repair_request', 'OSR reviewed repair request', 'Code', {'options': 'JSON', 'read_only': 1}),
+            ('issue', 'Originating OSR Issue', 'Link', {'options': 'Issue', 'read_only': 1}),
+            ('environment', 'OSR environment', 'Data', {'read_only': 1}),
+            ('city', 'OSR city', 'Data', {'read_only': 1}),
+            ('asset_id', 'OSR railway asset ID', 'Data', {'read_only': 1}),
+            ('expected_downtime_hours', 'Expected downtime (hours)', 'Float', {}),
+            ('configuration_evidence', 'OSR condition and configuration evidence', 'Code',
+                {'options': 'JSON', 'read_only': 1}),
+            ('handback_required', 'Independent railway handback required', 'Check',
+                {'default': '1', 'read_only': 1}),
+        ]]
     create_custom_fields(fields)
     if not frappe.db.exists('DocType', 'OSR Execution Mapping'):
         frappe.get_doc(dict(doctype='DocType', name='OSR Execution Mapping', module='OpenSourceRail', custom=1,

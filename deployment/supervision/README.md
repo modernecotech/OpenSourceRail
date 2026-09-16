@@ -93,6 +93,10 @@ supplied before physical activation. No railway or protection command is exposed
   after case closure starts a new incident. Acknowledgement is immutable for one
   occurrence; a fresh activation resets it, and a stale browser cannot
   accidentally acknowledge the newer occurrence. Acknowledgement is separate.
+- A linked commissioned ERP Asset allows a permission-checked maintainer to preview
+  parts, city-store availability, technician and expected downtime, then create one
+  draft native Asset Repair. ERP completion/stock consumption feeds back to the
+  project, but does not close the Issue or alter railway handback state.
 - Outbox events persist across restarts, retry with bounded backoff and preserve
   per-incident order. ERP's unique incident key and event hashes protect against
   duplicate requests and lost replies. Reconciliation reads native case status.
@@ -101,8 +105,9 @@ supplied before physical activation. No railway or protection command is exposed
   recorded separately. The pilot supports simulated facility lighting only. The
   controller checks local enable and bounds; expired requests are never replayed.
 - Engineering and commissioning rehearsals are append-only evidence records.
-  Installation replacement keeps the old serial/batch history; `/affected` supports
-  batch/serial lookup. Physical release cannot be granted through this API.
+  The native-stack rehearsal replaces the pilot charger serial, proves the removed
+  serial remains queryable through `/affected`, and requires a new independent test
+  and release. Physical release cannot be granted through this API.
 
 The independent existing OSR assurance records are displayed by Workbench using
 its existing authenticated city access. No integration event changes them.

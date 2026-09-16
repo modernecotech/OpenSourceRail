@@ -68,7 +68,10 @@ the exact linked ERP project and its **OpenSourceRail → Operating components**
 Native FUXA offers its own city/display selector.
 
 Business and maintenance-case links open inside the shell. ERP Project and Issue
-**Connected lifecycle** buttons return to it. Direct tool links remain available
+**Connected lifecycle** buttons return to it. A linked condition Issue also offers
+**Prepare repair**: a native ERP review of Asset, parts/availability, technician and
+expected downtime followed by a draft Asset Repair. Its completion remains separate
+from the Workbench's railway inspection and handback evidence. Direct tool links remain available
 for a separate window. URL context includes an optional `environment` for
 simulation/physical asset inspection, independent of railway control mode.
 

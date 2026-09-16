@@ -18,7 +18,7 @@ versioned engineering evidence and native ERP transactions.
 | Bonsai / IFC | Existing IFC GlobalIds retained; checksum-bound sidecar maps the reference model to city positions |
 | QGIS | Existing GeoPackage/layer evidence and original station feature IDs map to the same position |
 | Other engineering tools | Versioned evidence manifests for SUMO, OSR analysis, OpenSees, EnergyPlus, FDS, SWMM, JuPedSim, CloudCompare, Blender and verification outputs |
-| ERPNext | Reviewed Item/BOM mapping, partial delivery/outstanding quantities, currency-separated commitments/invoices, native manufacturing actuals and condition-driven Issues |
+| ERPNext | Reviewed Item/BOM mapping, partial delivery/outstanding quantities, currency-separated commitments/invoices, native manufacturing actuals, condition-driven Issues and reviewed native Asset Repairs |
 | FUXA | Generated station screens for charger, battery, PV and facilities, including quality, timestamp and native gateway status |
 | OSR assurance | Existing works/inspection/handback/defect records shown alongside the asset; independent authority retained |
 
@@ -98,10 +98,23 @@ purchase is presented as real city progress.
 
 ## Maintenance and configuration feedback
 
-The simulation demonstrates fault → FUXA alarm → one ERP Issue → case status in
-OSR. The Issue links back to evidence/trends, and its native project is retained.
-Inspections, restrictions and handback continue in OSR. A closing Issue does not
-clear a controller alarm or grant operational release.
+The simulation demonstrates fault → FUXA alarm → one ERP Issue → reviewed native
+Asset Repair → part consumption, actual downtime and repair feedback. The Issue
+links back to evidence/trends, and its native project is retained. From the Issue,
+**Prepare repair** previews the commissioned Asset, technician, expected downtime,
+part warehouse availability and optional serial/batch bundle. Applying the review
+creates a draft Asset Repair plus native assignment, without submitting it or
+closing the case. The repair preserves a checksum-bound request, condition-event
+history and references to the existing OSR configuration/serial evidence.
+
+The native acceptance test closes the Issue while its Asset remains out of order,
+then completes the repair, consumes a stocked part through ERPNext and confirms
+feedback still reports `required-in-osr`. The supervision rehearsal replaces
+`SIM-CHARGER-001` with `SIM-CHARGER-002`, retains the removed serial in affected-
+asset search, and requires a fresh independent commissioning test/release before
+maintenance evidence. Inspections, restrictions and handback continue in OSR: an
+Issue closure, alarm clearance or completed Asset Repair grants no operational
+release.
 
 Installation/serial/batch records and replacement history support affected-assets
 queries. Simulation evidence can rehearse as-designed, released-for-execution,
@@ -127,7 +140,7 @@ need the actual supplier interfaces and deployed broker configuration. No new
 broker or Node-RED installation is needed for this HTTP pilot.
 
 The later commercial, fare settlement, land agreements, supplier localisation,
-repair-pool and contractor valuation proposals require their own reviewed rules
+multi-location repair-pool and contractor valuation proposals require their own reviewed rules
 and real master data. This implementation establishes their stable identities and
 execution evidence; it does not claim those domain workflows are complete.
 

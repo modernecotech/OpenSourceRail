@@ -32,6 +32,12 @@ schemas and native validation.
    missing dates are not classified as late. Counts overlap. The existing
    five-minute feedback timer refreshes these checks without assigning staff
    or sending notifications. ERP uses its configured site date for lateness.
+4. **Condition Issue → reviewed Asset Repair.** An Issue linked to a commissioned
+   Asset now previews the native repair, parts and city-store availability,
+   technician assignment and expected downtime. Apply is repeat-safe and creates
+   only a draft; native submission owns part consumption and actual repair data.
+   Feedback returns repair/part/assignment/evidence state while always marking
+   railway handback as external and still required.
 
 These additions work for every applied city baseline without changing its
 engineering/configuration checksum. Native operator transactions sit alongside
@@ -49,7 +55,7 @@ functions, rather than claims that all integrations are already enabled.
 | Inventory: Item Reorder, Warehouse, Stock Entry, Serial No, Batch | Maintain depot spare levels; use native automatic reordering; associate serialised parts and batches with receipt/installation evidence | City stores, stock opening balances, replenishment levels and quantities, traceability policy | Next, after the Item catalogue |
 | Manufacturing: BOM, Operation, Workstation, Production Plan, Work Order, Job Card, Subcontracting Order | Convert approved production recipes into Work Orders and Job Cards; feed material consumption and actual production time back to the twin | Verified multi-level BOMs, output Items, operations, workstations, capacities and calendars | Next, one representative assembly first |
 | Quality: Quality Inspection Template/Inspection, Quality Procedure, Goal, Review, Action | Require incoming/in-process inspections on native stock/production documents; carry batch/serial and rejected-material references into OSR evidence | Test methods, tolerances, sampling, qualified inspectors and real receipt/job-card references | Next, with procurement and production |
-| Assets: Asset, Maintenance Team, Maintenance, Maintenance Log, Repair, Movement | Map commissioned assets; generate native scheduled maintenance logs and track repair costs/movements | Real asset identities, commissioning dates, approved intervals, service teams and accounting treatment | Next, commissioned pilot assets first |
+| Assets: Asset, Maintenance Team, Maintenance, Maintenance Log, Repair, Movement | Map commissioned assets; generate native scheduled maintenance logs; convert condition Issues into reviewed Repairs with part/assignment feedback; track repair costs/movements | Real asset identities, commissioning dates, approved intervals, service teams and accounting treatment | **Now:** calendar servicing and condition-repair transition installed; movement/repair-pool commissioning next |
 | Finance: Budget, Cost Center, Timesheet, Expense Claim, Payment Entry, Bank Transaction | Apply native project/account budget controls; collect labour costs and expenses; reconcile commitments and actuals | Fiscal year, account mappings, approved budgets, currency, costing rates and access controls | Now: project Budget visibility; budget commissioning next |
 | People: Staffing Plan, Job Requisition, Job Opening, Onboarding, Training Program/Event/Result, Employee Skill Map, Shift Type/Assignment | Derive role-demand and training proposals from task roles; use native recruitment, onboarding and training workflows; compare available skills to work demand | Actual establishment, named employees, competent assessors, training outcomes and agreed calendars | Next: training/role templates; staff assignment after validation |
 | Service: Issue, SLA, Warranty Claim, Maintenance Schedule/Visit | Track facility defects, supplier warranty cases and contracted service response; link tickets to city/project/asset references | Service providers, contract terms, priority rules, response hours and authorised communication channels | After assets and supplier contracts |
@@ -62,8 +68,9 @@ functions, rather than claims that all integrations are already enabled.
   Work Order. Scope descriptions and quantity-basis strings need verified units
   and executable recipes before they become stock transactions.
 - OSR maintenance triggers include calendar, mileage and condition logic. Native
-  calendar maintenance is useful; kilometre/condition triggers need an explicit
-  adapter to OSR telemetry, deduplication and approved maintenance rules.
+  calendar maintenance and the condition-Issue-to-Repair transition are installed.
+  Mileage/cycle thresholds and deployment-specific approved maintenance rules
+  remain to be commissioned with trustworthy meter/reset data.
 - ERP inspection acceptance, training completion and asset status do not grant
   railway competence, signalling authority, safety-case acceptance or handback.
 - The city CAPEX estimate is a planning reference, not an approved ERP Budget.
@@ -99,6 +106,12 @@ state through the existing city/revision-linked twin.
   Quantity is explicit, finite and positive; required date cannot be in the past.
 - GET `osr_erpnext.city_runtime.city_status`: adds `readiness` and extends
   `business_documents`. Existing snapshot fields remain compatible.
+- POST `osr_erpnext.integration.preview_repair`: parameters `issue`, `proposal`;
+  validates the linked city Asset, technician, Items/warehouses, optional serial/
+  batch bundles and availability without writing.
+- POST `osr_erpnext.integration.apply_repair`: adds the preview fingerprint and
+  creates or returns the repeat-safe draft Asset Repair and native assignment.
+  It does not submit, close the Issue or authorise handback.
 
 A request identity is unique per project, procurement task and source requirement.
 The database unique constraint prevents concurrent duplicates; a competing call

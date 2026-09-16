@@ -1,5 +1,6 @@
 """Scoped condition-event ingress and permission-filtered execution feedback."""
 import json
+import math
 from collections import defaultdict
 from html import escape
 
@@ -29,7 +30,9 @@ def condition_event(event):
     if event['condition'] not in ('active', 'cleared') or type(event['occurrence']) is not int or event['occurrence'] < 1:
         frappe.throw('Invalid condition occurrence')
     if event.get('erp_asset_id'):
-        asset = frappe.get_doc('Asset', event['erp_asset_id']); asset.check_permission('read')
+        # The narrowly scoped gateway account need not receive broad Asset-module
+        # access merely to attach an already reviewed identity to its event.
+        asset = frappe.get_doc('Asset', event['erp_asset_id'])
         if asset.company != event['company'] or asset.custom_osr_asset_id != event['asset_id']:
             frappe.throw('ERP Asset identity does not match condition event')
     key = digest([event['company'], event['city'], event['environment'], event['asset_id'], event['rule'], event['incident_id']])
@@ -69,6 +72,169 @@ def case_status(issue):
     return {'issue': doc.name, 'status': doc.status, 'condition': doc.custom_osr_condition, 'assignments': doc.get('_assign')}
 
 
+def _normalise_repair_proposal(proposal):
+    proposal = frappe.parse_json(proposal)
+    required = {'schema', 'key', 'failure_date', 'expected_downtime_hours', 'technician',
+                'description', 'parts', 'evidence_references'}
+    if not isinstance(proposal, dict) or set(proposal) != required or proposal.get('schema') != 'osr-condition-repair/1':
+        frappe.throw('Invalid condition repair proposal')
+    from osr_erpnext.component_catalogue import instance_key
+    key = instance_key(proposal['key'])
+    if not isinstance(proposal['failure_date'], str) or not proposal['failure_date'].strip():
+        frappe.throw('Repair failure date is required')
+    try:
+        failure_date = str(frappe.utils.get_datetime(proposal['failure_date']))
+        downtime = float(proposal['expected_downtime_hours'])
+    except (TypeError, ValueError):
+        frappe.throw('Invalid repair date or expected downtime')
+    if not math.isfinite(downtime) or downtime <= 0 or downtime > 8760:
+        frappe.throw('Expected downtime must be more than zero and no more than one year')
+    if not isinstance(proposal['description'], str) or not proposal['description'].strip() or len(proposal['description']) > 10000:
+        frappe.throw('Repair description is required and must not exceed 10,000 characters')
+    if not isinstance(proposal['technician'], str) or not proposal['technician'].strip():
+        frappe.throw('A technician is required')
+    references = proposal['evidence_references']
+    if (not isinstance(references, list) or len(references) > 100 or
+            any(not isinstance(row, str) or not row.strip() or len(row) > 500 for row in references)):
+        frappe.throw('Evidence references must be a list of up to 100 non-empty references')
+    parts = proposal['parts']
+    if not isinstance(parts, list) or len(parts) > 100:
+        frappe.throw('Repair parts must be a list of no more than 100 rows')
+    cleaned_parts = []
+    for row in parts:
+        allowed = {'item', 'warehouse', 'quantity', 'serial_and_batch_bundle'}
+        if not isinstance(row, dict) or not {'item', 'warehouse', 'quantity'} <= set(row) or set(row) - allowed:
+            frappe.throw('Invalid repair part row')
+        try:
+            quantity = float(row['quantity'])
+        except (TypeError, ValueError):
+            frappe.throw('Repair part quantity must be a number')
+        if not math.isfinite(quantity) or quantity <= 0 or quantity > 1e12:
+            frappe.throw('Repair part quantity must be finite and positive')
+        cleaned_parts.append(dict(item=str(row['item']), warehouse=str(row['warehouse']), quantity=quantity,
+            **({'serial_and_batch_bundle': str(row['serial_and_batch_bundle'])}
+               if row.get('serial_and_batch_bundle') else {})))
+    return dict(schema=proposal['schema'], key=key, failure_date=failure_date,
+        expected_downtime_hours=downtime, technician=proposal['technician'].strip(),
+        description=proposal['description'].strip(), parts=cleaned_parts,
+        evidence_references=[row.strip() for row in references])
+
+
+def _repair_identity(issue, proposal):
+    return digest([issue.name, proposal['key']])
+
+
+def _prepare_repair(issue_name, proposal):
+    proposal = _normalise_repair_proposal(proposal)
+    issue = frappe.get_doc('Issue', issue_name); issue.check_permission('write')
+    if not issue.project or not issue.custom_osr_incident_key or not issue.custom_osr_erp_asset:
+        frappe.throw('Issue must be a condition case linked to a city project and ERP Asset')
+    if issue.status in {'Closed', 'Resolved'}:
+        frappe.throw('Reopen the Issue before preparing a repair')
+    project = frappe.get_doc('Project', issue.project); project.check_permission('read')
+    asset = frappe.get_doc('Asset', issue.custom_osr_erp_asset); asset.check_permission('read')
+    if (asset.docstatus != 1 or asset.status in {'Sold', 'Scrapped', 'Capitalized'} or
+            asset.company != project.company or asset.custom_osr_asset_id != issue.custom_osr_asset_id or
+            project.custom_osr_city != issue.custom_osr_city):
+        frappe.throw('Issue, project and commissioned Asset identities do not match')
+    frappe.has_permission('Asset Repair', 'create', throw=True)
+    from osr_erpnext.components import read, user, warehouse
+    technician = user(proposal['technician'], project)
+    stock_items, availability = [], []
+    for row in proposal['parts']:
+        item = read('Item', row['item'], project)
+        if not item.is_stock_item:
+            frappe.throw('Repair consumption requires stock Items')
+        store = warehouse(row['warehouse'], project)
+        bin_values = frappe.db.get_value('Bin', {'item_code': item.name, 'warehouse': store},
+            ['actual_qty', 'valuation_rate'], as_dict=True) or frappe._dict(actual_qty=0, valuation_rate=0)
+        bundle_name = row.get('serial_and_batch_bundle')
+        if bundle_name:
+            bundle = read('Serial and Batch Bundle', bundle_name, project)
+            if (bundle.item_code != item.name or bundle.company != project.company or
+                    bundle.warehouse not in (None, '', store) or bundle.is_cancelled or
+                    bundle.type_of_transaction != 'Outward' or bundle.voucher_no):
+                frappe.throw('Serial/batch selection does not match the repair Item and warehouse')
+        stock_items.append(dict(item_code=item.name, warehouse=store,
+            consumed_quantity=row['quantity'], valuation_rate=bin_values.valuation_rate or 0,
+            serial_and_batch_bundle=bundle_name))
+        availability.append(dict(item=item.name, warehouse=store, required_qty=row['quantity'],
+            available_qty=bin_values.actual_qty or 0,
+            shortage_qty=max(0, row['quantity'] - (bin_values.actual_qty or 0))))
+    references = list(proposal['evidence_references'])
+    if issue.custom_osr_evidence_path and issue.custom_osr_evidence_path not in references:
+        references.append(issue.custom_osr_evidence_path)
+    evidence = dict(issue=issue.name, incident=issue.custom_osr_incident_key,
+        observed_condition=issue.custom_osr_condition,
+        condition_history=frappe.parse_json(issue.custom_osr_condition_history or '[]'),
+        references=references, serial_history_authority=issue.custom_osr_evidence_path)
+    request_json = json.dumps(proposal, sort_keys=True, separators=(',', ':'))
+    identity = _repair_identity(issue, proposal)
+    document = dict(doctype='Asset Repair', asset=asset.name, company=project.company,
+        project=project.name, failure_date=proposal['failure_date'], repair_status='Pending',
+        description='<p>' + escape(proposal['description']).replace('\n', '<br>') + '</p>',
+        stock_consumption=bool(stock_items), stock_items=stock_items,
+        custom_osr_repair_key=identity, custom_osr_repair_request=request_json,
+        custom_osr_issue=issue.name, custom_osr_environment=issue.custom_osr_environment,
+        custom_osr_city=issue.custom_osr_city, custom_osr_asset_id=issue.custom_osr_asset_id,
+        custom_osr_expected_downtime_hours=proposal['expected_downtime_hours'],
+        custom_osr_configuration_evidence=json.dumps(evidence, sort_keys=True),
+        custom_osr_handback_required=1)
+    fingerprint = digest(dict(request=proposal, issue_modified=str(issue.modified),
+        asset=asset.name, asset_item=asset.item_code, project=project.name,
+        technician=technician, document=document, availability=availability))
+    document['custom_osr_repair_sha256'] = fingerprint
+    return dict(issue=issue, project=project, asset=asset, proposal=proposal,
+        identity=identity, fingerprint=fingerprint, technician=technician,
+        document=document, availability=availability)
+
+
+@frappe.whitelist(methods=['POST'])
+def preview_repair(issue, proposal):
+    """Review a condition case transition without creating or submitting repair work."""
+    plan = _prepare_repair(issue, proposal)
+    return dict(issue=plan['issue'].name, project=plan['project'].name,
+        fingerprint=plan['fingerprint'], document=plan['document'],
+        availability=plan['availability'], automatic_submission=False,
+        automatic_issue_closure=False, automatic_handback=False)
+
+
+@frappe.whitelist(methods=['POST'])
+def apply_repair(issue, proposal, fingerprint):
+    """Create one review-bound draft Asset Repair and native technician assignment."""
+    normalised = _normalise_repair_proposal(proposal)
+    source_issue = frappe.get_doc('Issue', issue); source_issue.check_permission('write')
+    identity = _repair_identity(source_issue, normalised)
+    frappe.db.get_value('Issue', source_issue.name, 'name', for_update=True)
+    existing = frappe.db.get_value('Asset Repair', {'custom_osr_repair_key': identity}, 'name')
+    request_json = json.dumps(normalised, sort_keys=True, separators=(',', ':'))
+    if existing:
+        record = frappe.get_doc('Asset Repair', existing); record.check_permission('read')
+        if record.custom_osr_repair_request != request_json or record.custom_osr_repair_sha256 != fingerprint:
+            frappe.throw('This Issue repair already exists with different reviewed inputs')
+        return dict(doctype=record.doctype, name=record.name, created=False,
+            automatic_submission=False, automatic_issue_closure=False, automatic_handback=False)
+    plan = _prepare_repair(issue, normalised)
+    if plan['fingerprint'] != fingerprint:
+        frappe.throw('Issue, Asset, stock or repair inputs changed after preview. Preview again.')
+    record = frappe.get_doc(plan['document']).insert()
+    from frappe.desk.form.assign_to import add
+    add(dict(assign_to=[plan['technician']], doctype=record.doctype, name=record.name,
+        description='Condition-driven repair for ' + source_issue.name))
+    source_issue.add_comment('Info', 'Reviewed Asset Repair {0} created; railway handback remains independent.'.format(record.name))
+    return dict(doctype=record.doctype, name=record.name, created=True,
+        automatic_submission=False, automatic_issue_closure=False, automatic_handback=False)
+
+
+@frappe.whitelist(methods=['GET'])
+def repairs_for_issue(issue):
+    source = frappe.get_doc('Issue', issue); source.check_permission('read')
+    if not frappe.has_permission('Asset Repair', 'read'):
+        return []
+    return frappe.get_list('Asset Repair', filters={'custom_osr_issue': source.name, 'docstatus': ['!=', 2]},
+        fields=['name', 'repair_status', 'docstatus', 'modified'], order_by='modified desc', limit_page_length=0)
+
+
 def execution_feedback(project):
     """Actual transaction lines, keeping quantities, currency and release separate."""
     p = frappe.get_doc('Project', project); p.check_permission('read')
@@ -79,6 +245,26 @@ def execution_feedback(project):
         if not frappe.has_permission(dt, 'read'):
             result['visibility'][dt] = 'permission-denied'; continue
         meta = frappe.get_meta(dt)
+        if dt == 'Asset Repair':
+            result['visibility'][dt] = 'visible-to-current-user'
+            names = frappe.get_list(dt, filters={'company': p.company, 'project': project,
+                'docstatus': ['!=', 2]}, fields=['name'], limit_page_length=0)
+            for row in names:
+                doc = frappe.get_doc(dt, row.name); doc.check_permission('read')
+                result[output].append(dict(name=doc.name, issue=doc.custom_osr_issue,
+                    asset=doc.asset, osr_asset_id=doc.custom_osr_asset_id,
+                    status=doc.repair_status, docstatus=doc.docstatus,
+                    failure_date=str(doc.failure_date or ''), completion_date=str(doc.completion_date or ''),
+                    expected_downtime_hours=doc.custom_osr_expected_downtime_hours,
+                    actual_downtime=doc.downtime, total_repair_cost=doc.total_repair_cost,
+                    assignments=frappe.parse_json(doc.get('_assign') or '[]'),
+                    parts=[dict(item=item.item_code, warehouse=item.warehouse,
+                        consumed_qty=item.consumed_quantity, valuation_rate=item.valuation_rate,
+                        serial_and_batch_bundle=item.serial_and_batch_bundle) for item in doc.stock_items],
+                    configuration_evidence=frappe.parse_json(doc.custom_osr_configuration_evidence or '{}'),
+                    railway_handback_authorised=False,
+                    railway_handback='required-in-osr' if doc.custom_osr_handback_required else 'invalid'))
+            continue
         child = meta.get_field('items')
         filters = [[dt, 'company', '=', p.company], [dt, 'docstatus', '=', 1]]
         names_by_id = {}
@@ -179,6 +365,38 @@ def validate_execution_mapping(doc, method=None):
     previous = doc.get_doc_before_save()
     if previous and any(doc.get(field) != previous.get(field) for field in ['mapping_key', 'company', 'city', 'component_type', 'engineering_revision', 'engineering_sha256', 'erp_item', 'source_package']):
         frappe.throw('Execution mappings are immutable; create a reviewed new engineering revision')
+
+
+def validate_condition_repair(doc, method=None):
+    """Protect Issue/asset provenance while leaving native repair execution editable."""
+    if not doc.get('custom_osr_repair_key'):
+        return
+    if not doc.custom_osr_handback_required:
+        frappe.throw('OSR condition repairs always require independent railway handback')
+    issue = frappe.get_doc('Issue', doc.custom_osr_issue)
+    project = frappe.get_doc('Project', issue.project)
+    asset = frappe.get_doc('Asset', issue.custom_osr_erp_asset)
+    if (doc.asset != asset.name or doc.project != project.name or doc.company != project.company or
+            doc.custom_osr_city != issue.custom_osr_city or
+            doc.custom_osr_environment != issue.custom_osr_environment or
+            doc.custom_osr_asset_id != issue.custom_osr_asset_id):
+        frappe.throw('OSR repair provenance no longer matches its Issue, project and Asset')
+    try:
+        request = frappe.parse_json(doc.custom_osr_repair_request)
+        if not isinstance(request, dict) or request.get('schema') != 'osr-condition-repair/1':
+            raise ValueError
+        frappe.parse_json(doc.custom_osr_configuration_evidence)
+        expected = float(doc.custom_osr_expected_downtime_hours)
+        if not math.isfinite(expected) or expected <= 0 or expected > 8760:
+            raise ValueError
+    except (AttributeError, TypeError, ValueError):
+        frappe.throw('OSR repair provenance is invalid')
+    previous = doc.get_doc_before_save()
+    immutable = ['custom_osr_repair_key', 'custom_osr_repair_sha256', 'custom_osr_repair_request',
+        'custom_osr_issue', 'custom_osr_environment', 'custom_osr_city', 'custom_osr_asset_id',
+        'custom_osr_configuration_evidence', 'asset', 'company', 'project']
+    if previous and any(doc.get(field) != previous.get(field) for field in immutable):
+        frappe.throw('OSR repair provenance is immutable; create a separately reviewed repair')
 
 
 def provision_service(path, output):

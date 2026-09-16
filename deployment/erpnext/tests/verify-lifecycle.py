@@ -4,7 +4,8 @@ from datetime import date,timedelta
 import frappe
 os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site='osr.localhost');frappe.connect()
 frappe.flags.mute_emails=True
-from osr_erpnext.integration import condition_event,execution_feedback,preview_execution,apply_execution
+from osr_erpnext.integration import (condition_event,execution_feedback,preview_execution,apply_execution,
+    preview_repair,apply_repair,repairs_for_issue)
 suffix=uuid.uuid4().hex[:8]
 project=frappe.get_doc('Project','PROJ-0001');company=project.company
 store=frappe.db.get_value('Warehouse',{'warehouse_name':'OSR samawah Main Stores'},'name')
@@ -47,12 +48,53 @@ try:
     work.reload();assert work.produced_qty==1
     assert any(r['name']==work.name and r['produced_qty']==1 for r in execution_feedback(project.name)['production'])
     print('PASS reviewed item/BOM mapping, partial delivery, outstanding quantity, native manufacture and actuals',flush=True)
+    fixed=frappe.db.get_value('Account',{'company':company,'is_group':0,'account_type':'Fixed Asset'},'name')
+    category=insert('Asset Category',asset_category_name='OSR lifecycle assets '+suffix,
+        accounts=[dict(company_name=company,fixed_asset_account=fixed)])
+    assetitem=insert('Item',item_code='OSR-LIFE-ASSET-'+suffix,item_name='Lifecycle asset',item_group=group,
+        stock_uom='Nos',is_stock_item=0,is_fixed_asset=1,asset_category=category.name)
+    location=insert('Location',location_name='OSR lifecycle location '+suffix)
+    rail_id='SAM-ST-001:charger:'+suffix
+    yesterday=(date.today()-timedelta(days=1)).isoformat()
+    asset=insert('Asset',company=company,item_code=assetitem.name,asset_name='Lifecycle charger '+suffix,
+        asset_category=category.name,location=location.name,purchase_date=yesterday,
+        available_for_use_date=yesterday,is_existing_asset=1,gross_purchase_amount=1000,
+        calculate_depreciation=0,custom_osr_asset_id=rail_id)
+    asset.submit()
     frappe.set_user('osr-supervision@example.invalid')
-    event=dict(event_id='event-'+suffix,incident_id='incident-'+suffix,city='samawah',environment='simulation',company=company,project=project.name,asset_id='SAM-ST-001:charger',rule='cooling',condition='active',occurrence=1)
+    event=dict(event_id='event-'+suffix,incident_id='incident-'+suffix,city='samawah',environment='simulation',
+        company=company,project=project.name,asset_id=rail_id,erp_asset_id=asset.name,
+        rule='cooling',condition='active',occurrence=1,response='Inspect cooling fan and replace the failed module')
     created=condition_event(event);assert condition_event(event)['issue']==created['issue'];assert condition_event(event)['duplicate']
     for change in [dict(environment='physical'),dict(city='mosul'),dict(project='PROJ-0002')]:
         try: condition_event({**event,**change});raise AssertionError('Cross-scope event accepted')
         except frappe.PermissionError:pass
     print('PASS event duplicate prevention and city/environment authorization',flush=True)
+    frappe.set_user('Administrator')
+    proposal=dict(schema='osr-condition-repair/1',key='primary',
+        failure_date=str(date.today())+' 08:00:00',expected_downtime_hours=2,technician='Administrator',
+        description='Replace the failed cooling module and retain configuration evidence.',
+        parts=[dict(item=raw.name,warehouse=store,quantity=1)],
+        evidence_references=['simulation-fault:'+event['event_id'],'removed-serial:SIM-CHARGER-001'])
+    before=frappe.db.count('Asset Repair');repair_plan=preview_repair(created['issue'],proposal)
+    assert frappe.db.count('Asset Repair')==before and repair_plan['availability'][0]['available_qty']>=1
+    made=apply_repair(created['issue'],proposal,repair_plan['fingerprint']);assert made['created']
+    repair=frappe.get_doc('Asset Repair',made['name'])
+    assert repair.docstatus==0 and repair.repair_status=='Pending' and repair.stock_items[0].consumed_quantity==1
+    assert frappe.db.count('ToDo',{'reference_type':'Asset Repair','reference_name':repair.name,
+        'allocated_to':'Administrator','status':'Open'})==1
+    issue=frappe.get_doc('Issue',created['issue']);issue.status='Closed';issue.save()
+    asset.reload();assert asset.status=='Out of Order' and repair.custom_osr_handback_required
+    repair.actions_performed='Cooling module replaced; OSR inspection and handback still required.'
+    repair.repair_status='Completed';repair.completion_date=str(date.today())+' 10:00:00';repair.save();repair.submit()
+    assert frappe.db.exists('Stock Entry',{'asset_repair':repair.name,'docstatus':1})
+    repeated=apply_repair(created['issue'],proposal,repair_plan['fingerprint'])
+    assert repeated['name']==repair.name and not repeated['created'] and not repeated['automatic_handback']
+    assert repairs_for_issue(created['issue'])[0].name==repair.name
+    repair_feedback=next(r for r in execution_feedback(project.name)['repairs'] if r['name']==repair.name)
+    assert repair_feedback['status']=='Completed' and repair_feedback['parts'][0]['consumed_qty']==1
+    assert repair_feedback['railway_handback']=='required-in-osr' and not repair_feedback['railway_handback_authorised']
+    assert 'removed-serial:SIM-CHARGER-001' in repair_feedback['configuration_evidence']['references']
+    print('PASS reviewed condition repair, part consumption, assignment, evidence and independent handback',flush=True)
 finally:
     frappe.set_user('Administrator');frappe.db.rollback();frappe.destroy()
