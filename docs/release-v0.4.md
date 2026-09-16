@@ -23,6 +23,9 @@ and renewal while each service retains its own permissions and authority.
   later reviewed package can reactivate the stable asset identity.
 - Occurrence-bound alarm acknowledgment, including stale-view rejection and a
   fresh acknowledgment requirement when a cleared condition activates again.
+- A generated catalogue-readiness gate that compiles all 266 ERP/component
+  profiles and real-asset supervision packages, preserves per-city hashes and
+  distinguishes on-demand task payloads from operator/commissioning inputs.
 
 ## Boundary
 

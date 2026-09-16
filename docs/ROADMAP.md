@@ -82,6 +82,14 @@ their machine-readable contracts change.
 The following work remains genuinely open and must not be represented as
 complete merely by adding documentation:
 
+The [operating-readiness audit](operating/readiness.md) removes one formerly
+implicit software gap: all 266 city ERP profiles, component packages and
+real-asset supervision packages now compile against tracked city evidence.
+Only two full ERP task payloads are stored in Git; the other 264 are deterministic
+on-demand outputs. Legal companies, approved calendars, ERP masters, physical
+bindings, supplier interfaces and commissioning remain external inputs rather
+than fabricated defaults.
+
 | Boundary | Remaining evidence | Authoritative register |
 |---|---|---|
 | City and civil design | The 19 reusable IFC types now have exact accountability across six release packages and nine drawing-definition briefs, separating nine civil-owned types from ten controlled track/station/vehicle interfaces. Shared deployment gates cover field receipts, control, surveyed ground/alignment, route fit, SWMM replay, borehole-zoned foundation selection and an independent OSR/SUMO running-time comparison across every pilot line. Real observations, supplier freezes, first articles, junction-conflict evidence, signed studies, per-span calculations and local approvals remain external. | [Civil type/release register](../design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.md), [drawing briefs](../design/component-catalogue/catalog/buildable-civil/factory-drawings/index.md), [Samawah field brief](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md), [alignment](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md), [route fit](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md), [operations cross-check](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md), [drainage/ground](../cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md) and [civil checklist](civil/deployment-release-checklist.md) |
@@ -146,6 +154,7 @@ evidence but cannot close the external release gates above.
 | Custom-board release artifacts | KiCad capture, gerbers, board BOMs, DFM review, and assembly drawings only for deployments that choose OSR-specific carrier, power, safety-I/O, or sensor-interface boards |
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | Workbench context plus onboard, station, intrusion and T2G-to-depot CBM/historian/analytics software-in-loop are implemented; signed live actions, production transports, asset-specific points/crossing/fare-gate harnesses, HIL, and authenticated live GUI paths remain |
+| ERP and supervision integration | All 266 tracked ERP/component profiles and real-asset supervision packages compile through one drift-checked readiness gate; materialise non-pilot task payloads on demand, then supply real company/calendar/ERP masters, physical mappings, permissions, recovery evidence and operator validation |
 | City Studio | Git-backed city projects, source locks, layered offline GIS editing, complete manual line/station/alignment authoring, semantic revision comparison including BCF, OD demand, per-line IFC survey control and revision-locked field-to-structural-release gates, plus controlled engineering jobs, verified viewers and 144-check Playwright browser/restart persistence acceptance (implemented); native tessellated IFC viewing and routed OD assignment with shared section/station loads are now implemented; received field data, capacity-constrained boarding and platform/interchange pedestrian capacity remain |
 | Certification evidence | Tool-backed/assessor-accepted consensus refinement, qualified safety-controller freeze, residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Close the six civil release packages with survey-grade alignments, ground models, supplier data, per-span checks, reinforcement/prestress, first articles and signed deployment releases; close the station packages against surveyed placement and project evidence |

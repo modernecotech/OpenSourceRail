@@ -2,7 +2,7 @@
 """Generate and operate reproducible OSR equipment supervision and lifecycle links."""
 import argparse
 import base64
-import gzip
+import csv
 import hashlib
 import hmac
 import importlib.util
@@ -28,6 +28,42 @@ spec = importlib.util.spec_from_file_location('erp_city', ROOT / 'tools/automati
 cities = importlib.util.module_from_spec(spec); spec.loader.exec_module(cities)
 
 
+def city_assets(slug):
+    """Load the Git-reviewable asset register and project-twin revision."""
+    path, _ = cities.catalogue()[slug]
+    operations = path.parent / 'operations'
+    asset_path = operations / f'{slug}-assets.csv'
+    twin_path = path.parent / 'engineering/project-twin/summary.json'
+    if not asset_path.is_file() or not twin_path.is_file():
+        raise ValueError(f'Missing generated city evidence; regenerate with ./osr city {slug}')
+    with asset_path.open(newline='', encoding='utf-8') as handle:
+        assets = list(csv.DictReader(handle))
+    twin = json.loads(twin_path.read_text())
+    if twin.get('city') != slug or not twin.get('revision_id'):
+        raise ValueError('Project-twin summary identity or revision mismatch')
+    manifest_path = operations / f'{slug}-operations-manifest.json'
+    if not manifest_path.is_file():
+        raise ValueError(f'Missing generated operations manifest for {slug}')
+    manifest = json.loads(manifest_path.read_text())
+    if manifest.get('city') != slug or manifest.get('totals', {}).get('assets') != len(assets):
+        raise ValueError('Asset register and operations manifest differ')
+    return assets, twin['revision_id']
+
+
+def city_package(slug, environment='simulation', first_site=False, first_vehicle=False):
+    path, _ = cities.catalogue()[slug]
+    override_path = path.parent / 'operations/supervision.json'
+    override = json.loads(override_path.read_text()) if override_path.exists() else {'city': slug}
+    if override['city'] != slug:
+        raise ValueError('City profile identity mismatch')
+    assets, revision = city_assets(slug)
+    if first_site:
+        override['sites'] = [next(a['asset_id'] for a in assets if a['asset_type'] == 'station')]
+    if first_vehicle:
+        override['sites'] = list(override.get('sites', [])) + [next(a['asset_id'] for a in assets if a['asset_type'] == 'rolling-stock')]
+    return build_package(json.loads(GENERIC.read_text()), override, assets, revision, environment)
+
+
 def write_private(path, value):
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
@@ -46,20 +82,7 @@ def api(path, data=None, role='engineer', query=''):
 
 
 def prepare(slug, environment='simulation', first_site=False, first_vehicle=False):
-    path, _ = cities.catalogue()[slug]
-    override_path = path.parent / 'operations/supervision.json'
-    override = json.loads(override_path.read_text()) if override_path.exists() else {'city': slug}
-    if override['city'] != slug:
-        raise ValueError('City profile identity mismatch')
-    source = path.parent / 'operations' / f'{slug}-operations.json.gz'
-    if not source.exists():
-        raise ValueError(f'Generate city first: ./osr city {slug}')
-    bundle = json.loads(gzip.decompress(source.read_bytes()))
-    if first_site:
-        override['sites'] = [next(a['asset_id'] for a in bundle['assets'] if a['asset_type'] == 'station')]
-    if first_vehicle:
-        override['sites'] = list(override.get('sites', [])) + [next(a['asset_id'] for a in bundle['assets'] if a['asset_type'] == 'rolling-stock')]
-    p = build_package(json.loads(GENERIC.read_text()), override, bundle['assets'], bundle['project_twin']['revision_id'], environment)
+    p = city_package(slug, environment, first_site, first_vehicle)
     folder = ROOT / 'build/supervision' / slug / environment; folder.mkdir(parents=True, exist_ok=True)
     for name, data in [('package.json', p), ('fuxa-project.json', project([p]))]:
         (folder / name).write_text(json.dumps(data, indent=2) + '\n')
@@ -164,11 +187,10 @@ def main():
                 target.write_text(json.dumps({'schema': 'osr-supervision-profile/1', 'city': slug, 'bindings': {}}, indent=2) + '\n'); count += 1
         print('Created profiles:', count)
     elif args.command == 'validate':
-        for slug, (path, _) in cities.catalogue().items():
-            cfg = json.loads((path.parent / 'operations/supervision.json').read_text())
-            if cfg['city'] != slug: raise ValueError('City identity mismatch')
-            build_package(json.loads(GENERIC.read_text()), {**cfg, 'sites': []}, [{'asset_type': 'station', 'asset_id': 'validation', 'name': 'Validation station'}], 'validation')
-        print('Validated profiles:', len(cities.catalogue()))
+        equipment = 0
+        for slug in cities.catalogue():
+            equipment += len(city_package(slug)['equipment'])
+        print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
     elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle))
     elif args.command == 'apply': print(json.dumps(api('/packages', {'package': json.loads(args.package.read_text()), 'expected': args.expected}), indent=2))
     elif args.command == 'import-fuxa':

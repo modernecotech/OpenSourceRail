@@ -14,6 +14,11 @@ validation summaries, operations asset index, acceptance report, and integrity
 manifest in one city directory. Raw solver networks, GeoPackages, compressed event
 bundles, and exploded manufacturing CSVs remain reproducible local outputs so the
 Git repository stays usable. Mosul and Samawah carry the full pilot evidence scope.
+The [operating-readiness audit](../../docs/operating/readiness.md) uses the
+tracked asset registers, manifests and compact twins from all 266 directories to
+compile their ERP/component profiles and real-asset supervision packages. It
+does not confuse those planning artifacts with operator configuration or field
+commissioning evidence.
 
 ## Validation status
 

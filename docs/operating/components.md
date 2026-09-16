@@ -51,6 +51,10 @@ The shared profile creates a city operating induction programme, with distinct
 Samawah and Mosul title overrides. Other components require verified native
 master records and operator inputs. None of those identities, stock quantities,
 approved BOMs, asset service intervals, budgets or personnel are invented.
+All 266 merged profiles and their induction packages are compiled by the
+[operating-readiness audit](readiness.md); that compile proves schema and package
+integrity, not the existence of the native ERP masters needed to enable the
+other seven adapter types.
 
 ```json
 {
@@ -79,6 +83,7 @@ employee personal records in tracked city files.
 ./osr erp components catalogue
 ./osr erp components init-configs   # preserves existing overrides
 ./osr erp components validate
+./osr readiness --check
 ./osr erp components prepare samawah --project PROJ-0001
 ./osr erp components preview build/erpnext/cities/samawah/components.json
 ./osr erp components apply build/erpnext/cities/samawah/components.json

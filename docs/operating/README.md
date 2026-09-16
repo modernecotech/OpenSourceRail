@@ -9,6 +9,12 @@ For the generic configuration, all 266 city override profiles, native operating
 tasks and digital-twin feedback, use the [city operating platform](city-platform.md).
 The basic import below remains available for older planning packages.
 
+The generated [operating-readiness audit](readiness.md) validates each tracked
+asset register, operations manifest and project twin, then compiles all 266 ERP
+profiles, reusable-component packages and real-asset supervision packages. It
+also separates reproducible large payloads from legal-company, calendar, ERP
+master and physical-binding data that the repository cannot safely invent.
+
 ## What replaces what
 
 | Existing OSR component or requirement | Operating owner | OSR responsibility retained |

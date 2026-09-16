@@ -50,13 +50,16 @@ existing ERP network. Neither account is an ERP administrator.
 
 ## Reproduce for another city
 
-1. Generate its OSR operations bundle with `./osr city <slug>`.
+1. Use its tracked operations asset register and compact project-twin revision.
+   Regenerate the city with `./osr city <slug>` only when those sources are stale.
 2. Edit `cities/catalogue/.../<city>/operations/supervision.json`. Omitted fields
    inherit [shared templates](config/generic.json); dictionaries merge and lists
    replace. Set company/project and, optionally, site IDs and equipment bindings.
-3. `./osr supervision prepare <slug>` generates every station/depot; `--first-site`
-   makes a bounded pilot. All 266 tracked city profiles validate with
-   `./osr supervision validate`.
+3. `./osr supervision prepare <slug>` generates every applicable station, depot
+   and vehicle equipment view; `--first-site` makes a bounded pilot. The command
+   no longer needs the large compressed operations payload. `./osr supervision
+   validate` compiles every real asset register, and the generated
+   [catalogue audit](../../docs/operating/readiness.md) records counts and hashes.
 4. Review package, devices, source bindings, units, ranges, alarm limits, response
    references and generated screens. Generic limits are **simulation examples**.
 5. Extend the private principal city scopes before applying. Existing package

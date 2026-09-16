@@ -38,6 +38,10 @@ def build_package(generic, city, assets, revision, environment='simulation'):
     templates = cfg['templates']
     asset_types = {kind for template in templates.values() for kind in template.get('asset_types', ['station', 'depot'])}
     stations = [a for a in assets if a['asset_type'] in asset_types]
+    energy_assets_by_parent = {}
+    for asset in assets:
+        if asset.get('asset_type') == 'energy':
+            energy_assets_by_parent.setdefault(asset.get('parent_asset'), []).append(asset['asset_id'])
     if cfg.get('sites'):
         stations = [a for a in stations if a['asset_id'] in cfg['sites']]
         if len(stations) != len(set(cfg['sites'])):
@@ -52,7 +56,7 @@ def build_package(generic, city, assets, revision, environment='simulation'):
             planned = f'{site}:{kind}'
             binding = cfg.get('bindings', {}).get(planned, {})
             equipment.append(dict(asset_id=planned, planned_asset_id=planned, parent_asset_id=site,
-                site_id=site, source_asset_ids=[site] + [r['asset_id'] for r in assets if r.get('asset_type') == 'energy' and r.get('parent_asset') == site and kind in ('charger', 'battery', 'pv')], city=slug, company_id=cfg.get('company', ''), environment=environment,
+                site_id=site, source_asset_ids=[site] + (energy_assets_by_parent.get(site, []) if kind in ('charger', 'battery', 'pv') else []), city=slug, company_id=cfg.get('company', ''), environment=environment,
                 name=f"{station['name']} · {template['label']}", equipment_type=kind,
                 component_type_id=template['component_type_id'], engineering_revision=revision,
                 source_crates=template.get('source_crates', []),

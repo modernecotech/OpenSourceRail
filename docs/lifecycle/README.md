@@ -114,6 +114,13 @@ value added or manufacturing origin when source evidence is absent.
 
 ## Extension points and remaining deployment work
 
+The generated [operating-readiness audit](../operating/readiness.md) compiles
+real-asset simulation packages for all 266 city profiles rather than validating
+them against a placeholder station. It also compiles every ERP/component profile
+and records which full task payloads are locally materialised. This closes the
+repository configuration/asset-coverage ambiguity; it does not turn simulation
+templates into commissioned physical mappings.
+
 The contract and evidence adapters are reusable; the currently running equipment
 binding is the Rust simulation gateway. Physical Modbus/OPC UA/MQTT/NATS adapters
 need the actual supplier interfaces and deployed broker configuration. No new

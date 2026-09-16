@@ -24,6 +24,14 @@ for local timezones, illustrative six-day construction calendars and distinct
 city work packages. Other profiles inherit the shared planning assumptions
 until a city operator supplies overrides.
 
+The [catalogue readiness gate](readiness.md) validates all 266 configurations
+against their own tracked asset, manifest and project-twin evidence. Supervision
+can compile directly from those reviewable assets for every city. Full ERP task
+plans additionally need the deterministic compressed operations payload:
+Samawah and Mosul keep it locally in Git, while the other 264 materialise it with
+`./osr city <slug>` before import. A manifest is not treated as a substitute for
+the task records it hashes.
+
 Tables merge recursively. Lists explicitly replace the shared list. Unknown
 keys fail validation. `city_programme` adds city tasks to the shared programme;
 each task needs a unique ID. Removing a department requires updating every
@@ -40,6 +48,7 @@ No employee, supplier, bank, payroll, tax or commissioned asset data is invented
 # Creates missing profiles; existing overrides are preserved.
 ./osr erp city init-configs
 ./osr erp city validate
+./osr readiness --check
 
 # The target company must already exist in ERPNext.
 ./osr erp city prepare samawah --company 'OpenSourceRail Evaluation'

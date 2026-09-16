@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4966**.
+Indexed Markdown files: **4967**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4966**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 3 |
 | [design](#design) | 417 |
-| [docs](#docs) | 157 |
+| [docs](#docs) | 158 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4916,6 +4916,7 @@ Indexed Markdown files: **4966**.
 | [`docs/operating/automation-review.md`](../docs/operating/automation-review.md) | ERPNext integration and automation review |
 | [`docs/operating/city-platform.md`](../docs/operating/city-platform.md) | Reproducible city operating twins |
 | [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
+| [`docs/operating/readiness.md`](../docs/operating/readiness.md) | Operating platform readiness |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |
 | [`docs/operations/control-centre/c2-communications.md`](../docs/operations/control-centre/c2-communications.md) | C2 — Communications |
