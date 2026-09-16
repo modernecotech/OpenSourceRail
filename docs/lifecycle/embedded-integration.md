@@ -105,6 +105,11 @@ checks ERP permissions and project filters, FUXA city displays, scoped evidence
 recording and a lighting request through controller output. Controller-result
 retries are idempotent for the same owner, state and result.
 
+Revised simulation packages retain omitted equipment as retired history while
+rejecting its new telemetry and commands; reactivation requires another reviewed
+package. Alarm acknowledgments bind to the displayed occurrence and reset when a
+cleared condition activates again.
+
 Physical MQTT/OPC UA/Modbus or device-bus adapters, persistent commissioned
 controller state, supplier calibration and independent railway acceptance remain
 separate deployment work. Existing ATP/interlocking/traction/brake authority is

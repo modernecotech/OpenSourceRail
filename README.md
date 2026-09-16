@@ -10,7 +10,7 @@ The current survey, supplier, drawing, embedded-hardware, physical-test and appr
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
-**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.md), or `./install.sh` then `./osr`.
+**Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page overview](docs/open-source-rail-overview.md), [v0.4 development notes](docs/release-v0.4.md), or `./install.sh` then `./osr`.
 
 The public evidence scope covers **265 cities in 43 developing countries**. One European comparison model in the 266-model engineering catalogue is retained only for technical inspection and excluded from public evidence and examples.
 
@@ -36,7 +36,7 @@ Across the 265-city model, this approach places **about $203B—roughly 75% of p
 
 OpenSourceRail is three connected products at deliberately different maturity:
 
-| Product | v0.3 maturity | Safe starting use |
+| Product | v0.4 maturity | Safe starting use |
 |---|---|---|
 | Design & Delivery Platform | Serious demonstration | City GIS, alignment, cost, IFC, procurement, schedule and project twin |
 | Train + Infrastructure Reference System | Engineering development | Local-manufacture planning, supplier RFQs, prototype and civil option studies |

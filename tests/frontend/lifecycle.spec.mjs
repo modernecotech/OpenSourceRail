@@ -33,3 +33,16 @@ test('Engineering documents follow equipment identity within a city',async({page
  await page.locator('#refresh').click();
  await expect(page.locator('#engineering a')).toHaveText('model.ifc');
 });
+test('Alarm acknowledgement submits the displayed occurrence',async({page})=>{
+  let request;
+  const occurrenceAsset={...asset,alarms:[{...asset.alarms[0],occurrences:3}]};
+  await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[occurrenceAsset],outbox:[]}}));
+  await page.route('**/api/lifecycle/alarms/acknowledge',async r=>{request=r.request();await r.fulfill({json:{acknowledged:true,created:true,occurrence:3}});});
+  await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+  await page.locator('#operatorActions summary').click();
+  await page.locator('#operatorToken').fill('scoped-token');
+  await page.getByRole('button',{name:'Acknowledge occurrence 3'}).click();
+  expect(request.headers().authorization).toBe('Bearer scoped-token');
+  expect(request.postDataJSON()).toMatchObject({asset_id:'SAM-ST-001:charger',rule:'cooling',occurrence:3});
+  await expect(page.locator('#actionStatus')).toContainText('occurrence 3 acknowledged');
+});

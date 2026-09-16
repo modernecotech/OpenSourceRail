@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 import json
+import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 import sys
@@ -34,6 +35,20 @@ class IntegrationTest(unittest.TestCase):
     def message(self, now, value=80, **extra):
         return dict(city='samawah', environment='simulation', asset_id='SAM-ST-001:charger', measurement='temperature_c', source_id='simulator', sequence=int(now), source_timestamp=iso(now), unit='degC', quality='valid', value=value, **extra)
 
+    def test_existing_historian_schema_is_migrated_forward(self):
+        legacy = Path(self.tmp.name) / 'legacy.sqlite'
+        with sqlite3.connect(legacy) as db:
+            db.executescript('''
+                CREATE TABLE assets (scope TEXT PRIMARY KEY, city TEXT, environment TEXT, asset_id TEXT, package TEXT, body TEXT, state TEXT DEFAULT 'as-designed');
+                CREATE TABLE alarms (key TEXT PRIMARY KEY, scope TEXT, rule TEXT, pending REAL, active INTEGER DEFAULT 0, incident TEXT, last_event REAL DEFAULT 0, occurrences INTEGER DEFAULT 0, case_id TEXT, erp_status TEXT, acknowledged_by TEXT);
+            ''')
+        migrated = Store(legacy)
+        with migrated.connect() as db:
+            asset_columns = {row['name'] for row in db.execute('PRAGMA table_info(assets)')}
+            alarm_columns = {row['name'] for row in db.execute('PRAGMA table_info(alarms)')}
+        self.assertIn('configuration_status', asset_columns)
+        self.assertTrue({'acknowledged_at', 'acknowledged_occurrence'} <= alarm_columns)
+
     def fault(self):
         for now in [1000, 1003, 1006]: self.store.ingest(self.message(now), 'simulator', now)
 
@@ -65,6 +80,33 @@ class IntegrationTest(unittest.TestCase):
         # Alarm clears; case stays attached, maintenance is never auto-closed.
         with self.store.connect() as db:
             self.assertEqual(db.execute('SELECT active FROM alarms').fetchone()[0], 0)
+
+    def test_acknowledgement_is_immutable_and_bound_to_one_occurrence(self):
+        self.fault()
+        first = self.store.acknowledge('samawah', 'simulation', 'SAM-ST-001:charger',
+                                       'cooling', 1, 'operator-a', 1007)
+        self.assertTrue(first['created'])
+        repeated = self.store.acknowledge('samawah', 'simulation', 'SAM-ST-001:charger',
+                                          'cooling', 1, 'operator-b', 1008)
+        self.assertFalse(repeated['created'])
+        self.assertEqual(repeated['actor'], 'operator-a')
+        # A repeat notification during the same active condition keeps the first acknowledgement.
+        for now in [1307, 1310, 1313]:
+            self.store.ingest(self.message(now), 'simulator', now)
+        repeated = self.store.acknowledge('samawah', 'simulation', 'SAM-ST-001:charger',
+                                          'cooling', 2, 'operator-b', 1314)
+        self.assertFalse(repeated['created'])
+        self.assertEqual(repeated['actor'], 'operator-a')
+        self.store.ingest(self.message(1320, 40), 'simulator', 1320)
+        for now in [1321, 1324, 1327]:
+            self.store.ingest(self.message(now), 'simulator', now)
+        alarm = next(a for a in self.store.snapshot(now=1327)['assets']
+                     if a['equipment_type'] == 'charger')['alarms'][0]
+        self.assertEqual(alarm['occurrences'], 3)
+        self.assertIsNone(alarm['acknowledged_by'])
+        with self.assertRaisesRegex(ValueError, 'occurrence changed'):
+            self.store.acknowledge('samawah', 'simulation', 'SAM-ST-001:charger',
+                                   'cooling', 2, 'operator-a', 1328)
 
     def test_gap_and_invalid_do_not_establish_persistence(self):
         self.store.ingest(self.message(1000), 'simulator', 1000)
@@ -99,6 +141,55 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(self.store.controller_result('command2', 'simulator', 'completed', 'measured level 75', 1002)['state'], 'completed')
         m['request_id'] = 'command3'; self.store.command(m, 'operator', True, 1000)
         self.assertEqual(self.store.controller_commands('simulator', 1030), [])
+
+    def test_package_removal_retires_asset_and_fails_pending_command(self):
+        command = dict(request_id='retire-command', city='samawah', environment='simulation',
+                       asset_id='SAM-ST-001:facilities', command='set_lighting',
+                       parameters={'level': 75}, created_at=iso(1000), expires_at=iso(1020),
+                       required_conditions=['local_remote_enabled'])
+        self.assertEqual(self.store.command(command, 'operator', True, 1000)['state'], 'requested')
+        self.store.ingest(self.message(999, 50), 'simulator', 999)
+        updated = copy.deepcopy(self.package)
+        updated['engineering_revision'] = 'rev2'
+        updated['equipment'] = [a for a in updated['equipment']
+                                if a['equipment_type'] not in {'facilities', 'charger'}]
+        for asset in updated['equipment']:
+            asset['engineering_revision'] = 'rev2'
+        updated['sha256'] = digest({k: v for k, v in updated.items() if k != 'sha256'})
+        self.store.apply(updated, 'engineer', self.package['sha256'])
+        retired = {a['equipment_type']: a for a in self.store.snapshot(now=1001)['assets']
+                   if a['configuration_status'] == 'retired'}
+        self.assertEqual(set(retired), {'facilities', 'charger'})
+        self.assertEqual(retired['charger']['readings']['temperature_c']['quality'], 'disconnected')
+        with self.assertRaisesRegex(ValueError, 'retired asset'):
+            self.store.ingest(self.message(1001), 'simulator', 1001)
+        with self.store.connect() as db:
+            stored = db.execute('SELECT state,result FROM commands WHERE id=?',
+                                ('retire-command',)).fetchone()
+        self.assertEqual((stored['state'], stored['result']),
+                         ('failed', 'asset retired by supervisory package'))
+        self.assertEqual(self.store.controller_commands('simulator', 1001), [])
+
+        # Reapplying an earlier reviewed package is a supported rollback.
+        reactivated = copy.deepcopy(self.package)
+        self.store.apply(reactivated, 'engineer', updated['sha256'])
+        charger = next(a for a in self.store.snapshot(now=1001)['assets']
+                       if a['equipment_type'] == 'charger')
+        self.assertEqual(charger['configuration_status'], 'active')
+        self.assertFalse(self.store.ingest(self.message(1001), 'simulator', 1001)['duplicate'])
+
+    def test_package_rejects_invalid_alarm_and_command_contracts(self):
+        for mutate in [
+            lambda package: next(a for a in package['equipment'] if a['alarms'])['alarms'][0].update(measurement='missing'),
+            lambda package: package.update(equipment=[dict(package['equipment'][0], commands=[])] + package['equipment'][1:]),
+            lambda package: next(a for a in package['equipment'] if a['equipment_type'] == 'facilities')['commands']['set_lighting'].update(max_ttl_seconds=0),
+            lambda package: next(a for a in package['equipment'] if a['equipment_type'] == 'facilities')['commands']['set_lighting'].update(required_conditions=[]),
+        ]:
+            invalid = copy.deepcopy(self.package)
+            mutate(invalid)
+            invalid['sha256'] = digest({k: v for k, v in invalid.items() if k != 'sha256'})
+            with self.assertRaises(ValueError):
+                self.store.apply(invalid, 'engineer')
 
     def test_outbox_preserves_incident_order_during_retry(self):
         self.fault()

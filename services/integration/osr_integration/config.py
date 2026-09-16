@@ -104,11 +104,32 @@ def validate_package(package):
             if rule['id'] in rule_ids:
                 raise ValueError('Duplicate alarm identity')
             rule_ids.add(rule['id'])
+            if rule.get('measurement') not in a['measurements']:
+                raise ValueError('Alarm references an unknown measurement')
             m = a['measurements'][rule['measurement']]
             finite(rule['high'], m['min'], m['max'])
             finite(rule['clear_below'], m['min'], rule['high'])
             finite(rule['delay_seconds'], 0, 3600)
             finite(rule['repeat_seconds'], 1, 86400)
+            if type(rule.get('maintenance')) is not bool or not isinstance(rule.get('response'), str) or not rule['response'].strip():
+                raise ValueError('Alarm maintenance flag and response are required')
+        commands = a.get('commands', {})
+        if not isinstance(commands, dict):
+            raise ValueError('Commands must be an identity-keyed object')
+        for name, command in commands.items():
+            identifier(name)
+            if not isinstance(command, dict):
+                raise ValueError('Command contract must be an object')
+            parameter = identifier(command.get('parameter'))
+            low = finite(command.get('min'), -1e12, 1e12)
+            finite(command.get('max'), low, 1e12)
+            finite(command.get('max_ttl_seconds'), 1, 300)
+            conditions = command.get('required_conditions')
+            if not isinstance(conditions, list) or not conditions or any(
+                    not isinstance(value, str) or identifier(value) != value for value in conditions):
+                raise ValueError('Command required conditions must be non-empty identities')
+            if len(conditions) != len(set(conditions)) or parameter in conditions:
+                raise ValueError('Command conditions must be unique and distinct from its parameter')
     return package
 
 

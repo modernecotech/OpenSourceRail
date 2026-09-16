@@ -25,10 +25,10 @@ class Store:
             db.executescript('''
             PRAGMA journal_mode=WAL;
             CREATE TABLE IF NOT EXISTS packages (hash TEXT PRIMARY KEY, city TEXT, environment TEXT, body TEXT, actor TEXT, created REAL);
-            CREATE TABLE IF NOT EXISTS assets (scope TEXT PRIMARY KEY, city TEXT, environment TEXT, asset_id TEXT, package TEXT, body TEXT, state TEXT DEFAULT 'as-designed');
+            CREATE TABLE IF NOT EXISTS assets (scope TEXT PRIMARY KEY, city TEXT, environment TEXT, asset_id TEXT, package TEXT, body TEXT, state TEXT DEFAULT 'as-designed', configuration_status TEXT NOT NULL DEFAULT 'active');
             CREATE TABLE IF NOT EXISTS readings (id INTEGER PRIMARY KEY, scope TEXT, measurement TEXT, source TEXT, sequence INTEGER, source_time REAL, received REAL, value REAL, quality TEXT, unit TEXT, fingerprint TEXT, UNIQUE(scope,measurement,source,sequence));
             CREATE INDEX IF NOT EXISTS readings_latest ON readings(scope,measurement,id DESC);
-            CREATE TABLE IF NOT EXISTS alarms (key TEXT PRIMARY KEY, scope TEXT, rule TEXT, pending REAL, active INTEGER DEFAULT 0, incident TEXT, last_event REAL DEFAULT 0, occurrences INTEGER DEFAULT 0, case_id TEXT, erp_status TEXT, acknowledged_by TEXT);
+            CREATE TABLE IF NOT EXISTS alarms (key TEXT PRIMARY KEY, scope TEXT, rule TEXT, pending REAL, active INTEGER DEFAULT 0, incident TEXT, last_event REAL DEFAULT 0, occurrences INTEGER DEFAULT 0, case_id TEXT, erp_status TEXT, acknowledged_by TEXT, acknowledged_at REAL, acknowledged_occurrence INTEGER);
             CREATE TABLE IF NOT EXISTS outbox (id TEXT PRIMARY KEY, incident TEXT, body TEXT, state TEXT DEFAULT 'pending', attempts INTEGER DEFAULT 0, next_try REAL DEFAULT 0, error TEXT, response TEXT);
             CREATE TABLE IF NOT EXISTS commands (id TEXT PRIMARY KEY, scope TEXT, body TEXT, fingerprint TEXT, actor TEXT, state TEXT, expires REAL, result TEXT);
             CREATE TABLE IF NOT EXISTS audit (id INTEGER PRIMARY KEY, at REAL, actor TEXT, action TEXT, scope TEXT, body TEXT);
@@ -37,6 +37,15 @@ class Store:
             CREATE UNIQUE INDEX IF NOT EXISTS installed_position ON installations(scope) WHERE removed IS NULL;
             CREATE TABLE IF NOT EXISTS deliveries (id TEXT PRIMARY KEY, scope TEXT, body TEXT, actor TEXT, created REAL);
             ''')
+            # Forward-only migrations keep existing pilot historians usable.
+            asset_columns = {row['name'] for row in db.execute('PRAGMA table_info(assets)')}
+            if 'configuration_status' not in asset_columns:
+                db.execute("ALTER TABLE assets ADD COLUMN configuration_status TEXT NOT NULL DEFAULT 'active'")
+            alarm_columns = {row['name'] for row in db.execute('PRAGMA table_info(alarms)')}
+            if 'acknowledged_at' not in alarm_columns:
+                db.execute('ALTER TABLE alarms ADD COLUMN acknowledged_at REAL')
+            if 'acknowledged_occurrence' not in alarm_columns:
+                db.execute('ALTER TABLE alarms ADD COLUMN acknowledged_occurrence INTEGER')
 
     @contextmanager
     def connect(self):
@@ -68,21 +77,38 @@ class Store:
             if existing and package['environment'] == 'physical':
                 raise ValueError('Physical mapping changes require a separate commissioned migration; no automatic overwrite')
             # Identity rows survive package revisions. Removed positions stay as history.
+            package_scopes = {self.scope(a['city'], a['environment'], a['asset_id']) for a in package['equipment']}
+            configured = db.execute('SELECT scope,configuration_status FROM assets WHERE city=? AND environment=?',
+                                    (package['city'], package['environment'])).fetchall()
+            for row in configured:
+                if row['scope'] in package_scopes or row['configuration_status'] == 'retired':
+                    continue
+                db.execute("UPDATE assets SET configuration_status='retired' WHERE scope=?", (row['scope'],))
+                commands = db.execute("SELECT id FROM commands WHERE scope=? AND state IN ('requested','accepted')", (row['scope'],)).fetchall()
+                db.execute("UPDATE commands SET state='failed',result='asset retired by supervisory package' WHERE scope=? AND state IN ('requested','accepted')", (row['scope'],))
+                for command in commands:
+                    self.audit(db, actor, 'command-failed', row['scope'],
+                               {'request_id': command['id'], 'reason': 'asset retired by supervisory package'})
+                self.audit(db, actor, 'asset-retired', row['scope'], {'package': package['sha256']})
             for asset in package['equipment']:
                 scope = self.scope(asset['city'], asset['environment'], asset['asset_id'])
-                old = db.execute('SELECT body FROM assets WHERE scope=?', (scope,)).fetchone()
+                old = db.execute('SELECT body,configuration_status FROM assets WHERE scope=?', (scope,)).fetchone()
                 if old and json.loads(old['body'])['component_type_id'] != asset['component_type_id']:
                     raise ValueError('Component type substitution requires explicit replacement')
-                db.execute('INSERT INTO assets(scope,city,environment,asset_id,package,body) VALUES(?,?,?,?,?,?) ON CONFLICT(scope) DO UPDATE SET package=excluded.package,body=excluded.body', (scope, asset['city'], asset['environment'], asset['asset_id'], package['sha256'], json.dumps(asset)))
-            db.execute('INSERT INTO packages VALUES(?,?,?,?,?,?)', (package['sha256'], package['city'], package['environment'], json.dumps(package), actor, time.time()))
+                db.execute("INSERT INTO assets(scope,city,environment,asset_id,package,body,configuration_status) VALUES(?,?,?,?,?,?,'active') ON CONFLICT(scope) DO UPDATE SET package=excluded.package,body=excluded.body,configuration_status='active'", (scope, asset['city'], asset['environment'], asset['asset_id'], package['sha256'], json.dumps(asset)))
+                if old and old['configuration_status'] == 'retired':
+                    self.audit(db, actor, 'asset-reactivated', scope, {'package': package['sha256']})
+            db.execute('INSERT INTO packages VALUES(?,?,?,?,?,?) ON CONFLICT(hash) DO UPDATE SET actor=excluded.actor,created=excluded.created',
+                       (package['sha256'], package['city'], package['environment'], json.dumps(package), actor, time.time()))
             self.audit(db, actor, 'package-applied', package['city'], {'sha256': package['sha256'], 'previous': expected})
             return {'created': True, 'sha256': package['sha256'], 'equipment': len(package['equipment'])}
 
     def asset(self, db, scope):
-        row = db.execute('SELECT body,state FROM assets WHERE scope=?', (scope,)).fetchone()
+        row = db.execute('SELECT body,state,configuration_status FROM assets WHERE scope=?', (scope,)).fetchone()
         if not row:
             raise ValueError('Unknown asset in this city/environment')
-        return dict(json.loads(row['body']), lifecycle_state=row['state'])
+        return dict(json.loads(row['body']), lifecycle_state=row['state'],
+                    configuration_status=row['configuration_status'])
 
     def ingest(self, message, principal, now=None):
         now = time.time() if now is None else now
@@ -90,6 +116,8 @@ class Store:
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             a = self.asset(db, scope)
+            if a['configuration_status'] != 'active':
+                raise ValueError('Telemetry rejected for retired asset configuration')
             if principal != a['source_id'] or message['source_id'] != principal:
                 raise PermissionError('Telemetry source is not bound to asset')
             if a['environment'] == 'physical' and a['binding_status'] != 'commissioned':
@@ -143,11 +171,15 @@ class Store:
             pending = source_time if alarm['pending'] is None or gap else alarm['pending']
             db.execute('UPDATE alarms SET pending=? WHERE key=?', (pending, key))
             if source_time - pending >= rule['delay_seconds'] and (not alarm['active'] or now - alarm['last_event'] >= rule['repeat_seconds']):
+                new_activation = not alarm['active']
                 new_case = not alarm['active'] and alarm['erp_status'] in ('Closed', 'Resolved')
                 incident = uuid.uuid4().hex if new_case else alarm['incident'] or uuid.uuid4().hex
                 occurrence = 1 if new_case else alarm['occurrences'] + 1
                 if new_case:
-                    db.execute('UPDATE alarms SET case_id=NULL,erp_status=NULL,acknowledged_by=NULL WHERE key=?', (key,))
+                    db.execute('UPDATE alarms SET case_id=NULL,erp_status=NULL WHERE key=?', (key,))
+                if new_activation:
+                    # Acknowledgement applies only to the occurrence an operator saw.
+                    db.execute('UPDATE alarms SET acknowledged_by=NULL,acknowledged_at=NULL,acknowledged_occurrence=NULL WHERE key=?', (key,))
                 db.execute('UPDATE alarms SET active=1,incident=?,last_event=?,occurrences=? WHERE key=?', (incident, now, occurrence, key))
                 self.audit(db, a['source_id'], 'alarm-active', scope, {'rule': rule['id'], 'incident': incident, 'occurrence': occurrence})
                 if rule.get('maintenance'):
@@ -176,12 +208,15 @@ class Store:
             rows = db.execute('SELECT * FROM assets WHERE (? IS NULL OR city=?) AND (? IS NULL OR environment=?) ORDER BY scope', (city, city, environment, environment)).fetchall()
             assets = []
             for row in rows:
-                a = dict(json.loads(row['body']), lifecycle_state=row['state'], readings={}, alarms=[])
+                a = dict(json.loads(row['body']), lifecycle_state=row['state'],
+                         configuration_status=row['configuration_status'], readings={}, alarms=[])
                 for name, m in a['measurements'].items():
                     r = db.execute('SELECT * FROM readings WHERE scope=? AND measurement=? ORDER BY id DESC LIMIT 1', (row['scope'], name)).fetchone()
                     reading = dict(r) if r else {'value': None, 'quality': 'disconnected', 'source_time': None, 'received': None, 'unit': m['unit']}
                     if r and now - min(r['source_time'], r['received']) > m['stale_seconds']:
                         reading['quality'] = 'disconnected' if now - r['received'] > m['stale_seconds'] * 3 else 'stale'
+                    if row['configuration_status'] != 'active':
+                        reading['quality'] = 'disconnected'
                     a['readings'][name] = reading
                 a['alarms'] = [dict(r) for r in db.execute('SELECT * FROM alarms WHERE scope=?', (row['scope'],))]
                 a['installations'] = [dict(r) for r in db.execute('SELECT * FROM installations WHERE scope=? ORDER BY installed', (row['scope'],))]
@@ -195,14 +230,27 @@ class Store:
             return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=assets, outbox=queue,
                         authority='OSR evidence references; ERP closure and alarm clearance do not grant railway release')
 
-    def acknowledge(self, city, environment, asset, rule, actor):
+    def acknowledge(self, city, environment, asset, rule, occurrence, actor, now=None):
         scope = self.scope(city, environment, asset)
+        if type(occurrence) is not int or occurrence < 1:
+            raise ValueError('Alarm occurrence must be a positive integer')
+        now = time.time() if now is None else now
         with self.connect() as db:
-            result = db.execute('UPDATE alarms SET acknowledged_by=? WHERE key=?', (actor, scope + '|' + identifier(rule)))
-            if not result.rowcount:
+            db.execute('BEGIN IMMEDIATE')
+            alarm = db.execute('SELECT * FROM alarms WHERE key=?', (scope + '|' + identifier(rule),)).fetchone()
+            if not alarm:
                 raise ValueError('Unknown alarm')
-            self.audit(db, actor, 'alarm-acknowledged', scope, {'rule': rule})
-        return {'acknowledged': True}
+            if occurrence != alarm['occurrences']:
+                raise ValueError('Alarm occurrence changed; refresh before acknowledging')
+            if alarm['acknowledged_by'] is not None:
+                return {'acknowledged': True, 'created': False, 'actor': alarm['acknowledged_by'],
+                        'occurrence': alarm['acknowledged_occurrence'],
+                        'acknowledged_at': alarm['acknowledged_at']}
+            db.execute('UPDATE alarms SET acknowledged_by=?,acknowledged_at=?,acknowledged_occurrence=? WHERE key=?',
+                       (actor, now, occurrence, alarm['key']))
+            self.audit(db, actor, 'alarm-acknowledged', scope, {'rule': rule, 'occurrence': occurrence})
+        return {'acknowledged': True, 'created': True, 'actor': actor,
+                'occurrence': occurrence, 'acknowledged_at': now}
 
     def command(self, message, actor, allowed, now=None):
         now = time.time() if now is None else now
@@ -222,6 +270,8 @@ class Store:
                 rule = a['commands'].get(message['command'])
                 if not allowed:
                     raise PermissionError('Operator command permission required')
+                if a['configuration_status'] != 'active':
+                    raise ValueError('Command not enabled for retired asset configuration')
                 if not rule or a['environment'] != 'simulation':
                     raise ValueError('Command not enabled for this commissioned controller')
                 created, expires = timestamp(message['created_at']), timestamp(message['expires_at'])
@@ -244,6 +294,10 @@ class Store:
             result = []
             for row in db.execute("SELECT * FROM commands WHERE state IN ('requested','accepted')").fetchall():
                 a = self.asset(db, row['scope'])
+                if a['configuration_status'] != 'active':
+                    db.execute("UPDATE commands SET state='failed',result='asset retired by supervisory package' WHERE id=?", (row['id'],))
+                    self.audit(db, principal, 'command-failed', row['scope'], {'request_id': row['id'], 'reason': 'asset retired'})
+                    continue
                 if a['source_id'] != principal:
                     continue
                 if row['expires'] <= now:

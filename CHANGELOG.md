@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Started the v0.4.0 development line for the integrated ERPNext, FUXA and OSR
+  lifecycle platform. Supervisory package updates now retain removed equipment
+  as retired history while rejecting new telemetry and commands, fail pending
+  commands on retirement, and support reviewed reactivation. Alarm
+  acknowledgments are immutable per occurrence and reset on reactivation;
+  command and alarm contracts are validated before a package is accepted.
+
 - Added scenario-bound, all-line SUMO dwell modelling and a deterministic
   OSR/SUMO running-time cross-check, with explicit external junction-occupancy
   and authority gates.

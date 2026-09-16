@@ -135,7 +135,8 @@ class Handler(BaseHTTPRequestHandler):
                 result = store.evidence(data, p['subject'], p['role'])
             elif path == '/alarms/acknowledge':
                 self.authorize(p, data, ['operator', 'maintainer'])
-                result = store.acknowledge(data['city'], data['environment'], data['asset_id'], data['rule'], p['subject'])
+                result = store.acknowledge(data['city'], data['environment'], data['asset_id'], data['rule'],
+                                           data['occurrence'], p['subject'])
             else:
                 return self.send(404, {'error': 'Unknown endpoint'})
             self.send(200, result)
@@ -153,7 +154,8 @@ class FuxaReadHandler(Handler):
             return self.send(404, {})
         _, city, environment, asset = parts
         try:
-            a = next(a for a in self.server.store.snapshot(city, environment)['assets'] if a['asset_id'] == asset)
+            a = next(a for a in self.server.store.snapshot(city, environment)['assets']
+                     if a['asset_id'] == asset and a['configuration_status'] == 'active')
             tags = []
             for name, r in a['readings'].items():
                 for suffix, value, dtype in [('', r['value'] if r['quality'] == 'valid' else 'unavailable', 'Double'),

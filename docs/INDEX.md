@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4965**.
+Indexed Markdown files: **4966**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4965**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 3 |
 | [design](#design) | 417 |
-| [docs](#docs) | 156 |
+| [docs](#docs) | 157 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4949,6 +4949,7 @@ Indexed Markdown files: **4965**.
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
 | [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |
+| [`docs/release-v0.4.md`](../docs/release-v0.4.md) | OpenSourceRail v0.4.0 development line |
 | [`docs/releases.md`](../docs/releases.md) | Release Policy And Checklist |
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |

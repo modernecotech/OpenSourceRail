@@ -1,7 +1,7 @@
 # Roadmap
 
-This page tracks remaining validation and hardening work after the published
-v0.3.1 baseline. It is a planning map, not a release contract.
+This page tracks remaining validation and hardening work in the v0.4 development
+line after the published v0.3.1 baseline. It is a planning map, not a release contract.
 The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).
@@ -134,7 +134,7 @@ CalculiX thermal-block solver benchmark with a deterministic input, analytical
 acceptance check, and machine-readable result. These tasks improve screening
 evidence but cannot close the external release gates above.
 
-## v0.3 Workstream
+## v0.4 Workstream
 
 | Workstream | Target outcome |
 |---|---|
@@ -154,7 +154,7 @@ Open release gates for certification, hardware, rolling stock,
 civil/station, and operations are tracked in the relevant section
 checklists rather than left as implicit TODOs.
 
-## v0.3 Definition Of Done
+## v0.4 Definition Of Done
 
 - All top-level domains have local READMEs and current status notes.
 - `python3 tools/automation/repo-health.py --quiet` passes on the release tree.

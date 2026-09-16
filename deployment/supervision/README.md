@@ -61,7 +61,10 @@ existing ERP network. Neither account is an ERP administrator.
    references and generated screens. Generic limits are **simulation examples**.
 5. Extend the private principal city scopes before applying. Existing package
    changes require `apply --expected <previous-sha256>`; an identical apply does
-   nothing. Physical mapping changes cannot silently overwrite commissioned data.
+   nothing. An omitted simulation equipment position is retained as retired
+   history: its pending commands fail and new telemetry/commands are rejected.
+   Reintroducing the same reviewed identity reactivates it. Physical mapping
+   changes cannot silently overwrite commissioned data.
 6. Import the combined set of desired city packages into each FUXA instance.
    Import replaces its project; the CLI saves the previous project first.
 
@@ -84,7 +87,9 @@ supplied before physical activation. No railway or protection command is exposed
   is disabled. ERP receives actionable events, never the measurement stream.
 - Alarm delay, hysteresis and repeat suppression are persisted. One incident maps
   to one native Issue. Clearing the signal preserves the case. A later new fault
-  after case closure starts a new incident. Acknowledgement is separate.
+  after case closure starts a new incident. Acknowledgement is immutable for one
+  occurrence; a fresh activation resets it, and a stale browser cannot
+  accidentally acknowledge the newer occurrence. Acknowledgement is separate.
 - Outbox events persist across restarts, retry with bounded backoff and preserve
   per-incident order. ERP's unique incident key and event hashes protect against
   duplicate requests and lost replies. Reconciliation reads native case status.

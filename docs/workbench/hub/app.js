@@ -36,8 +36,11 @@ if(engineering.status==='fulfilled')for(const item of engineering.value.artifact
 }
 if(!artifacts.children.length)artifacts.textContent='No reviewed engineering package for this city.';
 const business=twins.status==='fulfilled' && twins.value.snapshots.find(t=>t.city===context.city);
+const assets=snapshot.status==='fulfilled'?snapshot.value.assets:[];
+const activeAssets=assets.filter(a=>a.configuration_status!=='retired');
+const retiredAssets=assets.length-activeAssets.length;
 document.getElementById('status').textContent=[
-  snapshot.status==='fulfilled'?`${snapshot.value.assets.length} connected equipment positions`:'Supervision not deployed or unavailable',
+  snapshot.status==='fulfilled'?`${activeAssets.length} active equipment positions${retiredAssets?` · ${retiredAssets} retired`:''}`:'Supervision not deployed or unavailable',
   business?`ERP project ${business.project} · feedback ${business.observed_at}`:'ERP city feedback not available',
 ].join(' · ');
 
@@ -54,7 +57,6 @@ if(deployment.status==='fulfilled'){
     button.disabled=true;button.title=`Control workspace belongs to ${d.control_workspace}`;
   }
 }
-const assets=snapshot.status==='fulfilled'?snapshot.value.assets:[];
 const observed=snapshot.status==='fulfilled' && snapshot.value.observed_at ? new Date(snapshot.value.observed_at*1000).toLocaleString() : 'unknown time';
 document.getElementById('refreshInventory').onclick=()=>location.reload();
 function showAssets(){
@@ -67,7 +69,7 @@ function showAssets(){
     const button=document.createElement('button');button.textContent=a.asset_id;
     button.onclick=()=>parent.postMessage({type:'osr:navigate',module:'lifecycle',context:{city:a.city,environment:a.environment,selected_asset:a.asset_id}},location.origin);
     const p=document.createElement('p');const active=a.alarms.filter(r=>r.active).length;
-    p.textContent=`${a.name} · ${a.lifecycle_state} · ${active} active alarms · ${Object.values(a.readings).filter(r=>r.quality==='valid').length}/${Object.keys(a.readings).length} valid readings`;
+    p.textContent=`${a.name} · ${a.configuration_status || 'active'} package · ${a.lifecycle_state} · ${active} active alarms · ${Object.values(a.readings).filter(r=>r.quality==='valid').length}/${Object.keys(a.readings).length} valid readings`;
     card.append(button,p);document.getElementById('assetResults').append(card);
   }
 }

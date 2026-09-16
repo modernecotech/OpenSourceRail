@@ -26,11 +26,11 @@ function render() {
   const oldCommand=$('commandName').value;
   $('commandName').replaceChildren(...commandOptions.map(k=>new Option(k,k)));
   if(commandOptions.includes(oldCommand))$('commandName').value=oldCommand;
-  $('commandForm').hidden=a.environment!=='simulation'||!commandOptions.length;
+  $('commandForm').hidden=a.environment!=='simulation'||a.configuration_status==='retired'||!commandOptions.length;
   setCommandRange();
-  $('overview').innerHTML=[['Equipment',a.name],['OSR source crates',(a.source_crates || []).join(', ') || 'See engineering package'],['OSR identity',a.asset_id],['Engineering revision',a.engineering_revision],['Configuration state',a.lifecycle_state],['Physical serial',a.installations.find(i=>!i.removed)?.serial || 'Not installed']].map(([k,v])=>`<span><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join('');
+  $('overview').innerHTML=[['Equipment',a.name],['OSR source crates',(a.source_crates || []).join(', ') || 'See engineering package'],['OSR identity',a.asset_id],['Engineering revision',a.engineering_revision],['Package status',a.configuration_status || 'active'],['Lifecycle state',a.lifecycle_state],['Physical serial',a.installations.find(i=>!i.removed)?.serial || 'Not installed']].map(([k,v])=>`<span><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join('');
   $('measurements').innerHTML=Object.entries(a.readings).map(([key,r])=>`<article class="metric"><small>${esc(key)}</small><strong>${r.quality==='valid'?esc(r.value):'—'} <small>${esc(r.unit)}</small></strong><div class="quality ${r.quality==='valid'?'':'bad'}">${esc(r.quality)}</div><small>${esc(timestamp(r.source_time))}</small></article>`).join('');
-  $('alarms').innerHTML=a.alarms.length?a.alarms.map(r=>record(`<b class="${r.active?'bad':''}">${esc(r.rule)} · ${r.active?'Active':'Condition clear'}</b><br>${r.case_id?`<a href="${esc(services.erp)}/app/issue/${encodeURIComponent(r.case_id)}" target="_blank" rel="noopener">ERP ${esc(r.case_id)}</a> · ${esc(r.erp_status)}`:r.occurrences?'Maintenance case not delivered':'No actionable fault'} · ${r.occurrences} occurrence(s)<br>Acknowledged: ${esc(r.acknowledged_by || 'No')}${!r.acknowledged_by && r.occurrences ? ` <button type="button" data-ack="${esc(r.rule)}">Acknowledge</button>` : ''}`)).join(''):'No alarm occurrences.';
+  $('alarms').innerHTML=a.alarms.length?a.alarms.map(r=>record(`<b class="${r.active?'bad':''}">${esc(r.rule)} · ${r.active?'Active':'Condition clear'}</b><br>${r.case_id?`<a href="${esc(services.erp)}/app/issue/${encodeURIComponent(r.case_id)}" target="_blank" rel="noopener">ERP ${esc(r.case_id)}</a> · ${esc(r.erp_status)}`:r.occurrences?'Maintenance case not delivered':'No actionable fault'} · ${r.occurrences} occurrence(s)<br>Acknowledged: ${esc(r.acknowledged_by || 'No')}${r.acknowledged_occurrence?` for occurrence ${r.acknowledged_occurrence}`:''}${!r.acknowledged_by && r.occurrences ? ` <button type="button" data-ack="${esc(r.rule)}" data-occurrence="${r.occurrences}">Acknowledge occurrence ${r.occurrences}</button>` : ''}`)).join(''):'No alarm occurrences.';
   const links=[['FUXA supervision',services.fuxa+'/home/'],['ERP project',`${services.erp}/app/project/${encodeURIComponent(a.erp_project)}`],['City execution',`/docs/operating/?city=${encodeURIComponent(a.city)}`],['OSR assurance',`/docs/operations-portal/?city=${encodeURIComponent(a.city)}&asset=${encodeURIComponent(a.asset_id)}`]];
   if(a.erp_asset_id) links.push(['ERP Asset',`${services.erp}/app/asset/${encodeURIComponent(a.erp_asset_id)}`]);
   $('links').innerHTML=links.map(([label,url])=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`).join('');
@@ -101,8 +101,8 @@ $('commandForm').onsubmit=async event=>{
   finally{button.disabled=false;}
 };
 $('alarms').onclick=async event=>{
-  const rule=event.target.closest('[data-ack]')?.dataset.ack;if(!rule||!selected)return;
-  try{await action('alarms/acknowledge',{city:selected.city,environment:selected.environment,asset_id:selected.asset_id,rule});$('actionStatus').textContent='Alarm acknowledged. Maintenance case and railway release are unchanged.';await refresh();}
+  const button=event.target.closest('[data-ack]'),rule=button?.dataset.ack,occurrence=Number(button?.dataset.occurrence);if(!rule||!occurrence||!selected)return;
+  try{await action('alarms/acknowledge',{city:selected.city,environment:selected.environment,asset_id:selected.asset_id,rule,occurrence});$('actionStatus').textContent=`Alarm occurrence ${occurrence} acknowledged. Maintenance case and railway release are unchanged.`;await refresh();}
   catch(error){$('actionStatus').textContent=error.message;}
 };
 
