@@ -95,6 +95,13 @@ def compose(args, **kwargs):
     return subprocess.run([docker, 'compose', '-f', str(ROOT / 'deployment/supervision/compose.yaml')] + args, check=True, env=env, **kwargs)
 
 
+def secure_erp_transfer(erp, *paths, env):
+    """Make private host files readable only by the Frappe container user."""
+    prefix = erp + ['exec', '-T', '--user', 'root', 'backend']
+    subprocess.run(prefix + ['chown', 'frappe:frappe', *paths], check=True, env=env)
+    subprocess.run(prefix + ['chmod', '600', *paths], check=True, env=env)
+
+
 def init():
     PRIVATE.mkdir(parents=True, exist_ok=True, mode=0o700)
     if not (PRIVATE / 'integration.json').exists():
@@ -168,6 +175,7 @@ def main():
         env = {**os.environ, 'PATH': str(Path(docker).parent) + ':' + os.environ['PATH']}
         try:
             subprocess.run(erp + ['cp', str(local), 'backend:' + remote], check=True, env=env)
+            secure_erp_transfer(erp, remote, env=env)
             subprocess.run([str(ROOT / 'osr'), 'erp', 'bench', 'execute', 'osr_erpnext.integration.provision_service', '--kwargs', json.dumps(dict(path=remote,output=output))], check=True)
             subprocess.run(erp + ['cp', 'backend:' + output, str(local)], check=True, env=env)
             cfg = configuration(); cfg['erp'] = json.loads(local.read_text())

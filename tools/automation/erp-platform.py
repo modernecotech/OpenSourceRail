@@ -15,6 +15,13 @@ ROOT = Path(__file__).resolve().parents[2]
 ENV_FILE = ROOT / "var/erpnext/local.env"
 
 
+def secure_container_files(compose, *paths, env):
+    """Give Frappe private read access to files copied from an arbitrary host UID."""
+    prefix = compose + ["exec", "-T", "--user", "root", "backend"]
+    subprocess.run(prefix + ["chown", "frappe:frappe", *paths], check=True, env=env)
+    subprocess.run(prefix + ["chmod", "600", *paths], check=True, env=env)
+
+
 def remove_container_files(compose, *paths, env):
     """Remove host-copied transfer files despite differing host/container UIDs."""
     subprocess.run(
@@ -86,8 +93,9 @@ def main():
         from osr_erpnext.component_catalogue import validate_package
         validate_package(json.loads(selected.read_text()))
         remote = '/tmp/osr-components-' + uuid.uuid4().hex + '.json'
-        subprocess.run(compose + ['cp', str(selected), 'backend:' + remote], check=True, env=env)
         try:
+            subprocess.run(compose + ['cp', str(selected), 'backend:' + remote], check=True, env=env)
+            secure_container_files(compose, remote, env=env)
             subprocess.run(compose + ['exec', '-T', 'backend', 'bench', '--site', config['SITE_NAME'],
                 'execute', 'osr_erpnext.components.apply_file', '--kwargs', json.dumps(dict(path=remote,
                 preview_only=int(args.command == 'component-preview')))], check=True, env=env)
@@ -108,8 +116,9 @@ def main():
         else:
             import_module("osr_erpnext.planning").validate_plan(plan)
         remote = "/tmp/osr-plan-" + uuid.uuid4().hex + ".json"
-        subprocess.run(compose + ["cp", str(selected.plan.resolve()), "backend:" + remote], check=True, env=env)
         try:
+            subprocess.run(compose + ["cp", str(selected.plan.resolve()), "backend:" + remote], check=True, env=env)
+            secure_container_files(compose, remote, env=env)
             subprocess.run(compose + ["exec", "-T", "backend", "bench", "--site", config["SITE_NAME"],
                 "execute", "osr_erpnext.api.import_file", "--kwargs",
                 json.dumps({"path": remote, "company": selected.company})], check=True, env=env)
