@@ -17,7 +17,14 @@ Start the existing ERP stack first (`./osr erp up`). Then:
 ./osr supervision prepare mosul --first-site
 ./osr supervision apply build/supervision/samawah/simulation/package.json
 ./osr supervision apply build/supervision/mosul/simulation/package.json
-./osr supervision import-fuxa build/supervision/samawah/simulation/package.json build/supervision/mosul/simulation/package.json
+./osr supervision preview-fuxa \
+  build/supervision/samawah/simulation/package.json \
+  build/supervision/mosul/simulation/package.json \
+  --output build/supervision/fuxa-import-review.json
+./osr supervision import-fuxa \
+  build/supervision/samawah/simulation/package.json \
+  build/supervision/mosul/simulation/package.json \
+  --review build/supervision/fuxa-import-review.json
 ./osr supervision simulate
 ```
 
@@ -37,6 +44,13 @@ FUXA 1.3.4 and the Python runtime are pinned by image digest. The adapter genera
 FUXA's project export format and imports it through `/api/project`, also used by
 its UI. It does not modify FUXA's database. Global tag IDs are unique across cities.
 FUXA's native connection-status tags hide values when the gateway is stale/offline.
+Import is review-bound: the preview records every included city/environment package,
+revision, checksum, site, device and view, then lists live devices/views that will
+be added, replaced, retained or removed and identifies changes to remaining project
+settings such as charts/navigation. Because the current generator has no
+separate custom-display input, `reviewed_display_customisations` is explicitly
+empty. Move an intentional live edit into a reviewed generator input before import;
+otherwise the preview correctly identifies it as a replacement or removal.
 
 ## ERP integration principal
 
@@ -68,8 +82,11 @@ existing ERP network. Neither account is an ERP administrator.
    history: its pending commands fail and new telemetry/commands are rejected.
    Reintroducing the same reviewed identity reactivates it. Physical mapping
    changes cannot silently overwrite commissioned data.
-6. Import the combined set of desired city packages into each FUXA instance.
-   Import replaces its project; the CLI saves the previous project first.
+6. Preview the combined set of desired city packages with `preview-fuxa`, review
+   its manifest and add/change/remove sets, then supply that exact file to
+   `import-fuxa --review`. Any intervening live-project or package change is
+   rejected. Import replaces the complete project and privately saves both the
+   previous export and applied review first.
 
 `--environment physical` produces a commissioning-required package. The service
 rejects telemetry and commands for those uncommissioned bindings. Vendor register

@@ -139,6 +139,14 @@ binding is the Rust simulation gateway. Physical Modbus/OPC UA/MQTT/NATS adapter
 need the actual supplier interfaces and deployed broker configuration. No new
 broker or Node-RED installation is needed for this HTTP pilot.
 
+FUXA full-project replacement is now guarded by a deterministic deployment
+manifest and a live-versus-desired review. The review exposes every device/view
+addition, replacement and removal and becomes stale if either side changes. The
+previous project and applied review are backed up before import. Reviewed custom
+display inputs are not yet a separate configuration type, so the manifest records
+an empty set and treats live-only edits as explicit removals rather than silently
+claiming they are preserved.
+
 The later commercial, fare settlement, land agreements, supplier localisation,
 multi-location repair-pool and contractor valuation proposals require their own reviewed rules
 and real master data. This implementation establishes their stable identities and

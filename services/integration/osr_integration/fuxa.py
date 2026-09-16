@@ -7,6 +7,90 @@ from .config import digest, validate_package
 VERSION = '1.3.4'
 
 
+def _project_payload(value):
+    """Accept FUXA's direct export and its API response wrapper."""
+    if isinstance(value, dict) and isinstance(value.get('data'), dict):
+        candidate = value['data']
+        if 'devices' in candidate or 'hmi' in candidate:
+            return candidate
+    return value if isinstance(value, dict) else {}
+
+
+def _views(value):
+    return {row['id']: row for row in _project_payload(value).get('hmi', {}).get('views', [])
+            if isinstance(row, dict) and row.get('id')}
+
+
+def _devices(value):
+    return _project_payload(value).get('devices', {}) or {}
+
+
+def _settings(value):
+    payload = _project_payload(value)
+    hmi = payload.get('hmi', {})
+    return {**{key: row for key, row in payload.items() if key not in {'devices', 'hmi'}},
+        'hmi': {key: row for key, row in hmi.items() if key != 'views'}}
+
+
+def _changes(current, desired):
+    old, new = set(current), set(desired)
+    return dict(added=sorted(new - old), removed=sorted(old - new),
+        changed=sorted(key for key in old & new if digest(current[key]) != digest(desired[key])),
+        unchanged=sorted(key for key in old & new if digest(current[key]) == digest(desired[key])))
+
+
+def deployment_manifest(packages, desired=None):
+    """Declare exactly which generated city packages and displays an import contains."""
+    scopes, rows = set(), []
+    for package in packages:
+        validate_package(package)
+        scope = (package['city'], package['environment'])
+        if scope in scopes:
+            raise ValueError('Only one FUXA package per city/environment may be imported')
+        scopes.add(scope)
+        sites = sorted({row['site_id'] for row in package['equipment']})
+        rows.append(dict(city=package['city'], environment=package['environment'],
+            engineering_revision=package['engineering_revision'], package_sha256=package['sha256'],
+            sites=sites, equipment=len(package['equipment']),
+            devices=sorted(row['fuxa_device_id'] for row in package['equipment']),
+            views=['v_' + digest([package['city'], package['environment'], site])[:16] for site in sites]))
+    desired = project(packages) if desired is None else desired
+    payload = _project_payload(desired)
+    manifest = dict(schema='osr-fuxa-deployment/1', fuxa_version=VERSION,
+        packages=sorted(rows, key=lambda row: (row['city'], row['environment'])),
+        reviewed_display_customisations=[],
+        customisation_policy='Generated displays only; live-only or changed views are explicit removals/replacements in the import review',
+        device_ids=sorted(_devices(payload)), view_ids=sorted(_views(payload)),
+        desired_project_sha256=digest(payload))
+    manifest['sha256'] = digest(manifest)
+    return manifest
+
+
+def deployment_review(current, packages):
+    """Bind an add/change/remove preview to the live and desired FUXA projects."""
+    desired = project(packages)
+    old = _project_payload(current)
+    review = dict(schema='osr-fuxa-import-review/1', current_project_sha256=digest(old),
+        desired_project_sha256=digest(desired), manifest=deployment_manifest(packages, desired),
+        devices=_changes(_devices(old), _devices(desired)),
+        views=_changes(_views(old), _views(desired)),
+        project_settings=dict(changed=digest(_settings(old)) != digest(_settings(desired)),
+            current_sha256=digest(_settings(old)), desired_sha256=digest(_settings(desired))),
+        replacement='FUXA project import replaces the complete live project')
+    review['destructive_changes'] = bool(review['devices']['removed'] or review['devices']['changed'] or
+        review['views']['removed'] or review['views']['changed'] or
+        (review['project_settings']['changed'] and (_devices(old) or _views(old))))
+    review['sha256'] = digest(review)
+    return review
+
+
+def validate_deployment_review(current, packages, supplied):
+    expected = deployment_review(current, packages)
+    if supplied != expected:
+        raise ValueError('FUXA project or desired packages changed after review; preview again')
+    return expected
+
+
 def project(packages):
     devices, views, navigation, system_tags = {}, [], [], {}
     for package in packages:

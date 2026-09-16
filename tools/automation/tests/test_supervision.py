@@ -17,7 +17,7 @@ from osr_integration.store import Store
 from osr_integration.server import deliver
 from osr_integration.engineering import package as engineering_package, execution_proposal, ifc_overlay
 from osr_integration.embedded import energy_measurements, operating_measurements
-from osr_integration.fuxa import project
+from osr_integration.fuxa import deployment_manifest, deployment_review, project, validate_deployment_review
 
 
 def iso(t):
@@ -291,6 +291,33 @@ class IntegrationTest(unittest.TestCase):
         f = project([self.package]); self.assertEqual(len(f['devices']), 4)
         self.assertTrue(all('postTags' not in d['property'] for d in f['devices'].values()))
         self.assertTrue(any(k.endswith('__temperature_c_quality') for d in f['devices'].values() for k in d['tags']))
+
+    def test_fuxa_import_review_lists_replacements_and_binds_projects(self):
+        desired = project([self.package])
+        current = copy.deepcopy(desired)
+        removed_device = next(iter(current['devices']))
+        del current['devices'][removed_device]
+        current['devices']['operator-custom-device'] = {'id': 'operator-custom-device'}
+        changed_view = current['hmi']['views'][0]['id']
+        current['hmi']['views'][0]['name'] = 'Unreviewed live edit'
+        current['hmi']['views'].append({'id': 'operator-custom-view', 'name': 'Local display'})
+        current['charts'] = [{'id': 'operator-custom-chart'}]
+        review = deployment_review({'data': current}, [self.package])
+        self.assertEqual(review['schema'], 'osr-fuxa-import-review/1')
+        self.assertIn(removed_device, review['devices']['added'])
+        self.assertIn('operator-custom-device', review['devices']['removed'])
+        self.assertIn(changed_view, review['views']['changed'])
+        self.assertIn('operator-custom-view', review['views']['removed'])
+        self.assertTrue(review['project_settings']['changed'])
+        self.assertTrue(review['destructive_changes'])
+        self.assertEqual(review['sha256'], digest({k: v for k, v in review.items() if k != 'sha256'}))
+        self.assertEqual(validate_deployment_review({'data': current}, [self.package], review), review)
+        stale = copy.deepcopy(current); stale['devices']['operator-custom-device']['name'] = 'Changed after preview'
+        with self.assertRaises(ValueError): validate_deployment_review(stale, [self.package], review)
+        manifest = deployment_manifest([self.package])
+        self.assertEqual(manifest['packages'][0]['city'], 'samawah')
+        self.assertEqual(manifest['reviewed_display_customisations'], [])
+        with self.assertRaises(ValueError): deployment_manifest([self.package, self.package])
 
     def test_embedded_units(self):
         r = energy_measurements(dict(schema='osr-energy-site/1', pv_w=240000, to_pad_w=180000, battery_soc_ppt=720))

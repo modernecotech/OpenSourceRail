@@ -66,16 +66,28 @@ ERP project binding and scoped principals. Then:
 # Initial installation: apply each generated package.
 ./osr supervision apply build/supervision/samawah/simulation/package.json
 ./osr supervision apply build/supervision/mosul/simulation/package.json
-./osr supervision import-fuxa build/supervision/samawah/simulation/package.json build/supervision/mosul/simulation/package.json
+./osr supervision preview-fuxa \
+  build/supervision/samawah/simulation/package.json \
+  build/supervision/mosul/simulation/package.json \
+  --output build/supervision/fuxa-import-review.json
+./osr supervision import-fuxa \
+  build/supervision/samawah/simulation/package.json \
+  build/supervision/mosul/simulation/package.json \
+  --review build/supervision/fuxa-import-review.json
 ./osr supervision simulate
 ```
 
 For an existing installation, take `./osr supervision backup` and review the
 package diff. `apply --expected PREVIOUS_SHA256` requires the previous package
 hash and preserves asset identity, history and evidence. Physical mapping changes
-remain blocked. FUXA import backs up the previous project before replacing it;
-include every package whose displays must remain. Its generated asset links
-return to the Workbench in the same browser window.
+remain blocked. The FUXA preview binds the live project checksum to the desired
+project and records included package/revision hashes plus device/view additions,
+changes and removals, along with other project-setting changes. Import requires
+that unchanged review, then backs up both it
+and the previous project before replacement. Include every package whose displays
+must remain. Untracked live display edits appear explicitly as replacements or
+removals; move wanted changes into a reviewed generator input before import. The
+generated asset links return to the Workbench in the same browser window.
 
 Without selection flags, preparation expands the templates across applicable
 station, depot and rolling-stock assets. `--first-site --first-vehicle` deliberately

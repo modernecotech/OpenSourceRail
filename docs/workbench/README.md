@@ -133,6 +133,8 @@ unrelated project's records. Native permissions still apply to every record.
 FUXA navigation requests the generated view for the chosen city, environment and
 site, preferring the selected asset's site. Verify its displayed city/site name:
 FUXA may fall back to its default if the prepared view has not been imported.
+Before import, `preview-fuxa` lists the exact package checksums and all device/view
+additions, replacements and removals; `import-fuxa` rejects a stale review.
 The installed-stack check verifies actual Samawah/Mosul display switching, ERP
 project filtering and a simulation analysis evidence record in addition to its
 supervisory command check.

@@ -24,6 +24,9 @@ and renewal while each service retains its own permissions and authority.
 - Revision-safe supervisory updates: removed equipment is retained as retired
   history, pending commands fail, telemetry and new commands are rejected, and a
   later reviewed package can reactivate the stable asset identity.
+- Review-bound FUXA replacement with a package/device/view manifest, explicit
+  add/change/remove sets, stale-review rejection and backups of both the previous
+  project and the applied review.
 - Occurrence-bound alarm acknowledgment, including stale-view rejection and a
   fresh acknowledgment requirement when a cleared condition activates again.
 - A generated catalogue-readiness gate that compiles all 266 ERP/component

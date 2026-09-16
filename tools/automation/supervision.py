@@ -18,7 +18,7 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services/integration'))
 from osr_integration.config import build_package, merge
-from osr_integration.fuxa import project
+from osr_integration.fuxa import deployment_review, project, validate_deployment_review
 from osr_integration.server import request_json
 from osr_integration.engineering import package as engineering_package, execution_proposal
 
@@ -144,7 +144,8 @@ def main():
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
     p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true')
     p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected')
-    p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path)
+    p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path)
+    p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--review', required=True, type=Path)
     p = sub.add_parser('engineering'); p.add_argument('manifest', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('execution-proposal'); p.add_argument('engineering', type=Path); p.add_argument('mapping', type=Path); p.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
@@ -203,12 +204,25 @@ def main():
         print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
     elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle))
     elif args.command == 'apply': print(json.dumps(api('/packages', {'package': json.loads(args.package.read_text()), 'expected': args.expected}), indent=2))
-    elif args.command == 'import-fuxa':
+    elif args.command in ('preview-fuxa', 'import-fuxa'):
+        packages = [json.loads(path.read_text()) for path in args.packages]
         old = fuxa_api('/api/project')
+        review = deployment_review(old, packages)
+        if args.command == 'preview-fuxa':
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(json.dumps(review, indent=2) + '\n')
+            changes = (sum(len(review[k][change]) for k in ('devices', 'views')
+                for change in ('added', 'changed', 'removed')) + int(review['project_settings']['changed']))
+            print(f'FUXA import review written: {args.output} ({changes} additions/changes/removals)')
+            return
+        supplied = json.loads(args.review.read_text())
+        validate_deployment_review(old, packages, supplied)
         folder = PRIVATE / 'backups'; folder.mkdir(exist_ok=True)
-        write_private(folder / f'fuxa-before-{time.time_ns()}.json', json.dumps(old))
-        fuxa_api('/api/project', project([json.loads(p.read_text()) for p in args.packages]))
-        print('FUXA project imported; previous project backed up')
+        stamp = time.time_ns()
+        write_private(folder / f'fuxa-before-{stamp}.json', json.dumps(old))
+        write_private(folder / f'fuxa-review-{stamp}.json', json.dumps(review))
+        fuxa_api('/api/project', project(packages))
+        print('Reviewed FUXA project imported; previous project and applied review backed up')
     elif args.command in ('engineering', 'execution-proposal'):
         result = engineering_package(ROOT, json.loads(args.manifest.read_text())) if args.command == 'engineering' else execution_proposal(json.loads(args.engineering.read_text()), json.loads(args.mapping.read_text()))
         args.output.parent.mkdir(parents=True, exist_ok=True); args.output.write_text(json.dumps(result, indent=2) + '\n'); print(args.output)

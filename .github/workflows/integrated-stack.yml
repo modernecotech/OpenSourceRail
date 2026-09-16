@@ -93,9 +93,14 @@ jobs:
           done
           ./osr supervision apply build/supervision/samawah/simulation/package.json
           ./osr supervision apply build/supervision/mosul/simulation/package.json
+          ./osr supervision preview-fuxa \
+            build/supervision/samawah/simulation/package.json \
+            build/supervision/mosul/simulation/package.json \
+            --output build/supervision/fuxa-import-review.json
           ./osr supervision import-fuxa \
             build/supervision/samawah/simulation/package.json \
-            build/supervision/mosul/simulation/package.json
+            build/supervision/mosul/simulation/package.json \
+            --review build/supervision/fuxa-import-review.json
 
       - name: Start the native embedded simulator and Workbench
         run: |
@@ -149,6 +154,7 @@ jobs:
           name: integrated-stack-diagnostics
           path: |
             build/integrated-stack/
+            build/supervision/fuxa-import-review.json
             build/supervision-fuxa*.png
             build/workbench-*-integrated.png
           if-no-files-found: ignore
