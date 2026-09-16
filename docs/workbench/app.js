@@ -36,9 +36,13 @@ let operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "
 let twinJob = null;
 let catalogue = [];
 let detailPath = "";
+let navigationId = 0;
 document.getElementById("reloadModule").onclick = () => navigate(activeModule, detailPath);
 document.getElementById("citySelector").onchange = event => {
   updateContext({ city: event.target.value });
+  // Do not leave another city's native records visible if resolving the new scope fails.
+  frame.src = "about:blank";
+  document.getElementById("openNative").removeAttribute("href");
   enforceAccess();
 };
 
@@ -92,8 +96,42 @@ frame.addEventListener("load", () => {
   if (new URL(frame.src || location.href).origin === location.origin) frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
 });
 
-function navigate(module, path = "") {
-  if (!isAllowed(module)) return;
+async function navigate(module, path = "") {
+  if (!isAllowed(module)) {
+    document.getElementById("moduleScope").textContent = `This view is unavailable for ${context.city}, ${context.mode} and ${context.role}. Railway controls belong to ${bootstrap.city}.`;
+    return;
+  }
+  const requestId = ++navigationId;
+  const selectedCity = context.city;
+  const spec = registry.modules.find(m => m.id === module);
+  let cityStatus;
+  if (!path && ["erp", "fuxa"].includes(spec.service)) {
+    document.getElementById("moduleScope").textContent = "Resolving city workspace…";
+    try {
+      const response = await fetch('/api/workbench/city?' + new URLSearchParams({city:context.city,environment:context.environment}));
+      if (!response.ok) throw new Error('City deployment status unavailable');
+      cityStatus = await response.json();
+    } catch (error) {
+      if(requestId === navigationId) document.getElementById("moduleScope").textContent = error.message;
+      return;
+    }
+    if (requestId !== navigationId || selectedCity !== context.city) return;
+    if (spec.service === "erp") {
+      path = cityStatus.erp.routes[module] || "";
+      if (["tasks","procurement","receipts","manufacturing","stock","issues","finance"].includes(module) && !path) {
+        document.getElementById("moduleScope").textContent = `No unambiguous ERP project for ${context.city}. Open City execution or Projects to configure it.`;
+        return;
+      }
+    }
+    if (spec.service === "fuxa") {
+      const site = cityStatus.supervision.sites.find(site => context.selected_asset === site || context.selected_asset?.startsWith(site + ':')) || cityStatus.supervision.sites[0];
+      if (!site) {
+        document.getElementById("moduleScope").textContent = `No supervision package for ${context.city} / ${context.environment}.`;
+        return;
+      }
+      path = '/home/?' + new URLSearchParams({viewName:`${context.city} · ${site} · ${context.environment}`});
+    }
+  }
   activeModule = module;
   detailPath = path;
   const query = contextQuery();
@@ -103,7 +141,6 @@ function navigate(module, path = "") {
     occ: `/occ/?${query}`,
     operations: `/operations/?data=${encodeURIComponent(operationsData())}&${query}#core`,
   };
-  const spec = registry.modules.find(m => m.id === module);
   const environment = context.environment;
   routes.lifecycle = `/docs/lifecycle/?${new URLSearchParams({city:context.city,asset:context.selected_asset || "",environment})}`;
   routes.operating = `/docs/operating/?${query}`;
@@ -113,8 +150,8 @@ function navigate(module, path = "") {
   document.getElementById("openNative").href = frame.src;
   document.getElementById("moduleTitle").textContent = spec.label;
   document.getElementById("moduleScope").textContent = spec.service === "erp"
-    ? "Native ERP permissions · lists may contain multiple cities; use City execution for the linked project."
-    : spec.service === "fuxa" ? "Native FUXA permissions · select the city display inside supervision."
+    ? (cityStatus?.erp.routes[module] ? `${context.city} · ERP project ${cityStatus.erp.project || "not yet linked"}${cityStatus.erp.stale ? " · feedback unavailable or over one hour old" : ""} · native ERP permissions` : "Native ERP permissions · organisation-wide records; City execution provides project-linked actuals.")
+    : spec.service === "fuxa" ? `${context.city} · ${context.environment} · verify the named display in FUXA; package preparation does not prove import or connectivity.`
     : "Shared city and asset context";
   history.replaceState(null, "", `/?module=${activeModule}&${contextQuery()}${path ? '&tool_path='+encodeURIComponent(path) : ''}`);
   render();
@@ -122,6 +159,7 @@ function navigate(module, path = "") {
 
 function updateContext(patch) {
   if (valid(patch.city, /^[a-z0-9][a-z0-9-]{0,63}$/) && patch.city !== context.city) {
+    navigationId++;
     context.city = patch.city;
     for (const key of ["revision", "baseline_sha256", "run_id", "selected_asset"]) delete context[key];
     if (context.mode === "live") context.mode = "training";
@@ -143,11 +181,11 @@ function updateContext(patch) {
   if (new URL(frame.src || location.href).origin === location.origin) frame.contentWindow?.postMessage({ type: "osr:context", context: { ...context } }, location.origin);
 }
 
-function enforceAccess() {
+async function enforceAccess() {
   if (!isAllowed(activeModule)) {
     activeModule = context.mode === "live" && isAllowed("occ") ? "occ" : "operations";
   }
-  navigate(activeModule);
+  await navigate(activeModule);
 }
 
 function isAllowed(module) {
@@ -346,7 +384,7 @@ function valid(value, pattern) {
 
 await loadTwinCatalogue();
 loadPortfolio();
-enforceAccess();
+await enforceAccess();
 const savedPath = params.get("tool_path");
 if (savedPath && registry.modules.find(m=>m.id===activeModule)?.service !== "local") {
   const spec = registry.modules.find(m=>m.id===activeModule);

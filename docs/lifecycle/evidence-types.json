@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "types": [
+    {"id":"design-review","label":"Design review","role":"engineer","fields":[]},
+    {"id":"execution-release","label":"Execution release","role":"reviewer","fields":[]},
+    {"id":"installation","label":"Installation / serial replacement","role":"engineer","fields":[{"name":"serial","label":"Installed serial","required":true},{"name":"batch","label":"Batch"},{"name":"replaces_serial","label":"Previous serial (required for replacement)"}]},
+    {"id":"commissioning-test","label":"Commissioning test","role":"inspector","fields":[{"name":"result","label":"Test result","options":["pass","fail"],"required":true}]},
+    {"id":"commissioning-release","label":"Simulation commissioning release","role":"reviewer","simulation_only":true,"fields":[{"name":"test_id","label":"Passing test evidence ID (independent inspector)","required":true}]},
+    {"id":"maintenance","label":"Maintenance record","role":"maintainer","fields":[]},
+    {"id":"renewal","label":"Renewal review","role":"reviewer","fields":[]},
+    {"id":"analysis","label":"Engineering analysis","role":"engineer","fields":[]},
+    {"id":"change-proposal","label":"Engineering change proposal","role":"engineer","fields":[]}
+  ]
+}

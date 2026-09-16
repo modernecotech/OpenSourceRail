@@ -260,6 +260,9 @@ class Store:
             row = db.execute('SELECT * FROM commands WHERE id=?', (identifier(cid),)).fetchone()
             if not row or self.asset(db, row['scope'])['source_id'] != principal:
                 raise PermissionError('Controller does not own command')
+            # Lost replies may cause the same owned controller result to be retried.
+            if row['state'] == state and row['result'] == str(result)[:2000] and (state in ('completed', 'failed', 'rejected') or row['expires'] > now):
+                return {'state': state}
             transitions = {'requested': ('accepted', 'rejected'), 'accepted': ('completed', 'failed')}
             if state not in transitions.get(row['state'], ()):
                 raise ValueError('Invalid controller command transition')
@@ -278,8 +281,14 @@ class Store:
         kind = message['kind']
         if kinds.get(kind) != role:
             raise PermissionError('Evidence authority required')
-        if not message.get('references') or not message.get('engineering_revision'):
+        refs = message.get('references')
+        if not isinstance(refs, list) or not 1 <= len(refs) <= 50 or any(
+                not isinstance(ref, str) or not ref.strip() or len(ref) > 2048 for ref in refs):
+            raise ValueError('Provide 1 to 50 non-empty versioned evidence references')
+        if not message.get('engineering_revision'):
             raise ValueError('Versioned source evidence required')
+        if kind == 'commissioning-test' and message.get('result') not in {'pass', 'fail'}:
+            raise ValueError('Commissioning test result must be pass or fail')
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             a = self.asset(db, scope)

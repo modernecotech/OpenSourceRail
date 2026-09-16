@@ -1,6 +1,6 @@
 # OpenSourceRail
 
-OpenSourceRail is an open-source, deterministic urban-rail platform with a different economic model: retain design authority, software, fabrication, integration, operations and maintenance capability in-country instead of importing a closed foreign-turnkey system. GIS, CAD/IFC, simulation, cost and assurance share one Git-reviewable model.
+OpenSourceRail is an open-source, deterministic urban-rail platform with a different economic model: retain design authority, software, fabrication, integration, operations and maintenance capability in-country instead of importing a closed foreign-turnkey system. GIS, CAD/IFC, simulation, embedded software, business execution and equipment supervision form one connected system, with shared city, asset and engineering-revision identities.
 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids,
@@ -48,7 +48,8 @@ The first adoptable product is the non-safety owner/operator stack: simulator, O
 |---|---|
 | Deterministic city generation | Reproducible network, station, fleet, energy, engineering, finance and operations packages under [cities/catalogue/](cities/catalogue/README.md). |
 | Generatable project digital twin | Every city regeneration joins its assets, BOM, finite-resource CPM, critical path, manufacturer candidate IDs and selection states, supplier/order-by plan, schedule of values, monthly local/import cash requirements, QA gates and construction-state timeline in one revisioned model. The compact summary is kept on GitHub; issued orders, deliveries, invoices, payments and actual progress belong in ERPNext. |
-| Integrated Workbench | [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) share city, actor, immutable revision, approved baseline, run and selected-asset context without merging authority boundaries. |
+| Integrated Workbench | [One UI](docs/workbench/README.md) brings together City Studio, simulation, OCC, railway works, ERPNext/Frappe HR, FUXA and the connected asset lifecycle, with city-specific navigation and native service permissions. |
+| Business execution and embedded maintenance | ERPNext handles projects, tasks, procurement, stock, manufacturing, quality, finance, HR and maintenance. Six native Rust evaluators feed station/vehicle supervision, timestamped history and deduplicated ERP maintenance cases through the [integration gateway](docs/lifecycle/embedded-integration.md). |
 | Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
 | Independent operations cross-check | OSR publishes per-line reference journey times and compares them with a scenario-bound SUMO model using the actual opportunity-charging dwells. [Samawah](cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) and [Mosul](cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md) pass the automatic running-time screen; junction-conflict evidence and authority acceptance remain explicitly open. |
@@ -59,6 +60,14 @@ The first adoptable product is the non-safety owner/operator stack: simulator, O
 | Automatic cost propagation | CAD-indexed quantities feed the civil rate contract, city CAPEX, finance, IFC properties, national briefs and the developing-world [portfolio summary](docs/portfolio-summary.md). |
 | Operations and assurance | Authenticated city-scoped roles, managed photos/files, server-attested inspections and independent handback, controlled document revisions, NCR closeout, verified backups and acceptance evidence remain linked to source artifacts. |
 | Deterministic browser testing | Pinned Playwright acceptance verifies the integrated browser applications, adapters, engineering jobs and restart persistence. |
+
+## Integrated Operating And Digital-Twin Platform
+
+OpenSourceRail covers **plan → design → procure → manufacture → construct → commission → operate → maintain → renew** through one Workbench. ERPNext and Frappe HR provide the business backbone; FUXA provides equipment supervision; OSR retains railway controls, engineering evidence and independent handback. FreeCAD, Bonsai/IFC and QGIS remain connected engineering tools with versioned artifacts and asset-selection links.
+
+Shared templates and city-specific profiles make the operating platform reproducible across the catalogue. The installed **Samawah and Mosul simulation pilots** each link a station and a trainset to native Rust energy, station SCADA, BMS, auxiliary-power, HVAC and condition-monitoring evaluators. Source-quality checks, controller state retained between samples, alarm delays and a durable delivery queue connect controller conditions to ERP maintenance cases; clearing a condition does not close a case or release a railway asset.
+
+The UI includes city-filtered ERP workflows, searchable equipment, measurements and trends, reviewed lifecycle evidence, serial/batch replacement history and bounded simulation lighting requests. ERP/FUXA retain their own sign-in and permissions. Desktop editors are linked rather than browser-hosted; physical supplier interfaces and commissioning remain deployment work. Start with the [Workbench guide](docs/workbench/README.md), [ERPNext city setup](docs/operating/city-platform.md), [FUXA/gateway setup](deployment/supervision/README.md) and [crate integration contract](docs/lifecycle/embedded-integration.md).
 
 ## Generate A City Delivery Twin
 
@@ -74,11 +83,21 @@ finite-resource CPM → schedule of values → monthly cash requirements
 IFC/visualization state timeline + QA/work orders + recorded actuals
 ```
 
-Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Railway works → Project Twin** to inspect the planning baseline. Use **Operating · ERPNext** for reviewed purchases, business execution and actual commercial records.
+Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Railway works → Project Twin** to inspect the planning baseline. Use **Workbench → City execution / ERP workspace** for reviewed purchases, business execution and actual commercial records.
 
 The model uses about **$0.9M per 3-car light-metro trainset** as a local factory-gate planning target (LM3 build record: $885k) and **$60k per supported vehicle/car module** for one shared country factory. Homologation, supplier qualification, first-of-class engineering, warranty and deployment are separate gates and cannot be compared directly with an OEM delivered price.
 
 ## Current System
+
+| Unified lifecycle workspace | ERPNext city project and reusable actions |
+|---|---|
+| ![Installed Workbench lifecycle overview and city deployment status](docs/screenshots/workbench/lifecycle-overview.png) | ![Native ERPNext project and OpenSourceRail operating actions inside Workbench](docs/screenshots/workbench/erp-city-project.png) |
+
+| Embedded vehicle supervision | Controller condition to ERP maintenance |
+|---|---|
+| ![FUXA vehicle BMS, auxiliary power, HVAC and condition monitoring from Rust evaluators](docs/screenshots/workbench/embedded-supervision.png) | ![OSR vehicle condition monitoring linked to its ERP maintenance case](docs/screenshots/workbench/vehicle-maintenance.png) |
+
+These are screenshots of the installed simulation platform, not mockups. [Reproduce the captures](deployment/workbench/tests/capture-platform.mjs).
 
 | City Studio | Civil IFC coordination | Any-city project digital twin |
 |---|---|---|
@@ -98,6 +117,7 @@ Use this only human-facing front door instead of browsing the generated file inv
 |---|---|
 | Understand the whole system | [Architecture](docs/ARCHITECTURE.md) and [software diagrams](docs/software-architecture-diagrams.md) |
 | Design a city, line, station or service | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio.md) |
+| Run projects, procurement, people and equipment maintenance | [ERPNext operating platform](docs/operating/README.md), [connected lifecycle](docs/lifecycle/README.md) and [embedded integration](docs/lifecycle/embedded-integration.md) |
 | Explore a country or city | [City catalogue](cities/catalogue/README.md); each local page contains only local evidence |
 | Review costs or the portfolio | [Cost model](docs/cost-model.md) and [developing-world portfolio](docs/portfolio-summary.md) |
 | Review trains, civil works or stations | [LM3 trainset](docs/rolling-stock/light-metro-3car/README.md), [civil](docs/civil/README.md) and [stations](docs/stations/README.md) |
@@ -122,17 +142,13 @@ On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or Arc
 
 It first reports what is already installed. Declining the installation makes no changes; accepting installs only missing native libraries and keeps Rust, Node.js, Python, uv, Trunk and browser tools under your home folder. It then asks whether to add the larger FreeCAD, Blender/Bonsai, QGIS, CloudCompare, SUMO, RTKLIB, EnergyPlus and FDS applications, and whether to start the GUI. There are no setup options or environment variables to configure.
 
-After setup, one command regenerates the shared design and cost data, product
-catalogues, browser and native applications, BOMs, IFC4.3 reference packages,
-the root PDF book, and documentation checks:
+After setup, one command regenerates the shared design and cost data, product catalogues, browser and native applications, BOMs, IFC4.3 reference packages, the root PDF book, and documentation checks:
 
 ```bash
 ./osr build
 ```
 
-It uses the checked-in city models and therefore does not silently reroute all
-265 public city plans from changing internet data. Route changes are made in
-City Studio or regenerated explicitly with their source locks.
+It uses the checked-in city models and therefore does not silently reroute all 265 public city plans from changing internet data. Route changes are made in City Studio or regenerated explicitly with their source locks.
 
 Run the integrated Workbench:
 
@@ -140,8 +156,7 @@ Run the integrated Workbench:
 ./osr
 ```
 
-Open <http://127.0.0.1:8090/>. The local development server is not an
-authenticated public deployment.
+Open <http://127.0.0.1:8090/>. The local development server is not an authenticated public deployment.
 
 Run the deterministic simulator:
 
@@ -149,13 +164,7 @@ Run the deterministic simulator:
 ./osr sim --duration 3600 --status-every 300
 ```
 
-Disposable generated applications remain under `build/frontend/`, native
-executables under `target/release/`, and other local job output under `build/`.
-The public review set is deliberately outside those temporary trees: the
-[reader book](OpenSourceRail-Book.pdf), tracked
-[CAD assemblies](design/component-catalogue/models/cad/) and
-[BIM coordination package](engineering/models/bim/reference/) are available
-directly from GitHub.
+Disposable generated applications remain under `build/frontend/`, native executables under `target/release/`, and other local job output under `build/`. The public review set is deliberately outside those temporary trees: the [reader book](OpenSourceRail-Book.pdf), tracked [CAD assemblies](design/component-catalogue/models/cad/) and [BIM coordination package](engineering/models/bim/reference/) are available directly from GitHub.
 
 ## Evidence And Revision Model
 
@@ -171,16 +180,11 @@ GIS / OSR-ALN / IFC / CAD / cost / simulation artifacts
 approval evidence → training/operations baseline
 ```
 
-Planning and training views cannot emit live OCC commands. A revision hash is
-not an approval; approval records are append-only and must reference independent
-review evidence. Generated city packages still require survey, calibrated
-demand, utility and ground data, supplier selection, first-article testing,
-competent engineering review and national authorization.
+Planning and training views cannot emit live OCC commands. A revision hash is not an approval; approval records are append-only and must reference independent review evidence. Generated city packages still require survey, calibrated demand, utility and ground data, supplier selection, first-article testing, competent engineering review and national authorization.
 
 ## Source Of Truth
 
-Change the source in the middle column and regenerate the output on the right.
-Generated files are review evidence, not parallel inputs.
+Change the source in the middle column and regenerate the output on the right. Generated files are review evidence, not parallel inputs.
 
 | Concern | Edit here | Derived or explanatory material |
 |---|---|---|
@@ -189,6 +193,7 @@ Generated files are review evidence, not parallel inputs.
 | GIS ingestion, city synthesis and scenario generation | [`design/city-generation/`](design/city-generation/README.md) | Published city catalogue and simulator inputs |
 | Shared planning assumptions | [`lib/templates/`](lib/templates/) and [`lib/recipes/`](lib/recipes/) | City designs, finance, energy and engineering evidence |
 | City catalogue membership | [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | [`cities/catalogue/`](cities/catalogue/README.md) catalogue and national briefs |
+| Operating platform and equipment integration | [`deployment/erpnext/`](deployment/erpnext/README.md), [`deployment/supervision/`](deployment/supervision/README.md), [`services/integration/`](services/integration/) and native Rust evaluators | City-specific ERP workflows, generated FUXA views, equipment history and linked maintenance evidence |
 | Interactive city revisions | [`cities/workspaces/`](cities/workspaces/README.md) | Content-addressed candidates and exported city packages |
 | Mechanical, station and reusable civil-component geometry | [`design/component-catalogue/src/osr_mech/`](design/component-catalogue/src/osr_mech/) | FreeCAD review assemblies, BOMs, travelers, civil release register and screenshots |
 | LM3 bought-in component candidates | [`lib/templates/trainset-cots-candidates.toml`](lib/templates/trainset-cots-candidates.toml) | Generated manufacturer register, first-article work packages and city-twin order candidates |
@@ -206,15 +211,10 @@ The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps
 ./osr test
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
-[CHANGELOG.md](CHANGELOG.md) and the [release checklist](docs/releases.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md), [CHANGELOG.md](CHANGELOG.md) and the [release checklist](docs/releases.md).
 
 ## License
 
 Software is Apache 2.0; control-electronics and open physical designs use CERN-OHL-S v2; documentation is CC-BY-SA 4.0.
 
 See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md) for full texts.
-
-## Business operating platform
-
-[ERPNext + Frappe HR](docs/operating/README.md) handle business execution through [reproducible city configurations](docs/operating/city-platform.md). The [connected lifecycle](docs/lifecycle/README.md) joins ERPNext, FUXA equipment supervision, embedded OSR software, FreeCAD, IFC/Bonsai and QGIS. See the linked setup guides; railway control, engineering acceptance and handback stay in OSR.

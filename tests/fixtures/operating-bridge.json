@@ -1,0 +1,94 @@
+{
+  "aux": {
+    "direct_hv_enabled": true,
+    "load_shed_active": false,
+    "state": {
+      "fault_until_ns": [
+        null,
+        null,
+        null
+      ],
+      "faults": 0
+    },
+    "v110_enabled": true,
+    "v24_enabled": true
+  },
+  "bms": {
+    "charge_inhibited": false,
+    "charge_limit_ma": 800000,
+    "contactor": "Closed",
+    "discharge_limit_ma": 1000000,
+    "hazard_module_id": null,
+    "hazard_string_id": null,
+    "pack_isolation_requested": false,
+    "state": {
+      "alarm": "Nominal",
+      "charge_accum_mas": 0,
+      "contactor": "Closed",
+      "degradation_weighted_mas": 0,
+      "fault_until_ns": null,
+      "faults": 0,
+      "soc_ppt": 720,
+      "soh_ppt": 1000
+    }
+  },
+  "cbm": {
+    "flags": [],
+    "sample": {
+      "bearing_vib_ppt": [
+        1000
+      ],
+      "brake_pad_remaining_ppt": [
+        900
+      ],
+      "motor_temp_dc": [
+        800
+      ],
+      "now_ns": 1,
+      "train_id": 1,
+      "wheel_tread_remaining_ppt": [
+        900
+      ],
+      "worst_health": "Nominal"
+    }
+  },
+  "energy": {
+    "battery_soc_ppt": 720,
+    "pv_w": 240000,
+    "schema": "osr-energy-site/1",
+    "to_pad_w": 180000
+  },
+  "environment": "simulation",
+  "fixtures": {
+    "cabin_temperature_dc": 300,
+    "cell_temperature_dc": 350
+  },
+  "hvac": {
+    "compressor_ppt": 1000,
+    "fan_ppt": 1000,
+    "heater_ppt": 0,
+    "mode": "Cooling",
+    "state": {
+      "integral_ppt": 0
+    }
+  },
+  "key": "test",
+  "lighting": {
+    "dim_ppt": 750,
+    "enabled": true,
+    "faulted": false
+  },
+  "schema": "osr-operating-bridge/1",
+  "source_time_ns": 1,
+  "station": {
+    "cctv_recording": true,
+    "escalator_commands": [],
+    "fault_count": 0,
+    "health": "Nominal",
+    "hvac_setpoint_dc": 250,
+    "lift_requests": [],
+    "lighting_enabled": [
+      true
+    ]
+  }
+}

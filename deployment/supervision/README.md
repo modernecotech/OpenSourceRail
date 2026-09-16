@@ -140,3 +140,14 @@ simulated source, then temporarily stops/restarts the local integration containe
 It verifies FUXA's disconnected state and hides cached values on gateway loss.
 Use it only against this evaluation deployment. The script restores the simulator
 and gateway in its cleanup block.
+
+## Station and vehicle embedded integration
+
+The simulation source now executes six existing Rust crates for station energy,
+station SCADA, vehicle BMS, auxiliary power, HVAC and condition monitoring. Use
+`prepare CITY --first-site --first-vehicle` for an eight-position city pilot.
+See the [native embedded integration contract](../../docs/lifecycle/embedded-integration.md)
+for mappings, reproducibility, state lifetime and the controller-to-ERP test.
+`simulate` rebuilds the adapter and restarts its user service so source updates
+actually take effect. Rebuild/reapply reviewed packages and reimport FUXA views
+when changing generic measurement templates; take a backup first.

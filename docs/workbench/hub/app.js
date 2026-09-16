@@ -24,8 +24,8 @@ document.addEventListener('click',event=>{
 });
 const query=new URLSearchParams({city:context.city,environment:context.environment || 'simulation'});
 async function get(url){const r=await fetch(url);if(!r.ok)throw new Error('Not deployed for this city');return r.json();}
-const [engineering, snapshot, twins]=await Promise.allSettled([
-  get('/api/lifecycle/engineering?'+query),get('/api/lifecycle/snapshot?'+query),get('/api/operating/twins'),
+const [engineering, snapshot, twins, deployment]=await Promise.allSettled([
+  get('/api/lifecycle/engineering?'+query),get('/api/lifecycle/snapshot?'+query),get('/api/operating/twins'),get('/api/workbench/city?'+query),
 ]);
 const artifacts=document.getElementById('artifacts');
 if(engineering.status==='fulfilled')for(const item of engineering.value.artifacts){
@@ -40,3 +40,35 @@ document.getElementById('status').textContent=[
   snapshot.status==='fulfilled'?`${snapshot.value.assets.length} connected equipment positions`:'Supervision not deployed or unavailable',
   business?`ERP project ${business.project} · feedback ${business.observed_at}`:'ERP city feedback not available',
 ].join(' · ');
+
+if(deployment.status==='fulfilled'){
+  const d=deployment.value;
+  for(const text of [
+    `Control workspace: ${d.control_workspace}${d.control_available?' (this city)':' (choose its city to use controls)'}`,
+    `ERP binding: ${d.erp.state}${d.erp.project?' · '+d.erp.project:''}${d.erp.stale?' · feedback unavailable or over one hour old':''}`,
+    `Engineering package: ${d.engineering.state} · ${d.engineering.artifact_count} sources`,
+    `Supervision package: ${d.supervision.state} · ${d.supervision.equipment_count} positions (preparation is separate from live connectivity)`,
+    `City profiles: ${Object.entries(d.profiles).map(([k,v])=>k+': '+(v?'configured':'missing')).join(' · ')}`,
+  ]){const p=document.createElement('p');p.className='record';p.textContent=text;document.getElementById('deploymentStatus').append(p);}
+  if(!d.control_available)for(const button of document.querySelectorAll('[data-module=studio],[data-module=occ]')){
+    button.disabled=true;button.title=`Control workspace belongs to ${d.control_workspace}`;
+  }
+}
+const assets=snapshot.status==='fulfilled'?snapshot.value.assets:[];
+const observed=snapshot.status==='fulfilled' && snapshot.value.observed_at ? new Date(snapshot.value.observed_at*1000).toLocaleString() : 'unknown time';
+document.getElementById('refreshInventory').onclick=()=>location.reload();
+function showAssets(){
+  const search=document.getElementById('assetSearch').value.trim().toLowerCase();
+  const matches=assets.filter(a=>[a.asset_id,a.name,a.equipment_type].some(v=>String(v).toLowerCase().includes(search)));
+  document.getElementById('assetResults').replaceChildren();
+  document.getElementById('assetStatus').textContent=snapshot.status==='fulfilled'?`${matches.length} equipment positions · ${context.environment || 'simulation'} · snapshot ${observed}. Open an asset for continuously refreshed readings.`:'Equipment service unavailable for this city and environment.';
+  for(const a of matches){
+    const card=document.createElement('article');card.className='metric';
+    const button=document.createElement('button');button.textContent=a.asset_id;
+    button.onclick=()=>parent.postMessage({type:'osr:navigate',module:'lifecycle',context:{city:a.city,environment:a.environment,selected_asset:a.asset_id}},location.origin);
+    const p=document.createElement('p');const active=a.alarms.filter(r=>r.active).length;
+    p.textContent=`${a.name} · ${a.lifecycle_state} · ${active} active alarms · ${Object.values(a.readings).filter(r=>r.quality==='valid').length}/${Object.keys(a.readings).length} valid readings`;
+    card.append(button,p);document.getElementById('assetResults').append(card);
+  }
+}
+document.getElementById('assetSearch').oninput=showAssets;showAssets();

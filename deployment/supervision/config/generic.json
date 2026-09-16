@@ -1,40 +1,332 @@
 {
   "schema": "osr-supervision-profile/1",
-  "template_revision": "station-energy/1",
-  "historian": {"owner": "osr-integration", "retention_days": 7, "sampling_seconds": 2},
+  "template_revision": "station-vehicle/2",
+  "historian": {
+    "owner": "osr-integration",
+    "retention_days": 7,
+    "sampling_seconds": 2
+  },
   "templates": {
     "charger": {
-      "label": "Charger", "component_type_id": "station-charger",
+      "label": "Charger",
+      "component_type_id": "station-charger",
       "measurements": {
-        "power_kw": {"unit": "kW", "min": 0, "max": 500, "stale_seconds": 10},
-        "temperature_c": {"unit": "degC", "min": -40, "max": 150, "stale_seconds": 10},
-        "energy_kwh": {"unit": "kWh", "min": 0, "max": 1000000000, "stale_seconds": 15}
+        "power_kw": {
+          "unit": "kW",
+          "min": 0,
+          "max": 500,
+          "stale_seconds": 10
+        },
+        "temperature_c": {
+          "unit": "degC",
+          "min": -40,
+          "max": 150,
+          "stale_seconds": 10
+        },
+        "energy_kwh": {
+          "unit": "kWh",
+          "min": 0,
+          "max": 1000000000,
+          "stale_seconds": 15
+        }
       },
-      "alarms": [{"id": "cooling", "measurement": "temperature_c", "high": 70, "clear_below": 60, "delay_seconds": 6, "repeat_seconds": 300, "priority": "high", "response": "Inspect cooling system; local protection remains authoritative", "maintenance": true}]
+      "alarms": [
+        {
+          "id": "cooling",
+          "measurement": "temperature_c",
+          "high": 70,
+          "clear_below": 60,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect cooling system; local protection remains authoritative",
+          "maintenance": true
+        }
+      ],
+      "source_crates": [
+        "osr-energy-site"
+      ]
     },
     "battery": {
-      "label": "Battery", "component_type_id": "station-bess",
+      "label": "Battery",
+      "component_type_id": "station-bess",
       "measurements": {
-        "soc_pct": {"unit": "%", "min": 0, "max": 100, "stale_seconds": 10},
-        "temperature_c": {"unit": "degC", "min": -40, "max": 150, "stale_seconds": 10},
-        "running_hours": {"unit": "h", "min": 0, "max": 1000000, "stale_seconds": 15}
+        "soc_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "temperature_c": {
+          "unit": "degC",
+          "min": -40,
+          "max": 150,
+          "stale_seconds": 10
+        },
+        "running_hours": {
+          "unit": "h",
+          "min": 0,
+          "max": 1000000,
+          "stale_seconds": 15
+        }
       },
-      "alarms": [{"id": "temperature", "measurement": "temperature_c", "high": 55, "clear_below": 45, "delay_seconds": 6, "repeat_seconds": 300, "priority": "high", "response": "Inspect battery thermal management under approved local procedure", "maintenance": true}]
+      "alarms": [
+        {
+          "id": "temperature",
+          "measurement": "temperature_c",
+          "high": 55,
+          "clear_below": 45,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect battery thermal management under approved local procedure",
+          "maintenance": true
+        }
+      ],
+      "source_crates": [
+        "osr-energy-site"
+      ]
     },
     "pv": {
-      "label": "Solar inverter", "component_type_id": "station-pv",
+      "label": "Solar inverter",
+      "component_type_id": "station-pv",
       "measurements": {
-        "power_kw": {"unit": "kW", "min": 0, "max": 1000, "stale_seconds": 10},
-        "energy_kwh": {"unit": "kWh", "min": 0, "max": 1000000000, "stale_seconds": 15}
-      }, "alarms": []
+        "power_kw": {
+          "unit": "kW",
+          "min": 0,
+          "max": 1000,
+          "stale_seconds": 10
+        },
+        "energy_kwh": {
+          "unit": "kWh",
+          "min": 0,
+          "max": 1000000000,
+          "stale_seconds": 15
+        }
+      },
+      "alarms": [],
+      "source_crates": [
+        "osr-energy-site"
+      ]
     },
     "facilities": {
-      "label": "Facilities", "component_type_id": "station-facilities",
+      "label": "Facilities",
+      "component_type_id": "station-facilities",
       "measurements": {
-        "lighting_pct": {"unit": "%", "min": 0, "max": 100, "stale_seconds": 10},
-        "pump_running": {"unit": "bool", "min": 0, "max": 1, "stale_seconds": 10}
-      }, "alarms": [],
-      "commands": {"set_lighting": {"parameter": "level", "min": 20, "max": 100, "max_ttl_seconds": 30, "required_conditions": ["local_remote_enabled"], "simulation_only": true}}
+        "lighting_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "pump_running": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 10
+        },
+        "fault_count": {
+          "unit": "count",
+          "min": 0,
+          "max": 10000,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [
+        {
+          "id": "station-fault",
+          "measurement": "fault_count",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect station subsystem fault; local interlocks remain authoritative",
+          "maintenance": true
+        }
+      ],
+      "commands": {
+        "set_lighting": {
+          "parameter": "level",
+          "min": 20,
+          "max": 100,
+          "max_ttl_seconds": 30,
+          "required_conditions": [
+            "local_remote_enabled"
+          ],
+          "simulation_only": true
+        }
+      },
+      "source_crates": [
+        "osr-station-scada"
+      ]
+    },
+    "vehicle-bms": {
+      "label": "Vehicle battery",
+      "component_type_id": "vehicle-bms",
+      "asset_types": [
+        "rolling-stock"
+      ],
+      "source_crates": [
+        "osr-bms"
+      ],
+      "measurements": {
+        "soc_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "charge_limit_a": {
+          "unit": "A",
+          "min": 0,
+          "max": 2000,
+          "stale_seconds": 10
+        },
+        "trip": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [
+        {
+          "id": "battery-trip",
+          "measurement": "trip",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect vehicle battery trip; do not reset protection from ERP or FUXA",
+          "maintenance": true
+        }
+      ]
+    },
+    "vehicle-aux": {
+      "label": "Vehicle auxiliary power",
+      "component_type_id": "vehicle-aux",
+      "asset_types": [
+        "rolling-stock"
+      ],
+      "source_crates": [
+        "osr-aux-power"
+      ],
+      "measurements": {
+        "comfort_power": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 10
+        },
+        "fault_count": {
+          "unit": "count",
+          "min": 0,
+          "max": 3,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [
+        {
+          "id": "auxiliary-fault",
+          "measurement": "fault_count",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Inspect auxiliary supply; local power protection remains authoritative",
+          "maintenance": true
+        }
+      ]
+    },
+    "vehicle-hvac": {
+      "label": "Vehicle HVAC",
+      "component_type_id": "vehicle-hvac",
+      "asset_types": [
+        "rolling-stock"
+      ],
+      "source_crates": [
+        "osr-hvac",
+        "osr-aux-power"
+      ],
+      "measurements": {
+        "compressor_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "fan_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "reduced": {
+          "unit": "bool",
+          "min": 0,
+          "max": 1,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [
+        {
+          "id": "reduced-cooling",
+          "measurement": "reduced",
+          "high": 0.5,
+          "clear_below": 0.5,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Investigate unavailable comfort supply before servicing HVAC",
+          "maintenance": true
+        }
+      ]
+    },
+    "vehicle-cbm": {
+      "label": "Vehicle condition monitoring",
+      "component_type_id": "vehicle-cbm",
+      "asset_types": [
+        "rolling-stock"
+      ],
+      "source_crates": [
+        "osr-cbm-onboard"
+      ],
+      "measurements": {
+        "health": {
+          "unit": "severity",
+          "min": 0,
+          "max": 2,
+          "stale_seconds": 10
+        },
+        "brake_remaining_pct": {
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "stale_seconds": 10
+        },
+        "bearing_vibration_mm_s": {
+          "unit": "mm/s",
+          "min": 0,
+          "max": 1000,
+          "stale_seconds": 10
+        }
+      },
+      "alarms": [
+        {
+          "id": "component-service",
+          "measurement": "health",
+          "high": 1.5,
+          "clear_below": 1.5,
+          "delay_seconds": 6,
+          "repeat_seconds": 300,
+          "priority": "high",
+          "response": "Review native condition-monitoring service flag and arrange inspection; this case is not a railway release",
+          "maintenance": true
+        }
+      ]
     }
   }
 }

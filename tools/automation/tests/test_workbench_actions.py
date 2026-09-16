@@ -47,14 +47,15 @@ def test_actions_require_same_origin_and_explicit_credential(endpoint, monkeypat
     assert request('packages', {'Origin': origin, 'Authorization': 'Bearer test'})[0] == 404
 
 
-def test_action_passes_only_caller_token_and_preserves_gateway_denial(endpoint, monkeypatch):
+@pytest.mark.parametrize("action", ["alarms/acknowledge", "evidence"])
+def test_action_passes_only_caller_token_and_preserves_gateway_denial(endpoint, monkeypatch, action):
     request, origin = endpoint
     def denied(req, **kwargs):
-        assert req.full_url == 'http://127.0.0.1:8092/alarms/acknowledge'
+        assert req.full_url == 'http://127.0.0.1:8092/' + action
         assert req.get_header('Authorization') == 'Bearer caller-token'
         assert json.loads(req.data)['city'] == 'outside-scope'
         raise HTTPError(req.full_url, 403, 'Forbidden', {}, io.BytesIO(b'{"error":"City/environment outside authenticated scope"}'))
     monkeypatch.setattr('urllib.request.urlopen', denied)
-    status, payload = request('alarms/acknowledge', {'Origin': origin, 'Authorization': 'Bearer caller-token'}, {'city': 'outside-scope'})
+    status, payload = request(action, {'Origin': origin, 'Authorization': 'Bearer caller-token'}, {'city': 'outside-scope'})
     assert status == 403
     assert 'outside authenticated scope' in payload['error']

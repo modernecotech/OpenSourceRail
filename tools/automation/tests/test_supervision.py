@@ -15,7 +15,7 @@ from osr_integration.config import build_package, digest, ifc_guid
 from osr_integration.store import Store
 from osr_integration.server import deliver
 from osr_integration.engineering import package as engineering_package, execution_proposal, ifc_overlay
-from osr_integration.embedded import energy_measurements
+from osr_integration.embedded import energy_measurements, operating_measurements
 from osr_integration.fuxa import project
 
 
@@ -119,6 +119,52 @@ class IntegrationTest(unittest.TestCase):
         for app, identity in [('ifc','guid1'),('freecad','cabinet'),('gis','station1')]:
             self.assertIn('selected_asset=SAM-ST-001%3Acharger', bridge.resolve(link, app, identity))
         with self.assertRaises(ValueError): bridge.resolve(link, 'ifc', 'missing')
+
+    def test_evidence_validation_and_repeat_safe_review(self):
+        base = dict(id='analysis-1', kind='analysis', city='samawah', environment='simulation',
+                    asset_id='SAM-ST-001:charger', engineering_revision='rev1', references=['sha256:source'])
+        for refs in ['not-an-array', [], [''], [123]]:
+            with self.assertRaises(ValueError): self.store.evidence(dict(base, references=refs), 'engineer', 'engineer')
+        with self.assertRaises(PermissionError): self.store.evidence(base, 'viewer', 'viewer')
+        with self.assertRaises(ValueError): self.store.evidence(dict(base, engineering_revision='wrong'), 'engineer', 'engineer')
+        with self.assertRaises(ValueError): self.store.evidence(dict(base, kind='commissioning-test', result='unknown'), 'inspector', 'inspector')
+        self.assertTrue(self.store.evidence(base, 'engineer', 'engineer')['created'])
+        self.assertFalse(self.store.evidence(base, 'engineer', 'engineer')['created'])
+        with self.assertRaises(ValueError): self.store.evidence(dict(base, references=['changed']), 'engineer', 'engineer')
+
+    def test_vehicle_templates_preserve_station_identity_and_source_bindings(self):
+        assets = [{'asset_type':'station','asset_id':'SAM-ST-001','name':'Station'},
+                  {'asset_type':'rolling-stock','asset_id':'SAM-RS-L1-001','name':'Vehicle'}]
+        package = build_package(self.generic, {'city':'samawah'}, assets, 'rev1')
+        self.assertEqual(len(package['equipment']), 8)
+        vehicle = [a for a in package['equipment'] if a['parent_asset_id']=='SAM-RS-L1-001']
+        self.assertEqual(len(vehicle), 4)
+        self.assertTrue(all(a['commands']=={} and a['source_crates'] for a in vehicle))
+        self.assertEqual({a['asset_id'] for a in package['equipment'] if a['parent_asset_id']=='SAM-ST-001'},
+                         {a['asset_id'] for a in self.package['equipment']})
+        with self.assertRaises(ValueError): build_package(self.generic, {'city':'samawah','sites':['unknown']}, assets, 'rev1')
+
+    def test_embedded_projection_rejects_wrong_schema_environment_and_missing_values(self):
+        frame = json.loads((ROOT / 'tests/fixtures/operating-bridge.json').read_text())
+        values = operating_measurements(frame)
+        self.assertEqual(values[('vehicle-bms','soc_pct')], 72)
+        self.assertEqual(values[('vehicle-cbm','brake_remaining_pct')], 90)
+        self.assertEqual(values[('vehicle-hvac','compressor_pct')], 100)
+        frame['station']['lighting_enabled'][0] = False
+        self.assertEqual(operating_measurements(frame)[('facilities','lighting_pct')], 0)
+        for patch in [{'schema':'unknown'}, {'environment':'physical'}]:
+            with self.assertRaises(ValueError): operating_measurements(dict(frame, **patch))
+        del frame['bms']
+        with self.assertRaises(KeyError): operating_measurements(frame)
+
+    def test_controller_acknowledgement_retry_is_idempotent_and_owned(self):
+        m = dict(request_id='retry1',city='samawah',environment='simulation',asset_id='SAM-ST-001:facilities',command='set_lighting',parameters={'level':75},created_at=iso(1000),expires_at=iso(1020),required_conditions=['local_remote_enabled'])
+        self.store.command(m,'operator',True,1000)
+        for _ in range(2): self.assertEqual(self.store.controller_result('retry1','simulator','accepted','checked',1001)['state'],'accepted')
+        with self.assertRaises(PermissionError): self.store.controller_result('retry1','other','accepted','checked',1001)
+        with self.assertRaises(ValueError): self.store.controller_result('retry1','simulator','accepted','changed',1001)
+        self.store.controller_result('retry1','simulator','completed','done',1002)
+        self.assertEqual(self.store.controller_result('retry1','simulator','completed','done',2000)['state'],'completed')
 
     def test_backup_restore(self):
         self.fault(); target = Path(self.tmp.name) / 'backup.sqlite'; self.store.backup(target)

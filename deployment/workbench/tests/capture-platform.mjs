@@ -1,0 +1,39 @@
+// Capture the installed simulation UI. Never capture credentials or synthetic mock pages.
+import {chromium,expect} from '@playwright/test';
+import fs from 'node:fs';
+const browser=await chromium.launch();
+try {
+ const page=await browser.newPage({viewport:{width:1680,height:1350}});
+ page.setDefaultTimeout(30000);
+ const base='http://127.0.0.1:8090/';
+ await page.goto(base+'?module=overview&city=samawah');
+ const frame=page.frameLocator('#moduleFrame');
+ await expect(frame.locator('#assetResults article')).toHaveCount(8);
+ await page.screenshot({path:'docs/screenshots/workbench/lifecycle-overview.png',fullPage:true});
+ await page.locator('[data-module=projects]').click();
+ const env=Object.fromEntries(fs.readFileSync('var/erpnext/local.env','utf8').trim().split('\n').map(l=>[l.split('=')[0],l.slice(l.indexOf('=')+1)]));
+ await frame.locator('#login_email').fill('Administrator');
+ await frame.locator('#login_password').fill(env.ADMIN_PASSWORD);
+ await frame.locator('.btn-login').click();
+ await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
+ await page.locator('[data-module=projects]').click();
+ await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
+ await expect(frame.getByText('Operating components',{exact:true})).toBeVisible();
+ await page.screenshot({path:'docs/screenshots/workbench/erp-city-project.png',fullPage:true});
+ await page.goto(base+'?module=lifecycle&city=samawah&selected_asset=SAM-RS-L1-001%3Avehicle-cbm');
+ await expect(frame.locator('#overview')).toContainText('osr-cbm-onboard');
+ await expect(frame.locator('#measurements')).toContainText('valid');
+ await expect(frame.locator('#alarms')).toContainText('ERP ISS-');
+ await page.screenshot({path:'docs/screenshots/workbench/vehicle-maintenance.png',fullPage:true});
+ await page.locator('[data-module=fuxa]').click();
+ const dialog=frame.locator('mat-dialog-container');
+ const cfg=JSON.parse(fs.readFileSync('var/supervision/fuxa.json'));
+ await dialog.locator('form input[type=text]').fill('operator');
+ await dialog.locator('input[type=password]').fill(cfg.operator_password);
+ await dialog.getByRole('button',{name:'OK',exact:true}).click();
+ await dialog.waitFor({state:'hidden'});
+ await expect(frame.locator('svg').filter({hasText:'SAM-RS-L1-001'}).first()).toBeVisible();
+ await expect(frame.locator('g[type="svg-ext-value"]').first()).toContainText('5',{timeout:20000});
+ await page.screenshot({path:'docs/screenshots/workbench/embedded-supervision.png',fullPage:true});
+ console.log('Captured 4 installed-platform screenshots without credentials');
+}finally{await browser.close();}

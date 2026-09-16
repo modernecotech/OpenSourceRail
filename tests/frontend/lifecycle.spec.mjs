@@ -21,3 +21,15 @@ test('Changing environment cannot leave simulated values labelled physical',asyn
  await expect(page.locator('#mode')).toContainText('PHYSICAL');
  await expect(page.locator('#measurements')).toBeEmpty();
 });
+test('Engineering documents follow equipment identity within a city',async({page})=>{
+ const vehicle={...asset,asset_id:'SAM-RS-L1-001:vehicle-cbm',parent_asset_id:'SAM-RS-L1-001',name:'Vehicle condition monitor'};
+ let engineeringAsset='SAM-ST-001';
+ await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[vehicle],outbox:[]}}));
+ await page.route('**/api/lifecycle/engineering?**',r=>r.fulfill({json:{asset_id:engineeringAsset,artifacts:[{tool:'Bonsai',tool_version:'test',path:'model.ifc',sha256:'a'.repeat(64)}]}}));
+ await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+ await expect(page.locator('#engineering')).toContainText('No reviewed engineering package linked');
+ await expect(page.locator('#engineering a')).toHaveCount(0);
+ engineeringAsset='SAM-RS-L1-001';
+ await page.locator('#refresh').click();
+ await expect(page.locator('#engineering a')).toHaveText('model.ifc');
+});

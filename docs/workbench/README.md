@@ -63,8 +63,8 @@ and design views are available only for the workspace passed to
 `workbench-server.py --project`; selecting another city does not rebind its
 controller. Any catalogue city can use delivery generation and its own operating
 bundle. Missing ERP, engineering or supervision packages are shown as unavailable.
-ERP lists retain native multi-project scope; **City execution** opens the exact
-linked ERP project and its **OpenSourceRail → Operating components** actions.
+ERP project-linked lists use city filters where supported; **City execution** opens
+the exact linked ERP project and its **OpenSourceRail → Operating components** actions.
 Native FUXA offers its own city/display selector.
 
 Business and maintenance-case links open inside the shell. ERP Project and Issue
@@ -108,3 +108,25 @@ through native ERP/FUXA forms, follows an ERP project back to its asset, and
 checks a simulation lighting request through controller completion. It requires
 the local pilot services and private credentials and intentionally changes simulated
 station lighting to 60% and restores it to 75%; it performs no physical command.
+
+## City-aware navigation and deployment inventory
+
+The overview now includes searchable connected equipment, observation timestamps
+and an explicit inventory refresh. It distinguishes local profile files, prepared
+engineering/supervision packages, ERP feedback and actual telemetry. Prepared
+packages do not establish imported FUXA configuration or physical connectivity.
+
+Native **Projects & automations** opens the uniquely linked city project.
+Tasks, procurement, receipts, manufacturing, stock, cases and invoices use native
+Project filters. These filters apply to the document's project field; allocations
+made only on child lines remain visible in **City execution** actuals. Quality,
+maintenance and HR retain their organisation-wide native scope. Missing or
+ambiguous feedback prevents a city-filtered workflow from silently opening an
+unrelated project's records. Native permissions still apply to every record.
+
+FUXA navigation requests the generated view for the chosen city, environment and
+site, preferring the selected asset's site. Verify its displayed city/site name:
+FUXA may fall back to its default if the prepared view has not been imported.
+The installed-stack check verifies actual Samawah/Mosul display switching, ERP
+project filtering and a simulation analysis evidence record in addition to its
+supervisory command check.

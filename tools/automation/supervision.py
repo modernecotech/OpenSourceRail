@@ -45,7 +45,7 @@ def api(path, data=None, role='engineer', query=''):
     return request_json('http://127.0.0.1:8092' + path + query, data, {'Authorization': 'Bearer ' + principal['token']})
 
 
-def prepare(slug, environment='simulation', first_site=False):
+def prepare(slug, environment='simulation', first_site=False, first_vehicle=False):
     path, _ = cities.catalogue()[slug]
     override_path = path.parent / 'operations/supervision.json'
     override = json.loads(override_path.read_text()) if override_path.exists() else {'city': slug}
@@ -57,6 +57,8 @@ def prepare(slug, environment='simulation', first_site=False):
     bundle = json.loads(gzip.decompress(source.read_bytes()))
     if first_site:
         override['sites'] = [next(a['asset_id'] for a in bundle['assets'] if a['asset_type'] == 'station')]
+    if first_vehicle:
+        override['sites'] = list(override.get('sites', [])) + [next(a['asset_id'] for a in bundle['assets'] if a['asset_type'] == 'rolling-stock')]
     p = build_package(json.loads(GENERIC.read_text()), override, bundle['assets'], bundle['project_twin']['revision_id'], environment)
     folder = ROOT / 'build/supervision' / slug / environment; folder.mkdir(parents=True, exist_ok=True)
     for name, data in [('package.json', p), ('fuxa-project.json', project([p]))]:
@@ -110,7 +112,7 @@ def main():
     for action in ['init', 'up', 'status', 'setup-fuxa', 'backup', 'init-configs', 'validate', 'simulate']:
         sub.add_parser(action)
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
-    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true')
+    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true')
     p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected')
     p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path)
     p = sub.add_parser('engineering'); p.add_argument('manifest', type=Path); p.add_argument('--output', required=True, type=Path)
@@ -120,12 +122,13 @@ def main():
     elif args.command == 'up': compose(['up', '-d', '--build'])
     elif args.command == 'status': compose(['ps'])
     elif args.command == 'simulate':
-        subprocess.run(['cargo', 'build', '-p', 'osr-energy-site', '--example', 'supervision'], cwd=ROOT, check=True)
+        subprocess.run(['cargo', 'build', '-p', 'osr-sim', '--example', 'operating_bridge'], cwd=ROOT, check=True)
         directory = Path.home() / '.config/systemd/user'; directory.mkdir(parents=True, exist_ok=True)
         script = json.dumps(str(ROOT / 'tools/automation/supervision-simulator.py').replace('%', '%%'))
         (directory / 'osr-supervision-simulator.service').write_text('[Unit]\nDescription=OSR simulated station telemetry\n[Service]\nUMask=0077\nRestart=always\nRestartSec=5\nExecStart=/usr/bin/python3 ' + script + '\n[Install]\nWantedBy=default.target\n')
         subprocess.run(['systemctl', '--user', 'daemon-reload'], check=True)
-        subprocess.run(['systemctl', '--user', 'enable', '--now', 'osr-supervision-simulator'], check=True)
+        subprocess.run(['systemctl', '--user', 'enable', 'osr-supervision-simulator'], check=True)
+        subprocess.run(['systemctl', '--user', 'restart', 'osr-supervision-simulator'], check=True)
     elif args.command == 'setup-fuxa': setup_fuxa()
     elif args.command == 'connect-erp':
         import uuid
@@ -166,7 +169,7 @@ def main():
             if cfg['city'] != slug: raise ValueError('City identity mismatch')
             build_package(json.loads(GENERIC.read_text()), {**cfg, 'sites': []}, [{'asset_type': 'station', 'asset_id': 'validation', 'name': 'Validation station'}], 'validation')
         print('Validated profiles:', len(cities.catalogue()))
-    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site))
+    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle))
     elif args.command == 'apply': print(json.dumps(api('/packages', {'package': json.loads(args.package.read_text()), 'expected': args.expected}), indent=2))
     elif args.command == 'import-fuxa':
         old = fuxa_api('/api/project')

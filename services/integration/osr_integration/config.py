@@ -36,15 +36,18 @@ def build_package(generic, city, assets, revision, environment='simulation'):
     slug = identifier(city['city'])
     cfg = merge(generic, city)
     templates = cfg['templates']
-    stations = [a for a in assets if a['asset_type'] in ('station', 'depot')]
+    asset_types = {kind for template in templates.values() for kind in template.get('asset_types', ['station', 'depot'])}
+    stations = [a for a in assets if a['asset_type'] in asset_types]
     if cfg.get('sites'):
         stations = [a for a in stations if a['asset_id'] in cfg['sites']]
         if len(stations) != len(set(cfg['sites'])):
-            raise ValueError('Unknown or repeated station/depot identity')
+            raise ValueError('Unknown or repeated supervised asset identity')
     equipment = []
     for station in stations:
         site = identifier(station['asset_id'])
         for kind, template in sorted(templates.items()):
+            if station['asset_type'] not in template.get('asset_types', ['station', 'depot']):
+                continue
             identifier(kind)
             planned = f'{site}:{kind}'
             binding = cfg.get('bindings', {}).get(planned, {})
@@ -52,6 +55,7 @@ def build_package(generic, city, assets, revision, environment='simulation'):
                 site_id=site, source_asset_ids=[site] + [r['asset_id'] for r in assets if r.get('asset_type') == 'energy' and r.get('parent_asset') == site and kind in ('charger', 'battery', 'pv')], city=slug, company_id=cfg.get('company', ''), environment=environment,
                 name=f"{station['name']} · {template['label']}", equipment_type=kind,
                 component_type_id=template['component_type_id'], engineering_revision=revision,
+                source_crates=template.get('source_crates', []),
                 ifc_global_id=binding.get('ifc_global_id', ''), physical_serial_id=binding.get('physical_serial_id', ''),
                 erp_asset_id=binding.get('erp_asset_id', ''), erp_item_code=binding.get('erp_item_code', ''),
                 erp_project=cfg.get('erp_project', ''), fuxa_device_id='osr-' + digest([environment, slug, planned])[:20],

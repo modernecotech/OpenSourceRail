@@ -123,3 +123,25 @@ The later commercial, fare settlement, land agreements, supplier localisation,
 repair-pool and contractor valuation proposals require their own reviewed rules
 and real master data. This implementation establishes their stable identities and
 execution evidence; it does not claim those domain workflows are complete.
+
+## Evidence and traceability in the Workbench
+
+**Connected assets → Record lifecycle evidence** supports design review,
+execution release, installation/replacement, commissioning tests, simulation
+commissioning release, maintenance, renewal review, analysis and change proposals.
+The shared [evidence catalogue](evidence-types.json) builds the form for every city.
+Review shows the exact asset, environment, engineering revision, immutable record
+ID and versioned references before submission. A scoped evidence credential is
+required; the gateway enforces roles and prerequisites. A failed reply can be
+retried with the same reviewed ID. Changing the target discards that review and
+clears the evidence credential. Successful recording also clears the credential.
+
+Evidence is not a file-upload or electronic-signature service. References identify
+existing versioned sources. Inspector and reviewer must be different identities
+for simulation commissioning release; physical release still belongs to OSR
+assurance. ERP case closure remains separate.
+
+**Trace serial or batch** searches current and removed installations within the
+selected city and environment. Results show revision and replacement history,
+and can open a matching connected asset. A search on both fields requires both
+to match; it does not search other cities or bypass credential scopes.

@@ -147,6 +147,22 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/workbench/city":
+            from urllib.parse import parse_qs
+            from workbench_city import city_summary
+            query = parse_qs(urlsplit(self.path).query)
+            city = query.get("city", [self.bootstrap["city"]])[0]
+            record = self.project_twins._cities.get(city)
+            if not record:
+                self._send_json(404, {"error": "Unknown catalogue city"})
+                return
+            try:
+                payload = city_summary(REPO_ROOT, city, record["design_path"], self.bootstrap["city"],
+                                       query.get("environment", ["simulation"])[0])
+                self._send_json(200, payload)
+            except ValueError:
+                self._send_json(400, {"error": "Invalid city scope"})
+            return
         if path == "/api/workbench/services":
             services = {
                 "erp": os.environ.get("OSR_ERP_URL", "http://127.0.0.1:8080").rstrip("/"),
@@ -277,7 +293,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         """Forward only explicit caller credentials; never use the viewer/service secret for writes."""
         from urllib.error import HTTPError, URLError
         from urllib.request import Request, urlopen
-        if endpoint not in {"commands", "alarms/acknowledge"}:
+        if endpoint not in {"commands", "alarms/acknowledge", "evidence"}:
             self._send_json(404, {"error": "Unknown lifecycle action"})
             return
         if self.headers.get("Origin") != "http://" + self.headers.get("Host", ""):
