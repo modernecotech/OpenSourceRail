@@ -6,7 +6,8 @@ const controls='var/supervision/simulator-control.json';
 const docker=process.env.DOCKER || 'docker';let integrationStopped=false;
 const integration=action=>execFileSync(docker,['compose','-f','deployment/supervision/compose.yaml',action,'integration'],{stdio:'inherit'});
 try {
- await page.goto('http://127.0.0.1:1881/home');const d=page.locator('mat-dialog-container');await d.waitFor();await d.locator('form input[type=text]').fill('operator');await d.locator('input[type=password]').fill(cfg.operator_password);await d.getByRole('button',{name:'OK',exact:true}).click();await d.waitFor({state:'hidden'});
+ const display=new URLSearchParams({viewName:'samawah · SAM-ST-001 · simulation'});
+ await page.goto('http://127.0.0.1:1881/home/?'+display);const d=page.locator('mat-dialog-container');await d.waitFor();await d.locator('form input[type=text]').fill('operator');await d.locator('input[type=password]').fill(cfg.operator_password);await d.getByRole('button',{name:'OK',exact:true}).click();await d.waitFor({state:'hidden'});
  await expect(page.getByText('180',{exact:true})).toBeVisible({timeout:15000});
  fs.writeFileSync(controls,JSON.stringify({disconnected:true}));
  await expect(page.getByText('disconnected',{exact:true}).first()).toBeVisible({timeout:45000});
