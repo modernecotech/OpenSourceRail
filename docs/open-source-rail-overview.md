@@ -9,7 +9,7 @@ fabrication, integration, software and long-term maintenance capability in the
 adopting country.**
 
 The same deterministic workspace connects city design, GIS, CAD/IFC,
-simulation, operations, costs and assurance. Its 265
+simulation, ERPNext business execution, FUXA supervision, costs and railway assurance. Its 265
 developing-world planning models estimate 75% domestic
 value; all values remain planning sensitivities rather than bids or funding
 commitments.
@@ -48,7 +48,7 @@ This is a controlled sensitivity—not a vendor quotation or financing offer.
 - Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.
 - Run deterministic train, station, energy, wayside, point/crossing and depot
   software together.
-- Use one Workbench for City Studio, simulation, OCC training and Ops Core.
+- Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.
 
 | City Studio | Civil IFC coordination |
 |---|---|

@@ -9,6 +9,8 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 
 | Script | Purpose |
 |---|---|
+| [`release-evidence.py`](release-evidence.py) | Require a clean software tag and successful exact-commit CI, Kani and integrated-stack runs; publishable PDF, overview, readiness, evidence manifest and checksums |
+| [`safety-case-summary.py`](safety-case-summary.py) | Generate or check GSN inventory counts without claiming successful proofs or independent acceptance |
 | [`build-all.sh`](build-all.sh) | One-command regeneration of shared product/cost/catalogue data, browser and native applications, BOM/IFC packages, the root reader PDF, and documentation checks; invoked as `./osr build` |
 | [`../../osr`](../../osr) | Root user command for the Workbench, build, simulator, tests and engineering workflows |
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |

@@ -94,13 +94,15 @@ Native ERP procurement, quality, stock and accounting workflows remain in force.
 
 ## Manufacturing-method supervision
 
-Every real production-plant asset receives one view for each of the nine validated
+A production-plant asset in a `light-metro-3car` city receives one view for each of the nine validated
 LM3 methods. This reuses the generated 120-product coverage, 30 tooling families,
 work centres, crew/cycle planning, steps, hold points and release gates; it does
 not copy recipes into a second configuration. FUXA and Workbench show simulated
 cycle progress, cell unavailability and quality hold with timestamp/quality.
 The Workbench filters native Work Orders through immutable `OSR Execution Mapping`
-rows for the selected method or its product IDs and current engineering revision.
+rows for the selected method or its product IDs and current engineering revision,
+requiring the exact Item **and** BOM pair from the same mapping. A matching Item
+with a different BOM revision is excluded.
 When no reviewed mapping exists, it explicitly reports zero matching work orders
 instead of treating every project production record as affected.
 
@@ -174,7 +176,9 @@ points condition views and derive one explicitly aggregate AFC view from each
 station. Native level-crossing evaluation and templates are present, but no city
 currently declares a crossing asset, so the audit creates none. FUXA/ERP expose
 no point or barrier command, route state, protection reset or movement authority.
-They also reuse each city's production-plant identity for nine method views,
+Samawah also reuses its production-plant identity for nine LM3 method views;
+Mosul's `metro-4car` family receives none until applicable methods or a reviewed
+module-reuse mapping exist. These views are provided
 without claiming that a planned method, simulated hold or ERP Work Order is a
 performed traveler, accepted product or released first article.
 

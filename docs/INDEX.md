@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4967**.
+Indexed Markdown files: **4968**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4967**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 3 |
 | [design](#design) | 417 |
-| [docs](#docs) | 158 |
+| [docs](#docs) | 159 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4950,7 +4950,7 @@ Indexed Markdown files: **4967**.
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
 | [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |
-| [`docs/release-v0.4.md`](../docs/release-v0.4.md) | OpenSourceRail v0.4.0 development line |
+| [`docs/release-v0.4.md`](../docs/release-v0.4.md) | OpenSourceRail v0.4.0 |
 | [`docs/releases.md`](../docs/releases.md) | Release Policy And Checklist |
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
@@ -5011,6 +5011,7 @@ Indexed Markdown files: **4967**.
 | [`docs/rolling-stock/light-metro-3car/traction.md`](../docs/rolling-stock/light-metro-3car/traction.md) | Traction and DC Power — 800 V-Class Reference |
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
+| [`docs/safety-case/result-validation.md`](../docs/safety-case/result-validation.md) | Safety evidence: traceability, results and acceptance |
 | [`docs/simulation-software-coverage.md`](../docs/simulation-software-coverage.md) | Simulation software coverage |
 | [`docs/software-architecture-diagrams.md`](../docs/software-architecture-diagrams.md) | Software Architecture Diagrams |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |

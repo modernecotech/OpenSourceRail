@@ -4,7 +4,7 @@
 automated urban guided transport, GoA 4 (Unattended Train Operation).
 
 The maintained baseline is [`standards-baseline.md`](standards-baseline.md).
-In particular, v0.3 adopts EN 50716:2023 for railway software,
+The v0.4 software baseline retains the standards introduced in v0.3: EN 50716:2023 for railway software,
 IEC 62278-1:2025 for the RAMS lifecycle, and IEC 62290-1:2025 for the
 UGTMS framework. EN 50128 and EN 50657 are legacy transition mappings,
 not the current project software baseline.

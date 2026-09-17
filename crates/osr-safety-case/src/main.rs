@@ -2,10 +2,10 @@
 //! safety case.
 //!
 //! Usage:
-//!     osr-safety-case <GSN_DIR> [--evidence-root <ROOT>] [--quiet]
+//!     osr-safety-case <GSN_DIR> [--evidence-root <ROOT>] [--quiet] [--results <toml>] [--require-verified | --require-accepted]
 //!
 //! Exit status:
-//! - `0` if the case closes (every goal traces to evidence).
+//! - `0` if traceability and any explicitly requested result gate pass.
 //! - `1` on any validation / parse / IO error, including closure
 //!   failure. Intended to be wired into CI as a hard gate.
 
@@ -16,7 +16,7 @@ use std::process::ExitCode;
 use osr_safety_case::{render_text, Case};
 
 fn usage() -> &'static str {
-    "usage: osr-safety-case <gsn-dir> [--evidence-root <root>] [--quiet]"
+    "usage: osr-safety-case <gsn-dir> [--evidence-root <root>] [--quiet] [--results <toml>] [--require-verified | --require-accepted]"
 }
 
 fn main() -> ExitCode {
@@ -25,6 +25,9 @@ fn main() -> ExitCode {
     let mut gsn_dir: Option<PathBuf> = None;
     let mut evidence_root: Option<PathBuf> = None;
     let mut quiet = false;
+    let mut results_path: Option<PathBuf> = None;
+    let mut require_verified = false;
+    let mut require_accepted = false;
 
     let mut i = 0;
     while i < args.len() {
@@ -37,6 +40,16 @@ fn main() -> ExitCode {
                 };
                 evidence_root = Some(PathBuf::from(v));
             }
+            "--results" => {
+                i += 1;
+                let Some(value) = args.get(i) else {
+                    eprintln!("missing value for --results");
+                    return ExitCode::from(1);
+                };
+                results_path = Some(PathBuf::from(value));
+            }
+            "--require-verified" => require_verified = true,
+            "--require-accepted" => require_accepted = true,
             "--quiet" | "-q" => quiet = true,
             "-h" | "--help" => {
                 println!("{}", usage());
@@ -80,12 +93,56 @@ fn main() -> ExitCode {
     if !quiet {
         println!("{}", render_text(&case));
         println!(
-            "OK — case closes ({} goals, {} strategies, {} solutions)",
+            "OK — traceability complete; proof results and acceptance are separate ({} goals, {} strategies, {} solutions)",
             case.goal_count(),
             case.strategy_count(),
             case.solution_count(),
         );
     }
 
+    let records = if let Some(path) = results_path {
+        match std::fs::read_to_string(path)
+            .map_err(|error| error.to_string())
+            .and_then(|text| {
+                toml::from_str::<osr_safety_case::results::Results>(&text)
+                    .map_err(|error| error.to_string())
+            }) {
+            Ok(records) => records,
+            Err(error) => {
+                eprintln!("result records: {error}");
+                return ExitCode::from(1);
+            }
+        }
+    } else {
+        osr_safety_case::results::Results {
+            schema: "osr-evidence-results/1".into(),
+            result: vec![],
+        }
+    };
+    let statuses = match case.assess_results(&records, &evidence_root) {
+        Ok(statuses) => statuses,
+        Err(error) => {
+            eprintln!("result records: {error}");
+            return ExitCode::from(1);
+        }
+    };
+    if !quiet {
+        println!(
+            "Evidence: {} / {} current successful results; {} independently accepted records",
+            statuses.iter().filter(|s| s.verified).count(),
+            statuses.len(),
+            statuses.iter().filter(|s| s.accepted).count()
+        );
+    }
+    let gaps: Vec<_> = statuses
+        .iter()
+        .filter(|s| (require_verified && !s.verified) || (require_accepted && !s.accepted))
+        .collect();
+    if !gaps.is_empty() {
+        for gap in gaps {
+            eprintln!("{}: {}", gap.solution, gap.reason);
+        }
+        return ExitCode::from(1);
+    }
     ExitCode::SUCCESS
 }

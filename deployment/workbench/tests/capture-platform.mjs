@@ -8,7 +8,8 @@ try {
  const base='http://127.0.0.1:8090/';
  await page.goto(base+'?module=overview&city=samawah');
  const frame=page.frameLocator('#moduleFrame');
- await expect(frame.locator('#assetResults article')).toHaveCount(8);
+ const snapshot=await (await page.request.get(base+'api/lifecycle/snapshot?city=samawah&environment=simulation')).json();
+ await expect(frame.locator('#assetResults article')).toHaveCount(snapshot.assets.length);
  await page.screenshot({path:'docs/screenshots/workbench/lifecycle-overview.png',fullPage:true});
  await page.locator('[data-module=projects]').click();
  const env=Object.fromEntries(fs.readFileSync('var/erpnext/local.env','utf8').trim().split('\n').map(l=>[l.split('=')[0],l.slice(l.indexOf('=')+1)]));

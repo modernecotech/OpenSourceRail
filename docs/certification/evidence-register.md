@@ -9,9 +9,9 @@ from [hazard-log.md](hazard-log.md).
 
 Each SIL-4 evaluator carries Kani harnesses under
 `crates/<name>/src/kani_proofs.rs`, gated on `cfg(kani)` so `cargo
-test` skips them and `cargo kani` runs them. The harnesses are
-*bounded* formal proofs: they explore every input combination
-within a stated unwind, not just test-case samples.
+test` skips them and `cargo kani` runs them. These are written proof harnesses. A successful Kani run can establish the
+stated property within its recorded bounds; the presence of a harness or a
+passing `cargo test` run does not establish that result.
 
 | Crate | Harness module | Properties | SR coverage |
 |---|---|---|---|
@@ -24,8 +24,10 @@ within a stated unwind, not just test-case samples.
 | `osr-intrusion-detect` | `kani_proofs.rs` | I1–I5 | SR-07, H-CO-03, H-SA-01 |
 | `osr-secbus` | `kani_proofs.rs` | S1, S3 | SR-22, H-DI-01 |
 
-**Total Kani harnesses:** 45 named-property proofs across 8 SIL-4
-and SIL-2 evaluators. Rerun with `cargo kani --package <name>` on
+**Inventory:** named-property harnesses across the eight evaluators above.
+Harnesses written, runs passed, results current and results independently
+accepted are separate states. The two selected CI properties are documented
+in the [safety-case README](../safety-case/README.md); wider proofs remain open. Rerun with `cargo kani --package <name>` on
 a host with Kani installed (Kani is not part of the `cargo test`
 default path).
 
@@ -45,7 +47,7 @@ default.
 | `osr-interlocking` | `tests/proptest_ma.rs` | P1–P5 | 1000 |
 | `osr-interlocking` | `tests/proptest_determinism.rs` | derive-state determinism | 1000 |
 | `osr-interlocking` | `tests/differential.rs` | Rust ↔ Python twin agreement | 256 |
-| `osr-consensus` | (inline + suite) | 5 TLA-refined Raft properties | 2000 |
+| `osr-consensus` | (inline + suite) | 5 Raft properties; refinement open | 2000 |
 | `osr-obstacle-detect` | `tests/proptest_obstacle.rs` | O1–O5 + severity + classifier downgrade | 256 |
 | `osr-intrusion-detect` | `tests/proptest_intrusion.rs` | I1–I5 | 256 |
 | `osr-secbus` | `tests/proptest_secbus.rs` | S1–S3 + roundtrip | 256 |
@@ -89,7 +91,8 @@ Rerun with `cargo run --release --bin osr-sim -- --config scenarios/<name>.toml`
 Goal-Structuring-Notation argument tree under `docs/safety-case/gsn/`,
 compiled by the `osr-safety-case` CI gate. Every safety goal links
 to evidence (Kani harness, proptest file, sim scenario); the CI
-job fails if any goal is added without a verifying evidence link.
+job fails if any goal is added without an evidence pointer. It does not run
+the pointed-to proof or grant acceptance.
 
 | File | Goals | Strategy |
 |---|---|---|
@@ -103,10 +106,14 @@ job fails if any goal is added without a verifying evidence link.
 | `70-intrusion-detect.toml` | G20–G24 | Intrusion detection (RFC 0016) |
 | `80-message-authentication.toml` | G25–G27 | Message auth (RFC 0017) |
 
-**Total:** 27 top-level goals; 70+ solution links to concrete evidence.
+<!-- safety-case-counts:start -->
+Generated case inventory: **32 goals, 6 strategies, 71 solutions**. These counts describe traceability, not successful or accepted proofs.
+<!-- safety-case-counts:end -->
 
 **CI gate:** the `starter_case_closes` test in `crates/osr-safety-case/tests/`
-fails the build if any goal is un-closed.
+fails the build if a goal lacks structural traceability. The separate
+[result gate](../safety-case/result-validation.md) checks execution records,
+source/report hashes and independent acceptance records.
 
 ## 6. Operational-controls evidence (RFC 0013 rulebook)
 
@@ -147,18 +154,16 @@ KiCad schematic capture + gerber generation remain custom-board
 milestones for any deployment that chooses OSR-specific carrier,
 power, safety-I/O, or sensor-interface boards.
 
-## 8. Summary of evidence density
+## 8. Evidence status and release gaps
 
-- **55 crates** in the workspace.
-- **753 Rust tests** passing, 0 failing.
-- **40+ Kani harnesses** across 9 SIL-4/SIL-2 evaluators.
-- **60+ proptest properties** across 13 crates.
-- **27 GSN top-level goals** closed against 70+ evidence solutions.
-- **122 operational rules** across 4 role families.
-- **4 sim scenarios** exercising nominal + fault + driverless +
-  wayside-intrusion paths.
-- **2 hardware v2 specs** (T-ECU/S, T-OBS) with safety-nets
-  traceable to the SIL-4 hardware argument; 3 more pending.
+Source inventories and successful test runs are useful development evidence.
+They do not imply all formal proofs have run or all safety goals are accepted.
+Record the exact source scope, named harness, tool version, bounds, result and
+report hash for each run, then obtain independent acceptance of that record.
+The result gate reports missing or stale records as open, even when all GSN
+pointers resolve. It does not authenticate reviewers or replace an assessor.
 
-Zero test failures. Zero workspace build warnings. Zero open
-safety-case gaps against SR-01 through SR-24 at the crate level.
+Current release limitations remain in the
+[release-gap register](release-gap-register.md) and
+[safety-case proof status](../safety-case/README.md). No zero-gap safety or
+physical-release claim follows from the traceability gate.

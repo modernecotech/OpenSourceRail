@@ -8,130 +8,74 @@ These diagrams expand the system map in
 as editable architecture drawings for implementers, operators, and
 reviewers.
 
-## 1. Deployment Context
+## 1. Deployed Demonstration Platform
+
+Solid arrows below describe the localhost demonstration. The Rust evaluators
+run against simulation fixtures; this is not a commissioned railway deployment.
+Native ERPNext and FUXA accounts retain their own permissions inside Workbench.
 
 ```mermaid
 flowchart LR
-  subgraph BackOffice["OCC and Back Office"]
-    OCC["osr-occ\noperations control"]
-    OpsPortal["operations portal\nOps Core + SQLite"]
-    Historian["osr-historian\ntelemetry archive"]
-    Analytics["osr-analytics\nKPIs and reports"]
-    CBM["osr-cbm-backend\ncondition maintenance"]
-    AFCBack["osr-afc-backoffice\nfare settlement"]
-  end
-
-  subgraph Depot["Depot and Production Plant"]
-    DepotSBC["S-SBC depot host"]
-    Workshop["tooling, fixtures,\ncalibration records"]
-    FleetMaint["fleet maintenance\nwork orders"]
-    DepotEnergy["depot PV, BESS,\nslow charging"]
-  end
-
-  subgraph Stations["Stations"]
-    StationSBC["S-SBC station host"]
-    AFC["osr-afc / osr-tvm"]
-    PIS["osr-pis-station"]
-    PSD["osr-psd"]
-    StationSCADA["osr-station-scada"]
-    StationEnergy["chargers, PV,\nstation BESS"]
-  end
-
-  subgraph Wayside["Wayside and Waypoint Nodes"]
-    WSBC["W-SBC"]
-    Points["osr-wayside-points"]
-    Balise["osr-balise / beacons"]
-    Intrusion["osr-intrusion-detect"]
-    Crossing["osr-level-crossing"]
-    HABD["osr-hot-axle-wayside"]
-  end
-
-  subgraph Train["Trainset"]
-    SafetyECU["T-ECU/S safety"]
-    AppECU["T-ECU/A applications"]
-    TOBS["T-OBS obstacle detection"]
-    Trainbus["TCN-E TSN trainbus"]
-  end
-
-  Passenger["Passengers\nmobile money / QR / NFC"]
-  Utility["Grid / PPA / export"]
-  Regulator["Owner engineer / ISA /\nregulator evidence"]
-
-  OCC <--> OpsPortal
-  OCC <--> Historian
-  Historian --> Analytics
-  Historian --> CBM
-  OpsPortal <--> FleetMaint
-  OpsPortal --> Regulator
-  AFCBack <--> AFC
-  Passenger <--> AFC
-  OCC <--> StationSBC
-  OCC <--> WSBC
-  OCC <--> SafetyECU
-  StationEnergy <--> Utility
-  DepotEnergy <--> Utility
-  StationEnergy <--> Trainbus
-  WSBC <--> SafetyECU
-  Trainbus <--> SafetyECU
-  Trainbus <--> AppECU
-  Trainbus <--> TOBS
-  DepotSBC <--> AppECU
-  DepotSBC <--> Workshop
+  UI["Workbench: city and asset context"]
+  Design["City Studio / FreeCAD / Bonsai IFC / QGIS"]
+  Twin["Versioned engineering and city packages"]
+  ERP["ERPNext + Frappe HR: native business transactions"]
+  Gateway["OSR integration gateway: scoped API, SQLite history and durable outbox"]
+  FUXA["FUXA: generated supervision views"]
+  Native["Rust station / vehicle / wayside evaluators"]
+  Fixture["Explicit simulation fixtures; factory-method rehearsal"]
+  Railway["OSR simulation / OCC / railway works and handback"]
+  Legacy["Historic Ops Core business records: read-only"]
+  UI --> Design
+  Design --> Twin
+  Twin --> Gateway
+  UI --> ERP
+  UI --> FUXA
+  UI --> Railway
+  UI --> Gateway
+  Fixture --> Native
+  Native --> Gateway
+  Fixture --> Gateway
+  Gateway -->|deduplicated Issue / reviewed Asset Repair| ERP
+  ERP -->|permission-filtered execution feedback| UI
+  Gateway -->|REST tags / source quality| FUXA
+  Legacy --> UI
 ```
 
-## 2. Backend / OCC Services
+ERP completion and alarm clearance cannot grant railway release or movement
+authority. LM3 factory views apply only to the matching city family; cross-family
+module reuse needs a separate reviewed mapping before it can be represented.
+
+## 2. Integration Boundaries And Future Interfaces
 
 ```mermaid
 flowchart TB
-  subgraph Ingest["Ingest"]
-    TrainReports["train reports\nposition, SoC, faults"]
-    WaysideReports["wayside reports\nswitch, intrusion, HABD"]
-    StationReports["station reports\nAFC, PSD, SCADA"]
-    EnergyReports["energy reports\nPV, BESS, chargers"]
-  end
-
-  subgraph EventCore["Event Core"]
-    OpsLog["authoritative ops log\nNATS JetStream / append-only"]
-    ReadModels["read models\ncurrent network state"]
-    Audit["audit stream\nsafety and operations events"]
-  end
-
-  subgraph Services["Backend Services"]
-    OccSvc["osr-occ\nATS, incidents, dispatch"]
-    Routing["osr-routing\nroute proposals"]
-    Historian["osr-historian\ntime-series retention"]
-    CbmBackend["osr-cbm-backend\nmaintenance triggers"]
-    Analytics["osr-analytics\navailability, kWh/km, MDBF"]
-    AfcBack["osr-afc-backoffice\nsettlement and fraud checks"]
-    OpsCore["Ops Core API\nSQLite work orders"]
-  end
-
-  subgraph Interfaces["User Interfaces"]
-    Dispatcher["dispatcher console"]
-    Portal["operations portal"]
-    Reports["monthly reports"]
-    Maintainer["maintenance view"]
-  end
-
-  TrainReports --> OpsLog
-  WaysideReports --> OpsLog
-  StationReports --> OpsLog
-  EnergyReports --> OpsLog
-  OpsLog --> ReadModels
-  OpsLog --> Audit
-  ReadModels --> OccSvc
-  ReadModels --> Routing
-  OpsLog --> Historian
-  Historian --> CbmBackend
-  Historian --> Analytics
-  StationReports --> AfcBack
-  CbmBackend --> OpsCore
-  OccSvc --> Dispatcher
-  OpsCore --> Portal
-  OpsCore --> Maintainer
-  Analytics --> Reports
-  Audit --> Portal
+  Controllers["Native simulation controllers"]
+  API["Implemented scoped HTTP integration API"]
+  History["Gateway-owned SQLite historian and alarm/command audit"]
+  Queue["Durable maintenance outbox"]
+  ERP["ERPNext Issue / Asset Repair / stock / assignment"]
+  FUXA["FUXA REST polling; DAQ disabled"]
+  Hardware["Future commissioned supplier sensors and machines"]
+  Transport["Future reviewed MQTT / OPC UA / Modbus adapters"]
+  Bus["Future production event transport, e.g. NATS"]
+  Assurance["Independent railway inspection and handback"]
+  Controllers --> API
+  API --> History
+  History --> FUXA
+  API --> Queue
+  Queue --> ERP
+  Hardware -.-> Transport
+  Transport -.-> API
+  API -.-> Bus
+  ERP -.->|records for review; no release authority| Assurance
 ```
+
+Dashed interfaces are proposed or require physical commissioning. NATS is not
+the transport of the deployed ERPNext/FUXA demonstration. Shared identity, TLS,
+backup operations, supplier bindings and HIL evidence remain deployment work.
+The remaining diagrams describe intended railway allocations and interfaces;
+they are not evidence that the depicted hardware paths have been commissioned.
 
 ## 3. Onboard Train Software
 
@@ -236,7 +180,9 @@ flowchart TB
 
   subgraph Backhaul["Backhaul"]
     OCC["OCC event stream"]
-    OpsCore["Ops Core SQLite API"]
+    Gateway["OSR integration gateway"]
+    ERP["ERPNext maintenance / tooling records"]
+    Railway["OSR inspection and handback"]
     AFCBack["AFC back office"]
     Historian["historian"]
   end
@@ -256,8 +202,10 @@ flowchart TB
   EnergySite --> Historian
   Scada --> Historian
   AFC --> AFCBack
-  SelfTest --> OpsCore
-  DepotTools --> OpsCore
+  SelfTest -.-> Gateway
+  DepotTools -.-> Gateway
+  Gateway --> ERP
+  Gateway --> Railway
 ```
 
 ## 5. Wayside / Waypoint Node Software
@@ -326,8 +274,9 @@ sequenceDiagram
   participant Log as Ops Event Log
   participant W as OSR shadow/supervised train-control candidate
   participant Train as Train T-ECU/S + T-ECU/A
-  participant Hist as Historian / CBM
-  participant Core as Ops Core
+  participant Hist as OSR historian / condition gateway
+  participant Core as ERPNext maintenance
+  participant Assurance as OSR independent handback
 
   Dispatcher->>OCC: request route / timetable action
   OCC->>Log: append dispatch intent
@@ -341,7 +290,9 @@ sequenceDiagram
   W->>Log: switch state, intrusion, HABD, route state
   Log->>Hist: telemetry archive
   Hist->>Core: condition trigger / work-order suggestion
-  Core->>Dispatcher: open work, holds, defects, evidence state
+  Core->>Dispatcher: maintenance case and repair status
+  Core-->>Assurance: reviewed repair evidence for inspection
+  Note over Core,Assurance: ERP completion grants no railway release
 ```
 
 ## 7. Energy and Charging Software
@@ -389,68 +340,35 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  subgraph Generated["Generated Design Data"]
-    DesignToml["city design.toml"]
-    ScenarioToml["scenario toml"]
-    ManufacturingTemplate["manufacturing-schedule.toml"]
-    QATemplate["construction-qa.toml"]
-    MaintTemplate["maintenance-schedule.toml"]
-  end
-
-  subgraph PortalData["Portal Data Generator"]
-    Generator["generate-qa-maintenance-data.py"]
-    AssetCSV["asset register CSV"]
-    ManufacturingCSV["manufacturing schedule CSV"]
-    MaterialCSV["manufacturing materials CSV"]
-    VerificationCSV["manufacturing verification CSV"]
-    QACSV["QA action CSV"]
-    MaintCSV["maintenance schedule CSV"]
-    Bundle["operations JSON bundle"]
-  end
-
-  subgraph OpsCore["Ops Core Runtime"]
-    Portal["browser portal"]
-    SQLite["ops-core.sqlite3"]
-    Reconcile["storage reconciliation\nlocal fallback to SQLite"]
-    WorkOrders["work orders"]
-    Inspections["inspection evidence"]
-    Defects["defects / NCR"]
-    Audit["audit trail"]
-  end
-
-  subgraph Evidence["Evidence Consumers"]
-    Maintainer["maintainers"]
-    OwnerEngineer["owner engineer"]
-    Regulator["regulator / ISA"]
-    Reports["CSV exports and reports"]
-  end
-
-  DesignToml --> Generator
-  ScenarioToml --> Generator
-  ManufacturingTemplate --> Generator
-  QATemplate --> Generator
-  MaintTemplate --> Generator
-  Generator --> AssetCSV
-  Generator --> ManufacturingCSV
-  Generator --> MaterialCSV
-  Generator --> VerificationCSV
-  Generator --> QACSV
-  Generator --> MaintCSV
-  Generator --> Bundle
-  Bundle --> Portal
-  Portal <--> SQLite
-  Portal <--> Reconcile
-  Reconcile --> SQLite
-  Portal --> WorkOrders
-  WorkOrders --> Inspections
-  Inspections --> Defects
-  WorkOrders --> Audit
-  Defects --> Audit
-  Audit --> Reports
-  Maintainer --> Portal
-  OwnerEngineer --> Portal
-  Regulator --> Reports
+  Design["Versioned city design, assets and project twin"]
+  Methods["LM3 methods, products, tooling and hold points"]
+  Family["Selected city family applicability gate"]
+  Mapping["Reviewed engineering revision + exact Item/BOM pair"]
+  ERP["ERPNext: projects, procurement, production, stock, quality and repairs"]
+  Workbench["Workbench: execution feedback and equipment context"]
+  Gateway["OSR gateway: history, alarm queue and lifecycle evidence"]
+  FUXA["FUXA: simulation method and equipment supervision"]
+  Railway["OSR railway works, inspection and independent handback"]
+  Legacy["Historic business records in Ops Core: read-only"]
+  Physical["Open: performed travelers, machine adapters, physical measurements and rework disposition"]
+  Design --> Mapping
+  Mapping --> ERP
+  Design --> Family
+  Methods --> Family
+  Family --> Gateway
+  Gateway --> FUXA
+  Gateway -->|condition-driven Issue| ERP
+  ERP -->|permission-filtered actuals| Workbench
+  Gateway --> Workbench
+  Railway --> Workbench
+  Legacy --> Workbench
+  Physical -.-> ERP
+  Physical -.-> Railway
 ```
+
+Work Order correlation requires the Item and exact BOM from a single reviewed
+mapping at the selected engineering revision. Factory views show method context
+and simulation fixtures; they do not perform inspection, disposition or release.
 
 ## 9. Safety and Security Boundaries
 

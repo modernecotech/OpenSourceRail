@@ -41,5 +41,20 @@ def test_prepared_package_never_implies_live_or_physical_deployment(tmp_path):
           {'city':'test','environment':'simulation','equipment':[{'site_id':'ST-1'}]})
     design = tmp_path / 'city/design.toml'
     result = CITY.city_summary(tmp_path, 'test', design, 'test')
-    assert result['supervision'] == {'state':'prepared','sites':['ST-1'],'equipment_count':1}
+    assert result['supervision'] == {'state':'prepared','sites':['ST-1'],'preferred_site':'ST-1','equipment_count':1}
     assert CITY.city_summary(tmp_path, 'test', design, 'test', 'physical')['supervision']['sites'] == []
+
+
+def test_factory_sorting_does_not_change_preferred_vehicle_and_profile_is_checked(tmp_path):
+    design = tmp_path / 'city/design.toml'
+    write(tmp_path, 'build/supervision/test/simulation/package.json',
+          {'city':'test','environment':'simulation','equipment':[
+              {'site_id':'T-PLANT-001','equipment_type':'factory-lm3-mfg-020'},
+              {'site_id':'T-RS-001','equipment_type':'vehicle-bms'}]})
+    summary = lambda: CITY.city_summary(tmp_path, 'test', design, 'test')['supervision']
+    assert summary()['sites'][0] == 'T-PLANT-001'
+    assert summary()['preferred_site'] == 'T-RS-001'
+    write(tmp_path, 'city/operations/supervision.json', {'preferred_supervision_site':'T-PLANT-001'})
+    assert summary()['preferred_site'] == 'T-PLANT-001'
+    write(tmp_path, 'city/operations/supervision.json', {'preferred_supervision_site':'OTHER-CITY-RS-001'})
+    assert summary()['preferred_site'] is None

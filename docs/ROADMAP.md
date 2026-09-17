@@ -1,7 +1,7 @@
 # Roadmap
 
-This page tracks remaining validation and hardening work in the v0.4 development
-line after the published v0.3.1 baseline. It is a planning map, not a release contract.
+This page tracks remaining validation and hardening work beyond the v0.4.0
+software baseline. It is a planning map, not a release contract.
 The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).
@@ -109,9 +109,10 @@ invented. These FUXA/ERP views are maintenance-only and expose no safety command
 reset, route state or movement authority.
 
 Factory supervision now closes the duplicate-recipe and uncorrelated-dashboard
-gap: nine views are generated from the existing LM3 methods on each tracked
-production-plant identity, and the Workbench joins native Work Orders only through
-reviewed product/method-to-ERP mappings. It can rehearse cell unavailability and
+gap: nine views are generated from the existing LM3 methods on production-plant
+identities in cities whose baseline selects `light-metro-3car`. Other families
+require applicable methods or reviewed module reuse. Workbench joins native
+Work Orders through the exact Item/BOM pair at the reviewed engineering revision. It can rehearse cell unavailability and
 a quality hold through the durable Issue route. Real machine adapters, capacity
 dispatch, performed traveler/inspection values, NCR/rework disposition and
 manufacturing acceptance remain open; no simulated value closes those gates.

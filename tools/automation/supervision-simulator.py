@@ -63,6 +63,10 @@ def main():
                     local = {**control, **control.get('cities', {}).get(city, {})}
                     if local.get('disconnected'): continue
                     snapshot = request_json(url + f'/snapshot?city={city}&environment=simulation', headers=headers)
+                    # Retired positions stay in history, but must not receive samples
+                    # or prevent active equipment from being updated.
+                    snapshot['assets'] = [a for a in snapshot['assets']
+                                          if a.get('configuration_status', 'active') == 'active']
                     snapshots[city] = snapshot
                     values_by_site = {}
                     factory_assets = [a for a in snapshot['assets'] if a.get('manufacturing_method')]

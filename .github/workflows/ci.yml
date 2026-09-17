@@ -69,6 +69,7 @@ jobs:
           python tools/automation/erp-components.py validate
           docker compose --env-file var/erpnext/local.env -f deployment/erpnext/compose.yaml config --quiet
       - run: python tools/automation/audit-project-twins.py
+      - run: python tools/automation/safety-case-summary.py --check
       - run: python tools/automation/check-markdown-links.py
       - run: python tools/automation/validate-host-manifests.py
       - run: python tools/automation/check-tracked-file-sizes.py

@@ -331,7 +331,7 @@ class IntegrationTest(unittest.TestCase):
         plant = {'asset_type':'depots-production','asset_id':'SAM-PLANT-001','name':'Production plant',
                  'parent_asset':'SAM-ST-009'}
         package = build_package({**self.generic, 'templates': {**self.generic['templates'], **templates}},
-                                {'city':'samawah'}, [plant], 'rev1')
+                                {'city':'samawah', 'rolling_stock_family':'light-metro-3car'}, [plant], 'rev1')
         self.assertEqual(len(package['equipment']), 9)
         composite = next(a for a in package['equipment']
                          if a['manufacturing_method']['method_id'] == 'LM3-MFG-020')
@@ -464,3 +464,22 @@ class IntegrationTest(unittest.TestCase):
 
 
 if __name__ == '__main__': unittest.main()
+
+
+def test_factory_family_applicability_is_enforced_during_generation_and_validation():
+    source = json.loads((ROOT / 'design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json').read_text())
+    generic = json.loads((ROOT / 'deployment/supervision/config/generic.json').read_text())
+    generic['templates'].update(factory_templates(source))
+    assets = [{'asset_type':'depots-production','asset_id':'TEST-PLANT-001','name':'Plant'},
+              {'asset_type':'rolling-stock','asset_id':'TEST-RS-001','name':'Train'}]
+    for family in ['metro-4car', None]:
+        package = build_package(generic, {'city':'test','rolling_stock_family':family}, assets, 'rev1')
+        assert package['equipment']
+        assert not any('manufacturing_method' in a for a in package['equipment'])
+    package = build_package(generic, {'city':'test','rolling_stock_family':'light-metro-3car'}, assets, 'rev1')
+    assert len([a for a in package['equipment'] if 'manufacturing_method' in a]) == 9
+    package['rolling_stock_family'] = 'metro-4car'
+    package['sha256'] = digest({k:v for k,v in package.items() if k != 'sha256'})
+    import pytest
+    with pytest.raises(ValueError, match='does not apply'):
+        validate_package(package)

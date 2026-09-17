@@ -4,7 +4,7 @@ const asset={asset_id:'SAM-ST-001:charger',name:'Charger',city:'samawah',environ
 test('city navigation filters ERP and targets the city FUXA display',async({page})=>{
   await page.route('**/api/workbench/city?**',r=>{
     const city=new URL(r.request().url()).searchParams.get('city');
-    return r.fulfill({json:{city,erp:{project:city==='mosul'?'P2':'P1',routes:{tasks:'/app/task?project='+(city==='mosul'?'P2':'P1')}},supervision:{sites:[city==='mosul'?'MOS-ST-001':'SAM-ST-001']}}});
+    return r.fulfill({json:{city,erp:{project:city==='mosul'?'P2':'P1',routes:{tasks:'/app/task?project='+(city==='mosul'?'P2':'P1')}},supervision:{sites:[city==='mosul'?'MOS-PLANT-001':'SAM-PLANT-001',city==='mosul'?'MOS-ST-001':'SAM-ST-001'],preferred_site:city==='mosul'?'MOS-ST-001':'SAM-ST-001'}}});
   });
   await page.route('http://127.0.0.1:8080/**',r=>r.fulfill({body:'ERP'}));
   await page.route('http://127.0.0.1:1881/**',r=>r.fulfill({body:'FUXA'}));

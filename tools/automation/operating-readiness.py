@@ -11,6 +11,8 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+import subprocess
+from functools import lru_cache
 import tomllib
 
 
@@ -72,6 +74,13 @@ def file_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+@lru_cache(maxsize=1)
+def tracked_bundles():
+    # Reproducible checked-in evidence inventory, independent of local builds.
+    names = subprocess.check_output(['git', 'ls-files', '-z', '--', '*-operations.json.gz'], cwd=ROOT)
+    return set(names.decode().split('\0'))
+
+
 def source_digest() -> str:
     paths = list(COMPILER_INPUTS)
     for city_dir in sorted(path.parent for path in
@@ -90,7 +99,7 @@ def source_digest() -> str:
             city_dir / "engineering/project-twin/summary.json",
         ])
         bundle = city_dir / "operations" / f"{slug}-operations.json.gz"
-        if bundle.is_file():
+        if bundle.is_file() and relative(bundle) in tracked_bundles():
             paths.append(bundle)
     digest = hashlib.sha256()
     for path in sorted(set(paths)):
@@ -146,7 +155,7 @@ def audit_city(slug: str) -> dict[str, object]:
         "records": None,
         "package_sha256": None,
     }
-    if bundle_path.is_file():
+    if bundle_path.is_file() and relative(bundle_path) in tracked_bundles():
         compressed = bundle_path.read_bytes()
         require(
             hashlib.sha256(compressed).hexdigest() == manifest["compressed_sha256"],

@@ -1061,8 +1061,10 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
 
 
 def main() -> int:
+    global REPOSITORY_BLOB_URL
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Output PDF path.")
+    parser.add_argument("--source-ref", default="main", help="Git ref used by repository links in the PDF.")
     parser.add_argument("--no-images", action="store_true", help="Skip local images.")
     parser.add_argument("--max-image-px", type=int, default=900, help="Maximum cached image dimension.")
     parser.add_argument("--image-quality", type=int, default=60, help="JPEG quality for cached images.")
@@ -1072,6 +1074,7 @@ def main() -> int:
         help="Print the validated reader-document and city-model manifest, then exit.",
     )
     args = parser.parse_args()
+    REPOSITORY_BLOB_URL = "https://github.com/modernecotech/OpenSourceRail/blob/" + quote(args.source_ref, safe="")
 
     os.chdir(REPO_ROOT)
     if args.list_sources:

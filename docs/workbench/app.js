@@ -124,7 +124,7 @@ async function navigate(module, path = "") {
       }
     }
     if (spec.service === "fuxa") {
-      const site = cityStatus.supervision.sites.find(site => context.selected_asset === site || context.selected_asset?.startsWith(site + ':')) || cityStatus.supervision.sites[0];
+      const site = cityStatus.supervision.sites.find(site => context.selected_asset === site || context.selected_asset?.startsWith(site + ':')) || cityStatus.supervision.preferred_site;
       if (!site) {
         document.getElementById("moduleScope").textContent = `No supervision package for ${context.city} / ${context.environment}.`;
         return;

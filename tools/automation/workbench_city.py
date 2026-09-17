@@ -47,12 +47,18 @@ def city_summary(root, city, design_path, control_city, environment='simulation'
     package = read_json(root / 'build/supervision' / city / environment / 'package.json')
     package_valid = bool(package and package.get('city') == city and package.get('environment') == environment)
     sites = sorted({a['site_id'] for a in package.get('equipment', [])}) if package_valid else []
+    # A new factory/wayside view must not silently change the default display.
+    vehicles = sorted({a['site_id'] for a in (package or {}).get('equipment', [])
+                       if a.get('equipment_type', '').startswith('vehicle-')}) if package_valid else []
+    preferred = profile.get('preferred_supervision_site') or (vehicles[0] if vehicles else next(iter(sites), None))
+    if preferred not in sites:
+        preferred = None
     engineering = read_json(root / 'build/supervision' / city / 'engineering.json')
     return {'city': city, 'environment': environment, 'control_workspace': control_city,
             'control_available': city == control_city, 'erp': erp,
             'engineering': {'state': 'prepared' if engineering and engineering.get('city') == city else 'unavailable',
                             'artifact_count': len(engineering.get('artifacts', [])) if engineering and engineering.get('city') == city else 0},
             'supervision': {'state': 'prepared' if package_valid else 'unavailable', 'sites': sites,
-                           'equipment_count': len(package.get('equipment', [])) if package_valid else 0},
+                           'preferred_site': preferred, 'equipment_count': len(package.get('equipment', [])) if package_valid else 0},
             'profiles': {name: (operations / filename).is_file() for name, filename in
                          [('erp', 'erpnext.toml'), ('components', 'erp-components.json'), ('supervision', 'supervision.json')]}}

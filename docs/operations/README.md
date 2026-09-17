@@ -50,9 +50,10 @@ delivery twin for any catalogue city without a shell. Its Project Twin tab
 shows the resource-loaded critical path, budget work packages, order-by dates,
 supplier-anchor/local-equivalent basis, controlled manufacturer candidate IDs,
 selection states and monthly local/imported cash needs.
-Actual purchase orders, deliveries, invoices, payments and progress remain
-separate persisted Ops Core records; a generated plan never becomes an issued
-commercial record by itself.
+New purchase orders, deliveries, invoices, payments and business progress are
+recorded in [ERPNext](../operating/README.md). Historic Ops Core business records
+remain read-only; railway works, inspection and handback remain OSR records.
+A generated plan never becomes an issued commercial record by itself.
 
 The institutional route for turning those records into an accountable railway is
 the [owner–builder–operator setup plan](../owner-builder-operator-setup.md). It

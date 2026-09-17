@@ -210,8 +210,8 @@ The simulation source now executes nine existing Rust crates for station energy,
 station SCADA, vehicle BMS, auxiliary power, HVAC, condition monitoring, points,
 level crossings and fare gates. Use
 `prepare CITY --first-site --first-vehicle --first-plant` for the 19-position
-Samawah or Mosul pilot: five station views,
-four vehicle views, the station's existing switch and nine factory-method views
+Samawah or 10-position Mosul pilot: five station views,
+four vehicle views, the station's existing switch and, for the LM3 family only, nine factory-method views
 on the real production-plant identity. Across the catalogue, 9,097 real switch
 IDs are reused. Crossing support remains dormant because no tracked city yet has
 a `level-crossing` asset; the package builder refuses to invent one. Fare gates
@@ -235,3 +235,10 @@ can create an ERP Issue. The Workbench lists native Work Orders only when an
 immutable reviewed execution mapping joins the method/product identity to its
 ERP Item/BOM. A hold does not modify a Work Order, create a Quality Inspection,
 accept/reject output or grant manufacturing/railway release.
+
+The Workbench default is `preferred_supervision_site` in the city profile,
+validated against the prepared package; otherwise a vehicle site is preferred.
+An explicitly selected equipment position takes precedence. An unavailable
+configured preference never silently opens another site. Factory applicability
+is read from the city project-twin family; a profile cannot override that
+baseline. Cross-family method reuse is blocked pending a reviewed mapping.

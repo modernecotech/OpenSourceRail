@@ -73,6 +73,11 @@ def city_package(slug, environment='simulation', first_site=False, first_vehicle
     if override['city'] != slug:
         raise ValueError('City profile identity mismatch')
     assets, revision = city_assets(slug)
+    twin = json.loads((path.parent / 'engineering/project-twin/summary.json').read_text())
+    family = twin.get('product_scope', {}).get('rolling_stock_family')
+    if override.get('rolling_stock_family', family) != family:
+        raise ValueError('Supervision family differs from the city engineering baseline')
+    override['rolling_stock_family'] = family
     if first_site:
         override['sites'] = [next(a['asset_id'] for a in assets if a['asset_type'] == 'station')]
     if first_vehicle:

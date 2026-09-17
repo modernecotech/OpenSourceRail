@@ -1,8 +1,18 @@
 # OpenSourceRail changelog
 
-## Unreleased
+## v0.4.0 — Integrated operating software
 
-- Started the v0.4.0 development line for the integrated ERPNext, FUXA and OSR
+- Corrected factory Work Order correlation to require a reviewed exact Item/BOM
+  pair at the selected engineering revision. LM3 method views now require the
+  city baseline's `light-metro-3car` family; other families remain unsupported.
+- Made the preferred FUXA city/site explicit and preserved selected-equipment
+  navigation. Retired history no longer interrupts active simulator telemetry.
+- Separated safety-case traceability from successful result records and independent
+  acceptance, with source/report hashes, named harnesses, tools and bounds.
+  Generated GSN counts and corrected charging, ERP ownership and assurance claims.
+- Made the readiness inventory independent of untracked local operations bundles.
+
+- Released the v0.4.0 software baseline for the integrated ERPNext, FUXA and OSR
   lifecycle platform. Supervisory package updates now retain removed equipment
   as retired history while rejecting new telemetry and commands, fail pending
   commands on retirement, and support reviewed reactivation. Alarm
@@ -19,8 +29,8 @@
   All 9,097 catalogue switches retain their asset identity; the read-only
   wayside views expose no movement authority or safety command, and crossings
   remain absent where the asset registers contain none.
-- Added nine generated factory-method supervision views to every real production
-  plant, reusing the existing 120-product/30-tooling method source. Explicit
+- Added nine generated factory-method supervision views to applicable LM3 production
+  plants, reusing the existing 120-product/30-tooling method source. Explicit
   unavailable and quality-hold fixtures create scoped ERP Issues; Workbench now
   correlates native Work Orders only through reviewed execution mappings and
   keeps inspection, disposition and manufacturing release independent.

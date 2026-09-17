@@ -1,7 +1,8 @@
 # OSR Workbench
 
-The Workbench presents City Studio, simulation, OCC replay and Ops Core under
-one origin while preserving their authority boundaries. Shared URL context
+The Workbench presents City Studio, simulation, OCC replay, ERPNext/Frappe HR,
+FUXA supervision and OSR railway assurance under one origin while preserving
+their authority boundaries. Shared URL context
 links the city, immutable revision, approved baseline, simulation run and
 selected asset.
 

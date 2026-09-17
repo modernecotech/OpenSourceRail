@@ -11,7 +11,8 @@ The TOML lives under [`gsn/`](gsn/) and is compiled by the
 CI gate: [`tests/starter_case_closes.rs`](../../crates/osr-safety-case/tests/starter_case_closes.rs)
 fails the build if any goal no longer traces to evidence — that is,
 adding a safety-relevant claim or deleting an evidence file breaks CI
-until the gap is closed.
+until traceability is restored. This checks graph links and source-path presence,
+not proof execution, current results or independent acceptance.
 
 Compile the rendered case locally with:
 
@@ -131,8 +132,12 @@ From RFC 0004 §M3 and the cross-crate safety plan:
    [`osr-safety-case`](../../crates/osr-safety-case/) crate compiles
    the TOML claim files in [`gsn/`](gsn/) and the
    [`starter_case_closes`](../../crates/osr-safety-case/tests/starter_case_closes.rs)
-   test gates CI on every commit. Current case: 11 goals, 3
-   strategies, 14 solutions, all linked to real evidence in-tree.
+   test gates traceability in CI on every commit. Counts are generated below;
+   evidence pointers alone do not establish that a claim has been verified.
+
+<!-- safety-case-counts:start -->
+Generated case inventory: **32 goals, 6 strategies, 71 solutions**. These counts describe traceability, not successful or accepted proofs.
+<!-- safety-case-counts:end -->
 
 ## Directory contents
 
@@ -141,5 +146,5 @@ From RFC 0004 §M3 and the cross-crate safety plan:
   fail-safety decomposition, consistency decomposition). Compiled by
   `osr-safety-case`.
 - `evidence/` — machine-readable Kani and proptest results
-  (planned; currently stdout only).
+  (controlled runner imports remain deployment work; see [result validation](result-validation.md)).
 - `hazard-log/` — identified hazards and mitigations (planned).

@@ -62,8 +62,10 @@ function render() {
   if(execution){let html=Object.entries(execution.by_currency || {}).map(([currency,v])=>record(`${esc(currency)} · Ordered ${Number(v.ordered).toLocaleString()} · Unbilled commitment ${Number(v.unbilled_commitment).toLocaleString()} · Invoiced ${Number(v.invoiced).toLocaleString()}`)).join('')+record(`${(execution.receipts || []).length} receipt lines · ${(execution.production || []).length} project production records. Installed and engineering-accepted quantities require OSR evidence.`);
     if(a.manufacturing_method){const m=a.manufacturing_method,types=new Set([m.method_id,...m.product_ids]);
       const mappings=(execution.execution_mappings || []).filter(row=>types.has(row.component_type_id)&&row.engineering_revision===a.engineering_revision);
-      const items=new Set(mappings.map(row=>row.erp_item_code)),boms=new Set(mappings.map(row=>row.production_bom).filter(Boolean));
-      const production=(execution.production || []).filter(row=>items.has(row.item || row.production_item)||boms.has(row.bom));
+      // Keep the reviewed Item/BOM pair together: neither identity alone proves revision applicability.
+      const production=(execution.production || []).filter(row=>mappings.some(mapping=>
+        mapping.erp_item_code && mapping.production_bom &&
+        mapping.erp_item_code===(row.item || row.production_item) && mapping.production_bom===row.bom));
       html+=record(`<b>${esc(m.method_id)} factory correlation</b><br>${mappings.length} reviewed product/method-to-ERP mapping(s) · ${production.length} matching native Work Order(s).${mappings.length?'':' No production record is claimed as affected without a reviewed mapping.'}<br>Release gate: ${esc(m.release_gate)}<br>Boundary: ${esc(m.release_boundary)}`);
       html+=production.map(row=>record(`<a href="${esc(services.erp)}/app/work-order/${encodeURIComponent(row.name)}" target="_blank" rel="noopener">${esc(row.name)}</a> · ${esc(row.item || row.production_item)} · ${esc(row.status)} · planned ${esc(row.planned_qty)} ${esc(row.uom)} / produced ${esc(row.produced_qty)} ${esc(row.uom)}<br>Engineering-accepted quantity: not asserted.`)).join('');
     }

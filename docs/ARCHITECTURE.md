@@ -103,7 +103,7 @@ SQLite business records remain readable, with new business writes disabled.
 ### 3.2 Design And Delivery Control Plane
 
 The [OSR Workbench](workbench/README.md) integrates City Studio, simulation,
-OCC training and Ops Core under one origin. It carries city, actor, immutable
+OCC training, ERPNext/Frappe HR, FUXA and OSR railway assurance under one origin. It carries city, actor, immutable
 revision, approved baseline, simulation run and selected-asset context without
 merging authority boundaries:
 
@@ -400,9 +400,9 @@ OpenSourceRail/
 
 ## 7. Safety & Certification Strategy
 
-OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because that is what national safety authorities will recognize. Until a deployment-specific assessor and authority accept the evidence, SIL wording in this repository means target assurance class and hazard allocation, not certification. The approach is:
+OpenSourceRail uses the maintained [standards baseline](certification/standards-baseline.md), which distinguishes current target references from legacy transition mappings. Until a deployment-specific assessor and authority accept the evidence, SIL wording in this repository means target assurance class and hazard allocation, not certification. The approach is:
 
-1. **Formal models first.** Signaling logic is expressed in a formal model (Kani, Creusot, or TLA+ where appropriate) before implementation. The Rust implementation is proven to refine the model.
+1. **Formal models first.** Signaling logic is expressed in a formal model (Kani, Creusot, or TLA+ where appropriate) before implementation. Refinement of the Rust implementation against the formal model is the intended assurance approach; the consensus refinement proof remains open.
 2. **Small safety kernel.** T1 binaries are aggressively minimized. Everything that can be pushed out of the safety kernel is.
 3. **Diversity by construction.** Two independent Rust implementations of each T1 function, compiled with different toolchain configurations, cross-check each other on redundant hardware. This is cheaper than the traditional "different language + different team" because the second implementation is constrained by the same formal model.
 4. **Machine-checkable safety case.** Safety arguments are written in GSN (Goal Structuring Notation) serialized as TOML, with claim → evidence links resolving to code commits, proof artifacts, and test results. CI regenerates the case on every merge; a safety case that no longer closes blocks the release.

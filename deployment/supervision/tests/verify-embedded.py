@@ -12,7 +12,7 @@ previous = controls.read_text() if controls.exists() else '{}'
 
 def asset(city, equipment_type='vehicle-cbm'):
     snap = s.api('/snapshot', role='viewer', query='?city=' + city + '&environment=simulation')
-    return next(a for a in snap['assets'] if a['equipment_type'] == equipment_type)
+    return next(a for a in snap['assets'] if a['equipment_type'] == equipment_type and a.get('configuration_status', 'active') == 'active')
 
 def wait(predicate, timeout=40):
     end=time.monotonic()+timeout
@@ -53,7 +53,7 @@ try:
     assert factory['readings']['cycle_progress_pct']['value']==42
     assert factory['readings']['quality_hold']['value']==1
     assert factory['manufacturing_method']['method_id']=='LM3-MFG-020'
-    assert asset('mosul','factory-lm3-mfg-020')['readings']['quality_hold']['value']==0
+    assert not any(a.get('manufacturing_method') and a.get('configuration_status', 'active') == 'active' for a in s.api('/snapshot', role='viewer', query='?city=mosul&environment=simulation')['assets'])
     assert factory_alarm['case_id'] not in {alarm['case_id'],point_alarm['case_id']}
     case=alarm['case_id'];occurrences=alarm['occurrences']
     time.sleep(4)

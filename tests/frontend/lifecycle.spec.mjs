@@ -63,11 +63,11 @@ test('Factory view uses reviewed ERP mappings and keeps quality release independ
   readings:{cycle_progress_pct:{value:42,unit:'%',quality:'valid',source_time:1789500000},quality_hold:{value:1,unit:'bool',quality:'valid',source_time:1789500000}},
   alarms:[],manufacturing_method:{method_id:'LM3-MFG-020',document_revision:'A-DRAFT',document_status:'design-reference-not-released',work_center:'composite cell',crew_size:3,planning_cycle_minutes:1440,product_ids:['LM3-BDY-P130'],tooling_ids:['LM3-TOOL-SIDE-MOULD'],steps:[{name:'Cure',hold_point:true}],release_gate:'Complete the cure record.',release_boundary:'Not a construction release.'}};
  await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[factory],outbox:[]}}));
- await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{project:'PROJ-0001',execution:{by_currency:{},receipts:[],execution_mappings:[{component_type_id:'LM3-BDY-P130',engineering_revision:'rev1',erp_item_code:'PANEL',production_bom:'BOM-PANEL'}],production:[{name:'WO-1',item:'PANEL',bom:'BOM-PANEL',status:'Completed',planned_qty:1,produced_qty:1,uom:'Nos'},{name:'WO-OTHER',item:'OTHER'}]}}]}}));
+ await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{project:'PROJ-0001',execution:{by_currency:{},receipts:[],execution_mappings:[{component_type_id:'LM3-BDY-P130',engineering_revision:'rev1',erp_item_code:'PANEL',production_bom:'BOM-PANEL'}],production:[{name:'WO-1',item:'PANEL',bom:'BOM-PANEL',status:'Completed',planned_qty:1,produced_qty:1,uom:'Nos'},{name:'WO-OTHER',item:'OTHER'}, {name:'WO-OLD-BOM',item:'PANEL',bom:'BOM-PANEL-REV0'}, {name:'WO-WRONG-ITEM',item:'OTHER',bom:'BOM-PANEL'}, {name:'WO-NO-BOM',item:'PANEL'}]}}]}}));
  await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
  await expect(page.locator('#overview')).toContainText('LM3-MFG-020');
  await expect(page.locator('#overview')).toContainText('1 steps / 1 hold points');
  await expect(page.locator('#execution')).toContainText('1 reviewed product/method-to-ERP mapping(s) · 1 matching native Work Order(s)');
  await expect(page.locator('#execution')).toContainText('Engineering-accepted quantity: not asserted');
- await expect(page.locator('#execution')).not.toContainText('WO-OTHER');
+ for(const excluded of ['WO-OTHER','WO-OLD-BOM','WO-WRONG-ITEM','WO-NO-BOM']) await expect(page.locator('#execution')).not.toContainText(excluded);
 });

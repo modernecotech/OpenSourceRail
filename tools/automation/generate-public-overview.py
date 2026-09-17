@@ -151,7 +151,7 @@ def render() -> str:
       <span class="tag">Build rail locally · retain skills · reduce foreign-capital dependence</span>
       <h1>OpenSourceRail</h1>
       <p><strong>An open urban-rail platform designed to keep ordinary engineering, fabrication, integration, software and long-term maintenance capability in the adopting country.</strong></p>
-      <p>The same deterministic workspace connects city design, GIS, CAD/IFC, simulation, operations, costs and assurance. Its {values['cities']} developing-world planning models estimate {values['local_share']} domestic value; all values remain planning sensitivities rather than bids or funding commitments.</p>
+      <p>The same deterministic workspace connects city design, GIS, CAD/IFC, simulation, ERPNext business execution, FUXA supervision, costs and railway assurance. Its {values['cities']} developing-world planning models estimate {values['local_share']} domestic value; all values remain planning sensitivities rather than bids or funding commitments.</p>
     </div>
     <img class="hero" src="assets/solar-metro-trainset.png" alt="OpenSourceRail light-metro reference trainset">
   </header>
@@ -181,7 +181,7 @@ def render() -> str:
         <li>Edit lines, stations, alignments, demand and line/day/hour service over local GIS.</li>
         <li>Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.</li>
         <li>Run deterministic train, station, energy, wayside, point/crossing and depot software together.</li>
-        <li>Use one Workbench for City Studio, simulation, OCC training and Ops Core.</li>
+        <li>Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.</li>
       </ul>
     </div>
     <div class="shots">
@@ -222,7 +222,7 @@ fabrication, integration, software and long-term maintenance capability in the
 adopting country.**
 
 The same deterministic workspace connects city design, GIS, CAD/IFC,
-simulation, operations, costs and assurance. Its {values['cities']}
+simulation, ERPNext business execution, FUXA supervision, costs and railway assurance. Its {values['cities']}
 developing-world planning models estimate {values['local_share']} domestic
 value; all values remain planning sensitivities rather than bids or funding
 commitments.
@@ -261,7 +261,7 @@ This is a controlled sensitivity—not a vendor quotation or financing offer.
 - Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.
 - Run deterministic train, station, energy, wayside, point/crossing and depot
   software together.
-- Use one Workbench for City Studio, simulation, OCC training and Ops Core.
+- Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.
 
 | City Studio | Civil IFC coordination |
 |---|---|

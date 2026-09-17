@@ -65,6 +65,11 @@ def build_package(generic, city, assets, revision, environment='simulation'):
         for kind, template in sorted(templates.items()):
             if station['asset_type'] not in template.get('asset_types', ['station', 'depot']):
                 continue
+            method = template.get('manufacturing_method')
+            if method:
+                validate_method_metadata(method)
+                if method['rolling_stock_family'] != cfg.get('rolling_stock_family'):
+                    continue
             identifier(kind)
             planned = f'{site}:{kind}'
             binding = cfg.get('bindings', {}).get(planned, {})
@@ -85,9 +90,9 @@ def build_package(generic, city, assets, revision, environment='simulation'):
                 item['manufacturing_method'] = copy.deepcopy(template['manufacturing_method'])
             equipment.append(item)
     if not equipment:
-        raise ValueError('No station or depot equipment selected')
+        raise ValueError('No applicable equipment selected; check sites and rolling-stock family')
     package = dict(schema='osr-supervisory/1', city=slug, environment=environment,
-        engineering_revision=revision, template_revision=cfg['template_revision'],
+        engineering_revision=revision, rolling_stock_family=cfg.get('rolling_stock_family'), template_revision=cfg['template_revision'],
         historian=cfg['historian'], equipment=equipment,
         lifecycle=['plan', 'design', 'procure', 'manufacture', 'construct', 'commission', 'operate', 'maintain', 'renew'])
     package['sha256'] = digest(package)
@@ -113,6 +118,8 @@ def validate_package(package):
         ids.add(aid)
         if 'manufacturing_method' in a:
             validate_method_metadata(a['manufacturing_method'])
+            if a['manufacturing_method']['rolling_stock_family'] != package.get('rolling_stock_family'):
+                raise ValueError('Factory method does not apply to package rolling-stock family')
             if a['component_type_id'] != a['manufacturing_method']['method_id']:
                 raise ValueError('Factory component and manufacturing method identities differ')
         for name, m in a['measurements'].items():

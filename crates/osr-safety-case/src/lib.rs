@@ -18,7 +18,7 @@
 //! | **Strategy** | Argumentation — how a parent goal decomposes into subgoals. |
 //! | **Solution** | Evidence pointer — a Kani harness, a proptest, a TLA+ run, a sim demonstration, or an external citation. |
 //!
-//! # Closure
+//! # Traceability closure (not proof or release acceptance)
 //!
 //! A case *closes* iff every root goal (one with no parent strategy)
 //! traces — through strategies and subgoals — to at least one
@@ -31,6 +31,8 @@
 //! A case closes iff every root goal is in this set.
 
 #![forbid(unsafe_code)]
+
+pub mod results;
 
 use serde::Deserialize;
 use std::collections::{BTreeMap, BTreeSet};
@@ -170,7 +172,7 @@ impl fmt::Display for CaseError {
             CaseError::Unclosed { goals } => {
                 write!(
                     f,
-                    "{} goal(s) do not close against evidence: {}",
+                    "{} goal(s) lack evidence traceability: {}",
                     goals.len(),
                     goals.join(", ")
                 )
@@ -300,6 +302,7 @@ impl Case {
         Ok(())
     }
 
+    /// Traceability only: this does not establish successful or accepted evidence.
     /// Compute the least fixed point of the closure rule and return
     /// the set of closed goal ids.
     pub fn closed_goals(&self) -> BTreeSet<String> {

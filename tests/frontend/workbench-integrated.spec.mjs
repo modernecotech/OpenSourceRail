@@ -17,7 +17,7 @@ test('business and supervision navigation stays inside the shell and rejects for
   await page.route('**/api/workbench/city?**',r=>r.fulfill({json:{
     city:'mosul',environment:'simulation',
     erp:{state:'unavailable',project:null,stale:true,routes:{projects:'/app/project?custom_osr_city=mosul'}},
-    supervision:{state:'prepared',sites:['MOS-ST-001'],equipment_count:4},
+    supervision:{state:'prepared',sites:['MOS-ST-001'],preferred_site:'MOS-ST-001',equipment_count:4},
   }}));
   await page.route('http://127.0.0.1:8080/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Native ERP authentication</h1>'}));
   await page.route('http://127.0.0.1:1881/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Native supervision</h1>'}));

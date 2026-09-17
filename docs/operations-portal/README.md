@@ -178,9 +178,10 @@ the same transaction as the write and returns HTTP 409 for stale snapshots.
 Inspection and approval order is assigned by the server; an older pass cannot
 release work after a newer failed inspection.
 
-Manufacturing rows become normal Ops Core work orders with
-`source_type = manufacturing`, so production tasks share the same evidence,
-defect/NCR, audit, and reconciliation path as QA and maintenance work.
+Manufacturing schedule rows can generate OSR assurance work orders with
+`source_type = manufacturing`, sharing the evidence, defect/NCR, audit and
+reconciliation path used by QA and railway maintenance. ERPNext remains the
+production-transaction authority; OSR closeout controls these assurance tasks.
 The portal blocks successor manufacturing work until predecessor rows are
 closed with pass evidence, and it blocks manufacturing closeout until pass
 evidence exists for the selected work order.

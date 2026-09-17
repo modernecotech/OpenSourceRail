@@ -36,8 +36,10 @@ try {
  await page.screenshot({path:'build/workbench-fuxa-integrated.png',fullPage:true});
  console.log('PASS native FUXA operator sign-in and rendered supervision inside Workbench');
  await page.locator('#citySelector').selectOption('mosul');
+ await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/viewName=mosul.*MOS-RS-L1-001/);
  await expect(frame.locator('svg').filter({hasText:'MOS-RS-L1-001'}).first()).toBeVisible({timeout:30000});
  await page.locator('#citySelector').selectOption('samawah');
+ await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/viewName=samawah.*SAM-RS-L1-001/);
  await expect(frame.locator('svg').filter({hasText:'SAM-RS-L1-001'}).first()).toBeVisible({timeout:30000});
  console.log('PASS native FUXA display follows Mosul and Samawah city selection');
  await page.locator('[data-module=lifecycle]').click();

@@ -17,7 +17,7 @@ can provide.
 | Real-asset simulation supervision package | 266/266 |
 | Full ERP task plan from a local operations payload | 2/266 |
 
-The supervision result covers **250,062 equipment records**
+The supervision result covers **248,784 equipment records**
 derived from the 266 tracked city
 asset registers. A compressed operations payload is no longer required to
 prepare FUXA/gateway packages.

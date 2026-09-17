@@ -33,12 +33,15 @@ stabling assignment makes the morning roster pre-solved.
 ### S6.3 — Accept a passenger-station stabling slot
 
 The dispatcher accepts a station slot only when the set is telemetry-healthy
-and the track has at least 150 kW charging, CCTV, remote traction isolation,
-protected emergency access, and a confirmed passenger-area closure plan.
+and the track meets the accepted charging-duty and morning-readiness criteria
+for that set, with CCTV, remote traction isolation, protected emergency access,
+and a confirmed passenger-area closure plan.
 
 **Why:** overnight station parking is cheaper and starts morning service across
 the route, but only if security, electrical isolation, fire response, and
-public access are controlled as deliberately as a depot road.
+public access are controlled as deliberately as a depot road; charging power
+is derived from the accepted duty and shared-charger schedule, without a
+universal minimum (see [distributed stabling](../distributed-stabling.md)).
 
 ### S6.4 — Verify simultaneous morning release
 

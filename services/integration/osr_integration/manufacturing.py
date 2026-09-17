@@ -9,6 +9,7 @@ import re
 
 METHOD_SCHEMA = 'org.opensourcerail.trainset-manufacturing-methods.v1'
 FACTORY_METHOD_SCHEMA = 'osr-manufacturing-method/1'
+METHOD_FAMILY = 'light-metro-3car'
 DEFAULT_SIMULATION_METHOD = 'LM3-MFG-020'
 
 
@@ -123,6 +124,8 @@ def validate_method_metadata(method):
     """Validate the compact method definition carried by a supervisory package."""
     if not isinstance(method, dict) or method.get('schema') != FACTORY_METHOD_SCHEMA:
         raise ValueError('Factory equipment requires manufacturing method metadata')
+    if method.get('rolling_stock_family') != METHOD_FAMILY:
+        raise ValueError('Factory method requires its source rolling-stock family')
     _identity(method.get('method_id'), 'manufacturing method identity')
     _nonempty(method.get('title'), 'Manufacturing method title')
     _nonempty(method.get('work_center'), 'Manufacturing work center')
@@ -168,7 +171,7 @@ def factory_templates(document):
     for source in document['method']:
         method_id = source['id']
         key = 'factory-' + method_id.lower()
-        metadata = dict(schema=FACTORY_METHOD_SCHEMA, method_id=method_id,
+        metadata = dict(schema=FACTORY_METHOD_SCHEMA, method_id=method_id, rolling_stock_family=METHOD_FAMILY,
             title=source['title'], work_center=source['work_center'], crew_size=source['crew_size'],
             planning_cycle_minutes=source['planning_cycle_minutes'], product_ids=copy.deepcopy(source['product_ids']),
             tooling_ids=copy.deepcopy(source['tooling_ids']), source_ids=copy.deepcopy(source['source_ids']),
