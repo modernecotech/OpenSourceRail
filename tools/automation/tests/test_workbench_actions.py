@@ -71,6 +71,8 @@ def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(t
     (private / 'integration.json').write_text(json.dumps({'principals': [
         {'role': 'viewer', 'token': 'server-viewer'}]}))
     monkeypatch.setattr(WB, 'REPO_ROOT', tmp_path)
+    monkeypatch.setattr(WB, 'SUPERVISION_ROOT', tmp_path/'build/supervision')
+    monkeypatch.setattr(WB, 'SUPERVISION_CONFIG', private/'integration.json')
 
     class Response(io.BytesIO):
         status = 200

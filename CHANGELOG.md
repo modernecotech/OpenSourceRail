@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+- Added an isolated, reproducible Samawah lifecycle acceptance deployment with a
+  Mosul control city, persistent native business records, configuration sensitivity
+  checks, browser screenshots and outage/restart verification. Run it with
+  `./osr example-city setup` and `./osr example-city run`; see the
+  [example-city guide](deployment/example-city/README.md).
+- Made Workbench data paths, integration origin and ERP parent navigation
+  configurable for independent installations. FUXA asset navigation now accepts a
+  Workbench origin bound into the reviewed deployment project. The native simulator now observes
+  configured sampling intervals; display-only alarm clearance does not enqueue
+  an unwanted ERP maintenance event. Alarm priority and response now reach native
+  ERP triage while preserving subsequent operator priority changes.
+
+- Added registry-driven independent evidence verification for every disposition
+  action: retention, cancellation, direct amendment, production stop, corrective
+  work with accepted inspection, performed stock inspection and material trace.
+  Native record links, measured readings, ledger quantities and serial/batch
+  identities are checked against the full endorsed revision exposure. Immutable
+  evidence, repeat-safe recording and stale-state feedback appear in ERP and Workbench;
+  these checks never perform the action or authorise railway release. Older
+  proposals without a full exposure snapshot require a new reviewed proposal.
+
 - Added assigned revision-disposition proposals and independent plan decisions
   in native ERPNext, with exact exposure checks, immutable history, repeat-safe
   submission, self-review rejection and Workbench feedback. Plans never execute

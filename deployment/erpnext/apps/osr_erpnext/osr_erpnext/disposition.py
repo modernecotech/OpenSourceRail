@@ -62,13 +62,16 @@ def prevent_delete(doc, method=None):
 
 @frappe.whitelist(methods=['GET'])
 def catalogue(project):
+    from osr_erpnext.disposition_execution import DOCTYPE
+    from osr_erpnext.outcome_contract import VERIFIERS
     p = _project(project)
     _permission(PROPOSAL, 'read')
     reviews = _reviews(p.name)
-    return dict(actions=contract.ACTIONS, reviews=[dict(mapping=r['mapping'], sha256=r['sha256'],
+    return dict(actions=contract.ACTIONS, verifiers=VERIFIERS, reviews=[dict(mapping=r['mapping'], sha256=r['sha256'],
         warnings=r['warnings'], targets=contract.targets(r)) for r in reviews],
         dispositions=feedback(p, reviews), can_propose=bool(frappe.has_permission(PROPOSAL, 'create')),
-        can_review=bool(frappe.has_permission(DECISION, 'create')))
+        can_review=bool(frappe.has_permission(DECISION, 'create')),
+        can_verify=bool(frappe.db.exists('DocType', DOCTYPE) and frappe.has_permission(DOCTYPE, 'create')))
 
 
 @frappe.whitelist(methods=['POST'])
@@ -164,9 +167,12 @@ def record_decision(disposition, decision, fingerprint):
 
 
 def feedback(project, reviews):
+    from osr_erpnext import disposition_execution as execution, outcome_contract
     if not frappe.db.exists('DocType', PROPOSAL) or not frappe.has_permission(PROPOSAL, 'read'):
         return []
     current = {r['mapping']['name']: r['sha256'] for r in reviews}
+    snapshots = {r['mapping']['name']: r for r in reviews}
+    history = execution.records(project)
     decisions = {}
     if frappe.has_permission(DECISION, 'read'):
         for row in frappe.get_list(DECISION, filters={'project': project.name, 'company': project.company},
@@ -174,15 +180,21 @@ def feedback(project, reviews):
             doc = frappe.get_doc(DECISION, row.name); doc.check_permission('read')
             decisions[doc.disposition] = dict(name=doc.name, outcome=doc.outcome,
                 reviewer=doc.reviewer, created=str(doc.creation),
+                request_sha256=doc.request_sha256,
                 review=frappe.parse_json(doc.reviewed_decision))
     result = []
     for row in frappe.get_list(PROPOSAL, filters={'project': project.name, 'company': project.company},
                               fields=['name'], order_by='creation desc', limit_page_length=0):
         doc = frappe.get_doc(PROPOSAL, row.name); doc.check_permission('read')
+        verified = execution.feedback(doc, snapshots.get(doc.execution_mapping), decisions.get(doc.name), history.get(doc.name, []))
+        proposal = frappe.parse_json(doc.proposal)
         result.append(dict(name=doc.name, project=doc.project, company=doc.company, city=doc.city,
-            mapping=doc.execution_mapping, proposal=frappe.parse_json(doc.proposal),
+            mapping=doc.execution_mapping, proposal=proposal,
             proposer=doc.proposer, responsible=doc.responsible, due_date=str(doc.due_date),
             created=str(doc.creation), exposure_sha256=doc.exposure_sha256,
             current=current.get(doc.execution_mapping) == doc.exposure_sha256,
-            decision=decisions.get(doc.name), automatic_execution=False, execution_verified=False))
+            decision=decisions.get(doc.name), automatic_execution=False,
+            verification_supported=proposal['action'] in outcome_contract.SUPPORTED and
+                bool(frappe.parse_json(doc.reviewed_plan).get('exposure_snapshot')),
+            verification=verified, execution_verified=bool(verified and verified['current'])))
     return result

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services/integration'))
 from osr_integration.config import build_package, merge
 from osr_integration.manufacturing import factory_templates, validate_method_sources
-from osr_integration.fuxa import deployment_review, project, validate_deployment_review
+from osr_integration.fuxa import DEFAULT_WORKBENCH_URL, deployment_review, project, validate_deployment_review
 from osr_integration.server import request_json
 from osr_integration.engineering import package as engineering_package, execution_proposal
 
@@ -104,10 +104,10 @@ def api(path, data=None, role='engineer', query=''):
     return request_json('http://127.0.0.1:8092' + path + query, data, {'Authorization': 'Bearer ' + principal['token']})
 
 
-def prepare(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False):
+def prepare(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False, workbench_url=DEFAULT_WORKBENCH_URL):
     p = city_package(slug, environment, first_site, first_vehicle, first_plant)
     folder = ROOT / 'build/supervision' / slug / environment; folder.mkdir(parents=True, exist_ok=True)
-    for name, data in [('package.json', p), ('fuxa-project.json', project([p]))]:
+    for name, data in [('package.json', p), ('fuxa-project.json', project([p], workbench_url=workbench_url))]:
         (folder / name).write_text(json.dumps(data, indent=2) + '\n')
     return folder
 
@@ -156,7 +156,7 @@ def setup_fuxa():
     token = (msg + b'.' + base64.urlsafe_b64encode(hmac.new(cfg['secret'].encode(), msg, hashlib.sha256).digest()).rstrip(b'=')).decode()
     for name, fullname, groups, password in [('admin', 'OSR configuration editor', -1, cfg['admin_password']), ('operator', 'OSR station operator', 1, cfg['operator_password'])]:
         fuxa_api('/api/users', {'params': {'username': name, 'fullname': fullname, 'groups': groups, 'password': password, 'info': '{}'}}, token)
-    print('FUXA editor and operator accounts configured; passwords remain in var/supervision/fuxa.json')
+    print('FUXA editor and operator accounts configured; passwords remain in', PRIVATE / 'fuxa.json')
 
 
 def main():
@@ -165,11 +165,11 @@ def main():
     for action in ['init', 'up', 'status', 'setup-fuxa', 'backup', 'init-configs', 'validate', 'simulate']:
         sub.add_parser(action)
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
-    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true'); p.add_argument('--first-plant', action='store_true')
+    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true'); p.add_argument('--first-plant', action='store_true'); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
     p = sub.add_parser('review-package'); p.add_argument('package', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected'); p.add_argument('--review', type=Path)
-    p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path)
-    p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--review', required=True, type=Path)
+    p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
+    p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--review', required=True, type=Path); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
     p = sub.add_parser('engineering'); p.add_argument('manifest', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('execution-proposal'); p.add_argument('engineering', type=Path); p.add_argument('mapping', type=Path); p.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
@@ -226,7 +226,7 @@ def main():
         for slug in cities.catalogue():
             equipment += len(city_package(slug)['equipment'])
         print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
-    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle, args.first_plant))
+    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle, args.first_plant, args.workbench_url))
     elif args.command == 'review-package':
         review = api('/packages/preview', {'package': json.loads(args.package.read_text())}, role='viewer')
         args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -239,7 +239,7 @@ def main():
     elif args.command in ('preview-fuxa', 'import-fuxa'):
         packages = [json.loads(path.read_text()) for path in args.packages]
         old = fuxa_api('/api/project')
-        review = deployment_review(old, packages)
+        review = deployment_review(old, packages, workbench_url=args.workbench_url)
         if args.command == 'preview-fuxa':
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(review, indent=2) + '\n')
@@ -248,12 +248,12 @@ def main():
             print(f'FUXA import review written: {args.output} ({changes} additions/changes/removals)')
             return
         supplied = json.loads(args.review.read_text())
-        validate_deployment_review(old, packages, supplied)
+        validate_deployment_review(old, packages, supplied, workbench_url=args.workbench_url)
         folder = PRIVATE / 'backups'; folder.mkdir(exist_ok=True)
         stamp = time.time_ns()
         write_private(folder / f'fuxa-before-{stamp}.json', json.dumps(old))
         write_private(folder / f'fuxa-review-{stamp}.json', json.dumps(review))
-        fuxa_api('/api/project', project(packages))
+        fuxa_api('/api/project', project(packages, workbench_url=args.workbench_url))
         print('Reviewed FUXA project imported; previous project and applied review backed up')
     elif args.command in ('engineering', 'execution-proposal'):
         result = engineering_package(ROOT, json.loads(args.manifest.read_text())) if args.command == 'engineering' else execution_proposal(json.loads(args.engineering.read_text()), json.loads(args.mapping.read_text()))

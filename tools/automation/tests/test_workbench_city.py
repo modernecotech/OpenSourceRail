@@ -58,3 +58,16 @@ def test_factory_sorting_does_not_change_preferred_vehicle_and_profile_is_checke
     assert summary()['preferred_site'] == 'T-PLANT-001'
     write(tmp_path, 'city/operations/supervision.json', {'preferred_supervision_site':'OTHER-CITY-RS-001'})
     assert summary()['preferred_site'] is None
+
+
+def test_isolated_city_configuration_cannot_pick_up_primary_records(tmp_path):
+    design=tmp_path/'city/design.toml'
+    write(tmp_path,'city/operations/supervision.json',{'erp_project':'PRIMARY'})
+    write(tmp_path,'var/erpnext/operating-twins.json',{'snapshots':[{'city':'test','project':'PRIMARY'}]})
+    write(tmp_path,'example/profiles/test.json',{'erp_project':'EXAMPLE','company':'Example'})
+    write(tmp_path,'example/twins.json',{'snapshots':[{'city':'test','project':'EXAMPLE','company':'Example'}]})
+    write(tmp_path,'example/supervision/test/simulation/package.json',{'city':'test','environment':'simulation','equipment':[{'site_id':'EXAMPLE-ST'}]})
+    result=CITY.city_summary(tmp_path,'test',design,'test',feedback_path=tmp_path/'example/twins.json',
+        supervision_root=tmp_path/'example/supervision',profiles_root=tmp_path/'example/profiles')
+    assert result['erp']['project']=='EXAMPLE'
+    assert result['supervision']['sites']==['EXAMPLE-ST']

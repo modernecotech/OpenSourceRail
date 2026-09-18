@@ -100,10 +100,14 @@ The ERP exposure reader now follows reviewed Item/BOM mappings through explicit
 nested production BOMs, project purchase lines, draft/unfinished Work Orders and
 linked stock movements. Workbench shows permission gaps and snapshot provenance;
 purchase allocations and current stock are not inferred. Complete CAD assemblies,
-solver reruns, verified execution of procurement/WIP/stock dispositions and formal
+solver reruns, engineering acceptance of rework/stock dispositions and formal
 evidence supersession remain open. Native ERP now records assigned disposition
 proposals and independent endorsement/rejection with stale-exposure checks; those
-plans do not execute or verify business actions. See [revision exposure](lifecycle/README.md#engineering-revision-exposure).
+plans do not execute business actions. Independent verification now checks
+all catalogue outcomes against full reviewed exposure: retention, cancellation,
+direct amendment, stop, native corrective Job Cards with accepted inspections,
+performed stock inspections and movement tracing. Later changes make verification
+stale. These checks do not accept manufacturing configuration or grant railway release. See [revision exposure](lifecycle/README.md#engineering-revision-exposure).
 
 Native operating supervision now also covers the catalogue's 9,097 identified
 switches through the existing fail-restrictive points evaluator, plus one clearly
@@ -119,8 +123,9 @@ identities in cities whose baseline selects `light-metro-3car`. Other families
 require applicable methods or reviewed module reuse. Workbench joins native
 Work Orders through the exact Item/BOM pair at the reviewed engineering revision. It can rehearse cell unavailability and
 a quality hold through the durable Issue route. Real machine adapters, capacity
-dispatch, performed traveler/inspection values, NCR/rework disposition and
-manufacturing acceptance remain open; no simulated value closes those gates.
+dispatch, physical traveler/inspection values and manufacturing acceptance remain
+open. The native evidence workflow now checks performed inspection readings and
+corrective Job Cards with accepted follow-up inspections; no simulated value closes those gates.
 
 | Boundary | Remaining evidence | Authoritative register |
 |---|---|---|
@@ -186,7 +191,7 @@ evidence but cannot close the external release gates above.
 | Custom-board release artifacts | KiCad capture, gerbers, board BOMs, DFM review, and assembly drawings only for deployments that choose OSR-specific carrier, power, safety-I/O, or sensor-interface boards |
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | Workbench context plus onboard, station, intrusion and T2G-to-depot CBM/historian/analytics software-in-loop are implemented; supervisory revisions now expose source-crate, telemetry, alarm and command-contract impact and reject clock regressions/stale reviews; signed live actions, production transports, asset-specific points/crossing/fare-gate harnesses, HIL, and authenticated live GUI paths remain |
-| ERP and supervision integration | All 266 tracked ERP/component profiles and real-asset supervision packages compile through one drift-checked readiness gate; generated factory views reuse all nine LM3 methods and reviewed mappings correlate native Work Orders; assigned disposition plans and independent review are implemented; next verify native order/WIP disposition execution and add real machine/quality inputs, company/calendar/ERP masters, physical mappings, permissions, recovery evidence and operator validation |
+| ERP and supervision integration | All 266 tracked ERP/component profiles and real-asset supervision packages compile through one drift-checked readiness gate; generated factory views reuse all nine LM3 methods and reviewed mappings correlate native Work Orders; assigned disposition plans and independent review are implemented; independent native evidence verification covers all disposition catalogue actions; next add commissioned machine/quality inputs, company/calendar/ERP masters, physical mappings, permissions, recovery evidence and operator validation |
 | City Studio | Git-backed city projects, source locks, layered offline GIS editing, complete manual line/station/alignment authoring, semantic revision comparison including BCF, OD demand, per-line IFC survey control and revision-locked field-to-structural-release gates, plus controlled engineering jobs, verified viewers and 144-check Playwright browser/restart persistence acceptance (implemented); native tessellated IFC viewing and routed OD assignment with shared section/station loads are now implemented; received field data, capacity-constrained boarding and platform/interchange pedestrian capacity remain |
 | Certification evidence | Tool-backed/assessor-accepted consensus refinement, qualified safety-controller freeze, residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Close the six civil release packages with survey-grade alignments, ground models, supplier data, per-span checks, reinforcement/prestress, first articles and signed deployment releases; close the station packages against surveyed placement and project evidence |

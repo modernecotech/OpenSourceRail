@@ -37,6 +37,50 @@ class IntegrationTest(unittest.TestCase):
     def message(self, now, value=80, **extra):
         return dict(city='samawah', environment='simulation', asset_id='SAM-ST-001:charger', measurement='temperature_c', source_id='simulator', sequence=int(now), source_timestamp=iso(now), unit='degC', quality='valid', value=value, **extra)
 
+    def test_display_only_alarm_activation_and_clear_do_not_enqueue_erp(self):
+        changed=copy.deepcopy(self.package)
+        for asset in changed['equipment']:
+            for alarm in asset['alarms']:alarm['maintenance']=False
+        changed['sha256']=digest({k:v for k,v in changed.items() if k!='sha256'})
+        review=self.store.package_review(changed)
+        self.store.apply(changed,'engineer',self.package['sha256'],review['sha256'])
+        self.fault()
+        self.assertTrue(any(r['active'] for a in self.store.snapshot()['assets'] for r in a['alarms']))
+        self.store.ingest(self.message(1010,value=35),'simulator',1010)
+        self.assertFalse(any(r['active'] for a in self.store.snapshot()['assets'] for r in a['alarms']))
+        self.assertEqual(self.store.snapshot()['outbox'],[])
+
+    def test_disabling_maintenance_keeps_clear_for_an_existing_incident(self):
+        self.fault()
+        changed=copy.deepcopy(self.package)
+        for asset in changed['equipment']:
+            for alarm in asset['alarms']:alarm['maintenance']=False
+        changed['sha256']=digest({k:v for k,v in changed.items() if k!='sha256'})
+        review=self.store.package_review(changed)
+        self.store.apply(changed,'engineer',self.package['sha256'],review['sha256'])
+        self.store.ingest(self.message(1010,value=35),'simulator',1010)
+        self.assertEqual(len(self.store.snapshot()['outbox']),2)
+
+    def test_sampling_contract_is_bounded_and_returned_for_its_city(self):
+        for value in [0,-1,3601,True,float('nan')]:
+            changed=copy.deepcopy(self.package);changed['historian']['sampling_seconds']=value
+            with self.assertRaises(ValueError):
+                changed['sha256']=digest({k:v for k,v in changed.items() if k!='sha256'})
+                validate_package(changed)
+        self.assertEqual(self.store.snapshot('samawah','simulation')['historian']['sampling_seconds'],2)
+        self.assertIsNone(self.store.snapshot('missing','simulation')['historian'])
+
+    def test_alarm_triage_settings_are_preserved_in_durable_event(self):
+        self.fault()
+        with self.store.connect() as db:
+            event=json.loads(db.execute('SELECT body FROM outbox LIMIT 1').fetchone()['body'])
+        self.assertEqual(event['priority'],'high')
+        self.assertEqual(event['response'],next(a for a in self.package['equipment'] if a['equipment_type']=='charger')['alarms'][0]['response'])
+        changed=copy.deepcopy(self.package)
+        changed['equipment'][0]['alarms'][0]['priority']='unmapped-urgency'
+        changed['sha256']=digest({k:v for k,v in changed.items() if k!='sha256'})
+        with self.assertRaises(ValueError):validate_package(changed)
+
     def test_existing_historian_schema_is_migrated_forward(self):
         legacy = Path(self.tmp.name) / 'legacy.sqlite'
         with sqlite3.connect(legacy) as db:
@@ -430,6 +474,23 @@ class IntegrationTest(unittest.TestCase):
         f = project([self.package]); self.assertEqual(len(f['devices']), 5)
         self.assertTrue(all('postTags' not in d['property'] for d in f['devices'].values()))
         self.assertTrue(any(k.endswith('__temperature_c_quality') for d in f['devices'].values() for k in d['tags']))
+
+    def test_fuxa_workbench_origin_is_validated_and_bound_to_review(self):
+        packages = [self.package]
+        origin = 'http://127.0.0.1:8190'
+        desired = project(packages, workbench_url=origin)
+        svg = desired['hmi']['views'][0]['svgcontent']
+        self.assertIn(origin + '/?module=lifecycle', svg)
+        self.assertNotIn('127.0.0.1:8090', svg)
+        review = deployment_review({}, packages, workbench_url=origin)
+        self.assertEqual(review['desired_project_sha256'], digest(desired))
+        self.assertEqual(validate_deployment_review({}, packages, review, workbench_url=origin), review)
+        with self.assertRaises(ValueError): validate_deployment_review({}, packages, review)
+        self.assertEqual(deployment_manifest(packages, workbench_url=origin)['desired_project_sha256'], digest(desired))
+        for invalid in ['javascript:alert(1)', 'http://user:secret@localhost', 'https://localhost/path',
+                        'https://localhost?x=1', 'https://localhost/#x', 'http://localhost:99999', 'http://bad host']:
+            with self.subTest(origin=invalid), self.assertRaises(ValueError):
+                project(packages, workbench_url=invalid)
 
     def test_fuxa_import_review_lists_replacements_and_binds_projects(self):
         desired = project([self.package])

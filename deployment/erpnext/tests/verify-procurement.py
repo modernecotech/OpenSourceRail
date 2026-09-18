@@ -1,7 +1,7 @@
 import os,json,uuid
 from datetime import date,timedelta
 import frappe
-os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site='osr.localhost');frappe.connect()
+os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site=os.environ.get('OSR_TEST_SITE','osr.localhost'));frappe.connect()
 from osr_erpnext.procurement import candidates,create_material_request
 from osr_erpnext.city_runtime import city_status
 try:
@@ -11,6 +11,7 @@ try:
     requirement=found['requirements'][0]['purchase_order_id']
     assert candidates(task.name,search=requirement)['requirements'][0]['purchase_order_id']==requirement
     project=frappe.get_doc('Project',task.project)
+    readiness_before=city_status(project.name)['readiness']
     warehouse=frappe.db.get_value('Warehouse',{'warehouse_name':'OSR samawah Main Stores'},'name')
     other=frappe.db.get_value('Warehouse',{'warehouse_name':'OSR mosul Main Stores'},'name')
     item=frappe.get_doc(dict(doctype='Item',item_code='OSR-AUTOMATION-CHECK-'+uuid.uuid4().hex[:10],
@@ -46,7 +47,7 @@ try:
         pass
     frappe.set_user('Administrator')
     readiness=city_status(project.name)['readiness']
-    assert readiness['undated']>0 and readiness['overdue']==0
+    assert readiness==readiness_before, 'A draft request changed planning readiness'
     print(json.dumps(dict(native_draft=True,line_project_feedback=True,repeat_preserves_edits=True,
                          changed_inputs_rejected=True,wrong_city_rejected=True,guest_denied=True,
                          readiness=readiness,fixture_rolled_back=True)))

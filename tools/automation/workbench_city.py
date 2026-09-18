@@ -13,12 +13,13 @@ def read_json(path):
         return None
 
 
-def city_summary(root, city, design_path, control_city, environment='simulation'):
+def city_summary(root, city, design_path, control_city, environment='simulation', *, feedback_path=None, supervision_root=None, profiles_root=None):
     if environment not in {'simulation', 'physical'}:
         raise ValueError('Unknown asset environment')
     operations = Path(design_path).parent / 'operations'
-    profile = read_json(operations / 'supervision.json') or {}
-    feedback = read_json(root / 'var/erpnext/operating-twins.json') or {}
+    profile = read_json(Path(profiles_root) / (city + '.json') if profiles_root else operations / 'supervision.json') or {}
+    supervision_root = Path(supervision_root) if supervision_root else root / 'build/supervision'
+    feedback = read_json(Path(feedback_path) if feedback_path else root / 'var/erpnext/operating-twins.json') or {}
     candidates = [r for r in feedback.get('snapshots', []) if r.get('city') == city]
     if profile.get('erp_project'):
         candidates = [r for r in candidates if r.get('project') == profile['erp_project'] and
@@ -44,7 +45,7 @@ def city_summary(root, city, design_path, control_city, environment='simulation'
                 ('receipts','purchase-receipt'), ('manufacturing','work-order'),
                 ('stock','stock-entry'), ('issues','issue'), ('finance','purchase-invoice')]:
             routes[module] = '/app/' + doctype + '?' + urlencode({'project': project})
-    package = read_json(root / 'build/supervision' / city / environment / 'package.json')
+    package = read_json(supervision_root / city / environment / 'package.json')
     package_valid = bool(package and package.get('city') == city and package.get('environment') == environment)
     sites = sorted({a['site_id'] for a in package.get('equipment', [])}) if package_valid else []
     # A new factory/wayside view must not silently change the default display.
@@ -53,7 +54,7 @@ def city_summary(root, city, design_path, control_city, environment='simulation'
     preferred = profile.get('preferred_supervision_site') or (vehicles[0] if vehicles else next(iter(sites), None))
     if preferred not in sites:
         preferred = None
-    engineering = read_json(root / 'build/supervision' / city / 'engineering.json')
+    engineering = read_json(supervision_root / city / 'engineering.json')
     return {'city': city, 'environment': environment, 'control_workspace': control_city,
             'control_available': city == control_city, 'erp': erp,
             'engineering': {'state': 'prepared' if engineering and engineering.get('city') == city else 'unavailable',

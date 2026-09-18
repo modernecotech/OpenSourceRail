@@ -420,7 +420,11 @@ class Store:
             db.execute('UPDATE alarms SET pending=NULL,active=0 WHERE key=?', (key,))
             if alarm['active']:
                 self.audit(db, a['source_id'], 'alarm-cleared', scope, {'incident': alarm['incident']})
-                self._enqueue(db, a, rule, alarm['incident'], alarm['occurrences'], 'cleared', now)
+                # A display-only alarm must not create an ERP case merely by clearing.
+                # Preserve the clear event when a previously enabled rule already queued a case.
+                if rule.get('maintenance') or alarm['case_id'] or db.execute(
+                        'SELECT 1 FROM outbox WHERE incident=? LIMIT 1', (alarm['incident'],)).fetchone():
+                    self._enqueue(db, a, rule, alarm['incident'], alarm['occurrences'], 'cleared', now)
         # Deadband does not build an activation delay, but preserves an active alarm.
         elif not alarm['active']:
             db.execute('UPDATE alarms SET pending=NULL WHERE key=?', (key,))
@@ -429,7 +433,7 @@ class Store:
         eid = digest([incident, occurrence, condition])
         body = dict(event_id=eid, incident_id=incident, city=a['city'], environment=a['environment'],
             company=a['company_id'], project=a['erp_project'], asset_id=a['asset_id'],
-            erp_asset_id=a['erp_asset_id'], rule=rule['id'], response=rule['response'],
+            erp_asset_id=a['erp_asset_id'], rule=rule['id'], response=rule['response'], priority=rule.get('priority', 'medium'),
             engineering_revision=a['engineering_revision'], occurrence=occurrence, condition=condition,
             observed_at=now, evidence=f'/docs/lifecycle/?city={a["city"]}&asset={a["asset_id"]}&environment={a["environment"]}')
         db.execute('INSERT OR IGNORE INTO outbox(id,incident,body) VALUES(?,?,?)', (eid, incident, json.dumps(body)))
@@ -459,7 +463,9 @@ class Store:
             if city or environment:
                 incidents = {r['incident'] for a in assets for r in a['alarms']}
                 queue = [r for r in queue if r['incident'] in incidents]
-            return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=assets, outbox=queue,
+            current = db.execute('SELECT body FROM packages WHERE city=? AND environment=? ORDER BY created DESC LIMIT 1', (city, environment)).fetchone()
+            historian = json.loads(current['body'])['historian'] if current else None
+            return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=assets, outbox=queue, historian=historian,
                         authority='OSR evidence references; ERP closure and alarm clearance do not grant railway release')
 
     def acknowledge(self, city, environment, asset, rule, occurrence, actor, now=None):

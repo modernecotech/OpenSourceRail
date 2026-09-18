@@ -1,10 +1,11 @@
 """FUXA 1.3.4 project export adapter, imported through its project API/UI."""
 from html import escape
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 from .config import digest, validate_package
 
 
 VERSION = '1.3.4'
+DEFAULT_WORKBENCH_URL = 'http://127.0.0.1:8090'
 
 
 def _project_payload(value):
@@ -39,7 +40,7 @@ def _changes(current, desired):
         unchanged=sorted(key for key in old & new if digest(current[key]) == digest(desired[key])))
 
 
-def deployment_manifest(packages, desired=None):
+def deployment_manifest(packages, desired=None, *, workbench_url=DEFAULT_WORKBENCH_URL):
     """Declare exactly which generated city packages and displays an import contains."""
     scopes, rows = set(), []
     for package in packages:
@@ -54,7 +55,7 @@ def deployment_manifest(packages, desired=None):
             sites=sites, equipment=len(package['equipment']),
             devices=sorted(row['fuxa_device_id'] for row in package['equipment']),
             views=['v_' + digest([package['city'], package['environment'], site])[:16] for site in sites]))
-    desired = project(packages) if desired is None else desired
+    desired = project(packages, workbench_url=workbench_url) if desired is None else desired
     payload = _project_payload(desired)
     manifest = dict(schema='osr-fuxa-deployment/1', fuxa_version=VERSION,
         packages=sorted(rows, key=lambda row: (row['city'], row['environment'])),
@@ -66,9 +67,9 @@ def deployment_manifest(packages, desired=None):
     return manifest
 
 
-def deployment_review(current, packages):
+def deployment_review(current, packages, *, workbench_url=DEFAULT_WORKBENCH_URL):
     """Bind an add/change/remove preview to the live and desired FUXA projects."""
-    desired = project(packages)
+    desired = project(packages, workbench_url=workbench_url)
     old = _project_payload(current)
     review = dict(schema='osr-fuxa-import-review/1', current_project_sha256=digest(old),
         desired_project_sha256=digest(desired), manifest=deployment_manifest(packages, desired),
@@ -84,14 +85,23 @@ def deployment_review(current, packages):
     return review
 
 
-def validate_deployment_review(current, packages, supplied):
-    expected = deployment_review(current, packages)
+def validate_deployment_review(current, packages, supplied, *, workbench_url=DEFAULT_WORKBENCH_URL):
+    expected = deployment_review(current, packages, workbench_url=workbench_url)
     if supplied != expected:
         raise ValueError('FUXA project or desired packages changed after review; preview again')
     return expected
 
 
-def project(packages):
+def project(packages, *, workbench_url=DEFAULT_WORKBENCH_URL):
+    origin = urlsplit(workbench_url)
+    if (origin.scheme not in {'http', 'https'} or not origin.hostname or
+            origin.username is not None or origin.password is not None or
+            origin.path not in {'', '/'} or origin.query or origin.fragment or
+            any(character.isspace() for character in workbench_url)):
+        raise ValueError('Workbench URL must be an HTTP(S) origin without credentials')
+    # Accessing port also rejects invalid/out-of-range ports.
+    origin.port
+    workbench_url = workbench_url.rstrip('/')
     devices, views, navigation, system_tags = {}, [], [], {}
     for package in packages:
         validate_package(package)
@@ -138,7 +148,7 @@ def project(packages):
                     items[wid] = dict(id=wid, type='svg-ext-value', name=tid, label='Value', property=dict(variable=tid, variableId=variable, variableSrc=device, events=[], ranges=[], actions=visibility))
                     variables[variable] = dict(id=tid, name=tid, source=device)
                     svg += [f'<text x="{x+20}" y="{y+alarm_y+n*20}" font-size="14" fill="#a43228">{escape(rule["id"])} alarm (1 active)</text>', f'<g id="{wid}" type="svg-ext-value"><text id="text_{wid}" x="{x+280}" y="{y+alarm_y+n*20}" fill="#a43228">0</text></g>']
-                url = 'http://127.0.0.1:8090/?' + urlencode({'module': 'lifecycle', 'city': a['city'], 'environment': a['environment'], 'selected_asset': a['asset_id']})
+                url = workbench_url + '/?' + urlencode({'module': 'lifecycle', 'city': a['city'], 'environment': a['environment'], 'selected_asset': a['asset_id']})
                 svg.append(f'<a href="{escape(url, quote=True)}" target="_top"><text x="{x+20}" y="{y+link_y}" fill="#166a70" font-size="14">Open asset, maintenance, engineering and history</text></a>')
                 devices[device] = dict(id=device, name=device, type='WebAPI', enabled=True, polling=2000,
                     property=dict(getTags=f'http://integration:8093/tags/{a["city"]}/{a["environment"]}/{a["asset_id"]}'), tags=tags)

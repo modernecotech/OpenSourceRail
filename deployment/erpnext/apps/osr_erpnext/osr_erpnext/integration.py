@@ -29,6 +29,9 @@ def condition_event(event):
     _scope(event['city'], event['environment'], event['project'], event['company'])
     if event['condition'] not in ('active', 'cleared') or type(event['occurrence']) is not int or event['occurrence'] < 1:
         frappe.throw('Invalid condition occurrence')
+    priority = event.get('priority', 'medium')
+    if not isinstance(priority, str) or priority not in {'low', 'medium', 'high'}:
+        frappe.throw('Condition priority must be low, medium or high')
     if event.get('erp_asset_id'):
         # The narrowly scoped gateway account need not receive broad Asset-module
         # access merely to attach an already reviewed identity to its event.
@@ -42,6 +45,7 @@ def condition_event(event):
     else:
         issue = frappe.new_doc('Issue')
         issue.subject = f"[OSR {event['environment']}] {event['asset_id']} · {event['rule']}"
+        issue.priority = priority.title()  # Initial triage only; preserve subsequent native operator changes.
         issue.description = '<p>' + escape(event.get('response', 'Condition requires triage')) + '</p>'
         issue.custom_osr_incident_key = key
         issue.custom_osr_environment = event['environment']

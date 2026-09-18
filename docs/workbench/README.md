@@ -139,3 +139,24 @@ additions, replacements and removals; `import-fuxa` rejects a stale review.
 The installed-stack check verifies actual Samawah/Mosul display switching, ERP
 project filtering and a simulation analysis evidence record in addition to its
 supervisory command check.
+
+## Independent example deployments
+
+The [Samawah acceptance setup](../../deployment/example-city/README.md) runs its own
+ERP, FUXA, gateway, controller and Workbench without sharing operating records.
+Workbench accepts these operator-defined environment variables:
+
+| Variable | Purpose |
+|---|---|
+| `OSR_ERP_URL`, `OSR_FUXA_URL` | Native application origins |
+| `OSR_INTEGRATION_URL` | Gateway origin for scoped reads and explicit operator requests |
+| `OSR_SUPERVISION_CONFIG` | Private integration credential file |
+| `OSR_SUPERVISION_ROOT` | Prepared city packages and engineering manifests |
+| `OSR_SUPERVISION_PROFILES` | Directory of per-city JSON project/company/preferred-site profiles |
+| `OSR_ERP_SNAPSHOT` | Private ERP operating feedback file |
+
+Defaults continue to use the regular local installation. ERP's site configuration
+`osr_workbench_origins` controls trusted parent navigation; the frontend's
+`frame-ancestors` policy must allow the same origins. The example setup configures
+both for port 8190. The simulator accepts matching `--config`, `--controls` and
+`--url` arguments, and follows the accepted city's `historian.sampling_seconds`.

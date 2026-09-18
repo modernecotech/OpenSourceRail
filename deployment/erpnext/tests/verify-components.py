@@ -2,7 +2,7 @@
 import os,json,uuid
 from datetime import date,timedelta
 import frappe
-os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site='osr.localhost');frappe.connect()
+os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site=os.environ.get('OSR_TEST_SITE','osr.localhost'));frappe.connect()
 frappe.flags.mute_emails=True
 from osr_erpnext.components import preview,apply,feedback
 suffix=uuid.uuid4().hex[:8]

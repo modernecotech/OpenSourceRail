@@ -110,6 +110,7 @@ def validate_package(package):
     if package['historian']['owner'] != 'osr-integration':
         raise ValueError('This adapter requires one OSR historian; FUXA DAQ stays disabled')
     finite(package['historian']['retention_days'], 1, 365)
+    finite(package['historian'].get('sampling_seconds', 2), 1, 3600)
     ids = set()
     for a in package['equipment']:
         aid = identifier(a['asset_id'])
@@ -142,6 +143,8 @@ def validate_package(package):
             finite(rule['clear_below'], m['min'], rule['high'])
             finite(rule['delay_seconds'], 0, 3600)
             finite(rule['repeat_seconds'], 1, 86400)
+            if not isinstance(rule.get('priority', 'medium'), str) or rule.get('priority', 'medium') not in {'low', 'medium', 'high'}:
+                raise ValueError('Alarm priority must be low, medium or high')
             if type(rule.get('maintenance')) is not bool or not isinstance(rule.get('response'), str) or not rule['response'].strip():
                 raise ValueError('Alarm maintenance flag and response are required')
         commands = a.get('commands', {})

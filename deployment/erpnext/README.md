@@ -32,10 +32,26 @@ Workbench displays and downloads these observations. The native Project's
 **OpenSourceRail → Revision dispositions** workflow adds assigned, immutable
 proposals and independent endorsement/rejection records. Stale or incomplete
 exposure cannot receive an endorsement. Recording never executes the proposed
-ERP action or grants railway release.
+ERP action or grants railway release. Independent native-outcome verification
+covers retention, cancellation, direct amendments, production stops, corrective
+Job Cards with accepted inspections, performed stock inspections and native
+movement traces. Evidence remains immutable and later changes make it stale;
+see the [verification workflow and upgrade limits](../../docs/lifecycle/README.md#independent-native-outcome-verification).
 
 After a backup, rebuild/restart the app, run `./osr erp bench migrate` to install
-the two disposition record types, then `./osr erp snapshot` to refresh feedback.
+the three disposition record types, then `./osr erp snapshot` to refresh feedback.
 Manufacturing Manager, Projects Manager and System Manager roles can use the
 workflow subject to project/exposure access; reviewer, proposer and responsible
-person must satisfy the independent-review checks.
+person must satisfy the independent-review checks. Inspection and trace readers
+also need native Quality Manager and Stock User access, respectively.
+
+The [complete example-city test](../example-city/README.md) installs a separate
+site and checks actual planning, purchasing, manufacturing, serial movements,
+maintenance and Workbench/FUXA behavior. Native regression scripts accept
+`OSR_TEST_SITE` (default `osr.localhost`) so the same checks can run in that site.
+
+Condition routing maps `low`, `medium` and `high` alarm priority to native Issue
+priority when creating a case. Later events preserve operator triage changes.
+Rules without a priority use `medium`; display-only rules do not create cases
+on activation or clearance unless an earlier enabled rule already routed the
+same incident.

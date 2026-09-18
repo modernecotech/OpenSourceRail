@@ -1,5 +1,6 @@
 """Typed business-disposition proposals. A recorded plan never executes an ERP action."""
 from datetime import date
+from copy import deepcopy
 import re
 from osr_erpnext.planning import digest
 
@@ -62,6 +63,7 @@ def plan(review, request, actor):
         raise ValueError('Target is outside the current visible revision exposure')
     result = dict(proposal=request, proposer=actor, scope=review['scope'],
                   exposure_sha256=review['sha256'], target_record=selected['record'],
+                  exposure_snapshot=deepcopy(review),
                   warnings=review['warnings'], automatic_execution=False, railway_release_authorised=False)
     result['fingerprint'] = digest(result)
     return result

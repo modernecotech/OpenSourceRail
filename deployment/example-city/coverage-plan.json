@@ -1,0 +1,3748 @@
+{
+  "schema": "osr-coverage-plan/1",
+  "scope": "Audited scope: OSR registered ERP adapters and their input schemas, whitelisted OSR ERP entry points, declared gateway/Workbench/OSR HTTP route prefixes, shared city/supervision settings, simulator controls and named lifecycle workflows. This is not an inventory of every upstream ERPNext/FUXA API, every city override, desktop-tool parameter or internal Rust function.",
+  "reviewed_ids": [
+    "components.profile.defaults.assignment.strategy",
+    "components.profile.defaults.budget.action",
+    "components.profile.defaults.quality.reference_type",
+    "components.profile.defaults.training.description",
+    "components.profile.defaults.training.title",
+    "components.profile.instances[].component",
+    "components.profile.instances[].inputs",
+    "components.profile.instances[].key",
+    "components.profile.schema",
+    "controller.aux_fault",
+    "controller.battery_trip",
+    "controller.cbm_service",
+    "controller.cooling_fault",
+    "controller.crossing_motor_fault",
+    "controller.disconnected",
+    "controller.factory_cell_unavailable",
+    "controller.factory_cycle_progress_pct",
+    "controller.factory_method",
+    "controller.factory_process_excursion",
+    "controller.faregate_denial",
+    "controller.local_remote_disabled",
+    "controller.points_detection_fault",
+    "controller.station_fault",
+    "engineering.artifact",
+    "engineering.execution_proposal",
+    "engineering.ifc_overlay",
+    "engineering.package",
+    "erp.api.api.import_plan",
+    "erp.api.city_runtime.city_status",
+    "erp.api.components.apply",
+    "erp.api.components.catalogue",
+    "erp.api.components.inspection_lines",
+    "erp.api.components.preview",
+    "erp.api.disposition.catalogue",
+    "erp.api.disposition.preview",
+    "erp.api.disposition.preview_decision",
+    "erp.api.disposition.record",
+    "erp.api.disposition.record_decision",
+    "erp.api.disposition_execution.preview",
+    "erp.api.disposition_execution.record",
+    "erp.api.integration.apply_execution",
+    "erp.api.integration.apply_repair",
+    "erp.api.integration.case_status",
+    "erp.api.integration.condition_event",
+    "erp.api.integration.preview_execution",
+    "erp.api.integration.preview_repair",
+    "erp.api.integration.repairs_for_issue",
+    "erp.api.procurement.candidates",
+    "erp.api.procurement.create_material_request",
+    "erp.component.assignment",
+    "erp.component.budget",
+    "erp.component.maintenance",
+    "erp.component.manufacturing",
+    "erp.component.quality",
+    "erp.component.replenishment",
+    "erp.component.service",
+    "erp.component.training",
+    "erp.input.assignment.category",
+    "erp.input.assignment.strategy",
+    "erp.input.assignment.users",
+    "erp.input.assignment.users[].user",
+    "erp.input.budget.accounts",
+    "erp.input.budget.accounts[].account",
+    "erp.input.budget.accounts[].amount",
+    "erp.input.budget.action",
+    "erp.input.budget.fiscal_year",
+    "erp.input.maintenance.asset",
+    "erp.input.maintenance.assignee",
+    "erp.input.maintenance.description",
+    "erp.input.maintenance.periodicity",
+    "erp.input.maintenance.start",
+    "erp.input.maintenance.team",
+    "erp.input.maintenance.title",
+    "erp.input.manufacturing.bom",
+    "erp.input.manufacturing.fg_warehouse",
+    "erp.input.manufacturing.quantity",
+    "erp.input.manufacturing.source_warehouse",
+    "erp.input.manufacturing.start",
+    "erp.input.manufacturing.wip_warehouse",
+    "erp.input.quality.inspector",
+    "erp.input.quality.line",
+    "erp.input.quality.reference",
+    "erp.input.quality.reference_type",
+    "erp.input.quality.report_date",
+    "erp.input.quality.sample_size",
+    "erp.input.quality.template",
+    "erp.input.replenishment.item",
+    "erp.input.replenishment.level",
+    "erp.input.replenishment.quantity",
+    "erp.input.replenishment.warehouse",
+    "erp.input.service.description",
+    "erp.input.service.priority",
+    "erp.input.service.sla",
+    "erp.input.service.subject",
+    "erp.input.training.description",
+    "erp.input.training.title",
+    "fuxa.deployment_manifest",
+    "fuxa.deployment_review",
+    "fuxa.project",
+    "fuxa.validate_deployment_review",
+    "gateway.GET./affected",
+    "gateway.GET./controller/commands",
+    "gateway.GET./health",
+    "gateway.GET./history",
+    "gateway.GET./snapshot",
+    "gateway.POST./alarms/acknowledge",
+    "gateway.POST./commands",
+    "gateway.POST./controller/result",
+    "gateway.POST./evidence",
+    "gateway.POST./packages",
+    "gateway.POST./packages/preview",
+    "gateway.POST./telemetry",
+    "ops.GET./api/operating",
+    "ops.GET./api/ops-auth/session",
+    "ops.OPTIONS./api/",
+    "ops.POST./api/ops-auth/login",
+    "ops.POST./api/ops-auth/logout",
+    "planning.calendar.holidays",
+    "planning.calendar.start_date",
+    "planning.calendar.timezone",
+    "planning.calendar.working_weekdays",
+    "planning.city_programme",
+    "planning.departments.infrastructure_maintenance",
+    "planning.departments.maintenance",
+    "planning.departments.manufacturing",
+    "planning.departments.procurement",
+    "planning.departments.programme",
+    "planning.departments.qa",
+    "planning.organisation.company",
+    "planning.organisation.departments",
+    "planning.organisation.warehouses",
+    "planning.programme[].department",
+    "planning.programme[].depends_on",
+    "planning.programme[].finish_day",
+    "planning.programme[].id",
+    "planning.programme[].start_day",
+    "planning.programme[].title",
+    "planning.release",
+    "planning.schema_version",
+    "planning.tasks.maintenance",
+    "planning.tasks.manufacturing",
+    "planning.tasks.procurement",
+    "planning.tasks.programme",
+    "planning.tasks.qa",
+    "supervision.historian.owner",
+    "supervision.historian.retention_days",
+    "supervision.historian.sampling_seconds",
+    "supervision.schema",
+    "supervision.template_revision",
+    "supervision.templates.battery.alarms[].clear_below",
+    "supervision.templates.battery.alarms[].delay_seconds",
+    "supervision.templates.battery.alarms[].high",
+    "supervision.templates.battery.alarms[].id",
+    "supervision.templates.battery.alarms[].maintenance",
+    "supervision.templates.battery.alarms[].measurement",
+    "supervision.templates.battery.alarms[].priority",
+    "supervision.templates.battery.alarms[].repeat_seconds",
+    "supervision.templates.battery.alarms[].response",
+    "supervision.templates.battery.component_type_id",
+    "supervision.templates.battery.label",
+    "supervision.templates.battery.measurements.running_hours.max",
+    "supervision.templates.battery.measurements.running_hours.min",
+    "supervision.templates.battery.measurements.running_hours.offset",
+    "supervision.templates.battery.measurements.running_hours.scale",
+    "supervision.templates.battery.measurements.running_hours.stale_seconds",
+    "supervision.templates.battery.measurements.running_hours.unit",
+    "supervision.templates.battery.measurements.soc_pct.max",
+    "supervision.templates.battery.measurements.soc_pct.min",
+    "supervision.templates.battery.measurements.soc_pct.offset",
+    "supervision.templates.battery.measurements.soc_pct.scale",
+    "supervision.templates.battery.measurements.soc_pct.stale_seconds",
+    "supervision.templates.battery.measurements.soc_pct.unit",
+    "supervision.templates.battery.measurements.temperature_c.max",
+    "supervision.templates.battery.measurements.temperature_c.min",
+    "supervision.templates.battery.measurements.temperature_c.offset",
+    "supervision.templates.battery.measurements.temperature_c.scale",
+    "supervision.templates.battery.measurements.temperature_c.stale_seconds",
+    "supervision.templates.battery.measurements.temperature_c.unit",
+    "supervision.templates.battery.source_crates",
+    "supervision.templates.charger.alarms[].clear_below",
+    "supervision.templates.charger.alarms[].delay_seconds",
+    "supervision.templates.charger.alarms[].high",
+    "supervision.templates.charger.alarms[].id",
+    "supervision.templates.charger.alarms[].maintenance",
+    "supervision.templates.charger.alarms[].measurement",
+    "supervision.templates.charger.alarms[].priority",
+    "supervision.templates.charger.alarms[].repeat_seconds",
+    "supervision.templates.charger.alarms[].response",
+    "supervision.templates.charger.component_type_id",
+    "supervision.templates.charger.label",
+    "supervision.templates.charger.measurements.energy_kwh.max",
+    "supervision.templates.charger.measurements.energy_kwh.min",
+    "supervision.templates.charger.measurements.energy_kwh.offset",
+    "supervision.templates.charger.measurements.energy_kwh.scale",
+    "supervision.templates.charger.measurements.energy_kwh.stale_seconds",
+    "supervision.templates.charger.measurements.energy_kwh.unit",
+    "supervision.templates.charger.measurements.power_kw.max",
+    "supervision.templates.charger.measurements.power_kw.min",
+    "supervision.templates.charger.measurements.power_kw.offset",
+    "supervision.templates.charger.measurements.power_kw.scale",
+    "supervision.templates.charger.measurements.power_kw.stale_seconds",
+    "supervision.templates.charger.measurements.power_kw.unit",
+    "supervision.templates.charger.measurements.temperature_c.max",
+    "supervision.templates.charger.measurements.temperature_c.min",
+    "supervision.templates.charger.measurements.temperature_c.offset",
+    "supervision.templates.charger.measurements.temperature_c.scale",
+    "supervision.templates.charger.measurements.temperature_c.stale_seconds",
+    "supervision.templates.charger.measurements.temperature_c.unit",
+    "supervision.templates.charger.source_crates",
+    "supervision.templates.facilities.alarms[].clear_below",
+    "supervision.templates.facilities.alarms[].delay_seconds",
+    "supervision.templates.facilities.alarms[].high",
+    "supervision.templates.facilities.alarms[].id",
+    "supervision.templates.facilities.alarms[].maintenance",
+    "supervision.templates.facilities.alarms[].measurement",
+    "supervision.templates.facilities.alarms[].priority",
+    "supervision.templates.facilities.alarms[].repeat_seconds",
+    "supervision.templates.facilities.alarms[].response",
+    "supervision.templates.facilities.commands.set_lighting.max",
+    "supervision.templates.facilities.commands.set_lighting.max_ttl_seconds",
+    "supervision.templates.facilities.commands.set_lighting.min",
+    "supervision.templates.facilities.commands.set_lighting.parameter",
+    "supervision.templates.facilities.commands.set_lighting.required_conditions",
+    "supervision.templates.facilities.commands.set_lighting.simulation_only",
+    "supervision.templates.facilities.component_type_id",
+    "supervision.templates.facilities.label",
+    "supervision.templates.facilities.measurements.fault_count.max",
+    "supervision.templates.facilities.measurements.fault_count.min",
+    "supervision.templates.facilities.measurements.fault_count.offset",
+    "supervision.templates.facilities.measurements.fault_count.scale",
+    "supervision.templates.facilities.measurements.fault_count.stale_seconds",
+    "supervision.templates.facilities.measurements.fault_count.unit",
+    "supervision.templates.facilities.measurements.lighting_pct.max",
+    "supervision.templates.facilities.measurements.lighting_pct.min",
+    "supervision.templates.facilities.measurements.lighting_pct.offset",
+    "supervision.templates.facilities.measurements.lighting_pct.scale",
+    "supervision.templates.facilities.measurements.lighting_pct.stale_seconds",
+    "supervision.templates.facilities.measurements.lighting_pct.unit",
+    "supervision.templates.facilities.measurements.pump_running.max",
+    "supervision.templates.facilities.measurements.pump_running.min",
+    "supervision.templates.facilities.measurements.pump_running.offset",
+    "supervision.templates.facilities.measurements.pump_running.scale",
+    "supervision.templates.facilities.measurements.pump_running.stale_seconds",
+    "supervision.templates.facilities.measurements.pump_running.unit",
+    "supervision.templates.facilities.source_crates",
+    "supervision.templates.faregate.alarms",
+    "supervision.templates.faregate.asset_types",
+    "supervision.templates.faregate.commands",
+    "supervision.templates.faregate.component_type_id",
+    "supervision.templates.faregate.label",
+    "supervision.templates.faregate.measurements.denial_count.max",
+    "supervision.templates.faregate.measurements.denial_count.min",
+    "supervision.templates.faregate.measurements.denial_count.offset",
+    "supervision.templates.faregate.measurements.denial_count.scale",
+    "supervision.templates.faregate.measurements.denial_count.stale_seconds",
+    "supervision.templates.faregate.measurements.denial_count.unit",
+    "supervision.templates.faregate.measurements.gate_open.max",
+    "supervision.templates.faregate.measurements.gate_open.min",
+    "supervision.templates.faregate.measurements.gate_open.offset",
+    "supervision.templates.faregate.measurements.gate_open.scale",
+    "supervision.templates.faregate.measurements.gate_open.stale_seconds",
+    "supervision.templates.faregate.measurements.gate_open.unit",
+    "supervision.templates.faregate.measurements.grant_count.max",
+    "supervision.templates.faregate.measurements.grant_count.min",
+    "supervision.templates.faregate.measurements.grant_count.offset",
+    "supervision.templates.faregate.measurements.grant_count.scale",
+    "supervision.templates.faregate.measurements.grant_count.stale_seconds",
+    "supervision.templates.faregate.measurements.grant_count.unit",
+    "supervision.templates.faregate.measurements.last_decision.max",
+    "supervision.templates.faregate.measurements.last_decision.min",
+    "supervision.templates.faregate.measurements.last_decision.offset",
+    "supervision.templates.faregate.measurements.last_decision.scale",
+    "supervision.templates.faregate.measurements.last_decision.stale_seconds",
+    "supervision.templates.faregate.measurements.last_decision.unit",
+    "supervision.templates.faregate.source_crates",
+    "supervision.templates.level-crossing.alarms[].clear_below",
+    "supervision.templates.level-crossing.alarms[].delay_seconds",
+    "supervision.templates.level-crossing.alarms[].high",
+    "supervision.templates.level-crossing.alarms[].id",
+    "supervision.templates.level-crossing.alarms[].maintenance",
+    "supervision.templates.level-crossing.alarms[].measurement",
+    "supervision.templates.level-crossing.alarms[].priority",
+    "supervision.templates.level-crossing.alarms[].repeat_seconds",
+    "supervision.templates.level-crossing.alarms[].response",
+    "supervision.templates.level-crossing.asset_types",
+    "supervision.templates.level-crossing.commands",
+    "supervision.templates.level-crossing.component_type_id",
+    "supervision.templates.level-crossing.label",
+    "supervision.templates.level-crossing.measurements.fault.max",
+    "supervision.templates.level-crossing.measurements.fault.min",
+    "supervision.templates.level-crossing.measurements.fault.offset",
+    "supervision.templates.level-crossing.measurements.fault.scale",
+    "supervision.templates.level-crossing.measurements.fault.stale_seconds",
+    "supervision.templates.level-crossing.measurements.fault.unit",
+    "supervision.templates.level-crossing.measurements.state.max",
+    "supervision.templates.level-crossing.measurements.state.min",
+    "supervision.templates.level-crossing.measurements.state.offset",
+    "supervision.templates.level-crossing.measurements.state.scale",
+    "supervision.templates.level-crossing.measurements.state.stale_seconds",
+    "supervision.templates.level-crossing.measurements.state.unit",
+    "supervision.templates.level-crossing.measurements.warning_active.max",
+    "supervision.templates.level-crossing.measurements.warning_active.min",
+    "supervision.templates.level-crossing.measurements.warning_active.offset",
+    "supervision.templates.level-crossing.measurements.warning_active.scale",
+    "supervision.templates.level-crossing.measurements.warning_active.stale_seconds",
+    "supervision.templates.level-crossing.measurements.warning_active.unit",
+    "supervision.templates.level-crossing.source_crates",
+    "supervision.templates.points.alarms[].clear_below",
+    "supervision.templates.points.alarms[].delay_seconds",
+    "supervision.templates.points.alarms[].high",
+    "supervision.templates.points.alarms[].id",
+    "supervision.templates.points.alarms[].maintenance",
+    "supervision.templates.points.alarms[].measurement",
+    "supervision.templates.points.alarms[].priority",
+    "supervision.templates.points.alarms[].repeat_seconds",
+    "supervision.templates.points.alarms[].response",
+    "supervision.templates.points.asset_types",
+    "supervision.templates.points.commands",
+    "supervision.templates.points.component_type_id",
+    "supervision.templates.points.label",
+    "supervision.templates.points.measurements.detected_position.max",
+    "supervision.templates.points.measurements.detected_position.min",
+    "supervision.templates.points.measurements.detected_position.offset",
+    "supervision.templates.points.measurements.detected_position.scale",
+    "supervision.templates.points.measurements.detected_position.stale_seconds",
+    "supervision.templates.points.measurements.detected_position.unit",
+    "supervision.templates.points.measurements.detection_unknown.max",
+    "supervision.templates.points.measurements.detection_unknown.min",
+    "supervision.templates.points.measurements.detection_unknown.offset",
+    "supervision.templates.points.measurements.detection_unknown.scale",
+    "supervision.templates.points.measurements.detection_unknown.stale_seconds",
+    "supervision.templates.points.measurements.detection_unknown.unit",
+    "supervision.templates.points.measurements.motor_active.max",
+    "supervision.templates.points.measurements.motor_active.min",
+    "supervision.templates.points.measurements.motor_active.offset",
+    "supervision.templates.points.measurements.motor_active.scale",
+    "supervision.templates.points.measurements.motor_active.stale_seconds",
+    "supervision.templates.points.measurements.motor_active.unit",
+    "supervision.templates.points.source_crates",
+    "supervision.templates.pv.alarms",
+    "supervision.templates.pv.component_type_id",
+    "supervision.templates.pv.label",
+    "supervision.templates.pv.measurements.energy_kwh.max",
+    "supervision.templates.pv.measurements.energy_kwh.min",
+    "supervision.templates.pv.measurements.energy_kwh.offset",
+    "supervision.templates.pv.measurements.energy_kwh.scale",
+    "supervision.templates.pv.measurements.energy_kwh.stale_seconds",
+    "supervision.templates.pv.measurements.energy_kwh.unit",
+    "supervision.templates.pv.measurements.power_kw.max",
+    "supervision.templates.pv.measurements.power_kw.min",
+    "supervision.templates.pv.measurements.power_kw.offset",
+    "supervision.templates.pv.measurements.power_kw.scale",
+    "supervision.templates.pv.measurements.power_kw.stale_seconds",
+    "supervision.templates.pv.measurements.power_kw.unit",
+    "supervision.templates.pv.source_crates",
+    "supervision.templates.vehicle-aux.alarms[].clear_below",
+    "supervision.templates.vehicle-aux.alarms[].delay_seconds",
+    "supervision.templates.vehicle-aux.alarms[].high",
+    "supervision.templates.vehicle-aux.alarms[].id",
+    "supervision.templates.vehicle-aux.alarms[].maintenance",
+    "supervision.templates.vehicle-aux.alarms[].measurement",
+    "supervision.templates.vehicle-aux.alarms[].priority",
+    "supervision.templates.vehicle-aux.alarms[].repeat_seconds",
+    "supervision.templates.vehicle-aux.alarms[].response",
+    "supervision.templates.vehicle-aux.asset_types",
+    "supervision.templates.vehicle-aux.component_type_id",
+    "supervision.templates.vehicle-aux.label",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.max",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.min",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.offset",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.scale",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.stale_seconds",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.unit",
+    "supervision.templates.vehicle-aux.measurements.fault_count.max",
+    "supervision.templates.vehicle-aux.measurements.fault_count.min",
+    "supervision.templates.vehicle-aux.measurements.fault_count.offset",
+    "supervision.templates.vehicle-aux.measurements.fault_count.scale",
+    "supervision.templates.vehicle-aux.measurements.fault_count.stale_seconds",
+    "supervision.templates.vehicle-aux.measurements.fault_count.unit",
+    "supervision.templates.vehicle-aux.source_crates",
+    "supervision.templates.vehicle-bms.alarms[].clear_below",
+    "supervision.templates.vehicle-bms.alarms[].delay_seconds",
+    "supervision.templates.vehicle-bms.alarms[].high",
+    "supervision.templates.vehicle-bms.alarms[].id",
+    "supervision.templates.vehicle-bms.alarms[].maintenance",
+    "supervision.templates.vehicle-bms.alarms[].measurement",
+    "supervision.templates.vehicle-bms.alarms[].priority",
+    "supervision.templates.vehicle-bms.alarms[].repeat_seconds",
+    "supervision.templates.vehicle-bms.alarms[].response",
+    "supervision.templates.vehicle-bms.asset_types",
+    "supervision.templates.vehicle-bms.component_type_id",
+    "supervision.templates.vehicle-bms.label",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.max",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.min",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.offset",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.scale",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.stale_seconds",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.unit",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.max",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.min",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.offset",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.scale",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.stale_seconds",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.unit",
+    "supervision.templates.vehicle-bms.measurements.trip.max",
+    "supervision.templates.vehicle-bms.measurements.trip.min",
+    "supervision.templates.vehicle-bms.measurements.trip.offset",
+    "supervision.templates.vehicle-bms.measurements.trip.scale",
+    "supervision.templates.vehicle-bms.measurements.trip.stale_seconds",
+    "supervision.templates.vehicle-bms.measurements.trip.unit",
+    "supervision.templates.vehicle-bms.source_crates",
+    "supervision.templates.vehicle-cbm.alarms[].clear_below",
+    "supervision.templates.vehicle-cbm.alarms[].delay_seconds",
+    "supervision.templates.vehicle-cbm.alarms[].high",
+    "supervision.templates.vehicle-cbm.alarms[].id",
+    "supervision.templates.vehicle-cbm.alarms[].maintenance",
+    "supervision.templates.vehicle-cbm.alarms[].measurement",
+    "supervision.templates.vehicle-cbm.alarms[].priority",
+    "supervision.templates.vehicle-cbm.alarms[].repeat_seconds",
+    "supervision.templates.vehicle-cbm.alarms[].response",
+    "supervision.templates.vehicle-cbm.asset_types",
+    "supervision.templates.vehicle-cbm.component_type_id",
+    "supervision.templates.vehicle-cbm.label",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.max",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.min",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.offset",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.scale",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.stale_seconds",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.unit",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.max",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.min",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.offset",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.scale",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.stale_seconds",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.unit",
+    "supervision.templates.vehicle-cbm.measurements.health.max",
+    "supervision.templates.vehicle-cbm.measurements.health.min",
+    "supervision.templates.vehicle-cbm.measurements.health.offset",
+    "supervision.templates.vehicle-cbm.measurements.health.scale",
+    "supervision.templates.vehicle-cbm.measurements.health.stale_seconds",
+    "supervision.templates.vehicle-cbm.measurements.health.unit",
+    "supervision.templates.vehicle-cbm.source_crates",
+    "supervision.templates.vehicle-hvac.alarms[].clear_below",
+    "supervision.templates.vehicle-hvac.alarms[].delay_seconds",
+    "supervision.templates.vehicle-hvac.alarms[].high",
+    "supervision.templates.vehicle-hvac.alarms[].id",
+    "supervision.templates.vehicle-hvac.alarms[].maintenance",
+    "supervision.templates.vehicle-hvac.alarms[].measurement",
+    "supervision.templates.vehicle-hvac.alarms[].priority",
+    "supervision.templates.vehicle-hvac.alarms[].repeat_seconds",
+    "supervision.templates.vehicle-hvac.alarms[].response",
+    "supervision.templates.vehicle-hvac.asset_types",
+    "supervision.templates.vehicle-hvac.component_type_id",
+    "supervision.templates.vehicle-hvac.label",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.max",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.min",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.offset",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.scale",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.stale_seconds",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.unit",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.max",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.min",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.offset",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.scale",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.stale_seconds",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.unit",
+    "supervision.templates.vehicle-hvac.measurements.reduced.max",
+    "supervision.templates.vehicle-hvac.measurements.reduced.min",
+    "supervision.templates.vehicle-hvac.measurements.reduced.offset",
+    "supervision.templates.vehicle-hvac.measurements.reduced.scale",
+    "supervision.templates.vehicle-hvac.measurements.reduced.stale_seconds",
+    "supervision.templates.vehicle-hvac.measurements.reduced.unit",
+    "supervision.templates.vehicle-hvac.source_crates",
+    "workbench.GET./api/lifecycle/",
+    "workbench.GET./api/operating/twins",
+    "workbench.GET./api/portfolio",
+    "workbench.GET./api/twins/catalogue",
+    "workbench.GET./api/twins/jobs/",
+    "workbench.GET./api/workbench",
+    "workbench.GET./api/workbench/city",
+    "workbench.GET./api/workbench/services",
+    "workbench.POST./api/lifecycle/",
+    "workbench.POST./api/ops-auth/",
+    "workbench.POST./api/ops-core/",
+    "workbench.POST./api/twins/generate/",
+    "workbench.setting.--city-port",
+    "workbench.setting.--db",
+    "workbench.setting.--host",
+    "workbench.setting.--isolated-project",
+    "workbench.setting.--port",
+    "workbench.setting.--project",
+    "workbench.setting.--reset-db",
+    "workbench.setting.OSR_ERP_SNAPSHOT",
+    "workbench.setting.OSR_ERP_URL",
+    "workbench.setting.OSR_FUXA_URL",
+    "workbench.setting.OSR_INTEGRATION_URL",
+    "workbench.setting.OSR_SUPERVISION_CONFIG",
+    "workbench.setting.OSR_SUPERVISION_PROFILES",
+    "workbench.setting.OSR_SUPERVISION_ROOT",
+    "workflow.assignment-execution",
+    "workflow.backup-restore",
+    "workflow.budget-enforcement",
+    "workflow.capitalization",
+    "workflow.disposition",
+    "workflow.engineering-desktop",
+    "workflow.hardware",
+    "workflow.load",
+    "workflow.multi-city-isolation",
+    "workflow.payments",
+    "workflow.payroll",
+    "workflow.railway-handoff",
+    "workflow.replenishment-scheduler",
+    "workflow.service-sla",
+    "workflow.tax",
+    "workflow.training-competence"
+  ],
+  "reviewed_contracts": {
+    "components.profile.defaults.assignment.strategy": "9fa4b622441f356373d5275b04d148f7399e9e1ed5fb8fa7b6fb9ff9bfb940e0",
+    "components.profile.defaults.budget.action": "76010cc60efd852295f82a247363876a2e4bb5d443779164fb1eb7d6bfa69589",
+    "components.profile.defaults.quality.reference_type": "97af5d558185416e9a5169de72aa88f010a6d2c3318e6b5361f79d805daf474c",
+    "components.profile.defaults.training.description": "ad5da275c913926695bd67db7df35b9ff10f0946498d4ba5905679e51ececd05",
+    "components.profile.defaults.training.title": "39de2b642b1f305742e918525aee9330f2fbf6ed6339bee68be1ab9a7e57509f",
+    "components.profile.instances[].component": "6fa85d7bedf2dcee84b3f1747f5fdd3c70c4ca9e5658bd305a3dc73d89221133",
+    "components.profile.instances[].inputs": "75f19124701f5d1a756d57ea4e3ed07b6569fface68b97d247d47789e40804ca",
+    "components.profile.instances[].key": "32c0a82c0ae44a4629c20a5f564633634eafe5611edcc9922e6be75642a68f02",
+    "components.profile.schema": "f4b40cee845cda44e7e112b480fca81515872f7744259194e6df9b64b31d203c",
+    "controller.aux_fault": "ccfcb45eea0b85eb40775a9720e3ff4e17f6716ef3bbdd6403b647af96296adb",
+    "controller.battery_trip": "de5884324b5510aaa3061cbdb53b5ac95f262524f0ae84063ae3355d9771b231",
+    "controller.cbm_service": "c0d636e6bc16a41aa4ebe8488549b795beeb1ca4022d437a61ba990c62cbcd54",
+    "controller.cooling_fault": "83cc3283c017aebd7b99b8b8ee8c00edba5141cef52f6f2d481b2546718ced30",
+    "controller.crossing_motor_fault": "5bfe7ca5392e979d7587d336782cb2c72eeb2c871e4a9f75f59b33ac3b3474b0",
+    "controller.disconnected": "8d3b4dfa627146066ebde0722927c878da3e15a9a342d7a24ecd79f9a705ec76",
+    "controller.factory_cell_unavailable": "210f0e65837f5f02558a842232271e3cc77ea79abdf9f174443fd00916264d07",
+    "controller.factory_cycle_progress_pct": "49045daf4ac24ded56bc056c09945191b63b3835fffd3e8fd547cb7e021e5796",
+    "controller.factory_method": "2566c66656b80df788b9e6624c9eea0bd20cdca2cb2ba3faeddd3ed5609305c8",
+    "controller.factory_process_excursion": "c01568cff0d0146eabcdb6a3e85b0e802034d63cdeac1eeaf7b51e2bd55e3b2e",
+    "controller.faregate_denial": "918fe27294a7b927c5c017c57e241b3d3ea461f417e679f99e1f82033754d7a0",
+    "controller.local_remote_disabled": "a3cb53d04e85a795782b4a263656fc00a9ff94a1c989d22a13e69a3d2d779f53",
+    "controller.points_detection_fault": "babcc09845c442dba96bed89475d0e21ec31989a8ee6facbf215229a5be0d6df",
+    "controller.station_fault": "0eef435fc844519c756c639c1713137a1c126d01bf71bcc1da467fa968b9ff79",
+    "engineering.artifact": "e280d1c6e3d34dfd7aba54358bbab1899fb6516763a9c4dcd673c8dc661a3922",
+    "engineering.execution_proposal": "cf7e8dad8bb862bfbdb9c792d21bd937ad721165c30b0f2fd27e593b3e61412c",
+    "engineering.ifc_overlay": "2e950dc0e5969eb17f19151e7a9a3f90d4d1b1751318ed7f30c24290ee4cd8e2",
+    "engineering.package": "714b7e644084ea82264df4f683387f889dac7c3ca7ecf075f1073fe97099a0cf",
+    "erp.api.api.import_plan": "8d41d1a431b9397f1feed2d4996bb6f01479f25eba3e85838d8a2621390c7e45",
+    "erp.api.city_runtime.city_status": "96a9737f35052bfa922431c9c3018bfd6b6b9686ec14975fd72bdd3dc1f1a561",
+    "erp.api.components.apply": "624d2bf6ec25247ebd44edcbfeec3a72aa214fc422e97e57cc72a372ed8ef82a",
+    "erp.api.components.catalogue": "a890197e7c791d5e7b3ceedb39d8acd692a52b17c559091019681300c9548d26",
+    "erp.api.components.inspection_lines": "bde4f96abc241bf4a844051a28567dc1af3261923c9a140ff0d2c962d831c16e",
+    "erp.api.components.preview": "e09d2e4470aaac35c3bfe33e8fa6bbd2de88ad88b71092dafa77217fe811f519",
+    "erp.api.disposition.catalogue": "138ba51f379f0128aed5c16366c65dc38bc9b6f51b864ed6afe228f528f87826",
+    "erp.api.disposition.preview": "d3b23287018cf84982cdb381ec4ce0411c5cb184aee4bbb4be47c4b98833700f",
+    "erp.api.disposition.preview_decision": "93e78590b6c8415d331b65ad42ae936dba60e286ca073cf94265951fe6ef7abd",
+    "erp.api.disposition.record": "ac4b20d76779cd9ba3e232b7652ecd31d0abd4a0ca83d9b243531fb8930716d3",
+    "erp.api.disposition.record_decision": "3efba8973f6591c7998c56e67ee4bd35034294802f90ced5f068786efca257b9",
+    "erp.api.disposition_execution.preview": "30330e031c5eae6b6ad560bf7ebf45543d942ab25879a9f50bdc2b5baa7b08fe",
+    "erp.api.disposition_execution.record": "e6472df636b9c6e22885f19013bb0563667ff51fb13357ede2fee666dd0cfb9b",
+    "erp.api.integration.apply_execution": "ead28322fe8900c627b14b36ea40e253016b1d5d38f0354fd8729a6c4c78a08c",
+    "erp.api.integration.apply_repair": "d14a0f88d078cf89ea9473c3056e2db62870b281c249b2f8a54b811999495b7f",
+    "erp.api.integration.case_status": "2cb1911f73dfef5c814ea13df1a3325a1d20e96feb9c242f0eb2bd12f2a61ae5",
+    "erp.api.integration.condition_event": "1945946c1e1a215cf9e6c2ebba7cec3e9b83e9a5269431ccadb563c32a89040b",
+    "erp.api.integration.preview_execution": "16be7dc7ddb0924cf94ea252c6fdd3639c8144710a87335423914f5e8fbe0d44",
+    "erp.api.integration.preview_repair": "eea1775680d0365cac46ae296c5b4891875ceb2cd027a2625b4df8ec8b62de11",
+    "erp.api.integration.repairs_for_issue": "8d3ada9fa9c39c73731e215f10c310fe67a01f5e4574eecebed1e06316536431",
+    "erp.api.procurement.candidates": "d556bb68aebfc642097603227124ba2c1a7844c015612368abed57f2a18e4a40",
+    "erp.api.procurement.create_material_request": "3ed4d7b9c4645703ca98df6d09ce1cf9a291b636b0a528a9918e5cd11f48460b",
+    "erp.component.assignment": "0d853f05e9796365e92acc498816692b8ef3b7f683a0b53cbc85617fb054d47a",
+    "erp.component.budget": "1ac3b8b8d1b4ad8679bd03845bd6be87d6225165a8b1a100ce967f32a1b56e8f",
+    "erp.component.maintenance": "e3ea88f51099cf0a73f62f1e9adcc43bb7851270db8af4fbb3ab47228b8f818b",
+    "erp.component.manufacturing": "01c4f79a7dbba94f4349b63222ce92b32cf41665c07142f91cf052a4aef74451",
+    "erp.component.quality": "f45498127ed77e199a15b73d6828e8c15a8f9f340aacce1393feaf18c6d6b896",
+    "erp.component.replenishment": "90de5058d0db329a6412f905b562e9981143f207c3de32bd6c573fbe0105fb77",
+    "erp.component.service": "124ceb585ba31b21ee7f38fec2d81224c06396f44d5f88e8f0ed101dde375825",
+    "erp.component.training": "aff4a517cead152f82bc3e8c5c46cc0ea4e99c604d370d2b875d21af72979459",
+    "erp.input.assignment.category": "233d38ff8cfefde75503e2d33dd804e7dab095e4fa0f3c1c2222c8e4cfbd7611",
+    "erp.input.assignment.strategy": "2c842c34b29f6b3fb090e3372689e321a6f5a056dc38daf3eabb10ec23101b7a",
+    "erp.input.assignment.users": "5eeb8fa627169481337a0c42851c40235fc47966bbe9005c683a1af43f374f58",
+    "erp.input.assignment.users[].user": "de043cd5ba3f589d4db0a3473dc449d5b9d4c24f0b03e405f0be3e45b605d31a",
+    "erp.input.budget.accounts": "e4c521764c8e65d63c8930abdcd4cbeb37b3751f7aca35e6127fab92caa14879",
+    "erp.input.budget.accounts[].account": "0376ea73515a409e4ea1560a1a8a4cb1bade29d5f8006b86d32f66b79b5b6938",
+    "erp.input.budget.accounts[].amount": "ebab8159841238fa7afd5e4c862fa7d48ab551a5519f4a5b9f32f9f5a25d9aa9",
+    "erp.input.budget.action": "6ca18858d8435fe1264cbe6755877a0fffb2416f6dc277db9a12fc5c5734392e",
+    "erp.input.budget.fiscal_year": "dedf5b4115148ece65f7ae39a8f95d7c0ee82cd528fd14da116a7b4f4f88ed99",
+    "erp.input.maintenance.asset": "ab6faa94e4cc2abcc7f995a35316be6760d8de6317dbdf59d050bbb10b98aee0",
+    "erp.input.maintenance.assignee": "535dda5dbdb9cf1178de4f529a13ee3f5d54012bc00b1a9391ecbdec2a558f68",
+    "erp.input.maintenance.description": "3385f036c5bb77d2a0f9bf12bba9fed1941bcc80525e04933c00a9d521793559",
+    "erp.input.maintenance.periodicity": "3c65403688bc3f94aab8352b61fc7928bae1383aa02322b5c444269beb4f18f3",
+    "erp.input.maintenance.start": "46ee25dc47d7c45beb67e97e864cd3166950cbede0f0e6cd0af28084db1cd636",
+    "erp.input.maintenance.team": "746af76399d906013e4aaf59dd185092a7249d26848d0c02374306a5a01894d4",
+    "erp.input.maintenance.title": "d7a910ba071634338dc53c52f46f2652154c59615d5e8e7398458da2bf8989a3",
+    "erp.input.manufacturing.bom": "c4b3073a186cb4ef39956fa7776544a5a4c0c2d49b908deccc39473214553960",
+    "erp.input.manufacturing.fg_warehouse": "5e5cd337ac9b08a50242b4b6b65eefc8280abb18e137f81a432cb53ac2bce801",
+    "erp.input.manufacturing.quantity": "d6ac1aef77433b2a851803d81e97fcad733a507b88c460569616c5b341e93f14",
+    "erp.input.manufacturing.source_warehouse": "7ff04133168f5cf8e9e7c3d87e0d477e61c16885f1598ef4cf35b7719cb2648f",
+    "erp.input.manufacturing.start": "5decd73a506cda51ba220d8bfd698cdc0ef3dd0ef9f179c2c6a4c19de4347c33",
+    "erp.input.manufacturing.wip_warehouse": "2ac5a5c36bb7a6f7ac94b58d2301897f9566da707ee1b92b89de9bca0e2bc722",
+    "erp.input.quality.inspector": "8868e6841be0d2637aee767cec29e6db479c86f92e237148827a868660b70dc7",
+    "erp.input.quality.line": "896f39282c5d53d6d09f6188a768e7114f21ab572ef7d5e5b980f9831c561fa3",
+    "erp.input.quality.reference": "c5c013fe7f5162156e0e1bfe9ef9163723daee7bc1e75f54b7806f7458545651",
+    "erp.input.quality.reference_type": "20ea34f2de679a2a686215668e26bd0411c7f73a1c1787e633b000606f4532dd",
+    "erp.input.quality.report_date": "67f6017c467eea8bf55c2cce51b12c3035c2b9740369370656292f54e8341c5f",
+    "erp.input.quality.sample_size": "f05a2a01ab5b1275302bda73deeabc13d454622ffd88855fb1656e1f8f42e366",
+    "erp.input.quality.template": "196512c52b89855576e2305b3d2ebc68d11ab9e3288b9206a29b4f25271e5052",
+    "erp.input.replenishment.item": "7879f09538b0cc5703531b802395d884fd9956dd33ae6e2caaef9afda2d29b50",
+    "erp.input.replenishment.level": "bf2ef94fb85bd1b8cadd36c69704be1c7f33be9b7199b11bb4d535efb6610b67",
+    "erp.input.replenishment.quantity": "fe6f3f5b15a362add345aa643caf0973d0fdd97a40df280b5c7ed7be324f7bc5",
+    "erp.input.replenishment.warehouse": "347c0012dc2e7ca96e94071ccd68871a492dd0082dde5e7883e08440f74a1301",
+    "erp.input.service.description": "6fad4657350bccde421a356c79eb5f27ee244e7b94b2898f48190ccc60c153d9",
+    "erp.input.service.priority": "6558c2c019a078b608d1eda894e55e3df675d36074a58c1b5291654155cacc3e",
+    "erp.input.service.sla": "440998bd801d8ac90915fc3d0e893e50d19bf78b5b355db2a5c8bad1ec9d0271",
+    "erp.input.service.subject": "efad3121437396af7e27d1a7d81811ea10da3360beb9d1f2e4aaeee6b578858d",
+    "erp.input.training.description": "32fa193c52a09f1167b48d27ce4bf4b4b5837654e34ce218b5ecb745ec8cabea",
+    "erp.input.training.title": "940cb411cdb66b44c6cbb62691e81c253f8a37256c6f0058996a7e252ae35b66",
+    "fuxa.deployment_manifest": "81e7259717cc48d3c442f752d475cbf541b115220ed0e65e10a4b6b2224cdebd",
+    "fuxa.deployment_review": "ffdf008caccd9ff73cbfaf4073abb103923e8e192dcf1c4611f6a3eeefdb8262",
+    "fuxa.project": "10a2e85d514c34ba801f1040912bd908c02413e1ef6e768547e99a7934ad9dad",
+    "fuxa.validate_deployment_review": "ece449c3dea18cbb46f675a722a6af53967fe5c4516ff4cbe8becbfafc803b32",
+    "gateway.GET./affected": "9413f1031a1bf800e245778043dfffa56740f9f45a8a2587ed38477fbe60d0dd",
+    "gateway.GET./controller/commands": "6f06b212b62bc7ef7e852b4c14f9cc897af5cc56c6796f87a024ad98a92948c8",
+    "gateway.GET./health": "3bc789b6f22c0294e0b4962b22518eb0ee521102eea0f616749aab3fb30ab4bd",
+    "gateway.GET./history": "137c5c6cc233a965c905413d44f0f77ba14c80efed1029248126b9897a66f0e3",
+    "gateway.GET./snapshot": "9113e12728416fa0fc7211c5d493ffff5275c9ae0c66b8855802e39f38708efa",
+    "gateway.POST./alarms/acknowledge": "5bdc4b6b931ad449fecd2c0947ce72448cda78560ba540a744e45750cb8a7cd2",
+    "gateway.POST./commands": "54f8435b21f60fa020c8faf195dfdb06a6c72ec09443078942be1bb2974a663d",
+    "gateway.POST./controller/result": "2074a9ef54dbadd1cbdcf1bc75d6ae1a93f7e79d65751037054720351b8759cb",
+    "gateway.POST./evidence": "2d72b9be48aca1648bf9c73dc84e2efd752ead4c613ad5170845f4686aa25098",
+    "gateway.POST./packages": "f287c40381c80daec256870bf8bc56c8b7ee692a1b4b44cd6067cc114c2c5ec8",
+    "gateway.POST./packages/preview": "a6511f7d43d6953721f0684066ff793a3026ed30deb29cd2b827702384596844",
+    "gateway.POST./telemetry": "79476c2df6fc4b044167bd9f9945721d30646ee808146a77bc8e532c1afa5935",
+    "ops.GET./api/operating": "c4cb6df01f0eb425e04a48feb7487c386e859038ff6b69d97e9df1793a020aa7",
+    "ops.GET./api/ops-auth/session": "c036fd23dd61fa491ef64e908389277a7d24e5cdd462361cfa5aa75f5a09b6fb",
+    "ops.OPTIONS./api/": "805d8898673b35966c839367bf5968aaf2ccc8f8366e7a5428ea33413cf1f12f",
+    "ops.POST./api/ops-auth/login": "81d99c40789dd187968805d52443376712e5f71b243d65e6618528249531c9a2",
+    "ops.POST./api/ops-auth/logout": "21709f79dc57f578ad04895a87b7f03b881d62893fc697bfcf94e19256aecb8b",
+    "planning.calendar.holidays": "e643476308a12f9953223dfb93fe90e09d908579e952d1570c63cf272ab5bf07",
+    "planning.calendar.start_date": "b2d0b2457e3f80811073b0c54cad6ab06f310b7638117afb7debe10d0d81b268",
+    "planning.calendar.timezone": "c1f7061797893359cc1a34b5d2592c3dc1469cb3152adaa79564b6284ccd3d83",
+    "planning.calendar.working_weekdays": "ac3af5ff0dc7ef659111f28e00945185ab671a6d26a030547886780fea720ed2",
+    "planning.city_programme": "952ed54d713f9efbbd4a626657d777a06bbeee0a8d7b6373d85201972757b177",
+    "planning.departments.infrastructure_maintenance": "d753f9a69d853a2a5392abd4a508ad643c0169a1048c9a66f16de4829e261dd5",
+    "planning.departments.maintenance": "7580e8ae9d76c9fdfdff619038872d1b02ce3961c99e23104ed5d84772e936cd",
+    "planning.departments.manufacturing": "fd425327bc8dacebfb96449c1f3cf79e5e13d94ab638cde436892f7f498b13e0",
+    "planning.departments.procurement": "3e7ee8ebf57ceabec60d46b62ee9a7ccae63a5e3f2a173a771af4db64a1efab0",
+    "planning.departments.programme": "34b47e845750f8a82a6e62120daa0dabe90489e38491e91ea3f2ac54a2d84b63",
+    "planning.departments.qa": "bb1725d260c2d10a2f55e2cf9dd23783b5c9b7c447d3186c5e728ff486a0b2b4",
+    "planning.organisation.company": "06814ca925608c9e9dd0963973bd9d06fc345d34a9ea67bc385fdb5bcb7afbbd",
+    "planning.organisation.departments": "a8fe4d1ecfd21521139435016a5ba7a5a6009396ce2924a388a6c55523ec4b6f",
+    "planning.organisation.warehouses": "d0c575986d3a6538ab82c5e8ac757120d5ee4d69598ebd053f9987b15750efdf",
+    "planning.programme[].department": "1c913c93371313c5ced87790b027a8785995215cfcbf8c971c6dd402ea3c805b",
+    "planning.programme[].depends_on": "c445184f3c1b3ad524e3d18a29db78079892566b12f6fdf3059327a19a809292",
+    "planning.programme[].finish_day": "efac8a4a30b6c78e539e20437a44be35f683bf6993e11551b16ce55a688b2a1b",
+    "planning.programme[].id": "bbb44b9979fa536698909803cd8235ffee7e0442a7ec01c1099743b2be379be6",
+    "planning.programme[].start_day": "86b523c25bfd683f7b6a78ca54aac0789892a601ef0eb2c31f67c60f93a3fae9",
+    "planning.programme[].title": "3a2214af20563f5429dc807108fac0d6e5405b50701109f000d44d0e2019e143",
+    "planning.release": "b354e62407478afca748131a6d52493c1aaab28c039444c9c22c75eb32bacd51",
+    "planning.schema_version": "6faa9270b5e3a5a41fa2d0a28e857abae710e05c4c6f718e350079655ef869bd",
+    "planning.tasks.maintenance": "284172c7dc90479130ebbe434b2dd3167112f8dda54eee02c2739bd3476b37ed",
+    "planning.tasks.manufacturing": "67137d7a2b38c21c9a191a94864e34c5c88374e3b1e0b80b6c71cfdb4526730e",
+    "planning.tasks.procurement": "068ea02382a53952c9c05e4cb54d78038e394f46f34426d62c5e2320ba8e5725",
+    "planning.tasks.programme": "af357e451110c9977838b2fa8961a143a9767054fbb18bfe0dc2a8789d790669",
+    "planning.tasks.qa": "19f6601bd2376086f348b30d061d7e829ba0e272b4d0b2619ea2da826bf0b94f",
+    "supervision.historian.owner": "994d95d90c24173a29c6f7df71e5e6db74b4f7050e4b34b22d9dc67e6c491a94",
+    "supervision.historian.retention_days": "b9af15c875ed15920e43c20ea57b2532c3e3b85a649b88a5a239adbcc51deea9",
+    "supervision.historian.sampling_seconds": "634eefcf24948caa70afd4f9df85110f786c99fd8f7954c15a55b0d4e64e4568",
+    "supervision.schema": "75653d6fc75f791ef6695c53f3d920d9cae41eb4ecaa3ea9767fb3cf03159cd5",
+    "supervision.template_revision": "1343c65347fc4336de73b766117747c4b27902a2f77ea3720c4c09fdbc91ff7c",
+    "supervision.templates.battery.alarms[].clear_below": "17062c651b5af9208bab066262381851af9a7dac2ab72a04580ae41ec2f61648",
+    "supervision.templates.battery.alarms[].delay_seconds": "2d5330b61780d3782cbeaf79bebd101f3c7ce7ed4287d8ff15e8627fba90b78b",
+    "supervision.templates.battery.alarms[].high": "ddbae0cde7837ba8734e9cb01c13dd3f8286b6ab811f13d38f1667a347c5ce73",
+    "supervision.templates.battery.alarms[].id": "f2efbfaea9f721a7586eccb3d93f70d85718d411bb4149259b54d1785feeea95",
+    "supervision.templates.battery.alarms[].maintenance": "adc087baa31a3d8487ea96bfdd2ce8da2d1bd12bc6f4478ea4409bedfa3702e0",
+    "supervision.templates.battery.alarms[].measurement": "fa8cec7e76dfbef046cac5c488e0452548956d8593f40515bfd9dd6e7267652f",
+    "supervision.templates.battery.alarms[].priority": "f8e38ccb2c0157fa660d0934c1d77748a3278b89d693c6c68d48d1620018b68f",
+    "supervision.templates.battery.alarms[].repeat_seconds": "9b3c1247ef12467ed32f34601f2b0dd97c38658d8b301028bbdcb0909faa7e96",
+    "supervision.templates.battery.alarms[].response": "cc5b2c3dd2229da856b6108a320e01fd709bc733124f781304a303f8a1559c0a",
+    "supervision.templates.battery.component_type_id": "762bd899499e26cf31e5fb322170122d1396a8b212f2e7972f40fac76268116a",
+    "supervision.templates.battery.label": "bd907b93f02fcd3fa46935a3e96e2dad75f555d79373ceda3374e6424d06dc1d",
+    "supervision.templates.battery.measurements.running_hours.max": "353ce93486dd8a72387f00d45475514d2aa005340cb8894f88d98b2be35b092d",
+    "supervision.templates.battery.measurements.running_hours.min": "4f0225532205cf3198d8c8932a5c06b305641ea4639b8f42d4fa843dcff047c1",
+    "supervision.templates.battery.measurements.running_hours.offset": "be5644298c80fa76c631a6ee48fccade42433f018be1fadc78a073550a5dc89a",
+    "supervision.templates.battery.measurements.running_hours.scale": "4b4f60a96028a44ae752caa438021fea43f42b6380113b9177f57af395b24a46",
+    "supervision.templates.battery.measurements.running_hours.stale_seconds": "79f9b9978e5d9801e58abefd83068acb13717af46ede44d19252ccfcb3cddc5e",
+    "supervision.templates.battery.measurements.running_hours.unit": "94de28bdeb0d78983570a088add1680f6156b49f075a777b08aa4269c266f17d",
+    "supervision.templates.battery.measurements.soc_pct.max": "28113c9a9c394b6b142c60cf7e7fcfe9191e2e8d466798339c271e0448702902",
+    "supervision.templates.battery.measurements.soc_pct.min": "2585a1941146fa595822787b33b288c74425c400169eb1b8153535ca3c2f0eb1",
+    "supervision.templates.battery.measurements.soc_pct.offset": "3f71ceec5095f20b31fff1b28ffe8328e71804dea7e10d844d9634147c8a6e1b",
+    "supervision.templates.battery.measurements.soc_pct.scale": "92ed96b92fced1a2118d1336eada8f5472638e7a0c5444948a5e85c527bcae28",
+    "supervision.templates.battery.measurements.soc_pct.stale_seconds": "c86793b38e8d1c0b3a917c3dd2ed219a90dfe03bd13e08d2d9ebc05b4df5f1ce",
+    "supervision.templates.battery.measurements.soc_pct.unit": "a3dfcaecd695549f2f58fa98f8d6375ad5f37ea33c7466b14be88ba245409f0c",
+    "supervision.templates.battery.measurements.temperature_c.max": "c639a339cdc972a62576b63ec512828a6abc97f9edf7666e5473b8823f6b58bd",
+    "supervision.templates.battery.measurements.temperature_c.min": "080897ac49d211fa17e6b5a396d7ac6e960b50fdbc81d1116c04de3353fcf31e",
+    "supervision.templates.battery.measurements.temperature_c.offset": "e82f44a97346af3d7a3f3d9370945033e3e7519f7df6683e85a4cd09952d2bd7",
+    "supervision.templates.battery.measurements.temperature_c.scale": "1fc1ed61e8b6d6c7a1516c39307694ad1cc6c6a6f2d442037ade95b58566662d",
+    "supervision.templates.battery.measurements.temperature_c.stale_seconds": "a214f174ddef8a33e4d424f47e61ed31435480344f58098cc8d1ee96d93ce3cf",
+    "supervision.templates.battery.measurements.temperature_c.unit": "56355cf38e7f0afa52b18341288c538504bed4c8f9cb0391ae53c15303556d75",
+    "supervision.templates.battery.source_crates": "9bad14902d4c08620a889f187d6459665a839ee5799775e91772c23b1cc983f2",
+    "supervision.templates.charger.alarms[].clear_below": "61fa5ae552ab6b4b25a08e78fece590caa63d3ff3a5818b2d0ac824348289119",
+    "supervision.templates.charger.alarms[].delay_seconds": "2b18f693e7fd7c6f1933f80decd3019cb098c7e3adb65984ad478b6017728814",
+    "supervision.templates.charger.alarms[].high": "9c281941e2842f3d6b599845c0b0c052d0c25b987377cc4ff8f34e61022d60d1",
+    "supervision.templates.charger.alarms[].id": "6527265eaac3e226430d2b63fd6bad34211f0c51b2eddb033ad4c1dfe2947d6d",
+    "supervision.templates.charger.alarms[].maintenance": "7db1c7381e5f9299fbc707b15a0303a5ed52e7d99a5a13f2cc07e473947e5a25",
+    "supervision.templates.charger.alarms[].measurement": "35e7317ff4ab5366c8cb1859c03dc0a8064a8580d1e73235b1b4814c5679cb3f",
+    "supervision.templates.charger.alarms[].priority": "a426f75193157279fd7534a9fa3e315273ee417f26bd996be423e9cf2250a86d",
+    "supervision.templates.charger.alarms[].repeat_seconds": "d38068f94051d4f5a9427036fcf22649eb5a3f8d88e42f87950b85e0b69936e8",
+    "supervision.templates.charger.alarms[].response": "819dac4776b6af0487ca4b0f6c8527cbe4277a405ab806fac17ff8c4da9d2681",
+    "supervision.templates.charger.component_type_id": "ab31b7f6a8df180a71d72dd86555edac76825129c3af83fedcdb0e44d63ca5e9",
+    "supervision.templates.charger.label": "efafa1a6d80489b64e264c586a97368775eadc4ba35be770269638ec4305905a",
+    "supervision.templates.charger.measurements.energy_kwh.max": "2436d0d6a6b9d83114e7b3611121e7f6e18407e588ffe4fe642bf74a7906cf89",
+    "supervision.templates.charger.measurements.energy_kwh.min": "4a4b84553266c387d9aaf1183ce6b6d2336d1aaf0bff6ed4ea0dcd695c642838",
+    "supervision.templates.charger.measurements.energy_kwh.offset": "feb7b8333bfe6befb737172ad9f277fa42ce43e62ce1900100a38a51d54ae5e4",
+    "supervision.templates.charger.measurements.energy_kwh.scale": "1970d507b28f551fd14b6a5730da506a1a65ba4aca89111143e8c4bf769efe1a",
+    "supervision.templates.charger.measurements.energy_kwh.stale_seconds": "d0c112b69b6abc04a5383541b053580742c38687e250fd912c7b5af299f37423",
+    "supervision.templates.charger.measurements.energy_kwh.unit": "fb3908515386960db036834e0e5837cc677093b1edef6292adb95f7df858e08b",
+    "supervision.templates.charger.measurements.power_kw.max": "26364a93f169dc0e73e0f27fced42b62704d37cf425847b6c9a677ab5e31d55a",
+    "supervision.templates.charger.measurements.power_kw.min": "d2f917d73cde508ccf4f3e9698a02b806c8125a64b618c71c350c3f06920f8bc",
+    "supervision.templates.charger.measurements.power_kw.offset": "dae9d9f5b7fb448e60d3f9d79ccf9889cbad468e9c4fd7e8199c4551cf5d007e",
+    "supervision.templates.charger.measurements.power_kw.scale": "ab545eab15d3811f45f6df8671898b3d2ef22851efef48c55a20034857bacb31",
+    "supervision.templates.charger.measurements.power_kw.stale_seconds": "21e6f81e7b371e98f473bfc36180f029a32584d3862edb144cdb07a626c147dc",
+    "supervision.templates.charger.measurements.power_kw.unit": "e0637846fa6b568205c4b9ad4266dfa8e57f11bc882124263b27df77ef6aa22d",
+    "supervision.templates.charger.measurements.temperature_c.max": "19ebbd96274cf993eafeb3321ea1c01bb40c9ca8a1e58545de7cf021f1b0405d",
+    "supervision.templates.charger.measurements.temperature_c.min": "ab4b6c224215e291f11605d8d933907a67ff633d4d39e014a224a1e63de43fff",
+    "supervision.templates.charger.measurements.temperature_c.offset": "51ca8bc9c40eed82463d9af1c0a9195a4c3288ab296a868ebded861be2eb38b7",
+    "supervision.templates.charger.measurements.temperature_c.scale": "361b709ef1f92bfab950d5f77bc357a12f7b6b8c0a188afd05df0cc8cc973874",
+    "supervision.templates.charger.measurements.temperature_c.stale_seconds": "6d59bf41aeb03fac26897f27b60a62fac764eb65018e507b8387e9f3e717fa59",
+    "supervision.templates.charger.measurements.temperature_c.unit": "c322860b4aa8c3abf9cd077db7992a188b6acbbc4017dc049bceb7d66a9acf11",
+    "supervision.templates.charger.source_crates": "abebba2d73bdf60c89eaebad4241089da73e6e7f37e30beb239d16566ded4f35",
+    "supervision.templates.facilities.alarms[].clear_below": "7577a65a194269ac687792ef2db4594dbf9d435ccfb0260238a94fa0def2daaa",
+    "supervision.templates.facilities.alarms[].delay_seconds": "660a16a535a195e0405bbccb681b3a733623cfc354f01e4192fbfb8f3829b1bb",
+    "supervision.templates.facilities.alarms[].high": "176ec95ef3e742c729e3cc9eb353494601d903598ca58169822e6396e7242ed9",
+    "supervision.templates.facilities.alarms[].id": "97626769b58411e068bd5c4372e0d420cb5e0570c8509ca6b94d755601e6cd24",
+    "supervision.templates.facilities.alarms[].maintenance": "4a66cc87b5bf9bb12bd613820b8bf45d04ebf259fb0f3f6f05cda6772706df93",
+    "supervision.templates.facilities.alarms[].measurement": "6f3d3225247658fc92e153d3de1effd5f25be3ba6c02dc0f0dcad16981d5c920",
+    "supervision.templates.facilities.alarms[].priority": "4206e5ea5cbcb1a7cfe68e29b347fa319deb3b36d77a0bbf177911c7a6af2d2b",
+    "supervision.templates.facilities.alarms[].repeat_seconds": "4070f7f92b0c1391344dd84b1aa2e595eadd0dea001fe8a11caf9c879aadfe98",
+    "supervision.templates.facilities.alarms[].response": "37f09909dcedfe9344e960803bb7f2c82e9ec52ed24fe9ac8d9bc5a410aa234a",
+    "supervision.templates.facilities.commands.set_lighting.max": "7b3e832511e8907a8e2da9c5b6cb4c6fa93c26c169d70361b6caf0deb91cde1e",
+    "supervision.templates.facilities.commands.set_lighting.max_ttl_seconds": "3d7978c9b1098f8af6292ba6391da1421d14efdc84f7a7f08ea9b0ba07f43632",
+    "supervision.templates.facilities.commands.set_lighting.min": "5f185742b27b8af287e1b0d1f05c57562021272101c34c03248a9c1e558f633f",
+    "supervision.templates.facilities.commands.set_lighting.parameter": "31696bd5c8034f5e7a042e347f47779cb8315f53c7b6323936a9c74cffb95fe9",
+    "supervision.templates.facilities.commands.set_lighting.required_conditions": "98ce3ba8afab898d4d2b3ae64159764cf62dd1d71546afd1905467ddca8834d0",
+    "supervision.templates.facilities.commands.set_lighting.simulation_only": "25bb27953f2b0ce1a24abeaf9f72e082371ac755a999441522e54f471fd15c36",
+    "supervision.templates.facilities.component_type_id": "fcd25f6338e70898c88215c6e89908b874137669c127865cc08d23b83845140b",
+    "supervision.templates.facilities.label": "120dbc42f77a091c54748317dbce1897156835b54ab43dffb60b006d1629ba2c",
+    "supervision.templates.facilities.measurements.fault_count.max": "625cca8d78758c04926400415d9aeef8c4f9ef8cae456fe38fd88f07757ee264",
+    "supervision.templates.facilities.measurements.fault_count.min": "3b9f1fe0fd0d20dd35c94eab5dad09c1a4647a69b5bfe24149cb493966795ac4",
+    "supervision.templates.facilities.measurements.fault_count.offset": "befa46e6268b56aba58e648f7bc5f24a67bc44b9fa84d9acf8367c1c1e9b82d1",
+    "supervision.templates.facilities.measurements.fault_count.scale": "0d14957c1a7295adf0149a26e50a0871956a596a931343df6a3235d69638218f",
+    "supervision.templates.facilities.measurements.fault_count.stale_seconds": "6f38006557a8fb3353a20d548b1dbf0a638d65b68813e994670eeeff6d609163",
+    "supervision.templates.facilities.measurements.fault_count.unit": "1a7a3139d1423006bd65f2c0ff14a1fdb0a1d7ea9c896db24726d5ebd7e4b515",
+    "supervision.templates.facilities.measurements.lighting_pct.max": "228b1e41b6961e2efeac5c34b7da83a5e727a726c23065b083ec373f459c105f",
+    "supervision.templates.facilities.measurements.lighting_pct.min": "d97481d7c4189299f8f400d62dedec3b594b7c8322f3361898de4604eda3cd3a",
+    "supervision.templates.facilities.measurements.lighting_pct.offset": "0b318a9a12e3a8e01101024c7312c9d3fa2d1a28376f76449da5b2c040419b9e",
+    "supervision.templates.facilities.measurements.lighting_pct.scale": "102ecaf939df09277d6f722e3c947d943626a8fd6687e3788032e42d9f0417e8",
+    "supervision.templates.facilities.measurements.lighting_pct.stale_seconds": "7a3ae0fe705c720dcd79af556a8b1090d1f715f18719d829b87d2716a41fd3f1",
+    "supervision.templates.facilities.measurements.lighting_pct.unit": "0c8ab14395182219f4c100d514dab447aa5cc1835cc8085dcd66b42c8b4ebd66",
+    "supervision.templates.facilities.measurements.pump_running.max": "b24811fd219e3eaec865c1e87cfc04e41f8a2f2af756a52048b51d21bece898e",
+    "supervision.templates.facilities.measurements.pump_running.min": "21fdba8d09e35043bbb804600eb7f2b8ce68a38ec6f0aeee1c4a9dc4dfaf6a64",
+    "supervision.templates.facilities.measurements.pump_running.offset": "eb0786387da9555b403d4089e4410b8187f7c66ffa05679a50370f4286e3cd98",
+    "supervision.templates.facilities.measurements.pump_running.scale": "281108340f7e719fd6aa0b39efc4c8c98c997a559c243bdaa7dee057a199074c",
+    "supervision.templates.facilities.measurements.pump_running.stale_seconds": "f4092ccf46f65907fd6409f49867005fc020c3bda12a7b2907d5ebe4b6af7fd8",
+    "supervision.templates.facilities.measurements.pump_running.unit": "5de9c3397ade6d1ab41a08a29724dbdafa192d93d23b289e356b2b28319f7d7a",
+    "supervision.templates.facilities.source_crates": "13868af785fe6eebbb920fbf5a3001f67bf06183f896de0caa5807406c60981d",
+    "supervision.templates.faregate.alarms": "ca576dcf5257018d8e19ee0840b1a52021bfe89ad3a0549707f3a58e2f8e1d4b",
+    "supervision.templates.faregate.asset_types": "522dc80d6165f65bcd4f9b6725048acb6a6c8bd9b522d0769d2c89bd584c9526",
+    "supervision.templates.faregate.commands": "21d93a2adadf9ab6b4a3c97986e63fbefbe7ffae6b1db4f8018f3725cebdecda",
+    "supervision.templates.faregate.component_type_id": "0af127d3b5886fe652af8d033e462bce3d36b59db1665002fb8820328825cbb5",
+    "supervision.templates.faregate.label": "5c9ca00e10027accc6a86b8361a70f8edd1c43938f095205d94c69a7c9376323",
+    "supervision.templates.faregate.measurements.denial_count.max": "bc4c03df84607d5e883415f120964fdd39a4a4c86db8862752b2a254700c5a18",
+    "supervision.templates.faregate.measurements.denial_count.min": "0444fbafc9622e462146ad49baea193648d24789eb39d2c8823d691ccd5475e9",
+    "supervision.templates.faregate.measurements.denial_count.offset": "4693a9eea7e386c35a36a22b20403643f0836f2ecc71b855131ec23ed2457cb1",
+    "supervision.templates.faregate.measurements.denial_count.scale": "ba4d85fa8295fe1a82801d02da36cc5a331e22b80ee041bfb7a4c008f252484d",
+    "supervision.templates.faregate.measurements.denial_count.stale_seconds": "2bc1ab885b31132146efc2511c1a4142f27b9fbd3395330e3e877a0d7f8fc7cd",
+    "supervision.templates.faregate.measurements.denial_count.unit": "311f82b3672fe64d05a21fbfca29a016e8f1c3f6850a55a048718a21d442a68d",
+    "supervision.templates.faregate.measurements.gate_open.max": "fd73fdb96387087f97feb7b8b55db3a113d6bb840cb31e1e64c575dfbe0fe058",
+    "supervision.templates.faregate.measurements.gate_open.min": "06266f6bbae3c3b2266d3f98489f3e9be8f336f5fd2b7dbba997824e7032bc70",
+    "supervision.templates.faregate.measurements.gate_open.offset": "d71d822ff0cfc1257a09c5c33e895543fac5877cbe68015f809b8a2093696bb9",
+    "supervision.templates.faregate.measurements.gate_open.scale": "2e27bb14ee6a4c3474051c1f69b553c1605de682bb7dbb47f2aa5bdcfff9cdad",
+    "supervision.templates.faregate.measurements.gate_open.stale_seconds": "812656aafa8cd2e5a3cc70c9aedee85702b363ca670944a01dfdc7c5d8f3513e",
+    "supervision.templates.faregate.measurements.gate_open.unit": "74f390aa995f1ecad69f429543714359695def58115d64242d71549da9292dc4",
+    "supervision.templates.faregate.measurements.grant_count.max": "12d6fdaa39723a86380b352f151a263a5bd0befb9ad77b33d0cc424b1aa899b6",
+    "supervision.templates.faregate.measurements.grant_count.min": "6fc4e6fe7e899e0ec167625ef458e32566cb3d153bf2a26d6c7b1533e37c2cdf",
+    "supervision.templates.faregate.measurements.grant_count.offset": "5c08a18f2a019dd15981223a8a1d04b03f08691cf2a5516a791b96507d0c19c3",
+    "supervision.templates.faregate.measurements.grant_count.scale": "a2b3362de84e47ddef165e3c0f880dde95b5a4812be83fc31d5275ef45121246",
+    "supervision.templates.faregate.measurements.grant_count.stale_seconds": "cd0e711c6689032e73ef050c8a26eba3891e8f2d1c50ff82fc5f492d0366aa63",
+    "supervision.templates.faregate.measurements.grant_count.unit": "cf3a38a69a3854e5d1f77f6e9899816dbb4bd6ca2ec708dd6895c72757a888d6",
+    "supervision.templates.faregate.measurements.last_decision.max": "909b51db28f0aeb8a8a73a1aad0527f1532ff5656093d9f2ae37cd6380a55f65",
+    "supervision.templates.faregate.measurements.last_decision.min": "8fa68eef80d7acc1821bdd87e92f077fc5221beca2c84fed5aed2d602108fa85",
+    "supervision.templates.faregate.measurements.last_decision.offset": "cd7221a04b3187540150070cc7173da7e1741fb6a921b15d00e2309127c4ed5e",
+    "supervision.templates.faregate.measurements.last_decision.scale": "6662b4083f1f5fd9aa1c4df18318f17ac5e240b85fd47a691cd7bc78eae4380f",
+    "supervision.templates.faregate.measurements.last_decision.stale_seconds": "b63307976ba9fc67576aea66038903b4f64fece6c5d1309de28979abb1044337",
+    "supervision.templates.faregate.measurements.last_decision.unit": "b46b3bf3b9904822e059f4ca690364331ccaffee5e50211d6eafef021ba95460",
+    "supervision.templates.faregate.source_crates": "4a6fe52494971854d87d387c8271fc5cfc020c95e4c94c5914174a7aa43fa1ef",
+    "supervision.templates.level-crossing.alarms[].clear_below": "ac7157bc5140e45dd2e5e68a135e47332e7931dba7436c14fa94a753d162227e",
+    "supervision.templates.level-crossing.alarms[].delay_seconds": "f3960e102bae6268f6c1a9d1c561e0f1595d7a181b45d364037cb40fce01268a",
+    "supervision.templates.level-crossing.alarms[].high": "c8e899f3363cf438fee668d36b0a72076665598b1f363ce476e44c6ad0d89962",
+    "supervision.templates.level-crossing.alarms[].id": "f26f99810c1afaa3826aac52f9588805a5ca7ea3708a6493c1435f5e8fea2efe",
+    "supervision.templates.level-crossing.alarms[].maintenance": "a856fbcf62133fd46acbf76f1681e0195ad64eac3d994829e0bb3e7a42c3a6e9",
+    "supervision.templates.level-crossing.alarms[].measurement": "0bbd047622a566d6e483862d803c115dd5273e5d059cc3c0ea333d70018e32a4",
+    "supervision.templates.level-crossing.alarms[].priority": "b347fbc061189dee8cf7c4fa118f3318281c2d5df5e5d52f36d2b19ef2b65917",
+    "supervision.templates.level-crossing.alarms[].repeat_seconds": "62bc2f34b530bedee4bc80ee229ff493412c2c5df24cea0f4d597291993cf965",
+    "supervision.templates.level-crossing.alarms[].response": "237a55d0dc952b035fcce99bc929282f6c4ff20ee1f5ff1cf89a20946aacd55e",
+    "supervision.templates.level-crossing.asset_types": "5762029c15d639fe807f2f1bb5e93d0b798402292b6b717b670b630c4ac07e68",
+    "supervision.templates.level-crossing.commands": "3d4cc68f74534a735e29fcc5c789ab3c063ef7342f2bc123e6ab19761c781ad7",
+    "supervision.templates.level-crossing.component_type_id": "fcf5aa84e11ccaf84db6ed483c6a91d3f6d482388ae275d6bc094ea15e6d813d",
+    "supervision.templates.level-crossing.label": "5b5f1b8350372c395322b3ca91feb725309248a5b8673da9f831c32d5c779297",
+    "supervision.templates.level-crossing.measurements.fault.max": "5a973d3631ed599d911e2e4cb9a0a1c271d4d88d9cff0c3facc80da2afdb434c",
+    "supervision.templates.level-crossing.measurements.fault.min": "8411fd49530ae3bb0e5628b7faba9b0034159ba987f3304d8ea414e94a040e88",
+    "supervision.templates.level-crossing.measurements.fault.offset": "777f71fa8da09f7d40530e8a02ff2ea1f53256fb1c175e9bdc57c2198b664a69",
+    "supervision.templates.level-crossing.measurements.fault.scale": "f5851ae4f930268d06b1ac160018f368e3f6b1f3b1e14614b2486c79c5e39fea",
+    "supervision.templates.level-crossing.measurements.fault.stale_seconds": "2c80ea65965c528bdeaa7253cd63068942cf6e75aa7c84d4544f300623728920",
+    "supervision.templates.level-crossing.measurements.fault.unit": "206760b28c04a022efaddc3cbe6b11c96ab0206fbc2a47c5180fc9f130a4c345",
+    "supervision.templates.level-crossing.measurements.state.max": "73df0fbc406b62afd6df2d5cbd27fa2fde629626b7eaeaf669bcc0f98c4681f0",
+    "supervision.templates.level-crossing.measurements.state.min": "7482bff87fc8f1a5c5adfa039ba53d97a4b5ea3bf2f253bc255c8d01aefeccfd",
+    "supervision.templates.level-crossing.measurements.state.offset": "435b11bfcfdb2ce57515c6e88374d1121625a8e8bb96812a1364c3fdb27751f9",
+    "supervision.templates.level-crossing.measurements.state.scale": "e07a8454e9f1860485b463e0d6e23f05cfa8fe5c7bfa786ce318598cbec4f06f",
+    "supervision.templates.level-crossing.measurements.state.stale_seconds": "e5597c9aa31c091ed551b959796f2182ae2533d36bdfd2e7c5259b8b05960572",
+    "supervision.templates.level-crossing.measurements.state.unit": "9ace7216045fff30997ea556486509a09e390678c547f30607775d54092ee6a6",
+    "supervision.templates.level-crossing.measurements.warning_active.max": "2cc2ee0a1c99be452a197e6686827a38a2cf3ddb5e1dac8eddb68dbeeb59b6d1",
+    "supervision.templates.level-crossing.measurements.warning_active.min": "c76b87128bfa8b78bf952ab27444c03cbb05be844296d4025a2b70a669cd2ca7",
+    "supervision.templates.level-crossing.measurements.warning_active.offset": "fb27418698fb3ab1f016449f005ffef4f7eee47f0be069216b62e62f6d649590",
+    "supervision.templates.level-crossing.measurements.warning_active.scale": "3c2f534a1669fc9899a948683b4a5a675258738eb0486038d7c2178293b06fc7",
+    "supervision.templates.level-crossing.measurements.warning_active.stale_seconds": "9570441dd0b10d0754e7fa8a31ad77191678d0a2ab173ba265f5442a980e34ca",
+    "supervision.templates.level-crossing.measurements.warning_active.unit": "ec3930d90e5b0da8f47ca7a02095fb8915eebbb397e0de5fd0129027414c2ff8",
+    "supervision.templates.level-crossing.source_crates": "6348afa777b68602ddd11913412b78b7c78a45c76889bd08153113052ffbcb77",
+    "supervision.templates.points.alarms[].clear_below": "c0b9d8dd2d4b05f4c5d1df5e6266f24920f649d12702ccefefda493e697d6ad0",
+    "supervision.templates.points.alarms[].delay_seconds": "07da17e01d35e88be543b362c4ca9f05db518c0a5f80ecb57d54bd77eb8acba0",
+    "supervision.templates.points.alarms[].high": "1f276c2e65540c0775140a299219268f6c98d664eee87f1320369a4fed5ba003",
+    "supervision.templates.points.alarms[].id": "0ed629e58e64f261628e69f1a3116bb9b3a5dc972bea340c648deb6e58dc8176",
+    "supervision.templates.points.alarms[].maintenance": "f78ee3022fd2ce726d7ca6a0518fab816a4fa012e8790cb0fe134c1c9eca3f99",
+    "supervision.templates.points.alarms[].measurement": "c7a6db327338110bea5d6c2486556aee518ccc83512c4db20ac2298a0c94ebd9",
+    "supervision.templates.points.alarms[].priority": "976864397c7795069f5b521ba81861802ae3779afe0a0154b0c7994b41d69d86",
+    "supervision.templates.points.alarms[].repeat_seconds": "098bacc7bf3cbfb805134e0c5fe03722450268a917b0d83de00d5afbb6b417f1",
+    "supervision.templates.points.alarms[].response": "e7d102f01e59c4b6846bc00c8354ff898149b31e643addc6894e42efc8dff2ec",
+    "supervision.templates.points.asset_types": "822693e19e566e27c4de53c86dfa260fa5e33fc86bfd1d19fdc2902cbb9b8377",
+    "supervision.templates.points.commands": "503fc585bfaa410c1485fc92c689d087c53410114961ae951f5f99a683d112d3",
+    "supervision.templates.points.component_type_id": "953ba273f739e600c4763ada3b7ca4b5509e0332250be1cbe031c25f6b169cab",
+    "supervision.templates.points.label": "05edac1234c6e08671cf74c419b49c0efffc704c50a3013471b0411c7bfcb716",
+    "supervision.templates.points.measurements.detected_position.max": "f3637c9906a2a77c31dcc3bde29a1bb0263b866d5937f2e02f9c1dcdb4714aef",
+    "supervision.templates.points.measurements.detected_position.min": "fd6d38fd889c363fdf5c9c4f0249577aabc78f08d36604a61a2ea2f6f8edd168",
+    "supervision.templates.points.measurements.detected_position.offset": "703bccbfb29bf4f303c56383030ecff056172dd217a64f31b9d56b00ad59b35e",
+    "supervision.templates.points.measurements.detected_position.scale": "c26be0b130fbfdd9c6da744a82c64aa0e694dbcea49b050d79945ee40dbbf3d4",
+    "supervision.templates.points.measurements.detected_position.stale_seconds": "67e0f21e853ffeaa99a87a04112805283a36745662cad48764b4380176412008",
+    "supervision.templates.points.measurements.detected_position.unit": "abf776bba2da0fd3497eadb521a0df8ab3767ee41ae5ebe15427115275d4c16c",
+    "supervision.templates.points.measurements.detection_unknown.max": "23b71db42b34fe4c4ff6ace3d6b477b6e06303acb6ac0c3f1a4fd65de44a30e3",
+    "supervision.templates.points.measurements.detection_unknown.min": "5aa34c1c84aea51e6ea4613f23d92f471e023ac8d44d0561498415f929d69bcd",
+    "supervision.templates.points.measurements.detection_unknown.offset": "b91bbe4d7d5372df6b4aa8763275af8fe0d4805969980631cdabf13f068f4da4",
+    "supervision.templates.points.measurements.detection_unknown.scale": "56759be0f061a43226200a1d1ada770cf76b4c974aff703c7f4024c3794f87c7",
+    "supervision.templates.points.measurements.detection_unknown.stale_seconds": "961d7174325c071af4770a89ee25c890c94eff2ce5c35ffbfb8f726bee9d24b3",
+    "supervision.templates.points.measurements.detection_unknown.unit": "b13ca18b79c662f1e0e3ac254ee97392c7a281de4e2a5df1519fae21940ebec0",
+    "supervision.templates.points.measurements.motor_active.max": "1ee99e75d04931eaf3090067e077f799c24659b78ababf9e7ac0a4c53c67a12c",
+    "supervision.templates.points.measurements.motor_active.min": "537807af14b0723cc422d02d9f700c380a58dc3c914426a8d9fa473e375dcd14",
+    "supervision.templates.points.measurements.motor_active.offset": "22e1a0d22215c825da70984ad4aac52e144f713802a946ae47216d6b1e191de1",
+    "supervision.templates.points.measurements.motor_active.scale": "d2c4aa7e1d25bc9d0f1d0f59484b02df699cbf8545abd04e6160d5c018a1ad9c",
+    "supervision.templates.points.measurements.motor_active.stale_seconds": "67dfbeec255981b943018eb88acafb6a0dd286cf785e9b54b9b7d8405af4608c",
+    "supervision.templates.points.measurements.motor_active.unit": "f63201ff60be42a3eb1f9e147ef1eafce2f65041c05b7b3dd27c5dea319786b3",
+    "supervision.templates.points.source_crates": "3816621e37eced19389035e183b4306b647b9899e1f41674ca6990ee41c2fce6",
+    "supervision.templates.pv.alarms": "07fe26959a07aff6b5dfa1a369a102f7b328f23d3a183fd32660f63af111ce9f",
+    "supervision.templates.pv.component_type_id": "d8c1cd2664cce14abc624253baabd0bd836f4775dc3226c29e9158c979ac1da1",
+    "supervision.templates.pv.label": "059bdfd19367ffcd06fd2140da3d972c41217880b167e11b2a60bf3ee3ea4743",
+    "supervision.templates.pv.measurements.energy_kwh.max": "e5daeb9888d73b3478c0418daded811333ab952b553f360de4f2989e9ea72d53",
+    "supervision.templates.pv.measurements.energy_kwh.min": "b8e7581edaaa39808eb0505305c12d6670b533b099afa672b141cac02e00d8ee",
+    "supervision.templates.pv.measurements.energy_kwh.offset": "ec447a5e4e22f8fe3aa11ba2de7e8234f8b1e350fab72859b483ba7a7fe4a4fc",
+    "supervision.templates.pv.measurements.energy_kwh.scale": "ac613c39ee4d5efec54f8aae075f60e1011bc95cc1cc15faff4e97f174d6f08a",
+    "supervision.templates.pv.measurements.energy_kwh.stale_seconds": "e6a43a6c8a1ecbc67bb13b976fa3f17f8c7328605deaa7057376bf2821dee2d1",
+    "supervision.templates.pv.measurements.energy_kwh.unit": "6d33d8c5ed264b3f9d7de74a2ee6449ad894dc0526c1cd11fbda9a3db1405c24",
+    "supervision.templates.pv.measurements.power_kw.max": "0b6d56c076f7e60a13bd1bb83fbb028a7a6031263ba66fcbea2c8be1ad12153e",
+    "supervision.templates.pv.measurements.power_kw.min": "e674a8a2a7d34092904f6055ceba8ce0888158635a239905078cea2558b158dc",
+    "supervision.templates.pv.measurements.power_kw.offset": "cc3060fbd729b4a002eecfc722bbbebabe14897445ab381346a419d33f84c39c",
+    "supervision.templates.pv.measurements.power_kw.scale": "e70777da4885dd9526b3b2493144ec7ba62fc7b7d9dce70b6f9a7f931b03376d",
+    "supervision.templates.pv.measurements.power_kw.stale_seconds": "b232bb460ca03898fc461c76b87087c85a88d2e2cdc08acb398fbe2e1709a39a",
+    "supervision.templates.pv.measurements.power_kw.unit": "9aa04b4247977ecda3e723ac31a074e0f608075a35bcb4bda1d3c780becaf6ee",
+    "supervision.templates.pv.source_crates": "ef254d41918a08a0d59118b77e3dd2cf77a0c0e649dfe56514d26aeaa89a0358",
+    "supervision.templates.vehicle-aux.alarms[].clear_below": "6f62fa43f20644c82d239dc806426dc67b2db3ace18b01cd9f9fe36f0366b53d",
+    "supervision.templates.vehicle-aux.alarms[].delay_seconds": "4c10137bec66f5aa917bd68a69188e25b4f316107dcf0712442ec52c6a72cf8a",
+    "supervision.templates.vehicle-aux.alarms[].high": "e54e0c196b76e8579467eaa7116fa1f7f8652455de3f10b696f0cd1afa310e36",
+    "supervision.templates.vehicle-aux.alarms[].id": "7d936c2977d054e31ee3dc94bdb3b6d29694a47bf4a7046be57190bae793709c",
+    "supervision.templates.vehicle-aux.alarms[].maintenance": "4fe8eceb1731f525bcc69152dc238b10feda197828ad3ebb41dfa706da283a22",
+    "supervision.templates.vehicle-aux.alarms[].measurement": "10553454c1548c009ad14034d5bc3f8e38cede561d17117461d9b23cce70dfd2",
+    "supervision.templates.vehicle-aux.alarms[].priority": "5bb88858626dcfc805286ef8cc49219aa9443e35e4f49a2031106edbf683f03b",
+    "supervision.templates.vehicle-aux.alarms[].repeat_seconds": "d0e3694466077a2ea945a92991a639d2242abab510b0d1188fe18226c78d0505",
+    "supervision.templates.vehicle-aux.alarms[].response": "9e5867ae79669ad4f09b1b6f60e4f5864e0762a99779b31cec959904efd0b744",
+    "supervision.templates.vehicle-aux.asset_types": "1255edbfbaf828174aaeacc5e35a235d4c5db4de7b1fb5f0bee10b9974f693f4",
+    "supervision.templates.vehicle-aux.component_type_id": "defa5a656821ad68da825a8ac6b35c5b8ce030509bf797ee8dd1a90885b4317b",
+    "supervision.templates.vehicle-aux.label": "2f8150180717da6ba1bb70c1164636f7d52d1a542b9712174829dc9a915f96de",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.max": "e5b04c7f8d31f4a37eee464f4a4dc4149874a56f7c49d0fa4eaf4b33dc307530",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.min": "794f0c320a295096f5ca73f416f6aaca3c9583e727ffe05b6d5c5a41c2e9558c",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.offset": "16b4d4e3e213e36393f8cb43192c246ca09ddcbe6017a5f280302bcc5c6f7eb1",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.scale": "1f7b9ca12ce69729fbc07a59cf5657581d270f3593db9d9bc97bea494314ee2a",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.stale_seconds": "9602c2695cc6f90fb70ecbf9b42589a270afd7a4a081dbd588d63a2688fe7e58",
+    "supervision.templates.vehicle-aux.measurements.comfort_power.unit": "e882f008b493fb0f22a6a3c3410aed4a36fd30ef2818aa8b457bce52625f612a",
+    "supervision.templates.vehicle-aux.measurements.fault_count.max": "682c1cd276b4cd433ef15f9015f04d022619c36384f733db11f0f533febca29b",
+    "supervision.templates.vehicle-aux.measurements.fault_count.min": "43621d7833845df52d25eecb39e8669f0c2580dbb5b2f69d8514a47240368bc8",
+    "supervision.templates.vehicle-aux.measurements.fault_count.offset": "01e23ccabba63cac53142720648ba00859c49d0baeed5ae44b65d63c5554c6a1",
+    "supervision.templates.vehicle-aux.measurements.fault_count.scale": "11d08ebc822f2dace2057a017748df1d410de1b0155502ac401e24f0f891c316",
+    "supervision.templates.vehicle-aux.measurements.fault_count.stale_seconds": "2d27ea57464de36638271a9546531e36570758f5a401f10fe8ab9fffdf6b42f1",
+    "supervision.templates.vehicle-aux.measurements.fault_count.unit": "7d8be987570d8b8ae448bd8db8db68f7e59ce52f84c13d534172e7dc89666993",
+    "supervision.templates.vehicle-aux.source_crates": "03d84be97881ed2efd24edab284e34b31fc5b6bddb03c201c62b8ec4ced245b2",
+    "supervision.templates.vehicle-bms.alarms[].clear_below": "740a9a82fce449ba4bfbfc194294527e1d0e5a08562779ce8614f20b4aeb7cfa",
+    "supervision.templates.vehicle-bms.alarms[].delay_seconds": "b8bf28ecb99c3bb1d97226fd218fa0a259e96cfd10842bd4fbb3043a08ff469a",
+    "supervision.templates.vehicle-bms.alarms[].high": "b8488d4dd73d54b2b3f62f03b37fffdca109cee84fcb9989688a40a457341c58",
+    "supervision.templates.vehicle-bms.alarms[].id": "d78270d640176e787e35ba7e1ed6d5df54e0b8c16a1a94e7c4a6b4dd28a8561f",
+    "supervision.templates.vehicle-bms.alarms[].maintenance": "45d58ac9dcfcfcb64f81fa67bf3fe2786b341cd24b03d89b7901356aff098348",
+    "supervision.templates.vehicle-bms.alarms[].measurement": "92d73d00493cf12873ad7ab085505ce1bdbe1ac4023d2901b6e36866ec4ee364",
+    "supervision.templates.vehicle-bms.alarms[].priority": "f3070328d1c043f8be96ccaf3c770ce3bc40bf17edc1c30b042383ee5e24e20b",
+    "supervision.templates.vehicle-bms.alarms[].repeat_seconds": "6774b587bebdcfb1f88aa12b10daca732911cdf731e4230b7098c8494ca43b1b",
+    "supervision.templates.vehicle-bms.alarms[].response": "0040b432087838508f62f069a11f91c16bcbebb555e555504cbaceb561c39142",
+    "supervision.templates.vehicle-bms.asset_types": "960c9c2bf9a90677de21e493b648df89a8c62258bcf373f5a339275fbf47d21a",
+    "supervision.templates.vehicle-bms.component_type_id": "8fb1ae5442b2f7456ac1b16b3e2cd81c1761ec0e09d5697cac570f6355399e53",
+    "supervision.templates.vehicle-bms.label": "571319dd914476ba71eff99a99ebb94dffbc91774522533a7b74387751c51ed8",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.max": "1cadd42fb0a1e6553d11f8708f1d892e4a99e87d2c9dcc47e02d69b646d0541c",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.min": "924643585e89b1c400b526a8b188d924cd5c03d24c29e0087283b79de336f7c7",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.offset": "e3b85b70bdd54ad2e2f0cced3219b39f9ed281884ef1d494db948f3f0070b79e",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.scale": "13d49489b1880cc34174d9685266bd566c391a21faf7134fb2e12d0d97260cc7",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.stale_seconds": "702bab6a48061d1be7f1111bc955834758e1b4e002d12140a22f74b0d7e5a6d8",
+    "supervision.templates.vehicle-bms.measurements.charge_limit_a.unit": "ddb157d393855c820f21072996f77748025cf6dc0b914fcb9f9aa84dc1e2bac4",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.max": "9a24be0692e033104cb431d344bd9590271c1d3c29ca024a01d5e129f62335ea",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.min": "676a3d0232d3ebe8c2e563794ff02ab518254a5a6112211b4edc4bbbeb69ecb3",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.offset": "1a49c4a9b5a14a85a9887bdd6bd1a971fcd3960fc992ec2a4fab843eef7a745b",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.scale": "f79cfe6a68967fd70426591d716bd460432ffe675bdd3fb591d7aa7e35c12b36",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.stale_seconds": "add7d55077b5fc38fec70195cdbe59f32bffe9cdce6d65c8ee663b725be54292",
+    "supervision.templates.vehicle-bms.measurements.soc_pct.unit": "155061d76746915026817e890c3ee541e7c2fc53de84052eb1fde6c53833615f",
+    "supervision.templates.vehicle-bms.measurements.trip.max": "e84671a89cfcc668266908da55015afc71ac05fc08c63a0108953e4ad09d701c",
+    "supervision.templates.vehicle-bms.measurements.trip.min": "2875e8e4d6f4d90dadb274e786103dd2e04f4b4b3378ae130581aaf9c5e7f148",
+    "supervision.templates.vehicle-bms.measurements.trip.offset": "4884a5a0c04836122c9473de10a42c95d92def1470709a30c125b8ad105b41cb",
+    "supervision.templates.vehicle-bms.measurements.trip.scale": "c1c363857b48783bfb57b2c4159633fe5e4e6f425ae2c51bafc2de363b9511e1",
+    "supervision.templates.vehicle-bms.measurements.trip.stale_seconds": "b326e3014991cef138eeb03a5955a28ae311aac958c06b22b55fdef1c92e6a61",
+    "supervision.templates.vehicle-bms.measurements.trip.unit": "a4d0474cf90f904aec1b9ddea3b9cd0cf8f4a1b80b8d092265257f2c8bd4e76c",
+    "supervision.templates.vehicle-bms.source_crates": "a646d6e1a8756a9413ea09babc29898b92048fa6feafda7b2e4b72ea911524b6",
+    "supervision.templates.vehicle-cbm.alarms[].clear_below": "ab3728c2f406c76e55ed727eb42a3b9d44921c49b9fdcbaf832d93c502c6862e",
+    "supervision.templates.vehicle-cbm.alarms[].delay_seconds": "e267081bfd8644af2ed45e052b3abe969de9acdf75bc2b5e89c7d51438c695f5",
+    "supervision.templates.vehicle-cbm.alarms[].high": "56104a85a6cc0a51e279dfaa5b20fe7bef709f9d1eb29509733ee7b26a1f926c",
+    "supervision.templates.vehicle-cbm.alarms[].id": "450fd5e92a5d5ad30b3e3431f9b36e9246039c7c49da6045ebc2e9ce7edea9d2",
+    "supervision.templates.vehicle-cbm.alarms[].maintenance": "98a0a93ff0d78eeb4253faca15fd533ede2b48f4cbe0c6b659900e5ff61d6035",
+    "supervision.templates.vehicle-cbm.alarms[].measurement": "2a4ad4019c4ac30d9d4a6abd77c42d8efdd4521b25226568d389bb3d22920078",
+    "supervision.templates.vehicle-cbm.alarms[].priority": "52003f6261a27eade7ec0ede31e6a863ac6369a1b7a807406b71899096b5fae8",
+    "supervision.templates.vehicle-cbm.alarms[].repeat_seconds": "6ef17bb3ceab2b37483f0302730571d3f3705f2713c0265b3c4179298b5e1cdb",
+    "supervision.templates.vehicle-cbm.alarms[].response": "a4c59d24892aa01191a5c89b8fb10612acc721154acadf4935f4e954ba764085",
+    "supervision.templates.vehicle-cbm.asset_types": "e9c590e7e707d5fac76ef35b601e30d97c6fb111286d7cf51b469898bd18ebfa",
+    "supervision.templates.vehicle-cbm.component_type_id": "19c9555e6879434ccadb3bb0c54d4a8cb9235ae490b4fb36697eb1cb133bf19d",
+    "supervision.templates.vehicle-cbm.label": "f07609d12d4c8bc753690fe76cbf2dd02ebcbd75a98e64930449cc2283ffd122",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.max": "05b9811018533e78973bc646251b86c0a136e6baff83bc51cfbe4625e1eed547",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.min": "0f7b124249d4f7d4d6ba6ddf240af4c76ad0e46957ccfbb547dae452c63979fa",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.offset": "d779e3c781662820c87e360e27d4f3c1ecd0310da4b6506ad3583e1524886bf9",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.scale": "8ec7f5913d4a5520d84340d4e6cbb5f4fee9728f2e270097241022b101d13e86",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.stale_seconds": "7ee359b62ca180c6a73e93c973e9cb1c3169cc4947b2a950b21b8992b4837edf",
+    "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.unit": "15dd693dc9b2d2978bd6e33be06c6f5494ce88616bdef146af076af71345d7b1",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.max": "5092191e4f6aac1cf8f2a8b46d0abf090d4f31c36cfcfd1e38d01fcf5db10434",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.min": "e08ba4c81e24093b76fe918122e17c49d9802387a5b2221c5dcc030001648b9e",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.offset": "847742f2f6b6938ecc706fb3620fe9e66dc83b2654d11a06ac9f90f1171b3cba",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.scale": "7966b72b25fd17a6bc9b378d9b68efd1e9164e3ee30173fb81026b6fe27f79f7",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.stale_seconds": "a8ddea95f71e4dabede7a34e6f89cf2c9424d5cf3e2fc7b7bcf1381fbdc23309",
+    "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.unit": "d4c0aede5228f725e1fee270d84da518054829901df33b33e6db85bb59d5c731",
+    "supervision.templates.vehicle-cbm.measurements.health.max": "42fc887974b867536fc3b7477058deb021a9ffaeb6eaa1a842710b5f639eeea7",
+    "supervision.templates.vehicle-cbm.measurements.health.min": "d26302695c258297924a9b4d89fa302ad32ebb614a478cca1cafa3f07e4183c9",
+    "supervision.templates.vehicle-cbm.measurements.health.offset": "cbbf87ea52d0806acadd174b082f220205a735940d7498840f1fe3899de5c132",
+    "supervision.templates.vehicle-cbm.measurements.health.scale": "763ee6c0f5933f8d0216dec5fde105ed031e01257fec3a6d8c0256bf2989442a",
+    "supervision.templates.vehicle-cbm.measurements.health.stale_seconds": "e0c7c6541dd4ff8e70caddf86cfe18f0de9ed946c2dab99da9b96dee65b381cb",
+    "supervision.templates.vehicle-cbm.measurements.health.unit": "fcc38f966991d6170035ef4e78d2942f62da4a95626c7dc6fbc6c26edc86e193",
+    "supervision.templates.vehicle-cbm.source_crates": "ac7925f431544aecd73c499a323936db902653da41d47eb0a463c6ca2da18189",
+    "supervision.templates.vehicle-hvac.alarms[].clear_below": "91dbcab4f10ed1270c3b423aa88f0ce79205c20b1df5f1284cacc06bc56ae472",
+    "supervision.templates.vehicle-hvac.alarms[].delay_seconds": "8be939382c5b8b0505a9ffbd274ff4d413d636a61f7410eed0081591ba198792",
+    "supervision.templates.vehicle-hvac.alarms[].high": "e8468e83df9fb5d94c24cffaa97c2a7dc7bc7da615d4ac99ca687f42c8334efd",
+    "supervision.templates.vehicle-hvac.alarms[].id": "12b0cf58e288cf0c2b112891afdca0d0aafa3c143d2b9da62ac604f8a5be376e",
+    "supervision.templates.vehicle-hvac.alarms[].maintenance": "f6969d0ce1ba50a100b8f98abaade7063ad9c813ccd4633974a14d493e3c5e87",
+    "supervision.templates.vehicle-hvac.alarms[].measurement": "897b98584a75fc374debcc66fd05b4500899d85765447bca393456c5fcb88418",
+    "supervision.templates.vehicle-hvac.alarms[].priority": "30687d875c84af074a02eb1e12ccef759e357d286c240abf9c945f616e3af526",
+    "supervision.templates.vehicle-hvac.alarms[].repeat_seconds": "cb8adac75e8530de785aada6e3d6214dca1db4dfbf0539febd46023ba2141000",
+    "supervision.templates.vehicle-hvac.alarms[].response": "02f2dc2d04e7d9cc34eaf59260fa0e5146756f956be10caaf47711483c0b41e3",
+    "supervision.templates.vehicle-hvac.asset_types": "a6bf24e0acfd4f4aeacb12cabae8a24a9d5bfb4ad11637a8c5805dadb5979c6a",
+    "supervision.templates.vehicle-hvac.component_type_id": "8f74978d5e0b3ac110df4793a09357c8e6ba102f7a7bdb2dacc7b8a8bad03531",
+    "supervision.templates.vehicle-hvac.label": "e9f9ea3b9e8ce36c9a9694a94f7cb7e316f885982a01decf99daaf3ffbec2c1c",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.max": "6a61202ac595c8c3b6a207bb36f7765403a0dc3493e041fbc6aa88709b1bc782",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.min": "519ac8e6b989ace33622770bd7a3e925120a0373ff43c822c0ef83a2e7126afa",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.offset": "d026a34763c9fb5b60a52f1ac6e20a81d388e5a7301ebeb63f405f74c9ecc93d",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.scale": "9ebb3f9d58047ef72bd0f5137cc36c9031ee23cf6a9f5fcc68bd2bec6a0552bf",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.stale_seconds": "b1803ceb1bdfb0e04d4dddcee3172225b3596debb1308476e0f7f18a8c7ff164",
+    "supervision.templates.vehicle-hvac.measurements.compressor_pct.unit": "3389032db233f183f189e8dec9f83bdeffb24d66d784196358f70e506f8b9815",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.max": "d2896fd27960633566fba8e2b9d38c68a5f7bee6437e32af1b4b123f692100e6",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.min": "5d22d4b3305c06572e52bce600b8042bedd6053e2872f581e105b73658da38dd",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.offset": "898511d0f307f7685642903c6fb3c6e202cdcd2dce66194f2ca6d52f22508dba",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.scale": "5558409c87fc1408b7e23ab6402ee452370304ab91a5d5d0d6ed647b9bc37106",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.stale_seconds": "c0ceb4c808bdb0e98c8e84d7367156434671af6f4ed649b784faeff69448e748",
+    "supervision.templates.vehicle-hvac.measurements.fan_pct.unit": "04cc2834aea33116919558fe1eb119fe8e95559e85a8626d8baf95c1465907f3",
+    "supervision.templates.vehicle-hvac.measurements.reduced.max": "050d350588cb9fd94e554b9ae4aad754a4e1ed1c928ca5bf9f6d697324034c8f",
+    "supervision.templates.vehicle-hvac.measurements.reduced.min": "6bc7b30bf536977ebbb33dd3ea22079a4adfecbc0fed30fb7e4ac61c9da49138",
+    "supervision.templates.vehicle-hvac.measurements.reduced.offset": "284336bd561cfe6541e8d3873cd25e38e9caa2a750d8e6fd676a6eedbf5abe27",
+    "supervision.templates.vehicle-hvac.measurements.reduced.scale": "76aaa946b3bef2a87417ac15d168d06e4ac471d59aa60c8dd7b513cc3ad7034d",
+    "supervision.templates.vehicle-hvac.measurements.reduced.stale_seconds": "711d2412da05a2538e09ca6dfdf54991c689fc9d9d459e18a8a4a63440b0f6da",
+    "supervision.templates.vehicle-hvac.measurements.reduced.unit": "2383eb1e51e0fe63b377ecc7ecb2ed5c9c71c4f555441c62a99b1f62447e4ef8",
+    "supervision.templates.vehicle-hvac.source_crates": "eaf2e4f7b7d14dff4440d5f9b91dd81c9601566af2675764e8c272063b2b4385",
+    "workbench.GET./api/lifecycle/": "f0f3b716f1d428bb4e4728a96b3f28de986b92acc513e5f92bb8fb12b1ad5724",
+    "workbench.GET./api/operating/twins": "4d38ef9b3bcf1390317a4de526715423d361f860465e07b6ccef385ab2e687d4",
+    "workbench.GET./api/portfolio": "51bcc19a4c97233d2f81556fb29aba55972414e1345e59b7e50f74bd35b02393",
+    "workbench.GET./api/twins/catalogue": "f9c6693bf4a6e368a24ce7da854aed961d9ef87d363d7f90ac3f774710e24b2c",
+    "workbench.GET./api/twins/jobs/": "dcbe01ac6b60904dcc6ae6ec60a9972a8bbe14443bc7a018ed9603938f648ae2",
+    "workbench.GET./api/workbench": "7cc48d62590813104767bbbbab4831df9b809d87e6b7ceb546082af9814a424b",
+    "workbench.GET./api/workbench/city": "92cef15cd79e5a3a853a22c77fe4cfc58cce844034d93344d1928badf6c6614f",
+    "workbench.GET./api/workbench/services": "682316d0a90f04ebc78f5e07587d821cc8f6f1de1028fb7a37f28e479c73a1f2",
+    "workbench.POST./api/lifecycle/": "11bb0db166a26ad989650704ac913ded10022ecc8353913e53d0e09e073d732d",
+    "workbench.POST./api/ops-auth/": "dff019d2138b3740d3a3767632e27653cb019aa274287d38e4a85888850c3c2f",
+    "workbench.POST./api/ops-core/": "e69f909c044f396f9475b57925edbef842076e7cdbeda1ae90ae50ccf76069f0",
+    "workbench.POST./api/twins/generate/": "1100bcc80c6e063815705fe8a947ee20f4fe4b60f0e821460b20c210457780d3",
+    "workbench.setting.--city-port": "9fff837d53fe9fed90715dc70d90709ec7cb39a5d4c8bf93d4ca17d932cdc381",
+    "workbench.setting.--db": "2632ef77623d36c206e484842cdbeecf6f6a21df2f3bbe46c18d4e5af2de1c2a",
+    "workbench.setting.--host": "95f6c3a320a3a6ee28083a697d5142d2f8b226ad6e1a025524a1b8dc072d4f11",
+    "workbench.setting.--isolated-project": "6f9a2c02bfeaf2819213fd51ae12be551c163cd1bbe8cddf7515efb83cb9ce9a",
+    "workbench.setting.--port": "15b345e7993b5aaa8a7594aeb68a66ef1351c0b38cee2e6c629556f2d278f476",
+    "workbench.setting.--project": "b507e410fa86c2ef800cf161713578ff23c947d60cbb1133f847fe30c8a69252",
+    "workbench.setting.--reset-db": "f5b8d304f5cbfdd7a2da35d9b8d0c0b175d1a07e523ac843d5b92b46f8417fc7",
+    "workbench.setting.OSR_ERP_SNAPSHOT": "89bd25f53b8bc2faf8a3f97e4b63f5bdf933d5acebed41bb97b7e813a31e75fd",
+    "workbench.setting.OSR_ERP_URL": "1c556d0c8b3931cc70292673eaf5447376a73b71134a9f8ec1859980649ce38d",
+    "workbench.setting.OSR_FUXA_URL": "b163a6388c123b50d9e819c3318d4e7e3c430280234888c38200ca21a03ea69b",
+    "workbench.setting.OSR_INTEGRATION_URL": "96c52a773b4c2bdb8ee06c31f1c5c1bc31047bf84b2b178f84d11af1c9c5285a",
+    "workbench.setting.OSR_SUPERVISION_CONFIG": "b8078a467d2f1e268d4a27d0f9b05c3c1eb1fe3cf580c34d171054832461fcff",
+    "workbench.setting.OSR_SUPERVISION_PROFILES": "2a712084883478190fdf1ce58a3ca3256d1d33f34a345a47643218b7930232bb",
+    "workbench.setting.OSR_SUPERVISION_ROOT": "d57db2be7bc7ce01fdf1fe6309d5107005200e25971858d2597ce9031987aa57",
+    "workflow.assignment-execution": "5db4794a84cf38d9ad7104a3d2b6ea3faee8f473c529974b3accc5c2f3a84df5",
+    "workflow.backup-restore": "8cfa9452d726c18c8231862a24edc334787e088ffa5a21e9e14357a96513a3ff",
+    "workflow.budget-enforcement": "359540090473d53878d8d5460989f8b47284d291e0139537ab76c91250640098",
+    "workflow.capitalization": "cf4335d88b4f607aa64dde02cb521848214b7b36943d6f52fa426079bc63e929",
+    "workflow.disposition": "dbe0fd5e7956389fc8bc3ae0ba6d1a88606371c2dc8bdd4c4c7dae3cdef1387a",
+    "workflow.engineering-desktop": "e95e8bd9d9cb2e55466e9f5fb7f8037f47f06d18b04937d2992b6f61ea1a8487",
+    "workflow.hardware": "d857445effdbae0e7fc91067a14720be5a464a03819cb862c2fb031ea7a8a1ba",
+    "workflow.load": "377e3a32547a21ccc4d9af320289d259611d44c997c2e4f41e772fb97ec5e9ac",
+    "workflow.multi-city-isolation": "be43b107fc173c7edc4a583a3b952164d7ccdad996de814ebe3a1a224beb50d8",
+    "workflow.payments": "9e26bc6b46a8a8a918c92a9843658b67a7502238f2d35b7938175dc7dd79ef25",
+    "workflow.payroll": "607ab9bc0591a1637b783644de0f1ef20deb031624b7a31327499c4268390e84",
+    "workflow.railway-handoff": "66b00dc3a5fcfedea4527e8742e8cce9c056fc1ea6c389b8e54487ba4f62d446",
+    "workflow.replenishment-scheduler": "82023cb39c22bf3032858fc93e4b0ba9bdd519705ddc13b924da0031351b3502",
+    "workflow.service-sla": "ca6a225d2528934e2fe54168189662ff0e93abfe639ca2cd882a50360e4dd690",
+    "workflow.tax": "8258d4b1099d11664c9e0f77718e9b82d3fbca81436a94ee7e1a661c25794065",
+    "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969"
+  },
+  "rules": [
+    {
+      "pattern": "erp.component.replenishment",
+      "status": "partial",
+      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.replenishment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.item",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.replenishment.item.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.level",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.replenishment.level.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.quantity",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.replenishment.quantity.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.warehouse",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.replenishment.warehouse.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.level",
+      "status": "varied",
+      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.replenishment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.replenishment.quantity",
+      "status": "varied",
+      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.replenishment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.manufacturing",
+      "status": "partial",
+      "remaining": "Draft quantity and BOM requirements vary; base scenario submits and produces once. Other BOMs, scrap, routing and cost combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.manufacturing.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.bom",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.bom.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.fg_warehouse",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.fg_warehouse.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.quantity",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.quantity.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.source_warehouse",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.source_warehouse.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.start",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.start.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.wip_warehouse",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.manufacturing.wip_warehouse.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.manufacturing.quantity",
+      "status": "varied",
+      "remaining": "Draft quantity and BOM requirements vary; base scenario submits and produces once. Other BOMs, scrap, routing and cost combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.manufacturing.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.quality",
+      "status": "partial",
+      "remaining": "Both receipt/invoice references, sample sizes and accepted/rejected readings are exercised. Inspector permissions and rejection disposition combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.quality.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.inspector",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.inspector.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.line",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.line.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.reference",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.reference.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.reference_type",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.reference_type.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.report_date",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.report_date.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.sample_size",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.sample_size.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.template",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.quality.template.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.reference_type",
+      "status": "varied",
+      "remaining": "Both receipt/invoice references, sample sizes and accepted/rejected readings are exercised. Inspector permissions and rejection disposition combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.quality.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.quality.sample_size",
+      "status": "varied",
+      "remaining": "Both receipt/invoice references, sample sizes and accepted/rejected readings are exercised. Inspector permissions and rejection disposition combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.quality.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.maintenance",
+      "status": "partial",
+      "remaining": "All eight intervals produce expected due dates and native logs. Calendar exceptions, overdue servicing and reassignment remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.maintenance.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.asset",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.asset.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.assignee",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.assignee.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.description",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.description.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.periodicity",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.periodicity.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.start",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.start.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.team",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.team.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.title",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.maintenance.title.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.maintenance.periodicity",
+      "status": "varied",
+      "remaining": "All eight intervals produce expected due dates and native logs. Calendar exceptions, overdue servicing and reassignment remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.maintenance.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.training",
+      "status": "partial",
+      "remaining": "Programme title and objectives vary. Events, attendance, results and competence decisions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.training.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.training.description",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.training.description.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.training.title",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.training.title.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.training.title",
+      "status": "varied",
+      "remaining": "Programme title and objectives vary. Events, attendance, results and competence decisions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.training.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.training.description",
+      "status": "varied",
+      "remaining": "Programme title and objectives vary. Events, attendance, results and competence decisions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.training.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.budget",
+      "status": "partial",
+      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.budget.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.accounts",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.budget.accounts.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.accounts[].account",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.budget.accounts[].account.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.accounts[].amount",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.budget.accounts[].amount.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.action",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.budget.action.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.fiscal_year",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.budget.fiscal_year.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.action",
+      "status": "varied",
+      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.budget.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.budget.accounts[].amount",
+      "status": "varied",
+      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.budget.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.service",
+      "status": "partial",
+      "remaining": "All three priorities create native Issues. SLA calendars, escalation and customer/service variants remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.service.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.service.description",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.service.description.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.service.priority",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.service.priority.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.service.sla",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.service.sla.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.service.subject",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.service.subject.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.service.priority",
+      "status": "varied",
+      "remaining": "All three priorities create native Issues. SLA calendars, escalation and customer/service variants remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.service.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.component.assignment",
+      "status": "partial",
+      "remaining": "Both strategies across five categories create disabled rules. Enablement, real allocation, reassignment and multi-user fairness remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.assignment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.category",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.assignment.category.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.strategy",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.assignment.strategy.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.users",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.assignment.users.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.users[].user",
+      "status": "partial",
+      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "evidence": [
+        {
+          "report": "contracts",
+          "check": "contract.erp.input.assignment.users[].user.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.category",
+      "status": "varied",
+      "remaining": "Both strategies across five categories create disabled rules. Enablement, real allocation, reassignment and multi-user fairness remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.assignment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.input.assignment.strategy",
+      "status": "varied",
+      "remaining": "Both strategies across five categories create disabled rules. Enablement, real allocation, reassignment and multi-user fairness remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.assignment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.components.*",
+      "status": "partial",
+      "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native components adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.procurement.*",
+      "status": "partial",
+      "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native procurement adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.disposition.*",
+      "status": "partial",
+      "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native lifecycle adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.disposition_execution.*",
+      "status": "partial",
+      "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native lifecycle adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.condition_event",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Controller fault creates ERP Issue*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.case_status",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "ERP recovery delivers a new fault*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.preview_repair",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native repair consumes*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.apply_repair",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native repair consumes*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.repairs_for_issue",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native repair consumes*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.preview_execution",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.integration.apply_execution",
+      "status": "scenario",
+      "remaining": "Representative connected lifecycle; full input permutations and all permission combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps*"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.tasks.manufacturing",
+      "status": "varied",
+      "remaining": "On/off changes are checked in generated plans; native import/removal effects for every switch combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Planning task switch changes generated manufacturing work"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.tasks.maintenance",
+      "status": "varied",
+      "remaining": "On/off changes are checked in generated plans; native import/removal effects for every switch combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Planning task switch changes generated maintenance work"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.tasks.qa",
+      "status": "varied",
+      "remaining": "On/off changes are checked in generated plans; native import/removal effects for every switch combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Planning task switch changes generated qa work"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.tasks.procurement",
+      "status": "varied",
+      "remaining": "On/off changes are checked in generated plans; native import/removal effects for every switch combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Planning task switch changes generated procurement work"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.tasks.programme",
+      "status": "varied",
+      "remaining": "On/off changes are checked in generated plans; native import/removal effects for every switch combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Planning task switch changes generated programme work"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.calendar.start_date",
+      "status": "varied",
+      "remaining": "One combined calendar change reaches actual ERP dates; timezone/DST and other calendars remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Calendar start, weekday mask and holiday change actual ERP dates"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.calendar.working_weekdays",
+      "status": "varied",
+      "remaining": "One combined calendar change reaches actual ERP dates; timezone/DST and other calendars remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Calendar start, weekday mask and holiday change actual ERP dates"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.calendar.holidays",
+      "status": "varied",
+      "remaining": "One combined calendar change reaches actual ERP dates; timezone/DST and other calendars remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Calendar start, weekday mask and holiday change actual ERP dates"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.organisation.departments",
+      "status": "varied",
+      "remaining": "One city-specific programme/master change; retirement, renaming and all existing-record conflicts remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "City-specific programme, department and additional warehouse reach ERP"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.organisation.warehouses",
+      "status": "varied",
+      "remaining": "One city-specific programme/master change; retirement, renaming and all existing-record conflicts remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "City-specific programme, department and additional warehouse reach ERP"
+        }
+      ]
+    },
+    {
+      "pattern": "planning.city_programme",
+      "status": "varied",
+      "remaining": "One city-specific programme/master change; retirement, renaming and all existing-record conflicts remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "City-specific programme, department and additional warehouse reach ERP"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.historian.sampling_seconds",
+      "status": "varied",
+      "remaining": "2-to-4-second live change and competing updates; sustained loads and all sampling/staleness interactions remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Sampling interval changes actual controller arrival times"
+        },
+        {
+          "report": "expansion",
+          "check": "configuration.concurrent-review"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.historian.retention_days",
+      "status": "varied",
+      "remaining": "Clock-controlled production historian sweep only; long-running live retention and disk exhaustion remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Complete city equipment contracts reach the native evaluator and historian"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.comfort_power.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.comfort_power.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.comfort_power.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.fault_count.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.fault_count.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-aux.measurements.fault_count.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-aux.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.soc_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.soc_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.soc_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.charge_limit_a.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.charge_limit_a.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.charge_limit_a.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.charge_limit_a.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.charge_limit_a.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.charge_limit_a.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.trip.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.trip.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.trip.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.trip.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-bms.measurements.trip.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-bms.trip.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.health.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.health.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.health.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.health.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.health.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.health.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.brake_remaining_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.brake_remaining_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.brake_remaining_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.brake_remaining_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.bearing_vibration_mm_s.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.bearing_vibration_mm_s.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-cbm.measurements.bearing_vibration_mm_s.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-cbm.bearing_vibration_mm_s.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.compressor_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.compressor_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.compressor_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.compressor_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.compressor_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.compressor_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.fan_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.fan_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.fan_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.fan_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.fan_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.fan_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.reduced.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.reduced.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.vehicle-hvac.measurements.reduced.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.soc_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.soc_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.soc_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.soc_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.temperature_c.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.temperature_c.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.temperature_c.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.running_hours.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.running_hours.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.running_hours.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.running_hours.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.battery.measurements.running_hours.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:battery.running_hours.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.power_kw.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.power_kw.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.power_kw.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.temperature_c.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.energy_kwh.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.energy_kwh.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.energy_kwh.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:charger.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.lighting_pct.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.lighting_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.lighting_pct.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.lighting_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.lighting_pct.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.lighting_pct.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.pump_running.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.pump_running.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.pump_running.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.pump_running.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.pump_running.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.pump_running.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.fault_count.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.fault_count.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.measurements.fault_count.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:facilities.fault_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.gate_open.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.gate_open.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.gate_open.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.gate_open.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.gate_open.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.gate_open.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.last_decision.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.last_decision.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.last_decision.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.last_decision.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.last_decision.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.last_decision.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.grant_count.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.grant_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.grant_count.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.grant_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.grant_count.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.grant_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.denial_count.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.denial_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.denial_count.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.denial_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.faregate.measurements.denial_count.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:faregate.denial_count.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.power_kw.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.power_kw.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.power_kw.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.power_kw.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.energy_kwh.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.energy_kwh.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.pv.measurements.energy_kwh.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-ST-001:pv.energy_kwh.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detected_position.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detected_position.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detected_position.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detected_position.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detected_position.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detected_position.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detection_unknown.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detection_unknown.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detection_unknown.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detection_unknown.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.detection_unknown.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.detection_unknown.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.motor_active.min",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.motor_active.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.motor_active.max",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.motor_active.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.points.measurements.motor_active.unit",
+      "status": "partial",
+      "remaining": "Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.boundary.SAM-SW-001:points.motor_active.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.scale",
+      "status": "varied",
+      "remaining": "72 declared scale/offset/raw/quality combinations; remaining numeric domain and cross-setting combinations are not exhausted.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.interaction.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.offset",
+      "status": "varied",
+      "remaining": "72 declared scale/offset/raw/quality combinations; remaining numeric domain and cross-setting combinations are not exhausted.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.interaction.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.min",
+      "status": "varied",
+      "remaining": "72 declared scale/offset/raw/quality combinations; remaining numeric domain and cross-setting combinations are not exhausted.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.interaction.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.max",
+      "status": "varied",
+      "remaining": "72 declared scale/offset/raw/quality combinations; remaining numeric domain and cross-setting combinations are not exhausted.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.interaction.*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.measurements.temperature_c.stale_seconds",
+      "status": "varied",
+      "remaining": "One live stale/disconnected threshold change; all sampling and clock interactions remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed stale threshold changes displayed quality"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].high",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed alarm threshold*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].clear_below",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed clear threshold*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].delay_seconds",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed alarm threshold*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].repeat_seconds",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Repeat interval*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].maintenance",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Maintenance-disabled*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].priority",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed alarm priority*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.charger.alarms[].response",
+      "status": "varied",
+      "remaining": "Changed charger rule plus explicit invalid-quality/persistence interactions; other equipment rules and values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed alarm priority*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.commands.set_lighting.min",
+      "status": "varied",
+      "remaining": "Representative changed limit; pending configuration, expiry and permission tests supplement it.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed command minimum*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.commands.set_lighting.max",
+      "status": "varied",
+      "remaining": "Representative changed limit; pending configuration, expiry and permission tests supplement it.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed command maximum*"
+        }
+      ]
+    },
+    {
+      "pattern": "supervision.templates.facilities.commands.set_lighting.max_ttl_seconds",
+      "status": "varied",
+      "remaining": "Representative changed limit; pending configuration, expiry and permission tests supplement it.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Changed command lifetime*"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.disconnected",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Source loss becomes disconnected*"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.cooling_fault",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Controller fault creates ERP Issue*"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.local_remote_disabled",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Controller local-enable*"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.station_fault",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change facilities.fault_count"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.battery_trip",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change vehicle-bms.trip"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.aux_fault",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change vehicle-aux.fault_count"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.cbm_service",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change vehicle-cbm.health"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.points_detection_fault",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change points.detection_unknown"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.faregate_denial",
+      "status": "varied",
+      "remaining": "Native fixture on/off observations; simultaneous fault combinations and physical hardware remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Native fault controls change faregate.last_decision"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.factory_method",
+      "status": "varied",
+      "remaining": "All nine Samawah factory methods with selected progress/hold combinations; physical process data and full Cartesian combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Factory method * routes cycle, availability and quality independently"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.factory_cell_unavailable",
+      "status": "varied",
+      "remaining": "All nine Samawah factory methods with selected progress/hold combinations; physical process data and full Cartesian combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Factory method * routes cycle, availability and quality independently"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.factory_process_excursion",
+      "status": "varied",
+      "remaining": "All nine Samawah factory methods with selected progress/hold combinations; physical process data and full Cartesian combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Factory method * routes cycle, availability and quality independently"
+        }
+      ]
+    },
+    {
+      "pattern": "controller.factory_cycle_progress_pct",
+      "status": "varied",
+      "remaining": "All nine Samawah factory methods with selected progress/hold combinations; physical process data and full Cartesian combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Factory method * routes cycle, availability and quality independently"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./telemetry",
+      "status": "varied",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.*"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./commands",
+      "status": "varied",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "command.*"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./controller/result",
+      "status": "partial",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "command.transition.*"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./packages",
+      "status": "varied",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "configuration.concurrent-review"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./packages/preview",
+      "status": "varied",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "command.pending-blocks-rule-change"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./alarms/acknowledge",
+      "status": "varied",
+      "remaining": "Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "alarm.stale-acknowledgement"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.GET./snapshot",
+      "status": "scenario",
+      "remaining": "Used by the live scenario; exhaustive filter, permission and failure permutations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "telemetry.interaction.*"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.GET./controller/commands",
+      "status": "scenario",
+      "remaining": "Used by the live scenario; exhaustive filter, permission and failure permutations remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "command.expiry-while-source-offline"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.GET./history",
+      "status": "scenario",
+      "remaining": "Sampling history observed; full query, pagination/limit and access combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Sampling interval changes actual controller arrival times"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.GET./affected",
+      "status": "scenario",
+      "remaining": "Removed serial tracing is exercised; batch, missing and all cross-city query combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Replacement preserves removed serial history*"
+        }
+      ]
+    },
+    {
+      "pattern": "gateway.POST./evidence",
+      "status": "scenario",
+      "remaining": "Representative installation, test, release, maintenance and replacement; full role/state/revision permutations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Replacement preserves removed serial history*"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.GET./api/workbench",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.GET./api/workbench/city",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.GET./api/workbench/services",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.GET./api/lifecycle/",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.POST./api/lifecycle/",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.POST./api/ops-core/",
+      "status": "scenario",
+      "remaining": "Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workflow.payments",
+      "status": "varied",
+      "remaining": "Real partial/full/cancelled payments and ledger balancing in a rollback transaction; multiple currencies, bank reconciliation and bank transport remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.payment.*"
+        }
+      ]
+    },
+    {
+      "pattern": "workflow.disposition",
+      "status": "partial",
+      "remaining": "Native rollback suite exercises all seven verifier types; concurrent edits and every exposure/decision combination remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native lifecycle adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "workflow.multi-city-isolation",
+      "status": "scenario",
+      "remaining": "Two-city scenario; more city families, mixed timezones and concurrent multi-city load remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Control city native ERP tasks and transactions remain unchanged"
+        },
+        {
+          "report": "expansion",
+          "check": "scope.control-package-unchanged"
+        }
+      ]
+    },
+    {
+      "pattern": "workflow.railway-handoff",
+      "status": "scenario",
+      "remaining": "City Studio to simulator/OCC/OSR work in simulation; operating permutations and physical acceptance remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser"
+        }
+      ]
+    },
+    {
+      "pattern": "workflow.payroll",
+      "status": "gap",
+      "remaining": "Create approved employee/payroll fixtures, attendance/leave variations, salary calculation, posting and payment.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.tax",
+      "status": "gap",
+      "remaining": "Add jurisdiction-specific approved fixtures, tax calculation, returns and corrections; no statutory filing is performed by these tests.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.capitalization",
+      "status": "gap",
+      "remaining": "Connect received/manufactured serialized equipment to capitalization, depreciation and retirement entries.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.replenishment-scheduler",
+      "status": "gap",
+      "remaining": "Drive stock below/at/above thresholds and observe native scheduled Material Requests with correct city scope.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.budget-enforcement",
+      "status": "gap",
+      "remaining": "Attempt actual commitments and expenses below/at/above submitted Stop/Warn budgets.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.assignment-execution",
+      "status": "gap",
+      "remaining": "Enable disposable city rules, vary users/load/calendar and verify actual task assignments.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.training-competence",
+      "status": "gap",
+      "remaining": "Record events, attendance, assessment, failure/retraining and an independent competence decision.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.service-sla",
+      "status": "gap",
+      "remaining": "Vary working calendars, priorities and elapsed time; observe deadlines and escalation.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.engineering-desktop",
+      "status": "gap",
+      "remaining": "Run real FreeCAD/Bonsai/QGIS edits, regenerate artifacts, then propagate changed quantities and mappings downstream.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.load",
+      "status": "gap",
+      "remaining": "Run simultaneous full-city equipment and multiple browser/operator clients; measure latency, loss and resource ceilings.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.backup-restore",
+      "status": "gap",
+      "remaining": "Restore actual backups into fresh volumes and verify cross-service consistency; stop/start persistence alone is insufficient.",
+      "evidence": []
+    },
+    {
+      "pattern": "workflow.hardware",
+      "status": "gap",
+      "remaining": "Commission real device bindings and calibration, perform HIL/site tests and independently accept results.",
+      "evidence": []
+    },
+    {
+      "pattern": "fuxa.project",
+      "status": "scenario",
+      "remaining": "Reviewed combined city import and browser navigation. All native FUXA settings, deletion/replacement and concurrent editing combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Reviewed FUXA import covers both city packages"
+        }
+      ]
+    },
+    {
+      "pattern": "fuxa.deployment_manifest",
+      "status": "scenario",
+      "remaining": "Reviewed combined city import and browser navigation. All native FUXA settings, deletion/replacement and concurrent editing combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Reviewed FUXA import covers both city packages"
+        }
+      ]
+    },
+    {
+      "pattern": "fuxa.deployment_review",
+      "status": "scenario",
+      "remaining": "Reviewed combined city import and browser navigation. All native FUXA settings, deletion/replacement and concurrent editing combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Reviewed FUXA import covers both city packages"
+        }
+      ]
+    },
+    {
+      "pattern": "fuxa.validate_deployment_review",
+      "status": "scenario",
+      "remaining": "Reviewed combined city import and browser navigation. All native FUXA settings, deletion/replacement and concurrent editing combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Reviewed FUXA import covers both city packages"
+        }
+      ]
+    },
+    {
+      "pattern": "engineering.artifact",
+      "status": "partial",
+      "remaining": "Actual tracked artifacts and linked execution/IFC identities are checked. Desktop regeneration and all file/geometry transformations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "CAD, IFC and GIS artifacts reopen with exact content hashes"
+        },
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps to native Item and production BOM"
+        },
+        {
+          "report": "base",
+          "check": "IFC selection resolves the same physical position and ERP Asset"
+        }
+      ]
+    },
+    {
+      "pattern": "engineering.package",
+      "status": "partial",
+      "remaining": "Actual tracked artifacts and linked execution/IFC identities are checked. Desktop regeneration and all file/geometry transformations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "CAD, IFC and GIS artifacts reopen with exact content hashes"
+        },
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps to native Item and production BOM"
+        },
+        {
+          "report": "base",
+          "check": "IFC selection resolves the same physical position and ERP Asset"
+        }
+      ]
+    },
+    {
+      "pattern": "engineering.execution_proposal",
+      "status": "partial",
+      "remaining": "Actual tracked artifacts and linked execution/IFC identities are checked. Desktop regeneration and all file/geometry transformations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "CAD, IFC and GIS artifacts reopen with exact content hashes"
+        },
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps to native Item and production BOM"
+        },
+        {
+          "report": "base",
+          "check": "IFC selection resolves the same physical position and ERP Asset"
+        }
+      ]
+    },
+    {
+      "pattern": "engineering.ifc_overlay",
+      "status": "partial",
+      "remaining": "Actual tracked artifacts and linked execution/IFC identities are checked. Desktop regeneration and all file/geometry transformations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "CAD, IFC and GIS artifacts reopen with exact content hashes"
+        },
+        {
+          "report": "base",
+          "check": "Exact engineering revision maps to native Item and production BOM"
+        },
+        {
+          "report": "base",
+          "check": "IFC selection resolves the same physical position and ERP Asset"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.--port",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.--city-port",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.--project",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.--db",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.OSR_SUPERVISION_ROOT",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.OSR_SUPERVISION_CONFIG",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.OSR_ERP_SNAPSHOT",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    },
+    {
+      "pattern": "workbench.setting.OSR_INTEGRATION_URL",
+      "status": "scenario",
+      "remaining": "Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Full stop/start preserves the retained City Studio project configuration"
+        }
+      ]
+    }
+  ]
+}

@@ -28,6 +28,11 @@ Start the existing ERP stack first (`./osr erp up`). Then:
 ./osr supervision simulate
 ```
 
+For a separate Workbench, pass `--workbench-url http://127.0.0.1:8190` to
+`prepare`, `preview-fuxa` and `import-fuxa`. Use the same origin for preview and
+import: generated asset links and the origin are bound into the reviewed project
+hash. The default remains `http://127.0.0.1:8090`.
+
 - Workbench lifecycle: <http://127.0.0.1:8090/docs/lifecycle/>
 - FUXA: <http://127.0.0.1:1881/home>
 - ERPNext: <http://127.0.0.1:8080/app/opensourcerail>

@@ -2,7 +2,7 @@
 import os,json,uuid,hashlib
 from datetime import date,timedelta
 import frappe
-os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site='osr.localhost');frappe.connect()
+os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site=os.environ.get('OSR_TEST_SITE','osr.localhost'));frappe.connect()
 frappe.flags.mute_emails=True
 from osr_erpnext.integration import (condition_event,execution_feedback,preview_execution,apply_execution,
     preview_repair,apply_repair,repairs_for_issue)
@@ -122,7 +122,7 @@ try:
     try: disposition.record(project.name,stale_request,stale_preview['fingerprint']);raise AssertionError('Stale proposal accepted')
     except frappe.ValidationError:pass
     reviewer=insert('User',email='osr-reviewer-'+suffix+'@example.invalid',first_name='Independent reviewer',
-        send_welcome_email=0,roles=[dict(role=r) for r in ['Projects Manager','Manufacturing Manager','Manufacturing User','Purchase Manager','Stock Manager']])
+        send_welcome_email=0,roles=[dict(role=r) for r in ['Projects Manager','Manufacturing Manager','Manufacturing User','Purchase Manager','Stock Manager','Stock User','Quality Manager']])
     frappe.set_user(reviewer.name)
     try: disposition.preview_decision(made_plan['name'],decision);raise AssertionError('Stale plan endorsed')
     except frappe.ValidationError:pass
@@ -166,6 +166,154 @@ try:
     except frappe.ValidationError:pass
     frappe.set_user('Administrator')
     print('PASS disposition assignment, immutability, retry, stale checks, independent review and no automatic execution',flush=True)
+    from osr_erpnext import disposition_execution as outcome
+    from erpnext.manufacturing.doctype.work_order.work_order import stop_unstop
+    verify_request=dict(key='stop-check-'+suffix,rationale='Checked the native stop and unchanged revision exposure.',
+        references=['simulation:native-stop-'+suffix])
+    frappe.set_user(reviewer.name)
+    try: outcome.preview(fresh_record['name'],verify_request);raise AssertionError('Unperformed stop verified')
+    except frappe.ValidationError:pass
+    frappe.set_user('Administrator');stop_unstop(pending.name,'Stopped');pending.reload()
+    try: outcome.preview(fresh_record['name'],verify_request);raise AssertionError('Updater verified own outcome')
+    except frappe.ValidationError:pass
+    frappe.set_user(reviewer.name)
+    checked=outcome.preview(fresh_record['name'],verify_request)
+    assert checked['observation']['native']['status']=='Stopped'
+    recorded=outcome.record(fresh_record['name'],verify_request,checked['fingerprint'])
+    assert recorded['created'] and not recorded['automatic_execution']
+    assert not outcome.record(fresh_record['name'],verify_request,checked['fingerprint'])['created']
+    try: outcome.record(fresh_record['name'],{**verify_request,'rationale':'different'},checked['fingerprint']);raise AssertionError('Changed verification retry accepted')
+    except frappe.ValidationError:pass
+    frappe.set_user('Administrator')
+    verified_row=next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==fresh_record['name'])
+    assert verified_row['execution_verified'] and verified_row['verification']['status']=='Native outcome verified'
+    immutable_check=frappe.get_doc(outcome.DOCTYPE,recorded['name']);immutable_check.reviewed_verification='{}'
+    try: immutable_check.save();raise AssertionError('Verification evidence was mutable')
+    except frappe.ValidationError:pass
+    stop_unstop(pending.name,'In Process')
+    stale_row=next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==fresh_record['name'])
+    assert not stale_row['execution_verified'] and stale_row['verification']['status']=='Verification stale'
+    assert stale_row['verification']['history'][0]['name']==recorded['name']
+    # A separate purchase is cancelled through the native API after endorsement.
+    cancel_order=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=(date.today()+timedelta(days=5)).isoformat(),
+        items=[dict(item_code=raw.name,qty=1,rate=10,warehouse=store,project=project.name)])
+    cancel_order.submit()
+    cancel_request={**request,'key':'cancel-'+suffix,'action':'Request cancellation',
+        'target':dict(kind='purchase-line',document=cancel_order.name,line=cancel_order.items[0].name)}
+    cancel_plan=disposition.preview(project.name,cancel_request)
+    cancel_proposal=disposition.record(project.name,cancel_request,cancel_plan['fingerprint'])
+    frappe.set_user(reviewer.name)
+    cancel_decision=disposition.preview_decision(cancel_proposal['name'],decision)
+    disposition.record_decision(cancel_proposal['name'],decision,cancel_decision['fingerprint'])
+    frappe.set_user('Administrator');cancel_order.cancel()
+    frappe.set_user(reviewer.name)
+    cancellation_check=outcome.preview(cancel_proposal['name'],verify_request)
+    assert cancellation_check['observation']['native']['docstatus']==2
+    outcome.record(cancel_proposal['name'],verify_request,cancellation_check['fingerprint'])
+    assert next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==cancel_proposal['name'])['execution_verified']
+    frappe.set_user(reader.name)
+    try: outcome.preview(cancel_proposal['name'],verify_request);raise AssertionError('Hidden native outcome verified')
+    except (frappe.ValidationError,frappe.PermissionError):pass
+    frappe.set_user('Administrator')
+    print('PASS native stop/cancellation verification, independent checker, immutable retries and stale feedback after resume',flush=True)
+    # Complete every remaining catalogue action using native records; no fabricated completion flags.
+    def endorsed_action(action, target, key, mapping=None):
+        frappe.set_user('Administrator')
+        proposal={**request,'key':key+'-'+suffix,'action':action,'target':target,'mapping':mapping or request['mapping']}
+        plan=disposition.preview(project.name,proposal)
+        source=disposition.record(project.name,proposal,plan['fingerprint'])['name']
+        frappe.set_user(reviewer.name)
+        review=disposition.preview_decision(source,decision)
+        disposition.record_decision(source,decision,review['fingerprint'])
+        frappe.set_user('Administrator')
+        return source
+    def verify_action(source, records, expected):
+        frappe.set_user(reviewer.name)
+        evidence_request={**verify_request,'key':'evidence-'+suffix,'records':records}
+        plan=outcome.preview(source,evidence_request)
+        assert plan['observation']['status']==expected,plan['observation']
+        made=outcome.record(source,evidence_request,plan['fingerprint'])
+        assert made['created'] and not outcome.record(source,evidence_request,plan['fingerprint'])['created']
+        row=next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==source)
+        assert row['execution_verified'] and row['verification']['status']==expected,row
+        frappe.set_user('Administrator')
+        return made
+    retained=endorsed_action('Retain for review',dict(kind='work-order',document=pending.name),'retain')
+    verify_action(retained,{},'Retention review recorded')
+    original=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=(date.today()+timedelta(days=5)).isoformat(),
+        items=[dict(item_code=raw.name,qty=1,rate=10,warehouse=store,project=project.name)])
+    original.submit()
+    amended_plan=endorsed_action('Request amendment',dict(kind='purchase-line',document=original.name,line=original.items[0].name),'amend')
+    original.cancel()
+    amended=frappe.copy_doc(original);amended.docstatus=0;amended.amended_from=original.name
+    amended.items[0].qty=3;amended.items[0].rate=11;amended.insert();amended.submit()
+    verify_action(amended_plan,{'purchase_order':amended.name},'Native amendment verified')
+    # A change between preview and recording must never be signed using an old fingerprint.
+    frappe.set_user(reviewer.name)
+    changed_request={**verify_request,'key':'stale-evidence-'+suffix,'records':{'purchase_order':amended.name}}
+    prior_check=outcome.preview(amended_plan,changed_request)
+    frappe.set_user('Administrator');amended.db_set('modified',frappe.utils.now_datetime())
+    frappe.set_user(reviewer.name)
+    try: outcome.record(amended_plan,changed_request,prior_check['fingerprint']);raise AssertionError('Stale native evidence signed')
+    except frappe.ValidationError:pass
+    frappe.set_user('Administrator')
+    parameter=insert('Quality Inspection Parameter',parameter='Disposition check '+suffix)
+    def inspect_record(reference_type,reference,item,line,value):
+        qa=insert('Quality Inspection',company=company,inspection_type='In Process',reference_type=reference_type,
+            reference_name=reference,item_code=item,child_row_reference=line,sample_size=1,inspected_by='Administrator',
+            readings=[dict(specification=parameter.name,numeric=0,value='Pass',reading_value=value)])
+        qa.submit();return qa
+    inspection_plan=endorsed_action('Request inspection',dict(kind='stock-entry',document=stock.name),'inspect')
+    stock.reload()
+    inspections=[inspect_record('Stock Entry',stock.name,r.item_code,r.name,'Fail' if i==0 else 'Pass') for i,r in enumerate(stock.items)]
+    assert any(q.status=='Rejected' for q in inspections)
+    verify_action(inspection_plan,{'quality_inspections':[q.name for q in inspections]},'Inspection recorded: rejected')
+    # Cancellation preserves the verification history but removes current validity.
+    inspections[0].cancel()
+    row=next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==inspection_plan)
+    assert not row['execution_verified'] and row['verification']['status']=='Verification stale'
+    trace_plan=endorsed_action('Request material trace',dict(kind='stock-entry',document=partial.name),'trace')
+    verify_action(trace_plan,{},'Native movement trace verified')
+    operation=insert('Operation',name='Disposition operation '+suffix)
+    correction=insert('Operation',name='Disposition correction '+suffix)
+    workstation=insert('Workstation',workstation_name='Disposition cell '+suffix)
+    # A completed source operation followed by ERPNext's native corrective-card mapping.
+    from datetime import datetime
+    started=datetime.now()-timedelta(hours=2);ended=started+timedelta(minutes=10)
+    original_card=insert('Job Card',company=company,project=project.name,work_order=pending.name,bom_no=bom.name,
+        production_item=fg.name,operation=operation.name,workstation=workstation.name,wip_warehouse=store,for_quantity=1,
+        time_logs=[dict(from_time=str(started),to_time=str(ended),completed_qty=1)])
+    original_card.submit()
+    rework_plan=endorsed_action('Request rework',dict(kind='work-order',document=pending.name),'rework')
+    from erpnext.manufacturing.doctype.job_card.job_card import make_corrective_job_card
+    corrective=make_corrective_job_card(original_card.name,operation=correction.name,for_operation=operation.name)
+    corrective.append('time_logs',dict(from_time=str(ended+timedelta(minutes=10)),to_time=str(ended+timedelta(minutes=20)),completed_qty=1))
+    corrective.insert();corrective.submit()
+    qa=inspect_record('Job Card',corrective.name,fg.name,corrective.name,'Pass')
+    verify_action(rework_plan,{'job_card':corrective.name,'quality_inspections':[qa.name]},'Corrective work and inspection verified')
+    frappe.set_user(reader.name)
+    row=next(r for r in execution_feedback(project.name)['dispositions'] if r['name']==rework_plan)
+    assert not row['execution_verified'] and row['verification']['status']=='Verification unavailable'
+    frappe.set_user('Administrator')
+    print('PASS native retention, amendment, rejected inspection, material trace, corrective Job Card/inspection and stale/hidden evidence',flush=True)
+    tracked=insert('Item',item_code='OSR-LIFE-BATCH-'+suffix,item_name='Traceable assembly',item_group=group,
+        stock_uom='Nos',is_stock_item=1,has_batch_no=1,create_new_batch=1,batch_number_series='OSR-LIFE-.#####')
+    tracked_bom=insert('BOM',item=tracked.name,company=company,quantity=1,currency='USD',items=[dict(item_code=raw.name,qty=1,rate=10)])
+    tracked_bom.submit()
+    tracked_package=json.loads(json.dumps(package));tracked_package['engineering_revision']='batch-'+suffix
+    tracked_package['mapping']['items'][0].update(erp_item_code=tracked.name,production_bom=tracked_bom.name)
+    tracked_package.pop('sha256');tracked_package['sha256']=digest(tracked_package)
+    tracked_plan=preview_execution(project.name,tracked_package)
+    tracked_mapping=apply_execution(project.name,tracked_package,tracked_plan['fingerprint'])['mappings'][0]
+    tracked_inputs={**inputs,'bom':tracked_bom.name}
+    tracked_preview=preview(project.name,'manufacturing','batch-'+suffix,tracked_inputs)
+    tracked_work=frappe.get_doc('Work Order',apply(project.name,'manufacturing','batch-'+suffix,tracked_inputs,tracked_preview['fingerprint'])['name'])
+    tracked_work.skip_transfer=1;tracked_work.save();tracked_work.submit()
+    tracked_stock=frappe.get_doc(make_stock_entry(tracked_work.name,'Manufacture',1));tracked_stock.insert();tracked_stock.submit();tracked_stock.reload()
+    assert any(r.serial_and_batch_bundle for r in tracked_stock.items)
+    tracked_trace=endorsed_action('Request material trace',dict(kind='stock-entry',document=tracked_stock.name),'batch-trace',tracked_mapping)
+    verify_action(tracked_trace,{},'Native movement trace verified')
+    print('PASS native batch manufacture, serial/batch bundle and ledger trace reconciliation',flush=True)
     fixed=frappe.db.get_value('Account',{'company':company,'is_group':0,'account_type':'Fixed Asset'},'name')
     category=insert('Asset Category',asset_category_name='OSR lifecycle assets '+suffix,
         accounts=[dict(company_name=company,fixed_asset_account=fixed)])
@@ -182,8 +330,17 @@ try:
     frappe.set_user('osr-supervision@example.invalid')
     event=dict(event_id='event-'+suffix,incident_id='incident-'+suffix,city='samawah',environment='simulation',
         company=company,project=project.name,asset_id=rail_id,erp_asset_id=asset.name,
-        rule='cooling',condition='active',occurrence=1,response='Inspect cooling fan and replace the failed module')
+        rule='cooling',condition='active',occurrence=1,priority='high',response='Inspect cooling fan and replace the failed module')
     created=condition_event(event);assert condition_event(event)['issue']==created['issue'];assert condition_event(event)['duplicate']
+    assert frappe.db.get_value('Issue',created['issue'],'priority')=='High'
+    # Native triage remains the operator's decision after the initial routed priority.
+    triage=frappe.get_doc('Issue',created['issue']);triage.priority='Low';triage.save()
+    condition_event({**event,'event_id':'repeat-'+suffix,'occurrence':2})
+    assert frappe.db.get_value('Issue',created['issue'],'priority')=='Low'
+    try:
+        condition_event({**event,'priority':'unsupported'})
+        raise AssertionError('Unknown triage priority accepted')
+    except frappe.ValidationError:pass
     for change in [dict(environment='physical'),dict(city='mosul'),dict(project='PROJ-0002')]:
         try: condition_event({**event,**change});raise AssertionError('Cross-scope event accepted')
         except frappe.PermissionError:pass

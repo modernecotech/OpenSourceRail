@@ -41,7 +41,7 @@ export function renderExecutionReviews({target, snapshot, asset, impact, erp, es
     const dispositions=(snapshot.execution.dispositions || []).filter(row=>row.mapping===review.mapping.name &&
       row.city===asset.city && row.project===asset.erp_project && row.company===snapshot.company);
     body.innerHTML += '<h4>Recorded disposition plans</h4>' + (dispositions.map(row=>
-      `<div class="record">${link('osr-revision-disposition',row.name)} · ${esc(row.proposal.action)} · ${esc(row.proposal.target.document)}<br>${esc(row.responsible)} · due ${esc(row.due_date)}<br>${esc(row.decision?.outcome || 'Awaiting independent review')} · ${row.current?'Exposure current':'Exposure changed or unavailable'} · execution unverified</div>`).join('') || '<p>No disposition plans visible.</p>') +
+      `<div class="record">${link('osr-revision-disposition',row.name)} · ${esc(row.proposal.action)} · ${esc(row.proposal.target.document)}<br>${esc(row.responsible)} · due ${esc(row.due_date)}<br>${esc(row.decision?.outcome || 'Awaiting independent review')} · ${row.current?'Exposure current':'Exposure changed or unavailable'} · ${esc(row.verification?.status || 'execution unverified')}${row.verification?`<br>${link('osr-disposition-execution',row.verification.name)} · ${esc(row.verification.verifier)} · ${esc(row.verification.observed_at)} · railway release separate`:''}</div>`).join('') || '<p>No disposition plans visible.</p>') +
       `<p>${link('project',asset.erp_project)} → OpenSourceRail → Revision dispositions to propose or review a plan using your native ERP account.</p>`;
     details.append(summary, body); target.append(details);
   }

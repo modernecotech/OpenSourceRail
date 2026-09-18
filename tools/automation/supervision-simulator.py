@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """City-scoped telemetry from native Rust station, vehicle and wayside evaluators."""
+import argparse
 import json
 from pathlib import Path
 import select
@@ -46,15 +47,20 @@ class EmbeddedBridge:
 
 
 def main():
-    config = json.loads((ROOT / 'var/supervision/integration.json').read_text())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config', type=Path, default=ROOT / 'var/supervision/integration.json')
+    parser.add_argument('--controls', type=Path, default=ROOT / 'var/supervision/simulator-control.json')
+    parser.add_argument('--url', default='http://127.0.0.1:8092')
+    args = parser.parse_args()
+    config = json.loads(args.config.read_text())
     p = next(p for p in config['principals'] if p['role'] == 'controller' and p['subject'] == 'simulator')
     headers = {'Authorization': 'Bearer ' + p['token']}
-    url = 'http://127.0.0.1:8092'
-    lighting, bridge = {}, EmbeddedBridge()
+    url = args.url.rstrip('/')
+    lighting, bridge, next_sample = {}, EmbeddedBridge(), {}
     try:
         while True:
             try:
-                controls = ROOT / 'var/supervision/simulator-control.json'
+                controls = args.controls
                 control = json.loads(controls.read_text()) if controls.exists() else {}
                 if control.get('disconnected'):
                     time.sleep(2); continue
@@ -68,6 +74,10 @@ def main():
                     snapshot['assets'] = [a for a in snapshot['assets']
                                           if a.get('configuration_status', 'active') == 'active']
                     snapshots[city] = snapshot
+                    interval = (snapshot.get('historian') or {}).get('sampling_seconds', 2)
+                    due = time.monotonic() >= next_sample.get(city, 0)
+                    if not due: continue
+                    next_sample[city] = time.monotonic() + interval
                     values_by_site = {}
                     factory_assets = [a for a in snapshot['assets'] if a.get('manufacturing_method')]
                     factory_state = factory_control_state(local,
@@ -109,7 +119,7 @@ def main():
                 print('Embedded simulation process restarted; controller state reset', flush=True)
             except Exception as exc:
                 print('Simulation gateway waiting:', type(exc).__name__, flush=True)
-            time.sleep(2)
+            time.sleep(0.5)
     finally:
         bridge.close()
 

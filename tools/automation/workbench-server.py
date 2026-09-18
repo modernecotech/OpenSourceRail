@@ -21,6 +21,14 @@ from urllib.parse import unquote, urlsplit
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+SUPERVISION_ROOT = Path(os.environ.get('OSR_SUPERVISION_ROOT', REPO_ROOT / 'build/supervision'))
+SUPERVISION_CONFIG = Path(os.environ.get('OSR_SUPERVISION_CONFIG', REPO_ROOT / 'var/supervision/integration.json'))
+ERP_SNAPSHOT = Path(os.environ.get('OSR_ERP_SNAPSHOT', REPO_ROOT / 'var/erpnext/operating-twins.json'))
+INTEGRATION_URL = os.environ.get('OSR_INTEGRATION_URL', 'http://127.0.0.1:8092').rstrip('/')
+# Deployment settings are operator-controlled, never supplied by an HTTP caller.
+_origin = urlsplit(INTEGRATION_URL)
+if _origin.scheme not in {'http', 'https'} or not _origin.hostname or _origin.username or _origin.password or _origin.path or _origin.query or _origin.fragment:
+    raise ValueError('OSR_INTEGRATION_URL must be an origin without credentials')
 
 
 def load_ops_core():
@@ -158,7 +166,8 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                 return
             try:
                 payload = city_summary(REPO_ROOT, city, record["design_path"], self.bootstrap["city"],
-                                       query.get("environment", ["simulation"])[0])
+                                       query.get("environment", ["simulation"])[0], feedback_path=ERP_SNAPSHOT,
+                                       supervision_root=SUPERVISION_ROOT, profiles_root=os.environ.get("OSR_SUPERVISION_PROFILES"))
                 self._send_json(200, payload)
             except ValueError:
                 self._send_json(400, {"error": "Invalid city scope"})
@@ -189,7 +198,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                     raise ValueError("Invalid city")
                 if endpoint == "artifact":
                     import hashlib
-                    manifest = json.loads((REPO_ROOT / "build/supervision" / city / "engineering.json").read_text())
+                    manifest = json.loads((SUPERVISION_ROOT / city / "engineering.json").read_text())
                     record = next(r for r in manifest["artifacts"] if r["sha256"] == query.get("sha256"))
                     target = (REPO_ROOT / record["path"]).resolve()
                     source_root = (REPO_ROOT / "crates").resolve()
@@ -207,27 +216,27 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                     self.wfile.write(data)
                     return
                 if endpoint == "engineering":
-                    source = REPO_ROOT / "build/supervision" / city / "engineering.json"
+                    source = SUPERVISION_ROOT / city / "engineering.json"
                     self._send_json(200, json.loads(source.read_text()))
                     return
                 if endpoint not in {"snapshot", "history", "affected", "change-impact"}:
                     self._send_json(404, {"error": "Unknown lifecycle endpoint"})
                     return
-                config = json.loads((REPO_ROOT / "var/supervision/integration.json").read_text())
+                config = json.loads(SUPERVISION_CONFIG.read_text())
                 viewer = next(p for p in config["principals"] if p["role"] == "viewer")
                 if endpoint == "change-impact":
                     environment = query.get("environment", "simulation")
                     if environment not in {"simulation", "physical"}:
                         raise ValueError("Invalid environment")
-                    package = json.loads((REPO_ROOT / "build/supervision" / city / environment / "package.json").read_text())
+                    package = json.loads((SUPERVISION_ROOT / city / environment / "package.json").read_text())
                     if package.get("city") != city or package.get("environment") != environment:
                         raise ValueError("Prepared package scope mismatch")
-                    request = Request("http://127.0.0.1:8092/packages/preview",
+                    request = Request(INTEGRATION_URL + "/packages/preview",
                                       data=json.dumps({"package": package}).encode(), method="POST",
                                       headers={"Authorization": "Bearer " + viewer["token"],
                                                "Content-Type": "application/json"})
                 else:
-                    request = Request("http://127.0.0.1:8092/" + endpoint + "?" + urlencode(query),
+                    request = Request(INTEGRATION_URL + "/" + endpoint + "?" + urlencode(query),
                                       headers={"Authorization": "Bearer " + viewer["token"]})
                 with urlopen(request, timeout=5) as response:
                     payload = json.load(response)
@@ -253,7 +262,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         if path == "/api/operating/twins":
             # Workbench is loopback-only. Private ERP feedback is never served by the
             # standalone/shared Ops Core handler or through the static file roots.
-            source = REPO_ROOT / "var/erpnext/operating-twins.json"
+            source = ERP_SNAPSHOT
             try:
                 payload = json.loads(source.read_text()) if source.exists() else {"snapshots": []}
                 self._send_json(200, payload)
@@ -320,7 +329,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
             if not 0 < length <= 16384:
                 raise ValueError("Request too large or empty")
             payload = json.loads(self.rfile.read(length))
-            request = Request("http://127.0.0.1:8092/" + endpoint,
+            request = Request(INTEGRATION_URL + "/" + endpoint,
                 data=json.dumps(payload).encode(), headers={"Authorization": authorization,
                 "Content-Type": "application/json"}, method="POST")
             with urlopen(request, timeout=5) as response:

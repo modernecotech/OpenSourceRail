@@ -1,0 +1,75 @@
+name: example-city
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: example-city-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  samawah-lifecycle:
+    name: Samawah complete lifecycle and configuration sensitivity
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKER_BUILDKIT: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned browser and frontend tools
+        run: |
+          npm ci
+          PLAYWRIGHT_BROWSERS_PATH="$HOME/.local/share/opensource-rail/toolchains/playwright" npx playwright install --with-deps chromium
+          curl -fsSLo /tmp/trunk.tar.gz https://github.com/trunk-rs/trunk/releases/download/v0.21.8/trunk-x86_64-unknown-linux-gnu.tar.gz
+          echo "cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec  /tmp/trunk.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/trunk.tar.gz -C /tmp trunk
+          sudo install -m 0755 /tmp/trunk /usr/local/bin/trunk
+          trunk --version
+
+      - name: Build Workbench applications and native controller bridge
+        run: |
+          npm run frontend:build
+          cargo build -p osr-sim --example operating_bridge
+
+      - name: Set up the isolated example city and run its complete lifecycle
+        run: |
+          ./osr example-city setup
+          ./osr example-city run
+          ./osr example-city restart-check
+
+      - name: Upload public acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: samawah-city-acceptance
+          path: |
+            build/city-example/report.json
+            build/city-example/report.html
+            build/city-example/ui-report.json
+            build/city-example/setup.json
+            build/city-example/native-records.json
+            build/city-example/full-network/report.json
+            build/city-example/*.png
+            build/city-example/erp-*.log
+            build/city-example/native-*.log
+            build/city-example/ui.log
+          if-no-files-found: warn
+
+      - name: Remove only the isolated example resources
+        if: always()
+        run: ./osr example-city reset

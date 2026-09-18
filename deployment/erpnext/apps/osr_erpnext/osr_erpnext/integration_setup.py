@@ -71,6 +71,14 @@ def install_dispositions():
             ('request_sha256', 'Decision checksum', 'Data', None),
             ('reviewed_decision', 'Reviewed decision', 'Code', 'JSON'),
         ]),
+        'OSR Disposition Execution': ('field:verification_key', common + [
+            ('verification_key', 'Verification identity', 'Data', None),
+            ('disposition', 'Disposition proposal', 'Link', 'OSR Revision Disposition'),
+            ('verifier', 'Independent verifier', 'Link', 'User'),
+            ('request_sha256', 'Verification request checksum', 'Data', None),
+            ('observation_sha256', 'Native observation checksum', 'Data', None),
+            ('reviewed_verification', 'Reviewed native outcome', 'Code', 'JSON'),
+        ]),
     }
     for name, (autoname, fields) in definitions.items():
         if frappe.db.exists('DocType', name):

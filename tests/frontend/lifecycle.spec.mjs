@@ -109,4 +109,15 @@ test('Revision exposure shows scoped business records and downloads the observed
  expect(payload.reviews).toHaveLength(1);
  expect(payload.reviews[0].sha256).toBe(review.sha256);
  expect(payload.reviews[0].automatic_disposition).toBe(false);
+ disposition.verification={name:'VERIFICATION-1',status:'Native outcome verified',current:true,verifier:'checker@example.invalid',observed_at:'2026-09-18T10:00:00Z'};
+ await page.locator('#refresh').click();
+ await expect(view).toContainText('Exposure changed or unavailable · Native outcome verified');
+ await expect(view).toContainText('checker@example.invalid');
+ await expect(view).toContainText('railway release separate');
+ await expect(view.getByRole('link',{name:'VERIFICATION-1',exact:true})).toHaveAttribute('href','http://127.0.0.1:8080/app/osr-disposition-execution/VERIFICATION-1');
+ disposition.verification.status='Verification stale';disposition.verification.current=false;
+ await page.locator('#refresh').click();
+ await expect(view).toContainText('Verification stale');
+ await expect(view).not.toContainText('Native outcome verified');
+ await expect(view.getByRole('link',{name:'VERIFICATION-1',exact:true})).toBeVisible();
 });
