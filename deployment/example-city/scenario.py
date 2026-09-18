@@ -129,7 +129,7 @@ def run(h):
         desired=project(list(accepted.values()),workbench_url='http://127.0.0.1:8190');review=deployment_review(fuxa('/api/project'),list(accepted.values()),workbench_url='http://127.0.0.1:8190')
         validate_deployment_review(fuxa('/api/project'),list(accepted.values()),review,workbench_url='http://127.0.0.1:8190')
         fuxa('/api/project',desired);h.write(h.OUTPUT/'fuxa-review.json',review)
-        check('Reviewed FUXA import covers both city packages',len(desired['devices'])==sum(len(p['equipment']) for p in accepted.values()),after={'devices':len(desired['devices'])})
+        check('Reviewed FUXA import covers both city packages',len(desired['devices'])==sum(len({a['site_id'] for a in p['equipment']}) if p.get('fuxa_polling_scope','asset')=='site' else len(p['equipment']) for p in accepted.values()),after={'devices':len(desired['devices'])})
         controls({})
         for name,args,env in h.host_commands(fresh=True):launch(name,args,env)
         h.wait_http(workbench+'/api/workbench/services')
