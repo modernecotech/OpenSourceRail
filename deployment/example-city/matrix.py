@@ -107,8 +107,11 @@ def supervision(h,check,reject,api,apply,accepted,asset,snapshot,pulse,controls,
     reject('Changed command maximum is enforced','/commands',command(85,ttl=4),role='operator')
     reject('Changed command lifetime is enforced','/commands',command(50,ttl=10),role='operator')
     reject('Viewer cannot issue a controller command','/commands',command(50,ttl=4),role='viewer')
+    # TTL bounds were tested above; restore the normal delivery window while
+    # independently checking the controller's local-enable input.
+    apply(copy.deepcopy(baseline))
     controls({'cities':{'samawah':{'local_remote_disabled':True}}})
-    msg=command(50,ttl=4);api('/commands',msg,role='operator')
+    msg=command(50);api('/commands',msg,role='operator')
     wait(lambda:any(r['id']==msg['request_id'] and r['state']=='rejected' for r in asset('facilities')['commands_audit']))
     check('Controller local-enable setting rejects an otherwise valid command',True)
     controls({});apply(copy.deepcopy(baseline))

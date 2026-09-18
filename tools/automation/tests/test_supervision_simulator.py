@@ -74,3 +74,37 @@ def test_sampling_setting_changes_telemetry_without_delaying_commands(monkeypatc
     with pytest.raises(KeyboardInterrupt):SIM.main()
     assert samples==[0,4,8]
     assert len(polls)==17
+
+
+@pytest.mark.parametrize('gate', ['local_remote_disabled', 'disconnected'])
+def test_command_reads_local_gate_after_telemetry_and_poll(monkeypatch, tmp_path, gate):
+    config, controls = tmp_path/'integration.json', tmp_path/'controls.json'
+    config.write_text(json.dumps({'principals': [
+        {'role': 'controller', 'subject': 'simulator', 'token': 'test', 'cities': ['test']}]}))
+    controls.write_text('{}')
+    monkeypatch.setattr(sys, 'argv', ['sim', '--config', str(config), '--controls', str(controls)])
+    evaluations, results = [], []
+    class Bridge:
+        def evaluate(self, key, level, local):
+            evaluations.append(level)
+            return {('facilities', 'lighting_pct'): level}
+        def close(self): pass
+    monkeypatch.setattr(SIM, 'EmbeddedBridge', Bridge)
+    def request(url, data=None, headers=None):
+        if '/snapshot?' in url:
+            return {'assets': [{'asset_id': 'T:facilities', 'site_id': 'T',
+                'equipment_type': 'facilities', 'measurements': {'lighting_pct': {'unit': '%'}}}]}
+        if url.endswith('/telemetry'): return {}
+        if url.endswith('/controller/commands'):
+            # The local input changes after this cycle's telemetry was computed.
+            controls.write_text(json.dumps({'cities': {'test': {gate: True}}}))
+            return [{'city': 'test', 'asset_id': 'T:facilities', 'command': 'set_lighting',
+                     'parameters': {'level': 50}, 'request_id': 'gate-race'}]
+        if url.endswith('/controller/result'): results.append(data); return {}
+        raise AssertionError(url)
+    monkeypatch.setattr(SIM, 'request_json', request)
+    def stop(_): raise KeyboardInterrupt
+    monkeypatch.setattr(SIM.time, 'sleep', stop)
+    with pytest.raises(KeyboardInterrupt): SIM.main()
+    assert [r['state'] for r in results] == ['rejected']
+    assert evaluations == [80]  # Telemetry only; no command applied to the evaluator.

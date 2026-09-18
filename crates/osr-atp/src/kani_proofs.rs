@@ -8,12 +8,13 @@
 //! A5 (head-past-MA-end trips), A6 (overspeed trips), A7 (conservatism
 //! under widened speed uncertainty). Every proptest in
 //! [`tests/proptest_atp.rs`](../../tests/proptest_atp.rs) now has a
-//! Kani counterpart; scaling the bounds is the only remaining work.
+//! Kani counterpart. Written harnesses still require successful execution,
+//! dependency-scope review and independent acceptance; timeouts prove nothing.
 //!
-//! The same property is covered by an unbounded proptest in
-//! [`tests/proptest_atp.rs`](../../tests/proptest_atp.rs); the Kani
-//! harness upgrades that coverage to a formal guarantee within
-//! the bounds written into each proof.
+//! The same properties have finite generated test cases in
+//! [`tests/proptest_atp.rs`](../../tests/proptest_atp.rs). A successful Kani
+//! execution establishes its asserted property only within the fixture,
+//! assumptions and unwind bounds written into that harness.
 //!
 //! # Running
 //!

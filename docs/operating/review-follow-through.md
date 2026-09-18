@@ -17,6 +17,11 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
 
 ## Defects found by the expanded execution
 
+- Complete-city CI exposed a simulator command race: a local disable arriving
+  during telemetry/polling could be missed by command execution. The simulator
+  now rereads local enable/disconnect inputs immediately before each command;
+  deterministic regression cases reproduce the old acceptance and verify rejection.
+  The city test checks this independently of its shortened command-expiry probe.
 - ERPNext's native reorder scheduler omitted the city Project from generated
   Material Request lines. The OSR hook now derives it from the exact Item/warehouse
   rule, preserves explicit values, and rejects ambiguous or stale scope. The

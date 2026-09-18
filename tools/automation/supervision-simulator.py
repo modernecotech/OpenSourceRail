@@ -100,11 +100,14 @@ def main():
                                 unit=m['unit'], quality='valid' if value is not None else 'invalid', value=value)
                             request_json(url + '/telemetry', message, headers)
                 for command in request_json(url + '/controller/commands', headers=headers):
-                    city = command['city']; local = {**control, **control.get('cities', {}).get(city, {})}
+                    # Local enable/disconnect can change while telemetry is sent or
+                    # commands are fetched. Recheck it at the point of execution.
+                    current = json.loads(controls.read_text()) if controls.exists() else {}
+                    city = command['city']; local = {**current, **current.get('cities', {}).get(city, {})}
                     assets = snapshots.get(city, {}).get('assets', [])
                     asset = next((a for a in assets if a['asset_id'] == command['asset_id']), None)
                     level = command.get('parameters', {}).get('level')
-                    valid = asset and asset['equipment_type'] == 'facilities' and command['command'] == 'set_lighting' and type(level) in (int, float) and 20 <= level <= 100 and not local.get('local_remote_disabled')
+                    valid = asset and asset['equipment_type'] == 'facilities' and command['command'] == 'set_lighting' and type(level) in (int, float) and 20 <= level <= 100 and not local.get('local_remote_disabled') and not local.get('disconnected')
                     effective = None
                     if valid:
                         key = city + '|' + asset['site_id']

@@ -48,7 +48,7 @@ the [roadmap](ROADMAP.md) and controlled release registers.
      --output build/releases/v0.4.0/publish
    ```
 
-   The builder checks all three workflows, rebuilds the reader PDF with links
+   The builder checks all four workflows, rebuilds the reader PDF with links
    pinned to the tag, embeds the overview images, exports the readiness report
    and release notes, and writes the evidence manifest and `SHA256SUMS`.
 7. Publish the tag and versioned assets. Verify the uploaded assets against the

@@ -182,6 +182,8 @@ def run(h):
         print('PASS complete city scenario; example remains available at '+workbench,flush=True)
         processes=[] # Explicitly retain the reviewable example services.
     except BaseException as error:
+        try:h.write(h.OUTPUT/'failure-snapshot.json',{city:snapshot(city) for city in ['samawah','mosul']})
+        except Exception:pass  # Preserve the original failure if the gateway is unavailable.
         controls({});save(False,str(error));raise
     finally:
         for name,proc,stream in processes:
@@ -189,4 +191,3 @@ def run(h):
             try:proc.wait(timeout=10)
             except subprocess.TimeoutExpired:proc.kill();proc.wait()
             stream.close()
-

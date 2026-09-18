@@ -14,6 +14,8 @@
   expiry; corrected signed-absolute-value guards and insufficient intrusion proof
   unwind bounds found by the broader proof run. Production obstacle/intrusion
   LIDAR and radar comparisons now handle minimum signed offsets without overflow.
+  The supervisory simulator rechecks local enable/disconnect at command execution
+  so changes during telemetry and polling cannot reuse an older enabled state.
   See the
   [review follow-through](docs/operating/review-follow-through.md).
 
