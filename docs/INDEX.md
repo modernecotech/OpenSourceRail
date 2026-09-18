@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4973**.
+Indexed Markdown files: **4974**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4973**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 162 |
+| [docs](#docs) | 163 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4919,6 +4919,7 @@ Indexed Markdown files: **4973**.
 | [`docs/operating/city-platform.md`](../docs/operating/city-platform.md) | Reproducible city operating twins |
 | [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
 | [`docs/operating/integration-status.md`](../docs/operating/integration-status.md) | Integrated operating software: completion and deployment inputs |
+| [`docs/operating/platform-recovery.md`](../docs/operating/platform-recovery.md) | Coordinated platform recovery |
 | [`docs/operating/readiness.md`](../docs/operating/readiness.md) | Operating platform readiness |
 | [`docs/operating/review-follow-through.md`](../docs/operating/review-follow-through.md) | Integration review follow-through — 18 September 2026 |
 | [`docs/operating/scaling-and-recovery-review.md`](../docs/operating/scaling-and-recovery-review.md) | Gateway scaling, backup integrity and evidence follow-through |

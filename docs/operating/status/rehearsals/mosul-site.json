@@ -1,0 +1,68 @@
+{
+  "schema": "osr-supervision-load/1",
+  "city": "mosul",
+  "server_process": true,
+  "working_tree_dirty": true,
+  "checkout_commit": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+  "source_sha256": {
+    "services/integration/osr_integration/store.py": "a9e57dbb034e792619b37b4b835e73063f59a9291b36697192efeed902f2562a",
+    "services/integration/osr_integration/server.py": "4e0774e04110042ff873bc76c25d3d387b0b8f73120445004e156c234819faec",
+    "services/integration/osr_integration/config.py": "69cf267b91c6e9401bfb7d6cf14f9eea3c00f5b4e56475004c541ae2b280cb5a",
+    "services/integration/osr_integration/fuxa.py": "231b4fcad35613b24132549956cab20e2ae61b853041d28507481e148673d0e3",
+    "tools/automation/supervision-load.py": "4de947cb1fc64d8f39fd4dd48d042237fa0b6f16e189d680d6b9a35d6683428a"
+  },
+  "package_sha256": "a12d0e89148e83a37cded30527027d48357e6fb9c4cef708de04ea9507769ae5",
+  "equipment": 1422,
+  "measurements": 4009,
+  "rounds": 5,
+  "workers": 16,
+  "operators": 4,
+  "telemetry_batch_size": 128,
+  "fuxa_polling_scope": "site",
+  "fuxa_polling_groups": 375,
+  "cycle_seconds": [
+    1.4968572279904038,
+    1.8566210359858815,
+    2.010914179001702,
+    2.2104085760074668,
+    2.2426525420160033
+  ],
+  "request_timings": {
+    "fuxa-poll": {
+      "requests": 1875,
+      "p50_seconds": 0.04223497898783535,
+      "p95_seconds": 0.1877658449811861,
+      "max_seconds": 1.0411810539953876
+    },
+    "operator-queue": {
+      "requests": 20,
+      "p50_seconds": 0.013771997997537255,
+      "p95_seconds": 0.18069724400993437,
+      "max_seconds": 0.18069724400993437
+    },
+    "operator-snapshot": {
+      "requests": 20,
+      "p50_seconds": 0.5575807320128661,
+      "p95_seconds": 1.0353134610049892,
+      "max_seconds": 1.0353134610049892
+    },
+    "telemetry": {
+      "requests": 160,
+      "p50_seconds": 0.05635528001585044,
+      "p95_seconds": 0.16394367700559087,
+      "max_seconds": 0.27811380400089547
+    }
+  },
+  "readings_expected": 20045,
+  "readings_actual": 20045,
+  "latest_values_match": true,
+  "fuxa_values_match": true,
+  "fuxa_project_sha256": "b18a59ad3ea15e64f8f8d2b51527a9d7970f16b40dc355511d0ef902185e5e33",
+  "errors": [],
+  "sqlite_integrity": "ok",
+  "functional_passed": true,
+  "polling_target_seconds": 2,
+  "polling_target_met": false,
+  "scope": "Isolated HTTP gateway: synthetic telemetry, FUXA adapter polls and operator API reads; no FUXA browser/ERP transaction/physical controller load.",
+  "production_capacity_accepted": false
+}

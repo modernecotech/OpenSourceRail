@@ -5,7 +5,9 @@ executed software tests and work that still requires evidence. **The complete
 railway programme is not accepted or complete.** Published v0.4.0 remains immutable.
 
 The subsequent [scaling and recovery review](scaling-and-recovery-review.md) records
-three further software fixes, the load finding and complete proof-artifact packaging.
+telemetry and polling improvements, measured capacity limits, coordinated cold
+recovery and complete proof-artifact packaging. Its retained source-bound reports
+distinguish implemented data recovery from production cutover acceptance.
 
 ## Recommendations and disposition
 

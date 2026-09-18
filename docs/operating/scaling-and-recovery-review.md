@@ -102,20 +102,57 @@ ranges and assertions are unchanged; unwind increases to 33 to cover all 32
 steps and the loop exit. Local proof reports remain unattested and do not replace
 exact-commit CI or independent review of the safety-path arithmetic change.
 
+## Optional site polling and current capacity evidence
+
+Gateway `osr/integration:0.1.3` supports `fuxa_polling_scope: "site"` in city
+configuration, while the shared default stays `"asset"`. Site polling combines
+transport requests within one city/environment/site. Equipment measurement and
+alarm tag identities, timestamps, quality and asset links remain separate.
+Package changes and whole-project FUXA imports still require hash-bound reviews.
+See the [configuration guide](../../deployment/supervision/README.md).
+
+```sh
+tools/automation/osr-python tools/automation/supervision-load.py \
+  --city mosul --rounds 5 --workers 16 --operators 4 \
+  --polling-scope site --output build/supervision-load/mosul-site
+```
+
+The runner now starts the gateway in a separate process, matching the deployed
+client/server separation; `--in-process` retains the earlier benchmark layout.
+It polls actual generated FUXA URLs and checks final tag values and quality
+against persisted readings. Reports retain the exported project hash and source
+hashes. Comparing these results directly with the earlier shared-interpreter
+numbers would combine a benchmark change with the transport improvement.
+
+With the same separate-process layout, the Mosul asset-polling control took
+**2.17–2.64 seconds** per cycle. Site polling reduces 1,422 requests to **375**
+without removing any of the 4,009 measurements. An earlier five-cycle run took
+1.24–1.77 seconds, but the final source-bound run took **1.50–2.24 seconds**:
+all 20,045 samples were retained and final FUXA values matched, while **the
+two-second target was not met consistently**. These shared-host observations
+support the transport change, not production capacity acceptance. Retained
+reports: [asset control](status/rehearsals/mosul-asset-control.json) and
+[site polling](status/rehearsals/mosul-site.json).
+
+The example-city scenario uses Mosul site polling and Samawah asset polling.
+The native browser check compares Mosul's rendered power with current gateway
+telemetry, as well as checking city switching and the existing lifecycle handoff.
+All ten checks in the [local native browser journey](status/rehearsals/native-ui.json)
+passed, and the automation suite passed 340 tests plus 12 subtests. These ran on
+the recorded dirty working tree; they do not replace clean-candidate CI.
+Full-city native FUXA/ERP/operator concurrency remains a separate acceptance task.
+
 ## Scope still open
 
-- CI at `1d6663c6fbf2` completed all 41 declared Kani harnesses: **32 passed,
-  nine timed out**. This confirmed both unregistered-train fixture fixes
-  (`E2.1a`, `E2.2a`) in the previous change. The two additional ATP properties
-  above passed locally against the new arithmetic, leaving **seven previously
-  timed-out properties unresolved**: interlocking non-overlap and determinism,
-  ATP determinism, and odometry determinism, forward non-regression, uncertainty
-  monotonicity and GNSS conservatism. A bulk topology-construction experiment
-  still timed out after 300 seconds and was discarded. Exact-candidate CI,
-  consensus refinement and independent acceptance remain open.
-- Ops Core and the earlier ERP fresh-volume rehearsals do not establish a single
-  coordinated recovery of ERP, gateway queues, FUXA, Ops Core, files and keys.
-  Recovery objectives, rollback reconciliation and production identity remain open.
+- CI at `e9e4ff5cf287` completed all 41 declared Kani harnesses: **34 passed,
+  seven timed out**. Both ATP follow-through properties now pass in CI. The
+  unresolved properties are interlocking non-overlap and determinism, ATP
+  determinism, and odometry determinism, forward non-regression, uncertainty
+  monotonicity and GNSS conservatism. Exact-candidate CI, consensus refinement
+  and independent acceptance remain open.
+- Coordinated cold data recovery now passes the checks described in the
+  [recovery guide](platform-recovery.md). Production cutover, resuming jobs and
+  controllers, recovery objectives and production identity migration remain open.
 - Full CAD dependency discovery, quantities, solver reruns, production consequences
   and superseded formal evidence still need one complete controlled change scenario.
 - Canonical promotion still requires regenerate → validate → review → publish,
@@ -127,7 +164,7 @@ exact-commit CI or independent review of the safety-path arithmetic change.
 - Commercial reconciliation of exclusions, supplier quotes, commitments and actuals,
   plus named owner/builder/operator appointments and competence, remains open.
 
-The coverage register now has **518 entries**: 36 scenario, 64 varied, 135 partial
-and 283 gaps. The two new GET routes and batch POST route have regression/HTTP tests but retain gaps in
+The coverage register now has **519 entries**: 36 scenario, 64 varied, 135 partial
+and 284 gaps. The two new GET routes and batch POST route have regression/HTTP tests but retain gaps in
 the complete-city scenario register until qualifying scenario evidence is mapped.
 Existing programme gaps are not marked complete by these software fixes.

@@ -61,6 +61,14 @@ jobs:
         run: ./osr example-city business-check
       - name: Exercise the unmocked separate-user disposition journey
         run: ./osr example-city disposition-check
+      - name: Rehearse coordinated recovery into isolated fresh volumes
+        run: |
+          tools/automation/osr-python tools/automation/platform-recovery.py checkpoint \
+            --profile deployment/recovery/example-city.json \
+            --output var/recovery/example-checkpoint \
+            --report build/city-example/recovery-checkpoint.json
+          tools/automation/osr-python tools/automation/platform-recovery.py rehearse \
+            var/recovery/example-checkpoint --report build/city-example/recovery-result.json
       - name: Bind all passing city reports to the clean candidate
         run: ./osr example-city release-evidence
       - name: Generate coverage evidence even after a failed scenario
@@ -74,6 +82,8 @@ jobs:
           name: samawah-city-acceptance
           path: |
             build/city-example/city-evidence.json
+            build/city-example/recovery-checkpoint.json
+            build/city-example/recovery-result.json
             build/city-example/disposition-report.json
             build/city-example/business-report.json
             build/city-example/business-flows.log

@@ -93,7 +93,7 @@ def build_package(generic, city, assets, revision, environment='simulation'):
         raise ValueError('No applicable equipment selected; check sites and rolling-stock family')
     package = dict(schema='osr-supervisory/1', city=slug, environment=environment,
         engineering_revision=revision, rolling_stock_family=cfg.get('rolling_stock_family'), template_revision=cfg['template_revision'],
-        historian=cfg['historian'], equipment=equipment,
+        historian=cfg['historian'], equipment=equipment, fuxa_polling_scope=cfg.get('fuxa_polling_scope', 'asset'),
         lifecycle=['plan', 'design', 'procure', 'manufacture', 'construct', 'commission', 'operate', 'maintain', 'renew'])
     package['sha256'] = digest(package)
     validate_package(package)
@@ -111,6 +111,8 @@ def validate_package(package):
         raise ValueError('This adapter requires one OSR historian; FUXA DAQ stays disabled')
     finite(package['historian']['retention_days'], 1, 365)
     finite(package['historian'].get('sampling_seconds', 2), 1, 3600)
+    if package.get('fuxa_polling_scope', 'asset') not in ('asset', 'site'):
+        raise ValueError('FUXA polling scope must be asset or site')
     ids = set()
     for a in package['equipment']:
         aid = identifier(a['asset_id'])

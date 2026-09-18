@@ -66,7 +66,7 @@ def generic_config():
     return config
 
 
-def city_package(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False):
+def city_package(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False, polling_scope=None):
     path, _ = cities.catalogue()[slug]
     override_path = path.parent / 'operations/supervision.json'
     override = json.loads(override_path.read_text()) if override_path.exists() else {'city': slug}
@@ -78,6 +78,7 @@ def city_package(slug, environment='simulation', first_site=False, first_vehicle
     if override.get('rolling_stock_family', family) != family:
         raise ValueError('Supervision family differs from the city engineering baseline')
     override['rolling_stock_family'] = family
+    if polling_scope is not None: override['fuxa_polling_scope'] = polling_scope
     if first_site:
         override['sites'] = [next(a['asset_id'] for a in assets if a['asset_type'] == 'station')]
     if first_vehicle:
@@ -104,8 +105,8 @@ def api(path, data=None, role='engineer', query=''):
     return request_json('http://127.0.0.1:8092' + path + query, data, {'Authorization': 'Bearer ' + principal['token']})
 
 
-def prepare(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False, workbench_url=DEFAULT_WORKBENCH_URL):
-    p = city_package(slug, environment, first_site, first_vehicle, first_plant)
+def prepare(slug, environment='simulation', first_site=False, first_vehicle=False, first_plant=False, workbench_url=DEFAULT_WORKBENCH_URL, polling_scope=None):
+    p = city_package(slug, environment, first_site, first_vehicle, first_plant, polling_scope)
     folder = ROOT / 'build/supervision' / slug / environment; folder.mkdir(parents=True, exist_ok=True)
     for name, data in [('package.json', p), ('fuxa-project.json', project([p], workbench_url=workbench_url))]:
         (folder / name).write_text(json.dumps(data, indent=2) + '\n')
@@ -165,7 +166,7 @@ def main():
     for action in ['init', 'up', 'status', 'setup-fuxa', 'backup', 'init-configs', 'validate', 'simulate']:
         sub.add_parser(action)
     p = sub.add_parser('connect-erp'); p.add_argument('cities', nargs='+')
-    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true'); p.add_argument('--first-plant', action='store_true'); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
+    p = sub.add_parser('prepare'); p.add_argument('city'); p.add_argument('--environment', choices=['simulation', 'physical'], default='simulation'); p.add_argument('--first-site', action='store_true'); p.add_argument('--first-vehicle', action='store_true'); p.add_argument('--first-plant', action='store_true'); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL); p.add_argument('--polling-scope', choices=['asset','site'])
     p = sub.add_parser('review-package'); p.add_argument('package', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('apply'); p.add_argument('package', type=Path); p.add_argument('--expected'); p.add_argument('--review', type=Path)
     p = sub.add_parser('preview-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--output', required=True, type=Path); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
@@ -226,7 +227,7 @@ def main():
         for slug in cities.catalogue():
             equipment += len(city_package(slug)['equipment'])
         print(f'Validated real asset packages: {len(cities.catalogue())} cities, {equipment} equipment records')
-    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle, args.first_plant, args.workbench_url))
+    elif args.command == 'prepare': print(prepare(args.city, args.environment, args.first_site, args.first_vehicle, args.first_plant, args.workbench_url, args.polling_scope))
     elif args.command == 'review-package':
         review = api('/packages/preview', {'package': json.loads(args.package.read_text())}, role='viewer')
         args.output.parent.mkdir(parents=True, exist_ok=True)

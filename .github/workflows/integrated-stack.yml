@@ -139,13 +139,18 @@ jobs:
           python3 tools/automation/supervision-load.py --city samawah \
             --rounds 3 --workers 16 --operators 4 \
             --output build/integrated-stack/full-city-load
+          python3 tools/automation/supervision-load.py --city mosul \
+            --rounds 3 --workers 16 --operators 4 --polling-scope site \
+            --output build/integrated-stack/site-polling-load
 
       - name: Preserve full-city gateway timings and source hashes
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: full-city-gateway-load
-          path: build/integrated-stack/full-city-load/
+          path: |
+            build/integrated-stack/full-city-load/
+            build/integrated-stack/site-polling-load/
           if-no-files-found: warn
 
       - name: Collect service logs and stop the disposable deployment

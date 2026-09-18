@@ -104,6 +104,22 @@ rejects telemetry and commands for those uncommissioned bindings. Vendor registe
 maps, verified limits, real device adapters and OSR operational release must be
 supplied before physical activation. No railway or protection command is exposed.
 
+## Polling scope
+
+Shared configuration defaults to `"fuxa_polling_scope": "asset"`. A city's
+`operations/supervision.json` can set `"fuxa_polling_scope": "site"`, or use
+`./osr supervision prepare mosul --polling-scope site` for a reviewed export.
+The site setting groups active equipment into one private WebAPI request per
+city/environment/site. Measurement and alarm tag IDs, quality, timestamps and
+individual equipment links are retained; one connection-status tag describes
+each shared transport. It does not change sampling, historian or alarm rules.
+
+Switching scope replaces transport device IDs and changes affected display
+bindings. Apply the package review and then preview/import the combined FUXA
+project using the steps above; keep all other cities in that combined import.
+Existing packages without the field retain asset polling. The example-city
+scenario exercises both settings. See the [measured capacity results](../../docs/operating/scaling-and-recovery-review.md#optional-site-polling-and-current-capacity-evidence).
+
 ## Data and failure behaviour
 
 - Stable key: **city + environment + planned asset ID**. Design revision, ERP

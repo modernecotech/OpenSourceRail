@@ -45,7 +45,7 @@ local verification; candidate CI evidence must be checked separately by exact co
 
 The additional `expand-check` passed 389 live/native/restoration assertions and a
 separate 230-check schema matrix. Its [coverage register](../../deployment/example-city/coverage-register.md)
-tracks 518 integration entries: 36 scenario, 64 varied, 135 partial and 283 without
+tracks 519 integration entries: 36 scenario, 64 varied, 135 partial and 284 without
 qualifying evidence. Payment posting/cancellation is exercised transactionally;
 other remaining workflows are listed explicitly. Passing examples do not establish
 coverage of every function or variable combination.
@@ -61,8 +61,10 @@ The implementation candidate `92b20ff32` passed general CI, integrated-stack and
 complete-city CI. Its broader formal run passed 30 of 41 declared Kani harnesses;
 11 timed out, so release packaging remains blocked. Local fresh-volume ERP restore
 rehearsals checked database records, ledger entries, public/private files and
-encrypted settings. Coordinated FUXA/gateway/OSR recovery and independent acceptance
-remain open. The [review record](review-follow-through.md#integration-candidate-and-erp-recovery)
+encrypted settings. A later [coordinated recovery rehearsal](platform-recovery.md) verifies cold
+ERP/FUXA/gateway/OSR data recovery; operational cutover and independent acceptance
+remain open. CI at `e9e4ff5cf287` passed general, integrated-stack and complete-city
+checks and confirmed 34 Kani properties, with seven remaining timeouts. The [review record](review-follow-through.md#integration-candidate-and-erp-recovery)
 links the exact runs and explains the recovery scope.
 
 ## Acceptance commands

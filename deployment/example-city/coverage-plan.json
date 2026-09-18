@@ -149,6 +149,7 @@
     "planning.tasks.procurement",
     "planning.tasks.programme",
     "planning.tasks.qa",
+    "supervision.fuxa_polling_scope",
     "supervision.historian.owner",
     "supervision.historian.retention_days",
     "supervision.historian.sampling_seconds",
@@ -1039,7 +1040,8 @@
     "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969",
     "gateway.GET./evidence": "431ead1f4bbd4265f317c1f24a37d7404ae8fe9ebaeb861bcc5cf82b8d9470cd",
     "gateway.GET./outbox": "84634cca958107997877663cfe26502e0b5b4b24020650cebe976d8707bfdfbd",
-    "gateway.POST./telemetry/batch": "e8721f6e7c8e8e426018474a724365440593f5f9b76b2e3f9538451fe3010457"
+    "gateway.POST./telemetry/batch": "e8721f6e7c8e8e426018474a724365440593f5f9b76b2e3f9538451fe3010457",
+    "supervision.fuxa_polling_scope": "6bfea6124e3d9a9b744427f49cc2e3fe6c9502149d4628b68968a28b9495c6c6"
   },
   "rules": [
     {
@@ -3597,7 +3599,7 @@
     {
       "pattern": "workflow.backup-restore",
       "status": "gap",
-      "remaining": "Restore actual backups into fresh volumes and verify cross-service consistency; stop/start persistence alone is insufficient.",
+      "remaining": "A separate source-bound cold recovery rehearsal verifies fresh volumes and cross-service data (docs/operating/platform-recovery.md); this register does not yet map that report. Operational cutover, jobs/controllers and recovery objectives remain.",
       "evidence": []
     },
     {

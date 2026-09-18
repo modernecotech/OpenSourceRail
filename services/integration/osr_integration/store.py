@@ -67,6 +67,7 @@ class Store:
                 WHERE city IS NULL AND json_valid(body)""")
             db.executescript("""
                 CREATE INDEX IF NOT EXISTS assets_city_environment ON assets(city,environment);
+                CREATE INDEX IF NOT EXISTS assets_site ON assets(city,environment,json_extract(body,'$.site_id'));
                 CREATE INDEX IF NOT EXISTS outbox_city_environment ON outbox(city,environment);
                 CREATE INDEX IF NOT EXISTS outbox_pending ON outbox(state,next_try);
                 CREATE INDEX IF NOT EXISTS outbox_incident ON outbox(incident,state);
@@ -550,6 +551,21 @@ class Store:
             asset['alarms'] = [dict(r) for r in db.execute('SELECT * FROM alarms WHERE scope=?', (scope,))]
             return asset
 
+    def site_devices(self, city, environment, site_id, now=None):
+        """One current transaction for a site's active devices, preserving tag IDs."""
+        values = [identifier(city), identifier(environment), identifier(site_id)]
+        where = "a.city=? AND a.environment=? AND json_extract(a.body,'$.site_id')=? AND a.configuration_status='active'"
+        with self._view_lock, self.connect() as db:
+            db.execute('BEGIN')
+            now = time.time() if now is None else now
+            rows = db.execute(f'SELECT a.* FROM assets a WHERE {where} ORDER BY a.scope', values).fetchall()
+            if not rows: raise ValueError('Unknown active site in this city/environment')
+            readings = self._readings(db, where, values)
+            assets = {r['scope']: self._asset_view(r, readings, now) for r in rows}
+            for row in db.execute(f'SELECT t.* FROM alarms t JOIN assets a ON a.scope=t.scope WHERE {where}', values):
+                assets[row['scope']]['alarms'].append(dict(row))
+            return list(assets.values())
+
     def _outbox_page(self, db, city, environment, asset_id=None, state=None, limit=100, before=None):
         self._page_args(limit, before)
         where, values = self._filter(city, environment)
@@ -611,8 +627,8 @@ class Store:
                         asset['evidence_page'] = dict(total=total,
                             next_before=record['cursor'] if total > len(asset[field]) else None)
             queue = self._outbox_page(db, city, environment)
-            current = db.execute('SELECT body FROM packages WHERE city=? AND environment=? ORDER BY created DESC LIMIT 1', (city, environment)).fetchone()
-            historian = json.loads(current['body'])['historian'] if current else None
+            current = db.execute("SELECT json_extract(body,'$.historian') AS historian FROM packages WHERE city=? AND environment=? ORDER BY created DESC LIMIT 1", (city, environment)).fetchone()
+            historian = json.loads(current['historian']) if current else None
             return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=list(assets.values()),
                         outbox=queue['items'], outbox_page={k:v for k,v in queue.items() if k!='items'}, historian=historian,
                         authority='OSR evidence references; ERP closure and alarm clearance do not grant railway release')

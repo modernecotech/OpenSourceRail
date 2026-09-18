@@ -3,7 +3,9 @@
 This scenario builds a separate **Samawah simulation deployment**, with Mosul as
 an independent control city. It runs actual ERPNext, Frappe HR, FUXA, the integration
 gateway, the native Rust controller bridge and the shared Workbench. Business
-records are retained for inspection after a successful run.
+records are retained for inspection after a successful run. Samawah uses individual
+asset polling; Mosul uses site polling, with native rendered power checked against
+the gateway reading. Both retain individual equipment and maintenance identities.
 
 ## Run
 
@@ -56,6 +58,11 @@ Save reports/screenshots before reset. A run refuses to reuse an existing run
 marker: this avoids treating records left by a previous attempt as fresh evidence.
 Setup is repeat-safe and reapplies the source configuration. The regular deployment
 on ports 8080/8090/8092/1881 has different Compose projects, volumes and credentials.
+
+CI also captures and rehearses a [coordinated cold recovery](../../docs/operating/platform-recovery.md)
+after the native scenarios. Only public result summaries are uploaded; checkpoints,
+credentials and restored private files remain under `var/`. The rehearsal keeps
+controllers and background ERP jobs stopped in its isolated clone.
 
 ## Connected lifecycle
 

@@ -175,21 +175,29 @@ class FuxaReadHandler(Handler):
     """Unpublished container-network port: only filtered tag reads, no mutation."""
     def do_GET(self):
         parts = urlsplit(self.path).path.strip('/').split('/')
-        if len(parts) != 4 or parts[0] != 'tags':
+        if len(parts) != 4 or parts[0] not in ('tags', 'site-tags'):
             return self.send(404, {})
         _, city, environment, asset = parts
         try:
-            a = self.server.store.device(city, environment, asset)
+            assets = (self.server.store.site_devices(city, environment, asset) if parts[0] == 'site-tags'
+                      else [self.server.store.device(city, environment, asset)])
             tags = []
-            for name, r in a['readings'].items():
-                for suffix, value, dtype in [('', r['value'] if r['quality'] == 'valid' else 'unavailable', 'Double'),
-                        ('_quality', r['quality'], 'String'), ('_timestamp', __import__('datetime').datetime.fromtimestamp(r['source_time'], __import__('datetime').timezone.utc).isoformat() if r['source_time'] else 'not received', 'String')]:
-                    tags.append({'id': a['fuxa_device_id'] + '__' + name + suffix, 'value': value, 'type': dtype})
-            for rule in a['alarms']:
-                tags.append({'id': a['fuxa_device_id'] + '__alarm_' + rule['rule'], 'value': rule['active'], 'type': 'Bool'})
+            for a in assets:
+                tags.extend(self.tags(a))
             return self.send(200, tags)
         except (ValueError, StopIteration):
             return self.send(404, {})
+
+    @staticmethod
+    def tags(a):
+        tags = []
+        for name, r in a['readings'].items():
+            for suffix, value, dtype in [('', r['value'] if r['quality'] == 'valid' else 'unavailable', 'Double'),
+                    ('_quality', r['quality'], 'String'), ('_timestamp', __import__('datetime').datetime.fromtimestamp(r['source_time'], __import__('datetime').timezone.utc).isoformat() if r['source_time'] else 'not received', 'String')]:
+                tags.append({'id': a['fuxa_device_id'] + '__' + name + suffix, 'value': value, 'type': dtype})
+        for rule in a['alarms']:
+            tags.append({'id': a['fuxa_device_id'] + '__alarm_' + rule['rule'], 'value': rule['active'], 'type': 'Bool'})
+        return tags
 
     def do_POST(self):
         self.send(405, {'error': 'Read only'})

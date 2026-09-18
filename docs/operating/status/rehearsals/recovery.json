@@ -1,0 +1,188 @@
+{
+  "schema": "osr-platform-recovery-result/1",
+  "passed": true,
+  "project": "osr-recovery-186bd7ab0424",
+  "checkpoint_sha256": "29661d800db193baf6fc500cbc8528ebbc177faa93b2556c750b78da40e33045",
+  "fresh_volumes": true,
+  "external_network_access": false,
+  "controllers_started": false,
+  "independent_acceptance": false,
+  "commit": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+  "working_tree_dirty": true,
+  "source_sha256": {
+    "tools/automation/platform-recovery.py": "2a6730191eba9cbbb946862720bb938420e27d603d3e6ddead2ab09d661230c8",
+    "deployment/recovery/audit-erp.py": "393fd2c460bd852d2f1d33b554815dd6076190a4d2f0ea9e0c011fd2eea72372",
+    "deployment/recovery/reconcile-gateway.py": "28c92cc94f086e066b49fa9198df331bb2648392889ab150744989c300cc4340"
+  },
+  "captured_images_loaded": true,
+  "volume_inventories_verified": 10,
+  "ops_signing_key_preserved": true,
+  "ops_attestations_verified": 10,
+  "queue_reconciliation": {
+    "linked_cases_verified": 25,
+    "original_pending_events": 0,
+    "lost_reply_replayed": true,
+    "original_issue_reused": true,
+    "duplicate_acknowledged": true
+  },
+  "erp_records": {
+    "records": {
+      "Issue": {
+        "count": 26,
+        "fields": [
+          "name",
+          "project",
+          "status",
+          "custom_osr_incident_key",
+          "custom_osr_condition_history",
+          "custom_osr_asset_id",
+          "custom_osr_city"
+        ],
+        "sha256": "8375026f962f93ab1a57148733367ffe169f3f7206bbf84d2f0ffab461a42da8"
+      },
+      "GL Entry": {
+        "count": 6,
+        "fields": [
+          "name",
+          "company",
+          "account",
+          "voucher_type",
+          "voucher_no",
+          "debit",
+          "credit",
+          "project",
+          "is_cancelled"
+        ],
+        "sha256": "ad4ac03bb752c1a4dc6690b474f5758fb08b96a428f995c12ad0de00cbf8d47a"
+      },
+      "Stock Ledger Entry": {
+        "count": 10,
+        "fields": [
+          "name",
+          "company",
+          "item_code",
+          "warehouse",
+          "voucher_type",
+          "voucher_no",
+          "actual_qty",
+          "qty_after_transaction",
+          "stock_value_difference"
+        ],
+        "sha256": "72b2776aeaa97d09e4928155dcadd27e6d166fadd871de75aa857612d8b0fca6"
+      },
+      "File": {
+        "count": 2,
+        "fields": [
+          "name",
+          "file_name",
+          "file_url",
+          "is_private",
+          "file_size",
+          "content_hash"
+        ],
+        "sha256": "17edbece81a7ce656468ca363bb5f04e8065d5e2fde88a0eb6ffbbfce3cd426c"
+      },
+      "Project": {
+        "count": 3,
+        "fields": [
+          "name",
+          "project_name",
+          "company",
+          "status",
+          "percent_complete"
+        ],
+        "sha256": "e1981329bf17a5ab54268e410f6c1e831466421d144f12a477632e7977a8f660"
+      },
+      "Task": {
+        "count": 11571,
+        "fields": [
+          "name",
+          "project",
+          "subject",
+          "status",
+          "progress",
+          "exp_start_date",
+          "exp_end_date"
+        ],
+        "sha256": "1c776a5a696abe06c7eafcf352a5746f69a98a36fd1187ece2050dc38e8a3102"
+      },
+      "Asset": {
+        "count": 1,
+        "fields": [
+          "name",
+          "asset_name",
+          "company",
+          "item_code",
+          "gross_purchase_amount"
+        ],
+        "sha256": "03b9feddc1b4aa77f8addb4027bc798832cf117ecba1cdb8de414d99d7ac3cf2"
+      },
+      "Serial No": {
+        "count": 2,
+        "fields": [
+          "name",
+          "item_code",
+          "warehouse",
+          "status"
+        ],
+        "sha256": "e2f52c394c49d823bf6fbac34ed90122379d1adb37cb7a10d671cb5d5b050188"
+      },
+      "Work Order": {
+        "count": 4,
+        "fields": [
+          "name",
+          "production_item",
+          "bom_no",
+          "qty",
+          "produced_qty",
+          "status"
+        ],
+        "sha256": "4b2dc2b56d685d7a3cf8b4998e03149e8ef22b221eb1b100736d688363705d6b"
+      },
+      "Purchase Invoice": {
+        "count": 1,
+        "fields": [
+          "name",
+          "company",
+          "supplier",
+          "grand_total",
+          "outstanding_amount",
+          "docstatus"
+        ],
+        "sha256": "9eaf037c25037a9fc1b0d3fb65bb317f543d2ce25370fabedaf528c34746417a"
+      },
+      "Material Request": {
+        "count": 0,
+        "fields": [
+          "name",
+          "company",
+          "material_request_type",
+          "status",
+          "docstatus"
+        ],
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "Stock Entry": {
+        "count": 4,
+        "fields": [
+          "name",
+          "company",
+          "stock_entry_type",
+          "docstatus"
+        ],
+        "sha256": "8b699892ef5fdca84686607c53a6c6f6c20952017a30e4d5b4eae4157207cdbb"
+      }
+    },
+    "encrypted_fields_readable": 1
+  },
+  "http_services_verified": [
+    "ERPNext",
+    "integration",
+    "FUXA",
+    "Workbench",
+    "Ops Core"
+  ],
+  "recovery_seconds": 40.519,
+  "scope": "Cold volume/file/ownership integrity; native records and encryption; queue lost-reply reconciliation; restored Workbench city/lifecycle/Ops Core HTTP. Controllers, workers and schedulers remain stopped; production RTO/RPO and independent acceptance remain open.",
+  "isolated_resources_removed": true
+}

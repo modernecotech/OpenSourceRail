@@ -2,6 +2,7 @@
 import {chromium,expect as baseExpect} from '@playwright/test';
 const expect=baseExpect.configure({timeout:30000});
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 const output='build/city-example/';
 const privateRoot='var/city-example/';
 const setup=JSON.parse(fs.readFileSync(output+'setup.json'));
@@ -63,6 +64,13 @@ try {
  await dialog.locator('input[type=password]').fill(fuxa.operator_password);
  await dialog.getByRole('button',{name:'OK',exact:true}).click();await dialog.waitFor({state:'hidden'});
  await expect(frame.locator('svg').filter({hasText:'MOS-ST-001'}).first()).toBeVisible();
+ const mosulSnapshot=await page.request.get('http://127.0.0.1:8192/snapshot?city=mosul&environment=simulation',{headers:{Authorization:'Bearer '+credentials.principals.find(p=>p.role==='viewer').token}});
+ expect(mosulSnapshot.ok()).toBeTruthy();
+ const mosulCharger=(await mosulSnapshot.json()).assets.find(a=>a.asset_id==='MOS-ST-001:charger');
+ const mosulPower=mosulCharger.readings.power_kw;
+ const powerWidget='text_VAL_'+createHash('sha256').update(JSON.stringify([mosulCharger.fuxa_device_id,mosulCharger.fuxa_device_id+'__power_kw'])).digest('hex').slice(0,20);
+ expect(mosulPower.quality).toBe('valid');
+ await expect(frame.locator('#'+powerWidget)).toHaveText(String(mosulPower.value));
  await page.locator('#citySelector').selectOption('samawah');
  await expect(frame.locator('svg').filter({hasText:'SAM-ST-001'}).first()).toBeVisible();
  await expect(frame.locator('svg').filter({hasText:'SAM-ST-001'}).first()).toContainText('180');

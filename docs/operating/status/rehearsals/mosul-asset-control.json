@@ -1,0 +1,63 @@
+{
+  "schema": "osr-supervision-load/1",
+  "city": "mosul",
+  "server_process": true,
+  "working_tree_dirty": true,
+  "checkout_commit": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+  "source_sha256": {
+    "services/integration/osr_integration/store.py": "a9e57dbb034e792619b37b4b835e73063f59a9291b36697192efeed902f2562a",
+    "services/integration/osr_integration/server.py": "120b13fad2f2901258a98d7c8136f2e9f7b44770dfab44364e3add92803afa39",
+    "services/integration/osr_integration/config.py": "69cf267b91c6e9401bfb7d6cf14f9eea3c00f5b4e56475004c541ae2b280cb5a",
+    "tools/automation/supervision-load.py": "eee65d30557cbffa0f0d14c11584f905e66343d4165ab2cb189705ea4c3a3cb8"
+  },
+  "package_sha256": "df272e71b3540988ff8fd6d1f34630559b23f663bb1fc1d7081966cccfcabbd9",
+  "equipment": 1422,
+  "measurements": 4009,
+  "rounds": 3,
+  "workers": 16,
+  "operators": 4,
+  "telemetry_batch_size": 128,
+  "fuxa_polling_scope": "asset",
+  "fuxa_polling_groups": 1422,
+  "cycle_seconds": [
+    2.1701134860049933,
+    2.631375293014571,
+    2.6395468470000196
+  ],
+  "request_timings": {
+    "fuxa-poll": {
+      "requests": 4266,
+      "p50_seconds": 0.01952896299189888,
+      "p95_seconds": 0.027314219012623653,
+      "max_seconds": 0.743373283999972
+    },
+    "operator-queue": {
+      "requests": 12,
+      "p50_seconds": 0.021218310022959486,
+      "p95_seconds": 0.10315419000107795,
+      "max_seconds": 0.10315419000107795
+    },
+    "operator-snapshot": {
+      "requests": 12,
+      "p50_seconds": 0.39800337300403044,
+      "p95_seconds": 0.7324930359900463,
+      "max_seconds": 0.7324930359900463
+    },
+    "telemetry": {
+      "requests": 96,
+      "p50_seconds": 0.02576197200687602,
+      "p95_seconds": 0.0313217020011507,
+      "max_seconds": 0.039608704013517126
+    }
+  },
+  "readings_expected": 12027,
+  "readings_actual": 12027,
+  "latest_values_match": true,
+  "errors": [],
+  "sqlite_integrity": "ok",
+  "functional_passed": true,
+  "polling_target_seconds": 2,
+  "polling_target_met": false,
+  "scope": "Isolated HTTP gateway: synthetic telemetry, FUXA adapter polls and operator API reads; no FUXA browser/ERP transaction/physical controller load.",
+  "production_capacity_accepted": false
+}

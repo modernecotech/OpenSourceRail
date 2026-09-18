@@ -92,7 +92,8 @@ def run(h):
         mapped=h.backend('mapping',dict(project=state['project'],proposal=proposal));h.write(h.OUTPUT/'execution-proposal.json',proposal)
         check('Exact engineering revision maps to native Item and production BOM',bool(mapped['mappings']),after=mapped)
         for city in ['samawah','mosul']:
-            p=sup.city_package(city,first_site=True,first_vehicle=True,first_plant=True)
+            p=sup.city_package(city,first_site=True,first_vehicle=True,first_plant=True,
+                polling_scope='site' if city=='mosul' else 'asset')
             for a in p['equipment']:
                 a['company_id']=state['company'];a['erp_project']=setup['projects'][city]
                 if city=='samawah' and a['equipment_type']=='charger':a['erp_asset_id']=state['asset'];a['erp_item_code']=state['item']

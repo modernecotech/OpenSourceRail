@@ -8,14 +8,14 @@ Status: `scenario` means the function was exercised; `varied` means named values
 
 Native ERP expansion checks run real hooks and ledger posting inside a rolled-back transaction. The live telemetry matrix pauses the example simulator and includes explicitly labelled controller-result fixtures.
 
-Counts: **gap: 283**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
+Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
 
 ## Remaining workflow gaps
 
 | Workflow | Status | Next acceptance requirement |
 |---|---|---|
 | Enabled rule to actual task assignment and reassignment | varied | Actual enabled Round Robin and Load Balancing assignment to two users. Holidays, disabled users and concurrent dispatch remain. |
-| Restore ERP database, files, gateway and FUXA into a fresh deployment | gap | Restore actual backups into fresh volumes and verify cross-service consistency; stop/start persistence alone is insufficient. |
+| Restore ERP database, files, gateway and FUXA into a fresh deployment | gap | A separate source-bound cold recovery rehearsal verifies fresh volumes and cross-service data (docs/operating/platform-recovery.md); this register does not yet map that report. Operational cutover, jobs/controllers and recovery objectives remain. |
 | Submitted budget to blocked/warned overspend transaction | varied | Submitted actual expenses at/below/above Stop/Warn budgets. Purchase commitments, fiscal-period boundaries and simultaneous posting remain. |
 | Manufactured serial to capital Asset and depreciation | gap | Connect received/manufactured serialized equipment to capitalization, depreciation and retirement entries. |
 | Seven revision-disposition decisions and independent native outcome checks | scenario | Unmocked browser with three independent accounts covers proposal, endorsement, native stop, verification and stale detection; all target/action/concurrency permutations remain. |
@@ -182,6 +182,7 @@ Counts: **gap: 283**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `planning.tasks.procurement` | varied | base: Planning task switch changes generated procurement work | On/off changes are checked in generated plans; native import/removal effects for every switch combination remain. |
 | `planning.tasks.programme` | varied | base: Planning task switch changes generated programme work | On/off changes are checked in generated plans; native import/removal effects for every switch combination remain. |
 | `planning.tasks.qa` | varied | base: Planning task switch changes generated qa work | On/off changes are checked in generated plans; native import/removal effects for every switch combination remain. |
+| `supervision.fuxa_polling_scope` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `supervision.historian.owner` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `supervision.historian.retention_days` | varied | base: Complete city equipment contracts reach the native evaluator and historian | Clock-controlled production historian sweep only; long-running live retention and disk exhaustion remain. |
 | `supervision.historian.sampling_seconds` | varied | base: Sampling interval changes actual controller arrival times; expansion: configuration.concurrent-review | 2-to-4-second live change and competing updates; sustained loads and all sampling/staleness interactions remain. |
@@ -538,7 +539,7 @@ Counts: **gap: 283**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `workbench.setting.OSR_SUPERVISION_PROFILES` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.setting.OSR_SUPERVISION_ROOT` | scenario | base: Full stop/start preserves the retained City Studio project configuration | Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain. |
 | `workflow.assignment-execution` | varied | business: business.assignment.Round Robin.0; business: business.assignment.Round Robin.1; business: business.assignment.distribution.Round Robin; +3 observations (JSON) | Actual enabled Round Robin and Load Balancing assignment to two users. Holidays, disabled users and concurrent dispatch remain. |
-| `workflow.backup-restore` | gap | — | Restore actual backups into fresh volumes and verify cross-service consistency; stop/start persistence alone is insufficient. |
+| `workflow.backup-restore` | gap | — | A separate source-bound cold recovery rehearsal verifies fresh volumes and cross-service data (docs/operating/platform-recovery.md); this register does not yet map that report. Operational cutover, jobs/controllers and recovery objectives remain. |
 | `workflow.budget-enforcement` | varied | business: business.budget.Stop.50; business: business.budget.Stop.100; business: business.budget.Stop.101; +3 observations (JSON) | Submitted actual expenses at/below/above Stop/Warn budgets. Purchase commitments, fiscal-period boundaries and simultaneous posting remain. |
 | `workflow.capitalization` | gap | — | Connect received/manufactured serialized equipment to capitalization, depreciation and retirement entries. |
 | `workflow.disposition` | scenario | disposition: disposition.distinct-authenticated-users; disposition: disposition.browser-proposal-recorded; disposition: disposition.self-endorsement-rejected; +6 observations (JSON) | Unmocked browser with three independent accounts covers proposal, endorsement, native stop, verification and stale detection; all target/action/concurrency permutations remain. |

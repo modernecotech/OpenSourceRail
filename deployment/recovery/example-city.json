@@ -1,0 +1,28 @@
+{
+  "schema": "osr-recovery-profile/1",
+  "projects": [
+    "osr-example-erp",
+    "osr-example-supervision"
+  ],
+  "private_root": "var/city-example",
+  "ops_db": "var/city-example/ops.sqlite3",
+  "city_project": "var/city-example/city-project",
+  "site": "osr-example.localhost",
+  "auxiliary": {
+    "supervision": "build/city-example/supervision",
+    "profiles": "build/city-example/profiles",
+    "operating-twins.json": "var/city-example/operating-twins.json",
+    "city-project": "var/city-example/city-project",
+    "fuxa.json": "var/city-example/fuxa.json"
+  },
+  "cities": [
+    "samawah",
+    "mosul"
+  ],
+  "source_health_urls": [
+    "http://127.0.0.1:8180/api/method/ping",
+    "http://127.0.0.1:8192/health",
+    "http://127.0.0.1:1981/",
+    "http://127.0.0.1:8190/api/workbench/services"
+  ]
+}

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Added coordinated private checkpoints and isolated fresh-volume recovery of
+  ERP, gateway queues, FUXA, Ops Core, files, keys and immutable container images.
+  The native rehearsal verifies
+  ten volume inventories, signed records and duplicate-safe ERP reconciliation;
+  production cutover and recovery objectives remain open.
+- Added reusable per-city FUXA site polling, preserving equipment tags and reviewed
+  imports; integration image `osr/integration:0.1.3`. The load runner now separates
+  client/server processes and checks effective exported tag values. Mosul retains
+  every sample but does not consistently meet the two-second target.
+- Recorded `e9e4ff5cf287` CI: general, integrated-stack and example-city passed;
+  Kani passed 34 of 41 properties, with seven remaining timeouts.
+
 - Added atomic, authorized telemetry batches and native simulator publishing;
   gateway image `osr/integration:0.1.2` queues contending reads/writes and meets the
   two-second target in a five-cycle local Samawah rehearsal without lost samples.

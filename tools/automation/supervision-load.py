@@ -11,19 +11,21 @@ from datetime import datetime, timezone
 import hashlib
 import importlib.util
 import json
+import multiprocessing
 from pathlib import Path
-import sqlite3
 import subprocess
 import sys
 import tempfile
 import threading
 import time
-from urllib.parse import quote, urlencode
+from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services/integration'))
 from osr_integration.store import Store
+from osr_integration.config import digest
+from osr_integration.fuxa import project
 from osr_integration.server import Handler, FuxaReadHandler, GatewayHTTPServer
 
 
@@ -35,12 +37,30 @@ def request(base, path, data=None, token=None):
         return json.load(response)
 
 
-def run(city, rounds, workers, operators, output, batch_size=128):
+def serve_process(database, config, ready):
+    store=Store(database);servers=[]
+    for handler in (Handler,FuxaReadHandler):
+        server=GatewayHTTPServer(('127.0.0.1',0),handler);server.store=store;server.config=config
+        servers.append(server)
+    threading.Thread(target=servers[1].serve_forever,daemon=True).start()
+    ready.send(['http://127.0.0.1:'+str(server.server_port) for server in servers]);ready.close()
+    servers[0].serve_forever()
+
+
+def stop_process(process):
+    process.terminate();process.join(5)
+    if process.is_alive():process.kill();process.join()
+
+
+def run(city, rounds, workers, operators, output, batch_size=128, polling_scope=None, server_process=True):
     output.mkdir(parents=True, exist_ok=False)
     spec = importlib.util.spec_from_file_location('load_supervision', ROOT / 'tools/automation/supervision.py')
     supervisor = importlib.util.module_from_spec(spec); spec.loader.exec_module(supervisor)
-    package = supervisor.city_package(city)
+    package = supervisor.city_package(city,polling_scope=polling_scope)
+    polling_scope=package.get('fuxa_polling_scope','asset')
     (output / 'package.json').write_text(json.dumps(package, indent=2) + '\n')
+    fuxa=project([package]);(output/'fuxa-project.json').write_text(json.dumps(fuxa,indent=2)+'\n')
+    polling_paths={urlsplit(d['property']['getTags']).path.rsplit('/',1)[-1]:urlsplit(d['property']['getTags']).path for d in fuxa['devices'].values()}
     samples = [(asset, name, measurement) for asset in package['equipment'] for name, measurement in asset['measurements'].items()]
     measurements = len(samples)
     # Fixture values exercise persistence, freshness and alarm processing; they are not physical telemetry.
@@ -50,11 +70,18 @@ def run(city, rounds, workers, operators, output, batch_size=128):
         sources = sorted({a['source_id'] for a in package['equipment']})
         config['principals'] += [dict(token='controller-'+source,role='controller',subject=source,cities=[city],environments=['simulation']) for source in sources]
         servers=[]
-        for handler in (Handler, FuxaReadHandler):
-            server=GatewayHTTPServer(('127.0.0.1',0),handler);server.store=store;server.config=config
-            thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
-            cleanup.callback(thread.join);cleanup.callback(server.server_close);cleanup.callback(server.shutdown)
-            servers.append('http://127.0.0.1:'+str(server.server_port))
+        if server_process:
+            context=multiprocessing.get_context('spawn');receive,send=context.Pipe(duplex=False)
+            process=context.Process(target=serve_process,args=(store.path,config,send),daemon=True)
+            process.start();send.close();cleanup.callback(stop_process,process)
+            if not receive.poll(30):raise RuntimeError('Gateway process did not start')
+            servers=receive.recv();receive.close()
+        else:
+            for handler in (Handler,FuxaReadHandler):
+                server=GatewayHTTPServer(('127.0.0.1',0),handler);server.store=store;server.config=config
+                thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+                cleanup.callback(thread.join);cleanup.callback(server.server_close);cleanup.callback(server.shutdown)
+                servers.append('http://127.0.0.1:'+str(server.server_port))
         public,private=servers
         results=[]; errors=[]; cycles=[]
         def measured(kind, operation):
@@ -63,7 +90,7 @@ def run(city, rounds, workers, operators, output, batch_size=128):
             return dict(kind=kind,seconds=time.monotonic()-start),value
         with ThreadPoolExecutor(max_workers=workers) as executor:
             for cycle in range(rounds):
-                start=time.monotonic(); futures=[]; pending={}
+                start=time.monotonic(); futures=[]; pending={}; polled=set()
                 def submit_batch(source):
                     readings=pending.pop(source)
                     def publish():
@@ -75,8 +102,11 @@ def run(city, rounds, workers, operators, output, batch_size=128):
                     futures.append(executor.submit(measured,'telemetry',publish))
                 # Interleave device polls, measurement writes and operator reads in the same pool.
                 for index,asset in enumerate(package['equipment']):
-                    path='/tags/'+city+'/simulation/'+quote(asset['asset_id'],safe=':')
-                    futures.append(executor.submit(measured,'fuxa-poll',lambda path=path:request(private,path)))
+                    identity=asset['site_id'] if polling_scope=='site' else asset['asset_id']
+                    if identity not in polled:
+                        path=polling_paths[identity]
+                        futures.append(executor.submit(measured,'fuxa-poll',lambda path=path:request(private,path)))
+                        polled.add(identity)
                     for name,m in asset['measurements'].items():
                         value=m['min']+(m['max']-m['min'])*(0.25 if cycle%2==0 else 0.75)
                         data=dict(city=city,environment='simulation',asset_id=asset['asset_id'],measurement=name,
@@ -106,20 +136,33 @@ def run(city, rounds, workers, operators, output, batch_size=128):
             raw=m['min']+(m['max']-m['min'])*(0.25 if (rounds-1)%2==0 else 0.75)
             expected=raw*m.get('scale',1)+m.get('offset',0)
             expected_values &= row is not None and row['value']==expected
+        # Read the real exported FUXA routes after all writes have committed.
+        # This checks effective display values as well as historian persistence.
+        tags={}
+        for path in polling_paths.values():
+            for tag in request(private,path):
+                if tag['id'] in tags: raise ValueError('Duplicate FUXA tag identity')
+                tags[tag['id']]=tag['value']
+        display_values=True
+        for asset,name,m in samples:
+            row=last.get((store.scope(city,'simulation',asset['asset_id']),name))
+            identity=asset['fuxa_device_id']+'__'+name
+            display_values &= row is not None and tags.get(identity)==(row['value'] if row['quality']=='valid' else 'unavailable')
+            display_values &= row is not None and tags.get(identity+'_quality')==row['quality']
         timings={}
         for kind in sorted({r['kind'] for r in results}):
             values=sorted(r['seconds'] for r in results if r['kind']==kind)
             timings[kind]=dict(requests=len(values),p50_seconds=values[len(values)//2],
                 p95_seconds=values[min(len(values)-1,int(len(values)*.95))],max_seconds=max(values))
-        source_paths=['services/integration/osr_integration/'+name+'.py' for name in ('store','server','config')]+['tools/automation/supervision-load.py']
-        report=dict(schema='osr-supervision-load/1',city=city,
+        source_paths=['services/integration/osr_integration/'+name+'.py' for name in ('store','server','config','fuxa')]+['tools/automation/supervision-load.py']
+        report=dict(schema='osr-supervision-load/1',city=city,server_process=server_process,
             working_tree_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),
             checkout_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
             source_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in source_paths},
             package_sha256=package['sha256'],equipment=len(package['equipment']),measurements=measurements,
-            rounds=rounds,workers=workers,operators=operators,telemetry_batch_size=batch_size,cycle_seconds=cycles,request_timings=timings,
-            readings_expected=measurements*rounds,readings_actual=actual,latest_values_match=bool(expected_values),
-            errors=errors,sqlite_integrity=integrity,functional_passed=not errors and actual==measurements*rounds and expected_values and integrity=='ok',
+            rounds=rounds,workers=workers,operators=operators,telemetry_batch_size=batch_size,fuxa_polling_scope=polling_scope,fuxa_polling_groups=len(polled),cycle_seconds=cycles,request_timings=timings,
+            readings_expected=measurements*rounds,readings_actual=actual,latest_values_match=bool(expected_values),fuxa_values_match=bool(display_values),fuxa_project_sha256=digest(fuxa),
+            errors=errors,sqlite_integrity=integrity,functional_passed=not errors and actual==measurements*rounds and expected_values and display_values and integrity=='ok',
             polling_target_seconds=2,polling_target_met=all(seconds<=2 for seconds in cycles),
             scope='Isolated HTTP gateway: synthetic telemetry, FUXA adapter polls and operator API reads; no FUXA browser/ERP transaction/physical controller load.',
             production_capacity_accepted=False)
@@ -133,11 +176,13 @@ def main():
     parser.add_argument('--city',default='samawah');parser.add_argument('--rounds',type=int,default=3)
     parser.add_argument('--workers',type=int,default=16);parser.add_argument('--operators',type=int,default=4)
     parser.add_argument('--batch-size',type=int,default=128,help='1 uses the original single-reading endpoint; 2..128 uses atomic batches')
+    parser.add_argument('--in-process',action='store_true',help='Historical comparison: gateway and clients share one Python interpreter')
+    parser.add_argument('--polling-scope',choices=['asset','site'])
     parser.add_argument('--require-polling-target',action='store_true',help='Also fail when any complete city cycle exceeds two seconds')
     parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
     if not 1<=args.rounds<=100 or not 1<=args.workers<=64 or not 1<=args.operators<=32 or not 1<=args.batch_size<=128:
         parser.error('rounds 1..100, workers 1..64, operators 1..32, batch-size 1..128')
-    result=run(args.city,args.rounds,args.workers,args.operators,args.output,args.batch_size)
+    result=run(args.city,args.rounds,args.workers,args.operators,args.output,args.batch_size,args.polling_scope,not args.in_process)
     if not result['functional_passed']:raise SystemExit(1)
     if args.require_polling_target and not result['polling_target_met']:raise SystemExit(2)
 
