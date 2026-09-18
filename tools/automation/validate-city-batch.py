@@ -28,6 +28,10 @@ def source_inputs(design, scenario):
 def reusable(folder, inputs, resilience, basis='canonical'):
     try:
         record=json.loads((folder/'execution.json').read_text())
+        if basis=='generator-candidate' and (record.get('city')!=folder.name or
+                record.get('tested_scenario_sha256')!=sha(folder/(folder.name+'.toml')) or
+                record.get('design_sha256')!=sha(folder/'design.toml')):
+            return None
         return record if record.get('scenario_basis','canonical')==basis and record['inputs']==inputs and record['resilience_required']==resilience and record['passed'] is True and record['report_sha256']==sha(folder/'validation.json') and json.loads((folder/'validation.json').read_text()).get('passed') is True else None
     except (OSError,ValueError,KeyError):return None
 
@@ -61,7 +65,7 @@ def run_city(city, design, output, timeout, resilience, resume, regenerate=False
     unchanged=inputs==source_inputs(design,scenario)
     record=dict(schema='osr-city-simulation-execution/1',city=city,commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         inputs=inputs,inputs_unchanged=unchanged,command=command,exit_code=code,elapsed_seconds=round(time.monotonic()-started,1),
-        scenario_basis=basis,canonical_scenario_sha256=sha(scenario),tested_scenario_sha256=sha(tested_scenario),
+        scenario_basis=basis,canonical_scenario_sha256=sha(scenario),tested_scenario_sha256=sha(tested_scenario),design_sha256=sha(design),
         report_sha256=sha(report) if report.exists() else None,resilience_required=resilience,passed=code==0 and result.get('passed') is True and unchanged,
         physical_release=False,scope='Full-window software simulation of the recorded scenario basis; generated candidates do not promote canonical packages. Capacity, physical fit, site energy and independent operating acceptance remain separate')
     (folder/'execution.json').write_text(json.dumps(record,indent=2)+'\n')
