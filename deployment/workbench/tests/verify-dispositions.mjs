@@ -63,6 +63,9 @@ try {
      expect(args.get('fingerprint')).toBe('verification-preview');if(rework) reworkVerified=true;else verified=true;
      message={name:'UI-VERIFICATION',created:true};
    } else throw new Error('Unexpected execution method: '+name);
+   // Reproduce a slow final write: preview text is still visible until this
+   // reply returns, and must not be mistaken for the refreshed catalogue.
+   if(name==='record' && rework) await new Promise(resolve=>setTimeout(resolve,300));
    await route.fulfill({json:{message}});
  });
  await page.route('**/api/method/frappe.client.validate_link',async route=>{
@@ -114,8 +117,9 @@ try {
  await expect(modal()).toContainText('JC-FIXTURE');
  await expect(modal()).toContainText('QI-FIXTURE');
  await modal().getByRole('button',{name:'Record verification',exact:true}).click();
+ await expect.poll(()=>frame.locator('body').evaluate(()=>window.cur_dialog?.title)).toBe('Revision dispositions');
  await expect(modal()).toContainText('Corrective work and inspection verified');
- expect(calls).toEqual(['catalogue','preview','record','catalogue','preview_decision','record_decision','catalogue','execution.preview','execution.record','catalogue','execution.preview','execution.record','catalogue']);
+ await expect.poll(()=>[...calls]).toEqual(['catalogue','preview','record','catalogue','preview_decision','record_decision','catalogue','execution.preview','execution.record','catalogue','execution.preview','execution.record','catalogue']);
  expect(errors).toEqual([]);
  console.log('PASS native ERP disposition dialogs: typed proposal, explicit preview, independent decision and previewed native-outcome verification (mocked business replies)');
 }catch(error){
