@@ -1,5 +1,13 @@
 # ERPNext integration and automation review
 
+This document preserves the initial adapter review and commissioning sequence.
+Its “next” recommendations describe that increment, not the current completion
+status. Use [integration status](integration-status.md) and the
+[review follow-through](review-follow-through.md) for current capabilities,
+executed acceptance checks and remaining gaps. The connected lifecycle now includes
+native purchasing quantities, production/serial records, repairs and revision
+dispositions beyond the initial document-count feedback described below.
+
 Reusable adapters for the eight recommended areas are now implemented. See
 [Operating components](components.md) for their dynamic forms, city profiles,
 preview/apply API and activation behaviour. The master-data requirements below
@@ -44,7 +52,7 @@ engineering/configuration checksum. Native operator transactions sit alongside
 that immutable baseline. The generic/company/city warehouse configuration is
 reused; no separate per-city implementation is needed.
 
-## Further integration opportunities
+## Original integration recommendations
 
 These are implementation recommendations based on the available native
 functions, rather than claims that all integrations are already enabled.

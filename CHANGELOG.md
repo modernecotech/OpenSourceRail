@@ -16,6 +16,10 @@
   LIDAR and radar comparisons now handle minimum signed offsets without overflow.
   The supervisory simulator rechecks local enable/disconnect at command execution
   so changes during telemetry and polling cannot reuse an older enabled state.
+  Removed unused topology construction from same-section/zero-wheel proof paths
+  and corrected further unwind bounds without disabling verification checks.
+  Added partitioned full-catalogue simulation CI with complete, current artifact
+  validation; candidate simulation results do not grant physical acceptance.
   See the
   [review follow-through](docs/operating/review-follow-through.md).
 

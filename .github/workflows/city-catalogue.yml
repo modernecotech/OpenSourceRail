@@ -1,0 +1,98 @@
+name: city-catalogue
+
+on:
+  push:
+    branches: ['validation/cities/**']
+  workflow_dispatch:
+    inputs:
+      basis:
+        description: Scenario basis; generated candidates do not promote canonical packages
+        type: choice
+        options: [generator-candidate, canonical]
+        default: generator-candidate
+      resilience:
+        description: Include degraded full-window scenarios
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  cities:
+    name: Full-window city partition ${{ matrix.partition }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        partition: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.88.0
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build the recorded simulator
+        run: cargo build --release -p osr-sim
+      - name: Execute the selected catalogue partition
+        env:
+          CITY_PARTITION: ${{ matrix.partition }}
+          CITY_BASIS: ${{ inputs.basis || 'generator-candidate' }}
+          CITY_RESILIENCE: ${{ inputs.resilience || false }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess, sys
+          args=[sys.executable,'tools/automation/validate-city-batch.py','--all',
+              '--partition',os.environ['CITY_PARTITION']+'/16','--jobs','2','--timeout','1800',
+              '--output','build/city-validation/partition']
+          if os.environ['CITY_BASIS']=='generator-candidate':args.append('--regenerate')
+          if os.environ['CITY_RESILIENCE']!='true':args.append('--nominal-only')
+          raise SystemExit(subprocess.run(args).returncode)
+          PY
+      - name: Preserve successes and failed city diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: city-partition-${{ matrix.partition }}
+          path: build/city-validation/partition/
+          if-no-files-found: error
+          retention-days: 14
+
+  collect:
+    name: Verify every city artifact against the candidate
+    needs: cities
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: city-partition-*
+          path: build/city-validation/ci-artifacts
+      - name: Check catalogue completeness and current evidence bytes
+        env:
+          CITY_BASIS: ${{ inputs.basis || 'generator-candidate' }}
+          CITY_RESILIENCE: ${{ inputs.resilience || false }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess, sys
+          args=[sys.executable,'tools/automation/collect-city-validation.py',
+              '--input','build/city-validation/ci-artifacts',
+              '--output','build/city-validation/catalogue-ci.json','--basis',os.environ['CITY_BASIS']]
+          if os.environ['CITY_RESILIENCE']=='true':args.append('--resilience')
+          raise SystemExit(subprocess.run(args).returncode)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: city-catalogue-summary
+          path: build/city-validation/catalogue-ci.json
+          if-no-files-found: error
+          retention-days: 14

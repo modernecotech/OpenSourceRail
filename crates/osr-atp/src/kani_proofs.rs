@@ -278,11 +278,12 @@ fn kani_a4_train_mismatch_trips() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
+#[kani::unwind(4)]
 fn kani_a5_head_past_ma_end_trips_same_section() {
-    // Build the tiny network so the same-section length lookup succeeds
-    // if we ever reach the slow path. For this proof we stay in the
-    // same-section fast path of `distance_to_ma_end`.
-    let net = tiny_network();
+    // Same-section overrun exits before reading topology or the envelope.
+    // Unwinding assertions also check that longer paths are unreachable
+    // under the assumptions below; they are not silently discarded.
+    let net = Network::default();
     let consist = ConsistDescriptor::reference_3car();
 
     let head_offset: i64 = kani::any();
@@ -314,7 +315,7 @@ fn kani_a5_head_past_ma_end_trips_same_section() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(4)]
+#[kani::unwind(32)]
 fn kani_a6_severe_overspeed_trips() {
     use crate::envelope::{max_safe_speed_mmps, DecelTable};
     use crate::evaluate::OVERSPEED_EMERGENCY_MARGIN_MMPS;
@@ -334,7 +335,9 @@ fn kani_a6_severe_overspeed_trips() {
     kani::assume(excess > OVERSPEED_EMERGENCY_MARGIN_MMPS);
     kani::assume(excess <= 10_000);
 
-    let net = tiny_network();
+    // The same-section distance path does not read topology. Bound 32
+    // accommodates the integer square-root loop; all checks remain enabled.
+    let net = Network::default();
     let consist = ConsistDescriptor::reference_3car();
     let decel = DecelTable::from_emergency(&consist);
     let envelope = max_safe_speed_mmps(dist, &decel);
@@ -385,7 +388,7 @@ fn severity(command: &BrakeCommand) -> u8 {
 }
 
 #[kani::proof]
-#[kani::unwind(8)]
+#[kani::unwind(32)]
 fn kani_a7_uncertainty_widening_is_conservative() {
     let head_offset: i64 = kani::any();
     kani::assume(head_offset >= 0);
@@ -407,7 +410,8 @@ fn kani_a7_uncertainty_widening_is_conservative() {
     kani::assume(end_offset >= 100_000);
     kani::assume(end_offset <= 1_000_000);
 
-    let net = tiny_network();
+    // Both evaluations use the same-section fast path, with no graph lookup.
+    let net = Network::default();
     let consist = ConsistDescriptor::reference_3car();
 
     let mut state_low = state_on_section(7, 1000, head_offset);

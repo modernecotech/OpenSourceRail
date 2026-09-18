@@ -12,7 +12,7 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
 | Unmocked disposition UI | Nine browser assertions use real ERP responses and three native users, through proposal, endorsement, native stop, independent verification and stale detection after resume. Self-review and premature verification are rejected. | Other action types retain native transactional tests; every browser/action/concurrency permutation is not covered. |
 | Controlled proof evidence and independent acceptance | The runner executes every declared Kani harness, records actual exit codes/logs and conservative dependency hashes, and rejects source changes during execution. CI covers eight packages and all 41 declared harnesses. Ed25519 verification binds an independent authorized reviewer to exact result bytes, scope and reports. | Timeouts remain unproved. Runner provenance and reviewer key ownership require external trust review. No independent acceptance has been issued. Citation, property-test and other safety-case results remain separate. |
 | Cross-domain engineering changes | Workbench binds the proposed package to city/company/project ERP observations and linked artifact hashes. Missing, ambiguous, older-than-five-minute, future-dated or revision-mismatched observations and changed artifacts are flagged; the context checksum changes with business observations. | This is a point-in-time review, not a cross-service transaction. Complete CAD dependency discovery, solver reruns, accepted rework and formal-evidence supersession remain open. Supervisory apply does not close these gates. |
-| Broader operating validation | A resource-bounded, resumable runner supports selected cities or the full catalogue, nominal or degraded full-window runs, and generated candidates. Reuse requires successful reports with unchanged input/report hashes. | Catalogue-wide full-service, continuous stabling, morning fleet, site-energy and physical acceptance are not established by representative runs. Generated candidates do not promote canonical packages. |
+| Broader operating validation | A resource-bounded, resumable runner supports selected cities or the full catalogue, nominal or degraded full-window runs, and generated candidates. Catalogue CI partitions the workload and rejects missing, duplicate, failed, stale or altered city artifacts. | Canonical full-service, continuous stabling, morning fleet, site-energy and physical acceptance need their own qualifying evidence; generated candidates do not promote canonical packages. |
 | Manufacturing and production deployment | Existing supplier, factory, inspection, HIL and operating-release gates remain fail-closed. No nominal calculation or simulated ERP transaction is relabelled as performed evidence. | Approved supplier configurations, site surveys, inspected first articles, measured mass, HIL, production identity/TLS and independently accepted restore/recovery evidence are required. |
 
 ## Defects found by the expanded execution
@@ -41,6 +41,13 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
   comparisons now handle both signed extremes consistently with the off-profile
   rule. The updated five-crate unit/property suites pass. Superseded source-bound
   proof runs cannot qualify as evidence for these revised evaluators.
+- ATP's same-section overrun harness and odometry's zero-wheel balise harness
+  constructed topology their evaluated paths never read. Removing that fixture
+  work, and bounding unreachable ATP loops with unwinding assertions enabled,
+  allowed both proofs to finish with their original input ranges and assertions.
+  The overspeed/conservatism harnesses also exposed insufficient square-root
+  unwind bounds; these are increased to 32, with unresolved executions still
+  treated as unproved. Graph-dependent harnesses keep their topology fixtures.
 - Kisumu and Najaf's checked-in scenarios lacked the current train-system fields.
   Regeneration also exposes their explicit point-machine identities. Their original
   nominal runs failed the configuration contract even though operational checks ran.
@@ -67,7 +74,17 @@ tools/automation/osr-python tools/automation/validate-city-batch.py \
 tools/automation/osr-python tools/automation/validate-city-batch.py \
   --city kisumu --city najaf --nominal-only --regenerate \
   --output build/city-validation/candidates
+
+# Optional catalogue CI: 16 disjoint partitions, at most eight jobs at once.
+gh workflow run city-catalogue.yml --ref YOUR_CANDIDATE_REF \
+  -f basis=generator-candidate -f resilience=false
 ```
+
+The catalogue workflow also runs on explicitly pushed `validation/cities/**`
+branches. Each partition uses two workers; its collector verifies every current
+catalogue city, commit, dependency scope and report/scenario/design hashes. It
+publishes failed diagnostics as well as successes. This optional modelling check
+is separate from the four required integrated software-release workflows.
 
 Timeouts and failed runs retain diagnostics and exit unsuccessfully. `--resume`
 never reuses failed results or results for changed inputs. `--nominal-only` excludes

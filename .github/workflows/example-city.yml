@@ -49,15 +49,20 @@ jobs:
           npm run frontend:build
           cargo build -p osr-sim --example operating_bridge
 
-      - name: Set up the isolated example city and run its complete lifecycle
-        run: |
-          ./osr example-city setup
-          ./osr example-city run
-          ./osr example-city restart-check
-          ./osr example-city expand-check
-          ./osr example-city business-check
-          ./osr example-city disposition-check
-          ./osr example-city release-evidence
+      - name: Set up the isolated example city
+        run: ./osr example-city setup
+      - name: Run the connected city lifecycle
+        run: ./osr example-city run
+      - name: Verify retained records after full restart
+        run: ./osr example-city restart-check
+      - name: Exercise configuration and native transaction variations
+        run: ./osr example-city expand-check
+      - name: Verify native budgets, assignments, replenishment and training
+        run: ./osr example-city business-check
+      - name: Exercise the unmocked separate-user disposition journey
+        run: ./osr example-city disposition-check
+      - name: Bind all passing city reports to the clean candidate
+        run: ./osr example-city release-evidence
       - name: Generate coverage evidence even after a failed scenario
         if: always()
         run: ./osr example-city coverage

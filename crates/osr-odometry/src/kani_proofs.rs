@@ -1,7 +1,7 @@
 //! Kani bounded-model-checker harnesses for O1–O5.
 //!
 //! `odom_step` is a pure function but the wheel-dead-reckoning path
-//! touches the network topology, so each harness uses a fixed
+//! touches the network topology, so the graph-walking harnesses use a fixed
 //! 3-section linear fixture (matching the style used by
 //! `osr-atp::kani_proofs::tiny_network`) and a bounded unwind.
 //!
@@ -182,7 +182,9 @@ fn kani_o3_uncertainty_monotone_without_fix() {
 fn kani_o4_balise_resets_uncertainty() {
     let prev = arb_prev();
     let cal = fixed_cal();
-    let net = tiny_network();
+    // Zero wheel pulses return before any graph lookup. Avoid constructing
+    // unrelated topology while retaining every balise/state input and assertion.
+    let net = Network::default();
 
     let fix_uncertainty: u32 = kani::any();
     kani::assume(fix_uncertainty <= 10_000);

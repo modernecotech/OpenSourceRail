@@ -18,6 +18,16 @@ ROOT=Path(__file__).resolve().parents[2]
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def partition(cities, value):
+    """Deterministic, disjoint slices for bounded catalogue CI workers."""
+    try:
+        index, count = map(int, value.split('/'))
+        if not 0 <= index < count <= 64:raise ValueError
+    except (ValueError, TypeError):
+        raise ValueError('Partition must be INDEX/COUNT with 0 <= INDEX < COUNT <= 64') from None
+    return sorted(cities)[index::count]
+
+
 def source_inputs(design, scenario):
     names=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=ROOT).decode().split('\0')
     names={p for p in names if p and ((p.startswith('crates/') and p.endswith('.rs')) or Path(p).name in {'Cargo.toml','Cargo.lock','rust-toolchain.toml'} or p.startswith(('lib/templates/','design/city-generation/src/','design/component-catalogue/catalog/buildable-trainset/')))}
@@ -78,11 +88,16 @@ def main():
     parser.add_argument('--jobs',type=int,default=2);parser.add_argument('--timeout',type=int,default=1800)
     parser.add_argument('--nominal-only',action='store_true');parser.add_argument('--resume',action='store_true');parser.add_argument('--output',type=Path,default=ROOT/'build/city-validation/batch')
     parser.add_argument('--regenerate',action='store_true',help='Test generated scenario candidates in build/; leave canonical packages unchanged')
+    parser.add_argument('--partition',help='With --all, select deterministic INDEX/COUNT slice for CI')
     args=parser.parse_args()
     if args.jobs<1 or args.jobs>8 or args.timeout<1:parser.error('Use 1–8 workers and a positive timeout')
     spec=importlib.util.spec_from_file_location('batch_cities',ROOT/'tools/automation/erpnext-city.py');cities=importlib.util.module_from_spec(spec);spec.loader.exec_module(cities)
     catalogue=cities.catalogue();selected=sorted(catalogue if args.all else set(args.city))
     if set(selected)-catalogue.keys():parser.error('Unknown city slug')
+    if args.partition:
+        if not args.all:parser.error('--partition requires --all')
+        try:selected=partition(selected,args.partition)
+        except ValueError as error:parser.error(str(error))
     output=args.output.resolve()
     if not output.is_relative_to(ROOT/'build'):parser.error('Output must be inside the generated build directory')
     output.mkdir(parents=True,exist_ok=True);records={}
