@@ -29,7 +29,7 @@
 //! Proptests in `tests/proptest_ma.rs` exercise P1 and P5 across random
 //! log prefixes. Kani harnesses (M3) will formally verify all five.
 
-use osr_core::{Direction, EntryId, Network, SectionId, TrackRef, TrainId};
+use osr_core::{Direction, EntryId, SectionId, TrackRef, TrackTopology, TrainId};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
@@ -90,7 +90,7 @@ pub struct MovementAuthority {
 pub fn compute_self_ma(
     train_id: TrainId,
     log_prefix: &[Entry],
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
     now_ns: u64,
 ) -> MovementAuthority {
     let state = derive_state(log_prefix);
@@ -103,7 +103,7 @@ pub fn compute_self_ma(
 pub fn compute_self_ma_from_state(
     train_id: TrainId,
     state: &DerivedState,
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
     now_ns: u64,
     derived_from_entry_id: Option<EntryId>,
 ) -> MovementAuthority {
@@ -240,7 +240,7 @@ pub fn section_available_to(train_id: TrainId, section: SectionId, state: &Deriv
 
 fn collect_applicable_restrictions(
     state: &DerivedState,
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
     from: TrackRef,
     to: TrackRef,
     now_ns: u64,
@@ -270,7 +270,11 @@ fn collect_applicable_restrictions(
         .collect()
 }
 
-fn forward_chain_from_to(network: &Network, from: TrackRef, to: TrackRef) -> BTreeSet<SectionId> {
+fn forward_chain_from_to(
+    network: &(impl TrackTopology + ?Sized),
+    from: TrackRef,
+    to: TrackRef,
+) -> BTreeSet<SectionId> {
     // `collect_applicable_restrictions` is called after MA computation, so
     // the authority end must be on the same forward chain as `from`.
     // Re-walk using the same bounded helper and stop at `to.section`.
@@ -341,6 +345,7 @@ fn fail_restrictive(
 mod tests {
     use super::*;
     use crate::log::{EntryPayload, PositionSource, TrainPositionReport, TrainRegistration};
+    use osr_core::Network;
     use osr_core::{ConsistDescriptor, Line, Position, Section, Station, StationId, TrackRef};
 
     fn net_3_sections() -> Network {
@@ -822,5 +827,37 @@ mod tests {
             SectionId::new(1001),
             &state2
         ));
+    }
+
+    proptest::proptest! {
+        #[test]
+        fn static_topology_matches_network_authority(
+            head in 100_000i64..=900_000, second in 100_000i64..=900_000,
+            now in 201u64..=10_000_000_000, ring in proptest::bool::ANY,
+            second_train in proptest::bool::ANY,
+        ) {
+            let mut network = net_3_sections(); network.lines[0].is_ring = ring;
+            let sections: Vec<_> = network.sections.values().rev().cloned().collect();
+            let lines: Vec<_> = network.lines.iter().map(osr_core::TrackLine::from).collect();
+            let compact = osr_core::StaticTopology::try_new(&lines, &sections).unwrap();
+            let mut log = Vec::new();
+            for (id, section, offset) in [(7, 1000, head), (8, 1001, second)] {
+                if id == 8 && !second_train { continue; }
+                log.push(entry(id*2, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(id), consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(section, 0),
+                })));
+                log.push(entry(id*2+1, 200, EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(id), head_position: pos(section, offset),
+                    tail_position: pos(section, offset-51_000), speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500, heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss], onboard_time_ns: 199, pack_soc_ppt: 900,
+                })));
+            }
+            for id in [7, 8, 9] {
+                proptest::prop_assert_eq!(compute_self_ma(TrainId::new(id), &log, &network, now),
+                    compute_self_ma(TrainId::new(id), &log, &compact, now));
+            }
+        }
     }
 }

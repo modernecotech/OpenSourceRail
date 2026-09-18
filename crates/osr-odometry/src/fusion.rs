@@ -3,7 +3,7 @@
 //! See the crate-level docs for the fusion priority and safety
 //! properties.
 
-use osr_core::{Network, TrackRef};
+use osr_core::{TrackRef, TrackTopology};
 use osr_interlocking::forward_chain;
 
 use crate::sensors::{GnssFix, OdomCalibration, PositionSource, SensorTick};
@@ -25,7 +25,11 @@ use crate::state::OdomState;
 ///   handled at a higher level by flipping `from.direction` before
 ///   rolling.
 #[must_use]
-pub fn advance_along_track(network: &Network, from: TrackRef, dist_mm: i64) -> TrackRef {
+pub fn advance_along_track(
+    network: &(impl TrackTopology + ?Sized),
+    from: TrackRef,
+    dist_mm: i64,
+) -> TrackRef {
     if dist_mm == 0 {
         return from;
     }
@@ -98,7 +102,7 @@ pub fn odom_step(
     prev: &OdomState,
     cal: &OdomCalibration,
     sensors: &SensorTick,
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
 ) -> OdomState {
     // --- 1. Wheel dead reckoning --------------------------------------------
     let dist_mm = pulses_to_mm(sensors.wheel_pulses, cal);
@@ -238,6 +242,7 @@ fn apply_gnss(dead_reckoned: TrackRef, fix: GnssFix) -> TrackRef {
 mod tests {
     use super::*;
     use crate::sensors::{BaliseFix, BaliseId};
+    use osr_core::Network;
     use osr_core::{Direction, Line, Section, SectionId, Station, StationId, TrainId};
 
     fn net() -> Network {
@@ -471,5 +476,34 @@ mod tests {
         let a = odom_step(&prev, &cal, &sensors, &n);
         let b = odom_step(&prev, &cal, &sensors, &n);
         assert_eq!(a, b);
+    }
+
+    proptest::proptest! {
+        #[test]
+        fn static_topology_matches_network_fusion(
+            offset in 0i64..=1_000_000, pulses in -410_000i32..=410_000,
+            timestamp in 0u64..=10_000_000_000, slot in 0usize..6,
+            reverse in proptest::bool::ANY, ring in proptest::bool::ANY,
+            gnss in proptest::bool::ANY, balise in proptest::bool::ANY,
+            uncertainty in 0u32..=50_000,
+        ) {
+            let mut network = net();
+            network.lines[0].is_ring = ring;
+            let sections: Vec<_> = network.sections.values().rev().cloned().collect();
+            let lines: Vec<_> = network.lines.iter().map(osr_core::TrackLine::from).collect();
+            let compact = osr_core::StaticTopology::try_new(&lines, &sections).unwrap();
+            let ids = [1000, 1001, 1002, 2000, 2001, 2002];
+            let mut head = sec(ids[slot], offset);
+            head.direction = if reverse { Direction::Reverse } else { Direction::Forward };
+            let prev = OdomState::new_at(TrainId::new(7), head, uncertainty, 0);
+            let sensors = SensorTick { timestamp_ns: timestamp, wheel_pulses: pulses,
+                gnss: gnss.then_some(GnssFix { projected: sec(1002, 300_000), uncertainty_mm: 100 }),
+                balise: balise.then_some(BaliseFix { balise_id: BaliseId::new(3), position: sec(1001, 0), uncertainty_mm: 50 }) };
+            let cal = OdomCalibration::light_metro_default();
+            proptest::prop_assert_eq!(odom_step(&prev, &cal, &sensors, &network),
+                odom_step(&prev, &cal, &sensors, &compact));
+            proptest::prop_assert_eq!(advance_along_track(&network, head, i64::from(pulses)*1000),
+                advance_along_track(&compact, head, i64::from(pulses)*1000));
+        }
     }
 }

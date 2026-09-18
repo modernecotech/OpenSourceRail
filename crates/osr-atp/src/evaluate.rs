@@ -9,7 +9,7 @@
 //! validated produces [`BrakeCommand::Emergency`] with a descriptive
 //! [`TriggerReason`].
 
-use osr_core::{ConsistDescriptor, Network, TrackRef};
+use osr_core::{ConsistDescriptor, TrackRef, TrackTopology};
 use osr_interlocking::{MovementAuthority, MAX_MA_DISTANCE_MM};
 use serde::{Deserialize, Serialize};
 
@@ -123,7 +123,7 @@ pub fn atp_evaluate(
     state: &TrainState,
     ma: &MovementAuthority,
     consist: &ConsistDescriptor,
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
     now_ns: u64,
 ) -> AtpOutcome {
     // A4: MA must be for this train.
@@ -225,7 +225,11 @@ pub fn atp_evaluate(
 /// Returns `None` if `end` is not reachable by going forward from
 /// `head` within [`MAX_MA_DISTANCE_MM`], or if the head is already
 /// past `end` on the same section.
-fn distance_to_ma_end(network: &Network, head: TrackRef, end: TrackRef) -> Option<i64> {
+fn distance_to_ma_end(
+    network: &(impl TrackTopology + ?Sized),
+    head: TrackRef,
+    end: TrackRef,
+) -> Option<i64> {
     // Same-section fast path.
     if head.section == end.section && head.direction == end.direction {
         let d = end.offset_mm - head.offset_mm;
@@ -262,6 +266,7 @@ fn distance_to_ma_end(network: &Network, head: TrackRef, end: TrackRef) -> Optio
 mod tests {
     use super::*;
     use osr_core::EntityId;
+    use osr_core::Network;
     use osr_core::{
         ConsistDescriptor, Direction, Line, Section, SectionId, Station, StationId, TrainId,
     };
@@ -476,5 +481,30 @@ mod tests {
         let a = atp_evaluate(&state, &ma, &consist, &net, 1_000);
         let b = atp_evaluate(&state, &ma, &consist, &net, 1_000);
         assert_eq!(a, b);
+    }
+
+    proptest::proptest! {
+        #[test]
+        fn static_topology_matches_network_braking(
+            offset in 0i64..=1_000_000, end_offset in 0i64..=1_000_000,
+            slot in 0usize..6, end_slot in 0usize..6, speed in 0i32..=50_000,
+            uncertainty in 0u32..=10_000, reverse in proptest::bool::ANY,
+            ring in proptest::bool::ANY, now in 0u64..=4_000_000_000,
+        ) {
+            let mut network = net_3_sections(); network.lines[0].is_ring = ring;
+            let sections: Vec<_> = network.sections.values().rev().cloned().collect();
+            let lines: Vec<_> = network.lines.iter().map(osr_core::TrackLine::from).collect();
+            let compact = osr_core::StaticTopology::try_new(&lines, &sections).unwrap();
+            let ids = [1000, 1001, 1002, 2000, 2001, 2002];
+            let mut state = state_stopped_at(ids[slot], offset);
+            state.head.direction = if reverse { Direction::Reverse } else { Direction::Forward };
+            state.speed_mmps = speed; state.speed_uncertainty_mmps = uncertainty;
+            state.position_uncertainty_mm = uncertainty;
+            let mut ma = nominal_ma(ids[end_slot], end_offset, 0);
+            ma.end.direction = state.head.direction;
+            let consist = ConsistDescriptor::reference_3car();
+            proptest::prop_assert_eq!(atp_evaluate(&state, &ma, &consist, &network, now),
+                atp_evaluate(&state, &ma, &consist, &compact, now));
+        }
     }
 }

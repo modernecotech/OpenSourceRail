@@ -5,6 +5,10 @@ peak-headway delivery, passenger capacity, multi-day energy sustainability or
 engineering/operating acceptance. All service thresholds and timetable windows
 remain unchanged. The generator baselines match the checked-in scenarios.
 
+The original runs qualify their recorded source hashes. After the topology-adapter
+change, both successful options were fully requalified against the new Rust
+source; see the fresh bundles below. Earlier bundles remain historical evidence.
+
 ## Baseline and unsuccessful charging-only trials
 
 The retained [Samawah baseline](../../docs/operating/status/rehearsals/samawah-service-qualification.json)
@@ -40,7 +44,7 @@ source dependencies and the full nominal/eight-case qualification.
 | 300 seconds + 20 trainsets | 94.19% | 92.79% | 92.69% | 91.02% | 8/8 |
 
 The [12-train option](examples/samawah-fleet12/qualification.json) fails both heat
-cases. The [20-train option](examples/samawah-fleet20/qualification.json) passes the
+cases. The [20-train option](examples/samawah-fleet20-topology/qualification.json) passes the
 complete nominal and eight-case suite across all three lines. Its line-1 fleet
 increases from 53 to 73; the whole city increases from 108 to 128. Each powered
 line-1 stop gains 30 seconds of charging dwell. The grid-outage line-1 result is
@@ -49,7 +53,7 @@ not proof that 20 trains is the minimum addition or the least-cost solution.
 
 ### Mosul: outage endurance
 
-The [controlled energy option](examples/mosul-energy/qualification.json) adds
+The [controlled energy option](examples/mosul-energy-topology/qualification.json) adds
 three storage modules and 300 kWp solar at each of nine line-2 sites: **27 modules,
 13,500 kWh storage and 2,700 kWp solar** in total. Existing charge/discharge rates,
 charger power, fleet and timetable remain unchanged. Line 2's ten-hour all-site
@@ -58,11 +62,27 @@ and all eight degraded cases; the lowest outage result is line 4 at 62.97%, abov
 the existing 60% emergency floor. The separate [exploratory energy run](exploratory/line2-energy/qualification.json)
 also passed before the sealed workflow rerun.
 
-Across both cities, six full candidate suites were executed (54 runs of 90,000
-simulated seconds): three exploratory and three controlled. The controlled
+Across both cities, the original six candidate suites contain 54 runs of 90,000
+simulated seconds: three exploratory and three controlled. The controlled
 12-train Samawah option fails; the controlled 20-train Samawah and Mosul energy
-options pass. This is a targeted design comparison, not an exhaustive parameter
-sweep, calibrated demand study or least-cost optimization.
+options pass. Two subsequent full requalifications add 18 runs, bringing the total
+to **eight suites and 72 runs**. This remains a targeted design comparison, not
+an exhaustive parameter sweep, calibrated demand study or least-cost optimization.
+
+### Requalification after the topology refactor
+
+Both successful options pass nominal service and all eight degraded cases on the
+new source. Every detailed nominal/degraded outcome field matches its preceding
+run, including service, energy, incidents and subsystem checks. Passenger-capacity
+configuration, timetable windows and trainset contracts also match. The fresh
+bundles bind the changed Rust dependencies and simulator binary, and both pass
+current-source `design-option.py verify`.
+
+Workbench now points to these fresh bundles. The original
+[Samawah](examples/samawah-fleet20/qualification.json) and
+[Mosul](examples/mosul-energy/qualification.json) bundles remain retained for
+comparison. This provides whole-city regression evidence for the storage change;
+physical deployment and canonical promotion still require their separate gates.
 
 Resource counts are planning deltas, not approved purchase orders. Added trainsets
 also add initially charged onboard energy; a 25-hour run does not establish a

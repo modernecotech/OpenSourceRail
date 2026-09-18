@@ -10,7 +10,7 @@
 //! refresh period (~500 ms), and total sections across a region are in the
 //! low hundreds, so a full linear scan is well within budget.
 
-use osr_core::{Direction, Line, Network, SectionId, TrackRef};
+use osr_core::{Direction, SectionId, TrackLine, TrackRef, TrackTopology};
 
 /// Locate a section within the network's lines.
 ///
@@ -19,10 +19,11 @@ use osr_core::{Direction, Line, Network, SectionId, TrackRef};
 /// `forward_sections` or `reverse_sections`. Returns `None` if the section
 /// is not on any line.
 pub fn locate_section(
-    network: &Network,
+    network: &(impl TrackTopology + ?Sized),
     section: SectionId,
 ) -> Option<(usize, usize, SectionArray)> {
-    for (li, line) in network.lines.iter().enumerate() {
+    for li in 0..network.line_count() {
+        let line = network.line(li);
         if let Some(si) = line.forward_sections.iter().position(|s| *s == section) {
             return Some((li, si, SectionArray::Forward));
         }
@@ -40,10 +41,10 @@ pub enum SectionArray {
 }
 
 impl SectionArray {
-    fn array_of(self, line: &Line) -> &[SectionId] {
+    fn array_of(self, line: TrackLine<'_>) -> &[SectionId] {
         match self {
-            SectionArray::Forward => &line.forward_sections,
-            SectionArray::Reverse => &line.reverse_sections,
+            SectionArray::Forward => line.forward_sections,
+            SectionArray::Reverse => line.reverse_sections,
         }
     }
 }
@@ -62,7 +63,11 @@ impl SectionArray {
 /// `line.forward_sections`, and symmetrically for Reverse. We validate that
 /// and return an empty chain otherwise, which is the fail-restrictive
 /// response.
-pub fn forward_chain(network: &Network, start: TrackRef, max_distance_mm: i64) -> Vec<SectionId> {
+pub fn forward_chain(
+    network: &(impl TrackTopology + ?Sized),
+    start: TrackRef,
+    max_distance_mm: i64,
+) -> Vec<SectionId> {
     let Some((line_idx, start_idx, which)) = locate_section(network, start.section) else {
         return Vec::new();
     };
@@ -78,7 +83,7 @@ pub fn forward_chain(network: &Network, start: TrackRef, max_distance_mm: i64) -
         return Vec::new();
     }
 
-    let line = &network.lines[line_idx];
+    let line = network.line(line_idx);
     let array = which.array_of(line);
     let n = array.len();
     if n == 0 {
@@ -128,7 +133,11 @@ pub fn forward_chain(network: &Network, start: TrackRef, max_distance_mm: i64) -
 
 /// Compute the TrackRef at the far end of a section in the given travel
 /// direction.
-pub fn far_end_of(network: &Network, section: SectionId, direction: Direction) -> TrackRef {
+pub fn far_end_of(
+    network: &(impl TrackTopology + ?Sized),
+    section: SectionId,
+    direction: Direction,
+) -> TrackRef {
     let sec = network.section(section);
     TrackRef {
         section,
@@ -145,7 +154,11 @@ pub fn far_end_of(network: &Network, section: SectionId, direction: Direction) -
 /// matching the head's direction. Works for both linear and ring lines.
 /// Formal verification in M3 will bound this to at most 2 sections for a
 /// 51 m reference consist on >= 200 m sections.
-pub fn footprint_from(network: &Network, head: TrackRef, consist_length_mm: u32) -> Vec<SectionId> {
+pub fn footprint_from(
+    network: &(impl TrackTopology + ?Sized),
+    head: TrackRef,
+    consist_length_mm: u32,
+) -> Vec<SectionId> {
     let Some((line_idx, head_idx, which)) = locate_section(network, head.section) else {
         return Vec::new();
     };
@@ -161,7 +174,7 @@ pub fn footprint_from(network: &Network, head: TrackRef, consist_length_mm: u32)
         return vec![head.section];
     }
 
-    let line = &network.lines[line_idx];
+    let line = network.line(line_idx);
     let array = which.array_of(line);
     let n = array.len();
 

@@ -14,7 +14,7 @@
 #![cfg(kani)]
 
 use osr_core::{
-    Direction, Line, Network, Section, SectionId, Station, StationId, TrackRef, TrainId,
+    Direction, Network, Section, SectionId, StaticTopology, StationId, TrackLine, TrackRef, TrainId,
 };
 
 use crate::fusion::odom_step;
@@ -25,57 +25,69 @@ use crate::state::OdomState;
 // Scaffolding
 // ---------------------------------------------------------------------------
 
-fn tiny_network() -> Network {
-    let mut net = Network::default();
-    for i in 1..=4u64 {
-        net.stations.insert(
-            StationId::new(i),
-            Station {
-                id: StationId::new(i),
-                name: String::new(),
-                charging_power_kw: 0,
-                dwell_seconds: 0,
-                is_terminal: i == 1 || i == 4,
-                is_depot: false,
-            },
-        );
-    }
-    let mut fwd = vec![];
-    let mut rev = vec![];
-    for i in 0..3u64 {
-        let f = SectionId::new(1000 + i);
-        let r = SectionId::new(2000 + i);
-        net.sections.insert(
-            f,
-            Section {
-                id: f,
-                from_station: StationId::new(i + 1),
-                to_station: StationId::new(i + 2),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            },
-        );
-        net.sections.insert(
-            r,
-            Section {
-                id: r,
-                from_station: StationId::new(i + 2),
-                to_station: StationId::new(i + 1),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            },
-        );
-        fwd.push(f);
-        rev.push(r);
-    }
-    net.lines.push(Line {
-        name: String::new(),
-        stations: (1..=4).map(StationId::new).collect(),
-        forward_sections: fwd,
-        reverse_sections: rev,
+fn tiny_network() -> StaticTopology<'static> {
+    const SECTIONS: [Section; 6] = [
+        Section {
+            id: SectionId::new(1000),
+            from_station: StationId::new(1),
+            to_station: StationId::new(2),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+        Section {
+            id: SectionId::new(1001),
+            from_station: StationId::new(2),
+            to_station: StationId::new(3),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+        Section {
+            id: SectionId::new(1002),
+            from_station: StationId::new(3),
+            to_station: StationId::new(4),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+        Section {
+            id: SectionId::new(2000),
+            from_station: StationId::new(2),
+            to_station: StationId::new(1),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+        Section {
+            id: SectionId::new(2001),
+            from_station: StationId::new(3),
+            to_station: StationId::new(2),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+        Section {
+            id: SectionId::new(2002),
+            from_station: StationId::new(4),
+            to_station: StationId::new(3),
+            length_mm: 1_000_000,
+            max_speed_mps: 22.0,
+        },
+    ];
+    const LINES: [TrackLine<'static>; 1] = [TrackLine {
+        forward_sections: &[
+            SectionId::new(1000),
+            SectionId::new(1001),
+            SectionId::new(1002),
+        ],
+        reverse_sections: &[
+            SectionId::new(2000),
+            SectionId::new(2001),
+            SectionId::new(2002),
+        ],
         is_ring: false,
-    });
-    net
+    }];
+    const TOPOLOGY: StaticTopology<'static> = match StaticTopology::try_new(&LINES, &SECTIONS) {
+        Ok(topology) => topology,
+        Err(_) => panic!("invalid proof topology"),
+    };
+    TOPOLOGY
 }
 
 fn fixed_cal() -> OdomCalibration {

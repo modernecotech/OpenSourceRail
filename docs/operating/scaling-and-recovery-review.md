@@ -145,11 +145,15 @@ Full-city native FUXA/ERP/operator concurrency remains a separate acceptance tas
 ## Scope still open
 
 - CI at `e9e4ff5cf287` completed all 41 declared Kani harnesses: **34 passed,
-  seven timed out**. Both ATP follow-through properties now pass in CI. The
-  unresolved properties are interlocking non-overlap and determinism, ATP
-  determinism, and odometry determinism, forward non-regression, uncertainty
-  monotonicity and GNSS conservatism. Exact-candidate CI, consensus refinement
-  and independent acceptance remain open.
+  seven timed out**. A later complete local run using [validated static topology
+  tables](../../engineering/assurance/formal/topology-adapters.md) passes **37/41**:
+  forward non-regression, uncertainty monotonicity and GNSS conservatism now
+  complete with unchanged input ranges, assertions and unwind bounds. Four
+  300-second timeouts remain: interlocking non-overlap and determinism, ATP
+  determinism and odometry determinism. Each also timed out in a 900-second
+  shared-host follow-up. Full logs and source hashes are retained.
+  Local runs are unattested; exact-candidate CI, consensus refinement and
+  independent acceptance remain open.
 - Coordinated cold data recovery now passes the checks described in the
   [recovery guide](platform-recovery.md). Production cutover, resuming jobs and
   controllers, recovery objectives and production identity migration remain open.

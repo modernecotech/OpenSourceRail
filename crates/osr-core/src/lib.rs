@@ -15,4 +15,6 @@ pub mod topology;
 pub use consist::{BrakingCurve, ConsistDescriptor, TrainClass};
 pub use geometry::{Direction, Position, TrackRef};
 pub use ids::{EntityId, EntryId, RegionId, RouteId, SectionId, StationId, SwitchId, TrainId};
-pub use topology::{Line, Network, Section, Station};
+pub use topology::{
+    Line, Network, Section, StaticTopology, Station, TopologyError, TrackLine, TrackTopology,
+};

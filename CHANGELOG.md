@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Separated interlocking, ATP and odometry from topology storage through a shared
+  read-only interface and validated immutable tables. All 41 declared Kani
+  properties were rerun locally: 37 passed, with four remaining 300-second
+  timeouts. Three odometry proofs now finish with unchanged inputs and assertions.
+  Default city maps and evaluator algorithms remain in use; adapter comparisons,
+  the full Rust workspace and evidence-packaging regressions pass. Samawah and
+  Mosul design options each pass a fresh nominal/eight-case qualification with
+  identical detailed outcomes; Workbench now displays the new source-bound bundles.
+
 - Added reusable city design options for charging dwell, fleet capacity, modular
   storage and solar generation, with source-bound simulation qualification and
   a city-scoped Workbench comparison view. Service thresholds stay unchanged.

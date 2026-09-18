@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4977**.
+Indexed Markdown files: **4979**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **4977**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 163 |
-| [engineering](#engineering) | 15 |
+| [engineering](#engineering) | 17 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -5042,7 +5042,9 @@ Indexed Markdown files: **4977**.
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
+| [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Local topology proof rehearsal |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
+| [`engineering/assurance/formal/topology-adapters.md`](../engineering/assurance/formal/topology-adapters.md) | Read-only topology adapters |
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
