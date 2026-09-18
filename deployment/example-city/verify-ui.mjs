@@ -18,14 +18,17 @@ try {
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:8190/?module=erp&city=samawah');
  const frame=page.frameLocator('#moduleFrame');
- const frontendState=async()=>{
-   try{return await frame.locator('body').evaluate(()=>window.__OSR_FRONTEND__);}
+ // A module switch replaces the iframe document while a poll may be reading it.
+ // Retry that transient navigation; preserve all other evaluation errors.
+ const frameState=async read=>{
+   try{return await frame.locator('body').evaluate(read);}
    catch(error){if(/Execution context was destroyed|Frame was detached/.test(error.message))return null;throw error;}
  };
+ const frontendState=()=>frameState(()=>window.__OSR_FRONTEND__);
  await frame.locator('#login_email').fill('Administrator');
  await frame.locator('#login_password').fill(env.ADMIN_PASSWORD);
  await frame.locator('.btn-login').click();
- await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
+ await expect.poll(()=>frameState(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
  passed('Native ERP login inside isolated Workbench');
  await page.locator('[data-module=projects]').click();
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8180/app/project/'+setup.projects.samawah);
@@ -49,7 +52,7 @@ try {
  await page.screenshot({path:output+'workbench-lifecycle.png',fullPage:true});
  passed('Manufactured serial, native execution records and hashed CAD evidence share the asset context');
  await page.locator('[data-module=tasks]').click();
- await expect.poll(()=>frame.locator('body').evaluate(()=>(window.cur_list?.filter_area?.get() || []).map(row=>row.slice(0,4)))).toContainEqual(['Task','project','=',setup.projects.samawah]);
+ await expect.poll(()=>frameState(()=>(window.cur_list?.filter_area?.get() || []).map(row=>row.slice(0,4)))).toContainEqual(['Task','project','=',setup.projects.samawah]);
  await page.screenshot({path:output+'workbench-erp.png',fullPage:true});
  passed('Native task filter follows the actual city project');
  await page.locator('#citySelector').selectOption('mosul');

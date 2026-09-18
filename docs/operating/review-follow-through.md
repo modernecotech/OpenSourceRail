@@ -17,6 +17,10 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
 
 ## Defects found by the expanded execution
 
+- Complete-city browser execution exposed a document-navigation race while reading
+  the native Task filter. Polling now retries only destroyed/detached document
+  contexts, as the simulator/OCC readiness check already did; the authenticated
+  user and exact city Project assertions still have to pass.
 - Complete-city CI exposed a simulator command race: a local disable arriving
   during telemetry/polling could be missed by command execution. The simulator
   now rereads local enable/disconnect inputs immediately before each command;
@@ -53,6 +57,29 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
   nominal runs failed the configuration contract even though operational checks ran.
   The batch runner can test regenerated candidates without overwriting their
   canonical city package or falsely promoting dependent evidence.
+
+## Executed results and limits
+
+- [Catalogue CI 35344461975](https://github.com/modernecotech/OpenSourceRail/actions/runs/35344461975)
+  passed all **266 generated candidates**, each over 90,000 simulated seconds,
+  at `7b744e124`. The downloaded reports, source hashes and aggregate were verified
+  locally. These are nominal runs; canonical packages were not promoted.
+- Two further generated candidates were selected from that result by their lowest
+  service-completion and battery-charge margins. **Hofuf passed all eight degraded
+  cases; Nampula passed seven of eight.** Nampula's combined 80% aged battery and
+  maximum HVAC case completed **89.68%** of scheduled service, failing the 90%
+  requirement even with the existing 0.2 percentage-point numerical tolerance.
+  Its controller invariant count was zero. This is an open capacity/timetable
+  validation finding, not a reason to lower the acceptance threshold. Full local
+  records are generated under `build/city-validation/review-margin-resilience/`.
+- [Broader Kani CI 35346889940](https://github.com/modernecotech/OpenSourceRail/actions/runs/35346889940)
+  executed all **41** declared harnesses at `7b22b981e`: **30 passed and 11 timed
+  out** at 300 seconds each. Their manifest, report and source hashes were verified
+  locally. Timeouts do not establish the properties, and no independent acceptance
+  has been issued. The required release workflow therefore remains unsuccessful.
+
+These are results for the recorded inputs and commits, not approval of a later
+candidate. Complete-city release artifacts must still pass their exact-commit gate.
 
 ## Repeatable commands
 
