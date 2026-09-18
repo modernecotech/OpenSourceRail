@@ -31,8 +31,10 @@ def assess(root, package, engineering, portfolio, *, now=None, max_age_seconds=3
         for artifact in engineering['artifacts']:
             relative=artifact.get('path','');path=(root/relative).resolve()
             # Paths in operator-prepared evidence must still remain within public roots.
-            allowed=relative.startswith(('design/','engineering/','cities/','crates/','docs/'))
-            valid=allowed and path.is_relative_to(root.resolve()) and path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest()==artifact.get('sha256')
+            inside=path.is_relative_to(root.resolve())
+            parts=path.relative_to(root.resolve()).parts if inside else ()
+            allowed=bool(parts) and parts[0] in {'design','engineering','cities','crates','docs'}
+            valid=allowed and path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest()==artifact.get('sha256')
             artifacts.append(dict(path=relative,sha256=artifact.get('sha256'),current=valid))
             if not valid:blockers.append('Engineering artifact changed, unavailable or outside public roots: '+relative)
     result=dict(schema='osr-change-context/1',city=city,environment=package['environment'],package_sha256=package['sha256'],

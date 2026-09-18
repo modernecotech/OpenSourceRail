@@ -28,7 +28,7 @@ def test_current_observation_does_not_grant_engineering_release(tmp_path):
     assert c.assess(tmp_path,*changed,now=NOW)['sha256']!=result['sha256']
 
 
-@pytest.mark.parametrize('change',['city','company','project','revision','old','future','naive','missing','duplicate','engineering-revision','artifact','escape'])
+@pytest.mark.parametrize('change',['city','company','project','revision','old','future','naive','missing','duplicate','engineering-revision','artifact','escape','private-root','root'])
 def test_invalid_context_cannot_be_presented_as_current(tmp_path,change):
     package,engineering,portfolio=fixture(tmp_path);row=portfolio['snapshots'][0]
     if change in {'city','company','project'}:row[change]='wrong'
@@ -41,5 +41,9 @@ def test_invalid_context_cannot_be_presented_as_current(tmp_path,change):
     if change=='engineering-revision':engineering['engineering_revision']='r0'
     if change=='artifact':(tmp_path/'design/model.ifc').write_text('changed geometry')
     if change=='escape':engineering['artifacts'][0]['path']='../outside'
+    if change=='root':engineering['artifacts'][0]['path']='.'
+    if change=='private-root':
+        private=tmp_path/'var/private';private.parent.mkdir();private.write_text('private value')
+        engineering['artifacts'][0].update(path='design/../var/private',sha256=hashlib.sha256(private.read_bytes()).hexdigest())
     result=c.assess(tmp_path,package,engineering,portfolio,now=NOW)
     assert not result['observations_current'] and result['blockers']
