@@ -48,3 +48,36 @@ def install():
                 ('source_package', 'Reviewed conversion package', 'Code', {'options': 'JSON'}),
             ]], permissions=[dict(role='Manufacturing Manager', read=1, write=1, create=1),
                              dict(role='Projects Manager', read=1), dict(role='System Manager', read=1, write=1, create=1)])).insert()
+    install_dispositions()
+
+
+def install_dispositions():
+    common = [('project', 'Project', 'Link', 'Project'), ('company', 'Company', 'Link', 'Company'),
+              ('city', 'City', 'Data', None)]
+    definitions = {
+        'OSR Revision Disposition': ('field:disposition_key', common + [
+            ('disposition_key', 'Disposition identity', 'Data', None),
+            ('execution_mapping', 'Execution mapping', 'Link', 'OSR Execution Mapping'),
+            ('responsible', 'Responsible person', 'Link', 'User'), ('due_date', 'Due date', 'Date', None),
+            ('proposer', 'Proposer', 'Link', 'User'),
+            ('exposure_sha256', 'Reviewed exposure checksum', 'Data', None),
+            ('request_sha256', 'Proposal checksum', 'Data', None),
+            ('proposal', 'Proposed action', 'Code', 'JSON'), ('reviewed_plan', 'Reviewed plan', 'Code', 'JSON'),
+        ]),
+        'OSR Disposition Decision': ('field:disposition', common + [
+            ('disposition', 'Disposition proposal', 'Link', 'OSR Revision Disposition'),
+            ('reviewer', 'Reviewer', 'Link', 'User'),
+            ('outcome', 'Outcome', 'Select', 'Endorse plan\nReject plan'),
+            ('request_sha256', 'Decision checksum', 'Data', None),
+            ('reviewed_decision', 'Reviewed decision', 'Code', 'JSON'),
+        ]),
+    }
+    for name, (autoname, fields) in definitions.items():
+        if frappe.db.exists('DocType', name):
+            continue
+        frappe.get_doc(dict(doctype='DocType', name=name, module='OpenSourceRail', custom=1,
+            autoname=autoname, track_changes=1,
+            fields=[dict(fieldname=key, label=label, fieldtype=kind, reqd=1, read_only=1,
+                **({'options': options} if options else {})) for key, label, kind, options in fields],
+            permissions=[dict(role=role, read=1, create=1) for role in
+                         ['Manufacturing Manager', 'Projects Manager', 'System Manager']])).insert()

@@ -17,6 +17,13 @@ try {
  await page.locator('[data-module=projects]').click();
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
  await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
+ await frame.getByText('Revision dispositions',{exact:true}).click();
+ const dispositionDialog=frame.locator('.modal:visible').filter({hasText:'Revision dispositions'});
+ await expect(dispositionDialog).toContainText('Native orders, stock and railway release remain separate.');
+ await expect(dispositionDialog.getByRole('button',{name:'Propose disposition',exact:true})).toBeVisible();
+ await dispositionDialog.locator('[data-dismiss="modal"]').first().click();
+ console.log('PASS native revision disposition workflow opens inside Workbench');
+ await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
  await frame.getByText('Connected lifecycle',{exact:true}).click();
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/docs\/lifecycle/);
  await expect(frame.locator('#overview')).toContainText('SAM-');

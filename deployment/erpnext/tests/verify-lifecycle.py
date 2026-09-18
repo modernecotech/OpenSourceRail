@@ -51,6 +51,121 @@ try:
     work.reload();assert work.produced_qty==1
     assert any(r['name']==work.name and r['produced_qty']==1 for r in execution_feedback(project.name)['production'])
     print('PASS reviewed item/BOM mapping, partial delivery, outstanding quantity, native manufacture and actuals',flush=True)
+    # Engineering changes must expose native draft/unfinished work without mutating it.
+    mixed=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=(date.today()+timedelta(days=5)).isoformat(),
+        items=[dict(item_code=raw.name,qty=1,rate=10,warehouse=store,project=project.name),
+               dict(item_code=raw.name,qty=1,rate=10,warehouse=store,project='PROJ-0002')])
+    pending_inputs={**inputs,'quantity':2}
+    pending_preview=preview(project.name,'manufacturing','impact-'+suffix,pending_inputs)
+    pending=frappe.get_doc('Work Order',apply(project.name,'manufacturing','impact-'+suffix,pending_inputs,pending_preview['fingerprint'])['name'])
+    def exposure():
+        return next(r for r in execution_feedback(project.name)['revision_reviews']
+                    if r['mapping']['name']==mapped['mappings'][0])
+    draft=exposure()
+    assert any(r['name']==pending.name and r['docstatus']==0 for r in draft['work_orders'])
+    assert [r['line'] for r in draft['purchase_orders'] if r['document']==mixed.name]==[mixed.items[0].name]
+    assert next(r for r in draft['purchase_orders'] if r['document']==order.name)['unreceived_qty']==6
+    assert any(r['name']==stock.name and r['work_order']==work.name for r in draft['stock_movements'])
+    assert draft['scope']==dict(city='samawah',company=company,project=project.name)
+    assert not draft['automatic_disposition'] and not draft['railway_release_authorised']
+    assert draft['sha256']==exposure()['sha256']
+    pending.skip_transfer=1;pending.save();pending.submit()
+    partial=frappe.get_doc(make_stock_entry(pending.name,'Manufacture',1));partial.insert();partial.submit()
+    revised=exposure()
+    unfinished=next(r for r in revised['work_orders'] if r['name']==pending.name)
+    assert unfinished['produced_qty']==1 and unfinished['remaining_qty']==1 and unfinished['actionable']
+    assert revised['sha256']!=draft['sha256']
+    assert any(r['name']==partial.name for r in revised['stock_movements'])
+    # Restore raw stock needed by the later repair fixture using a native receipt.
+    refill=insert('Purchase Receipt',supplier=supplier.name,company=company,
+        items=[dict(item_code=raw.name,qty=2,rate=10,warehouse=store,project=project.name)])
+    refill.submit()
+    reader=insert('User',email='osr-impact-'+suffix+'@example.invalid',first_name='Impact reader',
+        send_welcome_email=0,roles=[dict(role='Projects Manager')])
+    frappe.set_user(reader.name)
+    limited=exposure()
+    assert limited['visibility']['BOM']=='permission-denied'
+    assert not limited['bom_dependencies'] and not limited['work_orders'] and not limited['stock_movements']
+    assert limited['warnings']
+    frappe.set_user('Administrator')
+    print('PASS revision exposure, draft/partial production, scoped purchases, stock provenance and restricted reader',flush=True)
+    from osr_erpnext import disposition
+    request=dict(key='native-'+suffix,mapping=mapped['mappings'][0],
+        target=dict(kind='work-order',document=pending.name),action='Request production stop',
+        responsible='Administrator',due_date=(date.today()+timedelta(days=5)).isoformat(),
+        rationale='Review changed engineering interfaces before further production.',references=['simulation:revision-review-'+suffix])
+    before=frappe.db.count(disposition.PROPOSAL)
+    proposal_plan=disposition.preview(project.name,request)
+    assert frappe.db.count(disposition.PROPOSAL)==before
+    pending.reload();pending_qty=pending.produced_qty;pending_status=pending.status
+    made_plan=disposition.record(project.name,request,proposal_plan['fingerprint'])
+    assert made_plan['created'] and not made_plan['automatic_execution']
+    assert not disposition.record(project.name,request,proposal_plan['fingerprint'])['created']
+    assert frappe.db.count('ToDo',{'reference_type':disposition.PROPOSAL,'reference_name':made_plan['name'],
+        'allocated_to':'Administrator','status':'Open'})==1
+    decision=dict(outcome='Endorse plan',rationale='The source revision and affected work were independently reviewed.',references=['independent-review:'+suffix])
+    try: disposition.preview_decision(made_plan['name'],decision);raise AssertionError('Self-review accepted')
+    except frappe.ValidationError:pass
+    immutable_plan=frappe.get_doc(disposition.PROPOSAL,made_plan['name']);immutable_plan.proposal='{}'
+    try: immutable_plan.save();raise AssertionError('Disposition was mutable')
+    except frappe.ValidationError:pass
+    try:
+        forged=frappe.copy_doc(frappe.get_doc(disposition.PROPOSAL,made_plan['name']))
+        forged.disposition_key='forged-'+suffix;forged.insert();raise AssertionError('Direct insertion bypassed review')
+    except frappe.ValidationError:pass
+    altered={**request,'rationale':'Changed request'}
+    try: disposition.record(project.name,altered,proposal_plan['fingerprint']);raise AssertionError('Changed duplicate accepted')
+    except frappe.ValidationError:pass
+    stale_request={**request,'key':'stale-'+suffix}
+    stale_preview=disposition.preview(project.name,stale_request)
+    mixed.items[0].qty+=1;mixed.save()
+    try: disposition.record(project.name,stale_request,stale_preview['fingerprint']);raise AssertionError('Stale proposal accepted')
+    except frappe.ValidationError:pass
+    reviewer=insert('User',email='osr-reviewer-'+suffix+'@example.invalid',first_name='Independent reviewer',
+        send_welcome_email=0,roles=[dict(role=r) for r in ['Projects Manager','Manufacturing Manager','Manufacturing User','Purchase Manager','Stock Manager']])
+    frappe.set_user(reviewer.name)
+    try: disposition.preview_decision(made_plan['name'],decision);raise AssertionError('Stale plan endorsed')
+    except frappe.ValidationError:pass
+    rejection={**decision,'outcome':'Reject plan'}
+    reject_preview=disposition.preview_decision(made_plan['name'],rejection)
+    rejected=disposition.record_decision(made_plan['name'],rejection,reject_preview['fingerprint'])
+    assert rejected['created'] and not disposition.record_decision(made_plan['name'],rejection,reject_preview['fingerprint'])['created']
+    frappe.set_user('Administrator')
+    fresh={**request,'key':'fresh-'+suffix}
+    fresh_plan=disposition.preview(project.name,fresh)
+    fresh_record=disposition.record(project.name,fresh,fresh_plan['fingerprint'])
+    admin_exposure=exposure()
+    frappe.set_user(reviewer.name)
+    reviewer_exposure=exposure()
+    assert admin_exposure==reviewer_exposure, dict(
+        changed=[k for k in admin_exposure if admin_exposure[k]!=reviewer_exposure[k]],
+        warnings=reviewer_exposure['warnings'],visibility=reviewer_exposure['visibility'])
+    endorsement=disposition.preview_decision(fresh_record['name'],decision)
+    endorsed=disposition.record_decision(fresh_record['name'],decision,endorsement['fingerprint'])
+    assert endorsed['created'] and not endorsed['automatic_execution']
+    frappe.set_user('Administrator');pending.reload()
+    assert pending.status==pending_status and pending.produced_qty==pending_qty
+    history=execution_feedback(project.name)['dispositions']
+    assert next(r for r in history if r['name']==fresh_record['name'])['decision']['outcome']=='Endorse plan'
+    assert next(r for r in history if r['name']==made_plan['name'])['current'] is False
+    assert all(not r['execution_verified'] for r in history)
+    assert not disposition.catalogue('PROJ-0002')['dispositions']
+    for target, action, key in [
+        (dict(kind='purchase-line',document=mixed.name,line=mixed.items[0].name),'Request amendment','purchase'),
+        (dict(kind='stock-entry',document=partial.name),'Request inspection','stock'),
+    ]:
+        alternate={**request,'key':key+'-'+suffix,'target':target,'action':action}
+        alternate_preview=disposition.preview(project.name,alternate)
+        assert disposition.record(project.name,alternate,alternate_preview['fingerprint'])['created']
+    try: disposition.preview('PROJ-0002',request);raise AssertionError('Cross-city proposal accepted')
+    except frappe.ValidationError:pass
+    try: frappe.delete_doc(disposition.PROPOSAL,made_plan['name']);raise AssertionError('History was deleted')
+    except frappe.ValidationError:pass
+    frappe.set_user(reader.name)
+    try: disposition.preview(project.name,request);raise AssertionError('Hidden production target accepted')
+    except frappe.ValidationError:pass
+    frappe.set_user('Administrator')
+    print('PASS disposition assignment, immutability, retry, stale checks, independent review and no automatic execution',flush=True)
     fixed=frappe.db.get_value('Account',{'company':company,'is_group':0,'account_type':'Fixed Asset'},'name')
     category=insert('Asset Category',asset_category_name='OSR lifecycle assets '+suffix,
         accounts=[dict(company_name=company,fixed_asset_account=fixed)])

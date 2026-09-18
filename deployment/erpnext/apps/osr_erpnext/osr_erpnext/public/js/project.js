@@ -1,6 +1,7 @@
 frappe.ui.form.on("Project", {
   refresh(frm) {
     if (!frm.doc.custom_osr_city || frm.is_new()) return;
+    frm.add_custom_button(__('Revision dispositions'), () => osr_revision_dispositions(frm), __('OpenSourceRail'));
     frm.add_custom_button(__("Connected lifecycle"), () => {
       osr_open_lifecycle({city:frm.doc.custom_osr_city});
     }, __('OpenSourceRail'));

@@ -327,6 +327,10 @@ def execution_feedback(project):
         currencies[row['currency']]['invoiced'] += row['amount']
     result['by_currency'] = dict(currencies)
     result['localisation'] = {'domestic_value_added': None, 'reason': 'Manufacturing-origin and imported-content evidence required; supplier location and payment currency are separate facts'}
+    from osr_erpnext.execution_review import execution_reviews
+    result['revision_reviews'] = execution_reviews(p, result['execution_mappings'])
+    from osr_erpnext.disposition import feedback as disposition_feedback
+    result['dispositions'] = disposition_feedback(p, result['revision_reviews'])
     return result
 
 

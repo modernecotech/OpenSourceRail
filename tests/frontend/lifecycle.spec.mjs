@@ -34,9 +34,10 @@ test('Engineering documents follow equipment identity within a city',async({page
  await expect(page.locator('#engineering a')).toHaveText('model.ifc');
 });
 test('Prepared change review explains embedded, lifecycle and ERP impact without implying approval',async({page})=>{
+ let mappingPresent=true;
  const reviewed={...asset,parent_asset_id:'SAM-ST-001',source_asset_ids:['SAM-ST-001'],erp_item_code:'STN-CHG-P010',source_crates:['osr-energy-site']};
  await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[reviewed],outbox:[]}}));
- await page.route('**/api/lifecycle/change-impact?**',r=>r.fulfill({json:{status:'review-required',baseline_sha256:'a'.repeat(64),proposed_sha256:'b'.repeat(64),authority:'Preview only: accepted baseline unchanged.',summary:{added:0,changed:1,removed:0,unchanged:3},application:{blockers:[]},equipment_changes:[{asset_id:reviewed.asset_id,name:reviewed.name,change_type:'changed',categories:['design-definition','telemetry-contract'],changed_values:[{path:'measurements.temperature_c.max',kind:'changed'}],dependencies:{component_type_ids:['station-charger'],source_crates:['osr-energy-site'],erp_projects:['PROJ-0001'],erp_item_codes:['STN-CHG-P010']},affected_records:{installations:[{}],evidence:[{},{}],open_alarms_or_cases:[{}],pending_commands:[]},required_reviews:['Review units and ranges.']}]}}));
+ await page.route('**/api/lifecycle/change-impact?**',r=>r.fulfill({json:{status:'review-required',baseline_sha256:'a'.repeat(64),proposed_sha256:'b'.repeat(64),authority:'Preview only: accepted baseline unchanged.',summary:{added:0,changed:1,removed:0,unchanged:3},application:{blockers:[]},equipment_changes:[{asset_id:reviewed.asset_id,name:reviewed.name,change_type:'changed',categories:['design-definition','telemetry-contract'],changed_values:[{path:'measurements.temperature_c.max',kind:'changed'}],dependencies:{component_type_ids:['station-charger'],source_crates:['osr-energy-site'],erp_projects:['PROJ-0001'],erp_item_codes:mappingPresent?['STN-CHG-P010']:[]},affected_records:{installations:[{}],evidence:[{},{}],open_alarms_or_cases:[{}],pending_commands:[]},required_reviews:['Review units and ranges.']}]}}));
  await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{project:'PROJ-0001',execution:{purchase_orders:[{item:'STN-CHG-P010'}],receipts:[],production:[{item:'STN-CHG-P010'}]}}]}}));
  await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
  await expect(page.locator('#changeImpact')).toContainText('review-required');
@@ -44,6 +45,9 @@ test('Prepared change review explains embedded, lifecycle and ERP impact without
  await expect(page.locator('#changeImpact')).toContainText('1 installation(s), 2 evidence record(s)');
  await expect(page.locator('#changeImpact')).toContainText('1 purchase-order line(s)');
  await expect(page.locator('#changeImpact')).toContainText('accepted baseline unchanged');
+ mappingPresent=false;
+ await page.locator('#refresh').click();
+ await expect(page.locator('#changeImpact')).toContainText('0 purchase-order line(s)');
 });
 test('Alarm acknowledgement submits the displayed occurrence',async({page})=>{
   let request;
@@ -70,4 +74,39 @@ test('Factory view uses reviewed ERP mappings and keeps quality release independ
  await expect(page.locator('#execution')).toContainText('1 reviewed product/method-to-ERP mapping(s) · 1 matching native Work Order(s)');
  await expect(page.locator('#execution')).toContainText('Engineering-accepted quantity: not asserted');
  for(const excluded of ['WO-OTHER','WO-OLD-BOM','WO-WRONG-ITEM','WO-NO-BOM']) await expect(page.locator('#execution')).not.toContainText(excluded);
+});
+
+test('Revision exposure shows scoped business records and downloads the observed review',async({page})=>{
+ const mapped={...asset,component_type_id:'charger'};
+ const review={schema:'osr-execution-revision-review/1',scope:{city:'samawah',project:'PROJ-0001',company:'OSR'},
+  mapping:{name:'MAP-1',component_type_id:'charger',engineering_revision:'rev1',erp_item_code:'CHARGER',production_bom:'BOM-CHARGER'},sha256:'c'.repeat(64),
+  purchase_orders:[{document:'PO-1',line:'PO-LINE-1',item:'RAW',status:'Draft',unreceived_qty:4,uom:'Nos',actionable:true}],
+  work_orders:[{name:'WO-PARTIAL',item:'CHARGER',bom:'BOM-CHARGER',status:'In Process',produced_qty:1,planned_qty:2,uom:'Nos',actionable:true}],
+  stock_movements:[{name:'SE-1',work_order:'WO-PARTIAL',purpose:'Manufacture',lines:[{item:'RAW',qty:2,uom:'Nos',source_warehouse:'Stores'}]}],
+  warnings:['BOM unavailable to this reader: BOM-SUB'],limitations:['No record is changed, held, cancelled, accepted or released by this review.'],automatic_disposition:false};
+ await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[mapped],outbox:[]}}));
+ const disposition={name:'DISP-1',mapping:'MAP-1',city:'samawah',project:'PROJ-0001',company:'OSR',responsible:'planner@example.invalid',due_date:'2026-10-01',current:false,proposal:{action:'Request production stop',target:{document:'WO-PARTIAL'}},decision:{outcome:'Endorse plan'}};
+ await page.route('**/api/operating/twins',r=>r.fulfill({json:{snapshots:[{city:'samawah',project:'PROJ-0001',company:'OSR',observed_at:'2026-09-18T09:00:00Z',execution:{by_currency:{},receipts:[],dispositions:[disposition,{...disposition,name:'DISP-OTHER-CITY',city:'mosul'}],revision_reviews:[review,{...review,scope:{...review.scope,city:'mosul'},mapping:{...review.mapping,erp_item_code:'OTHER-CITY'}}]}}]}}));
+ await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+ const view=page.locator('#executionImpact');
+ await expect(view).toContainText('2026-09-18T09:00:00Z');
+ await expect(view.locator('summary')).toHaveCount(1);
+ await view.locator('summary').click();
+ await page.waitForTimeout(5500); // A periodic snapshot refresh must keep an unchanged review open.
+ await expect(view.locator('details')).toHaveJSProperty('open',true);
+ await expect(view).toContainText('revision allocation unproven');
+ await expect(view).toContainText('review unfinished production');
+ await expect(view).toContainText('BOM unavailable to this reader');
+ await expect(view.getByRole('link',{name:'WO-PARTIAL',exact:true})).toHaveAttribute('href','http://127.0.0.1:8080/app/work-order/WO-PARTIAL');
+ await expect(view).not.toContainText('OTHER-CITY');
+ await expect(view).toContainText('Endorse plan · Exposure changed or unavailable · execution unverified');
+ await expect(view.getByRole('link',{name:'DISP-1',exact:true})).toHaveAttribute('href','http://127.0.0.1:8080/app/osr-revision-disposition/DISP-1');
+ const downloaded=page.waitForEvent('download');
+ await view.getByRole('button',{name:'Download revision exposure'}).click();
+ const download=await downloaded;
+ const fs=await import('node:fs/promises');
+ const payload=JSON.parse(await fs.readFile(await download.path(),'utf8'));
+ expect(payload.reviews).toHaveLength(1);
+ expect(payload.reviews[0].sha256).toBe(review.sha256);
+ expect(payload.reviews[0].automatic_disposition).toBe(false);
 });

@@ -1,5 +1,19 @@
 # OpenSourceRail changelog
 
+## Unreleased
+
+- Added assigned revision-disposition proposals and independent plan decisions
+  in native ERPNext, with exact exposure checks, immutable history, repeat-safe
+  submission, self-review rejection and Workbench feedback. Plans never execute
+  native purchase, production or stock actions or grant railway release.
+- Added reusable, revision-bound ERP exposure snapshots to the connected
+  lifecycle view. Explicit nested BOM dependencies identify draft and unfinished
+  production, potential purchase exposure and linked submitted stock movements.
+  Reviews retain project/company scope, permission gaps, source timestamps and
+  checksums; downloadable observations do not change or release business work.
+- Removed the change-impact fallback that could label all project transactions
+  as affected when an equipment Item mapping was absent.
+
 ## v0.4.0 — Integrated operating software
 
 - Corrected factory Work Order correlation to require a reviewed exact Item/BOM

@@ -125,12 +125,89 @@ Apply is bound to the accepted baseline hash and the complete review hash; new
 evidence or other in-scope lifecycle state makes an older review stale. Unrelated
 city/environment baselines remain outside the transaction. Automatic apply is
 blocked for component substitution, an installed-position retirement, a pending
-command-contract change and physical remapping. Full CAD/BOM/solver dependency
-graphs and formal order/WIP disposition remain open beyond this supervisory slice.
+command-contract change and physical remapping. Native BOM exposure is now
+available alongside this supervisory slice; full CAD/solver dependency graphs
+and verified execution of order/WIP dispositions remain open.
+
+### Engineering revision exposure
+
+**Engineering & delivery → Engineering revision exposure** follows the selected
+equipment's component or factory product/tooling IDs into its reviewed execution
+mappings. It includes the current engineering revision and, when a prepared
+change exists, the old and proposed revisions. City, company and project must
+match. Missing mappings do not fall back to every transaction in the project.
+
+The reusable ERP reader follows explicit nested `BOM Item.bom_no` references,
+never the Item's current default BOM. It reports:
+
+- Draft and submitted project purchase lines for the mapped Item and its BOM
+  materials. These are potential shared-item exposures, not proven revision
+  allocations; closed orders remain labelled historical.
+- Draft, unfinished and completed Work Orders matching an exact Item/BOM pair.
+  Planned, produced, remaining and native material quantities stay separate.
+- Submitted Stock Entries linked to those Work Orders, retaining warehouses,
+  stock units, serial/batch bundle and quality-inspection references. Movements
+  do not establish current available inventory, accepted WIP or railway release.
+
+The export preserves native read permissions and shows unreadable/missing BOMs,
+cyclic references and traversal limits as coverage warnings. All records are
+limited to the selected project and company. Other projects and unlinked stock
+need separate review. The snapshot observation time is visible, and **Download
+revision exposure** exports the same checksummed observations for review.
+
+Refresh with `./osr erp snapshot`, or the existing five-minute feedback timer.
+These snapshots cannot put work on hold, cancel procurement or supersede
+engineering evidence. The native workflow below records a proposed disposition
+and its independent review.
+The supervisory apply checksum does not cover these separately timed ERP exports.
+
+### Reviewed disposition plans
+
+Inside Workbench's native ERP city project, choose **OpenSourceRail → Revision
+dispositions**. Pick a reviewed engineering mapping and a purchase line, exact
+Item/BOM Work Order or linked Stock Entry from its visible exposure. A proposal
+requires a responsible ERP user with project access, due date, rationale and
+versioned evidence references. Its preview shows the affected native record;
+recording creates one immutable **OSR Revision Disposition** and a native ToDo.
+Repeating the same request returns the existing record; changed content with
+the same identity is rejected.
+
+The record-specific choices are requests to retain/review, amend or cancel a
+purchase, stop or rework production, or inspect/trace material movements. These
+are plans, not native transaction commands. A second user, different from both
+proposer and responsible person, can preview and record **Endorse plan** or
+**Reject plan** with review evidence. Endorsement requires the same current ERP
+exposure checksum and no coverage warnings. A stale proposal can be rejected;
+it needs a new proposal identity for a revised plan. Each proposal has at most
+one immutable decision, preserved in **OSR Disposition Decision**.
+
+Manufacturing Manager, Projects Manager and System Manager roles can create/read
+these records. Existing project and exposure permissions still govern the
+workflow. Server endpoints derive actor identities; generic document insertion,
+editing and deletion cannot bypass the reviewed workflow. Workbench displays
+the decision separately from whether its exposure is still current. Native
+ToDo completion does not verify execution of the requested business action.
+Reviewers also need the native source-document read roles: for example,
+Manufacturing User grants Work Order access, while Manufacturing Manager alone
+does not. Partial exposure remains explicit and cannot receive an endorsement.
+
+Upgrade after a backup: `./osr erp build`, `./osr erp up`, `./osr erp bench migrate`,
+then `./osr erp snapshot`. Migration installs both record types. The same workflow
+uses each city's existing project, company, mappings and permissions without
+city-specific code or invented organisation/approval identities.
+
+The workflow rechecks visible ERP data during preview and recording; it does not
+freeze native orders or stock against concurrent or later changes. Such changes
+make the recorded plan stale in refreshed feedback. Executed cancellation,
+amendment, stop/rework, stock disposition, inspection acceptance and railway
+handback remain separate native/assurance records and are not automatically
+performed or certified by an endorsed plan.
 
 The native acceptance test purchases ten units, receives four, reports six
 outstanding, manufactures one assembly from its reviewed BOM and checks actual
-production. Its temporary transactions are rolled back. No test production or
+production. It also tests draft and partially completed production, mixed-project
+purchase lines, linked stock movements and a restricted ERP reader. Its temporary
+transactions are rolled back. No test production or
 purchase is presented as real city progress.
 
 ## Maintenance and configuration feedback

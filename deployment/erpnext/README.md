@@ -23,3 +23,19 @@ the same reviewed request returns the existing record and preserves operator edi
 The native repair form remains responsible for actions performed, completion,
 actual downtime, parts consumption and accounting. Its OSR provenance fields link
 back to condition history and the existing lifecycle/serial evidence.
+
+The private city feedback export also carries [engineering revision
+exposure](../../docs/lifecycle/README.md#engineering-revision-exposure): explicit
+nested BOMs, draft/unfinished production, potential purchases and linked stock
+movements. It uses native document permissions and preserves coverage warnings.
+Workbench displays and downloads these observations. The native Project's
+**OpenSourceRail → Revision dispositions** workflow adds assigned, immutable
+proposals and independent endorsement/rejection records. Stale or incomplete
+exposure cannot receive an endorsement. Recording never executes the proposed
+ERP action or grants railway release.
+
+After a backup, rebuild/restart the app, run `./osr erp bench migrate` to install
+the two disposition record types, then `./osr erp snapshot` to refresh feedback.
+Manufacturing Manager, Projects Manager and System Manager roles can use the
+workflow subject to project/exposure access; reviewer, proposer and responsible
+person must satisfy the independent-review checks.

@@ -1,4 +1,5 @@
 import {setupEvidence} from './evidence.js';
+import {renderExecutionReviews} from './execution-impact.js';
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const services = await fetch('/api/workbench/services').then(r=>r.ok?r.json():null).catch(()=>null) || {erp:'http://127.0.0.1:8080',fuxa:'http://127.0.0.1:1881'};
@@ -25,11 +26,14 @@ function renderImpact(a){
   const records=change.affected_records || {},dependencies=change.dependencies || {};
   const values=(change.changed_values || []).map(row=>`<code>${esc(row.path)}</code>: ${esc(row.kind)}`).join('<br>') || `${esc(change.change_type)} equipment position`;
   const erpItems=new Set(dependencies.erp_item_codes || []),execution=business?.snapshots?.find(row=>(dependencies.erp_projects || []).includes(row.project))?.execution;
-  const matching=(rows,fields)=>erpItems.size?(rows || []).filter(row=>fields.some(field=>erpItems.has(row[field]))):(rows || []);
-  const orders=matching(execution?.purchase_orders,['item']),receipts=matching(execution?.receipts,['item']),production=matching(execution?.production,['item','production_item']);
+  const matching=(rows,fields)=>erpItems.size?(rows || []).filter(row=>fields.some(field=>erpItems.has(row[field]))):[];
+  const orders=matching(execution?.purchase_orders,['item']),receipts=matching(execution?.receipts,['item']),production=(execution?.production || []).filter(row=>(execution?.execution_mappings || []).some(mapping=>
+    (dependencies.component_type_ids || []).includes(mapping.component_type_id) &&
+    [impact.baseline_engineering_revision,impact.proposed_engineering_revision].filter(Boolean).includes(mapping.engineering_revision) &&
+    mapping.production_bom && mapping.erp_item_code===row.item && mapping.production_bom===row.bom));
   html+=record(`<b>${esc(change.change_type)} · ${esc(change.name)}</b><br>${(change.categories || []).map(value=>`<span class="pill">${esc(value)}</span>`).join(' ')}<br>${values}`);
   html+=record(`Affected existing records: ${(records.installations || []).length} installation(s), ${(records.evidence || []).length} evidence record(s), ${(records.open_alarms_or_cases || []).length} open alarm/case record(s), ${(records.pending_commands || []).length} pending command(s).<br>Dependencies: ${(dependencies.component_type_ids || []).map(esc).join(', ') || 'none'} · ${(dependencies.source_crates || []).map(esc).join(', ') || 'no source crate'}${erpItems.size?` · ERP item(s) ${[...erpItems].map(esc).join(', ')}`:''}`);
-  if(execution)html+=record(`Matching native ERP feedback: ${orders.length} purchase-order line(s), ${receipts.length} receipt line(s), ${production.length} production record(s). These records are not changed by this review.`);
+  if(execution)html+=record(`Potential item-linked ERP feedback: ${orders.length} purchase-order line(s), ${receipts.length} receipt line(s), ${production.length} production record(s). These records are not changed by this review.`);
   html+=`<details><summary>Required reviews (${(change.required_reviews || []).length})</summary>${(change.required_reviews || []).map(value=>record(esc(value))).join('')}</details>`;
   $('changeImpact').innerHTML=html;
 }
@@ -38,8 +42,9 @@ function render() {
   for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend']) $(id).innerHTML='';
   $('commandForm').hidden=true;
   syncEvidence();
-  if(!selected) { $('overview').textContent='No equipment deployed for this city and environment.';return; }
+  if(!selected) { $('executionImpact').replaceChildren();$('overview').textContent='No equipment deployed for this city and environment.';return; }
   const a=selected;
+  renderExecutionReviews({target:$('executionImpact'), snapshot:business?.snapshots?.find(row=>row.project===a.erp_project && row.city===a.city), asset:a, impact, erp:services.erp, esc});
   const commandOptions=Object.keys(a.commands || {});
   const oldCommand=$('commandName').value;
   $('commandName').replaceChildren(...commandOptions.map(k=>new Option(k,k)));
@@ -82,7 +87,7 @@ function render() {
 async function refresh() {
   const requestId=++refreshId;
   const scope=query().toString();
-  if(lastScope!==scope){snapshot=null;selected=null;impact=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend'])$(id).innerHTML='';}
+  if(lastScope!==scope){snapshot=null;selected=null;impact=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','executionImpact','execution','assurance','queue','commands','trend'])$(id).innerHTML='';}
   lastScope=scope;
   $('connection').textContent='Refreshing…';$('mode').textContent=$('environment').value==='simulation'?'SIMULATION · Existing OSR controller model with explicit sensor fixtures. Cases are labelled simulation.':'PHYSICAL · Supplier bindings and OSR commissioning evidence are required.';
   try {

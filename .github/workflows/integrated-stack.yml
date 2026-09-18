@@ -131,6 +131,7 @@ jobs:
           python3 deployment/supervision/tests/verify-pilot.py
           python3 deployment/supervision/tests/verify-embedded.py
           node deployment/workbench/tests/verify-native.mjs
+          node deployment/workbench/tests/verify-dispositions.mjs
           node deployment/supervision/tests/verify-outage.mjs
 
       - name: Collect service logs and stop the disposable deployment
