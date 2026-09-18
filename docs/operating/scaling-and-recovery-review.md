@@ -177,7 +177,9 @@ Full-city native FUXA/ERP/operator concurrency remains a separate acceptance tas
   87.54% with combined ageing/heat, 88.77% during the single-pad outage and 88.34%
   with consecutive missed charging stops. Each is below the 89.8% threshold
   including numerical tolerance, despite the aggregate software screen passing.
-  These failures remain open; no acceptance threshold or canonical design was changed.
+  These remain baseline failures; tested design alternatives are recorded separately
+  in [City design options](../../engineering/design-options/results.md). No acceptance
+  threshold or canonical design was changed.
   A [35% adaptive-service trigger candidate](status/rehearsals/samawah-trigger-35/qualification.json)
   changes only `normal_service_soc` from 0.40 to 0.35 in the retained design and
   scenario. It preserves the 20% reserve floor and improves line 1's single-pad
@@ -190,6 +192,11 @@ Full-city native FUXA/ERP/operator concurrency remains a separate acceptance tas
   fails on line 2 at **51.81%**, below its 59.8% emergency threshold including
   tolerance. The five canonical degraded-case failures are visible in Workbench
   → Verification & gates. The canonical configurations remain unchanged.
+  Separate controlled [design options](../../engineering/design-options/results.md)
+  now pass both complete suites: Samawah adds 20 line-1 trainsets and increases
+  charging dwell to 300 seconds; Mosul adds 13.5 MWh storage and 2.7 MWp solar
+  across nine line-2 sites. Costs, site feasibility, repeatable multi-day charging,
+  peak headways and passenger demand still require review before promotion.
 
 Reproduce the stricter qualification without overwriting legacy aggregate evidence:
 

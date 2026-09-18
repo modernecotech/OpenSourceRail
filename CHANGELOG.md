@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added reusable city design options for charging dwell, fleet capacity, modular
+  storage and solar generation, with source-bound simulation qualification and
+  a city-scoped Workbench comparison view. Service thresholds stay unchanged.
+- Made retained native CAD launchers portable and regenerated both city bundles
+  through their native ERP production checks after CI exposed host-specific paths.
+
 - Added a reproducible native FreeCAD → CalculiX → nested ERP BOM → production
   disposition → manufacturing → screening-evidence workflow, with a city-scoped
   Workbench view and retained Samawah/Mosul results. Twelve solver runs and

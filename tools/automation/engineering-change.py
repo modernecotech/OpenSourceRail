@@ -24,7 +24,11 @@ def prepare(profile,output):
     # FreeCADCmd can return zero after a script exception: require its complete
     # result files and validate them before creating the bundle manifest.
     wrapper=output/'run-freecad.py'
-    wrapper.write_text('import runpy\nmodule=runpy.run_path('+repr(str(ROOT/'engineering/changes/freecad_change.py'))+')\nmodule["main"]('+repr(config)+','+repr(str(output))+')\n')
+    wrapper.write_text('import runpy\nfrom pathlib import Path\n'
+        'folder = Path(__file__).resolve().parent\n'
+        'root = next(p for p in folder.parents if (p / "engineering/changes/freecad_change.py").is_file())\n'
+        'module = runpy.run_path(str(root / "engineering/changes/freecad_change.py"))\n'
+        'module["main"](' + repr(config) + ', str(folder))\n')
     binary=shutil.which('FreeCADCmd') or shutil.which('freecadcmd')
     args=[binary,str(wrapper)] if binary else ['flatpak','run','--filesystem='+str(ROOT),'--filesystem='+str(output),'--command=FreeCADCmd','org.freecad.FreeCAD',str(wrapper)]
     with (output/'freecad.log').open('w') as log:subprocess.run(args,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=600)

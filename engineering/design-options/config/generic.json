@@ -1,0 +1,10 @@
+{
+  "schema": "osr-design-option-policy/1",
+  "parameters": {
+    "charging_dwell_seconds": {"type": "integer", "minimum": 120, "maximum": 600, "default": null, "unit": "seconds per powered stop"},
+    "additional_trainsets": {"type": "integer", "minimum": 0, "maximum": 100, "default": 0, "unit": "trainsets per line"},
+    "additional_storage_modules": {"type": "integer", "minimum": 0, "maximum": 100, "default": 0, "unit": "modules per site on the line"},
+    "additional_pv_kw": {"type": "number", "minimum": 0, "maximum": 10000, "default": 0, "unit": "kWp per site on the line"}
+  },
+  "scope": "Software exploration bounds, not approved hardware limits. Published timetables, battery reserve and acceptance thresholds stay fixed."
+}

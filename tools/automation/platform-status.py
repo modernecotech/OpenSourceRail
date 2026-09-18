@@ -72,6 +72,7 @@ def render(data):
         html+=table(['City','Nominal lines','Failed degraded cases','Qualification'],[
             (r['city'],'pass' if r['nominal_passed'] else 'fail',f"{r['failed_degraded_cases']} / {r['degraded_cases']}",'pass' if r['passed'] else 'fail') for r in data['line_qualification']])
         html+='<p>'+' · '.join('<a href="rehearsals/'+escape(Path(r['report']).name,quote=True)+'">'+escape(r['city'])+' evidence</a>' for r in data['line_qualification'])+'</p></section>'
+        html+='<p>These rows retain baseline results. <a href="../../../engineering/design-options/results.md">Tested design alternatives</a> have separate resource impacts and qualification evidence; passing alternatives do not promote canonical packages.</p>'
     html+='<section><h2>Integration coverage</h2><p>Inventory entries describe tested scope; they are not code-coverage percentages or all possible settings.</p>'
     html+=table(['Evidence level','Entries'],sorted(data['integration']['counts'].items()))+'</section>'
     html+='<section><h2>Engineering analysis maturity</h2>'

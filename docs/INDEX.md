@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4975**.
+Indexed Markdown files: **4977**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **4975**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 163 |
-| [engineering](#engineering) | 13 |
+| [engineering](#engineering) | 15 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -5044,6 +5044,8 @@ Indexed Markdown files: **4975**.
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
+| [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
+| [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
 | [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |
