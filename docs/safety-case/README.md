@@ -105,11 +105,18 @@ formal evidence; never disable unwinding checks merely to obtain a green result.
 
 ## CI
 
-The [Kani workflow](../../.github/workflows/kani.yml) runs two explicit,
-release-selected properties on every push: ATP rejection of an expired movement
-authority and interlocking validity-window arithmetic. Full topology-backed
-runs are performed and archived separately only after bounds and tool versions
-are reviewed.
+The [Kani workflow](../../.github/workflows/kani.yml) runs on pushes to `main`,
+pull requests and manual dispatch. It checks ATP rejection of an expired movement
+authority and interlocking validity-window arithmetic, then executes all **41
+declared harnesses** across eight packages with Kani 0.67.0 and a 300-second limit
+per harness. Actual successes, failures and timeouts are archived with source
+hashes; a timeout fails the workflow and does not establish the property.
+
+At `92b20ff32`, **30 passed and 11 timed out**. See the
+[review follow-through](../operating/review-follow-through.md) for exact workflow
+links and remaining work. Release packaging requires a successful Kani workflow
+on the release commit, alongside general CI, integrated-stack and example-city
+acceptance. Merging development work does not grant release or safety acceptance.
 
 ## What's planned
 

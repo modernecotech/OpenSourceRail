@@ -57,6 +57,14 @@ native action. The release gate now requires this city workflow and validates it
 commit-bound report hashes. See the [review follow-through](review-follow-through.md)
 for cross-domain freshness, controller fixes, broader proof execution and open gates.
 
+The implementation candidate `92b20ff32` passed general CI, integrated-stack and
+complete-city CI. Its broader formal run passed 30 of 41 declared Kani harnesses;
+11 timed out, so release packaging remains blocked. Local fresh-volume ERP restore
+rehearsals checked database records, ledger entries, public/private files and
+encrypted settings. Coordinated FUXA/gateway/OSR recovery and independent acceptance
+remain open. The [review record](review-follow-through.md#integration-candidate-and-erp-recovery)
+links the exact runs and explains the recovery scope.
+
 ## Acceptance commands
 
 The CI workflow creates a disposable deployment and runs:

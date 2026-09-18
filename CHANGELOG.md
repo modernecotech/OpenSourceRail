@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Recorded exact-commit integration results and local fresh-volume ERP recovery
+  rehearsals, including ledger records, nonempty public/private files and encrypted
+  settings. The broader proof run has 30 passes and 11 timeouts; release packaging,
+  coordinated whole-platform recovery and independent acceptance remain open.
 - Fixed Workbench revision changes retaining an earlier baseline and simulation
   run. Embedded City Studio, simulator, OCC and Railway works now remove
   superseded context; a baseline change invalidates the preceding run. Browser

@@ -89,11 +89,39 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
   charger, grid and storage assumptions. Neither promotes the canonical package
   or grants operating acceptance. Exact settings and results are recorded under
   `build/city-validation/nampula-alternatives/`.
-- [Broader Kani CI 35346889940](https://github.com/modernecotech/OpenSourceRail/actions/runs/35346889940)
-  executed all **41** declared harnesses at `7b22b981e`: **30 passed and 11 timed
+- [Broader Kani CI 35353021756](https://github.com/modernecotech/OpenSourceRail/actions/runs/35353021756)
+  executed all **41** declared harnesses at `92b20ff32`: **30 passed and 11 timed
   out** at 300 seconds each. Their manifest, report and source hashes were verified
   locally. Timeouts do not establish the properties, and no independent acceptance
   has been issued. The required release workflow therefore remains unsuccessful.
+
+### Integration candidate and ERP recovery
+
+The implementation at `92b20ff32` passed
+[general CI](https://github.com/modernecotech/OpenSourceRail/actions/runs/35353019330),
+[integrated-stack](https://github.com/modernecotech/OpenSourceRail/actions/runs/35353023953)
+and [complete-city acceptance](https://github.com/modernecotech/OpenSourceRail/actions/runs/35353026966).
+The downloaded city's seven report hashes and clean scenario origin were checked
+against that exact commit. The Kani failure above remains a release blocker.
+Development integration is separate from release packaging and independent
+railway acceptance; the published v0.4.0 tag and assets remain unchanged.
+
+Fresh-volume ERP restore rehearsals also passed locally. Each used a disposable
+Docker project with an internal network, restored an actual database backup and
+public/private file archives, migrated the site, checked encrypted settings and
+native HTTP availability, then removed the temporary containers and volumes.
+Selected native field hashes and record counts matched the source, including
+six GL entries, ten stock-ledger entries, four Work Orders, four Stock Entries
+and one submitted Purchase Invoice in the retained example-city fixture. A
+separate two-stage rehearsal backed up and restored nonempty public/private
+file fixtures and verified every archive entry's content hash.
+
+These checks cover ERP database, files and encrypted settings. They do not cover
+coordinated restoration of FUXA, the gateway and OSR operations data, production
+recovery time objectives or independent recovery acceptance. Private backups and
+credentials are excluded from the public evidence bundle. Full local reports are
+`build/review-fresh-restore.json`, `build/review-fresh-restore-files.json` and
+`build/review-fresh-restore-example.json`; they are execution records, not CI results.
 
 These are results for the recorded inputs and commits, not approval of a later
 candidate. Complete-city release artifacts must still pass their exact-commit gate.
@@ -144,7 +172,7 @@ functions or all possible variable combinations.
 
 Payroll posting, jurisdiction-specific tax, capitalization/depreciation, SLA
 calendars/escalation, independent competence decisions, desktop regeneration,
-concurrent load and fresh-volume backup restoration retain explicit gaps. Physical
+concurrent load and coordinated whole-platform backup restoration retain explicit gaps. Physical
 and manufacturing closure still needs approved evidence and independent reviewers.
 The tracked deployment summary retains its city-level gates until qualifying
 canonical evidence is generated and reviewed.
