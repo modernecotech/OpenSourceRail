@@ -51,9 +51,15 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   await expect(page.locator("#contextAsset")).not.toHaveText("none");
   const selectedAsset = await page.locator("#contextAsset").textContent();
 
-  await module.locator("#revision").click();
-  await expect(page.locator("#contextRevision")).toHaveText(/^osr-[a-f0-9]{16}$/);
-  const revision = await page.locator("#contextRevision").textContent();
+  const [materialized] = await Promise.all([
+    page.waitForResponse(r => new URL(r.url()).pathname.endsWith("/api/revisions") && r.request().method() === "POST"),
+    module.locator("#revision").click(),
+  ]);
+  expect(materialized.ok()).toBeTruthy();
+  const {revision: approvedRevision} = await materialized.json();
+  const revision = approvedRevision.revision_id;
+  await expect(module.locator("#revision")).toBeEnabled();
+  await expect(page.locator("#contextRevision")).toHaveText(revision);
 
   await expect(module.locator("#approval-revision")).toHaveValue(revision);
   await module.locator("#approval-status").selectOption("approved");
@@ -62,8 +68,13 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   await module.locator("#approval-date").fill("2030-01-02");
   await module.locator("#approval-reference").fill("test://workbench/approval");
   await module.locator("#approval-comment").fill("Deterministic Workbench acceptance approval.");
-  await module.locator('#approval-form button[type="submit"]').click();
-  await expect(page.locator("#contextBaseline")).toHaveText(/^[a-f0-9]{16}$/);
+  const [approval] = await Promise.all([
+    page.waitForResponse(r => new URL(r.url()).pathname.endsWith("/api/approvals") && r.request().method() === "POST"),
+    module.locator('#approval-form button[type="submit"]').click(),
+  ]);
+  expect(approval.ok()).toBeTruthy();
+  expect(approval.request().postDataJSON().revision_id).toBe(revision);
+  await expect(page.locator("#contextBaseline")).toHaveText(approvedRevision.content_sha256.slice(0,16));
 
   await expect(module.locator("#open-simulator")).toBeVisible();
   await module.locator("#open-simulator").click();
@@ -73,6 +84,7 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
     { timeout: 120_000 },
   ).toMatchObject({ app: "simulator", ready: true, error: null });
   const simulatorState = await module.locator("body").evaluate(() => window.__OSR_FRONTEND__);
+  expect(simulatorState.context).toMatchObject({revision,baseline_sha256:approvedRevision.content_sha256});
   expect(simulatorState.details.embeddedTicks).toBeGreaterThan(0);
   expect(simulatorState.details.t2gTransmissions).toBeGreaterThan(0);
   expect(simulatorState.details.stationTicks).toBeGreaterThan(0);
@@ -99,6 +111,7 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
     { timeout: 120_000 },
   ).toMatchObject({ app: "occ", ready: true, error: null });
   const occState = await module.locator("body").evaluate(() => window.__OSR_FRONTEND__);
+  expect(occState.context).toMatchObject({revision,baseline_sha256:approvedRevision.content_sha256,run_id:runId});
   expect(occState.details.embeddedTicks).toBeGreaterThan(0);
   expect(occState.details.t2gTransmissions).toBeGreaterThan(0);
   expect(occState.details.stationTicks).toBeGreaterThan(0);
@@ -144,7 +157,7 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
     revision_id: revision,
     run_id: runId,
   });
-  expect(linked.baseline_sha256).toMatch(/^[a-f0-9]{64}$/);
+  expect(linked.baseline_sha256).toBe(approvedRevision.content_sha256);
 
   await testInfo.attach("integrated-workbench", {
     body: await page.screenshot(),
@@ -165,3 +178,34 @@ test("Workbench refuses live mode without an approved baseline", async ({ page }
   await expect(page.locator("#contextBaseline")).toHaveText("not approved");
   await expect(page.locator("#safetyBanner")).toContainText("TRAINING");
 });
+
+for (const [tool, mode, role] of [["operations","live","dispatcher"],["studio","design","designer"],["simulator","simulation","designer"],["occ","training","dispatcher"]]) {
+test(`changing a revision or baseline clears superseded run context in ${tool}`, async ({ page }) => {
+  const first = "osr-1111111111111111", next = "osr-2222222222222222";
+  const baseline = "a".repeat(64), replacement = "b".repeat(64), run = "run-1111111111111111";
+  await page.goto(`http://127.0.0.1:4177/?module=${tool}&mode=${mode}&role=${role}&revision=${first}&baseline_sha256=${baseline}&run_id=${run}`);
+  const module = page.frameLocator("#moduleFrame");
+  if (tool === "operations") await expect(module.locator("#cityName")).toHaveText("Samawah");
+  else if (tool === "studio") await expect(module.locator("#summary .summary-card").first()).toBeVisible();
+  else await expect.poll(() => module.locator("body").evaluate(() => window.__OSR_FRONTEND__?.ready),{timeout:120000}).toBe(true);
+  const publish = patch => module.locator("body").evaluate((_body,value) => window.parent.postMessage({type:"osr:context",context:value},location.origin),patch);
+  const embedded = () => module.locator("body").evaluate(() => {
+    const value = window.__OSR_FRONTEND__?.context || workbenchContext;
+    return [value.revision,value.baseline_sha256 || null,value.run_id || null];
+  });
+  await publish({revision: next});
+  await expect(page.locator("#contextRevision")).toHaveText(next);
+  await expect(page.locator("#contextBaseline")).toHaveText("not approved");
+  await expect(page.locator("#contextRun")).toHaveText("not run");
+  await expect(page.locator("#mode")).toHaveValue(mode === "live" ? "training" : mode);
+  await expect.poll(embedded).toEqual([next,null,null]);
+  await publish({baseline_sha256:baseline,run_id:run});
+  await expect.poll(embedded).toEqual([next,baseline,run]);
+  await publish({revision:next,baseline_sha256:baseline});
+  await expect(page.locator("#contextRun")).toHaveText(run);
+  await publish({baseline_sha256:replacement});
+  await expect(page.locator("#contextBaseline")).toHaveText(replacement.slice(0,16));
+  await expect(page.locator("#contextRun")).toHaveText("not run");
+  await expect.poll(embedded).toEqual([next,replacement,null]);
+});
+}

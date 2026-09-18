@@ -165,6 +165,14 @@ function updateContext(patch) {
     if (context.mode === "live") context.mode = "training";
     operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
   }
+  // Approval and simulation context belongs to the selected design revision.
+  if (valid(patch.revision, /^osr-[a-f0-9]{16}$/) && patch.revision !== context.revision) {
+    delete context.baseline_sha256;
+    delete context.run_id;
+  }
+  if (valid(patch.baseline_sha256, /^[a-f0-9]{64}$/) && patch.baseline_sha256 !== context.baseline_sha256) {
+    delete context.run_id;
+  }
   if (["simulation", "physical"].includes(patch.environment)) context.environment = patch.environment;
   if (MODES.has(patch.mode)) context.mode = patch.mode;
   if (ROLES.has(patch.role)) context.role = patch.role;
@@ -173,6 +181,7 @@ function updateContext(patch) {
   assignOptional("baseline_sha256", patch.baseline_sha256, /^[a-f0-9]{64}$/);
   assignOptional("run_id", patch.run_id, /^run-[a-f0-9]{16}$/);
   assignOptional("selected_asset", patch.selected_asset, /^.{1,160}$/);
+  if (context.mode === "live" && !context.baseline_sha256) context.mode = "training";
   document.getElementById("role").value = context.role;
   document.getElementById("mode").value = context.mode;
   document.getElementById("actor").value = context.actor;

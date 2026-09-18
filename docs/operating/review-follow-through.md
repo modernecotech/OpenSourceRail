@@ -21,6 +21,16 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
   the native Task filter. Polling now retries only destroyed/detached document
   contexts, as the simulator/OCC readiness check already did; the authenticated
   user and exact city Project assertions still have to pass.
+- A revision change could retain the preceding baseline and simulation run in
+  Workbench context. Changing the revision now clears both; changing the baseline
+  clears the run. City Studio, the simulator, OCC and Railway works also remove
+  fields omitted from the shell's current snapshot, and a missing baseline removes
+  live mode. Browser regressions exercise this propagation. These UI references
+  do not establish independent engineering or safety acceptance.
+- The connected browser journey now waits for actual revision materialization and
+  approval responses, then compares their exact revision and baseline hash with
+  the downstream railway work record. Matching the format of an already-visible
+  revision was insufficient synchronization on slower clean deployments.
 - Complete-city CI exposed a simulator command race: a local disable arriving
   during telemetry/polling could be missed by command execution. The simulator
   now rereads local enable/disconnect inputs immediately before each command;
@@ -72,6 +82,13 @@ railway programme is not accepted or complete.** Published v0.4.0 remains immuta
   Its controller invariant count was zero. This is an open capacity/timetable
   validation finding, not a reason to lower the acceptance threshold. Full local
   records are generated under `build/city-validation/review-margin-resilience/`.
+  Two isolated Nampula alternatives subsequently passed nominal and all eight
+  degraded cases: adding 30 seconds to each line's charging dwell raises the
+  combined-case result to **90.32%**, with hardware settings unchanged; the
+  two-cabinet alternative reaches **90.85%**, with larger generator-derived
+  charger, grid and storage assumptions. Neither promotes the canonical package
+  or grants operating acceptance. Exact settings and results are recorded under
+  `build/city-validation/nampula-alternatives/`.
 - [Broader Kani CI 35346889940](https://github.com/modernecotech/OpenSourceRail/actions/runs/35346889940)
   executed all **41** declared harnesses at `7b22b981e`: **30 passed and 11 timed
   out** at 300 seconds each. Their manifest, report and source hashes were verified

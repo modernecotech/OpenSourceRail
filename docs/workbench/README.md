@@ -59,7 +59,12 @@ navigation for every city. Existing generic ERP/supervision templates and each
 city's `operations/` configuration continue to own deployment-specific settings.
 
 The City selector carries city, environment and asset identity through the shell.
-Changing city clears revision, baseline, run and asset context. Railway control
+Changing city clears revision, baseline, run and asset context. Changing the
+revision clears its preceding baseline and run; changing the baseline clears the
+preceding run. Embedded tools remove those invalidated references when the shell
+sends its current context. Without a baseline, live mode returns to training.
+These context references do not independently authenticate an engineering approval.
+Railway control
 and design views are available only for the workspace passed to
 `workbench-server.py --project`; selecting another city does not rebind its
 controller. Any catalogue city can use delivery generation and its own operating

@@ -91,25 +91,38 @@ try {
  await page.locator('[data-module=studio]').click();
  await expect(frame.locator('#summary .summary-card').first()).toBeVisible({timeout:60000});
  await frame.locator('#network-map .station').first().click();
- await frame.locator('#revision').click();
- await expect(page.locator('#contextRevision')).toHaveText(/^osr-[a-f0-9]{16}$/);
- const revision=await page.locator('#contextRevision').textContent();
+ const [materialized]=await Promise.all([
+   page.waitForResponse(r=>new URL(r.url()).pathname.endsWith('/api/revisions') && r.request().method()==='POST'),
+   frame.locator('#revision').click(),
+ ]);
+ expect(materialized.ok()).toBeTruthy();
+ const {revision:approvedRevision}=await materialized.json();
+ const revision=approvedRevision.revision_id;
+ await expect(frame.locator('#revision')).toBeEnabled();
+ await expect(page.locator('#contextRevision')).toHaveText(revision);
+ await expect(frame.locator('#approval-revision')).toHaveValue(revision);
  await frame.locator('#approval-status').selectOption('approved');
  await frame.locator('#approval-reviewer').fill('Example simulation reviewer');
  await frame.locator('#approval-role').fill('Software acceptance');
  await frame.locator('#approval-date').fill('2026-09-18');
  await frame.locator('#approval-reference').fill('example-city:simulation-only');
  await frame.locator('#approval-comment').fill('Reproducible software scenario; no physical railway release.');
- await frame.locator('#approval-form button[type=submit]').click();
- await expect(page.locator('#contextBaseline')).toHaveText(/^[a-f0-9]{16}$/);
+ const [approval]=await Promise.all([
+   page.waitForResponse(r=>new URL(r.url()).pathname.endsWith('/api/approvals') && r.request().method()==='POST'),
+   frame.locator('#approval-form button[type=submit]').click(),
+ ]);
+ expect(approval.ok()).toBeTruthy();
+ expect(approval.request().postDataJSON().revision_id).toBe(revision);
+ await expect(page.locator('#contextRevision')).toHaveText(revision);
+ await expect(page.locator('#contextBaseline')).toHaveText(approvedRevision.content_sha256.slice(0,16));
  await frame.locator('#open-simulator').click();
- await expect.poll(frontendState,{timeout:120000}).toMatchObject({app:'simulator',ready:true,error:null});
+ await expect.poll(frontendState,{timeout:120000}).toMatchObject({app:'simulator',ready:true,error:null,context:{revision,baseline_sha256:approvedRevision.content_sha256}});
  const simulated=await frame.locator('body').evaluate(()=>window.__OSR_FRONTEND__.details);
  for(const field of ['embeddedTicks','stationTicks','waysideTicks','backendSamples'])expect(simulated[field]).toBeGreaterThan(0);
  await expect(page.locator('#contextRun')).toHaveText(/^run-[a-f0-9]{16}$/);
  const run=await page.locator('#contextRun').textContent();
  await page.locator('#occHandoff').click();
- await expect.poll(frontendState,{timeout:120000}).toMatchObject({app:'occ',ready:true,error:null});
+ await expect.poll(frontendState,{timeout:120000}).toMatchObject({app:'occ',ready:true,error:null,context:{revision,baseline_sha256:approvedRevision.content_sha256,run_id:run}});
  await expect(page.locator('#contextRun')).toHaveText(run);
  passed('City Studio revision and simulation baseline reach native simulator and OCC replay');
  await page.locator('[data-module=operations]').click();
@@ -121,7 +134,7 @@ try {
  await expect(frame.locator('#coreWorkTable')).toContainText(workTitle);
  const saved=await page.request.get('http://127.0.0.1:8190/api/ops-core/samawah');
  const task=(await saved.json()).state.workOrders.find(r=>r.title===workTitle);
- expect(task).toMatchObject({revision_id:revision,run_id:run});expect(task.baseline_sha256).toMatch(/^[a-f0-9]{64}$/);
+ expect(task).toMatchObject({revision_id:revision,run_id:run,baseline_sha256:approvedRevision.content_sha256});
  await page.reload();await expect(frame.locator('#coreWorkTable')).toContainText(task.title);
  await page.screenshot({path:output+'workbench-osr-controls.png',fullPage:true});
  passed('OSR railway work persists with the same revision, baseline and simulation run');

@@ -134,6 +134,9 @@ function navigateWorkbench(module, patch = {}) {
 
 window.addEventListener("message", (event) => {
   if (event.origin === location.origin && event.data?.type === "osr:context") {
+    for (const key of ["revision", "baseline_sha256", "run_id", "selected_asset"]) {
+      if (!Object.hasOwn(event.data.context || {}, key)) delete workbenchContext[key];
+    }
     Object.assign(workbenchContext, event.data.context || {});
   }
 });

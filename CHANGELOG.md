@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fixed Workbench revision changes retaining an earlier baseline and simulation
+  run. Embedded City Studio, simulator, OCC and Railway works now remove
+  superseded context; a baseline change invalidates the preceding run. Browser
+  handoff tests bind exact native revision/approval responses to the saved work.
 - Made complete-city acceptance a commit-bound software release gate; added nine
   unmocked disposition browser checks and 24 native business outcome/rollback checks.
   Native replenishment now retains city/project identity and rejects ambiguous rules;

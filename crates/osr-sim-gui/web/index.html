@@ -40,6 +40,9 @@
     window.__OSR_FRONTEND__ = { app: 'simulator', ready: false, error: null, context };
     window.addEventListener('message', (event) => {
       if (event.origin === location.origin && event.data?.type === 'osr:context') {
+        for (const key of ['revision', 'baseline_sha256', 'run_id', 'selected_asset']) {
+          if (!Object.hasOwn(event.data.context || {}, key)) delete context[key];
+        }
         Object.assign(context, event.data.context || {});
       }
     });
