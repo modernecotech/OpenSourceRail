@@ -102,7 +102,7 @@ pub fn evaluate(
     // I1 — any LIDAR detection inside the rail profile → Present.
     if lidar_ok {
         for det in frame.lidar.iter().flatten() {
-            if det.lateral_mm.abs() <= LATERAL_GATE_MM {
+            if det.lateral_mm.unsigned_abs() <= LATERAL_GATE_MM as u32 {
                 return IntrusionOutcome::present(TriggerReason::LidarReturn);
             }
         }
@@ -110,7 +110,7 @@ pub fn evaluate(
     // I1 — same check for radar.
     if radar_ok {
         for det in frame.radar.iter().flatten() {
-            if det.lateral_mm.abs() <= LATERAL_GATE_MM {
+            if det.lateral_mm.unsigned_abs() <= LATERAL_GATE_MM as u32 {
                 return IntrusionOutcome::present(TriggerReason::RadarReturn);
             }
         }
@@ -164,6 +164,31 @@ mod tests {
         let f = baseline();
         let o = evaluate(&f, 0, &IntrusionParams::default());
         assert_eq!(o.verdict, IntrusionVerdict::Clear);
+    }
+
+    #[test]
+    fn extreme_off_profile_sensor_offsets_do_not_overflow() {
+        for lateral_mm in [i32::MIN, i32::MAX] {
+            for radar in [false, true] {
+                let mut frame = baseline();
+                if radar {
+                    frame.radar[0] = Some(RadarReturn {
+                        longitudinal_mm: 1_000,
+                        lateral_mm,
+                        radial_speed_mmps: 0,
+                    });
+                } else {
+                    frame.lidar[0] = Some(LidarReturn {
+                        longitudinal_mm: 1_000,
+                        lateral_mm,
+                    });
+                }
+                assert_eq!(
+                    evaluate(&frame, 0, &IntrusionParams::default()).verdict,
+                    IntrusionVerdict::Clear
+                );
+            }
+        }
     }
 
     #[test]

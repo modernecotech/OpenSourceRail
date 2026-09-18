@@ -147,14 +147,18 @@ pub fn evaluate(
     }
     if lidar_ok {
         for det in frame.lidar.iter().flatten() {
-            if det.range_mm <= stopping_distance_mm && det.lateral_mm.abs() <= LATERAL_GATE_MM {
+            if det.range_mm <= stopping_distance_mm
+                && det.lateral_mm.unsigned_abs() <= LATERAL_GATE_MM as u32
+            {
                 return escalated_outcome(frame, TriggerReason::LidarReturn);
             }
         }
     }
     if radar_ok {
         for det in frame.radar.iter().flatten() {
-            if det.range_mm <= stopping_distance_mm && det.lateral_mm.abs() <= LATERAL_GATE_MM {
+            if det.range_mm <= stopping_distance_mm
+                && det.lateral_mm.unsigned_abs() <= LATERAL_GATE_MM as u32
+            {
                 return escalated_outcome(frame, TriggerReason::RadarReturn);
             }
         }
@@ -223,6 +227,32 @@ mod tests {
         let f = baseline();
         let o = evaluate(&f, 0, 100_000, true);
         assert_eq!(o.verdict, ObstacleVerdict::Clear);
+    }
+
+    #[test]
+    fn extreme_off_profile_sensor_offsets_do_not_overflow() {
+        for lateral_mm in [i32::MIN, i32::MAX] {
+            for radar in [false, true] {
+                let mut frame = baseline();
+                if radar {
+                    frame.radar[0] = Some(RadarDetection {
+                        range_mm: 1_000,
+                        lateral_mm,
+                        radial_speed_mmps: 0,
+                    });
+                } else {
+                    frame.lidar[0] = Some(LidarDetection {
+                        range_mm: 1_000,
+                        lateral_mm,
+                        intensity: 60,
+                    });
+                }
+                assert_eq!(
+                    evaluate(&frame, 0, 100_000, true).verdict,
+                    ObstacleVerdict::Clear
+                );
+            }
+        }
     }
 
     #[test]

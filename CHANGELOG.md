@@ -12,7 +12,9 @@
   physical, engineering or independent safety acceptance.
 - Fixed persistent point-machine drive faults losing their stop latch at cooldown
   expiry; corrected signed-absolute-value guards and insufficient intrusion proof
-  unwind bounds found by the broader proof run. See the
+  unwind bounds found by the broader proof run. Production obstacle/intrusion
+  LIDAR and radar comparisons now handle minimum signed offsets without overflow.
+  See the
   [review follow-through](docs/operating/review-follow-through.md).
 
 - Added an evidence-backed inventory of 515 OSR integration functions, inputs,
