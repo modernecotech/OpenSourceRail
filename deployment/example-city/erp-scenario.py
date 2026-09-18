@@ -139,8 +139,8 @@ try:
             tasks=len(rows),warehouse=frappe.db.exists('Warehouse',{'warehouse_name':'OSR samawah Example Spares'}))
     elif phase=='expansion-audit':
         source=INPUT['source']
-        types=['Item','Work Order','Quality Inspection','Asset Maintenance','Training Program','Budget','Issue','Assignment Rule','Payment Entry','GL Entry','Payment Ledger Entry']
-        result=dict(counts={dt:frappe.db.count(dt) for dt in types},invoice_outstanding=frappe.db.get_value('Purchase Invoice',source['invoice'],'outstanding_amount'),inspection_required=frappe.db.get_value('Item',source['raw'],'inspection_required_before_purchase'))
+        types=['Item','Work Order','Quality Inspection','Asset Maintenance','Training Program','Training Event','Training Result','Employee','Budget','Issue','Assignment Rule','Payment Entry','GL Entry','Payment Ledger Entry','Material Request','Stock Entry','Stock Ledger Entry','Purchase Invoice','Task','ToDo','User','DocShare','Item Reorder']
+        result=dict(counts={dt:frappe.db.count(dt) for dt in types},auto_indent=frappe.db.get_single_value('Stock Settings','auto_indent'),invoice_outstanding=frappe.db.get_value('Purchase Invoice',source['invoice'],'outstanding_amount'),inspection_required=frappe.db.get_value('Item',source['raw'],'inspection_required_before_purchase'))
     else:raise ValueError('Unknown example phase')
     frappe.db.commit()
     print('OSR_RESULT:'+json.dumps(result,default=str))

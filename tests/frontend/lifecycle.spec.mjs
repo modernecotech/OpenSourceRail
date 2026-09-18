@@ -121,3 +121,13 @@ test('Revision exposure shows scoped business records and downloads the observed
  await expect(view).not.toContainText('Native outcome verified');
  await expect(view.getByRole('link',{name:'VERIFICATION-1',exact:true})).toBeVisible();
 });
+
+test('Cross-domain review keeps stale observations and engineering release visible',async({page})=>{
+ await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[asset],outbox:[]}}));
+ await page.route('**/api/lifecycle/change-impact?**',r=>r.fulfill({json:{status:'no-change',summary:{},equipment_changes:[],cross_domain:{observations_current:false,engineering_release_ready:false,sha256:'context-hash',blockers:['ERP scope P1: refresh its snapshot before cross-domain review'],remaining:['Independently accept engineering rework'],scope:'Point-in-time observations.'}}}));
+ await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+ await expect(page.locator('#changeImpact')).toContainText('Cross-domain engineering release: open');
+ await expect(page.locator('#changeImpact')).toContainText('refresh its snapshot');
+ await expect(page.locator('#changeImpact')).toContainText('Independently accept engineering rework');
+ await expect(page.locator('#changeImpact')).toContainText('context-hash');
+});

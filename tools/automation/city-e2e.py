@@ -228,10 +228,13 @@ def start():
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['setup','run','start','stop','reset','restart-check','expand-check','coverage']);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['setup','run','start','stop','reset','restart-check','expand-check','business-check','coverage','disposition-check','release-evidence']);args=parser.parse_args()
     OUTPUT.mkdir(parents=True,exist_ok=True)
     if args.action=='setup':setup()
     elif args.action=='start':start()
+    elif args.action=='release-evidence':module('example_evidence','deployment/example-city/evidence.py').record(sys.modules[__name__])
+    elif args.action=='disposition-check':module('example_disposition','deployment/example-city/disposition.py').verify(sys.modules[__name__])
+    elif args.action=='business-check':module('example_business','deployment/example-city/business.py').verify(sys.modules[__name__])
     elif args.action=='expand-check':module('example_expansion','deployment/example-city/expansion.py').run(sys.modules[__name__])
     elif args.action=='coverage':module('example_coverage','deployment/example-city/coverage.py').generate(sys.modules[__name__])
     elif args.action=='restart-check':module('example_restart','deployment/example-city/restart.py').verify(sys.modules[__name__])

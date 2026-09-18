@@ -114,7 +114,7 @@ fn arb_tick_no_fix() -> SensorTick {
     let pulses: i32 = kani::any();
     // Bound to ~ ±2 m per tick (≈ ±820 pulses) to keep forward-chain
     // walks short.
-    kani::assume(pulses.abs() <= 820);
+    kani::assume(pulses.unsigned_abs() <= 820);
     let ts: u64 = kani::any();
     kani::assume(ts <= 10_000_000_000);
     SensorTick {
@@ -236,7 +236,7 @@ fn kani_o5_gnss_does_not_loosen() {
     // Wheel-only dead-reckoning reference: no GNSS, no balise, same
     // wheel input.
     let pulses: i32 = kani::any();
-    kani::assume(pulses.abs() <= 820);
+    kani::assume(pulses.unsigned_abs() <= 820);
     let ts: u64 = kani::any();
     kani::assume(ts <= 10_000_000_000);
 

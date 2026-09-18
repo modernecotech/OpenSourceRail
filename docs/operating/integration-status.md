@@ -36,12 +36,26 @@ The [isolated Samawah scenario](../../deployment/example-city/README.md) adds a
 retained end-to-end city lifecycle and settings matrix, with Mosul as a control.
 It includes actual native ERP records and unmocked browser checks. Its report
 separates full planning coverage, selected live equipment and physical acceptance
-limits. The [manual CI workflow](../../.github/workflows/example-city.yml) publishes
+limits. The [push/PR/manual CI workflow](../../.github/workflows/example-city.yml) publishes
 public reports and screenshots while keeping credentials private. The recorded
 18 September 2026 local run passed 98 lifecycle/settings/recovery checks, including
 ten real-service browser checks and a full stop/start. Its separate whole-city
 contract sweep covered 573 equipment positions and 1,610 measurements. This records
-local verification; the new manual CI workflow has not yet been run on GitHub.
+local verification; candidate CI evidence must be checked separately by exact commit.
+
+The additional `expand-check` passed 389 live/native/restoration assertions and a
+separate 230-check schema matrix. Its [coverage register](../../deployment/example-city/coverage-register.md)
+tracks 515 integration entries: 36 scenario, 64 varied, 135 partial and 280 without
+qualifying evidence. Payment posting/cancellation is exercised transactionally;
+other remaining workflows are listed explicitly. Passing examples do not establish
+coverage of every function or variable combination.
+
+`business-check` adds 24 native outcome/rollback checks for actual budget enforcement,
+assignment, replenishment and training. `disposition-check` adds nine unmocked browser
+checks using three native identities, including stale verification after a subsequent
+native action. The release gate now requires this city workflow and validates its
+commit-bound report hashes. See the [review follow-through](review-follow-through.md)
+for cross-domain freshness, controller fixes, broader proof execution and open gates.
 
 ## Acceptance commands
 

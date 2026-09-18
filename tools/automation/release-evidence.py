@@ -5,6 +5,8 @@ import base64
 import mimetypes
 import re
 import hashlib
+import importlib.util
+import tempfile
 import json
 from pathlib import Path
 import shutil
@@ -12,7 +14,7 @@ import subprocess
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
-WORKFLOWS = {'ci', 'kani', 'integrated-stack'}
+WORKFLOWS = {'ci', 'kani', 'integrated-stack', 'example-city'}
 
 
 def run(*args):
@@ -41,8 +43,8 @@ def main():
     if args.tag != 'v' + version:
         raise SystemExit('Tag must match the workspace software version')
     commit = run('git', 'rev-parse', '--verify', args.tag + '^{commit}')
-    if commit != run('git', 'rev-parse', 'HEAD') or run('git', 'status', '--porcelain', '--untracked-files=no'):
-        raise SystemExit('Check out the release tag with a clean tracked working tree')
+    if commit != run('git', 'rev-parse', 'HEAD') or run('git', 'status', '--porcelain', '--untracked-files=normal'):
+        raise SystemExit('Check out the release tag with a clean working tree, including untracked source')
     gh = shutil.which('gh') or str(Path.home() / '.local/bin/gh')
     rows = json.loads(run(gh, 'run', 'list', '--repo', 'modernecotech/OpenSourceRail',
                           '--commit', commit, '--limit', '100', '--json',
@@ -54,6 +56,20 @@ def main():
     subprocess.run([str(ROOT / 'tools/automation/osr-python'),
                     'tools/automation/build-doc-book.py', '--out', str(book), '--source-ref', args.tag], cwd=ROOT, check=True)
     exported = [book]
+    city_run = next(row for row in workflows if row['workflowName'] == 'example-city')
+    spec = importlib.util.spec_from_file_location('city_release_evidence', ROOT / 'deployment/example-city/evidence.py')
+    city_evidence = importlib.util.module_from_spec(spec); spec.loader.exec_module(city_evidence)
+    with tempfile.TemporaryDirectory(prefix='osr-release-city-') as directory:
+        subprocess.run([gh, 'run', 'download', str(city_run['databaseId']), '--repo',
+                        'modernecotech/OpenSourceRail', '--name', 'samawah-city-acceptance', '--dir', directory], check=True)
+        city_manifest = city_evidence.validate(Path(directory), commit)
+        # Publish the exact reports validated above, not a locally rerun substitute.
+        archive_root = Path(directory) / 'release-public'; archive_root.mkdir()
+        for relative in ['city-evidence.json', *city_manifest['reports']]:
+            destination = archive_root / relative; destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(Path(directory) / relative, destination)
+        archive = Path(shutil.make_archive(str(out / f'OpenSourceRail-City-Acceptance-{args.tag}'), 'zip', archive_root))
+        exported.append(archive)
     for source, name in [
         ('docs/open-source-rail-overview.html', f'OpenSourceRail-Overview-{args.tag}.html'),
         ('docs/open-source-rail-overview.md', f'OpenSourceRail-Overview-{args.tag}.md'),
@@ -79,6 +95,7 @@ def main():
         'schema': 'osr-software-release/1', 'version': version, 'tag': args.tag,
         'commit': commit, 'source_tree': run('git', 'rev-parse', args.tag + '^{tree}'),
         'workflows': workflows,
+        'example_city': dict(run_id=city_run['databaseId'], manifest=city_manifest),
         'kani_release_properties': ['kani_p5_time_bounded_arithmetic', 'kani_a2_expired_ma_trips'],
         'scope': 'ERPNext/FUXA/OSR software integration and simulation baseline',
         'independent_safety_acceptance': False,

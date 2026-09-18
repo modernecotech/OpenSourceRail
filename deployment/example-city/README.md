@@ -19,6 +19,10 @@ PLAYWRIGHT_BROWSERS_PATH="$HOME/.local/share/opensource-rail/toolchains/playwrig
 ./osr example-city setup
 ./osr example-city run
 ./osr example-city restart-check
+./osr example-city expand-check
+./osr example-city business-check
+./osr example-city disposition-check
+./osr example-city coverage
 ```
 
 Open **http://127.0.0.1:8190** after success. The report, native record identifiers,
@@ -94,6 +98,105 @@ can select their own data, gateway and trusted ERP parent origins. Generated
 FUXA asset links also use the configured Workbench origin, with that choice bound
 into the reviewed project hash.
 
+## Expanded function and variable coverage
+
+After a successful base run, `./osr example-city expand-check` can be repeated
+against the retained example. It pauses the example simulator, changes reviewed
+Samawah configurations, checks actual HTTP effects and restores the baseline and
+fresh telemetry in a `finally` block. It runs native ERP variations inside a
+rolled-back transaction and independently compares record counts, the original
+invoice balance and Item inspection settings before/after. Run this in the isolated
+example, without another operator editing its configuration during the check.
+
+The recorded expansion passed **389 assertions**: 342 live HTTP observations,
+three explicit HTTP controller-result fixtures, 43 native ERP/rollback observations
+and one schema-suite summary. The separate generated schema suite passed **230
+checks**. Schema validation and controller-result fixtures are not physical or
+native-controller acceptance.
+
+Added variations include:
+
+- Exact minimum, maximum and outside-range readings for all 56 selected measurement
+  contracts; 72 combinations of three positive scales, two offsets, three raw
+  values and four source qualities. Zero/negative scales are rejected.
+- Null measurements, malformed sequences, timestamp regression, duplicate concurrent
+  ingestion, five unauthorized roles and competing configuration reviews.
+- Pending-command configuration blockers, illegal result transitions, terminal
+  retries, missing permissives and expiry while the source is paused.
+- Invalid quality interrupting alarm persistence, inability to clear an active
+  fault with invalid readings, repeated occurrences and stale acknowledgements.
+- All eight native maintenance intervals and their expected dates; both assignment
+  strategies across five categories; three production/reorder quantities; all
+  three service priorities; training text changes; both submitted budget policies.
+- Native receipt/invoice inspection references with accepted and rejected readings;
+  partial supplier payment, settlement and cancellation, with balanced GL entries
+  and restored outstanding amounts. These temporary transactions are rolled back.
+
+### The coverage register is the acceptance boundary
+
+[`coverage-register.md`](coverage-register.md) is the recorded readable register.
+`./osr example-city coverage` regenerates current evidence under
+`build/city-example/coverage.json` and `coverage.md`, plus the discovered contracts
+in `coverage-inventory-current.json`. It inventories **515** registered functions,
+inputs, shared settings, route prefixes and named workflows. It explicitly excludes
+an exhaustive inventory of upstream ERPNext/FUXA, every city's override, desktop
+tool parameters and internal Rust functions.
+
+The recorded classification is **36 scenario**, **64 varied**, **135 partial** and
+**280 gap** entries. These are inventory entries, not counts of broken features or
+an overall coverage percentage. A gap means no qualifying mapped evidence; partial
+coverage never counts as a finished workflow. Native budget enforcement, enabled
+assignment and scheduled replenishment now have varied outcome evidence. The register
+lists remaining payroll, independent training competence, SLA, capitalization, tax,
+desktop engineering, load, backup restoration
+and physical acceptance work explicitly.
+
+`coverage-plan.json` binds each entry to named evidence and a reviewed contract
+signature. New entries, removed entries and changed defaults/options fail the
+inventory check. Review the source change and its tests, then update only the
+reviewed IDs, signatures and evidence rules using `coverage-inventory-current.json`.
+Do not regenerate the review list just to silence a failure. Failed/incomplete
+scenario reports provide no passing coverage credit. After reviewing a new recorded
+run, refresh this checked-in register with:
+
+```sh
+cp build/city-example/coverage.md deployment/example-city/coverage-register.md
+```
+
+The push/PR/manual CI workflow runs the expansion and always generates the coverage report,
+including on failure. Regular Python CI guards the reviewed inventory and verifies
+that missing evidence and newly changed contracts cannot be reported as covered.
+Local verification does not imply the GitHub workflow has run.
+
+### Native business outcomes and independent browser disposition
+
+`business-check` executes **24 checks**, including rollback verification: native
+Stop/Warn budgets at 50/100/101 against a 100 limit; enabled Round Robin and Load
+Balancing assignment; scheduler-generated purchase requests at stock 3/2/1 against
+level 2; preserved city/project identity; conflicting/stale replenishment rules;
+submitted training events, attendance, Pass/Fail results and invalid time periods.
+These are simulation fixtures. Training completion does not grant competence.
+
+`disposition-check` executes **9 unmocked browser checks** through Workbench's real
+ERP frame. Three independent native accounts propose, endorse, perform and verify
+a Work Order stop. Self-endorsement, self-verification and verification before action
+are rejected. Resuming the Work Order makes its prior verification visibly stale.
+Fixture accounts and records remain in the isolated example; passwords remain private.
+
+![Independent native disposition verification](../../docs/screenshots/example-city/disposition-verified.png)
+
+![The same verification becomes stale after a native change](../../docs/screenshots/example-city/disposition-stale.png)
+
+### Commit-bound release evidence
+
+After all checks, `./osr example-city release-evidence` binds the required reports to
+the clean commit recorded at scenario start. Dirty local demonstrations and reports
+from an earlier commit are rejected. CI publishes `city-evidence.json`, and release
+packaging downloads the artifact from the exact successful candidate run. Missing,
+failed, changed or empty reports fail the gate. This is a software release gate;
+the [review follow-through](../../docs/operating/review-follow-through.md) records
+the remaining engineering, formal, operating and physical work.
+
 ## Configuration coverage
 
 | Area | Variations and observed effects |
@@ -123,7 +226,10 @@ ERP records, equipment history and the retained City Studio workspace persist.
 The scenario sources are [`scenario.py`](scenario.py), [`matrix.py`](matrix.py),
 [`erp-scenario.py`](erp-scenario.py), [`network.py`](network.py),
 [`restart.py`](restart.py), [`verify-ui.mjs`](verify-ui.mjs) and
-[`engineering.json`](engineering.json). They reuse the production adapters;
+[`engineering.json`](engineering.json). The expansion and coverage sources are
+[`expansion.py`](expansion.py), [`erp-expansion.py`](erp-expansion.py),
+[`contracts.py`](contracts.py), [`coverage.py`](coverage.py) and
+[`coverage-plan.json`](coverage-plan.json). They reuse the production adapters;
 fixture setup and assertions are kept in this directory.
 
 ## Recorded run and screenshots
@@ -140,8 +246,9 @@ The configuration and lifecycle observations are saved with before/after values
 in `build/city-example/report.html` and `report.json`.
 
 The native capital Asset is a seeded evaluation fixture; this scenario does not
-demonstrate accounting capitalization of the manufactured serial, supplier payment,
-tax filing or payroll execution. Fault-recovery cases remain open for inspection:
+demonstrate accounting capitalization of the manufactured serial, tax filing or
+payroll execution. Supplier payment is now covered by the additional rolled-back
+native payment sequence above. Fault-recovery cases remain open for inspection:
 clearing telemetry does not automatically close ERP maintenance work.
 
 **Installed replacement serial and engineering context**

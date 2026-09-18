@@ -29,14 +29,14 @@ pub fn switch_evaluate(
     let mut fault_until_ns = prev.fault_until_ns;
     let mut fault_reason = prev.fault_reason;
 
-    if inputs.motor_over_temp && fault_reason != Some(FaultReason::OverTemperature) {
+    if inputs.motor_over_temp {
         fault_reason = Some(FaultReason::OverTemperature);
         fault_until_ns = Some(
             inputs
                 .now_ns
                 .saturating_add(u64::from(params.motor_cooldown_ms) * 1_000_000),
         );
-    } else if inputs.motor_drive_fault && fault_reason != Some(FaultReason::DriveFault) {
+    } else if inputs.motor_drive_fault {
         fault_reason = Some(FaultReason::DriveFault);
         fault_until_ns = Some(
             inputs
@@ -45,9 +45,11 @@ pub fn switch_evaluate(
         );
     }
 
-    // Cooldown expires when now_ns exceeds fault_until_ns.
+    // A continuing input fault refreshes the cooldown and always inhibits motion,
+    // including a saturated clock or zero cooldown. Expiry applies only after
+    // the physical fault inputs have cleared.
     if let Some(until) = fault_until_ns {
-        if inputs.now_ns >= until {
+        if inputs.now_ns >= until && !inputs.motor_over_temp && !inputs.motor_drive_fault {
             fault_until_ns = None;
             fault_reason = None;
         }
@@ -170,6 +172,32 @@ mod tests {
         let out = switch_evaluate(&prev, &nominal_inputs(1_000_000), &p);
         assert_eq!(out.motor, MotorCommand::Stop);
         assert_eq!(out.state.detected, DetectedPosition::Normal);
+    }
+
+    #[test]
+    fn persistent_fault_cannot_restart_motor_at_cooldown_expiry() {
+        for over_temperature in [false, true] {
+            for now in [10_000_000_000, u64::MAX] {
+                let mut inputs = nominal_inputs(now);
+                inputs.commanded = Some(CommandedPosition::Reverse);
+                inputs.motor_over_temp = over_temperature;
+                inputs.motor_drive_fault = !over_temperature;
+                let reason = if over_temperature {
+                    FaultReason::OverTemperature
+                } else {
+                    FaultReason::DriveFault
+                };
+                let prev = SwitchState {
+                    fault_until_ns: Some(now),
+                    fault_reason: Some(reason),
+                    ..Default::default()
+                };
+                let out = switch_evaluate(&prev, &inputs, &SwitchParams::typical());
+                assert_eq!(out.motor, MotorCommand::Stop);
+                assert_eq!(out.state.fault_reason, Some(reason));
+                assert!(out.state.fault_until_ns.is_some());
+            }
+        }
     }
 
     #[test]

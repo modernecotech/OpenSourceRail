@@ -1,6 +1,9 @@
 name: example-city
 
 on:
+  push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -51,6 +54,13 @@ jobs:
           ./osr example-city setup
           ./osr example-city run
           ./osr example-city restart-check
+          ./osr example-city expand-check
+          ./osr example-city business-check
+          ./osr example-city disposition-check
+          ./osr example-city release-evidence
+      - name: Generate coverage evidence even after a failed scenario
+        if: always()
+        run: ./osr example-city coverage
 
       - name: Upload public acceptance evidence
         if: always()
@@ -58,9 +68,21 @@ jobs:
         with:
           name: samawah-city-acceptance
           path: |
+            build/city-example/city-evidence.json
+            build/city-example/disposition-report.json
+            build/city-example/business-report.json
+            build/city-example/business-flows.log
+            build/city-example/disposition-browser.log
             build/city-example/report.json
             build/city-example/report.html
             build/city-example/ui-report.json
+            build/city-example/expansion-report.json
+            build/city-example/expansion-report.html
+            build/city-example/native-expansion.json
+            build/city-example/contract-report.json
+            build/city-example/coverage.json
+            build/city-example/coverage-inventory-current.json
+            build/city-example/coverage.md
             build/city-example/setup.json
             build/city-example/native-records.json
             build/city-example/full-network/report.json

@@ -4,7 +4,7 @@ from datetime import date,timedelta
 import frappe
 os.chdir('/home/frappe/frappe-bench/sites');frappe.init(site=INPUT['site']);frappe.connect()
 frappe.flags.mute_emails=True
-from osr_erpnext.components import preview,apply,feedback
+from osr_erpnext.components import preview,apply,catalogue,inspection_lines
 from osr_erpnext.component_catalogue import CATALOGUE
 source=INPUT['source'];project=source['project'];company=source['company'];key=uuid.uuid4().hex[:10]
 checks=[]
@@ -19,6 +19,8 @@ def component(kind,values,variant):
     assert apply(project,kind,identity,values,plan['fingerprint'])['created'] is False
     return frappe.get_doc(result['doctype'],result['name'])
 try:
+    available=catalogue(project)
+    check('erp.catalogue',set(available['components'])==set(CATALOGUE) and source['warehouse'] in available['warehouses'],components=sorted(available['components']),city=available['city'])
     for amount in [1,2,5]:
         doc=component('manufacturing',dict(bom=source['bom'],quantity=amount,source_warehouse=source['warehouse'],wip_warehouse=source['warehouse'],fg_warehouse=source['warehouse'],start='2026-11-04 09:00:00'),'production-'+str(amount))
         check('erp.manufacturing.quantity.'+str(amount),doc.qty==amount and doc.required_items[0].required_qty==2*amount,quantity=doc.qty,raw_required=doc.required_items[0].required_qty,docstatus=doc.docstatus)
@@ -58,6 +60,8 @@ try:
     template=insert('Quality Inspection Template',quality_inspection_template_name='Matrix '+key,item_quality_inspection_parameter=[dict(specification=parameter.name,numeric=1,min_value=30,max_value=45)])
     for kind,reference in [('Purchase Receipt',source['receipt']),('Purchase Invoice',source['invoice'])]:
         line=frappe.get_doc(kind,reference).items[0]
+        lines=inspection_lines(project,kind,reference)
+        check('erp.inspection-lines.'+kind,line.name in [r['value'] for r in lines],reference=kind,rows=len(lines))
         for sample_size,reading in [(1,35),(2,99)]:
             doc=component('quality',dict(reference_type=kind,reference=reference,line=line.name,template=template.name,sample_size=sample_size,inspector='Administrator',report_date=date.today().isoformat()),'inspection-'+str(len(checks)))
             doc.readings[0].reading_1=str(reading);doc.save();doc.submit()

@@ -21,7 +21,7 @@ def run(h):
     results=[];started=datetime.now(timezone.utc).isoformat();processes=[]
     run_id=datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')
     if (h.OUTPUT/'run-started.json').exists():raise RuntimeError('This example already ran; use example-city reset, then setup and run for a clean repeat')
-    h.write(h.OUTPUT/'run-started.json',dict(run=run_id))
+    h.write(h.OUTPUT/'run-started.json',dict(run=run_id,commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=h.ROOT,text=True).strip(),clean_source=not bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=normal'],cwd=h.ROOT,text=True).strip())))
     def save(passed=None,error=None):
         report=dict(schema='osr-city-e2e/1',city='samawah',environment='simulation',started_at=started,
             finished_at=datetime.now(timezone.utc).isoformat() if passed is not None else None,passed=passed,error=error,checks=results,

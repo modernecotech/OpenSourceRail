@@ -42,9 +42,9 @@ fn arb_command() -> BrakeCommand {
 
 fn arb_inputs() -> BrakeInputs {
     let measured_speed_mmps: i32 = kani::any();
-    kani::assume(measured_speed_mmps.abs() <= 30_000);
+    kani::assume(measured_speed_mmps.unsigned_abs() <= 30_000);
     let wheel_speed_mmps: i32 = kani::any();
-    kani::assume(wheel_speed_mmps.abs() <= 30_000);
+    kani::assume(wheel_speed_mmps.unsigned_abs() <= 30_000);
     let regen_available_ppt: u16 = kani::any();
     kani::assume(regen_available_ppt <= 1_000);
     BrakeInputs {

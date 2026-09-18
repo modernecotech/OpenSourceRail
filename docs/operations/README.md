@@ -61,11 +61,13 @@ defines the retained public owner, ring-fenced delivery/operator company,
 independent assurance, responsible executives, competence build and staged
 transition from development through revenue service.
 
-Healthy trainsets use distributed overnight stabling at powered passenger
-stations under [`dispatcher/s6-shift-end.md`](dispatcher/s6-shift-end.md).
-The main depot remains responsible for defects, inspections beyond the
-platform release check, wheel work, battery exchange, and heavy maintenance;
-station stabling is not distributed maintenance.
+Healthy trainsets use a hybrid of station and depot/terminal overnight stabling.
+The adopted Samawah planning allocation places **40 trainsets at stations and 68
+at depot/terminal storage**. Station charging may use grid, solar or storage-backed
+supply; it has no universal minimum grid connection. The selected plan must verify
+energy, morning dispatch and physical berth/routing capacity separately. Depot
+facilities retain the inspection and maintenance functions: station stabling is
+not distributed maintenance.
 
 ## How to add a rule
 

@@ -24,13 +24,13 @@ parent = "S1"
 id = "E1.1a"
 description = "Kani harness P2 — two trains, bounded state."
 parent = "G1.1"
-evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_two_trains", note = "Tiny-network bound (2 sections, 2 trains); scaling pending." }
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_two_trains", note = "Tiny-network harness with two trains; consult the executed harness and recorded bounds; larger configurations remain open." }
 
 [[solution]]
 id = "E1.1b"
 description = "Proptest over random log prefixes."
 parent = "G1.1"
-evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_ma.rs", note = "Unbounded random inputs per proptest's default 256-case budget." }
+evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_ma.rs", note = "Finite generated random inputs under proptest's default 256-case budget; not exhaustive verification." }
 
 [[goal]]
 id = "G1.2"

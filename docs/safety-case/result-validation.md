@@ -69,3 +69,65 @@ Inventory counts are generated from GSN TOML by
 `python3 tools/automation/safety-case-summary.py`; CI runs it with `--check`.
 The [release-gap register](../certification/release-gap-register.md) remains the
 place to track physical and deployment acceptance work.
+
+## Controlled execution and signed acceptance
+
+`tools/automation/assurance-evidence.py run` discovers the 41 declared Kani
+solutions from GSN, invokes each exact harness with Kani 0.67.0, and exports
+`results.toml`, per-harness logs and `execution.json`. A nonzero exit, timeout or
+missing successful verification summary remains failed. Inputs include workspace
+Rust (including untracked local source), manifests, lockfiles, GSN, runner and CI
+workflow. Changed inputs during execution invalidate the run. CI runs all eight
+packages and uploads diagnostics even on failure.
+
+```sh
+PATH="$HOME/.cargo/bin:$PATH" tools/automation/osr-python \
+  tools/automation/assurance-evidence.py run \
+  --output build/assurance/review --timeout 300
+```
+
+Local runs identify themselves as `local-unattested`. A GitHub run reference is
+recorded as a declared executor, **not authenticated by environment variables**.
+`runner_authenticated` remains false: verifying the actual CI run, toolchain,
+dependency provenance and operating separation remains an independent task.
+
+The separate `verify-acceptance` command authenticates an authorized reviewer's
+Ed25519 signature over exact JSON envelope bytes, checks the result/report/input
+hashes and current conservative dependency scope, rejects failed results, duplicate
+solutions and mismatched declared harnesses, and rejects an executor/reviewer
+identity match. It does not create a signature or decide that a review occurred.
+
+A separately controlled policy supplies `reviewers`, keyed by reviewer identity,
+with `enabled`, `public_key` (relative to the policy file) and
+`public_key_sha256`. Keep that trust policy outside the contributor-controlled
+checkout. The signed envelope contains:
+
+```json
+{
+  "schema": "osr-independent-acceptance/1",
+  "status": "accepted",
+  "reviewer": "authorized-independent-reviewer",
+  "reference": "controlled-review-record",
+  "results_sha256": "hash-of-exact-reviewed-results.toml",
+  "solutions": ["exact-reviewed-solution-identifiers"],
+  "dependency_scope_reviewed": true
+}
+```
+
+These are explanatory placeholders, not an acceptance record. The reviewer must
+review actual runner provenance and independence; different text labels alone do
+not establish different people. After an authorized reviewer supplies the envelope
+and detached signature:
+
+```sh
+tools/automation/osr-python tools/automation/assurance-evidence.py verify-acceptance \
+  --results build/assurance/review/results.toml \
+  --envelope /controlled/review/acceptance.json \
+  --signature /controlled/review/acceptance.sig \
+  --policy /controlled/trust/reviewers.json
+```
+
+Successful signature verification covers only the listed execution records. It does
+not satisfy the complete GSN case, authenticate physical evidence, or grant railway
+release. Other evidence kinds and the existing complete-case validator retain their
+own requirements. No independent acceptance was produced by the demonstration.

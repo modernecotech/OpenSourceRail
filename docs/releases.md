@@ -31,10 +31,14 @@ the [roadmap](ROADMAP.md) and controlled release registers.
 2. Align `Cargo.toml`, `Cargo.lock`, `VERSION`, package metadata, changelog and
    release notes. Regenerate the reader book, overview, catalogues and evidence
    summaries with `./osr build`, `./osr readiness` and the safety-case summary.
-3. Run `./osr test`, the two pinned Kani proofs and native integrated acceptance.
+3. Run `./osr test`, the declared pinned Kani harnesses and native integrated acceptance,
+   including the complete example-city lifecycle, restart, expansion, business and
+   unmocked disposition checks.
    Review generated changes, commit the complete baseline and push it for CI.
-4. Require successful `ci`, `kani` and `integrated-stack` workflows on that exact
-   commit. The integrated workflow must reach its final outage/recovery test.
+4. Require successful `ci`, `kani`, `integrated-stack` and `example-city` workflows
+   on that exact commit. The integrated workflow must reach its final outage/recovery
+   test. The city run must start on a clean candidate commit and publish its hashed
+   `city-evidence.json`; release packaging downloads and validates that run's reports.
 5. With a clean tracked working tree, create the immutable annotated tag at the
    verified commit. Never move an existing release tag to repair a failure.
 6. Build the publication assets from that tag:

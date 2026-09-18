@@ -15,7 +15,7 @@ use crate::verdict::IntrusionVerdict;
 fn i1_lidar_in_profile_forces_present() {
     let mut f = WaysideSensorFrame::clear();
     let lateral: i32 = kani::any();
-    kani::assume(lateral.abs() <= LATERAL_GATE_MM);
+    kani::assume(lateral.unsigned_abs() <= LATERAL_GATE_MM as u32);
     let long_mm: u32 = kani::any();
     kani::assume(long_mm <= 1_000_000);
     f.lidar[0] = Some(LidarReturn {
@@ -54,7 +54,7 @@ fn i3_fence_breach_forces_present() {
 /// I4 — camera classifier alone (no safety-primary hit) cannot emit Clear
 /// when the camera is a confident hazard class.
 #[kani::proof]
-#[kani::unwind(5)]
+#[kani::unwind(10)]
 fn i4_camera_alone_cannot_clear_a_hazard_class() {
     let mut f = WaysideSensorFrame::clear();
     f.camera = Some(CameraReturn {
@@ -66,9 +66,9 @@ fn i4_camera_alone_cannot_clear_a_hazard_class() {
 }
 
 /// I5 — strictly-fresher sensor frame never moves the verdict in the
-/// less-restrictive direction.
+/// more-restrictive direction.
 #[kani::proof]
-#[kani::unwind(5)]
+#[kani::unwind(10)]
 fn i5_fresher_never_increases_severity() {
     let mut stale = WaysideSensorFrame::clear();
     stale.lidar_age_ms = MAX_SENSOR_STALE_MS + 50;

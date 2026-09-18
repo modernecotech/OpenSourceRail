@@ -1039,7 +1039,7 @@
     {
       "pattern": "erp.component.replenishment",
       "status": "partial",
-      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1050,7 +1050,7 @@
     {
       "pattern": "erp.input.replenishment.item",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1061,7 +1061,7 @@
     {
       "pattern": "erp.input.replenishment.level",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1072,7 +1072,7 @@
     {
       "pattern": "erp.input.replenishment.quantity",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1083,7 +1083,7 @@
     {
       "pattern": "erp.input.replenishment.warehouse",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1094,7 +1094,7 @@
     {
       "pattern": "erp.input.replenishment.level",
       "status": "varied",
-      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1105,7 +1105,7 @@
     {
       "pattern": "erp.input.replenishment.quantity",
       "status": "varied",
-      "remaining": "Native reorder fields vary; scheduler-generated purchase requests are not verified.",
+      "remaining": "Native scheduler behavior also has business-report evidence; supplier, lead-time and concurrency permutations remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1468,7 +1468,7 @@
     {
       "pattern": "erp.component.budget",
       "status": "partial",
-      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1479,7 +1479,7 @@
     {
       "pattern": "erp.input.budget.accounts",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1490,7 +1490,7 @@
     {
       "pattern": "erp.input.budget.accounts[].account",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1501,7 +1501,7 @@
     {
       "pattern": "erp.input.budget.accounts[].amount",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1512,7 +1512,7 @@
     {
       "pattern": "erp.input.budget.action",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1523,7 +1523,7 @@
     {
       "pattern": "erp.input.budget.fiscal_year",
       "status": "partial",
-      "remaining": "Schema boundaries are exercised; a field-specific native change/effect is not established for this entry.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "contracts",
@@ -1534,7 +1534,7 @@
     {
       "pattern": "erp.input.budget.action",
       "status": "varied",
-      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1545,7 +1545,7 @@
     {
       "pattern": "erp.input.budget.accounts[].amount",
       "status": "varied",
-      "remaining": "Both actions and amounts reach submitted budgets. Actual overspend blocking/warning and fiscal-period interactions remain.",
+      "remaining": "Native Stop/Warn expense enforcement also has business-report evidence; commitments and fiscal-period interactions remain.",
       "evidence": [
         {
           "report": "expansion",
@@ -1697,17 +1697,6 @@
       ]
     },
     {
-      "pattern": "erp.api.components.*",
-      "status": "partial",
-      "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
-      "evidence": [
-        {
-          "report": "base",
-          "check": "Isolated native components adapters and negative cases pass with rollback"
-        }
-      ]
-    },
-    {
       "pattern": "erp.api.procurement.*",
       "status": "partial",
       "remaining": "Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established.",
@@ -1737,6 +1726,61 @@
         {
           "report": "base",
           "check": "Isolated native lifecycle adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.components.preview",
+      "status": "scenario",
+      "remaining": "All eight adapters through native preview/apply and repeat-safe checks; every HTTP permission/prerequisite combination remains.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native components adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.components.apply",
+      "status": "scenario",
+      "remaining": "All eight adapters through native preview/apply and repeat-safe checks; every HTTP permission/prerequisite combination remains.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native components adapters and negative cases pass with rollback"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.components.catalogue",
+      "status": "scenario",
+      "remaining": "Actual city component/warehouse catalogue; other roles and city profiles remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.catalogue"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.components.inspection_lines",
+      "status": "varied",
+      "remaining": "Both receipt and invoice row selection; cross-city and permission variants remain.",
+      "evidence": [
+        {
+          "report": "expansion",
+          "check": "erp.inspection-lines.*"
+        }
+      ]
+    },
+    {
+      "pattern": "erp.api.city_runtime.city_status",
+      "status": "partial",
+      "remaining": "Native procurement regression checks readiness and Material Request feedback; all status combinations remain.",
+      "evidence": [
+        {
+          "report": "base",
+          "check": "Isolated native procurement adapters and negative cases pass with rollback"
         }
       ]
     },
@@ -3429,12 +3473,12 @@
     },
     {
       "pattern": "workflow.disposition",
-      "status": "partial",
-      "remaining": "Native rollback suite exercises all seven verifier types; concurrent edits and every exposure/decision combination remain.",
+      "status": "scenario",
+      "remaining": "Unmocked browser with three independent accounts covers proposal, endorsement, native stop, verification and stale detection; all target/action/concurrency permutations remain.",
       "evidence": [
         {
-          "report": "base",
-          "check": "Isolated native lifecycle adapters and negative cases pass with rollback"
+          "report": "disposition",
+          "check": "*"
         }
       ]
     },
@@ -3484,27 +3528,47 @@
     },
     {
       "pattern": "workflow.replenishment-scheduler",
-      "status": "gap",
-      "remaining": "Drive stock below/at/above thresholds and observe native scheduled Material Requests with correct city scope.",
-      "evidence": []
+      "status": "varied",
+      "remaining": "Native scheduler at/below/above threshold, quantities, city identity and stale/ambiguous rules. Multiple suppliers, lead times and live concurrent scheduler cycles remain.",
+      "evidence": [
+        {
+          "report": "business",
+          "check": "business.replenishment.*"
+        }
+      ]
     },
     {
       "pattern": "workflow.budget-enforcement",
-      "status": "gap",
-      "remaining": "Attempt actual commitments and expenses below/at/above submitted Stop/Warn budgets.",
-      "evidence": []
+      "status": "varied",
+      "remaining": "Submitted actual expenses at/below/above Stop/Warn budgets. Purchase commitments, fiscal-period boundaries and simultaneous posting remain.",
+      "evidence": [
+        {
+          "report": "business",
+          "check": "business.budget.*"
+        }
+      ]
     },
     {
       "pattern": "workflow.assignment-execution",
-      "status": "gap",
-      "remaining": "Enable disposable city rules, vary users/load/calendar and verify actual task assignments.",
-      "evidence": []
+      "status": "varied",
+      "remaining": "Actual enabled Round Robin and Load Balancing assignment to two users. Holidays, disabled users and concurrent dispatch remain.",
+      "evidence": [
+        {
+          "report": "business",
+          "check": "business.assignment.*"
+        }
+      ]
     },
     {
       "pattern": "workflow.training-competence",
-      "status": "gap",
-      "remaining": "Record events, attendance, assessment, failure/retraining and an independent competence decision.",
-      "evidence": []
+      "status": "partial",
+      "remaining": "Submitted training, attendance and Pass/Fail results; invalid periods rejected. Independent competence decisions and authorization remain.",
+      "evidence": [
+        {
+          "report": "business",
+          "check": "business.training.*"
+        }
+      ]
     },
     {
       "pattern": "workflow.service-sla",

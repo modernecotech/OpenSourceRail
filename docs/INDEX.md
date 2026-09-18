@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4970**.
+Indexed Markdown files: **4972**.
 
 ## Sections
 
@@ -25,9 +25,9 @@ Indexed Markdown files: **4970**.
 | [cities](#cities) | 4317 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
-| [deployment](#deployment) | 4 |
+| [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 160 |
+| [docs](#docs) | 161 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4438,6 +4438,7 @@ Indexed Markdown files: **4970**.
 | [`deployment/README.md`](../deployment/README.md) | Host Deployment Baseline |
 | [`deployment/erpnext/README.md`](../deployment/erpnext/README.md) | ERPNext operating deployment |
 | [`deployment/example-city/README.md`](../deployment/example-city/README.md) | Reproducible example-city acceptance |
+| [`deployment/example-city/coverage-register.md`](../deployment/example-city/coverage-register.md) | Integration coverage register |
 | [`deployment/supervision/README.md`](../deployment/supervision/README.md) | Equipment supervision and lifecycle integration |
 
 ## design
@@ -4919,6 +4920,7 @@ Indexed Markdown files: **4970**.
 | [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
 | [`docs/operating/integration-status.md`](../docs/operating/integration-status.md) | Integrated operating software: completion and deployment inputs |
 | [`docs/operating/readiness.md`](../docs/operating/readiness.md) | Operating platform readiness |
+| [`docs/operating/review-follow-through.md`](../docs/operating/review-follow-through.md) | Integration review follow-through — 18 September 2026 |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |
 | [`docs/operations/control-centre/c2-communications.md`](../docs/operations/control-centre/c2-communications.md) | C2 — Communications |

@@ -62,7 +62,9 @@ def test_action_passes_only_caller_token_and_preserves_gateway_denial(endpoint, 
 
 
 def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(tmp_path, monkeypatch):
-    package = {'city': 'samawah', 'environment': 'simulation', 'sha256': 'prepared'}
+    monkeypatch.syspath_prepend(str(ROOT/'tools/automation'))
+    package = {'city': 'samawah', 'environment': 'simulation', 'sha256': 'prepared',
+               'engineering_revision': 'rev1', 'equipment': [{'erp_project':'P1','company_id':'Company'}]}
     folder = tmp_path / 'build/supervision/samawah/simulation'
     folder.mkdir(parents=True)
     (folder / 'package.json').write_text(json.dumps(package))
@@ -73,6 +75,7 @@ def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(t
     monkeypatch.setattr(WB, 'REPO_ROOT', tmp_path)
     monkeypatch.setattr(WB, 'SUPERVISION_ROOT', tmp_path/'build/supervision')
     monkeypatch.setattr(WB, 'SUPERVISION_CONFIG', private/'integration.json')
+    monkeypatch.setattr(WB, 'ERP_SNAPSHOT', private/'missing-snapshot.json')
 
     class Response(io.BytesIO):
         status = 200
@@ -99,6 +102,9 @@ def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(t
     client.request('GET', '/api/lifecycle/change-impact?city=samawah&environment=simulation')
     response = client.getresponse()
     assert response.status == 200
-    assert json.loads(response.read())['status'] == 'no-change'
+    result=json.loads(response.read())
+    assert result['status'] == 'no-change'
+    assert not result['cross_domain']['observations_current']
+    assert not result['cross_domain']['engineering_release_ready']
     client.close()
     server.shutdown(); server.server_close(); thread.join()

@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+- Made complete-city acceptance a commit-bound software release gate; added nine
+  unmocked disposition browser checks and 24 native business outcome/rollback checks.
+  Native replenishment now retains city/project identity and rejects ambiguous rules;
+  the reproducible ERP application image is revision `osr13`.
+- Added cross-domain change-review freshness and artifact checks in Workbench,
+  controlled execution of all 41 declared Kani harnesses, independently signed
+  acceptance verification, and a resumable city simulation runner. These do not grant
+  physical, engineering or independent safety acceptance.
+- Fixed persistent point-machine drive faults losing their stop latch at cooldown
+  expiry; corrected signed-absolute-value guards and insufficient intrusion proof
+  unwind bounds found by the broader proof run. See the
+  [review follow-through](docs/operating/review-follow-through.md).
+
+- Added an evidence-backed inventory of 515 OSR integration functions, inputs,
+  shared settings and workflows, with explicit partial/uncovered entries and
+  guards against unreviewed contract changes. The example-city expansion adds
+  389 live/native/restoration assertions and 230 separately labelled schema
+  checks, including concurrent configuration/telemetry, command state interactions,
+  all native maintenance intervals, inspection outcomes and supplier payment
+  settlement/cancellation. See the [coverage register](deployment/example-city/coverage-register.md).
+
 - Added an isolated, reproducible Samawah lifecycle acceptance deployment with a
   Mosul control city, persistent native business records, configuration sensitivity
   checks, browser screenshots and outage/restart verification. Run it with

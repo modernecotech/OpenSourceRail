@@ -114,6 +114,7 @@ def assess(rows,plan,reports):
                 identity=check.get('id',check.get('name',''))
                 if check.get('passed') is True and fnmatchcase(identity,selector['check']):
                     observations.append(dict(report=selector['report'],check=identity,level=check.get('level','base-scenario')))
+        if row['id'] in drift['added'] or row['id'] in drift['changed']:observations=[]
         result.append({**row,'status':rule.get('status','partial') if observations else 'gap','evidence':observations,
             'remaining':rule.get('remaining','No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks.')})
     counts=dict(Counter(r['status'] for r in result))
@@ -142,10 +143,12 @@ def markdown(data):
 def generate(h):
     plan=json.loads((h.ROOT/'deployment/example-city/coverage-plan.json').read_text())
     reports={}
-    for name,path in [('base','report.json'),('expansion','expansion-report.json'),('contracts','contract-report.json')]:
+    for name,path in [('base','report.json'),('expansion','expansion-report.json'),('contracts','contract-report.json'),('business','business-report.json'),('disposition','disposition-report.json')]:
         target=h.OUTPUT/path
         if target.exists():reports[name]=json.loads(target.read_text())
-    result=assess(inventory(h.ROOT),plan,reports)
+    rows=inventory(h.ROOT)
+    h.write(h.OUTPUT/'coverage-inventory-current.json',dict(rows=rows,contracts={r['id']:signature(r) for r in rows}))
+    result=assess(rows,plan,reports)
     result['source_sha256']={p:hashlib.sha256((h.ROOT/p).read_bytes()).hexdigest() for p in sorted({r['source'] for r in result['rows']})}
     h.write(h.OUTPUT/'coverage.json',result);h.write(h.OUTPUT/'coverage.md',markdown(result))
     print(json.dumps(dict(inventory_entries=len(result['rows']),counts=result['counts'],inventory_consistent=result['inventory_consistent'],exhaustive=False)))

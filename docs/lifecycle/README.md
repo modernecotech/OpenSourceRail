@@ -358,3 +358,13 @@ assurance. ERP case closure remains separate.
 selected city and environment. Results show revision and replacement history,
 and can open a matching connected asset. A search on both fields requires both
 to match; it does not search other cities or bypass credential scopes.
+
+## Cross-domain change context
+
+Prepared change impact also checks the proposed revision against ERP observations
+scoped to city, company and project, with a five-minute freshness limit, and verifies
+linked engineering artifact hashes. Missing or changed inputs are listed explicitly.
+The context checksum binds these observations; it does not extend the supervisory
+apply transaction to ERP. Native business actions still revalidate their current
+exposure, and CAD/solver, rework acceptance and formal supersession remain open. See
+the [review follow-through](../operating/review-follow-through.md).

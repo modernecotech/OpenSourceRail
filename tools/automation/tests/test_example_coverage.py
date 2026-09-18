@@ -40,7 +40,7 @@ class CoverageTest(unittest.TestCase):
     def test_new_removed_and_changed_contracts_are_detected(self):
         changed=copy.deepcopy(self.rows);changed[0]['options'].append('Ignore')
         result=coverage.assess(changed,self.plan,self.reports)
-        self.assertFalse(result['inventory_consistent']);self.assertEqual(result['drift']['changed'],['component.amount'])
+        self.assertFalse(result['inventory_consistent']);self.assertEqual(result['drift']['changed'],['component.amount']);self.assertEqual(result['counts'],{'gap':1})
         result=coverage.assess(self.rows+[dict(id='new',kind='input')],self.plan,self.reports)
         self.assertEqual(result['drift']['added'],['new'])
         result=coverage.assess([],self.plan,self.reports)

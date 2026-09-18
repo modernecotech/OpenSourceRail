@@ -33,7 +33,7 @@ safety properties of the Movement Authority computer:
 | **P4** — conservatism | `kani_p4_fail_restrictive_is_not_less_restrictive_than_known` | written (fail-restrictive path only) |
 | **P5** — time-bounded | `kani_p5_time_bounded`, `kani_p5_time_bounded_with_known_position` | written |
 
-Also proptest-checked (covering larger inputs unbounded) in
+Also proptest-checked (sampling larger input domains with finite generated tests) in
 [`tests/proptest_ma.rs`](../../crates/osr-interlocking/tests/proptest_ma.rs)
 and [`tests/proptest_determinism.rs`](../../crates/osr-interlocking/tests/proptest_determinism.rs).
 

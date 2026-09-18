@@ -14,8 +14,8 @@ def rows(commit='revision', conclusion='success'):
             for n, name in enumerate(sorted(RELEASE.WORKFLOWS))]
 
 
-def test_release_requires_all_three_workflows_on_exact_commit():
-    assert len(RELEASE.successful_runs(rows(), 'revision')) == 3
+def test_release_requires_all_four_workflows_on_exact_commit():
+    assert len(RELEASE.successful_runs(rows(), 'revision')) == 4
     for invalid in [rows('old-revision'), rows()[:-1], rows(conclusion='failure')]:
         with pytest.raises(ValueError, match='incomplete'):
             RELEASE.successful_runs(invalid, 'revision')

@@ -240,6 +240,11 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                                       headers={"Authorization": "Bearer " + viewer["token"]})
                 with urlopen(request, timeout=5) as response:
                     payload = json.load(response)
+                if endpoint == "change-impact":
+                    from change_context import assess
+                    from workbench_city import read_json
+                    payload['cross_domain'] = assess(REPO_ROOT, package,
+                        read_json(SUPERVISION_ROOT / city / 'engineering.json'), read_json(ERP_SNAPSHOT))
                 if endpoint == "snapshot":
                     actor = self._actor(required=False)
                     if actor and OPS.actor_can_access_city(actor, city):

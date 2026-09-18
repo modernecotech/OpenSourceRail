@@ -22,6 +22,8 @@ function renderImpact(a){
   const blockers=impact.application?.blockers || [];
   let html=record(`<b>${esc(impact.status)}</b> · ${s.added || 0} added · ${s.changed || 0} changed · ${s.removed || 0} removed · ${s.unchanged || 0} unchanged · ${s.package_values_changed || 0} package field(s) changed<br>Baseline <code>${esc(impact.baseline_sha256?.slice(0,16) || 'none')}</code> → prepared <code>${esc(impact.proposed_sha256?.slice(0,16))}</code><br>${esc(impact.authority)}`);
   if(blockers.length)html+=record(`<b class="bad">Automatic apply blocked</b><br>${blockers.map(esc).join('<br>')}`);
+  const context=impact.cross_domain;
+  if(context)html+=record(`<b>Cross-domain engineering release: open</b><br>${context.observations_current?'Linked observations are current within the review freshness window.':'Linked observations require refresh or revision review.'}<br>${[...(context.blockers || []),...(context.remaining || [])].map(esc).join('<br>')}<br>${esc(context.scope)}<br>Context checksum <code>${esc(context.sha256)}</code>`);
   if(!change){$('changeImpact').innerHTML=html+record('Selected equipment position is unchanged by the prepared package.');return;}
   const records=change.affected_records || {},dependencies=change.dependencies || {};
   const values=(change.changed_values || []).map(row=>`<code>${esc(row.path)}</code>: ${esc(row.kind)}`).join('<br>') || `${esc(change.change_type)} equipment position`;

@@ -10,6 +10,7 @@ after_migrate = "osr_erpnext.setup.install"
 doctype_js = {"Project": "public/js/project.js", "Task": "public/js/task.js", "Issue": "public/js/issue.js"}
 
 doc_events = {
+    "Material Request": {"before_validate": "osr_erpnext.replenishment.assign_city_scope"},
     "OSR Disposition Execution": {"validate": "osr_erpnext.disposition.validate", "on_trash": "osr_erpnext.disposition.prevent_delete"},
     "OSR Revision Disposition": {"validate": "osr_erpnext.disposition.validate", "on_trash": "osr_erpnext.disposition.prevent_delete"},
     "OSR Disposition Decision": {"validate": "osr_erpnext.disposition.validate", "on_trash": "osr_erpnext.disposition.prevent_delete"},
