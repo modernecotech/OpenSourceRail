@@ -28,6 +28,14 @@ def build(root, evidence):
     maturity=Counter(row['status'] for row in analyses['analysis'])
     paths=['deployment/example-city/coverage-register.md','engineering/analysis/deployment-summary.json',
            'engineering/analysis/analysis-register.toml']
+    line_qualification=[]
+    for path in sorted((root/'docs/operating/status/rehearsals').glob('*-service-qualification.json')):
+        report=json.loads(path.read_text());relative=path.relative_to(root).as_posix();paths.append(relative)
+        line_qualification.append(dict(city=path.name.removesuffix('-service-qualification.json'),
+            passed=report['passed'],nominal_passed=report['runs'][-1]['line_service']['passed'],
+            failed_degraded_cases=sum(not c['passed'] for c in report['resilience_cases']),
+            degraded_cases=len(report['resilience_cases']),report=relative,
+            operating_release=report['operating_release']))
     return dict(schema='osr-platform-status/1',
         scope='Recorded software checks, generated simulation candidates and canonical deployment registers have distinct scopes. No platform-wide acceptance is inferred.',
         workflows=list(workflows.values()),catalogue=evidence['catalogue'],
@@ -35,6 +43,7 @@ def build(root, evidence):
         integration=dict(entries=sum(counts.values()),counts=dict(counts),exhaustive=False),
         canonical=dict(cities=deployment['city_count'],open_gates=deployment['open_gates_by_city_count']),
         analyses=dict(total=sum(maturity.values()),maturity=dict(maturity)),
+        line_qualification=line_qualification,
         source_sha256={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in paths},
         independent_platform_acceptance=False)
 
@@ -58,6 +67,11 @@ def render(data):
         ('Generated catalogue',f"{cat['selected']} candidates at {cat['commit'][:12]}",f"{cat['passed']} passed; {cat['failed']} failed; resilience tested: {cat['resilience_tested']}",'No canonical promotion or operating acceptance'),
         ('Canonical city registers',f"{data['canonical']['cities']} cities",'Outstanding gates listed below','Per-city reviewed evidence required')])
     html+=table(['Open canonical gate','Cities'],sorted(data['canonical']['open_gates'].items()))+'</section>'
+    if data.get('line_qualification'):
+        html+='<section><h2>Stricter per-line service qualification</h2><p>Aggregate software passes can hide line-level service shortfalls. These recorded runs retain separate per-line gates; passenger-demand and operating acceptance remain open.</p>'
+        html+=table(['City','Nominal lines','Failed degraded cases','Qualification'],[
+            (r['city'],'pass' if r['nominal_passed'] else 'fail',f"{r['failed_degraded_cases']} / {r['degraded_cases']}",'pass' if r['passed'] else 'fail') for r in data['line_qualification']])
+        html+='<p>'+' · '.join('<a href="rehearsals/'+escape(Path(r['report']).name,quote=True)+'">'+escape(r['city'])+' evidence</a>' for r in data['line_qualification'])+'</p></section>'
     html+='<section><h2>Integration coverage</h2><p>Inventory entries describe tested scope; they are not code-coverage percentages or all possible settings.</p>'
     html+=table(['Evidence level','Entries'],sorted(data['integration']['counts'].items()))+'</section>'
     html+='<section><h2>Engineering analysis maturity</h2>'

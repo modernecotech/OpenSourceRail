@@ -2,6 +2,17 @@ schema_version = 1
 statuses = ["planned", "screening", "calibrated", "independently-checked", "accepted"]
 
 [[analysis]]
+id = "OSR-AN-VEH-CHANGE-001"
+title = "Samawah native cross-bearer depth change and ERP production consequences"
+status = "screening"
+tool = "FreeCAD 1.1.3 / CalculiX 2.23 / ERPNext"
+input_paths = ["engineering/changes/config/generic.json", "engineering/changes/config/samawah.json", "engineering/changes/freecad_change.py", "design/component-catalogue/models/cad/lm3-parts/LM3-BDY-P020.FCStd"]
+result_path = "engineering/changes/examples/samawah-cross-bearer/candidate-analysis/summary.json"
+acceptance_criterion = "Three meshes for both native revisions: final displacement change <=2%, analytical shear-flexure discrepancy <=8%; eleven native BOM, production and disposition checks"
+converged = true
+limitations = "Gross solid design-reference quantities and simply supported elastic displacement screening; fabrication geometry, supplier/material freeze, connection and vehicle load cases, measured mass, formal impact assessment and independent acceptance remain required."
+
+[[analysis]]
 id = "OSR-AN-STN-PED-001"
 title = "Station corridor normal and constrained passenger flow"
 status = "screening"

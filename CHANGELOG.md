@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Added a reproducible native FreeCAD → CalculiX → nested ERP BOM → production
+  disposition → manufacturing → screening-evidence workflow, with a city-scoped
+  Workbench view and retained Samawah/Mosul results. Twelve solver runs and
+  twenty-two native ERP checks pass; engineering and physical acceptance remain open.
+- Added per-line full-window mileage gates so surplus service on one line cannot
+  hide another line's shortfall. Reports expose configured passenger capacity by
+  timetable window while retaining observed headways, demand and operator review
+  as separate acceptance requirements.
 - Added coordinated private checkpoints and isolated fresh-volume recovery of
   ERP, gateway queues, FUXA, Ops Core, files, keys and immutable container images.
   The native rehearsal verifies

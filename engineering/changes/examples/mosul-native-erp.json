@@ -1,0 +1,94 @@
+{
+  "schema": "osr-engineering-change-erp/1",
+  "passed": true,
+  "checks": [
+    {
+      "name": "baseline exploded material follows measured CAD quantity",
+      "passed": true
+    },
+    {
+      "name": "candidate exploded material follows measured CAD quantity",
+      "passed": true
+    },
+    {
+      "name": "Revised BOM changes purchased member quantity",
+      "passed": true
+    },
+    {
+      "name": "Nested dependencies expose old parent production",
+      "passed": true
+    },
+    {
+      "name": "Self endorsement rejected",
+      "passed": true
+    },
+    {
+      "name": "Unperformed production stop rejected",
+      "passed": true
+    },
+    {
+      "name": "Old production stopped and separately verified",
+      "passed": true
+    },
+    {
+      "name": "Original BOM and quantities remain unchanged",
+      "passed": true
+    },
+    {
+      "name": "Candidate native production consumes revised material",
+      "passed": true
+    },
+    {
+      "name": "Candidate production retains exact revised BOM",
+      "passed": true
+    },
+    {
+      "name": "Old mapping remains immutable",
+      "passed": true
+    }
+  ],
+  "project": "PROJ-0011",
+  "company": "OpenSourceRail Evaluation",
+  "warehouse": "CAD simulation 83b81b3e814c - OSRE",
+  "city": "mosul",
+  "run": "83b81b3e814c",
+  "manifest_sha256": "d0b1ca173a5b499b6f5f650bc52d34e5faf9bd22b6015517b8bdfc9c708790c2",
+  "boms": {
+    "baseline": {
+      "member": "BOM-CAD-MEMBER-83b81b3e814c-001",
+      "kit": "BOM-CAD-KIT-83b81b3e814c-001",
+      "member_kg": 1075.705596,
+      "total_kg": 18417.292572
+    },
+    "candidate": {
+      "member": "BOM-CAD-MEMBER-83b81b3e814c-002",
+      "kit": "BOM-CAD-KIT-83b81b3e814c-002",
+      "member_kg": 982.918125,
+      "total_kg": 18324.505101
+    }
+  },
+  "mappings": {
+    "baseline": "de650dc9f2dff6ab00a3e15d49e7b3eb0b15f0497b5775af438ad436002075ab",
+    "candidate": "3485d0611cf9562ab41bb0b38118c7ad4de7f0246de2de3a19649ad8a3fda57e"
+  },
+  "work_orders": {
+    "baseline": "MFG-WO-2026-00019",
+    "candidate": "MFG-WO-2026-00020"
+  },
+  "disposition": "dc112c610b3c6db76c43cf0a50fe632ee4309032598298780af077506f6f65f9",
+  "verification": "076c2f561af08498361081b009542dc20a32e1bac9d91beb12dcd8ed777bb7df",
+  "stock_entry": "MAT-STE-2026-00020",
+  "receipt": "MAT-STE-2026-00019",
+  "consumed_kg": 18324.505,
+  "quantity_rounding_tolerance_kg": 0.0005,
+  "quantity_difference_kg": -0.00010099999781232327,
+  "reviewer_kind": "software-test-identity",
+  "physical_release": false,
+  "engineering_acceptance": false,
+  "checkout_commit": "60c0032996b3b8b264abce426a2d0c4231d4c91a",
+  "working_tree_dirty": true,
+  "source_sha256": {
+    "engineering/changes/erp_change.py": "ed59d317adcc5cec7a8f0d19c9bab81badf7d97aed720967b648f1ef99418632",
+    "tools/automation/engineering-change.py": "ac286ecacc5bab61e8e31e2ad51dafaaf953b2f4679cb885cfa25cb5cc27683a"
+  }
+}

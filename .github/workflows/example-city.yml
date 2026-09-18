@@ -61,6 +61,14 @@ jobs:
         run: ./osr example-city business-check
       - name: Exercise the unmocked separate-user disposition journey
         run: ./osr example-city disposition-check
+      - name: Execute retained native CAD change through production and assurance
+        run: |
+          for city in samawah mosul; do
+            tools/automation/osr-python tools/automation/engineering-change.py execute \
+              "engineering/changes/examples/$city-cross-bearer" \
+              --reference-project "$(python3 -c 'import json,sys; print(json.load(open("build/city-example/setup.json"))["projects"][sys.argv[1]])' "$city")" \
+              --report "build/city-example/engineering-change-$city.json"
+          done
       - name: Rehearse coordinated recovery into isolated fresh volumes
         run: |
           tools/automation/osr-python tools/automation/platform-recovery.py checkpoint \
@@ -82,6 +90,7 @@ jobs:
           name: samawah-city-acceptance
           path: |
             build/city-example/city-evidence.json
+            build/city-example/engineering-change-*.json
             build/city-example/recovery-checkpoint.json
             build/city-example/recovery-result.json
             build/city-example/disposition-report.json

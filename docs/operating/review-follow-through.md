@@ -16,7 +16,7 @@ distinguish implemented data recovery from production cutover acceptance.
 | Make complete-city testing a release gate | `example-city` runs on push, PR and manual dispatch. Release packaging requires four successful workflows on the exact commit and validates the downloaded city's report hashes and clean scenario-start commit. Missing, failed, empty and altered reports are rejected. | A candidate needs its own successful CI runs; older local reports cannot qualify. |
 | Unmocked disposition UI | Nine browser assertions use real ERP responses and three native users, through proposal, endorsement, native stop, independent verification and stale detection after resume. Self-review and premature verification are rejected. | Other action types retain native transactional tests; every browser/action/concurrency permutation is not covered. |
 | Controlled proof evidence and independent acceptance | The runner executes every declared Kani harness, records actual exit codes/logs and conservative dependency hashes, and rejects source changes during execution. CI covers eight packages and all 41 declared harnesses. Ed25519 verification binds an independent authorized reviewer to exact result bytes, scope and reports. | Timeouts remain unproved. Runner provenance and reviewer key ownership require external trust review. No independent acceptance has been issued. Citation, property-test and other safety-case results remain separate. |
-| Cross-domain engineering changes | Workbench binds the proposed package to city/company/project ERP observations and linked artifact hashes. Missing, ambiguous, older-than-five-minute, future-dated or revision-mismatched observations and changed artifacts are flagged; the context checksum changes with business observations. | This is a point-in-time review, not a cross-service transaction. Complete CAD dependency discovery, solver reruns, accepted rework and formal-evidence supersession remain open. Supervisory apply does not close these gates. |
+| Cross-domain engineering changes | Workbench binds the proposed package to city/company/project ERP observations and linked artifact hashes. Missing, ambiguous, older-than-five-minute, future-dated or revision-mismatched observations and changed artifacts are flagged; the context checksum changes with business observations. | This is a point-in-time review, not a cross-service transaction. The [controlled member example](../../engineering/changes/README.md) now executes native CAD and solver reruns through ERP production and supersedes screening evidence. Complete dependency discovery, accepted rework and formal-evidence impact assessment remain open. Supervisory apply does not close these gates. |
 | Broader operating validation | A resource-bounded, resumable runner supports selected cities or the full catalogue, nominal or degraded full-window runs, and generated candidates. Catalogue CI partitions the workload and rejects missing, duplicate, failed, stale or altered city artifacts. | Canonical full-service, continuous stabling, morning fleet, site-energy and physical acceptance need their own qualifying evidence; generated candidates do not promote canonical packages. |
 | Manufacturing and production deployment | Existing supplier, factory, inspection, HIL and operating-release gates remain fail-closed. No nominal calculation or simulated ERP transaction is relabelled as performed evidence. | Approved supplier configurations, site surveys, inspected first articles, measured mass, HIL, production identity/TLS and independently accepted restore/recovery evidence are required. |
 
@@ -170,14 +170,14 @@ resilience and is recorded in the evidence; it cannot satisfy a resilience run.
 ## Integration coverage and evidence still needed
 
 The [coverage register](../../deployment/example-city/coverage-register.md) records
-517 integration entries: **36 scenario, 64 varied, 135 partial and 282 gaps**.
+519 integration entries: **36 scenario, 64 varied, 135 partial and 284 gaps**.
 The additional business scenario has 24 native outcome/rollback checks; the browser
 scenario has nine unmocked disposition checks. Neither count represents all ERPNext
 functions or all possible variable combinations.
 
 Payroll posting, jurisdiction-specific tax, capitalization/depreciation, SLA
 calendars/escalation, independent competence decisions, desktop regeneration,
-concurrent load and coordinated whole-platform backup restoration retain explicit gaps. Physical
+production load and recovery cutover retain explicit gaps. The [coordinated fresh-volume rehearsal](platform-recovery.md) now covers restored data and isolated recovery checks. The [native engineering-change example](../../engineering/changes/README.md) retains a real CAD edit, six solver runs and eleven native production checks; these separate reports do not increase the mapped coverage counts. Physical
 and manufacturing closure still needs approved evidence and independent reviewers.
 The tracked deployment summary retains its city-level gates until qualifying
 canonical evidence is generated and reviewed.
@@ -185,3 +185,18 @@ canonical evidence is generated and reviewed.
 The stale RFC release label, “unbounded” property-testing wording and operations
 stabling description have been corrected. Samawah's adopted planning allocation is
 **40 station-held plus 68 depot/terminal-held trains**, with physical fit separate.
+
+## Recommended development sequence: current position
+
+| Step | Implemented or observed | Still required |
+| --- | --- | --- |
+| FUXA scaling, queues and backup verification | Atomic telemetry, city-scoped queues, site polling and checksummed recovery rehearsals are retained. | Mosul does not consistently meet the two-second polling target. |
+| Proof timeouts and release evidence | CI at `60c0032996b3` passes general, integrated-stack and example-city workflows; all 41 Kani outcomes and logs are retained by CI, with 34 passing. | Seven proof timeouts remain; a later candidate needs its own CI evidence. |
+| Full-city load and coordinated restore | Separate-process full-network load and isolated restoration of ten volumes and five archived images are exercised. | Simultaneous full-city native FUXA/ERP/operator capacity, production cutover and recovery objectives remain open. |
+| CAD → analysis → BOM → production → assurance | [Samawah and Mosul](../../engineering/changes/README.md) execute increasing/decreasing native geometry, twelve solver runs and twenty-two native ERP checks through one Workbench module. | Complete dependency discovery, formal impact assessment, fabrication geometry and independent engineering acceptance remain open. |
+| Canonical city promotion | Catalogue qualification now requires per-line mileage; reports expose configured passenger capacity by service window. Samawah and Mosul nominal service passes; stricter degraded checks reveal four Samawah failures and one Mosul failure. A retained Samawah 35% trigger candidate resolves one shortfall but leaves three and reduces emergency delivery. | Resolve those shortfalls, observed peak headways, calibrated passenger demand/crowding and operator acceptance before promotion. |
+| Vehicle, station and civil engineering packages | Existing controlled part, drawing, analysis and release registers remain available; the new member workflow binds actual native artifacts and production observations. | Complete production geometry, supplier/material choices, connections and load combinations, construction stages, inspected articles and independent acceptance for the representative packages. |
+
+The analysis register now contains **29 analyses: 17 screening and 12 planned**.
+None is independently accepted. These implementation and screening results do not
+close the engineering-package or operating-release gates.

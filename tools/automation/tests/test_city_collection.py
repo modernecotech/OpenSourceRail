@@ -20,7 +20,8 @@ def evidence(tmp_path,monkeypatch):
     (folder/'design.toml').write_bytes(design.read_bytes())
     inputs={'source/design.toml':c.batch.sha(design)}
     monkeypatch.setattr(c.batch,'source_inputs',lambda *_:inputs)
-    report=dict(passed=True,trainset_contract=dict(passed=True),runs=[dict(duration_s=90000)],
+    report=dict(passed=True,trainset_contract=dict(passed=True),runs=[dict(duration_s=90000,line_service=dict(passed=True))],
+        service_acceptance_schema='osr-city-service-qualification/1',qualification_inputs_unchanged=True,
         resilience_required=False,scenario_sha256=c.batch.sha(folder/'sample.toml'),design_sha256=c.batch.sha(design))
     record=dict(schema='osr-city-simulation-execution/1',city='sample',commit='candidate',
         exit_code=0,inputs_unchanged=True,passed=True,scenario_basis='generator-candidate',resilience_required=False,
@@ -40,7 +41,7 @@ def test_complete_current_catalogue_remains_software_only(evidence):
     assert not result['physical_release'] and not result['operating_release']
 
 
-@pytest.mark.parametrize('change',['commit','inputs','exit','changed','report','scenario','design','empty','malformed','short','resilience','missing','duplicate','escape'])
+@pytest.mark.parametrize('change',['commit','inputs','exit','changed','report','scenario','design','empty','malformed','short','line-missing','line-failed','qualification-changed','qualification-schema','resilience','missing','duplicate','escape'])
 def test_collection_rejects_incomplete_or_stale_evidence(evidence,tmp_path,change):
     e=evidence;r=e['record'];report=e['report'];folder=e['folder']
     if change=='commit':r['commit']='old'
@@ -50,6 +51,10 @@ def test_collection_rejects_incomplete_or_stale_evidence(evidence,tmp_path,chang
     elif change=='empty':report['runs']=[]
     elif change=='malformed':report['runs']=[None]
     elif change=='short':report['runs'][0]['duration_s']=60
+    elif change=='line-missing':report['runs'][0].pop('line_service')
+    elif change=='line-failed':report['runs'][0]['line_service']['passed']=False
+    elif change=='qualification-changed':report['qualification_inputs_unchanged']=False
+    elif change=='qualification-schema':report.pop('service_acceptance_schema')
     elif change=='resilience':report['resilience_required']=True
     e['save']()
     if change=='report':(folder/'validation.json').write_text('{}')

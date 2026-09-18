@@ -45,9 +45,13 @@ def collect(folder,catalogue,commit,basis='generator-candidate',resilience=False
                     report.get('design_sha256')!=batch.sha(design)):
                 raise ValueError('Scenario/design provenance differs: '+city)
             if (report.get('trainset_contract',{}).get('passed') is not True or
+                    report.get('service_acceptance_schema')!='osr-city-service-qualification/1' or
+                    report.get('qualification_inputs_unchanged') is not True or
                     not report.get('runs') or any(r.get('duration_s',0)<90000 for r in report['runs']) or
+                    report['runs'][-1].get('line_service',{}).get('passed') is not True or
                     report.get('resilience_required') is not resilience or
-                    (resilience and report.get('resilience_passed') is not True)):
+                    (resilience and (report.get('resilience_passed') is not True or
+                        not report.get('resilience_cases') or any(c.get('line_service',{}).get('passed') is not True for c in report['resilience_cases'])))):
                 raise ValueError('Incomplete full-window acceptance: '+city)
             rows[city]=dict(passed=True,report_sha256=record['report_sha256'],
                 execution_artifact=path.relative_to(folder).as_posix(),elapsed_seconds=record.get('elapsed_seconds'))

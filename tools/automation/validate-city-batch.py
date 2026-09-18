@@ -31,7 +31,7 @@ def partition(cities, value):
 def source_inputs(design, scenario):
     names=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=ROOT).decode().split('\0')
     names={p for p in names if p and ((p.startswith('crates/') and p.endswith('.rs')) or Path(p).name in {'Cargo.toml','Cargo.lock','rust-toolchain.toml'} or p.startswith(('lib/templates/','design/city-generation/src/','design/component-catalogue/catalog/buildable-trainset/')))}
-    names.update(str(p.relative_to(ROOT)) for p in [design,scenario,Path(__file__).resolve(),ROOT/'tools/automation/validate-city-simulation.py'])
+    names.update(str(p.relative_to(ROOT)) for p in [design,scenario,Path(__file__).resolve(),ROOT/'tools/automation/validate-city-simulation.py',ROOT/'tools/automation/validate-city-service.py'])
     return {p:sha(ROOT/p) for p in sorted(names) if (ROOT/p).is_file()}
 
 
@@ -60,7 +60,7 @@ def run_city(city, design, output, timeout, resilience, resume, regenerate=False
         (folder/'design.toml').write_bytes(design.read_bytes())
     report=folder/'validation.json'
     if report.exists():report.unlink()  # Only this runner's previous generated report.
-    command=[sys.executable,str(ROOT/'tools/automation/validate-city-simulation.py'),'--scenario',str(tested_scenario),'--output',str(report),'--full-only']
+    command=[sys.executable,str(ROOT/'tools/automation/validate-city-service.py'),'--scenario',str(tested_scenario),'--output',str(report),'--full-only']
     if resilience:command.append('--resilience')
     started=time.monotonic()
     with (folder/'execution.log').open('w') as log:

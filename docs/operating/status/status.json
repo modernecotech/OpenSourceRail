@@ -4,38 +4,38 @@
   "workflows": [
     {
       "conclusion": "success",
-      "createdAt": "2026-09-18T16:11:38Z",
-      "databaseId": 35366994073,
-      "headSha": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+      "createdAt": "2026-09-18T18:19:04Z",
+      "databaseId": 35379469111,
+      "headSha": "60c0032996b3b8b264abce426a2d0c4231d4c91a",
       "status": "completed",
-      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35366994073",
+      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35379469111",
       "workflowName": "integrated-stack"
     },
     {
-      "conclusion": "success",
-      "createdAt": "2026-09-18T16:11:38Z",
-      "databaseId": 35366993997,
-      "headSha": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
-      "status": "completed",
-      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35366993997",
-      "workflowName": "example-city"
-    },
-    {
       "conclusion": "failure",
-      "createdAt": "2026-09-18T16:11:38Z",
-      "databaseId": 35366993978,
-      "headSha": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+      "createdAt": "2026-09-18T18:19:04Z",
+      "databaseId": 35379469076,
+      "headSha": "60c0032996b3b8b264abce426a2d0c4231d4c91a",
       "status": "completed",
-      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35366993978",
+      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35379469076",
       "workflowName": "kani"
     },
     {
       "conclusion": "success",
-      "createdAt": "2026-09-18T16:11:38Z",
-      "databaseId": 35366993971,
-      "headSha": "e9e4ff5cf2873d986076c7292f4b0a74dffdebb1",
+      "createdAt": "2026-09-18T18:19:04Z",
+      "databaseId": 35379469020,
+      "headSha": "60c0032996b3b8b264abce426a2d0c4231d4c91a",
       "status": "completed",
-      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35366993971",
+      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35379469020",
+      "workflowName": "example-city"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-18T18:19:04Z",
+      "databaseId": 35379469012,
+      "headSha": "60c0032996b3b8b264abce426a2d0c4231d4c91a",
+      "status": "completed",
+      "url": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35379469012",
       "workflowName": "ci"
     }
   ],
@@ -82,16 +82,38 @@
     }
   },
   "analyses": {
-    "total": 28,
+    "total": 29,
     "maturity": {
-      "screening": 16,
+      "screening": 17,
       "planned": 12
     }
   },
+  "line_qualification": [
+    {
+      "city": "mosul",
+      "passed": false,
+      "nominal_passed": true,
+      "failed_degraded_cases": 1,
+      "degraded_cases": 8,
+      "report": "docs/operating/status/rehearsals/mosul-service-qualification.json",
+      "operating_release": false
+    },
+    {
+      "city": "samawah",
+      "passed": false,
+      "nominal_passed": true,
+      "failed_degraded_cases": 4,
+      "degraded_cases": 8,
+      "report": "docs/operating/status/rehearsals/samawah-service-qualification.json",
+      "operating_release": false
+    }
+  ],
   "source_sha256": {
     "deployment/example-city/coverage-register.md": "2b4bc6853f87799303eae0495fac74e7a5ba2c41aabbe265255c103d7ce95073",
     "engineering/analysis/deployment-summary.json": "2de018e451ac00754685dae77fa9865faa35e927dc254864184821a8a8c6cab2",
-    "engineering/analysis/analysis-register.toml": "bb79a451a1f07c857b09ac7b27fd50f390ceabc1a6b9a396714422c020ead01b"
+    "engineering/analysis/analysis-register.toml": "242fd90aa7337329453fc9399c76a14e720470a9850ec7b143f3e38b5d9b0962",
+    "docs/operating/status/rehearsals/mosul-service-qualification.json": "46be6fbf84667f064d8b69431b532ebe6098f487d88838f041ced6aa0e76f3c5",
+    "docs/operating/status/rehearsals/samawah-service-qualification.json": "9db4a1da5642b264d03deaaa44d31bb118bfdf09b88db3236641dff0740df35c"
   },
   "independent_platform_acceptance": false
 }

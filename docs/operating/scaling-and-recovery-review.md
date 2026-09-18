@@ -153,11 +153,55 @@ Full-city native FUXA/ERP/operator concurrency remains a separate acceptance tas
 - Coordinated cold data recovery now passes the checks described in the
   [recovery guide](platform-recovery.md). Production cutover, resuming jobs and
   controllers, recovery objectives and production identity migration remain open.
-- Full CAD dependency discovery, quantities, solver reruns, production consequences
-  and superseded formal evidence still need one complete controlled change scenario.
+- The [controlled cross-bearer workflow](../../engineering/changes/README.md) now
+  executes native CAD, quantities, solver reruns, nested BOM revisions, production
+  stop and revised manufacturing, retaining superseded screening evidence.
+  Full dependency discovery, formal impact assessment and independently accepted
+  engineering changes remain open.
 - Canonical promotion still requires regenerate → validate → review → publish,
   per-line service, peak headways, passenger/capacity measures and accepted operating
   evidence. The nominal generated-city catalogue does not close these gates.
+  `validate-city-service.py` gates full-window and degraded mileage separately for every
+  line, and the catalogue collector rejects missing or failed per-line evidence.
+  The retained [Samawah generated candidate](status/rehearsals/samawah-per-line/validation.json)
+  passes nominal line screens at 90.86%, 103.87% and 103.87% of scheduled mileage.
+  Its configured peak ceiling is 7,200 passengers/hour/direction; observed peak
+  departures, calibrated demand and crowding remain open. These results do not
+  promote the candidate or validate every service window.
+  The existing `validate-city-simulation.py` reports retain their original
+  aggregate software scope. The batch runner now uses the stricter qualification
+  adapter, which reuses that suite and its native per-line observations; an older
+  aggregate pass cannot satisfy the new catalogue collector.
+  The [canonical Samawah qualification](status/rehearsals/samawah-service-qualification.json)
+  fails four degraded cases: line 1 delivers 87.26% under maximum climate load,
+  87.54% with combined ageing/heat, 88.77% during the single-pad outage and 88.34%
+  with consecutive missed charging stops. Each is below the 89.8% threshold
+  including numerical tolerance, despite the aggregate software screen passing.
+  These failures remain open; no acceptance threshold or canonical design was changed.
+  A [35% adaptive-service trigger candidate](status/rehearsals/samawah-trigger-35/qualification.json)
+  changes only `normal_service_soc` from 0.40 to 0.35 in the retained design and
+  scenario. It preserves the 20% reserve floor and improves line 1's single-pad
+  case from 88.77% to 90.01%, but the heat, combined ageing/heat and missed-stop
+  cases still fail. All-site outage delivery falls from 78.27% to 74.55% on that
+  line (above its separate 60% emergency floor). The candidate is **not promoted**.
+  This comparison demonstrates effective settings changes and their trade-offs.
+  [Mosul's stricter qualification](status/rehearsals/mosul-service-qualification.json)
+  passes all six nominal lines and seven degraded cases. The all-site grid outage
+  fails on line 2 at **51.81%**, below its 59.8% emergency threshold including
+  tolerance. The five canonical degraded-case failures are visible in Workbench
+  → Verification & gates. The canonical configurations remain unchanged.
+
+Reproduce the stricter qualification without overwriting legacy aggregate evidence:
+
+```sh
+tools/automation/osr-python tools/automation/validate-city-service.py \
+  --scenario cities/catalogue/west-asia/Iraq/Samawah/samawah.toml \
+  --resilience --full-only --output build/samawah-service-qualification.json
+# A failing line returns nonzero and retains the complete diagnostic report.
+```
+
+Remaining package and programme gates:
+
 - Supplier freezes, inspected articles, measured mass, calibrated analyses, physical
   transports/HIL, construction-stage civil/station checks and independently accepted
   vehicle/site packages require their own evidence and responsible reviewers.

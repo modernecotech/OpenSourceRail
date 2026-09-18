@@ -1,3 +1,8 @@
 *.pdf binary
 *.FCStd binary
 *.blend binary
+
+# Preserve native solver fixed-width output and FreeCAD progress logs verbatim.
+engineering/changes/examples/**/*.frd whitespace=-blank-at-eol
+engineering/changes/examples/**/*.12d whitespace=-blank-at-eof
+engineering/changes/examples/**/freecad.log whitespace=-blank-at-eol

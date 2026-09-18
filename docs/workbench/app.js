@@ -144,6 +144,7 @@ async function navigate(module, path = "") {
   const environment = context.environment;
   routes.lifecycle = `/docs/lifecycle/?${new URLSearchParams({city:context.city,asset:context.selected_asset || "",environment})}`;
   routes.operating = `/docs/operating/?${query}`;
+  routes['engineering-change'] = `/engineering/changes/?${query}`;
   routes.overview = `/workbench/hub/?${query}`;
   const base = spec.service === "local" ? location.origin : services[spec.service];
   frame.src = routes[module] || new URL(path || spec.path, base).href;
