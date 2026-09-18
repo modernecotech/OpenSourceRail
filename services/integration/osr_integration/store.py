@@ -3,6 +3,7 @@ import hmac
 import json
 import sqlite3
 import time
+import threading
 import uuid
 from contextlib import contextmanager, closing
 from datetime import datetime
@@ -22,6 +23,14 @@ def timestamp(value):
 class Store:
     def __init__(self, path):
         self.path = str(path)
+        # Queue telemetry writers locally instead of making every HTTP thread
+        # contend in SQLite busy-handler sleeps. SQLite still arbitrates other
+        # connections/processes; the transaction remains the atomic boundary.
+        self._telemetry_lock = threading.Lock()
+        # Avoid hundreds of short SQLite cursors competing with concurrent
+        # full snapshots for the interpreter. Views remain fresh transactions;
+        # no response cache, quality delay or lock shared with writers.
+        self._view_lock = threading.Lock()
         with self.connect() as db:
             db.executescript('''
             PRAGMA journal_mode=WAL;
@@ -362,53 +371,81 @@ class Store:
                     configuration_status=row['configuration_status'])
 
     def ingest(self, message, principal, now=None):
-        now = time.time() if now is None else now
-        scope = self.scope(message['city'], message['environment'], message['asset_id'])
-        with self.connect() as db:
+        with self._telemetry_lock, self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            a = self.asset(db, scope)
-            if a['configuration_status'] != 'active':
-                raise ValueError('Telemetry rejected for retired asset configuration')
-            if principal != a['source_id'] or message['source_id'] != principal:
-                raise PermissionError('Telemetry source is not bound to asset')
-            if a['environment'] == 'physical' and a['binding_status'] != 'commissioned':
-                raise ValueError('Physical telemetry requires a commissioned source binding')
-            m = a['measurements'].get(message['measurement'])
-            if not m or message['unit'] != m['unit']:
-                raise ValueError('Unknown measurement or wrong unit')
-            seq = message['sequence']
-            if type(seq) is not int or seq < 0 or seq > 2**63 - 1:
-                raise ValueError('Sequence must be a nonnegative 64-bit integer')
-            quality = message['quality']
-            if quality not in ('valid', 'stale', 'invalid', 'disconnected'):
-                raise ValueError('Invalid quality')
-            source_time = timestamp(message['source_timestamp'])
-            if source_time > now + 5:
-                raise ValueError('Future timestamp')
-            value = message.get('value')
-            if value is not None:
-                finite(value, -1e12, 1e12)
-                value = value * m.get('scale', 1) + m.get('offset', 0)
-                if not m['min'] <= value <= m['max']:
-                    quality = 'invalid'
-            elif quality == 'valid':
-                raise ValueError('Valid measurements require a value')
-            if quality == 'valid' and now - source_time > m['stale_seconds']:
-                quality = 'stale'
-            fingerprint = digest(message)
-            old = db.execute('SELECT * FROM readings WHERE scope=? AND measurement=? AND source=? ORDER BY id DESC LIMIT 1', (scope, message['measurement'], principal)).fetchone()
-            if old and seq <= old['sequence']:
-                repeated = db.execute('SELECT fingerprint FROM readings WHERE scope=? AND measurement=? AND source=? AND sequence=?', (scope, message['measurement'], principal, seq)).fetchone()
-                if repeated and repeated['fingerprint'] == fingerprint:
-                    return {'duplicate': True}
-                raise ValueError('Replayed or changed sequence')
-            if old and source_time < old['source_time']:
-                raise ValueError('Out-of-order source timestamp')
-            db.execute('INSERT INTO readings(scope,measurement,source,sequence,source_time,received,value,quality,unit,fingerprint) VALUES(?,?,?,?,?,?,?,?,?,?)', (scope, message['measurement'], principal, seq, source_time, now, value, quality, m['unit'], fingerprint))
-            for rule in a['alarms']:
-                if rule['measurement'] == message['measurement']:
-                    self._alarm(db, a, scope, rule, value, quality, source_time, now, old)
-            return {'duplicate': False, 'quality': quality}
+            now = time.time() if now is None else now
+            return self._ingest(db, message, principal, now, {})
+
+    @staticmethod
+    def validate_batch(messages):
+        if not isinstance(messages, list) or not 1 <= len(messages) <= 128:
+            raise ValueError('Telemetry batch must contain 1 to 128 readings')
+        if any(not isinstance(message, dict) for message in messages):
+            raise ValueError('Each telemetry reading must be an object')
+
+    def ingest_batch(self, messages, principal, now=None):
+        """Ordered, atomic readings; retries retain individual sequence identity.
+
+        The HTTP boundary authorizes every city/environment before entry. Source
+        bindings, timestamps and alarms are checked here for every reading. A bad
+        member rolls back readings, alarms, audit and delivery events together.
+        The asset cache exists only within this write transaction.
+        """
+        self.validate_batch(messages)
+        with self._telemetry_lock, self.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            now = time.time() if now is None else now
+            assets = {}
+            return {'results': [self._ingest(db, message, principal, now, assets)
+                                for message in messages]}
+
+    def _ingest(self, db, message, principal, now, assets):
+        scope = self.scope(message['city'], message['environment'], message['asset_id'])
+        if scope not in assets:
+            assets[scope] = self.asset(db, scope)
+        a = assets[scope]
+        if a['configuration_status'] != 'active':
+            raise ValueError('Telemetry rejected for retired asset configuration')
+        if principal != a['source_id'] or message['source_id'] != principal:
+            raise PermissionError('Telemetry source is not bound to asset')
+        if a['environment'] == 'physical' and a['binding_status'] != 'commissioned':
+            raise ValueError('Physical telemetry requires a commissioned source binding')
+        m = a['measurements'].get(message['measurement'])
+        if not m or message['unit'] != m['unit']:
+            raise ValueError('Unknown measurement or wrong unit')
+        seq = message['sequence']
+        if type(seq) is not int or seq < 0 or seq > 2**63 - 1:
+            raise ValueError('Sequence must be a nonnegative 64-bit integer')
+        quality = message['quality']
+        if quality not in ('valid', 'stale', 'invalid', 'disconnected'):
+            raise ValueError('Invalid quality')
+        source_time = timestamp(message['source_timestamp'])
+        if source_time > now + 5:
+            raise ValueError('Future timestamp')
+        value = message.get('value')
+        if value is not None:
+            finite(value, -1e12, 1e12)
+            value = value * m.get('scale', 1) + m.get('offset', 0)
+            if not m['min'] <= value <= m['max']:
+                quality = 'invalid'
+        elif quality == 'valid':
+            raise ValueError('Valid measurements require a value')
+        if quality == 'valid' and now - source_time > m['stale_seconds']:
+            quality = 'stale'
+        fingerprint = digest(message)
+        old = db.execute('SELECT * FROM readings WHERE scope=? AND measurement=? AND source=? ORDER BY id DESC LIMIT 1', (scope, message['measurement'], principal)).fetchone()
+        if old and seq <= old['sequence']:
+            repeated = db.execute('SELECT fingerprint FROM readings WHERE scope=? AND measurement=? AND source=? AND sequence=?', (scope, message['measurement'], principal, seq)).fetchone()
+            if repeated and repeated['fingerprint'] == fingerprint:
+                return {'duplicate': True}
+            raise ValueError('Replayed or changed sequence')
+        if old and source_time < old['source_time']:
+            raise ValueError('Out-of-order source timestamp')
+        db.execute('INSERT INTO readings(scope,measurement,source,sequence,source_time,received,value,quality,unit,fingerprint) VALUES(?,?,?,?,?,?,?,?,?,?)', (scope, message['measurement'], principal, seq, source_time, now, value, quality, m['unit'], fingerprint))
+        for rule in a['alarms']:
+            if rule['measurement'] == message['measurement']:
+                self._alarm(db, a, scope, rule, value, quality, source_time, now, old)
+        return {'duplicate': False, 'quality': quality}
 
     def _alarm(self, db, a, scope, rule, value, quality, source_time, now, previous):
         key = scope + '|' + rule['id']
@@ -482,7 +519,7 @@ class Store:
             SELECT r.* FROM assets a JOIN json_each(a.body, '$.measurements') m
             JOIN readings r ON r.id=(SELECT id FROM readings
                 WHERE scope=a.scope AND measurement=m.key ORDER BY id DESC LIMIT 1)
-            WHERE {where}""", values)}
+            WHERE {where}""", values).fetchall()}
 
     @staticmethod
     def _asset_view(row, readings, now):
@@ -503,9 +540,9 @@ class Store:
     def device(self, city, environment, asset_id, now=None):
         """Current active device measurements and alarms; no city/history export."""
         scope = self.scope(city, environment, asset_id)
-        now = time.time() if now is None else now
-        with self.connect() as db:
+        with self._view_lock, self.connect() as db:
             db.execute('BEGIN')
+            now = time.time() if now is None else now
             row = db.execute("SELECT * FROM assets WHERE scope=? AND configuration_status='active'", (scope,)).fetchone()
             if row is None:
                 raise ValueError('Unknown active device in this city/environment')
@@ -549,10 +586,10 @@ class Store:
                         next_before=rows[limit - 1]['cursor'] if len(rows) > limit else None)
 
     def snapshot(self, city=None, environment=None, now=None):
-        now = time.time() if now is None else now
         where, values = self._filter(city, environment, 'a.')
-        with self.connect() as db:
+        with self._view_lock, self.connect() as db:
             db.execute('BEGIN')
+            now = time.time() if now is None else now
             rows = db.execute(f'SELECT a.* FROM assets a WHERE {where} ORDER BY scope', values).fetchall()
             readings = self._readings(db, where, values)
             assets = {row['scope']: self._asset_view(row, readings, now) for row in rows}

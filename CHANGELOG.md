@@ -2,9 +2,19 @@
 
 ## Unreleased
 
+- Added atomic, authorized telemetry batches and native simulator publishing;
+  gateway image `osr/integration:0.1.2` queues contending reads/writes and meets the
+  two-second target in a five-cycle local Samawah rehearsal without lost samples.
+  Mosul retained every sample but missed the same target; larger-city capacity remains open.
+  CI now retains full-city load reports; production capacity acceptance remains open.
+- Replaced ATP integer square-root division with 32 bounded radix-four steps.
+  All ATP tests pass, including boundary and full-width generated comparisons;
+  severe-overspeed and uncertainty-conservatism Kani harnesses passed locally.
+  Seven earlier proof timeouts still require resolution and exact-commit execution.
+
 - Removed unused topology fixtures from two unregistered-train interlocking
   proofs; both previously timed-out harnesses passed targeted local verification
-  with unchanged assumptions and assertions. Nine prior proof timeouts remain open.
+  with unchanged assumptions and assertions. This reduced the earlier eleven timeouts to nine before the ATP follow-through.
 - Fixed FUXA device polls loading entire city histories and cross-city traffic
   hiding pending ERP deliveries. Added scoped counts, cursor pagination and
   lifecycle controls for evidence and deliveries; gateway image `osr/integration:0.1.1`.

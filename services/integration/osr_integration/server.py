@@ -52,6 +52,11 @@ def reconcile(store, config):
             continue
 
 
+class GatewayHTTPServer(ThreadingHTTPServer):
+    # A full city polls hundreds of devices on the same sampling boundary.
+    request_queue_size = 128
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
@@ -124,6 +129,8 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < size <= 4_000_000:
                 raise ValueError('Request size outside limit')
             data = json.loads(self.rfile.read(size))
+            if not isinstance(data, dict):
+                raise ValueError('Request body must be an object')
             path = urlsplit(self.path).path
             store = self.server.store
             if path == '/packages/preview':
@@ -132,6 +139,12 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/packages':
                 self.authorize(p, data['package'], ['engineer'])
                 result = store.apply(data['package'], p['subject'], data.get('expected'), data.get('review_sha256'))
+            elif path == '/telemetry/batch':
+                messages = data.get('readings')
+                store.validate_batch(messages)
+                for message in messages:
+                    self.authorize(p, message, ['controller'])
+                result = store.ingest_batch(messages, p['subject'])
             elif path == '/telemetry':
                 self.authorize(p, data, ['controller'])
                 result = store.ingest(data, p['subject'])
@@ -185,8 +198,8 @@ class FuxaReadHandler(Handler):
 def main():
     config = json.loads(Path(os.environ.get('OSR_INTEGRATION_CONFIG', '/run/secrets/integration.json')).read_text())
     store = Store(os.environ.get('OSR_INTEGRATION_DB', '/data/integration.sqlite'))
-    public = ThreadingHTTPServer(('0.0.0.0', 8092), Handler)
-    private = ThreadingHTTPServer(('0.0.0.0', 8093), FuxaReadHandler)
+    public = GatewayHTTPServer(('0.0.0.0', 8092), Handler)
+    private = GatewayHTTPServer(('0.0.0.0', 8093), FuxaReadHandler)
     for server in (public, private):
         server.store, server.config = store, config
     threading.Thread(target=private.serve_forever, daemon=True).start()

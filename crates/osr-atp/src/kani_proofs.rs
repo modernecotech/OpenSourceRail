@@ -176,7 +176,7 @@ fn kani_a2_expired_ma_trips() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(8)]
+#[kani::unwind(33)]
 fn kani_a1_determinism() {
     // Bound the head to the interior of section 1000 so the topology
     // walk has work to do (distance-to-end will cross into 1001 or
@@ -315,7 +315,7 @@ fn kani_a5_head_past_ma_end_trips_same_section() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(32)]
+#[kani::unwind(33)]
 fn kani_a6_severe_overspeed_trips() {
     use crate::envelope::{max_safe_speed_mmps, DecelTable};
     use crate::evaluate::OVERSPEED_EMERGENCY_MARGIN_MMPS;
@@ -335,8 +335,8 @@ fn kani_a6_severe_overspeed_trips() {
     kani::assume(excess > OVERSPEED_EMERGENCY_MARGIN_MMPS);
     kani::assume(excess <= 10_000);
 
-    // The same-section distance path does not read topology. Bound 32
-    // accommodates the integer square-root loop; all checks remain enabled.
+    // The same-section distance path does not read topology. Bound 33
+    // accommodates all 32 integer square-root steps and the exit check; all checks remain enabled.
     let net = Network::default();
     let consist = ConsistDescriptor::reference_3car();
     let decel = DecelTable::from_emergency(&consist);
@@ -388,7 +388,7 @@ fn severity(command: &BrakeCommand) -> u8 {
 }
 
 #[kani::proof]
-#[kani::unwind(32)]
+#[kani::unwind(33)]
 fn kani_a7_uncertainty_widening_is_conservative() {
     let head_offset: i64 = kani::any();
     kani::assume(head_offset >= 0);

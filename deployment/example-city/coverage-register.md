@@ -8,7 +8,7 @@ Status: `scenario` means the function was exercised; `varied` means named values
 
 Native ERP expansion checks run real hooks and ledger posting inside a rolled-back transaction. The live telemetry matrix pauses the example simulator and includes explicitly labelled controller-result fixtures.
 
-Counts: **gap: 282**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
+Counts: **gap: 283**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
 
 ## Remaining workflow gaps
 
@@ -149,6 +149,7 @@ Counts: **gap: 282**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `gateway.POST./packages` | varied | expansion: configuration.concurrent-review | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./packages/preview` | varied | expansion: command.pending-blocks-rule-change | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./telemetry` | varied | expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.below; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.min; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.max; +305 observations (JSON) | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
+| `gateway.POST./telemetry/batch` | gap | — | Atomic rollback, bounds, replay and per-member authorization have regression coverage; complete-city native batch failure and recovery scenarios remain. |
 | `ops.GET./api/operating` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `ops.GET./api/ops-auth/session` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `ops.OPTIONS./api/` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |

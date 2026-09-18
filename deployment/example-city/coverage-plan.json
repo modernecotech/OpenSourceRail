@@ -116,6 +116,7 @@
     "gateway.POST./packages",
     "gateway.POST./packages/preview",
     "gateway.POST./telemetry",
+    "gateway.POST./telemetry/batch",
     "ops.GET./api/operating",
     "ops.GET./api/ops-auth/session",
     "ops.OPTIONS./api/",
@@ -1037,7 +1038,8 @@
     "workflow.tax": "8258d4b1099d11664c9e0f77718e9b82d3fbca81436a94ee7e1a661c25794065",
     "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969",
     "gateway.GET./evidence": "431ead1f4bbd4265f317c1f24a37d7404ae8fe9ebaeb861bcc5cf82b8d9470cd",
-    "gateway.GET./outbox": "84634cca958107997877663cfe26502e0b5b4b24020650cebe976d8707bfdfbd"
+    "gateway.GET./outbox": "84634cca958107997877663cfe26502e0b5b4b24020650cebe976d8707bfdfbd",
+    "gateway.POST./telemetry/batch": "e8721f6e7c8e8e426018474a724365440593f5f9b76b2e3f9538451fe3010457"
   },
   "rules": [
     {
@@ -3811,6 +3813,12 @@
           "check": "Full stop/start preserves the retained City Studio project configuration"
         }
       ]
+    },
+    {
+      "pattern": "gateway.POST./telemetry/batch",
+      "status": "partial",
+      "remaining": "Atomic rollback, bounds, replay and per-member authorization have regression coverage; complete-city native batch failure and recovery scenarios remain.",
+      "evidence": []
     }
   ]
 }

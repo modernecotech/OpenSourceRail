@@ -91,24 +91,30 @@ impl DecelTable {
     }
 }
 
-/// Newton-style integer square root for `u64`.
+/// Division-free, radix-four integer square root for `u64`.
 ///
 /// Returns `floor(sqrt(n))`. Safe-side for envelope math because we
 /// use the result as an *upper bound* on allowed speed; flooring makes
 /// the bound slightly tighter.
 #[must_use]
 pub fn isqrt(n: u64) -> u64 {
-    if n < 2 {
-        return n;
+    // Consume two input bits per step. `bit` is the trial square bit;
+    // `root` holds the partial root shifted into the current position.
+    // Starting at 2^62 covers every u64 in exactly 32 bounded steps.
+    let mut remainder = n;
+    let mut root = 0_u64;
+    let mut bit = 1_u64 << 62;
+    while bit != 0 {
+        let trial = root + bit;
+        if remainder >= trial {
+            remainder -= trial;
+            root = (root >> 1) + bit;
+        } else {
+            root >>= 1;
+        }
+        bit >>= 2;
     }
-    let mut x = n;
-    // Initial guess: 2^(bits/2)
-    let mut y = x.div_ceil(2);
-    while y < x {
-        x = y;
-        y = (x + n / x) / 2;
-    }
-    x
+    root
 }
 
 /// Maximum safe head speed given distance to MA end.
@@ -179,6 +185,34 @@ mod tests {
         let n = (1_u64 << 40) - 1;
         let r = isqrt(n);
         assert!(r * r <= n && (r + 1).saturating_mul(r + 1) > n);
+    }
+
+    #[test]
+    fn isqrt_boundaries_match_standard_library() {
+        for n in 0..=65_536_u64 {
+            assert_eq!(isqrt(n), n.isqrt());
+        }
+        for shift in 0..64 {
+            let n = 1_u64 << shift;
+            for value in [n - 1, n, n.saturating_add(1)] {
+                assert_eq!(isqrt(value), value.isqrt());
+            }
+        }
+        for n in [u64::MAX, u64::MAX - 1, u64::from(u32::MAX).pow(2)] {
+            assert_eq!(isqrt(n), n.isqrt());
+        }
+    }
+
+    proptest::proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(10_000))]
+        #[test]
+        fn isqrt_matches_floor_for_all_generated_u64(n in proptest::prelude::any::<u64>()) {
+            let root = isqrt(n);
+            proptest::prop_assert_eq!(root, n.isqrt());
+            let root = u128::from(root);
+            proptest::prop_assert!(root * root <= u128::from(n));
+            proptest::prop_assert!((root + 1) * (root + 1) > u128::from(n));
+        }
     }
 
     #[test]

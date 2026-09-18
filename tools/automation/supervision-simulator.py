@@ -82,6 +82,7 @@ def main():
                     factory_assets = [a for a in snapshot['assets'] if a.get('manufacturing_method')]
                     factory_state = factory_control_state(local,
                         [a['manufacturing_method']['method_id'] for a in factory_assets]) if factory_assets else None
+                    messages = []
                     for a in snapshot['assets']:
                         if a.get('manufacturing_method'):
                             values = factory_measurements(a, factory_state)
@@ -98,7 +99,9 @@ def main():
                             message = dict(city=city, environment='simulation', asset_id=a['asset_id'], measurement=name,
                                 source_id='simulator', sequence=time.time_ns(), source_timestamp=datetime.now(timezone.utc).isoformat(),
                                 unit=m['unit'], quality='valid' if value is not None else 'invalid', value=value)
-                            request_json(url + '/telemetry', message, headers)
+                            messages.append(message)
+                    for offset in range(0, len(messages), 128):
+                        request_json(url + '/telemetry/batch', {'readings': messages[offset:offset + 128]}, headers)
                 for command in request_json(url + '/controller/commands', headers=headers):
                     # Local enable/disconnect can change while telemetry is sent or
                     # commands are fetched. Recheck it at the point of execution.

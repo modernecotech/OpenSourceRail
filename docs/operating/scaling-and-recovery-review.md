@@ -48,16 +48,71 @@ ERP posting. Sustained load, longer historian retention, real controllers, ERP
 transactions and coordinated production sizing remain required. Do not lower the
 acceptance target or relabel this result as production-ready.
 
+## Bounded telemetry batches and measured follow-through
+
+Gateway image `osr/integration:0.1.2` adds authenticated
+`POST /telemetry/batch` with body `{"readings": [<telemetry message>, ...]}`.
+A batch contains **1–128** readings and uses the existing 4 MB request bound.
+Every member is authorized against the controller's city/environment and source
+binding. Readings run in order in one transaction, with the same sequence,
+timestamp, units, quality, commissioning and alarm checks as `/telemetry`.
+A rejected member rolls back all new readings, alarm changes, audit and delivery
+events. A retry must preserve each original message, including its timestamp and
+sequence; identical messages return `duplicate: true` without repeating effects.
+Response `results` entries correspond to the input order. Clients divide larger
+sets into batches; atomicity applies to each batch, not a whole sampling cycle.
+
+The native Rust supervisory simulator now publishes these bounded batches.
+Telemetry writers queue within the process before taking SQLite's write lock.
+Device/snapshot transactions also run one at a time to avoid short concurrent
+cursors competing for the Python interpreter; writers use a separate lock and
+SQLite retains cross-process isolation. Each view reads current database state.
+There is no response cache, added freshness interval or changed quality rule.
+The deployed HTTP server and load runner now share the same 128-connection
+listener backlog.
+
+The follow-through rehearsal exercised the same **573 positions, 1,610
+measurements, 16 clients and four operators** over five cycles. All **8,050
+readings**, **2,865 device polls** and **40 operator reads** completed correctly.
+Cycles took **1.43–1.76 seconds**; the two-second target passed on this host.
+Device-read p95 was **49 ms**, snapshot p95 **458 ms**, and batch-write p95
+**66 ms**. These are bounded local observations, not production sizing or
+concurrent native ERP/FUXA browser acceptance.
+
+A second city run covered **Mosul: 1,422 positions and 4,009 measurements**.
+All **12,027 readings** across three cycles were retained and final values matched,
+but cycles took **4.49–4.63 seconds**, missing the same two-second target. It ran
+on the shared development host during other verification work. This establishes
+functional reuse of the runner, not sufficient capacity for the larger city;
+controlled sizing, partitioning and native multi-operator load remain open.
+
+The command defaults to batches of 128. Use `--batch-size 1` for the original
+single-reading comparison, and `--require-polling-target` to fail if any cycle
+exceeds two seconds. CI retains source-bound load reports and fails on functional
+errors; hosted-runner timings remain observations rather than a capacity approval.
+Both local pilots were upgraded with private consistent gateway backups and
+preserved asset configurations.
+
+ATP envelope square root now uses 32 division-free radix-four steps while
+retaining floor rounding. Boundary checks, 10,000 generated full-width `u64`
+comparisons against Rust's standard implementation, and all ATP tests pass.
+Targeted controlled Kani runs passed severe overspeed (`E4.1f`, 140.1 seconds)
+and conservative speed uncertainty (`E4.1g`, 96.5 seconds). Their symbolic input
+ranges and assertions are unchanged; unwind increases to 33 to cover all 32
+steps and the loop exit. Local proof reports remain unattested and do not replace
+exact-commit CI or independent review of the safety-path arithmetic change.
+
 ## Scope still open
 
-- Two of the prior 11 Kani timeouts passed in targeted local execution after
-  removing unused topology fixtures: unregistered-train fail-restrictive behavior
-  (`E2.1a`) and the whole-function unregistered-train validity window (`E2.2a`).
-  Both functions return before a network lookup; the known-position and graph
-  harnesses retain their fixtures. Each reported about six seconds of verification time; the controlled
-  runner completed the full commands in 29.4 and 31.7 seconds. Input ranges, assertions and unwind checks are unchanged. **Nine
-  previously timed-out properties remain unresolved**, and a new full CI run is
-  still required. Consensus refinement and independent acceptance remain open.
+- CI at `1d6663c6fbf2` completed all 41 declared Kani harnesses: **32 passed,
+  nine timed out**. This confirmed both unregistered-train fixture fixes
+  (`E2.1a`, `E2.2a`) in the previous change. The two additional ATP properties
+  above passed locally against the new arithmetic, leaving **seven previously
+  timed-out properties unresolved**: interlocking non-overlap and determinism,
+  ATP determinism, and odometry determinism, forward non-regression, uncertainty
+  monotonicity and GNSS conservatism. A bulk topology-construction experiment
+  still timed out after 300 seconds and was discarded. Exact-candidate CI,
+  consensus refinement and independent acceptance remain open.
 - Ops Core and the earlier ERP fresh-volume rehearsals do not establish a single
   coordinated recovery of ERP, gateway queues, FUXA, Ops Core, files and keys.
   Recovery objectives, rollback reconciliation and production identity remain open.
@@ -72,7 +127,7 @@ acceptance target or relabel this result as production-ready.
 - Commercial reconciliation of exclusions, supplier quotes, commitments and actuals,
   plus named owner/builder/operator appointments and competence, remains open.
 
-The coverage register now has **517 entries**: 36 scenario, 64 varied, 135 partial
-and 282 gaps. The two new GET routes have regression/HTTP tests but retain gaps in
+The coverage register now has **518 entries**: 36 scenario, 64 varied, 135 partial
+and 283 gaps. The two new GET routes and batch POST route have regression/HTTP tests but retain gaps in
 the complete-city scenario register until qualifying scenario evidence is mapped.
 Existing programme gaps are not marked complete by these software fixes.

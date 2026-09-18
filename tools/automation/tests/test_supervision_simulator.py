@@ -12,13 +12,14 @@ SIM = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SIM)
 
 
-def test_retired_factory_history_does_not_interrupt_active_equipment(monkeypatch, tmp_path):
+@pytest.mark.parametrize('asset_count', [1, 129])
+def test_retired_factory_history_does_not_interrupt_active_equipment(monkeypatch, tmp_path, asset_count):
     config = tmp_path / 'var/supervision/integration.json'
     config.parent.mkdir(parents=True)
     config.write_text(json.dumps({'principals':[{'role':'controller','subject':'simulator','token':'test-only','cities':['test']}]}))
     monkeypatch.setattr(SIM, 'ROOT', tmp_path)
     monkeypatch.setattr(sys, 'argv', ['supervision-simulator'])
-    sent = []
+    sent, batches = [], []
     class Bridge:
         def evaluate(self, *args):
             return {('vehicle-bms','soc_pct'):72}
@@ -29,10 +30,11 @@ def test_retired_factory_history_does_not_interrupt_active_equipment(monkeypatch
         if '/snapshot?' in url:
             return {'assets':[
                 {'configuration_status':'retired','manufacturing_method':{'old_metadata':True}},
-                {'configuration_status':'active','asset_id':'T-RS-001:vehicle-bms','site_id':'T-RS-001',
-                 'equipment_type':'vehicle-bms','measurements':{'soc_pct':{'unit':'%'}}}]}
-        if url.endswith('/telemetry'):
-            sent.append(data)
+                *[{'configuration_status':'active','asset_id':f'T-RS-{i:03d}:vehicle-bms','site_id':f'T-RS-{i:03d}',
+                 'equipment_type':'vehicle-bms','measurements':{'soc_pct':{'unit':'%'}}} for i in range(1, asset_count + 1)]]}
+        if url.endswith('/telemetry/batch'):
+            sent.extend(data['readings'])
+            batches.append(len(data['readings']))
             return {}
         if url.endswith('/controller/commands'):
             return []
@@ -43,7 +45,8 @@ def test_retired_factory_history_does_not_interrupt_active_equipment(monkeypatch
     monkeypatch.setattr(SIM.time, 'sleep', stop_after_one_cycle)
     with pytest.raises(KeyboardInterrupt):
         SIM.main()
-    assert len(sent) == 1
+    assert len(sent) == asset_count
+    assert batches == ([1] if asset_count == 1 else [128, 1])
     assert sent[0]['asset_id'] == 'T-RS-001:vehicle-bms'
     assert sent[0]['value'] == 72 and sent[0]['quality'] == 'valid'
 
@@ -63,7 +66,7 @@ def test_sampling_setting_changes_telemetry_without_delaying_commands(monkeypatc
         if '/snapshot?' in url:
             return {'historian':{'sampling_seconds':4},'assets':[{'asset_id':'T:vehicle','site_id':'T',
                 'equipment_type':'vehicle-bms','measurements':{'soc_pct':{'unit':'%'}}}]}
-        if url.endswith('/telemetry'):samples.append(clock[0]);return {}
+        if url.endswith('/telemetry/batch'):samples.append(clock[0]);return {}
         if url.endswith('/controller/commands'):polls.append(clock[0]);return []
         raise AssertionError(url)
     monkeypatch.setattr(SIM,'request_json',request)
@@ -94,7 +97,7 @@ def test_command_reads_local_gate_after_telemetry_and_poll(monkeypatch, tmp_path
         if '/snapshot?' in url:
             return {'assets': [{'asset_id': 'T:facilities', 'site_id': 'T',
                 'equipment_type': 'facilities', 'measurements': {'lighting_pct': {'unit': '%'}}}]}
-        if url.endswith('/telemetry'): return {}
+        if url.endswith('/telemetry/batch'): return {}
         if url.endswith('/controller/commands'):
             # The local input changes after this cycle's telemetry was computed.
             controls.write_text(json.dumps({'cities': {'test': {gate: True}}}))
