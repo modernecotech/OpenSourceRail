@@ -63,3 +63,41 @@ def test_rejects_stale_forged_or_incomplete_acceptance(bundle, change):
         data['results_sha256']=a.sha(results);bundle['sign']()
     with pytest.raises((ValueError,subprocess.CalledProcessError)):
         a.verify_acceptance(*bundle['args'])
+
+
+@pytest.mark.parametrize('leader_exits', [False, True])
+def test_timeout_kills_solver_even_if_driver_exits_first(tmp_path, monkeypatch, leader_exits):
+    import os
+    import signal
+    import sys
+    import time
+    monkeypatch.setattr(a, 'ROOT', tmp_path)
+    pid_file = tmp_path/'solver.pid'
+    # A verifier driver can die on TERM while its solver ignores TERM. The
+    # runner must kill the group in both that case and a stuck-driver case.
+    script = """
+import os, signal, sys, time
+child = os.fork()
+if child == 0:
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+    with open(sys.argv[1], 'w') as f: f.write(str(os.getpid()))
+    while True: time.sleep(0.05)
+if sys.argv[2] == 'False': signal.signal(signal.SIGTERM, signal.SIG_IGN)
+while True: time.sleep(0.05)
+"""
+    with (tmp_path/'output.log').open('w') as stream:
+        assert a.run_verifier([sys.executable, '-c', script, str(pid_file), str(leader_exits)], stream, 1) == 124
+    pid = int(pid_file.read_text())
+    try:
+        deadline = time.monotonic() + 2
+        while time.monotonic() < deadline:
+            status = Path(f'/proc/{pid}/stat')
+            if not status.exists() or status.read_text().split()[2] == 'Z':
+                break
+            time.sleep(0.01)
+        else:
+            pytest.fail('solver survived verifier timeout')
+    finally:
+        try: os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError: pass
+    assert 'proof not established' in (tmp_path/'output.log').read_text()

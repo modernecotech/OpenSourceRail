@@ -9,11 +9,13 @@
 //! validated produces [`BrakeCommand::Emergency`] with a descriptive
 //! [`TriggerReason`].
 
-use osr_core::{ConsistDescriptor, TrackRef, TrackTopology};
+use osr_core::{TrackRef, TrackTopology};
 use osr_interlocking::{MovementAuthority, MAX_MA_DISTANCE_MM};
 use serde::{Deserialize, Serialize};
 
+#[cfg(test)]
 use crate::envelope::{max_safe_speed_mmps, DecelTable};
+use crate::envelope::{max_speed_with_profile, EmergencyBraking};
 use crate::state::TrainState;
 
 /// Speed in excess of the envelope beyond which ATP trips emergency
@@ -122,7 +124,7 @@ fn emergency(reason: TriggerReason) -> AtpOutcome {
 pub fn atp_evaluate(
     state: &TrainState,
     ma: &MovementAuthority,
-    consist: &ConsistDescriptor,
+    consist: &(impl EmergencyBraking + ?Sized),
     network: &(impl TrackTopology + ?Sized),
     now_ns: u64,
 ) -> AtpOutcome {
@@ -162,8 +164,7 @@ pub fn atp_evaluate(
     }
 
     // A6: compute envelope speed and compare.
-    let decel = DecelTable::from_emergency(consist);
-    let brake_envelope = max_safe_speed_mmps(distance_to_end_mm, &decel);
+    let brake_envelope = max_speed_with_profile(distance_to_end_mm, consist.emergency_profile());
     let restriction_envelope = ma
         .applicable_restrictions
         .iter()
@@ -240,9 +241,8 @@ fn distance_to_ma_end(
     // is bounded by MAX_MA_DISTANCE_MM (2 km); MAs cannot end farther
     // ahead than that at the moment they were computed, and the train
     // is always behind or at the MA's origin.
-    let chain = osr_interlocking::forward_chain(network, head, MAX_MA_DISTANCE_MM);
-    let mut chain_iter = chain.iter().copied();
-    let first = chain_iter.next()?;
+    let chain = osr_interlocking::topology::forward_chain_view(network, head, MAX_MA_DISTANCE_MM)?;
+    let first = chain.section(0);
     debug_assert_eq!(first, head.section);
 
     // Distance to the far end of the head section.
@@ -252,7 +252,10 @@ fn distance_to_ma_end(
         return None;
     }
 
-    for sid in chain_iter {
+    let mut index = 1;
+    while index < chain.len() {
+        let sid = chain.section(index);
+        index += 1;
         if sid == end.section {
             return Some(dist + end.offset_mm);
         }

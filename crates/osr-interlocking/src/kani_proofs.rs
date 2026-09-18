@@ -11,7 +11,7 @@
 //!
 //! # Status
 //!
-//! All five harnesses are present and compile under Kani. The bounds
+//! All five properties have harnesses that compile under Kani. The bounds
 //! are the smallest that exercise each property's control flow at a
 //! non-trivial regime: 2 sections for the arithmetic-only proofs, 3
 //! sections + 2 trains for non-overlap (P2), and a mutation-style
@@ -170,8 +170,13 @@ fn tiny_network() -> StaticTopology<'static> {
 
 /// Build a single registration + position entry pair for a train on
 /// section 1000, `head_offset_mm` millimetres in.
-fn train_on_first_section(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> Vec<Entry> {
-    vec![
+fn train_on_first_section(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> [Entry; 2] {
+    let (registration, position) = train_entries(train_id, head_offset_mm, ts_ns);
+    [registration, position]
+}
+
+fn train_entries(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> (Entry, Entry) {
+    (
         Entry {
             entry_id: EntryId::new(1),
             term: 1,
@@ -210,7 +215,7 @@ fn train_on_first_section(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> Vec
                 pack_soc_ppt: 900,
             }),
         },
-    ]
+    )
 }
 
 // ---------------------------------------------------------------------------
@@ -285,7 +290,7 @@ fn kani_p5_time_bounded_with_known_position() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(10)]
+#[kani::unwind(5)]
 fn kani_p1_determinism() {
     let now_ns: u64 = kani::any();
     kani::assume(now_ns > 1_000_000_000);
@@ -350,75 +355,164 @@ fn kani_p3_consist_fit_single_train() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(16)]
+#[kani::unwind(3)]
 fn kani_p2_non_overlap_two_trains() {
-    let h1: i64 = kani::any();
-    let h2: i64 = kani::any();
+    check_two_train_non_overlap::<1, true>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_non_overlap_missing_verdict() {
+    check_two_train_non_overlap::<0, true>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_non_overlap_unknown_verdict() {
+    check_two_train_non_overlap::<2, true>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_non_overlap_present_verdict() {
+    check_two_train_non_overlap::<3, true>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_leading_train_clear() {
+    check_two_train_non_overlap::<1, false>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_leading_train_missing() {
+    check_two_train_non_overlap::<0, false>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_leading_train_unknown() {
+    check_two_train_non_overlap::<2, false>();
+}
+
+#[kani::proof]
+#[kani::unwind(3)]
+fn kani_p2_leading_train_present() {
+    check_two_train_non_overlap::<3, false>();
+}
+
+fn check_two_train_non_overlap<const GATE: u8, const FIRST: bool>() {
+    let h1 = i64::from(kani::any::<u32>());
+    let h2 = i64::from(kani::any::<u32>());
     // Bound both heads tightly so the state space is small.
     kani::assume(h1 >= 100_000 && h1 <= 800_000);
     kani::assume(h2 >= 100_000 && h2 <= 800_000);
 
+    // Exercise absent, Clear, Unknown and Present verdicts independently of
+    // occupancy. A free section can only extend authority when it is Clear.
+    let gate = GATE;
+    assert!(gate < 4);
+    let verdict = match gate {
+        1 => crate::IntrusionState::Clear,
+        2 => crate::IntrusionState::Unknown,
+        _ => crate::IntrusionState::Present,
+    };
     let now_ns: u64 = 1_000_000_000;
     let net = three_section_network();
 
     // Train 1 on section 1000, Train 2 on section 1001.
-    let mut log = train_on_first_section(1, h1, 500_000_000);
-    log.push(Entry {
-        entry_id: EntryId::new(3),
-        term: 1,
-        timestamp_ns: 500_000_001,
-        payload: EntryPayload::TrainRegistration(TrainRegistration {
-            train_id: TrainId::new(2),
-            consist: ConsistDescriptor::reference_3car(),
-            initial_position: Position::certain(TrackRef {
-                section: SectionId::new(1001),
-                offset_mm: 0,
-                direction: Direction::Forward,
+    let (registration, position) = train_entries(1, h1, 500_000_000);
+    let updates = (
+        Entry {
+            entry_id: EntryId::new(3),
+            term: 1,
+            timestamp_ns: 500_000_001,
+            payload: EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(2),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: Position::certain(TrackRef {
+                    section: SectionId::new(1001),
+                    offset_mm: 0,
+                    direction: Direction::Forward,
+                }),
             }),
-        }),
-    });
-    log.push(Entry {
-        entry_id: EntryId::new(4),
-        term: 1,
-        timestamp_ns: 500_000_002,
-        payload: EntryPayload::TrainPositionReport(TrainPositionReport {
-            train_id: TrainId::new(2),
-            head_position: Position::certain(TrackRef {
-                section: SectionId::new(1001),
-                offset_mm: h2,
-                direction: Direction::Forward,
+        },
+        Entry {
+            entry_id: EntryId::new(4),
+            term: 1,
+            timestamp_ns: 500_000_002,
+            payload: EntryPayload::TrainPositionReport(TrainPositionReport {
+                train_id: TrainId::new(2),
+                head_position: Position::certain(TrackRef {
+                    section: SectionId::new(1001),
+                    offset_mm: h2,
+                    direction: Direction::Forward,
+                }),
+                tail_position: Position::certain(TrackRef {
+                    section: SectionId::new(1001),
+                    offset_mm: (h2 - REFERENCE_3CAR_LENGTH_MM).max(0),
+                    direction: Direction::Forward,
+                }),
+                speed_mmps: 10_000,
+                speed_uncertainty_mmps: 500,
+                heading: Direction::Forward,
+                contributing_sources: vec![PositionSource::Gnss],
+                onboard_time_ns: 499_999_900,
+                pack_soc_ppt: 900,
             }),
-            tail_position: Position::certain(TrackRef {
+        },
+    );
+    let verdict_entries = (
+        Entry {
+            entry_id: EntryId::new(5),
+            term: 1,
+            timestamp_ns: 500_000_003,
+            payload: EntryPayload::SectionIntrusion(crate::SectionIntrusion {
                 section: SectionId::new(1001),
-                offset_mm: (h2 - REFERENCE_3CAR_LENGTH_MM).max(0),
-                direction: Direction::Forward,
+                state: verdict,
+                issued_by: osr_core::EntityId::new(100),
+                observed_at_ns: 500_000_003,
             }),
-            speed_mmps: 10_000,
-            speed_uncertainty_mmps: 500,
-            heading: Direction::Forward,
-            contributing_sources: vec![PositionSource::Gnss],
-            onboard_time_ns: 499_999_900,
-            pack_soc_ppt: 900,
-        }),
-    });
-
-    let ma1 = compute_self_ma(TrainId::new(1), &log, &net, now_ns);
-    let ma2 = compute_self_ma(TrainId::new(2), &log, &net, now_ns);
-
-    // Train 1 sees Train 2 occupying section 1001 → its MA ends on
-    // section 1000.
-    assert!(ma1.end.section == SectionId::new(1000));
-    // Train 2's forward section 1002 is unoccupied → its MA extends
-    // into 1002 and ends there. (The "full extension" direction of
-    // P2: occupancy clipping is sharp, not overly conservative.)
-    assert!(ma2.end.section == SectionId::new(1002));
-
-    // Non-overlap on section boundaries — the two MA end sections
-    // never coincide.
-    assert!(ma1.end.section != ma2.end.section);
-    // Neither MA reaches the other's head section.
-    assert!(ma1.end.section != SectionId::new(1001));
-    assert!(ma2.end.section != SectionId::new(1000));
+        },
+        Entry {
+            entry_id: EntryId::new(6),
+            term: 1,
+            timestamp_ns: 500_000_004,
+            payload: EntryPayload::SectionIntrusion(crate::SectionIntrusion {
+                section: SectionId::new(1002),
+                state: verdict,
+                issued_by: osr_core::EntityId::new(100),
+                observed_at_ns: 500_000_004,
+            }),
+        },
+    );
+    let mut snapshot = crate::AuthoritySnapshot::from_log(&[]);
+    snapshot.apply_committed_entry(&registration);
+    snapshot.apply_committed_entry(&position);
+    snapshot.apply_committed_entry(&updates.0);
+    snapshot.apply_committed_entry(&updates.1);
+    if gate != 0 {
+        snapshot.apply_committed_entry(&verdict_entries.0);
+        snapshot.apply_committed_entry(&verdict_entries.1);
+    }
+    // Paired harnesses prove each train over the SAME full two-train input
+    // domain. Their conjunction establishes the original pairwise property.
+    // On this linear fixture these bounds imply disjoint authority sections:
+    // train 1 only 1000; train 2 only 1001, or 1001..=1002 when Clear.
+    let first = FIRST;
+    let train = TrainId::new(if first { 1 } else { 2 });
+    let ma = snapshot.authority(train, &net, now_ns);
+    let expected_end = if first {
+        1000
+    } else if gate == 1 {
+        1002
+    } else {
+        1001
+    };
+    assert!(ma.has_known_position);
+    assert!(ma.end.section == SectionId::new(expected_end));
+    assert!(ma.end.section != SectionId::new(if first { 1001 } else { 1000 }));
 }
 
 // ---------------------------------------------------------------------------
@@ -478,7 +572,7 @@ fn kani_p4_conservatism_extra_occupant() {
     let baseline = train_on_first_section(1, h1, 500_000_000);
 
     // Mutation: add train 2 on section 1001.
-    let mut mutated = baseline.clone();
+    let mut mutated = baseline.to_vec();
     mutated.push(Entry {
         entry_id: EntryId::new(3),
         term: 1,

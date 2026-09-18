@@ -31,10 +31,12 @@
 
 use osr_core::{Direction, EntryId, SectionId, TrackRef, TrackTopology, TrainId};
 use serde::{Deserialize, Serialize};
+#[cfg(test)]
 use std::collections::BTreeSet;
 
 use crate::log::{Entry, SpeedRestriction};
-use crate::state::{derive_state, DerivedState};
+use crate::state::derive_state;
+use crate::state::DerivedState;
 use crate::topology::{far_end_of, footprint_from, forward_chain};
 
 /// How far ahead an MA can extend, in millimetres. Per RFC 0001 §6.3
@@ -93,9 +95,58 @@ pub fn compute_self_ma(
     network: &(impl TrackTopology + ?Sized),
     now_ns: u64,
 ) -> MovementAuthority {
-    let state = derive_state(log_prefix);
-    let derived_from = log_prefix.last().map(|e| e.entry_id);
-    compute_self_ma_from_state(train_id, &state, network, now_ns, derived_from)
+    AuthoritySnapshot::from_log(log_prefix).authority(train_id, network, now_ns)
+}
+
+/// An owned state and entry identity derived from one committed prefix.
+/// Reuse it to calculate every train's authority against the same snapshot.
+/// It owns the derived state, so later log changes cannot alter this batch.
+#[derive(Clone, Debug, PartialEq)]
+pub struct AuthoritySnapshot {
+    state: DerivedState,
+    derived_from_entry_id: Option<EntryId>,
+}
+
+impl AuthoritySnapshot {
+    pub fn from_log(log_prefix: &[Entry]) -> Self {
+        Self {
+            state: derive_state(log_prefix),
+            derived_from_entry_id: log_prefix.last().map(|entry| entry.entry_id),
+        }
+    }
+
+    /// Consume this snapshot and append the next committed entries in order.
+    /// An empty suffix preserves its entry identity and state.
+    pub fn append_committed(mut self, suffix: &[Entry]) -> Self {
+        let mut index = 0;
+        while index < suffix.len() {
+            self.apply_committed_entry(&suffix[index]);
+            index += 1;
+        }
+        self
+    }
+
+    /// Advance to the next committed prefix. Exclusive access prevents a reader
+    /// from observing a partially applied update; callers retain consensus order.
+    pub fn apply_committed_entry(&mut self, entry: &Entry) {
+        self.state.apply(entry);
+        self.derived_from_entry_id = Some(entry.entry_id);
+    }
+
+    pub fn authority(
+        &self,
+        train_id: TrainId,
+        network: &(impl TrackTopology + ?Sized),
+        now_ns: u64,
+    ) -> MovementAuthority {
+        compute_self_ma_from_state(
+            train_id,
+            &self.state,
+            network,
+            now_ns,
+            self.derived_from_entry_id,
+        )
+    }
 }
 
 /// Same as `compute_self_ma` but takes a precomputed `DerivedState`.
@@ -119,22 +170,22 @@ pub fn compute_self_ma_from_state(
     };
 
     let consist_length_mm = awareness.consist.length_mm;
-    let footprint_sections: BTreeSet<SectionId> =
-        footprint_from(network, head.track_ref, consist_length_mm)
-            .into_iter()
-            .collect();
 
     // The candidate forward chain: sections the train could reach going
     // forward from its head, up to MAX_MA_DISTANCE_MM.
     let chain = forward_chain(network, head.track_ref, MAX_MA_DISTANCE_MM);
+    let footprint = footprint_from(network, head.track_ref, consist_length_mm);
 
     // Clip the chain at the first unavailable section. The head's current
     // section (and any section in the footprint) is by definition the
     // train's own — we skip occupancy checks against ourselves on those.
     let mut ma_end = head.track_ref; // default: no extension
     let mut reached_far_end_of_head = false;
-    for section_id in chain.iter().copied() {
-        if footprint_sections.contains(&section_id) {
+    let mut index = 0;
+    while index < chain.len() {
+        let section_id = chain[index];
+        index += 1;
+        if contains_section(&footprint, section_id) {
             // We already occupy this section. Extend to its far end.
             ma_end = far_end_of(network, section_id, head.track_ref.direction);
             reached_far_end_of_head = true;
@@ -190,10 +241,9 @@ pub fn compute_self_ma_from_state(
 /// - Any `MaintenanceOverride` on this section is consistent with this
 ///   train (not granted exclusively to someone else).
 /// - Any `RouteGrant` locking this section is this train's route.
-/// - The latest wayside `SectionIntrusion` verdict (if any) is
-///   `Clear` — any `Unknown` / `Present` verdict withholds MA
-///   (RFC 0016 v2). Sections with no verdict on record are treated
-///   as not-instrumented and do not add a gate — see
+/// - The latest wayside `SectionIntrusion` verdict is `Clear`.
+///   An absent, `Unknown` or `Present` verdict withholds MA
+///   (RFC 0016 v2) — see
 ///   [`crate::section_intrusion_permits`].
 ///
 /// Uncertainty produces NOT available, always. This is P4's concrete
@@ -245,7 +295,10 @@ fn collect_applicable_restrictions(
     to: TrackRef,
     now_ns: u64,
 ) -> Vec<SpeedRestriction> {
-    let authority_sections: BTreeSet<SectionId> = if from.section == to.section {
+    if state.speed_restrictions.is_empty() {
+        return Vec::new();
+    }
+    let authority_sections: Vec<SectionId> = if from.section == to.section {
         [from.section].into_iter().collect()
     } else {
         forward_chain_from_to(network, from, to)
@@ -274,13 +327,17 @@ fn forward_chain_from_to(
     network: &(impl TrackTopology + ?Sized),
     from: TrackRef,
     to: TrackRef,
-) -> BTreeSet<SectionId> {
+) -> Vec<SectionId> {
     // `collect_applicable_restrictions` is called after MA computation, so
     // the authority end must be on the same forward chain as `from`.
     // Re-walk using the same bounded helper and stop at `to.section`.
-    let mut sections = BTreeSet::new();
-    for section in forward_chain(network, from, MAX_MA_DISTANCE_MM) {
-        sections.insert(section);
+    let mut sections = Vec::new();
+    let chain = forward_chain(network, from, MAX_MA_DISTANCE_MM);
+    let mut index = 0;
+    while index < chain.len() {
+        let section = chain[index];
+        index += 1;
+        sections.push(section);
         if section == to.section {
             break;
         }
@@ -288,13 +345,24 @@ fn forward_chain_from_to(
     sections
 }
 
+fn contains_section(sections: &[SectionId], section: SectionId) -> bool {
+    let mut index = 0;
+    while index < sections.len() {
+        if sections[index] == section {
+            return true;
+        }
+        index += 1;
+    }
+    false
+}
+
 fn restriction_overlaps_authority(
     sr: &SpeedRestriction,
     from: TrackRef,
     to: TrackRef,
-    authority_sections: &BTreeSet<SectionId>,
+    authority_sections: &[SectionId],
 ) -> bool {
-    if !authority_sections.contains(&sr.section) {
+    if !contains_section(authority_sections, sr.section) {
         return false;
     }
 
@@ -857,6 +925,64 @@ mod tests {
             for id in [7, 8, 9] {
                 proptest::prop_assert_eq!(compute_self_ma(TrainId::new(id), &log, &network, now),
                     compute_self_ma(TrainId::new(id), &log, &compact, now));
+            }
+        }
+    }
+    #[test]
+    fn two_train_clearance_and_occupancy_are_independent() {
+        let net = net_3_sections();
+        for h1 in [100_000, 450_000, 800_000] {
+            for h2 in [100_000, 450_000, 800_000] {
+                for verdict in [
+                    None,
+                    Some(IntrusionState::Clear),
+                    Some(IntrusionState::Unknown),
+                    Some(IntrusionState::Present),
+                ] {
+                    let mut log = Vec::new();
+                    for (train, section, head) in [(1, 1000, h1), (2, 1001, h2)] {
+                        log.push(entry(
+                            log.len() as u64 + 1,
+                            500_000_000,
+                            EntryPayload::TrainRegistration(TrainRegistration {
+                                train_id: TrainId::new(train),
+                                consist: ConsistDescriptor::reference_3car(),
+                                initial_position: pos(section, 0),
+                            }),
+                        ));
+                        log.push(entry(
+                            log.len() as u64 + 1,
+                            500_000_002,
+                            EntryPayload::TrainPositionReport(TrainPositionReport {
+                                train_id: TrainId::new(train),
+                                head_position: pos(section, head),
+                                tail_position: pos(section, head - 51_000),
+                                speed_mmps: 10_000,
+                                speed_uncertainty_mmps: 500,
+                                heading: Direction::Forward,
+                                contributing_sources: vec![PositionSource::Gnss],
+                                onboard_time_ns: 499_999_900,
+                                pack_soc_ppt: 900,
+                            }),
+                        ));
+                    }
+                    if let Some(verdict) = verdict {
+                        log.push(intrusion_entry(5, 1001, verdict));
+                        log.push(intrusion_entry(6, 1002, verdict));
+                    }
+                    let ma1 = compute_self_ma(TrainId::new(1), &log, &net, 1_000_000_000);
+                    let ma2 = compute_self_ma(TrainId::new(2), &log, &net, 1_000_000_000);
+                    assert_eq!(ma1.end.section, SectionId::new(1000));
+                    assert_eq!(
+                        ma2.end.section,
+                        SectionId::new(if verdict == Some(IntrusionState::Clear) {
+                            1002
+                        } else {
+                            1001
+                        })
+                    );
+                    assert_ne!(ma1.end.section, ma2.end.section);
+                }
             }
         }
     }

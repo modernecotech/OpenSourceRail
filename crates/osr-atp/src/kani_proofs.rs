@@ -188,16 +188,16 @@ fn kani_a2_expired_ma_trips() {
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
-#[kani::unwind(33)]
+#[kani::unwind(9)]
 fn kani_a1_determinism() {
     // Bound the head to the interior of section 1000 so the topology
     // walk has work to do (distance-to-end will cross into 1001 or
     // 1002) but the state space stays small.
-    let head_offset_mm: i64 = kani::any();
+    let head_offset_mm = i64::from(kani::any::<u32>());
     kani::assume(head_offset_mm >= 0);
     kani::assume(head_offset_mm <= 900_000);
 
-    let speed_mmps: i32 = kani::any();
+    let speed_mmps = i32::from(kani::any::<u16>());
     kani::assume(speed_mmps >= 0);
     kani::assume(speed_mmps <= 30_000); // ≤ 30 m/s — well below any envelope
 
@@ -206,12 +206,22 @@ fn kani_a1_determinism() {
 
     // MA end on section 1001 (one section ahead of the head's section).
     // Offset bounded to keep the distance under MAX_MA_DISTANCE_MM.
-    let end_offset: i64 = kani::any();
+    let end_offset = i64::from(kani::any::<u32>());
     kani::assume(end_offset >= 0);
     kani::assume(end_offset <= 500_000);
 
     let net = tiny_network();
-    let consist = ConsistDescriptor::reference_3car();
+    const PROFILE: crate::envelope::BrakeProfile =
+        match crate::envelope::BrakeProfile::try_new(1200, 400) {
+            Some(profile) => profile,
+            None => panic!("invalid fixed braking profile"),
+        };
+    // Check the compiled fixture against the original reference consist.
+    assert!(
+        PROFILE
+            == crate::envelope::BrakeProfile::from_consist(&ConsistDescriptor::reference_3car())
+    );
+    let consist = PROFILE;
 
     let mut state = state_on_section(7, 1000, head_offset_mm);
     state.speed_mmps = speed_mmps;

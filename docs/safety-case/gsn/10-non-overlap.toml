@@ -22,7 +22,7 @@ parent = "S1"
 
 [[solution]]
 id = "E1.1a"
-description = "Kani harness P2 — two trains, bounded state."
+description = "Kani P2 — following-train authority bound with Clear intrusion reports (paired with E1.1f)."
 parent = "G1.1"
 evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_two_trains", note = "Tiny-network harness with two trains; consult the executed harness and recorded bounds; larger configurations remain open." }
 
@@ -31,6 +31,48 @@ id = "E1.1b"
 description = "Proptest over random log prefixes."
 parent = "G1.1"
 evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_ma.rs", note = "Finite generated random inputs under proptest's default 256-case budget; not exhaustive verification." }
+
+[[solution]]
+id = "E1.1c"
+description = "Kani P2 — following-train bound with missing intrusion verdicts (paired with E1.1g)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_missing_verdict", note = "Same two-train position ranges as E1.1a; all eight paired train/verdict partitions are required for non-overlap closure." }
+
+[[solution]]
+id = "E1.1d"
+description = "Kani P2 — following-train bound with Unknown intrusion verdicts (paired with E1.1h)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_unknown_verdict", note = "Same two-train position ranges as E1.1a; all eight paired train/verdict partitions are required for non-overlap closure." }
+
+[[solution]]
+id = "E1.1e"
+description = "Kani P2 — following-train bound with Present intrusion verdicts (paired with E1.1i)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_present_verdict", note = "Same two-train position ranges as E1.1a; all eight paired train/verdict partitions are required for non-overlap closure." }
+
+[[solution]]
+id = "E1.1f"
+description = "Kani P2 — leading-train authority bound with clear intrusion verdicts (paired with E1.1a)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_leading_train_clear", note = "Same full two-train input domain; the paired universally quantified bounds imply disjoint authority sections on the fixed three-section linear topology. Both head offsets range over 100000..=800000 mm. All eight train/verdict partitions are required." }
+
+[[solution]]
+id = "E1.1g"
+description = "Kani P2 — leading-train authority bound with missing intrusion verdicts (paired with E1.1c)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_leading_train_missing", note = "Same full two-train input domain; the paired universally quantified bounds imply disjoint authority sections on the fixed three-section linear topology. Both head offsets range over 100000..=800000 mm. All eight train/verdict partitions are required." }
+
+[[solution]]
+id = "E1.1h"
+description = "Kani P2 — leading-train authority bound with unknown intrusion verdicts (paired with E1.1d)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_leading_train_unknown", note = "Same full two-train input domain; the paired universally quantified bounds imply disjoint authority sections on the fixed three-section linear topology. Both head offsets range over 100000..=800000 mm. All eight train/verdict partitions are required." }
+
+[[solution]]
+id = "E1.1i"
+description = "Kani P2 — leading-train authority bound with present intrusion verdicts (paired with E1.1e)."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_leading_train_present", note = "Same full two-train input domain; the paired universally quantified bounds imply disjoint authority sections on the fixed three-section linear topology. Both head offsets range over 100000..=800000 mm. All eight train/verdict partitions are required." }
 
 [[goal]]
 id = "G1.2"

@@ -48,6 +48,34 @@ def toml(records):
     return '\n'.join(lines)
 
 
+def run_verifier(command, stream, seconds):
+    """Bound the whole verifier process group, including orphaned solver children."""
+    proc = subprocess.Popen(command, cwd=ROOT, stdout=stream,
+                            stderr=subprocess.STDOUT, start_new_session=True)
+    try:
+        try:
+            return proc.wait(timeout=seconds)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                pass
+            stream.write('\nRunner timeout; proof not established.\n')
+            return 124
+    finally:
+        # The driver may exit on SIGTERM before CBMC/the SMT solver does.
+        # Waiting for the driver alone does not establish that its group exited.
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        proc.wait()
+
+
 def execute(output,seconds,selected=None,package=None):
     output=output.resolve()
     if not output.is_relative_to(ROOT):raise ValueError('Evidence must be within the repository evidence root')
@@ -66,13 +94,7 @@ def execute(output,seconds,selected=None,package=None):
         path=output/(row['solution']+'.log');started=time.monotonic()
         with path.open('w') as stream:
             stream.write(json.dumps(dict(command=command,tool_version=version,source_commit=commit,timeout_seconds=seconds))+'\n');stream.flush()
-            proc=subprocess.Popen(command,cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
-            try:code=proc.wait(timeout=seconds)
-            except subprocess.TimeoutExpired:
-                os.killpg(proc.pid,signal.SIGTERM)
-                try:proc.wait(timeout=5)
-                except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
-                code=124;stream.write('\nRunner timeout; proof not established.\n')
+            code=run_verifier(command,stream,seconds)
         success=code==0 and any(line.strip() in {'VERIFICATION:- SUCCESSFUL','VERIFICATION: SUCCESSFUL'} for line in path.read_text().splitlines())
         if scope()!=inputs:raise ValueError('Source inputs changed during proof execution; discard this run')
         record=dict(solution=row['solution'],kind='kani',path=row['path'],anchor=anchor,tool='cargo-kani',tool_version=version,
@@ -121,7 +143,7 @@ def verify_acceptance(results,envelope,signature,policy):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='action',required=True)
-    run=sub.add_parser('run');run.add_argument('--output',type=Path,required=True);run.add_argument('--timeout',type=int,default=300);run.add_argument('--solution',action='append');run.add_argument('--package')
+    run=sub.add_parser('run');run.add_argument('--output',type=Path,required=True);run.add_argument('--timeout',type=int,default=600);run.add_argument('--solution',action='append');run.add_argument('--package')
     verify=sub.add_parser('verify-acceptance')
     for name in ['results','envelope','signature','policy']:verify.add_argument('--'+name,type=Path,required=True)
     args=parser.parse_args()

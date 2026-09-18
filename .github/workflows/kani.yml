@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      timeout_seconds:
+        description: Per-harness verification budget (all safety checks remain enabled)
+        type: choice
+        default: '600'
+        options: ['600', '1800']
 
 jobs:
   kani-interlocking:
@@ -48,7 +54,7 @@ jobs:
   declared-evidence:
     name: Declared Kani evidence / ${{ matrix.package }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 300
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -65,7 +71,9 @@ jobs:
           kani-version: '0.67.0'
           args: '--version'
       - name: Execute every declared harness for this package and export actual results
-        run: python3 tools/automation/assurance-evidence.py run --package '${{ matrix.package }}' --timeout 300 --output 'build/assurance/${{ matrix.package }}'
+        env:
+          PROOF_TIMEOUT: ${{ inputs.timeout_seconds || '600' }}
+        run: python3 tools/automation/assurance-evidence.py run --package '${{ matrix.package }}' --timeout "$PROOF_TIMEOUT" --output 'build/assurance/${{ matrix.package }}'
       - name: Preserve successes, failures and timeouts
         if: always()
         uses: actions/upload-artifact@v4

@@ -15,16 +15,16 @@ use crate::log::{
     RouteGrant, SectionIntrusion, SpeedRestriction, SwitchPosition, TrainDeparture,
     TrainPositionReport, TrainRegistration,
 };
+use crate::ordered_map::OrderedMap;
 use osr_core::{ConsistDescriptor, EntityId, Position, RouteId, SectionId, SwitchId, TrainId};
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
 
 // ---------------------------------------------------------------------------
 // Top-level state
 // ---------------------------------------------------------------------------
 
 /// Authoritative snapshot of the rail state machine derived from a log
-/// prefix. BTreeMap (not HashMap) is used so that structural equality is
+/// prefix. Sorted maps are used so that structural equality is
 /// deterministic — two states with the same content compare equal regardless
 /// of insertion order.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
@@ -33,16 +33,16 @@ pub struct DerivedState {
     /// id. Absence = section is unoccupied *per the log*; that does not
     /// mean it is safe to enter (route grants, switch positions, and
     /// uncertainty may still block it — that's the MA computer's job).
-    pub section_occupancy: BTreeMap<SectionId, TrainId>,
+    pub section_occupancy: OrderedMap<SectionId, TrainId>,
 
     /// Observed switch positions with confidence.
-    pub switches: BTreeMap<SwitchId, SwitchState>,
+    pub switches: OrderedMap<SwitchId, SwitchState>,
 
     /// Known trains and their latest awareness.
-    pub trains: BTreeMap<TrainId, TrainAwareness>,
+    pub trains: OrderedMap<TrainId, TrainAwareness>,
 
     /// Active route grants — route_id → grant.
-    pub active_routes: BTreeMap<RouteId, RouteGrant>,
+    pub active_routes: OrderedMap<RouteId, RouteGrant>,
 
     /// Active speed restrictions. Kept as a sequence because a section can
     /// have multiple overlapping restrictions (permanent + temporary).
@@ -54,10 +54,10 @@ pub struct DerivedState {
     /// Latest intrusion-detect verdict per section (RFC 0016 v2).
     /// Absent = never reported → fail-restrictive: treated as not-Clear
     /// for any section referenced by an MA computation.
-    pub section_intrusions: BTreeMap<SectionId, SectionIntrusion>,
+    pub section_intrusions: OrderedMap<SectionId, SectionIntrusion>,
 
     /// Last-seen monotonic sequence per entity, for stale-heartbeat detection.
-    pub entity_liveness: BTreeMap<EntityId, EntityLiveness>,
+    pub entity_liveness: OrderedMap<EntityId, EntityLiveness>,
 
     /// The latest accepted format version. `None` before any FormatVersion
     /// entry is seen.
@@ -132,8 +132,10 @@ pub struct EntityLiveness {
 /// See `tests/proptest_determinism.rs` for the property-based check.
 pub fn derive_state(log_prefix: &[Entry]) -> DerivedState {
     let mut state = DerivedState::default();
-    for entry in log_prefix {
-        apply_entry(&mut state, entry);
+    let mut index = 0;
+    while index < log_prefix.len() {
+        apply_entry(&mut state, &log_prefix[index]);
+        index += 1;
     }
     state
 }
@@ -220,8 +222,7 @@ fn apply_position(state: &mut DerivedState, r: &TrainPositionReport, log_time_ns
     // keeps the function total (never panics) and deterministic.
     let awareness = state
         .trains
-        .entry(r.train_id)
-        .or_insert_with(|| TrainAwareness {
+        .get_or_insert_with(r.train_id, || TrainAwareness {
             consist: ConsistDescriptor::reference_3car(),
             last_head_position: None,
             last_tail_position: None,
@@ -273,8 +274,7 @@ fn apply_heartbeat(state: &mut DerivedState, hb: &Heartbeat, log_time_ns: u64) {
     // the liveness-tracking sense).
     let entry = state
         .entity_liveness
-        .entry(hb.from_entity)
-        .or_insert(EntityLiveness {
+        .get_or_insert_with(hb.from_entity, || EntityLiveness {
             health: hb.health,
             monotonic_seq: hb.monotonic_seq,
             last_entry_time_ns: log_time_ns,

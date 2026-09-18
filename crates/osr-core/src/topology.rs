@@ -216,10 +216,14 @@ impl TrackTopology for StaticTopology<'_> {
         self.lines[index]
     }
     fn section(&self, id: SectionId) -> &Section {
-        self.sections
-            .iter()
-            .find(|section| section.id == id)
-            .unwrap_or_else(|| panic!("unknown section {id}"))
+        let mut index = 0;
+        while index < self.sections.len() {
+            if self.sections[index].id == id {
+                return &self.sections[index];
+            }
+            index += 1;
+        }
+        panic!("unknown section {id}")
     }
 }
 

@@ -91,6 +91,52 @@ impl DecelTable {
     }
 }
 
+/// Immutable integer settings used by the emergency envelope. Compile these
+/// when a consist configuration changes and reuse them for subsequent ticks.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct BrakeProfile {
+    deceleration_mmps2: i32,
+    reaction_time_ms: u32,
+}
+
+impl BrakeProfile {
+    pub const fn try_new(deceleration_mmps2: i32, reaction_time_ms: u32) -> Option<Self> {
+        if deceleration_mmps2 < 1 {
+            None
+        } else {
+            Some(Self {
+                deceleration_mmps2,
+                reaction_time_ms,
+            })
+        }
+    }
+
+    pub fn from_consist(consist: &ConsistDescriptor) -> Self {
+        let table = DecelTable::from_emergency(consist);
+        Self {
+            deceleration_mmps2: table.conservative_decel_mmps2(),
+            reaction_time_ms: table.reaction_time_ms,
+        }
+    }
+}
+
+/// Read-only braking configuration accepted by the same ATP evaluator.
+pub trait EmergencyBraking {
+    fn emergency_profile(&self) -> BrakeProfile;
+}
+
+impl EmergencyBraking for ConsistDescriptor {
+    fn emergency_profile(&self) -> BrakeProfile {
+        BrakeProfile::from_consist(self)
+    }
+}
+
+impl EmergencyBraking for BrakeProfile {
+    fn emergency_profile(&self) -> BrakeProfile {
+        *self
+    }
+}
+
 /// Division-free, radix-four integer square root for `u64`.
 ///
 /// Returns `floor(sqrt(n))`. Safe-side for envelope math because we
@@ -104,15 +150,25 @@ pub fn isqrt(n: u64) -> u64 {
     let mut remainder = n;
     let mut root = 0_u64;
     let mut bit = 1_u64 << 62;
+    // Four radix-four digits per loop keep the loop bound at eight while
+    // retaining the same 32 exact integer steps over the full u64 domain.
+    macro_rules! digit {
+        () => {{
+            let trial = root + bit;
+            if remainder >= trial {
+                remainder -= trial;
+                root = (root >> 1) + bit;
+            } else {
+                root >>= 1;
+            }
+            bit >>= 2;
+        }};
+    }
     while bit != 0 {
-        let trial = root + bit;
-        if remainder >= trial {
-            remainder -= trial;
-            root = (root >> 1) + bit;
-        } else {
-            root >>= 1;
-        }
-        bit >>= 2;
+        digit!();
+        digit!();
+        digit!();
+        digit!();
     }
     root
 }
@@ -130,14 +186,24 @@ pub fn isqrt(n: u64) -> u64 {
 /// under the [`osr_interlocking::MAX_MA_DISTANCE_MM`] bound on `x`.
 #[must_use]
 pub fn max_safe_speed_mmps(distance_to_end_mm: i64, decel: &DecelTable) -> i32 {
+    max_speed_with_profile(
+        distance_to_end_mm,
+        BrakeProfile {
+            deceleration_mmps2: decel.conservative_decel_mmps2(),
+            reaction_time_ms: decel.reaction_time_ms,
+        },
+    )
+}
+
+pub fn max_speed_with_profile(distance_to_end_mm: i64, profile: BrakeProfile) -> i32 {
     if distance_to_end_mm <= 0 {
         return 0;
     }
-    let d = i64::from(decel.conservative_decel_mmps2()); // mm/s²
+    let d = i64::from(profile.deceleration_mmps2); // mm/s²
     if d <= 0 {
         return 0;
     }
-    let t_ms = i64::from(decel.reaction_time_ms); // ms
+    let t_ms = i64::from(profile.reaction_time_ms); // ms
 
     // d · t (mm/s): d is mm/s², t is ms, so d · t / 1000 gives mm/s.
     // Safe-side rounding: round d·t UP by using ceil-division so that
@@ -170,6 +236,35 @@ pub fn max_safe_speed_mmps(distance_to_end_mm: i64, decel: &DecelTable) -> i32 {
 mod tests {
     use super::*;
     use osr_core::ConsistDescriptor;
+
+    #[test]
+    fn compiled_profile_tracks_configuration_and_preserves_envelope() {
+        assert!(BrakeProfile::try_new(0, 400).is_none());
+        assert!(BrakeProfile::try_new(-1, 400).is_none());
+        let mut consist = ConsistDescriptor::reference_3car();
+        let original = BrakeProfile::from_consist(&consist);
+        assert_eq!(Some(original), BrakeProfile::try_new(1200, 400));
+        for curve in [
+            vec![],
+            vec![(0.0, f32::NAN)],
+            vec![(0.0, 0.75), (20.0, 0.5)],
+        ] {
+            consist.braking.emergency = curve;
+            for reaction in [0, 400, 2000, u32::MAX] {
+                consist.braking.reaction_time_ms = reaction;
+                let profile = BrakeProfile::from_consist(&consist);
+                let table = DecelTable::from_emergency(&consist);
+                for distance in [-1, 0, 1, 100_000, 2_000_000, i64::MAX] {
+                    assert_eq!(
+                        max_speed_with_profile(distance, profile),
+                        max_safe_speed_mmps(distance, &table)
+                    );
+                }
+            }
+        }
+        assert_ne!(original, BrakeProfile::from_consist(&consist));
+        assert_eq!(Some(original), BrakeProfile::try_new(1200, 400));
+    }
 
     #[test]
     fn isqrt_spot_checks() {

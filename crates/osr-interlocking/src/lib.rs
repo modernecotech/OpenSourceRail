@@ -21,6 +21,7 @@
 
 pub mod log;
 pub mod ma;
+pub mod ordered_map;
 pub mod state;
 pub mod topology;
 
@@ -37,8 +38,8 @@ pub use log::{
     TrainPositionReport, TrainRegistration,
 };
 pub use ma::{
-    compute_self_ma, compute_self_ma_from_state, section_available_to, MovementAuthority,
-    MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS,
+    compute_self_ma, compute_self_ma_from_state, section_available_to, AuthoritySnapshot,
+    MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS,
 };
 pub use state::{
     derive_state, section_intrusion_permits, DerivedState, SwitchState, TrainAwareness,

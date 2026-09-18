@@ -81,7 +81,7 @@ pub mod state;
 #[cfg(kani)]
 pub mod kani_proofs;
 
-pub use envelope::{isqrt, max_safe_speed_mmps, DecelTable};
+pub use envelope::{isqrt, max_safe_speed_mmps, BrakeProfile, DecelTable, EmergencyBraking};
 pub use evaluate::{
     atp_evaluate, AtpOutcome, BrakeCommand, TriggerReason, OVERSPEED_EMERGENCY_MARGIN_MMPS,
     SERVICE_BRAKE_MARGIN_MMPS,

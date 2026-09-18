@@ -4,7 +4,7 @@
 //! properties.
 
 use osr_core::{TrackRef, TrackTopology};
-use osr_interlocking::forward_chain;
+use osr_interlocking::topology::forward_chain_view;
 
 use crate::sensors::{GnssFix, OdomCalibration, PositionSource, SensorTick};
 use crate::state::OdomState;
@@ -50,27 +50,29 @@ pub fn advance_along_track(
     // Pad the budget by the largest plausible section length (1 km)
     // to capture the landing section.
     let budget = dist_mm.saturating_add(10_000_000); // 10 km slack
-    let chain = forward_chain(network, from, budget);
-    if chain.is_empty() {
+    let Some(chain) = forward_chain_view(network, from, budget) else {
         return from;
-    }
+    };
 
     let mut remaining = dist_mm;
-    let first_sec = network.section(chain[0]);
+    let first_sec = network.section(chain.section(0));
     let first_len = first_sec.length_mm as i64;
     let first_avail = first_len.saturating_sub(from.offset_mm).max(0);
 
     if remaining <= first_avail {
         return TrackRef {
-            section: chain[0],
+            section: chain.section(0),
             offset_mm: from.offset_mm + remaining,
             direction: from.direction,
         };
     }
     remaining -= first_avail;
-    let mut last_section = chain[0];
+    let mut last_section = chain.section(0);
 
-    for sid in chain.iter().skip(1).copied() {
+    let mut index = 1;
+    while index < chain.len() {
+        let sid = chain.section(index);
+        index += 1;
         let sec = network.section(sid);
         let sec_len = sec.length_mm as i64;
         if remaining <= sec_len {
@@ -175,11 +177,16 @@ pub fn odom_step(
 
 /// Integer pulse → signed distance in mm.
 fn pulses_to_mm(pulses: i32, cal: &OdomCalibration) -> i64 {
-    let ppm = i64::from(cal.pulses_per_meter.max(1));
+    let ppm = cal.pulses_per_meter.max(1);
+    // Use native-width division for normal encoder samples; retain the wide
+    // calculation for every other i32 pulse count and u32 calibration.
+    if (i32::MIN / 1000..=i32::MAX / 1000).contains(&pulses) && ppm <= i32::MAX as u32 {
+        return i64::from((pulses * 1000) / ppm as i32);
+    }
     // Round toward zero — conservative, matches the "distance per
     // pulse is slightly smaller than physical" direction set by
     // from_wheel_spec's ceil rounding.
-    i64::from(pulses).saturating_mul(1000) / ppm
+    (i64::from(pulses) * 1000) / i64::from(ppm)
 }
 
 /// Derive the new speed from the signed distance and elapsed time.
@@ -198,17 +205,33 @@ fn derive_speed(prev: &OdomState, dist_mm: i64, dt_ns: u64, cal: &OdomCalibratio
     let v_mmps_i64 = (dist_mm.saturating_mul(1_000_000_000))
         .checked_div(dt_ns as i64)
         .unwrap_or(0);
-    let v_mmps = i32::try_from(v_mmps_i64.clamp(i32::MIN as i64, i32::MAX as i64))
-        .unwrap_or(if v_mmps_i64 < 0 { i32::MIN } else { i32::MAX });
+    // Clamping establishes the i32 range directly; the cast cannot truncate.
+    let v_mmps = v_mmps_i64.clamp(i32::MIN as i64, i32::MAX as i64) as i32;
 
     // One-pulse quantisation in mm/s.
     let one_pulse_mm =
         (1_000_u64 + u64::from(cal.pulses_per_meter) - 1) / u64::from(cal.pulses_per_meter.max(1));
-    let quant_mmps = ((one_pulse_mm.saturating_mul(1_000_000_000)) / dt_ns.max(1)) as u32;
+    let quant_numerator = one_pulse_mm * 1_000_000_000;
+    let quant_mmps = if quant_numerator <= u64::from(u32::MAX) {
+        if dt_ns > quant_numerator {
+            0
+        } else {
+            (quant_numerator as u32) / (dt_ns as u32)
+        }
+    } else {
+        (quant_numerator / dt_ns) as u32
+    };
 
     // Add the wheel-slip term scaled by current speed magnitude.
-    let slip_term = ((v_mmps.unsigned_abs() as u64).saturating_mul(u64::from(cal.wheel_slip_ppm))
-        / 1_000_000) as u32;
+    // Cancelling an exact factor preserves integer rounding and avoids wide
+    // multiplication for common slip calibrations (e.g. 5000 ppm = 1/200).
+    let slip_term = if cal.wheel_slip_ppm == 0 {
+        0
+    } else if 1_000_000 % cal.wheel_slip_ppm == 0 {
+        v_mmps.unsigned_abs() / (1_000_000 / cal.wheel_slip_ppm)
+    } else {
+        ((u64::from(v_mmps.unsigned_abs()) * u64::from(cal.wheel_slip_ppm)) / 1_000_000) as u32
+    };
 
     (v_mmps, quant_mmps.saturating_add(slip_term))
 }
@@ -504,6 +527,101 @@ mod tests {
                 odom_step(&prev, &cal, &sensors, &compact));
             proptest::prop_assert_eq!(advance_along_track(&network, head, i64::from(pulses)*1000),
                 advance_along_track(&compact, head, i64::from(pulses)*1000));
+        }
+    }
+    fn legacy_derive_speed(
+        prev: &OdomState,
+        dist_mm: i64,
+        dt_ns: u64,
+        cal: &OdomCalibration,
+    ) -> (i32, u32) {
+        if dt_ns == 0 {
+            // No time elapsed — keep the previous speed. Uncertainty is
+            // "no information" so we preserve the previous uncertainty.
+            return (prev.speed_mmps, prev.speed_uncertainty_mmps);
+        }
+        // mm/s = (mm * 1e9) / ns. Be careful with overflow: a pulse-derived
+        // distance up to a few metres per tick × 1e9 ≤ 1e13, well inside i64.
+        let v_mmps_i64 = (dist_mm.saturating_mul(1_000_000_000))
+            .checked_div(dt_ns as i64)
+            .unwrap_or(0);
+        let v_mmps = i32::try_from(v_mmps_i64.clamp(i32::MIN as i64, i32::MAX as i64))
+            .unwrap_or(if v_mmps_i64 < 0 { i32::MIN } else { i32::MAX });
+
+        // One-pulse quantisation in mm/s.
+        let one_pulse_mm = (1_000_u64 + u64::from(cal.pulses_per_meter) - 1)
+            / u64::from(cal.pulses_per_meter.max(1));
+        let quant_mmps = ((one_pulse_mm.saturating_mul(1_000_000_000)) / dt_ns.max(1)) as u32;
+
+        // Add the wheel-slip term scaled by current speed magnitude.
+        let slip_term = ((v_mmps.unsigned_abs() as u64)
+            .saturating_mul(u64::from(cal.wheel_slip_ppm))
+            / 1_000_000) as u32;
+
+        (v_mmps, quant_mmps.saturating_add(slip_term))
+    }
+
+    proptest::proptest! {
+        #[test]
+        fn speed_arithmetic_preserves_full_width_edges(
+            pulses in proptest::prelude::any::<i32>(), dt in proptest::prelude::any::<u64>(),
+            ppm in proptest::prelude::any::<u32>(), slip in proptest::prelude::any::<u32>(),
+        ) {
+            let cal = OdomCalibration { pulses_per_meter: ppm, wheel_slip_ppm: slip,
+                uncertainty_floor_per_tick_mm: 2, min_uncertainty_mm: 50, max_uncertainty_mm: 50_000 };
+            let prev = OdomState::new_at(osr_core::TrainId::new(7), TrackRef { section: osr_core::SectionId::new(1000), offset_mm: 0, direction: osr_core::Direction::Forward }, 50, 0);
+            let dist = pulses_to_mm(pulses, &cal);
+            proptest::prop_assert_eq!(dist, i64::from(pulses) * 1000 / i64::from(ppm.max(1)));
+            for elapsed in [0, 1, dt, i64::MAX as u64, u64::MAX] {
+                proptest::prop_assert_eq!(derive_speed(&prev, dist, elapsed, &cal), legacy_derive_speed(&prev, dist, elapsed, &cal));
+            }
+        }
+    }
+
+    #[test]
+    fn speed_fast_paths_match_legacy_at_branch_boundaries() {
+        let prev = OdomState::new_at(TrainId::new(7), sec(1000, 0), 50, 0);
+        for ppm in [0, 1, 410, 1000, i32::MAX as u32, u32::MAX] {
+            for slip in [0, 1, 5000, 5001, 1_000_000, u32::MAX] {
+                let cal = OdomCalibration {
+                    pulses_per_meter: ppm,
+                    wheel_slip_ppm: slip,
+                    uncertainty_floor_per_tick_mm: 2,
+                    min_uncertainty_mm: 50,
+                    max_uncertainty_mm: 50_000,
+                };
+                for pulses in [
+                    i32::MIN,
+                    i32::MIN / 1000 - 1,
+                    i32::MIN / 1000,
+                    -820,
+                    -1,
+                    0,
+                    1,
+                    820,
+                    i32::MAX / 1000,
+                    i32::MAX / 1000 + 1,
+                    i32::MAX,
+                ] {
+                    let dist = pulses_to_mm(pulses, &cal);
+                    assert_eq!(dist, i64::from(pulses) * 1000 / i64::from(ppm.max(1)));
+                    for dt in [
+                        0,
+                        1,
+                        3_000_000_000,
+                        3_000_000_001,
+                        u64::from(u32::MAX),
+                        10_000_000_000,
+                        i64::MAX as u64,
+                        u64::MAX,
+                    ] {
+                        assert_eq!(
+                            derive_speed(&prev, dist, dt, &cal),
+                            legacy_derive_speed(&prev, dist, dt, &cal)
+                        );
+                    }
+                }
+            }
         }
     }
 }

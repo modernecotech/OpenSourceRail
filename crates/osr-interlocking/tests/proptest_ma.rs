@@ -193,6 +193,30 @@ proptest! {
         prop_assert_eq!(ma1, ma2);
     }
 
+    #[test]
+    fn snapshot_matches_individual_replay(log in arb_log_for_trains(3, 20), now in any::<u64>()) {
+        let network = test_network();
+        let snapshot = osr_interlocking::AuthoritySnapshot::from_log(&log);
+        let full = osr_interlocking::derive_state(&log);
+        for id in 1..=4 {
+            let train = TrainId::new(id);
+            prop_assert_eq!(snapshot.authority(train, &network, now),
+                osr_interlocking::ma::compute_self_ma_from_state(train, &full, &network, now, log.last().map(|entry| entry.entry_id)));
+        }
+    }
+
+    #[test]
+    fn appending_committed_suffix_matches_full_fold(log in arb_log_for_trains(3, 20), split in 0_usize..80, now in any::<u64>()) {
+        let split = split.min(log.len());
+        let snapshot = osr_interlocking::AuthoritySnapshot::from_log(&log[..split]).append_committed(&log[split..]);
+        let complete = osr_interlocking::AuthoritySnapshot::from_log(&log);
+        prop_assert_eq!(&snapshot, &complete);
+        let network = test_network();
+        for id in 1..=4 {
+            prop_assert_eq!(snapshot.authority(TrainId::new(id), &network, now), complete.authority(TrainId::new(id), &network, now));
+        }
+    }
+
     /// P5: the validity window is always bounded above by the constant.
     #[test]
     fn ma_validity_window_bounded(

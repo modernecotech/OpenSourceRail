@@ -22,14 +22,24 @@ pub fn locate_section(
     network: &(impl TrackTopology + ?Sized),
     section: SectionId,
 ) -> Option<(usize, usize, SectionArray)> {
-    for li in 0..network.line_count() {
+    let mut li = 0;
+    while li < network.line_count() {
         let line = network.line(li);
-        if let Some(si) = line.forward_sections.iter().position(|s| *s == section) {
-            return Some((li, si, SectionArray::Forward));
+        let mut si = 0;
+        while si < line.forward_sections.len() {
+            if line.forward_sections[si] == section {
+                return Some((li, si, SectionArray::Forward));
+            }
+            si += 1;
         }
-        if let Some(si) = line.reverse_sections.iter().position(|s| *s == section) {
-            return Some((li, si, SectionArray::Reverse));
+        si = 0;
+        while si < line.reverse_sections.len() {
+            if line.reverse_sections[si] == section {
+                return Some((li, si, SectionArray::Reverse));
+            }
+            si += 1;
         }
+        li += 1;
     }
     None
 }
@@ -129,6 +139,106 @@ pub fn forward_chain(
     }
 
     result
+}
+
+/// A validated bounded walk borrowing the topology instead of allocating IDs.
+/// Construction performs the same lookups and budget checks as `forward_chain`.
+#[derive(Debug)]
+pub struct ForwardChain<'a, T: TrackTopology + ?Sized> {
+    network: &'a T,
+    sections: &'a [SectionId],
+    start: usize,
+    count: usize,
+}
+
+impl<T: TrackTopology + ?Sized> ForwardChain<'_, T> {
+    pub fn len(&self) -> usize {
+        self.count
+    }
+    pub fn is_empty(&self) -> bool {
+        self.count == 0
+    }
+    pub fn section(&self, index: usize) -> SectionId {
+        assert!(index < self.count, "section index outside bounded walk");
+        let until_wrap = self.sections.len() - self.start;
+        let offset = if index < until_wrap {
+            self.start + index
+        } else {
+            index - until_wrap
+        };
+        self.network.section(self.sections[offset]).id
+    }
+}
+
+pub fn forward_chain_view<T: TrackTopology + ?Sized>(
+    network: &T,
+    start: TrackRef,
+    max_distance_mm: i64,
+) -> Option<ForwardChain<'_, T>> {
+    let (line_idx, start_idx, which) = locate_section(network, start.section)?;
+
+    // The train's direction must match the array orientation for this to
+    // be a sensible forward chain. Anything else is a data inconsistency
+    // and we respond fail-restrictively.
+    let direction_matches = matches!(
+        (start.direction, which),
+        (Direction::Forward, SectionArray::Forward) | (Direction::Reverse, SectionArray::Reverse)
+    );
+    if !direction_matches {
+        return None;
+    }
+
+    let line = network.line(line_idx);
+    let array = which.array_of(line);
+    let n = array.len();
+    if n == 0 {
+        return None;
+    }
+
+    // The first section: we only count the remaining distance within it
+    // (section length minus train's current offset).
+    let first_section = network.section(array[start_idx]);
+    let mut consumed_mm: i64 = (first_section.length_mm as i64).saturating_sub(start.offset_mm);
+    if consumed_mm < 0 {
+        consumed_mm = 0;
+    }
+
+    let mut idx = start_idx;
+    let mut visited = 1;
+    while visited < n {
+        let next_idx = idx + 1;
+        let next_idx = if next_idx >= n {
+            if line.is_ring {
+                0
+            } else {
+                break; // linear line: terminated at the end
+            }
+        } else {
+            next_idx
+        };
+        // Avoid infinite loop on rings: stop if we've come back to where we started.
+        if next_idx == start_idx {
+            break;
+        }
+        let sec = network.section(array[next_idx]);
+        let would_consume = consumed_mm.saturating_add(sec.length_mm as i64);
+        if would_consume > max_distance_mm {
+            // Adding this section would exceed the MA budget. Stop at the
+            // previous section's boundary — this is the fail-restrictive
+            // choice and produces MAs that always end at station boundaries.
+            break;
+        }
+        consumed_mm = would_consume;
+        idx = next_idx;
+        visited += 1;
+    }
+
+    Some(ForwardChain {
+        network,
+        sections: array,
+        start: start_idx,
+        count: visited,
+    })
 }
 
 /// Compute the TrackRef at the far end of a section in the given travel
@@ -407,5 +517,23 @@ mod tests {
         };
         let footprint = footprint_from(&net, head, 51_000);
         assert_eq!(footprint, vec![SectionId::new(1001), SectionId::new(1000)]);
+    }
+
+    proptest::proptest! {
+        #[test]
+        fn borrowed_walks_preserve_original_traversal(
+            ring in proptest::prelude::any::<bool>(), section in 0_u64..8,
+            reverse in proptest::prelude::any::<bool>(), offset in -100_000_i64..1_100_000,
+            budget in -100_000_i64..5_000_000,
+        ) {
+            let mut network = simple_linear_network();
+            network.lines[0].is_ring = ring;
+            let ids = [999, 1000, 1001, 1002, 2000, 2001, 2002, 9999];
+            let head = TrackRef { section: SectionId::new(ids[section as usize]), offset_mm: offset,
+                direction: if reverse { Direction::Reverse } else { Direction::Forward } };
+            let expected = forward_chain(&network, head, budget);
+            let borrowed: Vec<_> = forward_chain_view(&network, head, budget).map(|chain| (0..chain.len()).map(|i| chain.section(i)).collect()).unwrap_or_default();
+            proptest::prop_assert_eq!(borrowed, expected);
+        }
     }
 }

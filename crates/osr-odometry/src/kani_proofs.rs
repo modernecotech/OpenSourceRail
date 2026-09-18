@@ -101,10 +101,10 @@ fn fixed_cal() -> OdomCalibration {
 }
 
 fn arb_prev() -> OdomState {
-    let offset_mm: i64 = kani::any();
+    let offset_mm = i64::from(kani::any::<u32>());
     kani::assume(offset_mm >= 0);
     kani::assume(offset_mm <= 900_000);
-    let prev_unc: u32 = kani::any();
+    let prev_unc = u32::from(kani::any::<u16>());
     kani::assume(prev_unc <= 10_000);
     OdomState {
         train_id: TrainId::new(7),
@@ -123,11 +123,11 @@ fn arb_prev() -> OdomState {
 }
 
 fn arb_tick_no_fix() -> SensorTick {
-    let pulses: i32 = kani::any();
+    let pulses = i32::from(kani::any::<i16>());
     // Bound to ~ ±2 m per tick (≈ ±820 pulses) to keep forward-chain
     // walks short.
     kani::assume(pulses.unsigned_abs() <= 820);
-    let ts: u64 = kani::any();
+    let ts = kani::any::<u64>() & ((1_u64 << 34) - 1);
     kani::assume(ts <= 10_000_000_000);
     SensorTick {
         timestamp_ns: ts,
@@ -249,9 +249,9 @@ fn kani_o5_gnss_does_not_loosen() {
 
     // Wheel-only dead-reckoning reference: no GNSS, no balise, same
     // wheel input.
-    let pulses: i32 = kani::any();
+    let pulses = i32::from(kani::any::<i16>());
     kani::assume(pulses.unsigned_abs() <= 820);
-    let ts: u64 = kani::any();
+    let ts = kani::any::<u64>() & ((1_u64 << 34) - 1);
     kani::assume(ts <= 10_000_000_000);
 
     let dr_sensors = SensorTick {
@@ -311,10 +311,10 @@ fn kani_o2_forward_non_regression() {
     let cal = fixed_cal();
     let net = tiny_network();
 
-    let pulses: i32 = kani::any();
+    let pulses = i32::from(kani::any::<i16>());
     kani::assume(pulses >= 0);
     kani::assume(pulses <= 820);
-    let ts: u64 = kani::any();
+    let ts = kani::any::<u64>() & ((1_u64 << 34) - 1);
     kani::assume(ts <= 10_000_000_000);
 
     let sensors = SensorTick {
