@@ -209,3 +209,13 @@ test(`changing a revision or baseline clears superseded run context in ${tool}`,
   await expect.poll(embedded).toEqual([next,replacement,null]);
 });
 }
+
+test('Workbench status separates software evidence from canonical acceptance',async({page})=>{
+  await page.goto('http://127.0.0.1:4177/?module=verification&city=samawah');
+  const frame=page.frameLocator('#moduleFrame');
+  await expect(frame.getByRole('heading',{name:'Verification and acceptance status',exact:true})).toBeVisible();
+  await expect(frame.locator('body')).toContainText('not live CI');
+  await expect(frame.locator('body')).toContainText('No canonical promotion or operating acceptance');
+  await expect(frame.locator('body')).toContainText('screening');
+  await page.screenshot({path:'build/review2-verification-status.png',fullPage:true});
+});

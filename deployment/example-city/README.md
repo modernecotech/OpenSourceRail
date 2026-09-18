@@ -137,13 +137,13 @@ Added variations include:
 [`coverage-register.md`](coverage-register.md) is the recorded readable register.
 `./osr example-city coverage` regenerates current evidence under
 `build/city-example/coverage.json` and `coverage.md`, plus the discovered contracts
-in `coverage-inventory-current.json`. It inventories **515** registered functions,
+in `coverage-inventory-current.json`. It inventories **517** registered functions,
 inputs, shared settings, route prefixes and named workflows. It explicitly excludes
 an exhaustive inventory of upstream ERPNext/FUXA, every city's override, desktop
 tool parameters and internal Rust functions.
 
 The recorded classification is **36 scenario**, **64 varied**, **135 partial** and
-**280 gap** entries. These are inventory entries, not counts of broken features or
+**282 gap** entries. These are inventory entries, not counts of broken features or
 an overall coverage percentage. A gap means no qualifying mapped evidence; partial
 coverage never counts as a finished workflow. Native budget enforcement, enabled
 assignment and scheduled replenishment now have varied outcome evidence. The register

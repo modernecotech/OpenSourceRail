@@ -5,6 +5,7 @@ const params = new URLSearchParams(location.search);
 const services = await fetch('/api/workbench/services').then(r=>r.ok?r.json():null).catch(()=>null) || {erp:'http://127.0.0.1:8080',fuxa:'http://127.0.0.1:1881'};
 let selected, snapshot, engineering, business, impact, lastScope;
 let refreshId=0;
+let renderId=0;
 let syncEvidence=()=>{};
 let traceId=0;
 const esc = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -39,7 +40,55 @@ function renderImpact(a){
   html+=`<details><summary>Required reviews (${(change.required_reviews || []).length})</summary>${(change.required_reviews || []).map(value=>record(esc(value))).join('')}</details>`;
   $('changeImpact').innerHTML=html;
 }
+function evidenceRecords(rows) {
+  return rows.map(r=>{let body;try{body=JSON.parse(r.body || '{}');}catch{body={};}
+    return record(`<b>${esc(r.kind)}</b> · ${esc(r.actor)}<br><code>${esc(r.id)}</code> · ${esc(timestamp(r.created))}${body.result?` · ${esc(body.result)}`:''}<br>${(body.references || []).map(esc).join('<br>')}`);}).join('');
+}
+function renderEvidence(a, generation) {
+  const target=$('assurance'), metadata=a.evidence_page || {total:a.evidence.length,next_before:null};
+  const heading=document.createElement('p');heading.textContent=`${metadata.total} evidence record(s)`;
+  target.replaceChildren(heading);
+  const rows=document.createElement('div');rows.innerHTML=evidenceRecords(a.evidence) || 'No installation or acceptance evidence recorded.';target.append(rows);
+  let cursor=metadata.next_before;
+  const more=document.createElement('button');more.textContent='Load older evidence';more.hidden=!cursor;target.append(more);
+  more.onclick=async()=>{
+    more.disabled=true;
+    try {
+      const page=await get('/api/lifecycle/evidence?'+query({asset_id:a.asset_id,before:cursor,limit:20}));
+      if(generation!==renderId || selected!==a)return;
+      rows.insertAdjacentHTML('beforeend',evidenceRecords(page.items));cursor=page.next_before;more.hidden=!cursor;
+    } catch(error) {if(generation===renderId)more.textContent='Retry older evidence';}
+    finally {more.disabled=false;}
+  };
+}
+function renderQueue(a, generation) {
+  const target=$('queue');
+  const format=rows=>rows.map(r=>record(`<b>${esc(r.state)}</b> · ${r.attempts} retries${r.error?`<br><span class="bad">${esc(r.error)}</span>`:''}`)).join('');
+  // Older exported snapshots remain readable, but cannot claim a complete queue.
+  if(!snapshot.outbox_page){target.innerHTML=format(snapshot.outbox.filter(r=>a.alarms.some(al=>al.incident===r.incident))) || 'No events in this snapshot.';return;}
+  let cursor=null, state='', loaded=0;
+  const heading=document.createElement('p'), rows=document.createElement('div');
+  const filter=document.createElement('button');filter.textContent='Pending only';
+  const more=document.createElement('button');more.textContent='Load older deliveries';more.hidden=true;
+  heading.textContent='Loading equipment deliveries…';target.replaceChildren(heading,filter,rows,more);
+  async function load(append=false) {
+    const selectedState=state;filter.disabled=more.disabled=true;
+    try {
+      const page=await get('/api/lifecycle/outbox?'+query({asset_id:a.asset_id,limit:20,...(state?{state}:{}),...(append?{before:cursor}:{})}));
+      if(generation!==renderId || selected!==a || selectedState!==state)return;
+      if(!append){rows.replaceChildren();loaded=0;}
+      rows.insertAdjacentHTML('beforeend',format(page.items));loaded+=page.items.length;cursor=page.next_before;
+      heading.textContent=`${page.pending} pending · ${page.total} ${state?'pending':'total'} deliveries · ${loaded} shown`;
+      more.hidden=!cursor;
+    } catch(error) {if(generation===renderId)heading.textContent='Delivery queue unavailable; refresh to retry.';}
+    finally {filter.disabled=more.disabled=false;}
+  }
+  filter.onclick=()=>{state=state?'':'pending';filter.textContent=state?'All deliveries':'Pending only';load();};
+  more.onclick=()=>load(true);
+  load();
+}
 function render() {
+  const generation=++renderId;
   selected=snapshot.assets.find(a=>a.asset_id===$('asset').value);
   for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend']) $(id).innerHTML='';
   $('commandForm').hidden=true;
@@ -78,9 +127,9 @@ function render() {
     }
     $('execution').innerHTML=html;
   }else $('execution').textContent='Execution feedback not yet available.';
-  $('assurance').innerHTML=a.evidence.map(r=>{let body;try{body=JSON.parse(r.body || '{}');}catch{body={};}return record(`<b>${esc(r.kind)}</b> · ${esc(r.actor)}<br><code>${esc(r.id)}</code> · ${esc(timestamp(r.created))}${body.result?` · ${esc(body.result)}`:''}<br>${(body.references || []).map(esc).join('<br>')}`);}).join('') || 'No installation or acceptance evidence recorded.';
-  if(a.osr_assurance){const s=a.osr_assurance;$('assurance').innerHTML+=record(`Existing OSR records: ${s.work_orders.length} works · ${s.inspections.length} inspections · ${s.approvals.length} handback records · ${s.defects.length} defects. These are separate from simulation rehearsal evidence.`);}
-  $('queue').innerHTML=snapshot.outbox.filter(r=>a.alarms.some(al=>al.incident===r.incident)).map(r=>record(`<b>${esc(r.state)}</b> · ${r.attempts} retries${r.error?`<br><span class="bad">${esc(r.error)}</span>`:''}`)).join('') || 'No queued maintenance events for this asset.';
+  renderEvidence(a, generation);
+  if(a.osr_assurance){const s=a.osr_assurance;$('assurance').insertAdjacentHTML('beforeend',record(`Existing OSR records: ${s.work_orders.length} works · ${s.inspections.length} inspections · ${s.approvals.length} handback records · ${s.defects.length} defects. These are separate from simulation rehearsal evidence.`));}
+  renderQueue(a, generation);
   $('commands').innerHTML=a.commands_audit.map(r=>record(`<b>${esc(r.state)}</b> · ${esc(r.actor)}<br><code>${esc(r.id)}</code>${r.result?`<br>${esc(r.result)}`:''}`)).join('') || 'No supervisory requests.';
   const old=$('trendMeasurement').value; $('trendMeasurement').replaceChildren(...Object.keys(a.readings).map(k=>new Option(k,k)));if(old in a.readings)$('trendMeasurement').value=old;
   history.replaceState(null,'','?'+query({asset:a.asset_id}));

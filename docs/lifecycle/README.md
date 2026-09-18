@@ -7,6 +7,22 @@ versioned engineering evidence and native ERP transactions.
 [Open the local lifecycle view](http://127.0.0.1:8090/docs/lifecycle/).
 [Deployment and recovery](../../deployment/supervision/README.md).
 
+## Read performance and history
+
+FUXA polls only its active device's current measurements and alarms. It does not
+load whole-city evidence or command history. Lifecycle snapshots retrieve latest
+measurements in one indexed query and include at most 20 recent evidence records
+per asset. **Load older evidence** retrieves earlier records with a stable cursor.
+
+The delivery panel requests the selected asset's city/environment queue, displays
+its total and pending counts, and provides **Pending only** and **Load older
+deliveries** controls. Other-city traffic cannot evict a pending event from this
+view. Authenticated `/outbox` and `/evidence` GET endpoints accept `limit` (1–100)
+and `before` cursors; the gateway still enforces the caller's city/environment scope.
+
+See the [load and recovery review](../operating/scaling-and-recovery-review.md)
+for measured results and the remaining two-second capacity finding.
+
 ## Implemented connections
 
 | Owning system | Integration |

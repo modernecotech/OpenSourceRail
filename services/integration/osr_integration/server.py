@@ -93,6 +93,15 @@ class Handler(BaseHTTPRequestHandler):
             self.authorize(p, query)
             if parsed.path == '/snapshot':
                 return self.send(200, self.server.store.snapshot(query['city'], query['environment']))
+            if parsed.path in ('/outbox', '/evidence'):
+                options = dict(limit=int(query.get('limit', 20)),
+                               before=int(query['before']) if 'before' in query else None)
+                if parsed.path == '/outbox':
+                    result = self.server.store.outbox_page(query['city'], query['environment'],
+                        asset_id=query.get('asset_id'), state=query.get('state'), **options)
+                else:
+                    result = self.server.store.evidence_page(query['city'], query['environment'], query['asset_id'], **options)
+                return self.send(200, result)
             if parsed.path == '/history':
                 scope = self.server.store.scope(query['city'], query['environment'], query['asset_id'])
                 with self.server.store.connect() as db:
@@ -157,8 +166,7 @@ class FuxaReadHandler(Handler):
             return self.send(404, {})
         _, city, environment, asset = parts
         try:
-            a = next(a for a in self.server.store.snapshot(city, environment)['assets']
-                     if a['asset_id'] == asset and a['configuration_status'] == 'active')
+            a = self.server.store.device(city, environment, asset)
             tags = []
             for name, r in a['readings'].items():
                 for suffix, value, dtype in [('', r['value'] if r['quality'] == 'valid' else 'unavailable', 'Double'),

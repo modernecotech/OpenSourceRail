@@ -165,3 +165,15 @@ Defaults continue to use the regular local installation. ERP's site configuratio
 `frame-ancestors` policy must allow the same origins. The example setup configures
 both for port 8190. The simulator accepts matching `--config`, `--controls` and
 `--url` arguments, and follows the accepted city's `historian.sampling_seconds`.
+
+## Verification and gates
+
+The **Verification & gates** module shows recorded CI commits and scopes, generated
+city candidates, canonical deployment gates, integration coverage and analysis
+maturity in one view. It is a generated record, not a live CI monitor. Update
+`docs/operating/status/evidence.json` from actual workflow observations, then run
+`tools/automation/osr-python tools/automation/platform-status.py`. The generator
+reads the current coverage, city deployment and analysis registers; every workflow
+keeps its original commit and link. Later commits require their own checks.
+
+![Workbench verification status with exact CI commits and separate canonical deployment gates](../screenshots/workbench/verification-status.png)

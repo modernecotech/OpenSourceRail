@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4972**.
+Indexed Markdown files: **4973**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4972**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 161 |
+| [docs](#docs) | 162 |
 | [engineering](#engineering) | 12 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4921,6 +4921,7 @@ Indexed Markdown files: **4972**.
 | [`docs/operating/integration-status.md`](../docs/operating/integration-status.md) | Integrated operating software: completion and deployment inputs |
 | [`docs/operating/readiness.md`](../docs/operating/readiness.md) | Operating platform readiness |
 | [`docs/operating/review-follow-through.md`](../docs/operating/review-follow-through.md) | Integration review follow-through — 18 September 2026 |
+| [`docs/operating/scaling-and-recovery-review.md`](../docs/operating/scaling-and-recovery-review.md) | Gateway scaling, backup integrity and evidence follow-through |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |
 | [`docs/operations/control-centre/c2-communications.md`](../docs/operations/control-centre/c2-communications.md) | C2 — Communications |

@@ -4,6 +4,9 @@ This follows the review of `ec7a2023`. It distinguishes implemented controls,
 executed software tests and work that still requires evidence. **The complete
 railway programme is not accepted or complete.** Published v0.4.0 remains immutable.
 
+The subsequent [scaling and recovery review](scaling-and-recovery-review.md) records
+three further software fixes, the load finding and complete proof-artifact packaging.
+
 ## Recommendations and disposition
 
 | Review recommendation | Implemented response | Remaining closure |
@@ -165,7 +168,7 @@ resilience and is recorded in the evidence; it cannot satisfy a resilience run.
 ## Integration coverage and evidence still needed
 
 The [coverage register](../../deployment/example-city/coverage-register.md) records
-515 integration entries: **36 scenario, 64 varied, 135 partial and 280 gaps**.
+517 integration entries: **36 scenario, 64 varied, 135 partial and 282 gaps**.
 The additional business scenario has 24 native outcome/rollback checks; the browser
 scenario has nine unmocked disposition checks. Neither count represents all ERPNext
 functions or all possible variable combinations.

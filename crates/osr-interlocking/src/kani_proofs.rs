@@ -235,11 +235,10 @@ fn kani_p5_time_bounded_arithmetic() {
     assert!(valid_until_ns.saturating_sub(now_ns) <= MA_VALIDITY_WINDOW_NS);
 }
 
-// The whole-function version of P5 — exercises the full
-// compute_self_ma path including the `Network`'s `HashMap` lookups.
-// Kani-expensive; may time out without generous bounds. Left as an
-// aspirational harness; primary P5 proof is the arithmetic variant
-// above.
+// Whole-function P5 for an unregistered train. The empty log returns
+// fail-restrictive before topology is read; constructing station/section
+// maps only adds unrelated allocation work to this harness. The separate
+// known-position harness below retains its topology fixture.
 #[kani::proof]
 #[kani::unwind(10)]
 #[kani::solver(cadical)]
@@ -247,7 +246,8 @@ fn kani_p5_time_bounded() {
     let now_ns: u64 = kani::any();
     kani::assume(now_ns < u64::MAX - MA_VALIDITY_WINDOW_NS - 1);
 
-    let net = tiny_network();
+    // Unregistered trains return before any network lookup.
+    let net = Network::default();
     let ma = compute_self_ma(TrainId::new(1), &[], &net, now_ns);
 
     assert!(ma.valid_until_ns >= now_ns);
@@ -433,7 +433,8 @@ fn kani_p2_non_overlap_two_trains() {
 #[kani::unwind(10)]
 fn kani_p4_fail_restrictive_is_not_less_restrictive_than_known() {
     let now_ns: u64 = 1_000_000_000;
-    let net = tiny_network();
+    // Unregistered trains return before any network lookup.
+    let net = Network::default();
 
     // Unregistered train: fail-restrictive MA.
     let ma_unreg = compute_self_ma(TrainId::new(42), &[], &net, now_ns);

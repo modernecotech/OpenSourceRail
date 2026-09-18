@@ -8,7 +8,7 @@ Status: `scenario` means the function was exercised; `varied` means named values
 
 Native ERP expansion checks run real hooks and ledger posting inside a rolled-back transaction. The live telemetry matrix pauses the example simulator and includes explicitly labelled controller-result fixtures.
 
-Counts: **gap: 280**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
+Counts: **gap: 282**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
 
 ## Remaining workflow gaps
 
@@ -137,8 +137,10 @@ Counts: **gap: 280**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `fuxa.validate_deployment_review` | scenario | base: Reviewed FUXA import covers both city packages | Reviewed combined city import and browser navigation. All native FUXA settings, deletion/replacement and concurrent editing combinations remain. |
 | `gateway.GET./affected` | scenario | base: Replacement preserves removed serial history and needs fresh independent release | Removed serial tracing is exercised; batch, missing and all cross-city query combinations remain. |
 | `gateway.GET./controller/commands` | scenario | expansion: command.expiry-while-source-offline | Used by the live scenario; exhaustive filter, permission and failure permutations remain. |
+| `gateway.GET./evidence` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./health` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./history` | scenario | base: Sampling interval changes actual controller arrival times | Sampling history observed; full query, pagination/limit and access combinations remain. |
+| `gateway.GET./outbox` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./snapshot` | scenario | expansion: telemetry.interaction.1; expansion: telemetry.interaction.2; expansion: telemetry.interaction.3; +69 observations (JSON) | Used by the live scenario; exhaustive filter, permission and failure permutations remain. |
 | `gateway.POST./alarms/acknowledge` | varied | expansion: alarm.stale-acknowledgement | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./commands` | varied | expansion: command.repeat-idempotency; expansion: command.changed-retry; expansion: command.pending-blocks-rule-change; +12 observations (JSON) | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |

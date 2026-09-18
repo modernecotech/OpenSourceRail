@@ -219,7 +219,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
                     source = SUPERVISION_ROOT / city / "engineering.json"
                     self._send_json(200, json.loads(source.read_text()))
                     return
-                if endpoint not in {"snapshot", "history", "affected", "change-impact"}:
+                if endpoint not in {"snapshot", "history", "affected", "change-impact", "outbox", "evidence"}:
                     self._send_json(404, {"error": "Unknown lifecycle endpoint"})
                     return
                 config = json.loads(SUPERVISION_CONFIG.read_text())

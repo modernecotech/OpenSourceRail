@@ -117,6 +117,10 @@ At `92b20ff32`, **30 passed and 11 timed out**. See the
 links and remaining work. Release packaging requires a successful Kani workflow
 on the release commit, alongside general CI, integrated-stack and example-city
 acceptance. Merging development work does not grant release or safety acceptance.
+Two subsequent targeted interlocking checks passed after removing unused fixtures;
+[the follow-through](../operating/scaling-and-recovery-review.md) records the exact
+scope and nine still-unresolved prior timeouts. These local results do not qualify
+a later commit automatically.
 
 ## What's planned
 

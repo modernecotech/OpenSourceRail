@@ -70,6 +70,16 @@ def main():
             shutil.copyfile(Path(directory) / relative, destination)
         archive = Path(shutil.make_archive(str(out / f'OpenSourceRail-City-Acceptance-{args.tag}'), 'zip', archive_root))
         exported.append(archive)
+    from kani_release import export as export_kani
+    kani_run = next(row for row in workflows if row['workflowName'] == 'kani')
+    with tempfile.TemporaryDirectory(prefix='osr-release-kani-') as directory:
+        subprocess.run([gh, 'run', 'download', str(kani_run['databaseId']), '--repo',
+                        'modernecotech/OpenSourceRail', '--pattern', 'safety-execution-*', '--dir', directory], check=True)
+        archive_root = Path(directory) / 'release-public'
+        archive_root.mkdir()
+        kani_manifest = export_kani(Path(directory), archive_root, commit, kani_run['databaseId'])
+        archive = Path(shutil.make_archive(str(out / f'OpenSourceRail-Kani-Evidence-{args.tag}'), 'zip', archive_root))
+        exported.append(archive)
     for source, name in [
         ('docs/open-source-rail-overview.html', f'OpenSourceRail-Overview-{args.tag}.html'),
         ('docs/open-source-rail-overview.md', f'OpenSourceRail-Overview-{args.tag}.md'),
@@ -96,7 +106,9 @@ def main():
         'commit': commit, 'source_tree': run('git', 'rev-parse', args.tag + '^{tree}'),
         'workflows': workflows,
         'example_city': dict(run_id=city_run['databaseId'], manifest=city_manifest),
-        'kani_release_properties': ['kani_p5_time_bounded_arithmetic', 'kani_a2_expired_ma_trips'],
+        'kani_release_properties': [row['anchor'] for row in kani_manifest['harnesses']],
+        'kani_evidence': kani_manifest,
+        'kani_additional_checks': ['kani_p5_time_bounded_arithmetic', 'kani_a2_expired_ma_trips'],
         'scope': 'ERPNext/FUXA/OSR software integration and simulation baseline',
         'independent_safety_acceptance': False,
         'physical_deployment_approval': False,

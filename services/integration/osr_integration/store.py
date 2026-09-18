@@ -48,6 +48,25 @@ class Store:
             if 'acknowledged_occurrence' not in alarm_columns:
                 db.execute('ALTER TABLE alarms ADD COLUMN acknowledged_occurrence INTEGER')
 
+            outbox_columns = {row['name'] for row in db.execute('PRAGMA table_info(outbox)')}
+            for column in ('city', 'environment', 'asset_id'):
+                if column not in outbox_columns:
+                    db.execute(f'ALTER TABLE outbox ADD COLUMN {column} TEXT')
+            # Existing event payloads retain scope even after an alarm is replaced.
+            db.execute("""UPDATE outbox SET city=json_extract(body,'$.city'),
+                environment=json_extract(body,'$.environment'), asset_id=json_extract(body,'$.asset_id')
+                WHERE city IS NULL AND json_valid(body)""")
+            db.executescript("""
+                CREATE INDEX IF NOT EXISTS assets_city_environment ON assets(city,environment);
+                CREATE INDEX IF NOT EXISTS outbox_city_environment ON outbox(city,environment);
+                CREATE INDEX IF NOT EXISTS outbox_pending ON outbox(state,next_try);
+                CREATE INDEX IF NOT EXISTS outbox_incident ON outbox(incident,state);
+                CREATE INDEX IF NOT EXISTS alarms_scope ON alarms(scope);
+                CREATE INDEX IF NOT EXISTS installations_scope ON installations(scope,installed);
+                CREATE INDEX IF NOT EXISTS evidence_scope ON evidence(scope);
+                CREATE INDEX IF NOT EXISTS commands_scope ON commands(scope);
+            """)
+
     @contextmanager
     def connect(self):
         db = sqlite3.connect(self.path, timeout=30)
@@ -436,36 +455,129 @@ class Store:
             erp_asset_id=a['erp_asset_id'], rule=rule['id'], response=rule['response'], priority=rule.get('priority', 'medium'),
             engineering_revision=a['engineering_revision'], occurrence=occurrence, condition=condition,
             observed_at=now, evidence=f'/docs/lifecycle/?city={a["city"]}&asset={a["asset_id"]}&environment={a["environment"]}')
-        db.execute('INSERT OR IGNORE INTO outbox(id,incident,body) VALUES(?,?,?)', (eid, incident, json.dumps(body)))
+        db.execute('INSERT OR IGNORE INTO outbox(id,incident,body,city,environment,asset_id) VALUES(?,?,?,?,?,?)',
+                   (eid, incident, json.dumps(body), a['city'], a['environment'], a['asset_id']))
+
+    @staticmethod
+    def _filter(city, environment, alias=''):
+        clauses, values = [], []
+        for column, value in [('city', city), ('environment', environment)]:
+            if value is not None:
+                clauses.append(f'{alias}{column}=?')
+                values.append(identifier(value))
+        return ' AND '.join(clauses) or '1=1', values
+
+    @staticmethod
+    def _page_args(limit, before):
+        if type(limit) is not int or not 1 <= limit <= 100:
+            raise ValueError('Page limit must be an integer from 1 to 100')
+        if before is not None and (type(before) is not int or not 1 <= before <= 2**63 - 1):
+            raise ValueError('Page cursor must be a positive 64-bit integer')
+
+    @staticmethod
+    def _readings(db, where, values):
+        # One indexed latest-row lookup per configured measurement, in one SQL
+        # statement. Old historian rows are not loaded or ranked for every poll.
+        return {(r['scope'], r['measurement']): dict(r) for r in db.execute(f"""
+            SELECT r.* FROM assets a JOIN json_each(a.body, '$.measurements') m
+            JOIN readings r ON r.id=(SELECT id FROM readings
+                WHERE scope=a.scope AND measurement=m.key ORDER BY id DESC LIMIT 1)
+            WHERE {where}""", values)}
+
+    @staticmethod
+    def _asset_view(row, readings, now):
+        asset = dict(json.loads(row['body']), lifecycle_state=row['state'],
+                     configuration_status=row['configuration_status'], readings={}, alarms=[])
+        for name, measurement in asset['measurements'].items():
+            latest = readings.get((row['scope'], name))
+            reading = dict(latest) if latest else dict(value=None, quality='disconnected',
+                source_time=None, received=None, unit=measurement['unit'])
+            stale = measurement['stale_seconds']
+            if latest and now - min(latest['source_time'], latest['received']) > stale:
+                reading['quality'] = 'disconnected' if now - latest['received'] > stale * 3 else 'stale'
+            if row['configuration_status'] != 'active':
+                reading['quality'] = 'disconnected'
+            asset['readings'][name] = reading
+        return asset
+
+    def device(self, city, environment, asset_id, now=None):
+        """Current active device measurements and alarms; no city/history export."""
+        scope = self.scope(city, environment, asset_id)
+        now = time.time() if now is None else now
+        with self.connect() as db:
+            db.execute('BEGIN')
+            row = db.execute("SELECT * FROM assets WHERE scope=? AND configuration_status='active'", (scope,)).fetchone()
+            if row is None:
+                raise ValueError('Unknown active device in this city/environment')
+            asset = self._asset_view(row, self._readings(db, 'a.scope=?', [scope]), now)
+            asset['alarms'] = [dict(r) for r in db.execute('SELECT * FROM alarms WHERE scope=?', (scope,))]
+            return asset
+
+    def _outbox_page(self, db, city, environment, asset_id=None, state=None, limit=100, before=None):
+        self._page_args(limit, before)
+        where, values = self._filter(city, environment)
+        if asset_id is not None:
+            where += ' AND asset_id=?'; values.append(identifier(asset_id))
+        if state is not None:
+            if state not in ('pending', 'delivered'):
+                raise ValueError('Unknown outbox state')
+            where += ' AND state=?'; values.append(state)
+        counts = db.execute(f"SELECT count(*) AS total, coalesce(sum(state='pending'),0) AS pending FROM outbox WHERE {where}", values).fetchone()
+        page_where = where + (' AND rowid<?' if before is not None else '')
+        rows = [dict(r) for r in db.execute(f"""SELECT rowid AS cursor,id,incident,city,environment,asset_id,
+            state,attempts,next_try,error,response FROM outbox WHERE {page_where}
+            ORDER BY rowid DESC LIMIT ?""", [*values, *([before] if before is not None else []), limit + 1])]
+        return dict(items=rows[:limit], total=counts['total'], pending=counts['pending'],
+                    next_before=rows[limit - 1]['cursor'] if len(rows) > limit else None)
+
+    def outbox_page(self, city, environment, **options):
+        with self.connect() as db:
+            db.execute('BEGIN')
+            return self._outbox_page(db, city, environment, **options)
+
+    def evidence_page(self, city, environment, asset_id, limit=20, before=None):
+        self._page_args(limit, before)
+        scope = self.scope(city, environment, asset_id)
+        with self.connect() as db:
+            db.execute('BEGIN')
+            self.asset(db, scope)
+            total = db.execute('SELECT count(*) FROM evidence WHERE scope=?', (scope,)).fetchone()[0]
+            rows = [dict(r) for r in db.execute('SELECT rowid AS cursor,* FROM evidence WHERE scope=?' +
+                (' AND rowid<?' if before is not None else '') + ' ORDER BY rowid DESC LIMIT ?',
+                [scope, *([before] if before is not None else []), limit + 1])]
+            return dict(items=rows[:limit], total=total,
+                        next_before=rows[limit - 1]['cursor'] if len(rows) > limit else None)
 
     def snapshot(self, city=None, environment=None, now=None):
         now = time.time() if now is None else now
+        where, values = self._filter(city, environment, 'a.')
         with self.connect() as db:
-            rows = db.execute('SELECT * FROM assets WHERE (? IS NULL OR city=?) AND (? IS NULL OR environment=?) ORDER BY scope', (city, city, environment, environment)).fetchall()
-            assets = []
-            for row in rows:
-                a = dict(json.loads(row['body']), lifecycle_state=row['state'],
-                         configuration_status=row['configuration_status'], readings={}, alarms=[])
-                for name, m in a['measurements'].items():
-                    r = db.execute('SELECT * FROM readings WHERE scope=? AND measurement=? ORDER BY id DESC LIMIT 1', (row['scope'], name)).fetchone()
-                    reading = dict(r) if r else {'value': None, 'quality': 'disconnected', 'source_time': None, 'received': None, 'unit': m['unit']}
-                    if r and now - min(r['source_time'], r['received']) > m['stale_seconds']:
-                        reading['quality'] = 'disconnected' if now - r['received'] > m['stale_seconds'] * 3 else 'stale'
-                    if row['configuration_status'] != 'active':
-                        reading['quality'] = 'disconnected'
-                    a['readings'][name] = reading
-                a['alarms'] = [dict(r) for r in db.execute('SELECT * FROM alarms WHERE scope=?', (row['scope'],))]
-                a['installations'] = [dict(r) for r in db.execute('SELECT * FROM installations WHERE scope=? ORDER BY installed', (row['scope'],))]
-                a['evidence'] = [dict(r) for r in db.execute('SELECT * FROM evidence WHERE scope=? ORDER BY created', (row['scope'],))]
-                a['commands_audit'] = [dict(r) for r in db.execute('SELECT * FROM commands WHERE scope=? ORDER BY rowid DESC LIMIT 20', (row['scope'],))]
-                assets.append(a)
-            queue = [dict(r) for r in db.execute('SELECT id,incident,state,attempts,next_try,error,response FROM outbox ORDER BY rowid DESC LIMIT 100')]
-            if city or environment:
-                incidents = {r['incident'] for a in assets for r in a['alarms']}
-                queue = [r for r in queue if r['incident'] in incidents]
+            db.execute('BEGIN')
+            rows = db.execute(f'SELECT a.* FROM assets a WHERE {where} ORDER BY scope', values).fetchall()
+            readings = self._readings(db, where, values)
+            assets = {row['scope']: self._asset_view(row, readings, now) for row in rows}
+            for asset in assets.values():
+                asset.update(installations=[], evidence=[], commands_audit=[],
+                             evidence_page=dict(total=0, next_before=None))
+            for table, field, order in [('alarms', 'alarms', 't.key'), ('installations', 'installations', 't.installed')]:
+                for row in db.execute(f'SELECT t.* FROM {table} t JOIN assets a ON a.scope=t.scope WHERE {where} ORDER BY {order}', values):
+                    assets[row['scope']][field].append(dict(row))
+            for table, field in [('evidence', 'evidence'), ('commands', 'commands_audit')]:
+                for row in db.execute(f"""SELECT * FROM (SELECT t.rowid AS cursor,t.*,
+                    row_number() OVER (PARTITION BY t.scope ORDER BY t.rowid DESC) AS rank,
+                    count(*) OVER (PARTITION BY t.scope) AS total
+                    FROM {table} t JOIN assets a ON a.scope=t.scope WHERE {where}) WHERE rank<=20
+                    ORDER BY scope,cursor DESC""", values):
+                    record = dict(row); record.pop('rank'); total = record.pop('total')
+                    asset = assets[row['scope']]; asset[field].append(record)
+                    if table == 'evidence':
+                        asset['evidence_page'] = dict(total=total,
+                            next_before=record['cursor'] if total > len(asset[field]) else None)
+            queue = self._outbox_page(db, city, environment)
             current = db.execute('SELECT body FROM packages WHERE city=? AND environment=? ORDER BY created DESC LIMIT 1', (city, environment)).fetchone()
             historian = json.loads(current['body'])['historian'] if current else None
-            return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=assets, outbox=queue, historian=historian,
+            return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=list(assets.values()),
+                        outbox=queue['items'], outbox_page={k:v for k,v in queue.items() if k!='items'}, historian=historian,
                         authority='OSR evidence references; ERP closure and alarm clearance do not grant railway release')
 
     def acknowledge(self, city, environment, asset, rule, occurrence, actor, now=None):

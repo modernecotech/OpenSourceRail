@@ -45,7 +45,7 @@ local verification; candidate CI evidence must be checked separately by exact co
 
 The additional `expand-check` passed 389 live/native/restoration assertions and a
 separate 230-check schema matrix. Its [coverage register](../../deployment/example-city/coverage-register.md)
-tracks 515 integration entries: 36 scenario, 64 varied, 135 partial and 280 without
+tracks 517 integration entries: 36 scenario, 64 varied, 135 partial and 282 without
 qualifying evidence. Payment posting/cancellation is exercised transactionally;
 other remaining workflows are listed explicitly. Passing examples do not establish
 coverage of every function or variable combination.

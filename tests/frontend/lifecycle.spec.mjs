@@ -131,3 +131,30 @@ test('Cross-domain review keeps stale observations and engineering release visib
  await expect(page.locator('#changeImpact')).toContainText('Independently accept engineering rework');
  await expect(page.locator('#changeImpact')).toContainText('context-hash');
 });
+
+test('Lifecycle paginates equipment evidence and scoped delivery state',async({page})=>{
+  const evidence=(id,cursor)=>({id,cursor,kind:'inspection',actor:'inspector',created:1789500000,body:'{}'});
+  const current={...asset,environment:'simulation',evidence:[evidence('new-evidence',2)],evidence_page:{total:2,next_before:2}};
+  await page.route('**/api/lifecycle/snapshot?**',r=>r.fulfill({json:{assets:[current],outbox:[],outbox_page:{total:500,pending:150,next_before:1}}}));
+  await page.route('**/api/lifecycle/evidence?**',r=>{
+    const q=new URL(r.request().url()).searchParams;
+    expect(q.get('asset_id')).toBe(current.asset_id);expect(q.get('before')).toBe('2');
+    return r.fulfill({json:{items:[evidence('older-evidence',1)],total:2,next_before:null}});
+  });
+  await page.route('**/api/lifecycle/outbox?**',r=>{
+    const q=new URL(r.request().url()).searchParams;expect(q.get('asset_id')).toBe(current.asset_id);
+    return r.fulfill({json:q.get('state')==='pending'?{items:[{state:'pending',attempts:7}],pending:1,total:1,next_before:null}:
+      q.get('before')?{items:[{state:'pending',attempts:7}],pending:1,total:2,next_before:null}:
+      {items:[{state:'delivered',attempts:0}],pending:1,total:2,next_before:2}});
+  });
+  await page.goto('http://127.0.0.1:4177/docs/lifecycle/?city=samawah');
+  await expect(page.locator('#queue')).toContainText('1 pending · 2 total deliveries');
+  await page.getByRole('button',{name:'Load older evidence'}).click();
+  await expect(page.locator('#assurance')).toContainText('older-evidence');
+  await expect(page.getByRole('button',{name:'Load older evidence'})).toBeHidden();
+  await page.getByRole('button',{name:'Load older deliveries'}).click();
+  await expect(page.locator('#queue')).toContainText('7 retries');
+  await page.getByRole('button',{name:'Pending only'}).click();
+  await expect(page.locator('#queue')).toContainText('1 pending · 1 pending deliveries');
+  await expect(page.locator('#queue')).not.toContainText('delivered');
+});

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Removed unused topology fixtures from two unregistered-train interlocking
+  proofs; both previously timed-out harnesses passed targeted local verification
+  with unchanged assumptions and assertions. Nine prior proof timeouts remain open.
+- Fixed FUXA device polls loading entire city histories and cross-city traffic
+  hiding pending ERP deliveries. Added scoped counts, cursor pagination and
+  lifecycle controls for evidence and deliveries; gateway image `osr/integration:0.1.1`.
+- Hardened Ops Core backup verification and added fresh-directory offline restore
+  with evidence-path rebasing. Release packaging now retains and validates all
+  declared Kani manifests, results and logs. Workbench has a generated verification
+  and acceptance status view; a repeatable full-city HTTP load rehearsal records
+  functional outcomes separately from polling capacity.
+
 - Recorded exact-commit integration results and local fresh-volume ERP recovery
   rehearsals, including ledger records, nonempty public/private files and encrypted
   settings. The broader proof run has 30 passes and 11 timeouts; release packaging,

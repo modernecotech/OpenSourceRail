@@ -153,6 +153,8 @@ Create and verify a consistent SQLite/evidence backup with:
 ```bash
 python3 tools/automation/ops-core-backup.py create ../osr-private-backups/ops-core.zip
 python3 tools/automation/ops-core-backup.py verify ../osr-private-backups/ops-core.zip
+# Destination must not exist; restores offline, never over the live database.
+python3 tools/automation/ops-core-backup.py restore ../osr-private-backups/ops-core.zip ../osr-restored
 ```
 
 The archive deliberately excludes the password store and server signing key.
@@ -160,6 +162,13 @@ Keep backup archives outside the repository's public asset directories. The
 server serves only explicit public roots and does not expose directory listings.
 Back those up separately in the deployment's secret vault. Recovery remains an
 operator-controlled procedure so the tool cannot overwrite a live database.
+Verification requires exact archive/manifest membership, a checksummed database,
+unique safe file paths, valid sizes/hashes, SQLite integrity and foreign-key checks,
+and every registered evidence file. Duplicate, unlisted, missing or symlink entries
+are rejected. Restore writes a new directory and rebases evidence paths to it;
+application records and evidence URLs remain unchanged. Start an isolated server
+against `data/ops-core.sqlite3` and `data/evidence` there after provisioning secrets.
+This does not establish coordinated ERP/FUXA/gateway recovery or recovery time objectives.
 
 Samawah is the default dataset. To open another generated city, pass its
 repository-relative operations bundle in the `data` query parameter.
