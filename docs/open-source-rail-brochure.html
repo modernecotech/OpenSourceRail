@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OpenSourceRail | Repository brochure</title>
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    :root { --ink:#102b3c; --muted:#496572; --line:#c9d6d8; --soft:#f3f6f5; --mint:#159b8c; --yellow:#e6aa18; --coral:#d65f4d; --blue:#237ca5; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:#dfe5e5; color:var(--ink); }
+    body { font-family:"Trebuchet MS","Segoe UI",sans-serif; }
+    .page { position:relative; width:297mm; height:210mm; overflow:hidden; page-break-after:always; background:#fff; padding:13mm 16mm 12mm; }
+    .page:last-child { page-break-after:auto; }
+    .content { position:relative; z-index:1; height:100%; }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:Georgia,"Times New Roman",serif; letter-spacing:-.035em; }
+    h1 { font-size:37px; line-height:.98; max-width:145mm; }
+    h2 { font-size:23px; line-height:1.04; }
+    h3 { font-size:10px; text-transform:uppercase; letter-spacing:.09em; }
+    p,li { font-size:9.2px; line-height:1.36; }
+    .eyebrow { color:var(--mint); text-transform:uppercase; letter-spacing:.16em; font-size:7.5px; font-weight:800; }
+    .muted { color:var(--muted); }
+    .logo { width:50mm; display:block; }
+    .topline { display:flex; align-items:center; justify-content:space-between; margin-bottom:6mm; }
+    .edition { color:#71858c; font-size:8px; letter-spacing:.12em; text-transform:uppercase; }
+    .hero { display:grid; grid-template-columns:1fr 1.04fr; gap:10mm; align-items:end; }
+    .hero-copy h1 { margin:3mm 0 4mm; }
+    .lead { color:#294c5d; font:16px/1.17 Georgia,"Times New Roman",serif; max-width:113mm; }
+    .hero-body { margin-top:4mm; max-width:112mm; }
+    .hero-image { height:auto; aspect-ratio:3 / 2; overflow:hidden; border:1px solid var(--line); border-bottom:4px solid var(--yellow); }
+    .hero-image img { width:100%; height:100%; object-fit:contain; object-position:center; }
+    .stat-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:2mm; margin-top:5mm; }
+    .stat { min-height:18mm; padding:3mm; background:var(--soft); border-top:3px solid var(--ink); }
+    .stat:nth-child(2){ border-color:var(--mint); } .stat:nth-child(3){ border-color:var(--yellow); } .stat:nth-child(4){ border-color:var(--coral); }
+    .stat strong { display:block; font:21px/1 Georgia,serif; margin-bottom:1.5mm; }
+    .stat span { display:block; font-size:7.5px; line-height:1.2; font-weight:700; color:var(--muted); }
+    .rule,.subrule { border:0; border-top:1px solid var(--line); margin:5mm 0 4mm; }
+    .lower-grid { display:grid; grid-template-columns:1.15fr .85fr; gap:9mm; }
+    .lower-grid h2 { margin:1mm 0 2mm; }
+    .principles { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; margin-top:3mm; }
+    .principle { border-left:2px solid var(--mint); padding-left:3mm; }
+    .principle:nth-child(2){ border-color:var(--yellow); } .principle:nth-child(3){ border-color:var(--coral); }
+    .principle h3 { margin-bottom:1.5mm; }
+    .principle p { font-size:8.3px; }
+    .pipeline { border:1px solid var(--line); padding:4mm; background:var(--soft); }
+    .pipeline h3 { color:var(--blue); margin-bottom:3mm; }
+    .pipeline ol { margin:0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:2mm 5mm; counter-reset:steps; }
+    .pipeline li { counter-increment:steps; display:grid; grid-template-columns:6mm 1fr; gap:2mm; align-items:start; }
+    .pipeline li::before { content:counter(steps,decimal-leading-zero); color:var(--mint); font-weight:800; font-size:8px; }
+    .footer { position:absolute; left:16mm; right:16mm; bottom:6mm; display:flex; justify-content:space-between; color:#71858c; font-size:7.5px; }
+    .footer strong { color:var(--ink); }
+    .section-head { display:flex; justify-content:space-between; align-items:end; margin-bottom:5mm; }
+    .section-head p { max-width:107mm; text-align:right; }
+    .platform-grid { display:grid; grid-template-columns:1.04fr .96fr; gap:8mm; }
+    .platform-image { height:auto; aspect-ratio:6 / 5; overflow:hidden; border:1px solid var(--line); }
+    .platform-image img { width:100%; height:100%; object-fit:contain; object-position:center; }
+    .platform-copy { display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+    .platform-copy .wide { grid-column:1/-1; }
+    .platform-copy h3 { color:var(--blue); margin-bottom:1.5mm; }
+    .platform-copy p { font-size:8.4px; }
+    .three-col { display:grid; grid-template-columns:1.04fr 1fr .96fr; gap:7mm; }
+    .panel { border-top:3px solid var(--mint); padding-top:3mm; }
+    .panel:nth-child(2){ border-color:var(--yellow); } .panel:nth-child(3){ border-color:var(--coral); }
+    .panel h3 { margin-bottom:2mm; }
+    .panel p { font-size:8.4px; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5mm; margin-top:2.5mm; }
+    .flow-step { min-height:13mm; background:var(--soft); padding:2mm; border-left:2px solid var(--mint); }
+    .flow-step:nth-child(2){ border-color:var(--yellow); } .flow-step:nth-child(3){ border-color:var(--coral); } .flow-step:nth-child(4){ border-color:var(--blue); }
+    .flow-step strong { display:block; font:11px/1 Georgia,serif; margin-bottom:1mm; }
+    .flow-step span { display:block; color:var(--muted); font-size:7.3px; line-height:1.2; }
+    .matrix { width:100%; border-collapse:collapse; margin-top:2mm; font-size:7.4px; }
+    .matrix th,.matrix td { text-align:left; vertical-align:top; padding:1.5mm; border-bottom:1px solid var(--line); }
+    .matrix th { color:var(--muted); font-size:7px; text-transform:uppercase; letter-spacing:.06em; }
+    .status { color:var(--mint); font-weight:800; }
+    .boundary { border-left:2px solid var(--coral); padding-left:4mm; }
+    .boundary h3 { color:var(--coral); margin-bottom:2mm; }
+    .boundary p { font-size:8.4px; }
+    .url { margin-top:2mm; color:var(--blue); font-weight:800; }
+    @media screen { .page { margin:10mm auto; box-shadow:0 2mm 8mm rgba(16,43,60,.2); } }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="content">
+      <div class="topline"><img class="logo" src="assets/logo_white.png" alt="OpenSourceRail"><div class="edition">Repository brochure · September 2026</div></div>
+      <div class="hero"><div class="hero-copy"><div class="eyebrow">Open urban rail · design authority · local capability</div><h1>Build the railway. Keep the knowledge.</h1><p class="lead">OpenSourceRail is an open reference platform for designing, testing, building and operating light metro and urban metro systems.</p><p class="hero-body">It is aimed at public owners, domestic engineering firms and qualified suppliers in capital-constrained, high-insolation markets. The public portfolio contains 265 developing-world city models across 43 country programmes. Generated values are planning sensitivities, not bids or funding commitments.</p></div><div class="hero-image"><img src="assets/solar-metro-trainset.png" alt="Solar metro reference trainset with rooftop solar panels"></div></div>
+      <div class="stat-strip"><div class="stat"><strong>265</strong><span>developing-world city models across 43 country programmes</span></div><div class="stat"><strong>~75%</strong><span>modeled domestic value across the public portfolio</span></div><div class="stat"><strong>$900k</strong><span>local factory-gate LM3 planning target for a 3-car trainset</span></div><div class="stat"><strong>120</strong><span>traceable LM3 product rows with visible release gates</span></div></div>
+      <hr class="rule">
+      <div class="lower-grid"><div><div class="eyebrow">Why this architecture</div><h2>A connected system of systems, with narrow authority boundaries.</h2><div class="principles"><div class="principle"><h3>Commodity hardware</h3><p>Linux SBCs, deterministic Ethernet and standard radio layers keep value in transferable software and integration.</p></div><div class="principle"><h3>Catenary-free energy</h3><p>The reference uses onboard LFP batteries with station and depot PV; site energy and charging remain deployment studies.</p></div><div class="principle"><h3>Machine-checkable safety</h3><p>GSN-style claims link formal models, property tests and code while independent assessors retain approval authority.</p></div></div></div><div class="pipeline"><h3>One deployment pipeline</h3><ol><li><span>Choose a city record and country assumptions.</span></li><li><span>Generate a deterministic city digital twin.</span></li><li><span>Review network, service, cost, energy and fleet outputs.</span></li><li><span>Export civil alignment, CAD, IFC and quantities.</span></li><li><span>Build pilot hardware through a COTS/SBC or custom-board track.</span></li><li><span>Close survey, supplier, workshop, bench and assessor evidence.</span></li></ol></div></div>
+      <div class="footer"><span><strong>OpenSourceRail</strong> · open urban-rail reference platform</span><span>01 / 02</span></div>
+    </div>
+  </section>
+  <section class="page">
+    <div class="content">
+      <div class="topline"><img class="logo" src="assets/logo_white.png" alt="OpenSourceRail"><div class="edition">From city intent to accountable maintenance</div></div>
+      <div class="section-head"><div><div class="eyebrow">The connected workbench</div><h2>Design, delivery and assurance in one revisioned context.</h2></div><p class="muted">City, actor, immutable revision, approved baseline, simulation run and selected asset travel together without merging authority boundaries.</p></div>
+      <div class="platform-grid"><div class="platform-image"><img src="screenshots/workbench/lifecycle-overview.png" alt="OpenSourceRail Workbench lifecycle overview"></div><div class="platform-copy"><div class="wide"><h3>One shared project twin</h3><p>City Studio, simulation, OCC training, ERPNext/Frappe HR, FUXA and railway assurance share identity and revision context. Planning and training cannot issue live OCC actions; live mode does not expose design or simulation controls.</p></div><div><h3>City Studio</h3><p>Offline layered GIS authoring, service plans, demand screens, civil choices, deterministic candidate hashes and Git-reviewable immutable revisions.</p></div><div><h3>Delivery controls</h3><p>Allowlisted generation produces assets, family-scoped assembly tasks, finite-resource CPM, schedule of values, order-by plans and local/imported cashflow.</p></div><div><h3>Operations</h3><p>Asset registers, work orders, QA hold points, maintenance schedules, defects/NCR, authenticated roles and sealed audit records.</p></div><div><h3>Evidence</h3><p>GIS, OSR-ALN, IFC4.3, IDS/BCF, CAD, cost and simulation files remain tied to source and tool hashes. Revision identity proves provenance, not approval.</p></div></div></div>
+      <hr class="subrule">
+      <div class="three-col"><div class="panel"><h3>Start with the lower-risk wedge</h3><p>The first adoptable product is the non-safety owner-operator stack for an existing depot, workshop or pilot corridor: ERPNext + Frappe HR + railway Ops Core + simulator + asset/evidence portal.</p><div class="flow"><div class="flow-step"><strong>Assets</strong><span>stable ids and ownership</span></div><div class="flow-step"><strong>QA</strong><span>holds, inspections, NCR</span></div><div class="flow-step"><strong>Work</strong><span>maintenance and orders</span></div><div class="flow-step"><strong>Handback</strong><span>evidence and audit</span></div></div></div><div class="panel"><h3>Evidence status, stated plainly</h3><table class="matrix"><thead><tr><th>Area</th><th>Repository status</th></tr></thead><tbody><tr><td>Movement authority</td><td class="status">Implemented + tested</td></tr><tr><td>Consensus log</td><td class="status">Implemented + modeled</td></tr><tr><td>Obstacle / intrusion detection</td><td class="status">Implemented + simulated</td></tr><tr><td>Hardware safety nets</td><td>Specified; pilot records next</td></tr><tr><td>Certification pack</td><td>Pre-submission scaffold</td></tr></tbody></table></div><div class="panel boundary"><h3>Boundary and next step</h3><p>This repository is planning and engineering-screening evidence, not a safety certificate, construction release, supplier quote, approval or operating authority. The target is GoA 4, but train control stays in simulation or shadow mode until deployment evidence is independently assessed.</p><p class="url">github.com/modernecotech/OpenSourceRail</p></div></div>
+      <div class="footer"><span><strong>OpenSourceRail</strong> · open urban-rail reference platform</span><span>02 / 02</span></div>
+    </div>
+  </section>
+</body>
+</html>
