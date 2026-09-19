@@ -27,8 +27,8 @@ safety properties of the Movement Authority computer:
 
 | Property | Harness in [`crates/osr-interlocking/src/kani_proofs.rs`](../../crates/osr-interlocking/src/kani_proofs.rs) | Status |
 |---|---|---|
-| **P1** — determinism | `kani_p1_determinism` | written |
-| **P2** — non-overlap | `kani_p2_non_overlap_two_trains` | written (tiny-network bound) |
+| **P1** — determinism | `kani_p1_determinism` | bounded local pass on `2bf8b7717`; see records |
+| **P2** — non-overlap | `kani_p2_non_overlap_two_trains` and seven paired companions | open; all eight partitions required |
 | **P3** — consist-fit | `kani_p3_consist_fit_single_train` | written |
 | **P4** — conservatism | `kani_p4_fail_restrictive_is_not_less_restrictive_than_known` | written (fail-restrictive path only) |
 | **P5** — time-bounded | `kani_p5_time_bounded`, `kani_p5_time_bounded_with_known_position` | written |
@@ -52,12 +52,12 @@ serialises random log prefixes, shells out to
 `MovementAuthority` JSON. Any divergence between the two twins is a
 bug in at least one of them.
 
-**Honest status:** the harnesses compile under `#[cfg(kani)]` and encode each
-property formally in Rust, but running them requires a Kani installation. CI
-proves the fast P5 arithmetic core. The topology-backed P1–P4 and whole-function
-P5 harnesses currently exceed the hosted runner's 45-minute budget even at
-their small bounds; they are open proof-model/bounding work, not passing CI
-evidence. Scaling toward RFC 0004's targets remains future controlled evidence.
+**Execution status:** the declared harnesses run through a source-bound evidence
+runner. ATP determinism and interlocking determinism passed on candidate
+`2bf8b7717`; odometry determinism and the complete two-train non-overlap obligation
+remain open. See the [retained execution records](../../engineering/assurance/formal/results/README.md)
+for commits, budgets, input hashes and failures. These are bounded fixture proofs;
+scaling toward RFC 0004's targets and independent safety acceptance remain open.
 
 ## What the other SIL-4 crates check today
 
@@ -74,7 +74,7 @@ evidence. Scaling toward RFC 0004's targets remains future controlled evidence.
 ### Install
 
 ```bash
-cargo install --locked kani-verifier
+cargo install --locked kani-verifier --version 0.67.0
 cargo kani setup
 ```
 
@@ -107,20 +107,25 @@ formal evidence; never disable unwinding checks merely to obtain a green result.
 
 The [Kani workflow](../../.github/workflows/kani.yml) runs on pushes to `main`,
 pull requests and manual dispatch. It checks ATP rejection of an expired movement
-authority and interlocking validity-window arithmetic, then executes all **41
-declared harnesses** across eight packages with Kani 0.67.0 and a 300-second limit
-per harness. Actual successes, failures and timeouts are archived with source
-hashes; a timeout fails the workflow and does not establish the property.
+authority and interlocking validity-window arithmetic, then executes all **48
+declared harnesses** across eight packages with Kani 0.67.0. The default budget
+is 600 seconds and 4096 MiB of virtual address space per process. Manual dispatch
+can select 1800 seconds and/or 8192 MiB. All eight paired non-overlap harnesses
+must pass; each retains both trains and symbolic head positions for its wayside
+condition. See the [partition rationale](../../engineering/assurance/formal/topology-adapters.md#non-overlap-proof-partitions).
 
-At `92b20ff32`, **30 passed and 11 timed out**. See the
-[review follow-through](../operating/review-follow-through.md) for exact workflow
-links and remaining work. Release packaging requires a successful Kani workflow
-on the release commit, alongside general CI, integrated-stack and example-city
-acceptance. Merging development work does not grant release or safety acceptance.
-Two subsequent targeted interlocking checks passed after removing unused fixtures;
-[the follow-through](../operating/scaling-and-recovery-review.md) records the exact
-scope and nine still-unresolved prior timeouts. These local results do not qualify
-a later commit automatically.
+Actual successes, failures and timeouts are archived with source hashes.
+Timeouts and memory failures do not establish a property. The runner terminates
+the entire verifier process group and limits memory to preserve subsequent
+results. A runner shutdown can still prevent artifact upload; an incomplete run
+cannot qualify a release.
+
+The [results register](../../engineering/assurance/formal/results/README.md)
+separates historical results from the latest candidate. Release packaging requires
+a successful Kani workflow on the release commit, alongside general CI,
+integrated-stack and example-city acceptance. Merging development work does not
+grant release or safety acceptance, and an earlier pass does not automatically
+qualify a later commit.
 
 ## What's planned
 
@@ -147,7 +152,7 @@ From RFC 0004 §M3 and the cross-crate safety plan:
    evidence pointers alone do not establish that a claim has been verified.
 
 <!-- safety-case-counts:start -->
-Generated case inventory: **32 goals, 6 strategies, 71 solutions**. These counts describe traceability, not successful or accepted proofs.
+Generated case inventory: **32 goals, 6 strategies, 78 solutions**. These counts describe traceability, not successful or accepted proofs.
 <!-- safety-case-counts:end -->
 
 ## Directory contents

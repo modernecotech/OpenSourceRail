@@ -11,6 +11,11 @@ on:
         type: choice
         default: '600'
         options: ['600', '1800']
+      memory_mib:
+        description: Per-process verifier memory limit in MiB
+        type: choice
+        default: '4096'
+        options: ['4096', '8192']
 
 jobs:
   kani-interlocking:
@@ -73,7 +78,8 @@ jobs:
       - name: Execute every declared harness for this package and export actual results
         env:
           PROOF_TIMEOUT: ${{ inputs.timeout_seconds || '600' }}
-        run: python3 tools/automation/assurance-evidence.py run --package '${{ matrix.package }}' --timeout "$PROOF_TIMEOUT" --output 'build/assurance/${{ matrix.package }}'
+          PROOF_MEMORY: ${{ inputs.memory_mib || '4096' }}
+        run: python3 tools/automation/assurance-evidence.py run --package '${{ matrix.package }}' --timeout "$PROOF_TIMEOUT" --memory-mib "$PROOF_MEMORY" --output 'build/assurance/${{ matrix.package }}'
       - name: Preserve successes, failures and timeouts
         if: always()
         uses: actions/upload-artifact@v4

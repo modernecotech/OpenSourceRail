@@ -101,3 +101,20 @@ while True: time.sleep(0.05)
         try: os.kill(pid, signal.SIGKILL)
         except ProcessLookupError: pass
     assert 'proof not established' in (tmp_path/'output.log').read_text()
+
+
+def test_verifier_memory_exhaustion_retains_failure_log(tmp_path, monkeypatch):
+    import sys
+    monkeypatch.setattr(a, 'ROOT', tmp_path)
+    output = tmp_path / 'memory.log'
+    with output.open('w') as stream:
+        code = a.run_verifier([sys.executable, '-c', 'bytearray(128 * 1024 * 1024)'], stream, 10, 64)
+    assert code != 0
+    assert 'MemoryError' in output.read_text()
+
+
+@pytest.mark.parametrize('seconds,memory_mib', [(0, 64), (-1, 64), (1, 0), (1, 63)])
+def test_reject_invalid_resource_limits_before_spawning(tmp_path, seconds, memory_mib):
+    with (tmp_path / 'unused.log').open('w') as stream:
+        with pytest.raises(ValueError, match='Proof limits'):
+            a.run_verifier(['does-not-exist'], stream, seconds, memory_mib)

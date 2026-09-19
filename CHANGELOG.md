@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Added reusable authority snapshots, immutable ATP braking profiles and borrowed
+  topology walks. ATP and interlocking determinism passed on candidate
+  `2bf8b7717`; odometry determinism and two-train non-overlap remain open.
+  Non-overlap now declares paired checks for Clear, missing, Unknown and Present
+  wayside verdicts, correcting the earlier expectation of extension without a
+  Clear verdict. All eight checks are required for closure.
+- Added explicit proof time/memory budgets, whole-process-group cleanup and
+  failure-log retention. See the [execution register](engineering/assurance/formal/results/README.md)
+  for tested source, outcomes and unresolved verification limits.
+
 - Separated interlocking, ATP and odometry from topology storage through a shared
   read-only interface and validated immutable tables. All 41 declared Kani
   properties were rerun locally: 37 passed, with four remaining 300-second

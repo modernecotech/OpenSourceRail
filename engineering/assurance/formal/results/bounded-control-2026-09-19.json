@@ -1,0 +1,629 @@
+{
+  "schema": "osr-proof-followthrough/1",
+  "source_base_commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+  "ci_run": "https://github.com/modernecotech/OpenSourceRail/actions/runs/35403962318",
+  "ci_conclusion": "failure",
+  "original_obligations": {
+    "passed": [
+      "E4.1a",
+      "E3.1a"
+    ],
+    "open": [
+      "E4.4a",
+      "E1.1a"
+    ]
+  },
+  "scope": "Bounded fixtures only. Every P2 companion is required. Groups have different runner/workflow inputs and do not constitute a complete successful CI run on a final commit.",
+  "independently_accepted": false,
+  "release_qualified": false,
+  "source_patch": "build/assurance/closure-capped/source.patch",
+  "candidate_to_capped_scope_differences": [
+    ".github/workflows/kani.yml",
+    "tools/automation/assurance-evidence.py"
+  ],
+  "groups": [
+    {
+      "label": "candidate CI osr-atp",
+      "manifest": "build/assurance/osr-atp/execution.json",
+      "results": "build/assurance/osr-atp/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 7,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E4.1a",
+          "anchor": "kani_a1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "13d1bee1306f2b8132636a022b1171fb4bd9964a1d021f2fcc434393625dd258"
+        },
+        {
+          "solution": "E4.1b",
+          "anchor": "kani_a2_expired_ma_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "4da0d5682ab931ec1db580473532bd72f85879a3599a69b591bcac515e7230b8"
+        },
+        {
+          "solution": "E4.1c",
+          "anchor": "kani_a3_unknown_position_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "93a55640ca3391b69c325c0cda4b07312d6bfa742b1cd7a9db7ba42221c93256"
+        },
+        {
+          "solution": "E4.1d",
+          "anchor": "kani_a4_train_mismatch_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "06f9f8c3ae0856edfc1f400e79ddd58fcd4cf0cf595745de547f559ed1dfd9f8"
+        },
+        {
+          "solution": "E4.1e",
+          "anchor": "kani_a5_head_past_ma_end_trips_same_section",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "50c663f779e3d8cd10c27a196464dac68744679d08a323203ba95350b9cc215d"
+        },
+        {
+          "solution": "E4.1f",
+          "anchor": "kani_a6_severe_overspeed_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "6dc21e94bc909d85f36ab73eec7ccd1bb991735b1cf8bdc2f36643dbccf8d1be"
+        },
+        {
+          "solution": "E4.1g",
+          "anchor": "kani_a7_uncertainty_widening_is_conservative",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "1aeb81ddd396949975d2561169874956352373f386a4e65f4253abe0f6014813"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-brake",
+      "manifest": "build/assurance/osr-brake/execution.json",
+      "results": "build/assurance/osr-brake/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 5,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E4.2a",
+          "anchor": "kani_b1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "aaf3cf2f85cc4d8f47053d550ae55815f1c429b78bcf6b5c759fffbaa5cf8ac9"
+        },
+        {
+          "solution": "E4.2b",
+          "anchor": "kani_b2_emergency_union",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "7fced0ec1773d4bba5fcf12533008651ae43dd65d20e1725945f261922dbb8f8"
+        },
+        {
+          "solution": "E4.2c",
+          "anchor": "kani_b3_emergency_completeness",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "4c3dc3d0afe321ba5b44413f62b40de69a664bd45a7edffbc28dd8699373c100"
+        },
+        {
+          "solution": "E4.2d",
+          "anchor": "kani_b4_wsp_conservative",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "a05636ea2d37cd0df6f3f3f6bda2e6765a44ae949185897274e7c9e8f13f59d7"
+        },
+        {
+          "solution": "E4.2e",
+          "anchor": "kani_b5_park_safe",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "400a622107878ca13df62962e676452d6571a3decbbe50762c904de5ccc93157"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-intrusion-detect",
+      "manifest": "build/assurance/osr-intrusion-detect/execution.json",
+      "results": "build/assurance/osr-intrusion-detect/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 5,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E20a",
+          "anchor": "i1_lidar_in_profile_forces_present",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "fa4e43a4d034f3c352b92803752a23087427e69a8b2e33f303136b0a78dfaa30"
+        },
+        {
+          "solution": "E21a",
+          "anchor": "i2_stale_lidar_forces_unknown_or_worse",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "d521998ea6ae432d092105cc39355c092b25b62d45829bc3d08deee9966ef835"
+        },
+        {
+          "solution": "E22a",
+          "anchor": "i3_fence_breach_forces_present",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "142ae6ad591b7cbf7d96b1d7bd00d270dbafcb93150982cbb1069c1415c143cd"
+        },
+        {
+          "solution": "E23a",
+          "anchor": "i4_camera_alone_cannot_clear_a_hazard_class",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "5ec5e51019204e866f98fcd27d9b3a5463b33bfd0a867323e2af042a6775282d"
+        },
+        {
+          "solution": "E24a",
+          "anchor": "i5_fresher_never_increases_severity",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "b65233a8bb59699fe703659bca86dbb298af5089b7ce6e704ee54d419be7cecb"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-obstacle-detect",
+      "manifest": "build/assurance/osr-obstacle-detect/execution.json",
+      "results": "build/assurance/osr-obstacle-detect/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 6,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E15a",
+          "anchor": "o1_ultrasonic_return_forces_eb",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "e52de20537e9d7a1425177df2aaf8f56ee4afda39f5520070be765533e89cca5"
+        },
+        {
+          "solution": "E16a",
+          "anchor": "o2_stale_ultrasonic_forces_eb",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "1171f525d12385fce0fe01ab8161d3864e404868161ffb8f220e1e4f9cecf090"
+        },
+        {
+          "solution": "E17a",
+          "anchor": "o3_peer_disagreement_forces_eb",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "bd9b27e15a701216a7bb155a4563814bc6f1e9e6dd70fc12181a3a7115985824"
+        },
+        {
+          "solution": "E18.1a",
+          "anchor": "o4a_all_long_range_offline_above_band_forces_eb",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "81d32e1a259cc162b8e5f62ddfb27e141acd4ca851d24e287ae5485f3a0a54c1"
+        },
+        {
+          "solution": "E18.2a",
+          "anchor": "o4b_lidar_offline_with_radar_healthy_restricts_speed",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "e03b8df56d5374a3b7f7a309b9fbfb0e9debef2c74a44e8cd1a91128b4c1e6af"
+        },
+        {
+          "solution": "E19a",
+          "anchor": "o5_fresher_sensors_never_increase_severity",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "fe0d986483b2e08ce5ef458e7ab9d7bae9e471502e6af55e26a6596af4d4acea"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-odometry",
+      "manifest": "build/assurance/osr-odometry/execution.json",
+      "results": "build/assurance/osr-odometry/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 4,
+      "failed": 1,
+      "outcomes": [
+        {
+          "solution": "E4.4a",
+          "anchor": "kani_o1_determinism",
+          "status": "failed",
+          "exit_code": 124,
+          "report_sha256": "f2718d853ecbdbf91f4bbdccc9eeac0ce16b29cb2ea0a3c8fec4c17e5b0f8eb2"
+        },
+        {
+          "solution": "E4.4b",
+          "anchor": "kani_o2_forward_non_regression",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "ebd053d2d114989eff3fa3035a4e15d9154c4b1ee0335ca8dde9ce79966bbdd3"
+        },
+        {
+          "solution": "E4.4c",
+          "anchor": "kani_o3_uncertainty_monotone_without_fix",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "44231e1ad2b04e962983a9320e9ed18710f15a887be7fc50a59a6dd2616c147d"
+        },
+        {
+          "solution": "E4.4d",
+          "anchor": "kani_o4_balise_resets_uncertainty",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "563171f70d31f36cd4d61ac84ed123b5185cf8925458fa5f2d88ac6fd5976c1f"
+        },
+        {
+          "solution": "E4.4e",
+          "anchor": "kani_o5_gnss_does_not_loosen",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "3f69856d1c5bd2ca96ed401ed2a363455c1aec7636bcc9c22a96ac7da32a9306"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-secbus",
+      "manifest": "build/assurance/osr-secbus/execution.json",
+      "results": "build/assurance/osr-secbus/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 2,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E25a",
+          "anchor": "s1_unknown_issuer_lookup_is_deterministic",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "07b1a8253061829f76b28225ba5e21dea97fe2040b9bc143e24a6845c5b7aa48"
+        },
+        {
+          "solution": "E27a",
+          "anchor": "s3_unknown_issuer_always_rejects",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "94a281bc0dc81b1711fa069f5281c25fb9f7baa65c5fedbdaa3c2a156a29300e"
+        }
+      ]
+    },
+    {
+      "label": "candidate CI osr-wayside-points",
+      "manifest": "build/assurance/osr-wayside-points/execution.json",
+      "results": "build/assurance/osr-wayside-points/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "github:modernecotech/OpenSourceRail/actions/runs/35403962318",
+      "passed": 7,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E5.1a",
+          "anchor": "kani_w1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "9dfc54241bb8f51dd30d43fd8dcea529fb3abbe6e1aa7c99934b186e019655b7"
+        },
+        {
+          "solution": "E5.1b",
+          "anchor": "kani_w2_fail_restrictive_detection",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "894912425427775a5e20384dd1b7c3946bcc80c328377cc93978d7d6803f1268"
+        },
+        {
+          "solution": "E5.1c",
+          "anchor": "kani_w3_motor_stops_at_target",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "638c1268fa9ff60b60ff7df61a0319e5d5a19b40629b000f3b9534f27fda0fac"
+        },
+        {
+          "solution": "E5.1d",
+          "anchor": "kani_w4_over_temp_stops_motor",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "ce83ac35cb54c8639ad03f6c1424807d814f87fb85f5f646210c4cab70373a8b"
+        },
+        {
+          "solution": "E5.1e",
+          "anchor": "kani_w4_drive_fault_stops_motor",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "ee6df12fc9eee80957f47180e68b956b69ae61096e23acaeab6f613283190b0d"
+        },
+        {
+          "solution": "E5.1f",
+          "anchor": "kani_w5_never_drives_away_from_commanded",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "f8a8cf81a2feff75383b20aa8778eb1eebe38f3a374d7ac4354dc3dd45abae21"
+        },
+        {
+          "solution": "E5.1g",
+          "anchor": "kani_w6_observation_matches_detection",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "07cfe511a03765b32371928d57f3d697d4d42771036f5df9df848f8ec751d500"
+        }
+      ]
+    },
+    {
+      "label": "candidate local ATP",
+      "manifest": "build/assurance/closure-final/osr-atp/execution.json",
+      "results": "build/assurance/closure-final/osr-atp/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "local-unattested",
+      "passed": 7,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E4.1a",
+          "anchor": "kani_a1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "c0c10db67536d4dafff9978e50992a7cfca5f69cd73db9aa6448910d78638df4"
+        },
+        {
+          "solution": "E4.1b",
+          "anchor": "kani_a2_expired_ma_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "839cbc07a7083affd2d148de03bd0776fd451b1a5a0e5a5b2a0591128b759233"
+        },
+        {
+          "solution": "E4.1c",
+          "anchor": "kani_a3_unknown_position_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "c0f7f231a7beb7a263cf3d56c98181cf0a96ccf9b74064fb71f18c9e30d4feca"
+        },
+        {
+          "solution": "E4.1d",
+          "anchor": "kani_a4_train_mismatch_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "75872c7c0a1afc9eaa0a73de816deecc50e137daa9a56a136a038ad13b314d8b"
+        },
+        {
+          "solution": "E4.1e",
+          "anchor": "kani_a5_head_past_ma_end_trips_same_section",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "54befafe39f072c3cdc9d54b69b925ba21ebbef8eb49d0e3ed9da52df4ae0d8c"
+        },
+        {
+          "solution": "E4.1f",
+          "anchor": "kani_a6_severe_overspeed_trips",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "364b22a59023185844c77af42d5cf543123ff00584b7abd8d2ba31e718e4c583"
+        },
+        {
+          "solution": "E4.1g",
+          "anchor": "kani_a7_uncertainty_widening_is_conservative",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "5853079a61543dc428d437cddcc7eb63acd5e6217b0e0d8d0135c6bab6c5e72b"
+        }
+      ]
+    },
+    {
+      "label": "candidate local interlocking determinism",
+      "manifest": "build/assurance/closure-final/interlocking-determinism/execution.json",
+      "results": "build/assurance/closure-final/interlocking-determinism/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "local-unattested",
+      "passed": 1,
+      "failed": 0,
+      "outcomes": [
+        {
+          "solution": "E3.1a",
+          "anchor": "kani_p1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "f115e59bd10cd07f12801bf97ba263f748a3101c07d253680e47f194cf3f0457"
+        }
+      ]
+    },
+    {
+      "label": "local memory-capped interlocking",
+      "manifest": "build/assurance/closure-capped/interlocking/execution.json",
+      "results": "build/assurance/closure-capped/interlocking/results.toml",
+      "commit": "2bf8b7717aea09436cbcd588fa1e084ef907e1f9",
+      "runner": "local-unattested",
+      "passed": 3,
+      "failed": 8,
+      "outcomes": [
+        {
+          "solution": "E1.1a",
+          "anchor": "kani_p2_non_overlap_two_trains",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "004694567614b057fc60e5f818996b0905df2f95c9b8ade0ebab4d3bd9cd27fa"
+        },
+        {
+          "solution": "E1.1c",
+          "anchor": "kani_p2_non_overlap_missing_verdict",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "988203a24b9edaab56cba999899e9ed4e0954ec208f246b377ce9420ae77cc77"
+        },
+        {
+          "solution": "E1.1d",
+          "anchor": "kani_p2_non_overlap_unknown_verdict",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "ed9073e08114cc2c0959bde5b1f21d6ae9760682e4578f862e9418bb5bf00706"
+        },
+        {
+          "solution": "E1.1e",
+          "anchor": "kani_p2_non_overlap_present_verdict",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "7ed9bd10888967e7c3c903ec702ed423357c2fee317e71b74fa396b9fbf595bd"
+        },
+        {
+          "solution": "E1.1f",
+          "anchor": "kani_p2_leading_train_clear",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "261d6958a0e73d6eb97076665cb10b028bc630c7a70f203719f0fde3864cc3ae"
+        },
+        {
+          "solution": "E1.1g",
+          "anchor": "kani_p2_leading_train_missing",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "e7bbdbe5f114cf90f08d57f831301d1b8ca7540450e9c733b5cb5252e7bbf6ca"
+        },
+        {
+          "solution": "E1.1h",
+          "anchor": "kani_p2_leading_train_unknown",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "e22ba7804825cedef0356c08eca726c019eef4fc46bf934447b210c2f48f1634"
+        },
+        {
+          "solution": "E1.1i",
+          "anchor": "kani_p2_leading_train_present",
+          "status": "failed",
+          "exit_code": 1,
+          "report_sha256": "da95fff90df9a15c830d690e0f4db50455f20ab2361cd60119387ceffe481feb"
+        },
+        {
+          "solution": "E2.1a",
+          "anchor": "kani_p4_fail_restrictive_is_not_less_restrictive_than_known",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "ad9e9dee38c1689517e2f59dab146b653b5c2fbb4179affc2dcbd2cc0b00e42e"
+        },
+        {
+          "solution": "E2.2a",
+          "anchor": "kani_p5_time_bounded",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "c08c4a73f932139b4bb2b6be38536d55cd21fad808e4909268cd1d3e87a7b8e4"
+        },
+        {
+          "solution": "E3.1a",
+          "anchor": "kani_p1_determinism",
+          "status": "passed",
+          "exit_code": 0,
+          "report_sha256": "cd7eb57b34f7cba476d0bfd8851268917451741ac5e48095069525dfd56691e1"
+        }
+      ]
+    }
+  ],
+  "regression_checks": {
+    "workspace_rust": "passed",
+    "affected_crates_after_cleanup": "passed",
+    "clippy_warnings_denied": "passed",
+    "rustfmt": "passed",
+    "python_evidence_and_release_tests": 36
+  },
+  "archive": "bounded-control-2026-09-19.tar.gz",
+  "archive_sha256": "616b82bad15d2a8c8c7fedf223614d370a544f80754f67e20b18b9290f106fdd",
+  "members_sha256": {
+    "build/assurance/archive-closure.py": "c28eedb75e5e791503503db2313cf8af250dfbd8d2928bc51f1bd1e51739e683",
+    "build/assurance/closure-capped-interlocking.log": "d8128c884a902e823762e05ec87f06dc28548d9e0dede0ae4b38f5da26e63490",
+    "build/assurance/closure-capped/interlocking/E1.1a.log": "004694567614b057fc60e5f818996b0905df2f95c9b8ade0ebab4d3bd9cd27fa",
+    "build/assurance/closure-capped/interlocking/E1.1c.log": "988203a24b9edaab56cba999899e9ed4e0954ec208f246b377ce9420ae77cc77",
+    "build/assurance/closure-capped/interlocking/E1.1d.log": "ed9073e08114cc2c0959bde5b1f21d6ae9760682e4578f862e9418bb5bf00706",
+    "build/assurance/closure-capped/interlocking/E1.1e.log": "7ed9bd10888967e7c3c903ec702ed423357c2fee317e71b74fa396b9fbf595bd",
+    "build/assurance/closure-capped/interlocking/E1.1f.log": "261d6958a0e73d6eb97076665cb10b028bc630c7a70f203719f0fde3864cc3ae",
+    "build/assurance/closure-capped/interlocking/E1.1g.log": "e7bbdbe5f114cf90f08d57f831301d1b8ca7540450e9c733b5cb5252e7bbf6ca",
+    "build/assurance/closure-capped/interlocking/E1.1h.log": "e22ba7804825cedef0356c08eca726c019eef4fc46bf934447b210c2f48f1634",
+    "build/assurance/closure-capped/interlocking/E1.1i.log": "da95fff90df9a15c830d690e0f4db50455f20ab2361cd60119387ceffe481feb",
+    "build/assurance/closure-capped/interlocking/E2.1a.log": "ad9e9dee38c1689517e2f59dab146b653b5c2fbb4179affc2dcbd2cc0b00e42e",
+    "build/assurance/closure-capped/interlocking/E2.2a.log": "c08c4a73f932139b4bb2b6be38536d55cd21fad808e4909268cd1d3e87a7b8e4",
+    "build/assurance/closure-capped/interlocking/E3.1a.log": "cd7eb57b34f7cba476d0bfd8851268917451741ac5e48095069525dfd56691e1",
+    "build/assurance/closure-capped/interlocking/execution.json": "4b2434e74f97e2ad7960b300a812166f0cebb20ed90efcf4c85775eea7c9cce3",
+    "build/assurance/closure-capped/interlocking/results.toml": "5724dd050ece45ddbf04145738afcaf7e6370a3f965b8829d9be71c094acc7bc",
+    "build/assurance/closure-capped/source.patch": "96a550befcab510562b54cc99ef71f9499579a53c987b1ef87144580cedd8a4c",
+    "build/assurance/closure-ci-run.json": "1d3c282edc6632211d252a1c2344c56974143c1c50d2379268745caec7a3f422",
+    "build/assurance/closure-clippy.log": "67a514175ab1e0dcf5cbde0a7652416c38f5e059bd444c1ee4869f5f6deb5076",
+    "build/assurance/closure-final-atp.log": "0aef94489ce4bd02ad7ba592f29d60e91bee0fdedd6fa8cf8ca79e656a71a95e",
+    "build/assurance/closure-final-p1.log": "417407f33a60d674218c147386ecb3f10a2b5a8800e2b4a2009755a7a735186a",
+    "build/assurance/closure-final/interlocking-determinism/E3.1a.log": "f115e59bd10cd07f12801bf97ba263f748a3101c07d253680e47f194cf3f0457",
+    "build/assurance/closure-final/interlocking-determinism/execution.json": "b6548fee0f17e618171e91b74c25424c594e1b29003527914bd024c62aecf1be",
+    "build/assurance/closure-final/interlocking-determinism/results.toml": "8bbe9eb87c2d67eba8dbf0cd82b849112e165aa6dc8bea7c911ee4f0e36333c4",
+    "build/assurance/closure-final/osr-atp/E4.1a.log": "c0c10db67536d4dafff9978e50992a7cfca5f69cd73db9aa6448910d78638df4",
+    "build/assurance/closure-final/osr-atp/E4.1b.log": "839cbc07a7083affd2d148de03bd0776fd451b1a5a0e5a5b2a0591128b759233",
+    "build/assurance/closure-final/osr-atp/E4.1c.log": "c0f7f231a7beb7a263cf3d56c98181cf0a96ccf9b74064fb71f18c9e30d4feca",
+    "build/assurance/closure-final/osr-atp/E4.1d.log": "75872c7c0a1afc9eaa0a73de816deecc50e137daa9a56a136a038ad13b314d8b",
+    "build/assurance/closure-final/osr-atp/E4.1e.log": "54befafe39f072c3cdc9d54b69b925ba21ebbef8eb49d0e3ed9da52df4ae0d8c",
+    "build/assurance/closure-final/osr-atp/E4.1f.log": "364b22a59023185844c77af42d5cf543123ff00584b7abd8d2ba31e718e4c583",
+    "build/assurance/closure-final/osr-atp/E4.1g.log": "5853079a61543dc428d437cddcc7eb63acd5e6217b0e0d8d0135c6bab6c5e72b",
+    "build/assurance/closure-final/osr-atp/execution.json": "0c9c733a222fc134acc94e929641869d51af1de7f2e8d82e41a7810431ab38a2",
+    "build/assurance/closure-final/osr-atp/results.toml": "f9748ec780673b8e884345ade7849a31a0c1609596d752efea066e3e6a83386d",
+    "build/assurance/closure-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/assurance/final-evidence-tests.log": "3765bf147f3fcdddf463d2823584927d12aa0075316d735e4b1af2e4aae929e9",
+    "build/assurance/frozen-regression-tests.log": "477f0a7051a9a248a6161cb2cfa2f291ccf3ad750c04d4c4ae885ac7656a5604",
+    "build/assurance/interlocking-ci-job.log": "49632776f84d6c3ac78adc4e15ce36d55df66cdf3b600277bd636a6799f53277",
+    "build/assurance/isolated-large-p2.log": "29ec9540f70f9f4c26cb7a871c7c70628a3b50df74739f61418522141bc70267",
+    "build/assurance/osr-atp/E4.1a.log": "13d1bee1306f2b8132636a022b1171fb4bd9964a1d021f2fcc434393625dd258",
+    "build/assurance/osr-atp/E4.1b.log": "4da0d5682ab931ec1db580473532bd72f85879a3599a69b591bcac515e7230b8",
+    "build/assurance/osr-atp/E4.1c.log": "93a55640ca3391b69c325c0cda4b07312d6bfa742b1cd7a9db7ba42221c93256",
+    "build/assurance/osr-atp/E4.1d.log": "06f9f8c3ae0856edfc1f400e79ddd58fcd4cf0cf595745de547f559ed1dfd9f8",
+    "build/assurance/osr-atp/E4.1e.log": "50c663f779e3d8cd10c27a196464dac68744679d08a323203ba95350b9cc215d",
+    "build/assurance/osr-atp/E4.1f.log": "6dc21e94bc909d85f36ab73eec7ccd1bb991735b1cf8bdc2f36643dbccf8d1be",
+    "build/assurance/osr-atp/E4.1g.log": "1aeb81ddd396949975d2561169874956352373f386a4e65f4253abe0f6014813",
+    "build/assurance/osr-atp/execution.json": "730c671829b5cde22aae283c5e7a2edc9f9a793c33c3317dd14203423b124734",
+    "build/assurance/osr-atp/results.toml": "71c93aef244096faf428aff2a6881275c8240d165b55f8ff7e034b5e2d5aaa5f",
+    "build/assurance/osr-brake/E4.2a.log": "aaf3cf2f85cc4d8f47053d550ae55815f1c429b78bcf6b5c759fffbaa5cf8ac9",
+    "build/assurance/osr-brake/E4.2b.log": "7fced0ec1773d4bba5fcf12533008651ae43dd65d20e1725945f261922dbb8f8",
+    "build/assurance/osr-brake/E4.2c.log": "4c3dc3d0afe321ba5b44413f62b40de69a664bd45a7edffbc28dd8699373c100",
+    "build/assurance/osr-brake/E4.2d.log": "a05636ea2d37cd0df6f3f3f6bda2e6765a44ae949185897274e7c9e8f13f59d7",
+    "build/assurance/osr-brake/E4.2e.log": "400a622107878ca13df62962e676452d6571a3decbbe50762c904de5ccc93157",
+    "build/assurance/osr-brake/execution.json": "c38c88d204b178087b623e719e93eb088605ef615355015067601f540e1eeec7",
+    "build/assurance/osr-brake/results.toml": "98f5f68cf9b93c0aacfdf956866f07bdcbe5880bc563784dcf7270625c4bee9b",
+    "build/assurance/osr-intrusion-detect/E20a.log": "fa4e43a4d034f3c352b92803752a23087427e69a8b2e33f303136b0a78dfaa30",
+    "build/assurance/osr-intrusion-detect/E21a.log": "d521998ea6ae432d092105cc39355c092b25b62d45829bc3d08deee9966ef835",
+    "build/assurance/osr-intrusion-detect/E22a.log": "142ae6ad591b7cbf7d96b1d7bd00d270dbafcb93150982cbb1069c1415c143cd",
+    "build/assurance/osr-intrusion-detect/E23a.log": "5ec5e51019204e866f98fcd27d9b3a5463b33bfd0a867323e2af042a6775282d",
+    "build/assurance/osr-intrusion-detect/E24a.log": "b65233a8bb59699fe703659bca86dbb298af5089b7ce6e704ee54d419be7cecb",
+    "build/assurance/osr-intrusion-detect/execution.json": "8041c4d1840bb58961b12e1f848734383040d761282c165bc7a176014b2243c6",
+    "build/assurance/osr-intrusion-detect/results.toml": "89b75e919e3879aa918f14ea14e6252486b1657ae67abef0cc2cc40c058c3abe",
+    "build/assurance/osr-obstacle-detect/E15a.log": "e52de20537e9d7a1425177df2aaf8f56ee4afda39f5520070be765533e89cca5",
+    "build/assurance/osr-obstacle-detect/E16a.log": "1171f525d12385fce0fe01ab8161d3864e404868161ffb8f220e1e4f9cecf090",
+    "build/assurance/osr-obstacle-detect/E17a.log": "bd9b27e15a701216a7bb155a4563814bc6f1e9e6dd70fc12181a3a7115985824",
+    "build/assurance/osr-obstacle-detect/E18.1a.log": "81d32e1a259cc162b8e5f62ddfb27e141acd4ca851d24e287ae5485f3a0a54c1",
+    "build/assurance/osr-obstacle-detect/E18.2a.log": "e03b8df56d5374a3b7f7a309b9fbfb0e9debef2c74a44e8cd1a91128b4c1e6af",
+    "build/assurance/osr-obstacle-detect/E19a.log": "fe0d986483b2e08ce5ef458e7ab9d7bae9e471502e6af55e26a6596af4d4acea",
+    "build/assurance/osr-obstacle-detect/execution.json": "c58857a178915b2cc340dc0ca557230f076efc4f03a9a18dde09dcb9cefc8407",
+    "build/assurance/osr-obstacle-detect/results.toml": "c59a03d1afe25d22d05e37bbd2b098d5ab559fa04125364e67d360862d6a1e9d",
+    "build/assurance/osr-odometry/E4.4a.log": "f2718d853ecbdbf91f4bbdccc9eeac0ce16b29cb2ea0a3c8fec4c17e5b0f8eb2",
+    "build/assurance/osr-odometry/E4.4b.log": "ebd053d2d114989eff3fa3035a4e15d9154c4b1ee0335ca8dde9ce79966bbdd3",
+    "build/assurance/osr-odometry/E4.4c.log": "44231e1ad2b04e962983a9320e9ed18710f15a887be7fc50a59a6dd2616c147d",
+    "build/assurance/osr-odometry/E4.4d.log": "563171f70d31f36cd4d61ac84ed123b5185cf8925458fa5f2d88ac6fd5976c1f",
+    "build/assurance/osr-odometry/E4.4e.log": "3f69856d1c5bd2ca96ed401ed2a363455c1aec7636bcc9c22a96ac7da32a9306",
+    "build/assurance/osr-odometry/execution.json": "ee97a57ce7259996381c0bb4af2633620bccc50642c9301f332d65a0f854ccb5",
+    "build/assurance/osr-odometry/results.toml": "b5e71173a400a2aada9c6af283c5266259e708eec4ecf21a885090f24d42bbed",
+    "build/assurance/osr-secbus/E25a.log": "07b1a8253061829f76b28225ba5e21dea97fe2040b9bc143e24a6845c5b7aa48",
+    "build/assurance/osr-secbus/E27a.log": "94a281bc0dc81b1711fa069f5281c25fb9f7baa65c5fedbdaa3c2a156a29300e",
+    "build/assurance/osr-secbus/execution.json": "65bf25e3fd264cda2c7c02b404731e0e917c404a6977e20849e1713c38e9a7a0",
+    "build/assurance/osr-secbus/results.toml": "dd4398710a41d821c4b7e6804e9f67dafd41437c7edd4f1ac4a4b08bbf8b18ca",
+    "build/assurance/osr-wayside-points/E5.1a.log": "9dfc54241bb8f51dd30d43fd8dcea529fb3abbe6e1aa7c99934b186e019655b7",
+    "build/assurance/osr-wayside-points/E5.1b.log": "894912425427775a5e20384dd1b7c3946bcc80c328377cc93978d7d6803f1268",
+    "build/assurance/osr-wayside-points/E5.1c.log": "638c1268fa9ff60b60ff7df61a0319e5d5a19b40629b000f3b9534f27fda0fac",
+    "build/assurance/osr-wayside-points/E5.1d.log": "ce83ac35cb54c8639ad03f6c1424807d814f87fb85f5f646210c4cab70373a8b",
+    "build/assurance/osr-wayside-points/E5.1e.log": "ee6df12fc9eee80957f47180e68b956b69ae61096e23acaeab6f613283190b0d",
+    "build/assurance/osr-wayside-points/E5.1f.log": "f8a8cf81a2feff75383b20aa8778eb1eebe38f3a374d7ac4354dc3dd45abae21",
+    "build/assurance/osr-wayside-points/E5.1g.log": "07cfe511a03765b32371928d57f3d697d4d42771036f5df9df848f8ec751d500",
+    "build/assurance/osr-wayside-points/execution.json": "3bfb4b5a17a844804eb426dcb2bc5e91627d9fafc0356d9ffe098d37a9cbe265",
+    "build/assurance/osr-wayside-points/results.toml": "413691bfa383ccea8ed69cdd20e4c1919d465d602c189f833814b6c97ada2198",
+    "build/assurance/probe.py": "00b522b14f345a3b9f5ccbd9510ed6278c5cc12ab88efed7d9569b56dbcf83af",
+    "build/assurance/release-workspace-tests.log": "9f4bfc26d1aaf8e716dfc47983b95b5f40856083869b2cc08da4f393c190ac5d"
+  }
+}

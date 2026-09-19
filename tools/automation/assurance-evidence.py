@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import resource
 import subprocess
 import tempfile
 import time
@@ -48,10 +49,17 @@ def toml(records):
     return '\n'.join(lines)
 
 
-def run_verifier(command, stream, seconds):
+def run_verifier(command, stream, seconds, memory_mib=4096):
     """Bound the whole verifier process group, including orphaned solver children."""
+    if seconds <= 0 or memory_mib < 64:
+        raise ValueError('Proof limits require positive time and at least 64 MiB')
+    def limit_resources():
+        limit = memory_mib * 1024 * 1024
+        resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
+        resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     proc = subprocess.Popen(command, cwd=ROOT, stdout=stream,
-                            stderr=subprocess.STDOUT, start_new_session=True)
+                            stderr=subprocess.STDOUT, start_new_session=True,
+                            preexec_fn=limit_resources)
     try:
         try:
             return proc.wait(timeout=seconds)
@@ -76,7 +84,9 @@ def run_verifier(command, stream, seconds):
         proc.wait()
 
 
-def execute(output,seconds,selected=None,package=None):
+def execute(output,seconds,selected=None,package=None,memory_mib=4096):
+    if seconds <= 0 or memory_mib < 64:
+        raise ValueError('Proof limits require positive time and at least 64 MiB')
     output=output.resolve()
     if not output.is_relative_to(ROOT):raise ValueError('Evidence must be within the repository evidence root')
     output.mkdir(parents=True,exist_ok=True)
@@ -93,12 +103,12 @@ def execute(output,seconds,selected=None,package=None):
         command=['cargo','kani','-p',row['path'].split('/')[1],'--harness','kani_proofs::'+anchor,'--exact']
         path=output/(row['solution']+'.log');started=time.monotonic()
         with path.open('w') as stream:
-            stream.write(json.dumps(dict(command=command,tool_version=version,source_commit=commit,timeout_seconds=seconds))+'\n');stream.flush()
-            code=run_verifier(command,stream,seconds)
+            stream.write(json.dumps(dict(command=command,tool_version=version,source_commit=commit,timeout_seconds=seconds,memory_limit_mib=memory_mib))+'\n');stream.flush()
+            code=run_verifier(command,stream,seconds,memory_mib)
         success=code==0 and any(line.strip() in {'VERIFICATION:- SUCCESSFUL','VERIFICATION: SUCCESSFUL'} for line in path.read_text().splitlines())
         if scope()!=inputs:raise ValueError('Source inputs changed during proof execution; discard this run')
         record=dict(solution=row['solution'],kind='kani',path=row['path'],anchor=anchor,tool='cargo-kani',tool_version=version,
-            bounds='Exact harness; unwind/assumptions are those in hashed source. Command: '+json.dumps(command)+'; timeout_seconds='+str(seconds)+'; dependency_scope=workspace Rust/manifests/lockfiles/GSN and runner/workflow; external dependencies pinned by Cargo.lock; toolchain/supply-chain review remains independent.',
+            bounds='Exact harness; unwind/assumptions are those in hashed source. Command: '+json.dumps(command)+'; timeout_seconds='+str(seconds)+'; memory_limit_mib='+str(memory_mib)+'; dependency_scope=workspace Rust/manifests/lockfiles/GSN and runner/workflow; external dependencies pinned by Cargo.lock; toolchain/supply-chain review remains independent.',
             executed_by=runner,status='passed' if success else 'failed',exit_code=code,report=path.relative_to(ROOT).as_posix(),report_sha256=sha(path),inputs=inputs)
         records.append(record)
         (output/'results.toml').write_text(toml(records))
@@ -143,12 +153,12 @@ def verify_acceptance(results,envelope,signature,policy):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='action',required=True)
-    run=sub.add_parser('run');run.add_argument('--output',type=Path,required=True);run.add_argument('--timeout',type=int,default=600);run.add_argument('--solution',action='append');run.add_argument('--package')
+    run=sub.add_parser('run');run.add_argument('--output',type=Path,required=True);run.add_argument('--timeout',type=int,default=600);run.add_argument('--solution',action='append');run.add_argument('--package');run.add_argument('--memory-mib',type=int,default=4096,help='Per-process virtual address-space limit inherited by verifier children (MiB)')
     verify=sub.add_parser('verify-acceptance')
     for name in ['results','envelope','signature','policy']:verify.add_argument('--'+name,type=Path,required=True)
     args=parser.parse_args()
     if args.action=='run':
-        result=execute(args.output,args.timeout,args.solution,args.package)
+        result=execute(args.output,args.timeout,args.solution,args.package,args.memory_mib)
         if not result['passed']:raise SystemExit(1)
     else:print(json.dumps(verify_acceptance(args.results,args.envelope,args.signature,args.policy)))
 if __name__=='__main__':main()

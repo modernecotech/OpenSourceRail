@@ -107,7 +107,7 @@ the pointed-to proof or grant acceptance.
 | `80-message-authentication.toml` | G25–G27 | Message auth (RFC 0017) |
 
 <!-- safety-case-counts:start -->
-Generated case inventory: **32 goals, 6 strategies, 71 solutions**. These counts describe traceability, not successful or accepted proofs.
+Generated case inventory: **32 goals, 6 strategies, 78 solutions**. These counts describe traceability, not successful or accepted proofs.
 <!-- safety-case-counts:end -->
 
 **CI gate:** the `starter_case_closes` test in `crates/osr-safety-case/tests/`

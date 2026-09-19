@@ -37,7 +37,8 @@ storage implementation.
 The Kani fixtures use constant, validated tables with the same two/three forward
 sections, paired reverse sections, lengths, directions and speed limits as their
 previous network fixtures. Station business metadata is outside the evaluator's
-interface. Input assumptions and property assertions remain unchanged. The normal
+interface. The topology migration preserves the original fixture geometry. Subsequent proof
+partitions and configuration compilation are described below. The normal
 static lookup and normal evaluator code execute under Kani; there are no stubs,
 unverified function contracts or disabled safety/unwinding checks.
 
@@ -54,7 +55,7 @@ Proof outcomes are recorded by the existing source-bound runner:
 
 ```sh
 python3 tools/automation/assurance-evidence.py run \
-  --package osr-odometry --timeout 300 --output build/assurance/my-odometry
+  --package osr-odometry --timeout 600 --output build/assurance/my-odometry
 ```
 
 Timeouts and failed checks remain unproved. Independently accepted safety evidence,
@@ -62,8 +63,9 @@ consensus refinement, hardware integration and operating release remain separate
 Historical city simulation bundles still verify as historical artifacts; changed
 Rust dependencies require new qualification before claiming current-source results.
 Both successful [Samawah and Mosul design options](../../design-options/results.md)
-have now been requalified against the changed source: nominal service and all
-eight degraded cases pass, with every detailed outcome matching the earlier run.
+were requalified against commit `a5edbbe84`: nominal service and all
+eight degraded cases passed. Those bundles are historical evidence for that
+commit; they do not qualify the later state-storage and arithmetic changes.
 
 ## Reusing the interface
 
@@ -88,7 +90,83 @@ Fixed deployments can instead use constant arrays, as the Kani fixtures do.
 Storage selection is a Rust integration choice, not an operator setting or a
 change to the ERP/FUXA control boundary.
 
-## Recorded verification
+## Reusable calculation and state components
+
+`AuthoritySnapshot::from_log` folds a committed prefix once. Call `authority` for
+multiple trains against that owned state, then apply the next committed entry
+with `apply_committed_entry` or append a committed suffix with `append_committed`.
+The caller retains consensus ordering; this API does not validate or commit log
+entries. Exclusive mutable access prevents concurrent reads during an update.
+Generated tests compare batching and append operations with complete normal log
+replay and movement-authority calculation.
+
+Derived-state tables use `OrderedMap`, a sorted vector of keys and boxed values.
+It preserves unique sorted keys and the existing JSON map representation.
+Lookup is O(log n); insertion and removal are O(n), and repeated removal during
+`retain` is O(n²) in the worst case. Each stored value adds an allocation. These
+tradeoffs are explicit: no city-size bound is introduced, but throughput and
+allocation behavior must be measured before deployment. Generated operation
+sequences compare lookup, mutation, removal, iteration and serialization with
+`BTreeMap`.
+
+ATP accepts a reusable immutable `BrakeProfile`. `from_consist` applies the same
+conservative braking-curve conversion as the existing consist adapter; `try_new`
+rejects nonpositive deceleration. Compile a new profile when vehicle configuration
+changes. Existing calls with `ConsistDescriptor` continue to compile the profile
+for each evaluation. The determinism harness checks the fixture's compiled
+profile against the real reference consist before evaluating twice. It retains
+the original position, speed and time domains and compares complete outputs.
+
+`forward_chain_view` borrows validated topology tables without allocating a
+section vector. ATP distance and odometry advancement use it. The original
+vector-returning walk remains available; generated comparisons cover linear and
+ring traversal, direction mismatches, offsets and distance budgets. Movement
+authority calculates its forward chain and footprint once per evaluation.
+
+Odometry retains exact integer rounding and fallback behavior across full-width
+inputs. Fast paths use narrower arithmetic only when it is equivalent to the
+original expression. Boundary and generated tests compare speed and uncertainty
+with the previous arithmetic, including zero elapsed time and extreme timestamp,
+calibration and pulse values.
+
+### Non-overlap proof partitions
+
+The three-forward-section fixture contains both registered trains and both
+symbolic head positions in every partition. One pair of harnesses checks the
+following and leading train for each of four wayside conditions: missing,
+Clear, Unknown and Present. Both downstream verdicts have the same condition in
+each pair; arbitrary mixed verdicts are outside this bounded fixture.
+
+The following train must end on section 1000. The leading train must end on 1002
+when the downstream section is Clear, and on 1001 otherwise. On the linear
+fixture these bounds imply disjoint authority sections. **All eight partitions
+are required** to close this declared non-overlap evidence. Passing one half is
+insufficient. The earlier fixture expected extension into 1002 without providing
+a Clear verdict; that expectation contradicted fail-restrictive operation.
+Ordinary tests now exercise clearance and occupancy independently.
+
+### Execution budgets
+
+The controlled runner defaults to 600 seconds per harness. Manual Kani workflow
+dispatch can select 1800 seconds for each of the 48 declared harnesses across
+eight packages. The default 4096 MiB per-process address-space limit can be raised
+to 8192 MiB in manual dispatch (or configured with `--memory-mib` locally); the
+limit is inherited by verifier children and recorded in the evidence. Memory
+exhaustion remains a failed proof, and core dumps are disabled.
+Timeouts fail the run and kill the verifier's entire process
+group, including solver children left behind by the driver. Every completed
+outcome retains its command, input hashes and log; interrupted runners may lack
+a complete artifact and must be rerun. Kani remains pinned to 0.67.0.
+
+## Current verification follow-through
+
+ATP determinism and interlocking determinism passed on candidate `2bf8b7717`.
+Odometry still timed out with 1800 seconds in CI. All eight non-overlap partitions
+remain unresolved because the local model exhausted its recorded memory budget.
+See the [execution register](results/README.md) for full records, the interrupted
+CI interlocking job, reproduction instructions and source boundaries.
+
+## Historical topology-migration verification
 
 The complete local 300-second run executed all **41 declared properties** with
 Kani 0.67.0: **37 passed and four timed out**. The newly completed properties are
@@ -102,7 +180,7 @@ The [machine-readable summary](results/static-topology-2026-09-18.json) and
 41 outcomes, eight execution manifests, input hashes, the source patch and
 regression-test logs. See the [reproduction notes](results/README.md).
 
-Remaining timeouts are odometry determinism (`E4.4a`), ATP determinism (`E4.1a`),
+At that historical checkpoint, remaining timeouts were odometry determinism (`E4.4a`), ATP determinism (`E4.1a`),
 interlocking non-overlap (`E1.1a`) and interlocking determinism (`E3.1a`). All four
 also timed out in separate 900-second attempts on the shared development host.
 These are unresolved proof obligations, not demonstrated counterexamples. Alternative
@@ -113,13 +191,13 @@ The full Rust workspace tests, Clippy with warnings denied, and 27 evidence and
 release-packaging regression tests passed. These executions are local and
 unattested; exact-commit CI and independent acceptance remain separate.
 
-## Next proof work
+## Remaining proof work
 
 The remaining properties exercise substantially more than fixture construction.
 Odometry determinism compares complete states, including variable-time integer
-speed division. ATP determinism compares two full topology/envelope evaluations.
-The interlocking properties also replay logs into derived occupancy and train
-maps. Changing the topology adapter alone does not remove those costs.
+speed division. Non-overlap also replays two trains into derived occupancy and
+train maps. The compiled braking profile and map refactor closed the bounded ATP
+and interlocking determinism checks; they did not close these other obligations.
 
 The next design step is to isolate these calculations and state-replay contracts
 with explicit input/output invariants, prove the contracts, then verify their

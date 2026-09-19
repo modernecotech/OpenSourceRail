@@ -5042,7 +5042,7 @@ Indexed Markdown files: **4979**.
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
-| [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Local topology proof rehearsal |
+| [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/assurance/formal/topology-adapters.md`](../engineering/assurance/formal/topology-adapters.md) | Read-only topology adapters |
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
