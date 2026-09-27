@@ -199,6 +199,10 @@ name = "osr-station-scada"
 disposition = "composed-service"
 hosts = ["s-sbc"]
 [[component]]
+name = "osr-supervision-contract"
+disposition = "shared-library"
+hosts = ["o-srv", "simulation"]
+[[component]]
 name = "osr-t2g"
 disposition = "composed-service"
 hosts = ["t-ecu-a"]
