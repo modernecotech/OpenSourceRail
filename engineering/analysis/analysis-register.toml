@@ -213,13 +213,24 @@ converged = true
 limitations = "Two-element steady-state conduction solver benchmark only; it does not model a civil assembly, thermal bridges, weather, moisture, solar gain or released materials."
 
 [[analysis]]
+id = "OSR-AN-BIM-ICD-001"
+title = "Terrain redesign, BIM information and LM3 mechanical interface register"
+status = "screening"
+tool = "deterministic Python control-register generator"
+input_paths = ["design/city-generation/src/osr_geo/terrain.py", "design/city-generation/src/osr_geo/rasterize.py", "lib/templates/track-geometry.toml", "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "engineering/design_detail_register.py"]
+result_path = "engineering/models/bim/design-detail-register.json"
+acceptance_criterion = "Six terrain/water design impacts, five BIM asset information sets, nine LM3 datums, 12 mechanical interfaces, 10 load cases, seven route-compatibility gates and nine verification rows pass referential-integrity and deterministic-output checks; all 39 controlled LM3 products/assemblies exist in the product graph and open release evidence remains explicit"
+converged = true
+limitations = "Information, datum and interface definition only. Open DEM and water masks remain planning evidence; surveyed alignment, geotechnics, hydraulics, supplier-frozen dimensions, tolerance stacks, calculations, physical tests, independent assessment and authority acceptance remain mandatory."
+
+[[analysis]]
 id = "OSR-AN-IFC-LM3-MFG-001"
 title = "Deterministic LM3 product, method and tooling IFC4.3 handoff"
 status = "screening"
 tool = "IfcOpenShell 0.8.5 / FreeCAD 1.1"
-input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/product_geometry.py", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "design/component-catalogue/src/osr_mech/freecad_product_library.py", "engineering/interchange/trainset_manufacturing_ifc.py", "engineering/interchange/lm3_product_ifc_library.py"]
+input_paths = ["design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json", "design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.json", "lib/templates/trainset-manufacturing-methods.toml", "design/component-catalogue/src/osr_mech/rolling_stock/product_geometry.py", "design/component-catalogue/src/osr_mech/rolling_stock/manufacturing_tooling.py", "design/component-catalogue/src/osr_mech/freecad_product_library.py", "engineering/models/bim/design-detail-register.json", "engineering/interchange/trainset_manufacturing_ifc.py", "engineering/interchange/lm3_product_ifc_library.py"]
 result_path = "engineering/models/bim/reference/lm3-manufacturing-reference.index.json"
-acceptance_criterion = "All 120 product items have positive, envelope-contained geometry (619 primitives); 120 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; bought-in rows retain manufacturer-family or controlled local-equivalent routes; nine timed methods, 30 multi-part tooling families and 10 manifest/geometry-bound factory drawing/interface packages have no missing required tags"
+acceptance_criterion = "All 120 product items have positive, envelope-contained geometry (619 primitives); 120 split part files and 26 hierarchy-preserving assembly files round-trip deterministically in both IFC4.3 and native FreeCAD; every active item reaches the final trainset; bought-in rows retain manufacturer-family or controlled local-equivalent routes; nine timed methods, 30 multi-part tooling families and 10 manifest/geometry-bound factory drawing/interface packages have no missing required tags; the federated IFC carries the 12-interface design register and per-object control properties for 39 critical products/assemblies"
 converged = true
 limitations = "Design-reference product/method/tooling coordination only. Assembly libraries use a spaced inspection-fixture layout and do not claim installed-coordinate or tolerance closure. The selectable FreeCAD solids and IFC meshes are not released mould surfaces, shop drawings or NC data; supplier freeze, calculations, qualified processes, first articles, independent assessment and national authorisation remain open."
 

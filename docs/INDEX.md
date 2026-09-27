@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4981**.
+Indexed Markdown files: **4982**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **4981**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 165 |
-| [engineering](#engineering) | 17 |
+| [engineering](#engineering) | 18 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -5050,6 +5050,7 @@ Indexed Markdown files: **4981**.
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
+| [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
 | [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |

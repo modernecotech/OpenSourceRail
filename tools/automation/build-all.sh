@@ -31,6 +31,7 @@ cargo build --release --workspace
 
 section "Generating BOM and open IFC4.3 reference packages"
 python3 tools/automation/export-light-metro-bom.py
+python3 engineering/design_detail_register.py
 if python3 -c 'import ifcopenshell, ifctester, bcf' >/dev/null 2>&1; then
     python3 engineering/interchange/station_ifc.py --all-variants \
         --output-dir engineering/models/bim/reference/stations
@@ -42,6 +43,7 @@ if python3 -c 'import ifcopenshell, ifctester, bcf' >/dev/null 2>&1; then
 else
     printf 'IFC generation skipped: rerun ./install.sh and accept the engineering applications.\n'
 fi
+python3 engineering/model_coverage.py
 tools/automation/buildable-civil.sh
 if command -v FreeCADCmd >/dev/null 2>&1 || command -v freecadcmd >/dev/null 2>&1 || \
    { command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; }; then

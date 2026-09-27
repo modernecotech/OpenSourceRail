@@ -15,9 +15,16 @@ def test_model_coverage_matches_both_product_manifests() -> None:
     assert register["summary"]["lm3_products"] == 120
     assert register["summary"]["station_products"] == 45
     assert register["summary"]["station_variants"] == 7
+    assert register["summary"]["mechanically_controlled_lm3_products"] == 20
+    assert register["summary"]["mechanically_controlled_lm3_assemblies"] == 19
+    assert register["summary"]["mechanically_controlled_lm3_objects"] == 39
+    assert register["summary"]["mechanical_interfaces"] == 12
     assert set(register["summary"]["geometry_level_counts"]) <= set(LEVELS)
     assert all(row["release_evidence"] for row in register["lm3_products"])
     assert all(row["analysis_ids"] for row in register["station_products"])
+    motor = next(row for row in register["lm3_products"] if row["id"] == "LM3-TRC-P010")
+    assert motor["mechanical_interface_ids"] == ["LM3-ICD-008"]
+    assert motor["datum_ids"] == []
 
 
 def test_model_coverage_outputs_are_deterministic(tmp_path: Path) -> None:

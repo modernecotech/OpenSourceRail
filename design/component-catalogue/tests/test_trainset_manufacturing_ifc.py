@@ -22,6 +22,9 @@ def test_manufacturing_ifc_contains_complete_product_methods_and_tooling() -> No
     assert index["product_representation_part_count"] == 619
     assert index["supplier_anchor_count"] == 27
     assert index["supplier_anchored_external_product_count"] == 56
+    assert index["mechanically_controlled_object_count"] == 39
+    assert index["mechanical_interface_count"] == 12
+    assert index["route_compatibility_gate_count"] == 7
     assert len(model.by_type("IfcVehicle")) == 1
     assert len(model.by_type("IfcMechanicalFastener")) == 1
     assert len(model.by_type("IfcDoor")) == 1
@@ -45,6 +48,8 @@ def test_ifc_properties_keep_release_boundary_and_detailed_window_spec() -> None
     project_psets = get_psets(model.by_type("IfcProject")[0])
     assert project_psets["OSR_ManufacturingReference"]["Status"] == "design-reference-not-released"
     assert "Not a construction release" in project_psets["OSR_ManufacturingReference"]["ReleaseBoundary"]
+    assert project_psets["OSR_DesignDetailRegister"]["MechanicalInterfaceCount"] == 12
+    assert "not fabrication or construction release" in project_psets["OSR_DesignDetailRegister"]["ReleaseBoundary"]
     window = next(item for item in model.by_type("IfcElement") if item.Tag == "LM3-WIN-P010")
     values = get_psets(window)["OSR_ProductDefinition"]
     assert "aluminium" in values["MaterialFamily"]
@@ -55,6 +60,10 @@ def test_ifc_properties_keep_release_boundary_and_detailed_window_spec() -> None
     assert anchor["Manufacturer"] == "ABB"
     assert anchor["ProductFamily"] == "AMXM railway traction motor"
     assert anchor["LocalEquivalentAllowed"] is True
+    control = get_psets(motor)["OSR_MechanicalInterfaceControl"]
+    assert control["InterfaceIds"] == "LM3-ICD-008"
+    assert "LM3-LC-002" in control["LoadCaseIds"]
+    assert control["ToleranceStatus"] == "allocation-open-until-stack-and-supplier-freeze"
 
 
 def test_written_ifc_is_deterministic_and_round_trips(tmp_path) -> None:

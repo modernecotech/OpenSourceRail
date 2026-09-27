@@ -1,0 +1,1130 @@
+{
+  "bim_information_requirements": [
+    {
+      "acceptance": [
+        "georeference round-trip",
+        "no station intersects exclusion volume",
+        "every route segment has exactly one civil disposition"
+      ],
+      "asset_type": "corridor-and-alignment",
+      "required_information": [
+        "CRS and vertical datum",
+        "chainage",
+        "source/license/date/resolution",
+        "confidence",
+        "civil disposition",
+        "design status"
+      ],
+      "required_objects": [
+        "alignment",
+        "profile",
+        "terrain",
+        "water",
+        "civil-class segment",
+        "exclusion volume"
+      ],
+      "required_relations": [
+        "segment-to-source-cell",
+        "segment-to-structure",
+        "station-to-exclusion",
+        "alignment-to-revision"
+      ]
+    },
+    {
+      "acceptance": [
+        "reaction and movement closure",
+        "kinematic/egress clash check",
+        "constructability and access review"
+      ],
+      "asset_type": "bridge-and-viaduct",
+      "required_information": [
+        "span/skew/curvature",
+        "datum and reactions",
+        "load model",
+        "movement range",
+        "exposure",
+        "inspection zone",
+        "calculation/evidence IDs"
+      ],
+      "required_objects": [
+        "foundation",
+        "pier/abutment",
+        "bearing",
+        "deck/span",
+        "trackform",
+        "walkway",
+        "parapet",
+        "drainage",
+        "movement joint"
+      ],
+      "required_relations": [
+        "foundation-to-ground-model",
+        "bearing-to-movement-unit",
+        "track-to-deck",
+        "asset-to-work-package"
+      ]
+    },
+    {
+      "acceptance": [
+        "gap/step analysis",
+        "inclusive-access and flow check",
+        "MEP/structure clash review",
+        "no unresolved terrain/water exclusion"
+      ],
+      "asset_type": "station",
+      "required_information": [
+        "platform gap/step basis",
+        "accessible route",
+        "occupancy/egress",
+        "asset tags",
+        "maintainer",
+        "inspection and replacement clearances"
+      ],
+      "required_objects": [
+        "platform edge",
+        "track",
+        "access route",
+        "lift/stair",
+        "canopy",
+        "MEP/fire/charging equipment",
+        "drainage",
+        "foundation"
+      ],
+      "required_relations": [
+        "platform-to-track",
+        "equipment-to-system",
+        "space-to-egress route",
+        "station-to-catchment"
+      ]
+    },
+    {
+      "acceptance": [
+        "complete controlled product graph",
+        "interface and datum coverage",
+        "route compatibility closure",
+        "configuration-specific release boundary"
+      ],
+      "asset_type": "rolling-stock",
+      "required_information": [
+        "product ID",
+        "configuration",
+        "mass/CG status",
+        "datum",
+        "interface/load/tolerance status",
+        "material/process",
+        "verification evidence"
+      ],
+      "required_objects": [
+        "carbody",
+        "bogie",
+        "wheelset",
+        "door",
+        "articulation",
+        "coupler",
+        "battery",
+        "traction",
+        "brake",
+        "HVAC",
+        "service/removal envelope"
+      ],
+      "required_relations": [
+        "product-to-parent assembly",
+        "product-to-interface",
+        "interface-to-datum",
+        "product-to-analysis/evidence"
+      ]
+    },
+    {
+      "acceptance": [
+        "tooling coverage",
+        "calibration evidence",
+        "first-article correlation",
+        "as-built record linkage"
+      ],
+      "asset_type": "manufacturing-resource",
+      "required_information": [
+        "tool ID",
+        "controlled product/interface",
+        "calibration",
+        "capacity",
+        "revision",
+        "release status"
+      ],
+      "required_objects": [
+        "fixture",
+        "gauge",
+        "mould",
+        "tool",
+        "work centre",
+        "inspection zone"
+      ],
+      "required_relations": [
+        "tool-to-process",
+        "gauge-to-datum/interface",
+        "process-to-product",
+        "record-to-built serial"
+      ]
+    }
+  ],
+  "change_policy": {
+    "changed_now": [
+      "alignment/civil disposition",
+      "bridge/viaduct need",
+      "station siting/configuration",
+      "route compatibility evidence",
+      "BIM information requirements"
+    ],
+    "not_automatically_changed": [
+      "LM3 three-car architecture",
+      "car length/width concept",
+      "battery/traction topology",
+      "bogie and articulation concept"
+    ],
+    "vehicle_redesign_rule": "A vehicle parameter changes only after a route-compatibility gate fails and a controlled whole-system trade study accepts that change."
+  },
+  "controlled_lm3_ids": [
+    "LM3-ART-SA800",
+    "LM3-ART-SA810",
+    "LM3-ART-SA820",
+    "LM3-ART-SA830",
+    "LM3-BDY-P010",
+    "LM3-BDY-P030",
+    "LM3-BDY-P050",
+    "LM3-BDY-P100",
+    "LM3-BDY-SA110",
+    "LM3-BDY-SA120",
+    "LM3-BOG-P040",
+    "LM3-BOG-P041",
+    "LM3-BOG-P046",
+    "LM3-BOG-P050",
+    "LM3-BOG-P060",
+    "LM3-BOG-P061",
+    "LM3-BOG-SA610",
+    "LM3-BOG-SA611",
+    "LM3-BOG-SA620",
+    "LM3-BOG-SA621",
+    "LM3-CAR-A900",
+    "LM3-DOOR-P010",
+    "LM3-DOOR-SA310",
+    "LM3-EIF-SA650",
+    "LM3-END-P050",
+    "LM3-END-P060",
+    "LM3-END-SA700",
+    "LM3-EXT-P010",
+    "LM3-EXT-P040",
+    "LM3-HV-P010",
+    "LM3-HV-P020",
+    "LM3-HV-SA510",
+    "LM3-ROOF-P010",
+    "LM3-ROOF-SA410",
+    "LM3-SHELL-A200",
+    "LM3-TRAINSET-A000",
+    "LM3-TRC-P010",
+    "LM3-TRC-P020",
+    "LM3-TRC-SA615"
+  ],
+  "datum_systems": [
+    {
+      "applies_to": [
+        "LM3-TRAINSET-A000"
+      ],
+      "axes": "+X forward, +Y left, +Z up",
+      "id": "LM3-DAT-000",
+      "origin": "lead-end car centreline at top-of-rail reference plane",
+      "parent": null,
+      "title": "trainset track datum"
+    },
+    {
+      "applies_to": [
+        "LM3-CAR-A900",
+        "LM3-BDY-SA110",
+        "LM3-BDY-SA120"
+      ],
+      "axes": "parallel to trainset axes",
+      "id": "LM3-DAT-100",
+      "origin": "car longitudinal centre at nominal low-floor structural plane",
+      "parent": "LM3-DAT-000",
+      "title": "carbody primary datum"
+    },
+    {
+      "applies_to": [
+        "LM3-BOG-SA610",
+        "LM3-BOG-SA620",
+        "LM3-BOG-P046",
+        "LM3-BOG-P061"
+      ],
+      "axes": "X longitudinal, Y axle direction, Z suspension reaction",
+      "id": "LM3-DAT-110",
+      "origin": "secondary-suspension centre at nominal ride height",
+      "parent": "LM3-DAT-100",
+      "title": "body-to-bogie interface datum"
+    },
+    {
+      "applies_to": [
+        "LM3-DOOR-SA310",
+        "LM3-BDY-P100",
+        "LM3-DOOR-P010",
+        "LM3-EXT-P010"
+      ],
+      "axes": "X along car, Y outboard, Z up",
+      "id": "LM3-DAT-120",
+      "origin": "door opening centre at finished threshold",
+      "parent": "LM3-DAT-100",
+      "title": "door and platform datum"
+    },
+    {
+      "applies_to": [
+        "LM3-ROOF-SA410",
+        "LM3-ROOF-P010",
+        "LM3-HV-P020"
+      ],
+      "axes": "X rail pitch, Y cross-car, Z mounting normal",
+      "id": "LM3-DAT-130",
+      "origin": "roof rail grid intersection at car centre",
+      "parent": "LM3-DAT-100",
+      "title": "roof equipment rail datum"
+    },
+    {
+      "applies_to": [
+        "LM3-HV-SA510",
+        "LM3-BDY-P050",
+        "LM3-HV-P010"
+      ],
+      "axes": "X withdrawal, Y cassette row, Z support reaction",
+      "id": "LM3-DAT-140",
+      "origin": "battery tray locating-pin centre",
+      "parent": "LM3-DAT-100",
+      "title": "under-seat battery cassette datum"
+    },
+    {
+      "applies_to": [
+        "LM3-BOG-SA611",
+        "LM3-BOG-SA621",
+        "LM3-BOG-P040",
+        "LM3-BOG-P041"
+      ],
+      "axes": "X travel, Y axle, Z radial/up",
+      "id": "LM3-DAT-200",
+      "origin": "axle centre at nominal wheel/rail contact geometry",
+      "parent": "LM3-DAT-110",
+      "title": "wheelset and rail datum"
+    },
+    {
+      "applies_to": [
+        "LM3-ART-SA800",
+        "LM3-ART-SA810",
+        "LM3-ART-SA820",
+        "LM3-ART-SA830"
+      ],
+      "axes": "X connection chord, Y left, Z yaw axis",
+      "id": "LM3-DAT-300",
+      "origin": "articulation yaw-axis centre at nominal ride height",
+      "parent": "LM3-DAT-100",
+      "title": "articulation interface datum"
+    },
+    {
+      "applies_to": [
+        "LM3-END-SA700",
+        "LM3-EIF-SA650",
+        "LM3-END-P050",
+        "LM3-END-P060"
+      ],
+      "axes": "X coupling axis, Y left, Z up",
+      "id": "LM3-DAT-400",
+      "origin": "coupler centreline at nominal ride height",
+      "parent": "LM3-DAT-100",
+      "title": "train-end and coupler datum"
+    }
+  ],
+  "design_impacts": [
+    {
+      "affected_domains": [
+        "alignment",
+        "earthworks",
+        "drainage",
+        "structures",
+        "traction-energy"
+      ],
+      "disposition": "redesign-required",
+      "id": "OSR-IMP-TOPO-001",
+      "release_evidence": [
+        "surveyed terrain model",
+        "geotechnical model",
+        "released alignment",
+        "independent design check"
+      ],
+      "required_actions": [
+        "re-fit horizontal and vertical alignment against surveyed control",
+        "reclassify each chainage as at-grade, cutting, embankment, retained, viaduct or special structure",
+        "recalculate gradients, vertical curves, cut/fill balance, drainage and transition zones",
+        "rerun vehicle traction, braking, thermal and energy duty over the released profile"
+      ],
+      "trigger": "terrain elevation or slope changes the feasible vertical alignment"
+    },
+    {
+      "affected_domains": [
+        "alignment",
+        "bridge",
+        "hydrology",
+        "environment",
+        "operations"
+      ],
+      "disposition": "bridge-or-reroute-required",
+      "id": "OSR-IMP-WATER-002",
+      "release_evidence": [
+        "survey",
+        "hydraulic and scour study",
+        "navigation constraints",
+        "environmental consent",
+        "bridge design check"
+      ],
+      "required_actions": [
+        "exclude ordinary at-grade and viaduct foundations from the open-water mask",
+        "define bridge limits, freeboard, scour, navigation and debris cases from competent studies",
+        "provide approach transitions, drainage isolation, inspection access and rescue strategy",
+        "prohibit station placement until water and flood exclusions are demonstrably cleared"
+      ],
+      "trigger": "route intersects mapped water or its hydraulic/flood influence zone"
+    },
+    {
+      "affected_domains": [
+        "substructure",
+        "superstructure",
+        "track",
+        "egress",
+        "maintenance"
+      ],
+      "disposition": "asset-family-and-site-design-required",
+      "id": "OSR-IMP-STRUCT-003",
+      "release_evidence": [
+        "site investigation",
+        "structural calculations",
+        "CWR interaction",
+        "erection study",
+        "IFC coordination review"
+      ],
+      "required_actions": [
+        "select a catalogue family only after span, curvature, skew, movement and erection screening",
+        "derive foundations from ground investigation and site reactions",
+        "close rail-structure interaction, bearing, expansion-joint, approach-slab and differential-settlement interfaces",
+        "coordinate kinematic envelope, evacuation walkway, parapet, drainage and inspection access in BIM"
+      ],
+      "trigger": "planner selects viaduct, bridge, retained or transition civil class"
+    },
+    {
+      "affected_domains": [
+        "platform",
+        "accessibility",
+        "fire-life-safety",
+        "MEP",
+        "urban-interface"
+      ],
+      "disposition": "station-configuration-redesign-required",
+      "id": "OSR-IMP-STN-004",
+      "release_evidence": [
+        "station siting record",
+        "platform gauge survey",
+        "accessibility review",
+        "fire strategy",
+        "multidiscipline clash review"
+      ],
+      "required_actions": [
+        "confirm station is outside water, flood, unstable-slope and structure-transition exclusions",
+        "recalculate platform elevation, gap/step, vertical circulation and evacuation capacity",
+        "coordinate foundations, drainage, charging, fire access, utilities and pedestrian catchment",
+        "rerun passenger flow and inclusive-access review for the selected station variant"
+      ],
+      "trigger": "terrain, water, structure or access evidence moves or elevates a station"
+    },
+    {
+      "affected_domains": [
+        "rolling-stock",
+        "wheel-rail",
+        "traction",
+        "braking",
+        "energy",
+        "evacuation"
+      ],
+      "disposition": "compatibility-requalification-before-vehicle-redesign",
+      "id": "OSR-IMP-LM3-005",
+      "release_evidence": [
+        "route compatibility dossier",
+        "vehicle dynamics",
+        "traction/braking simulation",
+        "gauging study",
+        "operations and evacuation acceptance"
+      ],
+      "required_actions": [
+        "retain the current three-car architecture unless a compatibility gate fails",
+        "check gauge, curvature, cant, gradients, vertical curves, platform gap/step and structure deflection",
+        "check axle loads, dynamic augmentation, braking distance, adhesion, energy and thermal duty",
+        "check crosswind/exposure, water crossing evacuation, communications and recovery access",
+        "raise a controlled vehicle redesign only for failed requirements with traced product and analysis impacts"
+      ],
+      "trigger": "released route profile, structures or platforms differ from the vehicle design basis"
+    },
+    {
+      "affected_domains": [
+        "depot",
+        "maintenance",
+        "logistics",
+        "energy",
+        "recovery"
+      ],
+      "disposition": "site-layout-revalidation-required",
+      "id": "OSR-IMP-DEPOT-006",
+      "release_evidence": [
+        "surveyed depot layout",
+        "vehicle swept path",
+        "recovery trial",
+        "drainage/fire/energy reviews"
+      ],
+      "required_actions": [
+        "revalidate depot lead gradients/curves and disabled-train access",
+        "coordinate drainage, flood resilience, lifting, bogie change and fire-service access",
+        "recalculate charging topology and operational empty mileage"
+      ],
+      "trigger": "topography or alignment changes depot access, stabling or recovery routes"
+    }
+  ],
+  "load_cases": [
+    {
+      "id": "LM3-LC-001",
+      "status": "measured-mass-and-loading-definition-required",
+      "title": "AW0/AW2/AW3 static mass, axle load and CG"
+    },
+    {
+      "id": "LM3-LC-002",
+      "status": "released-route-and-brake-supplier-model-required",
+      "title": "traction, service/emergency braking and low adhesion"
+    },
+    {
+      "id": "LM3-LC-003",
+      "status": "vehicle-dynamics-model-and-route-profile-required",
+      "title": "curve, cant, vertical curve and full suspension motion"
+    },
+    {
+      "id": "LM3-LC-004",
+      "status": "site-wind-and-vehicle-aerodynamic-evidence-required",
+      "title": "crosswind, aerodynamic pressure and exposed structures"
+    },
+    {
+      "id": "LM3-LC-005",
+      "status": "structural-and-crash-authority-definition-required",
+      "title": "buff/draft, coupling, rescue tow and crash energy"
+    },
+    {
+      "id": "LM3-LC-006",
+      "status": "route-spectrum-and-joint-classification-required",
+      "title": "fatigue and vibration duty spectrum"
+    },
+    {
+      "id": "LM3-LC-007",
+      "status": "supplier-data-and-hazard-analysis-required",
+      "title": "battery/HV thermal, fault, fire and environmental exposure"
+    },
+    {
+      "id": "LM3-LC-008",
+      "status": "measured-mass-cg-and-recovery-method-required",
+      "title": "lifting, jacking, rerailing and damaged-vehicle recovery"
+    },
+    {
+      "id": "LM3-LC-009",
+      "status": "loading-and-operational-rules-required",
+      "title": "passenger, accessibility, door and evacuation operation"
+    },
+    {
+      "id": "LM3-LC-010",
+      "status": "route-environment-and-ingress-classification-required",
+      "title": "thermal, dust, rain, flood splash and water ingress"
+    }
+  ],
+  "mechanical_interfaces": [
+    {
+      "child_datum": "LM3-DAT-200",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "1435 mm standard-gauge planning basis; profile, back-to-back, wear and contact tolerances require supplier and track-system freeze",
+      "id": "LM3-ICD-001",
+      "load_control": "static/dynamic axle, curving, traction, braking and derailment cases from accepted vehicle/track dynamics",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-000",
+      "route_requalification_gate": "gradient, curvature, cant, vertical curve, rail profile or track tolerance changes",
+      "services": [],
+      "source_product_ids": [
+        "LM3-BOG-SA611",
+        "LM3-BOG-SA621",
+        "LM3-BOG-P040",
+        "LM3-BOG-P041"
+      ],
+      "title": "wheel to rail and route geometry",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "wheelset dimensional report",
+        "gauging and dynamics analysis",
+        "instrumented route acceptance"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-110",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "pivot, air-spring, yaw-link and damper datums controlled as one replaceable interface set",
+      "id": "LM3-ICD-002",
+      "load_control": "AW0/AW2/AW3 vertical, lateral, yaw, traction, braking, anti-lift and jacking cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "curve/cant/gradient, axle-load, crosswind or structure-deflection envelope changes",
+      "services": [
+        "pneumatic suspension",
+        "height sensing",
+        "earth bond"
+      ],
+      "source_product_ids": [
+        "LM3-BDY-P030",
+        "LM3-BOG-SA610",
+        "LM3-BOG-P046"
+      ],
+      "title": "carbody to powered bogie",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "datum survey",
+        "load calculation",
+        "ride-height and full-motion test"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-110",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "common body connection with configuration-controlled trailer-bogie adapter details",
+      "id": "LM3-ICD-003",
+      "load_control": "AW0/AW2/AW3 vertical, lateral, yaw, braking, anti-lift and jacking cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "curve/cant/gradient, axle-load, crosswind or structure-deflection envelope changes",
+      "services": [
+        "pneumatic suspension",
+        "height sensing",
+        "earth bond"
+      ],
+      "source_product_ids": [
+        "LM3-BDY-P030",
+        "LM3-BOG-SA620",
+        "LM3-BOG-P061"
+      ],
+      "title": "carbody to trailer bogie",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "A/B interchange gauge",
+        "load calculation",
+        "ride-height and full-motion test"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-120",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "1500 x 2050 mm design-reference carrier gauge; final aperture, threshold, seal compression, leaf sweep and platform gap/step by frozen door and route ICD",
+      "id": "LM3-ICD-004",
+      "load_control": "door equipment, passenger crowd, abuse, aerodynamic pressure and emergency-operation cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "platform offset/height, cant, curvature or suspension-deflection changes",
+      "services": [
+        "LV power",
+        "safety loop",
+        "communications",
+        "drainage"
+      ],
+      "source_product_ids": [
+        "LM3-DOOR-SA310",
+        "LM3-BDY-P100",
+        "LM3-DOOR-P010",
+        "LM3-EXT-P010"
+      ],
+      "title": "door cassette, body portal and platform",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "carrier proof",
+        "gap/step analysis",
+        "obstruction/closed-and-locked/water/replacement tests"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-300",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "yaw/pitch/roll axes, anti-lift path, bellows, bridge, turntable and pinch keep-outs controlled through full motion",
+      "id": "LM3-ICD-005",
+      "load_control": "buff/draft, vertical shear, torsion, curving, emergency braking, derailment and recovery cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "minimum curve, reverse curve, vertical curve, cant transition or recovery regime changes",
+      "services": [
+        "HV trainline",
+        "LV/data",
+        "pneumatic",
+        "earth bond",
+        "drainage"
+      ],
+      "source_product_ids": [
+        "LM3-ART-SA800",
+        "LM3-ART-SA810",
+        "LM3-ART-SA820",
+        "LM3-ART-SA830"
+      ],
+      "title": "articulation structure and passenger gangway",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "structural proof",
+        "full-motion sweep",
+        "gap/pinch gauge",
+        "water and passenger bridge load tests"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-400",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "coupler axis, anti-climber, energy absorber, carrier ring and rescue adapter share a surveyed end datum",
+      "id": "LM3-ICD-006",
+      "load_control": "buff/draft, coupling impact, crash, rescue tow, lifting and asymmetric recovery cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "maximum gradient, minimum curve, disabled-train mass or rescue fleet changes",
+      "services": [
+        "pneumatic brake",
+        "LV/data jumper",
+        "earth bond"
+      ],
+      "source_product_ids": [
+        "LM3-END-SA700",
+        "LM3-EIF-SA650",
+        "LM3-END-P050",
+        "LM3-END-P060"
+      ],
+      "title": "train end, coupler and rescue vehicle",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "end survey",
+        "coupler/adapter proof",
+        "rescue compatibility and recovery trial"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-140",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "locating pins, retention, withdrawal path, lid/gasket, vent, drain and fire barrier controlled as a replaceable cassette",
+      "id": "LM3-ICD-007",
+      "load_control": "mass/CG, longitudinal/lateral acceleration, shock/vibration, crash, thermal-runaway pressure and lifting cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "route energy, gradient, ambient/flood exposure or duty-cycle changes",
+      "services": [
+        "traction HV",
+        "HVIL",
+        "LV/data",
+        "cooling/fire connection",
+        "vent/drain"
+      ],
+      "source_product_ids": [
+        "LM3-HV-SA510",
+        "LM3-BDY-P050",
+        "LM3-HV-P010"
+      ],
+      "title": "battery cassette, tray and carbody",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "tray proof",
+        "retention and withdrawal tests",
+        "isolation/HVIL",
+        "thermal propagation and drainage tests"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-200",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "shaft, foot, torque-link, coupling, oil-port and removal envelopes frozen by supplier RFQ and bogie ICD",
+      "id": "LM3-ICD-008",
+      "load_control": "peak/continuous torque, gear mesh, axle motion, torque reaction, shock, thermal and overspeed cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-110",
+      "route_requalification_gate": "gradient, adhesion, braking blend, speed or thermal duty changes",
+      "services": [
+        "traction HV",
+        "temperature/speed sensing",
+        "earth bond",
+        "lubricant service"
+      ],
+      "source_product_ids": [
+        "LM3-TRC-SA615",
+        "LM3-TRC-P010",
+        "LM3-TRC-P020",
+        "LM3-BOG-P050"
+      ],
+      "title": "traction motor, gearbox, axle and bogie frame",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "alignment and runout",
+        "mount/torque-link proof",
+        "thermal map",
+        "rotation and removal trial"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-130",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "rail pitch, curb flatness, drop duct, condensate, keep-out and removal lift envelope controlled together",
+      "id": "LM3-ICD-009",
+      "load_control": "equipment mass/CG, acceleration, crosswind, roof snow/maintenance, lifting and fatigue cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-100",
+      "route_requalification_gate": "crosswind, ambient temperature, dust/rain or tunnel/structure clearance changes",
+      "services": [
+        "HV/LV power",
+        "controls/data",
+        "supply/return air",
+        "condensate drain",
+        "earth bond"
+      ],
+      "source_product_ids": [
+        "LM3-ROOF-SA410",
+        "LM3-ROOF-P010",
+        "LM3-HV-P020",
+        "LM3-EXT-P040"
+      ],
+      "title": "roof HVAC and equipment rail",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "rail/curb survey",
+        "attachment proof",
+        "air/leak/drain tests",
+        "removal trial"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-200",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "disc/caliper, sensor target, cable sweep and wear/removal clearances controlled over suspension travel",
+      "id": "LM3-ICD-010",
+      "load_control": "service/emergency/parking braking, low adhesion, thermal fade, wheel-slide and failed-channel cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-110",
+      "route_requalification_gate": "gradient, line speed, adhesion, station spacing or stopping-margin changes",
+      "services": [
+        "pneumatic brake",
+        "LV power",
+        "WSP/speed data",
+        "earth bond"
+      ],
+      "source_product_ids": [
+        "LM3-BOG-SA611",
+        "LM3-BOG-SA621",
+        "LM3-BOG-P060",
+        "LM3-BOG-P061"
+      ],
+      "title": "brake, WSP and wheelset",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "static brake/WSP test",
+        "thermal capacity",
+        "stopping-distance and low-adhesion route tests"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-100",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "2850 mm body-width concept envelope plus dynamic movement, throw, wear, construction and maintenance allowances; released swept envelope is open",
+      "id": "LM3-ICD-011",
+      "load_control": "crosswind, cant deficiency, suspension failure, passenger load and structure movement combinations",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-000",
+      "route_requalification_gate": "all alignment, platform, parapet, tunnel, bridge movement or crosswind changes",
+      "services": [
+        "emergency lighting/communications interaction"
+      ],
+      "source_product_ids": [
+        "LM3-TRAINSET-A000",
+        "LM3-CAR-A900",
+        "LM3-SHELL-A200"
+      ],
+      "title": "vehicle envelope to structure and evacuation walkway",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "static/dynamic gauging",
+        "BIM swept-volume clash",
+        "evacuation and detraining demonstration"
+      ]
+    },
+    {
+      "child_datum": "LM3-DAT-100",
+      "evidence_status": "design-reference-definition-complete; release-evidence-open",
+      "geometry_control": "four-point lifting/jacking, transverse bridge and equipment keep-outs tied to measured car mass/CG",
+      "id": "LM3-ICD-012",
+      "load_control": "normal/asymmetric lift, one-point pressure loss, rerailing side load, tiedown and damaged-vehicle cases",
+      "maintainability": "model installation, inspection and replacement envelopes; demonstrate with a representative first article",
+      "parent_datum": "LM3-DAT-000",
+      "route_requalification_gate": "route access, viaduct parapet/walkway, depot equipment or final mass/CG changes",
+      "services": [
+        "hydraulic/mechanical equipment",
+        "bonding and communications"
+      ],
+      "source_product_ids": [
+        "LM3-CAR-A900",
+        "LM3-BDY-P010",
+        "LM3-END-P050"
+      ],
+      "title": "lifting, jacking and field rerailing",
+      "tolerance_status": "allocation-open-until-stack-and-supplier-freeze",
+      "verification": [
+        "point survey",
+        "structural calculation",
+        "proof load",
+        "trained-crew recovery demonstration"
+      ]
+    }
+  ],
+  "passed": true,
+  "release_boundary": "Design-reference coordination data only. Open DEM and water data are screening evidence, not survey, geotechnical, hydraulic or navigation evidence. Candidate dimensions, loads and tolerances are not fabrication or construction release values until their stated closure evidence is accepted by the competent design authority.",
+  "revision": "A-DRAFT",
+  "route_compatibility_gates": [
+    {
+      "decision": "redesign geometry only if gauging cannot be closed by infrastructure tolerance or operational control",
+      "evidence": [
+        "surveyed alignment",
+        "structure/platform as-built model",
+        "vehicle gauging model"
+      ],
+      "id": "LM3-RCG-001",
+      "question": "Does the released static/dynamic swept envelope clear track, platforms and structures?"
+    },
+    {
+      "decision": "change route first where reasonable; otherwise requalify bogie, articulation, traction or braking",
+      "evidence": [
+        "released profile",
+        "vehicle dynamics",
+        "traction/braking results"
+      ],
+      "id": "LM3-RCG-002",
+      "question": "Do gradient, curvature, cant and vertical curves remain within vehicle capability?"
+    },
+    {
+      "decision": "adjust timetable/charging before changing battery capacity; redesign only after whole-life comparison",
+      "evidence": [
+        "route simulation",
+        "supplier battery/motor/inverter/HVAC maps",
+        "degraded-mode cases"
+      ],
+      "id": "LM3-RCG-003",
+      "question": "Does the timetable duty fit usable battery energy and thermal limits with reserve?"
+    },
+    {
+      "decision": "iterate vehicle mass and civil structures through one controlled load model",
+      "evidence": [
+        "measured mass/CG",
+        "dynamic augmentation",
+        "structural calculations"
+      ],
+      "id": "LM3-RCG-004",
+      "question": "Are axle/load spectra accepted by track, bridge and viaduct designs?"
+    },
+    {
+      "decision": "define wind monitoring/operating limits or vehicle aerodynamic changes through hazard assessment",
+      "evidence": [
+        "site wind study",
+        "vehicle characteristic wind curve",
+        "operating rules"
+      ],
+      "id": "LM3-RCG-005",
+      "question": "Are crosswind and exposed-water/viaduct operations acceptable?"
+    },
+    {
+      "decision": "coordinate walkway, detraining and access provision; change vehicle emergency interfaces only where necessary",
+      "evidence": [
+        "evacuation model/drill",
+        "BIM access review",
+        "recovery demonstration"
+      ],
+      "id": "LM3-RCG-006",
+      "question": "Can passengers evacuate and responders recover a failed train everywhere?"
+    },
+    {
+      "decision": "coordinate platform and suspension control; modify threshold/door system only after system trade study",
+      "evidence": [
+        "platform survey",
+        "suspension cases",
+        "gap/step and passenger-flow assessment"
+      ],
+      "id": "LM3-RCG-007",
+      "question": "Do station platform gap, step and door-zone flows meet the accessibility basis?"
+    }
+  ],
+  "schema": "org.opensourcerail.design-detail-register.v1",
+  "sources": {
+    "terrain_module": {
+      "file": "design/city-generation/src/osr_geo/terrain.py",
+      "sha256": "b18be829df3eaeca36895207958759f1d75eee40380fe8c4a094a660d7694169"
+    },
+    "track_geometry": {
+      "file": "lib/templates/track-geometry.toml",
+      "sha256": "70590b731e73c1694cd9593bd67481a8953f20c4117f1d8671a5bda7fe1065c2"
+    },
+    "trainset_manifest": {
+      "file": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+      "sha256": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703"
+    },
+    "water_and_civil_raster": {
+      "file": "design/city-generation/src/osr_geo/rasterize.py",
+      "sha256": "252c3b3456b828d3cc3b9266d76d69072cc932c78523bfdb10a27fa83cc8bf5e"
+    }
+  },
+  "status": "design-reference-not-released",
+  "summary": {
+    "bim_asset_types": 5,
+    "controlled_lm3_ids": 39,
+    "datum_systems": 9,
+    "design_impacts": 6,
+    "load_cases": 10,
+    "mechanical_interfaces": 12,
+    "route_compatibility_gates": 7,
+    "verification_rows": 9
+  },
+  "verification_matrix": [
+    {
+      "evidence": "manifest/IFC ID reconciliation and configuration record",
+      "id": "LM3-VER-001",
+      "interface_ids": [],
+      "load_case_ids": [],
+      "method": "inspection",
+      "scope": "product graph and configuration"
+    },
+    {
+      "evidence": "released ICDs, stack calculations, calibrated surveys and NCR disposition",
+      "id": "LM3-VER-002",
+      "interface_ids": [
+        "LM3-ICD-001",
+        "LM3-ICD-002",
+        "LM3-ICD-003",
+        "LM3-ICD-004",
+        "LM3-ICD-005",
+        "LM3-ICD-006",
+        "LM3-ICD-007",
+        "LM3-ICD-008",
+        "LM3-ICD-009",
+        "LM3-ICD-010",
+        "LM3-ICD-011",
+        "LM3-ICD-012"
+      ],
+      "load_case_ids": [],
+      "method": "analysis+inspection",
+      "scope": "datum and tolerance-chain closure"
+    },
+    {
+      "evidence": "independently checked simulations and instrumented route acceptance",
+      "id": "LM3-VER-003",
+      "interface_ids": [
+        "LM3-ICD-001",
+        "LM3-ICD-002",
+        "LM3-ICD-003",
+        "LM3-ICD-005",
+        "LM3-ICD-011"
+      ],
+      "load_case_ids": [
+        "LM3-LC-001",
+        "LM3-LC-002",
+        "LM3-LC-003",
+        "LM3-LC-004"
+      ],
+      "method": "analysis+test",
+      "scope": "vehicle/route dynamic compatibility"
+    },
+    {
+      "evidence": "calculations, material/process qualification, NDT, proof and fatigue evidence",
+      "id": "LM3-VER-004",
+      "interface_ids": [
+        "LM3-ICD-002",
+        "LM3-ICD-003",
+        "LM3-ICD-005",
+        "LM3-ICD-006",
+        "LM3-ICD-012"
+      ],
+      "load_case_ids": [
+        "LM3-LC-001",
+        "LM3-LC-005",
+        "LM3-LC-006",
+        "LM3-LC-008"
+      ],
+      "method": "analysis+test",
+      "scope": "carbody, bogie, articulation and end structure"
+    },
+    {
+      "evidence": "gap/step, obstruction, emergency release, water and passenger-flow evidence",
+      "id": "LM3-VER-005",
+      "interface_ids": [
+        "LM3-ICD-004"
+      ],
+      "load_case_ids": [
+        "LM3-LC-003",
+        "LM3-LC-009"
+      ],
+      "method": "analysis+demonstration",
+      "scope": "door/platform/accessibility"
+    },
+    {
+      "evidence": "supplier maps, HIL, dynamometer and route test results",
+      "id": "LM3-VER-006",
+      "interface_ids": [
+        "LM3-ICD-001",
+        "LM3-ICD-008",
+        "LM3-ICD-010"
+      ],
+      "load_case_ids": [
+        "LM3-LC-002",
+        "LM3-LC-003",
+        "LM3-LC-007",
+        "LM3-LC-010"
+      ],
+      "method": "analysis+test",
+      "scope": "traction, braking and energy"
+    },
+    {
+      "evidence": "hazard analysis, propagation/containment, ingress, isolation and emergency-response evidence",
+      "id": "LM3-VER-007",
+      "interface_ids": [
+        "LM3-ICD-007"
+      ],
+      "load_case_ids": [
+        "LM3-LC-006",
+        "LM3-LC-007",
+        "LM3-LC-010"
+      ],
+      "method": "analysis+test",
+      "scope": "battery/HV fire and environmental"
+    },
+    {
+      "evidence": "attachment, airflow, thermal, EMC, ingress and removal evidence",
+      "id": "LM3-VER-008",
+      "interface_ids": [
+        "LM3-ICD-009"
+      ],
+      "load_case_ids": [
+        "LM3-LC-004",
+        "LM3-LC-006",
+        "LM3-LC-010"
+      ],
+      "method": "analysis+test",
+      "scope": "HVAC/roof equipment"
+    },
+    {
+      "evidence": "swept-volume BIM review plus representative evacuation/recovery drills",
+      "id": "LM3-VER-009",
+      "interface_ids": [
+        "LM3-ICD-006",
+        "LM3-ICD-011",
+        "LM3-ICD-012"
+      ],
+      "load_case_ids": [
+        "LM3-LC-004",
+        "LM3-LC-008",
+        "LM3-LC-009"
+      ],
+      "method": "analysis+demonstration",
+      "scope": "gauging, bridge/viaduct evacuation and recovery"
+    }
+  ]
+}

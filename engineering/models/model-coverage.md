@@ -9,6 +9,8 @@ states; no row is a construction release merely because geometry exists.
 - LM3 product models: 120
 - Unique station product models: 45
 - Complete station variant assemblies: 7
+- LM3 objects with datum/interface control: 39 (20 products + 19 assemblies)
+- Controlled mechanical interfaces: 12
 - Geometry levels: `coordination-envelope`=89, `design-reference-detail`=23, `interface-detailed`=53
 
 ## Meaning
@@ -18,6 +20,8 @@ states; no row is a construction release merely because geometry exists.
 adds inspectable subcomponents; `interface-detailed`
 models repeatable datums, connections or service routes. `fabrication-detailed`
 and `released` require controlled drawings, tolerances and accepted evidence.
+Datum/interface coverage means the object is linked to the design-detail register;
+it does not mean that open tolerances, calculations or physical evidence are accepted.
 
 The complete machine-readable per-product mapping, analysis IDs, evidence gates
 and FreeCAD/IFC/neutral-output paths are in

@@ -14,6 +14,8 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MECHANICAL_SRC = REPO_ROOT / "design/component-catalogue/src"
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 if str(MECHANICAL_SRC) not in sys.path:
     sys.path.insert(0, str(MECHANICAL_SRC))
 
@@ -28,6 +30,7 @@ from osr_mech.station.product_geometry import (  # noqa: E402
     geometry_specs as station_geometry_specs,
     station_product_geometry,
 )
+from engineering.design_detail_register import build_register as build_detail_register
 
 
 LM3_MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json"
@@ -81,6 +84,15 @@ def build_register() -> dict[str, Any]:
     lm3 = json.loads(LM3_MANIFEST.read_text(encoding="utf-8"))
     stations = json.loads(STATION_MANIFEST.read_text(encoding="utf-8"))
     lm3_specs = lm3_geometry_specs()
+    detail = build_detail_register()
+    interface_ids_by_product: dict[str, list[str]] = {}
+    datum_ids_by_product: dict[str, list[str]] = {}
+    for row in detail["mechanical_interfaces"]:
+        for product_id in row["source_product_ids"]:
+            interface_ids_by_product.setdefault(str(product_id), []).append(str(row["id"]))
+    for row in detail["datum_systems"]:
+        for product_id in row["applies_to"]:
+            datum_ids_by_product.setdefault(str(product_id), []).append(str(row["id"]))
     lm3_ids = {str(item["id"]) for item in lm3["product_items"]}
     if lm3_ids != set(lm3_specs):
         raise ValueError("LM3 model coverage differs from the controlled product manifest")
@@ -115,6 +127,8 @@ def build_register() -> dict[str, Any]:
                 if item["route"] == "MAKE" else None
             ),
             "analysis_ids": lm3_analysis_ids(product_id),
+            "mechanical_interface_ids": sorted(interface_ids_by_product.get(product_id, [])),
+            "datum_ids": sorted(datum_ids_by_product.get(product_id, [])),
             "release_evidence": item["acceptance"],
         })
 
@@ -163,11 +177,25 @@ def build_register() -> dict[str, Any]:
             "lm3_manifest_sha256": sha256(LM3_MANIFEST),
             "station_manifest": str(STATION_MANIFEST.relative_to(REPO_ROOT)),
             "station_manifest_sha256": sha256(STATION_MANIFEST),
+            "design_detail_register": "engineering/models/bim/design-detail-register.json",
+            "design_detail_schema": detail["schema"],
+            "design_detail_register_sha256": sha256(
+                REPO_ROOT / "engineering/models/bim/design-detail-register.json"
+            ),
         },
         "summary": {
             "lm3_products": len(lm3_rows),
             "station_products": len(station_rows),
             "station_variants": len(variant_coverage),
+            "mechanically_controlled_lm3_products": sum(
+                bool(row["mechanical_interface_ids"] or row["datum_ids"]) for row in lm3_rows
+            ),
+            "mechanically_controlled_lm3_assemblies": sum(
+                product_id in detail["controlled_lm3_ids"]
+                for product_id in {str(item["id"]) for item in lm3["assemblies"]}
+            ),
+            "mechanically_controlled_lm3_objects": detail["summary"]["controlled_lm3_ids"],
+            "mechanical_interfaces": detail["summary"]["mechanical_interfaces"],
             "geometry_level_counts": dict(sorted(level_counts.items())),
         },
         "lm3_products": lm3_rows,
@@ -191,6 +219,10 @@ def render_markdown(register: dict[str, Any]) -> str:
         f"- LM3 product models: {register['summary']['lm3_products']}",
         f"- Unique station product models: {register['summary']['station_products']}",
         f"- Complete station variant assemblies: {register['summary']['station_variants']}",
+        f"- LM3 objects with datum/interface control: {register['summary']['mechanically_controlled_lm3_objects']} "
+        f"({register['summary']['mechanically_controlled_lm3_products']} products + "
+        f"{register['summary']['mechanically_controlled_lm3_assemblies']} assemblies)",
+        f"- Controlled mechanical interfaces: {register['summary']['mechanical_interfaces']}",
         "- Geometry levels: " + ", ".join(f"`{key}`={value}" for key, value in counts.items()),
         "",
         "## Meaning",
@@ -200,6 +232,8 @@ def render_markdown(register: dict[str, Any]) -> str:
         "adds inspectable subcomponents; `interface-detailed`",
         "models repeatable datums, connections or service routes. `fabrication-detailed`",
         "and `released` require controlled drawings, tolerances and accepted evidence.",
+        "Datum/interface coverage means the object is linked to the design-detail register;",
+        "it does not mean that open tolerances, calculations or physical evidence are accepted.",
         "",
         "The complete machine-readable per-product mapping, analysis IDs, evidence gates",
         "and FreeCAD/IFC/neutral-output paths are in",

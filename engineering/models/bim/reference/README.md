@@ -30,6 +30,7 @@ installing the complete engineering toolchain.
 | [`lm3-product-library.index.json`](lm3-product-library.index.json) | Exact split-library file hashes, representation coverage and final-assembly reachability test |
 | [`stations/`](stations/) | Seven geometric station IFC4.3 assemblies covering every controlled product in the halt, standard, major, interchange, elevated-interchange, terminal and depot-terminal variants; IDs are cross-checked by the [station reconciliation register](../../../../design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.md) |
 | [`../../model-coverage.md`](../../model-coverage.md) | Generated LM3/station fidelity, source, analysis and release-evidence register |
+| [`../design-detail-register.md`](../design-detail-register.md) | Terrain/water redesign impacts, BIM information requirements, LM3 datums, mechanical ICDs, load cases, route gates and verification matrix |
 
 Regenerate it from the authoritative component geometry and engineering
 interchange code:
@@ -38,6 +39,7 @@ interchange code:
 tools/automation/bonsai-civil.sh --animate \
   --out-dir engineering/models/bim/reference \
   --revision-id repository-reference
+python3 engineering/design_detail_register.py
 python3 engineering/interchange/trainset_manufacturing_ifc.py
 python3 engineering/interchange/lm3_product_ifc_library.py
 python3 engineering/interchange/station_ifc.py --all-variants \

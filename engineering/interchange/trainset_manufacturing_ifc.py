@@ -53,6 +53,7 @@ MANIFEST = (
     REPO_ROOT
     / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json"
 )
+DESIGN_DETAIL = REPO_ROOT / "engineering/models/bim/design-detail-register.json"
 BOX_FACES = (
     (0, 1, 3, 2),
     (4, 6, 7, 5),
@@ -194,6 +195,52 @@ def definition_payloads() -> dict[str, dict[str, Any]]:
     for entry in index["entries"]:
         path = DEFINITIONS / entry["json"]
         result[entry["id"]] = json.loads(path.read_text(encoding="utf-8"))
+    return result
+
+
+def design_detail_payload() -> dict[str, Any]:
+    payload = json.loads(DESIGN_DETAIL.read_text(encoding="utf-8"))
+    if payload.get("schema") != "org.opensourcerail.design-detail-register.v1":
+        raise RuntimeError("unsupported or missing design-detail register schema")
+    if not payload.get("passed"):
+        raise RuntimeError("design-detail register did not pass its integrity checks")
+    return payload
+
+
+def detail_control_by_product(detail: dict[str, Any]) -> dict[str, dict[str, str]]:
+    interfaces: defaultdict[str, list[str]] = defaultdict(list)
+    datums: defaultdict[str, list[str]] = defaultdict(list)
+    verification: defaultdict[str, list[str]] = defaultdict(list)
+    load_cases: defaultdict[str, list[str]] = defaultdict(list)
+    interface_products: dict[str, set[str]] = {}
+    for row in detail["mechanical_interfaces"]:
+        interface_id = str(row["id"])
+        products = {str(value) for value in row["source_product_ids"]}
+        interface_products[interface_id] = products
+        for product_id in products:
+            interfaces[product_id].append(interface_id)
+    for row in detail["datum_systems"]:
+        for product_id in row["applies_to"]:
+            datums[str(product_id)].append(str(row["id"]))
+    for row in detail["verification_matrix"]:
+        products = (
+            set().union(*(interface_products[str(value)] for value in row["interface_ids"]))
+            if row["interface_ids"]
+            else set()
+        )
+        for product_id in products:
+            verification[product_id].append(str(row["id"]))
+            load_cases[product_id].extend(str(value) for value in row["load_case_ids"])
+    result: dict[str, dict[str, str]] = {}
+    for product_id in sorted(set(interfaces) | set(datums)):
+        result[product_id] = {
+            "InterfaceIds": " | ".join(sorted(set(interfaces[product_id]))) or "none",
+            "DatumIds": " | ".join(sorted(set(datums[product_id]))) or "derived-through-parent-interface",
+            "VerificationIds": " | ".join(sorted(set(verification[product_id]))) or "LM3-VER-001",
+            "LoadCaseIds": " | ".join(sorted(set(load_cases[product_id]))) or "assigned-at-parent-or-interface-release",
+            "ToleranceStatus": "allocation-open-until-stack-and-supplier-freeze",
+            "EvidenceStatus": "design-reference-definition-complete; release-evidence-open",
+        }
     return result
 
 
@@ -388,6 +435,8 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
     anchors = {anchor["id"]: anchor for anchor in supplier_data["anchor"]}
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     definitions = definition_payloads()
+    detail = design_detail_payload()
+    product_detail = detail_control_by_product(detail)
     model = ifcopenshell.file(schema="IFC4X3")
     model.header.file_name.name = "lm3-manufacturing-reference.ifc"
     model.header.file_name.time_stamp = "2026-08-30T00:00:00+00:00"
@@ -687,6 +736,31 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
             tool = next(value for value in tools if value.Tag == tool_id)
             set_local_placement(model, tool, tool_positions[tool_id])
 
+    # Append design-detail controls after the established geometry, process and
+    # placement graph so enriching the register does not churn stable IDs for
+    # otherwise unchanged IFC objects.
+    property_set(
+        model,
+        project,
+        "OSR_DesignDetailRegister",
+        {
+            "Source": repository_path(DESIGN_DETAIL),
+            "SourceSha256": sha256(DESIGN_DETAIL),
+            "DesignImpactCount": detail["summary"]["design_impacts"],
+            "BimAssetTypeCount": detail["summary"]["bim_asset_types"],
+            "MechanicalInterfaceCount": detail["summary"]["mechanical_interfaces"],
+            "RouteCompatibilityGateCount": detail["summary"]["route_compatibility_gates"],
+            "ReleaseBoundary": detail["release_boundary"],
+        },
+    )
+    for product_id, values in product_detail.items():
+        property_set(
+            model,
+            products[product_id],
+            "OSR_MechanicalInterfaceControl",
+            values,
+        )
+
     index = {
         "analysis_id": "OSR-AN-IFC-LM3-MFG-001",
         "schema": model.schema,
@@ -707,6 +781,11 @@ def build_model() -> tuple[ifcopenshell.file, dict[str, Any]]:
         "method_source_sha256": methods["source_sha256"],
         "supplier_anchor_source": supplier_data["source_file"],
         "supplier_anchor_source_sha256": supplier_data["source_sha256"],
+        "design_detail_source": repository_path(DESIGN_DETAIL),
+        "design_detail_source_sha256": sha256(DESIGN_DETAIL),
+        "mechanically_controlled_object_count": len(product_detail),
+        "mechanical_interface_count": detail["summary"]["mechanical_interfaces"],
+        "route_compatibility_gate_count": detail["summary"]["route_compatibility_gates"],
         "product_manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "product_manifest_sha256": sha256(MANIFEST),
         "release_boundary": methods["release_boundary"],
