@@ -298,6 +298,7 @@ mod tests {
             archetype: if hub { "interchange" } else { "standard" }.into(),
             state: IntentState::Generated,
             reason: String::new(),
+            site_assessment: None,
         }
     }
     fn line(id: &str, ring: bool) -> CompiledLine {

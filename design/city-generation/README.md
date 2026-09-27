@@ -1,14 +1,15 @@
 # City Generation
 
 This Python package owns the deterministic geospatial side of city generation:
-OSM acquisition and caching, demand/cost/buildability rasters, batch catalogue
-generation, station and line planning, and simulator-scenario emission. Rust
-routing and design crates consume its outputs.
+OSM acquisition and caching, demand/cost/buildability/water rasters,
+source-locked open-DEM elevation and terrain slope, batch catalogue generation,
+station and line planning, and simulator-scenario emission. Rust routing and
+design crates consume its outputs.
 
 | Package | Responsibility |
 |---|---|
 | `osr_osm` | OSM/Geofabrik acquisition with a local cache |
-| `osr_geo` | Demand, cost and buildability raster preparation |
+| `osr_geo` | Demand, cost, buildability, water and open-terrain raster preparation |
 | `osr_batch` | Catalogue batch import and regeneration |
 | `osr_planner` | Lines, stations, anchors and deterministic network synthesis |
 | `osr_scenario` | City design to simulation/finance/README outputs |

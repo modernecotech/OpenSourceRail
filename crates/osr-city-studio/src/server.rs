@@ -159,10 +159,14 @@ async fn stylesheet() -> ([(&'static str, &'static str); 1], &'static str) {
     )
 }
 
-const GIS_LAYER_IDS: [&str; 16] = [
+const GIS_LAYER_IDS: [&str; 20] = [
     "routing-demand",
     "routing-cost",
     "routing-buildability",
+    "routing-water",
+    "terrain-elevation",
+    "terrain-slope",
+    "planning-structures",
     "context-buildings",
     "context-water",
     "context-protected",
@@ -210,6 +214,38 @@ fn gis_manifest(project: &CityProject) -> Result<GisManifest> {
                 "source-locked-raster",
                 true,
                 0.42,
+            ),
+            "routing-water" => (
+                "Water / no stations",
+                "Planning surfaces",
+                "Polygon",
+                "source-locked-osm-mask",
+                true,
+                0.62,
+            ),
+            "terrain-elevation" => (
+                "Open terrain elevation",
+                "Topography",
+                "Polygon",
+                "source-locked-open-dem",
+                false,
+                0.38,
+            ),
+            "terrain-slope" => (
+                "Steep terrain",
+                "Topography",
+                "Polygon",
+                "derived-from-open-dem",
+                true,
+                0.46,
+            ),
+            "planning-structures" => (
+                "Likely bridges / viaducts",
+                "Topography",
+                "LineString",
+                "planning-screen",
+                true,
+                0.92,
             ),
             "context-buildings" => (
                 "Buildings",
@@ -348,16 +384,24 @@ fn gis_manifest(project: &CityProject) -> Result<GisManifest> {
             ]
         })
         .unwrap_or_else(|| geojson_bounds(&project.candidate_network().unwrap_or_default()));
+    let has_terrain = routing_bundle(project).is_ok_and(|bundle| bundle.grid.elevation_m.is_some());
+    let mut attribution = vec![
+        "OpenSourceRail source-locked project inputs".to_string(),
+        "© OpenStreetMap contributors · ODbL 1.0".to_string(),
+        "Context anchors derived from the locked routing bundle; verify survey data before engineering release".to_string(),
+    ];
+    if has_terrain {
+        attribution.push(
+            "NASA/NGA SRTM elevation via AWS Open Data Terrain Tiles · planning screen, not survey"
+                .to_string(),
+        );
+    }
     Ok(GisManifest {
         schema_version: 1,
         coordinate_reference_system: "EPSG:4326".to_string(),
         bounds,
         deterministic: true,
-        attribution: vec![
-            "OpenSourceRail source-locked project inputs".to_string(),
-            "© OpenStreetMap contributors · ODbL 1.0".to_string(),
-            "Context anchors derived from the locked routing bundle; verify survey data before engineering release".to_string(),
-        ],
+        attribution,
         layers,
     })
 }
@@ -385,9 +429,13 @@ fn gis_layer(project: &CityProject, id: &str) -> Result<serde_json::Value> {
             read_geojson(&project.root().join("gis/context-existing-rail.geojson"))
         }
         "context-anchors" => routing_anchors_geojson(project),
-        "routing-demand" | "routing-cost" | "routing-buildability" => {
-            routing_surface_geojson(project, id)
-        }
+        "planning-structures" => planning_structures_geojson(project),
+        "routing-demand"
+        | "routing-cost"
+        | "routing-buildability"
+        | "routing-water"
+        | "terrain-elevation"
+        | "terrain-slope" => routing_surface_geojson(project, id),
         _ => bail!("unknown GIS layer {id:?}"),
     }
 }
@@ -472,6 +520,16 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
         .iter()
         .copied()
         .fold(f32::NEG_INFINITY, f32::max);
+    let elevations = grid
+        .elevation_m
+        .as_deref()
+        .unwrap_or_default()
+        .iter()
+        .copied()
+        .filter(|value| value.is_finite())
+        .collect::<Vec<_>>();
+    let elevation_min = elevations.iter().copied().fold(f32::INFINITY, f32::min);
+    let elevation_max = elevations.iter().copied().fold(f32::NEG_INFINITY, f32::max);
     for row in (0..reference.height).step_by(STRIDE) {
         for col in (0..reference.width).step_by(STRIDE) {
             let row_end = (row + STRIDE).min(reference.height);
@@ -480,6 +538,10 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
             let mut cost = f32::INFINITY;
             let mut buildable = 0_usize;
             let mut total = 0_usize;
+            let mut water_coverage = 0.0_f32;
+            let mut elevation_sum = 0.0_f32;
+            let mut elevation_count = 0_usize;
+            let mut maximum_slope = 0.0_f32;
             for sample_row in row..row_end {
                 for sample_col in col..col_end {
                     demand = demand.max(grid.demand_at(sample_row, sample_col));
@@ -488,8 +550,18 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
                         cost = cost.min(grid.cost_at(sample_row, sample_col));
                     }
                     total += 1;
+                    water_coverage += grid.water_coverage_percent_at(sample_row, sample_col);
+                    if let Some(elevation) = grid.elevation_at(sample_row, sample_col) {
+                        elevation_sum += elevation;
+                        elevation_count += 1;
+                    }
+                    if let Some(slope) = grid.terrain_slope_at(sample_row, sample_col) {
+                        maximum_slope = maximum_slope.max(slope);
+                    }
                 }
             }
+            let elevation = (elevation_count > 0).then_some(elevation_sum / elevation_count as f32);
+            let water_percent = water_coverage / total as f32;
             let value = match layer {
                 "routing-demand" if demand >= 0.05 => demand.clamp(0.0, 1.0),
                 "routing-cost" if cost.is_finite() => {
@@ -498,6 +570,12 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
                 "routing-buildability" if buildable < total => {
                     1.0 - buildable as f32 / total as f32
                 }
+                "routing-water" if water_percent > 0.0 => water_percent / 100.0,
+                "terrain-elevation" if elevation.is_some() => ((elevation.unwrap()
+                    - elevation_min)
+                    / (elevation_max - elevation_min).max(f32::EPSILON))
+                .clamp(0.0, 1.0),
+                "terrain-slope" if maximum_slope > 2.0 => (maximum_slope / 15.0).clamp(0.0, 1.0),
                 _ => continue,
             };
             let west =
@@ -513,11 +591,131 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
                 "geometry": { "type": "Polygon", "coordinates": [[
                     [west, south], [east, south], [east, north], [west, north], [west, south]
                 ]] },
-                "properties": { "value": (value * 10_000.0).round() / 10_000.0 }
+                "properties": {
+                    "value": (value * 10_000.0).round() / 10_000.0,
+                    "elevation_m": elevation.map(|number| (number * 10.0).round() / 10.0),
+                    "maximum_slope_percent": (maximum_slope * 10.0).round() / 10.0,
+                    "water_coverage_percent": (water_percent * 10.0).round() / 10.0,
+                    "station_permitted": water_percent < 50.0,
+                }
             }));
         }
     }
     Ok(serde_json::json!({ "type": "FeatureCollection", "features": features }))
+}
+
+fn planning_structures_geojson(project: &CityProject) -> Result<serde_json::Value> {
+    let bundle = routing_bundle(project)?;
+    let grid = &bundle.grid;
+    let network = project.candidate_network()?;
+    let mut features = Vec::new();
+    for feature in network
+        .get("features")
+        .and_then(serde_json::Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        if feature
+            .pointer("/geometry/type")
+            .and_then(serde_json::Value::as_str)
+            != Some("LineString")
+        {
+            continue;
+        }
+        let line = feature
+            .pointer("/properties/name")
+            .and_then(serde_json::Value::as_str)
+            .unwrap_or("unknown-line");
+        let coordinates = feature
+            .pointer("/geometry/coordinates")
+            .and_then(serde_json::Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(|coordinate| {
+                let values = coordinate.as_array()?;
+                Some([values.first()?.as_f64()?, values.get(1)?.as_f64()?])
+            })
+            .collect::<Vec<_>>();
+        let mut run_kind: Option<(&str, &str)> = None;
+        let mut run = Vec::<[f64; 2]>::new();
+        let flush = |kind: Option<(&str, &str)>,
+                     points: &mut Vec<[f64; 2]>,
+                     output: &mut Vec<serde_json::Value>| {
+            if let Some((structure, reason)) = kind {
+                if points.len() >= 2 {
+                    output.push(serde_json::json!({
+                        "type": "Feature",
+                        "geometry": { "type": "LineString", "coordinates": points },
+                        "properties": {
+                            "line": line,
+                            "structure": structure,
+                            "reason": reason,
+                            "status": "planning-screen",
+                            "station_permitted": structure != "bridge",
+                        }
+                    }));
+                }
+            }
+            points.clear();
+        };
+        for pair in coordinates.windows(2) {
+            let midpoint = [
+                (pair[0][0] + pair[1][0]) / 2.0,
+                (pair[0][1] + pair[1][1]) / 2.0,
+            ];
+            let cell = grid_cell(&grid.reference, midpoint[1], midpoint[0]);
+            let kind = cell.and_then(|(row, col)| {
+                if grid.is_water(row, col) {
+                    Some(("bridge", "mapped-water-crossing"))
+                } else if grid.terrain_slope_at(row, col).is_some_and(|slope| {
+                    slope > osr_routing::civil::MAX_AT_GRADE_TERRAIN_SLOPE_PERCENT
+                }) {
+                    Some(("viaduct", "terrain-slope"))
+                } else {
+                    let cost = grid.cost_at(row, col);
+                    if (70.0..400.0).contains(&cost) {
+                        Some(("bridge", "legacy-water-cost"))
+                    } else if (40.0..70.0).contains(&cost) || cost >= 400.0 {
+                        Some(("viaduct", "surface-constraint"))
+                    } else {
+                        None
+                    }
+                }
+            });
+            if kind != run_kind {
+                flush(run_kind, &mut run, &mut features);
+                run.push(pair[0]);
+                run_kind = kind;
+            }
+            run.push(pair[1]);
+        }
+        flush(run_kind, &mut run, &mut features);
+    }
+    Ok(serde_json::json!({ "type": "FeatureCollection", "features": features }))
+}
+
+fn grid_cell(
+    reference: &osr_routing::raster::GridRef,
+    lat: f64,
+    lon: f64,
+) -> Option<(usize, usize)> {
+    if lat < reference.bbox_south
+        || lat > reference.bbox_north
+        || lon < reference.bbox_west
+        || lon > reference.bbox_east
+    {
+        return None;
+    }
+    let row = (((reference.bbox_north - lat) * reference.m_per_deg_lat) / reference.cell_m)
+        .floor()
+        .max(0.0) as usize;
+    let col = (((lon - reference.bbox_west) * reference.m_per_deg_lon) / reference.cell_m)
+        .floor()
+        .max(0.0) as usize;
+    Some((
+        row.min(reference.height.saturating_sub(1)),
+        col.min(reference.width.saturating_sub(1)),
+    ))
 }
 
 fn geojson_bounds(value: &serde_json::Value) -> [f64; 4] {
@@ -931,6 +1129,10 @@ mod tests {
             "routing-demand",
             "routing-cost",
             "routing-buildability",
+            "routing-water",
+            "terrain-elevation",
+            "terrain-slope",
+            "planning-structures",
             "context-anchors",
             "context-roads",
             "context-buildings",

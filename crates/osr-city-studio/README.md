@@ -14,7 +14,9 @@ Run the Samawah vertical slice from the repository root:
 The interface can create/move/retire manual stations, create complete manual
 lines from two endpoints using locked demand/buildability surfaces or an
 explicit direct chord, edit local alignment controls, plan service by
-line/day/time over an offline GIS canvas with 16 content-hashed layers,
+line/day/time over an offline GIS canvas with 20 content-hashed layers,
+including source-locked open-DEM elevation/slope, an independent water and
+station-exclusion mask, and likely bridge/viaduct screening,
 pan/zoom, visibility/opacity controls and feature inspection, and
 adjust every time-window headway for one line or every route in
 an atomic day-type transaction, copy a complete plan between day types,

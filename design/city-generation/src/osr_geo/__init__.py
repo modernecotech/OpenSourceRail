@@ -1,6 +1,6 @@
 """Raster synthesis for OSR route solver.
 
-Produces three aligned rasters per city, on a common bbox + resolution:
+Produces aligned planning rasters per city, on a common bbox + resolution:
 
 cost.npy          — per-cell cost to lay track (∞ inside buildings, low on
                     arterials, medium on side streets, high through parks,
@@ -9,6 +9,9 @@ demand.npy        — per-cell trip-generation potential from POI density
                     + distance-decay; serves as the demand surface the
                     route solver tries to cover.
 buildability.npy  — boolean mask: True = we can physically lay track here.
+water.npy         — independent water mask for bridge and station screening.
+elevation.npy     — optional open DEM elevation in metres.
+terrain-slope.npy — optional ground slope derived from the DEM.
 
 Each raster ships with a sidecar grid.json describing geo-referencing, so
 the Rust solver can consume them without a rasterio dependency.
@@ -23,6 +26,7 @@ from .rasterize import (
     build_buildability_mask,
     build_cost_surface,
     build_demand_surface,
+    build_water_mask,
     rasterize_city,
     save_grid,
 )
@@ -32,6 +36,7 @@ __all__ = [
     "build_buildability_mask",
     "build_cost_surface",
     "build_demand_surface",
+    "build_water_mask",
     "rasterize_city",
     "save_grid",
 ]

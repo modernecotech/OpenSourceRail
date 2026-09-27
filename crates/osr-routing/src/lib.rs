@@ -1,9 +1,9 @@
 //! Least-cost-path route solver for OpenSourceRail design generation.
 //!
-//! Inputs are produced by `design/city-generation/osr_geo/` — three aligned rasters
-//! (cost, demand, buildability) plus an anchors list — all landing on
-//! disk as raw byte arrays with a sidecar `grid.json` describing the
-//! geo-reference.
+//! Inputs are produced by `design/city-generation/osr_geo/` — aligned cost,
+//! demand and buildability rasters plus optional water, elevation and terrain
+//! slope evidence and an anchors list. Arrays land on disk as raw bytes with a
+//! sidecar `grid.json` describing the geo-reference.
 //!
 //! Outputs are geometric line polylines (in both grid-cell and lat/lon
 //! form), station points with snapped coordinates, and a civil-class

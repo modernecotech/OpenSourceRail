@@ -28,6 +28,10 @@ pub enum CivilClass {
     Bridge,
 }
 
+/// Planning threshold only. Detailed vertical alignment and surveyed ground
+/// levels remain required before deciding the actual structure.
+pub const MAX_AT_GRADE_TERRAIN_SLOPE_PERCENT: f32 = 4.0;
+
 /// Alternatives evaluated at a road/rail conflict before committing to a
 /// long elevated railway approach.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
@@ -388,6 +392,15 @@ fn minimum_route_radius_m(
 }
 
 fn classify_cell(grid: &Grid, r: usize, c: usize) -> CivilClass {
+    if grid.is_water(r, c) {
+        return CivilClass::Bridge;
+    }
+    if grid
+        .terrain_slope_at(r, c)
+        .is_some_and(|slope| slope > MAX_AT_GRADE_TERRAIN_SLOPE_PERCENT)
+    {
+        return CivilClass::Elevated;
+    }
     let cost = grid.cost_at(r, c);
     // Thresholds must stay in sync with COST_* constants in
     // osr_geo/rasterize.py:
@@ -396,12 +409,13 @@ fn classify_cell(grid: &Grid, r: usize, c: usize) -> CivilClass {
     //   open           = 20     → at-grade
     //   side street    = 25     → at-grade
     //   park           = 45     → elevated
-    //   water          = 300    → bridge
+    //   water          = 80     → bridge (legacy fallback; the independent
+    //                              mask above is authoritative when present)
     //   building       = 600    → **elevated** (no-tunnel rule,
     //                              RFC 0011 §8)
     if cost < 40.0 {
         CivilClass::AtGrade
-    } else if cost < 100.0 {
+    } else if cost < 70.0 {
         CivilClass::Elevated
     } else if cost < 400.0 {
         CivilClass::Bridge
@@ -447,6 +461,9 @@ mod tests {
             },
             demand: vec![0.0; cost.len()],
             buildability: vec![1; cost.len()],
+            water: None,
+            elevation_m: None,
+            terrain_slope_percent: None,
             cost,
         }
     }
@@ -467,6 +484,9 @@ mod tests {
             },
             demand: vec![0.0; size * size],
             buildability: vec![1; size * size],
+            water: None,
+            elevation_m: None,
+            terrain_slope_percent: None,
             cost: vec![cost; size * size],
         }
     }
@@ -538,6 +558,18 @@ mod tests {
         );
         assert!(segment.elevated_cost_multiplier > 10.0);
         assert!(route_elevated_constructability_multiplier(&grid, &cells) > 10.0);
+    }
+
+    #[test]
+    fn independent_water_and_terrain_evidence_drive_civil_class() {
+        let mut grid = grid(vec![8.0, 8.0, 45.0]);
+        grid.water = Some(vec![0, 25, 0]);
+        grid.terrain_slope_percent = Some(vec![0.0, 0.0, 5.0]);
+        let segments = classify_segments(&grid, &[(0, 0), (0, 1), (0, 2)]);
+        assert_eq!(segments.len(), 3);
+        assert_eq!(segments[0].class, CivilClass::AtGrade);
+        assert_eq!(segments[1].class, CivilClass::Bridge);
+        assert_eq!(segments[2].class, CivilClass::Elevated);
     }
 
     #[test]

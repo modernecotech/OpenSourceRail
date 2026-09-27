@@ -1635,6 +1635,9 @@ mod tests {
             cost: vec![10.0; h * w],
             demand: vec![0.0; h * w],
             buildability: vec![1; h * w],
+            water: None,
+            elevation_m: None,
+            terrain_slope_percent: None,
         }
     }
 

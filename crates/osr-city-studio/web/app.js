@@ -406,7 +406,7 @@ function svgPath(coordinates, close = false) {
 }
 
 function featureTitle(layer, properties) {
-  return properties.name || properties.id || properties.station || layer.label;
+  return properties.name || properties.id || properties.station || properties.structure || layer.label;
 }
 
 function inspectGisFeature(layer, feature, index) {
@@ -433,6 +433,19 @@ function styleGisFeature(node, layerId, properties) {
   } else if (layerId === "routing-buildability") {
     node.setAttribute("fill", "#ed7676");
     node.setAttribute("fill-opacity", String(0.20 + value * 0.65));
+  } else if (layerId === "routing-water") {
+    node.setAttribute("fill", "#2679aa");
+    node.setAttribute("fill-opacity", String(0.28 + value * 0.62));
+  } else if (layerId === "terrain-elevation") {
+    node.setAttribute("fill", `hsl(${115 - value * 80} 42% ${22 + value * 24}%)`);
+    node.setAttribute("fill-opacity", String(0.18 + value * 0.42));
+  } else if (layerId === "terrain-slope") {
+    node.setAttribute("fill", "#e0a04b");
+    node.setAttribute("fill-opacity", String(0.18 + value * 0.64));
+  } else if (layerId === "planning-structures") {
+    node.setAttribute("stroke", properties?.structure === "bridge" ? "#4fc3f7" : "#ffb74d");
+    node.setAttribute("stroke-width", properties?.structure === "bridge" ? "6" : "5");
+    node.setAttribute("stroke-dasharray", properties?.structure === "bridge" ? "3 2" : "9 4");
   }
 }
 
@@ -537,11 +550,11 @@ function renderMap() {
     circle.setAttribute("r", station.archetype.includes("interchange") ? 10 : 8);
     circle.setAttribute(
       "class",
-      `station ${station.state} ${movedIds.has(station.id) ? "moved" : ""} ${selectedStation?.id === station.id ? "selected" : ""}`
+      `station ${station.state} ${station.site_assessment?.station_permitted === false ? "site-blocked" : ""} ${movedIds.has(station.id) ? "moved" : ""} ${selectedStation?.id === station.id ? "selected" : ""}`
     );
     circle.dataset.id = station.id;
     const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-    title.textContent = `${station.name} · ${station.line} · ${station.state}`;
+    title.textContent = `${station.name} · ${station.line} · ${station.state}${station.site_assessment?.station_permitted === false ? " · prohibited over mapped water" : ""}`;
     circle.appendChild(title);
     circle.addEventListener("pointerdown", startStationDrag);
     circle.addEventListener("click", (event) => {
@@ -856,6 +869,11 @@ function renderStationInspector() {
     $("#line-routing-method").value = selectedLine.routing_method || "generated-source";
     $("#line-routing-sources").value = (selectedLine.routing_source_ids || []).join("\n") || "None";
     $("#line-demand-weight").value = selectedLine.demand_weight ?? "Not applicable";
+    const structureRuns = (gisLayers.get("planning-structures")?.features || [])
+      .filter((feature) => feature.properties?.line === selectedLine.id);
+    const bridgeRuns = structureRuns.filter((feature) => feature.properties?.structure === "bridge").length;
+    const viaductRuns = structureRuns.filter((feature) => feature.properties?.structure === "viaduct").length;
+    $("#line-structure").textContent = `Planning structure screen: ${bridgeRuns} likely bridge run${bridgeRuns === 1 ? "" : "s"} · ${viaductRuns} likely viaduct run${viaductRuns === 1 ? "" : "s"}. Inspect the map layer for evidence; survey and vertical alignment remain required.`;
     $("#line-state").value = selectedLine.state;
     $("#line-reason").value = selectedLine.reason || "";
     $("#line-reason").readOnly = !isManual;
@@ -902,6 +920,13 @@ function renderStationInspector() {
     option.disabled = isManual ? !["manual", "retired"].includes(option.value) : option.value === "manual";
   });
   $("#station-reason").value = selectedStation.reason || "";
+  const site = selectedStation.site_assessment;
+  const elevation = site?.elevation_m == null ? "elevation unavailable" : `${site.elevation_m.toFixed(1)} m elevation`;
+  const slope = site?.terrain_slope_percent == null ? "slope unavailable" : `${site.terrain_slope_percent.toFixed(1)}% terrain slope`;
+  $("#station-site").classList.toggle("blocked", site?.station_permitted === false);
+  $("#station-site").textContent = site
+    ? `${site.station_permitted ? "Planning screen: station site permitted" : "Station prohibited over mapped water"} · ${elevation} · ${slope}. Survey verification remains required.`
+    : "No source-locked terrain assessment is available for this station.";
   $("#delete-station").hidden = !isManual;
   const change = view.snapshot.changes.find((item) => item.id === selectedStation.id);
   $("#station-change").textContent = change

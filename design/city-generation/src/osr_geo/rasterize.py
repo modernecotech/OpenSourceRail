@@ -1,4 +1,4 @@
-"""Convert OSM vector data to cost / demand / buildability rasters.
+"""Convert OSM/open-DEM data to aligned planning rasters.
 
 Coordinate system
 -----------------
@@ -24,6 +24,7 @@ from typing import Any, Iterable
 import numpy as np
 
 from osr_osm.fetcher import BBox, CityOSM
+from .terrain import terrain_slope_percent
 
 # ---- Cost weights (per-cell base cost) --------------------------------
 #
@@ -50,11 +51,14 @@ COST_WATER = 80.0           # bridges — buildable anywhere, just expensive
 COST_EXISTING_RAIL = 3.0    # reuse corridor if we can
 # Buildings get a very high but *finite* cost. Physical interpretation:
 # the solver can always get through a built-up block, but at elevated cost.
-# Civil classification tags these segments as BoredTunnel downstream.
+# Civil classification tags these segments as elevated downstream under the
+# project's no-tunnel invariant.
 # Without this (when buildings = inf), dense cities like Lyon and Nairobi
 # fragment into disconnected buildable islands and solve failures result.
 COST_BUILDING = 600.0
 COST_PROTECTED = math.inf   # legally forbidden (protected area, military)
+MAX_AT_GRADE_SLOPE_PERCENT = 4.0
+TERRAIN_COST_PER_EXCESS_PERCENT = 12.0
 
 # Demand kernel: how far a POI's gravity extends.
 DEMAND_RADIUS_M = 600.0
@@ -284,6 +288,19 @@ def build_cost_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
     return cost
 
 
+def build_water_mask(city: CityOSM, grid: GridRef) -> np.ndarray:
+    """Independent water evidence; unlike cost, its meaning is not blended."""
+    water = np.zeros((grid.height, grid.width), dtype=np.uint8)
+    for feature in city.water:
+        nodes = feature["nodes"]
+        closed = len(nodes) >= 4 and nodes[0] == nodes[-1]
+        cells = _fill_polygon(grid, nodes) if closed else _iter_line_cells(grid, nodes)
+        for row, col in cells:
+            if 0 <= row < grid.height and 0 <= col < grid.width:
+                water[row, col] = 100
+    return water
+
+
 def build_demand_surface(
     city: CityOSM,
     grid: GridRef,
@@ -418,6 +435,10 @@ class RasterBundle:
     demand: np.ndarray
     buildability: np.ndarray
     anchors_rc: list[dict[str, Any]]
+    water: np.ndarray
+    elevation_m: np.ndarray | None = None
+    terrain_slope_percent: np.ndarray | None = None
+    terrain_provenance: dict[str, Any] | None = None
 
     def summary(self) -> str:
         build_pct = 100.0 * self.buildability.mean()
@@ -478,6 +499,8 @@ def rasterize_city(
     population_layer: np.ndarray | None = None,
     country: str | None = None,
     pop_cache_dir: Path | None = None,
+    elevation_layer: np.ndarray | None = None,
+    terrain_provenance: dict[str, Any] | None = None,
 ) -> RasterBundle:
     grid = _grid_ref(city.bbox, cell_m)
     # Optionally fetch + sample the WorldPop residential-population
@@ -490,6 +513,21 @@ def rasterize_city(
             country, pop_cache_dir, city.bbox, grid
         )
     cost = build_cost_surface(city, grid)
+    water = build_water_mask(city, grid)
+    slope = None
+    if elevation_layer is not None:
+        if elevation_layer.shape != (grid.height, grid.width):
+            raise ValueError(
+                f"elevation shape {elevation_layer.shape} does not match "
+                f"routing grid {(grid.height, grid.width)}"
+            )
+        elevation_layer = elevation_layer.astype(np.float32)
+        slope = terrain_slope_percent(elevation_layer, grid.cell_m)
+        excess = np.maximum(slope - MAX_AT_GRADE_SLOPE_PERCENT, 0.0)
+        terrain_penalty = np.nan_to_num(
+            excess * TERRAIN_COST_PER_EXCESS_PERCENT, nan=0.0, posinf=0.0
+        )
+        cost = np.where(np.isfinite(cost), cost + terrain_penalty, cost).astype(np.float32)
     demand = build_demand_surface(city, grid, population_layer=population_layer)
     buildability = build_buildability_mask(cost)
 
@@ -525,6 +563,10 @@ def rasterize_city(
         demand=demand,
         buildability=buildability,
         anchors_rc=anchors_rc,
+        water=water,
+        elevation_m=elevation_layer,
+        terrain_slope_percent=slope,
+        terrain_provenance=terrain_provenance,
     )
 
 
@@ -548,7 +590,12 @@ def save_grid(bundle: RasterBundle, out_dir: Path | str, slug: str) -> dict[str,
         "buildability": out_dir / f"{slug}.buildability.npy",
         "grid": out_dir / f"{slug}.grid.json",
         "anchors": out_dir / f"{slug}.anchors.json",
+        "water": out_dir / f"{slug}.water.npy",
     }
+    if bundle.elevation_m is not None:
+        paths["elevation"] = out_dir / f"{slug}.elevation.npy"
+        paths["terrain_slope"] = out_dir / f"{slug}.terrain-slope.npy"
+        paths["terrain_provenance"] = out_dir / f"{slug}.terrain-provenance.json"
 
     # np.save would add a magic header that complicates Rust reading.
     # Use raw little-endian bytes + sidecar JSON describing dtype/shape.
@@ -556,6 +603,13 @@ def save_grid(bundle: RasterBundle, out_dir: Path | str, slug: str) -> dict[str,
     bundle.cost.astype(np.float32).tofile(paths["cost"])
     bundle.demand.astype(np.float32).tofile(paths["demand"])
     bundle.buildability.astype(np.uint8).tofile(paths["buildability"])
+    bundle.water.astype(np.uint8).tofile(paths["water"])
+    if bundle.elevation_m is not None and bundle.terrain_slope_percent is not None:
+        bundle.elevation_m.astype(np.float32).tofile(paths["elevation"])
+        bundle.terrain_slope_percent.astype(np.float32).tofile(paths["terrain_slope"])
+        paths["terrain_provenance"].write_text(
+            json.dumps(bundle.terrain_provenance or {}, indent=2, sort_keys=True) + "\n"
+        )
 
     paths["grid"].write_text(
         json.dumps(
@@ -580,6 +634,26 @@ def save_grid(bundle: RasterBundle, out_dir: Path | str, slug: str) -> dict[str,
                         "shape": list(bundle.buildability.shape),
                         "byteorder": "little",
                     },
+                    "water": {
+                        "path": paths["water"].name,
+                        "dtype": "u8",
+                        "shape": list(bundle.water.shape),
+                        "byteorder": "little",
+                    },
+                    **({
+                        "elevation": {
+                            "path": paths["elevation"].name,
+                            "dtype": "f32",
+                            "shape": list(bundle.elevation_m.shape),
+                            "byteorder": "little",
+                        },
+                        "terrain_slope": {
+                            "path": paths["terrain_slope"].name,
+                            "dtype": "f32",
+                            "shape": list(bundle.terrain_slope_percent.shape),
+                            "byteorder": "little",
+                        },
+                    } if bundle.elevation_m is not None else {}),
                 },
             },
             indent=2,

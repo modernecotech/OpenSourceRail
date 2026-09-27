@@ -20,7 +20,8 @@ use crate::model::{
     RevisionIfcGeoreferencingDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
     RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings,
     ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
-    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
+    StationCreate, StationEdit, StationOverride, StationSiteAssessment, StudioArtifact,
+    ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -394,6 +395,7 @@ impl CityProject {
     pub fn compile(&self) -> Result<CompiledSnapshot> {
         let sources = self.resolve_sources()?;
         let mut findings = self.validate(&sources);
+        let planning_grid = self.routing_grid().ok();
         let override_by_id: BTreeMap<&str, &StationOverride> = self
             .overrides
             .stations
@@ -453,6 +455,9 @@ impl CityProject {
                     .unwrap_or_else(|| "standard".to_string()),
                 state,
                 reason: item.map_or_else(String::new, |value| value.reason.clone()),
+                site_assessment: planning_grid
+                    .as_ref()
+                    .and_then(|grid| station_site_assessment(grid, lat, lon)),
             });
         }
         for station in self
@@ -495,6 +500,9 @@ impl CityProject {
                 archetype: station.archetype.clone(),
                 state: IntentState::Manual,
                 reason: station.reason.clone(),
+                site_assessment: planning_grid
+                    .as_ref()
+                    .and_then(|grid| station_site_assessment(grid, station.lat, station.lon)),
             });
         }
         stations.sort_by(|a, b| {
@@ -840,6 +848,27 @@ impl CityProject {
 
     pub fn update_station(&mut self, id: &str, edit: StationEdit) -> Result<()> {
         validate_coordinates(edit.lat, edit.lon)?;
+        if edit.state != IntentState::Retired {
+            let current = self
+                .base
+                .stations
+                .iter()
+                .find(|station| station.id == id)
+                .map(|station| (station.lat, station.lon))
+                .or_else(|| {
+                    self.overrides
+                        .manual_stations
+                        .iter()
+                        .find(|station| station.id == id)
+                        .map(|station| (station.lat, station.lon))
+                });
+            if let Some((current_lat, current_lon)) = current {
+                self.ensure_station_site(
+                    edit.lat.unwrap_or(current_lat),
+                    edit.lon.unwrap_or(current_lon),
+                )?;
+            }
+        }
         if self.base.stations.iter().any(|station| station.id == id) {
             if edit.state == IntentState::Manual {
                 bail!("manual state is reserved for designer-created stations");
@@ -906,6 +935,7 @@ impl CityProject {
         validate_station_name(&create.name)?;
         validate_manual_archetype(&create.archetype)?;
         validate_coordinates(Some(create.lat), Some(create.lon))?;
+        self.ensure_station_site(create.lat, create.lon)?;
         let source = self
             .source_line_geometries()?
             .remove(line)
@@ -1013,6 +1043,8 @@ impl CityProject {
         );
         let route_start = *points.first().expect("manual route has a start point");
         let route_end = *points.last().expect("manual route has an end point");
+        self.ensure_station_site(route_start.lat, route_start.lon)?;
+        self.ensure_station_site(route_end.lat, route_end.lon)?;
         self.overrides.manual_lines.push(ManualLine {
             id: id.clone(),
             name: create.name.trim().to_string(),
@@ -1164,6 +1196,33 @@ impl CityProject {
             source_ids: settings.source_ids.clone(),
             demand_weight: Some(settings.demand_weight),
         })
+    }
+
+    fn routing_grid(&self) -> Result<Grid> {
+        let settings = self
+            .config
+            .routing
+            .as_ref()
+            .ok_or_else(|| anyhow!("project has no source-locked routing bundle"))?;
+        Ok(
+            osr_routing::raster::load_bundle(self.root.join(&settings.sidecar), &settings.slug)?
+                .grid,
+        )
+    }
+
+    fn ensure_station_site(&self, lat: f64, lon: f64) -> Result<()> {
+        let Ok(grid) = self.routing_grid() else {
+            return Ok(());
+        };
+        let Some(assessment) = station_site_assessment(&grid, lat, lon) else {
+            return Ok(());
+        };
+        if !assessment.station_permitted {
+            bail!(
+                "stations are not permitted over mapped water; move the platform to land and retain the crossing as bridge structure"
+            );
+        }
+        Ok(())
     }
 
     pub fn update_manual_line(&mut self, id: &str, edit: LineEdit) -> Result<()> {
@@ -2060,6 +2119,33 @@ impl CityProject {
                     code: "LINE_HAS_TOO_FEW_STATIONS".to_string(),
                     message: format!("line {line} requires at least two active stations"),
                     object_id: Some(line.to_string()),
+                });
+            }
+        }
+        for station in stations {
+            let Some(site) = &station.site_assessment else {
+                continue;
+            };
+            if site.over_water {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "STATION_OVER_WATER".to_string(),
+                    message: "station lies over mapped water; use a bridge segment with platforms on land"
+                        .to_string(),
+                    object_id: Some(station.id.clone()),
+                });
+            } else if site
+                .terrain_slope_percent
+                .is_some_and(|slope| slope > osr_routing::civil::MAX_AT_GRADE_TERRAIN_SLOPE_PERCENT)
+            {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Warning,
+                    code: "STATION_STEEP_TERRAIN".to_string(),
+                    message: format!(
+                        "station terrain screen is {:.1}% slope; review earthworks or an elevated station",
+                        site.terrain_slope_percent.unwrap_or_default()
+                    ),
+                    object_id: Some(station.id.clone()),
                 });
             }
         }
@@ -3571,6 +3657,18 @@ fn latlon_to_cell(reference: &GridRef, lat: f64, lon: f64) -> Result<(usize, usi
     ))
 }
 
+fn station_site_assessment(grid: &Grid, lat: f64, lon: f64) -> Option<StationSiteAssessment> {
+    let (row, col) = latlon_to_cell(&grid.reference, lat, lon).ok()?;
+    let over_water = grid.excludes_station_for_water(row, col);
+    Some(StationSiteAssessment {
+        elevation_m: grid.elevation_at(row, col),
+        terrain_slope_percent: grid.terrain_slope_at(row, col),
+        over_water,
+        station_permitted: !over_water,
+        basis: "source-locked open DEM and OSM water mask; planning screen only".to_string(),
+    })
+}
+
 fn snapped_route_cell(grid: &Grid, lat: f64, lon: f64, max_snap_m: f64) -> Result<(usize, usize)> {
     let origin = latlon_to_cell(&grid.reference, lat, lon)?;
     let radius = (max_snap_m / grid.reference.cell_m).ceil() as isize;
@@ -3915,8 +4013,8 @@ mod tests {
 
     use super::{
         compare_snapshots, haversine_m, is_custom_coordination_id, normalized_interval,
-        parse_minutes, validate_coordination_decision, validate_custom_coordination_issue,
-        validate_line_plan, CityProject,
+        parse_minutes, station_site_assessment, validate_coordination_decision,
+        validate_custom_coordination_issue, validate_line_plan, CityProject, Grid, GridRef,
     };
     use crate::model::{
         ApprovalCreate, ApprovalStatus, CoordinationStatus, DemandFlow, IfcGeoreferencingSettings,
@@ -3928,6 +4026,35 @@ mod tests {
     fn parses_end_of_day() {
         assert_eq!(parse_minutes("24:00").unwrap(), 1_440);
         assert!(parse_minutes("24:01").is_err());
+    }
+
+    #[test]
+    fn station_site_screen_excludes_predominantly_water_cells() {
+        let grid = Grid {
+            reference: GridRef {
+                height: 1,
+                width: 2,
+                cell_m: 100.0,
+                lat0: 0.0,
+                bbox_south: 0.0,
+                bbox_west: 0.0,
+                bbox_north: 0.001,
+                bbox_east: 0.002,
+                m_per_deg_lat: 100_000.0,
+                m_per_deg_lon: 100_000.0,
+            },
+            cost: vec![8.0, 8.0],
+            demand: vec![0.0, 0.0],
+            buildability: vec![1, 1],
+            water: Some(vec![20, 80]),
+            elevation_m: Some(vec![12.0, 10.0]),
+            terrain_slope_percent: Some(vec![1.0, 1.0]),
+        };
+        let land = station_site_assessment(&grid, 0.0005, 0.0005).unwrap();
+        let water = station_site_assessment(&grid, 0.0005, 0.0015).unwrap();
+        assert!(land.station_permitted);
+        assert!(!water.station_permitted);
+        assert!(water.over_water);
     }
 
     #[test]
@@ -4674,7 +4801,7 @@ mod tests {
             serde_json::to_vec(&second.points).expect("serialize second route")
         );
         assert_eq!(first.method, "demand-aware");
-        assert_eq!(first.source_ids.len(), 6);
+        assert_eq!(first.source_ids.len(), 10);
         assert_eq!(first.demand_weight, Some(5.0));
         assert!(first.points.len() > 20);
 
@@ -4688,7 +4815,7 @@ mod tests {
             .find(|line| line.id == id)
             .expect("saved demand-aware line");
         assert_eq!(line.routing_method, "demand-aware");
-        assert_eq!(line.routing_source_ids.len(), 6);
+        assert_eq!(line.routing_source_ids.len(), 10);
         assert_eq!(line.demand_weight, Some(5.0));
         assert!(
             haversine_m(

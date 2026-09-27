@@ -6,6 +6,9 @@
 //!   {slug}.cost.npy        — f32 little-endian, row-major, shape (H, W)
 //!   {slug}.demand.npy      — f32 little-endian, row-major, shape (H, W)
 //!   {slug}.buildability.npy — u8  little-endian, row-major, shape (H, W)
+//!   {slug}.water.npy       — optional u8 independent water mask
+//!   {slug}.elevation.npy   — optional f32 open-DEM height in metres
+//!   {slug}.terrain-slope.npy — optional f32 local ground slope percent
 //!   {slug}.anchors.json    — list of {id, kind, weight, name, row, col, lat, lon}
 //!
 //! The `.npy` extension is a slight lie — they are raw byte streams, not
@@ -62,6 +65,10 @@ pub struct Grid {
     pub cost: Vec<f32>,
     pub demand: Vec<f32>,
     pub buildability: Vec<u8>,
+    /// Independent evidence keeps civil meaning out of the blended cost.
+    pub water: Option<Vec<u8>>,
+    pub elevation_m: Option<Vec<f32>>,
+    pub terrain_slope_percent: Option<Vec<f32>>,
 }
 
 impl Grid {
@@ -96,6 +103,44 @@ impl Grid {
     #[must_use]
     pub fn is_buildable(&self, row: usize, col: usize) -> bool {
         self.buildability[self.idx(row, col)] != 0
+    }
+
+    #[inline]
+    #[must_use]
+    pub fn is_water(&self, row: usize, col: usize) -> bool {
+        self.water_coverage_percent_at(row, col) > 0.0
+    }
+
+    #[inline]
+    #[must_use]
+    pub fn water_coverage_percent_at(&self, row: usize, col: usize) -> f32 {
+        self.water
+            .as_ref()
+            .map_or(0.0, |values| f32::from(values[self.idx(row, col)]))
+    }
+
+    #[inline]
+    #[must_use]
+    pub fn excludes_station_for_water(&self, row: usize, col: usize) -> bool {
+        self.water_coverage_percent_at(row, col) >= 50.0
+    }
+
+    #[inline]
+    #[must_use]
+    pub fn elevation_at(&self, row: usize, col: usize) -> Option<f32> {
+        self.elevation_m
+            .as_ref()
+            .map(|values| values[self.idx(row, col)])
+            .filter(|value| value.is_finite())
+    }
+
+    #[inline]
+    #[must_use]
+    pub fn terrain_slope_at(&self, row: usize, col: usize) -> Option<f32> {
+        self.terrain_slope_percent
+            .as_ref()
+            .map(|values| values[self.idx(row, col)])
+            .filter(|value| value.is_finite())
     }
 }
 
@@ -140,6 +185,12 @@ struct Rasters {
     cost: RasterSidecar,
     demand: RasterSidecar,
     buildability: RasterSidecar,
+    #[serde(default)]
+    water: Option<RasterSidecar>,
+    #[serde(default)]
+    elevation: Option<RasterSidecar>,
+    #[serde(default)]
+    terrain_slope: Option<RasterSidecar>,
 }
 
 // ---- Errors ----------------------------------------------------------
@@ -202,12 +253,62 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         &side.rasters.buildability,
         &expected_shape,
     )?;
+    let water = side
+        .rasters
+        .water
+        .as_ref()
+        .map(|metadata| {
+            load_u8(
+                &dir.join(format!("{slug}.water.npy")),
+                "water",
+                metadata,
+                &expected_shape,
+            )
+        })
+        .transpose()?;
+    let elevation_m = side
+        .rasters
+        .elevation
+        .as_ref()
+        .map(|metadata| {
+            load_f32(
+                &dir.join(format!("{slug}.elevation.npy")),
+                "elevation",
+                metadata,
+                &expected_shape,
+            )
+        })
+        .transpose()?;
+    let terrain_slope_percent = side
+        .rasters
+        .terrain_slope
+        .as_ref()
+        .map(|metadata| {
+            load_f32(
+                &dir.join(format!("{slug}.terrain-slope.npy")),
+                "terrain_slope",
+                metadata,
+                &expected_shape,
+            )
+        })
+        .transpose()?;
+    if elevation_m.is_some() != terrain_slope_percent.is_some() {
+        return Err(RasterError::Json(serde_json::Error::io(
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "elevation and terrain_slope rasters must be supplied together",
+            ),
+        )));
+    }
 
     let grid = Grid {
         reference,
         cost,
         demand,
         buildability,
+        water,
+        elevation_m,
+        terrain_slope_percent,
     };
 
     let anchors_path: PathBuf = dir.join(format!("{slug}.anchors.json"));

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import csv
 import logging
+import math
 import os
 import re
 import subprocess
@@ -41,6 +42,7 @@ from osr_geo.rasterize import (
     rasterize_city,
     save_grid,
 )
+from osr_geo.terrain import sample_elevation_grid
 from osr_osm.fetcher import BBox, fetch_city
 
 log = logging.getLogger(__name__)
@@ -167,6 +169,7 @@ def run_one(
     osm_cache = cache_root / "osm"
     raster_cache = cache_root / "rasters"
     pop_cache = cache_root / "population"
+    terrain_cache = cache_root / "terrain"
     raster_cache.mkdir(parents=True, exist_ok=True)
 
     # 1 + 2. OSM pull + (optional) population raster + rasterize.
@@ -195,20 +198,18 @@ def run_one(
     # If the country has no mapping or the download fails, we fall
     # back gracefully to anchor-only demand.
     pop_layer = None
+    lat0 = (city.bbox.south + city.bbox.north) / 2
+    m_per_deg_lat = 111_132.0
+    m_per_deg_lon = 111_320.0 * math.cos(math.radians(lat0))
+    width_m = (city.bbox.east - city.bbox.west) * m_per_deg_lon
+    height_m = (city.bbox.north - city.bbox.south) * m_per_deg_lat
+    width = max(1, int(math.ceil(width_m / cell_m)))
+    height = max(1, int(math.ceil(height_m / cell_m)))
     pop_path = fetch_population_raster(city.country, pop_cache)
     if pop_path is not None:
         try:
             # Compute bbox dims that match what rasterize_city will use.
             # We pass the same bbox so the destination grid lines up.
-            import math as _m
-            lat0 = (city.bbox.south + city.bbox.north) / 2
-            m_per_deg_lat = 111_132.0
-            m_per_deg_lon = 111_320.0 * _m.cos(_m.radians(lat0))
-            width_m = (city.bbox.east - city.bbox.west) * m_per_deg_lon
-            height_m = (city.bbox.north - city.bbox.south) * m_per_deg_lat
-            width = max(1, int(_m.ceil(width_m / cell_m)))
-            height = max(1, int(_m.ceil(height_m / cell_m)))
-
             pop_raw = sample_population_into_grid(
                 pop_path,
                 city.bbox.south, city.bbox.west,
@@ -271,7 +272,31 @@ def run_one(
             before, len(city_osm.anchors), before - len(city_osm.anchors),
         )
 
-    bundle = rasterize_city(city_osm, cell_m=cell_m, population_layer=pop_layer)
+    elevation_layer = None
+    terrain_provenance = None
+    try:
+        terrain = sample_elevation_grid(
+            city.bbox, height, width, terrain_cache
+        )
+        elevation_layer = terrain.elevation_m
+        terrain_provenance = terrain.provenance
+        log.info(
+            "terrain layer: %d×%d, elevation %.0f–%.0f m",
+            height,
+            width,
+            float(np.nanmin(elevation_layer)),
+            float(np.nanmax(elevation_layer)),
+        )
+    except Exception as e:  # noqa: BLE001
+        log.warning("terrain layer build failed for %s: %s", city.slug, e)
+
+    bundle = rasterize_city(
+        city_osm,
+        cell_m=cell_m,
+        population_layer=pop_layer,
+        elevation_layer=elevation_layer,
+        terrain_provenance=terrain_provenance,
+    )
 
     # 3. Save rasters. The sidecar file path is what Rust consumes.
     paths = save_grid(bundle, raster_cache, city.slug)

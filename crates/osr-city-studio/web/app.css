@@ -127,6 +127,10 @@ main { padding: 1.25rem; max-width: 1800px; margin: auto; }
 .gis-feature[data-layer="routing-demand"] { fill: color-mix(in srgb, #ff9f43 calc(18% + var(--value) * 70%), transparent); }
 .gis-feature[data-layer="routing-cost"] { fill: color-mix(in srgb, #d86cff calc(14% + var(--value) * 64%), transparent); }
 .gis-feature[data-layer="routing-buildability"] { fill: color-mix(in srgb, #ed7676 calc(25% + var(--value) * 62%), transparent); }
+.gis-feature[data-layer="routing-water"] { fill: #2679aa; stroke: #62b9e8; stroke-width: .7; }
+.gis-feature[data-layer="terrain-elevation"] { stroke: rgba(232, 242, 238, .08); stroke-width: .4; }
+.gis-feature[data-layer="terrain-slope"] { fill: #e0a04b; stroke: #ffc46b; stroke-width: .6; }
+.gis-feature[data-layer="planning-structures"].line { stroke-linecap: round; }
 .gis-feature[data-layer="context-anchors"] { fill: #e8d984; stroke: #07110f; }
 .gis-feature[data-layer="context-buildings"] { fill: #6d8078; stroke: #879a92; stroke-width: .45; }
 .gis-feature[data-layer="context-water"].line { stroke: #4b9ac6; stroke-width: 2.5; }
@@ -154,6 +158,9 @@ main { padding: 1.25rem; max-width: 1800px; margin: auto; }
 .station.locked { fill: var(--locked); }
 .station.retired { fill: var(--danger); }
 .station.moved { stroke: var(--accent); }
+.station.site-blocked { fill: var(--danger); stroke: white; stroke-dasharray: 3 2; }
+.site-screen { padding: .65rem .75rem; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: #0a1714; font-size: .78rem; }
+.site-screen.blocked { border-color: var(--danger); color: #ffaaaa; background: #2a1111; }
 .control-point { fill: #ff7fc8; stroke: #07110f; stroke-width: 4; cursor: grab; }
 .control-point:hover, .control-point.selected { stroke: white; stroke-width: 5; }
 .legend {

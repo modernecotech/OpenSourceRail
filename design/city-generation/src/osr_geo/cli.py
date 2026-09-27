@@ -20,6 +20,7 @@ from pathlib import Path
 from osr_osm.fetcher import BBox, CityOSM
 
 from .rasterize import DEMAND_RADIUS_M, rasterize_city, save_grid
+from .terrain import sample_elevation_grid
 
 log = logging.getLogger(__name__)
 
@@ -58,6 +59,17 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     ap.add_argument(
+        "--terrain-cache-dir",
+        type=Path,
+        default=Path.home() / ".cache" / "osr-pipeline" / "terrain",
+        help="cache for source-locked open Skadi/SRTM elevation tiles",
+    )
+    ap.add_argument(
+        "--no-terrain",
+        action="store_true",
+        help="omit the optional open elevation layer (water is still emitted)",
+    )
+    ap.add_argument(
         "--pop-cache-dir",
         type=Path,
         default=Path.home() / ".cache" / "osr-pipeline" / "population",
@@ -72,11 +84,39 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     city = _load_city(args.osm_json)
+    elevation_layer = None
+    terrain_provenance = None
+    if not args.no_terrain:
+        # Build the same grid dimensions as rasterize_city so the DEM stays
+        # byte-for-byte aligned with cost, demand and water.
+        lat0 = (city.bbox.south + city.bbox.north) / 2
+        width = max(
+            1,
+            math.ceil(
+                (city.bbox.east - city.bbox.west)
+                * 111_320.0
+                * math.cos(math.radians(lat0))
+                / args.cell_m
+            ),
+        )
+        height = max(
+            1,
+            math.ceil(
+                (city.bbox.north - city.bbox.south) * 111_132.0 / args.cell_m
+            ),
+        )
+        terrain = sample_elevation_grid(
+            city.bbox, height, width, args.terrain_cache_dir
+        )
+        elevation_layer = terrain.elevation_m
+        terrain_provenance = terrain.provenance
     bundle = rasterize_city(
         city,
         cell_m=args.cell_m,
         country=args.country,
         pop_cache_dir=args.pop_cache_dir,
+        elevation_layer=elevation_layer,
+        terrain_provenance=terrain_provenance,
     )
     print(bundle.summary(), file=sys.stderr)
     paths = save_grid(bundle, args.out_dir, args.slug)

@@ -47,7 +47,11 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
 
   const module = page.frameLocator("#moduleFrame");
   await expect(module.locator("#summary .summary-card").first()).toBeVisible({ timeout: 60_000 });
+  await expect(module.locator("#gis-layer-count")).toHaveText("(20)");
+  await expect(module.locator('[data-layer-control="planning-structures"]')).toContainText("Likely bridges / viaducts");
   await module.locator("#network-map .station").first().click();
+  await expect(module.locator("#station-site")).toContainText("terrain slope");
+  await expect(module.locator("#station-site")).toContainText("Survey verification remains required");
   await expect(page.locator("#contextAsset")).not.toHaveText("none");
   const selectedAsset = await page.locator("#contextAsset").textContent();
 

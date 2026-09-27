@@ -12,8 +12,9 @@ reviewable Git diff. New-line day-type plans are stored beside the other
 services in `services/service-plan.toml`.
 
 Samawah also commits a compact planning raster under `routing/`. Cost, demand,
-buildability, anchors, and derivation provenance are independently SHA-256
-locked so demand-aware routes are reproducible in a fresh clone.
+buildability, water coverage, open-DEM elevation, derived terrain slope,
+anchors, and derivation provenance are independently SHA-256 locked so
+demand-aware routes and civil screens are reproducible in a fresh clone.
 
 Start with the [Samawah project](samawah/project.osr.toml) and the
 [City Studio guide](../../docs/city-studio.md).

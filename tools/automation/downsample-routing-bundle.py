@@ -41,6 +41,10 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
     demand_path = source_dir / f"{slug}.demand.npy"
     buildability_path = source_dir / f"{slug}.buildability.npy"
     anchors_path = source_dir / f"{slug}.anchors.json"
+    water_path = source_dir / f"{slug}.water.npy"
+    elevation_path = source_dir / f"{slug}.elevation.npy"
+    terrain_slope_path = source_dir / f"{slug}.terrain-slope.npy"
+    terrain_provenance_path = source_dir / f"{slug}.terrain-provenance.json"
     cost = read_f32(cost_path, cells)
     demand = read_f32(demand_path, cells)
     buildability = buildability_path.read_bytes()
@@ -48,12 +52,23 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
         raise ValueError(
             f"{buildability_path}: expected {cells} bytes, found {len(buildability)}"
         )
+    water = water_path.read_bytes() if water_path.exists() else None
+    if water is not None and len(water) != cells:
+        raise ValueError(f"{water_path}: expected {cells} bytes, found {len(water)}")
+    elevation = read_f32(elevation_path, cells) if elevation_path.exists() else None
+    terrain_slope = read_f32(terrain_slope_path, cells) if terrain_slope_path.exists() else None
+    if (elevation is None) != (terrain_slope is None):
+        raise ValueError("elevation and terrain-slope rasters must be supplied together")
 
     out_height = math.ceil(height / factor)
     out_width = math.ceil(width / factor)
+    out_cell_m = float(source_grid["cell_m"]) * factor
     out_cost: list[float] = []
     out_demand: list[float] = []
     out_buildability = bytearray()
+    out_water = bytearray()
+    out_elevation: list[float] = []
+    out_terrain_slope: list[float] = []
     for out_row in range(out_height):
         row_start = out_row * factor
         row_end = min(row_start + factor, height)
@@ -62,11 +77,22 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
             col_end = min(col_start + factor, width)
             buildable_costs: list[float] = []
             maximum_demand = 0.0
+            block_elevation: list[float] = []
+            maximum_slope = 0.0
+            water_total = 0
+            water_samples = 0
             for row in range(row_start, row_end):
                 offset = row * width
                 for col in range(col_start, col_end):
                     index = offset + col
                     maximum_demand = max(maximum_demand, demand[index])
+                    if water is not None:
+                        water_total += water[index]
+                        water_samples += 1
+                    if elevation is not None and math.isfinite(elevation[index]):
+                        block_elevation.append(elevation[index])
+                    if terrain_slope is not None and math.isfinite(terrain_slope[index]):
+                        maximum_slope = max(maximum_slope, terrain_slope[index])
                     if buildability[index] and math.isfinite(cost[index]):
                         buildable_costs.append(cost[index])
             if buildable_costs:
@@ -76,8 +102,32 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
                 out_buildability.append(0)
                 out_cost.append(math.inf)
             out_demand.append(maximum_demand)
+            if water is not None:
+                out_water.append(round(water_total / max(1, water_samples)))
+            if elevation is not None:
+                out_elevation.append(
+                    sum(block_elevation) / len(block_elevation) if block_elevation else math.nan
+                )
+                out_terrain_slope.append(maximum_slope)
 
-    out_cell_m = float(source_grid["cell_m"]) * factor
+    if elevation is not None:
+        # Recalculate grade on the compact grid. Taking the maximum of source
+        # slopes would preserve single-pixel DEM noise and overstate steep
+        # terrain in otherwise flat cities.
+        for row in range(out_height):
+            for col in range(out_width):
+                left = out_elevation[row * out_width + max(0, col - 1)]
+                right = out_elevation[row * out_width + min(out_width - 1, col + 1)]
+                north = out_elevation[max(0, row - 1) * out_width + col]
+                south = out_elevation[min(out_height - 1, row + 1) * out_width + col]
+                dx_cells = 1 if col in {0, out_width - 1} else 2
+                dy_cells = 1 if row in {0, out_height - 1} else 2
+                if all(math.isfinite(value) for value in [left, right, north, south]):
+                    dx = (right - left) / (dx_cells * out_cell_m)
+                    dy = (south - north) / (dy_cells * out_cell_m)
+                    out_terrain_slope[row * out_width + col] = math.hypot(dx, dy) * 100.0
+                else:
+                    out_terrain_slope[row * out_width + col] = math.nan
     grid = dict(source_grid)
     grid.update(
         {
@@ -104,14 +154,25 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
             "demand": raster("demand", "f32"),
         },
     }
+    if water is not None:
+        compact_sidecar["rasters"]["water"] = raster("water", "u8")
+    if elevation is not None:
+        compact_sidecar["rasters"]["elevation"] = raster("elevation", "f32")
+        compact_sidecar["rasters"]["terrain_slope"] = raster("terrain-slope", "f32")
     anchors = json.loads(anchors_path.read_text())
     for anchor in anchors:
         anchor["row"] = min(int(anchor["row"]) // factor, out_height - 1)
         anchor["col"] = min(int(anchor["col"]) // factor, out_width - 1)
     anchors.sort(key=lambda item: (item["id"], item["row"], item["col"]))
+    upstream_paths = [sidecar_path, cost_path, demand_path, buildability_path, anchors_path]
+    upstream_paths.extend(
+        path
+        for path in [water_path, elevation_path, terrain_slope_path, terrain_provenance_path]
+        if path.exists()
+    )
     upstream = {
         path.name: sha256(path.read_bytes())
-        for path in [sidecar_path, cost_path, demand_path, buildability_path, anchors_path]
+        for path in upstream_paths
     }
     provenance = {
         "schema_version": 1,
@@ -121,10 +182,15 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
             "buildability": "any-buildable-cell",
             "cost": "minimum-buildable-cost",
             "demand": "maximum-demand",
+            **({"water": "mean-water-coverage-percent"} if water is not None else {}),
+            **({
+                "elevation": "mean-valid-elevation",
+                "terrain_slope": "gradient-of-mean-elevation",
+            } if elevation is not None else {}),
         },
         "upstream_sha256": upstream,
     }
-    return {
+    outputs = {
         f"{slug}.grid.json": json_bytes(compact_sidecar),
         f"{slug}.cost.npy": encode_f32(out_cost),
         f"{slug}.demand.npy": encode_f32(out_demand),
@@ -132,6 +198,14 @@ def build_outputs(sidecar_path: Path, slug: str, factor: int) -> dict[str, bytes
         f"{slug}.anchors.json": json_bytes(anchors),
         f"{slug}.routing-provenance.json": json_bytes(provenance),
     }
+    if water is not None:
+        outputs[f"{slug}.water.npy"] = bytes(out_water)
+    if elevation is not None:
+        outputs[f"{slug}.elevation.npy"] = encode_f32(out_elevation)
+        outputs[f"{slug}.terrain-slope.npy"] = encode_f32(out_terrain_slope)
+        if terrain_provenance_path.exists():
+            outputs[f"{slug}.terrain-provenance.json"] = terrain_provenance_path.read_bytes()
+    return outputs
 
 
 def main() -> int:

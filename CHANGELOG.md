@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added source-locked open SRTM elevation, derived terrain slope and independent
+  OSM water coverage to City Studio planning bundles. The designer now exposes
+  20 deterministic GIS layers, highlights likely bridge and terrain/surface
+  viaduct runs, reports elevation/slope at every station, rejects new stations
+  over predominantly mapped water, and preserves the survey/vertical-alignment
+  release boundary.
 - Added reusable authority snapshots, immutable ATP braking profiles and borrowed
   topology walks. ATP and interlocking determinism passed on candidate
   `2bf8b7717`; odometry determinism and two-train non-overlap remain open.

@@ -230,9 +230,14 @@ stable ID from `/api/gis/layers/<id>` with a SHA-256 digest, feature count,
 provenance class and default presentation. Planning rasters are aggregated into
 500 m display cells without changing the locked 100 m routing inputs. The map
 does not call a public tile service, so a revision or test cannot drift with a
-remote basemap. Deployment teams may add survey, parcel, utility, terrain or
-licensed local basemap extracts to the same locked project workflow; the
-included place anchors and planning surfaces are not survey evidence.
+remote basemap. The Samawah bundle includes source-locked NASA/NGA SRTM
+elevation from the AWS Open Data Terrain Tiles service, derived terrain slope,
+and an independent OSM water-coverage mask. These drive visible likely
+bridge/viaduct segments, warn on steep station sites, and prohibit a station in
+a predominantly-water cell. Deployment teams may add survey, parcel, utility
+or licensed local basemap extracts to the same locked project workflow; the
+included DEM, place anchors and planning surfaces are not survey evidence or a
+final vertical alignment.
 
 The tracked Samawah context is regenerated from the pipeline's processed OSM
 snapshot with `python3 tools/automation/export-gis-context.py
@@ -241,10 +246,11 @@ stable GeoJSON, ODbL attribution and fetch provenance, then refreshes the five
 matching entries in `sources.lock.json`.
 
 The Samawah routing bundle is a committed 100 m planning surface derived from
-the pipeline's 20 m cost, demand, and buildability rasters. Every component and
-its derivation record is SHA-256 locked. This is appropriate for comparing
-planning alternatives, not survey or detailed civil design. Designers can
-shape either route strategy further with alignment control points.
+the pipeline's 20 m cost, demand, buildability, water, elevation and slope
+rasters. Every component, upstream terrain tile and derivation record is
+SHA-256 locked. This is appropriate for comparing planning alternatives, not
+survey or detailed civil design. Designers can shape either route strategy
+further with alignment control points.
 
 The revision comparison panel compares any committed revision JSON with the
 current working candidate. It reports object additions, removals, movements,

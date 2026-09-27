@@ -612,6 +612,17 @@ pub struct CompiledStation {
     pub archetype: String,
     pub state: IntentState,
     pub reason: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub site_assessment: Option<StationSiteAssessment>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct StationSiteAssessment {
+    pub elevation_m: Option<f32>,
+    pub terrain_slope_percent: Option<f32>,
+    pub over_water: bool,
+    pub station_permitted: bool,
+    pub basis: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
