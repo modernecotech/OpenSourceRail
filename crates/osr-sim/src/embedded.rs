@@ -272,7 +272,7 @@ pub fn embedded_tick(
     // TCMS aggregates at 1 Hz while CBM ground telemetry is sampled at 0.5 Hz.
     // Queue the real payload so radio outages preserve ordering and recovery
     // drains the original samples instead of substituting the latest value.
-    if sim_time_s % 2 == 0 {
+    if sim_time_s.is_multiple_of(2) {
         if shadow.cbm_payload_queue.len() >= CBM_PAYLOAD_QUEUE_CAPACITY {
             shadow.cbm_payload_queue.pop_front();
             shadow.summary.t2g_payloads_dropped =

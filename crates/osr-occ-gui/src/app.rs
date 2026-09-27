@@ -15,9 +15,7 @@
 
 use std::collections::HashMap;
 
-use eframe::egui::{
-    self, CentralPanel, Color32, Context, Pos2, RichText, ScrollArea, SidePanel, TopBottomPanel,
-};
+use eframe::egui::{self, CentralPanel, Color32, Context, Panel, Pos2, RichText, ScrollArea};
 use osr_core::{Network, SectionId};
 use osr_gui_shared::{draw_network, draw_section_state, NetworkLayout, Palette};
 use osr_interlocking::IntrusionState;
@@ -315,25 +313,26 @@ impl OccApp {
 }
 
 impl eframe::App for OccApp {
-    fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
-        self.advance(ctx);
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        let ctx = ui.ctx().clone();
+        self.advance(&ctx);
 
-        top_bar(self, ctx);
-        left_actions(self, ctx);
-        right_intrusions(self, ctx);
-        bottom_alerts(self, ctx);
-        central_map(self, ctx);
+        top_bar(self, ui);
+        left_actions(self, ui);
+        right_intrusions(self, ui);
+        bottom_alerts(self, ui);
+        central_map(self, ui);
 
         // Modals
-        modal_route_grant(self, ctx);
-        modal_override(self, ctx);
-        modal_habd_reset(self, ctx);
-        modal_degraded_mode(self, ctx);
+        modal_route_grant(self, &ctx);
+        modal_override(self, &ctx);
+        modal_habd_reset(self, &ctx);
+        modal_degraded_mode(self, &ctx);
     }
 }
 
-fn top_bar(app: &mut OccApp, ctx: &Context) {
-    TopBottomPanel::top("top").show(ctx, |ui| {
+fn top_bar(app: &mut OccApp, root: &mut egui::Ui) {
+    Panel::top("top").show_inside(root, |ui| {
         ui.horizontal(|ui| {
             ui.heading("OSR OCC Console");
             ui.separator();
@@ -373,8 +372,8 @@ fn top_bar(app: &mut OccApp, ctx: &Context) {
     });
 }
 
-fn left_actions(app: &mut OccApp, ctx: &Context) {
-    SidePanel::left("actions").show(ctx, |ui| {
+fn left_actions(app: &mut OccApp, root: &mut egui::Ui) {
+    Panel::left("actions").show_inside(root, |ui| {
         ui.heading("Playback");
         if ui.button("Attach recording").clicked() {
             app.load_recorded_run(3600);
@@ -569,8 +568,8 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
     });
 }
 
-fn right_intrusions(app: &mut OccApp, ctx: &Context) {
-    SidePanel::right("intrusions").show(ctx, |ui| {
+fn right_intrusions(app: &mut OccApp, root: &mut egui::Ui) {
+    Panel::right("intrusions").show_inside(root, |ui| {
         ui.heading("Section state (RFC 0016)");
         ui.separator();
         ui.label("Intrusion verdicts, colour-coded per section.");
@@ -606,11 +605,11 @@ fn right_intrusions(app: &mut OccApp, ctx: &Context) {
     });
 }
 
-fn bottom_alerts(app: &mut OccApp, ctx: &Context) {
-    TopBottomPanel::bottom("alerts")
-        .default_height(150.0)
+fn bottom_alerts(app: &mut OccApp, root: &mut egui::Ui) {
+    Panel::bottom("alerts")
+        .default_size(150.0)
         .resizable(true)
-        .show(ctx, |ui| {
+        .show_inside(root, |ui| {
             ui.horizontal(|ui| {
                 ui.heading("Alerts");
                 ui.separator();
@@ -645,10 +644,10 @@ fn bottom_alerts(app: &mut OccApp, ctx: &Context) {
         });
 }
 
-fn central_map(app: &mut OccApp, ctx: &Context) {
+fn central_map(app: &mut OccApp, root: &mut egui::Ui) {
     CentralPanel::default()
         .frame(egui::Frame::default().fill(app.palette.background))
-        .show(ctx, |ui| {
+        .show_inside(root, |ui| {
             let rect = ui.available_rect_before_wrap();
             let painter = ui.painter_at(rect);
             let layout = NetworkLayout::build(&app.network, rect);

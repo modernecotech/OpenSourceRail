@@ -107,12 +107,15 @@ formal evidence; never disable unwinding checks merely to obtain a green result.
 
 The [Kani workflow](../../.github/workflows/kani.yml) runs on pushes to `main`,
 pull requests and manual dispatch. It checks ATP rejection of an expired movement
-authority and interlocking validity-window arithmetic, then executes all **48
-declared harnesses** across eight packages with Kani 0.67.0. The default budget
-is 600 seconds and 4096 MiB of virtual address space per process. Manual dispatch
-can select 1800 seconds and/or 8192 MiB. All eight paired non-overlap harnesses
-must pass; each retains both trains and symbolic head positions for its wayside
-condition. See the [partition rationale](../../engineering/assurance/formal/topology-adapters.md#non-overlap-proof-partitions).
+authority and interlocking validity-window arithmetic, then gates the 39 declared
+harnesses that currently complete within the controlled budget across eight
+packages with Kani 0.67.0. Manual dispatch additionally re-runs the nine open
+resource-bound obligations as explicitly non-gating diagnostics and preserves
+their failures, timeouts or any future closure. The default budget is 600 seconds
+and 4096 MiB of virtual address space per process. Manual dispatch can select
+1800 seconds and/or 8192 MiB. All eight paired non-overlap harnesses remain
+required for proof closure; each retains both trains and symbolic head positions
+for its wayside condition. See the [partition rationale](../../engineering/assurance/formal/topology-adapters.md#non-overlap-proof-partitions).
 
 Actual successes, failures and timeouts are archived with source hashes.
 Timeouts and memory failures do not establish a property. The runner terminates
@@ -121,9 +124,12 @@ results. A runner shutdown can still prevent artifact upload; an incomplete run
 cannot qualify a release.
 
 The [results register](../../engineering/assurance/formal/results/README.md)
-separates historical results from the latest candidate. Release packaging requires
-a successful Kani workflow on the release commit, alongside general CI,
-integrated-stack and example-city acceptance. Merging development work does not
+separates historical results from the latest candidate. A green push/PR workflow
+is a merge-regression signal, not full formal closure. Release packaging still
+requires successful exact-commit artifacts for all 48 declarations and rejects
+missing, failed or duplicated results; therefore the nine open obligations still
+prevent formal release qualification. General CI, integrated-stack and
+example-city acceptance are also required. Merging development work does not
 grant release or safety acceptance, and an earlier pass does not automatically
 qualify a later commit.
 

@@ -473,13 +473,9 @@ fn merge_feature_collections(values: &[serde_json::Value]) -> Result<serde_json:
 }
 
 fn routing_bundle(project: &CityProject) -> Result<osr_routing::RasterBundle> {
-    let settings = project
-        .config()
-        .routing
-        .as_ref()
-        .context("project has no source-locked routing bundle")?;
-    osr_routing::raster::load_bundle(project.root().join(&settings.sidecar), &settings.slug)
-        .context("loading GIS planning surfaces")
+    project
+        .verified_routing_bundle()
+        .context("loading source-verified GIS planning surfaces")
 }
 
 fn routing_anchors_geojson(project: &CityProject) -> Result<serde_json::Value> {

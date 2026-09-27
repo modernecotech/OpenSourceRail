@@ -128,10 +128,38 @@ def secure_erp_transfer(erp, *paths, env):
 
 def init():
     PRIVATE.mkdir(parents=True, exist_ok=True, mode=0o700)
-    if not (PRIVATE / 'integration.json').exists():
+    integration_path = PRIVATE / 'integration.json'
+    if not integration_path.exists():
         names = {'controller': 'simulator', 'operator': 'pilot-operator', 'engineer': 'pilot-engineer', 'reviewer': 'pilot-reviewer', 'inspector': 'pilot-inspector', 'maintainer': 'pilot-maintainer', 'viewer': 'workbench'}
         cfg = {'principals': [dict(subject=name, role=role, token=secrets.token_urlsafe(32), cities=['samawah', 'mosul'], environments=['simulation']) for role, name in names.items()]}
-        write_private(PRIVATE / 'integration.json', json.dumps(cfg, indent=2))
+    else:
+        cfg = json.loads(integration_path.read_text())
+    changed = not integration_path.exists()
+    for role, subject in [('executive-secretary', 'executive-secretariat'),
+                          ('executive-auditor', 'executive-policy-engine')]:
+        if not any(row.get('role') == role for row in cfg['principals']):
+            cfg['principals'].append(dict(subject=subject, role=role,
+                token=secrets.token_urlsafe(32), cities=['samawah', 'mosul'], environments=['simulation']))
+            changed = True
+    if 'executive_council' not in cfg:
+        cfg['executive_council'] = {
+            'enabled': True, 'policy_id': 'osr-ai-executive-delegation', 'version': '2',
+            'quorum': 4, 'required_perspectives': ['strategy', 'finance', 'operations', 'risk'],
+            'minimum_providers': 2, 'minimum_model_families': 3, 'approval_ratio': 0.75,
+            'delegated_erp_drafts': ['erp.draft-budget-scenario', 'erp.draft-maintenance-plan',
+                'erp.draft-material-request', 'erp.draft-work-order'],
+            'attestation_key_id': 'local-executive-policy-1',
+            'attestation_key': secrets.token_urlsafe(48),
+        }
+        changed = True
+    elif 'erp.request-information' in cfg['executive_council'].get('delegated_erp_drafts', []):
+        # Version-one pilots queued this non-document intent locally. It cannot
+        # satisfy the now-enforced ERP invariant that every result is a draft.
+        cfg['executive_council']['delegated_erp_drafts'].remove('erp.request-information')
+        cfg['executive_council']['version'] = '2'
+        changed = True
+    if changed:
+        write_private(integration_path, json.dumps(cfg, indent=2))
     if not (PRIVATE / 'fuxa.json').exists():
         cfg = {'secret': secrets.token_hex(32), 'admin_password': secrets.token_urlsafe(24), 'operator_password': secrets.token_urlsafe(24)}
         write_private(PRIVATE / 'fuxa.json', json.dumps(cfg, indent=2))
@@ -173,6 +201,8 @@ def main():
     p = sub.add_parser('import-fuxa'); p.add_argument('packages', nargs='+', type=Path); p.add_argument('--review', required=True, type=Path); p.add_argument('--workbench-url', default=DEFAULT_WORKBENCH_URL)
     p = sub.add_parser('engineering'); p.add_argument('manifest', type=Path); p.add_argument('--output', required=True, type=Path)
     p = sub.add_parser('execution-proposal'); p.add_argument('engineering', type=Path); p.add_argument('mapping', type=Path); p.add_argument('--output', required=True, type=Path)
+    p = sub.add_parser('council-propose'); p.add_argument('proposal', type=Path); p.add_argument('--output', required=True, type=Path)
+    p = sub.add_parser('council-finalize'); p.add_argument('proposal_id'); p.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
     if args.command == 'init': init()
     elif args.command == 'up': compose(['up', '-d', '--build'])
@@ -193,8 +223,14 @@ def main():
             path, _ = cities.catalogue()[slug]
             cfg = json.loads((path.parent / 'operations/supervision.json').read_text())
             scope.append(dict(city=slug, project=cfg['erp_project']))
+        gateway_cfg = configuration()
+        council = gateway_cfg.get('executive_council', {})
+        attestation = None
+        if council.get('enabled'):
+            attestation = {'key_id': council.get('attestation_key_id'), 'key': council.get('attestation_key')}
         task = 'osr-supervision-' + uuid.uuid4().hex
-        local = PRIVATE / (task + '.json'); write_private(local, json.dumps(scope))
+        local = PRIVATE / (task + '.json')
+        write_private(local, json.dumps({'scopes': scope, 'executive_attestation': attestation}))
         remote = '/tmp/' + task + '.json'; output = '/tmp/' + task + '-credentials.json'
         docker = shutil.which('docker') or str(Path.home() / 'bin/docker')
         erp = [docker, 'compose', '--env-file', str(ROOT / 'var/erpnext/local.env'), '-f', str(ROOT / 'deployment/erpnext/compose.yaml')]
@@ -204,7 +240,7 @@ def main():
             secure_erp_transfer(erp, remote, env=env)
             subprocess.run([str(ROOT / 'osr'), 'erp', 'bench', 'execute', 'osr_erpnext.integration.provision_service', '--kwargs', json.dumps(dict(path=remote,output=output))], check=True)
             subprocess.run(erp + ['cp', 'backend:' + output, str(local)], check=True, env=env)
-            cfg = configuration(); cfg['erp'] = json.loads(local.read_text())
+            cfg = gateway_cfg; cfg['erp'] = json.loads(local.read_text())
             for principal in cfg['principals']:
                 principal['cities'] = sorted(set(principal['cities'] + args.cities))
             write_private(PRIVATE / 'integration.json', json.dumps(cfg, indent=2))
@@ -259,6 +295,17 @@ def main():
     elif args.command in ('engineering', 'execution-proposal'):
         result = engineering_package(ROOT, json.loads(args.manifest.read_text())) if args.command == 'engineering' else execution_proposal(json.loads(args.engineering.read_text()), json.loads(args.mapping.read_text()))
         args.output.parent.mkdir(parents=True, exist_ok=True); args.output.write_text(json.dumps(result, indent=2) + '\n'); print(args.output)
+    elif args.command == 'council-propose':
+        result = api('/executive/proposals', json.loads(args.proposal.read_text()), role='executive-secretary')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(result, indent=2) + '\n')
+        print(f"Executive proposal {result['id']} is {result['state']}: {args.output}")
+    elif args.command == 'council-finalize':
+        result = api('/executive/finalize', {'proposal_id': args.proposal_id}, role='executive-auditor')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(result, indent=2) + '\n')
+        outcome = (result.get('decision') or result.get('pending_decision') or {}).get('result', {}).get('outcome', result['state'])
+        print(f'Executive proposal {args.proposal_id}: {outcome} ({args.output})')
     elif args.command == 'backup':
         folder = PRIVATE / 'backups' / str(time.time_ns()); folder.mkdir(parents=True)
         compose(['exec', '-T', 'integration', 'python', '-c', 'from osr_integration.store import Store; Store("/data/integration.sqlite").backup("/data/backup.sqlite")'])

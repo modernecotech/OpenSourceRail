@@ -94,7 +94,7 @@ impl Historian {
 
         // Decimated tier: insert every Nth raw sample.
         let stride = self.params.decimate_every.max(1) as u64;
-        if *count % stride == 0 {
+        if (*count).is_multiple_of(stride) {
             if dec.len() >= self.params.decimated_capacity {
                 dec.pop_front();
             }

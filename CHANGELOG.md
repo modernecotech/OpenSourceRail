@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+- Completed a workspace-wide Rust scrutiny and integration pass. Routing now
+  rejects malformed grids, penalties and non-finite inputs; raster ingestion
+  honours source manifests while validating paths, geography and layer
+  semantics; and City Studio enforces source locks on every GIS access path.
+  A new strict, observation-only Rust supervision contract replaces the ad-hoc
+  simulator export and is checked against the same fixture by Rust and Python.
+  Release overflow checks, all-feature tests, doctests, RustSec auditing,
+  property tests, scheduled long-horizon simulation and coverage reporting now
+  broaden the verification harness. The Rust 1.92/egui 0.34 refresh removes
+  vulnerable GUI transitive dependencies, and the unmaintained `bincode`
+  serializer has been replaced by `postcard`. The accompanying review records the
+  remaining hardware, certification and production-infrastructure gates.
+  Follow-through tests execute all topology archetypes and the greedy planner,
+  exercise malformed raster/DEM metadata, pin a representative `postcard`
+  message to exact bytes and cover every fail-closed supervision header branch.
+  Final local coverage is 75.45% overall, including 76.05% for routing topology;
+  39/39 currently tractable declared Kani properties pass, while nine
+  resource-bound obligations remain explicitly open. Push and pull-request Kani
+  gates now cover the 39 completing properties; manual dispatch retains the nine
+  open failures as non-gating diagnostics, while release export still requires
+  all 48 properties and fails closed on missing or unsuccessful evidence.
+
+- Added an experimental multi-model AI executive council to the ERP/supervisory
+  gateway. City-scoped proposals freeze their operational evidence, authenticated
+  model identities vote from independent perspectives, a deterministic quorum and
+  diversity policy exposes dissent, and terminal decisions receive an
+  operator-keyed HMAC attestation. Four reversible ERP draft intents are now
+  independently reverified by ERPNext and delivered through its existing native
+  adapters; SCADA, railway/safety, HR, payment, submission and legal authority
+  remain explicitly non-delegable. A provider-neutral, one-identity model runner
+  keeps other ballots and credentials isolated, rejects non-versioned responses,
+  and records exact prompt/response hashes for Workbench review.
+
 - Added source-locked open SRTM elevation, derived terrain slope and independent
   OSM water coverage to City Studio planning bundles. The designer now exposes
   20 deterministic GIS layers, highlights likely bridge and terrain/surface

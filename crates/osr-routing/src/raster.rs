@@ -16,8 +16,9 @@
 //! from Rust adds a dependency we do not need for two fixed dtypes.
 
 use std::{
+    collections::BTreeSet,
     fs,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
 };
 
 use serde::{Deserialize, Serialize};
@@ -166,8 +167,8 @@ pub struct RasterBundle {
 // ---- Sidecar JSON schema ---------------------------------------------
 
 #[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct RasterSidecar {
-    #[allow(dead_code)]
     path: String,
     dtype: String,
     shape: Vec<usize>,
@@ -175,12 +176,14 @@ struct RasterSidecar {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct GridSidecar {
     grid: GridRef,
     rasters: Rasters,
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct Rasters {
     cost: RasterSidecar,
     demand: RasterSidecar,
@@ -221,6 +224,8 @@ pub enum RasterError {
         expected: usize,
         got: usize,
     },
+    #[error("invalid raster bundle: {0}")]
+    Invalid(String),
 }
 
 // ---- Public loader ---------------------------------------------------
@@ -230,25 +235,34 @@ pub enum RasterError {
 pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundle, RasterError> {
     let sidecar = sidecar.as_ref();
     let dir = sidecar.parent().unwrap_or_else(|| Path::new("."));
+    if slug.is_empty()
+        || slug.len() > 160
+        || !slug
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_'))
+    {
+        return Err(RasterError::Invalid("unsafe or empty bundle slug".into()));
+    }
 
     let side: GridSidecar = serde_json::from_str(&fs::read_to_string(sidecar)?)?;
     let reference = side.grid.clone();
+    validate_reference(&reference)?;
 
     let expected_shape = vec![reference.height, reference.width];
     let cost = load_f32(
-        &dir.join(format!("{slug}.cost.npy")),
+        &declared_path(dir, &side.rasters.cost.path)?,
         "cost",
         &side.rasters.cost,
         &expected_shape,
     )?;
     let demand = load_f32(
-        &dir.join(format!("{slug}.demand.npy")),
+        &declared_path(dir, &side.rasters.demand.path)?,
         "demand",
         &side.rasters.demand,
         &expected_shape,
     )?;
     let buildability = load_u8(
-        &dir.join(format!("{slug}.buildability.npy")),
+        &declared_path(dir, &side.rasters.buildability.path)?,
         "buildability",
         &side.rasters.buildability,
         &expected_shape,
@@ -259,7 +273,7 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         .as_ref()
         .map(|metadata| {
             load_u8(
-                &dir.join(format!("{slug}.water.npy")),
+                &declared_path(dir, &metadata.path)?,
                 "water",
                 metadata,
                 &expected_shape,
@@ -272,7 +286,7 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         .as_ref()
         .map(|metadata| {
             load_f32(
-                &dir.join(format!("{slug}.elevation.npy")),
+                &declared_path(dir, &metadata.path)?,
                 "elevation",
                 metadata,
                 &expected_shape,
@@ -285,7 +299,7 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         .as_ref()
         .map(|metadata| {
             load_f32(
-                &dir.join(format!("{slug}.terrain-slope.npy")),
+                &declared_path(dir, &metadata.path)?,
                 "terrain_slope",
                 metadata,
                 &expected_shape,
@@ -301,6 +315,31 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         )));
     }
 
+    validate_values("cost", &cost, |value| {
+        !value.is_nan() && *value >= 0.0 && *value != f32::NEG_INFINITY
+    })?;
+    validate_values("demand", &demand, |value| {
+        value.is_finite() && *value >= 0.0
+    })?;
+    validate_values("buildability", &buildability, |value| {
+        matches!(value, 0 | 1)
+    })?;
+    if let Some(values) = &water {
+        validate_values("water", values, |value| *value <= 100)?;
+    }
+    if let Some(values) = &elevation_m {
+        validate_values("elevation", values, |value| value.is_finite())?;
+    }
+    if let Some(values) = &terrain_slope_percent {
+        validate_values("terrain_slope", values, |value| {
+            value.is_finite() && *value >= 0.0
+        })?;
+    }
+
+    let anchors_path: PathBuf = dir.join(format!("{slug}.anchors.json"));
+    let anchors: Vec<Anchor> = serde_json::from_str(&fs::read_to_string(&anchors_path)?)?;
+    validate_anchors(&reference, &anchors)?;
+
     let grid = Grid {
         reference,
         cost,
@@ -311,14 +350,95 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         terrain_slope_percent,
     };
 
-    let anchors_path: PathBuf = dir.join(format!("{slug}.anchors.json"));
-    let anchors: Vec<Anchor> = serde_json::from_str(&fs::read_to_string(&anchors_path)?)?;
-
     Ok(RasterBundle {
         grid,
         anchors,
         slug: slug.to_string(),
     })
+}
+
+fn declared_path(dir: &Path, value: &str) -> Result<PathBuf, RasterError> {
+    let path = Path::new(value);
+    let mut components = path.components();
+    if value.is_empty()
+        || !matches!(components.next(), Some(Component::Normal(_)))
+        || components.next().is_some()
+    {
+        return Err(RasterError::Invalid(format!(
+            "raster path {value:?} must be one relative file name"
+        )));
+    }
+    Ok(dir.join(path))
+}
+
+fn validate_reference(reference: &GridRef) -> Result<(), RasterError> {
+    let dimensions = reference.height.checked_mul(reference.width);
+    let finite = [
+        reference.cell_m,
+        reference.lat0,
+        reference.bbox_south,
+        reference.bbox_west,
+        reference.bbox_north,
+        reference.bbox_east,
+        reference.m_per_deg_lat,
+        reference.m_per_deg_lon,
+    ]
+    .into_iter()
+    .all(f64::is_finite);
+    if reference.height == 0
+        || reference.width == 0
+        || dimensions.is_none()
+        || !finite
+        || reference.cell_m <= 0.0
+        || reference.m_per_deg_lat <= 0.0
+        || reference.m_per_deg_lon <= 0.0
+        || reference.bbox_south >= reference.bbox_north
+        || reference.bbox_west >= reference.bbox_east
+        || !(-90.0..=90.0).contains(&reference.bbox_south)
+        || !(-90.0..=90.0).contains(&reference.bbox_north)
+        || !(-180.0..=180.0).contains(&reference.bbox_west)
+        || !(-180.0..=180.0).contains(&reference.bbox_east)
+    {
+        return Err(RasterError::Invalid(
+            "grid dimensions or geographic reference are invalid".into(),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_values<T>(
+    name: &'static str,
+    values: &[T],
+    valid: impl Fn(&T) -> bool,
+) -> Result<(), RasterError> {
+    if let Some(index) = values.iter().position(|value| !valid(value)) {
+        return Err(RasterError::Invalid(format!(
+            "{name} has an invalid value at cell {index}"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_anchors(reference: &GridRef, anchors: &[Anchor]) -> Result<(), RasterError> {
+    let mut ids = BTreeSet::new();
+    for anchor in anchors {
+        if !ids.insert(anchor.id)
+            || anchor.row >= reference.height
+            || anchor.col >= reference.width
+            || !anchor.weight.is_finite()
+            || anchor.weight < 0.0
+            || !anchor.lat.is_finite()
+            || !anchor.lon.is_finite()
+            || !(-90.0..=90.0).contains(&anchor.lat)
+            || !(-180.0..=180.0).contains(&anchor.lon)
+        {
+            return Err(RasterError::Invalid(format!(
+                "anchor {} is duplicated or outside the grid/value domain",
+                anchor.id
+            )));
+        }
+    }
+    Ok(())
 }
 
 fn check_sidecar(
@@ -367,8 +487,13 @@ fn load_f32(
         &side.byteorder,
     )?;
     let bytes = fs::read(path)?;
-    let ncells: usize = expected_shape.iter().product();
-    let expected_bytes = ncells * 4;
+    let ncells = expected_shape
+        .iter()
+        .try_fold(1_usize, |product, value| product.checked_mul(*value))
+        .ok_or_else(|| RasterError::Invalid("raster cell count overflows usize".into()))?;
+    let expected_bytes = ncells
+        .checked_mul(4)
+        .ok_or_else(|| RasterError::Invalid("raster byte count overflows usize".into()))?;
     if bytes.len() != expected_bytes {
         return Err(RasterError::ByteLen {
             name,
@@ -398,7 +523,10 @@ fn load_u8(
         &side.byteorder,
     )?;
     let bytes = fs::read(path)?;
-    let ncells: usize = expected_shape.iter().product();
+    let ncells = expected_shape
+        .iter()
+        .try_fold(1_usize, |product, value| product.checked_mul(*value))
+        .ok_or_else(|| RasterError::Invalid("raster cell count overflows usize".into()))?;
     if bytes.len() != ncells {
         return Err(RasterError::ByteLen {
             name,
@@ -412,6 +540,8 @@ fn load_u8(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serde_json::json;
+    use tempfile::tempdir;
 
     #[test]
     fn gridref_rc_to_latlon_inverts_corner() {
@@ -432,5 +562,158 @@ mod tests {
         let (lat, lon) = g.rc_to_latlon(0, 0);
         assert!(lat < g.bbox_north && lat > g.bbox_south);
         assert!(lon > g.bbox_west && lon < g.bbox_east);
+    }
+
+    fn write_bundle(root: &Path, raster_path: &str, cost: f32, water: u8) -> PathBuf {
+        let sidecar = root.join("test.grid.json");
+        let metadata = |path: &str, dtype: &str| {
+            json!({
+                "path": path, "dtype": dtype, "shape": [1, 1], "byteorder": "little"
+            })
+        };
+        fs::write(root.join("declared.cost"), cost.to_le_bytes()).unwrap();
+        fs::write(root.join("demand"), 0.5_f32.to_le_bytes()).unwrap();
+        fs::write(root.join("buildability"), [1]).unwrap();
+        fs::write(root.join("water"), [water]).unwrap();
+        fs::write(root.join("test.anchors.json"), "[]").unwrap();
+        fs::write(
+            &sidecar,
+            serde_json::to_vec(&json!({
+                "grid": {"height":1,"width":1,"cell_m":20.0,"lat0":0.5,
+                    "bbox_south":0.0,"bbox_west":0.0,"bbox_north":1.0,"bbox_east":1.0,
+                    "m_per_deg_lat":111132.0,"m_per_deg_lon":111320.0},
+                "rasters": {
+                    "cost": metadata(raster_path, "f32"),
+                    "demand": metadata("demand", "f32"),
+                    "buildability": metadata("buildability", "u8"),
+                    "water": metadata("water", "u8")
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        sidecar
+    }
+
+    #[test]
+    fn loader_uses_declared_paths_and_rejects_path_traversal() {
+        let root = tempdir().unwrap();
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        let bundle = load_bundle(&sidecar, "test").unwrap();
+        assert_eq!(bundle.grid.cost, vec![8.0]);
+        assert_eq!(bundle.grid.water, Some(vec![25]));
+
+        let sidecar = write_bundle(root.path(), "../outside", 8.0, 25);
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Invalid(_))
+        ));
+    }
+
+    #[test]
+    fn loader_rejects_invalid_topography_values_and_slug() {
+        let root = tempdir().unwrap();
+        let sidecar = write_bundle(root.path(), "declared.cost", f32::NAN, 25);
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Invalid(_))
+        ));
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 101);
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Invalid(_))
+        ));
+        assert!(matches!(
+            load_bundle(&sidecar, "../test"),
+            Err(RasterError::Invalid(_))
+        ));
+    }
+
+    fn mutate_sidecar(path: &Path, mutate: impl FnOnce(&mut serde_json::Value)) {
+        let mut value: serde_json::Value =
+            serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        mutate(&mut value);
+        fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
+    }
+
+    #[test]
+    fn loader_rejects_inconsistent_metadata_and_byte_lengths() {
+        let root = tempdir().unwrap();
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        mutate_sidecar(&sidecar, |value| {
+            value["rasters"]["cost"]["dtype"] = json!("f64");
+        });
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Dtype { .. })
+        ));
+
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        mutate_sidecar(&sidecar, |value| {
+            value["rasters"]["cost"]["shape"] = json!([1, 2]);
+        });
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Shape { .. })
+        ));
+
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        mutate_sidecar(&sidecar, |value| {
+            value["rasters"]["cost"]["byteorder"] = json!("big");
+        });
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::ByteOrder { .. })
+        ));
+
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        fs::write(root.path().join("declared.cost"), [0_u8]).unwrap();
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::ByteLen { .. })
+        ));
+    }
+
+    #[test]
+    fn loader_requires_paired_dem_layers_and_valid_anchor_identity() {
+        let root = tempdir().unwrap();
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        fs::write(root.path().join("elevation"), 10.0_f32.to_le_bytes()).unwrap();
+        mutate_sidecar(&sidecar, |value| {
+            value["rasters"]["elevation"] = json!({
+                "path": "elevation", "dtype": "f32", "shape": [1, 1],
+                "byteorder": "little"
+            });
+        });
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Json(_))
+        ));
+
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        fs::write(
+            root.path().join("test.anchors.json"),
+            serde_json::to_vec(&json!([
+                {"id": 7, "kind": "demand", "weight": 1.0, "name": null,
+                 "row": 0, "col": 0, "lat": 0.5, "lon": 0.5},
+                {"id": 7, "kind": "demand", "weight": 1.0, "name": null,
+                 "row": 0, "col": 0, "lat": 0.5, "lon": 0.5}
+            ]))
+            .unwrap(),
+        )
+        .unwrap();
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Invalid(_))
+        ));
+
+        let sidecar = write_bundle(root.path(), "declared.cost", 8.0, 25);
+        mutate_sidecar(&sidecar, |value| {
+            value["grid"]["cell_m"] = json!(0.0);
+        });
+        assert!(matches!(
+            load_bundle(&sidecar, "test"),
+            Err(RasterError::Invalid(_))
+        ));
     }
 }

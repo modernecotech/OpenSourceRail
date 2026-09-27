@@ -1,13 +1,15 @@
 # Native embedded software, ERPNext and FUXA
 
-The operating platform consumes existing Rust controller outputs through a
-versioned simulation adapter. It preserves the distinction between controller
-state, condition alarms, business maintenance and railway release.
+The operating platform consumes selected Rust evaluator outputs through a
+versioned, observation-only simulation contract. It preserves the distinction
+between controller state, supervisory observations, condition alarms, business
+maintenance and railway release.
 
 ```mermaid
 flowchart LR
   I[Explicit simulation inputs] --> R[Native OSR Rust evaluators]
-  R --> G[Scoped integration gateway]
+  R --> C[Strict observation-only contract]
+  C --> G[Scoped integration gateway]
   G --> H[Timestamped equipment history]
   G --> F[FUXA station, vehicle and wayside displays]
   G --> Q[Durable condition-event queue]
@@ -33,23 +35,31 @@ flowchart LR
 
 The [Rust adapter](../../crates/osr-sim/examples/operating_bridge.rs) uses JSON
 lines over stdin/stdout and keeps BMS, auxiliary-power, HVAC, point, crossing and
-fare-gate state per city/asset key. Battery protection therefore propagates to
-auxiliary/HVAC availability, and native controller latches survive successive
-samples. Input time must increase. Each process has a bounded key registry;
-restarting it resets these **simulation** states. This harness uses explicit
-small-pack, comfort, sensor, barrier and token fixtures, not commissioned
-calibration, key material or actual sensor readings.
+fare-gate state per city/asset key. It emits the exact
+[`osr-supervision-contract`](../../crates/osr-supervision-contract/src/lib.rs)
+schema: bounded unique observations with units, source-crate provenance and the
+literal authority `observation-only`. The crate deliberately contains no
+command, reset, movement-authority, protection, ERP action or executive-decision
+type. Battery protection therefore propagates to auxiliary/HVAC availability,
+and native controller latches survive successive samples. Input time must
+increase. Each process has a bounded key registry; restarting it resets these
+**simulation** states. This harness uses explicit small-pack, comfort, sensor,
+barrier and token fixtures, not commissioned calibration, key material or
+actual sensor readings.
 
-A [serialized frame fixture](../../tests/fixtures/operating-bridge.json) records the
-normal output contract for adapter tests.
+A [serialized frame fixture](../../tests/fixtures/operating-bridge.json) records
+the normal output contract. Rust asserts its native output equals that fixture;
+Python independently rejects field, identity, range, enum, unit, provenance and
+authority drift.
 
 The [Python projection](../../services/integration/osr_integration/embedded.py)
-checks `osr-operating-bridge/2`, requires the simulation environment, validates
-enums/ranges and converts native integer units (ppt, mA and vibration thousandths)
-into engineering units. Missing controller measurements are invalid, never
-invented healthy zeroes. The controller process has a reply timeout. Existing
-source ownership, monotonic sequence, timestamp, staleness and alarm-persistence
-checks remain at the gateway.
+checks `osr-supervisory-observations/1`, requires the simulation environment and
+`observation-only` authority, and accepts exactly the reviewed identities,
+ranges, discrete values, units and source-crate sets. Rust performs native-unit
+conversion at the contract boundary. Missing or additional observations are
+invalid, never invented healthy zeroes. The controller process has a reply
+timeout. Existing source ownership, monotonic sequence, timestamp, staleness and
+alarm-persistence checks remain at the gateway.
 
 Each equipment package names its `source_crates`; Workbench shows them with the
 asset. Station/depot, rolling-stock and wayside templates use existing catalogue
@@ -61,6 +71,14 @@ reviewed asset binding matches the equipment or its parent. No ERP or FUXA recor
 becomes train-control authority: point and crossing commands, resets,
 `crossing_safe_for_train`, route state and movement authority remain exclusively
 in the safety controllers/interlocking and consensus boundary.
+
+The gateway also contains an experimental [AI executive council](../operating/ai-executive-council.md).
+Its independently authenticated model perspectives can collectively endorse a
+recommendation and prepare a small allowlist of unsubmitted ERP drafts. Each
+proposal is bound to the current supervisory asset, telemetry, alarm, case and
+pending-command digest. No council outcome enters the controller command queue or
+changes the engineering, commissioning, employment, payment or legal authority
+boundaries above.
 
 ## Reproduce a station, vehicle and wayside pilot
 

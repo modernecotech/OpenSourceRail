@@ -14,8 +14,8 @@
 //!
 //! # Encoding
 //!
-//! v1 uses `bincode` for its compact, deterministic output and
-//! zero-glue encoding of Rust enums. A follow-up will bring in
+//! The development wire format uses `postcard` for compact, deterministic
+//! encoding without depending on an unmaintained serializer. A follow-up will bring in
 //! `prost` when we need genuine cross-language wire compatibility.
 //! The schema evolution rules in the `.proto` header (never reuse
 //! a field number, etc.) still apply — breaking wire changes in
@@ -262,27 +262,26 @@ pub struct Entry {
 
 #[derive(Debug)]
 pub enum DecodeError {
-    Bincode(String),
+    Postcard(String),
 }
 
 impl core::fmt::Display for DecodeError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            DecodeError::Bincode(s) => write!(f, "bincode decode error: {s}"),
+            DecodeError::Postcard(s) => write!(f, "postcard decode error: {s}"),
         }
     }
 }
 
 impl std::error::Error for DecodeError {}
 
-/// Encode a value with bincode's default options — fixed-width integers,
-/// little-endian, no varint compaction. Deterministic by construction.
+/// Encode a value using postcard's deterministic Serde representation.
 pub fn encode<T: Serialize>(value: &T) -> Vec<u8> {
-    bincode::serialize(value).expect("bincode serialize")
+    postcard::to_allocvec(value).expect("postcard serialize")
 }
 
 pub fn decode<T: for<'a> Deserialize<'a>>(bytes: &[u8]) -> Result<T, DecodeError> {
-    bincode::deserialize(bytes).map_err(|e| DecodeError::Bincode(e.to_string()))
+    postcard::from_bytes(bytes).map_err(|error| DecodeError::Postcard(error.to_string()))
 }
 
 #[cfg(test)]
@@ -350,9 +349,22 @@ mod tests {
     }
 
     #[test]
+    fn postcard_wire_fixture_is_stable() {
+        let bytes = encode(&sample_entry());
+        assert_eq!(
+            bytes,
+            vec![
+                42, 3, 128, 128, 168, 177, 227, 159, 231, 203, 23, 0, 2, 7, 1, 1, 128, 128, 168,
+                177, 227, 159, 231, 203, 23,
+            ]
+        );
+    }
+
+    #[test]
     fn decode_rejects_garbage() {
         let bogus = [0xffu8; 2];
         let result: Result<Entry, _> = decode(&bogus);
-        assert!(result.is_err());
+        let error = result.unwrap_err();
+        assert!(error.to_string().starts_with("postcard decode error:"));
     }
 }

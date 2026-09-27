@@ -52,6 +52,15 @@ engineering/configuration checksum. Native operator transactions sit alongside
 that immutable baseline. The generic/company/city warehouse configuration is
 reused; no separate per-city implementation is needed.
 
+An experimental [AI executive council](ai-executive-council.md) now adds a
+multi-model recommendation and attestation contract above these integrations.
+It can prepare only an allowlisted, unsubmitted ERP draft packet after quorum,
+provider/model-family diversity, all required perspectives and no dissent. It
+does not create employees, approve budgets, submit documents, pay suppliers,
+sign contracts or exercise railway/SCADA authority. ERPNext independently checks
+the attestation and content binding, then uses the existing native component or
+procurement adapter to create exactly one unsubmitted draft.
+
 ## Original integration recommendations
 
 These are implementation recommendations based on the available native
@@ -105,6 +114,11 @@ state through the existing city/revision-linked twin.
 
 ## API and operational behaviour
 
+- POST `osr_erpnext.executive.ingest_draft`: accepts only a complete attested
+  council packet. It independently verifies the HMAC, decision/proposal hashes,
+  compiled action allowlist and provisioned city/project scope, then calls the
+  existing native preview/apply adapter. The result is repeat-safe and must have
+  `docstatus = 0`; an `OSR Executive Decision` records the immutable mapping.
 - GET `osr_erpnext.procurement.candidates`: parameters `task`, optional `search`
   and `offset`; returns at most 50 matching source requirements.
 - POST `osr_erpnext.procurement.create_material_request`: parameters `task`,

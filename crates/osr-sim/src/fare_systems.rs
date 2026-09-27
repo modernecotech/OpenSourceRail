@@ -83,7 +83,7 @@ impl FareSystemsShadow {
 
 pub fn fare_systems_tick(shadow: &mut FareSystemsShadow, faults: &FaultEngine, sim_time_s: u32) {
     let now_ns = u64::from(sim_time_s).saturating_mul(1_000_000_000);
-    let transact = sim_time_s % TRANSACTION_INTERVAL_S == 0;
+    let transact = sim_time_s.is_multiple_of(TRANSACTION_INTERVAL_S);
     let mut events = Vec::new();
 
     for station in &mut shadow.stations {

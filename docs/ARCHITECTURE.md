@@ -1,6 +1,6 @@
 # OpenSourceRail — Scope & Architecture
 
-**Status:** Current development baseline (2026-08-29)
+**Status:** Current development baseline (2026-09-27)
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
 **Purpose:** Define what OpenSourceRail is, what it is not, and the architectural stance that distinguishes it from existing rail vendor offerings.
 
@@ -44,6 +44,14 @@ Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia
 5. **Machine-checkable safety.** Safety arguments are structured (GSN-style), version-controlled, and linked to formal proofs, test evidence, and code. Safety cases regenerate on every commit.
 6. **Small, replaceable pieces.** Each subsystem is deployable independently. A country can adopt the dispatching platform without committing to the rolling-stock ECUs, and vice versa.
 7. **Defense in depth.** Every wayside node is assumed to be reachable by an adversary. Signed firmware, mutually authenticated links, minimal attack surface, privilege separation at the OS level.
+
+The Rust implementation, its present assurance level, completed hardening work,
+and the remaining path from reference software to deployable railway product are
+tracked in the
+[`Rust codebase review and integration plan`](rust-codebase-review-and-integration-plan.md).
+In particular, runtime observations cross into supervision through a versioned,
+observation-only contract; ERP and AI governance cannot issue movement authority
+or bypass independently assessed train-protection functions.
 
 ---
 

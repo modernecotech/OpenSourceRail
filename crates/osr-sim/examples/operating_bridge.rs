@@ -3,12 +3,16 @@
 use std::collections::{BTreeSet, HashMap};
 use std::io::{self, BufRead, Write};
 
-use osr_afc::{afc_evaluate, sign_token, AfcInputs, AfcParams, AfcState, Decision, FareToken};
+use osr_afc::{
+    afc_evaluate, sign_token, AfcInputs, AfcParams, AfcState, Decision, FareToken, GateCommand,
+};
 use osr_aux_power::{aux_evaluate, AuxInputs, AuxParams, AuxState};
-use osr_bms::{bms_evaluate, BmsInputs, BmsParams, BmsState, ContactorCommand, ContactorState};
-use osr_cbm_onboard::{cbm_evaluate, CbmInputs, CbmParams};
+use osr_bms::{
+    bms_evaluate, AlarmLevel, BmsInputs, BmsParams, BmsState, ContactorCommand, ContactorState,
+};
+use osr_cbm_onboard::{cbm_evaluate, CbmInputs, CbmParams, ComponentHealth};
 use osr_energy_site::{energy_site_evaluate, EnergySiteInputs, EnergySiteParams};
-use osr_hvac::{hvac_evaluate, HvacInputs, HvacParams, HvacState};
+use osr_hvac::{hvac_evaluate, HvacInputs, HvacMode, HvacParams, HvacState};
 use osr_level_crossing::{
     lc_evaluate, BarrierSensors, LcInputs, LcParams, LcState, LcStatePersistent,
 };
@@ -16,7 +20,11 @@ use osr_station_scada::{
     station_scada_evaluate, CctvNvrStatus, LightingZoneStatus, StationHvacStatus,
     StationScadaInputs, StationScadaParams,
 };
-use osr_wayside_points::{switch_evaluate, RawSensor, SwitchInputs, SwitchParams, SwitchState};
+use osr_supervision_contract::{Observation, ObservationFrame};
+use osr_wayside_points::{
+    switch_evaluate, DetectedPosition, MotorCommand, RawSensor, SwitchInputs, SwitchParams,
+    SwitchState,
+};
 use serde::Deserialize;
 use serde_json::{json, Value};
 
@@ -252,33 +260,203 @@ fn evaluate(input: &Input, state: &mut State) -> Result<Value, &'static str> {
     state.crossing = crossing.state;
     state.faregate = faregate.state;
     state.last_ns = input.now_ns;
-    Ok(json!({
-        "schema":"osr-operating-bridge/2", "environment":"simulation", "key":input.key,
-        "source_time_ns":input.now_ns,
-        "energy":{"schema":"osr-energy-site/1","pv_w":240000,"battery_soc_ppt":720,"to_pad_w":energy.to_pad_w},
-        "station":station,"lighting":zone,"bms":bms,"aux":aux,"hvac":hvac,"cbm":cbm,
-        "points":{
-            "detected":points.state.detected,
-            "motor":points.motor,
-            "fault_reason":points.state.fault_reason
-        },
-        "crossing":{
-            "state":crossing.state.state,
-            "faulted":crossing.state.state == LcState::Faulted,
-            "warning_lights_on":crossing.warning_lights_on
-        },
-        "faregate":{
-            "gate":faregate.gate,
-            "last_decision":match faregate.last_decision {
-                Some(Decision::Grant) => "Grant",
-                Some(Decision::Deny(_)) => "Deny",
-                None => "None",
+    let observations = vec![
+        Observation::new("pv", "power_kw", 240.0, "kW", &["osr-energy-site"]),
+        Observation::new(
+            "charger",
+            "power_kw",
+            f64::from(energy.to_pad_w) / 1000.0,
+            "kW",
+            &["osr-energy-site"],
+        ),
+        Observation::new("battery", "soc_pct", 72.0, "%", &["osr-energy-site"]),
+        Observation::new(
+            "facilities",
+            "lighting_pct",
+            if station.lighting_enabled[0] {
+                f64::from(zone.dim_ppt) / 10.0
+            } else {
+                0.0
             },
-            "grant_count":state.faregate_grants,
-            "denial_count":state.faregate_denials
-        },
-        "fixtures":{"cell_temperature_dc":temperatures[0],"cabin_temperature_dc":300}
-    }))
+            "%",
+            &["osr-station-scada"],
+        ),
+        Observation::new(
+            "facilities",
+            "fault_count",
+            station.fault_count,
+            "count",
+            &["osr-station-scada"],
+        ),
+        Observation::new(
+            "vehicle-bms",
+            "soc_pct",
+            f64::from(bms.state.soc_ppt) / 10.0,
+            "%",
+            &["osr-bms"],
+        ),
+        Observation::new(
+            "vehicle-bms",
+            "charge_limit_a",
+            f64::from(bms.charge_limit_ma) / 1000.0,
+            "A",
+            &["osr-bms"],
+        ),
+        Observation::new(
+            "vehicle-bms",
+            "trip",
+            u8::from(bms.state.alarm == AlarmLevel::Trip),
+            "bool",
+            &["osr-bms"],
+        ),
+        Observation::new(
+            "vehicle-aux",
+            "comfort_power",
+            u8::from(aux.direct_hv_enabled),
+            "bool",
+            &["osr-aux-power"],
+        ),
+        Observation::new(
+            "vehicle-aux",
+            "fault_count",
+            aux.state.faults.0.count_ones(),
+            "count",
+            &["osr-aux-power"],
+        ),
+        Observation::new(
+            "vehicle-hvac",
+            "compressor_pct",
+            f64::from(hvac.compressor_ppt) / 10.0,
+            "%",
+            &["osr-hvac", "osr-aux-power"],
+        ),
+        Observation::new(
+            "vehicle-hvac",
+            "fan_pct",
+            f64::from(hvac.fan_ppt) / 10.0,
+            "%",
+            &["osr-hvac", "osr-aux-power"],
+        ),
+        Observation::new(
+            "vehicle-hvac",
+            "reduced",
+            u8::from(hvac.mode == HvacMode::Reduced),
+            "bool",
+            &["osr-hvac", "osr-aux-power"],
+        ),
+        Observation::new(
+            "vehicle-cbm",
+            "health",
+            match cbm.sample.worst_health {
+                ComponentHealth::Nominal => 0_u8,
+                ComponentHealth::Watch => 1,
+                ComponentHealth::Service => 2,
+            },
+            "severity",
+            &["osr-cbm-onboard"],
+        ),
+        Observation::new(
+            "vehicle-cbm",
+            "brake_remaining_pct",
+            f64::from(cbm.sample.brake_pad_remaining_ppt[0]) / 10.0,
+            "%",
+            &["osr-cbm-onboard"],
+        ),
+        Observation::new(
+            "vehicle-cbm",
+            "bearing_vibration_mm_s",
+            f64::from(cbm.sample.bearing_vib_ppt[0]) / 1000.0,
+            "mm/s",
+            &["osr-cbm-onboard"],
+        ),
+        Observation::new(
+            "points",
+            "detected_position",
+            match points.state.detected {
+                DetectedPosition::Unknown => 0_u8,
+                DetectedPosition::Normal => 1,
+                DetectedPosition::Reverse => 2,
+            },
+            "position",
+            &["osr-wayside-points"],
+        ),
+        Observation::new(
+            "points",
+            "detection_unknown",
+            u8::from(points.state.detected == DetectedPosition::Unknown),
+            "bool",
+            &["osr-wayside-points"],
+        ),
+        Observation::new(
+            "points",
+            "motor_active",
+            u8::from(points.motor != MotorCommand::Stop),
+            "bool",
+            &["osr-wayside-points"],
+        ),
+        Observation::new(
+            "level-crossing",
+            "state",
+            match crossing.state.state {
+                LcState::Idle => 0_u8,
+                LcState::Warning => 1,
+                LcState::Closed => 2,
+                LcState::Clearing => 3,
+                LcState::Faulted => 4,
+            },
+            "state",
+            &["osr-level-crossing"],
+        ),
+        Observation::new(
+            "level-crossing",
+            "fault",
+            u8::from(crossing.state.state == LcState::Faulted),
+            "bool",
+            &["osr-level-crossing"],
+        ),
+        Observation::new(
+            "level-crossing",
+            "warning_active",
+            u8::from(crossing.warning_lights_on),
+            "bool",
+            &["osr-level-crossing"],
+        ),
+        Observation::new(
+            "faregate",
+            "gate_open",
+            u8::from(faregate.gate == GateCommand::Open),
+            "bool",
+            &["osr-afc"],
+        ),
+        Observation::new(
+            "faregate",
+            "last_decision",
+            match faregate.last_decision {
+                None => 0_u8,
+                Some(Decision::Grant) => 1,
+                Some(Decision::Deny(_)) => 2,
+            },
+            "decision",
+            &["osr-afc"],
+        ),
+        Observation::new(
+            "faregate",
+            "grant_count",
+            state.faregate_grants as f64,
+            "count",
+            &["osr-afc"],
+        ),
+        Observation::new(
+            "faregate",
+            "denial_count",
+            state.faregate_denials as f64,
+            "count",
+            &["osr-afc"],
+        ),
+    ];
+    let frame = ObservationFrame::simulation(&input.key, input.now_ns, observations);
+    frame.validate().map_err(|_| "Invalid supervisory frame")?;
+    serde_json::to_value(frame).map_err(|_| "Cannot serialize supervisory frame")
 }
 
 fn main() {
@@ -326,11 +504,28 @@ mod tests {
         let mut state = State::default();
         let mut i = input(1);
         let nominal = evaluate(&i, &mut state).unwrap();
-        assert_eq!(nominal["bms"]["contactor"], "Closed");
-        assert_eq!(nominal["hvac"]["mode"], "Cooling");
-        assert_eq!(nominal["points"]["detected"], "Normal");
-        assert_eq!(nominal["crossing"]["state"], "Idle");
-        assert_eq!(nominal["faregate"]["last_decision"], "Grant");
+        let cross_language_fixture: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/operating-bridge.json"
+        ))
+        .unwrap();
+        assert_eq!(nominal, cross_language_fixture);
+        assert_eq!(nominal["schema"], osr_supervision_contract::SCHEMA);
+        assert_eq!(nominal["authority"], osr_supervision_contract::AUTHORITY);
+        let measurement = |frame: &Value, equipment: &str, name: &str| {
+            frame["observations"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|item| item["equipment_type"] == equipment && item["measurement"] == name)
+                .unwrap()["value"]
+                .as_f64()
+                .unwrap()
+        };
+        assert_eq!(measurement(&nominal, "vehicle-bms", "trip"), 0.0);
+        assert_eq!(measurement(&nominal, "vehicle-hvac", "reduced"), 0.0);
+        assert_eq!(measurement(&nominal, "points", "detected_position"), 1.0);
+        assert_eq!(measurement(&nominal, "level-crossing", "state"), 0.0);
+        assert_eq!(measurement(&nominal, "faregate", "last_decision"), 1.0);
         i.now_ns = 2;
         i.battery_trip = true;
         i.cbm_service = true;
@@ -339,25 +534,29 @@ mod tests {
         i.crossing_motor_fault = true;
         i.faregate_denial = true;
         let fault = evaluate(&i, &mut state).unwrap();
-        assert_eq!(fault["bms"]["contactor"], "OpenFault");
-        assert_eq!(fault["aux"]["direct_hv_enabled"], false);
-        assert_eq!(fault["hvac"]["mode"], "Reduced");
-        assert_eq!(fault["cbm"]["sample"]["worst_health"], "Service");
-        assert_eq!(fault["station"]["lighting_enabled"][0], false);
-        assert_eq!(fault["points"]["detected"], "Unknown");
-        assert_eq!(fault["crossing"]["state"], "Faulted");
-        assert_eq!(fault["faregate"]["last_decision"], "Deny");
-        assert_eq!(fault["faregate"]["denial_count"], 1);
+        assert_eq!(measurement(&fault, "vehicle-bms", "trip"), 1.0);
+        assert_eq!(measurement(&fault, "vehicle-aux", "comfort_power"), 0.0);
+        assert_eq!(measurement(&fault, "vehicle-hvac", "reduced"), 1.0);
+        assert_eq!(measurement(&fault, "vehicle-cbm", "health"), 2.0);
+        assert_eq!(measurement(&fault, "facilities", "lighting_pct"), 0.0);
+        assert_eq!(measurement(&fault, "points", "detected_position"), 0.0);
+        assert_eq!(measurement(&fault, "level-crossing", "state"), 4.0);
+        assert_eq!(measurement(&fault, "faregate", "last_decision"), 2.0);
+        assert_eq!(measurement(&fault, "faregate", "denial_count"), 1.0);
         i.now_ns = 3;
         i.battery_trip = false;
         assert_eq!(
-            evaluate(&i, &mut state).unwrap()["bms"]["contactor"],
-            "OpenFault"
+            measurement(&evaluate(&i, &mut state).unwrap(), "vehicle-bms", "trip"),
+            1.0
         );
         assert!(evaluate(&i, &mut state).is_err());
         assert_eq!(
-            evaluate(&i, &mut State::default()).unwrap()["bms"]["contactor"],
-            "Closed"
+            measurement(
+                &evaluate(&i, &mut State::default()).unwrap(),
+                "vehicle-bms",
+                "trip"
+            ),
+            0.0
         );
     }
 }

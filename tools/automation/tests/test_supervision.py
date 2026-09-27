@@ -418,18 +418,20 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(values[('points','detection_unknown')], 0)
         self.assertEqual(values[('level-crossing','state')], 0)
         self.assertEqual(values[('faregate','last_decision')], 1)
-        frame['station']['lighting_enabled'][0] = False
-        self.assertEqual(operating_measurements(frame)[('facilities','lighting_pct')], 0)
-        for section, key, value in [('points','detected','Between'),
-                                    ('crossing','faulted',1),
-                                    ('faregate','last_decision','Unknown')]:
-            invalid = json.loads((ROOT / 'tests/fixtures/operating-bridge.json').read_text())
-            invalid[section][key] = value
-            with self.assertRaises(ValueError): operating_measurements(invalid)
-        for patch in [{'schema':'unknown'}, {'environment':'physical'}]:
+        for patch in [{'schema':'unknown'}, {'environment':'physical'},
+                      {'authority':'controller-command'}]:
             with self.assertRaises(ValueError): operating_measurements(dict(frame, **patch))
-        del frame['bms']
-        with self.assertRaises(KeyError): operating_measurements(frame)
+        for mutation in ('unit', 'source', 'duplicate', 'missing', 'unknown-field', 'fractional-enum'):
+            invalid = copy.deepcopy(frame)
+            if mutation == 'unit': invalid['observations'][0]['unit'] = 'W'
+            elif mutation == 'source': invalid['observations'][0]['source_crates'] = ['osr-bms']
+            elif mutation == 'duplicate': invalid['observations'][-1] = copy.deepcopy(invalid['observations'][0])
+            elif mutation == 'missing': invalid['observations'].pop()
+            elif mutation == 'unknown-field': invalid['command'] = {'set_lighting': 100}
+            else:
+                next(row for row in invalid['observations']
+                     if row['measurement'] == 'detected_position')['value'] = 0.5
+            with self.assertRaises(ValueError): operating_measurements(invalid)
 
     def test_controller_acknowledgement_retry_is_idempotent_and_owned(self):
         m = dict(request_id='retry1',city='samawah',environment='simulation',asset_id='SAM-ST-001:facilities',command='set_lighting',parameters={'level':75},created_at=iso(1000),expires_at=iso(1020),required_conditions=['local_remote_enabled'])

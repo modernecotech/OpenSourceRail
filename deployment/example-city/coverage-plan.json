@@ -42,6 +42,7 @@
     "erp.api.disposition.record_decision",
     "erp.api.disposition_execution.preview",
     "erp.api.disposition_execution.record",
+    "erp.api.executive.ingest_draft",
     "erp.api.integration.apply_execution",
     "erp.api.integration.apply_repair",
     "erp.api.integration.case_status",
@@ -104,6 +105,7 @@
     "fuxa.validate_deployment_review",
     "gateway.GET./affected",
     "gateway.GET./controller/commands",
+    "gateway.GET./executive/decisions",
     "gateway.GET./evidence",
     "gateway.GET./health",
     "gateway.GET./history",
@@ -113,6 +115,9 @@
     "gateway.POST./commands",
     "gateway.POST./controller/result",
     "gateway.POST./evidence",
+    "gateway.POST./executive/ballots",
+    "gateway.POST./executive/finalize",
+    "gateway.POST./executive/proposals",
     "gateway.POST./packages",
     "gateway.POST./packages/preview",
     "gateway.POST./telemetry",
@@ -563,6 +568,7 @@
     "erp.api.disposition.record_decision": "3efba8973f6591c7998c56e67ee4bd35034294802f90ced5f068786efca257b9",
     "erp.api.disposition_execution.preview": "30330e031c5eae6b6ad560bf7ebf45543d942ab25879a9f50bdc2b5baa7b08fe",
     "erp.api.disposition_execution.record": "e6472df636b9c6e22885f19013bb0563667ff51fb13357ede2fee666dd0cfb9b",
+    "erp.api.executive.ingest_draft": "612ba076a103a613542b97352750813f1aa114178e59b5ffbbaa9e9b5e39dc6d",
     "erp.api.integration.apply_execution": "ead28322fe8900c627b14b36ea40e253016b1d5d38f0354fd8729a6c4c78a08c",
     "erp.api.integration.apply_repair": "d14a0f88d078cf89ea9473c3056e2db62870b281c249b2f8a54b811999495b7f",
     "erp.api.integration.case_status": "2cb1911f73dfef5c814ea13df1a3325a1d20e96feb9c242f0eb2bd12f2a61ae5",
@@ -625,6 +631,7 @@
     "fuxa.validate_deployment_review": "ece449c3dea18cbb46f675a722a6af53967fe5c4516ff4cbe8becbfafc803b32",
     "gateway.GET./affected": "9413f1031a1bf800e245778043dfffa56740f9f45a8a2587ed38477fbe60d0dd",
     "gateway.GET./controller/commands": "6f06b212b62bc7ef7e852b4c14f9cc897af5cc56c6796f87a024ad98a92948c8",
+    "gateway.GET./executive/decisions": "0cfad8a9cf2d9b8db0ee5926422779d323e0c1b4e8412525ebf4f6018101c325",
     "gateway.GET./health": "3bc789b6f22c0294e0b4962b22518eb0ee521102eea0f616749aab3fb30ab4bd",
     "gateway.GET./history": "137c5c6cc233a965c905413d44f0f77ba14c80efed1029248126b9897a66f0e3",
     "gateway.GET./snapshot": "9113e12728416fa0fc7211c5d493ffff5275c9ae0c66b8855802e39f38708efa",
@@ -632,6 +639,9 @@
     "gateway.POST./commands": "54f8435b21f60fa020c8faf195dfdb06a6c72ec09443078942be1bb2974a663d",
     "gateway.POST./controller/result": "2074a9ef54dbadd1cbdcf1bc75d6ae1a93f7e79d65751037054720351b8759cb",
     "gateway.POST./evidence": "2d72b9be48aca1648bf9c73dc84e2efd752ead4c613ad5170845f4686aa25098",
+    "gateway.POST./executive/ballots": "14c74f542861229abe8be34faf1b00eb409ac64207b9476732c3369ad6ef1ae5",
+    "gateway.POST./executive/finalize": "330c5c1a25d7f9f444c8c38857e2cb5a2d9947e90e881d192182341506449e2e",
+    "gateway.POST./executive/proposals": "3a790b0eb238510c680e7463f7f5fbc14e7292a61a7bbf9815f117996f03fee7",
     "gateway.POST./packages": "f287c40381c80daec256870bf8bc56c8b7ee692a1b4b44cd6067cc114c2c5ec8",
     "gateway.POST./packages/preview": "a6511f7d43d6953721f0684066ff793a3026ed30deb29cd2b827702384596844",
     "gateway.POST./telemetry": "79476c2df6fc4b044167bd9f9945721d30646ee808146a77bc8e532c1afa5935",
@@ -1714,6 +1724,12 @@
           "check": "Isolated native procurement adapters and negative cases pass with rollback"
         }
       ]
+    },
+    {
+      "pattern": "erp.api.executive.ingest_draft",
+      "status": "partial",
+      "remaining": "Pure contract tests cover checksum, HMAC, allowlist and mutation rejection; a complete example with provisioned external model runners and all four native draft types remains.",
+      "evidence": []
     },
     {
       "pattern": "erp.api.disposition.*",
@@ -3815,6 +3831,12 @@
           "check": "Full stop/start preserves the retained City Studio project configuration"
         }
       ]
+    },
+    {
+      "pattern": "gateway.*./executive/*",
+      "status": "partial",
+      "remaining": "Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners.",
+      "evidence": []
     },
     {
       "pattern": "gateway.POST./telemetry/batch",

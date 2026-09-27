@@ -49,6 +49,7 @@ members = [
     "crates/osr-sim",
     "crates/osr-sim-gui",
     "crates/osr-station-scada",
+    "crates/osr-supervision-contract",
     "crates/osr-t2g",
     "crates/osr-tcms",
     "crates/osr-tcn",
@@ -62,7 +63,7 @@ resolver = "2"
 [workspace.package]
 version = "0.4.0"
 edition = "2021"
-rust-version = "1.88"
+rust-version = "1.92"
 license = "Apache-2.0"
 repository = "https://github.com/modernecotech/OpenSourceRail"
 
@@ -79,7 +80,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)"] }
 # all enabled Rust/Clippy warnings; raise individual pedantic lints to `warn`
 # here as their existing findings are retired.
 pedantic = { level = "allow", priority = -1 }
-# Rust 1.88 expands this style lint across existing generated text emitters.
+# Rust 1.92 expands this style lint across existing generated text emitters.
 # Keep the toolchain upgrade focused on compatibility; migrate those call sites
 # separately without mixing large generated-output diffs into setup changes.
 uninlined_format_args = "allow"
@@ -96,3 +97,9 @@ cast_precision_loss = "allow"
 cast_possible_truncation = "allow"
 cast_sign_loss = "allow"
 similar_names = "allow"
+
+# Safety and planning binaries must not silently wrap arithmetic merely because
+# they were compiled with optimisations. Hot paths should use explicit checked,
+# saturating or wrapping operations where that behaviour is intentional.
+[profile.release]
+overflow-checks = true

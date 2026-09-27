@@ -13,7 +13,7 @@
 
 use std::collections::BTreeMap;
 
-use egui::{Align2, Color32, FontId, Painter, Pos2, Rect, Rounding, Stroke, Vec2};
+use egui::{Align2, Color32, CornerRadius, FontId, Painter, Pos2, Rect, Stroke, StrokeKind, Vec2};
 use osr_core::{Line, Network, StationId};
 
 pub mod palette;
@@ -185,8 +185,9 @@ fn draw_strip(painter: &Painter, strip: &LineStrip, network: &Network, palette: 
                 Rect::from_min_max(Pos2::new(left, strip.y - 30.0), Pos2::new(right, strip.y));
             painter.rect_stroke(
                 rect,
-                Rounding::same(30.0),
+                CornerRadius::same(30),
                 Stroke::new(1.5, palette.line_track),
+                StrokeKind::Middle,
             );
         }
     }
@@ -262,7 +263,7 @@ pub fn draw_train(
             let pos = Pos2::new(x, y - 12.0);
             painter.rect_filled(
                 Rect::from_center_size(pos, Vec2::new(14.0, 10.0)),
-                Rounding::same(2.0),
+                CornerRadius::same(2),
                 colour,
             );
             painter.text(
@@ -301,7 +302,7 @@ pub fn draw_section_state(
         Pos2::new(left, strip.y - 4.0),
         Pos2::new(right, strip.y + 4.0),
     );
-    painter.rect_filled(rect, Rounding::same(2.0), colour);
+    painter.rect_filled(rect, CornerRadius::same(2), colour);
 }
 
 #[cfg(test)]

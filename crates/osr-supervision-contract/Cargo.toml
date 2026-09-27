@@ -1,6 +1,6 @@
 [package]
-name = "osr-proto"
-description = "OpenSourceRail — wire types for the track-state log (RFC 0001 schema)"
+name = "osr-supervision-contract"
+description = "Observation-only contract between native OSR evaluators and supervision."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -12,7 +12,7 @@ workspace = true
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-postcard = { version = "1", default-features = false, features = ["alloc"] }
+thiserror = "1"
 
 [dev-dependencies]
-proptest = "1"
+serde_json = "1"

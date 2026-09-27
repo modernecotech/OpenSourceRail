@@ -10,8 +10,7 @@
 use std::collections::HashSet;
 
 use eframe::egui::{
-    self, CentralPanel, Color32, Context, FontId, Pos2, Rect, RichText, ScrollArea, SidePanel,
-    Slider, TopBottomPanel,
+    self, CentralPanel, Color32, Context, FontId, Panel, Pos2, Rect, RichText, ScrollArea, Slider,
 };
 use osr_core::TrainId;
 use osr_gui_shared::{draw_network, NetworkLayout, Palette};
@@ -229,14 +228,14 @@ impl SimApp {
 }
 
 impl eframe::App for SimApp {
-    fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
-        self.advance_playback(ctx);
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        self.advance_playback(ui.ctx());
 
-        top_bar(self, ctx);
-        left_sidebar(self, ctx);
-        right_inspector(self, ctx);
-        bottom_event_log(self, ctx);
-        central_map(self, ctx);
+        top_bar(self, ui);
+        left_sidebar(self, ui);
+        right_inspector(self, ui);
+        bottom_event_log(self, ui);
+        central_map(self, ui);
     }
 }
 
@@ -244,8 +243,8 @@ impl eframe::App for SimApp {
 // Panels
 // ---------------------------------------------------------------------------
 
-fn top_bar(app: &mut SimApp, ctx: &Context) {
-    TopBottomPanel::top("top").show(ctx, |ui| {
+fn top_bar(app: &mut SimApp, root: &mut egui::Ui) {
+    Panel::top("top").show_inside(root, |ui| {
         ui.horizontal(|ui| {
             ui.heading("OSR Sim GUI");
             ui.separator();
@@ -268,8 +267,8 @@ fn top_bar(app: &mut SimApp, ctx: &Context) {
     });
 }
 
-fn left_sidebar(app: &mut SimApp, ctx: &Context) {
-    SidePanel::left("sidebar").show(ctx, |ui| {
+fn left_sidebar(app: &mut SimApp, root: &mut egui::Ui) {
+    Panel::left("sidebar").show_inside(root, |ui| {
         ui.heading("Run + playback");
         ui.separator();
         ui.add(Slider::new(&mut app.duration_s, 60..=86_400).text("duration (s)"));
@@ -506,8 +505,8 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
     });
 }
 
-fn right_inspector(app: &mut SimApp, ctx: &Context) {
-    SidePanel::right("inspector").show(ctx, |ui| {
+fn right_inspector(app: &mut SimApp, root: &mut egui::Ui) {
+    Panel::right("inspector").show_inside(root, |ui| {
         ui.heading("Inspector");
         ui.separator();
         let Some(tl) = &app.timeline else {
@@ -557,11 +556,11 @@ fn right_inspector(app: &mut SimApp, ctx: &Context) {
     });
 }
 
-fn bottom_event_log(app: &mut SimApp, ctx: &Context) {
-    TopBottomPanel::bottom("event_log")
-        .default_height(160.0)
+fn bottom_event_log(app: &mut SimApp, root: &mut egui::Ui) {
+    Panel::bottom("event_log")
+        .default_size(160.0)
         .resizable(true)
-        .show(ctx, |ui| {
+        .show_inside(root, |ui| {
             ui.horizontal(|ui| {
                 ui.heading("Event log");
                 ui.separator();
@@ -608,10 +607,10 @@ fn bottom_event_log(app: &mut SimApp, ctx: &Context) {
         });
 }
 
-fn central_map(app: &mut SimApp, ctx: &Context) {
+fn central_map(app: &mut SimApp, root: &mut egui::Ui) {
     CentralPanel::default()
         .frame(egui::Frame::default().fill(app.palette.background))
-        .show(ctx, |ui| {
+        .show_inside(root, |ui| {
             let rect = ui.available_rect_before_wrap();
             let painter = ui.painter_at(rect);
             let layout = NetworkLayout::build(&app.scenario.network, rect);
@@ -695,7 +694,7 @@ fn draw_fault_badges(painter: &egui::Painter, rect: &Rect, result: &SimResult, a
         }
         painter.rect_filled(
             Rect::from_min_size(Pos2::new(rect.right() - 260.0, y), egui::vec2(250.0, 20.0)),
-            egui::Rounding::same(3.0),
+            egui::CornerRadius::same(3),
             Color32::from_rgba_premultiplied(230, 120, 60, 220),
         );
         painter.text(

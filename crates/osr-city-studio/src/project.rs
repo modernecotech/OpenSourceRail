@@ -1139,23 +1139,7 @@ impl CityProject {
         let settings = self.config.routing.as_ref().ok_or_else(|| {
             anyhow!("this project has no source-locked routing bundle; select direct routing")
         })?;
-        validate_routing_settings(settings)?;
-        let sources = self.resolve_sources()?;
-        for source_id in &settings.source_ids {
-            let source = sources
-                .iter()
-                .find(|source| &source.id == source_id)
-                .ok_or_else(|| anyhow!("routing source {source_id:?} is not source-locked"))?;
-            if !source.matches_lock {
-                bail!(
-                    "routing source {} does not match its SHA-256 lock",
-                    source.path
-                );
-            }
-        }
-        let sidecar = self.root.join(&settings.sidecar);
-        let bundle = osr_routing::raster::load_bundle(&sidecar, &settings.slug)
-            .with_context(|| format!("loading routing bundle {}", sidecar.display()))?;
+        let bundle = self.verified_routing_bundle()?;
         let start = snapped_route_cell(
             &bundle.grid,
             create.start_lat,
@@ -1199,15 +1183,32 @@ impl CityProject {
     }
 
     fn routing_grid(&self) -> Result<Grid> {
+        Ok(self.verified_routing_bundle()?.grid)
+    }
+
+    pub(crate) fn verified_routing_bundle(&self) -> Result<osr_routing::RasterBundle> {
         let settings = self
             .config
             .routing
             .as_ref()
             .ok_or_else(|| anyhow!("project has no source-locked routing bundle"))?;
-        Ok(
-            osr_routing::raster::load_bundle(self.root.join(&settings.sidecar), &settings.slug)?
-                .grid,
-        )
+        validate_routing_settings(settings)?;
+        let sources = self.resolve_sources()?;
+        for source_id in &settings.source_ids {
+            let source = sources
+                .iter()
+                .find(|source| &source.id == source_id)
+                .ok_or_else(|| anyhow!("routing source {source_id:?} is not source-locked"))?;
+            if !source.matches_lock {
+                bail!(
+                    "routing source {} does not match its SHA-256 lock",
+                    source.path
+                );
+            }
+        }
+        let sidecar = self.root.join(&settings.sidecar);
+        osr_routing::raster::load_bundle(&sidecar, &settings.slug)
+            .with_context(|| format!("loading routing bundle {}", sidecar.display()))
     }
 
     fn ensure_station_site(&self, lat: f64, lon: f64) -> Result<()> {
@@ -4804,6 +4805,23 @@ mod tests {
         assert_eq!(first.source_ids.len(), 10);
         assert_eq!(first.demand_weight, Some(5.0));
         assert!(first.points.len() > 20);
+
+        let routing_source = project
+            .source_lock
+            .sources
+            .iter_mut()
+            .find(|source| source.id == "routing-grid")
+            .expect("routing source lock");
+        let accepted_hash = routing_source.sha256.clone();
+        routing_source.sha256 = "0".repeat(64);
+        assert!(project.verified_routing_bundle().is_err());
+        project
+            .source_lock
+            .sources
+            .iter_mut()
+            .find(|source| source.id == "routing-grid")
+            .expect("routing source lock")
+            .sha256 = accepted_hash;
 
         let id = project
             .create_line(create)

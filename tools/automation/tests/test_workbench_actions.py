@@ -108,3 +108,32 @@ def test_change_impact_uses_prepared_package_and_server_side_viewer_credential(t
     assert not result['cross_domain']['engineering_release_ready']
     client.close()
     server.shutdown(); server.server_close(); thread.join()
+
+
+def test_executive_decisions_are_read_only_and_use_scoped_viewer(tmp_path, monkeypatch):
+    private = tmp_path / 'var/supervision'; private.mkdir(parents=True)
+    (private / 'integration.json').write_text(json.dumps({'principals': [
+        {'role': 'viewer', 'token': 'server-viewer'}]}))
+    monkeypatch.setattr(WB, 'SUPERVISION_CONFIG', private / 'integration.json')
+
+    class Response(io.BytesIO):
+        status = 200
+        def __enter__(self): return self
+        def __exit__(self, *args): self.close()
+    def decisions(request, **kwargs):
+        assert request.full_url == ('http://127.0.0.1:8092/executive/decisions?'
+                                    'city=samawah&environment=simulation')
+        assert request.get_header('Authorization') == 'Bearer server-viewer'
+        assert request.data is None
+        return Response(b'{"items":[],"total":0,"next_before":null}')
+    monkeypatch.setattr('urllib.request.urlopen', decisions)
+
+    class Handler(WB.WorkbenchHandler):
+        def log_message(self, *args): pass
+    server = WB.OPS.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
+    client = http.client.HTTPConnection('127.0.0.1', server.server_port)
+    client.request('GET', '/api/lifecycle/executive/decisions?city=samawah&environment=simulation')
+    response = client.getresponse(); payload = json.loads(response.read())
+    assert response.status == 200 and payload['items'] == []
+    client.close(); server.shutdown(); server.server_close(); thread.join()

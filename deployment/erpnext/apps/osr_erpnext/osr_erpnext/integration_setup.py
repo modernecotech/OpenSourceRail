@@ -48,6 +48,24 @@ def install():
                 ('source_package', 'Reviewed conversion package', 'Code', {'options': 'JSON'}),
             ]], permissions=[dict(role='Manufacturing Manager', read=1, write=1, create=1),
                              dict(role='Projects Manager', read=1), dict(role='System Manager', read=1, write=1, create=1)])).insert()
+    if not frappe.db.exists('DocType', 'OSR Executive Decision'):
+        frappe.get_doc(dict(doctype='DocType', name='OSR Executive Decision', module='OpenSourceRail', custom=1,
+            autoname='field:decision_id', track_changes=1,
+            fields=[dict(fieldname=key, label=label, fieldtype=kind, reqd=1, read_only=1,
+                **({'options': options} if options else {})) for key, label, kind, options in [
+                    ('decision_id', 'Decision identity', 'Data', None),
+                    ('project', 'Project', 'Link', 'Project'), ('company', 'Company', 'Link', 'Company'),
+                    ('city', 'City', 'Data', None), ('environment', 'Environment', 'Data', None),
+                    ('action_type', 'Action type', 'Data', None),
+                    ('decision_sha256', 'Decision checksum', 'Data', None),
+                    ('packet_sha256', 'Packet checksum', 'Data', None),
+                    ('attestation_key_id', 'Attestation key', 'Data', None),
+                    ('packet', 'Attested decision packet', 'Code', 'JSON'),
+                    ('target_doctype', 'Draft document type', 'Data', None),
+                    ('target_name', 'Draft document', 'Dynamic Link', 'target_doctype'),
+                ]], permissions=[dict(role='Support Team', read=1, create=1),
+                                 dict(role='Projects Manager', read=1),
+                                 dict(role='System Manager', read=1, create=1)])).insert()
     install_dispositions()
 
 

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4979**.
+Indexed Markdown files: **4981**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4979**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 163 |
+| [docs](#docs) | 165 |
 | [engineering](#engineering) | 17 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4915,6 +4915,7 @@ Indexed Markdown files: **4979**.
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail — one-page overview |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
 | [`docs/operating/README.md`](../docs/operating/README.md) | OpenSourceRail operating platform |
+| [`docs/operating/ai-executive-council.md`](../docs/operating/ai-executive-council.md) | AI executive council for ERP and supervisory decisions |
 | [`docs/operating/automation-review.md`](../docs/operating/automation-review.md) | ERPNext integration and automation review |
 | [`docs/operating/city-platform.md`](../docs/operating/city-platform.md) | Reproducible city operating twins |
 | [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
@@ -5016,6 +5017,7 @@ Indexed Markdown files: **4979**.
 | [`docs/rolling-stock/light-metro-3car/roof-fitout.md`](../docs/rolling-stock/light-metro-3car/roof-fitout.md) | Roof moulds, HVAC, solar and service fitout |
 | [`docs/rolling-stock/light-metro-3car/traction.md`](../docs/rolling-stock/light-metro-3car/traction.md) | Traction and DC Power — 800 V-Class Reference |
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
+| [`docs/rust-codebase-review-and-integration-plan.md`](../docs/rust-codebase-review-and-integration-plan.md) | Rust codebase review and OpenSourceRail integration plan |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
 | [`docs/safety-case/result-validation.md`](../docs/safety-case/result-validation.md) | Safety evidence: traceability, results and acceptance |
 | [`docs/simulation-software-coverage.md`](../docs/simulation-software-coverage.md) | Simulation software coverage |

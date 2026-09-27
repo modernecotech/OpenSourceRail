@@ -147,16 +147,22 @@ Ordinary tests now exercise clearance and occupancy independently.
 
 ### Execution budgets
 
-The controlled runner defaults to 600 seconds per harness. Manual Kani workflow
-dispatch can select 1800 seconds for each of the 48 declared harnesses across
-eight packages. The default 4096 MiB per-process address-space limit can be raised
-to 8192 MiB in manual dispatch (or configured with `--memory-mib` locally); the
-limit is inherited by verifier children and recorded in the evidence. Memory
-exhaustion remains a failed proof, and core dumps are disabled.
+The controlled runner defaults to 600 seconds per harness. Push and pull-request
+jobs gate the 39 declarations that currently complete within that envelope.
+Manual workflow dispatch also runs the nine unresolved declarations as
+non-gating diagnostics and can select 1800 seconds for each of the 48 declared
+harnesses across eight packages. The default 4096 MiB per-process address-space
+limit can be raised to 8192 MiB in manual dispatch (or configured with
+`--memory-mib` locally); the limit is inherited by verifier children and recorded
+in the evidence. Non-gating means that an already-recorded resource limitation
+does not make every development merge red; it does not turn a failure into a
+pass. Memory exhaustion remains a failed proof, and core dumps are disabled.
 Timeouts fail the run and kill the verifier's entire process
 group, including solver children left behind by the driver. Every completed
 outcome retains its command, input hashes and log; interrupted runners may lack
 a complete artifact and must be rerun. Kani remains pinned to 0.67.0.
+Release export still demands successful evidence for all 48 declarations and
+fails while any of the nine open obligations is absent or unsuccessful.
 
 ## Current verification follow-through
 

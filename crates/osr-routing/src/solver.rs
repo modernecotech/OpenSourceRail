@@ -32,6 +32,14 @@ impl Default for DemandWeight {
 
 #[derive(Debug, Error)]
 pub enum SolverError {
+    #[error("routing grid dimensions or raster lengths are inconsistent")]
+    InvalidGrid,
+    #[error("demand weight must be finite and non-negative")]
+    InvalidDemandWeight,
+    #[error("penalty raster length mismatch: expected {expected}, got {got}")]
+    PenaltyShape { expected: usize, got: usize },
+    #[error("penalty raster contains an invalid value at index {index}")]
+    InvalidPenalty { index: usize },
     #[error("start cell ({row}, {col}) out of bounds")]
     StartOob { row: isize, col: isize },
     #[error("goal cell ({row}, {col}) out of bounds")]
@@ -121,25 +129,56 @@ pub fn solve_path_in_bbox(
 ) -> Result<Vec<(usize, usize)>, SolverError> {
     let h = grid.reference.height;
     let w = grid.reference.width;
-    let n = h * w;
+    let n = h.checked_mul(w).ok_or(SolverError::InvalidGrid)?;
+    if h == 0
+        || w == 0
+        || grid.cost.len() != n
+        || grid.demand.len() != n
+        || grid.buildability.len() != n
+        || grid.water.as_ref().is_some_and(|values| values.len() != n)
+        || grid
+            .elevation_m
+            .as_ref()
+            .is_some_and(|values| values.len() != n)
+        || grid
+            .terrain_slope_percent
+            .as_ref()
+            .is_some_and(|values| values.len() != n)
+    {
+        return Err(SolverError::InvalidGrid);
+    }
+    if !demand_w.0.is_finite() || demand_w.0 < 0.0 {
+        return Err(SolverError::InvalidDemandWeight);
+    }
     if let Some(p) = penalty {
-        debug_assert_eq!(p.len(), n, "penalty mask must match grid cell count");
+        if p.len() != n {
+            return Err(SolverError::PenaltyShape {
+                expected: n,
+                got: p.len(),
+            });
+        }
+        if let Some(index) = p
+            .iter()
+            .position(|value| !value.is_finite() || *value < 0.0)
+        {
+            return Err(SolverError::InvalidPenalty { index });
+        }
     }
 
-    let sidx = start.0 * w + start.1;
-    let gidx = goal.0 * w + goal.1;
-    if sidx >= n {
+    if start.0 >= h || start.1 >= w {
         return Err(SolverError::StartOob {
             row: start.0 as isize,
             col: start.1 as isize,
         });
     }
-    if gidx >= n {
+    if goal.0 >= h || goal.1 >= w {
         return Err(SolverError::GoalOob {
             row: goal.0 as isize,
             col: goal.1 as isize,
         });
     }
+    let sidx = start.0 * w + start.1;
+    let gidx = goal.0 * w + goal.1;
 
     let mut dist = vec![f32::INFINITY; n];
     let mut prev: Vec<i32> = vec![-1; n];
@@ -276,6 +315,47 @@ mod tests {
             g.buildability[idx] = 0;
         }
         let err = solve_path(&g, (2, 0), (2, 6), DemandWeight(0.0)).unwrap_err();
-        matches!(err, SolverError::Unreachable);
+        assert!(matches!(err, SolverError::Unreachable));
+    }
+
+    #[test]
+    fn rejects_column_aliasing_into_another_row() {
+        let g = uniform_grid(5, 7, 10.0);
+        assert!(matches!(
+            solve_path(&g, (0, 8), (2, 6), DemandWeight(0.0)),
+            Err(SolverError::StartOob { .. })
+        ));
+        assert!(matches!(
+            solve_path(&g, (2, 0), (0, 8), DemandWeight(0.0)),
+            Err(SolverError::GoalOob { .. })
+        ));
+    }
+
+    #[test]
+    fn rejects_malformed_grid_penalty_and_weight_without_panicking() {
+        let mut g = uniform_grid(2, 2, 10.0);
+        assert!(matches!(
+            solve_path_with_penalty(&g, (0, 0), (1, 1), DemandWeight(0.0), Some(&[0.0])),
+            Err(SolverError::PenaltyShape { .. })
+        ));
+        assert!(matches!(
+            solve_path_with_penalty(
+                &g,
+                (0, 0),
+                (1, 1),
+                DemandWeight(0.0),
+                Some(&[0.0, -1.0, 0.0, 0.0])
+            ),
+            Err(SolverError::InvalidPenalty { index: 1 })
+        ));
+        assert!(matches!(
+            solve_path(&g, (0, 0), (1, 1), DemandWeight(f32::NAN)),
+            Err(SolverError::InvalidDemandWeight)
+        ));
+        g.cost.pop();
+        assert!(matches!(
+            solve_path(&g, (0, 0), (1, 1), DemandWeight(0.0)),
+            Err(SolverError::InvalidGrid)
+        ));
     }
 }

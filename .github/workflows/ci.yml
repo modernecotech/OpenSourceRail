@@ -16,13 +16,18 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.88.0
+      - uses: dtolnay/rust-toolchain@1.92.0
         with:
           components: clippy,rustfmt
       - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --all -- --check
-      - run: cargo clippy --workspace --all-targets -- -D warnings
-      - run: cargo test --workspace --all-targets
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - run: cargo test --workspace --all-targets --all-features
+      - run: cargo test --workspace --all-features --doc
+      - name: RustSec dependency advisory audit
+        run: |
+          cargo install cargo-audit --version 0.22.2 --locked
+          cargo audit --deny warnings
       - run: python3 tools/automation/validate-city-projects.py
 
   python-and-generated:
@@ -86,7 +91,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.88.0
+      - uses: dtolnay/rust-toolchain@1.92.0
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
@@ -111,6 +116,10 @@ jobs:
           sudo install -m 0755 /tmp/trunk /usr/local/bin/trunk
           trunk --version
       - run: tools/automation/osr-python -c 'import _pytest, bcf, ifcopenshell, ifctester, networkx; print("IFC GUI runtime ready")'
+      - name: Check both Rust GUI libraries for WebAssembly
+        run: >-
+          cargo check --target wasm32-unknown-unknown
+          -p osr-sim-gui -p osr-occ-gui --no-default-features
       - run: npm run test:frontend
       - name: Upload browser diagnostics
         if: failure()

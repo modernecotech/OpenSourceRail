@@ -9,6 +9,7 @@ from contextlib import contextmanager, closing
 from datetime import datetime
 
 from .config import digest, finite, identifier, validate_package
+from .executive import attest, canonical, decide, sha256, validate_ballot, validate_policy, validate_proposal
 
 
 def timestamp(value):
@@ -46,6 +47,24 @@ class Store:
             CREATE TABLE IF NOT EXISTS installations (id TEXT PRIMARY KEY, scope TEXT, serial TEXT, batch TEXT, revision TEXT, evidence TEXT, installed REAL, removed REAL);
             CREATE UNIQUE INDEX IF NOT EXISTS installed_position ON installations(scope) WHERE removed IS NULL;
             CREATE TABLE IF NOT EXISTS deliveries (id TEXT PRIMARY KEY, scope TEXT, body TEXT, actor TEXT, created REAL);
+            CREATE TABLE IF NOT EXISTS executive_proposals (
+                id TEXT PRIMARY KEY, city TEXT NOT NULL, environment TEXT NOT NULL,
+                body TEXT NOT NULL, context TEXT NOT NULL, context_sha256 TEXT NOT NULL,
+                actor TEXT NOT NULL, created REAL NOT NULL, expires REAL NOT NULL,
+                state TEXT NOT NULL DEFAULT 'collecting', decision TEXT,
+                decision_sha256 TEXT, attestation TEXT, finalized REAL);
+            CREATE TABLE IF NOT EXISTS executive_ballots (
+                id TEXT PRIMARY KEY, proposal_id TEXT NOT NULL, subject TEXT NOT NULL,
+                body TEXT NOT NULL, body_sha256 TEXT NOT NULL, created REAL NOT NULL,
+                UNIQUE(proposal_id,subject),
+                FOREIGN KEY(proposal_id) REFERENCES executive_proposals(id));
+            CREATE TABLE IF NOT EXISTS executive_actions (
+                id TEXT PRIMARY KEY, proposal_id TEXT NOT NULL UNIQUE, city TEXT NOT NULL,
+                environment TEXT NOT NULL, body TEXT NOT NULL,
+                state TEXT NOT NULL DEFAULT 'pending', created REAL NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 0, next_try REAL NOT NULL DEFAULT 0,
+                error TEXT, response TEXT,
+                FOREIGN KEY(proposal_id) REFERENCES executive_proposals(id));
             ''')
             # Forward-only migrations keep existing pilot historians usable.
             asset_columns = {row['name'] for row in db.execute('PRAGMA table_info(assets)')}
@@ -65,6 +84,15 @@ class Store:
             db.execute("""UPDATE outbox SET city=json_extract(body,'$.city'),
                 environment=json_extract(body,'$.environment'), asset_id=json_extract(body,'$.asset_id')
                 WHERE city IS NULL AND json_valid(body)""")
+            executive_action_columns = {row['name'] for row in db.execute('PRAGMA table_info(executive_actions)')}
+            for column, definition in [('attempts', 'INTEGER NOT NULL DEFAULT 0'),
+                                       ('next_try', 'REAL NOT NULL DEFAULT 0'),
+                                       ('error', 'TEXT'), ('response', 'TEXT')]:
+                if column not in executive_action_columns:
+                    db.execute(f'ALTER TABLE executive_actions ADD COLUMN {column} {definition}')
+            # Version-one packets did not embed the proposal and decision needed
+            # for independent ERP verification. Never upgrade them into delivery.
+            db.execute("UPDATE executive_actions SET state='requires-reissue' WHERE state='ready-for-erp-draft-adapter'")
             db.executescript("""
                 CREATE INDEX IF NOT EXISTS assets_city_environment ON assets(city,environment);
                 CREATE INDEX IF NOT EXISTS assets_site ON assets(city,environment,json_extract(body,'$.site_id'));
@@ -75,6 +103,10 @@ class Store:
                 CREATE INDEX IF NOT EXISTS installations_scope ON installations(scope,installed);
                 CREATE INDEX IF NOT EXISTS evidence_scope ON evidence(scope);
                 CREATE INDEX IF NOT EXISTS commands_scope ON commands(scope);
+                CREATE INDEX IF NOT EXISTS executive_proposals_scope ON executive_proposals(city,environment,created);
+                CREATE INDEX IF NOT EXISTS executive_ballots_proposal ON executive_ballots(proposal_id,created);
+                CREATE INDEX IF NOT EXISTS executive_actions_scope ON executive_actions(city,environment,created);
+                CREATE INDEX IF NOT EXISTS executive_actions_pending ON executive_actions(state,next_try);
             """)
 
     @contextmanager
@@ -632,6 +664,195 @@ class Store:
             return dict(schema='osr-lifecycle-twin/1', observed_at=now, assets=list(assets.values()),
                         outbox=queue['items'], outbox_page={k:v for k,v in queue.items() if k!='items'}, historian=historian,
                         authority='OSR evidence references; ERP closure and alarm clearance do not grant railway release')
+
+    @staticmethod
+    def _executive_context(db, city, environment):
+        """Capture the exact supervisory facts considered by an executive proposal."""
+        scope = (identifier(city), identifier(environment))
+        assets = [dict(row) for row in db.execute("""SELECT scope,asset_id,package,state,configuration_status
+            FROM assets WHERE city=? AND environment=? ORDER BY scope""", scope)]
+        if not assets:
+            raise ValueError('Executive proposal requires an accepted supervisory baseline')
+        bindings = set()
+        for row in db.execute("SELECT body FROM assets WHERE city=? AND environment=?", scope):
+            asset = json.loads(row['body'])
+            bindings.add((asset.get('company_id', ''), asset.get('erp_project', '')))
+        erp_binding = ({'company': next(iter(bindings))[0], 'project': next(iter(bindings))[1]}
+                       if len(bindings) == 1 else {'company': '', 'project': ''})
+        readings = [dict(row) for row in db.execute("""SELECT r.scope,r.measurement,r.source,r.sequence,
+            r.source_time,r.received,r.value,r.quality,r.unit FROM readings r JOIN assets a ON a.scope=r.scope
+            WHERE a.city=? AND a.environment=? AND r.id=(SELECT max(x.id) FROM readings x
+                WHERE x.scope=r.scope AND x.measurement=r.measurement AND x.source=r.source)
+            ORDER BY r.scope,r.measurement,r.source""", scope)]
+        alarms = [dict(row) for row in db.execute("""SELECT t.key,t.scope,t.rule,t.active,t.incident,
+            t.last_event,t.occurrences,t.case_id,t.erp_status,t.acknowledged_by,t.acknowledged_at
+            FROM alarms t JOIN assets a ON a.scope=t.scope
+            WHERE a.city=? AND a.environment=? ORDER BY t.key""", scope)]
+        commands = [dict(row) for row in db.execute("""SELECT t.id,t.scope,t.state,t.expires,t.actor
+            FROM commands t JOIN assets a ON a.scope=t.scope
+            WHERE a.city=? AND a.environment=? AND t.state IN ('requested','accepted') ORDER BY t.id""", scope)]
+        outbox = [dict(row) for row in db.execute("""SELECT id,incident,asset_id,state,attempts,next_try,error
+            FROM outbox WHERE city=? AND environment=? AND state='pending' ORDER BY rowid""", scope)]
+        return {'schema': 'osr-executive-operational-context/1', 'city': city,
+                'environment': environment, 'assets': assets, 'latest_readings': readings,
+                'alarms': alarms, 'pending_commands': commands, 'pending_erp_events': outbox,
+                'erp_binding': erp_binding}
+
+    @staticmethod
+    def _executive_record(db, row, include_context=False):
+        proposal = json.loads(row['body'])
+        ballots = []
+        for ballot in db.execute('SELECT subject,body,body_sha256,created FROM executive_ballots WHERE proposal_id=? ORDER BY created,id', (row['id'],)):
+            item = json.loads(ballot['body'])
+            item.update(subject=ballot['subject'], sha256=ballot['body_sha256'], received_at=ballot['created'])
+            ballots.append(item)
+        result = dict(proposal, created_by=row['actor'], received_at=row['created'], state=row['state'],
+                      operational_context_sha256=row['context_sha256'], ballots=ballots,
+                      decision=json.loads(row['decision']) if row['decision'] else None,
+                      decision_sha256=row['decision_sha256'],
+                      attestation=json.loads(row['attestation']) if row['attestation'] else None,
+                      finalized_at=row['finalized'])
+        if include_context:
+            result['operational_context'] = json.loads(row['context'])
+        action = db.execute('SELECT id,state,body,created,attempts,next_try,error,response FROM executive_actions WHERE proposal_id=?', (row['id'],)).fetchone()
+        if action:
+            result['erp_action'] = {'id': action['id'], 'state': action['state'],
+                'body': json.loads(action['body']), 'created_at': action['created'],
+                'attempts': action['attempts'], 'next_try': action['next_try'],
+                'error': action['error'],
+                'response': json.loads(action['response']) if action['response'] else None}
+        return result
+
+    def create_executive_proposal(self, message, actor, now=None):
+        now = time.time() if now is None else now
+        proposal = validate_proposal(message, now)
+        body = canonical(proposal)
+        with self.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            old = db.execute('SELECT * FROM executive_proposals WHERE id=?', (proposal['id'],)).fetchone()
+            if old:
+                if old['body'] != body or old['actor'] != actor:
+                    raise ValueError('Executive proposal identity is immutable')
+                result = self._executive_record(db, old, include_context=True)
+                result['created'] = False
+                return result
+            context = self._executive_context(db, proposal['city'], proposal['environment'])
+            if proposal['requested_authority'] == 'delegated-erp-draft':
+                binding = context['erp_binding']
+                if not binding['project'] or proposal['parameters'].get('project') != binding['project']:
+                    raise ValueError('Delegated draft must target the accepted supervisory ERP project')
+            context_body = canonical(context)
+            context_sha = sha256(context)
+            db.execute('''INSERT INTO executive_proposals
+                (id,city,environment,body,context,context_sha256,actor,created,expires)
+                VALUES(?,?,?,?,?,?,?,?,?)''', (proposal['id'], proposal['city'], proposal['environment'],
+                body, context_body, context_sha, actor, now, timestamp(proposal['expires_at'])))
+            scope = proposal['city'] + '|' + proposal['environment'] + '|executive:' + proposal['id']
+            self.audit(db, actor, 'executive-proposal-created', scope,
+                       {'action_type': proposal['action_type'], 'context_sha256': context_sha,
+                        'requested_authority': proposal['requested_authority']})
+            row = db.execute('SELECT * FROM executive_proposals WHERE id=?', (proposal['id'],)).fetchone()
+            result = self._executive_record(db, row, include_context=True)
+            result['created'] = True
+            return result
+
+    def add_executive_ballot(self, proposal_id, message, principal, now=None):
+        now = time.time() if now is None else now
+        proposal_id = identifier(proposal_id)
+        with self.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            proposal = db.execute('SELECT * FROM executive_proposals WHERE id=?', (proposal_id,)).fetchone()
+            if proposal is None:
+                raise ValueError('Unknown executive proposal')
+            if proposal['state'] != 'collecting':
+                raise ValueError('Executive proposal is sealed')
+            if proposal['expires'] <= now:
+                raise ValueError('Executive proposal expired')
+            ballot = validate_ballot(message, principal, proposal['context_sha256'])
+            body = canonical(ballot); body_sha = sha256(ballot)
+            old = db.execute('SELECT * FROM executive_ballots WHERE proposal_id=? AND subject=?',
+                             (proposal_id, principal['subject'])).fetchone()
+            if old:
+                if old['body'] != body:
+                    raise ValueError('A model identity cannot revise its ballot')
+                return {'id': old['id'], 'sha256': old['body_sha256'], 'created': False}
+            if db.execute("SELECT 1 FROM executive_ballots WHERE proposal_id=? AND json_extract(body,'$.model_id')=?",
+                          (proposal_id, ballot['model_id'])).fetchone():
+                raise ValueError('A model identity can cast only one ballot per proposal')
+            if db.execute('SELECT 1 FROM executive_ballots WHERE id=?', (ballot['id'],)).fetchone():
+                raise ValueError('Ballot identity already used')
+            db.execute('INSERT INTO executive_ballots VALUES(?,?,?,?,?,?)',
+                       (ballot['id'], proposal_id, principal['subject'], body, body_sha, now))
+            scope = proposal['city'] + '|' + proposal['environment'] + '|executive:' + proposal_id
+            self.audit(db, principal['subject'], 'executive-ballot-' + ballot['verdict'], scope,
+                       {'id': ballot['id'], 'model_id': ballot['model_id'],
+                        'perspective': ballot['perspective'], 'sha256': body_sha})
+            return {'id': ballot['id'], 'sha256': body_sha, 'created': True}
+
+    def finalize_executive_proposal(self, proposal_id, actor, council, now=None):
+        now = time.time() if now is None else now
+        proposal_id = identifier(proposal_id)
+        policy = validate_policy(council)
+        with self.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row = db.execute('SELECT * FROM executive_proposals WHERE id=?', (proposal_id,)).fetchone()
+            if row is None:
+                raise ValueError('Unknown executive proposal')
+            if row['state'] == 'sealed':
+                return self._executive_record(db, row, include_context=True)
+            proposal = json.loads(row['body'])
+            ballot_rows = db.execute('SELECT body,body_sha256 FROM executive_ballots WHERE proposal_id=? ORDER BY id',
+                                     (proposal_id,)).fetchall()
+            ballots = [json.loads(ballot['body']) for ballot in ballot_rows]
+            result = decide(proposal, ballots, policy, now)
+            decision = {'schema': 'osr-executive-decision/1', 'proposal_id': proposal_id,
+                        'proposal_sha256': sha256(proposal), 'operational_context_sha256': row['context_sha256'],
+                        'ballot_sha256s': sorted(ballot['body_sha256'] for ballot in ballot_rows),
+                        'result': result}
+            scope = row['city'] + '|' + row['environment'] + '|executive:' + proposal_id
+            if result['outcome'] == 'insufficient-verification':
+                self.audit(db, actor, 'executive-finalize-deferred', scope,
+                           {'outcome': result['outcome'], 'reasons': result['reasons']})
+                return dict(self._executive_record(db, row, include_context=True), pending_decision=decision)
+            decision['finalized_at'] = now
+            decision_sha, signature = attest(decision, council.get('attestation_key'),
+                                              council.get('attestation_key_id'))
+            db.execute("""UPDATE executive_proposals SET state='sealed',decision=?,decision_sha256=?,
+                attestation=?,finalized=? WHERE id=?""", (canonical(decision), decision_sha,
+                canonical(signature), now, proposal_id))
+            if result['outcome'] == 'delegated-erp-draft-authorized':
+                packet = {'schema': 'osr-erp-executive-draft/1', 'id': 'executive-' + proposal_id,
+                          'city': row['city'], 'environment': row['environment'],
+                          'action_type': proposal['action_type'], 'parameters': proposal['parameters'],
+                          'proposal': proposal, 'decision': decision,
+                          'decision_sha256': decision_sha, 'attestation': signature,
+                          'authority': 'Create or update a draft only; submission and all railway authority remain external.'}
+                db.execute('INSERT INTO executive_actions(id,proposal_id,city,environment,body,created) VALUES(?,?,?,?,?,?)',
+                           (packet['id'], proposal_id, row['city'], row['environment'], canonical(packet), now))
+            self.audit(db, actor, 'executive-decision-' + result['outcome'], scope,
+                       {'decision_sha256': decision_sha, 'attestation_key_id': signature['key_id']})
+            sealed = db.execute('SELECT * FROM executive_proposals WHERE id=?', (proposal_id,)).fetchone()
+            return self._executive_record(db, sealed, include_context=True)
+
+    def executive_decision(self, proposal_id):
+        with self.connect() as db:
+            row = db.execute('SELECT * FROM executive_proposals WHERE id=?', (identifier(proposal_id),)).fetchone()
+            if row is None:
+                raise ValueError('Unknown executive proposal')
+            return self._executive_record(db, row, include_context=True)
+
+    def executive_page(self, city, environment, limit=20, before=None):
+        self._page_args(limit, before)
+        city, environment = identifier(city), identifier(environment)
+        with self.connect() as db:
+            rows = db.execute('SELECT rowid AS cursor,* FROM executive_proposals WHERE city=? AND environment=?' +
+                (' AND rowid<?' if before is not None else '') + ' ORDER BY rowid DESC LIMIT ?',
+                [city, environment, *([before] if before is not None else []), limit + 1]).fetchall()
+            items = [dict(self._executive_record(db, row), cursor=row['cursor']) for row in rows[:limit]]
+            total = db.execute('SELECT count(*) FROM executive_proposals WHERE city=? AND environment=?',
+                               (city, environment)).fetchone()[0]
+            return {'items': items, 'total': total,
+                    'next_before': rows[limit - 1]['cursor'] if len(rows) > limit else None}
 
     def acknowledge(self, city, environment, asset, rule, occurrence, actor, now=None):
         scope = self.scope(city, environment, asset)

@@ -284,12 +284,16 @@ async function main() {
     buildings: document.querySelectorAll('[data-gis-group="context-buildings"] .gis-feature').length,
     water: document.querySelectorAll('[data-gis-group="context-water"] .gis-feature').length,
     existingRail: document.querySelectorAll('[data-gis-group="context-existing-rail"] .gis-feature').length,
+    topographyReady: ["routing-water", "terrain-elevation", "terrain-slope", "planning-structures"]
+      .every(id => gisManifest?.layers?.some(layer => layer.id === id && /^[a-f0-9]{64}$/.test(layer.sha256))
+        && (gisLayers.get(id)?.features?.length || 0) > 0),
     attribution: document.querySelector('#map-attribution').textContent,
     controls: document.querySelectorAll('[data-layer-control]').length,
   })`);
   assert(gisState.deterministic && gisState.crs === "EPSG:4326", "deterministic GIS manifest loaded", gisState.crs);
   assert(gisState.attribution.includes("OpenStreetMap") && gisState.attribution.includes("ODbL"), "OpenStreetMap attribution remains visible on the map");
-  assert(gisState.layers === 16 && gisState.hashesValid, "GIS layer catalogue is content hashed", `${gisState.layers} layers`);
+  assert(gisState.layers === 20 && gisState.hashesValid, "GIS layer catalogue is content hashed", `${gisState.layers} layers`);
+  assert(gisState.topographyReady, "source-locked water, elevation, slope, and structure screens are populated");
   assert(gisState.demandFeatures > 0 && gisState.renderedDemand === gisState.demandFeatures, "locked demand surface rendered behind candidate", `${gisState.demandFeatures} cells`);
   assert(gisState.roads > 1000 && gisState.buildings > 0 && gisState.water > 0 && gisState.existingRail > 0, "locked roads, buildings, water and existing rail render as local context", `${gisState.roads} road features`);
   assert(gisState.controls === gisState.layers, "every GIS layer has visibility and opacity controls");

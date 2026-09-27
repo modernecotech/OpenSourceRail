@@ -1,110 +1,35 @@
 {
-  "aux": {
-    "direct_hv_enabled": true,
-    "load_shed_active": false,
-    "state": {
-      "fault_until_ns": [
-        null,
-        null,
-        null
-      ],
-      "faults": 0
-    },
-    "v110_enabled": true,
-    "v24_enabled": true
-  },
-  "bms": {
-    "charge_inhibited": false,
-    "charge_limit_ma": 800000,
-    "contactor": "Closed",
-    "discharge_limit_ma": 1000000,
-    "hazard_module_id": null,
-    "hazard_string_id": null,
-    "pack_isolation_requested": false,
-    "state": {
-      "alarm": "Nominal",
-      "charge_accum_mas": 0,
-      "contactor": "Closed",
-      "degradation_weighted_mas": 0,
-      "fault_until_ns": null,
-      "faults": 0,
-      "soc_ppt": 720,
-      "soh_ppt": 1000
-    }
-  },
-  "cbm": {
-    "flags": [],
-    "sample": {
-      "bearing_vib_ppt": [
-        1000
-      ],
-      "brake_pad_remaining_ppt": [
-        900
-      ],
-      "motor_temp_dc": [
-        800
-      ],
-      "now_ns": 1,
-      "train_id": 1,
-      "wheel_tread_remaining_ppt": [
-        900
-      ],
-      "worst_health": "Nominal"
-    }
-  },
-  "energy": {
-    "battery_soc_ppt": 720,
-    "pv_w": 240000,
-    "schema": "osr-energy-site/1",
-    "to_pad_w": 180000
-  },
+  "authority": "observation-only",
   "environment": "simulation",
-  "faregate": {
-    "denial_count": 0,
-    "gate": "Open",
-    "grant_count": 1,
-    "last_decision": "Grant"
-  },
-  "fixtures": {
-    "cabin_temperature_dc": 300,
-    "cell_temperature_dc": 350
-  },
-  "hvac": {
-    "compressor_ppt": 1000,
-    "fan_ppt": 1000,
-    "heater_ppt": 0,
-    "mode": "Cooling",
-    "state": {
-      "integral_ppt": 0
-    }
-  },
-  "key": "test",
-  "lighting": {
-    "dim_ppt": 750,
-    "enabled": true,
-    "faulted": false
-  },
-  "crossing": {
-    "faulted": false,
-    "state": "Idle",
-    "warning_lights_on": false
-  },
-  "points": {
-    "detected": "Normal",
-    "fault_reason": null,
-    "motor": "Stop"
-  },
-  "schema": "osr-operating-bridge/2",
-  "source_time_ns": 1,
-  "station": {
-    "cctv_recording": true,
-    "escalator_commands": [],
-    "fault_count": 0,
-    "health": "Nominal",
-    "hvac_setpoint_dc": 250,
-    "lift_requests": [],
-    "lighting_enabled": [
-      true
-    ]
-  }
+  "key": "samawah|SAM-RS-L1-001",
+  "observations": [
+    {"equipment_type": "pv", "measurement": "power_kw", "source_crates": ["osr-energy-site"], "unit": "kW", "value": 240.0},
+    {"equipment_type": "charger", "measurement": "power_kw", "source_crates": ["osr-energy-site"], "unit": "kW", "value": 180.0},
+    {"equipment_type": "battery", "measurement": "soc_pct", "source_crates": ["osr-energy-site"], "unit": "%", "value": 72.0},
+    {"equipment_type": "facilities", "measurement": "lighting_pct", "source_crates": ["osr-station-scada"], "unit": "%", "value": 75.0},
+    {"equipment_type": "facilities", "measurement": "fault_count", "source_crates": ["osr-station-scada"], "unit": "count", "value": 0.0},
+    {"equipment_type": "vehicle-bms", "measurement": "soc_pct", "source_crates": ["osr-bms"], "unit": "%", "value": 72.0},
+    {"equipment_type": "vehicle-bms", "measurement": "charge_limit_a", "source_crates": ["osr-bms"], "unit": "A", "value": 800.0},
+    {"equipment_type": "vehicle-bms", "measurement": "trip", "source_crates": ["osr-bms"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "vehicle-aux", "measurement": "comfort_power", "source_crates": ["osr-aux-power"], "unit": "bool", "value": 1.0},
+    {"equipment_type": "vehicle-aux", "measurement": "fault_count", "source_crates": ["osr-aux-power"], "unit": "count", "value": 0.0},
+    {"equipment_type": "vehicle-hvac", "measurement": "compressor_pct", "source_crates": ["osr-hvac", "osr-aux-power"], "unit": "%", "value": 100.0},
+    {"equipment_type": "vehicle-hvac", "measurement": "fan_pct", "source_crates": ["osr-hvac", "osr-aux-power"], "unit": "%", "value": 100.0},
+    {"equipment_type": "vehicle-hvac", "measurement": "reduced", "source_crates": ["osr-hvac", "osr-aux-power"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "vehicle-cbm", "measurement": "health", "source_crates": ["osr-cbm-onboard"], "unit": "severity", "value": 0.0},
+    {"equipment_type": "vehicle-cbm", "measurement": "brake_remaining_pct", "source_crates": ["osr-cbm-onboard"], "unit": "%", "value": 90.0},
+    {"equipment_type": "vehicle-cbm", "measurement": "bearing_vibration_mm_s", "source_crates": ["osr-cbm-onboard"], "unit": "mm/s", "value": 1.0},
+    {"equipment_type": "points", "measurement": "detected_position", "source_crates": ["osr-wayside-points"], "unit": "position", "value": 1.0},
+    {"equipment_type": "points", "measurement": "detection_unknown", "source_crates": ["osr-wayside-points"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "points", "measurement": "motor_active", "source_crates": ["osr-wayside-points"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "level-crossing", "measurement": "state", "source_crates": ["osr-level-crossing"], "unit": "state", "value": 0.0},
+    {"equipment_type": "level-crossing", "measurement": "fault", "source_crates": ["osr-level-crossing"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "level-crossing", "measurement": "warning_active", "source_crates": ["osr-level-crossing"], "unit": "bool", "value": 0.0},
+    {"equipment_type": "faregate", "measurement": "gate_open", "source_crates": ["osr-afc"], "unit": "bool", "value": 1.0},
+    {"equipment_type": "faregate", "measurement": "last_decision", "source_crates": ["osr-afc"], "unit": "decision", "value": 1.0},
+    {"equipment_type": "faregate", "measurement": "grant_count", "source_crates": ["osr-afc"], "unit": "count", "value": 1.0},
+    {"equipment_type": "faregate", "measurement": "denial_count", "source_crates": ["osr-afc"], "unit": "count", "value": 0.0}
+  ],
+  "schema": "osr-supervisory-observations/1",
+  "source_time_ns": 1
 }

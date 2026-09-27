@@ -21,8 +21,10 @@ flowchart LR
   Twin["Versioned engineering and city packages"]
   ERP["ERPNext + Frappe HR: native business transactions"]
   Gateway["OSR integration gateway: scoped API, SQLite history and durable outbox"]
+  Contract["Rust supervisory contract: observation-only"]
   FUXA["FUXA: generated supervision views"]
   Native["Rust station / vehicle / wayside evaluators"]
+  Council["Governed AI executive council: multi-model recommendations"]
   Fixture["Explicit simulation fixtures; factory-method rehearsal"]
   Railway["OSR simulation / OCC / railway works and handback"]
   Legacy["Historic Ops Core business records: read-only"]
@@ -34,11 +36,15 @@ flowchart LR
   UI --> Railway
   UI --> Gateway
   Fixture --> Native
-  Native --> Gateway
+  Native --> Contract
+  Contract --> Gateway
   Fixture --> Gateway
   Gateway -->|deduplicated Issue / reviewed Asset Repair| ERP
   ERP -->|permission-filtered execution feedback| UI
   Gateway -->|REST tags / source quality| FUXA
+  Gateway -->|immutable evidence context| Council
+  ERP -->|permission-filtered business state| Council
+  Council -->|attested allowlisted unsubmitted drafts only| ERP
   Legacy --> UI
 ```
 
@@ -51,6 +57,7 @@ module reuse needs a separate reviewed mapping before it can be represented.
 ```mermaid
 flowchart TB
   Controllers["Native simulation controllers"]
+  Contract["Versioned observation-only Rust contract"]
   API["Implemented scoped HTTP integration API"]
   History["Gateway-owned SQLite historian and alarm/command audit"]
   Queue["Durable maintenance outbox"]
@@ -60,7 +67,8 @@ flowchart TB
   Transport["Future reviewed MQTT / OPC UA / Modbus adapters"]
   Bus["Future production event transport, e.g. NATS"]
   Assurance["Independent railway inspection and handback"]
-  Controllers --> API
+  Controllers --> Contract
+  Contract --> API
   API --> History
   History --> FUXA
   API --> Queue

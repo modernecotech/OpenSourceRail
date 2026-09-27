@@ -38,6 +38,30 @@ hash. The default remains `http://127.0.0.1:8090`.
 - ERPNext: <http://127.0.0.1:8080/app/opensourcerail>
 - Integration health: <http://127.0.0.1:8092/health>
 
+`./osr supervision init` also installs the private policy-engine/secretariat
+identities and attestation key for the experimental
+[AI executive council](../../docs/operating/ai-executive-council.md). It creates
+no pretend model accounts: each real model runner must be separately configured
+with a scoped `executive-model` principal and fixed provider, family and
+perspective. The council can emit only inspectable, unsubmitted ERP draft packets;
+it has no path to the controller command API.
+`connect-erp` privately provisions the council verification key into ERPNext.
+The gateway retries authorized draft packets until ERPNext has independently
+verified and idempotently mapped them to a native unsubmitted document.
+The service account still needs the least-privilege native create/read permissions
+for each enabled document type and its referenced masters. Missing permission or
+native validation rejects the packet visibly; provisioning does not silently add
+finance, stock, manufacturing or maintenance manager roles.
+
+Use one separately secured
+[`executive-model-runner.py`](../../tools/automation/executive-model-runner.py)
+process per model identity. Its JSON configuration names credential environment
+variables; it contains no token. The runner accepts only the versioned OSR
+adapter response contract and records exact prompt/response hashes with its
+ballot. Submit and seal proposals with `./osr supervision council-propose` and
+`./osr supervision council-finalize`; finalization cannot manufacture missing
+quorum or erase dissent.
+
 `var/supervision/fuxa.json` contains editor (`admin`) and operator (`operator`)
 passwords. Private integration tokens are in `var/supervision/integration.json`.
 No credentials are included in generated FUXA project exports. The operator cannot

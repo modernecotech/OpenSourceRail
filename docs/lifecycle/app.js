@@ -3,7 +3,7 @@ import {renderExecutionReviews} from './execution-impact.js';
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const services = await fetch('/api/workbench/services').then(r=>r.ok?r.json():null).catch(()=>null) || {erp:'http://127.0.0.1:8080',fuxa:'http://127.0.0.1:1881'};
-let selected, snapshot, engineering, business, impact, lastScope;
+let selected, snapshot, engineering, business, impact, executive, lastScope;
 let refreshId=0;
 let renderId=0;
 let syncEvidence=()=>{};
@@ -87,12 +87,27 @@ function renderQueue(a, generation) {
   more.onclick=()=>load(true);
   load();
 }
+function renderExecutive(){
+  const target=$('executiveCouncil'),items=executive?.items || [];
+  if(!executive){target.textContent='Executive council is unavailable or not enabled for this deployment.';return;}
+  if(!items.length){target.textContent='No executive proposals have been recorded for this city and environment.';return;}
+  target.innerHTML=`<p>${esc(executive.total)} proposal(s) · latest ${items.length} shown. Every ballot and dissent is retained.</p><div class="council-grid">${items.map(item=>{
+    const result=item.decision?.result, outcome=result?.outcome || 'collecting-verification';
+    const cls=outcome.includes('authorized')||outcome==='advisory-endorsed'?'good':outcome.includes('insufficient')||outcome.includes('collecting')?'warning':'bad';
+    const ballots=item.ballots || [],counts=result?.counts || {ballots:ballots.length,endorse:ballots.filter(v=>v.verdict==='endorse').length,reject:ballots.filter(v=>v.verdict==='reject').length,abstain:ballots.filter(v=>v.verdict==='abstain').length};
+    const votes=ballots.map(v=>record(`<b class="${v.verdict==='endorse'?'good':v.verdict==='reject'?'bad':'warning'}">${esc(v.perspective)} · ${esc(v.verdict)}</b><br>${esc(v.provider)} / ${esc(v.model_family)} / ${esc(v.model_id)}<br>${esc(v.rationale)}${(v.claims || []).length?`<br>Claims: ${(v.claims || []).map(esc).join(' · ')}`:''}<br>Ballot <code>${esc(v.sha256)}</code><br>Prompt <code>${esc(v.prompt_sha256 || 'legacy/unrecorded')}</code><br>Response <code>${esc(v.response_sha256 || 'legacy/unrecorded')}</code>`)).join('') || record('No ballots received.');
+    const action=item.erp_action;
+    const delivery=action?record(`<b>ERP draft delivery · <span class="${action.state==='delivered'?'good':action.state==='rejected'?'bad':'warning'}">${esc(action.state)}</span></b><br>${action.response?`${esc(action.response.doctype)} <a href="${esc(services.erp)}/app/${encodeURIComponent(String(action.response.doctype || '').toLowerCase().replaceAll(' ','-'))}/${encodeURIComponent(action.response.name)}" target="_blank" rel="noopener">${esc(action.response.name)}</a> · docstatus ${esc(action.response.docstatus)}`:`${esc(action.attempts)} attempt(s)`}${action.error?`<br><span class="bad">${esc(action.error)}</span>`:''}`):record('No ERP action packet. Advisory, disputed, insufficient and human-required decisions cannot execute.');
+    return `<article class="council-card"><h3>${esc(item.office)} · ${esc(item.action_type)}</h3><p><b class="${cls}">${esc(outcome)}</b><br>${esc(item.summary)}</p><p>${esc(item.rationale)}</p><p>${counts.endorse || 0} endorse · ${counts.reject || 0} reject · ${counts.abstain || 0} abstain · ${counts.providers ?? new Set(ballots.map(v=>v.provider)).size} provider(s) · ${counts.model_families ?? new Set(ballots.map(v=>v.model_family)).size} family/families</p><details><summary>Ballots and dissent (${ballots.length})</summary>${votes}</details>${delivery}<details><summary>Evidence and attestation</summary><p>Operational context<br><code>${esc(item.operational_context_sha256)}</code></p><p>Decision<br><code>${esc(item.decision_sha256 || 'not sealed')}</code></p><p>Attestation ${esc(item.attestation?.key_id || 'not signed')}<br><code>${esc(item.attestation?.signature || '')}</code></p><p>${esc(result?.authority || 'No delegated authority until deterministic verification is complete.')}</p></details><details><summary>Proposed parameters</summary><pre>${esc(JSON.stringify(item.parameters,null,2))}</pre></details></article>`;
+  }).join('')}</div>`;
+}
 function render() {
   const generation=++renderId;
   selected=snapshot.assets.find(a=>a.asset_id===$('asset').value);
   for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','execution','assurance','queue','commands','trend']) $(id).innerHTML='';
   $('commandForm').hidden=true;
   syncEvidence();
+  renderExecutive();
   if(!selected) { $('executionImpact').replaceChildren();$('overview').textContent='No equipment deployed for this city and environment.';return; }
   const a=selected;
   renderExecutionReviews({target:$('executionImpact'), snapshot:business?.snapshots?.find(row=>row.project===a.erp_project && row.city===a.city), asset:a, impact, erp:services.erp, esc});
@@ -138,13 +153,13 @@ function render() {
 async function refresh() {
   const requestId=++refreshId;
   const scope=query().toString();
-  if(lastScope!==scope){snapshot=null;selected=null;impact=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','executionImpact','execution','assurance','queue','commands','trend'])$(id).innerHTML='';}
+  if(lastScope!==scope){snapshot=null;selected=null;impact=null;executive=null;syncEvidence();traceId++;$('traceResults').replaceChildren();$('asset').replaceChildren();for(const id of ['overview','measurements','alarms','links','engineering','changeImpact','executionImpact','execution','assurance','queue','commands','trend','executiveCouncil'])$(id).innerHTML='';}
   lastScope=scope;
   $('connection').textContent='Refreshing…';$('mode').textContent=$('environment').value==='simulation'?'SIMULATION · Existing OSR controller model with explicit sensor fixtures. Cases are labelled simulation.':'PHYSICAL · Supplier bindings and OSR commissioning evidence are required.';
   try {
-    const result=await Promise.all([get('/api/lifecycle/snapshot?'+query()),get('/api/lifecycle/engineering?'+query()).catch(()=>null),get('/api/operating/twins').catch(()=>null),get('/api/lifecycle/change-impact?'+query()).catch(()=>null)]);
+    const result=await Promise.all([get('/api/lifecycle/snapshot?'+query()),get('/api/lifecycle/engineering?'+query()).catch(()=>null),get('/api/operating/twins').catch(()=>null),get('/api/lifecycle/change-impact?'+query()).catch(()=>null),get('/api/lifecycle/executive/decisions?'+query()).catch(()=>null)]);
     if(requestId!==refreshId)return;
-    [snapshot,engineering,business,impact]=result;
+    [snapshot,engineering,business,impact,executive]=result;
     const old=$('asset').value||params.get('asset');$('asset').replaceChildren(...snapshot.assets.map(a=>new Option(a.asset_id+' · '+a.equipment_type,a.asset_id)));
     if(snapshot.assets.some(a=>a.asset_id===old))$('asset').value=old;
     $('connection').textContent='Connected · '+new Date().toLocaleTimeString();render();

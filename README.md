@@ -49,7 +49,8 @@ The first adoptable product is the non-safety owner/operator stack: simulator, O
 | Deterministic city generation | Reproducible network, station, fleet, energy, engineering, finance and operations packages under [cities/catalogue/](cities/catalogue/README.md). |
 | Generatable project digital twin | Every city regeneration joins its assets, BOM, finite-resource CPM, critical path, manufacturer candidate IDs and selection states, supplier/order-by plan, schedule of values, monthly local/import cash requirements, QA gates and construction-state timeline in one revisioned model. The compact summary is kept on GitHub; issued orders, deliveries, invoices, payments and actual progress belong in ERPNext. |
 | Integrated Workbench | [One UI](docs/workbench/README.md) brings together City Studio, simulation, OCC, railway works, ERPNext/Frappe HR, FUXA and the connected asset lifecycle, with city-specific navigation and native service permissions. |
-| Business execution and embedded maintenance | ERPNext handles projects, tasks, procurement, stock, manufacturing, quality, finance, HR and maintenance. Nine native Rust evaluators feed station/vehicle/wayside supervision; the same gateway derives nine factory-method views from all 120 LM3 product rows and 30 tooling families. Quality holds create accountable cases but never automatic acceptance or rejection. A reviewed case transition creates a native Asset Repair with parts, technician assignment, downtime and linked evidence. |
+| Business execution and embedded maintenance | ERPNext handles projects, tasks, procurement, stock, manufacturing, quality, finance, HR and maintenance. Nine native Rust evaluators feed station/vehicle/wayside supervision through a strict observation-only contract; the same gateway derives nine factory-method views from all 120 LM3 product rows and 30 tooling families. Quality holds create accountable cases but never automatic acceptance or rejection. A reviewed case transition creates a native Asset Repair with parts, technician assignment, downtime and linked evidence. |
+| Governed AI executive council | An experimental [AI CEO/manager council](docs/operating/ai-executive-council.md) binds recommendations to ERP/SCADA evidence, requires independent strategy/finance/operations/risk ballots, exposes dissent and attests deterministic decisions in the lifecycle UI. Its authority is limited to allowlisted unsubmitted ERP drafts; SCADA, safety, employment, payments, contracts and legal accountability remain human-controlled. |
 | Interactive network and service planning | Edit lines, stations and alignment over 20 switchable local GIS layers; inspect open-DEM elevation and slope, likely bridges/viaducts, water/station exclusions, roads, buildings, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
 | Independent operations cross-check | OSR publishes per-line reference journey times and compares them with a scenario-bound SUMO model using the actual opportunity-charging dwells. [Samawah](cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) and [Mosul](cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md) pass the automatic running-time screen; junction-conflict evidence and authority acceptance remain explicitly open. |
@@ -115,7 +116,7 @@ Use this only human-facing front door instead of browsing the generated file inv
 
 | I want to… | Go here |
 |---|---|
-| Understand the whole system | [Architecture](docs/ARCHITECTURE.md) and [software diagrams](docs/software-architecture-diagrams.md) |
+| Understand the whole system | [Architecture](docs/ARCHITECTURE.md), [software diagrams](docs/software-architecture-diagrams.md) and [Rust review/integration plan](docs/rust-codebase-review-and-integration-plan.md) |
 | Design a city, line, station or service | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio.md) |
 | Run projects, procurement, people and equipment maintenance | [ERPNext operating platform](docs/operating/README.md), [connected lifecycle](docs/lifecycle/README.md) and [embedded integration](docs/lifecycle/embedded-integration.md) |
 | Explore a country or city | [City catalogue](cities/catalogue/README.md); each local page contains only local evidence |
@@ -212,7 +213,6 @@ The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md), [CHANGELOG.md](CHANGELOG.md) and the [release checklist](docs/releases.md).
-
 ## License
 
 Software is Apache 2.0; control-electronics and open physical designs use CERN-OHL-S v2; documentation is CC-BY-SA 4.0.

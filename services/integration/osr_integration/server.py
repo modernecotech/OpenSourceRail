@@ -39,6 +39,36 @@ def deliver(store, config, now=None):
                 db.execute('UPDATE outbox SET attempts=attempts+1,next_try=?,error=? WHERE id=?', (now + min(300, 2 ** min(row['attempts'] + 1, 8)), 'ERP delivery unavailable; retry scheduled', row['id']))
 
 
+def deliver_executive_actions(store, config, now=None):
+    """Deliver attested decisions to ERP's idempotent draft-only intake."""
+    now = time.time() if now is None else now
+    with store.connect() as db:
+        rows = db.execute("SELECT * FROM executive_actions WHERE state='pending' AND next_try<=? ORDER BY rowid LIMIT 10",
+                          (now,)).fetchall()
+    for row in rows:
+        try:
+            result = request_json(config['url'] + '/api/method/osr_erpnext.executive.ingest_draft',
+                {'packet': json.loads(row['body'])},
+                {'Authorization': 'token ' + config['key'] + ':' + config['secret']})['message']
+            with store.connect() as db:
+                db.execute("UPDATE executive_actions SET state='delivered',response=?,error=NULL WHERE id=?",
+                           (json.dumps(result, allow_nan=False), row['id']))
+        except HTTPError as exc:
+            with store.connect() as db:
+                if exc.code in (400, 401, 403, 409, 417, 422):
+                    db.execute("UPDATE executive_actions SET state='rejected',attempts=attempts+1,error=? WHERE id=?",
+                               ('ERP rejected the executive draft; inspect permissions, scope and native validation', row['id']))
+                else:
+                    db.execute('UPDATE executive_actions SET attempts=attempts+1,next_try=?,error=? WHERE id=?',
+                        (now + min(300, 2 ** min(row['attempts'] + 1, 8)),
+                         'ERP executive-draft delivery unavailable; retry scheduled', row['id']))
+        except (URLError, OSError, ValueError, KeyError):
+            with store.connect() as db:
+                db.execute('UPDATE executive_actions SET attempts=attempts+1,next_try=?,error=? WHERE id=?',
+                    (now + min(300, 2 ** min(row['attempts'] + 1, 8)),
+                     'ERP executive-draft delivery unavailable; retry scheduled', row['id']))
+
+
 def reconcile(store, config):
     with store.connect() as db:
         rows = db.execute('SELECT DISTINCT case_id FROM alarms WHERE case_id IS NOT NULL').fetchall()
@@ -84,6 +114,23 @@ class Handler(BaseHTTPRequestHandler):
             if data.get(field) not in allowed:
                 raise PermissionError('City/environment outside authenticated scope')
 
+    def executive_council(self):
+        council = self.server.config.get('executive_council')
+        if not isinstance(council, dict) or not council.get('enabled'):
+            raise PermissionError('Executive council is not enabled')
+        return council
+
+    @staticmethod
+    def executive_view(principal, result):
+        """A voting identity cannot inspect or anchor on another model's ballot."""
+        if principal.get('role') != 'executive-model':
+            return result
+        records = result.get('items', []) if isinstance(result, dict) and 'items' in result else [result]
+        for record in records:
+            record['ballots'] = [row for row in record.get('ballots', [])
+                                 if row.get('model_id') == principal.get('model_id')]
+        return result
+
     def do_GET(self):
         try:
             parsed = urlsplit(self.path)
@@ -95,6 +142,11 @@ class Handler(BaseHTTPRequestHandler):
                 if p['role'] != 'controller':
                     raise PermissionError('Controller required')
                 return self.send(200, self.server.store.controller_commands(p['subject']))
+            if parsed.path == '/executive/decisions' and query.get('id'):
+                self.executive_council()
+                result = self.server.store.executive_decision(query['id'])
+                self.authorize(p, result)
+                return self.send(200, self.executive_view(p, result))
             self.authorize(p, query)
             if parsed.path == '/snapshot':
                 return self.send(200, self.server.store.snapshot(query['city'], query['environment']))
@@ -116,6 +168,12 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path == '/affected':
                 rows = self.server.store.affected(query.get('serial'), query.get('batch'))
                 return self.send(200, [r for r in rows if r['scope'].startswith(query['city'] + '|' + query['environment'] + '|')])
+            if parsed.path == '/executive/decisions':
+                self.executive_council()
+                result = self.server.store.executive_page(query['city'], query['environment'],
+                    limit=int(query.get('limit', 20)),
+                    before=int(query['before']) if 'before' in query else None)
+                return self.send(200, self.executive_view(p, result))
             self.send(404, {'error': 'Unknown endpoint'})
         except PermissionError as exc:
             self.send(403, {'error': str(exc)})
@@ -162,6 +220,25 @@ class Handler(BaseHTTPRequestHandler):
                 self.authorize(p, data, ['operator', 'maintainer'])
                 result = store.acknowledge(data['city'], data['environment'], data['asset_id'], data['rule'],
                                            data['occurrence'], p['subject'])
+            elif path == '/executive/proposals':
+                self.executive_council()
+                self.authorize(p, data, ['executive-secretary'])
+                result = store.create_executive_proposal(data, p['subject'])
+            elif path == '/executive/ballots':
+                self.executive_council()
+                if p['role'] != 'executive-model':
+                    raise PermissionError('Executive model identity required')
+                proposal = store.executive_decision(data['proposal_id'])
+                self.authorize(p, proposal)
+                identity = {key: p[key] for key in ('subject', 'model_id', 'model_family', 'provider', 'perspective')}
+                result = store.add_executive_ballot(data['proposal_id'], data['ballot'], identity)
+            elif path == '/executive/finalize':
+                council = self.executive_council()
+                if p['role'] != 'executive-auditor':
+                    raise PermissionError('Executive auditor identity required')
+                proposal = store.executive_decision(data['proposal_id'])
+                self.authorize(p, proposal)
+                result = store.finalize_executive_proposal(data['proposal_id'], p['subject'], council)
             else:
                 return self.send(404, {'error': 'Unknown endpoint'})
             self.send(200, result)
@@ -217,6 +294,7 @@ def main():
             try:
                 if config.get('erp'):
                     deliver(store, config['erp'])
+                    deliver_executive_actions(store, config['erp'])
                     if tick % 6 == 0:
                         reconcile(store, config['erp'])
                 if tick % 60 == 0:

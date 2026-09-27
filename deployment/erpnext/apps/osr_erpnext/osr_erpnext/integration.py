@@ -432,6 +432,10 @@ def provision_service(path, output):
     from frappe.installer import update_site_config
     with open(path) as stream:
         requested = json.load(stream)
+    executive_attestation = requested.get('executive_attestation') if isinstance(requested, dict) else None
+    requested = requested.get('scopes', []) if isinstance(requested, dict) else requested
+    if not isinstance(requested, list):
+        frappe.throw('Integration provisioning scopes must be a list')
     projects, cities = [], []
     for row in requested:
         doc = frappe.get_doc('Project', row['project'])
@@ -451,10 +455,21 @@ def provision_service(path, output):
     policies[email] = dict(cities=sorted(set(cities + previous.get('cities', []))),
                           projects=sorted(set(projects + previous.get('projects', []))), environments=['simulation'])
     update_site_config('osr_integration_users', policies)
+    attestation_keys = dict((frappe.conf.get('osr_executive_attestation') or {}).get('keys') or {})
+    if executive_attestation is not None:
+        key_id = executive_attestation.get('key_id') if isinstance(executive_attestation, dict) else None
+        key = executive_attestation.get('key') if isinstance(executive_attestation, dict) else None
+        if (not isinstance(key_id, str) or not key_id or len(key_id) > 160 or
+                not isinstance(key, str) or len(key) < 32):
+            frappe.throw('Invalid executive attestation provisioning')
+        attestations = dict(frappe.conf.get('osr_executive_attestation') or {})
+        attestation_keys = dict(attestations.get('keys') or {}); attestation_keys[key_id] = key
+        update_site_config('osr_executive_attestation', {'keys': attestation_keys})
     for project in projects:
         frappe.share.add('Project', project, email, read=1, notify=0)
     frappe.db.commit()
     with open(output, 'w') as stream:
         json.dump(dict(url='http://frontend:8080', key=user.api_key, secret=user.get_password('api_secret')), stream)
     os.chmod(output, 0o600)
-    return {'user': email, 'cities': policies[email]['cities'], 'environment': 'simulation'}
+    return {'user': email, 'cities': policies[email]['cities'], 'environment': 'simulation',
+            'executive_attestation_key_ids': sorted(attestation_keys)}
