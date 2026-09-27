@@ -19,6 +19,8 @@ def test_model_coverage_matches_both_product_manifests() -> None:
     assert register["summary"]["mechanically_controlled_lm3_assemblies"] == 19
     assert register["summary"]["mechanically_controlled_lm3_objects"] == 39
     assert register["summary"]["mechanical_interfaces"] == 12
+    assert register["summary"]["lm3_ids_specifications"] == 4
+    assert register["summary"]["lm3_ids_checks"] == 945
     assert set(register["summary"]["geometry_level_counts"]) <= set(LEVELS)
     assert all(row["release_evidence"] for row in register["lm3_products"])
     assert all(row["analysis_ids"] for row in register["station_products"])

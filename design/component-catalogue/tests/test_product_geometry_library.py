@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 import ifcopenshell
+from ifcopenshell.util.element import get_psets
 
 from engineering.interchange.lm3_product_ifc_library import (
     MANIFEST,
@@ -102,6 +103,7 @@ def test_split_ifc_part_and_subassembly_round_trip_deterministically(tmp_path: P
     second_part = export_part(products["LM3-BOG-P040"], second / part_name)
     assert first_part["passed"] and second_part["passed"]
     assert first_part["primitive_count"] == 5
+    assert first_part["mechanically_controlled_object_count"] == 1
     assert hashlib.sha256((first / part_name).read_bytes()).digest() == hashlib.sha256(
         (second / part_name).read_bytes()
     ).digest()
@@ -115,6 +117,8 @@ def test_split_ifc_part_and_subassembly_round_trip_deterministically(tmp_path: P
     ).digest()
 
     reopened = ifcopenshell.open(str(first / assembly_name))
+    project_psets = get_psets(reopened.by_type("IfcProject")[0])
+    assert project_psets["OSR_DesignDetailRegister"]["MechanicalInterfaceCount"] == 12
     expected_products, expected_assemblies = descendants("LM3-BOG-SA610", products, assemblies)
     tags = {
         str(item.Tag)
@@ -128,6 +132,10 @@ def test_split_ifc_part_and_subassembly_round_trip_deterministically(tmp_path: P
         if getattr(item, "Tag", None) and getattr(item, "Representation", None)
     }
     assert set(expected_products) <= represented
+    wheelset = next(item for item in reopened.by_type("IfcProduct") if item.Tag == "LM3-BOG-P040")
+    control = get_psets(wheelset)["OSR_MechanicalInterfaceControl"]
+    assert control["InterfaceIds"] == "LM3-ICD-001"
+    assert "LM3-LC-003" in control["LoadCaseIds"]
 
 
 def test_tracked_split_libraries_match_indexes_and_saved_validation() -> None:
@@ -140,6 +148,14 @@ def test_tracked_split_libraries_match_indexes_and_saved_validation() -> None:
         assert index["passed"] is True
         assert index["product_count"] == 120
         assert index["assembly_count"] == 26
+        if "design_detail_register" in index:
+            assert index["mechanically_controlled_object_count"] == 39
+            assert len(index["design_detail_register_sha256"]) == 64
+            assert all(
+                entry["design_detail_project_valid"]
+                and not entry["missing_mechanical_control_tags"]
+                for entry in [*index["parts"], *index["assemblies"]]
+            )
         for entry in [*index["parts"], *index["assemblies"]]:
             artifact = REPO_ROOT / entry["file"]
             assert artifact.is_file()

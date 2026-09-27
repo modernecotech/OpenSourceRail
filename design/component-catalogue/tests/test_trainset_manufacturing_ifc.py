@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import hashlib
+import json
 
 import ifcopenshell
+import pytest
 from ifcopenshell.util.element import get_psets
 
-from engineering.interchange.trainset_manufacturing_ifc import build_model, write
+from engineering.interchange.trainset_manufacturing_ifc import (
+    build_model,
+    write,
+    write_and_validate_lm3_ids,
+)
 from osr_mech.rolling_stock.product_geometry import geometry_specs
 
 
@@ -77,3 +83,48 @@ def test_written_ifc_is_deterministic_and_round_trips(tmp_path) -> None:
     reopened = ifcopenshell.open(str(first))
     assert reopened.schema == "IFC4X3"
     assert len(reopened.by_type("IfcTask")) == 59
+
+
+def test_lm3_ids_validates_provenance_product_graph_and_mechanical_controls(tmp_path) -> None:
+    ifc_path = tmp_path / "lm3.ifc"
+    assert write(ifc_path, tmp_path / "index.json")["passed"]
+    result = write_and_validate_lm3_ids(
+        ifc_path,
+        tmp_path / "requirements.ids",
+        tmp_path / "report.json",
+    )
+    assert result["status"] is True
+    assert len(result["specifications"]) == 4
+    assert {row["total_applicable"] for row in result["specifications"]} == {1, 26, 39, 120}
+    saved = json.loads((tmp_path / "report.json").read_text())
+    assert saved["schema"] == "org.opensourcerail.lm3-ids-report.v1"
+    assert saved["status"] is True
+    first_ids = (tmp_path / "requirements.ids").read_bytes()
+    first_report = (tmp_path / "report.json").read_bytes()
+    write_and_validate_lm3_ids(
+        ifc_path,
+        tmp_path / "requirements.ids",
+        tmp_path / "report.json",
+    )
+    assert (tmp_path / "requirements.ids").read_bytes() == first_ids
+    assert (tmp_path / "report.json").read_bytes() == first_report
+
+
+def test_lm3_ids_rejects_a_controlled_object_without_its_interface_pset(tmp_path) -> None:
+    model, _ = build_model()
+    motor = next(item for item in model.by_type("IfcElement") if item.Tag == "LM3-TRC-P010")
+    relationship = next(
+        rel
+        for rel in model.by_type("IfcRelDefinesByProperties")
+        if motor in rel.RelatedObjects
+        and rel.RelatingPropertyDefinition.Name == "OSR_MechanicalInterfaceControl"
+    )
+    model.remove(relationship)
+    broken = tmp_path / "broken.ifc"
+    model.write(str(broken))
+    with pytest.raises(ValueError, match="failed its IDS"):
+        write_and_validate_lm3_ids(
+            broken,
+            tmp_path / "requirements.ids",
+            tmp_path / "report.json",
+        )

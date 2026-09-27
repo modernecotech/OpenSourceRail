@@ -1750,6 +1750,8 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
+        "ifc_ids": REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.ids",
+        "ifc_ids_report": REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.report.json",
         "ifc_library_index": REPO_ROOT / "engineering/models/bim/reference/lm3-product-library.index.json",
         "freecad_library_index": REPO_ROOT / "design/component-catalogue/models/cad/lm3-product-library.index.json",
         "product_manifest": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
@@ -2056,6 +2058,27 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(paths["ifc_index"], f"LM3 manufacturing IFC counts changed: {observed}"))
         if index.get("supplier_anchor_count") != 27 or index.get("supplier_anchored_external_product_count") != 56:
             findings.append(Finding(paths["ifc_index"], "LM3 IFC supplier-anchor coverage is incomplete"))
+        if (
+            not index.get("ids_status")
+            or index.get("ids_specification_count") != 4
+            or index.get("mechanically_controlled_object_count") != 39
+        ):
+            findings.append(Finding(paths["ifc_index"], "LM3 IFC/IDS mechanical-control validation is incomplete"))
+        for digest_key, artifact_key in (
+            ("ids_sha256", "ifc_ids"),
+            ("ids_report_sha256", "ifc_ids_report"),
+        ):
+            artifact = paths[artifact_key]
+            if artifact.is_file() and index.get(digest_key) != hashlib.sha256(artifact.read_bytes()).hexdigest():
+                findings.append(Finding(artifact, "LM3 IFC index has a stale IDS hash"))
+    if paths["ifc_ids_report"].is_file():
+        ids_report = json.loads(paths["ifc_ids_report"].read_text(encoding="utf-8"))
+        if (
+            not ids_report.get("status")
+            or len(ids_report.get("specifications", [])) != 4
+            or sum(row.get("total_checks", 0) for row in ids_report.get("specifications", [])) != 945
+        ):
+            findings.append(Finding(paths["ifc_ids_report"], "LM3 IDS requirements did not pass completely"))
     if paths["product_manifest"].is_file():
         product_manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
         base = paths["product_manifest"].parent
@@ -2103,6 +2126,14 @@ def check_trainset_manufacturing_package() -> list[Finding]:
                 or not library.get(reachability_key)
             ):
                 findings.append(Finding(index_path, "LM3 split part/assembly library validation did not pass"))
+            if suffix == ".ifc" and (
+                library.get("mechanically_controlled_object_count") != 39
+                or library.get("design_detail_register_sha256")
+                != hashlib.sha256(
+                    (REPO_ROOT / "engineering/models/bim/design-detail-register.json").read_bytes()
+                ).hexdigest()
+            ):
+                findings.append(Finding(index_path, "LM3 split IFC library lacks design-detail controls"))
             observed_parts = {path.stem for path in parts_dir.glob(f"*{suffix}")}
             observed_assemblies = {path.stem for path in assemblies_dir.glob(f"*{suffix}")}
             if observed_parts != expected_products:

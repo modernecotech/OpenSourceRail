@@ -1,0 +1,439 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ids xmlns="http://standards.buildingsmart.org/IDS" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd">
+    <info>
+        <title>OSR IFC4.3 LM3 information requirements</title>
+        <version>1.0</version>
+        <description>Machine-checkable product, provenance and mechanical-interface requirements for the LM3 design-reference exchange. Passing is not fabrication release.</description>
+        <date>2026-09-27</date>
+        <purpose>Rolling-stock BIM product and mechanical-interface delivery</purpose>
+        <milestone>Design reference</milestone>
+    </info>
+    <specifications>
+        <specification name="LM3 exchange declares provenance and release boundary" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-LM3-PROV-001" description="The exchange identifies its controlled sources and design-reference maturity." instructions="Reject an exchange whose source hash or release boundary is absent.">
+            <applicability minOccurs="1" maxOccurs="1">
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROJECT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ManufacturingReference</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Status</simpleValue>
+                    </baseName>
+                    <value>
+                        <simpleValue>design-reference-not-released</simpleValue>
+                    </value>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ManufacturingReference</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseBoundary</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DesignDetailRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Source</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DesignDetailRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>SourceSha256</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DesignDetailRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>MechanicalInterfaceCount</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DesignDetailRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>RouteCompatibilityGateCount</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_DesignDetailRegister</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseBoundary</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Every LM3 product row carries product and geometry status" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-LM3-PRODUCT-001" description="All 120 manifest products remain traceable through the IFC handoff." instructions="Do not accept missing, duplicate or unclassified manifest products.">
+            <applicability minOccurs="120" maxOccurs="120">
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="LM3-ART-P010" />
+                            <xs:enumeration value="LM3-ART-P020" />
+                            <xs:enumeration value="LM3-ART-P021" />
+                            <xs:enumeration value="LM3-ART-P022" />
+                            <xs:enumeration value="LM3-ART-P023" />
+                            <xs:enumeration value="LM3-ART-P024" />
+                            <xs:enumeration value="LM3-ART-P030" />
+                            <xs:enumeration value="LM3-ART-P040" />
+                            <xs:enumeration value="LM3-ART-P041" />
+                            <xs:enumeration value="LM3-AUX-P010" />
+                            <xs:enumeration value="LM3-BDY-P010" />
+                            <xs:enumeration value="LM3-BDY-P020" />
+                            <xs:enumeration value="LM3-BDY-P021" />
+                            <xs:enumeration value="LM3-BDY-P030" />
+                            <xs:enumeration value="LM3-BDY-P040" />
+                            <xs:enumeration value="LM3-BDY-P050" />
+                            <xs:enumeration value="LM3-BDY-P060" />
+                            <xs:enumeration value="LM3-BDY-P061" />
+                            <xs:enumeration value="LM3-BDY-P070" />
+                            <xs:enumeration value="LM3-BDY-P080" />
+                            <xs:enumeration value="LM3-BDY-P090" />
+                            <xs:enumeration value="LM3-BDY-P100" />
+                            <xs:enumeration value="LM3-BDY-P110" />
+                            <xs:enumeration value="LM3-BDY-P120" />
+                            <xs:enumeration value="LM3-BDY-P130" />
+                            <xs:enumeration value="LM3-BDY-P131" />
+                            <xs:enumeration value="LM3-BDY-P132" />
+                            <xs:enumeration value="LM3-BDY-P133" />
+                            <xs:enumeration value="LM3-BDY-P140" />
+                            <xs:enumeration value="LM3-BOG-P010" />
+                            <xs:enumeration value="LM3-BOG-P020" />
+                            <xs:enumeration value="LM3-BOG-P030" />
+                            <xs:enumeration value="LM3-BOG-P031" />
+                            <xs:enumeration value="LM3-BOG-P040" />
+                            <xs:enumeration value="LM3-BOG-P041" />
+                            <xs:enumeration value="LM3-BOG-P042" />
+                            <xs:enumeration value="LM3-BOG-P043" />
+                            <xs:enumeration value="LM3-BOG-P044" />
+                            <xs:enumeration value="LM3-BOG-P045" />
+                            <xs:enumeration value="LM3-BOG-P046" />
+                            <xs:enumeration value="LM3-BOG-P047" />
+                            <xs:enumeration value="LM3-BOG-P048" />
+                            <xs:enumeration value="LM3-BOG-P049" />
+                            <xs:enumeration value="LM3-BOG-P050" />
+                            <xs:enumeration value="LM3-BOG-P060" />
+                            <xs:enumeration value="LM3-BOG-P061" />
+                            <xs:enumeration value="LM3-CTRL-P010" />
+                            <xs:enumeration value="LM3-CTRL-P020" />
+                            <xs:enumeration value="LM3-CTRL-P030" />
+                            <xs:enumeration value="LM3-CTRL-P040" />
+                            <xs:enumeration value="LM3-CTRL-P050" />
+                            <xs:enumeration value="LM3-CWL-P010" />
+                            <xs:enumeration value="LM3-CWL-P011" />
+                            <xs:enumeration value="LM3-CWL-P012" />
+                            <xs:enumeration value="LM3-CWL-P013" />
+                            <xs:enumeration value="LM3-CWL-P014" />
+                            <xs:enumeration value="LM3-CWL-P015" />
+                            <xs:enumeration value="LM3-CWL-P016" />
+                            <xs:enumeration value="LM3-DOOR-P010" />
+                            <xs:enumeration value="LM3-END-P010" />
+                            <xs:enumeration value="LM3-END-P020" />
+                            <xs:enumeration value="LM3-END-P030" />
+                            <xs:enumeration value="LM3-END-P040" />
+                            <xs:enumeration value="LM3-END-P050" />
+                            <xs:enumeration value="LM3-END-P060" />
+                            <xs:enumeration value="LM3-END-P061" />
+                            <xs:enumeration value="LM3-END-P062" />
+                            <xs:enumeration value="LM3-EXT-P010" />
+                            <xs:enumeration value="LM3-EXT-P020" />
+                            <xs:enumeration value="LM3-EXT-P030" />
+                            <xs:enumeration value="LM3-EXT-P040" />
+                            <xs:enumeration value="LM3-EXT-P050" />
+                            <xs:enumeration value="LM3-EXT-P060" />
+                            <xs:enumeration value="LM3-EXT-P061" />
+                            <xs:enumeration value="LM3-EXT-P062" />
+                            <xs:enumeration value="LM3-EXT-P063" />
+                            <xs:enumeration value="LM3-EXT-P064" />
+                            <xs:enumeration value="LM3-EXT-P065" />
+                            <xs:enumeration value="LM3-EXT-P066" />
+                            <xs:enumeration value="LM3-EXT-P070" />
+                            <xs:enumeration value="LM3-EXT-P080" />
+                            <xs:enumeration value="LM3-EXT-P090" />
+                            <xs:enumeration value="LM3-FAS-P010" />
+                            <xs:enumeration value="LM3-FAS-P020" />
+                            <xs:enumeration value="LM3-FAS-P030" />
+                            <xs:enumeration value="LM3-FIN-P010" />
+                            <xs:enumeration value="LM3-FIN-P020" />
+                            <xs:enumeration value="LM3-FIX-P010" />
+                            <xs:enumeration value="LM3-FIX-P020" />
+                            <xs:enumeration value="LM3-FIX-P030" />
+                            <xs:enumeration value="LM3-HV-P010" />
+                            <xs:enumeration value="LM3-HV-P020" />
+                            <xs:enumeration value="LM3-HV-P030" />
+                            <xs:enumeration value="LM3-INT-P010" />
+                            <xs:enumeration value="LM3-INT-P020" />
+                            <xs:enumeration value="LM3-INT-P021" />
+                            <xs:enumeration value="LM3-INT-P022" />
+                            <xs:enumeration value="LM3-INT-P030" />
+                            <xs:enumeration value="LM3-INT-P031" />
+                            <xs:enumeration value="LM3-INT-P032" />
+                            <xs:enumeration value="LM3-INT-P040" />
+                            <xs:enumeration value="LM3-INT-P041" />
+                            <xs:enumeration value="LM3-INT-P050" />
+                            <xs:enumeration value="LM3-INT-P051" />
+                            <xs:enumeration value="LM3-INT-P052" />
+                            <xs:enumeration value="LM3-LGT-P010" />
+                            <xs:enumeration value="LM3-LGT-P020" />
+                            <xs:enumeration value="LM3-ROOF-P010" />
+                            <xs:enumeration value="LM3-ROOF-P020" />
+                            <xs:enumeration value="LM3-ROOF-P030" />
+                            <xs:enumeration value="LM3-ROOF-P040" />
+                            <xs:enumeration value="LM3-SAF-P010" />
+                            <xs:enumeration value="LM3-TRC-P010" />
+                            <xs:enumeration value="LM3-TRC-P020" />
+                            <xs:enumeration value="LM3-TRC-P030" />
+                            <xs:enumeration value="LM3-TRC-P040" />
+                            <xs:enumeration value="LM3-TRC-P050" />
+                            <xs:enumeration value="LM3-TRC-P060" />
+                            <xs:enumeration value="LM3-TRC-P070" />
+                            <xs:enumeration value="LM3-WIN-P010" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProductDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OSRId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProductDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Route</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProductDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Maturity</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProductDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryStatus</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_ProductDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>GeometryLevel</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Every LM3 assembly carries hierarchy and release status" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-LM3-ASSEMBLY-001" description="All 26 manifest assemblies remain explicit in the IFC product graph." instructions="Do not flatten controlled assemblies into an untraceable geometry collection.">
+            <applicability minOccurs="26" maxOccurs="26">
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="LM3-ART-SA800" />
+                            <xs:enumeration value="LM3-ART-SA810" />
+                            <xs:enumeration value="LM3-ART-SA820" />
+                            <xs:enumeration value="LM3-ART-SA830" />
+                            <xs:enumeration value="LM3-BDY-SA110" />
+                            <xs:enumeration value="LM3-BDY-SA120" />
+                            <xs:enumeration value="LM3-BOG-SA610" />
+                            <xs:enumeration value="LM3-BOG-SA611" />
+                            <xs:enumeration value="LM3-BOG-SA620" />
+                            <xs:enumeration value="LM3-BOG-SA621" />
+                            <xs:enumeration value="LM3-CAR-A900" />
+                            <xs:enumeration value="LM3-CWL-SA710" />
+                            <xs:enumeration value="LM3-DOOR-SA310" />
+                            <xs:enumeration value="LM3-EIF-SA650" />
+                            <xs:enumeration value="LM3-END-SA700" />
+                            <xs:enumeration value="LM3-FIX-SA340" />
+                            <xs:enumeration value="LM3-HV-SA510" />
+                            <xs:enumeration value="LM3-INT-SA330" />
+                            <xs:enumeration value="LM3-LGT-SA350" />
+                            <xs:enumeration value="LM3-ROOF-SA410" />
+                            <xs:enumeration value="LM3-SHELL-A200" />
+                            <xs:enumeration value="LM3-SYS-SA900" />
+                            <xs:enumeration value="LM3-TRAINSET-A000" />
+                            <xs:enumeration value="LM3-TRC-SA615" />
+                            <xs:enumeration value="LM3-TTART-SA850" />
+                            <xs:enumeration value="LM3-WIN-SA320" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AssemblyDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>OSRId</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AssemblyDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>Layer</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AssemblyDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>BuildCell</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_AssemblyDefinition</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ReleaseLevel</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        <specification name="Controlled LM3 objects carry mechanical interface status" ifcVersion="IFC4X3_ADD2" identifier="OSR-IDS-LM3-ICD-001" description="The 39 register-controlled products and assemblies expose their ICD evidence route." instructions="Interface metadata is mandatory but does not close open engineering evidence.">
+            <applicability minOccurs="39" maxOccurs="39">
+                <attribute>
+                    <name>
+                        <simpleValue>Tag</simpleValue>
+                    </name>
+                    <value>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="LM3-ART-SA800" />
+                            <xs:enumeration value="LM3-ART-SA810" />
+                            <xs:enumeration value="LM3-ART-SA820" />
+                            <xs:enumeration value="LM3-ART-SA830" />
+                            <xs:enumeration value="LM3-BDY-P010" />
+                            <xs:enumeration value="LM3-BDY-P030" />
+                            <xs:enumeration value="LM3-BDY-P050" />
+                            <xs:enumeration value="LM3-BDY-P100" />
+                            <xs:enumeration value="LM3-BDY-SA110" />
+                            <xs:enumeration value="LM3-BDY-SA120" />
+                            <xs:enumeration value="LM3-BOG-P040" />
+                            <xs:enumeration value="LM3-BOG-P041" />
+                            <xs:enumeration value="LM3-BOG-P046" />
+                            <xs:enumeration value="LM3-BOG-P050" />
+                            <xs:enumeration value="LM3-BOG-P060" />
+                            <xs:enumeration value="LM3-BOG-P061" />
+                            <xs:enumeration value="LM3-BOG-SA610" />
+                            <xs:enumeration value="LM3-BOG-SA611" />
+                            <xs:enumeration value="LM3-BOG-SA620" />
+                            <xs:enumeration value="LM3-BOG-SA621" />
+                            <xs:enumeration value="LM3-CAR-A900" />
+                            <xs:enumeration value="LM3-DOOR-P010" />
+                            <xs:enumeration value="LM3-DOOR-SA310" />
+                            <xs:enumeration value="LM3-EIF-SA650" />
+                            <xs:enumeration value="LM3-END-P050" />
+                            <xs:enumeration value="LM3-END-P060" />
+                            <xs:enumeration value="LM3-END-SA700" />
+                            <xs:enumeration value="LM3-EXT-P010" />
+                            <xs:enumeration value="LM3-EXT-P040" />
+                            <xs:enumeration value="LM3-HV-P010" />
+                            <xs:enumeration value="LM3-HV-P020" />
+                            <xs:enumeration value="LM3-HV-SA510" />
+                            <xs:enumeration value="LM3-ROOF-P010" />
+                            <xs:enumeration value="LM3-ROOF-SA410" />
+                            <xs:enumeration value="LM3-SHELL-A200" />
+                            <xs:enumeration value="LM3-TRAINSET-A000" />
+                            <xs:enumeration value="LM3-TRC-P010" />
+                            <xs:enumeration value="LM3-TRC-P020" />
+                            <xs:enumeration value="LM3-TRC-SA615" />
+                        </xs:restriction>
+                    </value>
+                </attribute>
+            </applicability>
+            <requirements>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>InterfaceIds</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>DatumIds</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>VerificationIds</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>LoadCaseIds</simpleValue>
+                    </baseName>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>ToleranceStatus</simpleValue>
+                    </baseName>
+                    <value>
+                        <simpleValue>allocation-open-until-stack-and-supplier-freeze</simpleValue>
+                    </value>
+                </property>
+                <property cardinality="required">
+                    <propertySet>
+                        <simpleValue>OSR_MechanicalInterfaceControl</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>EvidenceStatus</simpleValue>
+                    </baseName>
+                    <value>
+                        <simpleValue>design-reference-definition-complete; release-evidence-open</simpleValue>
+                    </value>
+                </property>
+            </requirements>
+        </specification>
+    </specifications>
+</ids>

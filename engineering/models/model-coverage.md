@@ -11,6 +11,7 @@ states; no row is a construction release merely because geometry exists.
 - Complete station variant assemblies: 7
 - LM3 objects with datum/interface control: 39 (20 products + 19 assemblies)
 - Controlled mechanical interfaces: 12
+- LM3 IDS checks: 945 across 4 specifications
 - Geometry levels: `coordination-envelope`=89, `design-reference-detail`=23, `interface-detailed`=53
 
 ## Meaning

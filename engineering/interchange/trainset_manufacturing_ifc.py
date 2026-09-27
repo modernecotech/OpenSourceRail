@@ -17,6 +17,9 @@ from pathlib import Path
 from typing import Any
 
 import ifcopenshell
+from ifctester import ids as ids_module
+from ifctester import open as open_ids
+from ifctester import reporter as ids_reporter
 from ifcopenshell.api.aggregate import assign_object
 from ifcopenshell.api.context import add_context
 from ifcopenshell.api.geometry import add_mesh_representation, assign_representation
@@ -48,6 +51,11 @@ DEFAULT_OUTPUT = (
 DEFAULT_INDEX = (
     REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json"
 )
+DEFAULT_IDS = REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.ids"
+DEFAULT_IDS_REPORT = (
+    REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.report.json"
+)
+FIXED_IDS_TIMESTAMP = "2026-09-27T00:00:00+00:00"
 DEFINITIONS = REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/definitions"
 MANIFEST = (
     REPO_ROOT
@@ -241,6 +249,204 @@ def detail_control_by_product(detail: dict[str, Any]) -> dict[str, dict[str, str
             "ToleranceStatus": "allocation-open-until-stack-and-supplier-freeze",
             "EvidenceStatus": "design-reference-definition-complete; release-evidence-open",
         }
+    return result
+
+
+def _tag_restriction(values: set[str]) -> ids_module.Restriction:
+    return ids_module.Restriction({"enumeration": sorted(values)})
+
+
+def build_lm3_ids(
+    manifest: dict[str, Any] | None = None,
+    detail: dict[str, Any] | None = None,
+) -> ids_module.Ids:
+    """Build the machine-checkable LM3 IFC information requirements."""
+
+    if manifest is None:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    if detail is None:
+        detail = design_detail_payload()
+    product_ids = {str(item["id"]) for item in manifest["product_items"]}
+    assembly_ids = {str(item["id"]) for item in manifest["assemblies"]}
+    controlled_ids = set(detail["controlled_lm3_ids"])
+    document = ids_module.Ids(
+        title="OSR IFC4.3 LM3 information requirements",
+        version="1.0",
+        description=(
+            "Machine-checkable product, provenance and mechanical-interface requirements "
+            "for the LM3 design-reference exchange. Passing is not fabrication release."
+        ),
+        author="OpenSourceRail",
+        date="2026-09-27",
+        purpose="Rolling-stock BIM product and mechanical-interface delivery",
+        milestone="Design reference",
+    )
+
+    project = ids_module.Specification(
+        name="LM3 exchange declares provenance and release boundary",
+        description="The exchange identifies its controlled sources and design-reference maturity.",
+        instructions="Reject an exchange whose source hash or release boundary is absent.",
+        minOccurs=1,
+        maxOccurs=1,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-LM3-PROV-001",
+    )
+    project.applicability.append(ids_module.Entity(name="IFCPROJECT"))
+    project.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="OSR_ManufacturingReference",
+                baseName="Status",
+                value="design-reference-not-released",
+            ),
+            ids_module.Property(
+                propertySet="OSR_ManufacturingReference", baseName="ReleaseBoundary"
+            ),
+            ids_module.Property(propertySet="OSR_DesignDetailRegister", baseName="Source"),
+            ids_module.Property(
+                propertySet="OSR_DesignDetailRegister", baseName="SourceSha256"
+            ),
+            ids_module.Property(
+                propertySet="OSR_DesignDetailRegister", baseName="MechanicalInterfaceCount"
+            ),
+            ids_module.Property(
+                propertySet="OSR_DesignDetailRegister",
+                baseName="RouteCompatibilityGateCount",
+            ),
+            ids_module.Property(
+                propertySet="OSR_DesignDetailRegister", baseName="ReleaseBoundary"
+            ),
+        ]
+    )
+    document.specifications.append(project)
+
+    products = ids_module.Specification(
+        name="Every LM3 product row carries product and geometry status",
+        description="All 120 manifest products remain traceable through the IFC handoff.",
+        instructions="Do not accept missing, duplicate or unclassified manifest products.",
+        minOccurs=len(product_ids),
+        maxOccurs=len(product_ids),
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-LM3-PRODUCT-001",
+    )
+    products.applicability.append(ids_module.Attribute(name="Tag", value=_tag_restriction(product_ids)))
+    products.requirements.extend(
+        [
+            ids_module.Property(propertySet="OSR_ProductDefinition", baseName="OSRId"),
+            ids_module.Property(propertySet="OSR_ProductDefinition", baseName="Route"),
+            ids_module.Property(propertySet="OSR_ProductDefinition", baseName="Maturity"),
+            ids_module.Property(propertySet="OSR_ProductDefinition", baseName="GeometryStatus"),
+            ids_module.Property(propertySet="OSR_ProductDefinition", baseName="GeometryLevel"),
+        ]
+    )
+    document.specifications.append(products)
+
+    assemblies = ids_module.Specification(
+        name="Every LM3 assembly carries hierarchy and release status",
+        description="All 26 manifest assemblies remain explicit in the IFC product graph.",
+        instructions="Do not flatten controlled assemblies into an untraceable geometry collection.",
+        minOccurs=len(assembly_ids),
+        maxOccurs=len(assembly_ids),
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-LM3-ASSEMBLY-001",
+    )
+    assemblies.applicability.append(
+        ids_module.Attribute(name="Tag", value=_tag_restriction(assembly_ids))
+    )
+    assemblies.requirements.extend(
+        [
+            ids_module.Property(propertySet="OSR_AssemblyDefinition", baseName="OSRId"),
+            ids_module.Property(propertySet="OSR_AssemblyDefinition", baseName="Layer"),
+            ids_module.Property(propertySet="OSR_AssemblyDefinition", baseName="BuildCell"),
+            ids_module.Property(propertySet="OSR_AssemblyDefinition", baseName="ReleaseLevel"),
+        ]
+    )
+    document.specifications.append(assemblies)
+
+    controls = ids_module.Specification(
+        name="Controlled LM3 objects carry mechanical interface status",
+        description="The 39 register-controlled products and assemblies expose their ICD evidence route.",
+        instructions="Interface metadata is mandatory but does not close open engineering evidence.",
+        minOccurs=len(controlled_ids),
+        maxOccurs=len(controlled_ids),
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-LM3-ICD-001",
+    )
+    controls.applicability.append(
+        ids_module.Attribute(name="Tag", value=_tag_restriction(controlled_ids))
+    )
+    controls.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl", baseName="InterfaceIds"
+            ),
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl", baseName="DatumIds"
+            ),
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl", baseName="VerificationIds"
+            ),
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl", baseName="LoadCaseIds"
+            ),
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl",
+                baseName="ToleranceStatus",
+                value="allocation-open-until-stack-and-supplier-freeze",
+            ),
+            ids_module.Property(
+                propertySet="OSR_MechanicalInterfaceControl",
+                baseName="EvidenceStatus",
+                value="design-reference-definition-complete; release-evidence-open",
+            ),
+        ]
+    )
+    document.specifications.append(controls)
+    return document
+
+
+def write_and_validate_lm3_ids(
+    ifc_path: Path,
+    ids_path: Path = DEFAULT_IDS,
+    report_path: Path = DEFAULT_IDS_REPORT,
+) -> dict[str, Any]:
+    requirements = build_lm3_ids()
+    ids_path.parent.mkdir(parents=True, exist_ok=True)
+    requirements.to_xml(ids_path)
+    reopened_requirements = open_ids(ids_path)
+    if reopened_requirements is None:
+        raise ValueError("written LM3 IDS could not be reopened")
+    reopened_requirements.validate(
+        ifcopenshell.open(str(ifc_path)),
+        should_filter_version=True,
+        filepath=ifc_path.name,
+    )
+    reporter = ids_reporter.Json(reopened_requirements)
+    reporter.report()
+    result = json.loads(reporter.to_string())
+    result.update(
+        {
+            "schema": "org.opensourcerail.lm3-ids-report.v1",
+            "date": FIXED_IDS_TIMESTAMP,
+            "filepath": ifc_path.name,
+            "filename": ifc_path.name,
+            "ids_filename": ids_path.name,
+        }
+    )
+    for specification in result["specifications"]:
+        specification["applicable_entities"].sort(
+            key=lambda item: (item.get("global_id") or "", item.get("id") or 0)
+        )
+        for requirement in specification["requirements"]:
+            for key in ("passed_entities", "failed_entities"):
+                requirement[key].sort(
+                    key=lambda item: (item.get("global_id") or "", item.get("id") or 0)
+                )
+    report_path.write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    if not result["status"]:
+        raise ValueError("written LM3 IFC failed its IDS information requirements")
     return result
 
 
@@ -826,10 +1032,24 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--index", type=Path, default=DEFAULT_INDEX)
+    parser.add_argument("--ids", type=Path, default=DEFAULT_IDS)
+    parser.add_argument("--ids-report", type=Path, default=DEFAULT_IDS_REPORT)
     args = parser.parse_args(argv)
     result = write(args.output, args.index)
+    ids_result = write_and_validate_lm3_ids(args.output, args.ids, args.ids_report)
+    result.update(
+        {
+            "ids_file": repository_path(args.ids),
+            "ids_sha256": sha256(args.ids),
+            "ids_report": repository_path(args.ids_report),
+            "ids_report_sha256": sha256(args.ids_report),
+            "ids_specification_count": len(ids_result["specifications"]),
+            "ids_status": bool(ids_result["status"]),
+        }
+    )
+    args.index.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True))
-    return 0 if result["passed"] else 1
+    return 0 if result["passed"] and result["ids_status"] else 1
 
 
 if __name__ == "__main__":

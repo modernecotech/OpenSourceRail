@@ -19,14 +19,18 @@ from ifcopenshell.api.aggregate import assign_object
 from ifcopenshell.api.context import add_context
 from ifcopenshell.api.spatial import assign_container
 from ifcopenshell.api.unit import assign_unit
+from ifcopenshell.util.element import get_psets
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from engineering.interchange.trainset_manufacturing_ifc import (
+    DESIGN_DETAIL,
     REPO_ROOT,
     add_product_geometry,
+    design_detail_payload,
+    detail_control_by_product,
     entity,
     gid,
     product_ifc_class,
@@ -43,6 +47,8 @@ RELEASE_BOUNDARY = (
     "released drawings/tolerances, calculations, qualified processes and "
     "first-article tests remain mandatory."
 )
+DESIGN_DETAIL_PAYLOAD = design_detail_payload()
+DETAIL_CONTROL = detail_control_by_product(DESIGN_DETAIL_PAYLOAD)
 
 
 def sha256(path: Path) -> str:
@@ -96,7 +102,7 @@ def descendants(
     return product_ids, assembly_ids
 
 
-def base_model(file_name: str, title: str) -> tuple[ifcopenshell.file, Any, Any]:
+def base_model(file_name: str, title: str) -> tuple[ifcopenshell.file, Any, Any, Any]:
     model = ifcopenshell.file(schema="IFC4X3")
     model.header.file_name.name = file_name
     model.header.file_name.time_stamp = FIXED_TIMESTAMP
@@ -132,7 +138,36 @@ def base_model(file_name: str, title: str) -> tuple[ifcopenshell.file, Any, Any]
             "ManifestSha256": sha256(MANIFEST),
         },
     )
-    return model, body, facility
+    return model, project, body, facility
+
+
+def append_design_detail(
+    model: ifcopenshell.file,
+    project: Any,
+    products: dict[str, Any],
+) -> int:
+    """Append project/object controls without churning existing IFC identities."""
+
+    property_set(
+        model,
+        project,
+        "OSR_DesignDetailRegister",
+        {
+            "Source": report_path(DESIGN_DETAIL),
+            "SourceSha256": sha256(DESIGN_DETAIL),
+            "MechanicalInterfaceCount": DESIGN_DETAIL_PAYLOAD["summary"]["mechanical_interfaces"],
+            "RouteCompatibilityGateCount": DESIGN_DETAIL_PAYLOAD["summary"]["route_compatibility_gates"],
+            "ReleaseBoundary": DESIGN_DETAIL_PAYLOAD["release_boundary"],
+        },
+    )
+    controlled_count = 0
+    for product_id in sorted(products):
+        values = DETAIL_CONTROL.get(product_id)
+        if values is None:
+            continue
+        property_set(model, products[product_id], "OSR_MechanicalInterfaceControl", values)
+        controlled_count += 1
+    return controlled_count
 
 
 def canonicalise(model: ifcopenshell.file, file_key: str) -> None:
@@ -235,24 +270,52 @@ def write_model(model: ifcopenshell.file, output: Path, required_tags: set[str])
         for value in reopened.by_type("IfcProduct")
         if getattr(value, "Tag", None) and getattr(value, "Representation", None)
     }
+    tagged_products = {
+        str(value.Tag): value
+        for value in reopened.by_type("IfcProduct")
+        if getattr(value, "Tag", None)
+    }
+    required_control_tags = required_tags & set(DETAIL_CONTROL)
+    missing_control_tags = sorted(
+        tag
+        for tag in required_control_tags
+        if "OSR_MechanicalInterfaceControl" not in get_psets(tagged_products[tag])
+    )
+    project_detail = get_psets(reopened.by_type("IfcProject")[0]).get(
+        "OSR_DesignDetailRegister", {}
+    )
+    detail_project_valid = (
+        project_detail.get("SourceSha256") == sha256(DESIGN_DETAIL)
+        and project_detail.get("MechanicalInterfaceCount") == 12
+        and project_detail.get("RouteCompatibilityGateCount") == 7
+    )
     return {
         "file": report_path(output),
         "sha256": sha256(output),
         "size_bytes": output.stat().st_size,
         "missing_tags": missing,
+        "required_mechanical_control_tags": sorted(required_control_tags),
+        "missing_mechanical_control_tags": missing_control_tags,
+        "design_detail_project_valid": detail_project_valid,
         "represented_product_tags": sorted(represented & required_tags),
-        "passed": not missing,
+        "passed": not missing and not missing_control_tags and detail_project_valid,
     }
 
 
 def export_part(item: dict[str, Any], output: Path) -> dict[str, Any]:
-    model, body, facility = base_model(output.name, f"{item['id']} — {item['title']}")
+    model, project, body, facility = base_model(output.name, f"{item['id']} — {item['title']}")
     product = product_entity(model, item)
     primitive_count = add_product_geometry(model, body, product, item)
     assign_container(model, products=[product], relating_structure=facility)
     set_local_placement(model, product, (0.0, 0.0, 0.0))
+    controlled_count = append_design_detail(model, project, {str(item["id"]): product})
     report = write_model(model, output, {str(item["id"])})
-    report.update({"id": item["id"], "primitive_count": primitive_count, "definition_type": "product-item"})
+    report.update({
+        "id": item["id"],
+        "primitive_count": primitive_count,
+        "definition_type": "product-item",
+        "mechanically_controlled_object_count": controlled_count,
+    })
     report["passed"] = bool(report["passed"] and report["represented_product_tags"] == [item["id"]])
     return report
 
@@ -264,7 +327,7 @@ def export_assembly(
     output: Path,
 ) -> dict[str, Any]:
     product_ids, assembly_ids = descendants(assembly_id, products, assemblies)
-    model, body, facility = base_model(output.name, f"{assembly_id} — {assemblies[assembly_id]['title']}")
+    model, project, body, facility = base_model(output.name, f"{assembly_id} — {assemblies[assembly_id]['title']}")
     entities: dict[str, Any] = {}
     for child_assembly_id in assembly_ids:
         entities[child_assembly_id] = assembly_entity(model, assemblies[child_assembly_id])
@@ -295,6 +358,7 @@ def export_assembly(
     assign_container(model, products=[entities[assembly_id]], relating_structure=facility)
     for product_id in product_ids:
         set_local_placement(model, entities[product_id], positions[product_id])
+    controlled_count = append_design_detail(model, project, entities)
     required = set(product_ids) | set(assembly_ids)
     report = write_model(model, output, required)
     report.update(
@@ -306,6 +370,7 @@ def export_assembly(
             "descendant_product_ids": product_ids,
             "primitive_count": primitive_count,
             "representation_state": "complete hierarchy / inspection-fixture layout",
+            "mechanically_controlled_object_count": controlled_count,
         }
     )
     report["passed"] = bool(
@@ -360,6 +425,9 @@ def build_library(output_root: Path) -> dict[str, Any]:
         "release_boundary": RELEASE_BOUNDARY,
         "manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "manifest_sha256": sha256(MANIFEST),
+        "design_detail_register": str(DESIGN_DETAIL.relative_to(REPO_ROOT)),
+        "design_detail_register_sha256": sha256(DESIGN_DETAIL),
+        "mechanically_controlled_object_count": len(DETAIL_CONTROL),
         "product_count": len(part_reports),
         "assembly_count": len(assembly_reports),
         "all_active_products_reach_final_assembly": active_ids.issubset(root_product_ids),

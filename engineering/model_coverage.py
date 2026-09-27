@@ -37,6 +37,8 @@ LM3_MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-trainse
 STATION_MANIFEST = REPO_ROOT / "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
 DEFAULT_JSON = REPO_ROOT / "engineering/models/model-coverage.json"
 DEFAULT_MD = REPO_ROOT / "engineering/models/model-coverage.md"
+LM3_IDS = REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.ids"
+LM3_IDS_REPORT = REPO_ROOT / "engineering/models/bim/reference/lm3-information-requirements.report.json"
 LEVELS = (
     "absent",
     "structure-only",
@@ -85,6 +87,7 @@ def build_register() -> dict[str, Any]:
     stations = json.loads(STATION_MANIFEST.read_text(encoding="utf-8"))
     lm3_specs = lm3_geometry_specs()
     detail = build_detail_register()
+    ids_report = json.loads(LM3_IDS_REPORT.read_text(encoding="utf-8"))
     interface_ids_by_product: dict[str, list[str]] = {}
     datum_ids_by_product: dict[str, list[str]] = {}
     for row in detail["mechanical_interfaces"]:
@@ -182,6 +185,10 @@ def build_register() -> dict[str, Any]:
             "design_detail_register_sha256": sha256(
                 REPO_ROOT / "engineering/models/bim/design-detail-register.json"
             ),
+            "lm3_information_requirements": str(LM3_IDS.relative_to(REPO_ROOT)),
+            "lm3_information_requirements_sha256": sha256(LM3_IDS),
+            "lm3_ids_report": str(LM3_IDS_REPORT.relative_to(REPO_ROOT)),
+            "lm3_ids_report_sha256": sha256(LM3_IDS_REPORT),
         },
         "summary": {
             "lm3_products": len(lm3_rows),
@@ -196,12 +203,20 @@ def build_register() -> dict[str, Any]:
             ),
             "mechanically_controlled_lm3_objects": detail["summary"]["controlled_lm3_ids"],
             "mechanical_interfaces": detail["summary"]["mechanical_interfaces"],
+            "lm3_ids_specifications": len(ids_report["specifications"]),
+            "lm3_ids_checks": sum(row["total_checks"] for row in ids_report["specifications"]),
             "geometry_level_counts": dict(sorted(level_counts.items())),
         },
         "lm3_products": lm3_rows,
         "station_products": station_rows,
         "station_variants": variant_coverage,
-        "passed": len(lm3_rows) == 120 and len(station_rows) == 45 and len(variant_coverage) == 7,
+        "passed": (
+            len(lm3_rows) == 120
+            and len(station_rows) == 45
+            and len(variant_coverage) == 7
+            and ids_report["status"] is True
+            and len(ids_report["specifications"]) == 4
+        ),
     }
 
 
@@ -223,6 +238,8 @@ def render_markdown(register: dict[str, Any]) -> str:
         f"({register['summary']['mechanically_controlled_lm3_products']} products + "
         f"{register['summary']['mechanically_controlled_lm3_assemblies']} assemblies)",
         f"- Controlled mechanical interfaces: {register['summary']['mechanical_interfaces']}",
+        f"- LM3 IDS checks: {register['summary']['lm3_ids_checks']} across "
+        f"{register['summary']['lm3_ids_specifications']} specifications",
         "- Geometry levels: " + ", ".join(f"`{key}`={value}" for key, value in counts.items()),
         "",
         "## Meaning",
