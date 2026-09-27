@@ -92,7 +92,13 @@ while True: time.sleep(0.05)
         deadline = time.monotonic() + 2
         while time.monotonic() < deadline:
             status = Path(f'/proc/{pid}/stat')
-            if not status.exists() or status.read_text().split()[2] == 'Z':
+            try:
+                process_state = status.read_text().split()[2]
+            except FileNotFoundError:
+                # Process exit can race the procfs read; disappearance is the
+                # successful outcome this assertion is waiting for.
+                break
+            if process_state == 'Z':
                 break
             time.sleep(0.01)
         else:
