@@ -61,7 +61,7 @@ def install():
                     ('packet_sha256', 'Packet checksum', 'Data', None),
                     ('attestation_key_id', 'Attestation key', 'Data', None),
                     ('packet', 'Attested decision packet', 'Code', 'JSON'),
-                    ('target_doctype', 'Draft document type', 'Data', None),
+                    ('target_doctype', 'Draft document type', 'Link', 'DocType'),
                     ('target_name', 'Draft document', 'Dynamic Link', 'target_doctype'),
                 ]], permissions=[dict(role='Support Team', read=1, create=1),
                                  dict(role='Projects Manager', read=1),

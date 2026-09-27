@@ -69,3 +69,9 @@ def test_unknown_key_and_non_allowlisted_action_fail_closed():
     value['attestation']['signature'] = hmac.new(KEY.encode(), value['decision_sha256'].encode(), hashlib.sha256).hexdigest()
     with pytest.raises(ValueError, match='outside'):
         verify(value, CONFIG)
+
+
+def test_executive_dynamic_link_uses_a_doctype_link_pointer():
+    setup = (ROOT / 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/integration_setup.py').read_text()
+    assert "('target_doctype', 'Draft document type', 'Link', 'DocType')" in setup
+    assert "('target_name', 'Draft document', 'Dynamic Link', 'target_doctype')" in setup
