@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4982**.
+Indexed Markdown files: **4984**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **4982**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 165 |
-| [engineering](#engineering) | 18 |
+| [docs](#docs) | 166 |
+| [engineering](#engineering) | 19 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4920,6 +4920,7 @@ Indexed Markdown files: **4982**.
 | [`docs/operating/city-platform.md`](../docs/operating/city-platform.md) | Reproducible city operating twins |
 | [`docs/operating/components.md`](../docs/operating/components.md) | Reusable operating components |
 | [`docs/operating/integration-status.md`](../docs/operating/integration-status.md) | Integrated operating software: completion and deployment inputs |
+| [`docs/operating/lifecycle-governance-and-qr.md`](../docs/operating/lifecycle-governance-and-qr.md) | Lifecycle governance, ERP/HR administration and QR identity |
 | [`docs/operating/platform-recovery.md`](../docs/operating/platform-recovery.md) | Coordinated platform recovery |
 | [`docs/operating/readiness.md`](../docs/operating/readiness.md) | Operating platform readiness |
 | [`docs/operating/review-follow-through.md`](../docs/operating/review-follow-through.md) | Integration review follow-through — 18 September 2026 |
@@ -5047,6 +5048,7 @@ Indexed Markdown files: **4982**.
 | [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/assurance/formal/topology-adapters.md`](../engineering/assurance/formal/topology-adapters.md) | Read-only topology adapters |
+| [`engineering/assurance/subsystem-control-register.md`](../engineering/assurance/subsystem-control-register.md) | Subsystem lifecycle-control register |
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |

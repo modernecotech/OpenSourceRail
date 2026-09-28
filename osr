@@ -79,6 +79,7 @@ case "$command_name" in
         cargo test --workspace --all-targets
         tools/automation/osr-python -m pytest -q design/city-generation/tests design/component-catalogue/tests \
             engineering/analysis/tests tools/osr-aln-convert/tests tools/reference-ma/tests tools/automation/tests
+        tools/automation/osr-python engineering/subsystem_control_register.py --check
         tools/automation/osr-python tools/automation/operating-readiness.py --check
         npm run test:frontend
         tools/automation/osr-python tools/automation/audit-project-twins.py

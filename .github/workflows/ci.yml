@@ -81,8 +81,10 @@ jobs:
       - run: python tools/automation/repo-health.py --quiet
       - name: Check generated indexes and buildable product tree
         run: |
+          python engineering/subsystem_control_register.py
           python tools/automation/generate-doc-index.py
           python tools/automation/generate-national-briefs.py
+          python tools/automation/operating-readiness.py --check
           git diff --exit-code
 
   frontend:

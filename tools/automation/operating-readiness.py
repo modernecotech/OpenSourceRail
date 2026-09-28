@@ -24,6 +24,11 @@ sys.path.insert(0, str(ROOT / "services/integration"))
 
 from osr_erpnext.city_config import make_city_plan, validate_city_plan  # noqa: E402
 from osr_erpnext.component_catalogue import validate_package as validate_component_package  # noqa: E402
+from osr_erpnext.lifecycle_governance import (  # noqa: E402
+    make_city_package as make_governance_package,
+    validate_city_package as validate_governance_package,
+    validate_template as validate_governance_template,
+)
 
 
 def load_script(name: str, path: Path):
@@ -54,8 +59,10 @@ COMPILER_INPUTS = [
     ROOT / "tools/automation/supervision.py",
     ROOT / "deployment/erpnext/config/generic.toml",
     ROOT / "deployment/erpnext/config/components.json",
+    ROOT / "deployment/erpnext/config/lifecycle-governance.json",
     ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/city_config.py",
     ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/component_catalogue.py",
+    ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/lifecycle_governance.py",
     ROOT / "deployment/erpnext/apps/osr_erpnext/osr_erpnext/planning.py",
     ROOT / "deployment/supervision/config/generic.json",
     ROOT / "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json",
@@ -116,6 +123,12 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+@lru_cache(maxsize=1)
+def governance_template() -> dict[str, object]:
+    path = ROOT / "deployment/erpnext/config/lifecycle-governance.json"
+    return validate_governance_template(json.loads(path.read_text(encoding="utf-8")))
+
+
 def audit_city(slug: str) -> dict[str, object]:
     design_path, catalogue_city = ERP_CITY.catalogue()[slug]
     city_dir = design_path.parent
@@ -147,6 +160,14 @@ def audit_city(slug: str) -> dict[str, object]:
     )
     validate_component_package(component_package)
     supervision_package = SUPERVISION.city_package(slug)
+    governance_package = make_governance_package(
+        governance_template(),
+        city=slug,
+        project=f"readiness-{slug}",
+        revision=revision,
+        asset_ids=asset_ids,
+    )
+    validate_governance_package(governance_package)
 
     profile_path = operations / "supervision.json"
     supervision_profile = json.loads(profile_path.read_text())
@@ -219,6 +240,16 @@ def audit_city(slug: str) -> dict[str, object]:
                 "equipment": len(supervision_package["equipment"]),
                 "package_sha256": supervision_package["sha256"],
             },
+            "lifecycle_governance": {
+                "roles": governance_package["role_template_count"],
+                "record_templates": governance_package["record_template_count"],
+                "workflows": governance_package["workflow_template_count"],
+                "management_cadences": governance_package["management_cadence_count"],
+                "asset_identities": governance_package["asset_identity_inventory"]["count"],
+                "printable_qr_labels": governance_package["asset_identity_inventory"]["printable_labels"],
+                "qr_state": governance_package["asset_identity_inventory"]["state"],
+                "package_sha256": governance_package["sha256"],
+            },
         },
         "deployment_inputs": {
             "company_configured": bool(erp_config["organisation"]["company"]),
@@ -248,6 +279,13 @@ def build_report(slugs: list[str] | None = None) -> dict[str, object]:
         "erp_profiles_validated": len(cities),
         "component_packages_compiled": len(cities),
         "supervision_packages_compiled": len(cities),
+        "lifecycle_governance_packages_compiled": len(cities),
+        "asset_identity_templates": sum(
+            city["compiled"]["lifecycle_governance"]["asset_identities"] for city in cities
+        ),
+        "printable_qr_labels": sum(
+            city["compiled"]["lifecycle_governance"]["printable_qr_labels"] for city in cities
+        ),
         "supervision_equipment": sum(
             city["compiled"]["supervision"]["equipment"] for city in cities
         ),
@@ -274,7 +312,7 @@ def build_report(slugs: list[str] | None = None) -> dict[str, object]:
         ),
     }
     return {
-        "schema": "osr-operating-readiness/1",
+        "schema": "osr-operating-readiness/2",
         "scope": "catalogue" if slugs is None else "selected-cities",
         "source_sha256": source_digest(),
         "totals": totals,
@@ -285,6 +323,7 @@ def build_report(slugs: list[str] | None = None) -> dict[str, object]:
 def markdown(report: dict[str, object]) -> str:
     totals = report["totals"]
     cities = report["cities"]
+    asset_identity_count = f"{totals['asset_identity_templates']:,}"
     complete = [city["city"] for city in cities
                 if city["compiled"]["erp_full_plan"]["status"] == "compiled"]
     materialise = [city["city"] for city in cities
@@ -294,6 +333,7 @@ def markdown(report: dict[str, object]) -> str:
         ("ERP city profile", totals["erp_profiles_validated"]),
         ("Reusable ERP component package", totals["component_packages_compiled"]),
         ("Real-asset simulation supervision package", totals["supervision_packages_compiled"]),
+        ("Lifecycle governance, HR/admin and QR identity template", totals["lifecycle_governance_packages_compiled"]),
         ("Full ERP task plan from a local operations payload", totals["full_erp_plans_compiled"]),
     ]
     table = "\n".join(f"| {label} | {ready}/{totals['cities']} |" for label, ready in rows)
@@ -321,6 +361,13 @@ The supervision result covers **{totals['supervision_equipment']:,} equipment re
 derived from the {totals['asset_registers_validated']} tracked city
 asset registers. A compressed operations payload is no longer required to
 prepare FUXA/gateway packages.
+
+The lifecycle-governance compile covers **{asset_identity_count} asset identity
+templates** across the catalogue. It produces
+**{totals['printable_qr_labels']} printable labels**: labels stay blocked until a
+real operator provisions an HTTPS resolver, binds the physical asset and verifies
+the label. Scanning is lookup-only and never grants work, isolation, release or
+movement authority.
 
 Full ERP task-plan compilation is exercised for {complete_text}. For the other
 {materialise_text}, the tracked manifest, asset register and compact project twin
@@ -379,7 +426,7 @@ def check_tracked(json_path: Path, markdown_path: Path) -> bool:
     except (json.JSONDecodeError, OSError) as error:
         print(f"invalid operating-readiness output: {error}", file=sys.stderr)
         return False
-    if report.get("schema") != "osr-operating-readiness/1":
+    if report.get("schema") != "osr-operating-readiness/2":
         print("invalid operating-readiness schema", file=sys.stderr)
         return False
     if report.get("source_sha256") != source_digest():
@@ -412,6 +459,7 @@ def main() -> int:
     print(
         f"Operating readiness: {totals['cities']} cities, "
         f"{totals['supervision_packages_compiled']} supervision packages, "
+        f"{totals['lifecycle_governance_packages_compiled']} governance packages, "
         f"{totals['full_erp_plans_compiled']} full ERP plans"
     )
     return 0

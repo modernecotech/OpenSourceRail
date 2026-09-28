@@ -21,7 +21,9 @@ trust assumptions and integration seams rather than rewriting stable evaluator
 logic.
 
 This review added a 57th crate, `osr-supervision-contract`, to make the
-Rust-to-operating-platform boundary explicit and observation-only.
+Rust-to-operating-platform boundary explicit and observation-only. The follow-on
+lifecycle-control pass adds the 58th, `osr-lifecycle-identity`, so Rust and the
+ERP compiler enforce the same lookup-only physical-asset identity contract.
 
 ## What is credible now
 

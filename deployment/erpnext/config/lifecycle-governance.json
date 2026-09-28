@@ -1,0 +1,134 @@
+{
+  "schema": "osr-lifecycle-governance/1",
+  "authority_boundary": "Templates prepare and link evidence. They do not appoint legal duty holders, certify competence, release engineering, submit financial records, operate equipment or grant railway authority.",
+  "sources": [
+    {
+      "id": "FTA-QMS-2019",
+      "title": "Quality Management System Guidelines",
+      "organisation": "US Federal Transit Administration",
+      "url": "https://www.transit.dot.gov/funding/grant-programs/capital-investments/quality-management-system-guidelines",
+      "applied_as": "Configuration, document, inspection, test, calibration, nonconformance and closeout record controls.",
+      "limit": "Guidance basis only; it does not make OSR compliant with a jurisdiction or contract."
+    },
+    {
+      "id": "FTA-PCMG-2025",
+      "title": "Project and Construction Management Guidelines",
+      "organisation": "US Federal Transit Administration",
+      "url": "https://www.transit.dot.gov/funding/procurement/fta-project-and-construction-management-guidelines",
+      "applied_as": "Scope, schedule, cost, safety, quality and accountable project-review templates.",
+      "limit": "Reference guidance; deployment requirements and approvals remain project-specific."
+    },
+    {
+      "id": "ISO-55001-2024",
+      "title": "Asset management system requirements",
+      "organisation": "ISO Technical Committee 251",
+      "url": "https://committee.iso.org/sites/tc251/home/projects/published/iso-55001.html",
+      "applied_as": "Lifecycle decision, value, risk/opportunity, information, management-review and predictive-action fields.",
+      "limit": "Template alignment is not certification."
+    },
+    {
+      "id": "ISO-9001-DOCUMENTED-INFORMATION",
+      "title": "Guidance on documented information",
+      "organisation": "International Organization for Standardization",
+      "url": "https://www.iso.org/files/live/sites/isoorg/files/standards/docs/en/iso_9001_2015_guidance_documented_information.pdf",
+      "applied_as": "Retained competence, calibration, review, inspection and acceptance evidence.",
+      "limit": "The project must select its applicable edition and independently establish conformity."
+    },
+    {
+      "id": "NIST-SSDF-1.1",
+      "title": "Secure Software Development Framework",
+      "organisation": "US National Institute of Standards and Technology",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "applied_as": "Rust release provenance, protected source, review, test, vulnerability and change records.",
+      "limit": "The generated register is evidence routing, not a security accreditation."
+    },
+    {
+      "id": "BUILDINGSMART-IFC43-ASSET-ID",
+      "title": "IFC 4.3 AssetIdentifier semantic definition",
+      "organisation": "buildingSMART International",
+      "url": "https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/property/AssetIdentifier.htm",
+      "applied_as": "Separate stable operator asset identity from database and IFC instance identifiers.",
+      "limit": "OSR-specific property sets do not use the reserved Pset_ prefix."
+    },
+    {
+      "id": "GS1-DIGITAL-LINK-1.7",
+      "title": "GS1 Digital Link URI Syntax",
+      "organisation": "GS1",
+      "url": "https://ref.gs1.org/standards/digital-link/uri-syntax/1.7.0/",
+      "applied_as": "Resolver-based QR design and optional licensed GIAI mapping for individual assets.",
+      "limit": "OSR internal IDs are not represented as GS1 keys unless an operator obtains and governs valid GS1 identifiers."
+    },
+    {
+      "id": "FRAPPE-HR-TRAINING",
+      "title": "Training Event",
+      "organisation": "Frappe Technologies",
+      "url": "https://docs.frappe.io/hr/training-event",
+      "applied_as": "Native Training Program, Event, attendance, result and certificate workflow mapping.",
+      "limit": "Attendance or a certificate is evidence input, not automatic railway competence authorization."
+    },
+    {
+      "id": "ERPNEXT-QUALITY-INSPECTION",
+      "title": "Quality Inspection",
+      "organisation": "Frappe Technologies",
+      "url": "https://docs.frappe.io/erpnext/user/manual/en/quality-inspection",
+      "applied_as": "Incoming, in-process and outgoing inspection-template mapping.",
+      "limit": "Manual acceptance, concessions and engineering release require separately authorized review."
+    }
+  ],
+  "role_templates": [
+    {"id": "accountable-executive", "purpose": "Own policy, resources and management review.", "may_prepare": ["management-review", "asset-strategy"], "may_not": ["self-approve technical release", "override safety authority"]},
+    {"id": "design-authority", "purpose": "Own requirements, interfaces, calculations and engineering configuration.", "may_prepare": ["configuration-baseline", "engineering-change"], "may_not": ["accept own independent verification"]},
+    {"id": "quality-manager", "purpose": "Maintain QMS, audit, inspection and nonconformance controls.", "may_prepare": ["inspection-test", "nonconformance-capa"], "may_not": ["trade quality for cost or schedule"]},
+    {"id": "configuration-manager", "purpose": "Control baselines, revisions, distribution and supersession.", "may_prepare": ["configuration-baseline", "document-release"], "may_not": ["approve technical adequacy"]},
+    {"id": "asset-manager", "purpose": "Connect service objectives, asset risk, condition and lifecycle investment.", "may_prepare": ["asset-strategy", "maintenance-plan"], "may_not": ["grant movement authority"]},
+    {"id": "operations-manager", "purpose": "Own service delivery, shift handover and operational escalation.", "may_prepare": ["shift-handover", "operating-review"], "may_not": ["bypass protection or engineering release"]},
+    {"id": "maintenance-manager", "purpose": "Plan work, isolation, inspection, return-to-service evidence and spares.", "may_prepare": ["maintenance-plan", "work-pack"], "may_not": ["self-authorize competence or safety handback"]},
+    {"id": "competence-manager", "purpose": "Maintain role requirements, training, assessment, expiry and authorization recommendations.", "may_prepare": ["competence-authorization", "training-plan"], "may_not": ["infer competence from attendance alone"]},
+    {"id": "safety-assurance-manager", "purpose": "Maintain hazards, assurance independence and acceptance evidence.", "may_prepare": ["assurance-review", "hazard-action"], "may_not": ["replace legal duty holders or independent assessors"]},
+    {"id": "software-security-manager", "purpose": "Own secure-development, dependency, vulnerability and release-provenance evidence.", "may_prepare": ["software-release", "vulnerability-disposition"], "may_not": ["convert software tests into operational authorization"]},
+    {"id": "data-steward", "purpose": "Own asset identifiers, data quality, retention, access and resolver integrity.", "may_prepare": ["asset-identity", "data-quality-review"], "may_not": ["place personal, secret or command data in QR payloads"]}
+  ],
+  "record_templates": [
+    {"id": "configuration-baseline", "owner_role": "configuration-manager", "review_role": "design-authority", "native_records": ["Project", "Document", "Task"], "required_fields": ["scope_id", "revision", "source_hashes", "effective_state", "approver", "approval_evidence", "superseded_revision"], "authority_effect": "Records a reviewed baseline; does not itself release construction, fabrication or operation."},
+    {"id": "inspection-test", "owner_role": "quality-manager", "review_role": "design-authority", "native_records": ["Quality Inspection", "Quality Inspection Template", "Job Card"], "required_fields": ["asset_or_product_id", "requirement_revision", "method", "instrument_ids", "results", "inspector", "verifier", "disposition"], "authority_effect": "Supplies evidence to a named release gate."},
+    {"id": "calibration", "owner_role": "quality-manager", "review_role": "quality-manager", "native_records": ["Asset", "Asset Maintenance", "File"], "required_fields": ["instrument_id", "range", "accuracy", "traceability_basis", "certificate", "calibrated_at", "due_at", "status"], "authority_effect": "Controls measurement-resource fitness; overdue or failed status blocks dependent inspection evidence."},
+    {"id": "nonconformance-capa", "owner_role": "quality-manager", "review_role": "design-authority", "native_records": ["Quality Inspection", "Issue", "Task"], "required_fields": ["affected_ids", "requirement_revision", "containment", "root_cause", "correction", "corrective_action", "effectiveness_review", "concession_authority"], "authority_effect": "No automatic use-as-is or repair acceptance."},
+    {"id": "competence-authorization", "owner_role": "competence-manager", "review_role": "operations-manager", "native_records": ["Employee", "Training Program", "Training Event", "Training Result", "Shift Assignment"], "required_fields": ["person_reference", "role", "scope", "training_evidence", "assessment_evidence", "fitness_prerequisite", "authorized_by", "valid_from", "expires_at", "suspension_state"], "authority_effect": "Attendance and training results remain inputs; an accountable authorization is separate."},
+    {"id": "management-review", "owner_role": "accountable-executive", "review_role": "safety-assurance-manager", "native_records": ["Project", "Meeting", "Task", "Issue"], "required_fields": ["period", "objectives", "performance", "audit_findings", "risks_opportunities", "resources", "decisions", "actions", "owners", "due_dates"], "authority_effect": "Records governance decisions without bypassing specialist approval routes."},
+    {"id": "shift-handover", "owner_role": "operations-manager", "review_role": "operations-manager", "native_records": ["Shift Assignment", "Employee Checkin", "Issue", "Task"], "required_fields": ["shift", "incoming_lead", "outgoing_lead", "asset_state", "open_permits", "isolations", "alarms", "degraded_modes", "actions", "acceptance_time"], "authority_effect": "Administrative handover only; live control remains in commissioned systems."},
+    {"id": "software-release", "owner_role": "software-security-manager", "review_role": "safety-assurance-manager", "native_records": ["Project", "Task", "File"], "required_fields": ["component", "version", "source_revision", "toolchain", "dependency_lock_hash", "tests", "vulnerability_review", "artifacts", "signatures", "deployment_boundary"], "authority_effect": "Proves the reviewed software build; does not certify or commission railway use."},
+    {"id": "asset-identity", "owner_role": "data-steward", "review_role": "configuration-manager", "native_records": ["Asset", "Item", "Serial No", "Batch", "File"], "required_fields": ["asset_id", "class", "revision", "resolver_path", "physical_label_id", "status", "replacement_history"], "authority_effect": "Lookup and traceability only; scanning never authorizes work, isolation, release or movement."}
+  ],
+  "management_cadence": [
+    {"id": "shift", "maximum_interval_days": 1, "inputs": ["handover", "alarms", "isolations", "service", "staffing"], "outputs": ["accepted_handover", "escalations"]},
+    {"id": "weekly", "maximum_interval_days": 7, "inputs": ["safety", "service", "maintenance", "quality", "materials", "workforce"], "outputs": ["priorities", "owners", "due_dates"]},
+    {"id": "monthly", "maximum_interval_days": 31, "inputs": ["objectives", "asset_condition", "cost", "schedule", "risk", "competence", "suppliers"], "outputs": ["forecast", "resource_actions", "risk_treatment"]},
+    {"id": "quarterly", "maximum_interval_days": 92, "inputs": ["audit", "performance", "risks_opportunities", "data_quality", "security", "improvement"], "outputs": ["management_decisions", "policy_changes", "funded_actions"]}
+  ],
+  "workflow_templates": [
+    {"id": "hr-administration", "stages": ["approved-position", "employee-master", "role-and-scope", "training-plan", "assessment", "authorization", "shift-assignment", "expiry-review"], "hold_points": ["identity-and-contract-verified", "fitness-prerequisite-verified", "competence-authorized", "shift-rest-rules-reviewed"]},
+    {"id": "mechanical-production", "stages": ["released-baseline", "material-receipt", "tool-and-instrument-check", "manufacture", "in-process-inspection", "nonconformance-review", "final-inspection", "serial-as-built"], "hold_points": ["material-traceability", "calibration-current", "datum-interface-accepted", "independent-release"]},
+    {"id": "civil-construction", "stages": ["released-design", "survey-setout", "ground-and-material-acceptance", "temporary-works", "construction", "inspection-test", "as-built-survey", "asset-handover"], "hold_points": ["permit-and-design-current", "survey-control-accepted", "concealed-work-witnessed", "as-built-and-punch-list-closed"]},
+    {"id": "rust-software-release", "stages": ["requirements", "threat-and-hazard-review", "implementation", "peer-review", "automated-verification", "dependency-review", "reproducible-build", "signed-release", "deployment-approval"], "hold_points": ["source-review-complete", "tests-and-lints-pass", "vulnerabilities-dispositioned", "authority-boundary-confirmed"]},
+    {"id": "asset-maintenance", "stages": ["condition-or-plan", "work-scope", "competence-and-parts", "isolation", "work", "inspection-test", "configuration-update", "independent-handback"], "hold_points": ["work-authorized", "zero-energy-or-local-equivalent-verified", "post-work-test-accepted", "handback-accepted"]},
+    {"id": "management-operations", "stages": ["evidence-freeze", "independent-review", "decision", "attestation", "action-assignment", "outcome-review"], "hold_points": ["quorum-and-conflicts-recorded", "authority-checked", "resources-committed", "effectiveness-reviewed"]}
+  ],
+  "qr_identity": {
+    "schema": "osr-asset-identity/1",
+    "authority": "lookup-only",
+    "resolver_base": null,
+    "resolver_path_template": "/id/osr/{city}/asset/{asset_id}",
+    "printable_state": "blocked-until-operator-https-resolver-and-physical-binding",
+    "required_fields": ["schema", "city", "asset_id", "engineering_revision", "resolver_path", "authority"],
+    "forbidden_fields": ["person_name", "email", "phone", "credential", "token", "password", "command", "movement_authority", "approval"],
+    "optional_gs1_key": "GIAI",
+    "offline_rule": "A disconnected scan may display the encoded identity and cached status but must not imply current configuration, isolation, inspection or release state.",
+    "replacement_rule": "The physical label identifies one asset instance; replacement creates or binds the replacement identity and retains the supersession history."
+  },
+  "subsystem_profiles": {
+    "mechanical": {"records": ["configuration-baseline", "inspection-test", "calibration", "nonconformance-capa", "asset-identity"], "release_evidence": ["material-and-serial-traceability", "datum-and-interface-results", "tool-and-instrument-status", "as-built-configuration", "independent-release"]},
+    "station": {"records": ["configuration-baseline", "inspection-test", "calibration", "nonconformance-capa", "asset-identity"], "release_evidence": ["site-and-variant-configuration", "access-and-egress", "MEP-and-structure-interfaces", "as-built-survey", "authority-acceptance"]},
+    "civil": {"records": ["configuration-baseline", "inspection-test", "calibration", "nonconformance-capa", "asset-identity"], "release_evidence": ["survey-and-ground-model", "materials-and-temporary-works", "inspection-and-test-plan", "as-built-geometry", "asset-handover"]},
+    "rust": {"records": ["configuration-baseline", "nonconformance-capa", "software-release"], "release_evidence": ["locked-source-and-toolchain", "peer-review", "all-feature-test-and-clippy", "security-advisory-review", "reproducible-artifact-and-deployment-boundary"]}
+  }
+}

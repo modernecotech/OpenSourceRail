@@ -104,6 +104,10 @@ purchasing, inventory, manufacturing administration, routine asset maintenance,
 finance and HR. OSR owns railway-specific engineering, control and assurance.
 Shared defaults and 266 city profiles compile versioned operating packages into
 native ERPNext Projects, Tasks, departments, warehouses and cost centres.
+The same compile now binds mechanical, station, civil and Rust items to common
+configuration, quality, competence, release-evidence and lookup-only identity
+templates; QR payloads remain disabled until an operator provisions a resolver
+and verifies each physical binding.
 Permission-filtered execution snapshots return to Workbench and the Project Twin
 view. ERP status cannot approve railway handback or command the railway. Historic
 SQLite business records remain readable, with new business writes disabled.

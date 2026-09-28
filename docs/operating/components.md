@@ -5,6 +5,11 @@ Frappe HR records. Their shared registry drives the API, validation, interactive
 forms and repeatable configuration packages. Adding another city requires data,
 not another implementation of the adapters.
 
+These execution adapters sit underneath the
+[lifecycle governance, HR/admin and QR templates](lifecycle-governance-and-qr.md).
+The templates specify evidence and separation of duties; they do not fabricate
+employees, permissions, approvals or native ERP master data.
+
 ## Use from ERPNext
 
 Open a city Project and choose **OpenSourceRail → Operating components**. Select

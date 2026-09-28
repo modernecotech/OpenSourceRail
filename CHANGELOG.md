@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Added one fail-closed lifecycle-control system across mechanical products and
+  assemblies, station variants, reusable civil types and every Rust crate. A
+  validated ERP/HR/management template now defines separated roles, competence,
+  configuration, inspection, calibration, NCR/CAPA, management review, shift
+  handover, software-release and asset-identity evidence. A shared Python/Rust
+  QR contract is lookup-only, rejects hidden authority or commands and emits no
+  printable label until a real operator provides an HTTPS resolver and verifies
+  the physical binding. All-city readiness now compiles these controls and CI
+  checks the generated 230-record subsystem register.
+
 - Completed a workspace-wide Rust scrutiny and integration pass. Routing now
   rejects malformed grids, penalties and non-finite inputs; raster ingestion
   honours source manifests while validating paths, geography and layer

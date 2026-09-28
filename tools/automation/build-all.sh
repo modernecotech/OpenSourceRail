@@ -58,6 +58,8 @@ if [[ -x .venv/bin/python ]] && .venv/bin/python -c 'import jupedsim, openseespy
 else
     printf 'Station system screening skipped: rerun ./install.sh to install the engineering Python environment.\n'
 fi
+python3 engineering/subsystem_control_register.py
+python3 tools/automation/operating-readiness.py
 
 section "Building the root documentation book"
 python3 tools/automation/generate-doc-index.py

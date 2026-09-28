@@ -15,12 +15,20 @@ can provide.
 | ERP city profile | 266/266 |
 | Reusable ERP component package | 266/266 |
 | Real-asset simulation supervision package | 266/266 |
+| Lifecycle governance, HR/admin and QR identity template | 266/266 |
 | Full ERP task plan from a local operations payload | 2/266 |
 
 The supervision result covers **248,784 equipment records**
 derived from the 266 tracked city
 asset registers. A compressed operations payload is no longer required to
 prepare FUXA/gateway packages.
+
+The lifecycle-governance compile covers **105,694 asset identity
+templates** across the catalogue. It produces
+**0 printable labels**: labels stay blocked until a
+real operator provisions an HTTPS resolver, binds the physical asset and verifies
+the label. Scanning is lookup-only and never grants work, isolation, release or
+movement authority.
 
 Full ERP task-plan compilation is exercised for `mosul`, `samawah`. For the other
 264 cities, the tracked manifest, asset register and compact project twin

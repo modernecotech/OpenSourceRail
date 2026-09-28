@@ -16,7 +16,7 @@ cargo run --release --bin osr-design -- --help
 
 | Area | Crates |
 |---|---|
-| Shared foundations | `osr-core`, `osr-proto`, `osr-crypto`, `osr-secbus`, `osr-supervision-contract` |
+| Shared foundations | `osr-core`, `osr-proto`, `osr-crypto`, `osr-secbus`, `osr-supervision-contract`, `osr-lifecycle-identity` |
 | Signalling and wayside safety | `osr-consensus`, `osr-interlocking`, `osr-wayside-points`, `osr-level-crossing`, `osr-intrusion-detect`, `osr-hot-axle-wayside` |
 | Onboard safety | `osr-atp`, `osr-odometry`, `osr-brake`, `osr-bms`, `osr-door-control`, `osr-fire-safety`, `osr-derailment`, `osr-obstacle-detect` |
 | Train systems | `osr-tcms`, `osr-ato`, `osr-traction`, `osr-aux-power`, `osr-hvac`, `osr-lighting`, `osr-regen`, `osr-tcn`, `osr-t2g`, `osr-event-recorder`, `osr-cbm-onboard` |

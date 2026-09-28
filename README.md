@@ -6,6 +6,8 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 This is not only a route visualizer, a train model or an operations dashboard. It is a reproducible **city → design → build → operate** workflow with source data, generators, applications, engineering models and verification evidence in one public repository.
 
+This root README is the only human-facing front door; generated inventories are reference indexes, not a second navigation hierarchy.
+
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
 
@@ -94,6 +96,8 @@ Models vote independently and do not see earlier ballots. Four wrappers around o
 
 This makes the proposed administrative-cost reduction measurable: time saved in evidence collation, draft preparation and routine coordination can be piloted while dissent, exceptions, provider cost, human review time and error rates remain visible.
 
+The companion [lifecycle governance, HR/admin and QR templates](docs/operating/lifecycle-governance-and-qr.md) apply one controlled evidence model to every mechanical product/assembly, station variant, reusable civil type and Rust crate. Asset QR identities are lookup-only and remain unprintable until an operator provisions an HTTPS resolver and verifies each physical binding.
+
 ## What is ready for what?
 
 OpenSourceRail deliberately contains products at different maturity levels:
@@ -147,6 +151,7 @@ On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or Arc
 ```bash
 ./install.sh
 ./osr build
+./osr book
 ./osr
 ./osr sim --duration 3600 --status-every 300
 ./osr test
@@ -189,7 +194,7 @@ The principal editable sources are:
 |---|---|---|
 | Architecture and decisions | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), accepted [`docs/rfcs/`](docs/rfcs/README.md) | Diagrams, guides and summaries |
 | Rust behavior and simulation | [`crates/`](crates/README.md) and tests | Applications, traces and coverage evidence |
-| City synthesis and shared assumptions | [`design/city-generation/`](design/city-generation/README.md), [`lib/templates/`](lib/templates/), [`lib/recipes/`](lib/recipes/) | City catalogue, service, finance and engineering packages |
+| City synthesis and shared assumptions | [`design/city-generation/`](design/city-generation/README.md), [`lib/templates/`](lib/templates/), [`lib/recipes/`](lib/recipes/), [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | City catalogue, service, finance and engineering packages |
 | Interactive city revisions | [`cities/workspaces/`](cities/workspaces/README.md) | Content-addressed candidates and exports |
 | Mechanical/station/civil geometry | [`design/component-catalogue/src/osr_mech/`](design/component-catalogue/src/osr_mech/) | FreeCAD, IFC, BOM, traveler and image artifacts |
 | ERP and supervision integration | [`deployment/erpnext/`](deployment/erpnext/README.md), [`deployment/supervision/`](deployment/supervision/README.md), [`services/integration/`](services/integration/) | ERP workflows, FUXA views, history and maintenance evidence |

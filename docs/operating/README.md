@@ -12,7 +12,9 @@ The basic import below remains available for older planning packages.
 The generated [operating-readiness audit](readiness.md) validates each tracked
 asset register, operations manifest and project twin, then compiles all 266 ERP
 profiles, reusable-component packages and real-asset supervision packages. It
-also separates reproducible large payloads from legal-company, calendar, ERP
+also compiles the [lifecycle governance, HR/admin and QR templates](lifecycle-governance-and-qr.md)
+against every asset identity while deliberately producing no printable label.
+The audit separates reproducible large payloads from legal-company, calendar, ERP
 master and physical-binding data that the repository cannot safely invent.
 Supervision reuses station, vehicle and all 9,097 switch identities; fare gates
 are labelled station aggregates, and zero crossing positions are generated until
@@ -164,6 +166,11 @@ evaluation/development installation, not a commissioned shared service.
 [Reusable operating components](components.md) provide dynamic forms and city
 configuration packages for stock, production, quality, maintenance, training,
 budgets, service issues and assignment rules.
+
+[Lifecycle governance and QR templates](lifecycle-governance-and-qr.md) define
+the role separation, competence/authorization, inspection, calibration,
+configuration, management-review and lookup-only asset-identity records that
+connect those native forms to mechanical, civil and software evidence.
 
 See the [function review and implementation map](automation-review.md) for
 procurement draft creation, automatic work-readiness checks, purchasing lifecycle
