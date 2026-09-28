@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4984**.
+Indexed Markdown files: **4987**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4984**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 166 |
+| [docs](#docs) | 169 |
 | [engineering](#engineering) | 19 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4903,6 +4903,9 @@ Indexed Markdown files: **4984**.
 | [`docs/civil/viaduct-substructure-kit.md`](../docs/civil/viaduct-substructure-kit.md) | Viaduct pier and abutment kit |
 | [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
 | [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
+| [`docs/commercial/joint-development-framework.md`](../docs/commercial/joint-development-framework.md) | Joint Development And Delivery Framework |
+| [`docs/commercial/partnership-readiness.md`](../docs/commercial/partnership-readiness.md) | Commercial Partnership Readiness |
+| [`docs/competitive-position-and-proof-roadmap.md`](../docs/competitive-position-and-proof-roadmap.md) | Competitive Position And Proof Roadmap |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |

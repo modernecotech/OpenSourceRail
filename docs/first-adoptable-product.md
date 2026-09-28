@@ -82,6 +82,27 @@ A credible first deployment should be able to show:
 - evidence can be exported as CSV/JSON and reviewed outside the portal;
 - the system runs without commanding trains.
 
+## Reference Deployment Measurement
+
+Agree the baseline, observation window and decision owner before configuring the
+product. A reference deployment should publish or independently retain:
+
+| Measure | Evidence method |
+|---|---|
+| Asset/work-record completeness | Sample the same agreed population before migration and after acceptance |
+| Defect-to-handback time | Timestamp issue, triage, work, inspection, independent handback and rejected/rework paths |
+| Record quality | Count missing identities, uncontrolled attachments, stale approvals, duplicate work and reconciliation errors |
+| Recovery | Restore a signed backup into fresh volumes and reconcile record, file and configuration inventories |
+| User effort | Record training, data preparation, support, review and exception-handling hours by role |
+| AI assistance | Compare draft preparation/review time, dissent, overrides and errors; retain human accountability |
+| Owner continuity | Export open records, remove a test adapter and prove history remains usable without supplier access |
+
+The comparison baseline is the operator's real prior process or a named
+configured alternative. Do not infer savings from a generic manual-work
+assumption. Personal, employee, supplier and security-sensitive results stay in
+the controlled deployment evidence store; public summaries must be aggregated
+and approved.
+
 ## Why This Is The Wedge
 
 Rail procurement is not won by software novelty alone. This product gives
@@ -89,3 +110,6 @@ operators, funders, and assessors something useful and low-risk to adopt:
 better asset, QA, maintenance, and acceptance discipline. It also creates
 the evidence trail that any later certified OSR train-control or
 rolling-stock deployment will need.
+
+This reference deployment is the first proof programme in the
+[competitive position and proof roadmap](competitive-position-and-proof-roadmap.md).

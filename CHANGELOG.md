@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Converted the external competitive and joint-venture review into an
+  evidence-led product/commercialisation layer. The repository now distinguishes
+  its demonstrable planning and owner/operator products from the still-open
+  physical railway and GoA4 programme; prioritises measured operator
+  deployments and independently comparable corridors through an unlimited,
+  evidence-separated candidate portfolio; and provides a
+  fail-closed partnership template for legal counterparties, accepted
+  contributions, IP/manufacturing rights, finance separation, related-party
+  supply, finite performance-based exclusivity and four-stage localisation. CI
+  rejects stale commercial-readiness outputs, while the public reference records
+  zero orders, commitments, accepted contributions and partnership authority.
+
 - Added one fail-closed lifecycle-control system across mechanical products and
   assemblies, station variants, reusable civil types and every Rust crate. A
   validated ERP/HR/management template now defines separated roles, competence,

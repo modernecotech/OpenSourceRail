@@ -1,0 +1,429 @@
+schema_version = "1.1"
+template_revision = "2026-09-28"
+template_status = "unfilled-no-commercial-authority"
+authority_boundary = "This template records evidence for a possible development agreement or joint venture. It is not legal advice, a partnership announcement, an offer, a customer order, supplier authorization, financing, procurement approval, certification or authority to construct or operate a railway."
+
+[opportunity]
+opportunity_id = "reference-commercial-partnership"
+purpose = "Develop and deliver an owner-controlled urban-rail platform with progressively qualified local engineering, manufacture, operation and maintenance capability"
+portfolio_owner = ""
+candidate_selection_method_ref = ""
+# One of: undecided, owner-adviser, prospective-supplier, integrated-contractor.
+procurement_role = "undecided"
+procurement_conflict_review_ref = ""
+
+# This is an open-ended array. Add as many screened opportunities as useful.
+# Once a candidate is selected, give it a controlled project-specific copy of
+# this template; do not mix confidential evidence for unrelated customers.
+[[reference_candidate]]
+id = "CAND-SAMAWAH-CORRIDOR"
+candidate_type = "integrated-corridor"
+country = "Iraq"
+city_or_site = "Samawah"
+scope = "Owner/operator platform plus independently comparable corridor and potential physical pilot"
+source_ref = "cities/catalogue/west-asia/Iraq/Samawah/"
+customer_legal_name = ""
+customer_need_ref = ""
+funded_scope_ref = ""
+site_evidence_ref = ""
+approval_route_ref = ""
+reuse_case = "Connected planning, delivery and operating reference"
+selection_criteria = ["identified customer and decision-maker", "funded bounded scope", "usable site or corridor", "defined approval route", "reusable evidence"]
+selection_evidence_refs = []
+status = "screening"
+
+[[reference_candidate]]
+id = "CAND-MOSUL-CORRIDOR"
+candidate_type = "integrated-corridor"
+country = "Iraq"
+city_or_site = "Mosul"
+scope = "Larger-network owner/operator, corridor and integration reference"
+source_ref = "cities/catalogue/west-asia/Iraq/Mosul/"
+customer_legal_name = ""
+customer_need_ref = ""
+funded_scope_ref = ""
+site_evidence_ref = ""
+approval_route_ref = ""
+reuse_case = "Higher-complexity service, asset and integration evidence"
+selection_criteria = ["identified customer and decision-maker", "funded bounded scope", "usable site or corridor", "defined approval route", "reusable evidence"]
+selection_evidence_refs = []
+status = "screening"
+
+[[reference_candidate]]
+id = "CAND-EXISTING-WORKSHOP"
+candidate_type = "owner-operator-workshop"
+country = "to be nominated"
+city_or_site = "existing depot or workshop"
+scope = "Non-safety asset, work, inspection, competence, maintenance and evidence deployment"
+source_ref = "docs/first-adoptable-product.md"
+customer_legal_name = ""
+customer_need_ref = ""
+funded_scope_ref = ""
+site_evidence_ref = ""
+approval_route_ref = ""
+reuse_case = "Fastest adoptable owner/operator product and measured implementation baseline"
+selection_criteria = ["identified operator", "funded implementation", "available asset/work data", "controlled deployment environment", "agreed outcome baseline"]
+selection_evidence_refs = []
+status = "screening"
+
+[[reference_candidate]]
+id = "CAND-LM3-FIRST-ARTICLE"
+candidate_type = "manufacturing-first-article"
+country = "to be nominated"
+city_or_site = "qualified local production facility"
+scope = "Supplier-backed LM3 configuration review, production-data closure and bounded first article"
+source_ref = "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md"
+customer_legal_name = ""
+customer_need_ref = ""
+funded_scope_ref = ""
+site_evidence_ref = ""
+approval_route_ref = ""
+reuse_case = "Physical engineering, local capability and cost evidence reusable across cities"
+selection_criteria = ["authorised supplier support", "funded engineering and prototype scope", "qualified facility route", "accepted test plan", "identified deployment customer or sponsor"]
+selection_evidence_refs = []
+status = "screening"
+
+[funding]
+development_capital_ref = ""
+customer_funded_work_ref = ""
+factory_investment_ref = ""
+working_capital_ref = ""
+railway_project_finance_ref = ""
+development_and_project_finance_separated = false
+approved_by = ""
+approved_at = ""
+status = "unagreed"
+
+[exclusivity]
+# The reference position is non-exclusive. If enabled in a negotiated copy,
+# named territories, a finite term, measurable performance and termination
+# rights are all required before the arrangement can be reported as controlled.
+enabled = false
+territories = []
+term_months = 0
+performance_conditions = []
+termination_rights = []
+approval_ref = ""
+
+[claim_controls]
+customer_order = "absent"
+customer_order_ref = ""
+industrial_partner_commitment = "unverified"
+industrial_partner_commitment_ref = ""
+manufacturer_authorization = "unverified"
+manufacturer_authorization_ref = ""
+all_in_cost_advantage = "unproven"
+all_in_cost_advantage_ref = ""
+railway_acceptance = "not-granted"
+railway_acceptance_ref = ""
+
+[[party]]
+id = "PARTY-OSR"
+role = "platform-and-system-development"
+legal_name = ""
+registration_jurisdiction = ""
+authority_to_commit_ref = ""
+beneficial_ownership_ref = ""
+conflict_disclosure_ref = ""
+status = "unverified"
+
+[[party]]
+id = "PARTY-INDUSTRIAL"
+role = "industrial-engineering-and-supply"
+legal_name = ""
+registration_jurisdiction = ""
+authority_to_commit_ref = ""
+beneficial_ownership_ref = ""
+conflict_disclosure_ref = ""
+status = "unverified"
+
+[[party]]
+id = "PARTY-LOCAL"
+role = "customer-or-local-delivery"
+legal_name = ""
+registration_jurisdiction = ""
+authority_to_commit_ref = ""
+beneficial_ownership_ref = ""
+conflict_disclosure_ref = ""
+status = "unverified"
+
+[[contribution]]
+id = "CONTRIB-OSR-PLATFORM"
+party_id = "PARTY-OSR"
+kind = "technology-and-know-how"
+description = "Maintained OpenSourceRail baseline, systems integration and configuration leadership"
+agreed_value = 0.0
+currency = ""
+due_milestone = "funded-development-start"
+acceptance_owner = ""
+acceptance_criteria = ["exact baseline identified", "maintainer and support obligation defined", "open-source licence boundary retained"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-OSR-DEVELOPMENT"
+party_id = "PARTY-OSR"
+kind = "engineering"
+description = "Named systems, software, civil, vehicle and delivery-integration work"
+agreed_value = 0.0
+currency = ""
+due_milestone = "reference-development-review"
+acceptance_owner = ""
+acceptance_criteria = ["named competent resources", "bounded deliverables", "accepted engineering records"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-IND-ENGINEERS"
+party_id = "PARTY-INDUSTRIAL"
+kind = "engineering"
+description = "Named vehicle, mechanical, electrical, manufacturing and commissioning engineers"
+agreed_value = 0.0
+currency = ""
+due_milestone = "reference-development-review"
+acceptance_owner = ""
+acceptance_criteria = ["people and availability named", "competence evidence reviewed", "deliverables and liability defined"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-IND-MANUFACTURING"
+party_id = "PARTY-INDUSTRIAL"
+kind = "facilities-and-production-support"
+description = "Manufacturing review, production facilities, tooling access and supplier coordination"
+agreed_value = 0.0
+currency = ""
+due_milestone = "first-article-plan"
+acceptance_owner = ""
+acceptance_criteria = ["facilities and capacity identified", "access terms defined", "manufacturer authority verified"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-IND-PROTOTYPE"
+party_id = "PARTY-INDUSTRIAL"
+kind = "equipment-or-cash"
+description = "Prototype equipment, test access or development cash contributed at risk"
+agreed_value = 0.0
+currency = ""
+due_milestone = "prototype-authorization"
+acceptance_owner = ""
+acceptance_criteria = ["quantity and configuration fixed", "valuation method agreed", "delivery and title evidenced"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-LOCAL-FACILITY"
+party_id = "PARTY-LOCAL"
+kind = "facilities-and-production-support"
+description = "Local workshop, metrology, stores, training and first-article production capacity"
+agreed_value = 0.0
+currency = ""
+due_milestone = "localisation-baseline"
+acceptance_owner = ""
+acceptance_criteria = ["site and legal access identified", "capability audit complete", "upgrade plan funded"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-LOCAL-WORKFORCE"
+party_id = "PARTY-LOCAL"
+kind = "people-and-training"
+description = "Local production, maintenance and engineering counterparts with a competence plan"
+agreed_value = 0.0
+currency = ""
+due_milestone = "localisation-baseline"
+acceptance_owner = ""
+acceptance_criteria = ["roles and numbers identified", "paired learning plan agreed", "competence evidence route defined"]
+evidence_refs = []
+status = "proposed"
+
+[[contribution]]
+id = "CONTRIB-CUSTOMER-SCOPE"
+party_id = "PARTY-LOCAL"
+kind = "customer-and-site"
+description = "Funded bounded requirement, usable site and defined engineering and approval route"
+agreed_value = 0.0
+currency = ""
+due_milestone = "reference-project-selection"
+acceptance_owner = ""
+acceptance_criteria = ["customer decision-maker identified", "funded scope evidenced", "site and approval route evidenced"]
+evidence_refs = []
+status = "proposed"
+
+[[ip_item]]
+id = "IP-OSR-BACKGROUND"
+category = "existing-public-opensourcerail"
+material = "Existing public OpenSourceRail software, designs and documentation"
+required_treatment = "Existing licences remain effective; no party represents public material as exclusive"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[ip_item]]
+id = "IP-SUPPLIER-BACKGROUND"
+category = "supplier-background"
+material = "Existing supplier products, drawings, software and know-how"
+required_treatment = "Only rights the contributing party is authorised to grant may be used"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[ip_item]]
+id = "IP-FOREGROUND"
+category = "new-reusable-system-work"
+material = "Reusable work funded by the development programme"
+required_treatment = "Ownership, publication, licence and maintenance obligations agreed before work starts"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[ip_item]]
+id = "IP-CUSTOMER"
+category = "customer-specific-information"
+material = "Customer, site, operational and commercial information"
+required_treatment = "Customer delivery, confidentiality, retention and exit rights defined"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[ip_item]]
+id = "IP-BRAND"
+category = "brand-and-trademark"
+material = "OpenSourceRail and commercial service names and marks"
+required_treatment = "Ownership and permitted use treated separately from open-source copyright licences"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[ip_item]]
+id = "IP-MANUFACTURING"
+category = "manufacturing-information"
+material = "Editable drawings, tooling, process, inspection, diagnostic and training information"
+required_treatment = "Delivery organisation receives the rights and usable information required for agreed local work and continuity"
+owner_or_custodian = ""
+rights_ref = ""
+publication_policy_ref = ""
+status = "unagreed"
+
+[[commercial_control]]
+id = "CTRL-RELATED-PARTY-PRICE"
+title = "Shareholder and related-party pricing"
+required_evidence = ["pricing method", "benchmark route", "non-conflicted approval"]
+evidence_refs = []
+approved_by = ""
+approved_at = ""
+status = "open"
+
+[[commercial_control]]
+id = "CTRL-REBATES"
+title = "Rebates, commissions and conflicts disclosure"
+required_evidence = ["disclosure procedure", "conflict register", "audit right"]
+evidence_refs = []
+approved_by = ""
+approved_at = ""
+status = "open"
+
+[[commercial_control]]
+id = "CTRL-WARRANTY"
+title = "Configuration, warranty and liability allocation"
+required_evidence = ["configuration responsibility matrix", "warranty allocation", "liability and insurance review"]
+evidence_refs = []
+approved_by = ""
+approved_at = ""
+status = "open"
+
+[[commercial_control]]
+id = "CTRL-ALTERNATIVES"
+title = "Alternative supplier and continuity rights"
+required_evidence = ["qualification route", "step-in or exit assistance", "data and tooling continuity"]
+evidence_refs = []
+approved_by = ""
+approved_at = ""
+status = "open"
+
+[[localisation_stage]]
+id = "LOC-1"
+title = "Assembly and maintenance"
+required_outputs = ["trained authorised personnel", "accepted completed assemblies", "inspection and maintenance demonstrations"]
+evidence_refs = []
+accepted_by = ""
+accepted_at = ""
+status = "not-started"
+
+[[localisation_stage]]
+id = "LOC-2"
+title = "Selected fabrication"
+required_outputs = ["released drawings and fixtures", "qualified processes", "accepted first articles"]
+evidence_refs = []
+accepted_by = ""
+accepted_at = ""
+status = "not-started"
+
+[[localisation_stage]]
+id = "LOC-3"
+title = "Broader repeat production"
+required_outputs = ["repeatable conformity evidence", "cost and lead-time records", "qualified local suppliers"]
+evidence_refs = []
+accepted_by = ""
+accepted_at = ""
+status = "not-started"
+
+[[localisation_stage]]
+id = "LOC-4"
+title = "Continuing engineering"
+required_outputs = ["competent local design roles", "controlled engineering changes", "qualified replacement decisions"]
+evidence_refs = []
+accepted_by = ""
+accepted_at = ""
+status = "not-started"
+
+[[gate]]
+id = "P0"
+title = "Counterparty and opportunity qualification"
+required_evidence = ["legal identities and authorities", "customer problem and decision-maker", "procurement-role conflict review"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "P1"
+title = "Funded development agreement"
+required_evidence = ["costed development scope", "accepted contribution schedule", "IP and publication schedule", "funding and cash controls"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "P2"
+title = "Equity joint-venture formation"
+required_evidence = ["legal and tax advice", "shareholder agreement", "reserved matters and deadlock route", "capitalisation and withdrawal terms"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "P3"
+title = "Selected-candidate project authorization"
+required_evidence = ["customer-funded bounded scope", "supplier-backed configuration", "site and approval route", "prototype and acceptance plan"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "P4"
+title = "Replication and territorial expansion"
+required_evidence = ["reference outcomes", "audited local capability", "cost and delivery evidence", "support and continuity capacity"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"

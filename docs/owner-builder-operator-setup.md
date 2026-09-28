@@ -185,6 +185,17 @@ training, local counterpart, spares/obsolescence, warranties, change control,
 termination assistance and safe handback. Avoid debt or supply terms that require
 an unnamed future monopoly supplier.
 
+Where a commercial development or manufacturing JV is proposed, use the
+[joint-development framework](commercial/joint-development-framework.md) and
+its machine-checked [partnership readiness record](commercial/partnership-readiness.md).
+That route qualifies the exact legal counterparty, accepted cash/in-kind work,
+background and foreground IP, manufacturing information, shareholder-supplier
+pricing, procurement conflicts, finance separation and local capability before
+any partnership, cost, manufacturer-support or territorial-right claim is made.
+The preferred sequence is a funded development agreement followed by an equity
+decision after contributions are delivered—not equity awarded for unmeasured
+future promises.
+
 ## Stage-Gated Mobilisation
 
 | Gate | Indicative timing | What must be true before passing |

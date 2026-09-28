@@ -179,12 +179,34 @@ CalculiX thermal-block solver benchmark with a deterministic input, analytical
 acceptance check, and machine-readable result. These tasks improve screening
 evidence but cannot close the external release gates above.
 
+The [competitive position and proof roadmap](competitive-position-and-proof-roadmap.md)
+now separates three propositions that must not be collapsed into one claim: the
+planning/design/delivery platform, the owner/operator product, and the physical
+railway/GoA4 development programme. Near-term product evidence therefore
+prioritises measured owner/operator deployments, independently comparable
+corridor candidates, supplier-neutral owner-data interfaces and closure of
+physical first-article gaps. Samawah and Mosul are initial examples, not a limit:
+any catalogue or customer corridor can enter the portfolio, but each keeps its
+own funding, inputs, outcomes and approvals. Adding generated cities alone is
+not a substitute for customer, supplier, field or acceptance evidence.
+
+The commercial path is also fail-closed. The
+[joint-development framework](commercial/joint-development-framework.md) starts
+with a funded development agreement and gates any later equity JV on verified
+legal counterparties, accepted contributions, IP/manufacturing rights, separated
+development/project finance, related-party controls and measured localisation.
+The public [partnership status](commercial/partnership-readiness.md) remains open
+until real evidence is supplied in a controlled opportunity copy.
+
 ## v0.4 Workstream
 
 | Workstream | Target outcome |
 |---|---|
 | Documentation accessibility | One root front door and source registry are enforced; local READMEs retain only discipline/city evidence, with generated inventory and link/drift checks |
 | Owner–builder–operator institution | Establish the public owner, ring-fenced delivery/operator company, independent assurance, accountable executives, competence pipeline, management systems and gated move from development to revenue service |
+| First adoptable owner/operator product | Deploy one or more existing workshops/depots or bounded pilots, preserving the no-command boundary while measuring record completeness, defect-to-handback time, recovery, support effort, user errors and owner-controlled export/exit separately for each deployment |
+| Independent corridor benchmarks | Maintain an open candidate portfolio; freeze a separate input package for every selected corridor and publish matched native/SUMO geometry, service, demand, energy, degraded-operation and civil/cost results with predeclared tolerances and adjudicated differences |
+| Commercial partnership evidence | Qualify actual legal counterparties and customer scope; accept contributions and IP/manufacturing rights before equity; separate development from railway finance; permit only finite, performance-based exclusivity |
 | Rolling-stock detail package | Close the 16 factory packages and 117 active mass rows with supplier-exact envelopes, production solids/masses, weld maps, tolerance stacks, harness clamp locations, FEA-ready brackets, 2D drawings, NC/flat-pattern outputs and calibrated weight/balance evidence |
 | Mechanical CAD | The candidate layer and generated FreeCAD/IFC review geometry are implemented; next closure is supplier-returned exact configurations, mass/envelopes, released drawings and production CAD/NC data |
 | Control-electronics integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |
