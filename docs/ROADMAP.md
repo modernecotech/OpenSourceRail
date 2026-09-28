@@ -198,6 +198,16 @@ development/project finance, related-party controls and measured localisation.
 The public [partnership status](commercial/partnership-readiness.md) remains open
 until real evidence is supplied in a controlled opportunity copy.
 
+Potential supplier support now has a separate technical evidence path. The
+[supplier technical-support package](commercial/supplier-technical-support-package.md)
+maps the existing LM3 product tree, interface register, COTS/RFQ candidates,
+first-article gates, city duty models and ERP lifecycle into eight review and
+delivery work packages. Its generated
+[readiness record](commercial/supplier-technical-support-readiness.md) separately
+controls authority, exact configurations, cross-supplier responsibility,
+first-article evidence, localisation, lifecycle support and all-in cost. Public
+catalogues or conversations cannot close those gates.
+
 ## v0.4 Workstream
 
 | Workstream | Target outcome |
@@ -207,6 +217,7 @@ until real evidence is supplied in a controlled opportunity copy.
 | First adoptable owner/operator product | Deploy one or more existing workshops/depots or bounded pilots, preserving the no-command boundary while measuring record completeness, defect-to-handback time, recovery, support effort, user errors and owner-controlled export/exit separately for each deployment |
 | Independent corridor benchmarks | Maintain an open candidate portfolio; freeze a separate input package for every selected corridor and publish matched native/SUMO geometry, service, demand, energy, degraded-operation and civil/cost results with predeclared tolerances and adjudicated differences |
 | Commercial partnership evidence | Qualify actual legal counterparties and customer scope; accept contributions and IP/manufacturing rights before equity; separate development from railway finance; permit only finite, performance-based exclusivity |
+| Supplier-backed LM3 definition | Freeze one route/duty/configuration; obtain controlled bogie/brake and traction/battery/charging packages; close eight cross-supplier interfaces; assign engineering responsibility; separate NRE, tooling, first-article, repeat, transfer, spares/support, logistics and acceptance costs; accept evidence through TS0–TS6 |
 | Rolling-stock detail package | Close the 16 factory packages and 117 active mass rows with supplier-exact envelopes, production solids/masses, weld maps, tolerance stacks, harness clamp locations, FEA-ready brackets, 2D drawings, NC/flat-pattern outputs and calibrated weight/balance evidence |
 | Mechanical CAD | The candidate layer and generated FreeCAD/IFC review geometry are implemented; next closure is supplier-returned exact configurations, mass/envelopes, released drawings and production CAD/NC data |
 | Control-electronics integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |

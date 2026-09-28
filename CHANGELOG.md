@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Added a supplier-facing technical-support layer that reuses the LM3 product
+  tree, controlled interfaces, COTS/RFQ candidates, city duty models,
+  first-article gates and ERP/lifecycle identities. A fail-closed template now
+  separates three public catalogue leads from qualification; defines eight
+  review/industrialisation/localisation/support work packages, eight
+  cross-supplier interfaces, eight cost buckets and seven decision gates; and
+  prevents discussions, public webpages or status labels from being reported as
+  manufacturer authority, configuration compatibility, first-article approval,
+  transferred local capability, all-in cost or railway acceptance. CI checks
+  both the source references and generated public readiness output.
+
 - Converted the external competitive and joint-venture review into an
   evidence-led product/commercialisation layer. The repository now distinguishes
   its demonstrable planning and owner/operator products from the still-open

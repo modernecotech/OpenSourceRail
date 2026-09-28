@@ -1,6 +1,6 @@
 # LM3 first-article execution pack
 
-This is the single working page for converting `LM3-FA-001` from a controlled design candidate into a physically evidenced first article. It links the [41 sourced catalogue/RFQ/research candidates](cots-candidates.md), [10 factory drawing/interface packages](factory-release-work-packages.md), [81 public work packages](first-article-work-packages.md), shop travelers and the 13 evidence gates. It is not a claim that unperformed tests have passed.
+This is the single working page for converting `LM3-FA-001` from a controlled design candidate into a physically evidenced first article. It links the [41 sourced catalogue/RFQ/research candidates](cots-candidates.md), [10 factory drawing/interface packages](factory-release-work-packages.md), [81 public work packages](first-article-work-packages.md), shop travelers and the 13 evidence gates. The upstream [supplier technical-support package](../../../../docs/commercial/supplier-technical-support-package.md) controls legal/technical access, configuration-specific review, cross-supplier responsibility, separated quotation and local-capability evidence before those inputs enter this execution pack. Neither document claims that unperformed tests have passed.
 
 ## Release sequence
 

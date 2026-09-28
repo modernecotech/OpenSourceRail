@@ -120,6 +120,15 @@ closure, manufacturing qualifications, first articles, calibrated test results,
 production hardware and independent field evidence. Adding another generated
 city does not close any of those gates.
 
+Use the [supplier technical-support package](commercial/supplier-technical-support-package.md)
+to turn an industrial discussion into configuration-specific work. It reuses the
+existing LM3 product tree, interface register, city duty models, first-article
+evidence gates and ERP identities while requiring named responsibility across
+running gear/brakes, traction/energy/charging, thermal/fire, manufacturing,
+local capability and lifecycle support. Its
+[readiness output](commercial/supplier-technical-support-readiness.md) remains
+open until controlled evidence replaces catalogue claims.
+
 ## Evidence-Led Release Sequence
 
 | Stage | Product decision | Exit evidence |
@@ -132,7 +141,10 @@ city does not close any of those gates.
 
 Commercial or partnership work follows the separate
 [joint-development framework](commercial/joint-development-framework.md) and
-its fail-closed [readiness record](commercial/partnership-readiness.md).
+its fail-closed [readiness record](commercial/partnership-readiness.md). Physical
+supplier work follows the independent [technical-support readiness record](commercial/supplier-technical-support-readiness.md), so an equity or development
+agreement cannot silently count as component compatibility or first-article
+acceptance.
 
 ## Primary Sources Used For The Framework
 
@@ -141,6 +153,7 @@ its fail-closed [readiness record](commercial/partnership-readiness.md).
 - [Bentley OpenRail Designer](https://www.bentley.com/en/products/openrail-designer/)
 - [IBM Maximo for travel and transportation](https://www.ibm.com/products/maximo/travel-transportation)
 - [WIPO technology-transfer and joint-venture guidance](https://www.wipo.int/en/web/technology-transfer/agreements)
+- [RailMac published railway equipment and technical-support scope](https://rail-mac.com/)
 
 Product pages describe their publishers' capabilities and are not independent
 comparative evaluations. A procurement must verify the applicable version,

@@ -487,6 +487,7 @@ def render_status(status: dict) -> str:
     lines += [
         "",
         "Use the [joint-development framework](joint-development-framework.md) before tailoring this record.",
+        "Use the separate [supplier technical-support readiness record](supplier-technical-support-readiness.md) for component configuration, interface, first-article, localisation and engineering-acceptance evidence.",
         "Copy [`commercial-partnership-readiness.toml`](../../lib/templates/commercial-partnership-readiness.toml) into a controlled opportunity workspace; do not fill the public reference template with confidential negotiation material.",
         "An accepted status without the required evidence, named acceptance or date remains open.",
         "",

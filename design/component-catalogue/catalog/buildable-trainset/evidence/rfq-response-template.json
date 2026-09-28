@@ -1,19 +1,85 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
+  "engagement_id": "LM3-TS-001",
+  "commercial_candidate_id": "CAND-LM3-FIRST-ARTICLE",
   "rfq_id": "LM3-RFQ-REPLACE-ME",
   "candidate_id": "OSR-COTS-REPLACE-ME",
   "product_ids": ["LM3-REPLACE-ME"],
-  "supplier": {"legal_name": "", "contact": "", "country": ""},
+  "osr_baseline": {
+    "configuration_id": "LM3-FA-001",
+    "commit": "",
+    "freeze_record_ref": "",
+    "duty_cycle_ref": "",
+    "route_environment_ref": ""
+  },
+  "supplier": {
+    "legal_name": "",
+    "registration_jurisdiction": "",
+    "contact": "",
+    "country": "",
+    "authority_to_offer_ref": "",
+    "manufacturer_legal_name": "",
+    "manufacturer_authorization_ref": "",
+    "named_engineering_owner": "",
+    "conflict_disclosure_ref": ""
+  },
   "received_at": "YYYY-MM-DDThh:mm:ssZ",
   "valid_until": "YYYY-MM-DD",
+  "offered_work_package_ids": [],
   "exact_order_codes": [],
   "configuration_description": "",
   "quantity_and_spares": {"first_article": 0, "fleet": 0, "initial_spares": 0},
   "commercial": {"currency": "", "unit_price": null, "tooling_price": null, "lead_time_days": null, "incoterm": ""},
+  "separated_costs": [
+    {"id": "COST-NRE", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-TOOLING", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-FIRST-ARTICLE", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-REPEAT-UNIT", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-TRAINING-TRANSFER", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-SPARES-SUPPORT", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-LOGISTICS-TAX", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""},
+    {"id": "COST-ACCEPTANCE", "amount": null, "currency": "", "price_basis": "", "inclusions": [], "exclusions": [], "quote_ref": ""}
+  ],
   "interfaces": {"mechanical": [], "electrical": [], "thermal_fluid": [], "network_software": [], "maintenance_lifting": []},
-  "controlled_documents": [{"document_id": "", "revision": "", "path_or_url": "", "sha256": ""}],
+  "interface_packages": [
+    {"id": "TS-IF-REPLACE-ME", "configuration_ref": "", "responsible_party": "", "supplier_evidence_refs": [], "deviations": [], "status": "open"}
+  ],
+  "controlled_documents": [
+    {
+      "document_id": "",
+      "revision": "",
+      "issue_purpose": "",
+      "path_or_url": "",
+      "sha256": "",
+      "confidentiality": "controlled",
+      "publication_rights_ref": ""
+    }
+  ],
   "compliance_and_test_evidence": [{"requirement": "", "document_id": "", "disposition": "open"}],
   "deviations": [],
-  "local_content_offer": [],
+  "local_capability_offer": {
+    "tasks": [],
+    "editable_information": [],
+    "tooling_and_metrology": [],
+    "training_and_paired_work": [],
+    "independent_demonstrations": [],
+    "manufacturing_and_maintenance_rights_ref": "",
+    "continuity_and_alternative_supplier_ref": ""
+  },
+  "lifecycle_import": {
+    "supplier_to_osr_product_ids": [],
+    "serialized_asset_fields": [],
+    "fault_and_condition_dictionary_ref": "",
+    "maintenance_and_inspection_ref": "",
+    "spares_and_obsolescence_ref": "",
+    "software_and_configuration_ref": "",
+    "owner_export_and_retention_ref": ""
+  },
+  "responsibility": {
+    "design_authority_boundary_ref": "",
+    "combined_configuration_owner": "",
+    "warranty_allocation_ref": "",
+    "unresolved_interface_register_ref": ""
+  },
   "design_authority_review": {"status": "not-reviewed", "reviewer": "", "reviewed_at": "", "record": ""}
 }

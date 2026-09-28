@@ -1,0 +1,431 @@
+schema_version = "1.0"
+template_revision = "2026-09-28"
+template_status = "unfilled-no-technical-or-commercial-authority"
+authority_boundary = "This register prepares a supplier-backed LM3 design-review and first-article package. Public webpages and discussions are screening inputs only. They do not prove an engineering commitment, manufacturer authorization, a compatible product configuration, accepted design responsibility, price, warranty, railway approval or permission to manufacture or operate."
+
+[engagement]
+engagement_id = "LM3-TS-001"
+commercial_candidate_id = "CAND-LM3-FIRST-ARTICLE"
+purpose = "Obtain controlled supplier inputs and accepted engineering work for an LM3 design review, component selection, industrialisation, first article, local capability and lifecycle support"
+engagement_owner = ""
+customer_or_sponsor = ""
+procurement_route_ref = ""
+conflict_review_ref = ""
+controlled_workspace_ref = ""
+status = "screening"
+
+[baseline]
+configuration_id = "LM3-FA-001"
+osr_commit = ""
+freeze_record_ref = ""
+train_requirement_ref = "docs/rolling-stock/light-metro-3car/README.md"
+interface_requirement_ref = "docs/rolling-stock/light-metro-3car/interfaces.md"
+product_tree_ref = "design/component-catalogue/catalog/buildable-trainset/definitions/index.json"
+duty_cycle_ref = ""
+route_environment_ref = ""
+loading_and_mass_ref = "design/component-catalogue/catalog/buildable-trainset/mass-budget.json"
+localisation_objective_ref = "docs/commercial/joint-development-framework.md"
+status = "not-frozen"
+
+# These rows record public supplier/catalogue leads, not commitments. Add any
+# number of alternatives. Qualification must identify the exact legal entity,
+# authorization chain and controlled offer before a lead can become qualified.
+[[catalogue_lead]]
+id = "LEAD-RAILMAC-INTEGRATION"
+display_name = "RailMac / SinoMac railway integration offering"
+public_source = "https://rail-mac.com/"
+published_scope = "Pre-design, product selection, component supply, installation, commissioning and after-sales support across trains, traction, bogies, brakes, components and maintenance equipment"
+possible_use = "Potential integration, sourcing, documentation, training and lifecycle-support discussion"
+limitations = "Publisher-described capability only; exact contracting entity, authority, named engineers, manufacturer access, applicable references and LM3 responsibility are unverified"
+legal_entity = ""
+authority_chain_ref = ""
+controlled_offer_ref = ""
+evidence_refs = []
+status = "screening-source-only"
+
+[[catalogue_lead]]
+id = "LEAD-CRRC-SPECIAL-EQUIPMENT"
+display_name = "CRRC Special Purpose Equipment tourism-transport offering"
+public_source = "https://tourist-train.com/"
+published_scope = "Supplier-published rail-mounted sightseeing vehicles and tourism transport systems"
+possible_use = "Related vehicle and manufacturing experience for technical discussion, subject to configuration-specific evidence"
+limitations = "A sightseeing vehicle is not evidence for LM3 speed, loading, braking, duty, thermal conditions, geometry or GoA4 acceptance; the public 1435 page must not replace a controlled datasheet"
+legal_entity = ""
+authority_chain_ref = ""
+controlled_offer_ref = ""
+evidence_refs = []
+status = "screening-source-only"
+
+[[catalogue_lead]]
+id = "LEAD-OPEN-ALTERNATIVES"
+display_name = "Additional qualified suppliers and engineering partners"
+public_source = "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json"
+published_scope = "Open supplier-neutral candidate set for exact components, systems, laboratories and production support"
+possible_use = "Competitive alternatives, independent review, gap coverage and continuity"
+limitations = "Candidate listing is not approval; every configuration and authority chain remains evidence-gated"
+legal_entity = ""
+authority_chain_ref = ""
+controlled_offer_ref = ""
+evidence_refs = []
+status = "screening-source-only"
+
+[[work_package]]
+id = "TS-WP-01"
+title = "Frozen LM3 system review"
+discipline = "systems-engineering"
+objective = "Review one frozen train envelope, loading, speed, duty, energy architecture and localisation objective; classify each conclusion as suitable, suitable-with-change, alternative-required or test-required"
+osr_input_refs = ["docs/rolling-stock/light-metro-3car/README.md", "docs/rolling-stock/light-metro-3car/interfaces.md", "engineering/models/bim/design-detail-register.json"]
+required_outputs = ["signed review basis and assumptions", "requirement compliance and deviation matrix", "classification and rationale for every reviewed item", "change and test action register", "named engineering responsibility and limitations"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-02"
+title = "Bogie, wheelset, suspension and brake configuration"
+discipline = "running-gear-and-braking"
+objective = "Replace broad anchors with one or more configuration-specific running-gear packages and an accepted whole-system responsibility boundary"
+osr_input_refs = ["design/component-catalogue/catalog/buildable-trainset/supplier-anchors.json", "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json", "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md", "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"]
+required_outputs = ["exact manufacturers and order codes", "controlled dimensions masses loads and interface drawings", "wheel rail suspension and axle-load compatibility", "friction dynamic parking emergency and degraded braking evidence", "RAMS maintenance spares and test evidence", "signed combined-configuration responsibility matrix"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-03"
+title = "Traction, battery, charging and thermal configuration"
+discipline = "traction-energy"
+objective = "Resolve motor, gearbox, converter, battery, protection, cooling, charging and route-duty compatibility as one controlled system"
+osr_input_refs = ["design/component-catalogue/catalog/buildable-trainset/cots-candidates.json", "lib/templates/lm3-first-article-evidence.toml", "docs/rfcs/0024-battery-thermal-high-ambient.md", "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"]
+required_outputs = ["exact bill of supply and configuration identifiers", "mechanical electrical network cooling and software interfaces", "loss efficiency derating and thermal maps", "protection selectivity BMS HVIL and charging coordination", "route duty energy reserve and degraded-mode reconciliation", "fire propagation environmental RAMS maintenance and test evidence"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-04"
+title = "Manufacturing and design-for-production review"
+discipline = "industrialisation"
+objective = "Convert reference geometry into a controlled production-data closure plan for structures, attachments, access, assembly, tooling and inspection"
+osr_input_refs = ["design/component-catalogue/catalog/buildable-trainset/current-design-buildability-review.md", "design/component-catalogue/catalog/buildable-trainset/production-data-release-register.json", "design/component-catalogue/catalog/buildable-trainset/manufacturing-methods.json"]
+required_outputs = ["manufacturability and maintainability review", "released-data gap and responsibility schedule", "assembly and access sequence", "tooling jig fixture and metrology schedule", "weld bond fastening tolerance and inspection plan", "production drawing CAD NC and work-instruction delivery schedule"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-05"
+title = "First-article construction and evidence"
+discipline = "prototype-and-test"
+objective = "Plan, price, construct and evidence a bounded first article using serialized parts, accepted travelers and independent hold points"
+osr_input_refs = ["design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md", "lib/templates/lm3-first-article-evidence.toml", "design/component-catalogue/catalog/buildable-trainset/first-article-inspection-plan.json"]
+required_outputs = ["first-article scope and build location", "approved build and test sequence", "serialized as-built configuration", "calibrated inspection and raw test records", "NCR rework and deviation dispositions", "independent acceptance and residual-gap register"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-06"
+title = "Local workshop capability and technology transfer"
+discipline = "localisation"
+objective = "Define which local tasks can be performed with delivered rights, information, tooling, training, competent people and accepted demonstrations"
+osr_input_refs = ["docs/commercial/joint-development-framework.md", "docs/owner-builder-operator-setup.md", "docs/operating/lifecycle-governance-and-qr.md"]
+required_outputs = ["workshop capability and gap audit", "equipment tooling metrology and facility upgrade plan", "role-based training and competence matrix", "editable drawing process diagnostic and training rights schedule", "paired-work and independent-task demonstrations", "local-content cost quality yield and lead-time measurement method"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-07"
+title = "Maintenance, spares and lifecycle support"
+discipline = "supportability"
+objective = "Make the offered configuration diagnosable, maintainable and supportable after first delivery, including owner continuity and alternative-supplier routes"
+osr_input_refs = ["docs/operations/README.md", "docs/operating/integration-status.md", "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json"]
+required_outputs = ["illustrated parts and special-tool definition", "preventive corrective overhaul and condition tasks", "diagnostic data and software access", "initial spares consumables obsolescence and repair strategy", "warranty response and field-support levels", "owner data export step-in and alternative qualification provisions"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[work_package]]
+id = "TS-WP-08"
+title = "Cross-supplier system integration and configuration control"
+discipline = "integration"
+objective = "Assign end-to-end responsibility where individually suitable components interact, and connect accepted supplier records to OSR product, ERP and assurance identities"
+osr_input_refs = ["engineering/models/bim/design-detail-register.json", "docs/operating/integration-status.md", "docs/lifecycle/README.md", "design/component-catalogue/catalog/buildable-trainset/evidence/rfq-response-template.json"]
+required_outputs = ["RACI and design-authority boundary", "interface control document set", "configuration and change workflow", "supplier-to-owner identity mapping", "ERP inspection maintenance and spares import package", "integrated verification matrix and unresolved-interface register"]
+supplier_owner = ""
+osr_owner = ""
+independent_reviewer = ""
+evidence_refs = []
+status = "proposed"
+
+[[interface_package]]
+id = "TS-IF-01"
+title = "Wheel rail axle load and route geometry"
+related_work_packages = ["TS-WP-01", "TS-WP-02", "TS-WP-08"]
+required_fields = ["wheel profile and material", "rail and turnout compatibility", "axle loads and dynamic augmentation", "curve cant gradient and speed envelope", "wear lubrication and inspection limits"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-02"
+title = "Bogie carbody articulation and ride"
+related_work_packages = ["TS-WP-02", "TS-WP-04", "TS-WP-08"]
+required_fields = ["mounting datums and load paths", "suspension travel and stops", "yaw pitch roll and curve sweep", "mass centre and ride targets", "lifting rerailing and replacement access"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-03"
+title = "Brake train control and adhesion"
+related_work_packages = ["TS-WP-02", "TS-WP-08"]
+required_fields = ["service emergency parking and rescue allocation", "command feedback timing and safe state", "adhesion slide and degraded cases", "thermal duty and wear limits", "combined stopping and rollback evidence"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-04"
+title = "Motor gearbox wheelset and mechanical drive"
+related_work_packages = ["TS-WP-02", "TS-WP-03", "TS-WP-08"]
+required_fields = ["torque speed and ratio", "shaft bearing and mounting datums", "lubrication cooling and sealing", "torsional vibration and shock", "removal alignment and condition monitoring"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-05"
+title = "Battery converter motor charger and grid"
+related_work_packages = ["TS-WP-03", "TS-WP-08"]
+required_fields = ["voltage current power and energy envelope", "charging and regenerative limits", "short circuit selectivity earthing and isolation", "BMS converter charger communications", "grid power quality demand and degraded operation"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-06"
+title = "Thermal fire ventilation and environmental exposure"
+related_work_packages = ["TS-WP-03", "TS-WP-04", "TS-WP-05"]
+required_fields = ["ambient solar dust rain flood and altitude envelope", "loss and cooling cases", "propagation containment vent and drain paths", "detection isolation suppression and emergency response", "single-fault limits and test correlation"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-07"
+title = "Vehicle platform structure and evacuation"
+related_work_packages = ["TS-WP-01", "TS-WP-08"]
+required_fields = ["static and dynamic gauge", "door threshold gap and step", "platform and structure tolerances", "viaduct bridge and walkway clearance", "detraining rescue and recovery cases"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+[[interface_package]]
+id = "TS-IF-08"
+title = "Diagnostics maintenance ERP and owner data"
+related_work_packages = ["TS-WP-06", "TS-WP-07", "TS-WP-08"]
+required_fields = ["asset and serialized-part identity", "fault and condition dictionary", "software firmware and configuration record", "maintenance inspection and spares data", "open export security retention and adapter-removal behaviour"]
+responsible_party = ""
+accepted_configuration_ref = ""
+evidence_refs = []
+status = "open"
+
+# Every offer must separate these buckets. Add supplier-specific rows in a
+# controlled copy when several alternatives are compared.
+[[cost_bucket]]
+id = "COST-NRE"
+title = "Non-recurring engineering and design responsibility"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-TOOLING"
+title = "Tooling, fixtures, metrology and workshop preparation"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-FIRST-ARTICLE"
+title = "First-article material, construction, inspection and testing"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-REPEAT-UNIT"
+title = "Repeat-production train at stated quantity and configuration"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-TRAINING-TRANSFER"
+title = "Training, documentation and technology-transfer rights"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-SPARES-SUPPORT"
+title = "Initial spares, special tools, warranty and continuing support"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-LOGISTICS-TAX"
+title = "Packing, logistics, duties, taxes, currency and local delivery"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[cost_bucket]]
+id = "COST-ACCEPTANCE"
+title = "Independent review, type evidence, homologation and commissioning support"
+amount = 0.0
+currency = ""
+price_basis = ""
+inclusions = []
+exclusions = []
+quote_ref = ""
+valid_until = ""
+status = "unquoted"
+
+[[gate]]
+id = "TS0"
+title = "Counterparty and technical-access qualification"
+required_evidence = ["exact legal entity and authority", "manufacturer and engineering access chain", "named competent resources", "conflicts and confidentiality route"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS1"
+title = "Frozen review baseline and funded scope"
+required_evidence = ["exact OSR commit and configuration", "frozen requirements duty and environment", "costed work packages and schedule", "customer or sponsor funding"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS2"
+title = "Controlled component configurations"
+required_evidence = ["exact manufacturers and order codes", "controlled drawings and datasheets", "mass loads ratings and limits", "test RAMS maintenance and software evidence"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS3"
+title = "Interface and design-responsibility acceptance"
+required_evidence = ["closed interface packages", "signed responsibility matrix", "integrated analyses and verification plan", "open deviations with owners and limits"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS4"
+title = "First-article authorization"
+required_evidence = ["released production information", "qualified facility people and processes", "accepted inspection and test plan", "funded build and independent hold points"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS5"
+title = "Local capability and lifecycle acceptance"
+required_evidence = ["accepted task and rights schedule", "competence demonstrations", "spares diagnostics maintenance and support package", "owner continuity and alternative-supplier route"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[[gate]]
+id = "TS6"
+title = "Repeat-production decision"
+required_evidence = ["accepted first article and residual risks", "repeatable quality and yield", "all-in separated cost and schedule", "customer project and railway acceptance route"]
+evidence_refs = []
+decided_by = ""
+decided_at = ""
+decision = "open"
+
+[claim_controls]
+supplier_support_committed = "unverified"
+supplier_support_ref = ""
+manufacturer_access_authorized = "unverified"
+manufacturer_access_ref = ""
+lm3_configuration_compatible = "unproven"
+lm3_configuration_ref = ""
+first_article_authorized = "not-authorized"
+first_article_ref = ""
+local_manufacture_transferred = "unproven"
+local_manufacture_ref = ""
+all_in_repeat_cost = "unproven"
+all_in_repeat_cost_ref = ""
+railway_acceptance = "not-granted"
+railway_acceptance_ref = ""

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4987**.
+Indexed Markdown files: **4989**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4987**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 169 |
+| [docs](#docs) | 171 |
 | [engineering](#engineering) | 19 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4905,6 +4905,8 @@ Indexed Markdown files: **4987**.
 | [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
 | [`docs/commercial/joint-development-framework.md`](../docs/commercial/joint-development-framework.md) | Joint Development And Delivery Framework |
 | [`docs/commercial/partnership-readiness.md`](../docs/commercial/partnership-readiness.md) | Commercial Partnership Readiness |
+| [`docs/commercial/supplier-technical-support-package.md`](../docs/commercial/supplier-technical-support-package.md) | Supplier Technical-Support Package |
+| [`docs/commercial/supplier-technical-support-readiness.md`](../docs/commercial/supplier-technical-support-readiness.md) | Supplier Technical-Support Readiness |
 | [`docs/competitive-position-and-proof-roadmap.md`](../docs/competitive-position-and-proof-roadmap.md) | Competitive Position And Proof Roadmap |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |

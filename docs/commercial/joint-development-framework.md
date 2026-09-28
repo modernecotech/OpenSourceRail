@@ -219,7 +219,7 @@ confidential records and decisions remain separated.
 | Period | Work | Required decision evidence |
 |---|---|---|
 | Days 1–30 | Qualify legal parties, authority, named resources, candidate customers and proposed contributions | P0 counterparty/opportunity record, candidate portfolio and draft heads of terms |
-| Days 31–60 | Review LM3/product scope, supplier authority, component information, local facility and production tasks | Design-review findings, supplier-backed BOM/interface gaps and prototype/localisation plan |
+| Days 31–60 | Execute the bounded [supplier technical-support package](supplier-technical-support-package.md): review LM3 scope, supplier authority, component information, cross-supplier interfaces, local facility and production tasks | Machine-checked [technical-support readiness](supplier-technical-support-readiness.md), design-review findings, supplier-backed BOM/interface gaps and prototype/localisation plan |
 | Days 61–90 | Price development, allocate responsibility, separate funding, agree IP/data/manufacturing rights and candidate propositions | Costed development agreement and board basis to form, defer or reject an equity JV and select zero or more funded candidates |
 
 The 90 days define and fund work. They do not promise a production-ready or
@@ -239,3 +239,8 @@ Current public status is generated at
 [commercial partnership readiness](partnership-readiness.md). It deliberately
 shows zero accepted contributions and zero accepted gates until real evidence is
 entered in a controlled deployment copy.
+
+The commercial record does not substitute for engineering acceptance. The linked
+[supplier-support record](supplier-technical-support-readiness.md) independently
+holds component configuration, interface, first-article, local capability,
+lifecycle and separated-cost gates.
