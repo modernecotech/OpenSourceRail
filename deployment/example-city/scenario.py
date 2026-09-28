@@ -10,6 +10,23 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 
 
+def bind_engineering_manifest(manifest, city_package):
+    """Bind example evidence to the canonical generated city revision."""
+    bound=copy.deepcopy(manifest)
+    city=bound.get('city')
+    package_city=city_package.get('city')
+    revision=city_package.get('engineering_revision')
+    if not city or city!=package_city:
+        raise ValueError(f'Engineering manifest city {city!r} does not match package city {package_city!r}')
+    if not revision:
+        raise ValueError(f'City package {package_city!r} has no engineering revision')
+    declared=bound.get('engineering_revision')
+    if declared is not None and declared!=revision:
+        raise ValueError(f'Engineering manifest pins stale revision {declared!r}; current {package_city} revision is {revision!r}')
+    bound['engineering_revision']=revision
+    return bound
+
+
 def run(h):
     from osr_integration.config import digest
     from osr_integration.fuxa import project, deployment_review, validate_deployment_review
@@ -81,8 +98,10 @@ def run(h):
         sup=h.module('example_supervision_runtime','tools/automation/supervision.py')
         network=h.module('example_network','deployment/example-city/network.py').verify(h,sup,setup['company'],setup['projects']['samawah'])
         check('Complete city equipment contracts reach the native evaluator and historian',network['passed'],after=network)
+        packages={city:sup.city_package(city,first_site=True,first_vehicle=True,first_plant=True,
+            polling_scope='site' if city=='mosul' else 'asset') for city in ['samawah','mosul']}
         # Rebuild the real geometry/GIS evidence manifest from tracked source artifacts.
-        manifest=json.loads((h.ROOT/'deployment/example-city/engineering.json').read_text())
+        manifest=bind_engineering_manifest(json.loads((h.ROOT/'deployment/example-city/engineering.json').read_text()),packages['samawah'])
         engineering=engineering_package(h.ROOT,manifest)
         h.write(h.OUTPUT/'supervision/samawah/engineering.json',engineering)
         check('CAD, IFC and GIS artifacts reopen with exact content hashes',all((h.ROOT/r['path']).is_file() for r in engineering['artifacts']),after=[dict(path=r['path'],sha256=r['sha256']) for r in engineering['artifacts']])
@@ -90,10 +109,9 @@ def run(h):
         mapping=dict(engineering_sha256=engineering['sha256'],review_reference='example-independent-conversion-review',items=[dict(component_type_id='station-charger',erp_item_code=state['item'],production_bom=state['bom'],uom='Nos',conversion_rule='2 cooling modules per example charger',inspection_reference='example-cooling-inspection',drawing_reference=engineering['artifacts'][0]['sha256'])])
         proposal=execution_proposal(engineering,mapping)
         mapped=h.backend('mapping',dict(project=state['project'],proposal=proposal));h.write(h.OUTPUT/'execution-proposal.json',proposal)
-        check('Exact engineering revision maps to native Item and production BOM',bool(mapped['mappings']),after=mapped)
+        check('Exact accepted engineering revision maps to native Item and production BOM',bool(mapped['mappings']) and proposal['engineering_revision']==packages['samawah']['engineering_revision'],after=mapped)
         for city in ['samawah','mosul']:
-            p=sup.city_package(city,first_site=True,first_vehicle=True,first_plant=True,
-                polling_scope='site' if city=='mosul' else 'asset')
+            p=packages[city]
             for a in p['equipment']:
                 a['company_id']=state['company'];a['erp_project']=setup['projects'][city]
                 if city=='samawah' and a['equipment_type']=='charger':a['erp_asset_id']=state['asset'];a['erp_item_code']=state['item']
