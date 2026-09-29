@@ -24,7 +24,7 @@ def test_current_assurance_is_complete_but_not_physical_release():
     assert report["release_ready"] is False
     assert report["counts"] == {
         "standards": 10,
-        "digital_checks": 8,
+        "digital_checks": 11,
         "failure_modes": 18,
         "inventory_items_screened": 279,
         "inventory_item_reviews_open": 279,

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4991**.
+Indexed Markdown files: **4994**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **4991**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 173 |
-| [engineering](#engineering) | 19 |
+| [docs](#docs) | 175 |
+| [engineering](#engineering) | 20 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4883,6 +4883,7 @@ Indexed Markdown files: **4991**.
 | [`docs/certification/pilot-signalling-profile.md`](../docs/certification/pilot-signalling-profile.md) | Pilot Signalling Profile |
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
+| [`docs/certification/software-resilience-report.md`](../docs/certification/software-resilience-report.md) | Deterministic Software Resilience Report |
 | [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | v0.3 standards baseline |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-deployment-evidence.md`](../docs/city-deployment-evidence.md) | City soil inputs and deployment evidence |
@@ -4910,6 +4911,7 @@ Indexed Markdown files: **4991**.
 | [`docs/commercial/supplier-technical-support-package.md`](../docs/commercial/supplier-technical-support-package.md) | Supplier Technical-Support Package |
 | [`docs/commercial/supplier-technical-support-readiness.md`](../docs/commercial/supplier-technical-support-readiness.md) | Supplier Technical-Support Readiness |
 | [`docs/competitive-position-and-proof-roadmap.md`](../docs/competitive-position-and-proof-roadmap.md) | Competitive Position And Proof Roadmap |
+| [`docs/component-rfc-readiness.md`](../docs/component-rfc-readiness.md) | Component RFC Implementation Readiness |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
@@ -5064,6 +5066,7 @@ Indexed Markdown files: **4991**.
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
 | [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
+| [`engineering/toolchain/baseline-assurance.md`](../engineering/toolchain/baseline-assurance.md) | Engineering Baseline Assurance |
 
 ## lib
 

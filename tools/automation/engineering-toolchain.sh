@@ -18,11 +18,12 @@ cd "$ROOT"
 
 usage() {
     printf '%s\n' \
-        'Usage: tools/automation/engineering-toolchain.sh --install-python | --check | --smoke | --benchmarks | --station-ifc | --station-analysis | --cities [args] | --flesh-out' \
+        'Usage: tools/automation/engineering-toolchain.sh --install-python | --check | --smoke | --baseline-assurance | --benchmarks | --station-ifc | --station-analysis | --cities [args] | --flesh-out' \
         '' \
         '  --install-python  Create/update the pinned user-local Python environment.' \
         '  --check           Capture installed versions and fail for missing baseline tools.' \
         '  --smoke           Run deterministic IFC/structure/grid/PV/battery smoke checks.' \
+        '  --baseline-assurance Run fast analytical and interchange drift gates.' \
         '  --benchmarks      Run the CalculiX, JuPedSim, and Samawah SUMO benchmarks.' \
         '  --station-ifc     Export and validate station product-structure IFC files.' \
         '  --station-analysis Run the all-variant structure, flow and drainage screens.' \
@@ -214,6 +215,9 @@ case "${1:-}" in
         validate_register
         run_benchmarks
         ;;
+    --baseline-assurance)
+        python3 "$ROOT/engineering/toolchain/baseline_assurance.py"
+        ;;
     --station-ifc)
         validate_register
         run_station_ifc
@@ -229,6 +233,7 @@ case "${1:-}" in
         ;;
     --flesh-out)
         validate_register
+        python3 "$ROOT/engineering/toolchain/baseline_assurance.py"
         run_benchmarks
         run_station_ifc
         ;;

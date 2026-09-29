@@ -65,6 +65,7 @@ jobs:
           tools/automation/buildable-civil.sh
       - run: python -m pytest -q design/component-catalogue/tests
       - run: python -m pytest -q engineering/analysis/tests
+      - run: python engineering/toolchain/baseline_assurance.py --check
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python -m pytest -q tools/automation/tests
       - name: Validate business operating deployment
@@ -82,6 +83,8 @@ jobs:
       - name: Check generated indexes and buildable product tree
         run: |
           python engineering/subsystem_control_register.py
+          cargo run --quiet -p osr-consensus --bin osr-resilience-evidence -- --check
+          python tools/automation/component_rfc_readiness.py --check
           python tools/automation/generate-doc-index.py
           python tools/automation/generate-national-briefs.py
           python tools/automation/operating-readiness.py --check

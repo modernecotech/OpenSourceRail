@@ -1,0 +1,491 @@
+{
+  "seed": 24301,
+  "passed": true,
+  "invariant_failures": [],
+  "alarms": [
+    "node-0-disk-full",
+    "node-1-partial-write",
+    "safety-proposal-rejected-unhealthy-inputs"
+  ],
+  "trace": [
+    {
+      "step": 0,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 1,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 2,
+      "action": {
+        "Propose": {
+          "value": [
+            98,
+            97,
+            115,
+            101,
+            108,
+            105,
+            110,
+            101
+          ],
+          "category": "Advisory"
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "proposed"
+    },
+    {
+      "step": 3,
+      "action": {
+        "Checkpoint": {
+          "node": 2
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "checkpoint-committed"
+    },
+    {
+      "step": 4,
+      "action": {
+        "Delay": {
+          "node": 2,
+          "ticks": 3
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "delay-scheduled"
+    },
+    {
+      "step": 5,
+      "action": {
+        "DropFrom": {
+          "node": 1,
+          "enabled": true
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "asymmetric-egress-updated"
+    },
+    {
+      "step": 6,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 7,
+      "action": {
+        "Heal": {
+          "node": 1
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 0,
+      "safe_state": true,
+      "outcome": "healed"
+    },
+    {
+      "step": 8,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 9,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 10,
+      "action": {
+        "DiskFull": {
+          "node": 0
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-rejected-disk-full"
+    },
+    {
+      "step": 11,
+      "action": {
+        "PartialWrite": {
+          "node": 1,
+          "bytes": 7
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-rejected-partial-write"
+    },
+    {
+      "step": 12,
+      "action": {
+        "Checkpoint": {
+          "node": 2
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-committed"
+    },
+    {
+      "step": 13,
+      "action": {
+        "Crash": {
+          "node": 2
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "crashed"
+    },
+    {
+      "step": 14,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 15,
+      "action": {
+        "Restart": {
+          "node": 2
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "restarted"
+    },
+    {
+      "step": 16,
+      "action": {
+        "Telemetry": {
+          "available": false
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "telemetry-updated"
+    },
+    {
+      "step": 17,
+      "action": {
+        "Propose": {
+          "value": [
+            116,
+            101,
+            108,
+            101,
+            109,
+            101,
+            116,
+            114,
+            121,
+            45,
+            114,
+            101,
+            106,
+            101,
+            99,
+            116,
+            101,
+            100
+          ],
+          "category": "Safety"
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "rejected-fail-restrictive"
+    },
+    {
+      "step": 18,
+      "action": {
+        "Telemetry": {
+          "available": true
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "telemetry-updated"
+    },
+    {
+      "step": 19,
+      "action": {
+        "ClockOffset": {
+          "offset_ns": 8000000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "clock-offset-updated"
+    },
+    {
+      "step": 20,
+      "action": {
+        "Propose": {
+          "value": [
+            99,
+            108,
+            111,
+            99,
+            107,
+            45,
+            114,
+            101,
+            106,
+            101,
+            99,
+            116,
+            101,
+            100
+          ],
+          "category": "Safety"
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "rejected-fail-restrictive"
+    },
+    {
+      "step": 21,
+      "action": {
+        "ClockOffset": {
+          "offset_ns": 0
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "clock-offset-updated"
+    },
+    {
+      "step": 22,
+      "action": {
+        "TimeSource": {
+          "available": false
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "time-source-updated"
+    },
+    {
+      "step": 23,
+      "action": {
+        "Propose": {
+          "value": [
+            116,
+            105,
+            109,
+            101,
+            45,
+            115,
+            111,
+            117,
+            114,
+            99,
+            101,
+            45,
+            114,
+            101,
+            106,
+            101,
+            99,
+            116,
+            101,
+            100
+          ],
+          "category": "Safety"
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": false,
+      "outcome": "rejected-fail-restrictive"
+    },
+    {
+      "step": 24,
+      "action": {
+        "TimeSource": {
+          "available": true
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "time-source-updated"
+    },
+    {
+      "step": 25,
+      "action": {
+        "Partition": {
+          "node": 0
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "partitioned"
+    },
+    {
+      "step": 26,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 27,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 28,
+      "action": {
+        "Heal": {
+          "node": 0
+        }
+      },
+      "leader": 0,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "healed"
+    },
+    {
+      "step": 29,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": null,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 30,
+      "action": {
+        "Tick": {
+          "duration_ns": 100000000
+        }
+      },
+      "leader": null,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "ticked"
+    },
+    {
+      "step": 31,
+      "action": {
+        "Checkpoint": {
+          "node": 0
+        }
+      },
+      "leader": null,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-committed"
+    },
+    {
+      "step": 32,
+      "action": {
+        "Checkpoint": {
+          "node": 1
+        }
+      },
+      "leader": null,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-committed"
+    },
+    {
+      "step": 33,
+      "action": {
+        "Checkpoint": {
+          "node": 2
+        }
+      },
+      "leader": null,
+      "maximum_commit_index": 1,
+      "safe_state": true,
+      "outcome": "checkpoint-committed"
+    }
+  ]
+}

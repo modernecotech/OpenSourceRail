@@ -71,6 +71,8 @@
 
 pub mod authenticated;
 pub mod cluster;
+pub mod durable;
+pub mod fault_harness;
 pub mod invariants;
 pub mod messages;
 pub mod node;

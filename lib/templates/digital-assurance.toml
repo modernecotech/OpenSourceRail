@@ -163,3 +163,27 @@ standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62928-2017", "IEC-613
 domains = ["system", "mechanical", "electrical", "civil", "operations"]
 evidence = ["docs/certification/evidence-status.md", "docs/certification/release-gap-register.md", "docs/certification/pilot-signalling-profile.md"]
 required_digital = true
+
+[[checks]]
+id = "DA-009"
+title = "Consensus restart and infrastructure faults fail closed"
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "EN-50716-2023"]
+domains = ["embedded-software", "system", "operations"]
+evidence = ["crates/osr-consensus/src/durable.rs", "crates/osr-consensus/src/fault_harness.rs", "crates/osr-consensus/tests/resilience_harness.rs", "docs/certification/software-resilience-report.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-010"
+title = "Engineering benchmarks and interchange preserve units, CRS and identity"
+standard_ids = ["IEC-62278-1-2025", "EN-50716-2023", "EN-1990", "IEC-62928-2017"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software"]
+evidence = ["engineering/toolchain/baseline-assurance.md", "engineering/analysis/duty_cycle.py", "engineering/toolchain/fixtures/planning-duty-cycle.json"]
+required_digital = true
+
+[[checks]]
+id = "DA-011"
+title = "Promoted component RFCs retain traceable implementation and release gaps"
+standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "IEC-62928-2017", "EN-1990"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "operations"]
+evidence = ["lib/templates/component-rfc-packages.toml", "docs/component-rfc-readiness.md", "tools/automation/component_rfc_readiness.py"]
+required_digital = true

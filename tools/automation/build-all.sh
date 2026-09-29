@@ -60,6 +60,9 @@ else
 fi
 python3 tools/automation/validate-simulation-components.py
 python3 engineering/subsystem_control_register.py
+python3 engineering/toolchain/baseline_assurance.py
+cargo run --quiet --release -p osr-consensus --bin osr-resilience-evidence
+python3 tools/automation/component_rfc_readiness.py
 python3 tools/automation/operating-readiness.py
 python3 tools/automation/validate-commercial-partnership.py
 python3 tools/automation/validate-supplier-technical-support.py

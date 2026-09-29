@@ -31,6 +31,7 @@ Run engineering workflows through the common launcher:
 ```bash
 ./osr engineering --check
 ./osr engineering --smoke
+./osr engineering --baseline-assurance
 ./osr engineering --benchmarks
 ./osr engineering --station-ifc
 ./osr engineering --station-analysis
@@ -60,6 +61,13 @@ continuity error. `--benchmarks` runs a deterministic JuPedSim normal/constraine
 station corridor, the all-variant station structure/flow/drainage screens, and
 a SUMO timetable directly from every Samawah line and station using the
 scenario's energy-derived dwell times.
+
+`--baseline-assurance` is the fast, tracked regression layer. It executes
+seven independent analytical forms and verifies LandXML/OSR-ALN units and CRS,
+IFC source/index identity and finite envelopes, and a versioned duty-cycle
+projection into battery, grid and traffic rows. Reports are replaced atomically
+under `engineering/toolchain/`; planning or simulated duty remains explicitly
+ineligible as measured acceptance evidence.
 `--station-ifc` exports all seven positive-volume station product structures
 and checks that every BOM/traveler ID round-trips through IFC. The station
 analysis executes EnergyPlus and FDS when installed, preserving adverse results

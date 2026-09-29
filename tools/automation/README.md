@@ -24,6 +24,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-qa-maintenance-data.py`](generate-qa-maintenance-data.py) | Generate operations portal assets, manufacturing schedule/materials/verification, QA register, maintenance CSVs, and a deterministic gzip JSON bundle with integrity manifest |
 | [`audit-project-twins.py`](audit-project-twins.py) | Reconcile city family scope, source hashes, finance buckets, CPM/cashflow totals and the mechanical/civil reference evidence |
 | [`operating-readiness.py`](operating-readiness.py) | Compile every tracked city ERP/component/supervision/lifecycle-governance profile against its own asset and twin evidence, report exact on-demand and operator-owned inputs, and detect report drift |
+| [`component_rfc_readiness.py`](component_rfc_readiness.py) | Validate and render requirements, ICD, hazard, BOM/drawing, assembly, test, owner, assumption and release-blocker coverage for RFCs 0023–0027 |
 | [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF from the validated source manifest and all city models |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
@@ -35,7 +36,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`buildable-civil.sh`](buildable-civil.sh) | Reconcile all 19 reference IFC types into six accountable civil/interface release packages and nine non-issued drawing briefs; reject unclassified type-hash changes |
 | [`freecad-generate.sh`](freecad-generate.sh) | Repository-level FreeCAD/Blender generator for mechanical review models, assemblies, FEM screens, screenshots, and animated digital twins |
 | [`bonsai-civil.sh`](bonsai-civil.sh) | Generate deterministic IFC4.3 civil federations with IDS audits and BCF 3.0 release issues, import through Bonsai, and render the linked 4D construction review scene |
-| [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
+| [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run atomic baseline assurance, smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
 | [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |

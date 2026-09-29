@@ -114,23 +114,23 @@ Neutral interchange is limited deliberately:
   CalculiX, Gmsh, QGIS/GDAL, Python libraries, and each adopted solver. Add
   license, download source, checksum/container or package reference, and a
   command that prints the installed version.
-- [ ] **ENG-TOOL-002 — Add repository runners.** Provide scripts that place
+- [x] **ENG-TOOL-002 — Add repository runners.** Provide scripts that place
   generated work under `build/engineering/`, refuse missing inputs, capture
   versions/logs, and write atomic summaries. Do not require GUI state for a
   reproducible analysis.
-- [ ] **ENG-TOOL-003 — Add solver benchmarks.** Start with a cantilever,
+- [x] **ENG-TOOL-003 — Add solver benchmarks.** Start with a cantilever,
   thermal block, simple drainage network, one-zone energy model, four-bus
   electrical network, corridor evacuation, and one-line timetable. Compare
   analytical or published answers and set tolerances.
-- [ ] **ENG-TOOL-004 — Add interchange drift tests.** Check OSR-ALN ↔
+- [x] **ENG-TOOL-004 — Add interchange drift tests.** Check OSR-ALN ↔
   LandXML/QGIS, OSR part IDs ↔ IFC, CAD geometry ↔ analysis mesh, and
   measured-duty export ↔ PyBaMM/pandapower/SUMO inputs.
 - [x] **ENG-TOOL-005 — Add an analysis register.** Record model status as
   planned, screening, calibrated, independently checked, or accepted. Reject
   unlabelled screenshots and unconverged output as closure evidence.
 
-Implementation status on 2026-08-11: ENG-TOOL-001 and ENG-TOOL-005 are
-closed. The repository runner captures exact versions/hashes and exercises
+Implementation status on 2026-09-29: ENG-TOOL-001 through ENG-TOOL-005 are
+closed at repository design-evidence level. The repository runner captures exact versions/hashes and exercises
 IFC creation, an analytical OpenSees case, pandapower, pvlib, PyBaMM, SWMM,
 EnergyPlus and FDS. It also runs a deterministic JuPedSim station corridor and
 a 12-service SUMO timetable generated from all three canonical Samawah lines.
@@ -144,7 +144,14 @@ the remaining analytical benchmark forms, atomic manifests for every solver
 and second-machine reproduction; the CalculiX thermal block passes its
 analytical temperature and flux checks. ENG-TOOL-004 now passes
 station manifest ID, positive-volume representation, semantic class,
-property-set and assembly-hierarchy round trips for all seven archetypes;
+property-set and assembly-hierarchy round trips for all seven archetypes.
+The fast tracked baseline now adds independent analytical forms for a
+cantilever, thermal block, drainage balance, one-zone energy balance,
+four-bus electrical network, corridor evacuation and one-line timetable. It
+also fails on LandXML/OSR-ALN unit or CRS drift, IFC identity/hash/envelope
+drift, and battery/grid/traffic duty-projection drift. Atomic report replacement
+prevents a failed run from being mistaken for fresh evidence. Live solver and
+second-machine results remain environment evidence rather than source claims;
 survey-coordinate/alignment drift and deployment-specific IDS/BCF checks remain open.
 
 The civil federation now generates a byte-deterministic IFC4.3 model with 185
@@ -425,7 +432,7 @@ package, and external utility/fire decisions.
   condition-grading schema, QGIS/point-cloud workflow, material/test coupons,
   reuse/rework/reject decision rules, chain of custody, resulting BOM status,
   and verification after recovery.
-- [ ] **COMP-019-06 — Enforce RFC completeness.** Add a repository check that
+- [x] **COMP-019-06 — Enforce RFC completeness.** Add a repository check that
   each promoted RFC names its requirements, ICDs, hazards, part/BOM IDs,
   drawings, assembly steps, analysis/test evidence, unresolved assumptions,
   owner and acceptance status.
@@ -433,33 +440,52 @@ package, and external utility/fire decisions.
 Exit: RFCs 0023–0027 are traceable implementation or procurement packages,
 not architecture/cost sketches.
 
+Repository implementation status on 2026-09-29: the generated
+[`component-rfc-readiness.md`](component-rfc-readiness.md) now closes
+COMP-019-06. All five packages must name requirements, ICDs, hazards,
+controlled part/BOM and drawing IDs, assembly steps, analysis/test evidence,
+assumptions, owner role and acceptance state; missing paths, invented parts,
+unknown hazards or premature acceptance claims fail CI. COMP-019-01 through 05
+remain open until their listed supplier, detailed-design, physical-test and
+authority evidence closes; the digital packages deliberately remain blocked.
+
 ### Parallel software-assurance track — COMP-014
 
-- [ ] **COMP-014-01 — Build a deterministic fault harness.** Reuse the Rust
+- [x] **COMP-014-01 — Build a deterministic fault harness.** Reuse the Rust
   integration stack and add controllable process kill/restart, node loss,
   network delay/loss/partition/heal, clock offset, disk-full, corrupt config,
   and telemetry-loss adapters. Prefer Linux `tc netem`, constrained filesystems
   and in-process fault points over a new orchestration platform initially.
-- [ ] **COMP-014-02 — Specify recovery invariants.** Define safe state,
+- [x] **COMP-014-02 — Specify recovery invariants.** Define safe state,
   consensus non-overlap, durable state, event continuity, bounded recovery,
   alarm visibility, configuration rejection, and rollback criteria before
   running long tests.
-- [ ] **COMP-014-03 — Add restart and corruption tests.** Cover clean and
+- [x] **COMP-014-03 — Add restart and corruption tests.** Cover clean and
   unclean restart at each persistence boundary, partial writes, stale state,
   incompatible/corrupted configuration and upgrade/rollback.
-- [ ] **COMP-014-04 — Add partition and clock tests.** Exercise minority/
+- [x] **COMP-014-04 — Add partition and clock tests.** Exercise minority/
   majority isolation, asymmetric loss, healing, jitter, clock step/slew and
   loss of time source while checking the invariants.
 - [ ] **COMP-014-05 — Add multi-day soak profiles.** Run normal, peak,
   degraded and recovery cycles with bounded resource-growth assertions and
   deterministic seeds. Keep a short CI profile and schedule the full profile.
-- [ ] **COMP-014-06 — Publish safety evidence.** Store scenario manifests,
+- [x] **COMP-014-06 — Publish safety evidence.** Store scenario manifests,
   exact revisions/seeds, summarized timelines, invariant results and failure
   triage; link accepted evidence into the safety-case register.
 
 Exit: every requested fault has a repeatable scenario, all recovery invariants
 are machine-checked, the full-duration run meets resource/recovery limits, and
 the safety case points to reviewable evidence.
+
+Repository implementation status on 2026-09-29: the deterministic in-process
+harness and tracked report close COMP-014-01 through 04 and 06 for software
+design evidence. The stable-state envelope rejects corruption, truncation,
+wrong-node restore and commit/log inconsistency; disk-full and partial writes
+preserve the last good image; restart discards volatile leadership/quorum
+claims. Safety proposals are rejected while clock, time-source or telemetry
+health is invalid. COMP-014-05 remains open for a dedicated multi-day
+resource-growth profile, and all cases still require selected-hardware HIL,
+power-cut/endurance, WCET and independent assessment before release.
 
 ## Priority And Dependencies
 

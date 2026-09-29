@@ -172,24 +172,99 @@
       ],
       "status": "pass",
       "title": "Physical and independent-assessment gaps remain release-blocking"
+    },
+    {
+      "domains": [
+        "embedded-software",
+        "system",
+        "operations"
+      ],
+      "evidence": [
+        "crates/osr-consensus/src/durable.rs",
+        "crates/osr-consensus/src/fault_harness.rs",
+        "crates/osr-consensus/tests/resilience_harness.rs",
+        "docs/certification/software-resilience-report.md"
+      ],
+      "id": "DA-009",
+      "required_digital": true,
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62425-2025",
+        "EN-50716-2023"
+      ],
+      "status": "pass",
+      "title": "Consensus restart and infrastructure faults fail closed"
+    },
+    {
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "civil",
+        "embedded-software"
+      ],
+      "evidence": [
+        "engineering/toolchain/baseline-assurance.md",
+        "engineering/analysis/duty_cycle.py",
+        "engineering/toolchain/fixtures/planning-duty-cycle.json"
+      ],
+      "id": "DA-010",
+      "required_digital": true,
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "EN-50716-2023",
+        "EN-1990",
+        "IEC-62928-2017"
+      ],
+      "status": "pass",
+      "title": "Engineering benchmarks and interchange preserve units, CRS and identity"
+    },
+    {
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "civil",
+        "operations"
+      ],
+      "evidence": [
+        "lib/templates/component-rfc-packages.toml",
+        "docs/component-rfc-readiness.md",
+        "tools/automation/component_rfc_readiness.py"
+      ],
+      "id": "DA-011",
+      "required_digital": true,
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-60812-2018",
+        "IEC-62928-2017",
+        "EN-1990"
+      ],
+      "status": "pass",
+      "title": "Promoted component RFCs retain traceable implementation and release gaps"
     }
   ],
   "counts": {
-    "digital_checks": 8,
+    "digital_checks": 11,
     "failure_modes": 18,
     "inventory_item_reviews_open": 279,
     "inventory_items_screened": 279,
     "physical_evidence_open": 18,
     "standards": 10
   },
-  "design_fingerprint_sha256": "42576b4419e4f5aed625f05d7eb8acc9efaf798cae8e7c76d325b131529b9808",
+  "design_fingerprint_sha256": "daf331f5d6a4cc8786a2fcd28f44783b07dfabf2b7553895b0696b7be7dadc0f",
   "digital_gate_passed": true,
   "evidence_hashes": {
     "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
     "crates/osr-aux-power/src/lib.rs": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452",
     "crates/osr-bms/src/lib.rs": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799",
     "crates/osr-brake/src/lib.rs": "ed1a3423f371f420d6d0e6486505798fc42cced87a183f44dd2f44aa18305e72",
-    "crates/osr-consensus/src/lib.rs": "921cd008ebd3f377911887f6ad2d430ae26e84f8e2ffc1fd869fc6d3c36d1de1",
+    "crates/osr-consensus/src/durable.rs": "82f762f94338fd4f5e666a3c2865ee3a0e022ad300bd6d756b5538a3e327afce",
+    "crates/osr-consensus/src/fault_harness.rs": "4a45404678cd1d28dd155199d5ba05e3934cf196641791a85f7d5d60737b8613",
+    "crates/osr-consensus/src/lib.rs": "01478b5b762ecd68a8738f55e62880cc8fc9c7c5c37c282106e10b9f2bbf90bb",
+    "crates/osr-consensus/tests/resilience_harness.rs": "cfa4bc211b2b5b0582691721005e2ffa347339a393f652088574b612fee2a3ab",
     "crates/osr-fire-safety/src/lib.rs": "7b901d229cfae01086bbcf21dac9195e323a15c13881525873157b5da59c80e1",
     "crates/osr-hot-axle-wayside/src/lib.rs": "3a85e90a8d039b8b924486f41313309e758ceaf90de0c7b916f4d3028b84a0cc",
     "crates/osr-hot-axle/src/lib.rs": "c62b3fc62a09afce280b2f69cfd826d69ca0df9e5713841b161bbcb5811fb4f6",
@@ -204,21 +279,28 @@
     "crates/osr-wayside-points/src/lib.rs": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
     "design/component-catalogue/src/osr_mech/civil/viaduct.py": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298",
     "design/component-catalogue/src/osr_mech/recovery_interface.py": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
-    "docs/certification/evidence-status.md": "7ce4173c6bb483f48c5f449df221b890cb52fe96e5885a8d31eb70e99fcec72a",
+    "docs/certification/evidence-status.md": "86de4f3ffdc1e8f19db0ded359cf8962ab9616e0ca4a7a0bbaf810a62e0729d8",
     "docs/certification/hazard-log.md": "6b21b2a16873abb94a140b0390d399af9697c6f25799db396e731a43f6ea5d24",
     "docs/certification/pilot-signalling-profile.md": "fc6fea2c43a84e8fbb423c206e2933eaf1723e7609bbd79db56b87e7a4216a2f",
-    "docs/certification/release-gap-register.md": "fbec0a929da0dc2f84100f5f97c0d32c203f6d1b60cf44ae66b4d0f24f3a3044",
+    "docs/certification/release-gap-register.md": "26de21f8220ee5aa60a1d67dd8e7e80d703ae8343271e6e150dedc7d59845547",
     "docs/certification/safety-requirements.md": "b74f8f246dfe670b8854751dd9f5b9688ffe2366c727c81d5ef931e89349dfc1",
+    "docs/certification/software-resilience-report.md": "5cfc42dcad9840fa5641ccb52b2ea8f6a9e8cd63447d346eb8ca4c2bda128af3",
+    "docs/component-rfc-readiness.md": "d2b6ae3a5945702fa94e996dfc2e8945b2f78ad260b9620493fab605a5dd5dde",
     "docs/operations/README.md": "47367469ef5dc037ad5e2c2803e4c4382de54cf9e0e010fd198eb4df1f8c92a9",
     "docs/rfcs/0011-civil-infrastructure-design-standard.md": "582ad51c5c4f916af70f29712c1e9feb05749dc34a7cfc8eb5c0a051fa28ac0b",
     "docs/rfcs/0024-battery-thermal-high-ambient.md": "dba5fa8ecbfb85939d359a59d674591c59e53c0d0613f06fb20a7c86032e0153",
     "docs/safety-case/README.md": "85d1f3accef7e0a1326176da31aef51328a24c124d36c593f684ccba97d7293c",
     "engineering/analysis/drainage_ground_design.py": "f5d0bed10fc3cdf4e41ae2bff9cbb1a1061c7847fc9cb04097989c565efae50d",
+    "engineering/analysis/duty_cycle.py": "4b9dfacd1b38a2dbab2574def3097505b0c4c55b7a09a8a69f91ff4a573e351c",
     "engineering/analysis/structural_release.py": "49506dd26be224e186b039a3dd709c95651dcd196e209ca9c8ece9732d9caf92",
     "engineering/design-options/examples/samawah-fleet20-topology/qualification.json": "ca8def3d3d1db7681ae32b5b78229ade66ea016c637b437a6a15843407cb39e8",
+    "engineering/toolchain/baseline-assurance.md": "213c7c78af534d3863d03683c4b455ea060bb441baf26239fb0ba32f06d96fb8",
+    "engineering/toolchain/fixtures/planning-duty-cycle.json": "3a4974cc328e9adb44db64df43fdeb3e2841edc88bfb581a903c42a106e62525",
+    "lib/templates/component-rfc-packages.toml": "21bf490d95a1f734336153897f0132a45fcd73c8052a5db9ecda707078bd196c",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
     "lib/templates/structural-release-processing.toml": "9184c082e637e45a4499d1210f9130fe33d0fc94a1ee5a9fc22b656a99c3333e",
-    "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
+    "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e",
+    "tools/automation/component_rfc_readiness.py": "fe7f5fb7e5ec28d72be42a0b9bd19777300f58a39a0b85b98a4a91d2c3834d13"
   },
   "failure_modes": [
     {
@@ -5809,7 +5891,7 @@
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
-    "lib/templates/digital-assurance.toml": "71c358eb3de415fe2c9b78d38e2ee649f94214569cda0b412d62c720d20896b4",
+    "lib/templates/digital-assurance.toml": "c0e0e53d265cfa572a5f1f1fc6c5126c8ec4618ae85073d9ec471bb2b831c834",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
   },
   "standards": [

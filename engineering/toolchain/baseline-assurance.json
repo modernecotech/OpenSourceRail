@@ -1,0 +1,113 @@
+{
+  "authority_boundary": "Deterministic software/toolchain regression evidence only; not physical validation, design approval, or authority acceptance.",
+  "benchmark_count": 7,
+  "benchmarks": [
+    {
+      "absolute_error": 1.3877787807814457e-17,
+      "actual": 0.0642857142857143,
+      "expected": 0.06428571428571428,
+      "id": "BENCH-STRUCT-001",
+      "passed": true,
+      "title": "cantilever tip displacement",
+      "tolerance": 1e-12,
+      "unit": "m"
+    },
+    {
+      "absolute_error": 0.0,
+      "actual": 40.0,
+      "expected": 40.0,
+      "id": "BENCH-THERM-001",
+      "passed": true,
+      "title": "thermal block midpoint",
+      "tolerance": 1e-12,
+      "unit": "degC"
+    },
+    {
+      "absolute_error": 7.105427357601002e-15,
+      "actual": 33.33333333333334,
+      "expected": 33.333333333333336,
+      "id": "BENCH-DRAIN-001",
+      "passed": true,
+      "title": "simple drainage mass balance",
+      "tolerance": 1e-12,
+      "unit": "m3"
+    },
+    {
+      "absolute_error": 4.263256414560601e-14,
+      "actual": 44.99999999999996,
+      "expected": 45.0,
+      "id": "BENCH-ENERGY-001",
+      "passed": true,
+      "title": "one-zone steady-state temperature",
+      "tolerance": 1e-09,
+      "unit": "degC"
+    },
+    {
+      "absolute_error": 2.2737367544323206e-13,
+      "actual": 694.7499999999998,
+      "expected": 694.75,
+      "id": "BENCH-ELEC-001",
+      "passed": true,
+      "title": "four-bus terminal voltage",
+      "tolerance": 1e-09,
+      "unit": "V"
+    },
+    {
+      "absolute_error": 0.0,
+      "actual": 85.53846153846153,
+      "expected": 85.53846153846153,
+      "id": "BENCH-EGRESS-001",
+      "passed": true,
+      "title": "corridor evacuation clearance",
+      "tolerance": 1e-09,
+      "unit": "s"
+    },
+    {
+      "absolute_error": 0.0,
+      "actual": 1050.0,
+      "expected": 1050.0,
+      "id": "BENCH-TIME-001",
+      "passed": true,
+      "title": "one-line timetable traversal",
+      "tolerance": 1e-12,
+      "unit": "s"
+    }
+  ],
+  "interchange": [
+    {
+      "id": "XCHG-ALN-001",
+      "passed": true,
+      "result_sha256": "422eede1fabcd9f78fa4bc55df88498180a718469cc6b4103b98235a22b28579",
+      "source_sha256": "2d504099d5f1c798e569446c6df6b089bbc94180df0ad673c4c17cf76afd5240",
+      "title": "LandXML to OSR-ALN units/CRS/golden round trip"
+    },
+    {
+      "id": "XCHG-IFC-001",
+      "index_sha256": "6adf19730fe06c80dd79c458805ae66740b498d2921530272d9768f0602f3a1e",
+      "object_count": 185,
+      "passed": true,
+      "source_sha256": "46ab9331fa10f5ff3789fa2a0439335f7b2d97f8a1ab6624350e7f47cfa6b052",
+      "title": "IFC asset identity and finite analysis envelope"
+    },
+    {
+      "acceptance_eligible": false,
+      "id": "XCHG-DUTY-001",
+      "passed": true,
+      "sample_count": 5,
+      "source_kind": "planning",
+      "source_semantic_sha256": "618c8a83f4f161d33b5616067c052503b5539d9a617f0edb94dc73a9898b2e18",
+      "title": "Duty-cycle battery/grid/traffic semantic projection"
+    }
+  ],
+  "interchange_check_count": 3,
+  "passed": true,
+  "schema": "org.opensourcerail.engineering-baseline-assurance.v1",
+  "source_hashes": {
+    "engineering/models/bim/reference/civil-coordination.ifc": "46ab9331fa10f5ff3789fa2a0439335f7b2d97f8a1ab6624350e7f47cfa6b052",
+    "engineering/models/bim/reference/civil-coordination.index.json": "6adf19730fe06c80dd79c458805ae66740b498d2921530272d9768f0602f3a1e",
+    "engineering/toolchain/baseline_assurance.py": "1ba8e4b7dc2054775c0b7bb3b3fa6c8c8597c4a9115e86742b6b21e3ab6370a6",
+    "engineering/toolchain/fixtures/planning-duty-cycle.json": "3a4974cc328e9adb44db64df43fdeb3e2841edc88bfb581a903c42a106e62525",
+    "tools/osr-aln-convert/samples/samawah-line1.aln.toml": "422eede1fabcd9f78fa4bc55df88498180a718469cc6b4103b98235a22b28579",
+    "tools/osr-aln-convert/samples/samawah-line1.xml": "2d504099d5f1c798e569446c6df6b089bbc94180df0ad673c4c17cf76afd5240"
+  }
+}

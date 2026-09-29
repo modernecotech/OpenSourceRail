@@ -2,10 +2,10 @@
 
 > Design-screening evidence only. This is not certification, permission to manufacture, or permission to operate.
 
-- Design fingerprint: `42576b4419e4f5aed625f05d7eb8acc9efaf798cae8e7c76d325b131529b9808`
+- Design fingerprint: `daf331f5d6a4cc8786a2fcd28f44783b07dfabf2b7553895b0696b7be7dadc0f`
 - Digital pre-build gate: **PASS**
 - Physical/revenue release: **BLOCKED**
-- Scope: 10 standards records, 8 deterministic checks, 18 system failure modes
+- Scope: 10 standards records, 11 deterministic checks, 18 system failure modes
 - Controlled inventory screened: **279 items**; item-specific reviews open: **279**
 - Open physical-evidence rows: **18**
 
@@ -27,6 +27,9 @@ Route selection never grants movement authority. Simulation and analysis reduce 
 | `DA-006` | Civil structural screens retain physical release boundary | EN-1990, IEC-62278-1-2025 | **PASS** |
 | `DA-007` | Recovery sidings, robots and single-track loops use protected movement functions | IEC-62267-2009, IEC-62290-1-2025 | **PASS** |
 | `DA-008` | Physical and independent-assessment gaps remain release-blocking | IEC-62278-1-2025, IEC-62425-2025, IEC-62928-2017, IEC-61373-2026, EN-1990 | **PASS** |
+| `DA-009` | Consensus restart and infrastructure faults fail closed | IEC-62278-1-2025, IEC-62425-2025, EN-50716-2023 | **PASS** |
+| `DA-010` | Engineering benchmarks and interchange preserve units, CRS and identity | IEC-62278-1-2025, EN-50716-2023, EN-1990, IEC-62928-2017 | **PASS** |
+| `DA-011` | Promoted component RFCs retain traceable implementation and release gaps | IEC-62278-1-2025, IEC-60812-2018, IEC-62928-2017, EN-1990 | **PASS** |
 
 ## FMEA Coverage
 

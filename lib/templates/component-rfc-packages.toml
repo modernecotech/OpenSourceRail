@@ -1,0 +1,99 @@
+[meta]
+schema = "osr-component-rfc-packages/1"
+required_rfc_ids = ["0023", "0024", "0025", "0026", "0027"]
+authority_boundary = "These are configuration-controlled implementation and procurement packages. Open supplier, physical, site and authority evidence remains release-blocking."
+
+[[packages]]
+id = "RFC-PKG-0023"
+rfc_id = "0023"
+title = "Door cassette, operator and train interface"
+rfc_path = "docs/rfcs/0023-door-system-reference-design.md"
+owner_role = "rolling-stock mechanical lead"
+status = "implementation-package"
+acceptance_status = "design-reference-physical-evidence-open"
+requirement_ids = ["DOOR-REQ-001 closed-and-locked hardwire", "DOOR-REQ-002 obstruction reopening", "DOOR-REQ-003 emergency mechanical release", "DOOR-REQ-004 movement inhibition", "DOOR-REQ-005 drainage and ingress"]
+interface_ids = ["DOOR-ICD-BODY", "DOOR-ICD-LV-CAN", "DOOR-ICD-SAFETY-LOOP", "DOOR-ICD-PSD-PLATFORM"]
+hazard_ids = ["H-PB-01", "H-PB-02", "H-PB-03"]
+part_ids = ["LM3-DOOR-SA310", "LM3-DOOR-P010"]
+drawing_ids = ["LM3-DOOR-200", "DRW-LM3-DOOR-P010"]
+assembly_steps = ["gauge and record body aperture datums", "fit adjustable carrier and dry seal", "install supplier cassette and keyed services", "prove mechanical release and drainage", "execute static door and train safety-loop test"]
+analysis_evidence = ["docs/rfcs/0023-door-system-reference-design.md", "crates/osr-door-control/src/lib.rs", "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md"]
+test_evidence_required = ["kinematic and tolerance stack", "lock single-fault injection", "obstruction force and reopen timing", "emergency release force", "water ingress and drainage", "endurance and environmental campaign"]
+unresolved_assumptions = ["exact supplier cassette and order code", "cold-climate grease and sensor visibility", "notified-body route", "PSD hardwire allocation"]
+release_blockers = ["supplier controlled drawings", "EN 14752 test campaign", "vehicle integration and independent acceptance"]
+
+[[packages]]
+id = "RFC-PKG-0024"
+rfc_id = "0024"
+title = "Battery and cabin integrated thermal system"
+rfc_path = "docs/rfcs/0024-battery-thermal-high-ambient.md"
+owner_role = "rolling-stock thermal and battery lead"
+status = "implementation-package"
+acceptance_status = "design-reference-physical-evidence-open"
+requirement_ids = ["THM-REQ-001 isolated battery coolant and cabin air", "THM-REQ-002 battery cooling priority", "THM-REQ-003 branch isolation", "THM-REQ-004 derate and protect", "THM-REQ-005 leak and flow detection"]
+interface_ids = ["LM3-ICD-007 battery cassette tray body", "THM-ICD-REFRIGERANT", "THM-ICD-COOLANT", "THM-ICD-HVAC-AIR", "THM-ICD-TCMS"]
+hazard_ids = ["H-FI-01", "H-FI-01A", "H-FI-01B", "H-FI-01C", "H-FI-02"]
+part_ids = ["LM3-HV-SA510", "LM3-HV-P010", "LM3-HV-P030"]
+drawing_ids = ["LM3-DAT-100", "LM3-DAT-140", "LM3-HVAC-220", "LM3-HV-325"]
+assembly_steps = ["install segregated pack trays and containment", "fit coolant manifolds with bleed and drain access", "connect isolated battery and saloon circuits", "pressure and leak test each circuit", "commission priority derate protect and isolation states"]
+analysis_evidence = ["docs/rfcs/0024-battery-thermal-high-ambient.md", "crates/osr-hvac/src/integrated_thermal.rs", "lib/templates/system-fmea.toml", "engineering/analysis/duty_cycle.py"]
+test_evidence_required = ["supplier heat rejection and pressure drop", "50 C repeated duty", "hot soak and restart", "pump fan valve sensor and compressor faults", "leakage and contamination", "calorimeter chamber EMC and vehicle validation"]
+unresolved_assumptions = ["selected cell and module loss maps", "selected compressor and heat exchangers", "qualified coolant and refrigerant", "project solar-soak envelope"]
+release_blockers = ["supplier-frozen components", "thermal chamber and calorimeter evidence", "battery fault and propagation trials", "vehicle-level validation"]
+
+[[packages]]
+id = "RFC-PKG-0025"
+rfc_id = "0025"
+title = "Turnout, locking, detection and point machine"
+rfc_path = "docs/rfcs/0025-diy-switch-and-point-machine.md"
+owner_role = "trackwork and signalling interface lead"
+status = "implementation-package"
+acceptance_status = "design-reference-physical-evidence-open"
+requirement_ids = ["PNT-REQ-001 bounded throw force and time", "PNT-REQ-002 mechanical lock", "PNT-REQ-003 independent position detection", "PNT-REQ-004 fail-restrictive unknown", "PNT-REQ-005 drainage manual operation and maintainability"]
+interface_ids = ["PNT-ICD-RAIL-GEOMETRY", "PNT-ICD-ACTUATOR-LOCK", "PNT-ICD-2OO2-DETECTION", "PNT-ICD-WAYSIDE-POWER-DATA", "PNT-ICD-DRAINAGE"]
+hazard_ids = ["H-CO-02", "H-DE-01", "H-CO-04"]
+part_ids = ["STN-TRK-SA800", "STN-TRK-P010", "STN-TRK-P020", "STN-TRK-P030", "STN-TRK-P040", "STN-TRK-P050", "STN-TRK-P060"]
+drawing_ids = ["DRW-STN-TRK-P010", "DRW-STN-TRK-P020", "DRW-STN-TRK-P040", "DRW-STN-TRK-P050"]
+assembly_steps = ["inspect rail and sleeper datums", "assemble stock rails blades frog and check rails", "fit stretcher lock and actuator", "fit independent detectors and harness", "adjust prove drain and execute manual operation"]
+analysis_evidence = ["docs/rfcs/0025-diy-switch-and-point-machine.md", "docs/rfcs/0012-switches-and-crossings.md", "crates/osr-wayside-points/src/lib.rs", "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"]
+test_evidence_required = ["throw force margin", "lock and detector independence", "obstruction and loss-of-power", "water dust heat and cold", "manual operation", "one-million-cycle endurance and wear inspection"]
+unresolved_assumptions = ["qualified rail blank and manganese frog source", "selected actuator order code", "site drainage and heating need", "regional shop process capability"]
+release_blockers = ["released rail and machine drawings", "material and process qualification", "endurance and environmental campaign", "turnout integration HIL and independent acceptance"]
+
+[[packages]]
+id = "RFC-PKG-0026"
+rfc_id = "0026"
+title = "Automated side conductive charging interface"
+rfc_path = "docs/rfcs/0026-charging-connector-reconciliation.md"
+owner_role = "traction power and charging lead"
+status = "implementation-package"
+acceptance_status = "design-reference-physical-evidence-open"
+requirement_ids = ["CHG-REQ-001 stopped aligned and movement inhibited", "CHG-REQ-002 earth insulation and HVIL proved", "CHG-REQ-003 zero current before separation", "CHG-REQ-004 stowed before movement authority", "CHG-REQ-005 shared cabinet arbitration"]
+interface_ids = ["CHG-ICD-VEHICLE-CONTACT", "CHG-ICD-STATION-CABINET", "CHG-ICD-BMS-TCMS", "CHG-ICD-PROTECTION-EARTH", "CHG-ICD-CIVIL-ALIGNMENT"]
+hazard_ids = ["H-FI-01", "H-FI-02", "H-PB-02", "H-DI-01"]
+part_ids = ["LM3-TRC-P070", "STN-CHG-SA700", "STN-CHG-P010", "STN-CHG-P020"]
+drawing_ids = ["LM3-HV-310", "LM3-HV-320", "DRW-STN-CHG-P010", "DRW-STN-CHG-P020"]
+assembly_steps = ["survey platform and vehicle contact datums", "install guarded wayside mechanism and isolation", "connect cabinet protection earth and control", "prove precharge interlock and abort sequence", "execute thermal current endurance and rescue access tests"]
+analysis_evidence = ["docs/rfcs/0026-charging-connector-reconciliation.md", "docs/rfcs/0021-battery-traction.md", "crates/osr-energy-site/src/lib.rs", "engineering/analysis/duty_cycle.py"]
+test_evidence_required = ["alignment and tolerance stack", "touch protection ingress and contamination", "contact resistance and temperature rise", "weld breakaway and abort", "two-train contention and cabinet outage", "insertion cycle and maintainability"]
+unresolved_assumptions = ["selected contact material and actuator", "utility protection settings", "site alignment tolerance", "production communications profile"]
+release_blockers = ["supplier-frozen connector and cabinet", "FAT and SAT", "utility and fire approval", "vehicle/station integration acceptance"]
+
+[[packages]]
+id = "RFC-PKG-0027"
+rfc_id = "0027"
+title = "Brownfield asset recovery and workshop integration"
+rfc_path = "docs/rfcs/0027-brownfield-pilot-asset-recovery.md"
+owner_role = "brownfield recovery and depot lead"
+status = "implementation-package"
+acceptance_status = "workflow-reference-field-evidence-open"
+requirement_ids = ["BRN-REQ-001 unique asset identity and custody", "BRN-REQ-002 condition grade with measured evidence", "BRN-REQ-003 reuse rework reject disposition", "BRN-REQ-004 recovered material traceability", "BRN-REQ-005 post-recovery verification"]
+interface_ids = ["BRN-ICD-SURVEY-GIS", "BRN-ICD-WORKSHOP", "BRN-ICD-MATERIAL-TEST", "BRN-ICD-BOM-ERP", "BRN-ICD-VEHICLE-TRACK"]
+hazard_ids = ["H-DE-02", "H-RA-01", "H-FI-02", "H-CO-04"]
+part_ids = ["LM3-BOG-P010", "LM3-BOG-P020", "LM3-BOG-P030", "LM3-BOG-P040"]
+drawing_ids = ["BRN-SURVEY-001", "BRN-CONDITION-001", "BRN-COUPON-001", "BRN-DISPOSITION-001"]
+assembly_steps = ["identify photograph and quarantine asset", "capture geometry condition and provenance", "sample and test material where required", "approve reuse rework or reject disposition", "update controlled BOM ERP and verification route"]
+analysis_evidence = ["docs/rfcs/0027-brownfield-pilot-asset-recovery.md", "lib/templates/field-evidence.toml", "docs/commercial/supplier-technical-support-package.md", "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json"]
+test_evidence_required = ["survey and dimensional inspection", "NDT and material coupons", "fatigue corrosion and remaining-life assessment", "rework procedure qualification", "proof and functional tests after recovery", "independent disposition review"]
+unresolved_assumptions = ["recoverable asset population and ownership", "material grades and service history", "workshop machine calibration", "local reuse and waste rules"]
+release_blockers = ["field inventory and chain of custody", "material and NDT evidence", "competent disposition authority", "post-recovery proof and acceptance"]

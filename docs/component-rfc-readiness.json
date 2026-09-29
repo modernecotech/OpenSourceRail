@@ -1,0 +1,409 @@
+{
+  "authority_boundary": "These are configuration-controlled implementation and procurement packages. Open supplier, physical, site and authority evidence remains release-blocking.",
+  "evidence_hashes": {
+    "crates/osr-door-control/src/lib.rs": "2ce7268b30da934b8113ee3ca62a64758f2529c4c62a06758f57b2c5c3b9ac4e",
+    "crates/osr-energy-site/src/lib.rs": "6a0bb35d9b00b85dea8c592e946de43a6bebd5cb8fccff35da7f53a91ee02e86",
+    "crates/osr-hvac/src/integrated_thermal.rs": "55e19a3acff551ab7a6572846b458069b70a59ed0b4af1eda9723d788db6d6ed",
+    "crates/osr-wayside-points/src/lib.rs": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
+    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
+    "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md": "2fdc4596c5332aa394bc8e2ac70925e0242f0463b74d3cee327eeb35abb56553",
+    "docs/commercial/supplier-technical-support-package.md": "e6a77f3266a9a4d771216d519bce701befbf7495354c6ad388bea15a58616840",
+    "docs/rfcs/0012-switches-and-crossings.md": "38b291926f7954766140a7a53a7543753e8cc87fa491d24a140fe6344bcfd573",
+    "docs/rfcs/0021-battery-traction.md": "93499b551df77a6594c489110f8413bc6e53b1378a6c2ed14a0b5abef2ce47d3",
+    "docs/rfcs/0023-door-system-reference-design.md": "ac2a5e6793c34813645e4221e97bc2b466fd4f2a465fac09bb3fa6792ec5a4a5",
+    "docs/rfcs/0024-battery-thermal-high-ambient.md": "dba5fa8ecbfb85939d359a59d674591c59e53c0d0613f06fb20a7c86032e0153",
+    "docs/rfcs/0025-diy-switch-and-point-machine.md": "dafb8a6d8c0457f811f09f67ab72e19efe74d6fa85d22f35172c0d4cea4bc65d",
+    "docs/rfcs/0026-charging-connector-reconciliation.md": "dab0f2728f0c231e630ad044892640b2071def0b09f6fa8c92dacb49148c2f29",
+    "docs/rfcs/0027-brownfield-pilot-asset-recovery.md": "2b096567c3de022332484e3624d1405e93cf1d2eba74881359134c4dfae99c5e",
+    "engineering/analysis/duty_cycle.py": "4b9dfacd1b38a2dbab2574def3097505b0c4c55b7a09a8a69f91ff4a573e351c",
+    "lib/templates/field-evidence.toml": "af4f1a4c6eb74a92fc840d9e53deb843f09f11f4c805817d65b44b5bf7b0ce1e",
+    "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
+  },
+  "inventory_hashes": {
+    "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
+    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703"
+  },
+  "package_count": 5,
+  "packages": [
+    {
+      "acceptance_status": "design-reference-physical-evidence-open",
+      "analysis_evidence": [
+        "docs/rfcs/0023-door-system-reference-design.md",
+        "crates/osr-door-control/src/lib.rs",
+        "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.md"
+      ],
+      "assembly_steps": [
+        "gauge and record body aperture datums",
+        "fit adjustable carrier and dry seal",
+        "install supplier cassette and keyed services",
+        "prove mechanical release and drainage",
+        "execute static door and train safety-loop test"
+      ],
+      "digital_completeness": "pass",
+      "drawing_ids": [
+        "LM3-DOOR-200",
+        "DRW-LM3-DOOR-P010"
+      ],
+      "hazard_ids": [
+        "H-PB-01",
+        "H-PB-02",
+        "H-PB-03"
+      ],
+      "id": "RFC-PKG-0023",
+      "interface_ids": [
+        "DOOR-ICD-BODY",
+        "DOOR-ICD-LV-CAN",
+        "DOOR-ICD-SAFETY-LOOP",
+        "DOOR-ICD-PSD-PLATFORM"
+      ],
+      "owner_role": "rolling-stock mechanical lead",
+      "part_ids": [
+        "LM3-DOOR-SA310",
+        "LM3-DOOR-P010"
+      ],
+      "release_blockers": [
+        "supplier controlled drawings",
+        "EN 14752 test campaign",
+        "vehicle integration and independent acceptance"
+      ],
+      "release_ready": false,
+      "requirement_ids": [
+        "DOOR-REQ-001 closed-and-locked hardwire",
+        "DOOR-REQ-002 obstruction reopening",
+        "DOOR-REQ-003 emergency mechanical release",
+        "DOOR-REQ-004 movement inhibition",
+        "DOOR-REQ-005 drainage and ingress"
+      ],
+      "rfc_id": "0023",
+      "rfc_path": "docs/rfcs/0023-door-system-reference-design.md",
+      "status": "implementation-package",
+      "test_evidence_required": [
+        "kinematic and tolerance stack",
+        "lock single-fault injection",
+        "obstruction force and reopen timing",
+        "emergency release force",
+        "water ingress and drainage",
+        "endurance and environmental campaign"
+      ],
+      "title": "Door cassette, operator and train interface",
+      "unresolved_assumptions": [
+        "exact supplier cassette and order code",
+        "cold-climate grease and sensor visibility",
+        "notified-body route",
+        "PSD hardwire allocation"
+      ]
+    },
+    {
+      "acceptance_status": "design-reference-physical-evidence-open",
+      "analysis_evidence": [
+        "docs/rfcs/0024-battery-thermal-high-ambient.md",
+        "crates/osr-hvac/src/integrated_thermal.rs",
+        "lib/templates/system-fmea.toml",
+        "engineering/analysis/duty_cycle.py"
+      ],
+      "assembly_steps": [
+        "install segregated pack trays and containment",
+        "fit coolant manifolds with bleed and drain access",
+        "connect isolated battery and saloon circuits",
+        "pressure and leak test each circuit",
+        "commission priority derate protect and isolation states"
+      ],
+      "digital_completeness": "pass",
+      "drawing_ids": [
+        "LM3-DAT-100",
+        "LM3-DAT-140",
+        "LM3-HVAC-220",
+        "LM3-HV-325"
+      ],
+      "hazard_ids": [
+        "H-FI-01",
+        "H-FI-01A",
+        "H-FI-01B",
+        "H-FI-01C",
+        "H-FI-02"
+      ],
+      "id": "RFC-PKG-0024",
+      "interface_ids": [
+        "LM3-ICD-007 battery cassette tray body",
+        "THM-ICD-REFRIGERANT",
+        "THM-ICD-COOLANT",
+        "THM-ICD-HVAC-AIR",
+        "THM-ICD-TCMS"
+      ],
+      "owner_role": "rolling-stock thermal and battery lead",
+      "part_ids": [
+        "LM3-HV-SA510",
+        "LM3-HV-P010",
+        "LM3-HV-P030"
+      ],
+      "release_blockers": [
+        "supplier-frozen components",
+        "thermal chamber and calorimeter evidence",
+        "battery fault and propagation trials",
+        "vehicle-level validation"
+      ],
+      "release_ready": false,
+      "requirement_ids": [
+        "THM-REQ-001 isolated battery coolant and cabin air",
+        "THM-REQ-002 battery cooling priority",
+        "THM-REQ-003 branch isolation",
+        "THM-REQ-004 derate and protect",
+        "THM-REQ-005 leak and flow detection"
+      ],
+      "rfc_id": "0024",
+      "rfc_path": "docs/rfcs/0024-battery-thermal-high-ambient.md",
+      "status": "implementation-package",
+      "test_evidence_required": [
+        "supplier heat rejection and pressure drop",
+        "50 C repeated duty",
+        "hot soak and restart",
+        "pump fan valve sensor and compressor faults",
+        "leakage and contamination",
+        "calorimeter chamber EMC and vehicle validation"
+      ],
+      "title": "Battery and cabin integrated thermal system",
+      "unresolved_assumptions": [
+        "selected cell and module loss maps",
+        "selected compressor and heat exchangers",
+        "qualified coolant and refrigerant",
+        "project solar-soak envelope"
+      ]
+    },
+    {
+      "acceptance_status": "design-reference-physical-evidence-open",
+      "analysis_evidence": [
+        "docs/rfcs/0025-diy-switch-and-point-machine.md",
+        "docs/rfcs/0012-switches-and-crossings.md",
+        "crates/osr-wayside-points/src/lib.rs",
+        "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json"
+      ],
+      "assembly_steps": [
+        "inspect rail and sleeper datums",
+        "assemble stock rails blades frog and check rails",
+        "fit stretcher lock and actuator",
+        "fit independent detectors and harness",
+        "adjust prove drain and execute manual operation"
+      ],
+      "digital_completeness": "pass",
+      "drawing_ids": [
+        "DRW-STN-TRK-P010",
+        "DRW-STN-TRK-P020",
+        "DRW-STN-TRK-P040",
+        "DRW-STN-TRK-P050"
+      ],
+      "hazard_ids": [
+        "H-CO-02",
+        "H-DE-01",
+        "H-CO-04"
+      ],
+      "id": "RFC-PKG-0025",
+      "interface_ids": [
+        "PNT-ICD-RAIL-GEOMETRY",
+        "PNT-ICD-ACTUATOR-LOCK",
+        "PNT-ICD-2OO2-DETECTION",
+        "PNT-ICD-WAYSIDE-POWER-DATA",
+        "PNT-ICD-DRAINAGE"
+      ],
+      "owner_role": "trackwork and signalling interface lead",
+      "part_ids": [
+        "STN-TRK-SA800",
+        "STN-TRK-P010",
+        "STN-TRK-P020",
+        "STN-TRK-P030",
+        "STN-TRK-P040",
+        "STN-TRK-P050",
+        "STN-TRK-P060"
+      ],
+      "release_blockers": [
+        "released rail and machine drawings",
+        "material and process qualification",
+        "endurance and environmental campaign",
+        "turnout integration HIL and independent acceptance"
+      ],
+      "release_ready": false,
+      "requirement_ids": [
+        "PNT-REQ-001 bounded throw force and time",
+        "PNT-REQ-002 mechanical lock",
+        "PNT-REQ-003 independent position detection",
+        "PNT-REQ-004 fail-restrictive unknown",
+        "PNT-REQ-005 drainage manual operation and maintainability"
+      ],
+      "rfc_id": "0025",
+      "rfc_path": "docs/rfcs/0025-diy-switch-and-point-machine.md",
+      "status": "implementation-package",
+      "test_evidence_required": [
+        "throw force margin",
+        "lock and detector independence",
+        "obstruction and loss-of-power",
+        "water dust heat and cold",
+        "manual operation",
+        "one-million-cycle endurance and wear inspection"
+      ],
+      "title": "Turnout, locking, detection and point machine",
+      "unresolved_assumptions": [
+        "qualified rail blank and manganese frog source",
+        "selected actuator order code",
+        "site drainage and heating need",
+        "regional shop process capability"
+      ]
+    },
+    {
+      "acceptance_status": "design-reference-physical-evidence-open",
+      "analysis_evidence": [
+        "docs/rfcs/0026-charging-connector-reconciliation.md",
+        "docs/rfcs/0021-battery-traction.md",
+        "crates/osr-energy-site/src/lib.rs",
+        "engineering/analysis/duty_cycle.py"
+      ],
+      "assembly_steps": [
+        "survey platform and vehicle contact datums",
+        "install guarded wayside mechanism and isolation",
+        "connect cabinet protection earth and control",
+        "prove precharge interlock and abort sequence",
+        "execute thermal current endurance and rescue access tests"
+      ],
+      "digital_completeness": "pass",
+      "drawing_ids": [
+        "LM3-HV-310",
+        "LM3-HV-320",
+        "DRW-STN-CHG-P010",
+        "DRW-STN-CHG-P020"
+      ],
+      "hazard_ids": [
+        "H-FI-01",
+        "H-FI-02",
+        "H-PB-02",
+        "H-DI-01"
+      ],
+      "id": "RFC-PKG-0026",
+      "interface_ids": [
+        "CHG-ICD-VEHICLE-CONTACT",
+        "CHG-ICD-STATION-CABINET",
+        "CHG-ICD-BMS-TCMS",
+        "CHG-ICD-PROTECTION-EARTH",
+        "CHG-ICD-CIVIL-ALIGNMENT"
+      ],
+      "owner_role": "traction power and charging lead",
+      "part_ids": [
+        "LM3-TRC-P070",
+        "STN-CHG-SA700",
+        "STN-CHG-P010",
+        "STN-CHG-P020"
+      ],
+      "release_blockers": [
+        "supplier-frozen connector and cabinet",
+        "FAT and SAT",
+        "utility and fire approval",
+        "vehicle/station integration acceptance"
+      ],
+      "release_ready": false,
+      "requirement_ids": [
+        "CHG-REQ-001 stopped aligned and movement inhibited",
+        "CHG-REQ-002 earth insulation and HVIL proved",
+        "CHG-REQ-003 zero current before separation",
+        "CHG-REQ-004 stowed before movement authority",
+        "CHG-REQ-005 shared cabinet arbitration"
+      ],
+      "rfc_id": "0026",
+      "rfc_path": "docs/rfcs/0026-charging-connector-reconciliation.md",
+      "status": "implementation-package",
+      "test_evidence_required": [
+        "alignment and tolerance stack",
+        "touch protection ingress and contamination",
+        "contact resistance and temperature rise",
+        "weld breakaway and abort",
+        "two-train contention and cabinet outage",
+        "insertion cycle and maintainability"
+      ],
+      "title": "Automated side conductive charging interface",
+      "unresolved_assumptions": [
+        "selected contact material and actuator",
+        "utility protection settings",
+        "site alignment tolerance",
+        "production communications profile"
+      ]
+    },
+    {
+      "acceptance_status": "workflow-reference-field-evidence-open",
+      "analysis_evidence": [
+        "docs/rfcs/0027-brownfield-pilot-asset-recovery.md",
+        "lib/templates/field-evidence.toml",
+        "docs/commercial/supplier-technical-support-package.md",
+        "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json"
+      ],
+      "assembly_steps": [
+        "identify photograph and quarantine asset",
+        "capture geometry condition and provenance",
+        "sample and test material where required",
+        "approve reuse rework or reject disposition",
+        "update controlled BOM ERP and verification route"
+      ],
+      "digital_completeness": "pass",
+      "drawing_ids": [
+        "BRN-SURVEY-001",
+        "BRN-CONDITION-001",
+        "BRN-COUPON-001",
+        "BRN-DISPOSITION-001"
+      ],
+      "hazard_ids": [
+        "H-DE-02",
+        "H-RA-01",
+        "H-FI-02",
+        "H-CO-04"
+      ],
+      "id": "RFC-PKG-0027",
+      "interface_ids": [
+        "BRN-ICD-SURVEY-GIS",
+        "BRN-ICD-WORKSHOP",
+        "BRN-ICD-MATERIAL-TEST",
+        "BRN-ICD-BOM-ERP",
+        "BRN-ICD-VEHICLE-TRACK"
+      ],
+      "owner_role": "brownfield recovery and depot lead",
+      "part_ids": [
+        "LM3-BOG-P010",
+        "LM3-BOG-P020",
+        "LM3-BOG-P030",
+        "LM3-BOG-P040"
+      ],
+      "release_blockers": [
+        "field inventory and chain of custody",
+        "material and NDT evidence",
+        "competent disposition authority",
+        "post-recovery proof and acceptance"
+      ],
+      "release_ready": false,
+      "requirement_ids": [
+        "BRN-REQ-001 unique asset identity and custody",
+        "BRN-REQ-002 condition grade with measured evidence",
+        "BRN-REQ-003 reuse rework reject disposition",
+        "BRN-REQ-004 recovered material traceability",
+        "BRN-REQ-005 post-recovery verification"
+      ],
+      "rfc_id": "0027",
+      "rfc_path": "docs/rfcs/0027-brownfield-pilot-asset-recovery.md",
+      "status": "implementation-package",
+      "test_evidence_required": [
+        "survey and dimensional inspection",
+        "NDT and material coupons",
+        "fatigue corrosion and remaining-life assessment",
+        "rework procedure qualification",
+        "proof and functional tests after recovery",
+        "independent disposition review"
+      ],
+      "title": "Brownfield asset recovery and workshop integration",
+      "unresolved_assumptions": [
+        "recoverable asset population and ownership",
+        "material grades and service history",
+        "workshop machine calibration",
+        "local reuse and waste rules"
+      ]
+    }
+  ],
+  "passed": true,
+  "release_ready_count": 0,
+  "schema": "osr-component-rfc-packages/1",
+  "source_sha256": "21bf490d95a1f734336153897f0132a45fcd73c8052a5db9ecda707078bd196c"
+}
