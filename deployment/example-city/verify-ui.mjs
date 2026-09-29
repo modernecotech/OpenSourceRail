@@ -77,9 +77,16 @@ try {
  await page.screenshot({path:output+'workbench-fuxa.png',fullPage:true});
  passed('Native FUXA follows city selection and renders live controller power');
  const assetLink=frame.locator('svg a').filter({hasText:'Open asset, maintenance, engineering and history'}).first();
- await expect(assetLink).toHaveAttribute('href',/^http:\/\/127\.0\.0\.1:8190\/\?module=lifecycle&city=samawah&/);
+ const isSamawahLifecycle=value=>{
+   if(!value)return false;
+   const url=new URL(value,'http://127.0.0.1:8190');
+   return url.origin==='http://127.0.0.1:8190' && url.pathname==='/'
+     && url.searchParams.get('module')==='lifecycle'
+     && url.searchParams.get('city')==='samawah';
+ };
+ await expect.poll(async()=>isSamawahLifecycle(await assetLink.getAttribute('href'))).toBe(true);
  await assetLink.click();
- await expect(page).toHaveURL(/^http:\/\/127\.0\.0\.1:8190\/\?module=lifecycle&city=samawah&/);
+ await expect.poll(()=>isSamawahLifecycle(page.url())).toBe(true);
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/docs\/lifecycle/);
  passed('Native FUXA asset link returns to the same isolated Workbench');
  await frame.locator('#asset').selectOption('SAM-ST-001:facilities');
