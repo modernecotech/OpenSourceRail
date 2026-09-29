@@ -6993,11 +6993,11 @@
     {
       "details": {
         "authority_boundary": "no-deployment-authority-claimed",
-        "integration_test_files": 1,
+        "integration_test_files": 2,
         "kani_harnesses": 0,
         "member": "crates/osr-hvac",
-        "source_files": 1,
-        "unit_test_modules": 1,
+        "source_files": 2,
+        "unit_test_modules": 2,
         "workspace_version": "0.4.0"
       },
       "domain": "rust",
@@ -7213,6 +7213,38 @@
       "source": "crates/osr-obstacle-detect/Cargo.toml",
       "source_status": "software-development-evidence",
       "title": "OpenSourceRail — SIL-4-target onboard obstacle detection (GoA 4)"
+    },
+    {
+      "details": {
+        "authority_boundary": "no-deployment-authority-claimed",
+        "integration_test_files": 1,
+        "kani_harnesses": 0,
+        "member": "crates/osr-onboard-routing",
+        "source_files": 1,
+        "unit_test_modules": 1,
+        "workspace_version": "0.4.0"
+      },
+      "domain": "rust",
+      "id": "osr-onboard-routing",
+      "identity_state": "source-version-artifact-provenance-only",
+      "kind": "crate",
+      "physical_identity_eligible": false,
+      "release_evidence": [
+        "locked-source-and-toolchain",
+        "peer-review",
+        "all-feature-test-and-clippy",
+        "security-advisory-review",
+        "reproducible-artifact-and-deployment-boundary"
+      ],
+      "release_state": "evidence-open-not-released",
+      "required_records": [
+        "configuration-baseline",
+        "nonconformance-capa",
+        "software-release"
+      ],
+      "source": "crates/osr-onboard-routing/Cargo.toml",
+      "source_status": "software-development-evidence",
+      "title": "OpenSourceRail — three-source fail-restrictive onboard route selection"
     },
     {
       "details": {
@@ -8017,7 +8049,7 @@
   ],
   "schema": "osr-subsystem-control-register/1",
   "sources": {
-    "Cargo.toml": "2d8e7a560b77a91fe83eb6446cf1dce773b2344056729015921fcaceb3d59404",
+    "Cargo.toml": "7dc7b9e70f11981675767705e2f6944eca899986a11295518baf1b5582463d4c",
     "deployment/erpnext/config/lifecycle-governance.json": "f5d81ac31b1e26f8d5cb61b31df176e9d3b765ff8d7bba2fcbf896e169cbce6b",
     "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
     "design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.json": "40df1b4c21e7d654e3949e49a31769aeb0038b060092b313121ef85f2c6fffac",
@@ -8027,21 +8059,21 @@
     "domains": {
       "civil": 19,
       "mechanical": 146,
-      "rust": 58,
+      "rust": 59,
       "station": 7
     },
     "kinds": {
       "civil:reusable-type": 19,
       "mechanical:assembly": 26,
       "mechanical:product": 120,
-      "rust:crate": 58,
+      "rust:crate": 59,
       "station:variant": 7
     },
     "management_cadences": 4,
     "physical_identity_templates": 172,
     "printable_qr_labels": 0,
     "record_templates": 9,
-    "records": 230,
+    "records": 231,
     "role_templates": 11,
     "workflow_templates": 6
   },

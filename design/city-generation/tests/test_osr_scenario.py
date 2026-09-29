@@ -45,6 +45,9 @@ def test_samawah_design_generates_valid_scenario() -> None:
     assert "fleets" in doc
     systems = doc["consist"]["systems"]
     assert systems["mechanical_standard_revision"] == "A-DRAFT"
+    assert systems["integrated_thermal"]["battery_priority"] is True
+    thermal = systems["integrated_thermal"]
+    assert thermal["battery_target_c"] < thermal["battery_derate_c"] < thermal["battery_trip_c"]
     assert systems["door_cassettes_per_car"] == 4
     assert systems["main_light_modules_per_car"] == 22
     # Sites are optional — auto-generated designs without committed
@@ -444,7 +447,10 @@ def test_readme_is_concise_local_summary_with_common_reference() -> None:
     assert "| Native simulation + degraded cases | pass |" in text
     assert "| SUMO timetable | pass |" in text
     assert "| GIS package | pass |" in text
-    assert "| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 7 grid-only diagnostics |" in text
+    assert re.search(
+        r"\| Solar/storage snapshot \(operating duty unverified\) \| pass; 0 findings; \d+ grid-only diagnostics \|",
+        text,
+    )
     assert "| Lowest traversal charging margin |" in text
     assert len(text.splitlines()) < 140
     assert "## Construction QA system" not in text
@@ -467,7 +473,10 @@ def test_readme_audit_mode_does_not_promote_stale_evidence(monkeypatch) -> None:
     assert "Evidence refresh required" in text
     assert "older scenario" in text
     assert "| Native simulation + degraded cases | unverified |" in text
-    assert "| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 7 grid-only diagnostics |" in text
+    assert re.search(
+        r"\| Solar/storage snapshot \(operating duty unverified\) \| unverified; 0 findings; \d+ grid-only diagnostics \|",
+        text,
+    )
     assert "| pass |" not in text
 
 

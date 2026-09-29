@@ -123,6 +123,20 @@ file = "lib/templates/signalling.toml"
 ids  = [
     { id = "osr-pilot-1", desc = "Conservative independently detected sectional-authority pilot; consensus and moving block remain shadow-only" },
     { id = "osr-target-moving-block", desc = "Research target; cannot become safety-authoritative until all staged evidence gates close" },
+    { id = "osr-distributed-onboard", desc = "Research target: two-of-three route intent with retained independent movement-authority, route-locking and protection functions" },
+]
+
+[index.assurance_profiles]
+file = "lib/templates/digital-assurance.toml"
+ids = [
+    { id = "osr-digital-assurance-1", desc = "Deterministic standards/FMEA pre-build gate with physical and independent release evidence kept open" },
+]
+
+[index.corridor_resilience]
+file = "lib/templates/corridor-resilience.toml"
+ids = [
+    { id = "recovery-every-third-station", desc = "Protected recovery siding and fail-held remote shunt robot reference rule" },
+    { id = "constrained-single-track", desc = "Short exclusive-guideway single track with passing loops and opposing-move exclusion" },
 ]
 
 [index.comms_backbone]

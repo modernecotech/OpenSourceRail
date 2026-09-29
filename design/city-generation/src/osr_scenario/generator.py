@@ -115,6 +115,15 @@ _TRAINSET_SYSTEM_DEFAULTS: dict[str, Any] = {
     "door_threshold_light_modules_per_car": 4,
     "lighting_power_w_per_car": 500.0,
     "hvac_thermal_kw_per_car": 24.0,
+    "integrated_thermal": {
+        "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+        "battery_priority": True,
+        "battery_target_c": 28.0,
+        "battery_derate_c": 45.0,
+        "battery_trip_c": 55.0,
+        "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+        "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required",
+    },
 }
 
 
@@ -522,6 +531,14 @@ class ScenarioGenerator:
             f"door_threshold_light_modules_per_car = {self.trainset_systems['door_threshold_light_modules_per_car']}\n"
             f"lighting_power_w_per_car = {self.trainset_systems['lighting_power_w_per_car']}\n"
             f"hvac_thermal_kw_per_car = {self.trainset_systems['hvac_thermal_kw_per_car']}\n"
+            f"\n[consist.systems.integrated_thermal]\n"
+            f"architecture = \"{self.trainset_systems['integrated_thermal']['architecture']}\"\n"
+            f"battery_priority = {str(self.trainset_systems['integrated_thermal']['battery_priority']).lower()}\n"
+            f"battery_target_c = {self.trainset_systems['integrated_thermal']['battery_target_c']}\n"
+            f"battery_derate_c = {self.trainset_systems['integrated_thermal']['battery_derate_c']}\n"
+            f"battery_trip_c = {self.trainset_systems['integrated_thermal']['battery_trip_c']}\n"
+            f"common_compressor_failure_response = \"{self.trainset_systems['integrated_thermal']['common_compressor_failure_response']}\"\n"
+            f"release_boundary = \"{self.trainset_systems['integrated_thermal']['release_boundary']}\"\n"
             f"\n[consist.roof_pv]\n"
             f"nameplate_kw = {cd['roof_pv_nameplate_kw']}\n"
             f"usable_factor = 0.65\n"

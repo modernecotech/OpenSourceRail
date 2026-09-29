@@ -21,11 +21,11 @@ This root README is the only human-facing front door; generated inventories are 
 |---|---|
 | City portfolio | **265 cities in 43 developing countries**, plus one European comparison model excluded from the public programme evidence. |
 | Planning | Interactive route, station, demand and service design over local GIS, open elevation/slope and water evidence, with reproducible source locks and content-addressed revisions. |
-| Physical system | A 49.5 m, three-car, driverless light-metro reference with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** onboard LFP storage; seven station archetypes; at-grade, viaduct and special bridge civil families. |
+| Physical system | A 49.5 m, three-car, driverless light-metro reference with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** onboard LFP storage; integrated battery-priority/cabin thermal control; seven station archetypes; at-grade, single-track, viaduct and special bridge civil families. |
 | Product definition | **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families, 146 native FreeCAD models and matching split IFC4.3 files** linked to BOMs, methods, QA gates and release evidence. |
 | Delivery control | Finite-resource CPM, critical path, supplier/order-by planning, schedule of values, local/import cashflow, construction states, ERPNext projects, procurement, stock, manufacturing, quality, finance, HR and maintenance. |
 | Operations | Deterministic Rust simulation and evaluators, OCC applications, observation-only supervision gateway, FUXA views, history/alarms, condition-to-maintenance cases and recovery-tested Workbench integration. |
-| Assurance | Unit, property, cross-language, integration, browser, formal Kani and long-horizon test layers; IFC/IDS validation; source and result hashes; explicit human approval boundaries. |
+| Assurance | Unit, property, cross-language, integration, browser, formal Kani and long-horizon test layers; IFC/IDS validation; deterministic cross-domain FMEA/standards reports; source/result hashes; explicit physical-test and human-approval boundaries. |
 
 The modelled civil strategy prefers simple construction—**at least 70% at grade, at most 25% elevated and at most 5% bridge, with no tunnel in the upstream reference system**—but the terrain/water planner now exposes where a real route cannot honestly keep that mix.
 
@@ -67,6 +67,14 @@ One [Workbench](docs/workbench/README.md) joins City Studio, simulation, OCC, ra
 ERP, FUXA and management automation have no path to movement authority, point/barrier command, safety release or engineering acceptance. Those remain separate human-controlled and independently assessed railway responsibilities.
 
 ## The newest cross-system capabilities
+
+### Battery cooling, resilient routing, recovery and assurance
+
+The train now has deterministic integrated thermal control for a shared refrigerant plant with physically separated cabin-air and battery-coolant circuits. Battery cooling, traction derate and pack protection take priority over comfort. The simulator exercises it on every train tick, without claiming that software qualifies physical equipment.
+
+A new onboard selector compares a signed stored plan, sensor-derived localisation/topology and authenticated network command. Two fresh, trusted and exactly matching inputs are required; plan plus sensors can maintain route intent during network loss, while disagreement holds. Route intent never creates movement authority: separation, route locking, detected points, speed supervision and emergency braking remain mandatory.
+
+The planner supports short constrained single-track sections, passing loops and a protected recovery siding every third station with a fail-held remote shunt robot. Every build also emits a content-addressed [standards/FMEA report](docs/certification/digital-assurance-report.md), covering six domains and all 279 controlled train, station, civil and Rust inventory entries. These remain planning/design gates with item reviews, physical tests, site validation and independent assessment release-blocking.
 
 ### Terrain- and water-aware route planning
 

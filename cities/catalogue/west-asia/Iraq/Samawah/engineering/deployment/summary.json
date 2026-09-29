@@ -1,23 +1,23 @@
 {
   "city": "samawah",
-  "closed_gate_count": 4,
+  "closed_gate_count": 5,
   "deployment_release_ready": false,
   "design_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
   "evidence_sha256": {
-    "delivery/summary.json": "cefb68c7a2841eebf090862321964efc95d8ab3bfd79a29e3ede1b901e0cf4ab",
-    "depot-scope/summary.json": "83b481fea618816519ce53e5f40bf0d76ae1016689c806ad5ed1aa6395c66890",
-    "energy/summary.json": "44cc70d306ff8a38dee28d26b0b49f6523766459846d4c300b22a1f5cf6e8c89",
-    "simulation/operations-crosscheck.json": "406066cc9e41527d0c870d7976f14693c3f2e0d503891c561088b83b7bc9bec1",
-    "simulation/validation-summary.json": "6827478a4f812796c07ad30d613b3f24840dd9829aca56316300fab8749fa6da",
+    "delivery/summary.json": "afe62e5820d8cbf90e3bf9926ca26e06fe50a157aa1d8e5b54ee1cebb4e3cb82",
+    "depot-scope/summary.json": "2146bfc527a7821e6547cc02f2f63e0ea57905e3363f9b7bfc1525dd7882d46d",
+    "energy/summary.json": "e26b45cc42d81417c9f39dd3bb06570c038f7396c50a1bdf74325c93f97cde75",
+    "simulation/operations-crosscheck.json": "d3ad686323283d1970be3dd827031ad2862b9743bf575caaee0638e8108c65ef",
+    "simulation/validation-summary.json": "aa24e3efd4c2b16027e0c448c5231630de7c685cdf95fd358677fd89aaf739c0",
     "soil/summary.json": "e535fcd4e82ac87b668836513c1e44a12bbac5f5a3f341360014faa1e923100f",
-    "stabling/hybrid-cycle-screen.json": "f0daf793712439584967274f652dab8f58d32881685920d253e09a2c74df7be0",
-    "stabling/summary.json": "b3f554d230ac91b3c22c6f715df398d4422e1a1552af40990c68e778c417b492",
+    "stabling/hybrid-cycle-screen.json": "87514be19cf54c3347a21dd09d7937431df9102d41371af21af0dcf880ae5515",
+    "stabling/summary.json": "36cbb32894cbe4481929b5d2347cf6a0a198247c4b4b966bf67012b87760f565",
     "survey/control-processing-readiness.json": "bf59ac9a5e8e183af3e6a7497fc2991e5562b36585bb9e31a6fb3b81628dccf4",
     "survey/drainage-ground-readiness.json": "fbf7dc6c6ff54593617cfc8e73a267497b6d07167bed7165fa615dc48102dde9",
     "survey/ground-model-readiness.json": "1f10895b1c122aa30d58dc3076a43728ba9a2bc3c32de548aa44efaa35904dca",
     "survey/route-station-fit-readiness.json": "bf1900facd04b54a4c27c3ddd3d4dc936f90bcbed09cc0b9ae1c6d8413b63790",
     "survey/structural-release-readiness.json": "bd0e21ed12396a4e0189faea635054299caf1a1aaa79397a7bfa3b4601ce01ef",
-    "survey/surveyed-alignment-readiness.json": "ebd98bef5798d8e710ce2224d5557670e395b3d33ae0a68091f4651a0538fab5"
+    "survey/surveyed-alignment-readiness.json": "316641112e26b741c0490cd7a966c378165bc78859b01cb415695fe45244817a"
   },
   "gates": [
     {
@@ -202,12 +202,12 @@
     {
       "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
       "detail": {
-        "evidence_current": false
+        "evidence_current": true
       },
       "evidence": "stabling/hybrid-cycle-screen.json",
       "id": "continuous-stabling-replay",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.",
@@ -267,7 +267,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 13,
+  "open_gate_count": 12,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

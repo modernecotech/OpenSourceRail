@@ -19,12 +19,12 @@ selftest = ["osr-selftest", "--role", "t-ecu-s", "--json"]
 services = [
   "osr-core", "osr-crypto", "osr-secbus", "osr-tcn", "osr-ptp",
   "osr-atp", "osr-odometry", "osr-traction", "osr-bms", "osr-brake",
-  "osr-door-control", "osr-fire-safety", "osr-derailment",
+  "osr-onboard-routing", "osr-door-control", "osr-fire-safety", "osr-derailment",
 ]
 startup_order = [
   ["osr-core", "osr-crypto"],
   ["osr-secbus", "osr-ptp", "osr-tcn"],
-  ["osr-odometry", "osr-bms", "osr-door-control", "osr-fire-safety", "osr-derailment"],
+  ["osr-odometry", "osr-bms", "osr-onboard-routing", "osr-door-control", "osr-fire-safety", "osr-derailment"],
   ["osr-atp", "osr-traction", "osr-brake"],
 ]
 

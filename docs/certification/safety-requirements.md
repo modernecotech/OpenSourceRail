@@ -294,6 +294,32 @@ be equipped with platform screen doors (PSDs) per RFC 0010
 - **Evidence:** RFC 0010, RFC 0015; deployment-specific design
   report.
 
+## 10. Distributed onboard route selection
+
+### SR-25 — Route selection cannot authorize movement
+
+The route selector shall never create or extend movement authority. Every
+selected route shall remain conditional on a separately valid authority,
+localisation verdict, speed envelope and train-protection output.
+
+- **Implementation:** `osr-onboard-routing::select_route` always returns
+  `movement_authority_required = true`; the simulator evaluates selection
+  before the independent interlocking/ATP path.
+- **Evidence:** unit, property and onboard integration tests; deterministic
+  assurance check DA-002.
+
+### SR-26 — Offline route selection requires two-source agreement
+
+With the network command absent, continued route selection shall require an
+eligible signed onboard plan and eligible sensor-derived route to match on
+route, next section and epoch. Stale, untrusted, single-source or disagreeing
+inputs shall produce `Hold`.
+
+- **Implementation:** `osr-onboard-routing` deterministic two-of-three
+  selector.
+- **Evidence:** exhaustive unit cases, property tests and DA-003. Hardware,
+  localisation and field-loss evidence remain open.
+
 ## Requirement summary table
 
 | ID | Summary | SIL | Evidence kind |
@@ -322,3 +348,5 @@ be equipped with platform screen doors (PSDs) per RFC 0010
 | SR-22 | Consensus entry auth | 2 | Kani + proptest + GSN G25–G27 |
 | SR-23 | Fare-token auth | 2 | Proptest |
 | SR-24 | PSDs at every boarding platform | — | RFC 0010 + RFC 0015 §5.4 |
+| SR-25 | Route selection never grants movement authority | 4 boundary | Unit + proptest + sim |
+| SR-26 | Offline routing requires plan/sensor agreement | 4 boundary | Unit + proptest + HIL open |

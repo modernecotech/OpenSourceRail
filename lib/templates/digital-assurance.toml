@@ -1,0 +1,165 @@
+[meta]
+schema = "osr-digital-assurance/1"
+id = "osr-digital-assurance-1"
+title = "Deterministic pre-build standards and FMEA gate"
+status = "design-screening-not-certification"
+standards_source = "docs/certification/standards-baseline.md"
+fmea_source = "lib/templates/system-fmea.toml"
+report_markdown = "docs/certification/digital-assurance-report.md"
+report_json = "docs/certification/digital-assurance-report.json"
+
+[authority_boundary]
+digital_gate_required_before_build = true
+physical_release_required_before_service = true
+independent_assessment_required = true
+statement = "Passing means the named deterministic design evidence is present and internally coherent. It is not certification, standard conformity, physical validation, permission to manufacture, or permission to operate."
+prohibited_claims = [
+  "simulation replaces mandatory physical testing",
+  "repository evidence is type approval",
+  "routing selection is movement authority",
+  "absence of conventional equipment removes protection functions",
+]
+
+[[standards]]
+id = "IEC-62278-1-2025"
+title = "Railway RAMS — generic process"
+domains = ["system", "mechanical", "electrical", "embedded-software", "civil", "operations"]
+source_url = "https://webstore.iec.ch/en/publication/68933"
+digital_use = "Lifecycle, system definition, RAMS requirements, change impact and safety-case traceability"
+physical_evidence = ["site validation", "commissioning", "operational demonstration", "independent assessment"]
+
+[[standards]]
+id = "IEC-62267-2009"
+title = "Automated urban guided transport safety"
+domains = ["system", "embedded-software", "operations"]
+source_url = "https://webstore.iec.ch/en/publication/6681"
+digital_use = "GoA4 functional safety and degraded-operation traceability"
+physical_evidence = ["obstacle and intrusion trials", "evacuation", "rescue", "operational validation"]
+
+[[standards]]
+id = "IEC-62290-1-2025"
+title = "Urban guided transport command/control principles"
+domains = ["system", "embedded-software", "operations"]
+source_url = "https://webstore.iec.ch/en/publication/83773"
+digital_use = "Continuous supervision, onboard localisation and command/control functional boundary"
+physical_evidence = ["communications coverage", "localisation calibration", "end-to-end train protection test"]
+
+[[standards]]
+id = "IEC-62425-2025"
+title = "Safety-related signalling electronic systems"
+domains = ["electrical", "embedded-software", "system"]
+source_url = "https://webstore.iec.ch/en/publication/68909"
+digital_use = "Safety-case structure, integrity allocation, reuse and safety-related tool boundary"
+physical_evidence = ["qualified controller", "HIL", "environmental tests", "independent safety assessment"]
+
+[[standards]]
+id = "EN-50716-2023"
+title = "Railway software development"
+domains = ["embedded-software"]
+source_url = "https://www.dinmedia.de/en/standard/din-en-50716/378381071"
+digital_use = "Software lifecycle, verification, configuration and tool evidence"
+physical_evidence = ["target-hardware integration", "HIL", "commissioning"]
+
+[[standards]]
+id = "IEC-60812-2018"
+title = "FMEA and FMECA"
+domains = ["system", "mechanical", "electrical", "embedded-software", "civil", "operations"]
+source_url = "https://webstore.iec.ch/en/publication/26359"
+digital_use = "Failure-mode identification, effects, causes, controls, ranking and maintenance"
+physical_evidence = ["supplier FMEDA", "inspection", "fault injection", "field feedback"]
+
+[[standards]]
+id = "IEC-62928-2017"
+title = "Onboard lithium-ion traction batteries"
+domains = ["electrical", "thermal", "mechanical"]
+source_url = "https://webstore.iec.ch/en/publication/31101"
+digital_use = "Battery design, operating limits, data exchange and test-plan traceability"
+physical_evidence = ["type tests", "routine tests", "thermal propagation", "pack and vehicle integration"]
+
+[[standards]]
+id = "IEC-60571-2012"
+title = "Electronic equipment on rolling stock"
+domains = ["electrical", "embedded-software"]
+source_url = "https://webstore.iec.ch/en/publication/2514"
+digital_use = "Electronic-equipment requirements and deterministic test mapping"
+physical_evidence = ["environmental tests", "power transients", "EMC", "target hardware"]
+
+[[standards]]
+id = "IEC-61373-2026"
+title = "Rolling-stock equipment shock and vibration"
+domains = ["mechanical", "electrical"]
+source_url = "https://webstore.iec.ch/en/publication/68999"
+digital_use = "Mounting-category and load-case definition"
+physical_evidence = ["shock test", "random vibration test", "post-test functional inspection"]
+
+[[standards]]
+id = "EN-1990"
+title = "Basis of structural design"
+domains = ["civil", "mechanical"]
+source_url = "https://eurocodes.jrc.ec.europa.eu/EN-Eurocodes/eurocode-basis-structural-design"
+digital_use = "Ultimate/serviceability limit-state and reliability evidence structure"
+physical_evidence = ["material certificates", "geotechnical investigation", "proof/load tests where specified", "as-built survey"]
+
+[[checks]]
+id = "DA-001"
+title = "Safety requirements and hazards remain traceable"
+standard_ids = ["IEC-62278-1-2025", "IEC-62267-2009", "IEC-62425-2025"]
+domains = ["system", "operations"]
+evidence = ["docs/certification/safety-requirements.md", "docs/certification/hazard-log.md", "docs/safety-case/README.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-002"
+title = "Train separation and speed supervision remain independent of route selection"
+standard_ids = ["IEC-62267-2009", "IEC-62290-1-2025", "IEC-62425-2025"]
+domains = ["system", "embedded-software"]
+evidence = ["crates/osr-onboard-routing/src/lib.rs", "crates/osr-interlocking/src/ma.rs", "crates/osr-atp/src/lib.rs"]
+required_digital = true
+
+[[checks]]
+id = "DA-003"
+title = "Network-loss routing fails restrictively on disagreement"
+standard_ids = ["IEC-62290-1-2025", "EN-50716-2023"]
+domains = ["embedded-software"]
+evidence = ["crates/osr-onboard-routing/tests/proptest_routing.rs", "crates/osr-onboard-routing/src/lib.rs"]
+required_digital = true
+
+[[checks]]
+id = "DA-004"
+title = "Cabin and battery cooling allocation prioritises battery protection"
+standard_ids = ["IEC-62928-2017", "IEC-60571-2012"]
+domains = ["thermal", "electrical"]
+evidence = ["crates/osr-hvac/src/integrated_thermal.rs", "crates/osr-hvac/tests/proptest_integrated_thermal.rs", "docs/rfcs/0024-battery-thermal-high-ambient.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-005"
+title = "Cross-domain FMEA has component, subsystem and system coverage"
+standard_ids = ["IEC-60812-2018", "IEC-62278-1-2025"]
+domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations"]
+evidence = ["lib/templates/system-fmea.toml"]
+required_digital = true
+
+[[checks]]
+id = "DA-006"
+title = "Civil structural screens retain physical release boundary"
+standard_ids = ["EN-1990", "IEC-62278-1-2025"]
+domains = ["civil", "mechanical"]
+evidence = ["engineering/analysis/structural_release.py", "lib/templates/structural-release-processing.toml", "docs/certification/release-gap-register.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-007"
+title = "Recovery sidings, robots and single-track loops use protected movement functions"
+standard_ids = ["IEC-62267-2009", "IEC-62290-1-2025"]
+domains = ["civil", "operations", "system"]
+evidence = ["lib/templates/corridor-resilience.toml", "docs/rfcs/0011-civil-infrastructure-design-standard.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-008"
+title = "Physical and independent-assessment gaps remain release-blocking"
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62928-2017", "IEC-61373-2026", "EN-1990"]
+domains = ["system", "mechanical", "electrical", "civil", "operations"]
+evidence = ["docs/certification/evidence-status.md", "docs/certification/release-gap-register.md", "docs/certification/pilot-signalling-profile.md"]
+required_digital = true

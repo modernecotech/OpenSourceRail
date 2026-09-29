@@ -48,6 +48,11 @@ class CityInputs:
     # ~70 % of the farthest radial endpoint distance. Intersects
     # every radial so outer-to-outer trips don't congest the centre.
     ring_line: bool = False
+    # Optional constrained central-town segments. Each tuple is
+    # (line_id, from_station_id, to_station_id). The emitter retains a
+    # double-track passing loop at both bounding stops and marks only the
+    # intervening segment as single track.
+    single_track_segments: tuple[tuple[str, str, str], ...] = ()
 
 
 @dataclass
@@ -77,6 +82,7 @@ class NetworkPlan:
             peak_sun_hours=self.inputs.peak_sun_hours,
             stations=self.stations,
             lines=self.lines,
+            single_track_segments=self.inputs.single_track_segments,
         )
 
     def metrics_summary(self) -> str:

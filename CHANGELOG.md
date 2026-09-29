@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- Added an integrated battery/cabin thermal supervisor, modelled after compact
+  combined rail cooling architectures while retaining isolated air and coolant
+  circuits. Battery cooling and protection pre-empt passenger comfort, faulted
+  coolant/sensor states request derate or isolation, Rust unit/property tests
+  cover the controller, and the service simulator now executes and reports it.
+
+- Added fail-closed two-of-three onboard route selection from a signed stored
+  plan, sensor-derived topology/localisation and authenticated network command.
+  Plan-plus-sensor agreement supports network-loss route intent, while stale,
+  untrusted, single or disagreeing inputs hold. The selector can never grant
+  movement authority; the existing separation, route-locking, ATP and brake
+  chain remains authoritative and the distributed profile remains a research
+  target pending HIL, field and independent-assessment evidence.
+
+- Added constrained single-track generation with passing loops at stops/portals
+  and a protected recovery siding every third station, including a bounded
+  remote shunt-robot concept. A deterministic standards/FMEA compiler now
+  validates evidence and component/subsystem/system coverage across six
+  engineering and operational domains, deterministically screens all 279
+  controlled train/station/civil/software inventory entries on every build/test,
+  emits hashed Markdown/JSON reports and keeps every item-specific, physical and
+  regulatory release gate explicit.
+
 - Added a supplier-facing technical-support layer that reuses the LM3 product
   tree, controlled interfaces, COTS/RFQ candidates, city duty models,
   first-article gates and ERP/lifecycle identities. A fail-closed template now

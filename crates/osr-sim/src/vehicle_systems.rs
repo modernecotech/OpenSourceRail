@@ -10,7 +10,10 @@ use osr_door_control::{
     consist_interlock_ok, door_evaluate, DoorAction, DoorInputs, DoorParams, DoorSensors,
     DoorState, DoorStatus,
 };
-use osr_hvac::{hvac_evaluate, HvacInputs, HvacMode, HvacParams, HvacState};
+use osr_hvac::{
+    hvac_evaluate, thermal_evaluate, BatteryThermalMode, HvacInputs, HvacMode, HvacParams,
+    HvacState, IntegratedThermalInputs, IntegratedThermalParams,
+};
 use osr_lighting::{
     lighting_evaluate, Heading as LightingHeading, LightingInputs, LightingMode, LightingParams,
 };
@@ -27,6 +30,7 @@ pub struct VehicleSystemsShadow {
     hvac: HvacState,
     pis: PisState,
     cabin_temp_c: f32,
+    battery_cell_temp_c: f32,
     summary: VehicleSystemsSummary,
 }
 
@@ -43,6 +47,7 @@ impl VehicleSystemsShadow {
             hvac: HvacState::default(),
             pis: PisState::default(),
             cabin_temp_c: ambient_c,
+            battery_cell_temp_c: ambient_c.clamp(20.0, 35.0),
             summary: VehicleSystemsSummary::default(),
         }
     }
@@ -61,6 +66,10 @@ pub struct VehicleSystemsSummary {
     pub hvac_cooling_ticks: u64,
     pub hvac_heating_ticks: u64,
     pub hvac_reduced_ticks: u64,
+    pub battery_thermal_controller_ticks: u64,
+    pub battery_thermal_cooling_ticks: u64,
+    pub battery_thermal_derate_ticks: u64,
+    pub battery_thermal_protect_ticks: u64,
     pub lighting_controller_ticks: u64,
     pub main_light_module_ticks: u64,
     pub emergency_light_module_ticks: u64,
@@ -80,6 +89,8 @@ pub struct VehicleSystemsTickReport {
     pub direct_hv_enabled: bool,
     pub aux_load_shed_active: bool,
     pub hvac_reduced: bool,
+    pub battery_thermal_derate: bool,
+    pub battery_thermal_protect: bool,
     pub pis_announcement: bool,
 }
 
@@ -172,6 +183,28 @@ pub fn vehicle_systems_tick(
         &HvacParams::light_metro_default(),
     );
     shadow.hvac = hvac_out.state;
+    let mut thermal_params = IntegratedThermalParams::light_metro_hot_climate();
+    thermal_params.battery_target_dc =
+        (config.integrated_thermal.battery_target_c * 10.0).round() as i16;
+    thermal_params.battery_derate_dc =
+        (config.integrated_thermal.battery_derate_c * 10.0).round() as i16;
+    thermal_params.battery_trip_dc =
+        (config.integrated_thermal.battery_trip_c * 10.0).round() as i16;
+    let thermal_out = thermal_evaluate(
+        &IntegratedThermalInputs {
+            cabin_temp_dc: (shadow.cabin_temp_c * 10.0).round() as i16,
+            ambient_temp_dc: (ambient_c * 10.0).round() as i16,
+            cabin_setpoint_dc: 230,
+            battery_coolant_temp_dc: (shadow.battery_cell_temp_c * 10.0).round() as i16,
+            battery_max_cell_temp_dc: (shadow.battery_cell_temp_c * 10.0).round() as i16,
+            compressor_available: aux_out.direct_hv_enabled,
+            cabin_fan_available: aux_out.v110_enabled,
+            battery_pump_available: aux_out.v24_enabled,
+            battery_circuit_pressure_ok: true,
+            battery_temperature_sensor_plausible: true,
+        },
+        &thermal_params,
+    );
     // Compact deterministic thermal response. Energy is not debited here:
     // HVAC and auxiliaries are already included in kWh/car-km.
     let ambient_leak = (ambient_c - shadow.cabin_temp_c) * 0.0005 * dt_s;
@@ -180,6 +213,20 @@ pub fn vehicle_systems_tick(
         * 0.015
         * dt_s;
     shadow.cabin_temp_c = (shadow.cabin_temp_c + ambient_leak + active_change).clamp(-20.0, 70.0);
+    // Screening-only lumped battery thermal response. The controller and its
+    // priority are exercised here; detailed pack CFD and physical validation
+    // remain release evidence outside the service-energy model.
+    let traction_heat = if matches!(train.phase, TrainPhase::Traveling { .. }) {
+        0.003 * dt_s
+    } else {
+        0.0005 * dt_s
+    };
+    let battery_ambient_leak = (ambient_c - shadow.battery_cell_temp_c) * 0.0001 * dt_s;
+    let active_battery_cooling = f32::from(thermal_out.battery_chiller_ppt) / 1000.0 * 0.010 * dt_s;
+    shadow.battery_cell_temp_c =
+        (shadow.battery_cell_temp_c + traction_heat + battery_ambient_leak
+            - active_battery_cooling)
+            .clamp(-20.0, 80.0);
 
     let _lighting_out = lighting_evaluate(
         &LightingInputs {
@@ -218,6 +265,7 @@ pub fn vehicle_systems_tick(
     shadow.summary.door_controller_evaluations += shadow.doors.len() as u64;
     shadow.summary.aux_power_controller_ticks += 1;
     shadow.summary.hvac_controller_ticks += 1;
+    shadow.summary.battery_thermal_controller_ticks += 1;
     shadow.summary.lighting_controller_ticks += 1;
     shadow.summary.pis_controller_ticks += 1;
     shadow.summary.main_light_module_ticks += cars * u64::from(config.main_light_modules_per_car);
@@ -234,6 +282,12 @@ pub fn vehicle_systems_tick(
         HvacMode::Reduced => shadow.summary.hvac_reduced_ticks += 1,
         HvacMode::Off | HvacMode::Ventilating => {}
     }
+    match thermal_out.battery_mode {
+        BatteryThermalMode::Nominal => {}
+        BatteryThermalMode::Cooling => shadow.summary.battery_thermal_cooling_ticks += 1,
+        BatteryThermalMode::Derate => shadow.summary.battery_thermal_derate_ticks += 1,
+        BatteryThermalMode::Protect => shadow.summary.battery_thermal_protect_ticks += 1,
+    }
     if pis_out.audio_announcement != AnnouncementKind::None {
         shadow.summary.pis_announcements += 1;
     }
@@ -245,6 +299,8 @@ pub fn vehicle_systems_tick(
         direct_hv_enabled: aux_out.direct_hv_enabled,
         aux_load_shed_active: aux_out.load_shed_active,
         hvac_reduced: hvac_out.mode == HvacMode::Reduced,
+        battery_thermal_derate: thermal_out.traction_derate_request,
+        battery_thermal_protect: thermal_out.battery_isolation_request,
         pis_announcement: pis_out.audio_announcement != AnnouncementKind::None,
     }
 }
@@ -308,6 +364,10 @@ pub fn summarise(
         total.hvac_cooling_ticks += summary.hvac_cooling_ticks;
         total.hvac_heating_ticks += summary.hvac_heating_ticks;
         total.hvac_reduced_ticks += summary.hvac_reduced_ticks;
+        total.battery_thermal_controller_ticks += summary.battery_thermal_controller_ticks;
+        total.battery_thermal_cooling_ticks += summary.battery_thermal_cooling_ticks;
+        total.battery_thermal_derate_ticks += summary.battery_thermal_derate_ticks;
+        total.battery_thermal_protect_ticks += summary.battery_thermal_protect_ticks;
         total.lighting_controller_ticks += summary.lighting_controller_ticks;
         total.main_light_module_ticks += summary.main_light_module_ticks;
         total.emergency_light_module_ticks += summary.emergency_light_module_ticks;
@@ -362,5 +422,20 @@ mod tests {
         assert_eq!(shadow.summary.door_controller_evaluations, 12);
         assert_eq!(shadow.summary.doors_open_evaluations, 12);
         assert_eq!(shadow.summary.door_interlock_violations, 0);
+    }
+
+    #[test]
+    fn hot_battery_is_reported_to_the_integration_boundary() {
+        let config = TrainsetSystemsConfig::default();
+        let tr = train(TrainPhase::AwaitingDispatch {
+            station: osr_core::StationId::new(1),
+        });
+        let mut shadow = VehicleSystemsShadow::new(&tr, &config, 50.0);
+        shadow.battery_cell_temp_c = 56.0;
+        let report =
+            vehicle_systems_tick(&mut shadow, &tr, &Network::default(), &config, 50.0, 0, 1.0);
+        assert!(report.battery_thermal_derate);
+        assert!(report.battery_thermal_protect);
+        assert_eq!(shadow.summary.battery_thermal_protect_ticks, 1);
     }
 }

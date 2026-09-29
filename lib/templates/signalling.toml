@@ -39,6 +39,21 @@ moving_block_mode              = "active-after-gates"
 safety_output_controller       = "deployment-selected-qualified-channel"
 requires_independent_assessor  = true
 
+[profiles.osr-distributed-onboard]
+status                         = "research-target-not-deployable-baseline"
+segregated_right_of_way        = true
+route_selection                = "two-of-three-independent-sources"
+route_sources                  = ["signed-onboard-plan", "sensor-derived-localisation-and-topology", "authenticated-network-command"]
+network_loss_mode              = "onboard-plan-plus-sensor-agreement-with-valid-independent-authority"
+movement_authority             = "retained-independent-safety-function"
+speed_supervision              = "retained-onboard-fail-restrictive-function"
+route_locking                  = "retained-distributed-or-wayside-safety-function"
+opposing_move_exclusion        = "mandatory"
+point_detection               = "independent-fail-safe-detected-and-locked"
+source_disagreement            = "hold-or-brake-within-protection-envelope"
+safety_output_controller       = "deployment-selected-qualified-channel"
+requires_independent_assessor  = true
+
 # ---- Plain-line: mid-section W-Node, no switches ------------------------
 
 [kits.plain-line]

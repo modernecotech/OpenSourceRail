@@ -1,0 +1,338 @@
+[meta]
+schema = "osr-system-fmea/1"
+method = "IEC 60812:2018-inspired project worksheet"
+status = "living design FMEA; supplier FMEDA and deployment review remain required"
+rating_scale = "1 (low/easy detection) to 5 (catastrophic/hard detection)"
+required_domains = ["mechanical", "electrical", "thermal", "embedded-software", "civil", "operations"]
+required_levels = ["component", "subsystem", "system"]
+high_risk_rpn = 40
+inventory_sources = [
+  "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+  "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
+  "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+  "Cargo.toml",
+]
+
+[[failure_modes]]
+id = "FMEA-MEC-C01"
+domain = "mechanical"
+level = "component"
+item = "axle bearing"
+function = "support rotating wheelset"
+mode = "seizure or overheating"
+local_effect = "bearing drag and heat"
+system_effect = "derailment risk"
+cause = "lubrication loss, contamination or fatigue"
+detection = "onboard and wayside temperature plus vibration trend"
+controls = ["temperature trip", "condition maintenance", "quarantine threshold"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-hot-axle/src/lib.rs", "crates/osr-hot-axle-wayside/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-MEC-S01"
+domain = "mechanical"
+level = "subsystem"
+item = "friction and regenerative brake"
+function = "stop within protection envelope"
+mode = "insufficient commanded deceleration"
+local_effect = "long stopping distance"
+system_effect = "collision or overspeed"
+cause = "actuator, adhesion or blending failure"
+detection = "brake feedback, wheel speed and deceleration plausibility"
+controls = ["emergency union", "friction fallback", "wheel-slide protection", "proof and adhesion tests"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-brake/src/lib.rs", "docs/certification/safety-requirements.md"]
+
+[[failure_modes]]
+id = "FMEA-MEC-Y01"
+domain = "mechanical"
+level = "system"
+item = "train recovery interface"
+function = "recover failed trainset"
+mode = "coupler or drawbar overload"
+local_effect = "loss of tow connection"
+system_effect = "stranded train or uncontrolled separation"
+cause = "wrong adapter, excess grade load or shock"
+detection = "configuration check and load monitoring"
+controls = ["controlled adapter", "5 km/h recovery limit", "proof load", "route-specific tow calculation"]
+severity = 4
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["design/component-catalogue/src/osr_mech/recovery_interface.py", "lib/templates/corridor-resilience.toml"]
+
+[[failure_modes]]
+id = "FMEA-ELC-C01"
+domain = "electrical"
+level = "component"
+item = "battery cell or module"
+function = "store traction energy"
+mode = "overtemperature or internal short"
+local_effect = "cell venting"
+system_effect = "pack fire and loss of traction"
+cause = "defect, abuse, cooling loss or propagation"
+detection = "cell voltage, temperature, pressure and off-gas"
+controls = ["BMS limits", "contactor isolation", "separated enclosure", "thermal management", "suppression"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-bms/src/lib.rs", "crates/osr-fire-safety/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-ELC-S01"
+domain = "electrical"
+level = "subsystem"
+item = "auxiliary power"
+function = "supply controls and comfort loads"
+mode = "common DC branch loss"
+local_effect = "loads unavailable"
+system_effect = "loss of ventilation, lighting or control availability"
+cause = "converter trip, wiring fault or thermal overload"
+detection = "rail voltage, current and converter status"
+controls = ["load shedding", "separate safety supply", "emergency lighting", "fault isolation"]
+severity = 4
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-aux-power/src/lib.rs", "crates/osr-lighting/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-ELC-Y01"
+domain = "electrical"
+level = "system"
+item = "vehicle electrical protection"
+function = "prevent shock and fire"
+mode = "insulation or bonding failure"
+local_effect = "touch voltage or arcing"
+system_effect = "injury, fire or service isolation"
+cause = "damage, contamination or assembly error"
+detection = "insulation monitoring and inspection"
+controls = ["protective bonding", "automatic isolation", "creepage and clearance review", "dielectric test"]
+severity = 5
+occurrence = 2
+detection_rating = 3
+physical_evidence_required = true
+evidence = ["docs/certification/release-gap-register.md"]
+
+[[failure_modes]]
+id = "FMEA-THM-C01"
+domain = "thermal"
+level = "component"
+item = "battery coolant hose or seal"
+function = "contain isolated battery coolant"
+mode = "leak or pressure loss"
+local_effect = "pump starvation and lost heat transfer"
+system_effect = "battery derate or isolation"
+cause = "vibration, abrasion or seal ageing"
+detection = "pressure, flow and leak sensing"
+controls = ["separate battery circuit", "protect request", "replaceable hoses", "pressure test"]
+severity = 4
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-hvac/src/integrated_thermal.rs"]
+
+[[failure_modes]]
+id = "FMEA-THM-S01"
+domain = "thermal"
+level = "subsystem"
+item = "combined thermal pack"
+function = "cool battery and cabin"
+mode = "common compressor unavailable"
+local_effect = "active cooling lost"
+system_effect = "comfort loss followed by traction derate"
+cause = "compressor, inverter or refrigerant fault"
+detection = "command feedback and pressure plausibility"
+controls = ["battery priority", "fans-only cabin mode", "traction derate", "safe-stop or isolation threshold"]
+severity = 4
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-hvac/src/integrated_thermal.rs", "crates/osr-hvac/tests/proptest_integrated_thermal.rs"]
+
+[[failure_modes]]
+id = "FMEA-THM-Y01"
+domain = "thermal"
+level = "system"
+item = "high-ambient vehicle duty"
+function = "maintain safe equipment temperatures"
+mode = "heat rejection below combined demand"
+local_effect = "capacity saturation"
+system_effect = "reduced service or battery protection stop"
+cause = "50 C ambient, fouling, aged pack and crowd load"
+detection = "digital duty matrix and live temperature margin"
+controls = ["combined worst-case simulation", "cleaning interval", "reserve capacity", "service derating plan"]
+severity = 4
+occurrence = 3
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["docs/rfcs/0024-battery-thermal-high-ambient.md", "engineering/design-options/examples/samawah-fleet20-topology/qualification.json"]
+
+[[failure_modes]]
+id = "FMEA-SW-C01"
+domain = "embedded-software"
+level = "component"
+item = "localisation sensor adapter"
+function = "provide current position"
+mode = "stale or implausible measurement accepted"
+local_effect = "wrong sensed route candidate"
+system_effect = "route disagreement or unsafe position estimate"
+cause = "clock, sensor, codec or calibration fault"
+detection = "age, uncertainty, plausibility and balise cross-check"
+controls = ["fail unknown", "bounded uncertainty", "typed transport", "two-source route vote"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-odometry/src/lib.rs", "crates/osr-onboard-routing/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-SW-S01"
+domain = "embedded-software"
+level = "subsystem"
+item = "onboard route selector"
+function = "select planned route under network loss"
+mode = "common-mode plan and sensor error"
+local_effect = "two sources agree incorrectly"
+system_effect = "wrong route requested"
+cause = "shared topology or configuration defect"
+detection = "independent network comparison, versioning and route-lock feedback"
+controls = ["movement authority remains separate", "configuration signatures", "diverse localisation", "independent review"]
+severity = 5
+occurrence = 2
+detection_rating = 3
+physical_evidence_required = true
+evidence = ["crates/osr-onboard-routing/src/lib.rs", "crates/osr-interlocking/src/ma.rs"]
+
+[[failure_modes]]
+id = "FMEA-SW-Y01"
+domain = "embedded-software"
+level = "system"
+item = "distributed train protection"
+function = "maintain separation and speed supervision"
+mode = "network partition plus inconsistent state"
+local_effect = "authority cannot be renewed safely"
+system_effect = "service hold or collision if not contained"
+cause = "communications or consensus partition"
+detection = "quorum, expiry and state divergence alarms"
+controls = ["absolute authority expiry", "ATP envelope", "fail-restrictive hold", "event recorder"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["crates/osr-consensus/src/lib.rs", "crates/osr-atp/src/lib.rs", "crates/osr-interlocking/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-CIV-C01"
+domain = "civil"
+level = "component"
+item = "pier bearing"
+function = "transfer deck reactions and permit movement"
+mode = "seizure, uplift or excessive displacement"
+local_effect = "abnormal force transfer"
+system_effect = "deck distress or loss of alignment"
+cause = "installation, corrosion, thermal or seismic action"
+detection = "inspection and displacement or load evidence"
+controls = ["replaceable bearing", "movement check", "independent structural review"]
+severity = 5
+occurrence = 2
+detection_rating = 3
+physical_evidence_required = true
+evidence = ["design/component-catalogue/src/osr_mech/civil/viaduct.py", "lib/templates/structural-release-processing.toml"]
+
+[[failure_modes]]
+id = "FMEA-CIV-S01"
+domain = "civil"
+level = "subsystem"
+item = "single-track passing loop"
+function = "exclude opposing moves and permit passing"
+mode = "point not detected locked or train exceeds loop"
+local_effect = "route cannot be proved"
+system_effect = "opposing movement conflict"
+cause = "point fault, wrong consist or timetable configuration error"
+detection = "point detection, occupancy and configuration validation"
+controls = ["whole-section exclusion", "detected locked points", "station stop", "timetable proof"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["lib/templates/corridor-resilience.toml", "crates/osr-wayside-points/src/lib.rs"]
+
+[[failure_modes]]
+id = "FMEA-CIV-Y01"
+domain = "civil"
+level = "system"
+item = "bridge and foundation system"
+function = "support guided route"
+mode = "scour, settlement or strength/serviceability exceedance"
+local_effect = "geometry and capacity loss"
+system_effect = "derailment or structural collapse"
+cause = "water, soil uncertainty, deterioration or load error"
+detection = "survey, instrumentation and inspection"
+controls = ["ULS and SLS checks", "hydrology and geotechnical release", "movement limits", "physical inspection"]
+severity = 5
+occurrence = 2
+detection_rating = 3
+physical_evidence_required = true
+evidence = ["engineering/analysis/structural_release.py", "engineering/analysis/drainage_ground_design.py"]
+
+[[failure_modes]]
+id = "FMEA-OPS-C01"
+domain = "operations"
+level = "component"
+item = "remote shunt robot"
+function = "recover failed train"
+mode = "radio loss or unintended traction"
+local_effect = "robot stops or moves incorrectly"
+system_effect = "collision or failed rescue"
+cause = "link, control or actuator fault"
+detection = "heartbeat, speed and brake feedback"
+controls = ["fail-held brake", "local emergency stop", "two links", "protected route before entry"]
+severity = 5
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["lib/templates/corridor-resilience.toml"]
+
+[[failure_modes]]
+id = "FMEA-OPS-S01"
+domain = "operations"
+level = "subsystem"
+item = "corridor recovery"
+function = "clear a failed train within bounded time"
+mode = "nearest robot or siding unavailable"
+local_effect = "recovery delay"
+system_effect = "passenger stranding and corridor closure"
+cause = "maintenance, access, power or simultaneous failure"
+detection = "readiness self-test and ERP maintenance state"
+controls = ["site every third station", "adjacent-corridor dispatch", "passenger rescue plan", "periodic drill"]
+severity = 4
+occurrence = 2
+detection_rating = 2
+physical_evidence_required = true
+evidence = ["lib/templates/corridor-resilience.toml", "docs/certification/release-gap-register.md"]
+
+[[failure_modes]]
+id = "FMEA-OPS-Y01"
+domain = "operations"
+level = "system"
+item = "unattended railway"
+function = "continue or stop safely in degraded modes"
+mode = "automation failure combined with unavailable remote assistance"
+local_effect = "train held without remote resolution"
+system_effect = "evacuation or network shutdown"
+cause = "multiple technical and organisational failures"
+detection = "health aggregation and loss-of-supervision alarm"
+controls = ["predefined degraded modes", "onboard safe stop", "passenger intercom", "local emergency response", "independent drills"]
+severity = 5
+occurrence = 2
+detection_rating = 3
+physical_evidence_required = true
+evidence = ["docs/certification/safety-requirements.md", "docs/operations/README.md"]

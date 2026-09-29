@@ -28,6 +28,7 @@ flowchart LR
 | `osr-bms` | Vehicle battery SoC, current limit and trip state | Battery supervision and a maintenance case on a sustained trip; no remote contactor/reset command |
 | `osr-aux-power` | Comfort-branch availability and fault count | Auxiliary maintenance case; its output gates the HVAC evaluator |
 | `osr-hvac` | Compressor/fan demand and reduced mode | Comfort supervision and investigation of unavailable supply |
+| `osr-onboard-routing` | Route-intent vote, source agreement and hold state | T-ECU/S input to independent movement-authority and ATP evaluation; never a movement permission |
 | `osr-cbm-onboard` | Native health classification, brake remaining fraction and bearing vibration | Sustained Service classification creates one linked ERP Issue per incident |
 | `osr-wayside-points` | Fused detected position and motor activity for each catalogue switch identity | A sustained fail-restrictive `Unknown` detection creates a maintenance case; no point command is exposed |
 | `osr-level-crossing` | Barrier state, warning and fault state | Ready for identified `level-crossing` assets; no catalogue city currently declares one, so none is fabricated |

@@ -19,6 +19,12 @@ not the current project software baseline.
 - IEC 62443-4-2 — Cybersecurity, component-level (referenced from
   RFC 0017)
 - CENELEC EN 50701 — Rail cybersecurity (referenced from RFC 0017)
+- IEC 60812:2018 — FMEA/FMECA method across hardware, software, process and interfaces
+- IEC 62928:2017 — onboard lithium-ion traction batteries
+- IEC 60571:2012 — rolling-stock electronic equipment
+- IEC 61373:2026 — rolling-stock equipment shock and vibration
+- IEC 62425:2025 — safety-related electronic signalling systems
+- EN 1990 — basis of structural design
 
 **Scope of this pack:** establish that an OSR deployment instance can
 meet the GoA 4 requirements of EN 62267 with sufficient evidence that a
@@ -73,6 +79,11 @@ certification path.
    independently detected sectional-authority baseline and staged transition.
 9. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
+10. **[digital-assurance-report.md](digital-assurance-report.md)** — generated,
+    content-addressed pre-build standards/FMEA result and explicit physical-test boundary.
+11. **[distributed-onboard-control-profile.md](distributed-onboard-control-profile.md)** —
+    research profile for network-loss routing, retained protection functions,
+    single-track loops and recovery sites.
 
 ## How this pack relates to the rest of the repository
 
@@ -87,6 +98,8 @@ claim here is anchored to artefacts that already exist:
 - RFCs (0001–0017) carry the design rationale
 - Rust workspace + Python sidecars carry the implementation and
   generated-design verification gates
+- Cross-domain FMEA and pre-build checks → `lib/templates/system-fmea.toml`,
+  `lib/templates/digital-assurance.toml` and the generated report
 
 If any claim here cannot be traced to one of those artefacts, it's
 a gap; file it as an issue against the evidence register.

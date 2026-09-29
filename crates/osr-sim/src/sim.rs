@@ -369,6 +369,34 @@ pub struct TrainsetSystemsConfig {
     pub door_threshold_light_modules_per_car: u32,
     pub lighting_power_w_per_car: f32,
     pub hvac_thermal_kw_per_car: f32,
+    pub integrated_thermal: IntegratedThermalSystemConfig,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct IntegratedThermalSystemConfig {
+    pub architecture: String,
+    pub battery_priority: bool,
+    pub battery_target_c: f32,
+    pub battery_derate_c: f32,
+    pub battery_trip_c: f32,
+    pub common_compressor_failure_response: String,
+    pub release_boundary: String,
+}
+
+impl Default for IntegratedThermalSystemConfig {
+    fn default() -> Self {
+        Self {
+            architecture: "common refrigerant plant with physically separated cabin-air and battery-coolant circuits".to_string(),
+            battery_priority: true,
+            battery_target_c: 28.0,
+            battery_derate_c: 45.0,
+            battery_trip_c: 55.0,
+            common_compressor_failure_response:
+                "cabin fans only; traction derate; battery isolate at protection threshold"
+                    .to_string(),
+            release_boundary: "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required".to_string(),
+        }
+    }
 }
 
 impl Default for TrainsetSystemsConfig {
@@ -385,6 +413,7 @@ impl Default for TrainsetSystemsConfig {
             door_threshold_light_modules_per_car: 4,
             lighting_power_w_per_car: 500.0,
             hvac_thermal_kw_per_car: 24.0,
+            integrated_thermal: IntegratedThermalSystemConfig::default(),
         }
     }
 }

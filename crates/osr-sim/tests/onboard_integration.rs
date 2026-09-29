@@ -15,6 +15,7 @@
 //! default consist should produce thousands of Service and Release
 //! ticks and zero Emergencies.
 
+use osr_sim::fault::{Fault, FaultKind, TrainFaultScope};
 use osr_sim::scenario_file::canonical_samawah_scenario;
 use osr_sim::sim::{run, RuntimeConfig};
 
@@ -50,6 +51,14 @@ fn nominal_samawah_line1_produces_no_onboard_emergency() {
         ob.total_release_ticks > 0,
         "zero Release ticks — kinematic integrator may not be advancing"
     );
+    assert_eq!(
+        ob.total_routing_hold_ticks, 0,
+        "nominal three-source routing disagreed"
+    );
+    assert!(
+        ob.total_routing_ticks >= ob.ticks_evaluated,
+        "routing selector did not execute before train protection"
+    );
 
     // Every Traveling train should have accumulated some shadow
     // distance.
@@ -82,4 +91,31 @@ fn onboard_approach_ticks_fire_near_stations() {
         ob.total_approach_ticks > 0 || ob.total_service_ticks > 0,
         "no approach/service ticks — brake crate never exercises service band: {ob:?}"
     );
+}
+
+#[test]
+fn complete_network_loss_uses_plan_and_sensor_route_without_bypassing_protection() {
+    let mut scenario = canonical_samawah_scenario();
+    scenario.faults.push(Fault {
+        name: "routing-network-blackout".into(),
+        from_sim_s: 0,
+        to_sim_s: 600,
+        kind: FaultKind::T2gAllOffline {
+            scope: TrainFaultScope::All,
+        },
+    });
+    let result = run(
+        &scenario,
+        &RuntimeConfig {
+            duration_s: 600,
+            time_step_s: 1,
+            status_every_s: 0,
+            csv_out: None,
+            csv_every_s: 60,
+            ma_check_every_s: 0,
+        },
+    );
+    assert!(result.onboard.total_routing_autonomous_ticks > 0);
+    assert_eq!(result.onboard.total_routing_hold_ticks, 0);
+    assert_eq!(result.onboard.total_emergency_ticks, 0);
 }

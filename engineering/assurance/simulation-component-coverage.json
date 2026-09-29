@@ -2,11 +2,11 @@
   "schema_version": 1,
   "passed": true,
   "issues": [],
-  "inventory_count": 58,
-  "classified_count": 58,
-  "linked_component_count": 47,
+  "inventory_count": 59,
+  "classified_count": 59,
+  "linked_component_count": 48,
   "category_counts": {
-    "tick_controller": 22,
+    "tick_controller": 23,
     "runtime_kernel": 9,
     "infrastructure_tick_controller": 11,
     "backend_stream_processor": 5,
@@ -30,6 +30,7 @@
       "osr-obstacle-detect",
       "osr-odometry",
       "osr-hot-axle",
+      "osr-onboard-routing",
       "osr-passenger-assist",
       "osr-pis-onboard",
       "osr-tcn",
@@ -90,9 +91,9 @@
       "osr-lifecycle-identity"
     ]
   },
-  "deployment_inventory_sha256": "7bb6995713bc9f4903da0684db396c3b591d441ce1db7f5df7a0f7f9a4438890",
-  "coverage_contract_sha256": "95dfcd7362e4e26b6fce3141feae64f4ffaf62b1cb9106f3dcc3f87b1c88ac42",
-  "simulator_cargo_sha256": "3c044ec8c27f03df73ac572a05200d5fbd30625f37c9e6f4cb29962b857b2bbf",
+  "deployment_inventory_sha256": "ba7f07b155ec4c5ba63c951736dc60204263448aaae7c06a80e2e1fcff4c6598",
+  "coverage_contract_sha256": "e98d859d7b6022831b8192c60940cdb84272865b85aff235f5706b9e23b786a5",
+  "simulator_cargo_sha256": "92eef5b8c71ea87283ce13375b19d7d7b14e8e295bc2c06b6f3414241d655bd4",
   "runtime_evidence": null,
   "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; pre-service checks execute before dispatch. scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

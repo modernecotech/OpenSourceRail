@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4989**.
+Indexed Markdown files: **4991**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4989**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 171 |
+| [docs](#docs) | 173 |
 | [engineering](#engineering) | 19 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4875,6 +4875,8 @@ Indexed Markdown files: **4989**.
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
 | [`docs/certification/README.md`](../docs/certification/README.md) | OSR type-certification pre-submission pack |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
+| [`docs/certification/digital-assurance-report.md`](../docs/certification/digital-assurance-report.md) | Deterministic Digital Assurance Report |
+| [`docs/certification/distributed-onboard-control-profile.md`](../docs/certification/distributed-onboard-control-profile.md) | Distributed Onboard Control Profile |
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
 | [`docs/certification/evidence-status.md`](../docs/certification/evidence-status.md) | Evidence Status Matrix |
 | [`docs/certification/hazard-log.md`](../docs/certification/hazard-log.md) | Hazard log |

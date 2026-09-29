@@ -1,0 +1,50 @@
+[meta]
+schema = "osr-corridor-resilience/1"
+status = "reference-design-requires-site-and-safety-release"
+
+[recovery_sites]
+id = "recovery-every-third-station"
+enabled = true
+interval_stations = 3
+location_rule = "at or immediately beyond every third passenger station in each direction, adjusted only by controlled route review"
+siding_tracks = 1
+minimum_usable_length_m = 70
+protected_from_mainline = true
+independent_stop_detection = true
+remote_isolation = true
+access_walkway = true
+
+[shunt_robot]
+quantity_per_recovery_site = 1
+control = "authenticated remote control with local emergency stop"
+autonomous_mainline_entry = false
+fail_state = "traction inhibited and spring-applied brake"
+maximum_recovery_speed_kph = 5
+minimum_drawbar_pull_kn = 80
+coupler_interface = "LM3 rescue coupler plus controlled adapter"
+communications = ["primary railway radio", "independent local line-of-sight link"]
+required_evidence = ["tow-load calculation", "brake holding test", "coupler proof test", "radio-loss test", "occupied-route exclusion test", "recovery drill"]
+
+[single_track]
+id = "constrained-single-track"
+enabled = true
+use = "short constrained central-town segments only"
+default_max_segment_m = 1000
+exclusive_guideway = true
+mixed_road_running = false
+opposing_move_exclusion = true
+passing_loop_location = "passenger stops or protected portals"
+passing_loop_minimum_trainsets = 2
+requires_timetable_proof = true
+requires_evacuation_walkway = true
+requires_intrusion_detection = true
+requires_detected_locked_points = true
+
+[distributed_train_protection]
+cost_reduction_target = "reduce centralised and duplicated wayside equipment where an assessor accepts equivalent distributed functions"
+retain_functions = ["movement authority", "speed supervision", "route locking", "opposing-move exclusion", "point detection", "occupancy/localisation", "emergency braking", "degraded-mode supervision"]
+route_sources = ["signed onboard plan", "sensor-derived localisation/topology", "authenticated network command"]
+minimum_agreeing_route_sources = 2
+network_loss_rule = "continue only when onboard plan and sensor-derived route agree and independent movement authority remains valid"
+disagreement_rule = "hold or brake according to the active protection envelope"
+prohibited_interpretation = "This profile may change equipment placement; it does not eliminate train-protection or interlocking safety functions."

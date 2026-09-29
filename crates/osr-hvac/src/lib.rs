@@ -30,6 +30,12 @@
 
 use serde::{Deserialize, Serialize};
 
+pub mod integrated_thermal;
+pub use integrated_thermal::{
+    thermal_evaluate, BatteryThermalMode, IntegratedThermalInputs, IntegratedThermalOutput,
+    IntegratedThermalParams,
+};
+
 // ---------------------------------------------------------------------------
 // Inputs / params
 // ---------------------------------------------------------------------------

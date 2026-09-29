@@ -73,7 +73,23 @@ def expected_keys(lines: list[dict[str, Any]], requirements: dict[str, Any]) -> 
 
 def write_placeholder_manifest(path: Path, lines: list[dict[str, Any]], requirements: dict[str, Any]) -> None:
     if path.exists():
-        return
+        with path.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            rows = list(reader)
+        # A topology regeneration may add or remove lines. Reconcile only a
+        # pristine placeholder; once any receipt data exists, preserve it and
+        # let validation expose the controlled mismatch for human disposition.
+        pristine = bool(reader.fieldnames) and all(
+            row.get("acceptance_status", "").strip() == "not-received"
+            and all(
+                not row.get(field, "").strip()
+                for field in FIELDS
+                if field not in {"line_id", "file_role", "acceptance_status"}
+            )
+            for row in rows
+        )
+        if not pristine:
+            return
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")

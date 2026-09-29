@@ -40,6 +40,16 @@ ground-treatment schedule, conditional OpenGeoSys and authority gate.
 defines the subsequent per-asset OpenSees/CalculiX, load-case, fatigue,
 movement, independent-check and authority-release contract.
 
+[`templates/digital-assurance.toml`](templates/digital-assurance.toml) and
+[`templates/system-fmea.toml`](templates/system-fmea.toml) define the
+deterministic cross-domain pre-build assurance gate. The generated Markdown and
+JSON reports hash their sources and evidence, require component/subsystem/system
+coverage, and deliberately keep physical tests and independent acceptance open.
+[`templates/corridor-resilience.toml`](templates/corridor-resilience.toml)
+controls every-third-station recovery sites, remote shunt limits, constrained
+single-track passing loops and the retained protection functions for the
+distributed onboard-control research profile.
+
 Civil cost inputs are split deliberately: edit
 [`templates/civil-cost-calibration.toml`](templates/civil-cost-calibration.toml)
 and the parametric civil geometry, then run

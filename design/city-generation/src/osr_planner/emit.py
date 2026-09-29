@@ -29,6 +29,7 @@ def design_toml(
     stations: list[StationCandidate],
     lines: list[LinePlan],
     fleet_size_per_line: "callable | None" = None,
+    single_track_segments: tuple[tuple[str, str, str], ...] = (),
 ) -> str:
     """Format the network as a valid `design.toml` string."""
 
@@ -58,7 +59,8 @@ def design_toml(
                 archetype_for[t] = "terminal"
 
     out.append(_stations_block(stations, archetype_for))
-    out.append(_lines_block(lines, stations))
+    out.append(_lines_block(lines, stations, single_track_segments))
+    out.append(_corridor_resilience_block(lines, single_track_segments))
     out.append(_fleets_block(lines, stations, fleet_size_per_line))
     out.append(_sites_block(stations, archetype_for))
     out.append(_depots_block(lines, stations, archetype_for))
@@ -162,9 +164,12 @@ def _stations_block(
 
 
 def _lines_block(
-    lines: list[LinePlan], stations: list[StationCandidate]
+    lines: list[LinePlan],
+    stations: list[StationCandidate],
+    single_track_segments: tuple[tuple[str, str, str], ...] = (),
 ) -> str:
     by_id = {s.id: s for s in stations}
+    constrained = {(line, start, end) for line, start, end in single_track_segments}
     out = ["\n# Lines — PCA-ordered station sequences.\n"]
     for line in lines:
         out.append(f"[[lines]]\n")
@@ -176,17 +181,22 @@ def _lines_block(
         out.append(f'comms_backbone        = "single-ring-10g"\n')
         out.append(f'service_hours         = "conservative-religious"\n')
         out.append(f"track_count           = 2\n")
+        if any(row[0] == line.id for row in constrained):
+            out.append("minimum_track_count   = 1\n")
         out.append(f"default_max_speed_mps = 22\n")
         out.append(f"stations = [\n")
         prev: tuple[float, float] | None = None
-        for sid in line.station_ids:
+        for station_index, sid in enumerate(line.station_ids):
             s = by_id.get(sid)
             if s is None:
                 continue
             dist = 0 if prev is None else int(round(haversine_m(prev, (s.lat, s.lon))))
-            out.append(
-                f'    {{ id = "{sid}", distance_from_prev_m = {dist}, civil_class = "at-grade" }},\n'
-            )
+            segment_tracks = 2
+            if prev is not None:
+                previous_id = line.station_ids[station_index - 1]
+                if (line.id, previous_id, sid) in constrained or (line.id, sid, previous_id) in constrained:
+                    segment_tracks = 1
+            out.append(f'    {{ id = "{sid}", distance_from_prev_m = {dist}, civil_class = "at-grade", track_count_from_prev = {segment_tracks} }},\n')
             prev = (s.lat, s.lon)
         out.append(f"]\n")
         # Track-polyline from the planner. Shared downstream so the
@@ -201,6 +211,42 @@ def _lines_block(
                 out.append(f"    [{lat:.6f}, {lon:.6f}],\n")
             out.append("]\n")
         out.append("\n")
+    return "".join(out)
+
+
+def _corridor_resilience_block(
+    lines: list[LinePlan],
+    single_track_segments: tuple[tuple[str, str, str], ...],
+) -> str:
+    """Emit recovery sites and protected passing loops as design inputs."""
+    out = ["\n# Corridor recovery and constrained single-track operating features.\n"]
+    seen_recovery: set[tuple[str, str]] = set()
+    for line in lines:
+        for index in range(2, len(line.station_ids), 3):
+            station = line.station_ids[index]
+            key = (line.id, station)
+            if key in seen_recovery:
+                continue
+            seen_recovery.add(key)
+            out.extend([
+                "[[recovery_sites]]\n", f'line = "{line.id}"\n', f'station = "{station}"\n',
+                'archetype = "single-siding-remote-shunt"\n', "corridor_interval_stations = 3\n",
+                "remote_shunt_robot_count = 1\n", "mainline_entry_requires_protected_route = true\n\n",
+            ])
+    seen_loops: set[tuple[str, str]] = set()
+    stations_by_line = {line.id: set(line.station_ids) for line in lines}
+    for line_id, start, end in single_track_segments:
+        if line_id not in stations_by_line or start not in stations_by_line[line_id] or end not in stations_by_line[line_id]:
+            raise ValueError(f"single-track segment {line_id}:{start}-{end} references an unknown line/station")
+        for station in (start, end):
+            if (line_id, station) in seen_loops:
+                continue
+            seen_loops.add((line_id, station))
+            out.extend([
+                "[[passing_loops]]\n", f'line = "{line_id}"\n', f'station = "{station}"\n',
+                "track_count = 2\n", "opposing_move_exclusion = true\n",
+                "detected_locked_points_required = true\n\n",
+            ])
     return "".join(out)
 
 

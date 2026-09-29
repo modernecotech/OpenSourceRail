@@ -1,14 +1,14 @@
 {
   "schema_version": "1.12",
   "city": "Samawah",
-  "validated_on": "2026-09-10",
+  "validated_on": "2026-09-29",
   "generator": "tools/automation/validate-city-simulation.py",
   "generator_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
   "simulator_binary": "target/release/osr-sim",
-  "simulator_sha256": "e0ad841c10e1be188f172349e4405d6f96d96f744cc7a0a9dd56e53c7e9b10fc",
+  "simulator_sha256": "b3a0c8f4b642f96f90032bff8e2a322f146bea4193bb87a8f9c68a291394b4b8",
   "design_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
   "scenario": "../../../samawah.toml",
-  "scenario_sha256": "b784c18437a07ef2f40b28fcff949bc4bcf723608fc96a81c2eac28daa1abac9",
+  "scenario_sha256": "d4766c60bc0be8789a0f591607ffea992a40bebf0716f9f9c364461ffaffda41",
   "passed": true,
   "trainset_contract": {
     "passed": true,
@@ -24,10 +24,19 @@
       "emergency_light_modules_per_car": 4,
       "door_threshold_light_modules_per_car": 4,
       "lighting_power_w_per_car": 500.0,
-      "hvac_thermal_kw_per_car": 24.0
+      "hvac_thermal_kw_per_car": 24.0,
+      "integrated_thermal": {
+        "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+        "battery_priority": true,
+        "battery_target_c": 28.0,
+        "battery_derate_c": 45.0,
+        "battery_trip_c": 55.0,
+        "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+        "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+      }
     },
     "rolling_stock_template": "lib/templates/rolling-stock.toml",
-    "rolling_stock_template_sha256": "92882a4fea0b9a626cc8af8983f30ed13c3fa2df44a8ff7cc5ba3bc453cccfd7",
+    "rolling_stock_template_sha256": "970747dff38b566799ff497a66bd9eb8372b49e129a85f7cc21ed7ab74596bd6",
     "small_component_standard": "design/component-catalogue/catalog/buildable-trainset/small-component-standard.json",
     "small_component_standard_sha256": "2763051866b486b03787b309207662967763f21cf99bfd4ef8cc889c16dd38d9",
     "buildable_trainset_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
@@ -127,6 +136,10 @@
         "hvac_cooling_ticks": 166428,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 0,
+        "battery_thermal_controller_ticks": 777600,
+        "battery_thermal_cooling_ticks": 124440,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 777600,
         "main_light_module_ticks": 51321600,
         "emergency_light_module_ticks": 9331200,
@@ -144,7 +157,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -217,7 +239,7 @@
       "proto_systems": {
         "frames_encoded": 777600,
         "frames_decoded": 777600,
-        "encoded_bytes": 99532800,
+        "encoded_bytes": 33551942,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -288,6 +310,10 @@
         "hvac_cooling_ticks": 1696103,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 295214,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 2549062,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -305,7 +331,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -378,7 +413,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437960407,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -468,6 +503,10 @@
         "hvac_cooling_ticks": 1656862,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 526966,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 2746843,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -485,7 +524,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -558,7 +606,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437954653,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -638,6 +686,10 @@
         "hvac_cooling_ticks": 1577413,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 989388,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 3129403,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -655,7 +707,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -728,7 +789,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437899521,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -808,6 +869,10 @@
         "hvac_cooling_ticks": 1696103,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 295214,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 2549062,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -825,7 +890,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -898,7 +972,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437960407,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -978,6 +1052,10 @@
         "hvac_cooling_ticks": 1258013,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 2907580,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 4602965,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -995,7 +1073,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -1068,7 +1155,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437444043,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -1148,6 +1235,10 @@
         "hvac_cooling_ticks": 1498121,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 1464296,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 3542982,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -1165,7 +1256,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -1238,7 +1338,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437907529,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -1318,6 +1418,10 @@
         "hvac_cooling_ticks": 1638091,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 634118,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 2828608,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -1335,7 +1439,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -1408,7 +1521,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437922355,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -1488,6 +1601,10 @@
         "hvac_cooling_ticks": 1588384,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 919989,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 3071270,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -1505,7 +1622,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -1578,7 +1704,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437926891,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
@@ -1658,6 +1784,10 @@
         "hvac_cooling_ticks": 1738844,
         "hvac_heating_ticks": 0,
         "hvac_reduced_ticks": 48337,
+        "battery_thermal_controller_ticks": 9720000,
+        "battery_thermal_cooling_ticks": 2340712,
+        "battery_thermal_derate_ticks": 0,
+        "battery_thermal_protect_ticks": 0,
         "lighting_controller_ticks": 9720000,
         "main_light_module_ticks": 641520000,
         "emergency_light_module_ticks": 116640000,
@@ -1675,7 +1805,16 @@
           "emergency_light_modules_per_car": 4,
           "door_threshold_light_modules_per_car": 4,
           "lighting_power_w_per_car": 500.0,
-          "hvac_thermal_kw_per_car": 24.0
+          "hvac_thermal_kw_per_car": 24.0,
+          "integrated_thermal": {
+            "architecture": "common refrigerant plant with physically separated cabin-air and battery-coolant circuits",
+            "battery_priority": true,
+            "battery_target_c": 28.0,
+            "battery_derate_c": 45.0,
+            "battery_trip_c": 55.0,
+            "common_compressor_failure_response": "cabin fans only; traction derate; battery isolate at protection threshold",
+            "release_boundary": "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+          }
         }
       },
       "vehicle_systems_passed": true,
@@ -1748,7 +1887,7 @@
       "proto_systems": {
         "frames_encoded": 9720000,
         "frames_decoded": 9720000,
-        "encoded_bytes": 1244160000,
+        "encoded_bytes": 437977683,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },

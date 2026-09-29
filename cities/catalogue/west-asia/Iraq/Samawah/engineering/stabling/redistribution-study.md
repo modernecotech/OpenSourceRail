@@ -8,48 +8,46 @@ A uniform **two-trainsets-per-station** provision gives **40 positions at 20 sta
 
 | After service day | Observed largest queue | Target largest queue | Queue lower bound | Trains to move | Transfer train-km | Origin precharge kWh | Beyond platform envelope |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 18 | 7 | 7 | 15 | 274.1 | 131.2 | 62 |
-| 2 | 19 | 7 | 7 | 20 | 317.9 | 212.5 | 62 |
+| 1 | 19 | 7 | 7 | 16 | 292.0 | 272.8 | 62 |
+| 2 | 19 | 7 | 7 | 17 | 289.3 | 271.6 | 62 |
 
 ## Required train transfers
 
 | Day | Train | Origin → target | Departure heading | Distance km | Travel lower bound min | Precharge kWh |
 |---|---|---|---|---:|---:|---:|
-| 1 | T5 | line-1-0704-0377-s015761 → line-1-0493-0475-s009151 | reverse → reverse | 6.61 | 4.4 | 0.0 |
-| 1 | T6 | line-1-0704-0377-s015761 → line-1-0493-0475-s009151 | reverse → reverse | 6.61 | 4.4 | 0.0 |
-| 1 | T20 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 1 | T25 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 1 | T7 | line-1-0985-0109-s025566 → line-1-0436-0475-s007631 | reverse → reverse | 17.93 | 12.0 | 0.0 |
+| 1 | T6 | line-1-0704-0377-s015761 → line-1-0581-0418-s012247 | reverse → reverse | 3.51 | 2.3 | 0.0 |
+| 1 | T7 | line-1-0704-0377-s015761 → line-1-0493-0475-s009151 | reverse → reverse | 6.61 | 4.4 | 0.0 |
+| 1 | T20 | line-1-0704-0377-s015761 → line-1-0493-0475-s009151 | reverse → reverse | 6.61 | 4.4 | 0.0 |
+| 1 | T24 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
 | 1 | T8 | line-1-0985-0109-s025566 → line-1-0436-0475-s007631 | reverse → reverse | 17.93 | 12.0 | 0.0 |
+| 1 | T9 | line-1-0985-0109-s025566 → line-1-0436-0475-s007631 | reverse → reverse | 17.93 | 12.0 | 0.0 |
 | 1 | T21 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
 | 1 | T22 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
+| 1 | T25 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
 | 1 | T27 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
 | 1 | T28 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
 | 1 | T29 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
 | 1 | T31 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
-| 1 | T32 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 14.1 |
-| 1 | T34 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 25.0 |
+| 1 | T32 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 117.1 |
+| 1 | T34 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 63.6 |
 | 1 | T35 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 92.1 |
 | 2 | T58 | line-2-0604-0513-s003028 → line-2-0493-0475-s005930 | forward → forward | 2.90 | 1.9 | 0.0 |
-| 2 | T14 | line-1-0581-0418-s012247 → line-1-0493-0475-s009151 | reverse → reverse | 3.10 | 2.1 | 0.0 |
-| 2 | T15 | line-1-0581-0418-s012247 → line-1-0493-0475-s009151 | reverse → reverse | 3.10 | 2.1 | 0.0 |
-| 2 | T32 | line-1-0581-0418-s012247 → line-1-0493-0475-s009151 | reverse → reverse | 3.10 | 2.1 | 0.0 |
-| 2 | T16 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 2 | T17 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 2 | T26 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 2 | T27 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
-| 2 | T1 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
-| 2 | T2 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
+| 2 | T11 | line-1-0581-0418-s012247 → line-1-0493-0475-s009151 | reverse → reverse | 3.10 | 2.1 | 0.0 |
+| 2 | T12 | line-1-0581-0418-s012247 → line-1-0493-0475-s009151 | reverse → reverse | 3.10 | 2.1 | 0.0 |
+| 2 | T13 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
+| 2 | T14 | line-1-0704-0377-s015761 → line-1-0436-0475-s007631 | reverse → reverse | 8.13 | 5.4 | 0.0 |
+| 2 | T15 | line-1-0985-0109-s025566 → line-1-0436-0475-s007631 | reverse → reverse | 17.93 | 12.0 | 0.0 |
+| 2 | T16 | line-1-0985-0109-s025566 → line-1-0436-0475-s007631 | reverse → reverse | 17.93 | 12.0 | 0.0 |
+| 2 | T17 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
 | 2 | T18 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
-| 2 | T19 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
-| 2 | T28 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
-| 2 | T29 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
+| 2 | T28 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
+| 2 | T29 | line-1-0985-0109-s025566 → line-1-0351-0524-s004627 | reverse → reverse | 20.94 | 14.0 | 0.0 |
 | 2 | T30 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
 | 2 | T31 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
-| 2 | T33 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
-| 2 | T34 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 0.0 |
-| 2 | T35 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 101.6 |
-| 2 | T37 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 110.8 |
+| 2 | T32 | line-1-0985-0109-s025566 → line-1-0274-0515-s003012 | reverse → reverse | 22.55 | 15.0 | 0.0 |
+| 2 | T33 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 0.0 |
+| 2 | T34 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 83.2 |
+| 2 | T35 | line-1-0985-0109-s025566 → line-1-0147-0558-s000000 | reverse → forward | 25.56 | 17.0 | 188.4 |
 
 - This reassigns a recorded 05:29 snapshot on paper; no simulator train is moved or reset and no evening timetable is proven.
 - Only revenue trains move; reserve locations and at least one revenue train for every planned line/station/direction are preserved.

@@ -48,6 +48,15 @@ door_threshold_light_modules_per_car = 4
 lighting_power_w_per_car = 500.0
 hvac_thermal_kw_per_car = 24.0
 
+[consist.systems.integrated_thermal]
+architecture = "common refrigerant plant with physically separated cabin-air and battery-coolant circuits"
+battery_priority = true
+battery_target_c = 28.0
+battery_derate_c = 45.0
+battery_trip_c = 55.0
+common_compressor_failure_response = "cabin fans only; traction derate; battery isolate at protection threshold"
+release_boundary = "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+
 [consist.roof_pv]
 nameplate_kw = 25.6
 usable_factor = 0.65

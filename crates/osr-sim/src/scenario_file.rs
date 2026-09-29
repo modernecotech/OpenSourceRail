@@ -148,6 +148,7 @@ pub struct TrainsetSystemsSpec {
     pub door_threshold_light_modules_per_car: Option<u32>,
     pub lighting_power_w_per_car: Option<f32>,
     pub hvac_thermal_kw_per_car: Option<f32>,
+    pub integrated_thermal: Option<crate::sim::IntegratedThermalSystemConfig>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1419,10 +1420,26 @@ fn build_trainset_systems(
     assign!(door_threshold_light_modules_per_car);
     assign!(lighting_power_w_per_car);
     assign!(hvac_thermal_kw_per_car);
+    if let Some(value) = &spec.integrated_thermal {
+        config.integrated_thermal = value.clone();
+    }
 
     if config.mechanical_standard_revision.trim().is_empty() {
         return Err(LoadError::InvalidTrainsetSystems(
             "mechanical_standard_revision must not be empty".to_string(),
+        ));
+    }
+    let thermal = &config.integrated_thermal;
+    if thermal.architecture.trim().is_empty()
+        || thermal.common_compressor_failure_response.trim().is_empty()
+        || thermal.release_boundary.trim().is_empty()
+        || !thermal.battery_priority
+        || !(thermal.battery_target_c < thermal.battery_derate_c
+            && thermal.battery_derate_c < thermal.battery_trip_c)
+    {
+        return Err(LoadError::InvalidTrainsetSystems(
+            "integrated_thermal requires battery priority, ordered thresholds and non-empty boundaries"
+                .to_string(),
         ));
     }
     let counts = [

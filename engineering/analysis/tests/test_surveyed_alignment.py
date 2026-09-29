@@ -69,6 +69,31 @@ def test_placeholder_manifest_is_deterministic_and_pending(tmp_path: Path) -> No
     assert report["authority_accepted"] is False
 
 
+def test_pristine_placeholder_reconciles_after_line_topology_change(tmp_path: Path) -> None:
+    manifest = tmp_path / "manifest.csv"
+    requirements = surveyed_alignment.read_requirements()
+    lines = [
+        {"id": "line-1", "preset": "standard-urban", "consist": "light-metro-3car"},
+        {"id": "line-2", "preset": "standard-urban", "consist": "light-metro-3car"},
+    ]
+    surveyed_alignment.write_placeholder_manifest(manifest, lines, requirements)
+    surveyed_alignment.write_placeholder_manifest(manifest, lines[:1], requirements)
+    assert "line-2" not in manifest.read_text(encoding="utf-8")
+
+
+def test_received_manifest_is_never_rewritten_for_topology_change(tmp_path: Path) -> None:
+    manifest = tmp_path / "manifest.csv"
+    requirements = surveyed_alignment.read_requirements()
+    lines = [{"id": "line-1", "preset": "standard-urban", "consist": "light-metro-3car"}]
+    surveyed_alignment.write_placeholder_manifest(manifest, lines, requirements)
+    original = manifest.read_text(encoding="utf-8").replace(
+        ",not-received\n", ",checked\n", 1
+    )
+    manifest.write_text(original, encoding="utf-8")
+    surveyed_alignment.write_placeholder_manifest(manifest, [], requirements)
+    assert manifest.read_text(encoding="utf-8") == original
+
+
 def test_complete_fixture_passes_only_with_explicit_authority_record(tmp_path: Path) -> None:
     design_path = tmp_path / "design.toml"
     design(design_path)

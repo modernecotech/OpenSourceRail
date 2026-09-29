@@ -74,6 +74,9 @@ use osr_obstacle_detect::{
     TriggerReason as ObsReason, CRAWL_SPEED_MMPS, RESTRICTED_SPEED_MMPS,
 };
 use osr_odometry::{odom_step, OdomCalibration, OdomState, SensorTick};
+use osr_onboard_routing::{
+    select_route, RouteCandidate, RouteSource, RoutingDecision, RoutingInputs, RoutingMode,
+};
 use osr_passenger_assist::{
     assist_evaluate, AssistInputs, AssistOutput, AssistState, OperatorCommand,
 };
@@ -239,6 +242,11 @@ pub struct OnboardStats {
     pub regen_to_pack_ma: u64,
     pub regen_to_resistor_ma: u64,
     pub regen_refused_ma: u64,
+    /// Every traveling tick executes the three-source route selector before
+    /// movement-authority and ATP evaluation.
+    pub routing_ticks: u32,
+    pub routing_hold_ticks: u32,
+    pub routing_autonomous_ticks: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -286,6 +294,9 @@ pub struct OnboardSummary {
     pub total_regen_to_pack_ma: u64,
     pub total_regen_to_resistor_ma: u64,
     pub total_regen_refused_ma: u64,
+    pub total_routing_ticks: u64,
+    pub total_routing_hold_ticks: u64,
+    pub total_routing_autonomous_ticks: u64,
     pub per_train: Vec<PerTrainOnboard>,
     pub emergencies: Vec<EmergencyRecord>,
 }
@@ -477,6 +488,31 @@ pub fn onboard_tick(
     }
 
     let now_ns = (t_s as u64).saturating_mul(1_000_000_000);
+    let route_id = u32::try_from(train.line_index).unwrap_or(u32::MAX);
+    let candidate = |source| RouteCandidate {
+        route_id,
+        next_section_id: section.0,
+        plan_epoch: 1,
+        valid_until_ns: now_ns.saturating_add(MA_VALIDITY_WINDOW_NS),
+        source,
+        trusted: true,
+    };
+    let network_available = !faults.t2g_all_offline_for(train.id);
+    let routing = select_route(&RoutingInputs {
+        now_ns,
+        network_available,
+        onboard_plan: Some(candidate(RouteSource::OnboardPlan)),
+        sensor_derived: Some(candidate(RouteSource::SensorDerived)),
+        network_command: network_available.then(|| candidate(RouteSource::NetworkCommand)),
+    });
+    shadow.stats.routing_ticks = shadow.stats.routing_ticks.saturating_add(1);
+    if routing.mode == RoutingMode::Hold {
+        shadow.stats.routing_hold_ticks = shadow.stats.routing_hold_ticks.saturating_add(1);
+    }
+    if routing.mode == RoutingMode::OnboardAutonomous {
+        shadow.stats.routing_autonomous_ticks =
+            shadow.stats.routing_autonomous_ticks.saturating_add(1);
+    }
 
     // 1. Kinematic integration (very simple: accel → cruise → decel).
     if movement.inhibited {
@@ -580,6 +616,9 @@ pub fn onboard_tick(
     let train_state_if_known = position_known.then_some(train_state.clone());
     let mut ma = local_movement_authority(train.id, shadow.odom.head, network, now_ns);
     if train_state_if_known.is_none() {
+        ma.has_known_position = false;
+    }
+    if routing.mode == RoutingMode::Hold {
         ma.has_known_position = false;
     }
     let train_state = train_state_if_known.unwrap_or(train_state);
@@ -933,6 +972,7 @@ pub fn onboard_tick(
         atp: atp_out,
         brake: brake_out,
         assist: assist_out,
+        routing,
     })
 }
 
@@ -941,6 +981,7 @@ pub struct TickReport {
     pub atp: AtpOutcome,
     pub brake: BrakeOutput,
     pub assist: AssistOutput,
+    pub routing: RoutingDecision,
 }
 
 // ---------------------------------------------------------------------------
@@ -1248,6 +1289,15 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         summary.total_regen_refused_ma = summary
             .total_regen_refused_ma
             .saturating_add(sh.stats.regen_refused_ma);
+        summary.total_routing_ticks = summary
+            .total_routing_ticks
+            .saturating_add(u64::from(sh.stats.routing_ticks));
+        summary.total_routing_hold_ticks = summary
+            .total_routing_hold_ticks
+            .saturating_add(u64::from(sh.stats.routing_hold_ticks));
+        summary.total_routing_autonomous_ticks = summary
+            .total_routing_autonomous_ticks
+            .saturating_add(u64::from(sh.stats.routing_autonomous_ticks));
         if let Some(e) = sh.stats.first_emergency.clone() {
             summary.emergencies.push(e);
         }

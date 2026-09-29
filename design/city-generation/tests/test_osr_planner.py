@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
+import tomllib
 
 import pytest
 
@@ -15,11 +16,30 @@ from osr_planner.lines import (
 from osr_planner.stations import (
     StationCandidate, coverage_score, place_stations, target_station_count,
 )
+from osr_planner.emit import design_toml
 
 
 REPO = Path(__file__).resolve().parents[3]
 OSM_CACHE = REPO / "docs/screenshots/.cache/osm"
 SAMAWAH_BBOX = (31.265, 45.200, 31.360, 45.340)
+
+
+def test_emitter_adds_recovery_sites_and_single_track_passing_loops() -> None:
+    stations = [
+        StationCandidate(id=f"s{i}", name=f"S{i}", lat=31.0 + i * 0.01, lon=45.0,
+                         archetype="standard", score=1.0, serves=())
+        for i in range(7)
+    ]
+    line = LinePlan(id="line-1", name="Line 1", station_ids=[s.id for s in stations])
+    rendered = design_toml(slug="test", country_iso="IQ", city_name="Test", center_lat=31.0,
+        center_lon=45.0, bbox=(30.9, 44.9, 31.2, 45.2), population=100_000,
+        climate_preset="hot-desert", peak_sun_hours=6.0, stations=stations, lines=[line],
+        single_track_segments=(("line-1", "s2", "s3"),))
+    parsed = tomllib.loads(rendered)
+    assert [row["station"] for row in parsed["recovery_sites"]] == ["s2", "s5"]
+    assert {row["station"] for row in parsed["passing_loops"]} == {"s2", "s3"}
+    assert parsed["lines"][0]["stations"][3]["track_count_from_prev"] == 1
+    assert parsed["lines"][0]["stations"][4]["track_count_from_prev"] == 2
 
 
 # ---------------------------------------------------------------------------
