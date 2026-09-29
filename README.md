@@ -15,7 +15,7 @@ This root README is the only human-facing front door; generated inventories are 
 
 **Start here:** [two-page brochure](OpenSourceRail-Brochure.pdf) · [complete PDF book](OpenSourceRail-Book.pdf) · [one-page overview](docs/open-source-rail-overview.md) · [architecture](docs/ARCHITECTURE.md) · [current roadmap and open work](docs/ROADMAP.md#reviewed-open-work)
 
-## What is in the repository?
+## Functions at a glance
 
 | Scope | Current public implementation |
 |---|---|
@@ -40,77 +40,91 @@ flowchart LR
 
 ### 1. Plan the railway in its real city context
 
-Edit lines, stations and service patterns in [City Studio](docs/city-studio.md) over 20 switchable layers: roads, buildings, existing rail, places, demand, buildability, engineering assets, water coverage, open-DEM elevation and slope. Inspect OD demand and line/day/time service; detect likely water crossings, bridge/viaduct segments and station exclusions; compile an immutable candidate revision; then generate a delivery twin describing what must be built, ordered and paid for, when it is needed and which work is critical.
-
-Open DEM and mapped water are screening inputs. A likely bridge, viaduct or exclusion is a prompt for survey and engineering—not an automatically released structure or alignment.
+Edit lines, stations and service patterns in [City Studio](docs/city-studio.md) over 20 switchable layers: roads, buildings, existing rail, places, demand, buildability, engineering assets, water coverage, open-DEM elevation and slope. Inspect OD demand and line/day/time service; detect likely water crossings, bridge/viaduct segments and station exclusions; compile an immutable candidate revision; then generate a delivery twin describing what must be built, ordered and paid for, when it is needed and which work is critical. Open DEM and mapped water are screening inputs, not released alignment or structural evidence.
 
 ### 2. Engineer the railway and its interfaces
 
-Export OSR-ALN, GIS and IFC4.3 data for QGIS and Bonsai/IfcOpenShell; generate quantities, classifications, asset identities, 4D states, IDS requirements and BCF-oriented evidence; and use native FreeCAD train, station and civil geometry. System simulation connects trains, stations, energy, wayside, points/crossings, fares, regenerative braking and depots. Route changes flow into named compatibility checks for gradient, curvature, cant, platforms, clearances, braking, energy, crosswind, recovery and evacuation.
-
-The latest [topography, BIM and mechanical design-detail register](engineering/models/bim/design-detail-register.md) controls 6 terrain/water impacts, 5 BIM requirement groups, 9 vehicle datums, 12 mechanical interfaces, 10 load-case families, 7 route-compatibility gates, 9 verification/closure rows and 39 mechanically controlled products/assemblies.
-
-Every one of the 146 split LM3 IFC files carries design-detail provenance. Controlled objects also carry their mechanical interface property set. The buildingSMART [IDS requirements](engineering/models/bim/reference/lm3-information-requirements.ids) execute **4 specifications and 945 checks**, with a tracked [validation report](engineering/models/bim/reference/lm3-information-requirements.report.json) and negative mutation tests proving missing interface data is rejected.
-
-That closes the information-delivery loop; it does **not** close supplier selection, calculations, tolerance stacks, structural proof, physical tests or competent-authority acceptance.
+Export OSR-ALN, GIS and IFC4.3 data for QGIS and Bonsai/IfcOpenShell; generate quantities, classifications, asset identities, 4D states, IDS requirements and BCF-oriented evidence; and use native FreeCAD train, station and civil geometry. System simulation connects trains, stations, energy, wayside, points/crossings, fares, regenerative braking and depots. Route changes flow into named compatibility checks for gradient, curvature, cant, platforms, clearances, braking, energy, crosswind, recovery and evacuation. The [design-detail register](engineering/models/bim/design-detail-register.md) controls terrain/water impacts, BIM groups, vehicle datums, mechanical interfaces, load cases and route gates. All 146 split LM3 IFC files carry provenance and interface properties; the buildingSMART [IDS requirements](engineering/models/bim/reference/lm3-information-requirements.ids) execute **4 specifications and 945 checks**. This closes information delivery—not supplier selection, calculations, tolerance stacks, structural proof, physical tests or authority acceptance.
 
 ### 3. Deliver through local production and accountable project controls
 
-Turn city design into asset registers, BOM demand, finite-resource schedules, supplier candidates, order-by dates, cash requirements, QA gates and construction states. ERPNext holds native projects, procurement, inventory, manufacturing, quality, finance, people and maintenance records. All 120 LM3 product rows and 30 tooling families feed factory methods, nested BOMs, travelers and hold points; controlled CAD/CalculiX changes can stop production and supersede evidence. Actual orders, receipts, serial/batch history, NCRs, invoices, payments and progress remain business records in ERP.
-
-The locally manufactured first-article baseline controls 120 product rows and 26 assembly nodes. It has 472 fail-closed production-data slots across **62 locally made rows**, 16 [factory packages](design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) and 29 [drawing-definition seeds](design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md). Its [exterior finish](design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md) and [mass closure](design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md) remain open until the required drawing, revision, material/process, tooling, inspection, verification and approval evidence exists.
+Turn city design into asset registers, BOM demand, finite-resource schedules, supplier candidates, order-by dates, cash requirements, QA gates and construction states. ERPNext holds native projects, procurement, inventory, manufacturing, quality, finance, people and maintenance records. The first-article baseline controls 120 product rows and 26 assembly nodes; 30 tooling families, 16 [factory packages](design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) and 29 [drawing-definition seeds](design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md) feed nested BOMs, methods, travelers and hold points. Across 62 locally made rows, 472 fail-closed slots—including [exterior finish](design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md) and [mass closure](design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md)—prevent first-article release without required production and approval evidence.
 
 ### 4. Operate, maintain and retain evidence
 
-One [Workbench](docs/workbench/README.md) joins City Studio, simulation, OCC, railway works, ERPNext/Frappe HR, FUXA and lifecycle views. Nine native Rust evaluator families publish exact units, identities and provenance through a versioned **observation-only** contract into durable history, alarms and read-only supervision. Reviewed conditions become ERP maintenance cases and Asset Repairs with parts, technicians, downtime and evidence. End-to-end CI exercises complete-city load, queued delivery, restart persistence, backup and clean-volume recovery.
+One [Workbench](docs/workbench/README.md) joins City Studio, simulation, OCC, railway works, ERPNext/Frappe HR, FUXA and lifecycle views. Nine native Rust evaluator families publish exact units, identities and provenance through a versioned **observation-only** contract into durable history, alarms and read-only supervision. Reviewed conditions become ERP maintenance cases and Asset Repairs with parts, technicians, downtime and evidence. End-to-end CI exercises complete-city load, queued delivery, restart persistence, backup and clean-volume recovery. ERP, FUXA and management automation have no path to movement authority, point/barrier command, safety release or engineering acceptance.
 
-ERP, FUXA and management automation have no path to movement authority, point/barrier command, safety release or engineering acceptance. Those remain separate human-controlled and independently assessed railway responsibilities.
+## Who uses it—and for what?
 
-## The newest cross-system capabilities
+| Team | Practical use | Result they can review |
+|---|---|---|
+| City authority | Compare corridors, stations, demand, service and civil risk | Source-locked candidate, quantities, cost range and survey brief |
+| Civil/BIM team | Coordinate alignment, structures, stations and construction sequence | GIS/OSR-ALN, split IFC4.3, IDS checks, 4D states and issue evidence |
+| Vehicle/factory team | Localise a controlled trainset without losing interfaces | Product graph, CAD/IFC, BOMs, tooling, travelers, hold points and RFQ packages |
+| Programme and finance team | Turn scope into an executable delivery plan | Critical path, order-by dates, schedule of values and local/import cashflow |
+| Operator and maintainer | Observe condition and manage an auditable repair | History, alarm, ERP case, draft Asset Repair, parts/people plan and retained evidence |
+| Assurance team | Test design changes against requirements before manufacture | FMEA, standards, simulation, formal-check and provenance reports with open gates |
+| Executive/administrative team | Prepare routine proposals with independent model review | Attested, human-reviewed ERP drafts—never autonomous executive or railway action |
 
-### Battery cooling, resilient routing, recovery and assurance
+## Step-by-step use cases
 
-The train now has deterministic integrated thermal control for a shared refrigerant plant with physically separated cabin-air and battery-coolant circuits. Battery cooling, traction derate and pack protection take priority over comfort. The simulator exercises it on every train tick, without claiming that software qualifies physical equipment.
+These are implemented paths through the repository, not promises that simulation replaces survey, qualification, physical testing or approval.
 
-A new onboard selector compares a signed stored plan, sensor-derived localisation/topology and authenticated network command. Two fresh, trusted and exactly matching inputs are required; plan plus sensors can maintain route intent during network loss, while disagreement holds. Route intent never creates movement authority: separation, route locking, detected points, speed supervision and emergency braking remain mandatory.
+### Scenario 1 — Compare two city corridors before funding survey work
 
-The planner supports short constrained single-track sections, passing loops and a protected recovery siding every third station with a fail-held remote shunt robot. Every build also emits a content-addressed [standards/FMEA report](docs/certification/digital-assurance-report.md), covering six domains and all 279 controlled train, station, civil and Rust inventory entries. These remain planning/design gates with item reviews, physical tests, site validation and independent assessment release-blocking. Consensus recovery now has a versioned, checksummed stable-state envelope and a deterministic [software resilience report](docs/certification/software-resilience-report.md) covering restart, storage, communications, clock and telemetry faults. The [engineering baseline](engineering/toolchain/baseline-assurance.md) checks seven analytical references plus alignment, IFC and duty-cycle drift; [component RFC readiness](docs/component-rfc-readiness.md) keeps door, thermal, points, charging and brownfield packages traceable without presenting open physical evidence as complete.
+1. Select a catalogue city in [City Studio](docs/city-studio.md), then inspect roads, buildings, demand, existing rail and places.
+2. Draw candidate lines and stations; compare OD demand, fleet and timetable implications.
+3. Add source-locked open DEM and water evidence. The router classifies likely at-grade, viaduct and bridge segments and rejects stations in mapped exclusions.
+4. Model constrained single-track sections with passing at stations and recovery sidings where appropriate.
+5. Compile each candidate into an immutable revision and generate its asset, quantity, cost, cashflow, critical-path and survey-gap outputs.
+6. Use the comparison to commission field survey, geotechnical and hydraulic work—not to release a route or structure.
 
-### Terrain- and water-aware route planning
+### Scenario 2 — Propagate an alignment change into engineering and delivery
 
-The Rust routing path now validates source-locked raster metadata, bounds, geography, byte shape, finite values, water percentages, elevation, slope and anchors before use. The planner and City Studio consume the same verified bundle, so a map cannot claim locked evidence while routing different bytes. Property tests cover path bounds/connectivity and malformed or tampered inputs fail closed.
+1. Seal the revised GIS/OSR-ALN candidate so every downstream result refers to the same bytes.
+2. Regenerate civil/station IFC4.3, quantities, classifications, asset IDs and 4D construction states.
+3. Run route–vehicle gates for gradient, curvature, cant, platform, clearance, braking, energy, crosswind, evacuation and recovery interfaces.
+4. Validate the 146-file LM3 federation against the [IDS requirements](engineering/models/bim/reference/lm3-information-requirements.ids), then run deterministic FMEA/standards and baseline-drift checks.
+5. Recalculate BOM demand, finite-resource CPM, suppliers, order-by dates, QA gates and local/import cashflow; expose affected open ERP work for disposition.
+6. Stop at unresolved calculations, supplier data, physical tests or approvals. A green digital report is design evidence, not construction release.
 
-The output distinguishes likely at-grade, viaduct and bridge needs and prevents stations being treated as valid in mapped exclusions. It is designed to expose costly civil risk early; final vertical alignment, flood level, foundations, spans and station siting still require field evidence.
+### Scenario 3 — Manufacture and commission a locally built subsystem
 
-### Enforceable BIM and mechanical definition
+1. Start from one of 120 controlled product rows and follow its CAD/IFC, mechanical interfaces, material/process fields and nested BOM.
+2. Issue a bounded supplier package separating NRE, tooling, first article, repeat units and support; treat catalogue vendors as leads until qualified.
+3. Create the ERP project, purchase and receipt records; preserve batch/serial identity and inspection references.
+4. Execute the factory traveler and hold points, record NCRs and accepted evidence, then install the serialized item against its planned asset identity.
+5. Bind design, execution, inspection and simulation commissioning evidence. A later replacement keeps the removed serial's history and requires fresh evidence.
+6. Provision a lookup-only QR only after an operator has configured a secure resolver and independently verified the physical binding; see the [governance templates](docs/operating/lifecycle-governance-and-qr.md).
 
-The LM3 manufacturing federation is not just one large model. Each product and assembly has a separately reviewable IFC4.3 file linked back to the controlled product graph. Project-level design-detail hashes, interface properties and IDS rules make missing provenance or missing mechanical controls machine-detectable. See the [BIM reference package](engineering/models/bim/reference/README.md) and [model coverage](engineering/models/model-coverage.md).
+### Scenario 4 — Turn a train or station fault into controlled maintenance
 
-The vehicle datum and interface model connects wheel/rail, carbody/bogie, doors/platforms, articulation, coupler/recovery, battery cassette, traction drive, HVAC, brakes, structure clearance and lifting/rerailing. Route evidence can therefore trigger a named compatibility gate instead of silently forcing an untracked train redesign.
+1. The Rust evaluator emits unit- and source-qualified observations through the command-free `osr-supervision-contract` boundary.
+2. The gateway retains history and alarm state; FUXA shows condition but cannot grant movement authority or engineering release.
+3. A reviewed actionable condition creates one durable ERP Issue, including response guidance and immutable incident provenance.
+4. A maintainer previews the linked Asset, parts availability, technician and downtime, then creates one unsubmitted Asset Repair.
+5. Native ERP records work, stock and actual downtime; separate inspection and handback evidence decide whether railway use may resume.
+6. Restart, ERP outage and duplicate-delivery tests prove queued events and serial history recover without turning case closure into safety clearance.
 
-The [supplier technical-support package](docs/commercial/supplier-technical-support-package.md) now turns potential industrial support into eight bounded LM3 work packages, eight cross-supplier interface closures, separated NRE/tooling/first-article/repeat/support costs and seven evidence gates. Public RailMac/SinoMac and related manufacturer pages remain catalogue leads only: the generated [readiness record](docs/commercial/supplier-technical-support-readiness.md) cannot count them as committed or compatible without legal authority, controlled configurations, named engineers and accepted evidence.
+### Scenario 5 — Rehearse degraded operation and recovery
 
-### Rust, ERP and SCADA integration with a hard authority boundary
+1. Run normal, peak, continuously degraded and recovery profiles against the full 108-train Samawah model using the [multi-day soak harness](docs/certification/software-soak-report.md).
+2. Exercise shared battery/cabin thermal control: pack cooling, traction derate and protection take priority over comfort.
+3. Remove the network path. Stored plan plus sensor localisation may retain route intent only when two fresh, trusted inputs match exactly; disagreement holds.
+4. Rehearse corridor recovery from every-third-station sidings with the fail-held shunt-robot model, while retaining separation, route locking, detected points, speed supervision and emergency braking requirements.
+5. Review bounded queues, historian tiers, events, CBM state, work-order evidence and the [resilience report](docs/certification/software-resilience-report.md); proceed to HIL and physical trials before any safety claim.
 
-The Rust workspace is a serious deterministic engineering and control-evaluation codebase, not a commissioned control product. Its evaluators are suitable for simulation, design review, shadow execution and HIL preparation. A dedicated `osr-supervision-contract` crate exports observations only; it contains no command, reset, movement-authority, protection, ERP-action or executive-decision type.
+### Scenario 6 — Use multi-model AI for administration without delegating authority
 
-The [Rust review and integration plan](docs/rust-codebase-review-and-integration-plan.md) records the defects found and fixed: routing alias/bounds risks, release overflow behavior, raster path/source-lock weaknesses, invalid topography domains, an unstable Python serialization boundary and CI/security gaps. All-feature tests, Clippy, documentation tests, RustSec audit, WebAssembly builds, Kani jobs and scheduled soak/coverage work now protect that boundary. The [multi-day soak report](docs/certification/software-soak-report.md) exercises the full 108-train Samawah stack under normal, peak, continuously degraded and recovery operation, with deterministic halfway/final bounds for retained events, radio queues, historian tiers, CBM state and evidence size.
+1. Freeze the ERP/SCADA context and ask the experimental [executive council](docs/operating/ai-executive-council.md) for an allowlisted budget, maintenance, material-request or work-order proposal.
+2. Collect blind ballots from strategy, finance, operations and risk identities spanning at least two providers and three model families.
+3. Require 75% endorsement; any rejection, missing perspective, stale context or diversity failure routes the proposal to human review.
+4. Deterministically verify the policy, context, proposal and ballot hashes, then require an operator-keyed attestation.
+5. Let ERPNext independently verify and map the result to an **unsubmitted draft**. Models cannot pay, contract, hire/fire, certify, release engineering, operate SCADA or command trains.
 
-### A governed multi-model executive council—not a single AI answer
-
-The experimental [AI executive council](docs/operating/ai-executive-council.md) treats “AI CEO”, finance, operations, maintenance, procurement and workforce roles as software offices, not legal directors or railway duty holders.
-
-For a recommendation to become an authorized ERP **draft packet**, the default constitution requires strategy, finance, operations and risk perspectives; independently authenticated identities spanning at least two providers and three model families; 75% endorsement with any rejection forcing human review; immutable ERP/SCADA context and proposal/ballot/policy hashes; a deterministic verifier; and an operator-keyed attestation checked again by ERPNext.
-
-Models vote independently and do not see earlier ballots. Four wrappers around one model fail the diversity test. Even a successful council can only prepare allowlisted, unsubmitted budget scenarios, maintenance plans, material requests or work orders. It cannot submit ERP records, pay, contract, hire/fire, certify, release engineering, operate SCADA or command a railway.
-
-This makes the proposed administrative-cost reduction measurable: time saved in evidence collation, draft preparation and routine coordination can be piloted while dissent, exceptions, provider cost, human review time and error rates remain visible.
-
-The companion [lifecycle governance, HR/admin and QR templates](docs/operating/lifecycle-governance-and-qr.md) apply one controlled evidence model to every mechanical product/assembly, station variant, reusable civil type and Rust crate. Asset QR identities are lookup-only and remain unprintable until an operator provisions an HTTPS resolver and verifies each physical binding.
+For a single runnable story joining planning, ERPNext, manufacturing, FUXA, native Rust evaluation, maintenance, restart and clean-volume recovery, follow the [Samawah example-city acceptance](deployment/example-city/README.md).
 
 ## What is ready for what?
-
-OpenSourceRail deliberately contains products at different maturity levels:
 
 | Product | Current maturity | Credible use now |
 |---|---|---|
@@ -132,17 +146,9 @@ The first adoptable product does not require a new autonomous railway. Start wit
 
 These are captures of the installed simulation platform and generated engineering models, not UI mockups. Reproduce the Workbench captures with [`capture-platform.mjs`](deployment/workbench/tests/capture-platform.mjs), or watch the [88-second product assembly](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [48-second civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
 
-## Generate a city delivery twin
-
-Regenerating a city creates a connected planning baseline, not just a route drawing or cost total: **GIS, route, service and fleet → asset register and BOM demand → supplier/order-by plan → finite-resource CPM and schedule of values → local/import cashflow, QA and 4D states → reviewed ERP execution and lifecycle evidence**.
-
-Workbench can generate any catalogue city and open its project twin without a shell. Each city publishes a compact `engineering/project-twin/summary.json`; the reproducible bundle contains the full task, procurement, cashflow and visualization records. Use ERPNext for issued business transactions and actuals.
-
-The reference cost model uses about **$0.9M per 3-car light-metro trainset** as a local factory-gate planning target (the current build record is $885k) and **$60k per supported vehicle/car module** for a shared country factory. Homologation, supplier qualification, first-of-class engineering, warranty and deployment remain separate gates.
-
 ## The economic case
 
-The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified.
+The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified. The reference model uses about **$0.9M per 3-car light-metro trainset** (current build record: $885k) and **$60k per supported vehicle/car module** for a shared country factory; qualification, homologation, warranty and deployment are separate gates.
 
 For an illustrative **$100M OpenSourceRail scope**, the editable default comparison applies a 2.0× foreign-turnkey price with 90% requiring foreign currency or international capital:
 
@@ -184,17 +190,7 @@ Open <http://127.0.0.1:8090/>. The local server is not an authenticated public d
 
 ## Source Of Truth
 
-```text
-source-locked city and engineering inputs
-                  ↓
-validated candidate + deterministic generators
-                  ↓
-content-addressed, Git-reviewable revision
-                  ↓
-GIS / OSR-ALN / CAD / IFC / costs / simulation / project twin
-                  ↓
-independent evidence + named approval + operational baseline
-```
+**Source-locked inputs → validated candidate and deterministic generators → content-addressed Git-reviewable revision → GIS/OSR-ALN/CAD/IFC/cost/simulation/project-twin outputs → independent evidence, named approval and operational baseline.**
 
 A hash proves which bytes were reviewed; it does not approve them. Generated city packages still require survey, calibrated demand, utility and ground data, supplier qualification, first-article manufacture and testing, competent engineering review and national authorization.
 
