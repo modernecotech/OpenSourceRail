@@ -157,7 +157,7 @@ fn markdown(report: &FaultReport) -> String {
         .unwrap();
     }
     writeln!(value, "\n## Remaining Release Evidence\n").unwrap();
-    writeln!(value, "Repeat these cases on the selected storage, processor, RTOS/OS, production transport and clock sources. Add power-cut injection, storage endurance, WCET/resource measurements, long-duration soak, signed binary/update evidence and independent review before release.").unwrap();
+    writeln!(value, "Repeat these cases on the selected storage, processor, RTOS/OS, production transport and clock sources. Add power-cut injection, storage endurance, target-hardware wall-clock soak, WCET/stack/heap measurements, signed binary/update evidence and independent review before release. The separate deterministic multi-day simulator soak is design evidence only.").unwrap();
     value
 }
 

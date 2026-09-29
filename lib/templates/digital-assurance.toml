@@ -187,3 +187,11 @@ standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "IEC-62928-2017", "EN-1990
 domains = ["system", "mechanical", "electrical", "thermal", "civil", "operations"]
 evidence = ["lib/templates/component-rfc-packages.toml", "docs/component-rfc-readiness.md", "tools/automation/component_rfc_readiness.py"]
 required_digital = true
+
+[[checks]]
+id = "DA-012"
+title = "Multi-day normal, peak, degraded and recovery profiles retain bounded logical state"
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "EN-50716-2023"]
+domains = ["embedded-software", "system", "operations"]
+evidence = ["crates/osr-sim/src/soak.rs", "docs/certification/software-soak-report.md", ".github/workflows/rust-soak.yml"]
+required_digital = true

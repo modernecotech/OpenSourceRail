@@ -20,6 +20,7 @@ pub mod scenario_file;
 pub mod schedule;
 pub mod selftest_systems;
 pub mod sim;
+pub mod soak;
 pub mod time_sync;
 pub mod timeline;
 pub mod train;

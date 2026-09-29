@@ -13,6 +13,12 @@ use osr_cbm_onboard::{CbmSample, ComponentHealth};
 use osr_historian::{Historian, Sample};
 use serde::{Deserialize, Serialize};
 
+/// Maximum number of detailed work-order records retained in one simulation.
+///
+/// Aggregate routine/urgent counters continue to account for every generated
+/// order after this cap is reached.
+pub const WORK_ORDER_EVIDENCE_CAPACITY: usize = 4_096;
+
 #[derive(Clone, Debug)]
 pub struct BackendSystemsShadow {
     cbm_state: CbmBackendState,
@@ -63,6 +69,8 @@ pub struct BackendSystemsSummary {
     pub historian_metrics_retained: u32,
     pub analytics_metrics_evaluated: u32,
     pub analytics_samples_evaluated: u64,
+    #[serde(default)]
+    pub work_order_records_dropped: u64,
     pub work_orders: Vec<BackendWorkOrderEvidence>,
 }
 
@@ -81,7 +89,7 @@ pub fn ingest_cbm_sample(shadow: &mut BackendSystemsShadow, sample: &CbmSample) 
                     shadow.summary.urgent_work_orders.saturating_add(1);
             }
         }
-        shadow.summary.work_orders.push(order.into());
+        retain_work_order(&mut shadow.summary, order.into());
     }
 
     let now = sample.now_ns;
@@ -126,6 +134,14 @@ pub fn ingest_cbm_sample(shadow: &mut BackendSystemsShadow, sample: &CbmSample) 
     }
 }
 
+fn retain_work_order(summary: &mut BackendSystemsSummary, evidence: BackendWorkOrderEvidence) {
+    if summary.work_orders.len() < WORK_ORDER_EVIDENCE_CAPACITY {
+        summary.work_orders.push(evidence);
+    } else {
+        summary.work_order_records_dropped = summary.work_order_records_dropped.saturating_add(1);
+    }
+}
+
 fn ingest_metric(shadow: &mut BackendSystemsShadow, metric: String, timestamp_ns: u64, value: f64) {
     shadow.historian.ingest(
         &metric,
@@ -159,4 +175,20 @@ pub fn summarise(shadow: &BackendSystemsShadow) -> BackendSystemsSummary {
         .map(|metric| basic_stats(&shadow.historian.query(metric, 0, u64::MAX)).count as u64)
         .sum();
     summary
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn work_order_evidence_is_bounded_and_drops_are_counted() {
+        let mut summary = BackendSystemsSummary::default();
+        for _ in 0..WORK_ORDER_EVIDENCE_CAPACITY + 3 {
+            retain_work_order(&mut summary, BackendWorkOrderEvidence::default());
+        }
+
+        assert_eq!(summary.work_orders.len(), WORK_ORDER_EVIDENCE_CAPACITY);
+        assert_eq!(summary.work_order_records_dropped, 3);
+    }
 }

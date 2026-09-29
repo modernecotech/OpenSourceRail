@@ -10,18 +10,20 @@ permissions:
 
 jobs:
   long-horizon-simulation:
-    name: Rust two-hour consensus and energy soak
+    name: Rust seven-day normal, peak, degraded and recovery soak
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.92.0
       - uses: Swatinem/rust-cache@v2
-      - name: Execute the release-only ignored soak
-        run: >-
-          cargo test --release -p osr-sim --test phase2b_integration
-          two_hour_samawah_run_preserves_battery_reserve_and_event_balance
-          -- --ignored --exact
+      - name: Execute the full multi-day resource-growth soak
+        run: cargo run --release -p osr-sim --bin osr-soak-evidence -- --full
+      - uses: actions/upload-artifact@v4
+        with:
+          name: software-soak-evidence
+          path: build/assurance/software-soak-report.*
+          if-no-files-found: error
 
   coverage:
     name: Rust workspace coverage artifact

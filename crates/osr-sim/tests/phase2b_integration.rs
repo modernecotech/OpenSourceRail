@@ -159,7 +159,7 @@ fn peak_torque_within_traction_rating() {
 }
 
 #[test]
-#[ignore = "long-horizon consensus soak; run explicitly before release"]
+#[ignore = "legacy two-hour battery/event smoke; multi-day profiles run via osr-soak-evidence"]
 fn two_hour_samawah_run_preserves_battery_reserve_and_event_balance() {
     let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(7_200));

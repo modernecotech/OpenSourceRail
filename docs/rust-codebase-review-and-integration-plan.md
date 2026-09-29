@@ -67,7 +67,7 @@ ERP compiler enforce the same lookup-only physical-asset identity contract.
 | P1 | The Rust bridge exposed an ad hoc serialization of internal controller types | Python depended on implementation layout and authority was implicit | A strict normalized observation contract with exact units and source crates |
 | P1 | CI did not test all features, doc tests or dependency advisories | Feature-specific drift and known vulnerable dependencies could escape the normal gate | All-feature Clippy/tests, doc tests and pinned RustSec audit |
 | P1 | The first RustSec run found vulnerable GUI transitive dependencies and unmaintained `bincode`/font-parser dependencies | Known denial-of-service, argument-injection, unsoundness and maintenance risks were present in the lockfile | Rust 1.92 and egui 0.34 migration, patched transitive versions, and `postcard` wire serialization; the strict audit now passes without exceptions |
-| P2 | The long-horizon simulator check was ignored in normal CI and there was no recurring coverage artifact | Slow regressions and unexercised areas were less visible | Weekly release soak and workspace LLVM coverage artifact |
+| P2 | The long-horizon simulator check was ignored in normal CI and there was no recurring coverage artifact | Slow regressions and unexercised areas were less visible | Tracked two-day/four-mode CI evidence, weekly seven-day soak and workspace LLVM coverage artifact |
 
 ## Target integration architecture
 
@@ -190,7 +190,7 @@ Actions:
 - compile both operator GUI libraries for their no-default-feature WebAssembly
   target as a distinct CI gate;
 - enable checked arithmetic in optimized releases;
-- schedule the ignored two-hour consensus/energy soak in release mode;
+- run a tracked two-day normal/peak/degraded/recovery resource-bound profile in CI and a seven-day release profile on the weekly schedule;
 - generate a recurring LLVM source-coverage artifact.
 
 Exit criterion: fast PR checks cover structure and contracts; expensive soak
@@ -220,7 +220,7 @@ to final regression results recorded in the change handoff.**
 | Differential | Interlocking Rust/Python comparison | Independent reference agreement |
 | Formal | Kani workflow | Bounded selected safety properties with preserved results |
 | Cross-language | Rust bridge fixture plus Python rejection tests | Schema, unit, provenance and authority compatibility |
-| Long horizon | Scheduled release-mode two-hour simulation | Consensus, energy reserve and event balance over time |
+| Long horizon | Tracked two-day four-mode report plus scheduled release-mode seven-day simulation | Energy reserve, invariant health, degraded/recovery behavior and bounded retained state over time |
 | Supply chain | RustSec audit of `Cargo.lock` | Known dependency advisories |
 | Static | rustfmt and all-feature Clippy with warnings denied | Consistency and lint debt prevention |
 | Coverage | Scheduled LLVM LCOV artifact | Identify unexercised Rust paths without inventing an arbitrary safety threshold |
@@ -236,7 +236,7 @@ The final local tree was exercised again after the review changes:
 - `cargo clippy --workspace --all-features --all-targets -- -D warnings`
   passed;
 - `cargo test --workspace --all-features --all-targets` passed; the explicitly
-  ignored two-hour release soak is covered by the scheduled release workflow
+  deterministic two-day report is checked in CI and the seven-day profile is covered by the scheduled release workflow
   and was also run successfully during the main review;
 - `cargo llvm-cov 0.9.1 --workspace --all-features --all-targets` passed and
   reported 28,075/37,209 instrumented lines, or **75.45%**. This increased from

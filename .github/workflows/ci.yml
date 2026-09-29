@@ -84,6 +84,7 @@ jobs:
         run: |
           python engineering/subsystem_control_register.py
           cargo run --quiet -p osr-consensus --bin osr-resilience-evidence -- --check
+          cargo run --quiet --release -p osr-sim --bin osr-soak-evidence -- --check
           python tools/automation/component_rfc_readiness.py --check
           python tools/automation/generate-doc-index.py
           python tools/automation/generate-national-briefs.py

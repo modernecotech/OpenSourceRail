@@ -23,8 +23,10 @@ use crate::onboard::{OnboardShadow, TickReport};
 use crate::train::{Train, TrainPhase};
 use crate::vehicle_systems::VehicleSystemsTickReport;
 
-const EVENT_RECORDER_CAPACITY: usize = 4_096;
-const CBM_PAYLOAD_QUEUE_CAPACITY: usize = 4_096;
+/// Fixed per-train event-recorder ring capacity, exported for soak bounds.
+pub const EVENT_RECORDER_CAPACITY: usize = 4_096;
+/// Fixed per-train store-and-forward telemetry capacity, exported for soak bounds.
+pub const CBM_PAYLOAD_QUEUE_CAPACITY: usize = 4_096;
 
 /// Stateful application-tier controller stack for one train.
 #[derive(Clone, Debug)]

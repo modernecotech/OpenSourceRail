@@ -443,6 +443,11 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             "Work orders        : {} routine / {} urgent",
             backend.routine_work_orders, backend.urgent_work_orders
         );
+        println!(
+            "Evidence records   : {} retained / {} dropped",
+            backend.work_orders.len(),
+            backend.work_order_records_dropped
+        );
     }
 
     if r.ma_check.checks_run > 0 {

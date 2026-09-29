@@ -139,10 +139,11 @@ station/product mappings for all 266 catalogue cities: 1,022 lines and 14,636
 station occurrences, backed by seven shared geometric station-archetype IFC assemblies.
 The full live SUMO batch completed all 4,052 scheduled screening services with
 zero simulation failures. Its execution gate passes; its input-quality gate
-remains open for the endpoint findings below. ENG-TOOL-002/003 remain open for
-the remaining analytical benchmark forms, atomic manifests for every solver
-and second-machine reproduction; the CalculiX thermal block passes its
-analytical temperature and flux checks. ENG-TOOL-004 now passes
+remains open for the endpoint findings below. ENG-TOOL-002/003 are closed for
+the repository-owned deterministic baseline; live-solver reruns and
+second-machine reproduction remain environment evidence, not source-level
+release claims. The CalculiX thermal block passes its analytical temperature
+and flux checks. ENG-TOOL-004 now passes
 station manifest ID, positive-volume representation, semantic class,
 property-set and assembly-hierarchy round trips for all seven archetypes.
 The fast tracked baseline now adds independent analytical forms for a
@@ -466,7 +467,7 @@ authority evidence closes; the digital packages deliberately remain blocked.
 - [x] **COMP-014-04 — Add partition and clock tests.** Exercise minority/
   majority isolation, asymmetric loss, healing, jitter, clock step/slew and
   loss of time source while checking the invariants.
-- [ ] **COMP-014-05 — Add multi-day soak profiles.** Run normal, peak,
+- [x] **COMP-014-05 — Add multi-day soak profiles.** Run normal, peak,
   degraded and recovery cycles with bounded resource-growth assertions and
   deterministic seeds. Keep a short CI profile and schedule the full profile.
 - [x] **COMP-014-06 — Publish safety evidence.** Store scenario manifests,
@@ -483,9 +484,13 @@ design evidence. The stable-state envelope rejects corruption, truncation,
 wrong-node restore and commit/log inconsistency; disk-full and partial writes
 preserve the last good image; restart discards volatile leadership/quorum
 claims. Safety proposals are rejected while clock, time-source or telemetry
-health is invalid. COMP-014-05 remains open for a dedicated multi-day
-resource-growth profile, and all cases still require selected-hardware HIL,
-power-cut/endurance, WCET and independent assessment before release.
+health is invalid. The tracked two-day normal, peak, degraded and recovery
+profile now compares halfway/final retained state against explicit event,
+queue, historian, CBM, work-order and compact-result bounds; the scheduled
+seven-day profile publishes its own workflow artifact. This closes
+COMP-014-05 for deterministic repository design evidence. All cases still
+require selected-hardware HIL, wall-clock power-cut/endurance, WCET/stack/heap
+measurement and independent assessment before release.
 
 ## Priority And Dependencies
 

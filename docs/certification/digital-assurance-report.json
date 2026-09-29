@@ -244,19 +244,41 @@
       ],
       "status": "pass",
       "title": "Promoted component RFCs retain traceable implementation and release gaps"
+    },
+    {
+      "domains": [
+        "embedded-software",
+        "system",
+        "operations"
+      ],
+      "evidence": [
+        "crates/osr-sim/src/soak.rs",
+        "docs/certification/software-soak-report.md",
+        ".github/workflows/rust-soak.yml"
+      ],
+      "id": "DA-012",
+      "required_digital": true,
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62425-2025",
+        "EN-50716-2023"
+      ],
+      "status": "pass",
+      "title": "Multi-day normal, peak, degraded and recovery profiles retain bounded logical state"
     }
   ],
   "counts": {
-    "digital_checks": 11,
+    "digital_checks": 12,
     "failure_modes": 18,
     "inventory_item_reviews_open": 279,
     "inventory_items_screened": 279,
     "physical_evidence_open": 18,
     "standards": 10
   },
-  "design_fingerprint_sha256": "daf331f5d6a4cc8786a2fcd28f44783b07dfabf2b7553895b0696b7be7dadc0f",
+  "design_fingerprint_sha256": "c093e38190736f24e4058658a21ea1270a3537193f9de906b641873ed526f1a7",
   "digital_gate_passed": true,
   "evidence_hashes": {
+    ".github/workflows/rust-soak.yml": "fc769474c4da1e12ee2295e847f27fe60641fd49fc3ce89b3cd473fbd1e513ca",
     "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
     "crates/osr-aux-power/src/lib.rs": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452",
     "crates/osr-bms/src/lib.rs": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799",
@@ -276,6 +298,7 @@
     "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
     "crates/osr-onboard-routing/src/lib.rs": "12d0e2ea128e1f2e63ecee909d65a374723723e1499d0225f6bf2e63124c1f2f",
     "crates/osr-onboard-routing/tests/proptest_routing.rs": "ddbe06b6702f22077363210cfa8b17106c690eac14de93c1fac54033d6a26328",
+    "crates/osr-sim/src/soak.rs": "9c5437b9477b86478225cd6f1417452c7071ed951bb6d5a28d2134c3cf32cca2",
     "crates/osr-wayside-points/src/lib.rs": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
     "design/component-catalogue/src/osr_mech/civil/viaduct.py": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298",
     "design/component-catalogue/src/osr_mech/recovery_interface.py": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
@@ -284,7 +307,8 @@
     "docs/certification/pilot-signalling-profile.md": "fc6fea2c43a84e8fbb423c206e2933eaf1723e7609bbd79db56b87e7a4216a2f",
     "docs/certification/release-gap-register.md": "26de21f8220ee5aa60a1d67dd8e7e80d703ae8343271e6e150dedc7d59845547",
     "docs/certification/safety-requirements.md": "b74f8f246dfe670b8854751dd9f5b9688ffe2366c727c81d5ef931e89349dfc1",
-    "docs/certification/software-resilience-report.md": "5cfc42dcad9840fa5641ccb52b2ea8f6a9e8cd63447d346eb8ca4c2bda128af3",
+    "docs/certification/software-resilience-report.md": "0f60e2ac63a6974791ae38b2747f44b00f229cb3aa5c2b0a5126c9151a1348d8",
+    "docs/certification/software-soak-report.md": "bf038990d636bec3729e2da5170a385ced1a66ec6e4311cc82ae413a08994b01",
     "docs/component-rfc-readiness.md": "d2b6ae3a5945702fa94e996dfc2e8945b2f78ad260b9620493fab605a5dd5dde",
     "docs/operations/README.md": "47367469ef5dc037ad5e2c2803e4c4382de54cf9e0e010fd198eb4df1f8c92a9",
     "docs/rfcs/0011-civil-infrastructure-design-standard.md": "582ad51c5c4f916af70f29712c1e9feb05749dc34a7cfc8eb5c0a051fa28ac0b",
@@ -5891,7 +5915,7 @@
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
-    "lib/templates/digital-assurance.toml": "c0e0e53d265cfa572a5f1f1fc6c5126c8ec4618ae85073d9ec471bb2b831c834",
+    "lib/templates/digital-assurance.toml": "745f3bef23e53f34648c272aecb4a9340b114b159f5fefb4067c300a5036d46a",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
   },
   "standards": [

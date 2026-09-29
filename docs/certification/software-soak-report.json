@@ -1,0 +1,241 @@
+{
+  "schema": "osr-software-soak/1",
+  "evidence_class": "deterministic-software-design-evidence-not-hardware-qualification",
+  "configuration": {
+    "days": 2,
+    "time_step_s": 5
+  },
+  "profiles": [
+    {
+      "profile": "normal",
+      "seed": 24301,
+      "checkpoint_sim_s": 86400,
+      "final_sim_s": 172800,
+      "checkpoint": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 0,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 2216160,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 131819
+      },
+      "final_state": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 0,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 2682720,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 132104
+      },
+      "bounds": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 9,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 6609600,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 4096,
+        "compact_result_bytes": 2000000
+      },
+      "minimum_train_soc": 0.20000075,
+      "total_train_km": 43612.00600000304,
+      "faults_fired": 0,
+      "invariant_failures": 0,
+      "assertions": [
+        "detailed event retention disabled while aggregate counts remain available",
+        "event recorder and T2G queues stay within fixed per-train capacities",
+        "historian raw and decimated tiers stay within fixed per-metric capacities",
+        "CBM component state and detailed work-order evidence stay within explicit capacities",
+        "every generated work order is represented by retained or dropped-record accounting",
+        "compact result payload stays within the deterministic evidence envelope",
+        "operating reserve and simulator invariants remain satisfied",
+        "normal service completes repeated service/stabling cycles without injected faults",
+        "checkpoint-to-final retained-state growth remains inside every declared cap"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "profile": "peak",
+      "seed": 24302,
+      "checkpoint_sim_s": 86400,
+      "final_sim_s": 172800,
+      "checkpoint": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 6,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 0,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 2216160,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 132715
+      },
+      "final_state": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 6,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 0,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 2682720,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 133060
+      },
+      "bounds": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 9,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 6609600,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 4096,
+        "compact_result_bytes": 2000000
+      },
+      "minimum_train_soc": 0.20000301,
+      "total_train_km": 53015.70500000229,
+      "faults_fired": 0,
+      "invariant_failures": 0,
+      "assertions": [
+        "detailed event retention disabled while aggregate counts remain available",
+        "event recorder and T2G queues stay within fixed per-train capacities",
+        "historian raw and decimated tiers stay within fixed per-metric capacities",
+        "CBM component state and detailed work-order evidence stay within explicit capacities",
+        "every generated work order is represented by retained or dropped-record accounting",
+        "compact result payload stays within the deterministic evidence envelope",
+        "operating reserve and simulator invariants remain satisfied",
+        "peak profile uses three-minute-or-better published headways and continues accumulating fleet distance after the checkpoint",
+        "checkpoint-to-final retained-state growth remains inside every declared cap"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "profile": "degraded",
+      "seed": 24303,
+      "checkpoint_sim_s": 86400,
+      "final_sim_s": 172800,
+      "checkpoint": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 0,
+        "historian_samples_retained": 0,
+        "cbm_components_tracked": 0,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 133783
+      },
+      "final_state": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 0,
+        "historian_samples_retained": 0,
+        "cbm_components_tracked": 0,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 133969
+      },
+      "bounds": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 9,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 6609600,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 4096,
+        "compact_result_bytes": 2000000
+      },
+      "minimum_train_soc": 0.20000105,
+      "total_train_km": 21218.501000000753,
+      "faults_fired": 2,
+      "invariant_failures": 0,
+      "assertions": [
+        "detailed event retention disabled while aggregate counts remain available",
+        "event recorder and T2G queues stay within fixed per-train capacities",
+        "historian raw and decimated tiers stay within fixed per-metric capacities",
+        "CBM component state and detailed work-order evidence stay within explicit capacities",
+        "every generated work order is represented by retained or dropped-record accounting",
+        "compact result payload stays within the deterministic evidence envelope",
+        "operating reserve and simulator invariants remain satisfied",
+        "continuous radio loss saturates, but never exceeds, the bounded store-and-forward queue",
+        "checkpoint-to-final retained-state growth remains inside every declared cap"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "profile": "recovery",
+      "seed": 24304,
+      "checkpoint_sim_s": 86400,
+      "final_sim_s": 172800,
+      "checkpoint": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 11340,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 0,
+        "compact_result_bytes": 134435
+      },
+      "final_state": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 8,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 0,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 2345220,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 3564,
+        "compact_result_bytes": 512395
+      },
+      "bounds": {
+        "detailed_events_retained": 0,
+        "event_count_keys": 9,
+        "event_records_retained": 442368,
+        "t2g_payloads_retained": 442368,
+        "historian_metrics_retained": 540,
+        "historian_samples_retained": 6609600,
+        "cbm_components_tracked": 3564,
+        "work_orders_retained": 4096,
+        "compact_result_bytes": 2000000
+      },
+      "minimum_train_soc": 0.20001128,
+      "total_train_km": 26031.050000001218,
+      "faults_fired": 3,
+      "invariant_failures": 0,
+      "assertions": [
+        "detailed event retention disabled while aggregate counts remain available",
+        "event recorder and T2G queues stay within fixed per-train capacities",
+        "historian raw and decimated tiers stay within fixed per-metric capacities",
+        "CBM component state and detailed work-order evidence stay within explicit capacities",
+        "every generated work order is represented by retained or dropped-record accounting",
+        "compact result payload stays within the deterministic evidence envelope",
+        "operating reserve and simulator invariants remain satisfied",
+        "radio/grid/CBM degradation clears and queued telemetry drains before the final checkpoint",
+        "checkpoint-to-final retained-state growth remains inside every declared cap"
+      ],
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "remaining_release_evidence": [
+    "selected-target WCET, stack and heap measurement",
+    "wall-clock endurance and storage wear on production hardware",
+    "power-cut, network and clock HIL with production transports",
+    "independent safety assessment and authority acceptance"
+  ]
+}

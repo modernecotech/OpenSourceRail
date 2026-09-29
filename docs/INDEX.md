@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4994**.
+Indexed Markdown files: **4995**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4994**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 175 |
+| [docs](#docs) | 176 |
 | [engineering](#engineering) | 20 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4884,6 +4884,7 @@ Indexed Markdown files: **4994**.
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
 | [`docs/certification/software-resilience-report.md`](../docs/certification/software-resilience-report.md) | Deterministic Software Resilience Report |
+| [`docs/certification/software-soak-report.md`](../docs/certification/software-soak-report.md) | Deterministic Multi-Day Software Soak Report |
 | [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | v0.3 standards baseline |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-deployment-evidence.md`](../docs/city-deployment-evidence.md) | City soil inputs and deployment evidence |

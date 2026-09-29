@@ -82,6 +82,7 @@ case "$command_name" in
         tools/automation/osr-python engineering/subsystem_control_register.py --check
         tools/automation/osr-python engineering/toolchain/baseline_assurance.py --check
         cargo run --quiet -p osr-consensus --bin osr-resilience-evidence -- --check
+        cargo run --quiet --release -p osr-sim --bin osr-soak-evidence -- --check
         tools/automation/osr-python tools/automation/component_rfc_readiness.py --check
         tools/automation/osr-python tools/automation/operating-readiness.py --check
         tools/automation/osr-python tools/automation/validate-commercial-partnership.py --check
