@@ -110,7 +110,9 @@ def analytical_cases() -> list[dict[str, Any]]:
     # Drainage: rainfall volume versus independently accumulated outlet volume.
     area_m2, intensity_m_s, duration_s, runoff_coefficient = 10_000.0, 25.0 / 1000.0 / 3600.0, 1_200.0, 0.4
     drainage_expected = area_m2 * intensity_m_s * duration_s * runoff_coefficient
-    drainage_actual = sum(area_m2 * intensity_m_s * 60.0 * runoff_coefficient for _ in range(20))
+    # ``sum`` changed its floating-point accumulation algorithm in Python 3.12.
+    # Use fsum so tracked evidence is byte-identical on supported runtimes.
+    drainage_actual = math.fsum(area_m2 * intensity_m_s * 60.0 * runoff_coefficient for _ in range(20))
 
     # One-zone steady state: heat balance versus converged implicit Euler RC steps.
     outdoor_c, internal_w, ua_w_k = 40.0, 10_000.0, 2_000.0
@@ -143,7 +145,9 @@ def analytical_cases() -> list[dict[str, Any]]:
     people, width_m, flow_people_m_s, walk_s = 120, 1.5, 1.3, 24.0
     evacuation_expected = walk_s + people / (width_m * flow_people_m_s)
     batches = 1_200
-    evacuation_actual = walk_s + sum((people / batches) / (width_m * flow_people_m_s) for _ in range(batches))
+    evacuation_actual = walk_s + math.fsum(
+        (people / batches) / (width_m * flow_people_m_s) for _ in range(batches)
+    )
 
     # One-line timetable: recurrence versus closed-form run+dwell total.
     section_run_s = [180.0, 240.0, 210.0, 270.0]
