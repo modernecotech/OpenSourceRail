@@ -1,9 +1,16 @@
-# v0.3 standards baseline
+# Current standards applicability baseline
 
 This is the single release-facing list of standards used to organise OSR
 assurance evidence. It does not claim certification, conformity, or access to
 the full normative text. A deployment must freeze the applicable national
 adoptions with its independent safety assessor and regulator.
+
+IEC 62278-1:2025 applies its RAMS lifecycle from complete railway systems down
+to subsystems and components, including software, but explicitly does not define
+product-certification rules or stakeholder approval. OSR therefore uses one
+[G0–G4 component assurance lifecycle](README.md#the-five-gates) while keeping
+conformity assessment, independent safety assessment and legal authorization as
+separate decisions.
 
 | Subject | v0.3 baseline | Use in OSR |
 |---|---|---|
@@ -41,6 +48,8 @@ EN 50716—not as the current OSR software baseline.
 
 The machine-readable profile is
 [`lib/templates/digital-assurance.toml`](../../lib/templates/digital-assurance.toml).
+The route/gate/passport profile is
+[`lib/templates/component-assurance.toml`](../../lib/templates/component-assurance.toml).
 Its generated report is a deterministic pre-build coherence gate: it may find
 defects earlier and reduce redesign, but cannot claim conformity or replace
 required type, routine, environmental, site, commissioning or independent

@@ -195,3 +195,11 @@ standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "EN-50716-2023"]
 domains = ["embedded-software", "system", "operations"]
 evidence = ["crates/osr-sim/src/soak.rs", "docs/certification/software-soak-report.md", ".github/workflows/rust-soak.yml"]
 required_digital = true
+
+[[checks]]
+id = "DA-013"
+title = "Every controlled engineering and operational-platform item has a fail-closed assurance passport"
+standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "EN-50716-2023", "EN-1990"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software", "operations"]
+evidence = ["lib/templates/component-assurance.toml", "tools/automation/component_assurance.py", "docs/certification/README.md"]
+required_digital = true

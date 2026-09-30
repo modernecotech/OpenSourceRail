@@ -7,8 +7,22 @@ GoA 4 type-approval submission. It complements
 status by area; this page names the closure evidence expected for each
 gap.
 
+The simplified [component assurance model](README.md#the-five-gates) groups
+these details into G0 definition, G1 design assurance, G2 implementation
+qualification, G3 integration validation and G4 independent acceptance. A gap
+may affect more than one gate; the strictest affected gate controls release.
+
+| Gate | Current position | Principal gap class |
+|---|---|---|
+| G0 — Define | 286/286 reference identities and source baselines recorded | Deployment use and applicability move into G1 |
+| G1 — Assure design | 286 item plans open | Jurisdiction, classification, requirements, interfaces, item FMEA/FMEDA and V&V plans |
+| G2 — Qualify implementation | 286 qualifications open | Suppliers, detailed design, production/target artifacts, calibrated analysis and physical tests |
+| G3 — Validate integration | 286 validations open | HIL, FAT/SAT, site/as-built, commissioning, degraded modes and operating interfaces |
+| G4 — Accept and authorize | 286 acceptances open | Independent assessment, residual-risk acceptance, duty-holder decisions and authority approval |
+
 | Gap | Current in-tree state | Closure evidence |
 |---|---|---|
+| All-component applicability and classification | The deterministic register gives all 286 items a stable G0 passport, route, source hash and fail-closed state; standards remain candidate prompts | For every deployed item, close G1 with intended use, jurisdiction, safety classification, applicable standards/rules and editions, interfaces, hazards, V&V plan, owners and independence requirements |
 | Independent safety assessment | Pre-submission pack is structured and traceable, but not assessor-reviewed | Named assessor review report, action log, and accepted residual-risk statement |
 | Residual-risk acceptance | Hazards and mitigations are listed, but no national-authority threshold is applied | Deployment-specific ALARP / tolerability criterion signed by authority or assessor |
 | Consensus refinement | TLA+ spec, Rust proptests and a documented abstraction/action map exist, but no machine-checked refinement proof connects them | Assessor-accepted refinement argument or tool-backed proof from `SMRaft.tla` to `osr-consensus` behavior |

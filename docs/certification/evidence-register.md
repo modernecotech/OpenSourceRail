@@ -167,3 +167,9 @@ Current release limitations remain in the
 [release-gap register](release-gap-register.md) and
 [safety-case proof status](../safety-case/README.md). No zero-gap safety or
 physical-release claim follows from the traceability gate.
+
+The generated [all-component assurance register](component-assurance-register.md)
+adds one configuration-bound passport to every controlled engineering item and
+owner/operator platform service. It routes this evidence through G0–G4 but does
+not convert the evidence pointers above into item qualification, integration
+validation, independent acceptance or authorization.

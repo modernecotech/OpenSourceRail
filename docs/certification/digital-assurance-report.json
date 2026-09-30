@@ -265,17 +265,43 @@
       ],
       "status": "pass",
       "title": "Multi-day normal, peak, degraded and recovery profiles retain bounded logical state"
+    },
+    {
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "civil",
+        "embedded-software",
+        "operations"
+      ],
+      "evidence": [
+        "lib/templates/component-assurance.toml",
+        "tools/automation/component_assurance.py",
+        "docs/certification/README.md"
+      ],
+      "id": "DA-013",
+      "required_digital": true,
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-60812-2018",
+        "EN-50716-2023",
+        "EN-1990"
+      ],
+      "status": "pass",
+      "title": "Every controlled engineering and operational-platform item has a fail-closed assurance passport"
     }
   ],
   "counts": {
-    "digital_checks": 12,
+    "digital_checks": 13,
     "failure_modes": 18,
     "inventory_item_reviews_open": 279,
     "inventory_items_screened": 279,
     "physical_evidence_open": 18,
     "standards": 10
   },
-  "design_fingerprint_sha256": "c093e38190736f24e4058658a21ea1270a3537193f9de906b641873ed526f1a7",
+  "design_fingerprint_sha256": "59f96f8fa6d71e8e6784882de0e914b48cf4d98ea9ca90d644cf2e833ab47672",
   "digital_gate_passed": true,
   "evidence_hashes": {
     ".github/workflows/rust-soak.yml": "fc769474c4da1e12ee2295e847f27fe60641fd49fc3ce89b3cd473fbd1e513ca",
@@ -302,10 +328,11 @@
     "crates/osr-wayside-points/src/lib.rs": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
     "design/component-catalogue/src/osr_mech/civil/viaduct.py": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298",
     "design/component-catalogue/src/osr_mech/recovery_interface.py": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
-    "docs/certification/evidence-status.md": "86de4f3ffdc1e8f19db0ded359cf8962ab9616e0ca4a7a0bbaf810a62e0729d8",
+    "docs/certification/README.md": "a71b446cdfa66220347a03c963517e9c407b187c305508302500aa09fbaf3dc5",
+    "docs/certification/evidence-status.md": "08d564f0a1324d58027cad6a138d980654b13f3b0fd427a1a726c9d90a23293a",
     "docs/certification/hazard-log.md": "6b21b2a16873abb94a140b0390d399af9697c6f25799db396e731a43f6ea5d24",
     "docs/certification/pilot-signalling-profile.md": "fc6fea2c43a84e8fbb423c206e2933eaf1723e7609bbd79db56b87e7a4216a2f",
-    "docs/certification/release-gap-register.md": "26de21f8220ee5aa60a1d67dd8e7e80d703ae8343271e6e150dedc7d59845547",
+    "docs/certification/release-gap-register.md": "375c7f78b79ba04d866bfeb71ad9d461fab97d5dab39c7d780c5dfbd7edadd26",
     "docs/certification/safety-requirements.md": "b74f8f246dfe670b8854751dd9f5b9688ffe2366c727c81d5ef931e89349dfc1",
     "docs/certification/software-resilience-report.md": "0f60e2ac63a6974791ae38b2747f44b00f229cb3aa5c2b0a5126c9151a1348d8",
     "docs/certification/software-soak-report.md": "bf038990d636bec3729e2da5170a385ced1a66ec6e4311cc82ae413a08994b01",
@@ -320,10 +347,12 @@
     "engineering/design-options/examples/samawah-fleet20-topology/qualification.json": "ca8def3d3d1db7681ae32b5b78229ade66ea016c637b437a6a15843407cb39e8",
     "engineering/toolchain/baseline-assurance.md": "213c7c78af534d3863d03683c4b455ea060bb441baf26239fb0ba32f06d96fb8",
     "engineering/toolchain/fixtures/planning-duty-cycle.json": "3a4974cc328e9adb44db64df43fdeb3e2841edc88bfb581a903c42a106e62525",
+    "lib/templates/component-assurance.toml": "78ff7e0be3f4ac15942dfda596a1727ac12bd3403addae2a9a5c0ac0d7c14c4f",
     "lib/templates/component-rfc-packages.toml": "21bf490d95a1f734336153897f0132a45fcd73c8052a5db9ecda707078bd196c",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
     "lib/templates/structural-release-processing.toml": "9184c082e637e45a4499d1210f9130fe33d0fc94a1ee5a9fc22b656a99c3333e",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e",
+    "tools/automation/component_assurance.py": "326470e4d503fe1d77329f8dabe9f6acf3c907b55996bfa26c2ea5e2f80c17af",
     "tools/automation/component_rfc_readiness.py": "fe7f5fb7e5ec28d72be42a0b9bd19777300f58a39a0b85b98a4a91d2c3834d13"
   },
   "failure_modes": [
@@ -5915,7 +5944,7 @@
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
-    "lib/templates/digital-assurance.toml": "745f3bef23e53f34648c272aecb4a9340b114b159f5fefb4067c300a5036d46a",
+    "lib/templates/digital-assurance.toml": "2ae70c0ef0307cdb2676a0cc47978953d131efd9fc07f010ba3a52288b617a83",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
   },
   "standards": [

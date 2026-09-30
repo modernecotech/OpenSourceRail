@@ -1,0 +1,149 @@
+[meta]
+schema = "osr-component-assurance/1"
+title = "OpenSourceRail component assurance and authorization model"
+status = "evidence-routing-not-certification"
+digital_inventory = "docs/certification/digital-assurance-report.json"
+register_markdown = "docs/certification/component-assurance-register.md"
+register_json = "docs/certification/component-assurance-register.json"
+
+[authority_boundary]
+statement = "This model records what evidence exists, what remains open, who must decide, and which use is permitted. It does not certify a component, appoint a legal duty holder, approve a design, release manufacture or construction, authorize operation, or replace an independent assessor or competent authority."
+repository_can = [
+  "freeze identities and source revisions",
+  "route requirements, hazards, standards candidates and evidence",
+  "run deterministic checks and reject stale or missing evidence",
+  "show open gates without converting them into passes",
+]
+repository_cannot = [
+  "declare legal conformity",
+  "accept residual railway risk",
+  "qualify production hardware or workmanship",
+  "authorize placing in service or railway operation",
+]
+
+[[gates]]
+id = "G0"
+name = "Define"
+question = "Is the item, reference function, boundary, owner and exact source configuration known?"
+minimum_evidence = ["stable item identity", "source revision and hash", "parent/interface boundary", "intended-use statement", "accountable owner"]
+decision_owner = "configuration manager"
+repository_state = "pass-baseline-recorded"
+reopen_when = ["identity changes", "source or parent changes", "intended use changes"]
+
+[[gates]]
+id = "G1"
+name = "Assure the design"
+question = "Are applicable requirements, hazards, standards, interfaces and verification plans complete for this item?"
+minimum_evidence = ["jurisdiction and standards applicability", "safety classification", "requirements and interfaces", "item FMEA/FMEDA or hazard contribution", "verification and validation plan"]
+decision_owner = "design authority with independent reviewer"
+repository_state = "open-item-assurance-plan"
+reopen_when = ["requirement changes", "hazard or interface changes", "new supplier or environment"]
+
+[[gates]]
+id = "G2"
+name = "Qualify the implementation"
+question = "Does the actual software, manufactured item or construction product meet the frozen design?"
+minimum_evidence = ["released implementation or drawings", "supplier and material evidence", "analysis and test results", "calibrated equipment and raw data", "nonconformance disposition", "configuration-matched artifact"]
+decision_owner = "quality and technical authorities with required independence"
+repository_state = "open-implementation-qualification"
+reopen_when = ["implementation, supplier, process, toolchain or material changes"]
+
+[[gates]]
+id = "G3"
+name = "Validate the integration"
+question = "Does the installed item work safely with its real interfaces, environment, route and operating procedures?"
+minimum_evidence = ["FAT/SAT/HIL or site-test evidence as applicable", "interface and compatibility results", "as-built or deployed configuration", "commissioning and degraded-mode results", "maintenance and operating information"]
+decision_owner = "system integrator, operator and project safety authority"
+repository_state = "open-integration-validation"
+reopen_when = ["installation, route, environment, interface or operating concept changes"]
+
+[[gates]]
+id = "G4"
+name = "Accept and authorize"
+question = "Have independent reviewers and the legally competent organizations accepted the evidence for the stated use?"
+minimum_evidence = ["independent assessment", "closed actions and accepted residual risk", "operator/maintainer acceptance", "regulatory or contractual authorization where required", "conditions and limits of use"]
+decision_owner = "named independent assessor, duty holder and competent authority"
+repository_state = "open-independent-acceptance"
+reopen_when = ["significant change", "expired approval", "incident or adverse field evidence", "changed law or conditions of use"]
+
+[[routes]]
+id = "rolling-stock"
+title = "Rolling stock and onboard equipment"
+scopes = ["train-product", "train-assembly"]
+candidate_standards = ["IEC 62278-1", "EN 15227", "EN 45545", "IEC 62928", "IEC 60571", "IEC 61373"]
+qualification_focus = ["supplier configuration", "material/process and dimensional evidence", "structural, fire, electrical, EMC, environmental and endurance tests", "first article and vehicle integration"]
+final_decision = "product/type and vehicle acceptance route selected by the deployment jurisdiction"
+
+[[routes]]
+id = "station-wayside"
+title = "Stations, charging, wayside and passenger systems"
+scopes = ["station-product", "station-assembly"]
+candidate_standards = ["IEC 62278-1", "IEC 62267", "IEC 62290-1", "EN 1990", "applicable electrical, fire, accessibility and building rules"]
+qualification_focus = ["site and utility interfaces", "supplier FAT", "installation inspection", "SAT and integrated emergency/degraded-mode tests", "accessibility and handover"]
+final_decision = "project, utility, building/fire and railway acceptance as applicable"
+
+[[routes]]
+id = "civil-infrastructure"
+title = "Civil infrastructure and reusable structural types"
+scopes = ["civil-type"]
+candidate_standards = ["IEC 62278-1", "EN 1990", "applicable Eurocodes or national structural, geotechnical, hydraulic and construction rules"]
+qualification_focus = ["survey and ground model", "site-specific calculations", "materials and temporary works", "inspection/test plan", "as-built survey and structural handover"]
+final_decision = "competent engineer, project authority and national/local construction or railway authority"
+
+[[routes]]
+id = "software-control"
+title = "Software, embedded evaluation and control"
+scopes = ["software-crate"]
+candidate_standards = ["IEC 62278-1", "EN 50716", "IEC 62425", "IEC 62267", "IEC 62290-1", "EN 50701"]
+qualification_focus = ["explicit safety classification", "requirements/hazard traceability", "locked source/toolchain", "review, test and proof results", "target timing/resources", "HIL, cybersecurity and deployment evidence"]
+final_decision = "software/system safety acceptance for the exact target and intended authority boundary"
+
+[[routes]]
+id = "business-supervision"
+title = "Business, supervision and administrative platforms"
+scopes = ["platform-service"]
+candidate_standards = ["deployment security and privacy rules", "quality and asset-management controls", "operator business-continuity and audit requirements"]
+qualification_focus = ["non-safety authority boundary", "identity and access control", "data integrity and retention", "backup/recovery", "supplier/software support", "operator acceptance"]
+final_decision = "organizational production acceptance; never movement authority or railway safety release"
+
+[[platform_components]]
+id = "PLT-WORKBENCH"
+title = "OpenSourceRail Workbench"
+source = "docs/workbench/README.md"
+boundary = "Shared lifecycle workspace; navigation context is not authentication or railway authority."
+
+[[platform_components]]
+id = "PLT-ERP-HR"
+title = "ERPNext and Frappe HR integration"
+source = "deployment/erpnext/README.md"
+boundary = "Business records and draft maintenance execution; no engineering or railway release."
+
+[[platform_components]]
+id = "PLT-SUPERVISION-GATEWAY"
+title = "Supervision gateway and historian"
+source = "deployment/supervision/README.md"
+boundary = "Telemetry, alarms and bounded simulated facility commands; no movement authority or protection command."
+
+[[platform_components]]
+id = "PLT-FUXA"
+title = "FUXA equipment visualization"
+source = "deployment/supervision/config/generic.json"
+boundary = "Observation and reviewed simulation display; not an authoritative safety controller."
+
+[[platform_components]]
+id = "PLT-OPS-CORE"
+title = "Operations Core evidence portal"
+source = "docs/operations-portal/README.md"
+boundary = "Authenticated operational records and evidence; does not replace competent handback or authorization."
+
+[[platform_components]]
+id = "PLT-AI-COUNCIL"
+title = "Multi-model executive council"
+source = "docs/operating/ai-executive-council.md"
+boundary = "Attested recommendations and unsubmitted ERP drafts only; no legal executive, employment, payment, certification or railway authority."
+
+[[platform_components]]
+id = "PLT-LIFECYCLE-IDENTITY"
+title = "Lifecycle identity and QR resolver contract"
+source = "docs/operating/lifecycle-governance-and-qr.md"
+boundary = "Lookup-only identity; no credentials, commands, approval, isolation or current safety-state claim."

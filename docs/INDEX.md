@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4995**.
+Indexed Markdown files: **4996**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4995**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 176 |
+| [docs](#docs) | 177 |
 | [engineering](#engineering) | 20 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4873,8 +4873,9 @@ Indexed Markdown files: **4995**.
 | [`docs/README.md`](../docs/README.md) | Technical Documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
-| [`docs/certification/README.md`](../docs/certification/README.md) | OSR type-certification pre-submission pack |
+| [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
+| [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |
 | [`docs/certification/digital-assurance-report.md`](../docs/certification/digital-assurance-report.md) | Deterministic Digital Assurance Report |
 | [`docs/certification/distributed-onboard-control-profile.md`](../docs/certification/distributed-onboard-control-profile.md) | Distributed Onboard Control Profile |
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
@@ -4885,7 +4886,7 @@ Indexed Markdown files: **4995**.
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
 | [`docs/certification/software-resilience-report.md`](../docs/certification/software-resilience-report.md) | Deterministic Software Resilience Report |
 | [`docs/certification/software-soak-report.md`](../docs/certification/software-soak-report.md) | Deterministic Multi-Day Software Soak Report |
-| [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | v0.3 standards baseline |
+| [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | Current standards applicability baseline |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-deployment-evidence.md`](../docs/city-deployment-evidence.md) | City soil inputs and deployment evidence |
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |

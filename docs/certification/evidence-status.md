@@ -4,11 +4,16 @@ This matrix separates what is already evidenced in the repository from
 what remains deployment or assessor work. It is not a safety approval;
 it is a coherence map for the pre-submission pack.
 
+The [all-component assurance register](component-assurance-register.md) is the
+authoritative item-level view: 286 passports use the same G0–G4 lifecycle while
+retaining route-specific evidence. This page summarises system-level evidence.
+
 For closure criteria on each open item, see
 [`release-gap-register.md`](release-gap-register.md).
 
 | Area | Current repository evidence | Status | Next action |
 |---|---|---|---|
+| All-component assurance | 286 deterministic passports cover 279 engineering items and 7 business/supervision platforms; every identity/source baseline is recorded | G0 baselined; G1–G4 open | Freeze deployment use, jurisdiction, classification, standards applicability, assessor and evidence plan item by item |
 | Movement authority non-overlap | `osr-interlocking` unit/proptest/differential tests; RFC 0004 | Implemented + tested | Add assessor-reviewed trace from hazards to tests |
 | Three-source onboard routing | `osr-onboard-routing` two-of-three selector, unit/proptests and simulator execution; selection cannot create authority | Implemented + simulated | Independent-source/common-cause analysis, HIL and network-loss field trials |
 | Consensus log safety | TLA+ model, `osr-consensus` simulation/proptests | Implemented + modeled | Refinement argument from TLA+ spec to Rust harness |

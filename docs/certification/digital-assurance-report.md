@@ -2,10 +2,10 @@
 
 > Design-screening evidence only. This is not certification, permission to manufacture, or permission to operate.
 
-- Design fingerprint: `c093e38190736f24e4058658a21ea1270a3537193f9de906b641873ed526f1a7`
+- Design fingerprint: `59f96f8fa6d71e8e6784882de0e914b48cf4d98ea9ca90d644cf2e833ab47672`
 - Digital pre-build gate: **PASS**
 - Physical/revenue release: **BLOCKED**
-- Scope: 10 standards records, 12 deterministic checks, 18 system failure modes
+- Scope: 10 standards records, 13 deterministic checks, 18 system failure modes
 - Controlled inventory screened: **279 items**; item-specific reviews open: **279**
 - Open physical-evidence rows: **18**
 
@@ -31,6 +31,7 @@ Route selection never grants movement authority. Simulation and analysis reduce 
 | `DA-010` | Engineering benchmarks and interchange preserve units, CRS and identity | IEC-62278-1-2025, EN-50716-2023, EN-1990, IEC-62928-2017 | **PASS** |
 | `DA-011` | Promoted component RFCs retain traceable implementation and release gaps | IEC-62278-1-2025, IEC-60812-2018, IEC-62928-2017, EN-1990 | **PASS** |
 | `DA-012` | Multi-day normal, peak, degraded and recovery profiles retain bounded logical state | IEC-62278-1-2025, IEC-62425-2025, EN-50716-2023 | **PASS** |
+| `DA-013` | Every controlled engineering and operational-platform item has a fail-closed assurance passport | IEC-62278-1-2025, IEC-60812-2018, EN-50716-2023, EN-1990 | **PASS** |
 
 ## FMEA Coverage
 

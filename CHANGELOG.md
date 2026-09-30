@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Replaced the signalling-centric “certification pack” front door with one
+  assurance, conformity and authorization model for every controlled item.
+  Five fail-closed gates now separate definition, design assurance,
+  implementation qualification, integration validation and independent/legal
+  acceptance. A deterministic register emits configuration-bound passports for
+  279 train/station/civil/Rust items plus seven Workbench, ERP/HR, supervision,
+  FUXA, Ops Core, AI-council and lifecycle-identity services. All 286 are
+  baselined at G0, all G1–G4 decisions remain explicitly open, and CI rejects
+  missing routes, sources, hashes, gates or unsupported release claims.
+
 - Added an integrated battery/cabin thermal supervisor, modelled after compact
   combined rail cooling architectures while retaining isolated air and coolant
   circuits. Battery cooling and protection pre-empt passenger comfort, faulted
@@ -56,7 +66,7 @@
   QR contract is lookup-only, rejects hidden authority or commands and emits no
   printable label until a real operator provides an HTTPS resolver and verifies
   the physical binding. All-city readiness now compiles these controls and CI
-  checks the generated 230-record subsystem register.
+  checks the generated 231-record subsystem register.
 
 - Completed a workspace-wide Rust scrutiny and integration pass. Routing now
   rejects malformed grids, penalties and non-finite inputs; raster ingestion
