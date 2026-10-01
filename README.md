@@ -155,10 +155,10 @@ For an illustrative **$100M OpenSourceRail scope**, the editable default compari
 | Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
 |---|---:|---:|
 | Programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $75.4M | $20.0M |
-| External-capital requirement | **$24.6M** | **$180.0M** |
+| Value not requiring external capital | $75.5M | $20.0M |
+| External-capital requirement | **$24.5M** | **$180.0M** |
 
-In that scenario, the external-capital requirement is **$155.4M (86.3%)** lower before interest. Across the 265-city model, **about $203B—roughly 75% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+In that scenario, the external-capital requirement is **$155.5M (86.4%)** lower before interest. Across the 265-city model, **about $205B—roughly 76% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
 
 ## Run it
 

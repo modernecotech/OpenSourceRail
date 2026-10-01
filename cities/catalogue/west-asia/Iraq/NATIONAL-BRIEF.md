@@ -3,7 +3,7 @@
 This page contains only Iraq-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$32.28 B (86.4%) of external capital** and **$39.68 B of external interest**. Capital plus saved interest totals **$71.96 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.95 B (86.9%) of external capital** and **$45.43 B of external interest**. Capital plus saved interest totals **$82.37 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Iraq-specific aggregation. Shared network, service, ener
 |---|---:|
 | Catalogue cities | 18 |
 | Represented population | 29,491,199 |
-| Trainsets / vehicle modules | 3,603 / 15,714 |
-| City infrastructure and fleet CAPEX | $20.46 B |
-| Shared national factory | $282.2 M |
-| Factory sizing basis | 4,704 modules for Baghdad, then reused nationally |
-| **Total national programme** | **$20.76 B** |
+| Trainsets / vehicle modules | 3,650 / 15,996 |
+| City infrastructure and fleet CAPEX | $23.30 B |
+| Shared national factory | $299.2 M |
+| Factory sizing basis | 4,986 modules for Baghdad, then reused nationally |
+| **Total national programme** | **$23.62 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.10 B (24.5%) |
-| Domestic / local capital | $15.67 B (75.5%) |
-| Annual external capital draw | $1.02 B / yr |
-| Annual local capital draw | $3.13 B / yr |
-| Annual public construction commitment | $1.92 B / yr for 5 years |
-| Annual post-grace debt service | $1.42 B / yr |
-| Default foreign-turnkey external capital | $37.37 B |
-| External capital saved | $32.28 B |
-| Capital + lifetime external interest saved | $71.96 B |
+| Imported / external capital | $5.56 B (23.5%) |
+| Domestic / local capital | $18.05 B (76.5%) |
+| Annual external capital draw | $1.11 B / yr |
+| Annual local capital draw | $3.61 B / yr |
+| Annual public construction commitment | $2.20 B / yr for 5 years |
+| Annual post-grace debt service | $1.62 B / yr |
+| Default foreign-turnkey external capital | $42.51 B |
+| External capital saved | $36.95 B |
+| Capital + lifetime external interest saved | $82.37 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $7.99 B | $1.20 B | $6.79 B |
-| Stations | $3.77 B | $754.8 M | $3.02 B |
+| Civil works | $10.32 B | $1.55 B | $8.77 B |
+| Stations | $3.98 B | $796.1 M | $3.18 B |
 | Depots | $144.0 M | $36.0 M | $108.0 M |
-| Rolling stock | $4.47 B | $1.56 B | $2.91 B |
-| Dedicated solar plants | $2.59 B | $1.17 B | $1.43 B |
-| Residual train control | $113.7 M | $56.8 M | $56.8 M |
-| Charging microgrids | $206.3 M | $82.5 M | $123.8 M |
-| EPC / project services | $1.19 B | $178.3 M | $1.01 B |
-| Shared national trainset factory | $282.2 M | $56.4 M | $225.8 M |
-| **Total** | **$20.76 B** | **$5.10 B** | **$15.67 B** |
+| Rolling stock | $4.55 B | $1.59 B | $2.96 B |
+| Dedicated solar plants | $2.62 B | $1.18 B | $1.44 B |
+| Residual train control | $114.4 M | $57.2 M | $57.2 M |
+| Charging microgrids | $218.7 M | $87.5 M | $131.2 M |
+| EPC / project services | $1.37 B | $206.0 M | $1.17 B |
+| Shared national trainset factory | $299.2 M | $59.8 M | $239.3 M |
+| **Total** | **$23.62 B** | **$5.56 B** | **$18.05 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 784 | $4.72 B | $1.27 B | $3.45 B |
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 831 | $7.56 B | $1.73 B | $5.83 B |
 | [Basra](Basra/README.md) | 3,955,000 | 450 | $3.11 B | $793.5 M | $2.32 B |
 | [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 129 | $1.03 B | $243.5 M | $783.0 M |
 | [Erbil](Erbil/README.md) | 1,952,000 | 212 | $1.02 B | $262.0 M | $758.5 M |

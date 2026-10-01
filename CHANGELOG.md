@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Added a complete Baghdad concept/FEED offer built from a freshly regenerated
+  nine-line city design, open topography/water screening, QGIS/GDAL civil
+  package, native degraded-case simulation, SUMO timetable validation and the
+  Baghdad project/operations twin. A deterministic nine-page PDF and three
+  city-specific application screenshots are hash-bound to their inputs. The
+  proposed 831-trainset fleet now identifies CRRC traction, electrical-control,
+  bogie, suspension, coupling and brake product families as competitively
+  procured candidate components without claiming a partnership, endorsement,
+  quotation or selected configuration. The offer keeps surveyed depot/stabling
+  design and every construction, supplier, safety and legal release gate open.
+
 - Replaced the signalling-centric “certification pack” front door with one
   assurance, conformity and authorization model for every controlled item.
   Five fail-closed gates now separate definition, design assurance,

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4996**.
+Indexed Markdown files: **4997**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **4996**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4317 |
+| [cities](#cities) | 4318 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
@@ -3430,6 +3430,7 @@ Indexed Markdown files: **4996**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/route-station-fit-readiness.md) | Baghdad route and station fit gate |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/structural-release-readiness.md) | Baghdad structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md) | Baghdad surveyed-alignment gate |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md) | OpenSourceRail Baghdad — concept and FEED offer |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md) | Baghdad Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/README.md) | Baqubah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md) | Baqubah Planning OSR-ALN Package |

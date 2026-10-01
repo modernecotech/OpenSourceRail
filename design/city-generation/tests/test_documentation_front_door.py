@@ -153,10 +153,10 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
         "43",
         "$900k",
         "$885k",
-        "$24.6M",
+        "$24.5M",
         "$180.0M",
-        "$155.4M",
-        "86.3%",
+        "$155.5M",
+        "86.4%",
     ):
         assert current_metric in actual
     for excluded in ("$2.98M", "Lyon", "campaign", "hayder@modernecotech.com"):
@@ -183,7 +183,7 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     assert "turnkey external capital = turnkey price × 90%" in portfolio
     for case in ("Low", "Default", "High"):
         assert f"| {case} |" in portfolio
-    for turnkey_total in ("$403.23B", "$537.64B", "$806.45B"):
+    for turnkey_total in ("$407.51B", "$543.34B", "$815.02B"):
         assert turnkey_total in portfolio
     assert portfolio_json["schema_version"] == 1
     assert portfolio_json["scope"]["city_count"] == 265
