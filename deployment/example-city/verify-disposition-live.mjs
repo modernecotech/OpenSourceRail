@@ -6,14 +6,22 @@ const fixture=JSON.parse(fs.readFileSync('var/city-example/disposition-browser.j
 const browser=await chromium.launch();const checks=[];const sessions={};
 const pass=(id,after={})=>{checks.push({id,name:id,passed:true,after,level:'native-browser'});console.log('PASS '+id);};
 const output='build/city-example/';
+const transientFrameValue=async(frame,evaluator)=>{
+ try{return await frame.locator('body').evaluate(evaluator);}
+ catch(error){
+  const message=String(error);
+  if(message.includes('Execution context was destroyed')||message.includes('Frame was detached')||message.includes('Target page, context or browser has been closed'))return null;
+  throw error;
+ }
+};
 let report={passed:false,checks};
 try{
  for(const role of ['proposer','reviewer','executor']){
   const context=await browser.newContext({viewport:{width:1600,height:1900}});const page=await context.newPage();
   await page.goto('http://127.0.0.1:8190/?module=erp&city=samawah');const frame=page.frameLocator('#moduleFrame');
   await frame.locator('#login_email').fill(fixture.users[role]);await frame.locator('#login_password').fill(fixture.passwords[role]);await frame.locator('.btn-login').click();
-  await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe(fixture.users[role]);
-  await page.locator('[data-module=projects]').click();await expect.poll(()=>frame.locator('body').evaluate(()=>window.cur_frm?.doc?.name)).toBe(fixture.project);
+  await expect.poll(()=>transientFrameValue(frame,()=>window.frappe?.session?.user),{timeout:60000}).toBe(fixture.users[role]);
+  await page.locator('[data-module=projects]').click();await expect.poll(()=>transientFrameValue(frame,()=>window.cur_frm?.doc?.name)).toBe(fixture.project);
   sessions[role]={page,frame};
  }
  pass('disposition.distinct-authenticated-users',{users:fixture.users});
@@ -71,7 +79,7 @@ try{
  await sessions.reviewer.page.screenshot({path:output+'disposition-verified.png',fullPage:true});
  pass('disposition.browser-records-independent-verification');
  action=await call('executor','erpnext.manufacturing.doctype.work_order.work_order.stop_unstop',{work_order:fixture.order,status:'In Process'});expect(action.status).toBe(200);
- await sessions.reviewer.page.reload();await expect.poll(()=>sessions.reviewer.frame.locator('body').evaluate(()=>window.cur_frm?.doc?.name)).toBe(fixture.project);
+ await sessions.reviewer.page.reload();await expect.poll(()=>transientFrameValue(sessions.reviewer.frame,()=>window.cur_frm?.doc?.name)).toBe(fixture.project);
  await open('reviewer');await expect(row('reviewer')).toContainText('Verification stale');
  await sessions.reviewer.page.screenshot({path:output+'disposition-stale.png',fullPage:true});
  pass('disposition.native-resume-makes-browser-evidence-stale');
