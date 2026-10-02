@@ -6289,10 +6289,10 @@
     {
       "details": {
         "authority_boundary": "no-deployment-authority-claimed",
-        "integration_test_files": 1,
+        "integration_test_files": 2,
         "kani_harnesses": 0,
         "member": "crates/osr-ato",
-        "source_files": 6,
+        "source_files": 7,
         "unit_test_modules": 2,
         "workspace_version": "0.4.0"
       },
@@ -6452,8 +6452,8 @@
         "integration_test_files": 1,
         "kani_harnesses": 5,
         "member": "crates/osr-brake",
-        "source_files": 5,
-        "unit_test_modules": 1,
+        "source_files": 6,
+        "unit_test_modules": 2,
         "workspace_version": "0.4.0"
       },
       "domain": "rust",
@@ -6577,10 +6577,10 @@
     {
       "details": {
         "authority_boundary": "no-deployment-authority-claimed",
-        "integration_test_files": 6,
+        "integration_test_files": 8,
         "kani_harnesses": 0,
         "member": "crates/osr-consensus",
-        "source_files": 11,
+        "source_files": 12,
         "unit_test_modules": 1,
         "workspace_version": "0.4.0"
       },
@@ -6612,7 +6612,7 @@
         "integration_test_files": 0,
         "kani_harnesses": 0,
         "member": "crates/osr-core",
-        "source_files": 5,
+        "source_files": 7,
         "unit_test_modules": 1,
         "workspace_version": "0.4.0"
       },
@@ -7025,10 +7025,10 @@
     {
       "details": {
         "authority_boundary": "no-deployment-authority-claimed",
-        "integration_test_files": 3,
+        "integration_test_files": 4,
         "kani_harnesses": 15,
         "member": "crates/osr-interlocking",
-        "source_files": 7,
+        "source_files": 9,
         "unit_test_modules": 5,
         "workspace_version": "0.4.0"
       },
@@ -7857,6 +7857,38 @@
     {
       "details": {
         "authority_boundary": "no-deployment-authority-claimed",
+        "integration_test_files": 2,
+        "kani_harnesses": 0,
+        "member": "crates/osr-runtime",
+        "source_files": 8,
+        "unit_test_modules": 0,
+        "workspace_version": "0.4.0"
+      },
+      "domain": "rust",
+      "id": "osr-runtime",
+      "identity_state": "source-version-artifact-provenance-only",
+      "kind": "crate",
+      "physical_identity_eligible": false,
+      "release_evidence": [
+        "locked-source-and-toolchain",
+        "peer-review",
+        "all-feature-test-and-clippy",
+        "security-advisory-review",
+        "reproducible-artifact-and-deployment-boundary"
+      ],
+      "release_state": "evidence-open-not-released",
+      "required_records": [
+        "configuration-baseline",
+        "nonconformance-capa",
+        "software-release"
+      ],
+      "source": "crates/osr-runtime/Cargo.toml",
+      "source_status": "software-development-evidence",
+      "title": "Thin process hosts for existing OpenSourceRail consensus, interlocking and onboard evaluators"
+    },
+    {
+      "details": {
+        "authority_boundary": "no-deployment-authority-claimed",
         "integration_test_files": 1,
         "kani_harnesses": 0,
         "member": "crates/osr-tcms",
@@ -8049,7 +8081,7 @@
   ],
   "schema": "osr-subsystem-control-register/1",
   "sources": {
-    "Cargo.toml": "7dc7b9e70f11981675767705e2f6944eca899986a11295518baf1b5582463d4c",
+    "Cargo.toml": "42d311943f81c1addb782889efa43c0c6b2d9aec66ff0efbb0611bbd8c5e93a6",
     "deployment/erpnext/config/lifecycle-governance.json": "d3bd600cf8a7052b25d04c743a717affb07843b8255dd8063ecae5351c0f5446",
     "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
     "design/component-catalogue/catalog/buildable-stations/station-product-reconciliation.json": "40df1b4c21e7d654e3949e49a31769aeb0038b060092b313121ef85f2c6fffac",
@@ -8059,21 +8091,21 @@
     "domains": {
       "civil": 19,
       "mechanical": 146,
-      "rust": 59,
+      "rust": 60,
       "station": 7
     },
     "kinds": {
       "civil:reusable-type": 19,
       "mechanical:assembly": 26,
       "mechanical:product": 120,
-      "rust:crate": 59,
+      "rust:crate": 60,
       "station:variant": 7
     },
     "management_cadences": 4,
     "physical_identity_templates": 172,
     "printable_qr_labels": 0,
     "record_templates": 9,
-    "records": 231,
+    "records": 232,
     "role_templates": 11,
     "workflow_templates": 6
   },

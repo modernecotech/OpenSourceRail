@@ -14,8 +14,8 @@ does not claim fabrication, construction, software deployment or railway release
 | LM3 mechanical products and assemblies | 146 |
 | Station variants | 7 |
 | Reusable civil types | 19 |
-| Rust crates | 59 |
-| **Total** | **231** |
+| Rust crates | 60 |
+| **Total** | **232** |
 
 The common control system contains **11 role templates, 9 record templates, 6 workflow templates and 4 management cadences**.
 There are 172 physical identity candidates.

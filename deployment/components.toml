@@ -218,6 +218,12 @@ hosts = ["t-ecu-a"]
 name = "osr-tcms"
 disposition = "composed-service"
 hosts = ["t-ecu-a"]
+# Prototype process hosts used by the opt-in process reference executable. No operational host
+# composition is changed until physical qualification and controlled release.
+[[component]]
+name = "osr-runtime"
+disposition = "shared-library"
+hosts = ["design-tooling"]
 [[component]]
 name = "osr-tcn"
 disposition = "shared-library"

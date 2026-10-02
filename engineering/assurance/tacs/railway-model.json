@@ -1,0 +1,686 @@
+{
+  "schema": "osr-tacs-railway/2",
+  "revision": "TACS-RUNTIME-A",
+  "approval_state": "prototype-unapproved",
+  "resources": [
+    {
+      "id": 0,
+      "asset_id": "TACS-PLATFORM-W1",
+      "kind": "platform",
+      "controller": 900,
+      "conflicts": [
+        0
+      ],
+      "point_asset_id": null,
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 100
+    },
+    {
+      "id": 1,
+      "asset_id": "TACS-PLATFORM-W2",
+      "kind": "platform",
+      "controller": 900,
+      "conflicts": [
+        1
+      ],
+      "point_asset_id": null,
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 101
+    },
+    {
+      "id": 2,
+      "asset_id": "TACS-JUNCTION-A",
+      "kind": "junction",
+      "controller": 900,
+      "conflicts": [
+        2,
+        3
+      ],
+      "point_asset_id": "TACS-POINT-J1",
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 102
+    },
+    {
+      "id": 3,
+      "asset_id": "TACS-JUNCTION-B",
+      "kind": "junction",
+      "controller": 900,
+      "conflicts": [
+        2,
+        3
+      ],
+      "point_asset_id": "TACS-POINT-J1",
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 103
+    },
+    {
+      "id": 4,
+      "asset_id": "TACS-PLATFORM-E1",
+      "kind": "platform",
+      "controller": 900,
+      "conflicts": [
+        4
+      ],
+      "point_asset_id": null,
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 104
+    },
+    {
+      "id": 5,
+      "asset_id": "TACS-PLATFORM-E2",
+      "kind": "platform",
+      "controller": 900,
+      "conflicts": [
+        5
+      ],
+      "point_asset_id": null,
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 105
+    },
+    {
+      "id": 6,
+      "asset_id": "TACS-DEPOT-ENTRY",
+      "kind": "depot-entry",
+      "controller": 900,
+      "conflicts": [
+        6
+      ],
+      "point_asset_id": null,
+      "clearance_basis": "Prototype independent detector plus bounded full-train integrity; hardware validation pending",
+      "section": 106
+    }
+  ],
+  "routes": [
+    {
+      "id": 1,
+      "asset_id": "TACS-ROUTE-W-E",
+      "direction": "Forward",
+      "segments": [
+        {
+          "resource": 0,
+          "start_mm": 0,
+          "end_mm": 100000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        },
+        {
+          "resource": 2,
+          "start_mm": 100000,
+          "end_mm": 200000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 3
+        },
+        {
+          "resource": 4,
+          "start_mm": 200000,
+          "end_mm": 300000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        }
+      ],
+      "stopping_locations": [
+        {
+          "asset_id": "TACS-STOP-1-0",
+          "at_mm": 50000,
+          "platform": 0,
+          "charger_asset_id": "TACS-CHARGER-0",
+          "minimum_departure_energy_wh": 500
+        },
+        {
+          "asset_id": "TACS-STOP-1-4",
+          "at_mm": 270000,
+          "platform": 4,
+          "charger_asset_id": "TACS-CHARGER-4",
+          "minimum_departure_energy_wh": 500
+        }
+      ],
+      "leader_required": false,
+      "operating_scope": "Synthetic exclusive-resource prototype; reverse/depot routes require controlled selection while stopped"
+    },
+    {
+      "id": 2,
+      "asset_id": "TACS-ROUTE-E-W",
+      "direction": "Reverse",
+      "segments": [
+        {
+          "resource": 5,
+          "start_mm": 0,
+          "end_mm": 100000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        },
+        {
+          "resource": 3,
+          "start_mm": 100000,
+          "end_mm": 200000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 3
+        },
+        {
+          "resource": 1,
+          "start_mm": 200000,
+          "end_mm": 300000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        }
+      ],
+      "stopping_locations": [
+        {
+          "asset_id": "TACS-STOP-2-5",
+          "at_mm": 50000,
+          "platform": 5,
+          "charger_asset_id": "TACS-CHARGER-5",
+          "minimum_departure_energy_wh": 500
+        },
+        {
+          "asset_id": "TACS-STOP-2-1",
+          "at_mm": 270000,
+          "platform": 1,
+          "charger_asset_id": "TACS-CHARGER-1",
+          "minimum_departure_energy_wh": 500
+        }
+      ],
+      "leader_required": false,
+      "operating_scope": "Synthetic exclusive-resource prototype; reverse/depot routes require controlled selection while stopped"
+    },
+    {
+      "id": 3,
+      "asset_id": "TACS-ROUTE-DEPOT",
+      "direction": "Forward",
+      "segments": [
+        {
+          "resource": 1,
+          "start_mm": 0,
+          "end_mm": 100000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        },
+        {
+          "resource": 6,
+          "start_mm": 100000,
+          "end_mm": 200000,
+          "speed_limit_mmps": 10000,
+          "downhill_permille": 0
+        }
+      ],
+      "stopping_locations": [
+        {
+          "asset_id": "TACS-STOP-3-1",
+          "at_mm": 50000,
+          "platform": 1,
+          "charger_asset_id": "TACS-CHARGER-1",
+          "minimum_departure_energy_wh": 500
+        }
+      ],
+      "leader_required": false,
+      "operating_scope": "Synthetic exclusive-resource prototype; reverse/depot routes require controlled selection while stopped"
+    }
+  ],
+  "trains": [
+    {
+      "asset_id": "TACS-DEMO-TRAIN-101",
+      "config": {
+        "owner": {
+          "train": 101,
+          "session": 1
+        },
+        "configuration": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "length_mm": 10000,
+        "minimum_deceleration_mmps2": 1000,
+        "reaction_time_ms": 500,
+        "stop_margin_mm": 1000,
+        "maximum_position_uncertainty_mm": 20000
+      },
+      "integrity_arrangement": "Synthetic complete train; no division/rescue permission; measured integrity qualification required",
+      "braking_evidence": "Illustrative 1 m/s2 parameter, NOT a validated LM3 braking characteristic",
+      "permitted_route": 1
+    },
+    {
+      "asset_id": "TACS-DEMO-TRAIN-102",
+      "config": {
+        "owner": {
+          "train": 102,
+          "session": 1
+        },
+        "configuration": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "length_mm": 10000,
+        "minimum_deceleration_mmps2": 1000,
+        "reaction_time_ms": 500,
+        "stop_margin_mm": 1000,
+        "maximum_position_uncertainty_mm": 20000
+      },
+      "integrity_arrangement": "Synthetic complete train; no division/rescue permission; measured integrity qualification required",
+      "braking_evidence": "Illustrative 1 m/s2 parameter, NOT a validated LM3 braking characteristic",
+      "permitted_route": 2
+    }
+  ],
+  "controllers": [
+    {
+      "id": 900,
+      "asset_id": "TACS-RC-900",
+      "startup_epoch": 1,
+      "restart_reconciliation": "Durably increment epoch; keep unknown/occupied resources locked; independently prove clearance or reconcile retained owner with fresh identified integrity"
+    }
+  ],
+  "protected_work_resources": [
+    6
+  ],
+  "maintenance_procedure": "No FUXA acknowledgment or ERP completion clears a lock/fault; controlled local recovery and measured effectiveness/handback required",
+  "runtime": {
+    "voters": [
+      1001,
+      1002,
+      1003
+    ],
+    "participants": [
+      {
+        "entity": 101,
+        "public_key": [
+          207,
+          200,
+          216,
+          145,
+          22,
+          209,
+          80,
+          216,
+          142,
+          124,
+          13,
+          153,
+          100,
+          159,
+          51,
+          237,
+          37,
+          177,
+          136,
+          173,
+          242,
+          11,
+          69,
+          36,
+          200,
+          120,
+          51,
+          47,
+          226,
+          203,
+          54,
+          92
+        ],
+        "role": "Train",
+        "session": 1,
+        "revoked": false,
+        "resources": []
+      },
+      {
+        "entity": 102,
+        "public_key": [
+          102,
+          154,
+          233,
+          203,
+          56,
+          14,
+          203,
+          27,
+          7,
+          232,
+          176,
+          140,
+          85,
+          166,
+          239,
+          221,
+          123,
+          149,
+          190,
+          187,
+          84,
+          223,
+          106,
+          34,
+          150,
+          238,
+          184,
+          140,
+          189,
+          53,
+          19,
+          130
+        ],
+        "role": "Train",
+        "session": 1,
+        "revoked": false,
+        "resources": []
+      },
+      {
+        "entity": 900,
+        "public_key": [
+          143,
+          120,
+          78,
+          10,
+          147,
+          159,
+          195,
+          113,
+          72,
+          223,
+          176,
+          235,
+          68,
+          243,
+          127,
+          234,
+          93,
+          36,
+          51,
+          169,
+          90,
+          110,
+          91,
+          164,
+          202,
+          68,
+          229,
+          32,
+          226,
+          97,
+          177,
+          227
+        ],
+        "role": "Infrastructure",
+        "session": 1,
+        "revoked": false,
+        "resources": [
+          2,
+          3,
+          6
+        ]
+      },
+      {
+        "entity": 901,
+        "public_key": [
+          35,
+          102,
+          131,
+          189,
+          21,
+          48,
+          234,
+          57,
+          181,
+          174,
+          66,
+          10,
+          93,
+          194,
+          189,
+          24,
+          180,
+          201,
+          188,
+          115,
+          32,
+          137,
+          46,
+          211,
+          158,
+          156,
+          4,
+          75,
+          192,
+          22,
+          95,
+          200
+        ],
+        "role": "Infrastructure",
+        "session": 1,
+        "revoked": false,
+        "resources": [
+          0,
+          1
+        ]
+      },
+      {
+        "entity": 902,
+        "public_key": [
+          179,
+          54,
+          126,
+          63,
+          104,
+          136,
+          76,
+          42,
+          91,
+          90,
+          18,
+          16,
+          201,
+          177,
+          13,
+          177,
+          193,
+          103,
+          19,
+          225,
+          105,
+          115,
+          249,
+          62,
+          58,
+          121,
+          206,
+          41,
+          244,
+          155,
+          176,
+          56
+        ],
+        "role": "Infrastructure",
+        "session": 1,
+        "revoked": false,
+        "resources": [
+          4,
+          5
+        ]
+      },
+      {
+        "entity": 1001,
+        "public_key": [
+          21,
+          83,
+          143,
+          108,
+          85,
+          148,
+          104,
+          51,
+          155,
+          76,
+          97,
+          13,
+          239,
+          116,
+          23,
+          181,
+          111,
+          168,
+          167,
+          229,
+          207,
+          51,
+          221,
+          27,
+          254,
+          211,
+          180,
+          206,
+          30,
+          183,
+          219,
+          133
+        ],
+        "role": "Voter",
+        "session": 1,
+        "revoked": false,
+        "resources": []
+      },
+      {
+        "entity": 1002,
+        "public_key": [
+          23,
+          36,
+          151,
+          148,
+          172,
+          78,
+          125,
+          88,
+          42,
+          52,
+          2,
+          242,
+          229,
+          92,
+          39,
+          102,
+          127,
+          53,
+          3,
+          230,
+          26,
+          90,
+          100,
+          177,
+          248,
+          58,
+          138,
+          212,
+          138,
+          251,
+          159,
+          253
+        ],
+        "role": "Voter",
+        "session": 1,
+        "revoked": false,
+        "resources": []
+      },
+      {
+        "entity": 1003,
+        "public_key": [
+          27,
+          127,
+          166,
+          16,
+          116,
+          66,
+          158,
+          153,
+          124,
+          175,
+          146,
+          163,
+          43,
+          50,
+          159,
+          36,
+          92,
+          58,
+          99,
+          162,
+          229,
+          160,
+          236,
+          68,
+          84,
+          142,
+          118,
+          146,
+          185,
+          62,
+          64,
+          32
+        ],
+        "role": "Voter",
+        "session": 1,
+        "revoked": false,
+        "resources": []
+      }
+    ],
+    "designed_revision": "TACS-RUNTIME-A",
+    "installed_state": "not-installed",
+    "approved_operating_profile": "prototype-unapproved",
+    "clock_error_ns": 100000000
+  }
+}

@@ -47,6 +47,13 @@ def _civil_reference():
     return module
 
 
+def _tacs_assurance():
+    spec = importlib.util.spec_from_file_location("osr_tacs_assurance", ROOT / "tools/automation/tacs_assurance.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(path: Path) -> dict:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
@@ -354,6 +361,10 @@ def compile_assurance(
     source_hashes.update(civil["source_hashes"])
     for relative in civil["source_hashes"]:
         impact[relative]["controls"].update({"STD-CTRL-003", "STD-CTRL-016"})
+    tacs = _tacs_assurance().compile_package(root)
+    source_hashes.update(tacs["source_hashes"])
+    for relative in tacs["source_hashes"]:
+        impact[relative]["controls"].update({"STD-CTRL-003", "STD-CTRL-016"})
     fingerprint_payload = json.dumps({"sources": source_hashes, "evidence": evidence_hashes,
                                      "engineering": connected["fingerprint"]}, sort_keys=True, separators=(",", ":"))
     fingerprint = hashlib.sha256(fingerprint_payload.encode()).hexdigest()
@@ -390,6 +401,7 @@ def compile_assurance(
         "connected_engineering": connected,
         "subsystem_qualification": qualification,
         "civil_reference": civil,
+        "tacs": tacs,
         "source_hashes": source_hashes,
         "evidence_hashes": dict(sorted(evidence_hashes.items())),
         "evidence_manifest": dict(sorted(evidence_manifest.items())),
@@ -420,6 +432,11 @@ def change_impact(previous: dict, current: dict) -> dict:
         civil_impact = _connected_assurance().change_impact(previous["civil_reference"]["graph"], current["civil_reference"]["graph"])
         for key, values in civil_impact["impacted"].items():
             dimensions[key].update(values)
+    tacs_impact = None
+    if previous.get("tacs") and current.get("tacs"):
+        tacs_impact = _connected_assurance().change_impact(previous["tacs"]["graph"], current["tacs"]["graph"])
+        for key, values in tacs_impact["impacted"].items():
+            dimensions[key].update(values)
     return {
         "baseline_fingerprint": previous.get("design_fingerprint_sha256"),
         "current_fingerprint": current.get("design_fingerprint_sha256"),
@@ -427,7 +444,8 @@ def change_impact(previous: dict, current: dict) -> dict:
         "impacted": {key: sorted(values) for key, values in sorted(dimensions.items())},
         "engineering_impact": engineering_impact,
         "civil_impact": civil_impact,
-        "decision": "reopen-affected-controls-and-dependent-gates" if changed or (engineering_impact and engineering_impact["seeds"]) or (civil_impact and civil_impact["seeds"]) else "no-hashed-input-change",
+        "tacs_impact": tacs_impact,
+        "decision": "reopen-affected-controls-and-dependent-gates" if changed or (engineering_impact and engineering_impact["seeds"]) or (civil_impact and civil_impact["seeds"]) or (tacs_impact and tacs_impact["seeds"]) else "no-hashed-input-change",
         "release_ready": False,
     }
 
@@ -478,6 +496,7 @@ def render_markdown(report: dict) -> str:
         "The [connected engineering example](connected-engineering.md) and [generated report](connected-engineering-report.md) bind battery-cooling failure propagation, requirement criteria, controller scenarios, planned physical tests, synthetic production records and installed occurrences to exact design revisions. The JSON includes dependency traversal and explicit blocked deployment decisions.", "",
         "The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.", "",
         "The [civil reference demonstration](../../engineering/assurance/civil-reference/README.md) adds 20/25 m double-track bays, connection and erection controls, measured-result release interfaces and a connected construction/service FMEA. Its graph and controlled source hashes are included in this report and change-impact traversal; site inputs, physical qualification and independent release remain pending.", "",
+        "The [train-centred prototype](../../engineering/assurance/tacs/README.md) adds the actual process reference around existing interlocking/ATP/ATO/brake, bounded formal protocol and shared sensor-to-separation/interaction FMEA. Model and firmware changes invalidate execution evidence and traverse procedures and blocked release decisions; physical and operational qualification remain pending.", "",
     ]
     return "\n".join(lines)
 

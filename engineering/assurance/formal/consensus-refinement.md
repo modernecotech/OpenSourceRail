@@ -49,3 +49,18 @@ Items 1–3 are repository evidence. Full ATP/interlocking bounded-proof
 completion and item 4 remain open in the certification gap register. They
 prevent the project from describing bounded coverage as exhaustive or
 consensus refinement as formally proved.
+
+## Proposed process-reference extension (RFC 0033)
+
+The runtime reference calls the existing Rust step function with bounded
+contiguous append batches of twelve (default remains one). It records volatile
+current-term per-peer acknowledgement ages, including empty-log responses, for
+quorum freshness. Historical replication indices alone cannot refresh quorum.
+The original one-entry TLA+ action map does not establish refinement of these
+extensions. Independent review, response-age abstraction and batching simulation
+relations remain open. DiskJournal adds actual exclusive-writer filesystem
+persistence and full-log checkpoint compaction; SIGKILL, torn-file and fsync
+ordering tests are software evidence. Flash power-loss behavior and persistent
+output timing require hardware qualification. TACSResources is a separate
+bounded resource abstraction with qualified no-reentry/clearance assumptions;
+its checked invariants do not prove this combined implementation.

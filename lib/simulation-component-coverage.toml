@@ -18,6 +18,7 @@ components = [
 components = [
   "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-ptp",
   "osr-proto", "osr-secbus", "osr-selftest", "osr-supervision-contract",
+
 ]
 
 # Executes inside osr-sim for each configured station or wayside section tick.
@@ -52,4 +53,4 @@ components = ["osr-gui-shared", "osr-occ-gui", "osr-sim", "osr-sim-gui"]
 # Has a defined integration boundary but is not falsely executed as an onboard
 # tick. These services require their own service/wayside/station test harnesses.
 [external_boundary]
-components = ["osr-lifecycle-identity"]
+components = ["osr-lifecycle-identity", "osr-runtime"]

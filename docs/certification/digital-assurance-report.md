@@ -2,12 +2,12 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `c60b70cf2c0e121debfb4b195e64284391d7d742f5fc11468b8138e0378fac93`
+- Design fingerprint: `30f2a048ab59e6c5f9631a333185749505127f4e5b7a20a73a6bb14ab7d6904a`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**
 - Scope: **23** publisher records, **5** assurance profiles, **16** control objectives and **15** repository checks
-- Inventory: **279** engineering items screened; **279** item reviews remain open
+- Inventory: **280** engineering items screened; **280** item reviews remain open
 - Registry reviewed: 2026-10-02; next mandatory review: **2026-10-31**
 
 ## What the result means
@@ -134,7 +134,7 @@ publisher record + deployment law + intended use
 
 Every evidence object must carry 16 metadata fields. Current repository links are machine state `generated-unreviewed`; no link is silently promoted to reviewed or accepted.
 
-The JSON report contains a path-level `change_impact_index` for 78 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
+The JSON report contains a path-level `change_impact_index` for 154 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
 
 ## Interpretation
 
@@ -147,3 +147,5 @@ The [connected engineering example](connected-engineering.md) and [generated rep
 The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.
 
 The [civil reference demonstration](../../engineering/assurance/civil-reference/README.md) adds 20/25 m double-track bays, connection and erection controls, measured-result release interfaces and a connected construction/service FMEA. Its graph and controlled source hashes are included in this report and change-impact traversal; site inputs, physical qualification and independent release remain pending.
+
+The [train-centred prototype](../../engineering/assurance/tacs/README.md) adds the actual process reference around existing interlocking/ATP/ATO/brake, bounded formal protocol and shared sensor-to-separation/interaction FMEA. Model and firmware changes invalidate execution evidence and traverse procedures and blocked release decisions; physical and operational qualification remain pending.

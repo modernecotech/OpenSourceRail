@@ -1,0 +1,6898 @@
+{
+  "schema": "osr-tacs-process-reference/1",
+  "configuration": [
+    8,
+    15,
+    158,
+    255,
+    12,
+    130,
+    3,
+    148,
+    145,
+    247,
+    123,
+    219,
+    69,
+    100,
+    19,
+    173,
+    134,
+    207,
+    152,
+    121,
+    118,
+    90,
+    149,
+    134,
+    227,
+    33,
+    213,
+    246,
+    177,
+    33,
+    135,
+    139
+  ],
+  "all_cases_passed": true,
+  "physical_readiness": false,
+  "operational_release_ready": false,
+  "topology": {
+    "train_agents": 2,
+    "voters": 3,
+    "point_interfaces": 1,
+    "station_charging_interfaces": 2,
+    "output_guard_processes": 2
+  },
+  "limitations": [
+    "Synthetic independent detector/integrity/no-reentry sensor interfaces; hardware qualification pending",
+    "No physical power-cycle, certified output channel, real radio or operational acceptance",
+    "Crash-fault static Raft; authenticated member committed-prefix assertions are not Byzantine quorum certificates",
+    "Reference queues use virtual time; delay/coverage/capacity require measured transports",
+    "Depot and rescue topology protected but service missions are not exercised"
+  ],
+  "cases": [
+    {
+      "id": "None",
+      "passed": true,
+      "steps": 591,
+      "junction_entry_order": [
+        101,
+        102
+      ],
+      "station_arrivals": [
+        101,
+        102
+      ],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        268995,
+        269006
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": false,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1815537,
+        1815538,
+        1815539,
+        1815540,
+        1815541,
+        1815542,
+        1815543,
+        1815544,
+        1815545,
+        1815546
+      ],
+      "transport_bytes": 167934238,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            92800,
+            85800
+          ],
+          "speed_mmps": [
+            8000,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            108800,
+            93154
+          ],
+          "speed_mmps": [
+            8000,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            124800,
+            97394
+          ],
+          "speed_mmps": [
+            8000,
+            1367
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1030,
+            1030
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            140800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1154,
+            1154
+          ]
+        },
+        {
+          "now_ns": 21700000001,
+          "front_mm": [
+            156800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1287,
+            1287
+          ]
+        },
+        {
+          "now_ns": 23700000001,
+          "front_mm": [
+            172800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1420,
+            1420
+          ]
+        },
+        {
+          "now_ns": 25700000001,
+          "front_mm": [
+            188800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1544,
+            1544
+          ]
+        },
+        {
+          "now_ns": 27700000001,
+          "front_mm": [
+            204800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1677,
+            1677
+          ]
+        },
+        {
+          "now_ns": 29700000001,
+          "front_mm": [
+            219900,
+            98579
+          ],
+          "speed_mmps": [
+            7100,
+            100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            1809,
+            1809
+          ]
+        },
+        {
+          "now_ns": 31700000001,
+          "front_mm": [
+            233000,
+            100879
+          ],
+          "speed_mmps": [
+            6100,
+            2100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            1927,
+            1927
+          ]
+        },
+        {
+          "now_ns": 33700000001,
+          "front_mm": [
+            244000,
+            107179
+          ],
+          "speed_mmps": [
+            5000,
+            4100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2053,
+            2053
+          ]
+        },
+        {
+          "now_ns": 35700000001,
+          "front_mm": [
+            253000,
+            117479
+          ],
+          "speed_mmps": [
+            4000,
+            6100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2178,
+            2178
+          ]
+        },
+        {
+          "now_ns": 37700000001,
+          "front_mm": [
+            260000,
+            131769
+          ],
+          "speed_mmps": [
+            3000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2290,
+            2290
+          ]
+        },
+        {
+          "now_ns": 39700000001,
+          "front_mm": [
+            265000,
+            147769
+          ],
+          "speed_mmps": [
+            2000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2409,
+            2409
+          ]
+        },
+        {
+          "now_ns": 41700000001,
+          "front_mm": [
+            268000,
+            163769
+          ],
+          "speed_mmps": [
+            1000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2528,
+            2528
+          ]
+        },
+        {
+          "now_ns": 43700000001,
+          "front_mm": [
+            268995,
+            179769
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            2640,
+            2640
+          ]
+        },
+        {
+          "now_ns": 45700000001,
+          "front_mm": [
+            268995,
+            195769
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            2759,
+            2759
+          ]
+        },
+        {
+          "now_ns": 47700000001,
+          "front_mm": [
+            268995,
+            211609
+          ],
+          "speed_mmps": [
+            0,
+            7600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            2878,
+            2878
+          ]
+        },
+        {
+          "now_ns": 49700000001,
+          "front_mm": [
+            268995,
+            225809
+          ],
+          "speed_mmps": [
+            0,
+            6600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            2987,
+            2987
+          ]
+        },
+        {
+          "now_ns": 51700000001,
+          "front_mm": [
+            268995,
+            238009
+          ],
+          "speed_mmps": [
+            0,
+            5600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3099,
+            3099
+          ]
+        },
+        {
+          "now_ns": 53700000001,
+          "front_mm": [
+            268995,
+            248209
+          ],
+          "speed_mmps": [
+            0,
+            4600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3211,
+            3211
+          ]
+        },
+        {
+          "now_ns": 55700000001,
+          "front_mm": [
+            268995,
+            256409
+          ],
+          "speed_mmps": [
+            0,
+            3600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3317,
+            3317
+          ]
+        },
+        {
+          "now_ns": 57700000001,
+          "front_mm": [
+            268995,
+            262561
+          ],
+          "speed_mmps": [
+            0,
+            2688
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3429,
+            3429
+          ]
+        },
+        {
+          "now_ns": 59700000001,
+          "front_mm": [
+            268995,
+            266684
+          ],
+          "speed_mmps": [
+            0,
+            1670
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3541,
+            3541
+          ]
+        },
+        {
+          "now_ns": 61700000001,
+          "front_mm": [
+            268995,
+            268757
+          ],
+          "speed_mmps": [
+            0,
+            462
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 900
+            }
+          ],
+          "commit": [
+            3647,
+            3647
+          ]
+        }
+      ]
+    },
+    {
+      "id": "RadioPartition",
+      "passed": true,
+      "steps": 164,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        109865,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1818426,
+        1818427,
+        1818428,
+        1818429,
+        1818430,
+        1818431,
+        1818432,
+        1818433,
+        1818434,
+        1818435
+      ],
+      "transport_bytes": 53559027,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            610,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            91011,
+            85800
+          ],
+          "speed_mmps": [
+            6132,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            610,
+            722
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            101209,
+            93154
+          ],
+          "speed_mmps": [
+            4172,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            610,
+            828
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            107487,
+            97394
+          ],
+          "speed_mmps": [
+            2212,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            610,
+            934
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            109845,
+            98569
+          ],
+          "speed_mmps": [
+            252,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            610,
+            1036
+          ]
+        }
+      ]
+    },
+    {
+      "id": "RadioReconnection",
+      "passed": true,
+      "steps": 670,
+      "junction_entry_order": [
+        101,
+        102
+      ],
+      "station_arrivals": [
+        101,
+        102
+      ],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        269006,
+        269006
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1819276,
+        1819277,
+        1819278,
+        1819279,
+        1819280,
+        1819281,
+        1819282,
+        1819283,
+        1819284,
+        1819285
+      ],
+      "transport_bytes": 193522864,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            610,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            91011,
+            85800
+          ],
+          "speed_mmps": [
+            6132,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            610,
+            722
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            101209,
+            93154
+          ],
+          "speed_mmps": [
+            4172,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            634,
+            828
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            107487,
+            97394
+          ],
+          "speed_mmps": [
+            2212,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            874,
+            969
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            109845,
+            98569
+          ],
+          "speed_mmps": [
+            252,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1099,
+            1099
+          ]
+        },
+        {
+          "now_ns": 21700000001,
+          "front_mm": [
+            111395,
+            98569
+          ],
+          "speed_mmps": [
+            1700,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1241,
+            1241
+          ]
+        },
+        {
+          "now_ns": 23700000001,
+          "front_mm": [
+            116895,
+            98569
+          ],
+          "speed_mmps": [
+            3700,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1374,
+            1374
+          ]
+        },
+        {
+          "now_ns": 25700000001,
+          "front_mm": [
+            126395,
+            98569
+          ],
+          "speed_mmps": [
+            5700,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1498,
+            1498
+          ]
+        },
+        {
+          "now_ns": 27700000001,
+          "front_mm": [
+            139895,
+            98569
+          ],
+          "speed_mmps": [
+            7700,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1631,
+            1631
+          ]
+        },
+        {
+          "now_ns": 29700000001,
+          "front_mm": [
+            155865,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1764,
+            1764
+          ]
+        },
+        {
+          "now_ns": 31700000001,
+          "front_mm": [
+            171865,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1888,
+            1888
+          ]
+        },
+        {
+          "now_ns": 33700000001,
+          "front_mm": [
+            187865,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            2021,
+            2021
+          ]
+        },
+        {
+          "now_ns": 35700000001,
+          "front_mm": [
+            203865,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            2154,
+            2154
+          ]
+        },
+        {
+          "now_ns": 37700000001,
+          "front_mm": [
+            219055,
+            98599
+          ],
+          "speed_mmps": [
+            7200,
+            200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2278,
+            2278
+          ]
+        },
+        {
+          "now_ns": 39700000001,
+          "front_mm": [
+            232255,
+            101099
+          ],
+          "speed_mmps": [
+            6200,
+            2200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2404,
+            2404
+          ]
+        },
+        {
+          "now_ns": 41700000001,
+          "front_mm": [
+            243455,
+            107599
+          ],
+          "speed_mmps": [
+            5200,
+            4200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2530,
+            2530
+          ]
+        },
+        {
+          "now_ns": 43700000001,
+          "front_mm": [
+            252636,
+            118099
+          ],
+          "speed_mmps": [
+            4094,
+            6200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2648,
+            2648
+          ]
+        },
+        {
+          "now_ns": 45700000001,
+          "front_mm": [
+            259780,
+            132569
+          ],
+          "speed_mmps": [
+            3076,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 120
+            },
+            "Release"
+          ],
+          "commit": [
+            2767,
+            2767
+          ]
+        },
+        {
+          "now_ns": 47700000001,
+          "front_mm": [
+            264910,
+            148569
+          ],
+          "speed_mmps": [
+            2170,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2886,
+            2886
+          ]
+        },
+        {
+          "now_ns": 49700000001,
+          "front_mm": [
+            267960,
+            164569
+          ],
+          "speed_mmps": [
+            1070,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2998,
+            2998
+          ]
+        },
+        {
+          "now_ns": 51700000001,
+          "front_mm": [
+            269006,
+            180569
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3117,
+            3117
+          ]
+        },
+        {
+          "now_ns": 53700000001,
+          "front_mm": [
+            269006,
+            196569
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3236,
+            3236
+          ]
+        },
+        {
+          "now_ns": 55700000001,
+          "front_mm": [
+            269006,
+            212359
+          ],
+          "speed_mmps": [
+            0,
+            7500
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3348,
+            3348
+          ]
+        },
+        {
+          "now_ns": 57700000001,
+          "front_mm": [
+            269006,
+            226459
+          ],
+          "speed_mmps": [
+            0,
+            6500
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3464,
+            3464
+          ]
+        },
+        {
+          "now_ns": 59700000001,
+          "front_mm": [
+            269006,
+            238559
+          ],
+          "speed_mmps": [
+            0,
+            5500
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3576,
+            3576
+          ]
+        },
+        {
+          "now_ns": 61700000001,
+          "front_mm": [
+            269006,
+            248659
+          ],
+          "speed_mmps": [
+            0,
+            4500
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3682,
+            3682
+          ]
+        },
+        {
+          "now_ns": 63700000001,
+          "front_mm": [
+            269006,
+            256759
+          ],
+          "speed_mmps": [
+            0,
+            3500
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3794,
+            3794
+          ]
+        },
+        {
+          "now_ns": 65700000001,
+          "front_mm": [
+            269006,
+            262819
+          ],
+          "speed_mmps": [
+            0,
+            2588
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3906,
+            3906
+          ]
+        },
+        {
+          "now_ns": 67700000001,
+          "front_mm": [
+            269006,
+            266841
+          ],
+          "speed_mmps": [
+            0,
+            1570
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            4012,
+            4012
+          ]
+        },
+        {
+          "now_ns": 69700000001,
+          "front_mm": [
+            269006,
+            268813
+          ],
+          "speed_mmps": [
+            0,
+            562
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            4124,
+            4124
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ControllerRestart",
+      "passed": true,
+      "steps": 672,
+      "junction_entry_order": [
+        101,
+        102
+      ],
+      "station_arrivals": [
+        101,
+        102
+      ],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        269007,
+        269010
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1822457,
+        1822458,
+        1822459,
+        1822460,
+        1822461,
+        1822462,
+        1822463,
+        1822464,
+        1822465,
+        1822466,
+        1822686
+      ],
+      "transport_bytes": 192416198,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            89544,
+            84836
+          ],
+          "speed_mmps": [
+            5340,
+            3608
+          ],
+          "phase": [
+            "Occupied",
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Unknown",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            759,
+            759
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            98158,
+            89986
+          ],
+          "speed_mmps": [
+            3380,
+            1648
+          ],
+          "phase": [
+            "Occupied",
+            "Unknown",
+            "Unknown",
+            "Available",
+            "Unknown",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            903,
+            903
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            102852,
+            91344
+          ],
+          "speed_mmps": [
+            1420,
+            300
+          ],
+          "phase": [
+            "Occupied",
+            "Unknown",
+            "Occupied",
+            "Available",
+            "Unknown",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Release"
+          ],
+          "commit": [
+            1044,
+            1044
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            103955,
+            93741
+          ],
+          "speed_mmps": [
+            500,
+            1537
+          ],
+          "phase": [
+            "Occupied",
+            "Unknown",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 150
+            }
+          ],
+          "commit": [
+            1175,
+            1175
+          ]
+        },
+        {
+          "now_ns": 21700000001,
+          "front_mm": [
+            107055,
+            96307
+          ],
+          "speed_mmps": [
+            2500,
+            1001
+          ],
+          "phase": [
+            "Occupied",
+            "Unknown",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 347
+            }
+          ],
+          "commit": [
+            1315,
+            1315
+          ]
+        },
+        {
+          "now_ns": 23700000001,
+          "front_mm": [
+            114155,
+            97563
+          ],
+          "speed_mmps": [
+            4500,
+            310
+          ],
+          "phase": [
+            "Available",
+            "Unknown",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 318
+            }
+          ],
+          "commit": [
+            1455,
+            1455
+          ]
+        },
+        {
+          "now_ns": 25700000001,
+          "front_mm": [
+            125255,
+            97714
+          ],
+          "speed_mmps": [
+            6500,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            1580,
+            1580
+          ]
+        },
+        {
+          "now_ns": 27700000001,
+          "front_mm": [
+            140205,
+            97714
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            1713,
+            1713
+          ]
+        },
+        {
+          "now_ns": 29700000001,
+          "front_mm": [
+            156205,
+            97714
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            1846,
+            1846
+          ]
+        },
+        {
+          "now_ns": 31700000001,
+          "front_mm": [
+            172205,
+            97714
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            1970,
+            1970
+          ]
+        },
+        {
+          "now_ns": 33700000001,
+          "front_mm": [
+            188205,
+            97714
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            2103,
+            2103
+          ]
+        },
+        {
+          "now_ns": 35700000001,
+          "front_mm": [
+            204205,
+            97714
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 201
+            }
+          ],
+          "commit": [
+            2236,
+            2236
+          ]
+        },
+        {
+          "now_ns": 37700000001,
+          "front_mm": [
+            219376,
+            97744
+          ],
+          "speed_mmps": [
+            7194,
+            200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2360,
+            2360
+          ]
+        },
+        {
+          "now_ns": 39700000001,
+          "front_mm": [
+            232529,
+            100244
+          ],
+          "speed_mmps": [
+            6088,
+            2200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2486,
+            2486
+          ]
+        },
+        {
+          "now_ns": 41700000001,
+          "front_mm": [
+            243619,
+            106744
+          ],
+          "speed_mmps": [
+            5188,
+            4200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2612,
+            2612
+          ]
+        },
+        {
+          "now_ns": 43700000001,
+          "front_mm": [
+            252756,
+            117244
+          ],
+          "speed_mmps": [
+            4176,
+            6200
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            2730,
+            2730
+          ]
+        },
+        {
+          "now_ns": 45700000001,
+          "front_mm": [
+            259886,
+            131714
+          ],
+          "speed_mmps": [
+            3070,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2849,
+            2849
+          ]
+        },
+        {
+          "now_ns": 47700000001,
+          "front_mm": [
+            264978,
+            147714
+          ],
+          "speed_mmps": [
+            2058,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2968,
+            2968
+          ]
+        },
+        {
+          "now_ns": 49700000001,
+          "front_mm": [
+            268024,
+            163714
+          ],
+          "speed_mmps": [
+            1016,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            3080,
+            3080
+          ]
+        },
+        {
+          "now_ns": 51700000001,
+          "front_mm": [
+            269007,
+            179714
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3199,
+            3199
+          ]
+        },
+        {
+          "now_ns": 53700000001,
+          "front_mm": [
+            269007,
+            195714
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3318,
+            3318
+          ]
+        },
+        {
+          "now_ns": 55700000001,
+          "front_mm": [
+            269007,
+            211554
+          ],
+          "speed_mmps": [
+            0,
+            7600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3430,
+            3430
+          ]
+        },
+        {
+          "now_ns": 57700000001,
+          "front_mm": [
+            269007,
+            225754
+          ],
+          "speed_mmps": [
+            0,
+            6600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3546,
+            3546
+          ]
+        },
+        {
+          "now_ns": 59700000001,
+          "front_mm": [
+            269007,
+            237954
+          ],
+          "speed_mmps": [
+            0,
+            5600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3658,
+            3658
+          ]
+        },
+        {
+          "now_ns": 61700000001,
+          "front_mm": [
+            269007,
+            248154
+          ],
+          "speed_mmps": [
+            0,
+            4600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3764,
+            3764
+          ]
+        },
+        {
+          "now_ns": 63700000001,
+          "front_mm": [
+            269007,
+            256354
+          ],
+          "speed_mmps": [
+            0,
+            3600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3876,
+            3876
+          ]
+        },
+        {
+          "now_ns": 65700000001,
+          "front_mm": [
+            269007,
+            262518
+          ],
+          "speed_mmps": [
+            0,
+            2682
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3988,
+            3988
+          ]
+        },
+        {
+          "now_ns": 67700000001,
+          "front_mm": [
+            269007,
+            266665
+          ],
+          "speed_mmps": [
+            0,
+            1552
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 300
+            }
+          ],
+          "commit": [
+            4094,
+            4094
+          ]
+        },
+        {
+          "now_ns": 69700000001,
+          "front_mm": [
+            269007,
+            268765
+          ],
+          "speed_mmps": [
+            0,
+            552
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            4206,
+            4206
+          ]
+        }
+      ]
+    },
+    {
+      "id": "VoterRestart",
+      "passed": true,
+      "steps": 591,
+      "junction_entry_order": [
+        101,
+        102
+      ],
+      "station_arrivals": [
+        101,
+        102
+      ],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        268995,
+        269006
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": true,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1825772,
+        1825773,
+        1825774,
+        1825775,
+        1825776,
+        1825777,
+        1825778,
+        1825779,
+        1825780,
+        1825781,
+        1826150
+      ],
+      "transport_bytes": 167937240,
+      "maximum_queue": 22,
+      "rejected_packets": 2,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            612,
+            612
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            92800,
+            85800
+          ],
+          "speed_mmps": [
+            8000,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            108800,
+            93154
+          ],
+          "speed_mmps": [
+            8000,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            124800,
+            97394
+          ],
+          "speed_mmps": [
+            8000,
+            1367
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1030,
+            1030
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            140800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1154,
+            1154
+          ]
+        },
+        {
+          "now_ns": 21700000001,
+          "front_mm": [
+            156800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1287,
+            1287
+          ]
+        },
+        {
+          "now_ns": 23700000001,
+          "front_mm": [
+            172800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1420,
+            1420
+          ]
+        },
+        {
+          "now_ns": 25700000001,
+          "front_mm": [
+            188800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1544,
+            1544
+          ]
+        },
+        {
+          "now_ns": 27700000001,
+          "front_mm": [
+            204800,
+            98569
+          ],
+          "speed_mmps": [
+            8000,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 529
+            }
+          ],
+          "commit": [
+            1677,
+            1677
+          ]
+        },
+        {
+          "now_ns": 29700000001,
+          "front_mm": [
+            219900,
+            98579
+          ],
+          "speed_mmps": [
+            7100,
+            100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            1809,
+            1809
+          ]
+        },
+        {
+          "now_ns": 31700000001,
+          "front_mm": [
+            233000,
+            100879
+          ],
+          "speed_mmps": [
+            6100,
+            2100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            1927,
+            1927
+          ]
+        },
+        {
+          "now_ns": 33700000001,
+          "front_mm": [
+            244000,
+            107179
+          ],
+          "speed_mmps": [
+            5000,
+            4100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2053,
+            2053
+          ]
+        },
+        {
+          "now_ns": 35700000001,
+          "front_mm": [
+            253000,
+            117479
+          ],
+          "speed_mmps": [
+            4000,
+            6100
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2178,
+            2178
+          ]
+        },
+        {
+          "now_ns": 37700000001,
+          "front_mm": [
+            260000,
+            131769
+          ],
+          "speed_mmps": [
+            3000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2290,
+            2290
+          ]
+        },
+        {
+          "now_ns": 39700000001,
+          "front_mm": [
+            265000,
+            147769
+          ],
+          "speed_mmps": [
+            2000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2409,
+            2409
+          ]
+        },
+        {
+          "now_ns": 41700000001,
+          "front_mm": [
+            268000,
+            163769
+          ],
+          "speed_mmps": [
+            1000,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 1000
+            },
+            "Release"
+          ],
+          "commit": [
+            2528,
+            2528
+          ]
+        },
+        {
+          "now_ns": 43700000001,
+          "front_mm": [
+            268995,
+            179769
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            2640,
+            2640
+          ]
+        },
+        {
+          "now_ns": 45700000001,
+          "front_mm": [
+            268995,
+            195769
+          ],
+          "speed_mmps": [
+            0,
+            8000
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            2759,
+            2759
+          ]
+        },
+        {
+          "now_ns": 47700000001,
+          "front_mm": [
+            268995,
+            211609
+          ],
+          "speed_mmps": [
+            0,
+            7600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Occupied",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            2878,
+            2878
+          ]
+        },
+        {
+          "now_ns": 49700000001,
+          "front_mm": [
+            268995,
+            225809
+          ],
+          "speed_mmps": [
+            0,
+            6600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            2987,
+            2987
+          ]
+        },
+        {
+          "now_ns": 51700000001,
+          "front_mm": [
+            268995,
+            238009
+          ],
+          "speed_mmps": [
+            0,
+            5600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3099,
+            3099
+          ]
+        },
+        {
+          "now_ns": 53700000001,
+          "front_mm": [
+            268995,
+            248209
+          ],
+          "speed_mmps": [
+            0,
+            4600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3211,
+            3211
+          ]
+        },
+        {
+          "now_ns": 55700000001,
+          "front_mm": [
+            268995,
+            256409
+          ],
+          "speed_mmps": [
+            0,
+            3600
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 1000
+            }
+          ],
+          "commit": [
+            3317,
+            3317
+          ]
+        },
+        {
+          "now_ns": 57700000001,
+          "front_mm": [
+            268995,
+            262561
+          ],
+          "speed_mmps": [
+            0,
+            2688
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3429,
+            3429
+          ]
+        },
+        {
+          "now_ns": 59700000001,
+          "front_mm": [
+            268995,
+            266684
+          ],
+          "speed_mmps": [
+            0,
+            1670
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            "Release"
+          ],
+          "commit": [
+            3541,
+            3541
+          ]
+        },
+        {
+          "now_ns": 61700000001,
+          "front_mm": [
+            268995,
+            268757
+          ],
+          "speed_mmps": [
+            0,
+            462
+          ],
+          "phase": [
+            "Available",
+            "Occupied",
+            "Available",
+            "Available",
+            "Occupied",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            {
+              "Service": 500
+            },
+            {
+              "Service": 900
+            }
+          ],
+          "commit": [
+            3647,
+            3647
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FrozenOutput",
+      "passed": true,
+      "steps": 161,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        100897,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1828634,
+        1828635,
+        1828636,
+        1828637,
+        1828638,
+        1828639,
+        1828640,
+        1828641,
+        1828642,
+        1828643
+      ],
+      "transport_bytes": 52396652,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            76950,
+            75766
+          ],
+          "speed_mmps": [
+            6904,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            88692,
+            85800
+          ],
+          "speed_mmps": [
+            4944,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            96514,
+            93154
+          ],
+          "speed_mmps": [
+            2984,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            100416,
+            97394
+          ],
+          "speed_mmps": [
+            1024,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1032,
+            1032
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            100897,
+            98569
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1162,
+            1162
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IntegrityLoss",
+      "passed": true,
+      "steps": 161,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        100897,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1829431,
+        1829432,
+        1829433,
+        1829434,
+        1829435,
+        1829436,
+        1829437,
+        1829438,
+        1829439,
+        1829440
+      ],
+      "transport_bytes": 52795039,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            76950,
+            75766
+          ],
+          "speed_mmps": [
+            6904,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            88692,
+            85800
+          ],
+          "speed_mmps": [
+            4944,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            96514,
+            93154
+          ],
+          "speed_mmps": [
+            2984,
+            2961
+          ],
+          "phase": [
+            "ReleasePending",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            100416,
+            97394
+          ],
+          "speed_mmps": [
+            1024,
+            1367
+          ],
+          "phase": [
+            "ReleasePending",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "ReleasePending",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1032,
+            1032
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            100897,
+            98569
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "ReleasePending",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Available",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1168,
+            1168
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PositionUncertainty",
+      "passed": true,
+      "steps": 161,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        100897,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1830155,
+        1830156,
+        1830157,
+        1830158,
+        1830159,
+        1830160,
+        1830161,
+        1830162,
+        1830163,
+        1830164
+      ],
+      "transport_bytes": 51082157,
+      "maximum_queue": 22,
+      "rejected_packets": 27,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            76950,
+            75766
+          ],
+          "speed_mmps": [
+            6904,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            88692,
+            85800
+          ],
+          "speed_mmps": [
+            4944,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            746,
+            746
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            96514,
+            93154
+          ],
+          "speed_mmps": [
+            2984,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            879,
+            879
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            100416,
+            97394
+          ],
+          "speed_mmps": [
+            1024,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1012,
+            1012
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            100897,
+            98569
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Occupied",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1142,
+            1142
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PointsDetectionLost",
+      "passed": true,
+      "steps": 161,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        105290,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1830847,
+        1830848,
+        1830849,
+        1830850,
+        1830851,
+        1830852,
+        1830853,
+        1830854,
+        1830855,
+        1830856
+      ],
+      "transport_bytes": 52703609,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            89940,
+            85800
+          ],
+          "speed_mmps": [
+            5538,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            98950,
+            93154
+          ],
+          "speed_mmps": [
+            3578,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            104040,
+            97394
+          ],
+          "speed_mmps": [
+            1618,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1036,
+            1036
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            105290,
+            98569
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1171,
+            1171
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ChargerStuck",
+      "passed": true,
+      "steps": 84,
+      "junction_entry_order": [],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        50000,
+        50000
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1831655,
+        1831656,
+        1831657,
+        1831658,
+        1831659,
+        1831660,
+        1831661,
+        1831662,
+        1831663,
+        1831664
+      ],
+      "transport_bytes": 36963012,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            229,
+            229
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            392,
+            392
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            567,
+            567
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            739,
+            739
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IncompleteCharge",
+      "passed": true,
+      "steps": 84,
+      "junction_entry_order": [],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        50000,
+        50000
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1832268,
+        1832269,
+        1832270,
+        1832271,
+        1832272,
+        1832273,
+        1832274,
+        1832275,
+        1832276,
+        1832277
+      ],
+      "transport_bytes": 36963012,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            229,
+            229
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            392,
+            392
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            567,
+            567
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            739,
+            739
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ChargerMisaligned",
+      "passed": true,
+      "steps": 84,
+      "junction_entry_order": [],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        50000,
+        50000
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1832718,
+        1832719,
+        1832720,
+        1832721,
+        1832722,
+        1832723,
+        1832724,
+        1832725,
+        1832726,
+        1832727
+      ],
+      "transport_bytes": 36963012,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            229,
+            229
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            392,
+            392
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            567,
+            567
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            739,
+            739
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EmergencyDepartureConnected",
+      "passed": true,
+      "steps": 84,
+      "junction_entry_order": [],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        50000,
+        50000
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1833246,
+        1833247,
+        1833248,
+        1833249,
+        1833250,
+        1833251,
+        1833252,
+        1833253,
+        1833254,
+        1833255
+      ],
+      "transport_bytes": 36963012,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            229,
+            229
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            392,
+            392
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            567,
+            567
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            739,
+            739
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CivilClosure",
+      "passed": true,
+      "steps": 161,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        105290,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1833717,
+        1833718,
+        1833719,
+        1833720,
+        1833721,
+        1833722,
+        1833723,
+        1833724,
+        1833725,
+        1833726
+      ],
+      "transport_bytes": 52705505,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            89940,
+            85800
+          ],
+          "speed_mmps": [
+            5538,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            752,
+            752
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            98950,
+            93154
+          ],
+          "speed_mmps": [
+            3578,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            892,
+            892
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            104040,
+            97394
+          ],
+          "speed_mmps": [
+            1618,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1036,
+            1036
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            105290,
+            98569
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1171,
+            1171
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CivilDataStale",
+      "passed": true,
+      "steps": 166,
+      "junction_entry_order": [
+        101
+      ],
+      "station_arrivals": [],
+      "final_speed_mmps": [
+        0,
+        0
+      ],
+      "final_front_mm": [
+        111430,
+        98569
+      ],
+      "collision_or_conflicting_occupancy_count": 0,
+      "unsafe_departures": 0,
+      "retained_occupancy": true,
+      "restored_committed_prefix": false,
+      "protected_possession_retained": true,
+      "process_count": 10,
+      "process_ids": [
+        1834452,
+        1834453,
+        1834454,
+        1834455,
+        1834456,
+        1834457,
+        1834458,
+        1834459,
+        1834460,
+        1834461
+      ],
+      "transport_bytes": 51937495,
+      "maximum_queue": 22,
+      "rejected_packets": 0,
+      "trace": [
+        {
+          "now_ns": 3700000001,
+          "front_mm": [
+            50000,
+            50000
+          ],
+          "speed_mmps": [
+            0,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Available",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            "Emergency"
+          ],
+          "commit": [
+            12,
+            12
+          ]
+        },
+        {
+          "now_ns": 5700000001,
+          "front_mm": [
+            50910,
+            50910
+          ],
+          "speed_mmps": [
+            1300,
+            1300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            212,
+            212
+          ]
+        },
+        {
+          "now_ns": 7700000001,
+          "front_mm": [
+            55610,
+            55610
+          ],
+          "speed_mmps": [
+            3300,
+            3300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            342,
+            342
+          ]
+        },
+        {
+          "now_ns": 9700000001,
+          "front_mm": [
+            64310,
+            64310
+          ],
+          "speed_mmps": [
+            5300,
+            5300
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            "Release"
+          ],
+          "commit": [
+            482,
+            482
+          ]
+        },
+        {
+          "now_ns": 11700000001,
+          "front_mm": [
+            77010,
+            75766
+          ],
+          "speed_mmps": [
+            7300,
+            5568
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Release",
+            {
+              "Service": 403
+            }
+          ],
+          "commit": [
+            622,
+            622
+          ]
+        },
+        {
+          "now_ns": 13700000001,
+          "front_mm": [
+            91328,
+            85800
+          ],
+          "speed_mmps": [
+            6330,
+            4443
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "Reserved",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 678
+            }
+          ],
+          "commit": [
+            742,
+            742
+          ]
+        },
+        {
+          "now_ns": 15700000001,
+          "front_mm": [
+            101922,
+            93154
+          ],
+          "speed_mmps": [
+            4370,
+            2961
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 788
+            }
+          ],
+          "commit": [
+            872,
+            872
+          ]
+        },
+        {
+          "now_ns": 17700000001,
+          "front_mm": [
+            108596,
+            97394
+          ],
+          "speed_mmps": [
+            2410,
+            1367
+          ],
+          "phase": [
+            "Occupied",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 796
+            }
+          ],
+          "commit": [
+            1002,
+            1002
+          ]
+        },
+        {
+          "now_ns": 19700000001,
+          "front_mm": [
+            111350,
+            98569
+          ],
+          "speed_mmps": [
+            450,
+            0
+          ],
+          "phase": [
+            "Available",
+            "Reserved",
+            "ReleasePending",
+            "Available",
+            "Reserved",
+            "Occupied",
+            "Blocked"
+          ],
+          "brake": [
+            "Emergency",
+            {
+              "Service": 540
+            }
+          ],
+          "commit": [
+            1122,
+            1122
+          ]
+        }
+      ]
+    }
+  ]
+}

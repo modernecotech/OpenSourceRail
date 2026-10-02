@@ -18,3 +18,6 @@ pub use ids::{EntityId, EntryId, RegionId, RouteId, SectionId, StationId, Switch
 pub use topology::{
     Line, Network, Section, StaticTopology, Station, TopologyError, TrackLine, TrackTopology,
 };
+
+pub mod deployment;
+pub mod resources;

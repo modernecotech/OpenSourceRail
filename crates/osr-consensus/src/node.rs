@@ -22,6 +22,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Config {
     pub me: NodeId,
+    /// Bounded contiguous append batch; default retains one-entry refinement.
+    #[serde(default = "default_append_batch")]
+    pub max_append_entries: u16,
     /// All nodes in the consensus group, including `me`.
     pub peers: BTreeSet<NodeId>,
     /// Election timeout in nanoseconds. A follower or candidate that
@@ -39,12 +42,17 @@ pub struct Config {
     pub fail_restrictive_window_ns: u64,
 }
 
+fn default_append_batch() -> u16 {
+    1
+}
+
 impl Config {
     /// Sensible defaults for a 3-node wayside region.
     #[must_use]
     pub fn with_defaults(me: NodeId, peers: BTreeSet<NodeId>) -> Self {
         Self {
             me,
+            max_append_entries: 1,
             peers,
             election_timeout_ns: 150_000_000,        // 150 ms
             heartbeat_interval_ns: 50_000_000,       // 50 ms
@@ -93,6 +101,8 @@ pub struct RaftNode {
     /// Absolute time (ns) at which the quorum confirmation was
     /// last refreshed. Drives [`Event::Tick`] expiry logic.
     pub last_quorum_confirmed_ns: u64,
+    /// Volatile, current-term peer response ages (including empty-log replies).
+    pub quorum_acknowledgements: BTreeMap<NodeId, u64>,
 
     // --- Timers --------------------------------------------------------
     /// Deadline (ns) by which this node must hear from a leader
@@ -125,6 +135,7 @@ impl RaftNode {
             match_index,
             last_quorum_confirmed_term: Term::zero(),
             last_quorum_confirmed_ns: now_ns,
+            quorum_acknowledgements: BTreeMap::new(),
             election_deadline_ns: now_ns.saturating_add(config.election_timeout_ns),
             next_heartbeat_ns: u64::MAX,
         }
@@ -160,6 +171,7 @@ impl RaftNode {
     pub fn update_term(&mut self, new_term: Term, now_ns: u64) {
         if new_term > self.current_term {
             self.current_term = new_term;
+            self.quorum_acknowledgements.clear();
             self.voted_for = None;
             self.role = Role::Follower;
             self.reset_election_deadline(now_ns);

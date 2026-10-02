@@ -4,6 +4,10 @@
 **Date:** 2026-04-20
 **Depends on:** [docs/ARCHITECTURE.md](../ARCHITECTURE.md) §4 D2
 
+## Current development amendment
+
+The current reference uses three static voters (five is supported by the model), selected for failure tolerance and independent power/network placement. Additional station I/O is non-voting. Historical 5–20-node regional sizing is not the implemented reference. Disk-journal checkpoint compaction retains the complete Raft log; logical snapshot/log truncation remains unimplemented. Resource decisions and positions are Safety entries, committed before outputs. The prototype verifies a static member's committed-prefix assertion under crash-fault assumptions; the historical two-node independent witness is not implemented or claimed by this reference and remains a separate assessment obligation. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Summary
 
 OpenSourceRail replaces the centralized zone-controller model of conventional CBTC with a **distributed, replicated log of track state** maintained by wayside nodes via a consensus protocol. Each train computes its own Movement Authority (MA) from the log, cross-validated by two independent wayside nodes. This RFC specifies the log schema, the consensus protocol, the MA computation algorithm, the fault model, and the formal-verification plan.

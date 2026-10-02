@@ -89,3 +89,5 @@ pub use messages::{
 pub use node::{Config, RaftNode, Role};
 pub use step::{step, Action, Event};
 pub use types::{Category, Entry, LogIndex, NodeId, Term};
+
+pub mod disk;

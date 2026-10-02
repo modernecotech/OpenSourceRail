@@ -66,11 +66,14 @@
 //! Per RFC 0005 §7 (SIL-4):
 //!
 //! - `#![forbid(unsafe_code)]`.
+
 //! - Integer-only path (ppt = parts-per-thousand, mm/s, ns).
 //! - No allocation in the evaluator.
 //! - All public types `Debug + Clone + PartialEq`.
 
 #![forbid(unsafe_code)]
+
+pub mod deadline;
 
 pub mod evaluate;
 pub mod inputs;

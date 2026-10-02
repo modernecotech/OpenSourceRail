@@ -368,3 +368,36 @@ mod tests {
         assert!(error.to_string().starts_with("postcard decode error:"));
     }
 }
+
+/// Versioned transport-independent runtime envelope. Signature covers this entire
+/// record through osr-secbus; domain conversion is explicit at the consumer.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimePacket {
+    pub schema: String,
+    pub configuration: [u8; 32],
+    pub session: u64,
+    pub sequence: u64,
+    pub observed_ns: u64,
+    pub kind: RuntimeKind,
+    pub bytes: Vec<u8>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum RuntimeKind {
+    Raft,
+    Proposal,
+    CommittedPrefix,
+}
+
+impl RuntimePacket {
+    pub fn validate(&self, configuration: [u8; 32], session: u64, now_ns: u64) -> bool {
+        self.schema == "osr-runtime/1"
+            && self.configuration == configuration
+            && self.session == session
+            && self.sequence > 0
+            && self.observed_ns > 0
+            && self.observed_ns <= now_ns
+            && now_ns - self.observed_ns <= 1_000_000_000
+            && self.bytes.len() <= 512 * 1024
+    }
+}

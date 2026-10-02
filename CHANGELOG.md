@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Added the opt-in train-centred control prototype: deterministic `no_std`
+  onboard protection, authenticated/fenced resource ownership, frozen model
+  startup configurations, charging/departure interlocks and an output-guard
+  contract. The actual Rust core drives the two-train junction fault twin;
+  bounded TLC and Rust/property tests cover retained locks, partitions,
+  reconnection, restarts and unsafe departure prevention. Shared FMEA/change
+  impact binds software evidence and planned HIL/track/independent release.
+  Physical and operational deployment remain blocked; pilot defaults are unchanged.
+
 - Hardened assurance impact and qualification acceptance against the reviewed
   prototype findings. Relationship-only and source-only changes reopen affected
   evidence. Fault tests now require normal preconditions, ordered rising
@@ -632,3 +641,5 @@ The remaining high-value v0.2 targets are:
   drawings.
 - Residual-risk narrative and first external safety/operator review
   feedback incorporated into the certification pack.
+
+- Reconcile distributed-control development target in RFC 0033; migrate resource lifecycle into existing interlocking and reuse ATP/ATO/brake through durable, authenticated process hosts. Physical qualification and profile release remain pending.

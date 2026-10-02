@@ -2,8 +2,8 @@
   "schema_version": 1,
   "passed": true,
   "issues": [],
-  "inventory_count": 59,
-  "classified_count": 59,
+  "inventory_count": 60,
+  "classified_count": 60,
   "linked_component_count": 48,
   "category_counts": {
     "tick_controller": 23,
@@ -13,7 +13,7 @@
     "scenario_model": 0,
     "design_pipeline": 6,
     "simulation_shell": 4,
-    "external_boundary": 1
+    "external_boundary": 2
   },
   "categories": {
     "tick_controller": [
@@ -88,11 +88,12 @@
       "osr-sim-gui"
     ],
     "external_boundary": [
-      "osr-lifecycle-identity"
+      "osr-lifecycle-identity",
+      "osr-runtime"
     ]
   },
-  "deployment_inventory_sha256": "ba7f07b155ec4c5ba63c951736dc60204263448aaae7c06a80e2e1fcff4c6598",
-  "coverage_contract_sha256": "e98d859d7b6022831b8192c60940cdb84272865b85aff235f5706b9e23b786a5",
+  "deployment_inventory_sha256": "01ba6e4485918a4827c079e165935707e6bf5603c5d2196576e375d836743cc7",
+  "coverage_contract_sha256": "23ccdc9f1f23f0f61e00b60807acf8d570fc5d6386c976fc9d986ccc4b3bd7d5",
   "simulator_cargo_sha256": "92eef5b8c71ea87283ce13375b19d7d7b14e8e295bc2c06b6f3414241d655bd4",
   "runtime_evidence": null,
   "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; pre-service checks execute before dispatch. scenario_model and external_boundary entries remain visible gaps, not simulated implementations."

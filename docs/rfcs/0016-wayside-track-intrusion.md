@@ -7,6 +7,10 @@ obstacle detection). **Amends:** RFC 0005 (crate map), RFC 0007
 (hardware palette adds one SKU variant), RFC 0001 (interlocking
 consumes intrusion state).
 
+## Current development amendment
+
+Resource ownership never substitutes for an intrusion verdict. Asset-scoped infrastructure observations remain independent inputs to the interlocking; unknown or missing required proving restricts movement. The process reference supplies synthetic independent sensor ports. Hardware common causes, observation age and qualified physical detection remain explicit acceptance gates. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Purpose
 
 Driverless trains (RFC 0015) detect obstacles in their own path

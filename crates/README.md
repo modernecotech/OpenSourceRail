@@ -18,6 +18,7 @@ cargo run --release --bin osr-design -- --help
 |---|---|
 | Shared foundations | `osr-core`, `osr-proto`, `osr-crypto`, `osr-secbus`, `osr-supervision-contract`, `osr-lifecycle-identity` |
 | Signalling and wayside safety | `osr-consensus`, `osr-interlocking`, `osr-wayside-points`, `osr-level-crossing`, `osr-intrusion-detect`, `osr-hot-axle-wayside` |
+| Reference process hosts | `osr-runtime` (development target; qualification pending) |
 | Onboard safety | `osr-atp`, `osr-onboard-routing`, `osr-odometry`, `osr-brake`, `osr-bms`, `osr-door-control`, `osr-fire-safety`, `osr-derailment`, `osr-obstacle-detect` |
 | Train systems | `osr-tcms`, `osr-ato`, `osr-traction`, `osr-aux-power`, `osr-hvac`, `osr-lighting`, `osr-regen`, `osr-tcn`, `osr-t2g`, `osr-event-recorder`, `osr-cbm-onboard` |
 | Stations and passengers | `osr-afc`, `osr-afc-backoffice`, `osr-pis-onboard`, `osr-pis-station`, `osr-psd`, `osr-station-scada` |

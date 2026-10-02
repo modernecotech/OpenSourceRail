@@ -1,4 +1,5 @@
-//! Entry schema — Rust mirror of `osr-core/proto/track_state.proto`.
+//! Internal entry schema. Legacy payloads mirror `osr-core/proto/track_state.proto`;
+//! ResourceControl is the explicitly versioned RFC 0033 runtime extension.
 //!
 //! Integer-only in the safety path. Floats are only used for sensor-input
 //! fields that are inherently fractional (speed_mps, speed_uncertainty_mps,
@@ -51,6 +52,8 @@ pub enum EntryPayload {
     /// running on the W-SBC; this is the consensus-log representation
     /// of its output.
     SectionIntrusion(SectionIntrusion),
+    /// RFC 0033 runtime extension; append to preserve older variant ordinals.
+    ResourceControl(crate::resource_log::ResourceEvent),
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]

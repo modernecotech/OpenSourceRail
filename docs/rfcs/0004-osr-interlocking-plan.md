@@ -4,6 +4,10 @@
 **Date:** 2026-04-20
 **Depends on:** [RFC 0001 Track State Consensus](0001-track-state-consensus.md)
 
+## Current development amendment
+
+The interlocking is implemented. Its existing compute_self_ma path remains the sole MA calculator. ResourceControl extends the committed fold with retained ownership, qualified clearance, epoch recovery, and original-evidence freshness bounds. The historical future/no-code wording below describes the original plan, not current implementation or acceptance. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Summary
 
 This RFC lays out the plan for the `osr-interlocking` crate — the Rust

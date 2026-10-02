@@ -15,7 +15,7 @@
 //!
 //! - `TrainRegistration` → `Safety` (governs which trains the
 //!   interlocking considers authoritative).
-//! - `TrainPositionReport` → `Advisory` (high-rate telemetry; not
+//! - `TrainPositionReport` → `Safety` (affects occupancy and authority;
 //!   fail-restrictive).
 //!
 //! Under nominal operation the consensus cluster always holds fresh
@@ -115,7 +115,7 @@ impl ConsensusBackend {
 
     /// Propose a `TrainRegistration` the first time we encounter a train.
     pub fn ensure_registered(&mut self, train: &Train, initial_head: TrackRef, t_s: u32) {
-        if self.registered.insert(train.id) {
+        if !self.registered.contains(&train.id) {
             let entry = Entry {
                 entry_id: osr_core::EntryId::new(self.next_entry_id),
                 term: 1,
@@ -128,6 +128,9 @@ impl ConsensusBackend {
             };
             self.next_entry_id += 1;
             self.propose(&entry, Category::Safety);
+            if self.derived.trains.get(&train.id).is_some() {
+                self.registered.insert(train.id);
+            }
         }
     }
 
@@ -173,7 +176,7 @@ impl ConsensusBackend {
             }),
         };
         self.next_entry_id += 1;
-        self.propose(&entry, Category::Advisory);
+        self.propose(&entry, Category::Safety);
     }
 
     /// Hand a fully platformed train out of the interstation-block control
@@ -251,14 +254,20 @@ impl ConsensusBackend {
             &self.signer,
         )
         .expect("track-state entry serialization is infallible");
-        self.cluster
+        if self
+            .cluster
             .propose_signed(
                 leader,
                 &signed,
                 &mut self.ingress_verifier,
                 entry.timestamp_ns,
             )
-            .expect("sim consensus ingress must authenticate");
+            .is_err()
+        {
+            // Lost quorum or leadership cannot turn a load-bearing position
+            // into advisory telemetry, or advance the committed occupancy view.
+            return;
+        }
         // After propose + drain, the leader's log has the entry at
         // `log_len`. Drive the cluster forward until that index commits
         // on the leader (a majority of acks). 30 ms × 30 ticks = 900 ms
@@ -325,5 +334,48 @@ mod tests {
     fn boot_elects_a_leader() {
         let b = ConsensusBackend::new();
         assert!(b.cluster.leader().is_some(), "no leader after boot");
+    }
+    #[test]
+    fn position_cannot_commit_when_quorum_confirmation_is_stale() {
+        use crate::train::{Heading, ServiceRole, TrainPhase};
+        use osr_core::{ConsistDescriptor, Direction, SectionId, StationId, TrainId};
+        let train = Train {
+            id: TrainId(101),
+            line_index: 0,
+            consist: ConsistDescriptor::reference_3car(),
+            energy_kwh_per_car_km: 1.0,
+            heading: Heading::Forward,
+            service_role: ServiceRole::Revenue,
+            phase: TrainPhase::AwaitingDispatch {
+                station: StationId(1),
+            },
+            overnight_home: None,
+            in_depot: false,
+            soc: 0.8,
+            odometer_km: 0.0,
+            energy_consumed_kwh: 0.0,
+            energy_charged_kwh: 0.0,
+            energy_roof_pv_kwh: 0.0,
+            min_soc_seen: 0.8,
+        };
+        let mut b = ConsensusBackend::new();
+        let leader = b.cluster.leader().unwrap();
+        b.cluster
+            .nodes
+            .get_mut(&leader)
+            .unwrap()
+            .last_quorum_confirmed_term = osr_consensus::Term(0);
+        b.emit_position(
+            &train,
+            TrackRef {
+                section: SectionId(1),
+                offset_mm: 50000,
+                direction: Direction::Forward,
+            },
+            None,
+            1,
+        );
+        assert!(b.entries().is_empty());
+        assert_eq!(b.commit_index(), LogIndex(0));
     }
 }

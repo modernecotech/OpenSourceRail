@@ -29,6 +29,8 @@ use serde::{Deserialize, Serialize};
 /// of insertion order.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct DerivedState {
+    /// Configured only by a verified committed resource bootstrap.
+    pub resources: Option<crate::resource_log::ResourceLedger>,
     /// For each section currently occupied by a train, the occupying train's
     /// id. Absence = section is unoccupied *per the log*; that does not
     /// mean it is safe to enter (route grants, switch positions, and
@@ -152,6 +154,24 @@ impl DerivedState {
 fn apply_entry(state: &mut DerivedState, entry: &Entry) {
     state.last_entry_time_ns = entry.timestamp_ns;
     match &entry.payload {
+        EntryPayload::ResourceControl(event) => {
+            if let Some(ledger) = &mut state.resources {
+                if ledger.apply(event, entry.timestamp_ns).is_err() {
+                    ledger.rejected_transitions = ledger.rejected_transitions.saturating_add(1);
+                }
+            } else if let crate::resource_log::ResourceEvent::Bootstrap {
+                configuration,
+                model,
+            } = event
+            {
+                state.resources = crate::resource_log::ResourceLedger::new(
+                    model.as_ref().clone(),
+                    *configuration,
+                    entry.timestamp_ns,
+                )
+                .ok();
+            }
+        }
         EntryPayload::TrainPositionReport(r) => apply_position(state, r, entry.timestamp_ns),
         EntryPayload::SwitchObservation(o) => {
             state.switches.insert(

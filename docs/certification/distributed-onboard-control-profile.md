@@ -1,6 +1,6 @@
 # Distributed Onboard Control Profile
 
-**Status:** research target; not the deployable pilot baseline.
+**Status:** development target; not the deployable pilot baseline.
 
 This profile reduces dependence on centralised wayside computation and permits
 continued route *selection* during a communications outage. It does not remove
@@ -11,6 +11,17 @@ equivalent or better safety.
 
 The deployable reference remains the conservative sectional-authority profile
 in [pilot-signalling-profile.md](pilot-signalling-profile.md).
+
+## Executable train-centred milestone
+
+[RFC 0033](../rfcs/0033-tacs-runtime-and-resource-control.md) and the
+[TACS assurance package](../../engineering/assurance/tacs/README.md) use the
+existing committed interlocking MA and ATP/ATO/brake components through thin,
+authenticated process hosts. The reference includes two train agents, three
+static voters, point I/O and two station/charging interfaces. Generated software
+evidence remains unreviewed. HIL, measured braking/integrity, field recovery,
+independent assessment and a named approved installed bundle are required to
+change the deployable profile. The conservative pilot remains the default.
 
 ## Three independent route inputs
 

@@ -45,3 +45,6 @@ pub use state::{
     derive_state, section_intrusion_permits, DerivedState, SwitchState, TrainAwareness,
 };
 pub use topology::{far_end_of, footprint_from, forward_chain};
+
+pub mod resource_log;
+pub mod resources;

@@ -160,7 +160,17 @@ pub fn compute_self_ma_from_state(
 ) -> MovementAuthority {
     // P5: bind the validity window up front. Every return path uses this
     // single value, making it impossible to forget.
-    let valid_until_ns = now_ns.saturating_add(MA_VALIDITY_WINDOW_NS);
+    let mut valid_until_ns = now_ns.saturating_add(MA_VALIDITY_WINDOW_NS);
+    if let Some(ledger) = &state.resources {
+        valid_until_ns = valid_until_ns.min(ledger.evidence_deadline(train_id));
+        if let Some(train) = state.trains.get(&train_id) {
+            valid_until_ns = valid_until_ns.min(
+                train
+                    .last_position_onboard_ns
+                    .saturating_add(osr_core::resources::INPUT_MAX_AGE_NS),
+            );
+        }
+    }
 
     let Some(awareness) = state.trains.get(&train_id) else {
         return fail_restrictive(train_id, None, valid_until_ns, derived_from_entry_id);
@@ -169,6 +179,20 @@ pub fn compute_self_ma_from_state(
         return fail_restrictive(train_id, None, valid_until_ns, derived_from_entry_id);
     };
 
+    if let Some(ledger) = &state.resources {
+        if now_ns >= valid_until_ns
+            || ledger.integrity.get(&train_id) != Some(&true)
+            || !ledger.permits(head.track_ref.section, train_id, now_ns)
+            || !osr_core::resources::fresh(awareness.last_position_onboard_ns, now_ns)
+        {
+            return fail_restrictive(
+                train_id,
+                Some(head.track_ref),
+                valid_until_ns,
+                derived_from_entry_id,
+            );
+        }
+    }
     let consist_length_mm = awareness.consist.length_mm;
 
     // The candidate forward chain: sections the train could reach going
@@ -185,6 +209,27 @@ pub fn compute_self_ma_from_state(
     while index < chain.len() {
         let section_id = chain[index];
         index += 1;
+        if state.resources.as_ref().is_some_and(|ledger| {
+            !ledger.permits(section_id, train_id, now_ns)
+                || !state
+                    .section_intrusions
+                    .get(&section_id)
+                    .is_some_and(|observation| {
+                        observation.state == crate::log::IntrusionState::Clear
+                            && osr_core::resources::fresh(observation.observed_at_ns, now_ns)
+                    })
+        }) {
+            break;
+        }
+        if state.resources.is_some() {
+            if let Some(observation) = state.section_intrusions.get(&section_id) {
+                valid_until_ns = valid_until_ns.min(
+                    observation
+                        .observed_at_ns
+                        .saturating_add(osr_core::resources::INPUT_MAX_AGE_NS),
+                );
+            }
+        }
         if contains_section(&footprint, section_id) {
             // We already occupy this section. Extend to its far end.
             ma_end = far_end_of(network, section_id, head.track_ref.direction);
@@ -205,8 +250,34 @@ pub fn compute_self_ma_from_state(
         "MA end regressed behind the train's own head position"
     );
 
-    let applicable_restrictions =
+    let mut applicable_restrictions =
         collect_applicable_restrictions(state, network, head.track_ref, ma_end, now_ns);
+
+    if let Some(ledger) = &state.resources {
+        for (index, proof) in ledger.proofs.iter().enumerate() {
+            if let Some(crate::resources::ProtectionProof {
+                restriction: crate::resources::Restriction::Speed(speed),
+                observed_ns,
+                ..
+            }) = proof
+            {
+                let section = ledger.model.resources[index].section;
+                if forward_chain(network, head.track_ref, MAX_MA_DISTANCE_MM).contains(&section) {
+                    let track = network.section(section);
+                    applicable_restrictions.push(SpeedRestriction {
+                        section,
+                        from_offset_mm: 0,
+                        to_offset_mm: track.length_mm as i64,
+                        max_speed_mmps: i64::from(*speed),
+                        reason: crate::log::RestrictionReason::Temporary,
+                        effective_from_ns: *observed_ns,
+                        effective_until_ns: None,
+                        issued_by: osr_core::EntityId(ledger.model.resources[index].controller.0),
+                    });
+                }
+            }
+        }
+    }
 
     let ma = MovementAuthority {
         train_id,

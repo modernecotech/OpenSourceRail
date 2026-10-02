@@ -178,7 +178,7 @@ pub fn decode(config: Config, now_ns: u64, bytes: &[u8]) -> Result<RaftNode, Res
     Ok(node)
 }
 
-fn crc32(bytes: &[u8]) -> u32 {
+pub(crate) fn crc32(bytes: &[u8]) -> u32 {
     let mut crc = 0xffff_ffff_u32;
     for byte in bytes {
         crc ^= u32::from(*byte);

@@ -15,10 +15,10 @@ def test_register_covers_every_controlled_subsystem_without_claiming_release():
     assert report["summary"]["domains"] == {
         "civil": 19,
         "mechanical": 146,
-        "rust": 59,
+        "rust": 60,
         "station": 7,
     }
-    assert report["summary"]["records"] == 231
+    assert report["summary"]["records"] == 232
     assert report["summary"]["physical_identity_templates"] == 172
     assert report["summary"]["printable_qr_labels"] == 0
     assert report["validation"] == {

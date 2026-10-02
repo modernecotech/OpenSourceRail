@@ -10,6 +10,7 @@ safety argument.
 | `SMRaft.tla` | Core protocol spec: Static-Membership Raft + Fail-Restrictive Timeout. Referenced by [RFC 0001 §11.1](../../../../docs/rfcs/0001-track-state-consensus.md). |
 | `MCSmall.tla` | Minimum-viable TLC harness (3 nodes, 2 values). |
 | `MCSmall.cfg` | TLC config for the small harness. |
+| `TACSResources.tla` / `TACSResources.cfg` | Separate train-centred resource model: retained approach rights, occupancy, expiry, restart, qualified release and blocking. Two trains, two conflicting resources, two epochs. |
 
 ## Running TLC
 
@@ -52,3 +53,12 @@ we write the TLAPS proofs):
    TLAPS for the unbounded spec.
 3. No explicit modeling of crash + restart persistence. Standard Raft arguments
    apply; add a `Restart` action when we want to cover this explicitly.
+
+## Executed TACS invariant checks
+
+The [TACS package](../../tacs/README.md) records the actual pinned-TLC run and
+source/log hashes for `TACSResources`. It checks six invariants in a finite
+model; qualified physical no-reentry and clearance are explicit assumptions.
+It proves neither Rust refinement nor unbounded liveness. The Rust core has
+separate bounded transition and property tests. See
+[RFC 0032](../../../../docs/rfcs/0032-train-centred-control.md) for contracts.

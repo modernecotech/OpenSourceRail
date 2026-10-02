@@ -5,6 +5,10 @@
 **Superseded:** nothing (new). **Amends:** RFC 0008 (cab), RFC 0007
 (hardware), RFC 0005 (crate map), RFC 0013 (operations).
 
+## Current development amendment
+
+Train-centred control retains onboard ATP, obstacle, emergency brake and physical departure functions. The new reference exercises existing ATP/ATO/brake evaluators; it does not demonstrate the complete GoA 4 sensor/door/PSD stack or approve driverless operation. OCC intentions and local privileged stopped recovery cannot bypass physical protection. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Purpose
 
 Every OpenSourceRail deployment ships as a **GoA 4 (Unattended

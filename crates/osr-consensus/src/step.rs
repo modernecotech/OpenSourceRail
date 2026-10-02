@@ -145,6 +145,7 @@ fn emit_request_votes(node: &RaftNode, actions: &mut Vec<Action>) {
 fn become_leader(node: &mut RaftNode, now_ns: u64, actions: &mut Vec<Action>) {
     // TLA+ `BecomeLeader(s)`.
     node.role = Role::Leader;
+    node.quorum_acknowledgements.clear();
     let next = node.log_len().succ();
     for p in &node.config.peers {
         node.next_index.insert(*p, next);
@@ -368,11 +369,16 @@ fn handle_append_entries_response(
     if m.success {
         node.match_index.insert(m.from, m.match_index);
         node.next_index.insert(m.from, m.match_index.succ());
-        // Count confirmers (self + any follower whose match_index > 0).
+        node.quorum_acknowledgements.insert(m.from, now_ns);
         let confirmers = 1 + node
-            .match_index
+            .quorum_acknowledgements
             .iter()
-            .filter(|(p, mi)| **p != node.config.me && mi.0 > 0)
+            .filter(|(peer, seen)| {
+                **peer != node.config.me
+                    && node.config.peers.contains(peer)
+                    && **seen <= now_ns
+                    && now_ns - **seen < node.config.fail_restrictive_window_ns
+            })
             .count();
         if confirmers >= node.config.quorum_size() {
             node.last_quorum_confirmed_term = node.current_term;
@@ -453,7 +459,10 @@ fn emit_append_entries_broadcast(node: &RaftNode, actions: &mut Vec<Action>) {
         let prev_term = node.term_at(prev_idx);
         // Send one entry at a time (matches TLA+; can be batched later).
         let entries: Vec<Entry> = match next.as_vec_offset() {
-            Some(off) if off < node.log.len() => vec![node.log[off].clone()],
+            Some(off) if off < node.log.len() => node.log[off..(off
+                + usize::from(node.config.max_append_entries.clamp(1, 16)))
+            .min(node.log.len())]
+                .to_vec(),
             _ => Vec::new(),
         };
         let req = AppendEntriesRequest {

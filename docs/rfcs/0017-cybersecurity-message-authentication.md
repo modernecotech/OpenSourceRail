@@ -7,6 +7,10 @@
 **Amends:** `osr-crypto` (adds ed25519), `osr-interlocking` (envelope
 on `Entry`), consensus wire format.
 
+## Current development amendment
+
+The process reference reuses Ed25519/secbus and signed consensus proposals, with role/asset permissions, exact configuration hash, registered session, durable sequence/replay fences, freshness and size bounds. All position/protection events are Safety. Public deterministic test keys are synthetic and unsuitable for operation. A signed voter view assumes crash-fault behavior, not Byzantine quorum certification; authenticated erroneous observations remain in the FMEA. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Purpose
 
 Every entry on the track-state consensus log carries safety-critical

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5007**.
+Indexed Markdown files: **5012**.
 
 ## Sections
 
@@ -24,11 +24,11 @@ Indexed Markdown files: **5007**.
 | [Repository Root](#repository-root) | 5 |
 | [cities](#cities) | 4318 |
 | [control-electronics](#control-electronics) | 41 |
-| [crates](#crates) | 4 |
+| [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 182 |
-| [engineering](#engineering) | 25 |
+| [docs](#docs) | 184 |
+| [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4430,6 +4430,7 @@ Indexed Markdown files: **5007**.
 | [`crates/README.md`](../crates/README.md) | Rust Workspace |
 | [`crates/osr-city-studio/README.md`](../crates/osr-city-studio/README.md) | osr-city-studio |
 | [`crates/osr-occ-gui/README.md`](../crates/osr-occ-gui/README.md) | osr-occ-gui — operations-control dispatcher console (RFC 0018) |
+| [`crates/osr-runtime/README.md`](../crates/osr-runtime/README.md) | osr-runtime |
 | [`crates/osr-sim-gui/README.md`](../crates/osr-sim-gui/README.md) | osr-sim-gui — simulator GUI (RFC 0018) |
 
 ## deployment
@@ -5009,6 +5010,8 @@ Indexed Markdown files: **5007**.
 | [`docs/rfcs/0029-maintenance-schedule-system.md`](../docs/rfcs/0029-maintenance-schedule-system.md) | RFC 0029 — Maintenance Schedule System |
 | [`docs/rfcs/0030-manufacturing-schedule-system.md`](../docs/rfcs/0030-manufacturing-schedule-system.md) | RFC 0030 - Manufacturing Schedule System |
 | [`docs/rfcs/0031-city-studio-git-revisions.md`](../docs/rfcs/0031-city-studio-git-revisions.md) | RFC 0031 — OSR City Studio and Git-Based Design Revisions |
+| [`docs/rfcs/0032-train-centred-control.md`](../docs/rfcs/0032-train-centred-control.md) | RFC 0032 — Train-centred control prototype (superseded) |
+| [`docs/rfcs/0033-tacs-runtime-and-resource-control.md`](../docs/rfcs/0033-tacs-runtime-and-resource-control.md) | RFC 0033 — TACS runtime and committed resource control |
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/design-system.md`](../docs/rolling-stock/design-system.md) | Rolling-stock top-down / bottom-up design system |
@@ -5071,6 +5074,8 @@ Indexed Markdown files: **5007**.
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/assurance/formal/topology-adapters.md`](../engineering/assurance/formal/topology-adapters.md) | Read-only topology adapters |
 | [`engineering/assurance/subsystem-control-register.md`](../engineering/assurance/subsystem-control-register.md) | Subsystem lifecycle-control register |
+| [`engineering/assurance/tacs/README.md`](../engineering/assurance/tacs/README.md) | Distributed-control process reference |
+| [`engineering/assurance/tacs/report.md`](../engineering/assurance/tacs/report.md) | TACS prototype assurance |
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |

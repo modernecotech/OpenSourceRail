@@ -5,6 +5,10 @@
 **Depends on:** [RFC 0001 Track State Consensus](0001-track-state-consensus.md), [RFC 0004 `osr-interlocking` Plan](0004-osr-interlocking-plan.md)
 **Supersedes for repo layout:** [ARCHITECTURE.md §6.3](../ARCHITECTURE.md#63-repository-layout-proposed)
 
+## Current development amendment
+
+Processor selections follow control-electronics/README.md and its safety-controller-selection gate: commodity CM5 application hosts and separately qualified safety channels; RP2350 rigs are pilot hardware. Earlier processor examples below are historical design alternatives. Functional safety allocations derive from hazards and physical interfaces, not blanket crate labels; unintended door opening and failure to open require distinct analyses. Thin train/wayside hosts do not qualify safety-output hardware. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.
+
 ## 1. Summary
 
 This RFC enumerates the Rust crates that run on OpenSourceRail hardware —
