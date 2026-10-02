@@ -1,6 +1,6 @@
 schema_version = 1
-template_revision = "2026-09-02"
-technical_boundary = "The automated gate reruns the received SWMM model, checks continuity and report provenance, reconciles drainage and geotechnical design to every current line and station, and validates catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability."
+template_revision = "2026-10-02"
+technical_boundary = "The automated gate reruns the received SWMM model, checks continuity and hydraulic performance for normal/blockage/backwater scenarios, reconciles exact reviewed assets/supports, and checks numerical site comparisons for catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability."
 acceptance_boundary = "The drainage and geotechnical engineers of record, asset owner, relevant authority and information manager must accept the project inputs, calculations, selected variants, residual risks and immutable evidence record."
 controlled_storage_policy = "Keep borehole logs, laboratory results, sensitive asset data, native calculations and large model results in controlled project storage. Git carries requirements, receipts, hashes, reproducible exchange inputs and non-sensitive summaries."
 
@@ -16,11 +16,11 @@ required_report_fields = ["status", "tool", "version", "input_sha256", "hydrolog
 
 [ground_design]
 accepted_status = "passed"
-required_report_fields = ["status", "geotechnical_model_sha256", "foundation_schedule_sha256", "line_results", "station_results", "residual_risks"]
+required_report_fields = ["status", "geotechnical_model_sha256", "foundation_schedule_sha256", "line_results", "station_results", "residual_risks", "support_comparisons"]
 accepted_result_status = "sized-and-checked"
 
 [foundation_schedule]
-required_columns = ["support_id", "scope_type", "scope_id", "zone_id", "system_kind", "system_id", "actual_length_m", "actual_element_count", "design_quantity", "design_unit", "design_capacity", "predicted_settlement_mm", "verification_method", "status"]
+required_columns = ["support_id", "chainage_m", "scope_type", "scope_id", "zone_id", "system_kind", "system_id", "actual_length_m", "actual_element_count", "design_quantity", "design_unit", "design_capacity", "predicted_settlement_mm", "verification_method", "status"]
 accepted_status = "checked"
 
 [groundwater_decision]
@@ -89,3 +89,8 @@ category = "conditional"
 file_role = "drainage_ground_acceptance_record"
 extensions = [".json"]
 category = "authority"
+
+[[input]]
+file_role = "civil_asset_register"
+extensions = [".json"]
+category = "technical"

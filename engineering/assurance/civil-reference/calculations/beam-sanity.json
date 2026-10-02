@@ -1,0 +1,77 @@
+{
+  "area_m2": 1.199,
+  "calculix_section": "equal area and bending inertia rectangular surrogate; shear response differs",
+  "calculix_version": "2.23",
+  "centroid_m": 0.7747935779816515,
+  "dependency_hashes": {
+    "design/component-catalogue/src/osr_mech/civil/decked_pi.py": "f85b339dcf5845649263dd26935f3b00dd9c1323fce88c9fdca396b5a152e76b",
+    "engineering/analysis/drainage_ground_design.py": "0599a15b3529fe30c9cf04bb14c56e972403e19eaa000a70d190396a6fb002b0"
+  },
+  "discretisation_elements": 40,
+  "formula": "5 w L^4 / (384 E I)",
+  "generator_sha256": "579eb92fd5b3ec2961366a1e8019d5fd8f3936a15ab34d0d372e16af2a910a95",
+  "inertia_m4": 0.1429994905772172,
+  "load_basis": "bulk envelope self-weight; illustrative service additional load 20 kN/m; endpoint supports",
+  "modulus_Pa": 30000000000.0,
+  "opensees_version": "3.8.0",
+  "output_hashes": {
+    "pi20-construction-opensees.csv": "3a04aeb4a01abf9884c82939cf2ee409a03519a1f891c88d6a6ce7856ecd21d4",
+    "pi20-construction.dat": "84b3c0743fb42af89077e650e7e7a333ff005ee2449b4f3c52ebddf0e8d28996",
+    "pi20-construction.inp": "a79cb89d91e6a3a8d3feedff64bd61ba6c61394ffd88946715a3291f97db938a",
+    "pi20-service-opensees.csv": "2d41baf5450d2167a5594e86b95e2d8ad10ab253a447cec31c2435387f24e69a",
+    "pi20-service.dat": "6e288ce9141ae21b6842915d35d18ddce1321c63489bfcdccfc00c702230d060",
+    "pi20-service.inp": "73c746476f7e60027a1fe69b2915c995fc86a342865d5aebab9d00f56246c7dc",
+    "pi25-construction-opensees.csv": "d40a84c6b81249012c6044fd788a7b41d08fb13f8564187b7ae0ce57a2e2baa9",
+    "pi25-construction.dat": "93bb138cdca9ad398db6d3d78fb1037add9b630354dfdadc3bd238e48898db3d",
+    "pi25-construction.inp": "04aa76d9246fac3e0eb5b6ee46f17653d821953d2a148a5417055a769836a363",
+    "pi25-service-opensees.csv": "a5f97119df6baaf889b305a04c3b8875b1951d5b38b717ef61591eb642c1ba5d",
+    "pi25-service.dat": "3d389f3fbed19e6e3926a7ea40ab7ad111d5936e922465c84e5566defe3afdef",
+    "pi25-service.inp": "5bc7ca9dc367706e622de041c0eb39eb9e854bed0fdc7cf059c1e96cd514fbe3"
+  },
+  "poisson_ratio": 0.2,
+  "project_design_accepted": false,
+  "results": [
+    {
+      "analytical_deflection_m": 0.014280098948305908,
+      "calculix_deflection_m": 0.01436308,
+      "calculix_relative_error": 0.0058109577527778455,
+      "line_load_N_m": 29405.475,
+      "opensees_deflection_m": 0.014280098948219765,
+      "opensees_relative_error": 6.032396804300788e-12,
+      "span_m": 20.0,
+      "stage": "construction"
+    },
+    {
+      "analytical_deflection_m": 0.02399264326075514,
+      "calculix_deflection_m": 0.02413207,
+      "calculix_relative_error": 0.0058112287891562975,
+      "line_load_N_m": 49405.475,
+      "opensees_deflection_m": 0.023992643260610423,
+      "opensees_relative_error": 6.031730670486013e-12,
+      "span_m": 20.0,
+      "stage": "service"
+    },
+    {
+      "analytical_deflection_m": 0.03486352282301247,
+      "calculix_deflection_m": 0.03498029,
+      "calculix_relative_error": 0.00334926500630206,
+      "line_load_N_m": 29405.475,
+      "opensees_deflection_m": 0.03486352282296722,
+      "opensees_relative_error": 1.297850715786808e-12,
+      "span_m": 25.0,
+      "stage": "construction"
+    },
+    {
+      "analytical_deflection_m": 0.05857578921082798,
+      "calculix_deflection_m": 0.05877198,
+      "calculix_relative_error": 0.0033493494806511315,
+      "line_load_N_m": 49405.475,
+      "opensees_deflection_m": 0.05857578921075193,
+      "opensees_relative_error": 1.298294804996658e-12,
+      "span_m": 25.0,
+      "stage": "service"
+    }
+  ],
+  "sanity_passed": true,
+  "scope": "elastic-software-sanity-only"
+}

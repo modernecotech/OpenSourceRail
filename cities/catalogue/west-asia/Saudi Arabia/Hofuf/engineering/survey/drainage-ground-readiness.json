@@ -20,7 +20,7 @@
   },
   "duplicate_roles": [],
   "evidence_hashes": {},
-  "generator_sha256": "f5d0bed10fc3cdf4e41ae2bff9cbb1a1061c7847fc9cb04097989c565efae50d",
+  "generator_sha256": "0599a15b3529fe30c9cf04bb14c56e972403e19eaa000a70d190396a6fb002b0",
   "inspection": {},
   "inspection_completed": false,
   "inspection_findings": [],
@@ -39,13 +39,14 @@
     "geotechnical_ground_model",
     "foundation_ground_schedule",
     "ground_design_verification_report",
-    "groundwater_coupling_decision"
+    "groundwater_coupling_decision",
+    "civil_asset_register"
   ],
   "opengeosys_required": false,
   "receipt_findings": [],
-  "receipt_manifest_sha256": "677a9ac6e94e81d1a4833ed184190cd31c05dc7de8c4cb7bbb91eb903fb822df",
+  "receipt_manifest_sha256": "edb5293fe3de40ed1577fcc75954929b233df8e3ee67a5b19c4db7ca428d31c2",
   "report_valid": true,
-  "requirements_sha256": "ca4385c605b1738633be23751ce0c634d38019745dc628d8e07b05a2f92bd237",
+  "requirements_sha256": "5ee9a378f3ee81f956a793f1a45c6c14371f8f9c781563f3409850c31a744719",
   "requirements_source": "lib/templates/drainage-ground-design-processing.toml",
   "schema_version": "1.0",
   "station_ids": [
@@ -77,7 +78,12 @@
     "line-3-0973-0739-s025254"
   ],
   "status": "awaiting-drainage-ground-evidence",
-  "technical_boundary": "The automated gate reruns the received SWMM model, checks continuity and report provenance, reconciles drainage and geotechnical design to every current line and station, and validates catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability.",
+  "technical_boundary": "The automated gate reruns the received SWMM model, checks continuity and hydraulic performance for normal/blockage/backwater scenarios, reconciles exact reviewed assets/supports, and checks numerical site comparisons for catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability.",
   "technical_screen_passed": false,
-  "unreviewed_technical_roles": []
+  "unreviewed_technical_roles": [],
+  "validator_source_hashes": {
+    "civil_evidence.py": "58a3307a268f30748ee895acca3bc48d8ec6e335a6668d113f8545152be19df7",
+    "foundation.py": "da06165baacd3ed10d3151842ebee3ddeb83d810fd22040bd9eb36689add153b",
+    "reference.py": "f5ef4c7113ec631459c8ee18ff10e62fe7fc57a940dd8a0d33009ababcfd19fe"
+  }
 }

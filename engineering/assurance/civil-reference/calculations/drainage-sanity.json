@@ -1,0 +1,166 @@
+{
+  "dependency_hashes": {
+    "design/component-catalogue/src/osr_mech/civil/decked_pi.py": "f85b339dcf5845649263dd26935f3b00dd9c1323fce88c9fdca396b5a152e76b",
+    "engineering/analysis/drainage_ground_design.py": "0599a15b3529fe30c9cf04bb14c56e972403e19eaa000a70d190396a6fb002b0"
+  },
+  "generator_sha256": "579eb92fd5b3ec2961366a1e8019d5fd8f3936a15ab34d0d372e16af2a910a95",
+  "illustrative_limits": {
+    "flow_units": "LPS",
+    "links": {
+      "C1": {
+        "peak_depth": 0.5,
+        "surcharge_duration": 0.0
+      }
+    },
+    "nodes": {
+      "J1": {
+        "flooding_volume": 0.0,
+        "peak_head": 1.0,
+        "surcharge_duration": 0.0
+      },
+      "O1": {
+        "flooding_volume": 0.0,
+        "outfall_peak_flow": 100.0,
+        "peak_head": 1.0,
+        "surcharge_duration": 0.0
+      }
+    },
+    "system_units": "SI"
+  },
+  "project_design_accepted": false,
+  "scenarios": {
+    "backwater": {
+      "illustrative_limit_findings": [
+        "hydraulic acceptance exceeded: J1/flooding_volume",
+        "hydraulic acceptance exceeded: J1/peak_head",
+        "hydraulic acceptance exceeded: J1/surcharge_duration",
+        "hydraulic acceptance exceeded: O1/outfall_peak_flow",
+        "hydraulic acceptance exceeded: O1/peak_head",
+        "hydraulic acceptance exceeded: C1/surcharge_duration"
+      ],
+      "input_sha256": "984952e7f02d5c0d3b7880c9d8667fc00e32fa3de29d26ae65b30d2d1f5a3270",
+      "replay": {
+        "flow_units": "LPS",
+        "performance": {
+          "links": {
+            "C1": {
+              "peak_depth": 0.49999999999999994,
+              "surcharge_duration": 1.4948611111111112
+            }
+          },
+          "nodes": {
+            "J1": {
+              "flooding_volume": 3.7712945088378325,
+              "outfall_peak_flow": null,
+              "peak_head": 1.9999999999999998,
+              "surcharge_duration": 1.4948611111111112
+            },
+            "O1": {
+              "flooding_volume": 0.0,
+              "outfall_peak_flow": 449.2128655278243,
+              "peak_head": 1.5000000000000002,
+              "surcharge_duration": 0.0
+            }
+          }
+        },
+        "routing_error_percent": 0.0,
+        "runoff_error_percent": 0.0,
+        "statistics_units": {
+          "duration": "hours",
+          "flooding_volume": "m3",
+          "flow": "LPS",
+          "head_depth": "m"
+        },
+        "step_count": 5400,
+        "system_units": "SI",
+        "tool": "EPA SWMM via PySWMM",
+        "version": "2.1.0"
+      }
+    },
+    "blocked-drain": {
+      "illustrative_limit_findings": [
+        "hydraulic acceptance exceeded: J1/surcharge_duration"
+      ],
+      "input_sha256": "ac8c98cbc548e1b9c05e4d0b80cc58d0ae43be18bc5a57f586ff40cbd0ff8bb0",
+      "replay": {
+        "flow_units": "LPS",
+        "performance": {
+          "links": {
+            "C1": {
+              "peak_depth": 0.08982838981345875,
+              "surcharge_duration": 0.0
+            }
+          },
+          "nodes": {
+            "J1": {
+              "flooding_volume": 0.0,
+              "outfall_peak_flow": null,
+              "peak_head": 0.7616770603169436,
+              "surcharge_duration": 1.3106944444444444
+            },
+            "O1": {
+              "flooding_volume": 0.0,
+              "outfall_peak_flow": 6.062201386762733,
+              "peak_head": 0.07961444167612601,
+              "surcharge_duration": 0.0
+            }
+          }
+        },
+        "routing_error_percent": 0.0,
+        "runoff_error_percent": 0.0,
+        "statistics_units": {
+          "duration": "hours",
+          "flooding_volume": "m3",
+          "flow": "LPS",
+          "head_depth": "m"
+        },
+        "step_count": 5400,
+        "system_units": "SI",
+        "tool": "EPA SWMM via PySWMM",
+        "version": "2.1.0"
+      }
+    },
+    "normal": {
+      "illustrative_limit_findings": [],
+      "input_sha256": "fbb191d179ef84218e906ff00992fbb902a178f24c422c614b5df86546bbd93a",
+      "replay": {
+        "flow_units": "LPS",
+        "performance": {
+          "links": {
+            "C1": {
+              "peak_depth": 0.0765738577611514,
+              "surcharge_duration": 0.0
+            }
+          },
+          "nodes": {
+            "J1": {
+              "flooding_volume": 0.0,
+              "outfall_peak_flow": null,
+              "peak_head": 0.10450793713810047,
+              "surcharge_duration": 0.0
+            },
+            "O1": {
+              "flooding_volume": 0.0,
+              "outfall_peak_flow": 5.812893934266336,
+              "peak_head": 0.048640631548685254,
+              "surcharge_duration": 0.0
+            }
+          }
+        },
+        "routing_error_percent": 0.0,
+        "runoff_error_percent": 0.0,
+        "statistics_units": {
+          "duration": "hours",
+          "flooding_volume": "m3",
+          "flow": "LPS",
+          "head_depth": "m"
+        },
+        "step_count": 5400,
+        "system_units": "SI",
+        "tool": "EPA SWMM via PySWMM",
+        "version": "2.1.0"
+      }
+    }
+  },
+  "scope": "synthetic-drainage-sensitivity-only"
+}

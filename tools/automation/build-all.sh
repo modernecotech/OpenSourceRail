@@ -71,6 +71,7 @@ python3 tools/automation/connected_assurance.py
 python3 tools/automation/subsystem_qualification.py
 python3 tools/automation/digital-assurance.py
 python3 tools/automation/component_assurance.py
+python3 tools/automation/civil_reference.py
 
 section "Building the root documentation book"
 python3 tools/automation/generate-doc-index.py

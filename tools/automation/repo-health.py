@@ -625,6 +625,9 @@ def check_city_artifacts() -> list[Finding]:
                         findings.append(Finding(drainage_ground_gate_path, f"drainage/ground {label} hash is stale"))
                 if drainage_ground.get("line_ids") != expected_lines or drainage_ground.get("station_ids") != expected_stations:
                     findings.append(Finding(drainage_ground_gate_path, "drainage/ground line/station scope is stale"))
+                for name, relative in (("civil_evidence.py", "engineering/analysis/civil_evidence.py"), ("foundation.py", "design/component-catalogue/src/osr_mech/civil/foundation.py"), ("reference.py", "design/component-catalogue/src/osr_mech/civil/reference.py")):
+                    if drainage_ground.get("validator_source_hashes", {}).get(name) != hashlib.sha256((REPO_ROOT / relative).read_bytes()).hexdigest():
+                        findings.append(Finding(drainage_ground_gate_path, f"drainage/ground {name} validator hash is stale"))
                 if not drainage_ground.get("report_valid"):
                     findings.append(Finding(drainage_ground_gate_path, "drainage/ground receipt is invalid"))
                 if drainage_ground.get("status") == "awaiting-drainage-ground-evidence" and (
@@ -647,6 +650,9 @@ def check_city_artifacts() -> list[Finding]:
                         findings.append(Finding(structural_gate_path, f"structural {label} hash is stale"))
                 if structural.get("line_ids") != expected_lines:
                     findings.append(Finding(structural_gate_path, "structural line scope is stale"))
+                for name, relative in (("civil_evidence.py", "engineering/analysis/civil_evidence.py"), ("foundation.py", "design/component-catalogue/src/osr_mech/civil/foundation.py"), ("reference.py", "design/component-catalogue/src/osr_mech/civil/reference.py")):
+                    if structural.get("validator_source_hashes", {}).get(name) != hashlib.sha256((REPO_ROOT / relative).read_bytes()).hexdigest():
+                        findings.append(Finding(structural_gate_path, f"structural {name} validator hash is stale"))
                 if not structural.get("report_valid"):
                     findings.append(Finding(structural_gate_path, "structural receipt is invalid"))
                 if structural.get("status") == "awaiting-structural-evidence" and (

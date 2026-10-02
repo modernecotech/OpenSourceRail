@@ -6,13 +6,13 @@
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**
 
-> The automated gate reruns the received SWMM model, checks continuity and report provenance, reconciles drainage and geotechnical design to every current line and station, and validates catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability.
+> The automated gate reruns the received SWMM model, checks continuity and hydraulic performance for normal/blockage/backwater scenarios, reconciles exact reviewed assets/supports, and checks numerical site comparisons for catalogue foundation/ground-treatment selections. It does not validate rainfall, flood levels, soil parameters, hydraulic boundaries, structural capacity, settlement predictions or construction suitability.
 
 > The drainage and geotechnical engineers of record, asset owner, relevant authority and information manager must accept the project inputs, calculations, selected variants, residual risks and immutable evidence record.
 
 ## Current gates
 
-- Missing technical roles: ground_model_readiness, route_station_fit_readiness, accepted_hydrology_basis, swmm_model, swmm_processing_report, geotechnical_ground_model, foundation_ground_schedule, ground_design_verification_report, groundwater_coupling_decision
+- Missing technical roles: ground_model_readiness, route_station_fit_readiness, accepted_hydrology_basis, swmm_model, swmm_processing_report, geotechnical_ground_model, foundation_ground_schedule, ground_design_verification_report, groundwater_coupling_decision, civil_asset_register
 - Duplicate roles: none
 - Authority findings:
   - drainage/ground acceptance record not received

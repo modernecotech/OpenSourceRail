@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5002**.
+Indexed Markdown files: **5006**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **5002**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 181 |
-| [engineering](#engineering) | 21 |
+| [docs](#docs) | 182 |
+| [engineering](#engineering) | 24 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4905,6 +4905,7 @@ Indexed Markdown files: **5002**.
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
+| [`docs/civil/reference-demonstration.md`](../docs/civil/reference-demonstration.md) | Civil reference and numerical evidence workflow |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
 | [`docs/civil/viaduct-bearing-and-movement-schedule.md`](../docs/civil/viaduct-bearing-and-movement-schedule.md) | Viaduct Bearing And Movement Schedule |
 | [`docs/civil/viaduct-design-basis.md`](../docs/civil/viaduct-design-basis.md) | OSR Rapid Viaduct Kit — Design Basis |
@@ -5060,6 +5061,9 @@ Indexed Markdown files: **5002**.
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/battery-cooling/qualification-report.md`](../engineering/assurance/battery-cooling/qualification-report.md) | Battery-cooling qualification readiness |
+| [`engineering/assurance/civil-reference/README.md`](../engineering/assurance/civil-reference/README.md) | Civil reference demonstration A |
+| [`engineering/assurance/civil-reference/calculations/README.md`](../engineering/assurance/civil-reference/calculations/README.md) | Civil calculation records |
+| [`engineering/assurance/civil-reference/drainage/README.md`](../engineering/assurance/civil-reference/drainage/README.md) | Synthetic drainage scenarios |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |

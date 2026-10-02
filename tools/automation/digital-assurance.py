@@ -40,6 +40,13 @@ def _subsystem_qualification():
     return module
 
 
+def _civil_reference():
+    spec = importlib.util.spec_from_file_location("osr_civil_reference", ROOT / "tools/automation/civil_reference.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(path: Path) -> dict:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
@@ -343,6 +350,10 @@ def compile_assurance(
     source_hashes.update(connected["source_hashes"])
     qualification = _subsystem_qualification().compile_package(root,today=today)
     source_hashes.update(qualification["source_hashes"])
+    civil = _civil_reference().compile_package(root)
+    source_hashes.update(civil["source_hashes"])
+    for relative in civil["source_hashes"]:
+        impact[relative]["controls"].update({"STD-CTRL-003", "STD-CTRL-016"})
     fingerprint_payload = json.dumps({"sources": source_hashes, "evidence": evidence_hashes,
                                      "engineering": connected["fingerprint"]}, sort_keys=True, separators=(",", ":"))
     fingerprint = hashlib.sha256(fingerprint_payload.encode()).hexdigest()
@@ -378,6 +389,7 @@ def compile_assurance(
         "inventory_coverage": inventory,
         "connected_engineering": connected,
         "subsystem_qualification": qualification,
+        "civil_reference": civil,
         "source_hashes": source_hashes,
         "evidence_hashes": dict(sorted(evidence_hashes.items())),
         "evidence_manifest": dict(sorted(evidence_manifest.items())),
@@ -403,13 +415,19 @@ def change_impact(previous: dict, current: dict) -> dict:
         engineering_impact = _connected_assurance().change_impact(previous["connected_engineering"], current["connected_engineering"])
         for key, values in engineering_impact["impacted"].items():
             dimensions[key].update(values)
+    civil_impact = None
+    if previous.get("civil_reference") and current.get("civil_reference"):
+        civil_impact = _connected_assurance().change_impact(previous["civil_reference"]["graph"], current["civil_reference"]["graph"])
+        for key, values in civil_impact["impacted"].items():
+            dimensions[key].update(values)
     return {
         "baseline_fingerprint": previous.get("design_fingerprint_sha256"),
         "current_fingerprint": current.get("design_fingerprint_sha256"),
         "changed_paths": changed,
         "impacted": {key: sorted(values) for key, values in sorted(dimensions.items())},
         "engineering_impact": engineering_impact,
-        "decision": "reopen-affected-controls-and-dependent-gates" if changed or (engineering_impact and engineering_impact["changed_records"]) else "no-hashed-input-change",
+        "civil_impact": civil_impact,
+        "decision": "reopen-affected-controls-and-dependent-gates" if changed or (engineering_impact and engineering_impact["seeds"]) or (civil_impact and civil_impact["seeds"]) else "no-hashed-input-change",
         "release_ready": False,
     }
 
@@ -459,6 +477,7 @@ def render_markdown(report: dict) -> str:
         "## Connected engineering", "",
         "The [connected engineering example](connected-engineering.md) and [generated report](connected-engineering-report.md) bind battery-cooling failure propagation, requirement criteria, controller scenarios, planned physical tests, synthetic production records and installed occurrences to exact design revisions. The JSON includes dependency traversal and explicit blocked deployment decisions.", "",
         "The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.", "",
+        "The [civil reference demonstration](../../engineering/assurance/civil-reference/README.md) adds 20/25 m double-track bays, connection and erection controls, measured-result release interfaces and a connected construction/service FMEA. Its graph and controlled source hashes are included in this report and change-impact traversal; site inputs, physical qualification and independent release remain pending.", "",
     ]
     return "\n".join(lines)
 

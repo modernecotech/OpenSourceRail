@@ -9,6 +9,8 @@ interaction design.
 
 from __future__ import annotations
 
+import math
+
 from osr_mech.cad import Box, Color, Compound, Location, Part
 from osr_mech.common import STANDARD_GAUGE_MM
 
@@ -49,6 +51,8 @@ def approx_mass_kg(span_m: float, density_kg_per_m3: float = CONCRETE_DENSITY_KG
     """Bare beam mass before local diaphragms and supplier optimisation."""
 
     _check_span(span_m)
+    if type(density_kg_per_m3) not in (int,float) or not math.isfinite(density_kg_per_m3) or density_kg_per_m3<=0:
+        raise ValueError("mass density must be finite and positive")
     return section_area_m2() * span_m * density_kg_per_m3
 
 

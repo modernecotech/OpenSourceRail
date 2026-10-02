@@ -1,6 +1,6 @@
 # Edea deployment gaps
 
-4 closed checks; 13 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
+3 closed checks; 14 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
 
 [Soil inputs](../soil/README.md) include a route/station investigation plan.
 
@@ -18,7 +18,7 @@
 | [full-service-validation](../simulation/validation-summary.json) | open | simulation engineer | Run current nominal and degraded full-service cases against the current scenario and simulator; retain failures and exact provenance. |
 | [operating-release](../simulation/operations-crosscheck.json) | open | operator | Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence. |
 | [morning-fleet-allocation](../stabling/summary.json) | closed | service planner | Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage. |
-| [continuous-stabling-replay](../stabling/hybrid-cycle-screen.json) | closed | simulation engineer | Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts. |
+| [continuous-stabling-replay](../stabling/hybrid-cycle-screen.json) | open | simulation engineer | Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts. |
 | [stabling-physical-fit](../stabling/summary.json) | open | track/station designer | Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots. |
 | [solar-storage-endurance](../energy/summary.json) | open | energy designer | Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly. |
 | [depot-placement-and-budget](../depot-scope/summary.json) | open | depot and cost designer | Place the declared PV/storage inventory within the controlled site layout and reconcile itemised installed costs and renewal scope with existing allowances. |

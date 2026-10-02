@@ -98,6 +98,17 @@ def test_change_impact_reopens_mapped_controls():
     assert impact["impacted"]["controls"]
 
 
+def test_civil_relationship_change_reopens_release_without_changing_nodes():
+    current = ASSURANCE.compile_assurance(ROOT)
+    assert current["civil_reference"]["release_ready"] is False
+    previous = copy.deepcopy(current)
+    graph = previous["civil_reference"]["graph"]
+    graph["edges"] = [e for e in graph["edges"] if not (e["from"] == "DRAIN-01" and e["to"] == "CF-01")]
+    impact = ASSURANCE.change_impact(previous, current)
+    assert "CIVIL-GATE" in impact["impacted"]["decisions"]
+    assert impact["decision"] == "reopen-affected-controls-and-dependent-gates"
+
+
 def test_severity_five_requires_review_even_with_low_rpn():
     config, fmea = sources()
     subject = next(row for row in fmea["failure_modes"] if row["severity"] == 5)

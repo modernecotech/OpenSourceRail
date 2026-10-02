@@ -22,7 +22,7 @@ def test_placeholder_manifest_is_deterministic_and_pending(tmp_path: Path) -> No
     report = structural_release.build_report(design_path, manifest, tmp_path)
     assert manifest.read_bytes() == first
     assert report["status"] == "awaiting-structural-evidence"
-    assert len(report["missing_technical_roles"]) == 10
+    assert len(report["missing_technical_roles"]) == 11
     assert report["technical_screen_passed"] is False
 
 
@@ -33,7 +33,9 @@ def test_schedule_requires_exact_line_coverage_and_valid_ranges(tmp_path: Path) 
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n"); writer.writeheader()
         writer.writerow({"asset_id": "SP-1", "line_id": "line-1", "asset_type": "span", "from_station_m": "0", "to_station_m": "25", "variant_id": "Pi25", "foundation_ref": "F-1", "analysis_ids": "LC-1", "status": "checked"})
     rows, findings = structural_release.inspect_schedule(schedule, {"line-1"}, requirements)
-    assert len(rows) == 1 and findings == []
+    assert len(rows) == 1 and any("register" in f for f in findings)
+    _, findings = structural_release.inspect_schedule(schedule, {"line-1"}, requirements, {"assets": rows})
+    assert findings == []
     rows[0]["to_station_m"] = "0"
     with schedule.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
@@ -46,7 +48,9 @@ def test_solver_report_is_bound_to_input_and_convergence(tmp_path: Path) -> None
     report = tmp_path / "report.json"
     report.write_text(json.dumps({"status": "passed", "tool": "OpenSeesPy", "version": "test", "input_sha256": hashlib.sha256(model.read_bytes()).hexdigest(), "model_revision": "A", "convergence": True, "load_case_ids": ["LC-1"], "output_hashes": {"result": "a" * 64}}))
     summary, findings = structural_release.inspect_solver(report, model, structural_release.read_requirements())
-    assert summary["convergence"] is True and findings == []
+    assert summary["convergence"] is True
+    assert any("missing or hash mismatch" in f for f in findings)
+    assert any("acceptance criteria" in f for f in findings)
     model.write_text("# changed\n")
     _, findings = structural_release.inspect_solver(report, model, structural_release.read_requirements())
     assert any("input hash" in item for item in findings)

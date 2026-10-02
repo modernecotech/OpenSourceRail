@@ -5,13 +5,13 @@
 - Technical screen passed: **no**
 - Authority accepted: **no**
 
-> The automated gate checks immutable solver provenance, per-asset schedule coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety.
+> The automated gate checks actual solver output files and numerical limits, reviewed asset/support coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety.
 
 > Only the structural and geotechnical engineers of record, independent checker, asset owner and approving authority can release the project structures in a signed controlled record.
 
 ## Current gates
 
-- Missing technical roles: drainage_ground_readiness, structural_design_basis, structural_asset_schedule, load_case_register, opensees_model, opensees_report, calculix_input, calculix_report, structural_verification_report, independent_check_record
+- Missing technical roles: drainage_ground_readiness, structural_design_basis, structural_asset_schedule, load_case_register, opensees_model, opensees_report, calculix_input, calculix_report, structural_verification_report, independent_check_record, civil_asset_register
 - Duplicate roles: none
 - Authority findings:
   - structural acceptance record not received

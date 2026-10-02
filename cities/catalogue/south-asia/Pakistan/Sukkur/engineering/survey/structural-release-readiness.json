@@ -10,7 +10,7 @@
   "design_source": "cities/catalogue/south-asia/Pakistan/Sukkur/design.toml",
   "duplicate_roles": [],
   "evidence_hashes": {},
-  "generator_sha256": "49506dd26be224e186b039a3dd709c95651dcd196e209ca9c8ece9732d9caf92",
+  "generator_sha256": "d0b1bc01a9b284c2a8ee40c828d9e1791260bc0d65c505536e3bdc3f801a92c4",
   "inspection": {},
   "inspection_completed": false,
   "inspection_findings": [],
@@ -30,16 +30,22 @@
     "calculix_input",
     "calculix_report",
     "structural_verification_report",
-    "independent_check_record"
+    "independent_check_record",
+    "civil_asset_register"
   ],
   "receipt_findings": [],
-  "receipt_manifest_sha256": "d92a17adcd7e29f0fd1b6f00535523c23841991c3ba6008ad6e1db63de4aee82",
+  "receipt_manifest_sha256": "d2ae454d4044650528831336882be4348c1b6191520eff36dd1b63323f964631",
   "report_valid": true,
-  "requirements_sha256": "9184c082e637e45a4499d1210f9130fe33d0fc94a1ee5a9fc22b656a99c3333e",
+  "requirements_sha256": "78fc8ce806cb987a13c03cbed2eb8e4c63e9f82480ccbac7030e2f360184b9ca",
   "requirements_source": "lib/templates/structural-release-processing.toml",
   "schema_version": "1.0",
   "status": "awaiting-structural-evidence",
-  "technical_boundary": "The automated gate checks immutable solver provenance, per-asset schedule coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety.",
+  "technical_boundary": "The automated gate checks actual solver output files and numerical limits, reviewed asset/support coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety.",
   "technical_screen_passed": false,
-  "unreviewed_technical_roles": []
+  "unreviewed_technical_roles": [],
+  "validator_source_hashes": {
+    "civil_evidence.py": "58a3307a268f30748ee895acca3bc48d8ec6e335a6668d113f8545152be19df7",
+    "foundation.py": "da06165baacd3ed10d3151842ebee3ddeb83d810fd22040bd9eb36689add153b",
+    "reference.py": "f5ef4c7113ec631459c8ee18ff10e62fe7fc57a940dd8a0d33009ababcfd19fe"
+  }
 }

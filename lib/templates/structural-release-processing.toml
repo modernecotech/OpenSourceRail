@@ -1,6 +1,6 @@
 schema_version = 1
-template_revision = "2026-09-02"
-technical_boundary = "The automated gate checks immutable solver provenance, per-asset schedule coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety."
+template_revision = "2026-10-02"
+technical_boundary = "The automated gate checks actual solver output files and numerical limits, reviewed asset/support coverage, load-case/result reconciliation and independent-check completeness. It does not validate modelling assumptions, codes, loads, mesh quality, reinforcement, prestress, soil springs, fatigue detail, seismic response or structural safety."
 acceptance_boundary = "Only the structural and geotechnical engineers of record, independent checker, asset owner and approving authority can release the project structures in a signed controlled record."
 
 [receipt]
@@ -74,3 +74,8 @@ category = "technical"
 file_role = "structural_acceptance_record"
 extensions = [".json"]
 category = "authority"
+
+[[input]]
+file_role = "civil_asset_register"
+extensions = [".json"]
+category = "technical"

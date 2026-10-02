@@ -211,7 +211,7 @@ Generated from current city finance, work orders, climate presets and mapped soi
 | tanta | 418 | [city work package](../../cities/catalogue/west-asia/Egypt/Tanta/engineering/delivery/README.md) |
 | zagazig | 308 | [city work package](../../cities/catalogue/west-asia/Egypt/Zagazig/engineering/delivery/README.md) |
 | amarah | 315 | [city work package](../../cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md) |
-| baghdad | 2098 | [city work package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) |
+| baghdad | 2350 | [city work package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) |
 | baqubah | 358 | [city work package](../../cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md) |
 | basra | 1329 | [city work package](../../cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md) |
 | diwaniyah | 313 | [city work package](../../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md) |

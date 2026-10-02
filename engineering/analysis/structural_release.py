@@ -6,13 +6,15 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import tomllib
 from pathlib import Path, PurePosixPath
 from typing import Any
 
 try:
-    from engineering.analysis import route_station_fit, survey_control, surveyed_alignment
+    from engineering.analysis import civil_evidence, route_station_fit, survey_control, surveyed_alignment
 except ModuleNotFoundError:
+    import civil_evidence  # type: ignore[no-redef]
     import route_station_fit  # type: ignore[no-redef]
     import survey_control  # type: ignore[no-redef]
     import surveyed_alignment  # type: ignore[no-redef]
@@ -27,6 +29,7 @@ def read_requirements(path: Path = DEFAULT_REQUIREMENTS) -> dict[str, Any]:
 
 def write_placeholder_manifest(path: Path, requirements: dict[str, Any]) -> None:
     route_station_fit.write_placeholder_manifest(path, requirements)
+    civil_evidence.add_pending_roles(path, requirements)
 
 
 def _path(received: dict[str, list[dict[str, str]]], role: str, root: Path) -> Path:
@@ -34,7 +37,7 @@ def _path(received: dict[str, list[dict[str, str]]], role: str, root: Path) -> P
     return root.joinpath(*relative.parts)
 
 
-def inspect_schedule(path: Path, line_ids: set[str], requirements: dict[str, Any]) -> tuple[list[dict[str, str]], list[str]]:
+def inspect_schedule(path: Path, line_ids: set[str], requirements: dict[str, Any], register: dict | None = None) -> tuple[list[dict[str, str]], list[str]]:
     rules = requirements["asset_schedule"]
     findings: list[str] = []
     with path.open(newline="", encoding="utf-8") as handle:
@@ -53,17 +56,19 @@ def inspect_schedule(path: Path, line_ids: set[str], requirements: dict[str, Any
         if row["asset_type"] not in rules["allowed_asset_types"]: findings.append(f"schedule row {number}: unsupported asset_type")
         try:
             start, end = float(row["from_station_m"]), float(row["to_station_m"])
-            if start < 0 or end <= start: raise ValueError
+            if not all(math.isfinite(v) for v in (start, end)) or start < 0 or end < start or (end == start and row["asset_type"] not in {"pier", "abutment", "foundation"}): raise ValueError
         except ValueError: findings.append(f"schedule row {number}: invalid chainage range")
         if not all(row[field].strip() for field in ("variant_id", "foundation_ref", "analysis_ids")):
             findings.append(f"schedule row {number}: design references are incomplete")
         if row["status"] != rules["accepted_status"]: findings.append(f"schedule row {number}: status is not checked")
     if covered != line_ids: findings.append("structural schedule does not cover every design line")
     if not rows: findings.append("structural schedule is empty")
+    if register is None: findings.append("structural schedule needs independently reviewed civil asset register")
+    else: findings.extend(civil_evidence.reconcile(rows, register.get("assets", []), "asset_id", ("line_id", "asset_type", "from_station_m", "to_station_m", "foundation_ref")))
     return rows, findings
 
 
-def inspect_solver(report_path: Path, input_path: Path, requirements: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+def inspect_solver(report_path: Path, input_path: Path, requirements: dict[str, Any], load_register: dict | None = None, solver: str | None = None, asset_ids: set[str] | None = None, evidence_root: Path | None = None) -> tuple[dict[str, Any], list[str]]:
     value = json.loads(report_path.read_text(encoding="utf-8")); rules = requirements["solver_report"]
     findings = [f"solver report missing {field}" for field in rules["required_fields"] if value.get(field) in (None, "", [], {})]
     if value.get("status") != rules["accepted_status"]: findings.append("solver report status is not passed")
@@ -71,6 +76,7 @@ def inspect_solver(report_path: Path, input_path: Path, requirements: dict[str, 
     if value.get("convergence") is not True: findings.append("solver report does not claim convergence")
     if any(not survey_control.SHA256_RE.fullmatch(str(digest)) for digest in value.get("output_hashes", {}).values()):
         findings.append("solver output hashes are invalid")
+    findings.extend(civil_evidence.inspect_results(value, evidence_root or report_path.parent, load_register, solver, asset_ids))
     return value, findings
 
 
@@ -96,7 +102,7 @@ def inspect_verification(path: Path, received: dict[str, list[dict[str, str]]], 
 
 
 def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, requirements_path: Path = DEFAULT_REQUIREMENTS, inspect: bool = False) -> dict[str, Any]:
-    city, lines, _ = surveyed_alignment.load_design(design_path); requirements = read_requirements(requirements_path)
+    city, lines, stations = surveyed_alignment.load_design(design_path); requirements = read_requirements(requirements_path)
     received, receipt_findings = route_station_fit.validate_receipt(manifest_path, evidence_root, requirements)
     authority_role = "structural_acceptance_record"; technical_roles = [role for role in received if role != authority_role]
     missing = [role for role in technical_roles if not received[role]]; duplicates = [role for role, rows in received.items() if len(rows) > 1]
@@ -106,11 +112,15 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         prerequisite = json.loads(_path(received, "drainage_ground_readiness", evidence_root).read_text())
         if prerequisite.get("authority_accepted") is not True: findings.append("drainage/ground design is not authority accepted")
         if unreviewed: findings.append("technical inputs are not checked or accepted: " + ", ".join(unreviewed))
-        rows, schedule_findings = inspect_schedule(_path(received, "structural_asset_schedule", evidence_root), {line["id"] for line in lines}, requirements)
+        register = json.loads(_path(received, "civil_asset_register", evidence_root).read_text())
+        findings.extend(civil_evidence.inspect_register(register, survey_control.sha256(design_path), {line["id"] for line in lines}, {station["id"] for station in stations}))
+        load_register = json.loads(_path(received, "load_case_register", evidence_root).read_text())
+        if load_register.get("civil_asset_register_sha256") != received["civil_asset_register"][0]["sha256"]: findings.append("load-case register is not bound to the reviewed civil asset register")
+        rows, schedule_findings = inspect_schedule(_path(received, "structural_asset_schedule", evidence_root), {line["id"] for line in lines}, requirements, register)
         inspection["scheduled_asset_count"] = len(rows); findings.extend(schedule_findings)
         solver_cases: dict[str, Any] = {}
         for name, report_role, input_role in (("opensees", "opensees_report", "opensees_model"), ("calculix", "calculix_report", "calculix_input")):
-            summary, solver_findings = inspect_solver(_path(received, report_role, evidence_root), _path(received, input_role, evidence_root), requirements)
+            summary, solver_findings = inspect_solver(_path(received, report_role, evidence_root), _path(received, input_role, evidence_root), requirements, load_register, name, {row["asset_id"] for row in rows}, evidence_root)
             solver_cases[name] = {key: summary.get(key) for key in ("tool", "version", "model_revision", "load_case_ids")}
             findings.extend(f"{name}: {item}" for item in solver_findings)
         inspection["solvers"] = solver_cases
@@ -145,6 +155,9 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         "evidence_hashes": evidence_hashes, "requirements_source": survey_control.display_path(requirements_path),
         "requirements_sha256": survey_control.sha256(requirements_path), "design_source": survey_control.display_path(design_path),
         "design_sha256": survey_control.sha256(design_path), "receipt_manifest_sha256": survey_control.sha256(manifest_path),
+        "validator_source_hashes": {"civil_evidence.py": survey_control.sha256(Path(civil_evidence.__file__)),
+        "foundation.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/foundation.py"),
+        "reference.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/reference.py")},
         "generator_sha256": survey_control.sha256(Path(__file__)), "technical_boundary": requirements["technical_boundary"], "acceptance_boundary": requirements["acceptance_boundary"]}
 
 

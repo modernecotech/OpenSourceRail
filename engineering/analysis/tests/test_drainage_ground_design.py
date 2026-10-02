@@ -47,7 +47,7 @@ def test_placeholder_manifest_is_pending_and_deterministic(tmp_path: Path) -> No
     report = drainage_ground_design.build_report(design_path, receipt, tmp_path)
     assert receipt.read_bytes() == first
     assert report["status"] == "awaiting-drainage-ground-evidence"
-    assert len(report["missing_technical_roles"]) == 9
+    assert len(report["missing_technical_roles"]) == 10
     assert report["technical_screen_passed"] is False
 
 
@@ -57,7 +57,8 @@ def test_swmm_foundation_and_authority_acceptance_path(tmp_path: Path) -> None:
     ground = tmp_path / "ground.json"; ground.write_text(json.dumps({"authority_accepted": True}))
     route_fit = tmp_path / "route-fit.json"; route_fit.write_text(json.dumps({"authority_accepted": True}))
     hydrology = tmp_path / "hydrology.json"; hydrology.write_text(json.dumps({"decision": "accepted", "storm": "test-only"}))
-    swmm = tmp_path / "project.inp"; shutil.copy2(SWMM_FIXTURE, swmm)
+    swmm = tmp_path / "project.inp"
+    swmm.write_text(SWMM_FIXTURE.read_text().replace("KINWAVE", "DYNWAVE").replace("ROUTING_STEP         00:00:30", "ROUTING_STEP         00:00:01"))
     replay = drainage_ground_design.replay_swmm(swmm)
     swmm_report = tmp_path / "swmm-report.json"
     swmm_report.write_text(json.dumps({
@@ -74,9 +75,9 @@ def test_swmm_foundation_and_authority_acceptance_path(tmp_path: Path) -> None:
     columns = requirements["foundation_schedule"]["required_columns"]
     with schedule.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns, lineterminator="\n"); writer.writeheader()
-        for scope_type, scope_id in (("line", "line-1"), ("station", "station-a"), ("station", "station-b")):
+        for scope_type, scope_id in (("line", "line-1"), ("line", "line-1-end"), ("station", "station-a"), ("station", "station-b")):
             writer.writerow({
-                "support_id": f"{scope_type}-{scope_id}", "scope_type": scope_type, "scope_id": scope_id,
+                "support_id": f"{scope_type}-{scope_id}", "chainage_m": "25" if scope_id == "line-1-end" else "0", "scope_type": scope_type, "scope_id": "line-1" if scope_id == "line-1-end" else scope_id,
                 "zone_id": "GZ-1", "system_kind": "foundation", "system_id": "shallow-spread",
                 "actual_length_m": "", "actual_element_count": "0", "design_quantity": "18.0",
                 "design_unit": "m3", "design_capacity": "1000", "predicted_settlement_mm": "5",
@@ -105,6 +106,39 @@ def test_swmm_foundation_and_authority_acceptance_path(tmp_path: Path) -> None:
         "foundation_ground_schedule": schedule, "ground_design_verification_report": ground_report,
         "groundwater_coupling_decision": decision,
     }
+    from engineering.analysis.civil_evidence import sha
+    review = {"decision": "accepted", "producer": "test producer", "checker": "independent test checker", "signed_at": "2026-10-02", "controlled_reference": "TEST-ONLY"}
+    register = tmp_path / "assets.json"
+    supports = [{"support_id": f"{kind}-{scope}", "scope_type": kind, "scope_id": "line-1" if scope == "line-1-end" else scope, "chainage_m": 25 if scope == "line-1-end" else 0, "zone_id": "GZ-1"} for kind, scope in (("line", "line-1"), ("line", "line-1-end"), ("station", "station-a"), ("station", "station-b"))]
+    register.write_text(json.dumps({"schema": "osr-civil-assets/1", "design_sha256": sha(design_path), "review": review,
+        "assets": [{"asset_id": "SPAN-1", "line_id": "line-1", "asset_type": "span", "from_station_m": 0, "to_station_m": 25, "coverage_group": "track", "support_ids": ["line-line-1", "line-line-1-end"]}],
+        "supports": supports, "coverage_intervals": [{"line_id": "line-1", "coverage_group": "track", "from_station_m": 0, "to_station_m": 25}]}))
+    files["civil_asset_register"] = register
+    from osr_mech.civil.foundation import foundation_candidates
+    candidate_ids = foundation_candidates("rock", vibration_restricted=True)["candidate_ids"]
+    site = dict(groundwater="TEST", chemistry="TEST", liquefaction="TEST", scour="TEST", utilities="TEST", construction_access="TEST", axial_demand_kN=800, lateral_demand_kN=50, settlement_limit_mm=10, differential_settlement_limit_mm=5,
+        selection_review=dict(selected_id="shallow-spread", decision="accepted", engineer="TEST designer", checker="TEST checker", signed_at="2026-10-02", controlled_reference="TEST", comparison_rationale="TEST comparison"))
+    comparison_rows = [dict(id=i, axial_capacity_kN=1000, lateral_capacity_kN=100, settlement_mm=5, differential_settlement_mm=2, constructable=True, chemistry_compatible=True, liquefaction_checked=True, scour_checked=True, calculation_reference="TEST") for i in candidate_ids]
+    ground_summary = json.loads(ground_report.read_text())
+    ground_summary["support_comparisons"] = {support["support_id"]: dict(ground_class="rock", vibration_restricted=True, clear_access=True, high_lateral_load=False, site=site, comparisons=comparison_rows) for support in supports}
+    ground_report.write_text(json.dumps(ground_summary))
+    # Fixtures vary conduit size; separate models and reviewed hashes are mandatory.
+    scenarios = {"normal": swmm}
+    for name, diameter in (("blocked-drain", "0.49"), ("backwater", "0.48")):
+        target = tmp_path / f"{name}.inp"
+        target.write_text(swmm.read_text().replace("CIRCULAR 0.5", f"CIRCULAR {diameter}") if name == "blocked-drain" else swmm.read_text().replace("O1     0    FREE            NO", "O1     0    FIXED 0.15      NO"))
+        scenarios[name] = target
+    limits = {"flow_units": "LPS", "system_units": "SI",
+        "nodes": {"J1": {"peak_head": 2, "flooding_volume": 0, "surcharge_duration": 0}, "O1": {"peak_head": 2, "flooding_volume": 0, "surcharge_duration": 0, "outfall_peak_flow": 100}},
+        "links": {"C1": {"peak_depth": 0.5, "surcharge_duration": 0}}}
+    hydrology.write_text(json.dumps({"decision": "accepted", "review": review,
+        "scenario_assumptions": {"blocked-drain": "TEST sensitivity", "backwater": "TEST sensitivity"},
+        "scenario_model_hashes": {name: sha(path) for name,path in scenarios.items()},
+        "performance_limits": {name: limits for name in scenarios}}))
+    summary = json.loads(swmm_report.read_text())
+    summary["hydrology_basis_sha256"] = sha(hydrology)
+    summary["scenarios"] = {name: {"model_path": path.name, "sha256": sha(path)} for name,path in scenarios.items()}
+    swmm_report.write_text(json.dumps(summary))
     rows = [receipt_row(role, path, tmp_path) for role, path in files.items()]
     receipt = tmp_path / "receipt.csv"; manifest(receipt, rows)
     pending = drainage_ground_design.build_report(design_path, receipt, tmp_path, inspect=True)

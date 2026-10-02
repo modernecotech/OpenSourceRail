@@ -42,6 +42,9 @@ release gates are tracked in
 
 | Tool | Purpose |
 |---|---|
+| [Civil reference demonstration](../../engineering/assurance/civil-reference/README.md) | 20/25 m double-track bays, connection briefs, complete mass gate, foundation/trackform comparisons, real solver exercises and connected civil FMEA |
+| [Numerical evidence workflow](reference-demonstration.md) | Reviewed asset register, actual numerical outputs, per-support comparisons and hydraulic scenario acceptance exchanges |
+| [Civil reference compiler](../../tools/automation/civil_reference.py) | Compile or check the controlled demonstration; `--run-solvers` reproduces OpenSees/CalculiX/SWMM examples |
 | [`crates/osr-alignment`](../../crates/osr-alignment/) | Alignment geometry, quantities, exports, and stake-out data |
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
 | [`design/component-catalogue/src/osr_mech/civil/`](../../design/component-catalogue/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |

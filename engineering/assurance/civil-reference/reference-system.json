@@ -1,0 +1,638 @@
+{
+  "schema": "osr-civil-reference/1",
+  "id": "OSR-CIVIL-REF-A",
+  "revision": "A",
+  "status": "demonstration-awaiting-site-design-and-independent-check",
+  "scope": "Two adjacent 20 m / 25 m double-track bays, three elevated support lines and 20 m adjoining at-grade transition. SUP-65 is a ground-zone check location, not an invented bridge pier.",
+  "asset_register": {
+    "schema": "osr-civil-assets/1",
+    "design_sha256": null,
+    "review": {
+      "decision": "pending",
+      "producer": "OSR concept",
+      "checker": null,
+      "signed_at": null,
+      "controlled_reference": null
+    },
+    "assets": [
+      {
+        "asset_id": "PI20-T1",
+        "line_id": "REF-L1",
+        "asset_type": "span",
+        "from_station_m": 0,
+        "to_station_m": 20,
+        "coverage_group": "track-1",
+        "variant_id": "Pi20",
+        "support_ids": [
+          "SUP-00",
+          "SUP-20"
+        ],
+        "foundation_ref": "SUP-00;SUP-20"
+      },
+      {
+        "asset_id": "PI20-T2",
+        "line_id": "REF-L1",
+        "asset_type": "span",
+        "from_station_m": 0,
+        "to_station_m": 20,
+        "coverage_group": "track-2",
+        "variant_id": "Pi20",
+        "support_ids": [
+          "SUP-00",
+          "SUP-20"
+        ],
+        "foundation_ref": "SUP-00;SUP-20"
+      },
+      {
+        "asset_id": "PI25-T1",
+        "line_id": "REF-L1",
+        "asset_type": "span",
+        "from_station_m": 20,
+        "to_station_m": 45,
+        "coverage_group": "track-1",
+        "variant_id": "Pi25",
+        "support_ids": [
+          "SUP-20",
+          "SUP-45"
+        ],
+        "foundation_ref": "SUP-20;SUP-45"
+      },
+      {
+        "asset_id": "PI25-T2",
+        "line_id": "REF-L1",
+        "asset_type": "span",
+        "from_station_m": 20,
+        "to_station_m": 45,
+        "coverage_group": "track-2",
+        "variant_id": "Pi25",
+        "support_ids": [
+          "SUP-20",
+          "SUP-45"
+        ],
+        "foundation_ref": "SUP-20;SUP-45"
+      },
+      {
+        "asset_id": "TRANS-01",
+        "line_id": "REF-L1",
+        "asset_type": "at-grade-structure",
+        "from_station_m": 45,
+        "to_station_m": 65,
+        "coverage_group": "track-1",
+        "variant_id": "trackform-comparison-required",
+        "support_ids": [
+          "SUP-45",
+          "SUP-65"
+        ],
+        "foundation_ref": "SUP-45;SUP-65"
+      },
+      {
+        "asset_id": "TRANS-02",
+        "line_id": "REF-L1",
+        "asset_type": "at-grade-structure",
+        "from_station_m": 45,
+        "to_station_m": 65,
+        "coverage_group": "track-2",
+        "variant_id": "trackform-comparison-required",
+        "support_ids": [
+          "SUP-45",
+          "SUP-65"
+        ],
+        "foundation_ref": "SUP-45;SUP-65"
+      }
+    ],
+    "supports": [
+      {
+        "support_id": "SUP-00",
+        "scope_type": "line",
+        "scope_id": "REF-L1",
+        "chainage_m": 0,
+        "zone_id": "GZ-UNRESOLVED"
+      },
+      {
+        "support_id": "SUP-20",
+        "scope_type": "line",
+        "scope_id": "REF-L1",
+        "chainage_m": 20,
+        "zone_id": "GZ-UNRESOLVED"
+      },
+      {
+        "support_id": "SUP-45",
+        "scope_type": "line",
+        "scope_id": "REF-L1",
+        "chainage_m": 45,
+        "zone_id": "GZ-UNRESOLVED"
+      },
+      {
+        "support_id": "SUP-65",
+        "scope_type": "line",
+        "scope_id": "REF-L1",
+        "chainage_m": 65,
+        "zone_id": "GZ-UNRESOLVED"
+      }
+    ],
+    "coverage_intervals": [
+      {
+        "line_id": "REF-L1",
+        "coverage_group": "track-1",
+        "from_station_m": 0,
+        "to_station_m": 65
+      },
+      {
+        "line_id": "REF-L1",
+        "coverage_group": "track-2",
+        "from_station_m": 0,
+        "to_station_m": 65
+      }
+    ]
+  },
+  "lifting": {
+    "masses_kg": {
+      "net_diaphragms": null,
+      "reinforcement_adjustment": null,
+      "prestress_steel": null,
+      "anchorages": null,
+      "embedded_lifting_hardware": null,
+      "curbs_and_attachments": null,
+      "retained_temporary_works": null,
+      "slings": null,
+      "spreader": null,
+      "hook_and_blocks": null
+    },
+    "configuration": {}
+  },
+  "foundation_ground_class": "urban-alluvium",
+  "foundation_site_inputs": {
+    "groundwater": null,
+    "chemistry": null,
+    "liquefaction": null,
+    "scour": null,
+    "utilities": null,
+    "construction_access": null,
+    "axial_demand_kN": null,
+    "lateral_demand_kN": null,
+    "settlement_limit_mm": null,
+    "differential_settlement_limit_mm": null
+  },
+  "site_inputs_required": [
+    "Adopted railway standards and code editions",
+    "Survey/alignment, curvature, skew and rail movement datum",
+    "Railway service, derailment, fatigue, wind and seismic actions",
+    "Boreholes, groundwater, axial/lateral soil response and settlement",
+    "Sulfate/chloride exposure where present and treatment compatibility trials",
+    "Liquefaction, flood levels, scour and surface flood pathways where relevant",
+    "Supplier reinforcement/prestress, end zones, transfer/handling strengths and mould/bed limits",
+    "Measured net detail masses, centre of gravity, transport axle loads and route clearances",
+    "Lifting chart/configuration/radius, rigging, temporary stability and support-ground capacity",
+    "Accepted rainfall/storm ensemble, catchments, culvert sizing and outfall consent/tailwater",
+    "Connection tolerances, loads, movement and inspection acceptance values",
+    "Supplier-installed cost/time, service life, maintenance capability and discount basis",
+    "Independent check, physical first article evidence and signed authority release"
+  ],
+  "connections": [
+    {
+      "id": "C-01",
+      "title": "Pier to foundation",
+      "applicable_loads": "axial, moment, shear, seismic cyclic demand",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Survey starter bars/socket; trial fit; brace; grout/cure before loading",
+      "inspection": "Survey alignment; reinforcement/coupler record; grout strength and fill evidence",
+      "repair_method": "Engineer-designed local repair or replacement; retain access",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-02",
+      "title": "Cap to column",
+      "applicable_loads": "vertical reactions, torsion, transverse loads and seismic",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Brace cap; verify interface; complete continuity/grout; strength hold point",
+      "inspection": "Joint dimensions, engagement and void checks; as-built survey",
+      "repair_method": "Accessible repair ports and approved temporary support",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-03",
+      "title": "Girder bearings and restraints",
+      "applicable_loads": "vertical uplift, braking, lateral, thermal, seismic and derailment",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Survey seats; set orientation and movement datum; place beam; engage restraints",
+      "inspection": "Seat levels, bearing rotation/contact, travel, fixity and restraint witness",
+      "repair_method": "Isolate traffic; use reviewed jacking seats; replace bearing and resurvey",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-04",
+      "title": "Walkway and containment attachments",
+      "applicable_loads": "egress crowd, containment impact and fatigue",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Cast inserts; gauge fit; install panels and barriers with movement allowance",
+      "inspection": "Anchor engagement/proof evidence, gaps, containment continuity and access",
+      "repair_method": "Remove replaceable panels and bolts from protected work area",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-05",
+      "title": "Track plinth and fastener anchors",
+      "applicable_loads": "vertical axle, lateral, braking, fatigue and rail interaction",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Survey rail seats; qualify anchor/grout system; fit and gauge fasteners",
+      "inspection": "Gauge, level, pull-out qualification, torque and electrical insulation",
+      "repair_method": "Exchange fasteners or local plinth repair with track possession",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-06",
+      "title": "Drainage and utility crossings",
+      "applicable_loads": "water pressure, utility weight, thermal movement and accidental loads",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Set falls and movement loops; separate utilities; seal joints; commission drainage",
+      "inspection": "Survey falls; leak/flow and blockage-access checks; utility clearance",
+      "repair_method": "Accessible clean-outs and replaceable flexible connections",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    },
+    {
+      "id": "C-07",
+      "title": "Jacking and bearing replacement",
+      "applicable_loads": "jacking reactions, temporary redistribution, lateral stability",
+      "tolerances_mm": null,
+      "capacity_and_movement_limits": null,
+      "installation_sequence": "Approve possession/supports; install synchronised monitored jacks at designed seats",
+      "inspection": "Jack calibration, seat capacity, lift limits and stable temporary load path",
+      "repair_method": "Replace bearing; controlled lowering; movement datum and track survey",
+      "detail_revision": "A-concept",
+      "status": "awaiting-engineered-detail-and-independent-check",
+      "reference_ids": [
+        "FHWA-PBES",
+        "RDSO"
+      ]
+    }
+  ],
+  "failure_modes": [
+    {
+      "id": "CF-01",
+      "title": "Blocked drainage",
+      "asset_id": "DRAIN-01",
+      "causal_chain": [
+        "blocked drain",
+        "saturated formation",
+        "differential settlement",
+        "track geometry deterioration",
+        "operating restriction or derailment hazard"
+      ],
+      "controls": "Accessible drains; redundant route where justified; geometry monitoring and intervention",
+      "required_evidence": "Blockage/backwater replay, cleaning trial, settlement model and geometry intervention review",
+      "stage": "service",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-02",
+      "title": "Girder instability during lifting",
+      "asset_id": "PI25-T1",
+      "causal_chain": [
+        "eccentric lifting",
+        "girder roll or lateral instability",
+        "dropped member or collapse"
+      ],
+      "controls": "Reviewed sling geometry, centre of gravity, temporary bracing and exclusion zone",
+      "required_evidence": "Weighed member, lift chart/radius, stability calculation and witnessed first lift",
+      "stage": "construction",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-03",
+      "title": "Incorrect bearing installation",
+      "asset_id": "C-03",
+      "causal_chain": [
+        "wrong orientation or level",
+        "restraint or loss of bearing contact",
+        "unexpected forces or support loss"
+      ],
+      "controls": "Surveyed seats and movement/fixity datum; witness installation",
+      "required_evidence": "Bearing schedule, seat survey and installation inspection",
+      "stage": "construction",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-04",
+      "title": "Grout defects",
+      "asset_id": "C-01",
+      "causal_chain": [
+        "voids or incomplete engagement",
+        "connection resistance loss",
+        "progressive cracking or collapse"
+      ],
+      "controls": "Qualified grouting procedure, mock-up, fill witness and strength hold",
+      "required_evidence": "Batch/strength records, void/engagement inspection and connection qualification",
+      "stage": "construction",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-05",
+      "title": "Insufficient transfer strength",
+      "asset_id": "PI20-T1",
+      "causal_chain": [
+        "early prestress transfer",
+        "anchorage/end-zone cracking",
+        "loss of prestress or handling failure"
+      ],
+      "controls": "No transfer or handling before reviewed measured strength",
+      "required_evidence": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+      "stage": "construction",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-06",
+      "title": "Crane or launcher support failure",
+      "asset_id": "SUP-20",
+      "causal_chain": [
+        "weak support or excessive ground pressure",
+        "support settlement/overturning",
+        "equipment and member collapse"
+      ],
+      "controls": "Ground investigation, outrigger/launcher foundation and temporary works review",
+      "required_evidence": "Support loadcase, bearing/settlement calculations, survey and trial load",
+      "stage": "construction",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    },
+    {
+      "id": "CF-07",
+      "title": "Transition/scour deterioration",
+      "asset_id": "TRANS-01",
+      "causal_chain": [
+        "outfall erosion or transition stiffness change",
+        "differential movement",
+        "track geometry deterioration",
+        "operating restriction or derailment hazard"
+      ],
+      "controls": "Scour protection, graded stiffness and drainage access",
+      "required_evidence": "Flood/scour assessment, transition settlement model and inspection trigger",
+      "stage": "service",
+      "closure_status": "open-awaiting-physical-and-independent-evidence",
+      "occurrence_rate": null
+    }
+  ],
+  "bearings": {
+    "candidate_layout": "Two bearing seats per beam end; 16 seats across four beams. Fixed/guided/free arrangements and capacities remain unselected.",
+    "seat_count": 16,
+    "schedule_status": "pending-rail-structure-interaction-and-movement-design"
+  },
+  "drainage_objects": [
+    {
+      "id": "CATCH-01",
+      "kind": "catchment",
+      "definition": "Synthetic 1 ha SWMM catchment; surveyed deck/formation catchments unresolved"
+    },
+    {
+      "id": "DRAIN-01",
+      "kind": "drain/culvert",
+      "definition": "Synthetic 50 m conduit; culvert geometry, crossings and debris load unresolved"
+    },
+    {
+      "id": "OUT-01",
+      "kind": "outfall",
+      "definition": "Synthetic outlet; ownership, discharge consent, tailwater, erosion/scour protection and safe inspection unresolved"
+    },
+    {
+      "id": "TRANS-01",
+      "kind": "transition",
+      "definition": "20 m comparison envelope at 45\u201365 m; graded stiffness and differential settlement limits unresolved"
+    }
+  ],
+  "construction_sequence": [
+    {
+      "id": "ST-01",
+      "activity": "Freeze layout, railway loads and surveyed ground/drainage basis",
+      "hold_point": "Independent reviewed design and safe working constraints",
+      "status": "pending"
+    },
+    {
+      "id": "ST-02",
+      "activity": "Compare foundations and ground treatment; install/test supports ahead of erection",
+      "hold_point": "Measured load tests, settlement and chemistry compatibility; released temporary works",
+      "status": "pending"
+    },
+    {
+      "id": "ST-03",
+      "activity": "Fabricate beams and connection mock-ups",
+      "hold_point": "Reviewed reinforcement/prestress, transfer strength, mass and lifting hardware records",
+      "status": "pending"
+    },
+    {
+      "id": "ST-04",
+      "activity": "Survey bearing seats and install bearings/restraints",
+      "hold_point": "Seat levels, orientation, capacities and movement datum accepted",
+      "status": "pending"
+    },
+    {
+      "id": "ST-05",
+      "activity": "Transport and lift first beam; brace before releasing rigging",
+      "hold_point": "Reviewed actual lift configuration, stability and equipment support; witness first article",
+      "status": "pending"
+    },
+    {
+      "id": "ST-06",
+      "activity": "Erect paired beam and finish connections, walkway and containment",
+      "hold_point": "Connection strength/fill, engagement, survey and temporary support release",
+      "status": "pending"
+    },
+    {
+      "id": "ST-07",
+      "activity": "Construct approach/trackform, catchment and drainage interfaces",
+      "hold_point": "Settlement/drainage/scour criteria and blockage access checks",
+      "status": "pending"
+    },
+    {
+      "id": "ST-08",
+      "activity": "Commission, inspect and establish maintenance access",
+      "hold_point": "Geometry, drainage scenarios, jacking/replacement rehearsal; independent and authority acceptance",
+      "status": "pending"
+    }
+  ],
+  "comparator": {
+    "id": "CONVENTIONAL-I-DECK",
+    "span_options_m": [
+      20,
+      25
+    ],
+    "system": "Locally manufactured prestressed I-girders with a separate railway deck",
+    "girder_count": null,
+    "section": null,
+    "installed_cost_usd": null,
+    "selected": false,
+    "comparison_fields": [
+      "moulds and prestress beds",
+      "reinforcement/end zones and transfer strength",
+      "girder/deck quantities and foundation reactions",
+      "transport and number/weight of lifts",
+      "temporary bracing and deck erection",
+      "railway deck and connection compatibility",
+      "bearings, jacking and replacement access",
+      "inspection and maintenance",
+      "installed time and cost",
+      "whole-life cost and uncertainty"
+    ],
+    "decision": "Supplier section/quantity/price and railway load comparison required; no cheapest-system claim"
+  },
+  "trackform_options": [
+    {
+      "id": "ballasted",
+      "selection": null,
+      "required_comparison": [
+        "total/differential settlement",
+        "drainage and flood recovery",
+        "local materials and access",
+        "maintenance skills and availability",
+        "repair possession time",
+        "installed and whole-life cost"
+      ]
+    },
+    {
+      "id": "slipformed-slab",
+      "selection": null,
+      "required_comparison": [
+        "total/differential settlement",
+        "drainage and flood recovery",
+        "local materials and access",
+        "maintenance skills and availability",
+        "repair possession time",
+        "installed and whole-life cost"
+      ]
+    },
+    {
+      "id": "precast-panels",
+      "selection": null,
+      "required_comparison": [
+        "total/differential settlement",
+        "drainage and flood recovery",
+        "local materials and access",
+        "maintenance skills and availability",
+        "repair possession time",
+        "installed and whole-life cost"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "FHWA-PBES",
+      "url": "https://www.fhwa.dot.gov/bridge/prefab/if09010/",
+      "use": "Prefabrication, connections, tolerances and erection practice; highway examples need railway adaptation",
+      "reuse_rights": "Reference only; individual drawing/third-party reuse rights not established",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "page reviewed"
+    },
+    {
+      "id": "WSDOT-DRAWINGS",
+      "url": "https://wsdot.wa.gov/engineering-standards/design-topics/superstructure-design-bridges-structures",
+      "use": "Conventional bridge detail benchmark",
+      "reuse_rights": "Reference only; drawing reuse permission pending",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "403 on review; obtain controlled drawing set"
+    },
+    {
+      "id": "PGSUPER",
+      "url": "https://github.com/WSDOT/PGSuper/blob/master/License.txt",
+      "use": "Conventional prestressed girder comparison; agency/highway assumptions need railway adaptation",
+      "reuse_rights": "Alternate Route Open Source License 1.1; no code incorporated",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "license reviewed; application not executed"
+    },
+    {
+      "id": "RDSO",
+      "url": "https://rdso.indianrailways.gov.in/view_section.jsp?id=0%2C2%2C466%2C603&lang=0",
+      "use": "Railway bridge arrangement and detail references",
+      "reuse_rights": "Reference only; drawing access and reuse permission pending",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "portal unavailable on review; obtain applicable set"
+    },
+    {
+      "id": "XC",
+      "url": "https://github.com/xcfem/xc",
+      "use": "Candidate additional structural check after validating one model",
+      "reuse_rights": "No code incorporated; check pinned license before adoption",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "repository reference only; not integrated"
+    },
+    {
+      "id": "SWMM",
+      "url": "https://github.com/USEPA/Stormwater-Management-Model",
+      "use": "Drainage network simulation",
+      "reuse_rights": "Existing tool integration; no external drawing incorporated",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "repository/API reviewed; existing solver executed"
+    },
+    {
+      "id": "ANUGA",
+      "url": "https://github.com/GeoscienceAustralia/anuga_core",
+      "use": "Optional 2D surface flood assessment when overflow pathways matter",
+      "reuse_rights": "No code incorporated; check pinned license before adoption",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "repository reviewed; not required or executed"
+    },
+    {
+      "id": "FHWA-GROUND",
+      "url": "https://www.fhwa.dot.gov/engineering/geotech/pubs/nhi16072.pdf",
+      "use": "Investigate soil chemistry before calcium-based ground treatment",
+      "reuse_rights": "Reference only; no extracts or drawings copied",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "primary reference supplied; site testing required"
+    },
+    {
+      "id": "FHWA-GRS",
+      "url": "https://www.fhwa.dot.gov/publications/research/infrastructure/structures/11026/004.cfm",
+      "use": "Candidate reinforced-soil approaches; railway deformation, stability and scour review required",
+      "reuse_rights": "Reference only; no drawings copied",
+      "incorporated_material": false,
+      "checked_date": "2026-10-02",
+      "retrieval_status": "primary reference supplied; not a selected design"
+    }
+  ]
+}

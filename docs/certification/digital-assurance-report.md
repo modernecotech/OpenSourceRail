@@ -2,7 +2,7 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `d5c1e8c6b22f4fb4cd52263b683f29c60068f4be243bc316b7f88035bbe7f7aa`
+- Design fingerprint: `227411b136fe9582f203b4da2f4f397fe045869a426ce92d4088105983bbb886`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**
@@ -134,7 +134,7 @@ publisher record + deployment law + intended use
 
 Every evidence object must carry 16 metadata fields. Current repository links are machine state `generated-unreviewed`; no link is silently promoted to reviewed or accepted.
 
-The JSON report contains a path-level `change_impact_index` for 61 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
+The JSON report contains a path-level `change_impact_index` for 75 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
 
 ## Interpretation
 
@@ -145,3 +145,5 @@ The deterministic evidence-coherence gate passed. Standards applicability, claus
 The [connected engineering example](connected-engineering.md) and [generated report](connected-engineering-report.md) bind battery-cooling failure propagation, requirement criteria, controller scenarios, planned physical tests, synthetic production records and installed occurrences to exact design revisions. The JSON includes dependency traversal and explicit blocked deployment decisions.
 
 The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.
+
+The [civil reference demonstration](../../engineering/assurance/civil-reference/README.md) adds 20/25 m double-track bays, connection and erection controls, measured-result release interfaces and a connected construction/service FMEA. Its graph and controlled source hashes are included in this report and change-impact traversal; site inputs, physical qualification and independent release remain pending.

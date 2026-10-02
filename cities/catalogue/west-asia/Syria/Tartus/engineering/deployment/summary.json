@@ -1,10 +1,10 @@
 {
   "city": "tartus",
-  "closed_gate_count": 5,
+  "closed_gate_count": 4,
   "deployment_release_ready": false,
   "design_sha256": "9dbae685c4a2c0efc94c1b29f6ee512b5f44f9054c63e79753027bbf8dfcff61",
   "evidence_sha256": {
-    "delivery/summary.json": "ce7614867a2196bf7f0dfb48eb0cdb064c147eeb073bc392948a95d4b9cdffdf",
+    "delivery/summary.json": "bbf7605a8fdb4f31c3efd71cafc437e6c66e1534349b248eada8edabc9b6d2ba",
     "depot-scope/summary.json": "bbed441c97acec13af042ee66f9192f6ea79ff1bd57648b8d0f098328cf32bec",
     "energy/summary.json": "ed47ad510781ff4ee1137afcaefa5ef03f4a2e7ace842fba9d39fa9ec5aca8c0",
     "simulation/operations-crosscheck.json": "6aa74d2c1e17c71340aad0143958451f9cf626623e8b22e0c24c3cd4ea8420b9",
@@ -13,10 +13,10 @@
     "stabling/hybrid-cycle-screen.json": "bcb10e3d758a4ca8c74b879bb99b84ca32adee59b33532d37de3d51d8639655a",
     "stabling/summary.json": "27488a9fc7ab328ed9a5964ac0c05906c664be409b6d6053646968af695fd009",
     "survey/control-processing-readiness.json": "f226067de59ba4860c99b087390240594ddd0203ff290d406de61d83fac34e33",
-    "survey/drainage-ground-readiness.json": "16a55962fde14f261c67d1e800a7060bcd2d3022d9c3a551f3571b89d3bc6a30",
+    "survey/drainage-ground-readiness.json": "eb24c26fc259ae0a2a2b64e437aa24985ad3b12429e405c011dc0ae2ca32cadc",
     "survey/ground-model-readiness.json": "5e16e0cf424340f2c52628f4d5a1a7292516690c3021583d3c116e080ca7e324",
     "survey/route-station-fit-readiness.json": "81a0dafa64cbd39410921aa998438d3b041a0217143660655818bad1dc2bb0b0",
-    "survey/structural-release-readiness.json": "8e0ecda1b440eeb484a27c3c814d80f058a42e682d598510519c33dff464e718",
+    "survey/structural-release-readiness.json": "bd905b399b4dfd938626bd38b70054be970452f31356f4198ca3cd32272d0f67",
     "survey/surveyed-alignment-readiness.json": "ca374439bb2c01232be0865964ae5f7ecbe989cf6913a732f744ca535a632273"
   },
   "gates": [
@@ -130,7 +130,8 @@
           "geotechnical_ground_model",
           "foundation_ground_schedule",
           "ground_design_verification_report",
-          "groundwater_coupling_decision"
+          "groundwater_coupling_decision",
+          "civil_asset_register"
         ],
         "report_status": "awaiting-drainage-ground-evidence"
       },
@@ -152,7 +153,8 @@
           "calculix_input",
           "calculix_report",
           "structural_verification_report",
-          "independent_check_record"
+          "independent_check_record",
+          "civil_asset_register"
         ],
         "report_status": "awaiting-structural-evidence"
       },
@@ -202,12 +204,12 @@
     {
       "closure_action": "Run the selected line-local station/depot candidate across consecutive evenings and synchronised morning starts.",
       "detail": {
-        "evidence_current": true
+        "evidence_current": false
       },
       "evidence": "stabling/hybrid-cycle-screen.json",
       "id": "continuous-stabling-replay",
       "owner_role": "simulation engineer",
-      "status": "closed"
+      "status": "open"
     },
     {
       "closure_action": "Locate usable station and line-local depot tracks, shared charging, isolation, inspection access and protected morning release slots.",
@@ -267,7 +269,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 12,
+  "open_gate_count": 13,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }
