@@ -7,11 +7,15 @@
       "title": "Safe separation",
       "level": "system",
       "part_of": [],
-      "definition": {},
+      "definition": {
+        "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open"
+      },
       "source_paths": [
         "control-electronics/safety-controller-selection.md",
         "crates/osr-ato/src/station.rs",
         "crates/osr-atp/src/lib.rs",
+        "crates/osr-brake/src/deadline.rs",
+        "crates/osr-brake/src/dual.rs",
         "crates/osr-brake/src/lib.rs",
         "crates/osr-consensus/src/disk.rs",
         "crates/osr-core/src/deployment.rs",
@@ -21,13 +25,16 @@
         "crates/osr-interlocking/src/resources.rs",
         "crates/osr-odometry/src/lib.rs",
         "crates/osr-proto/src/lib.rs",
+        "crates/osr-runtime/src/bin/osr-safety-output.rs",
+        "crates/osr-runtime/src/bin/osr-train-agent.rs",
         "crates/osr-runtime/src/legacy.rs",
         "crates/osr-runtime/src/lib.rs",
         "crates/osr-runtime/src/train.rs",
+        "docs/certification/redundancy-policy.json",
         "engineering/assurance/tacs/railway-model.json"
       ],
       "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-      "revision": "sha256:bc1b1f458157f868fea87c81da2f5a2e5509b7b5ae300787bfa95dcf6aa0cf0f",
+      "revision": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
       "implements_function": [
         "TACS-FUNCTION"
       ]
@@ -173,11 +180,15 @@
       "part_of": [
         "TACS-DEMO-TRAIN-101"
       ],
-      "definition": {},
+      "definition": {
+        "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open"
+      },
       "source_paths": [
         "control-electronics/safety-controller-selection.md",
         "crates/osr-ato/src/station.rs",
         "crates/osr-atp/src/lib.rs",
+        "crates/osr-brake/src/deadline.rs",
+        "crates/osr-brake/src/dual.rs",
         "crates/osr-brake/src/lib.rs",
         "crates/osr-consensus/src/disk.rs",
         "crates/osr-core/src/deployment.rs",
@@ -187,12 +198,15 @@
         "crates/osr-interlocking/src/resources.rs",
         "crates/osr-odometry/src/lib.rs",
         "crates/osr-proto/src/lib.rs",
+        "crates/osr-runtime/src/bin/osr-safety-output.rs",
+        "crates/osr-runtime/src/bin/osr-train-agent.rs",
         "crates/osr-runtime/src/legacy.rs",
         "crates/osr-runtime/src/lib.rs",
-        "crates/osr-runtime/src/train.rs"
+        "crates/osr-runtime/src/train.rs",
+        "docs/certification/redundancy-policy.json"
       ],
       "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-      "revision": "sha256:036a6ca02d240b102b76ed35a0792279b743db8988e5b9f567eb6d7ed97aec15",
+      "revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
       "implements_function": [
         "TACS-FUNCTION"
       ]
@@ -211,7 +225,7 @@
         "engineering/assurance/tacs/railway-model.json"
       ],
       "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-      "revision": "sha256:4549943e6ce6d450d681a8817b58e45e6d86b5df1d44950402f7d8620deadfd6",
+      "revision": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
       "implements_function": [
         "TACS-FUNCTION"
       ]
@@ -242,16 +256,22 @@
       "part_of": [
         "TACS-PROTECTION"
       ],
-      "definition": {},
+      "definition": {
+        "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open",
+        "deadline": "100 ms maximum; late feed cannot conceal gap; 50 ms reference feed"
+      },
       "source_paths": [
         "control-electronics/safety-controller-selection.md",
-        "crates/osr-runtime/src/train.rs",
-        "docs/rfcs/0033-tacs-runtime-and-resource-control.md",
         "crates/osr-brake/src/deadline.rs",
-        "crates/osr-runtime/src/bin/osr-safety-output.rs"
+        "crates/osr-brake/src/dual.rs",
+        "crates/osr-runtime/src/bin/osr-safety-output.rs",
+        "crates/osr-runtime/src/bin/osr-train-agent.rs",
+        "crates/osr-runtime/src/train.rs",
+        "docs/certification/redundancy-policy.json",
+        "docs/rfcs/0033-tacs-runtime-and-resource-control.md"
       ],
       "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-      "revision": "sha256:9c850fc186065800413ef526a4ad6f002666631cd1c2fc8150cad0e794108a3e",
+      "revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
       "implements_function": [
         "TACS-FUNCTION"
       ]
@@ -513,7 +533,7 @@
         "docs/rfcs/0033-tacs-runtime-and-resource-control.md"
       ],
       "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-      "revision": "sha256:ed1eeb9b65f3be74883023e97c4527c695b87a1297f64360dffdb719b927dde0",
+      "revision": "sha256:c090df20924ecaba5ed6f257b715b4e975254c8bf234698ab47de5f26fb7ef89",
       "implements_function": [
         "TACS-FUNCTION"
       ]
@@ -548,13 +568,13 @@
       "id": "TACS-CONFIG-RUNTIME-A",
       "deployment": "Synthetic distributed-control process reference only",
       "item_revisions": {
-        "TACS-SEPARATION": "sha256:bc1b1f458157f868fea87c81da2f5a2e5509b7b5ae300787bfa95dcf6aa0cf0f",
+        "TACS-SEPARATION": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
         "TACS-DEMO-TRAIN-101": "sha256:10703632e584bcdd30e5539f18f91f5c8857f45fc0f69e83861afb1f7236e4d9",
         "TACS-DEMO-TRAIN-102": "sha256:e88d1d14a08cac703a944fad258ebe195421bdcc4b3d062df1c8d8593c02616c",
-        "TACS-PROTECTION": "sha256:036a6ca02d240b102b76ed35a0792279b743db8988e5b9f567eb6d7ed97aec15",
-        "TACS-LOCALISATION": "sha256:4549943e6ce6d450d681a8817b58e45e6d86b5df1d44950402f7d8620deadfd6",
+        "TACS-PROTECTION": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+        "TACS-LOCALISATION": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
         "TACS-SPEED-SENSOR": "sha256:7313b469bbf9cd52469d7fe23d11a68ad12c1fb5611f5950885e4c3fefa200e8",
-        "TACS-OUTPUT": "sha256:9c850fc186065800413ef526a4ad6f002666631cd1c2fc8150cad0e794108a3e",
+        "TACS-OUTPUT": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
         "TACS-RC-900": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
         "TACS-PLATFORM-W1": "sha256:86738bf4f9c15b2251ec690f5e44c728c7d03ce585ba4a86db7a9574e693f617",
         "TACS-PLATFORM-W2": "sha256:366aca0058605e8cafad48e27d9116b3bed15f9be628fb94cc06437a5538a651",
@@ -564,10 +584,11 @@
         "TACS-PLATFORM-E2": "sha256:f0fb3672b4b01ffdb93c8d4743d65cb0ddd1dfd7e8d6fe9b14dd63b7d64ae61d",
         "TACS-DEPOT-ENTRY": "sha256:04e1fac1c946987bd7e0f5c766130e73f9e0d0ada36931cc76ab8d942e195ef2",
         "TACS-CHARGER": "sha256:7564d02d85c9c8ccfa61a13cf5ddab799eb606d22bce1ba7dff3b00e4547a210",
-        "TACS-OPERATING-PROCEDURE": "sha256:ed1eeb9b65f3be74883023e97c4527c695b87a1297f64360dffdb719b927dde0"
+        "TACS-OPERATING-PROCEDURE": "sha256:c090df20924ecaba5ed6f257b715b4e975254c8bf234698ab47de5f26fb7ef89"
       },
       "initial_state": "Empty qualified synthetic railway, then reserved train placement",
-      "status": "prototype-unapproved"
+      "status": "prototype-unapproved",
+      "baseline_note": "2026-10-03 unreviewed authoring rebase for platform-review changes; no independent risk/physical/operational acceptance"
     }
   ],
   "hazards": [
@@ -661,13 +682,31 @@
       "hazard_ids": [
         "TACS-HAZARD-COLLISION"
       ]
+    },
+    {
+      "id": "TACS-REQ-DUAL",
+      "statement": "Both logical channels must agree to permit; loss/disagreement/replay/feedback failure actually injected while moving must latch zero torque/emergency within one 50 ms virtual step; retained protection and stopped authorised recovery only.",
+      "acceptance_criteria": {
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "allocated_to": [
+        "TACS-PROTECTION",
+        "TACS-OUTPUT"
+      ],
+      "owner": "system safety engineering",
+      "review_state": "open",
+      "hazard_ids": [
+        "TACS-HAZARD-COLLISION"
+      ]
     }
   ],
   "failure_modes": [
     {
       "id": "TACS-FM-SPEED",
       "item_id": "TACS-SPEED-SENSOR",
-      "item_revision": "sha256:80a6773c7e31788bb5017e414274f0cd9dabff47a416d777dd6317d74a6ebfdf",
+      "item_revision": "sha256:7313b469bbf9cd52469d7fe23d11a68ad12c1fb5611f5950885e4c3fefa200e8",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -743,7 +782,7 @@
     {
       "id": "TACS-FM-LOCALISATION",
       "item_id": "TACS-LOCALISATION",
-      "item_revision": "sha256:e770645130ced36ea35d4b242a5205bb29bda2d14bcc2111903535d6fff3b9d0",
+      "item_revision": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -819,7 +858,7 @@
     {
       "id": "TACS-FM-PROTECTION",
       "item_id": "TACS-PROTECTION",
-      "item_revision": "sha256:522efe8dc827dc30eb600f006a7de079f0eee872fabf0e0dda1627ccb7d43b6a",
+      "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -895,7 +934,7 @@
     {
       "id": "TACS-FM-TRAIN",
       "item_id": "TACS-DEMO-TRAIN-101",
-      "item_revision": "sha256:d0cd8620d0c4355763bacd92588cf80d3e8b889045131cd683dedbaf7a9d83d1",
+      "item_revision": "sha256:10703632e584bcdd30e5539f18f91f5c8857f45fc0f69e83861afb1f7236e4d9",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -971,7 +1010,7 @@
     {
       "id": "TACS-FM-SEPARATION",
       "item_id": "TACS-SEPARATION",
-      "item_revision": "sha256:de90c0ee3d7e43e278bec0563ce20c2b0452866faadc01c4743b0acdc4a22bd7",
+      "item_revision": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1045,7 +1084,7 @@
     {
       "id": "TACS-FM-RESOURCE",
       "item_id": "TACS-RC-900",
-      "item_revision": "sha256:dcba72631b18d9e77ba220b4ab3a84d4061c858bac98541079a723a7c94017d0",
+      "item_revision": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1121,7 +1160,7 @@
     {
       "id": "TACS-FM-CHARGING",
       "item_id": "TACS-CHARGER",
-      "item_revision": "sha256:93962529e7a1af95e9da490be9ea2e4524d2924c172ca7585075cf1168267034",
+      "item_revision": "sha256:7564d02d85c9c8ccfa61a13cf5ddab799eb606d22bce1ba7dff3b00e4547a210",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1197,7 +1236,7 @@
     {
       "id": "TACS-FM-COMMON-CAUSE",
       "item_id": "TACS-OUTPUT",
-      "item_revision": "sha256:3d231a35f00424b873e885486d4d58ddbd4dab0832aac78cb783f12a2bb9686c",
+      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1209,6 +1248,7 @@
       "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
       "mode": "Common-cause output/proving/configuration failure",
       "causes": [
+        "Shared code, sensor fixture, host, clock, test keys and comparator; unqualified physical power/output paths",
         "Shared power/clock/SBC domain, frozen task, malicious authenticated authority, systematic firmware error"
       ],
       "mechanisms": [
@@ -1221,7 +1261,7 @@
         "mechanism": "Freshness, role/epoch/sequence checks, measured integrity/position, points, hardware feedback and watchdog",
         "coverage_evidence": "Actual Rust tests and prototype twin; physical coverage not qualified",
         "delay": "100 ms output contract / 1 s input age / 3 s lease; assumptions awaiting measurement",
-        "latent_exposure": "Unknown physical/common-cause coverage"
+        "latent_exposure": "Physical independence and autonomous clocks/outputs unqualified; agreement on a common bad sensor is not independent evidence"
       },
       "mitigation": {
         "action": "Inhibit traction, brake, retain resource ownership; qualified no-reentry/clearance and local recovery",
@@ -1251,6 +1291,8 @@
         "TACS-REQ-RECOVERY"
       ],
       "scenario_ids": [
+        "TACS-SC-ChannelDisagreement",
+        "TACS-SC-ChannelReplay",
         "TACS-SC-ChargerMisaligned",
         "TACS-SC-ChargerStuck",
         "TACS-SC-CivilClosure",
@@ -1260,11 +1302,205 @@
         "TACS-SC-FrozenOutput",
         "TACS-SC-IncompleteCharge",
         "TACS-SC-IntegrityLoss",
+        "TACS-SC-MissingChannelA",
+        "TACS-SC-MissingChannelB",
         "TACS-SC-None",
+        "TACS-SC-OutputFeedbackFailure",
         "TACS-SC-PointsDetectionLost",
         "TACS-SC-PositionUncertainty",
         "TACS-SC-RadioPartition",
         "TACS-SC-RadioReconnection"
+      ],
+      "propagates_to": [
+        "TACS-FM-SEPARATION"
+      ]
+    },
+    {
+      "id": "TACS-FM-CHANNEL-LOSS",
+      "item_id": "TACS-PROTECTION",
+      "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+      "configuration_ids": [
+        "TACS-CONFIG-RUNTIME-A"
+      ],
+      "function_id": "TACS-FUNCTION",
+      "operating_modes": [
+        "prototype"
+      ],
+      "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+      "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+      "mode": "A or B process fails to provide a current request",
+      "causes": [
+        "Process failure, lost channel input, stale local state"
+      ],
+      "mechanisms": [
+        "Loss of two-out-of-two fresh exact output agreement or feedback"
+      ],
+      "local_effect": "Output permission cannot be established",
+      "next_higher_effect": "Train protection latches emergency and zero torque",
+      "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails",
+      "detection": {
+        "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
+        "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
+      },
+      "mitigation": {
+        "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+        "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured",
+        "degraded_state": "Stopped/protected, locks retained",
+        "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical occurrence data",
+        "uncertainty": "Uncalibrated sensors, brake, time, power and output independence",
+        "criticality": "Collision or unsafe electrical/mechanical interaction",
+        "hazard_id": "TACS-HAZARD-COLLISION"
+      },
+      "ownership": {
+        "responsible_role": "system safety engineering",
+        "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+        "deadline": "2027-01-31",
+        "review_state": "open",
+        "residual_risk_decision": "Pending independent decision"
+      },
+      "requirement_ids": [
+        "TACS-REQ-DUAL",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-RECOVERY"
+      ],
+      "scenario_ids": [
+        "TACS-SC-MissingChannelA",
+        "TACS-SC-MissingChannelB"
+      ],
+      "propagates_to": [
+        "TACS-FM-SEPARATION"
+      ]
+    },
+    {
+      "id": "TACS-FM-CHANNEL-DISAGREEMENT",
+      "item_id": "TACS-OUTPUT",
+      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+      "configuration_ids": [
+        "TACS-CONFIG-RUNTIME-A"
+      ],
+      "function_id": "TACS-FUNCTION",
+      "operating_modes": [
+        "prototype"
+      ],
+      "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+      "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+      "mode": "Channel request differs or repeats an earlier output",
+      "causes": [
+        "State/timing/configuration disagreement, repeated request"
+      ],
+      "mechanisms": [
+        "Loss of two-out-of-two fresh exact output agreement or feedback"
+      ],
+      "local_effect": "Output permission cannot be established",
+      "next_higher_effect": "Train protection latches emergency and zero torque",
+      "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails",
+      "detection": {
+        "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
+        "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
+      },
+      "mitigation": {
+        "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+        "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured",
+        "degraded_state": "Stopped/protected, locks retained",
+        "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical occurrence data",
+        "uncertainty": "Uncalibrated sensors, brake, time, power and output independence",
+        "criticality": "Collision or unsafe electrical/mechanical interaction",
+        "hazard_id": "TACS-HAZARD-COLLISION"
+      },
+      "ownership": {
+        "responsible_role": "system safety engineering",
+        "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+        "deadline": "2027-01-31",
+        "review_state": "open",
+        "residual_risk_decision": "Pending independent decision"
+      },
+      "requirement_ids": [
+        "TACS-REQ-DUAL",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-RECOVERY"
+      ],
+      "scenario_ids": [
+        "TACS-SC-ChannelDisagreement",
+        "TACS-SC-ChannelReplay"
+      ],
+      "propagates_to": [
+        "TACS-FM-SEPARATION"
+      ]
+    },
+    {
+      "id": "TACS-FM-OUTPUT-FEEDBACK",
+      "item_id": "TACS-OUTPUT",
+      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+      "configuration_ids": [
+        "TACS-CONFIG-RUNTIME-A"
+      ],
+      "function_id": "TACS-FUNCTION",
+      "operating_modes": [
+        "prototype"
+      ],
+      "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+      "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+      "mode": "Output feedback on either channel is unhealthy",
+      "causes": [
+        "Feedback loss, stuck actuator, wiring/power fault"
+      ],
+      "mechanisms": [
+        "Loss of two-out-of-two fresh exact output agreement or feedback"
+      ],
+      "local_effect": "Output permission cannot be established",
+      "next_higher_effect": "Train protection latches emergency and zero torque",
+      "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails",
+      "detection": {
+        "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
+        "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
+      },
+      "mitigation": {
+        "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+        "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured",
+        "degraded_state": "Stopped/protected, locks retained",
+        "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical occurrence data",
+        "uncertainty": "Uncalibrated sensors, brake, time, power and output independence",
+        "criticality": "Collision or unsafe electrical/mechanical interaction",
+        "hazard_id": "TACS-HAZARD-COLLISION"
+      },
+      "ownership": {
+        "responsible_role": "system safety engineering",
+        "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+        "deadline": "2027-01-31",
+        "review_state": "open",
+        "residual_risk_decision": "Pending independent decision"
+      },
+      "requirement_ids": [
+        "TACS-REQ-DUAL",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-RECOVERY"
+      ],
+      "scenario_ids": [
+        "TACS-SC-OutputFeedbackFailure"
       ],
       "propagates_to": [
         "TACS-FM-SEPARATION"
@@ -1278,6 +1514,8 @@
         "control-electronics/safety-controller-selection.md",
         "crates/osr-ato/src/station.rs",
         "crates/osr-atp/src/lib.rs",
+        "crates/osr-brake/src/deadline.rs",
+        "crates/osr-brake/src/dual.rs",
         "crates/osr-brake/src/lib.rs",
         "crates/osr-consensus/src/disk.rs",
         "crates/osr-core/src/deployment.rs",
@@ -1287,11 +1525,15 @@
         "crates/osr-interlocking/src/resources.rs",
         "crates/osr-odometry/src/lib.rs",
         "crates/osr-proto/src/lib.rs",
+        "crates/osr-runtime/src/bin/osr-safety-output.rs",
+        "crates/osr-runtime/src/bin/osr-train-agent.rs",
         "crates/osr-runtime/src/legacy.rs",
         "crates/osr-runtime/src/lib.rs",
         "crates/osr-runtime/src/train.rs",
         "crates/osr-runtime/src/wayside.rs",
+        "docs/certification/redundancy-policy.json",
         "engineering/assurance/tacs/railway-model.json",
+        "tools/automation/redundancy_policy.py",
         "tools/automation/tacs_reference.py"
       ],
       "represents": [
@@ -1299,9 +1541,9 @@
       ],
       "calibration": "None; synthetic",
       "validation_data": "Actual Rust execution, not physical measurement",
-      "valid_envelope": "Two 10 m trains, fixed seven-resource prototype, 100 ms physics",
-      "limitations": "No physical adhesion, latency, qualified sensor or hardware validation",
-      "version": "A"
+      "valid_envelope": "Two 10 m trains, fixed seven-resource prototype, 50 ms virtual physics; two logical A/B channels per train",
+      "limitations": "Shared code, sensor fixture, host, test keys, clock and comparator; no autonomous output sampling, physical independence, adhesion or hardware validation",
+      "version": "B-unreviewed"
     }
   ],
   "scenarios": [
@@ -1979,6 +2221,221 @@
       "uncertainty": "Synthetic dynamics, proving, latency, adhesion and test keys",
       "status": "prototype-unreviewed",
       "operating_mode": "prototype"
+    },
+    {
+      "id": "TACS-SC-MissingChannelA",
+      "configuration_id": "TACS-CONFIG-RUNTIME-A",
+      "failure_mode_ids": [
+        "TACS-FM-CHANNEL-LOSS",
+        "TACS-FM-COMMON-CAUSE"
+      ],
+      "requirement_ids": [
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-DEPARTURE",
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
+      ],
+      "model_id": "TACS-MODEL-TWIN",
+      "initial_state": {
+        "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+      },
+      "faults": [
+        {
+          "location": "TACS-PROTECTION",
+          "onset": "After previously permitted moving front passes 75 m",
+          "duration": "Persistent through stopped latched end of case",
+          "magnitude": "MissingChannelA"
+        }
+      ],
+      "acceptance_criteria": {
+        "passed": true,
+        "collision_or_conflicting_occupancy_count": 0,
+        "unsafe_departures": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation",
+      "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+      "status": "prototype-unreviewed",
+      "operating_mode": "prototype"
+    },
+    {
+      "id": "TACS-SC-MissingChannelB",
+      "configuration_id": "TACS-CONFIG-RUNTIME-A",
+      "failure_mode_ids": [
+        "TACS-FM-CHANNEL-LOSS",
+        "TACS-FM-COMMON-CAUSE"
+      ],
+      "requirement_ids": [
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-DEPARTURE",
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
+      ],
+      "model_id": "TACS-MODEL-TWIN",
+      "initial_state": {
+        "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+      },
+      "faults": [
+        {
+          "location": "TACS-PROTECTION",
+          "onset": "After previously permitted moving front passes 75 m",
+          "duration": "Persistent through stopped latched end of case",
+          "magnitude": "MissingChannelB"
+        }
+      ],
+      "acceptance_criteria": {
+        "passed": true,
+        "collision_or_conflicting_occupancy_count": 0,
+        "unsafe_departures": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation",
+      "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+      "status": "prototype-unreviewed",
+      "operating_mode": "prototype"
+    },
+    {
+      "id": "TACS-SC-ChannelDisagreement",
+      "configuration_id": "TACS-CONFIG-RUNTIME-A",
+      "failure_mode_ids": [
+        "TACS-FM-CHANNEL-DISAGREEMENT",
+        "TACS-FM-COMMON-CAUSE"
+      ],
+      "requirement_ids": [
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-DEPARTURE",
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
+      ],
+      "model_id": "TACS-MODEL-TWIN",
+      "initial_state": {
+        "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+      },
+      "faults": [
+        {
+          "location": "TACS-OUTPUT",
+          "onset": "After previously permitted moving front passes 75 m",
+          "duration": "Persistent through stopped latched end of case",
+          "magnitude": "ChannelDisagreement"
+        }
+      ],
+      "acceptance_criteria": {
+        "passed": true,
+        "collision_or_conflicting_occupancy_count": 0,
+        "unsafe_departures": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation",
+      "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+      "status": "prototype-unreviewed",
+      "operating_mode": "prototype"
+    },
+    {
+      "id": "TACS-SC-ChannelReplay",
+      "configuration_id": "TACS-CONFIG-RUNTIME-A",
+      "failure_mode_ids": [
+        "TACS-FM-CHANNEL-DISAGREEMENT",
+        "TACS-FM-COMMON-CAUSE"
+      ],
+      "requirement_ids": [
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-DEPARTURE",
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
+      ],
+      "model_id": "TACS-MODEL-TWIN",
+      "initial_state": {
+        "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+      },
+      "faults": [
+        {
+          "location": "TACS-OUTPUT",
+          "onset": "After previously permitted moving front passes 75 m",
+          "duration": "Persistent through stopped latched end of case",
+          "magnitude": "ChannelReplay"
+        }
+      ],
+      "acceptance_criteria": {
+        "passed": true,
+        "collision_or_conflicting_occupancy_count": 0,
+        "unsafe_departures": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation",
+      "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+      "status": "prototype-unreviewed",
+      "operating_mode": "prototype"
+    },
+    {
+      "id": "TACS-SC-OutputFeedbackFailure",
+      "configuration_id": "TACS-CONFIG-RUNTIME-A",
+      "failure_mode_ids": [
+        "TACS-FM-OUTPUT-FEEDBACK",
+        "TACS-FM-COMMON-CAUSE"
+      ],
+      "requirement_ids": [
+        "TACS-REQ-SEPARATION",
+        "TACS-REQ-BRAKING",
+        "TACS-REQ-DEPARTURE",
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
+      ],
+      "model_id": "TACS-MODEL-TWIN",
+      "initial_state": {
+        "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+      },
+      "faults": [
+        {
+          "location": "TACS-OUTPUT",
+          "onset": "After previously permitted moving front passes 75 m",
+          "duration": "Persistent through stopped latched end of case",
+          "magnitude": "OutputFeedbackFailure"
+        }
+      ],
+      "acceptance_criteria": {
+        "passed": true,
+        "collision_or_conflicting_occupancy_count": 0,
+        "unsafe_departures": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "dual_fault_injected": true,
+        "permitted_before_fault": true,
+        "retained_occupancy": true
+      },
+      "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation",
+      "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+      "status": "prototype-unreviewed",
+      "operating_mode": "prototype"
     }
   ],
   "evidence": [
@@ -1990,7 +2447,8 @@
         "TACS-REQ-SEPARATION",
         "TACS-REQ-BRAKING",
         "TACS-REQ-DEPARTURE",
-        "TACS-REQ-RECOVERY"
+        "TACS-REQ-RECOVERY",
+        "TACS-REQ-DUAL"
       ],
       "scenario_ids": [
         "TACS-SC-ChargerMisaligned",
@@ -2007,7 +2465,12 @@
         "TACS-SC-PositionUncertainty",
         "TACS-SC-RadioPartition",
         "TACS-SC-RadioReconnection",
-        "TACS-SC-VoterRestart"
+        "TACS-SC-VoterRestart",
+        "TACS-SC-MissingChannelA",
+        "TACS-SC-MissingChannelB",
+        "TACS-SC-ChannelDisagreement",
+        "TACS-SC-ChannelReplay",
+        "TACS-SC-OutputFeedbackFailure"
       ],
       "state": "generated-unreviewed",
       "limitations": "Actual Rust cases; synthetic equipment and uncalibrated dynamics",

@@ -40,6 +40,14 @@ impl Guard {
         source_valid: bool,
         recovery_authorised: bool,
     ) {
+        // A late feed must not conceal an interval that would have tripped had
+        // the output sampler run. Only controlled stopped recovery can clear it.
+        if self
+            .request
+            .is_some_and(|old| now < old.issued_ns || now - old.issued_ns >= DEADLINE_NS)
+        {
+            self.tripped = true;
+        }
         let valid = source_valid
             && request.sequence > 0
             && request.issued_ns == now
@@ -86,6 +94,29 @@ impl Guard {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn late_feed_without_sample_latches_and_cannot_recover_while_moving() {
+        let mut g = Guard::default();
+        let mut r = Request {
+            sequence: 1,
+            issued_ns: 10,
+            brake: BrakeCommand::Release,
+            torque_mnm: 100,
+        };
+        g.feed(r, 10, true, true, true);
+        assert!(!g.sample(10, true).tripped);
+        r.sequence += 1;
+        r.issued_ns += DEADLINE_NS;
+        g.feed(r, r.issued_ns, false, true, true);
+        let output = g.sample(r.issued_ns, true);
+        assert!(output.tripped);
+        assert_eq!(output.brake, BrakeCommand::Emergency);
+        assert_eq!(output.torque_mnm, 0);
+        r.sequence += 1;
+        r.issued_ns += 1;
+        g.feed(r, r.issued_ns, true, true, true);
+        assert!(!g.sample(r.issued_ns, true).tripped);
+    }
     #[test]
     fn missing_frozen_replayed_or_unhealthy_outputs_trip_and_require_stopped_recovery() {
         let mut g = Guard::default();

@@ -5,11 +5,17 @@ proposed development target. Existing `osr-consensus`, `osr-interlocking`, ATP,
 ATO and brake components supply the decisions; `osr-runtime` supplies thin
 hosts. The earlier separate `osr-tacs` engine is retired.
 
-Two train processes, three static voters, one point interface and two station
+Four train processes (A/B for each of two trains), three static voters, one point interface and two station
 interfaces exchange authenticated messages through bounded asynchronous queues.
 Each decision/communications process has a filesystem journal. Two additional
-output processes independently enforce the brake deadline/latch contract;
-qualified hardware independence remains pending. The harness provides synthetic local
+output processes each enforce two-out-of-two agreement and either-channel trip
+using `DualGuard`. A publishes proposals; B only evaluates. Each host has its own
+journal. Missing-A/B, disagreement, replay and feedback faults must activate while
+moving and trip within one 50 ms virtual step. The 100 ms deadline cannot be
+concealed by a late feed. Shared sensors/code/host/clock/keys/comparator remain
+common causes; autonomous real-clock outputs and hardware independence remain
+pending. The [policy](../../../docs/certification/redundancy-policy.json) keeps
+point/crossing/door/charging/obstacle local pairs explicitly open. The harness provides synthetic local
 physics/proving inputs without supplying global truth to onboard authority.
 The physics fixture rejects unsupported geometry/formation/braking bundles
 before startup and checks moving footprints against retained protection.
@@ -19,6 +25,7 @@ remain owned at arrival. Process restart uses SIGKILL and the same journal.
 ```sh
 cargo test -p osr-runtime -p osr-consensus -p osr-interlocking
 python3 tools/automation/tacs_reference.py --output /tmp/reference.json
+python3 tools/automation/redundancy_policy.py
 python3 tools/automation/tacs_assurance.py --check
 python3 tools/automation/tacs_assurance.py --verify-replay
 
@@ -31,7 +38,8 @@ python3 tools/automation/tacs_cost.py engineering/assurance/tacs/cost-model.json
 [report.md](report.md) and raw execution records contain unreviewed software
 results. [assurance.json](assurance.json) uses the shared hierarchical FMEA and
 change-impact compiler. Source changes invalidate recorded execution and frozen
-configuration applicability; compilation does not create passing run evidence
+configuration and failure-subject applicability; compilation does not rebase FMEA
+records or create passing run evidence
 or independent acceptance. Reference keys are publicly reproducible test keys.
 PIDs differ on replay; all semantic results and traces must match.
 

@@ -71,3 +71,27 @@ def test_formal_tool_identity_is_checked_before_running_java(package):
     jar.write_bytes(b"not the pinned TLC tool")
     with pytest.raises(ValueError, match="checksum"):
         tacs.record_formal(package, jar)
+
+
+def test_fmea_revision_alone_invalidates_software_milestone(package):
+    path = package/tacs.ASSURANCE
+    data = json.loads(path.read_text())
+    data['failure_modes'][0]['item_revision'] = 'sha256:' + '0'*64
+    path.write_text(tacs.encoded(data))
+    report = tacs.compile_package(package)
+    assert not report['software_milestone_passed']
+    assert any('FMEA applicability stale' in issue for issue in report['evidence_issues'])
+    assert not report['physical_readiness'] and not report['operational_release_ready']
+
+
+def test_paired_fault_must_activate_and_trip_for_the_right_reason(package):
+    path = package/(tacs.BASE + 'twin-results.json')
+    result = json.loads(path.read_text())
+    case = next(c for c in result['cases'] if c['id'] == 'ChannelReplay')
+    case['dual_fault_injected'] = False
+    path.write_text(tacs.encoded(result))
+    record_path = package/(tacs.BASE + 'twin-execution.json')
+    record = json.loads(record_path.read_text())
+    record['result_sha256'] = tacs.digest(path)
+    record_path.write_text(tacs.encoded(record))
+    assert any('paired fault activation/response' in i for i in tacs.compile_package(package)['evidence_issues'])

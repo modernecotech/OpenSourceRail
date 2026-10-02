@@ -2,6 +2,7 @@
 use super::*;
 use osr_ato::{ato_evaluate, station::*, AtoInputs, AtoParams, AtoState};
 use osr_atp::{atp_evaluate, BrakeCommand, BrakeProfile, TrainState};
+use osr_brake::dual::SafetyChannel;
 use osr_brake::{brake_evaluate, BrakeInputs, BrakeParams};
 #[derive(Debug, Deserialize)]
 #[serde(tag = "command", rename_all = "snake_case", deny_unknown_fields)]
@@ -23,6 +24,7 @@ pub enum Command {
 #[derive(Debug, Serialize)]
 pub struct Response {
     pub train: TrainId,
+    pub safety_channel: SafetyChannel,
     pub commit_index: usize,
     pub authority: Option<osr_interlocking::MovementAuthority>,
     pub atp: Option<osr_atp::AtpOutcome>,
@@ -36,6 +38,7 @@ pub struct Response {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct LocalState {
+    safety_channel: SafetyChannel,
     latched: bool,
     last_now: u64,
     last_front_lower: u64,
@@ -59,6 +62,13 @@ pub struct Host {
 }
 impl Host {
     pub fn new(channel: Channel, path: &Path) -> io::Result<Self> {
+        Self::with_safety_channel(channel, path, SafetyChannel::A)
+    }
+    pub fn with_safety_channel(
+        channel: Channel,
+        path: &Path,
+        safety_channel: SafetyChannel,
+    ) -> io::Result<Self> {
         let config = channel
             .frozen
             .train_config(TrainId(channel.entity.0))
@@ -82,6 +92,7 @@ impl Host {
         }
         let mut local: LocalState = if journal.application.is_empty() {
             LocalState {
+                safety_channel,
                 latched: true,
                 last_now: 0,
                 last_front_lower: 0,
@@ -93,6 +104,9 @@ impl Host {
         } else {
             serde_json::from_slice(&journal.application).map_err(bad)?
         };
+        if local.safety_channel != safety_channel {
+            return Err(bad("journal belongs to another safety channel"));
+        }
         local.latched = true; // Every cold start requires stopped, fresh, controlled recovery.
         let network = network(&channel.frozen)?;
         Ok(Self {
@@ -270,7 +284,7 @@ impl Host {
                     &self.local.ato,
                     &AtoInputs {
                         now_ns: now,
-                        dt_ns: 100_000_000,
+                        dt_ns: 50_000_000,
                         current_speed_mmps: speed_mmps,
                         envelope_mmps: protection.envelope_mmps.unwrap_or(0),
                         cruise_target_mmps: 8000,
@@ -326,7 +340,12 @@ impl Host {
                 };
                 authority = Some(ma);
                 atp = Some(protection);
-                if now.saturating_sub(self.local.last_publication_ns) >= 300_000_000 {
+                // A owns network publication. B evaluates its independently
+                // restored committed view and local protection without issuing
+                // duplicate proposals under the train's network identity.
+                if self.local.safety_channel == SafetyChannel::A
+                    && now.saturating_sub(self.local.last_publication_ns) >= 300_000_000
+                {
                     self.local.last_publication_ns = now;
                     if self.derived.trains.get(&self.config.owner.train).is_none() {
                         let mut consist = ConsistDescriptor::reference_3car();
@@ -418,6 +437,7 @@ impl Host {
             .map_err(|e| io::Error::new(io::ErrorKind::BrokenPipe, e))?;
         Ok(Response {
             train: self.config.owner.train,
+            safety_channel: self.local.safety_channel,
             commit_index: self.node.log.len(),
             authority,
             atp,

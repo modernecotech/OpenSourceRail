@@ -23,6 +23,11 @@ TLC checked 282 distinct bounded states. Physical clearance/no-reentry is an exp
 | EmergencyDepartureConnected | True | 0 | 0 | 0 |
 | CivilClosure | True | 0 | 0 | 0 |
 | CivilDataStale | True | 0 | 0 | 0 |
+| MissingChannelA | True | 0 | 0 | 0 |
+| MissingChannelB | True | 0 | 0 | 0 |
+| ChannelDisagreement | True | 0 | 0 | 0 |
+| ChannelReplay | True | 0 | 0 | 0 |
+| OutputFeedbackFailure | True | 0 | 0 | 0 |
 
 ## Open release stages
 

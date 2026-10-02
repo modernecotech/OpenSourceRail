@@ -1,0 +1,23 @@
+{
+  "schema": "osr-redundancy-policy/1",
+  "status": "development-default-unreviewed",
+  "logical_channels": ["A", "B"],
+  "permission": "two-out-of-two",
+  "trip": "either-channel",
+  "channel_loss": "stop-affected-function",
+  "single_channel_operation": false,
+  "automatic_takeover": false,
+  "raft_is_safety_redundancy": false,
+  "physical_independence_qualified": false,
+  "operational_release_ready": false,
+  "functions": [
+    {"id": "train-protection", "reference_state": "logical-pair-executed", "physical_state": "open"},
+    {"id": "point-proving-and-locking", "reference_state": "open", "physical_state": "open"},
+    {"id": "crossing-protection", "reference_state": "open", "physical_state": "open"},
+    {"id": "doors-and-platform-protection", "reference_state": "open", "physical_state": "open"},
+    {"id": "charging-isolation", "reference_state": "open", "physical_state": "open"},
+    {"id": "obstacle-protection", "reference_state": "open", "physical_state": "open"}
+  ],
+  "common_causes": ["shared-software", "shared-sensor-fixture", "shared-host", "shared-test-keys", "shared-clock", "shared-comparator", "unqualified-power-and-output-paths"],
+  "hardware_mapping": "Reconcile real channel serials, power domains, firmware, calibration, watchdogs and outputs at hardware freeze; reference processes are not installed BOM quantities."
+}

@@ -8,6 +8,18 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 ## Reviewed Open Work
 
+The [2 October platform review follow-up](rfcs/0033-tacs-runtime-and-resource-control.md#default-redundant-protection-and-platform-review-follow-up)
+implements logical A/B train protection, paired outputs, the late-feed fix and
+FMEA applicability checks. The [development policy](certification/redundancy-policy.json)
+retains two-out-of-two permission and either-channel trip; all physical channel
+qualification and the five other local pairs remain open. Priorities are
+autonomous watchdog/output execution, typed sensor/emergency integration,
+repeated station missions, the calibrated shared plant and sealed city export,
+sustained resource/storage duty, specific fault-response evidence and hardware
+freeze quantities. Existing city duty/energy/stabling and `osr-sim` remain the
+planning sources. Service arrival in the short fixture does not close these
+integration tasks or permit operational release.
+
 The [city deployment evidence workflow](city-deployment-evidence.md) now covers
 the complete catalogue with soilDB civil screening, preserved field receipts,
 current native/SUMO timing comparisons and per-city deployment gap registers.

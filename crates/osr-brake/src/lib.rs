@@ -74,6 +74,7 @@
 #![forbid(unsafe_code)]
 
 pub mod deadline;
+pub mod dual;
 
 pub mod evaluate;
 pub mod inputs;

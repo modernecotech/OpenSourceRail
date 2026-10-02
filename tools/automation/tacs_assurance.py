@@ -15,6 +15,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from tools.automation import connected_assurance as thread
+from tools.automation import redundancy_policy
 
 BASE = "engineering/assurance/tacs/"
 MODEL = BASE + "railway-model.json"
@@ -23,7 +24,7 @@ ASSURANCE = BASE + "assurance.json"
 TLA = "engineering/assurance/formal/tla/"
 JAR_SHA256 = "b490f45c1de08e4ff9753259a00338981b9cf464f01ca9e9cd5f19f33cf0bb92"
 JAR_URL = "https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar"
-from tools.automation.tacs_reference import CASES as REFERENCE_CASES
+from tools.automation.tacs_reference import CASES as REFERENCE_CASES, DUAL_CASES, DT
 CASES = set(REFERENCE_CASES)
 
 
@@ -48,7 +49,8 @@ def deployment(root: Path) -> dict:
 
 def execution_paths(root: Path) -> list[str]:
     paths = {MODEL, DEPLOYMENT, "Cargo.toml", "Cargo.lock", "rust-toolchain.toml",
-             "tools/automation/tacs_reference.py", "tools/automation/tacs_assurance.py"}
+             "tools/automation/tacs_reference.py", "tools/automation/tacs_assurance.py",
+             redundancy_policy.POLICY, "tools/automation/redundancy_policy.py"}
     for name in ("osr-runtime", "osr-core", "osr-interlocking", "osr-consensus", "osr-atp", "osr-ato", "osr-brake", "osr-proto", "osr-crypto", "osr-secbus"):
         paths.add(f"crates/{name}/Cargo.toml")
         paths.update(str(p.relative_to(root)) for p in (root/f"crates/{name}/src").rglob("*.rs"))
@@ -139,9 +141,17 @@ def compile_package(root: Path = ROOT) -> dict:
     formal, formal_issues = inspect_execution(root, BASE + "formal-execution.json",
                                             [TLA + "TACSResources.tla", TLA + "TACSResources.cfg"])
     issues.extend(formal_issues)
+    issues.extend(redundancy_policy.check_policy(root))
     for row in graph["nodes"]:
         if row["kind"] == "configurations" and graph["gaps"].get(row["id"]):
             issues.append("controlled FMEA/configuration baseline stale: " + row["id"])
+        if row["kind"] == "failure_modes":
+            # Unknown occurrence and unreviewed risk remain open, but a failure
+            # analysis bound to another design/configuration cannot pass even
+            # the limited software milestone.
+            gaps = graph["gaps"].get(row["id"], [])
+            if any(g.startswith(("failure analysis binds", "failure subject absent/different")) for g in gaps):
+                issues.append("controlled FMEA applicability stale: " + row["id"])
     if not (root/DEPLOYMENT).is_file() or json.loads((root/DEPLOYMENT).read_text()) != deployment(root):
         issues.append("generated deployment differs from controlled railway model")
     result = json.loads((root/(BASE + "twin-results.json")).read_text()) if twin and (root/(BASE + "twin-results.json")).is_file() else {}
@@ -150,15 +160,21 @@ def compile_package(root: Path = ROOT) -> dict:
         issues.append("missing or duplicate nominal/fault cases")
     if not result.get("all_cases_passed") or result.get("configuration") != deployment(root)["configuration"]:
         issues.append("twin failed or binds a different railway model")
-    if result.get("topology")!={"train_agents":2,"voters":3,"point_interfaces":1,"station_charging_interfaces":2,"output_guard_processes":2}:
+    if result.get("topology")!={"train_agents":4,"train_safety_pairs":2,"voters":3,"point_interfaces":1,"station_charging_interfaces":2,"output_guard_processes":2}:
         issues.append("missing real reference process topology")
     for c in cases:
-        if c.get("process_count")!=10 or len(set(c.get("process_ids",[])))<10:
+        if c.get("process_count")!=12 or len(set(c.get("process_ids",[])))<12:
             issues.append("missing independent process execution: "+c["id"])
         if c["id"] in ("None","RadioReconnection","ControllerRestart","VoterRestart") and c["station_arrivals"]!=[101,102]:
             issues.append("normal/recovered service did not complete: "+c["id"])
         if not c["passed"] or c["collision_or_conflicting_occupancy_count"] != 0 or c["unsafe_departures"] != 0 or c["final_speed_mmps"] != [0, 0]:
             issues.append("unsafe or failed twin case: " + c["id"])
+        if c["id"] in DUAL_CASES and (
+            c.get("dual_fault_injected") is not True or c.get("permitted_before_fault") is not True
+            or (c.get("fault_speed_mmps") or 0) <= 0 or c.get("retained_occupancy") is not True
+            or c.get("output_trip_latency_ns") is None or not 0 <= c["output_trip_latency_ns"] <= DT
+        ):
+            issues.append("paired fault activation/response not established: " + c["id"])
     if not formal.get("passed") or formal.get("tool_sha256") != JAR_SHA256:
         issues.append("bounded formal check unavailable or tool identity differs")
     if any(result.get(k) is not False for k in ("physical_readiness", "operational_release_ready")):

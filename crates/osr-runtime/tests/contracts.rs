@@ -183,3 +183,114 @@ fn station_port_inhibits_unsafe_charging_and_cannot_grant_movement_or_cross_asse
     drop(host);
     std::fs::remove_dir_all(path).unwrap();
 }
+
+#[test]
+fn train_channels_use_separate_journals_and_b_cannot_publish_or_change_channel() {
+    use osr_ato::station::StationInputs;
+    use osr_brake::dual::SafetyChannel;
+    use osr_runtime::train::{Command, Host};
+    let path = std::env::temp_dir().join(format!("osr-train-pair-{}", std::process::id()));
+    let mut a = Host::with_safety_channel(
+        Channel::new(frozen(), EntityId(101)).unwrap(),
+        &path.join("a"),
+        SafetyChannel::A,
+    )
+    .unwrap();
+    let mut b = Host::with_safety_channel(
+        Channel::new(frozen(), EntityId(101)).unwrap(),
+        &path.join("b"),
+        SafetyChannel::B,
+    )
+    .unwrap();
+    let tick = || Command::Tick {
+        now: 300_000_000,
+        front_progress_mm: 50000,
+        speed_mmps: 0,
+        uncertainty_mm: 100,
+        integrity: true,
+        recovery_authorised: false,
+        station: StationInputs {
+            stopped_and_berthed: true,
+            secured: true,
+            aligned: true,
+            doors_closed_and_locked: true,
+            charger_isolated: true,
+            connector_clear: true,
+            charger_healthy: true,
+            charge_complete: false,
+            energy_sufficient: false,
+            departure_requested: false,
+            emergency_departure_requested: false,
+            authority_valid: false,
+        },
+    };
+    let output_a = a.handle(tick()).unwrap();
+    let output_b = b.handle(tick()).unwrap();
+    assert_eq!(output_a.safety_channel, SafetyChannel::A);
+    assert_eq!(output_b.safety_channel, SafetyChannel::B);
+    assert!(!output_a.packets.is_empty());
+    assert!(output_b.packets.is_empty());
+    assert_eq!(output_a.brake, output_b.brake);
+    assert!(output_a.recovery_required && output_b.recovery_required);
+    drop(b);
+    assert!(Host::with_safety_channel(
+        Channel::new(frozen(), EntityId(101)).unwrap(),
+        &path.join("b"),
+        SafetyChannel::A,
+    )
+    .is_err());
+    let recovered = Host::with_safety_channel(
+        Channel::new(frozen(), EntityId(101)).unwrap(),
+        &path.join("b"),
+        SafetyChannel::B,
+    )
+    .unwrap();
+    drop(recovered);
+    drop(a);
+    std::fs::remove_dir_all(path).unwrap();
+}
+
+#[test]
+fn output_process_rejects_single_channel_protocol_and_trips_missing_pair() {
+    use std::io::Write;
+    use std::process::{Command, Stdio};
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let mut process = Command::new(env!("CARGO_BIN_EXE_osr-safety-output"))
+        .arg("--model")
+        .arg(root.join("engineering/assurance/tacs/railway-model.json"))
+        .arg("--deployment")
+        .arg(root.join("engineering/assurance/tacs/deployment.json"))
+        .args(["--entity", "101"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut input = process.stdin.take().unwrap();
+    writeln!(
+        input,
+        "{}",
+        serde_json::json!({"command":"feed","now":1,
+        "request":{"sequence":1,"issued_ns":1,"brake":"Release","torque_mnm":1},
+        "stopped":true,"source_valid":true,"recovery_authorised":true})
+    )
+    .unwrap();
+    writeln!(
+        input,
+        "{}",
+        serde_json::json!({"command":"feed_pair","now":2,
+        "pair":{"a":null,"b":null,"stopped":true,"recovery_authorised":true},
+        "feedback_a_healthy":true,"feedback_b_healthy":true})
+    )
+    .unwrap();
+    drop(input);
+    let output = process.wait_with_output().unwrap();
+    assert!(output.status.success());
+    let replies: Vec<serde_json::Value> = std::str::from_utf8(&output.stdout)
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect();
+    assert_eq!(replies[0]["ok"], false);
+    assert_eq!(replies[1]["result"]["pair"]["output"]["tripped"], true);
+    assert_eq!(replies[1]["result"]["pair"]["output"]["torque_mnm"], 0);
+}

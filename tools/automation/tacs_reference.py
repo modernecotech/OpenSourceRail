@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ten real processes, asynchronous signed messages, synthetic local sensor ports.
+"""Twelve real processes, paired train protection, synthetic local sensor ports.
 
 The coordinator supplies physics only to the train's own port and independent
 wayside proving ports. Authority inputs are exclusively communicated committed
@@ -7,15 +7,18 @@ prefixes. It never edits consensus logs or interlocking state. Virtual time is
 repeatable; filesystem persistence and SIGKILL/restart use the actual OS.
 """
 from __future__ import annotations
-import argparse, collections, hashlib, json, os, select, subprocess, tempfile
+import argparse, collections, hashlib, json, os, select, subprocess, sys, tempfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+from tools.automation.redundancy_policy import check_policy
 BASE = ROOT/'engineering/assurance/tacs'
-DT = 100_000_000
+DT = 50_000_000  # Feed before the 100 ms deadline, including nominal running.
 IDS = (1001,1002,1003,900,901,902,101,102)
+DUAL_CASES = ('MissingChannelA','MissingChannelB','ChannelDisagreement','ChannelReplay','OutputFeedbackFailure')
 CASES = ('None','RadioPartition','RadioReconnection','ControllerRestart','VoterRestart',
          'FrozenOutput','IntegrityLoss','PositionUncertainty','PointsDetectionLost','ChargerStuck',
-         'IncompleteCharge','ChargerMisaligned','EmergencyDepartureConnected','CivilClosure','CivilDataStale')
+         'IncompleteCharge','ChargerMisaligned','EmergencyDepartureConnected','CivilClosure','CivilDataStale') + DUAL_CASES
 
 def validate_reference_model(model):
     """This physics fixture is deliberately bounded, not an arbitrary railway."""
@@ -46,11 +49,13 @@ def validate_reference_model(model):
         raise ValueError('unsupported protection controller/possession profile')
 
 class Process:
-    def __init__(self, entity, directory, output=False):
+    def __init__(self, entity, directory, output=False, channel='A'):
         binary = 'osr-safety-output' if output else 'osr-train-agent' if entity < 900 else 'osr-wayside-agent'
         self.entity = entity
-        self.proc = subprocess.Popen([str(ROOT/'target/release'/binary),'--model',str(BASE/'railway-model.json'),
-            '--deployment',str(BASE/'deployment.json'),'--entity',str(entity),'--journal',str(Path(directory)/f'{entity}.journal')],
+        args = [str(ROOT/'target/release'/binary),'--model',str(BASE/'railway-model.json'),
+            '--deployment',str(BASE/'deployment.json'),'--entity',str(entity),'--journal',str(Path(directory)/f'{entity}-{channel}.journal')]
+        if not output and entity < 900: args += ['--safety-channel',channel]
+        self.proc = subprocess.Popen(args,
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
         self.buffer = b''
     def call(self, data):
@@ -73,9 +78,12 @@ class Process:
 
 class Installation:
     def __init__(self, directory, case):
+        issues=check_policy(ROOT)
+        if issues:raise ValueError('; '.join(issues))
         validate_reference_model(json.loads((BASE/'railway-model.json').read_text()))
-        self.directory,self.case=directory,case;self.maxsteps=1400
+        self.directory,self.case=directory,case;self.maxsteps=2800
         self.processes={i:Process(i,directory) for i in IDS}
+        self.processes.update({(i,'B'):Process(i,directory,channel='B') for i in (101,102)})
         self.outputs={i:Process(i,directory,output=True) for i in (101,102)}
         self.output_sequence={i:0 for i in (101,102)}
         self.pids=[p.proc.pid for p in [*self.processes.values(),*self.outputs.values()]]
@@ -87,6 +95,8 @@ class Installation:
         self.possession_sent=False
         self.fault=False; self.fault_at=None; self.recovered=False; self.retained=False
         self.rejections=0; self.bytes=0; self.max_queue=0; self.trace=[]; self.restored=False
+        self.last_feeds={}; self.pair_outputs={}; self.output_trip_ns=None
+        self.fault_injected=False; self.permitted_before_fault=False; self.fault_speed_mmps=None
     def close(self):
         for p in [*self.processes.values(),*self.outputs.values()]: p.stop()
     def accept(self,entity,answer, destination=None):
@@ -99,6 +109,7 @@ class Installation:
             self.leader=entity
             if result.get('resources'):self.ledger=result['resources']
         for packet in result.get('packets',[]):
+            if isinstance(entity,tuple): raise RuntimeError('channel B published a network proposal')
             if entity<900:
                 to=0; envelope=packet
             else:to=packet['to'];envelope=packet['envelope']
@@ -108,6 +119,7 @@ class Installation:
         if len(self.queue)>256:raise RuntimeError('bounded transport queue exceeded')
         return result
     def call(self,entity,command, destination=None):
+        if self.processes[entity].proc.poll() is not None: return None
         return self.accept(entity,self.processes[entity].call(dict(command,now=self.now)),destination)
     def flush(self):
         # One finite network dispatch phase; responses are queued, never drive a
@@ -118,13 +130,14 @@ class Installation:
             if to is None:continue
             issuer=envelope['issuer']
             isolated=self.fault and (self.case=='RadioPartition' or self.case=='RadioReconnection' and self.now-self.fault_at<4_000_000_000)
-            if isolated and (to==101 or issuer==101):continue
+            if isolated and (to in (101,(101,'B')) or issuer==101):continue
             self.call(to,{'command':'receive','envelope':envelope})
     def publish(self,entity,payloads):
         if payloads:self.call(entity,{'command':'publish','payloads':payloads})
     def prefix(self):
         if self.leader is None:return
-        for train in (101,102):
+        for train in (101,(101,'B'),102,(102,'B')):
+            if self.processes[train].proc.poll() is not None: continue
             index=self.status.get(train,{}).get('commit_index',0)
             self.call(self.leader,{'command':'observe','from_index':index},train)
     def records(self):
@@ -170,7 +183,7 @@ class Installation:
     def station(self,train):
         p=self.positions[train];v=self.speeds[train];initial=p<51000 and v==0
         prior=self.tick_outputs.get(train,{}).get('station',{})
-        if self.charger_enabled[train]:self.energy[train]+=20
+        if self.charger_enabled[train]:self.energy[train]+=20*DT//100_000_000
         if self.fault and self.case=='IncompleteCharge' and train==101:self.energy[train]=400
         connected=prior.get('phase')=='Exchange'
         stuck=self.fault and self.case in ('ChargerStuck','EmergencyDepartureConnected') and train==101
@@ -192,29 +205,51 @@ class Installation:
         uncertainty=25000 if self.fault and self.case=='PositionUncertainty' and train==101 else 100
         station=self.station(train)
         recovery=(not self.fault or self.case in ('None','RadioReconnection','ControllerRestart','VoterRestart'))
-        result=self.call(train,dict(command='tick',front_progress_mm=self.positions[train],speed_mmps=self.speeds[train],
-             uncertainty_mm=uncertainty,integrity=integrity,station=station,recovery_authorised=recovery))
-        if result is None:raise RuntimeError('valid train tick rejected')
-        self.tick_outputs[train]=result
+        command=dict(command='tick',front_progress_mm=self.positions[train],speed_mmps=self.speeds[train],
+             uncertainty_mm=uncertainty,integrity=integrity,station=station,recovery_authorised=recovery)
+        result=self.call(train,command)
+        other=self.call((train,'B'),command)
+        if result is not None:self.tick_outputs[train]=result
         self.inputs[train]=station
         self.output_sequence[train]+=1
+        def feed(value):
+            if value is None:return None
+            return dict(request=dict(sequence=self.output_sequence[train],issued_ns=self.now,
+                        brake=value['brake'],torque_mnm=value['torque_mnm']),source_valid=True)
+        pair=dict(a=feed(result),b=feed(other),stopped=self.speeds[train]==0,
+                  recovery_authorised=recovery and result is not None and other is not None
+                    and not result['recovery_required'] and not other['recovery_required'])
+        feedback_a=feedback_b=True
+        if self.fault and train==101:
+            if self.case=='ChannelDisagreement':
+                pair['b']['request']['torque_mnm']+=1;self.fault_injected=True
+            elif self.case=='ChannelReplay':
+                pair['b']=self.last_feeds[train]['b'];self.fault_injected=True
+            elif self.case=='OutputFeedbackFailure':
+                feedback_b=False;self.fault_injected=True
         if self.fault and self.case=='FrozenOutput' and train==101:
-            reply=self.outputs[train].call(dict(command='sample',now=self.now,feedback_healthy=True))
+            reply=self.outputs[train].call(dict(command='sample',now=self.now,
+                    feedback_a_healthy=True,feedback_b_healthy=True))
         else:
-            reply=self.outputs[train].call(dict(command='feed',now=self.now,request=dict(sequence=self.output_sequence[train],issued_ns=self.now,brake=result['brake'],torque_mnm=result['torque_mnm']),
-                stopped=self.speeds[train]==0,source_valid=True,recovery_authorised=recovery and not result['recovery_required']))
+            reply=self.outputs[train].call(dict(command='feed_pair',now=self.now,pair=pair,
+                    feedback_a_healthy=feedback_a,feedback_b_healthy=feedback_b))
         if not reply['ok']:raise RuntimeError('output port rejected')
-        output=reply['result']['output']
+        paired=reply['result']['pair'];self.pair_outputs[train]=paired
+        output=paired['output']
+        if train==101:
+            if not self.fault and not output['tripped'] and self.speeds[train]>0:self.permitted_before_fault=True
+            if self.fault and output['tripped'] and self.output_trip_ns is None:self.output_trip_ns=self.now
+        if not self.fault:self.last_feeds[train]=pair
         brake=output['brake'];speed=self.speeds[train]
-        if brake=='Emergency':speed=max(0,speed-98)
-        elif isinstance(brake,dict):speed=max(0,speed-max(1,100*brake['Service']//1000))
-        elif output['torque_mnm']>0:speed=min(8000,speed+100)
-        self.positions[train]+=speed//10;self.speeds[train]=speed
+        if brake=='Emergency':speed=max(0,speed-980*DT//1_000_000_000)
+        elif isinstance(brake,dict):speed=max(0,speed-max(1,1000*brake['Service']*DT//(1000*1_000_000_000)))
+        elif output['torque_mnm']>0:speed=min(8000,speed+1000*DT//1_000_000_000)
+        self.positions[train]+=speed*DT//1_000_000_000;self.speeds[train]=speed
         if output['torque_mnm']>0 and not (station['doors_closed_and_locked'] and station['charger_isolated'] and station['connector_clear'] and station['energy_sufficient']):
             raise RuntimeError('unsafe departure')
         if 268000<=self.positions[train]<=272000 and speed==0 and train not in self.arrivals:self.arrivals.append(train)
         if self.positions[train]>=100000 and train not in self.entries:self.entries.append(train)
-        if self.fault and train==101 and result['recovery_required'] and speed==0 and self.case=='RadioReconnection' and self.now-self.fault_at>=4_000_000_000:self.recovered=True
+        if self.fault and train==101 and result is not None and result['recovery_required'] and speed==0 and self.case=='RadioReconnection' and self.now-self.fault_at>=4_000_000_000:self.recovered=True
     def check(self):
         a=self.positions[101];b=self.positions[102]
         if 100000<a and a-10100<200000 and 100000<b and b-10100<200000:raise RuntimeError('conflicting physical occupancy')
@@ -244,7 +279,7 @@ class Installation:
             self.restored=True
     def run(self):
         # Elect with actual RPCs through process ports.
-        for _ in range(16):
+        for _ in range(32):
             self.now+=DT
             for entity in (1001,1002,1003):self.call(entity,{'command':'tick'})
             self.flush();self.flush()
@@ -254,12 +289,12 @@ class Installation:
         self.publish(self.leader,[{'ResourceControl':{'Bootstrap':{'configuration':config,'model':model}}}])
         # Initial empty-railway proof and controlled admission. No train runs
         # until the bootstrap and local proving have actually committed.
-        for _ in range(20):
+        for _ in range(40):
             self.now+=DT
             for entity in (1001,1002,1003):self.call(entity,{'command':'tick'})
             if self.ledger and not self.possession_sent:
                 self.publish(900,[{'ResourceControl':{'Block':6}}]);self.possession_sent=True
-            if self.ledger and _%4==0:self.proving(empty=True)
+            if self.ledger and _%8==0:self.proving(empty=True)
             self.flush();self.flush()
         if not self.ledger:raise RuntimeError('bootstrap did not commit')
         for step in range(self.maxsteps):
@@ -268,30 +303,41 @@ class Installation:
             # Station faults start during exchange; running faults after A starts.
             threshold=50000 if self.case in ('ChargerStuck','IncompleteCharge','ChargerMisaligned','EmergencyDepartureConnected') else 75000
             if not self.fault and self.case!='None' and self.positions[101]>=threshold and step>(1 if threshold==50000 else 15):
-                self.fault=True;self.fault_at=self.now
+                self.fault=True;self.fault_at=self.now;self.fault_speed_mmps=self.speeds[101]
+                if self.case in ('MissingChannelA','MissingChannelB'):
+                    key=101 if self.case=='MissingChannelA' else (101,'B')
+                    self.processes[key].stop();self.fault_injected=True
                 if self.case=='ControllerRestart':
                     self.restart(900);self.publish(900,[{'ResourceControl':{'Restart':2}}])
                 elif self.case=='VoterRestart':self.restart(self.leader)
-            if step%4==0:self.proving()
+            if step%8==0:self.proving()
             self.prefix();self.flush();self.flush()
             for train in (101,102):self.train_tick(train)
             self.flush();self.flush();self.check()
             if step%200==0:print(f"  {self.case} step={step} front={self.positions} commits={[self.status[t]['commit_index'] for t in (101,102)]}",flush=True)
-            if step%20==0:self.trace.append({'now_ns':self.now,'front_mm':[self.positions[t] for t in (101,102)],
+            if step%40==0:self.trace.append({'now_ns':self.now,'front_mm':[self.positions[t] for t in (101,102)],
                 'speed_mmps':[self.speeds[t] for t in (101,102)],'phase':[r['phase'] for r in self.records()],
-                'brake':[self.status[t]['brake'] for t in (101,102)],'commit':[self.status[t]['commit_index'] for t in (101,102)]})
+                'brake':[self.status[t]['brake'] for t in (101,102)],'commit':[self.status[t]['commit_index'] for t in (101,102)],
+                'pair_output':[self.pair_outputs[t] for t in (101,102)]})
             nominal=self.case in ('None','RadioReconnection','ControllerRestart','VoterRestart')
             if nominal and len(self.arrivals)==2:break
             if not nominal and self.fault and self.now-self.fault_at>8_000_000_000 and self.speeds[101]==0 and self.speeds[102]==0:break
         passed=(len(self.arrivals)==2 if nominal else self.fault and self.speeds[101]==0 and self.speeds[102]==0)
         if self.case=='VoterRestart':passed=passed and self.restored
         if self.case=='RadioPartition':passed=passed and self.retained
+        if self.case in DUAL_CASES:
+            passed=passed and self.fault_injected and self.permitted_before_fault and self.fault_speed_mmps>0
+            passed=passed and self.output_trip_ns is not None and self.output_trip_ns-self.fault_at<=DT
+            passed=passed and self.retained and self.pair_outputs[101]['output']['tripped']
         # Compact actual journal storage and keep complete logical log.
         self.call(self.leader,{'command':'compact'})
         return dict(id=self.case,passed=passed,steps=step+1,junction_entry_order=self.entries,station_arrivals=sorted(self.arrivals),
             final_speed_mmps=[self.speeds[t] for t in (101,102)],final_front_mm=[self.positions[t] for t in (101,102)],
             collision_or_conflicting_occupancy_count=0,unsafe_departures=0,retained_occupancy=self.retained,
-            restored_committed_prefix=self.restored,protected_possession_retained=self.records()[6]['phase']=='Blocked',process_count=10,process_ids=self.pids,transport_bytes=self.bytes,
+            restored_committed_prefix=self.restored,protected_possession_retained=self.records()[6]['phase']=='Blocked',process_count=12,process_ids=self.pids,
+            dual_fault_injected=self.fault_injected,permitted_before_fault=self.permitted_before_fault,
+            fault_speed_mmps=self.fault_speed_mmps,
+            output_trip_latency_ns=None if self.output_trip_ns is None else self.output_trip_ns-self.fault_at,transport_bytes=self.bytes,
             maximum_queue=self.max_queue,rejected_packets=self.rejections,trace=self.trace)
 
 def campaign(cases=CASES):
@@ -305,8 +351,11 @@ def campaign(cases=CASES):
         results.append(result)
     return {'schema':'osr-tacs-process-reference/1','configuration':json.loads((BASE/'deployment.json').read_text())['configuration'],
         'all_cases_passed':all(c['passed'] for c in results),'physical_readiness':False,'operational_release_ready':False,
-        'topology':{'train_agents':2,'voters':3,'point_interfaces':1,'station_charging_interfaces':2,'output_guard_processes':2},
-        'limitations':['Synthetic independent detector/integrity/no-reentry sensor interfaces; hardware qualification pending',
+        'topology':{'train_agents':4,'train_safety_pairs':2,'voters':3,'point_interfaces':1,'station_charging_interfaces':2,'output_guard_processes':2},
+        'limitations':['Two logical channels share code, physical sensor fixture, host, keys, clock and synthetic comparator; no physical independence',
+        'Output port blocks waiting for coordinator commands; autonomous real-time deadline execution remains open',
+        'Channel A owns publication; loss of A stops service with no automatic B takeover',
+        'Synthetic detector/integrity/no-reentry sensor interfaces; hardware qualification pending',
         'No physical power-cycle, certified output channel, real radio or operational acceptance',
         'Crash-fault static Raft; authenticated member committed-prefix assertions are not Byzantine quorum certificates',
         'Reference queues use virtual time; delay/coverage/capacity require measured transports',

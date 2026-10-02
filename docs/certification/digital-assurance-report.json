@@ -214,6 +214,12 @@
         "STD-CTRL-016"
       ]
     },
+    "crates/osr-brake/src/dual.rs": {
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
     "crates/osr-brake/src/evaluate.rs": {
       "controls": [
         "STD-CTRL-003",
@@ -915,6 +921,12 @@
         "IEC-62928-2017"
       ]
     },
+    "docs/certification/redundancy-policy.json": {
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
     "docs/certification/release-gap-register.md": {
       "checks": [
         "DA-006",
@@ -1565,6 +1577,12 @@
       ]
     },
     "tools/automation/connected_assurance.py": {
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "tools/automation/redundancy_policy.py": {
       "controls": [
         "STD-CTRL-003",
         "STD-CTRL-016"
@@ -21711,7 +21729,7 @@
     "profiles": 5,
     "standards": 23
   },
-  "design_fingerprint_sha256": "30f2a048ab59e6c5f9631a333185749505127f4e5b7a20a73a6bb14ab7d6904a",
+  "design_fingerprint_sha256": "93f8d1cccc7bd3b7558c223518a15cbbddb48bfeaa71eb168b4cdd8d6b67361f",
   "digital_coherence_gate": "pass",
   "digital_gate_passed": true,
   "evidence_hashes": {
@@ -21719,7 +21737,7 @@
     "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
     "crates/osr-aux-power/src/lib.rs": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452",
     "crates/osr-bms/src/lib.rs": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799",
-    "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+    "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
     "crates/osr-consensus/src/durable.rs": "53b4f42f5bfc269724ec543381f1797d27463073e47d59910232f06c0f95a2b2",
     "crates/osr-consensus/src/fault_harness.rs": "4a45404678cd1d28dd155199d5ba05e3934cf196641791a85f7d5d60737b8613",
     "crates/osr-consensus/src/lib.rs": "8d6d3babe03c00f4a4920b8ebc1d3c9e56ea6f36957bffe0286101e4997e1b5e",
@@ -21794,8 +21812,8 @@
       "state": "generated-unreviewed"
     },
     "crates/osr-brake/src/lib.rs": {
-      "sha256": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
-      "size_bytes": 3290,
+      "sha256": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
+      "size_bytes": 3304,
       "state": "generated-unreviewed"
     },
     "crates/osr-consensus/src/durable.rs": {
@@ -27801,11 +27819,12 @@
     "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
     "crates/osr-atp/src/state.rs": "a80c296cb1916327c2c44783582e36cca6fa86b470f69507228641330afb1522",
     "crates/osr-brake/Cargo.toml": "cc93f4a2a1e9e82aab0d839390e79c8afe9851d9edd0d2972df2e446a2aaefa9",
-    "crates/osr-brake/src/deadline.rs": "fbb92509bd2f70e026b889b8b926a51db44a5483f0ddbcc85082cd08a0f5c003",
+    "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+    "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
     "crates/osr-brake/src/evaluate.rs": "66c39062333058af4a8e26915af499c2cd09a88d1e616092eda093c116b10a2e",
     "crates/osr-brake/src/inputs.rs": "b5d102b330ac78e966115565bc924e483b53f249c4295d728da1c6a5bc4c5a1f",
     "crates/osr-brake/src/kani_proofs.rs": "32c20d2a760edb213b7d2144a429184c11d8c4c2d804852d2974bff146aadb6a",
-    "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+    "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
     "crates/osr-brake/src/output.rs": "3ee8c88ab471c0566bbcb04dd632b848e3544e12115ee1db8b9fd3df4565b411",
     "crates/osr-consensus/Cargo.toml": "a118a895dc81296ef0ea64a3a6272ce68e26ffaf97e0d8399411e1ad4874d7be",
     "crates/osr-consensus/src/authenticated.rs": "b93cfeefcc6f4fc3e3ddb2d8e2592093ed3b912198f64a1dfba5fdd9b31df2df",
@@ -27847,13 +27866,13 @@
     "crates/osr-proto/Cargo.toml": "f0d95f3d7c118f6cfb11c445b375eb718dd71f1d6dcbc66f4db86ffe1fc3d7fb",
     "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
     "crates/osr-runtime/Cargo.toml": "6c925adb2aeccd6e4349d82f1e965ec5798b33fbacb6d4e853817b241f678db2",
-    "crates/osr-runtime/src/bin/osr-safety-output.rs": "35d19338ad40267dd402e079d0c461559ea6f8694d9e571af06b8bf69890927a",
-    "crates/osr-runtime/src/bin/osr-train-agent.rs": "f93fb35c1ea461e8382b9ced3865e1eb8b01c092d5ef8632bc059fc4f4a4ab6e",
+    "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+    "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
     "crates/osr-runtime/src/bin/osr-wayside-agent.rs": "9c87faad10c90e0055bfecdf01aadf0e36be0ee9f505707f57d5c01256e32aa0",
     "crates/osr-runtime/src/bin/reference-keys.rs": "155259ff58954835a1a0a9c74ffadac13deb175853c88e665fc216f1dbd308cb",
     "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
     "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-    "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+    "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
     "crates/osr-runtime/src/wayside.rs": "272c9397da14901aa816aae6fa132b64b64cb3e2228a371666a71d86e3c4fdf9",
     "crates/osr-secbus/Cargo.toml": "955e4b1f6b4532eaaab35cc1e116d8ce9b2083bd9dc569b30d6f43c961e12935",
     "crates/osr-secbus/src/kani_proofs.rs": "eaf6ae3bf824754e41543f8a88ca31d2dbb17cb55eecd8ed947b6dcd755f900b",
@@ -27883,8 +27902,9 @@
     "design/component-catalogue/src/osr_mech/rolling_stock/small_components.py": "1481ec25f99a2ac28b6cd197b94fb6d107e3187ab6c6552077353df83aaee529",
     "design/component-catalogue/src/osr_mech/rolling_stock/systems.py": "0cee6520b383ab9aafcac7dcacd1d4132ee531c208b514658fd3901be4696fcc",
     "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "75f4814915af473aa8a33d0d725d7ee840017cc1c723e777fe6d8bc88c9fd484",
+    "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
     "docs/rfcs/0032-train-centred-control.md": "3ce54c1ffc772e82a8b2fe66334bd1b352b9c510f0e9f8750506d5232386ea1e",
-    "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "f835ce06e65c409bba4a2d38eacacaa1f10b1781be0ced0b6fd81fddfce82044",
+    "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "ce26bf0904a7a04d44694439a76499c21b6cef3ebb45f95674ea747312e6ac4b",
     "engineering/analysis/benchmarks/civil_reference.py": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
     "engineering/analysis/civil_evidence.py": "7ae30b0e4642688fefc7578bfc81ce22e3f6118cf020a9649a89327121d84406",
     "engineering/analysis/drainage_ground_design.py": "ead0855410bf7343eb847d48c7279b4ffef0aa55019a2b2a2449fa97b8411983",
@@ -27903,13 +27923,13 @@
     "engineering/assurance/civil-reference/route-basis.json": "b53a08a3541c9b27fcb598425f1c48255cb54a91f3390bf588e5d9f1a69d2cb2",
     "engineering/assurance/formal/tla/TACSResources.cfg": "b0287ce6bc9bf2b44d3c90810963187713ecf67811b10ae06f3f58a1b48450f2",
     "engineering/assurance/formal/tla/TACSResources.tla": "9fe800fe489fc4bc403710608c5522b863ea378f95a2eae78246be5b01c7b3cf",
-    "engineering/assurance/tacs/assurance.json": "4285d8d349bbe48c107321199564e3c5e6f8a656b711aa1fe1fbe32f5fd07159",
+    "engineering/assurance/tacs/assurance.json": "d6ea43547014a35e6ca1ab9dc795b976b032637410204675912c21579c908570",
     "engineering/assurance/tacs/deployment.json": "526e98d6b4b53518b63a3b0d942b0d47292562be8280c61a68d241ae5723589a",
     "engineering/assurance/tacs/formal-execution.json": "97c543a68d17da2cae984ed6d80fb072e2a0e68c50772a184a8fe0688a8ded22",
     "engineering/assurance/tacs/formal-tlc.log": "712dea8a2242c8cc224f1911ea4e4d32bfbacd13b15e3599171fcba3b9256933",
     "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b",
-    "engineering/assurance/tacs/twin-execution.json": "f7793428ef9eac5aab28026a66d7fbb4c083c8b1facb7f71026ea6a1ef3e6647",
-    "engineering/assurance/tacs/twin-results.json": "47e66f44344c94cb3d1413cc89121b64e7c48861620705fbbb05eaf4d55ed9d0",
+    "engineering/assurance/tacs/twin-execution.json": "009d15fe716fea73b12935f5ff00ccd48d939bb2ced93bb17cf9850fc5af9473",
+    "engineering/assurance/tacs/twin-results.json": "ce1ab4d3c9d7d1b8555dd63ccfb58778b6a0f0c5bc15b43adc789f9ba728de30",
     "lib/templates/connected-engineering.json": "96be9d3db4b335c16df6fb61210b5879fb36b311b0051ee9447d9f874277ad4a",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
     "lib/templates/digital-assurance.toml": "a886fac2c822471c03860aa3e6e7b3846fb1693fd35ee7e37a283701bc679ece",
@@ -27920,9 +27940,10 @@
     "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
     "tools/automation/civil_reference.py": "77515f67c457d0024fdf3afaceee17f68126b9262bbf508cafb517d5e97781fe",
     "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+    "tools/automation/redundancy_policy.py": "4ab2fef4a7e92ab568a3bcbf5fc887d279d1fe820a020a68b90ddeaae957f3ee",
     "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac",
-    "tools/automation/tacs_assurance.py": "bd8be35178675a4864bef7ec19047a22e6b3d935fff3a6268a42c10549806e03",
-    "tools/automation/tacs_reference.py": "05ff9869af76043bc9f43ae4e90cf8a80a9903cdbc740319bf575e4f836fdba1"
+    "tools/automation/tacs_assurance.py": "14a9dde17858e19c28713e72285661a1c572292d6a394ed54cf8447e4aebad08",
+    "tools/automation/tacs_reference.py": "562cd2d7cfb3a9454f6c853304f38cbec6e19016e20b0534ec660504b4713529"
   },
   "standards": [
     {
@@ -33341,7 +33362,7 @@
         "decisions": 4,
         "design_items": 17,
         "evidence": 6,
-        "failure_modes": 8,
+        "failure_modes": 11,
         "functions": 1,
         "hazards": 1,
         "incidents": 0,
@@ -33350,8 +33371,8 @@
         "obligations": 0,
         "occurrences": 0,
         "production_records": 0,
-        "requirements": 4,
-        "scenarios": 15
+        "requirements": 5,
+        "scenarios": 20
       },
       "edges": [
         {
@@ -33422,6 +33443,16 @@
         {
           "from": "TACS-CONFIG-RUNTIME-A",
           "relation": "configuration_ids",
+          "to": "TACS-FM-CHANNEL-DISAGREEMENT"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "configuration_ids",
+          "to": "TACS-FM-CHANNEL-LOSS"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "configuration_ids",
           "to": "TACS-FM-CHARGING"
         },
         {
@@ -33433,6 +33464,11 @@
           "from": "TACS-CONFIG-RUNTIME-A",
           "relation": "configuration_ids",
           "to": "TACS-FM-LOCALISATION"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "configuration_ids",
+          "to": "TACS-FM-OUTPUT-FEEDBACK"
         },
         {
           "from": "TACS-CONFIG-RUNTIME-A",
@@ -33458,6 +33494,16 @@
           "from": "TACS-CONFIG-RUNTIME-A",
           "relation": "configuration_ids",
           "to": "TACS-FM-TRAIN"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "scenario_configuration",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "scenario_configuration",
+          "to": "TACS-SC-ChannelReplay"
         },
         {
           "from": "TACS-CONFIG-RUNTIME-A",
@@ -33507,7 +33553,22 @@
         {
           "from": "TACS-CONFIG-RUNTIME-A",
           "relation": "scenario_configuration",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "scenario_configuration",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "scenario_configuration",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-CONFIG-RUNTIME-A",
+          "relation": "scenario_configuration",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-CONFIG-RUNTIME-A",
@@ -33820,6 +33881,106 @@
           "to": "TACS-DECISION-G4"
         },
         {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "propagates_to",
+          "to": "TACS-FM-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "hazard_contribution",
+          "to": "TACS-HAZARD-COLLISION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "propagates_to",
+          "to": "TACS-FM-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "hazard_contribution",
+          "to": "TACS-HAZARD-COLLISION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-FM-CHANNEL-LOSS",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
           "from": "TACS-FM-CHARGING",
           "relation": "propagates_to",
           "to": "TACS-FM-TRAIN"
@@ -34027,6 +34188,26 @@
         {
           "from": "TACS-FM-COMMON-CAUSE",
           "relation": "failure_mode_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "failure_mode_ids",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -34117,12 +34298,42 @@
         {
           "from": "TACS-FM-COMMON-CAUSE",
           "relation": "failure_mode_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "failure_mode_ids",
           "to": "TACS-SC-None"
         },
         {
           "from": "TACS-FM-COMMON-CAUSE",
           "relation": "scenario_ids",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
+        },
+        {
+          "from": "TACS-FM-COMMON-CAUSE",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-FM-COMMON-CAUSE",
@@ -34345,6 +34556,46 @@
           "to": "TACS-SC-VoterRestart"
         },
         {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "propagates_to",
+          "to": "TACS-FM-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "hazard_contribution",
+          "to": "TACS-HAZARD-COLLISION"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "failure_mode_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
+        },
+        {
+          "from": "TACS-FM-OUTPUT-FEEDBACK",
+          "relation": "scenario_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
+        },
+        {
           "from": "TACS-FM-PROTECTION",
           "relation": "propagates_to",
           "to": "TACS-FM-TRAIN"
@@ -35217,6 +35468,16 @@
         {
           "from": "TACS-FUNCTION",
           "relation": "failure_of_function",
+          "to": "TACS-FM-CHANNEL-DISAGREEMENT"
+        },
+        {
+          "from": "TACS-FUNCTION",
+          "relation": "failure_of_function",
+          "to": "TACS-FM-CHANNEL-LOSS"
+        },
+        {
+          "from": "TACS-FUNCTION",
+          "relation": "failure_of_function",
           "to": "TACS-FM-CHARGING"
         },
         {
@@ -35228,6 +35489,11 @@
           "from": "TACS-FUNCTION",
           "relation": "failure_of_function",
           "to": "TACS-FM-LOCALISATION"
+        },
+        {
+          "from": "TACS-FUNCTION",
+          "relation": "failure_of_function",
+          "to": "TACS-FM-OUTPUT-FEEDBACK"
         },
         {
           "from": "TACS-FUNCTION",
@@ -35357,6 +35623,16 @@
         {
           "from": "TACS-MODEL-TWIN",
           "relation": "scenario_model",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-MODEL-TWIN",
+          "relation": "scenario_model",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-MODEL-TWIN",
+          "relation": "scenario_model",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -35402,7 +35678,22 @@
         {
           "from": "TACS-MODEL-TWIN",
           "relation": "scenario_model",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-MODEL-TWIN",
+          "relation": "scenario_model",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-MODEL-TWIN",
+          "relation": "scenario_model",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-MODEL-TWIN",
+          "relation": "scenario_model",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-MODEL-TWIN",
@@ -35477,7 +35768,17 @@
         {
           "from": "TACS-OUTPUT",
           "relation": "failure_of",
+          "to": "TACS-FM-CHANNEL-DISAGREEMENT"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "failure_of",
           "to": "TACS-FM-COMMON-CAUSE"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "failure_of",
+          "to": "TACS-FM-OUTPUT-FEEDBACK"
         },
         {
           "from": "TACS-OUTPUT",
@@ -35488,6 +35789,26 @@
           "from": "TACS-OUTPUT",
           "relation": "part_of",
           "to": "TACS-PROTECTION"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "allocated_to",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "fault_location",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "fault_location",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-OUTPUT",
+          "relation": "fault_location",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-PLATFORM-E1",
@@ -35642,6 +35963,11 @@
         {
           "from": "TACS-PROTECTION",
           "relation": "failure_of",
+          "to": "TACS-FM-CHANNEL-LOSS"
+        },
+        {
+          "from": "TACS-PROTECTION",
+          "relation": "failure_of",
           "to": "TACS-FM-PROTECTION"
         },
         {
@@ -35658,6 +35984,11 @@
           "from": "TACS-PROTECTION",
           "relation": "allocated_to",
           "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-PROTECTION",
+          "relation": "allocated_to",
+          "to": "TACS-REQ-DUAL"
         },
         {
           "from": "TACS-PROTECTION",
@@ -35698,6 +36029,16 @@
           "from": "TACS-PROTECTION",
           "relation": "fault_location",
           "to": "TACS-SC-IntegrityLoss"
+        },
+        {
+          "from": "TACS-PROTECTION",
+          "relation": "fault_location",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-PROTECTION",
+          "relation": "fault_location",
+          "to": "TACS-SC-MissingChannelB"
         },
         {
           "from": "TACS-PROTECTION",
@@ -35822,6 +36163,16 @@
         {
           "from": "TACS-REQ-BRAKING",
           "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-REQ-BRAKING",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-REQ-BRAKING",
+          "relation": "requirement_ids",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -35867,7 +36218,22 @@
         {
           "from": "TACS-REQ-BRAKING",
           "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-REQ-BRAKING",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-REQ-BRAKING",
+          "relation": "requirement_ids",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-REQ-BRAKING",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-REQ-BRAKING",
@@ -35932,6 +36298,16 @@
         {
           "from": "TACS-REQ-DEPARTURE",
           "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-REQ-DEPARTURE",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-REQ-DEPARTURE",
+          "relation": "requirement_ids",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -35977,7 +36353,22 @@
         {
           "from": "TACS-REQ-DEPARTURE",
           "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-REQ-DEPARTURE",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-REQ-DEPARTURE",
+          "relation": "requirement_ids",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-REQ-DEPARTURE",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-REQ-DEPARTURE",
@@ -36003,6 +36394,41 @@
           "from": "TACS-REQ-DEPARTURE",
           "relation": "requirement_ids",
           "to": "TACS-SC-VoterRestart"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "hazard_ids",
+          "to": "TACS-HAZARD-COLLISION"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-REQ-DUAL",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-REQ-RECOVERY",
@@ -36042,6 +36468,16 @@
         {
           "from": "TACS-REQ-RECOVERY",
           "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-REQ-RECOVERY",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-REQ-RECOVERY",
+          "relation": "requirement_ids",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -36087,7 +36523,22 @@
         {
           "from": "TACS-REQ-RECOVERY",
           "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-REQ-RECOVERY",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-REQ-RECOVERY",
+          "relation": "requirement_ids",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-REQ-RECOVERY",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-REQ-RECOVERY",
@@ -36152,6 +36603,16 @@
         {
           "from": "TACS-REQ-SEPARATION",
           "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelDisagreement"
+        },
+        {
+          "from": "TACS-REQ-SEPARATION",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-ChannelReplay"
+        },
+        {
+          "from": "TACS-REQ-SEPARATION",
+          "relation": "requirement_ids",
           "to": "TACS-SC-ChargerMisaligned"
         },
         {
@@ -36197,7 +36658,22 @@
         {
           "from": "TACS-REQ-SEPARATION",
           "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelA"
+        },
+        {
+          "from": "TACS-REQ-SEPARATION",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-MissingChannelB"
+        },
+        {
+          "from": "TACS-REQ-SEPARATION",
+          "relation": "requirement_ids",
           "to": "TACS-SC-None"
+        },
+        {
+          "from": "TACS-REQ-SEPARATION",
+          "relation": "requirement_ids",
+          "to": "TACS-SC-OutputFeedbackFailure"
         },
         {
           "from": "TACS-REQ-SEPARATION",
@@ -36225,6 +36701,66 @@
           "to": "TACS-SC-VoterRestart"
         },
         {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "scenario_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DEPARTURE"
+        },
+        {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-SC-ChannelDisagreement",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "scenario_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DEPARTURE"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-SC-ChannelReplay",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
           "from": "TACS-SC-ChargerMisaligned",
           "relation": "scenario_ids",
           "to": "TACS-EV-APPROVAL"
@@ -36675,6 +37211,66 @@
           "to": "TACS-REQ-SEPARATION"
         },
         {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "scenario_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DEPARTURE"
+        },
+        {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-SC-MissingChannelA",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "scenario_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DEPARTURE"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-SC-MissingChannelB",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
           "from": "TACS-SC-None",
           "relation": "scenario_ids",
           "to": "TACS-EV-APPROVAL"
@@ -36721,6 +37317,36 @@
         },
         {
           "from": "TACS-SC-None",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-SEPARATION"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
+          "relation": "scenario_ids",
+          "to": "TACS-EV-TWIN"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-BRAKING"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DEPARTURE"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-DUAL"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
+          "relation": "requirement_ids",
+          "to": "TACS-REQ-RECOVERY"
+        },
+        {
+          "from": "TACS-SC-OutputFeedbackFailure",
           "relation": "requirement_ids",
           "to": "TACS-REQ-SEPARATION"
         },
@@ -37030,7 +37656,7 @@
           "to": "TACS-LOCALISATION"
         }
       ],
-      "fingerprint": "7d856ccdf7eb3317a87c5154e60304a1939389377f3ee28e9a595e6f69353ac1",
+      "fingerprint": "55884a1f3f509cd6e93b1208964f9e1ef9b9b60cbd4ce2a0152287b3730b423f",
       "gaps": {
         "TACS-DECISION-G1": [
           "TACS-EV-APPROVAL: evidence planned",
@@ -37040,8 +37666,6 @@
           "TACS-EV-TRACK: evidence planned",
           "TACS-EV-TWIN: evidence generated-unreviewed",
           "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-          "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-          "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
           "TACS-FM-SEPARATION: occurrence evidence unknown",
           "child/dependency decision open: TACS-CHARGER/G1",
@@ -37067,8 +37691,6 @@
           "TACS-EV-TRACK: evidence planned",
           "TACS-EV-TWIN: evidence generated-unreviewed",
           "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-          "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-          "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
           "TACS-FM-SEPARATION: occurrence evidence unknown",
           "child/dependency decision open: TACS-CHARGER/G2",
@@ -37095,8 +37717,6 @@
           "TACS-EV-TRACK: evidence planned",
           "TACS-EV-TWIN: evidence generated-unreviewed",
           "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-          "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-          "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
           "TACS-FM-SEPARATION: occurrence evidence unknown",
           "child/dependency decision open: TACS-CHARGER/G3",
@@ -37124,8 +37744,6 @@
           "TACS-EV-TRACK: evidence planned",
           "TACS-EV-TWIN: evidence generated-unreviewed",
           "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-          "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-          "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
           "TACS-FM-SEPARATION: occurrence evidence unknown",
           "child/dependency decision open: TACS-CHARGER/G4",
@@ -37163,58 +37781,57 @@
         "TACS-EV-TWIN": [
           "evidence generated-unreviewed"
         ],
+        "TACS-FM-CHANNEL-DISAGREEMENT": [
+          "occurrence evidence unknown",
+          "failure analysis and residual risk unreviewed",
+          "mandatory safety review requires a controlled decision"
+        ],
+        "TACS-FM-CHANNEL-LOSS": [
+          "occurrence evidence unknown",
+          "failure analysis and residual risk unreviewed",
+          "mandatory safety review requires a controlled decision"
+        ],
         "TACS-FM-CHARGING": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-COMMON-CAUSE": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-LOCALISATION": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
+          "occurrence evidence unknown",
+          "failure analysis and residual risk unreviewed",
+          "mandatory safety review requires a controlled decision"
+        ],
+        "TACS-FM-OUTPUT-FEEDBACK": [
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-PROTECTION": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-RESOURCE": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-SEPARATION": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-SPEED": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
         ],
         "TACS-FM-TRAIN": [
-          "failure analysis binds an earlier design revision",
-          "failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
           "occurrence evidence unknown",
           "failure analysis and residual risk unreviewed",
           "mandatory safety review requires a controlled decision"
@@ -37223,6 +37840,9 @@
           "acceptance criteria require independent engineering review"
         ],
         "TACS-REQ-DEPARTURE": [
+          "acceptance criteria require independent engineering review"
+        ],
+        "TACS-REQ-DUAL": [
           "acceptance criteria require independent engineering review"
         ],
         "TACS-REQ-RECOVERY": [
@@ -37235,11 +37855,11 @@
       "interpretation": "Relationship checks passed; reviewed physical evidence and controlled deployment decisions remain open.",
       "node_hashes": {
         "TACS-CHARGER": "46e77ee79a85e51f973fcc9bcc4898c94ddb63f36b0b1d3f031a6102128b56df",
-        "TACS-CONFIG-RUNTIME-A": "ce223d90037e0850a6b3fe52b0e42e73d8900faa6b4af6a52c70b5b790ed847a",
-        "TACS-DECISION-G1": "dbe79bce665d6577c8f368601c610db879a174232f4239dd6052bae197e76021",
-        "TACS-DECISION-G2": "21ba6ee092d67309df4269f38f1a2258a9988e579c5cdc67257009e80f8a0a05",
-        "TACS-DECISION-G3": "8f1857769c271b918ad287a310e0521635c1339bdd94bb3314081283bc7f948c",
-        "TACS-DECISION-G4": "c4a28d828cafa218ce3ba3ef4aa5f14f3d08d50a293c27a26a7c794375ae0964",
+        "TACS-CONFIG-RUNTIME-A": "064bc4c0575e4ada02a817f1e6f37c5b1d893f2f1698703b7c820a74dc818bba",
+        "TACS-DECISION-G1": "59510859375e78b40c4df7f7e4c7eafce7e59b7d5e431f41eeb84865381cfb7d",
+        "TACS-DECISION-G2": "a4d179db5c917fbf65ec57edb81198d0cab207d07cf26144ea9b152024fe84f9",
+        "TACS-DECISION-G3": "3f95d1af376e7991bd19d008abad61cd3754834d84027d160947a82dde8795e8",
+        "TACS-DECISION-G4": "c714d64e0f533b2e1d61d7453bae094519bd2b454a2fc845015c01ab4fc80a3f",
         "TACS-DEMO-TRAIN-101": "46ae3674f94df6a64db4d3930a6bfe68572dfe56cef75e5276ac084f31b02600",
         "TACS-DEMO-TRAIN-102": "3e1e42d7da696e00b8b7a61c712d49e59863325720958c7b7684728ae1921f61",
         "TACS-DEPOT-ENTRY": "b4fa4c26a5be55f49bfd3e875840465bec37cf377311b30bb423333404f953f1",
@@ -37248,34 +37868,40 @@
         "TACS-EV-HIL": "8c608c299f905296bb73ae2c4bdcf41bd8e513ec13f0bce562821a7903ed909f",
         "TACS-EV-PROCEDURES": "c663986d452ad478e827095906491414498eae482b9008b062f75005f509c040",
         "TACS-EV-TRACK": "d9babcac7e1611a242c345d67265c747a32312984338207148b0fa23294a768e",
-        "TACS-EV-TWIN": "ba517bd7cbf010bb49706a8006d8fb1aa6ba4fa3d3f9d8cb03562c847eb54243",
-        "TACS-FM-CHARGING": "b0f073fb1f7662b52d4cc080eb1b8762d422e8fa4f35c23ad7adeb70b6e74318",
-        "TACS-FM-COMMON-CAUSE": "a1cdf24bf509ce7824189ce00d1fe4a5a01076afbc91b1fb3d4e8a7de1bf9a26",
-        "TACS-FM-LOCALISATION": "c4647a7e8402b05de3d296b89dd1a57299ab48ccef3b23ff6d2008c2d78da72c",
-        "TACS-FM-PROTECTION": "9f25cc0b85afb8c9d2902def6cdfb94b7cebeed376d7a6529a658bc23ca45d39",
-        "TACS-FM-RESOURCE": "ee958fda6b946180587e6961560b0cb29ab27c640474a22f1ba403f10116ac97",
-        "TACS-FM-SEPARATION": "a1d1e38700ab9c5d5fc02d76e1dc8dc4fd0b2ed25dc292a4e0e8edd8b85a4a68",
-        "TACS-FM-SPEED": "93553634908c03848177a3bc8883bce1a060dbca88e888ee085ca7b4c40c4dde",
-        "TACS-FM-TRAIN": "197f4e56633bd73f38dc569b83d8f118ec40c2096fb7b0e4e3c3c4361d18967a",
+        "TACS-EV-TWIN": "5abc86dc9c436118c24d2cc1622d89f8655c3c9bed0b846c61ecf78abb0dcc71",
+        "TACS-FM-CHANNEL-DISAGREEMENT": "f955489279e6227745b5c1fd554f23e68a9573fb74af17c54a6e26d9d5344836",
+        "TACS-FM-CHANNEL-LOSS": "8fa8e09a39cfe134efd0fadf604d9af392344350b1945e85a487170388570b7f",
+        "TACS-FM-CHARGING": "77ce44b821e6d03a7c1434c21e6f1623a67211c6068cbfdfa37ffabfaff38e96",
+        "TACS-FM-COMMON-CAUSE": "7c434062f55f16badd0120bff122a158deda08a27128b7d4d74da6b6f4346fc6",
+        "TACS-FM-LOCALISATION": "6b37654e3a93056baecaf6c5e1271951956bf49779c15e100a6ca752862e6637",
+        "TACS-FM-OUTPUT-FEEDBACK": "95fa57acb023c357b0d8348b8fc136865e613d76d222c160cedb2e4aec81fda7",
+        "TACS-FM-PROTECTION": "41e8a879c32010843585b6a570b2e8b9bcdd296098faae824758229b0240d400",
+        "TACS-FM-RESOURCE": "a31448c90c9fe5f8b11fc9664ce1ad63404f0656053c5ce7df0326bba4e6ec81",
+        "TACS-FM-SEPARATION": "211bb552bbdadee14c6db1bc208aabdf8a9485a91417388a59163a7e80baaacc",
+        "TACS-FM-SPEED": "af7ce375ad23cf90a61f71e3141aba76551b187725b208064bf2f5912078bbb3",
+        "TACS-FM-TRAIN": "25acb662b351d6d1710164c0578942325615707866b03e7dbc6a21659b10d32f",
         "TACS-FUNCTION": "dcef9ff98f96219224a64e5094883cc42e9157736569241ca6576ff78964a7e5",
         "TACS-HAZARD-COLLISION": "6f86e74ee0aaf059d58621cd97a1d23fe4a2d071f3fae8fdc0641e1c12cdd85e",
         "TACS-IF-PROTECTION-RESOURCE": "90471c36b8400219ed9f59b4c5fa28913b282e6b5390adcfaf8d1921b1fc27d0",
         "TACS-JUNCTION-A": "445e9c71a445e4ca96a3f7703098b898975edb79d20c404a8f6af758676894c4",
         "TACS-JUNCTION-B": "e056238824fee1da35f21b05f66a1b58c3d27f94226e8ac0b016f674dffc00d4",
-        "TACS-LOCALISATION": "0158267b40c46f3bf2e9991a1eaa37dcdffba62f17753d40220d0f44e48b899a",
-        "TACS-MODEL-TWIN": "929fcdd4846edf8f9d7283a78073cb5c64e4cedba145342b5a89f5003d62ff94",
-        "TACS-OPERATING-PROCEDURE": "48bd5a37d3ffdc24b34bea43a7fb1902f6871e736812a1b9f959d33ba984abfe",
-        "TACS-OUTPUT": "79bc923446ab9648db3a76b7874d817ad2e92f32d19c461135bece9233bbcd1a",
+        "TACS-LOCALISATION": "b23d59efaa18306986bacc5ee514c00d7626d9ea91af8fcc0c9150906326908c",
+        "TACS-MODEL-TWIN": "f1a44bac6175cbd9a9d54f630cfe942b400a534b156bc87b5f8b7e1878f06d87",
+        "TACS-OPERATING-PROCEDURE": "e87d193e231af3a8dfd19f87e1ae2496307c09653d12c683deb6f506108107e5",
+        "TACS-OUTPUT": "56284519e3d2ccdc01cc4953da1fc416b19ec0a9caa92dbed2ef1e3c4d25142f",
         "TACS-PLATFORM-E1": "16ed80952926b20b5bfa0c84643b5c79814993cb45780eefe8839a54548447bf",
         "TACS-PLATFORM-E2": "7aeb01fa1d0955a1aa666d4416ed5578c0d3023ce10590b7f99632e8f37c671d",
         "TACS-PLATFORM-W1": "38b6fc24e423c60e227f1ec9e0c95b3c135efbe19a45171c129723592415ed9d",
         "TACS-PLATFORM-W2": "66afc4cb8236bed0bdf2e2683ac574fd11e46374d457d15768e0196ea3fe8ea5",
-        "TACS-PROTECTION": "3f1aec6cacf3730faed338058afba15ab9ec05715f03d33c651dcd95877a740a",
+        "TACS-PROTECTION": "aae370ec12764454e7d78eb5de09d5d51b8028aaf28e93366ec2c14ed65918c3",
         "TACS-RC-900": "733e09a24a682c81d40a08703a2315148e92105762b3cc73de95ea5634a4bcfa",
         "TACS-REQ-BRAKING": "72367b2fd452c5355a0842c89ca5482f7617b9721c9c39f6f88c03ca714ff3fa",
         "TACS-REQ-DEPARTURE": "1f53f49c2abe155fd7d66110a8a221b355e9d41515949e94860689c4ba7a3d1e",
+        "TACS-REQ-DUAL": "4cf337c427146e4d9ca6bcacc35b5a63c9e82c9bf5743b0c5e5218d386b16c07",
         "TACS-REQ-RECOVERY": "20d83505ad335d9a980a5b0c400569d107d2a5019cf6eac70aaefb8f694660d2",
         "TACS-REQ-SEPARATION": "ea4c1bbfffc1ac4a0ae08fa872a0ccfd8da13a59064bdb6b15cb926176ffdef6",
+        "TACS-SC-ChannelDisagreement": "249c859a295bf6d07aa3a959dcfb836c15e9fbd2edfc55bfa380c3cf6f0695a5",
+        "TACS-SC-ChannelReplay": "a0bb018c4b22ddf991194d16799fa0e869959cb1468fb442ab187d3aed3b3344",
         "TACS-SC-ChargerMisaligned": "1c262ab07c1a879d404114f6102b46359e4352fec85664649698cb8a125e7b86",
         "TACS-SC-ChargerStuck": "7b8a251f0a7d44235cb3354817ced6fdf1e5e52d474137daae373960220a64bf",
         "TACS-SC-CivilClosure": "c4243e4a9b107e6a8bf30a4b796f2454d93296aaad0db0c3a90f7fdb1fba05b6",
@@ -37285,13 +37911,16 @@
         "TACS-SC-FrozenOutput": "67e99af9f6a105d1b88b49e285ede1ab40355f8054ac0f2faf7b603f9b97a209",
         "TACS-SC-IncompleteCharge": "9bfc5ab829080e0e4435b692798d1b74d1cb1f3996004ec6e3c35c9155e98c07",
         "TACS-SC-IntegrityLoss": "872c1a9000409384de6e2aae67b23b5d4f63312eaa00480ab6d241d22f0c2145",
+        "TACS-SC-MissingChannelA": "05fb36f219854a268f38b0118da1112122e3b9718ac6968a745693f2cba09364",
+        "TACS-SC-MissingChannelB": "4a941e07900f59d4bf3a665d9515801b7434fd5e097dee455cf0b2b32e78b048",
         "TACS-SC-None": "922ca715d96a6d72123860fa654bb45901aa2fad7dc852b77b5c0a479637253a",
+        "TACS-SC-OutputFeedbackFailure": "71648195b18bda220b22317a8eb81babb6967d79c9cf1dbf1518ed64715ffa81",
         "TACS-SC-PointsDetectionLost": "fe120f5dc03030ce03b610e1a0671f04e4ad3a14846f0d49d571ddf21060b3cc",
         "TACS-SC-PositionUncertainty": "dccee35063bedf4819724ae200888c5ddae8db190eab796e6493892885827363",
         "TACS-SC-RadioPartition": "3ce8265cef967b2c4b6857149e98cb959bcbdbee0f71cf6bf81120d48b7fcb13",
         "TACS-SC-RadioReconnection": "a7e139c2934a6fa6f2eccaaed7fa20a934fd1225114a9b2575841b5d0a75845c",
         "TACS-SC-VoterRestart": "246bfc2b6a53f50ecd3b028c86aef2cef4e3472ef58368b5b5480ea4044ed3cc",
-        "TACS-SEPARATION": "5cc575a4857b611fae51757b7f8819070464fe1668cec5db08b816cca8492bac",
+        "TACS-SEPARATION": "977ad7f974ca4e569383cc543a2c430321ad0bce43b7e8d9176bfebc264cb79e",
         "TACS-SPEED-SENSOR": "d3c1663d0931c43a9446367afa9ce8e359052a8091a570fd96afeef7f77dc0c3"
       },
       "nodes": [
@@ -37323,6 +37952,7 @@
           "title": "Station charger and departure interface"
         },
         {
+          "baseline_note": "2026-10-03 unreviewed authoring rebase for platform-review changes; no independent risk/physical/operational acceptance",
           "deployment": "Synthetic distributed-control process reference only",
           "id": "TACS-CONFIG-RUNTIME-A",
           "initial_state": "Empty qualified synthetic railway, then reserved train placement",
@@ -37333,16 +37963,16 @@
             "TACS-DEPOT-ENTRY": "sha256:04e1fac1c946987bd7e0f5c766130e73f9e0d0ada36931cc76ab8d942e195ef2",
             "TACS-JUNCTION-A": "sha256:727d50a13db3f3ef096313c10db07cd95b5979c522251eba20a51d36818d8db2",
             "TACS-JUNCTION-B": "sha256:89f6ba79771079dbe9e9dfebf017c383aa3b63da13232929c5d786c7907d9060",
-            "TACS-LOCALISATION": "sha256:4549943e6ce6d450d681a8817b58e45e6d86b5df1d44950402f7d8620deadfd6",
-            "TACS-OPERATING-PROCEDURE": "sha256:ed1eeb9b65f3be74883023e97c4527c695b87a1297f64360dffdb719b927dde0",
-            "TACS-OUTPUT": "sha256:9c850fc186065800413ef526a4ad6f002666631cd1c2fc8150cad0e794108a3e",
+            "TACS-LOCALISATION": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
+            "TACS-OPERATING-PROCEDURE": "sha256:c090df20924ecaba5ed6f257b715b4e975254c8bf234698ab47de5f26fb7ef89",
+            "TACS-OUTPUT": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
             "TACS-PLATFORM-E1": "sha256:d19cbf6e1a7933dbf1f5ca118dd367bcda1d46938580fc097a26464432905a84",
             "TACS-PLATFORM-E2": "sha256:f0fb3672b4b01ffdb93c8d4743d65cb0ddd1dfd7e8d6fe9b14dd63b7d64ae61d",
             "TACS-PLATFORM-W1": "sha256:86738bf4f9c15b2251ec690f5e44c728c7d03ce585ba4a86db7a9574e693f617",
             "TACS-PLATFORM-W2": "sha256:366aca0058605e8cafad48e27d9116b3bed15f9be628fb94cc06437a5538a651",
-            "TACS-PROTECTION": "sha256:036a6ca02d240b102b76ed35a0792279b743db8988e5b9f567eb6d7ed97aec15",
+            "TACS-PROTECTION": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
             "TACS-RC-900": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
-            "TACS-SEPARATION": "sha256:bc1b1f458157f868fea87c81da2f5a2e5509b7b5ae300787bfa95dcf6aa0cf0f",
+            "TACS-SEPARATION": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
             "TACS-SPEED-SENSOR": "sha256:7313b469bbf9cd52469d7fe23d11a68ad12c1fb5611f5950885e4c3fefa200e8"
           },
           "kind": "configurations",
@@ -37357,8 +37987,6 @@
             "TACS-EV-TRACK: evidence planned",
             "TACS-EV-TWIN: evidence generated-unreviewed",
             "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-            "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-            "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
             "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
             "TACS-FM-SEPARATION: occurrence evidence unknown",
             "child/dependency decision open: TACS-CHARGER/G1",
@@ -37406,8 +38034,6 @@
             "TACS-EV-TRACK: evidence planned",
             "TACS-EV-TWIN: evidence generated-unreviewed",
             "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-            "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-            "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
             "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
             "TACS-FM-SEPARATION: occurrence evidence unknown",
             "child/dependency decision open: TACS-CHARGER/G2",
@@ -37456,8 +38082,6 @@
             "TACS-EV-TRACK: evidence planned",
             "TACS-EV-TWIN: evidence generated-unreviewed",
             "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-            "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-            "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
             "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
             "TACS-FM-SEPARATION: occurrence evidence unknown",
             "child/dependency decision open: TACS-CHARGER/G3",
@@ -37507,8 +38131,6 @@
             "TACS-EV-TRACK: evidence planned",
             "TACS-EV-TWIN: evidence generated-unreviewed",
             "TACS-FM-SEPARATION: failure analysis and residual risk unreviewed",
-            "TACS-FM-SEPARATION: failure analysis binds an earlier design revision",
-            "TACS-FM-SEPARATION: failure subject absent/different in configuration: TACS-CONFIG-RUNTIME-A",
             "TACS-FM-SEPARATION: mandatory safety review requires a controlled decision",
             "TACS-FM-SEPARATION: occurrence evidence unknown",
             "child/dependency decision open: TACS-CHARGER/G4",
@@ -37917,7 +38539,8 @@
             "TACS-REQ-SEPARATION",
             "TACS-REQ-BRAKING",
             "TACS-REQ-DEPARTURE",
-            "TACS-REQ-RECOVERY"
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
           ],
           "scenario_ids": [
             "TACS-SC-ChargerMisaligned",
@@ -37934,11 +38557,148 @@
             "TACS-SC-PositionUncertainty",
             "TACS-SC-RadioPartition",
             "TACS-SC-RadioReconnection",
-            "TACS-SC-VoterRestart"
+            "TACS-SC-VoterRestart",
+            "TACS-SC-MissingChannelA",
+            "TACS-SC-MissingChannelB",
+            "TACS-SC-ChannelDisagreement",
+            "TACS-SC-ChannelReplay",
+            "TACS-SC-OutputFeedbackFailure"
           ],
           "source_paths": [],
           "state": "generated-unreviewed",
           "verification_class": "software-verification"
+        },
+        {
+          "causes": [
+            "State/timing/configuration disagreement, repeated request"
+          ],
+          "configuration_ids": [
+            "TACS-CONFIG-RUNTIME-A"
+          ],
+          "detection": {
+            "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+            "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+            "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open",
+            "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations"
+          },
+          "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+          "function_id": "TACS-FUNCTION",
+          "id": "TACS-FM-CHANNEL-DISAGREEMENT",
+          "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+          "item_id": "TACS-OUTPUT",
+          "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+          "kind": "failure_modes",
+          "local_effect": "Output permission cannot be established",
+          "mechanisms": [
+            "Loss of two-out-of-two fresh exact output agreement or feedback"
+          ],
+          "mitigation": {
+            "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+            "degraded_state": "Stopped/protected, locks retained",
+            "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure",
+            "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured"
+          },
+          "mode": "Channel request differs or repeats an earlier output",
+          "next_higher_effect": "Train protection latches emergency and zero torque",
+          "operating_modes": [
+            "prototype"
+          ],
+          "ownership": {
+            "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+            "deadline": "2027-01-31",
+            "residual_risk_decision": "Pending independent decision",
+            "responsible_role": "system safety engineering",
+            "review_state": "open"
+          },
+          "priority": "mandatory-safety-review",
+          "propagates_to": [
+            "TACS-FM-SEPARATION"
+          ],
+          "requirement_ids": [
+            "TACS-REQ-DUAL",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-RECOVERY"
+          ],
+          "risk": {
+            "criticality": "Collision or unsafe electrical/mechanical interaction",
+            "hazard_id": "TACS-HAZARD-COLLISION",
+            "likelihood_basis": "No physical occurrence data",
+            "occurrence": "unknown",
+            "severity": 5,
+            "uncertainty": "Uncalibrated sensors, brake, time, power and output independence"
+          },
+          "scenario_ids": [
+            "TACS-SC-ChannelDisagreement",
+            "TACS-SC-ChannelReplay"
+          ],
+          "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails"
+        },
+        {
+          "causes": [
+            "Process failure, lost channel input, stale local state"
+          ],
+          "configuration_ids": [
+            "TACS-CONFIG-RUNTIME-A"
+          ],
+          "detection": {
+            "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+            "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+            "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open",
+            "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations"
+          },
+          "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+          "function_id": "TACS-FUNCTION",
+          "id": "TACS-FM-CHANNEL-LOSS",
+          "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+          "item_id": "TACS-PROTECTION",
+          "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+          "kind": "failure_modes",
+          "local_effect": "Output permission cannot be established",
+          "mechanisms": [
+            "Loss of two-out-of-two fresh exact output agreement or feedback"
+          ],
+          "mitigation": {
+            "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+            "degraded_state": "Stopped/protected, locks retained",
+            "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure",
+            "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured"
+          },
+          "mode": "A or B process fails to provide a current request",
+          "next_higher_effect": "Train protection latches emergency and zero torque",
+          "operating_modes": [
+            "prototype"
+          ],
+          "ownership": {
+            "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+            "deadline": "2027-01-31",
+            "residual_risk_decision": "Pending independent decision",
+            "responsible_role": "system safety engineering",
+            "review_state": "open"
+          },
+          "priority": "mandatory-safety-review",
+          "propagates_to": [
+            "TACS-FM-SEPARATION"
+          ],
+          "requirement_ids": [
+            "TACS-REQ-DUAL",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-RECOVERY"
+          ],
+          "risk": {
+            "criticality": "Collision or unsafe electrical/mechanical interaction",
+            "hazard_id": "TACS-HAZARD-COLLISION",
+            "likelihood_basis": "No physical occurrence data",
+            "occurrence": "unknown",
+            "severity": 5,
+            "uncertainty": "Uncalibrated sensors, brake, time, power and output independence"
+          },
+          "scenario_ids": [
+            "TACS-SC-MissingChannelA",
+            "TACS-SC-MissingChannelB"
+          ],
+          "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails"
         },
         {
           "causes": [
@@ -37958,7 +38718,7 @@
           "id": "TACS-FM-CHARGING",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-CHARGER",
-          "item_revision": "sha256:93962529e7a1af95e9da490be9ea2e4524d2924c172ca7585075cf1168267034",
+          "item_revision": "sha256:7564d02d85c9c8ccfa61a13cf5ddab799eb606d22bce1ba7dff3b00e4547a210",
           "kind": "failure_modes",
           "local_effect": "Unsafe train departure",
           "mechanisms": [
@@ -38020,6 +38780,7 @@
         },
         {
           "causes": [
+            "Shared code, sensor fixture, host, clock, test keys and comparator; unqualified physical power/output paths",
             "Shared power/clock/SBC domain, frozen task, malicious authenticated authority, systematic firmware error"
           ],
           "configuration_ids": [
@@ -38028,7 +38789,7 @@
           "detection": {
             "coverage_evidence": "Actual Rust tests and prototype twin; physical coverage not qualified",
             "delay": "100 ms output contract / 1 s input age / 3 s lease; assumptions awaiting measurement",
-            "latent_exposure": "Unknown physical/common-cause coverage",
+            "latent_exposure": "Physical independence and autonomous clocks/outputs unqualified; agreement on a common bad sensor is not independent evidence",
             "mechanism": "Freshness, role/epoch/sequence checks, measured integrity/position, points, hardware feedback and watchdog"
           },
           "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
@@ -38036,7 +38797,7 @@
           "id": "TACS-FM-COMMON-CAUSE",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-OUTPUT",
-          "item_revision": "sha256:3d231a35f00424b873e885486d4d58ddbd4dab0832aac78cb783f12a2bb9686c",
+          "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
           "kind": "failure_modes",
           "local_effect": "Both proving and protection can become falsely positive",
           "mechanisms": [
@@ -38079,6 +38840,8 @@
             "uncertainty": "Uncalibrated sensors, brake, time, power and output independence"
           },
           "scenario_ids": [
+            "TACS-SC-ChannelDisagreement",
+            "TACS-SC-ChannelReplay",
             "TACS-SC-ChargerMisaligned",
             "TACS-SC-ChargerStuck",
             "TACS-SC-CivilClosure",
@@ -38088,7 +38851,10 @@
             "TACS-SC-FrozenOutput",
             "TACS-SC-IncompleteCharge",
             "TACS-SC-IntegrityLoss",
+            "TACS-SC-MissingChannelA",
+            "TACS-SC-MissingChannelB",
             "TACS-SC-None",
+            "TACS-SC-OutputFeedbackFailure",
             "TACS-SC-PointsDetectionLost",
             "TACS-SC-PositionUncertainty",
             "TACS-SC-RadioPartition",
@@ -38114,7 +38880,7 @@
           "id": "TACS-FM-LOCALISATION",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-LOCALISATION",
-          "item_revision": "sha256:e770645130ced36ea35d4b242a5205bb29bda2d14bcc2111903535d6fff3b9d0",
+          "item_revision": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
           "kind": "failure_modes",
           "local_effect": "Invalid bounded footprint",
           "mechanisms": [
@@ -38176,6 +38942,71 @@
         },
         {
           "causes": [
+            "Feedback loss, stuck actuator, wiring/power fault"
+          ],
+          "configuration_ids": [
+            "TACS-CONFIG-RUNTIME-A"
+          ],
+          "detection": {
+            "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
+            "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+            "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open",
+            "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations"
+          },
+          "environment": "Synthetic two stations and one junction; HIL, rescue/depot/division qualification pending.",
+          "function_id": "TACS-FUNCTION",
+          "id": "TACS-FM-OUTPUT-FEEDBACK",
+          "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
+          "item_id": "TACS-OUTPUT",
+          "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+          "kind": "failure_modes",
+          "local_effect": "Output permission cannot be established",
+          "mechanisms": [
+            "Loss of two-out-of-two fresh exact output agreement or feedback"
+          ],
+          "mitigation": {
+            "action": "Either channel trips latched emergency/zero torque; no single-channel takeover; retain ownership",
+            "degraded_state": "Stopped/protected, locks retained",
+            "recovery_conditions": "Stopped, proved hardware/integrity/departure, reconciled owners and controlled procedure",
+            "response_time": "At most one 50 ms virtual step in specified software injections; physical actuation unmeasured"
+          },
+          "mode": "Output feedback on either channel is unhealthy",
+          "next_higher_effect": "Train protection latches emergency and zero torque",
+          "operating_modes": [
+            "prototype"
+          ],
+          "ownership": {
+            "action": "Independently review fault coverage, physical assumptions and residual risks before HIL/release",
+            "deadline": "2027-01-31",
+            "residual_risk_decision": "Pending independent decision",
+            "responsible_role": "system safety engineering",
+            "review_state": "open"
+          },
+          "priority": "mandatory-safety-review",
+          "propagates_to": [
+            "TACS-FM-SEPARATION"
+          ],
+          "requirement_ids": [
+            "TACS-REQ-DUAL",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-RECOVERY"
+          ],
+          "risk": {
+            "criticality": "Collision or unsafe electrical/mechanical interaction",
+            "hazard_id": "TACS-HAZARD-COLLISION",
+            "likelihood_basis": "No physical occurrence data",
+            "occurrence": "unknown",
+            "severity": 5,
+            "uncertainty": "Uncalibrated sensors, brake, time, power and output independence"
+          },
+          "scenario_ids": [
+            "TACS-SC-OutputFeedbackFailure"
+          ],
+          "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails"
+        },
+        {
+          "causes": [
             "Firmware/config mismatch, invalid envelope or trusted-input failure"
           ],
           "configuration_ids": [
@@ -38192,7 +39023,7 @@
           "id": "TACS-FM-PROTECTION",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-PROTECTION",
-          "item_revision": "sha256:522efe8dc827dc30eb600f006a7de079f0eee872fabf0e0dda1627ccb7d43b6a",
+          "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
           "kind": "failure_modes",
           "local_effect": "Traction or braking request not bounded",
           "mechanisms": [
@@ -38270,7 +39101,7 @@
           "id": "TACS-FM-RESOURCE",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-RC-900",
-          "item_revision": "sha256:dcba72631b18d9e77ba220b4ab3a84d4061c858bac98541079a723a7c94017d0",
+          "item_revision": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
           "kind": "failure_modes",
           "local_effect": "Conflicting grants or unsafe re-entry",
           "mechanisms": [
@@ -38348,7 +39179,7 @@
           "id": "TACS-FM-SEPARATION",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-SEPARATION",
-          "item_revision": "sha256:de90c0ee3d7e43e278bec0563ce20c2b0452866faadc01c4743b0acdc4a22bd7",
+          "item_revision": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
           "kind": "failure_modes",
           "local_effect": "Train collision or infrastructure fouling",
           "mechanisms": [
@@ -38424,7 +39255,7 @@
           "id": "TACS-FM-SPEED",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-SPEED-SENSOR",
-          "item_revision": "sha256:80a6773c7e31788bb5017e414274f0cd9dabff47a416d777dd6317d74a6ebfdf",
+          "item_revision": "sha256:7313b469bbf9cd52469d7fe23d11a68ad12c1fb5611f5950885e4c3fefa200e8",
           "kind": "failure_modes",
           "local_effect": "Biased or frozen speed",
           "mechanisms": [
@@ -38502,7 +39333,7 @@
           "id": "TACS-FM-TRAIN",
           "initiating_circumstances": "Nominal running, charging, boundary straddling, partition or restart",
           "item_id": "TACS-DEMO-TRAIN-101",
-          "item_revision": "sha256:d0cd8620d0c4355763bacd92588cf80d3e8b889045131cd683dedbaf7a9d83d1",
+          "item_revision": "sha256:10703632e584bcdd30e5539f18f91f5c8857f45fc0f69e83861afb1f7236e4d9",
           "kind": "failure_modes",
           "local_effect": "Consist overruns authority",
           "mechanisms": [
@@ -38668,10 +39499,10 @@
           "part_of": [
             "TACS-PROTECTION"
           ],
-          "revision": "sha256:4549943e6ce6d450d681a8817b58e45e6d86b5df1d44950402f7d8620deadfd6",
+          "revision": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
           "source_hashes": {
             "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
-            "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+            "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
             "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b"
           },
           "source_paths": [
@@ -38685,15 +39516,17 @@
           "calibration": "None; synthetic",
           "id": "TACS-MODEL-TWIN",
           "kind": "models",
-          "limitations": "No physical adhesion, latency, qualified sensor or hardware validation",
+          "limitations": "Shared code, sensor fixture, host, test keys, clock and comparator; no autonomous output sampling, physical independence, adhesion or hardware validation",
           "represents": [
             "TACS-SEPARATION"
           ],
           "source_hashes": {
-            "control-electronics/safety-controller-selection.md": "c46e30cb9beb61d4862e55732ab2167dbbe08e6be74bb2eb6b6fce8153d63757",
+            "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
             "crates/osr-ato/src/station.rs": "c414b7651d815f9fbe3ebec7ac51d8f9dd0a06301194f3bc892db9933c6a130a",
             "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
-            "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+            "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+            "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
+            "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
             "crates/osr-consensus/src/disk.rs": "14b01ecda19016585181c66b298030e6fb99acb80ff006d6cc9132b6ae3cbecb",
             "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
             "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
@@ -38702,17 +39535,23 @@
             "crates/osr-interlocking/src/resources.rs": "b412a288340aaa9e24ccd42d3acb5a20ec4e479c961ee9c57cb6a58dcb2eee9d",
             "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
             "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
             "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
             "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-            "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+            "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
             "crates/osr-runtime/src/wayside.rs": "272c9397da14901aa816aae6fa132b64b64cb3e2228a371666a71d86e3c4fdf9",
+            "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
             "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b",
-            "tools/automation/tacs_reference.py": "05ff9869af76043bc9f43ae4e90cf8a80a9903cdbc740319bf575e4f836fdba1"
+            "tools/automation/redundancy_policy.py": "4ab2fef4a7e92ab568a3bcbf5fc887d279d1fe820a020a68b90ddeaae957f3ee",
+            "tools/automation/tacs_reference.py": "562cd2d7cfb3a9454f6c853304f38cbec6e19016e20b0534ec660504b4713529"
           },
           "source_paths": [
             "control-electronics/safety-controller-selection.md",
             "crates/osr-ato/src/station.rs",
             "crates/osr-atp/src/lib.rs",
+            "crates/osr-brake/src/deadline.rs",
+            "crates/osr-brake/src/dual.rs",
             "crates/osr-brake/src/lib.rs",
             "crates/osr-consensus/src/disk.rs",
             "crates/osr-core/src/deployment.rs",
@@ -38722,16 +39561,20 @@
             "crates/osr-interlocking/src/resources.rs",
             "crates/osr-odometry/src/lib.rs",
             "crates/osr-proto/src/lib.rs",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs",
             "crates/osr-runtime/src/legacy.rs",
             "crates/osr-runtime/src/lib.rs",
             "crates/osr-runtime/src/train.rs",
             "crates/osr-runtime/src/wayside.rs",
+            "docs/certification/redundancy-policy.json",
             "engineering/assurance/tacs/railway-model.json",
+            "tools/automation/redundancy_policy.py",
             "tools/automation/tacs_reference.py"
           ],
-          "valid_envelope": "Two 10 m trains, fixed seven-resource prototype, 100 ms physics",
+          "valid_envelope": "Two 10 m trains, fixed seven-resource prototype, 50 ms virtual physics; two logical A/B channels per train",
           "validation_data": "Actual Rust execution, not physical measurement",
-          "version": "A"
+          "version": "B-unreviewed"
         },
         {
           "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
@@ -38745,9 +39588,9 @@
           "part_of": [
             "TACS-SEPARATION"
           ],
-          "revision": "sha256:ed1eeb9b65f3be74883023e97c4527c695b87a1297f64360dffdb719b927dde0",
+          "revision": "sha256:c090df20924ecaba5ed6f257b715b4e975254c8bf234698ab47de5f26fb7ef89",
           "source_hashes": {
-            "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "f835ce06e65c409bba4a2d38eacacaa1f10b1781be0ced0b6fd81fddfce82044"
+            "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "ce26bf0904a7a04d44694439a76499c21b6cef3ebb45f95674ea747312e6ac4b"
           },
           "source_paths": [
             "docs/rfcs/0033-tacs-runtime-and-resource-control.md"
@@ -38756,7 +39599,10 @@
         },
         {
           "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-          "definition": {},
+          "definition": {
+            "deadline": "100 ms maximum; late feed cannot conceal gap; 50 ms reference feed",
+            "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open"
+          },
           "id": "TACS-OUTPUT",
           "implements_function": [
             "TACS-FUNCTION"
@@ -38766,20 +39612,26 @@
           "part_of": [
             "TACS-PROTECTION"
           ],
-          "revision": "sha256:9c850fc186065800413ef526a4ad6f002666631cd1c2fc8150cad0e794108a3e",
+          "revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
           "source_hashes": {
-            "control-electronics/safety-controller-selection.md": "c46e30cb9beb61d4862e55732ab2167dbbe08e6be74bb2eb6b6fce8153d63757",
-            "crates/osr-brake/src/deadline.rs": "fbb92509bd2f70e026b889b8b926a51db44a5483f0ddbcc85082cd08a0f5c003",
-            "crates/osr-runtime/src/bin/osr-safety-output.rs": "35d19338ad40267dd402e079d0c461559ea6f8694d9e571af06b8bf69890927a",
-            "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
-            "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "f835ce06e65c409bba4a2d38eacacaa1f10b1781be0ced0b6fd81fddfce82044"
+            "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
+            "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+            "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
+            "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
+            "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
+            "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "ce26bf0904a7a04d44694439a76499c21b6cef3ebb45f95674ea747312e6ac4b"
           },
           "source_paths": [
             "control-electronics/safety-controller-selection.md",
-            "crates/osr-runtime/src/train.rs",
-            "docs/rfcs/0033-tacs-runtime-and-resource-control.md",
             "crates/osr-brake/src/deadline.rs",
-            "crates/osr-runtime/src/bin/osr-safety-output.rs"
+            "crates/osr-brake/src/dual.rs",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs",
+            "crates/osr-runtime/src/train.rs",
+            "docs/certification/redundancy-policy.json",
+            "docs/rfcs/0033-tacs-runtime-and-resource-control.md"
           ],
           "title": "Independent output/traction/brake interface"
         },
@@ -38913,7 +39765,9 @@
         },
         {
           "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-          "definition": {},
+          "definition": {
+            "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open"
+          },
           "id": "TACS-PROTECTION",
           "implements_function": [
             "TACS-FUNCTION"
@@ -38923,12 +39777,14 @@
           "part_of": [
             "TACS-DEMO-TRAIN-101"
           ],
-          "revision": "sha256:036a6ca02d240b102b76ed35a0792279b743db8988e5b9f567eb6d7ed97aec15",
+          "revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
           "source_hashes": {
-            "control-electronics/safety-controller-selection.md": "c46e30cb9beb61d4862e55732ab2167dbbe08e6be74bb2eb6b6fce8153d63757",
+            "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
             "crates/osr-ato/src/station.rs": "c414b7651d815f9fbe3ebec7ac51d8f9dd0a06301194f3bc892db9933c6a130a",
             "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
-            "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+            "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+            "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
+            "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
             "crates/osr-consensus/src/disk.rs": "14b01ecda19016585181c66b298030e6fb99acb80ff006d6cc9132b6ae3cbecb",
             "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
             "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
@@ -38937,14 +39793,19 @@
             "crates/osr-interlocking/src/resources.rs": "b412a288340aaa9e24ccd42d3acb5a20ec4e479c961ee9c57cb6a58dcb2eee9d",
             "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
             "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
             "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
             "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-            "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7"
+            "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
+            "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6"
           },
           "source_paths": [
             "control-electronics/safety-controller-selection.md",
             "crates/osr-ato/src/station.rs",
             "crates/osr-atp/src/lib.rs",
+            "crates/osr-brake/src/deadline.rs",
+            "crates/osr-brake/src/dual.rs",
             "crates/osr-brake/src/lib.rs",
             "crates/osr-consensus/src/disk.rs",
             "crates/osr-core/src/deployment.rs",
@@ -38954,9 +39815,12 @@
             "crates/osr-interlocking/src/resources.rs",
             "crates/osr-odometry/src/lib.rs",
             "crates/osr-proto/src/lib.rs",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs",
             "crates/osr-runtime/src/legacy.rs",
             "crates/osr-runtime/src/lib.rs",
-            "crates/osr-runtime/src/train.rs"
+            "crates/osr-runtime/src/train.rs",
+            "docs/certification/redundancy-policy.json"
           ],
           "title": "Onboard protection"
         },
@@ -39042,6 +39906,25 @@
         },
         {
           "acceptance_criteria": {
+            "dual_fault_injected": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true
+          },
+          "allocated_to": [
+            "TACS-PROTECTION",
+            "TACS-OUTPUT"
+          ],
+          "hazard_ids": [
+            "TACS-HAZARD-COLLISION"
+          ],
+          "id": "TACS-REQ-DUAL",
+          "kind": "requirements",
+          "owner": "system safety engineering",
+          "review_state": "open",
+          "statement": "Both logical channels must agree to permit; loss/disagreement/replay/feedback failure actually injected while moving must latch zero torque/emergency within one 50 ms virtual step; retained protection and stopped authorised recovery only."
+        },
+        {
+          "acceptance_criteria": {
             "collision_or_conflicting_occupancy_count": 0,
             "final_speed_mmps": [
               0,
@@ -39083,6 +39966,94 @@
           "owner": "system safety engineering",
           "review_state": "open",
           "statement": "Conflicting resources retain ownership through expiry, partition and restart; no conflicting occupancy."
+        },
+        {
+          "acceptance_criteria": {
+            "collision_or_conflicting_occupancy_count": 0,
+            "dual_fault_injected": true,
+            "final_speed_mmps": [
+              0,
+              0
+            ],
+            "passed": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true,
+            "unsafe_departures": 0
+          },
+          "configuration_id": "TACS-CONFIG-RUNTIME-A",
+          "failure_mode_ids": [
+            "TACS-FM-CHANNEL-DISAGREEMENT",
+            "TACS-FM-COMMON-CAUSE"
+          ],
+          "faults": [
+            {
+              "duration": "Persistent through stopped latched end of case",
+              "location": "TACS-OUTPUT",
+              "magnitude": "ChannelDisagreement",
+              "onset": "After previously permitted moving front passes 75 m"
+            }
+          ],
+          "id": "TACS-SC-ChannelDisagreement",
+          "initial_state": {
+            "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+          },
+          "kind": "scenarios",
+          "model_id": "TACS-MODEL-TWIN",
+          "operating_mode": "prototype",
+          "requirement_ids": [
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-DEPARTURE",
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
+          ],
+          "status": "prototype-unreviewed",
+          "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+          "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
+        },
+        {
+          "acceptance_criteria": {
+            "collision_or_conflicting_occupancy_count": 0,
+            "dual_fault_injected": true,
+            "final_speed_mmps": [
+              0,
+              0
+            ],
+            "passed": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true,
+            "unsafe_departures": 0
+          },
+          "configuration_id": "TACS-CONFIG-RUNTIME-A",
+          "failure_mode_ids": [
+            "TACS-FM-CHANNEL-DISAGREEMENT",
+            "TACS-FM-COMMON-CAUSE"
+          ],
+          "faults": [
+            {
+              "duration": "Persistent through stopped latched end of case",
+              "location": "TACS-OUTPUT",
+              "magnitude": "ChannelReplay",
+              "onset": "After previously permitted moving front passes 75 m"
+            }
+          ],
+          "id": "TACS-SC-ChannelReplay",
+          "initial_state": {
+            "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+          },
+          "kind": "scenarios",
+          "model_id": "TACS-MODEL-TWIN",
+          "operating_mode": "prototype",
+          "requirement_ids": [
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-DEPARTURE",
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
+          ],
+          "status": "prototype-unreviewed",
+          "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+          "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
         },
         {
           "acceptance_criteria": {
@@ -39501,6 +40472,94 @@
         {
           "acceptance_criteria": {
             "collision_or_conflicting_occupancy_count": 0,
+            "dual_fault_injected": true,
+            "final_speed_mmps": [
+              0,
+              0
+            ],
+            "passed": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true,
+            "unsafe_departures": 0
+          },
+          "configuration_id": "TACS-CONFIG-RUNTIME-A",
+          "failure_mode_ids": [
+            "TACS-FM-CHANNEL-LOSS",
+            "TACS-FM-COMMON-CAUSE"
+          ],
+          "faults": [
+            {
+              "duration": "Persistent through stopped latched end of case",
+              "location": "TACS-PROTECTION",
+              "magnitude": "MissingChannelA",
+              "onset": "After previously permitted moving front passes 75 m"
+            }
+          ],
+          "id": "TACS-SC-MissingChannelA",
+          "initial_state": {
+            "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+          },
+          "kind": "scenarios",
+          "model_id": "TACS-MODEL-TWIN",
+          "operating_mode": "prototype",
+          "requirement_ids": [
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-DEPARTURE",
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
+          ],
+          "status": "prototype-unreviewed",
+          "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+          "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
+        },
+        {
+          "acceptance_criteria": {
+            "collision_or_conflicting_occupancy_count": 0,
+            "dual_fault_injected": true,
+            "final_speed_mmps": [
+              0,
+              0
+            ],
+            "passed": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true,
+            "unsafe_departures": 0
+          },
+          "configuration_id": "TACS-CONFIG-RUNTIME-A",
+          "failure_mode_ids": [
+            "TACS-FM-CHANNEL-LOSS",
+            "TACS-FM-COMMON-CAUSE"
+          ],
+          "faults": [
+            {
+              "duration": "Persistent through stopped latched end of case",
+              "location": "TACS-PROTECTION",
+              "magnitude": "MissingChannelB",
+              "onset": "After previously permitted moving front passes 75 m"
+            }
+          ],
+          "id": "TACS-SC-MissingChannelB",
+          "initial_state": {
+            "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+          },
+          "kind": "scenarios",
+          "model_id": "TACS-MODEL-TWIN",
+          "operating_mode": "prototype",
+          "requirement_ids": [
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-DEPARTURE",
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
+          ],
+          "status": "prototype-unreviewed",
+          "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
+          "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
+        },
+        {
+          "acceptance_criteria": {
+            "collision_or_conflicting_occupancy_count": 0,
             "final_speed_mmps": [
               0,
               0
@@ -39542,6 +40601,50 @@
           ],
           "status": "prototype-unreviewed",
           "uncertainty": "Synthetic dynamics, proving, latency, adhesion and test keys",
+          "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
+        },
+        {
+          "acceptance_criteria": {
+            "collision_or_conflicting_occupancy_count": 0,
+            "dual_fault_injected": true,
+            "final_speed_mmps": [
+              0,
+              0
+            ],
+            "passed": true,
+            "permitted_before_fault": true,
+            "retained_occupancy": true,
+            "unsafe_departures": 0
+          },
+          "configuration_id": "TACS-CONFIG-RUNTIME-A",
+          "failure_mode_ids": [
+            "TACS-FM-OUTPUT-FEEDBACK",
+            "TACS-FM-COMMON-CAUSE"
+          ],
+          "faults": [
+            {
+              "duration": "Persistent through stopped latched end of case",
+              "location": "TACS-OUTPUT",
+              "magnitude": "OutputFeedbackFailure",
+              "onset": "After previously permitted moving front passes 75 m"
+            }
+          ],
+          "id": "TACS-SC-OutputFeedbackFailure",
+          "initial_state": {
+            "fixture": "Commit bootstrap and qualified synthetic empty proving, then identified stopped-train admission at home platforms; 400 Wh / required 500 Wh; depot/work resource 6 remains committed blocked"
+          },
+          "kind": "scenarios",
+          "model_id": "TACS-MODEL-TWIN",
+          "operating_mode": "prototype",
+          "requirement_ids": [
+            "TACS-REQ-SEPARATION",
+            "TACS-REQ-BRAKING",
+            "TACS-REQ-DEPARTURE",
+            "TACS-REQ-RECOVERY",
+            "TACS-REQ-DUAL"
+          ],
+          "status": "prototype-unreviewed",
+          "uncertainty": "Shared sensor/code/host/clock/comparator; synthetic plant and no measured physical response",
           "validation_relationship": "Existing Rust components through independent OS processes; synthetic local equipment; no physical validation"
         },
         {
@@ -39776,7 +40879,9 @@
         },
         {
           "decomposition_rationale": "Prototype functional boundary; physical implementation and independent coverage review pending.",
-          "definition": {},
+          "definition": {
+            "redundancy": "Two logical A/B channels; 2oo2 permit/either trip, loss stops; shared common causes and physical independence open"
+          },
           "id": "TACS-SEPARATION",
           "implements_function": [
             "TACS-FUNCTION"
@@ -39784,12 +40889,14 @@
           "kind": "design_items",
           "level": "system",
           "part_of": [],
-          "revision": "sha256:bc1b1f458157f868fea87c81da2f5a2e5509b7b5ae300787bfa95dcf6aa0cf0f",
+          "revision": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
           "source_hashes": {
-            "control-electronics/safety-controller-selection.md": "c46e30cb9beb61d4862e55732ab2167dbbe08e6be74bb2eb6b6fce8153d63757",
+            "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
             "crates/osr-ato/src/station.rs": "c414b7651d815f9fbe3ebec7ac51d8f9dd0a06301194f3bc892db9933c6a130a",
             "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
-            "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+            "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+            "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
+            "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
             "crates/osr-consensus/src/disk.rs": "14b01ecda19016585181c66b298030e6fb99acb80ff006d6cc9132b6ae3cbecb",
             "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
             "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
@@ -39798,15 +40905,20 @@
             "crates/osr-interlocking/src/resources.rs": "b412a288340aaa9e24ccd42d3acb5a20ec4e479c961ee9c57cb6a58dcb2eee9d",
             "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
             "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
             "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
             "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-            "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+            "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
+            "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
             "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b"
           },
           "source_paths": [
             "control-electronics/safety-controller-selection.md",
             "crates/osr-ato/src/station.rs",
             "crates/osr-atp/src/lib.rs",
+            "crates/osr-brake/src/deadline.rs",
+            "crates/osr-brake/src/dual.rs",
             "crates/osr-brake/src/lib.rs",
             "crates/osr-consensus/src/disk.rs",
             "crates/osr-core/src/deployment.rs",
@@ -39816,9 +40928,12 @@
             "crates/osr-interlocking/src/resources.rs",
             "crates/osr-odometry/src/lib.rs",
             "crates/osr-proto/src/lib.rs",
+            "crates/osr-runtime/src/bin/osr-safety-output.rs",
+            "crates/osr-runtime/src/bin/osr-train-agent.rs",
             "crates/osr-runtime/src/legacy.rs",
             "crates/osr-runtime/src/lib.rs",
             "crates/osr-runtime/src/train.rs",
+            "docs/certification/redundancy-policy.json",
             "engineering/assurance/tacs/railway-model.json"
           ],
           "title": "Safe separation"
@@ -39851,11 +40966,12 @@
       "schema": "osr-connected-engineering/1",
       "scope": "Existing distributed-control development target, shared hierarchical FMEA, process-reference evidence; no installed equipment or operational acceptance.",
       "source_hashes": {
-        "control-electronics/safety-controller-selection.md": "c46e30cb9beb61d4862e55732ab2167dbbe08e6be74bb2eb6b6fce8153d63757",
+        "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
         "crates/osr-ato/src/station.rs": "c414b7651d815f9fbe3ebec7ac51d8f9dd0a06301194f3bc892db9933c6a130a",
         "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
-        "crates/osr-brake/src/deadline.rs": "fbb92509bd2f70e026b889b8b926a51db44a5483f0ddbcc85082cd08a0f5c003",
-        "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+        "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+        "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
+        "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
         "crates/osr-consensus/src/disk.rs": "14b01ecda19016585181c66b298030e6fb99acb80ff006d6cc9132b6ae3cbecb",
         "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
         "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
@@ -39864,18 +40980,21 @@
         "crates/osr-interlocking/src/resources.rs": "b412a288340aaa9e24ccd42d3acb5a20ec4e479c961ee9c57cb6a58dcb2eee9d",
         "crates/osr-odometry/src/lib.rs": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
         "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
-        "crates/osr-runtime/src/bin/osr-safety-output.rs": "35d19338ad40267dd402e079d0c461559ea6f8694d9e571af06b8bf69890927a",
+        "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+        "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
         "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
         "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-        "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+        "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
         "crates/osr-runtime/src/wayside.rs": "272c9397da14901aa816aae6fa132b64b64cb3e2228a371666a71d86e3c4fdf9",
+        "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
         "docs/rfcs/0032-train-centred-control.md": "3ce54c1ffc772e82a8b2fe66334bd1b352b9c510f0e9f8750506d5232386ea1e",
-        "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "f835ce06e65c409bba4a2d38eacacaa1f10b1781be0ced0b6fd81fddfce82044",
+        "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "ce26bf0904a7a04d44694439a76499c21b6cef3ebb45f95674ea747312e6ac4b",
         "engineering/assurance/formal/tla/TACSResources.tla": "9fe800fe489fc4bc403710608c5522b863ea378f95a2eae78246be5b01c7b3cf",
-        "engineering/assurance/tacs/assurance.json": "4285d8d349bbe48c107321199564e3c5e6f8a656b711aa1fe1fbe32f5fd07159",
+        "engineering/assurance/tacs/assurance.json": "d6ea43547014a35e6ca1ab9dc795b976b032637410204675912c21579c908570",
         "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b",
         "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
-        "tools/automation/tacs_reference.py": "05ff9869af76043bc9f43ae4e90cf8a80a9903cdbc740319bf575e4f836fdba1"
+        "tools/automation/redundancy_policy.py": "4ab2fef4a7e92ab568a3bcbf5fc887d279d1fe820a020a68b90ddeaae957f3ee",
+        "tools/automation/tacs_reference.py": "562cd2d7cfb3a9454f6c853304f38cbec6e19016e20b0534ec660504b4713529"
       }
     },
     "open_stages": [
@@ -39908,11 +41027,12 @@
       "crates/osr-atp/src/lib.rs": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
       "crates/osr-atp/src/state.rs": "a80c296cb1916327c2c44783582e36cca6fa86b470f69507228641330afb1522",
       "crates/osr-brake/Cargo.toml": "cc93f4a2a1e9e82aab0d839390e79c8afe9851d9edd0d2972df2e446a2aaefa9",
-      "crates/osr-brake/src/deadline.rs": "fbb92509bd2f70e026b889b8b926a51db44a5483f0ddbcc85082cd08a0f5c003",
+      "crates/osr-brake/src/deadline.rs": "1bb45f6a720a8be0a53a72c107a4d9d9ac6f414ee6079c9261fb62c812642375",
+      "crates/osr-brake/src/dual.rs": "bc427a33826b3775896b30bef87ecf2791db79ae6b95031ab47b3bb8ef05564b",
       "crates/osr-brake/src/evaluate.rs": "66c39062333058af4a8e26915af499c2cd09a88d1e616092eda093c116b10a2e",
       "crates/osr-brake/src/inputs.rs": "b5d102b330ac78e966115565bc924e483b53f249c4295d728da1c6a5bc4c5a1f",
       "crates/osr-brake/src/kani_proofs.rs": "32c20d2a760edb213b7d2144a429184c11d8c4c2d804852d2974bff146aadb6a",
-      "crates/osr-brake/src/lib.rs": "bc1a978fdcc358888b0b0b3385b210c7a9855d36517ceb3a49647762876ec1ce",
+      "crates/osr-brake/src/lib.rs": "2e39e39f343557faacb9a69e7f7f82ffa0a08ca031390b0f86244192aa25b572",
       "crates/osr-brake/src/output.rs": "3ee8c88ab471c0566bbcb04dd632b848e3544e12115ee1db8b9fd3df4565b411",
       "crates/osr-consensus/Cargo.toml": "a118a895dc81296ef0ea64a3a6272ce68e26ffaf97e0d8399411e1ad4874d7be",
       "crates/osr-consensus/src/authenticated.rs": "b93cfeefcc6f4fc3e3ddb2d8e2592093ed3b912198f64a1dfba5fdd9b31df2df",
@@ -39950,31 +41070,33 @@
       "crates/osr-proto/Cargo.toml": "f0d95f3d7c118f6cfb11c445b375eb718dd71f1d6dcbc66f4db86ffe1fc3d7fb",
       "crates/osr-proto/src/lib.rs": "3d7db4a2ea78607476358a4f94802b1f80d71ef46b39e2b28d8a859b39be6ec1",
       "crates/osr-runtime/Cargo.toml": "6c925adb2aeccd6e4349d82f1e965ec5798b33fbacb6d4e853817b241f678db2",
-      "crates/osr-runtime/src/bin/osr-safety-output.rs": "35d19338ad40267dd402e079d0c461559ea6f8694d9e571af06b8bf69890927a",
-      "crates/osr-runtime/src/bin/osr-train-agent.rs": "f93fb35c1ea461e8382b9ced3865e1eb8b01c092d5ef8632bc059fc4f4a4ab6e",
+      "crates/osr-runtime/src/bin/osr-safety-output.rs": "ad94274f6b8461487c7f5fb6daeeebf4754cd9731ffaedd15901216740c0fe1c",
+      "crates/osr-runtime/src/bin/osr-train-agent.rs": "1fe44d5a48c5eed2e04accb0bfdb00e0ed057b521868a8fe6dc2953d3dea9d35",
       "crates/osr-runtime/src/bin/osr-wayside-agent.rs": "9c87faad10c90e0055bfecdf01aadf0e36be0ee9f505707f57d5c01256e32aa0",
       "crates/osr-runtime/src/bin/reference-keys.rs": "155259ff58954835a1a0a9c74ffadac13deb175853c88e665fc216f1dbd308cb",
       "crates/osr-runtime/src/legacy.rs": "524bdc88fed5fe329eccbb9608eaaf27b9c4d5fdd5a3efeb767506b098f2e1c3",
       "crates/osr-runtime/src/lib.rs": "8f8b204d3d57adeb14ce4a5a6691da92876fcd4e1800b6d5e3283d865926ab8b",
-      "crates/osr-runtime/src/train.rs": "649a693cff2eac15f8b19779f427f5a158393920b234c5b59111efdbee71e8a7",
+      "crates/osr-runtime/src/train.rs": "7251d7f8fd60a4c9635d08e415e0e9ffca3716b3ef34e2049ad94a9c9b5031ad",
       "crates/osr-runtime/src/wayside.rs": "272c9397da14901aa816aae6fa132b64b64cb3e2228a371666a71d86e3c4fdf9",
       "crates/osr-secbus/Cargo.toml": "955e4b1f6b4532eaaab35cc1e116d8ce9b2083bd9dc569b30d6f43c961e12935",
       "crates/osr-secbus/src/kani_proofs.rs": "eaf6ae3bf824754e41543f8a88ca31d2dbb17cb55eecd8ed947b6dcd755f900b",
       "crates/osr-secbus/src/lib.rs": "8730dd8b90ed7944e6575d66c644cc469ce80c1679648884fb524b42730e5e6f",
+      "docs/certification/redundancy-policy.json": "4b808fbb2e786d33d0b8ec5b93a62f3f7d78eeaa051680301a06019ec6283bc6",
       "docs/rfcs/0032-train-centred-control.md": "3ce54c1ffc772e82a8b2fe66334bd1b352b9c510f0e9f8750506d5232386ea1e",
-      "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "f835ce06e65c409bba4a2d38eacacaa1f10b1781be0ced0b6fd81fddfce82044",
+      "docs/rfcs/0033-tacs-runtime-and-resource-control.md": "ce26bf0904a7a04d44694439a76499c21b6cef3ebb45f95674ea747312e6ac4b",
       "engineering/assurance/formal/tla/TACSResources.cfg": "b0287ce6bc9bf2b44d3c90810963187713ecf67811b10ae06f3f58a1b48450f2",
       "engineering/assurance/formal/tla/TACSResources.tla": "9fe800fe489fc4bc403710608c5522b863ea378f95a2eae78246be5b01c7b3cf",
-      "engineering/assurance/tacs/assurance.json": "4285d8d349bbe48c107321199564e3c5e6f8a656b711aa1fe1fbe32f5fd07159",
+      "engineering/assurance/tacs/assurance.json": "d6ea43547014a35e6ca1ab9dc795b976b032637410204675912c21579c908570",
       "engineering/assurance/tacs/deployment.json": "526e98d6b4b53518b63a3b0d942b0d47292562be8280c61a68d241ae5723589a",
       "engineering/assurance/tacs/formal-execution.json": "97c543a68d17da2cae984ed6d80fb072e2a0e68c50772a184a8fe0688a8ded22",
       "engineering/assurance/tacs/formal-tlc.log": "712dea8a2242c8cc224f1911ea4e4d32bfbacd13b15e3599171fcba3b9256933",
       "engineering/assurance/tacs/railway-model.json": "080f9eff0c82039491f77bdb456413ad86cf9879765a9586e321d5f6b121878b",
-      "engineering/assurance/tacs/twin-execution.json": "f7793428ef9eac5aab28026a66d7fbb4c083c8b1facb7f71026ea6a1ef3e6647",
-      "engineering/assurance/tacs/twin-results.json": "47e66f44344c94cb3d1413cc89121b64e7c48861620705fbbb05eaf4d55ed9d0",
+      "engineering/assurance/tacs/twin-execution.json": "009d15fe716fea73b12935f5ff00ccd48d939bb2ced93bb17cf9850fc5af9473",
+      "engineering/assurance/tacs/twin-results.json": "ce1ab4d3c9d7d1b8555dd63ccfb58778b6a0f0c5bc15b43adc789f9ba728de30",
       "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
-      "tools/automation/tacs_assurance.py": "bd8be35178675a4864bef7ec19047a22e6b3d935fff3a6268a42c10549806e03",
-      "tools/automation/tacs_reference.py": "05ff9869af76043bc9f43ae4e90cf8a80a9903cdbc740319bf575e4f836fdba1"
+      "tools/automation/redundancy_policy.py": "4ab2fef4a7e92ab568a3bcbf5fc887d279d1fe820a020a68b90ddeaae957f3ee",
+      "tools/automation/tacs_assurance.py": "14a9dde17858e19c28713e72285661a1c572292d6a394ed54cf8447e4aebad08",
+      "tools/automation/tacs_reference.py": "562cd2d7cfb3a9454f6c853304f38cbec6e19016e20b0534ec660504b4713529"
     },
     "twin_case_summary": [
       {
@@ -39993,7 +41115,7 @@
           101,
           102
         ],
-        "steps": 591,
+        "steps": 1185,
         "unsafe_departures": 0
       },
       {
@@ -40008,7 +41130,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 164,
+        "steps": 319,
         "unsafe_departures": 0
       },
       {
@@ -40027,7 +41149,7 @@
           101,
           102
         ],
-        "steps": 670,
+        "steps": 1521,
         "unsafe_departures": 0
       },
       {
@@ -40046,7 +41168,7 @@
           101,
           102
         ],
-        "steps": 672,
+        "steps": 1344,
         "unsafe_departures": 0
       },
       {
@@ -40065,7 +41187,7 @@
           101,
           102
         ],
-        "steps": 591,
+        "steps": 1185,
         "unsafe_departures": 0
       },
       {
@@ -40080,7 +41202,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 161,
+        "steps": 318,
         "unsafe_departures": 0
       },
       {
@@ -40095,7 +41217,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 161,
+        "steps": 318,
         "unsafe_departures": 0
       },
       {
@@ -40110,7 +41232,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 161,
+        "steps": 318,
         "unsafe_departures": 0
       },
       {
@@ -40125,7 +41247,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 161,
+        "steps": 318,
         "unsafe_departures": 0
       },
       {
@@ -40138,7 +41260,7 @@
         "junction_entry_order": [],
         "passed": true,
         "station_arrivals": [],
-        "steps": 84,
+        "steps": 164,
         "unsafe_departures": 0
       },
       {
@@ -40151,7 +41273,7 @@
         "junction_entry_order": [],
         "passed": true,
         "station_arrivals": [],
-        "steps": 84,
+        "steps": 164,
         "unsafe_departures": 0
       },
       {
@@ -40164,7 +41286,7 @@
         "junction_entry_order": [],
         "passed": true,
         "station_arrivals": [],
-        "steps": 84,
+        "steps": 164,
         "unsafe_departures": 0
       },
       {
@@ -40177,7 +41299,7 @@
         "junction_entry_order": [],
         "passed": true,
         "station_arrivals": [],
-        "steps": 84,
+        "steps": 164,
         "unsafe_departures": 0
       },
       {
@@ -40192,7 +41314,7 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 161,
+        "steps": 318,
         "unsafe_departures": 0
       },
       {
@@ -40207,7 +41329,82 @@
         ],
         "passed": true,
         "station_arrivals": [],
-        "steps": 166,
+        "steps": 335,
+        "unsafe_departures": 0
+      },
+      {
+        "collision_or_conflicting_occupancy_count": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "id": "MissingChannelA",
+        "junction_entry_order": [
+          101
+        ],
+        "passed": true,
+        "station_arrivals": [],
+        "steps": 318,
+        "unsafe_departures": 0
+      },
+      {
+        "collision_or_conflicting_occupancy_count": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "id": "MissingChannelB",
+        "junction_entry_order": [
+          101
+        ],
+        "passed": true,
+        "station_arrivals": [],
+        "steps": 318,
+        "unsafe_departures": 0
+      },
+      {
+        "collision_or_conflicting_occupancy_count": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "id": "ChannelDisagreement",
+        "junction_entry_order": [
+          101
+        ],
+        "passed": true,
+        "station_arrivals": [],
+        "steps": 318,
+        "unsafe_departures": 0
+      },
+      {
+        "collision_or_conflicting_occupancy_count": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "id": "ChannelReplay",
+        "junction_entry_order": [
+          101
+        ],
+        "passed": true,
+        "station_arrivals": [],
+        "steps": 318,
+        "unsafe_departures": 0
+      },
+      {
+        "collision_or_conflicting_occupancy_count": 0,
+        "final_speed_mmps": [
+          0,
+          0
+        ],
+        "id": "OutputFeedbackFailure",
+        "junction_entry_order": [
+          101
+        ],
+        "passed": true,
+        "station_arrivals": [],
+        "steps": 318,
         "unsafe_departures": 0
       }
     ]

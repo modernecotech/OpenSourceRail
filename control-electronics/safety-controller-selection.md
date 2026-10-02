@@ -39,3 +39,14 @@ For a revenue-service design, the operator records the selected channels,
 safety package revision and architectural rationale in its controlled hardware
 baseline. CM5/Radxa processors may host diagnostics, logging and applications,
 but cannot bypass or command a safety output.
+
+## Development redundancy default
+
+The [controlled policy](../docs/certification/redundancy-policy.json) requires two
+logical protection channels: both permit, either trips, and loss stops the
+affected function. Train A/B software processes share code, sensor fixtures,
+host, clock and a synthetic comparator; they do not establish independent
+hardware or availability after a channel failure. Remaining local pairs are
+explicitly open. Reconcile existing hot-standby boards/two-MCU quantities with
+real serials, power domains, firmware, calibration, independent watchdogs and
+output feedback at hardware freeze. No process count is an installed BOM.

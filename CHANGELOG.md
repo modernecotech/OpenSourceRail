@@ -2,11 +2,19 @@
 
 ## Unreleased
 
-- Added the opt-in train-centred control prototype: deterministic `no_std`
-  onboard protection, authenticated/fenced resource ownership, frozen model
-  startup configurations, charging/departure interlocks and an output-guard
-  contract. The actual Rust core drives the two-train junction fault twin;
-  bounded TLC and Rust/property tests cover retained locks, partitions,
+- Default development train protection to separate A/B processes and journals,
+  two-out-of-two permission and either-channel trip. Added missing-channel,
+  disagreement, replay and output-feedback scenarios; late feeds cannot hide a
+  missed output deadline. TACS software checks now reject stale failure-analysis
+  applicability, with a rebased unreviewed authoring baseline. Other local pairs,
+  autonomous physical outputs and qualification remain open; no installed BOM,
+  post-fault availability or operational release is claimed.
+
+- Added the train-centred distributed-control process reference around existing
+  consensus, interlocking, ATP, ATO and brake evaluators: authenticated/fenced
+  resource ownership, frozen startup configurations, charging/departure
+  interlocks and an output-guard contract. The two-train junction campaign uses
+  actual process hosts. Bounded resource TLC and Rust/property tests cover retained locks, partitions,
   reconnection, restarts and unsafe departure prevention. Shared FMEA/change
   impact binds software evidence and planned HIL/track/independent release.
   Physical and operational deployment remain blocked; pilot defaults are unchanged.

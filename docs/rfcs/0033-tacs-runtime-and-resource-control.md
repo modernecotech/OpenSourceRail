@@ -21,7 +21,8 @@
 | OCC | Service intentions and observations | No authority, ownership release or latch-clear bypass |
 | ERPNext/FUXA | Existing observation/maintenance integrations | Observation only; no new railway command interface |
 
-There is one MA computer and one ATP path. Resource contracts from the earlier
+There is one MA implementation and one ATP implementation, executed in each
+logical protection channel. Resource contracts from the earlier
 prototype move into existing crates; `osr-tacs` and its parallel MA/protection
 algorithms are retired. `osr-runtime` contains orchestration and adapters.
 Route selection remains intent, per `osr-onboard-routing`; agreement cannot
@@ -120,14 +121,20 @@ replication indices cannot refresh a quorum. Durable reboot restores no leader
 role, quorum confirmation or volatile acknowledgements.
 
 Run `python3 tools/automation/tacs_reference.py --output /tmp/reference.json`.
-The coordinator spawns two `osr-train-agent` and six `osr-wayside-agent` processes:
+The coordinator spawns four `osr-train-agent` processes (A/B for each train)
+and six `osr-wayside-agent` processes:
 three voters, point I/O and west/east station I/O. Charger requests and local
 proving pass through the station process ports; their asset-scoped interlocks
 can inhibit power and cannot grant movement. The depot/work resource is
 committed blocked and remains blocked across expiry and controller restart. Two further `osr-safety-output`
-processes independently sample the existing brake deadline/latch contract. They
-trip frozen/missing requests and require stopped privileged recovery; this is
-process-isolation evidence, not qualification of de-energised hardware outputs.
+processes each host the paired `osr-brake::dual::DualGuard` comparator. Both
+channels must agree to permit; either emergency, missing/stale/replayed request,
+disagreement or unhealthy feedback latches an emergency output with zero torque.
+The reference feeds at 50 ms, before the 100 ms output deadline. A late feed
+cannot replace an overdue request to hide a missed interval; only stopped,
+privileged, fresh recovery can clear the latch. These ports block on coordinator
+commands and use virtual time. They do not establish autonomous real-clock
+execution, independent physical timers or de-energised hardware outputs.
 Processes exchange signatures
 through asynchronous bounded queues; publication does not wait for commitment.
 Simulation truth enters only own-train sensors and local infrastructure proving
@@ -146,6 +153,65 @@ charging can hold service without erasing track ownership. Emergency departure
 cannot bypass a connected charger or unlocked door. Missing application output
 must trip a separately qualified deadline/output channel; the isolated reference output ports model deadlines and latches but do not
 qualify that hardware function.
+
+## Default redundant protection and platform review follow-up
+
+The [executable policy](../certification/redundancy-policy.json) sets two logical
+channels, two-out-of-two permission and either-channel trip as the development
+default for train protection, point proving/locking, crossings, doors/platforms,
+charging isolation and obstacle protection. Loss of either channel stops the
+affected function. Automatic single-channel operation or takeover is excluded.
+Availability after a channel failure requires a separately assessed architecture.
+Three Raft voters replicate authoritative state; they are not protection outputs.
+The conservative deployable pilot profile and its release gates remain in force.
+
+Each train A/B host uses a separate OS process, journal and restored committed
+view. The binary requires `--safety-channel A|B`; a persisted journal cannot
+change channel on restart. A publishes the train's network proposals; B evaluates
+the same committed domain inputs without publishing duplicate proposals. Loss of
+A does not authorise B takeover. Pair comparison uses exact synthetic cycle
+sequence/time, brake and torque agreement. It has no end-to-end source-issued
+output identity yet. Shared software, sensor fixture, host, test keys, coordinator
+clock and comparator are explicit common causes. Physical power/output separation,
+channel-local clocks and independent feedback must be engineered and qualified.
+Only train protection's logical pair is executed; the policy explicitly keeps
+all five other local pairs open. Two processes are not installed board quantities.
+
+The 2 October 2026 review of `17b31f055c9e16b5439c18b4a4d83f004890bcad`
+identified a stale FMEA applicability check and a concealed deadline gap. This
+change rejects stale failure subjects as well as stale configuration baselines,
+retains the late-feed regression and adds missing-A, missing-B, disagreement,
+replay and feedback-failure process cases. Each new case must first permit
+motion, actually inject its fault, trip within one 50 ms reference step, stop
+with retained protection and remain latched. These are virtual-time software
+criteria, not measured hardware response times. The existing TLC abstraction
+covers resource ownership only; it does not prove the new paired output function.
+
+Next work closes named integration gaps in this order. Owners and reviewers are
+roles to appoint; acceptance is still open.
+
+| Work | Owner / independent reviewer | Required exit evidence |
+| --- | --- | --- |
+| Autonomous watchdog and output paths | Embedded/electronics / safety-I/O reviewer | Coordinator/application/comparator freeze and kill, delayed scheduling, clock rollback/skew, power loss and stuck feedback; measured traction inhibition and effective braking without a new application command |
+| Sensors and emergency union | Train integration / protection reviewer | Typed adapters to existing localisation, fire, derailment, obstacle and BMS/thermal evaluators; wheel slip/bias and simultaneous resource faults independently reach the final output; shared bad sensors do not establish independence |
+| Repeated station missions | ATO/station integration / operations reviewer | Explicit mission/stop identity and arrival/departure transitions; at least three stops, short charge, delayed doors, turnback/resume, per-car charging and no moving door release |
+| Remaining local protection pairs | Wayside/station / safety-I/O reviewer | Point/crossing proving, door/PSD, charger isolation and obstacle channels; independent release and inspected handback |
+| Calibrated plant and city conversion | Simulation/configuration / braking and site reviewers | Sealed city revision converted to supported resources and shared `osr-sim` plant with mass/load, adhesion, gradients, build-up/delay, thermal/energy limits; full LM3 stopping envelope under uncertainty sweeps |
+| Duty, recovery and storage | Simulation/runtime / operations and storage reviewers | Representative city's station capacity, overnight storage, morning dispatch, charging outage/recovery; separate rescue/tow/split/reverse/handover missions and sustained duty without capacity exhaustion or unbounded restart; safe snapshots/replay fences retain locks |
+| Formal and scenario evidence | Assurance / independent formal reviewer | Property-to-code/test mapping, overlapping multi-resource routes, sequences/epochs/crash points, counterexample replay and specific hazard activation/deadline/excursion/queue/CPU/storage/recovery metrics |
+| Integration and lifecycle quantities | Platform/hardware / configuration and cost reviewers | Observation-only A/B health/discrepancy/feedback/age/degraded/revision data through supervision gateway to FUXA/ERP; no acknowledgement resets; actual serial/power/firmware/calibration/replacement records and matched-service redundancy/spares/training/assessment costs |
+| Physical release | Hardware/operations / independent assessor | HIL, measured braking/integrity/radio, power interruption, closed-track recovery and maintenance drills before profile approval |
+
+`station_step(Ready, fresh berthed/secured arrival)` currently remains Ready;
+the host targets the final stop. Nominal arrival therefore does not demonstrate
+another passenger exchange or a multi-station mission. The bounded two-train
+fixture retains geometry checks; expanding it cannot substitute for calibrated
+city conversion. Civil closures must bind precise operational resources and
+inspected handback separately from ERP repair completion. No duplicated ERP/GUI
+or comfort software is implied by protection redundancy. Commodity hosts, the
+existing small Rust evaluators, reusable local controllers and open replacement/
+calibration procedures remain the implementation approach. Hardware quantities
+and hot-standby/two-MCU mappings must be reconciled at the hardware freeze.
 
 ## Evidence and staged delivery
 

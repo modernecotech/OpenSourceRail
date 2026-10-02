@@ -17,8 +17,12 @@ in [pilot-signalling-profile.md](pilot-signalling-profile.md).
 [RFC 0033](../rfcs/0033-tacs-runtime-and-resource-control.md) and the
 [TACS assurance package](../../engineering/assurance/tacs/README.md) use the
 existing committed interlocking MA and ATP/ATO/brake components through thin,
-authenticated process hosts. The reference includes two train agents, three
-static voters, point I/O and two station/charging interfaces. Generated software
+authenticated process hosts. The reference includes A/B agents for each of two trains, three
+static voters, point I/O and two station/charging interfaces. The
+[development default](redundancy-policy.json) requires both protection channels
+to permit and either to trip; loss stops the affected function. Train logical
+pairs are executed; point/crossing/door/charger/obstacle pairs and physical
+independence remain open. Raft replication cannot substitute for safety outputs. Generated software
 evidence remains unreviewed. HIL, measured braking/integrity, field recovery,
 independent assessment and a named approved installed bundle are required to
 change the deployable profile. The conservative pilot remains the default.
