@@ -32,6 +32,18 @@ Every listed item has a controlled identity and source baseline at G0.
 Item-specific G1–G4 evidence is deliberately open, and **zero items are
 represented as certified or released**.
 
+The [connected engineering example](connected-engineering.md) now links the
+physical hierarchy to battery-cooling functions, interfaces, specific failure
+modes, configuration-bound scenarios, production and installed occurrences.
+It exposes missing physical evidence and child/dependency/integration blockers
+while preserving separately controlled deployment decisions.
+
+The [subsystem qualification workflow](subsystem-qualification.md) adds
+quantitative RAMS screens, a controlled cooling-rig programme, measurement/model
+correlation, production-equivalence findings and Workbench decision readiness.
+Physical qualification remains open until real measurements and accountable
+decisions support the frozen configuration.
+
 ## The five gates
 
 ```mermaid
@@ -61,7 +73,7 @@ All routes use the same gates and passport fields. Their evidence differs becaus
 
 | Route | Items | Main qualification question | Final acceptance route |
 |---|---:|---|---|
-| Rolling stock and onboard equipment | 146 | Are supplier configuration, materials/processes, structure, fire, electrical, EMC, environmental, endurance and first-article evidence adequate? | Applicable product/type and vehicle route |
+| Rolling stock and onboard equipment | 150 | Are supplier configuration, materials/processes, structure, fire, electrical, EMC, environmental, endurance and first-article evidence adequate? | Applicable product/type and vehicle route |
 | Stations, charging and wayside | 55 | Do the site interfaces, FAT, installation, SAT, accessibility, emergency modes and handover satisfy project and local rules? | Project, utility, building/fire and railway acceptance as applicable |
 | Civil infrastructure | 19 | Do surveyed ground/water conditions, calculations, temporary works, materials, inspection and as-built geometry support this site? | Competent-engineer, project and construction/rail authority acceptance |
 | Software and control | 59 | Is safety classification explicit, and are lifecycle, traceability, proof/test, target timing/resources, HIL and cyber evidence complete? | Exact target/system safety acceptance within a frozen authority boundary |

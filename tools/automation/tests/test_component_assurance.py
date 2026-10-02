@@ -18,6 +18,7 @@ def test_every_controlled_item_has_one_fail_closed_assurance_passport() -> None:
     report = component_assurance.compile_register()
     assert report["summary"]["controlled_items"] == (
         report["summary"]["engineering_inventory_items"]
+        + report["summary"]["connected_design_items"]
         + report["summary"]["platform_services"]
     )
     assert report["summary"]["engineering_inventory_items"] > 0
@@ -35,6 +36,11 @@ def test_every_controlled_item_has_one_fail_closed_assurance_passport() -> None:
     assert all(list(row["gate_status"]) == ["G0", "G1", "G2", "G3", "G4"] for row in report["passports"])
     assert all(row["gate_status"]["G0"] == "pass-baseline-recorded" for row in report["passports"])
     assert all(not any(row["gate_status"][gate].startswith("pass") for gate in ("G1", "G2", "G3", "G4")) for row in report["passports"])
+    pump = next(row for row in report["passports"] if row["controlled_id"] == "OSR-COOL-PUMP")
+    assert pump["connected_engineering"]["design_revision"] == "A"
+    assert pump["connected_engineering"]["failure_mode_ids"] == ["FM-COOL-PUMP"]
+    assert pump["connected_engineering"]["installed_occurrence_ids"] == ["DEMO-PUMP-01", "DEMO-PUMP-02"]
+    assert all(row["evaluated_state"] == "blocked" for row in pump["connected_engineering"]["deployment_decisions"])
 
 
 def test_missing_or_duplicate_route_fails_closed() -> None:

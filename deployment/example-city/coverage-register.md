@@ -8,7 +8,7 @@ Status: `scenario` means the function was exercised; `varied` means named values
 
 Native ERP expansion checks run real hooks and ledger posting inside a rolled-back transaction. The live telemetry matrix pauses the example simulator and includes explicitly labelled controller-result fixtures.
 
-Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
+Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
 
 ## Remaining workflow gaps
 
@@ -75,6 +75,7 @@ Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `erp.api.disposition.record_decision` | partial | base: Isolated native lifecycle adapters and negative cases pass with rollback | Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established. |
 | `erp.api.disposition_execution.preview` | partial | base: Isolated native lifecycle adapters and negative cases pass with rollback | Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established. |
 | `erp.api.disposition_execution.record` | partial | base: Isolated native lifecycle adapters and negative cases pass with rollback | Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established. |
+| `erp.api.executive.ingest_draft` | gap | — | Pure contract tests cover checksum, HMAC, allowlist and mutation rejection; a complete example with provisioned external model runners and all four native draft types remains. |
 | `erp.api.integration.apply_execution` | scenario | base: Exact engineering revision maps to native Item and production BOM | Representative connected lifecycle; full input permutations and all permission combinations remain. |
 | `erp.api.integration.apply_repair` | scenario | base: Native repair consumes the purchased spare and keeps railway release separate | Representative connected lifecycle; full input permutations and all permission combinations remain. |
 | `erp.api.integration.case_status` | scenario | base: ERP recovery delivers a new fault once, without reusing the closed case | Representative connected lifecycle; full input permutations and all permission combinations remain. |
@@ -138,6 +139,7 @@ Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `gateway.GET./affected` | scenario | base: Replacement preserves removed serial history and needs fresh independent release | Removed serial tracing is exercised; batch, missing and all cross-city query combinations remain. |
 | `gateway.GET./controller/commands` | scenario | expansion: command.expiry-while-source-offline | Used by the live scenario; exhaustive filter, permission and failure permutations remain. |
 | `gateway.GET./evidence` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
+| `gateway.GET./executive/decisions` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
 | `gateway.GET./health` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./history` | scenario | base: Sampling interval changes actual controller arrival times | Sampling history observed; full query, pagination/limit and access combinations remain. |
 | `gateway.GET./outbox` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
@@ -146,6 +148,9 @@ Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `gateway.POST./commands` | varied | expansion: command.repeat-idempotency; expansion: command.changed-retry; expansion: command.pending-blocks-rule-change; +12 observations (JSON) | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./controller/result` | partial | expansion: command.transition.accepted; expansion: command.transition.completed | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./evidence` | scenario | base: Replacement preserves removed serial history and needs fresh independent release | Representative installation, test, release, maintenance and replacement; full role/state/revision permutations remain. |
+| `gateway.POST./executive/ballots` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
+| `gateway.POST./executive/finalize` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
+| `gateway.POST./executive/proposals` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
 | `gateway.POST./packages` | varied | expansion: configuration.concurrent-review | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./packages/preview` | varied | expansion: command.pending-blocks-rule-change | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./telemetry` | varied | expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.below; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.min; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.max; +305 observations (JSON) | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
@@ -512,6 +517,7 @@ Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `supervision.templates.vehicle-hvac.measurements.reduced.stale_seconds` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `supervision.templates.vehicle-hvac.measurements.reduced.unit` | partial | expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.below; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.min; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-hvac.reduced.max; +1 observations (JSON) | Live min/max/beyond samples exercise this contract; arbitrary changes to the configured field remain. |
 | `supervision.templates.vehicle-hvac.source_crates` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
+| `workbench.GET./api/assurance/readiness` | gap | — | Local browser tests exercise reference scope, city switching, mismatched context and changed-evidence rejection. Map a complete example-deployment report before claiming scenario coverage; physical qualification remains open. |
 | `workbench.GET./api/lifecycle/` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
 | `workbench.GET./api/operating/twins` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.GET./api/portfolio` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
@@ -535,6 +541,7 @@ Counts: **gap: 284**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `workbench.setting.OSR_ERP_URL` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.setting.OSR_FUXA_URL` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.setting.OSR_INTEGRATION_URL` | scenario | base: Full stop/start preserves the retained City Studio project configuration | Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain. |
+| `workbench.setting.OSR_QUALIFICATION_REVIEW_POLICY` | gap | — | Signature verification has isolated regression coverage. Exercise a server-configured trusted reviewer policy and invalid policy paths in the complete example deployment before claiming scenario coverage. |
 | `workbench.setting.OSR_SUPERVISION_CONFIG` | scenario | base: Full stop/start preserves the retained City Studio project configuration | Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain. |
 | `workbench.setting.OSR_SUPERVISION_PROFILES` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.setting.OSR_SUPERVISION_ROOT` | scenario | base: Full stop/start preserves the retained City Studio project configuration | Independent example paths/ports used and retained through restart; arbitrary deployment permutations and invalid values remain. |

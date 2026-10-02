@@ -1,0 +1,325 @@
+{
+  "schema": "osr-rams-study/1",
+  "evidence_basis": "illustrative-assumptions-no-qualified-parameters",
+  "thermal": {
+    "initial_c": {
+      "low": 28,
+      "high": 32,
+      "unit": "degC",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "ambient_c": {
+      "low": 45,
+      "high": 55,
+      "unit": "degC",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "heat_w": {
+      "low": 5000,
+      "high": 10000,
+      "unit": "W",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "capacity_j_k": {
+      "low": 120000,
+      "high": 220000,
+      "unit": "J/K",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "conductance_w_k": {
+      "low": 0,
+      "high": 30,
+      "unit": "W/K",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "limit_c": {
+      "low": 55,
+      "high": 55,
+      "unit": "degC",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    }
+  },
+  "physical_thermal": {
+    "initial_c": {
+      "low": null,
+      "high": null,
+      "unit": "degC",
+      "basis": "unknown",
+      "evidence_ids": []
+    },
+    "ambient_c": {
+      "low": null,
+      "high": null,
+      "unit": "degC",
+      "basis": "unknown",
+      "evidence_ids": []
+    },
+    "heat_w": {
+      "low": null,
+      "high": null,
+      "unit": "W",
+      "basis": "unknown",
+      "evidence_ids": []
+    },
+    "capacity_j_k": {
+      "low": null,
+      "high": null,
+      "unit": "J/K",
+      "basis": "unknown",
+      "evidence_ids": []
+    },
+    "conductance_w_k": {
+      "low": null,
+      "high": null,
+      "unit": "W/K",
+      "basis": "unknown",
+      "evidence_ids": []
+    },
+    "limit_c": {
+      "low": null,
+      "high": null,
+      "unit": "degC",
+      "basis": "unknown",
+      "evidence_ids": []
+    }
+  },
+  "sample_times_s": [
+    0,
+    30,
+    60,
+    120,
+    300,
+    600
+  ],
+  "mission_h": 8,
+  "events": [
+    {
+      "id": "EV-PUMP",
+      "failure_mode_id": "FM-COOL-PUMP",
+      "event_class": "hardware-random",
+      "failure_rate_per_h": {
+        "low": 1e-05,
+        "high": 5e-05,
+        "unit": "1/h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      },
+      "repair_h": {
+        "low": 2,
+        "high": 6,
+        "unit": "h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      }
+    },
+    {
+      "id": "EV-FLOW",
+      "failure_mode_id": "FM-COOL-SENSOR",
+      "event_class": "hardware-random",
+      "failure_rate_per_h": {
+        "low": 1e-06,
+        "high": 1e-05,
+        "unit": "1/h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      },
+      "repair_h": {
+        "low": 1,
+        "high": 4,
+        "unit": "h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      }
+    },
+    {
+      "id": "EV-LEAK",
+      "failure_mode_id": "FM-COOL-CONNECTOR",
+      "event_class": "hardware-random",
+      "failure_rate_per_h": {
+        "low": 1e-05,
+        "high": 3e-05,
+        "unit": "1/h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      },
+      "repair_h": {
+        "low": 1,
+        "high": 4,
+        "unit": "h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      }
+    },
+    {
+      "id": "EV-AUX",
+      "failure_mode_id": "FM-COOL-LOOP",
+      "event_class": "hardware-random",
+      "failure_rate_per_h": {
+        "low": 2e-06,
+        "high": 1e-05,
+        "unit": "1/h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      },
+      "repair_h": {
+        "low": 1,
+        "high": 3,
+        "unit": "h",
+        "basis": "illustrative-assumption",
+        "evidence_ids": []
+      }
+    },
+    {
+      "id": "EV-CONFIG",
+      "failure_mode_id": "FM-COOL-SENSOR",
+      "event_class": "software-systematic",
+      "failure_rate_per_h": {
+        "low": null,
+        "high": null,
+        "unit": "1/h",
+        "basis": "unknown",
+        "evidence_ids": []
+      },
+      "repair_h": {
+        "low": null,
+        "high": null,
+        "unit": "h",
+        "basis": "unknown",
+        "evidence_ids": []
+      }
+    }
+  ],
+  "fault_tree": {
+    "or": [
+      {
+        "event": "EV-AUX"
+      },
+      {
+        "and": [
+          {
+            "event": "EV-PUMP"
+          },
+          {
+            "or": [
+              {
+                "event": "EV-FLOW"
+              },
+              {
+                "event": "EV-CONFIG"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "and": [
+          {
+            "event": "EV-LEAK"
+          },
+          {
+            "event": "EV-FLOW"
+          }
+        ]
+      }
+    ]
+  },
+  "primitive_independence": "assumed-for-screening",
+  "top_event": "Circulation and primary flow diagnostic protection unavailable; this precursor is not a quantified battery fire hazard. Independent BMS temperature protection remains a separate assessment.",
+  "inspection": {
+    "rate_per_h": {
+      "low": 1e-06,
+      "high": 1e-05,
+      "unit": "1/h",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "interval_h": {
+      "low": 24,
+      "high": 168,
+      "unit": "h",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "maximum_average_exposure": {
+      "low": 0.001,
+      "high": 0.001,
+      "unit": "probability",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "coverage": "perfect-proof-test-assumption"
+  },
+  "maintenance": {
+    "fleet": 100,
+    "rate_per_h": {
+      "low": 1e-05,
+      "high": 5e-05,
+      "unit": "1/h",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "repair_h": {
+      "low": 2,
+      "high": 6,
+      "unit": "h",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "turnaround_h": {
+      "low": 24,
+      "high": 72,
+      "unit": "h",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "maximum_mean_wait_h": 1,
+    "maximum_stockout_probability": 0.01
+  },
+  "braking": {
+    "available_distance_m": 300,
+    "reaction_s": {
+      "low": 1,
+      "high": 3,
+      "unit": "s",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "one_channel_deceleration_m_s2": {
+      "low": 0.3,
+      "high": 0.6,
+      "unit": "m/s2",
+      "basis": "illustrative-assumption",
+      "evidence_ids": []
+    },
+    "basis": "illustrative-assumption-no-validated-brake-envelope"
+  },
+  "design_options": [
+    {
+      "id": "baseline",
+      "title": "Reference pump and shared auxiliary supply",
+      "cost": 0,
+      "rate_multiplier": 1,
+      "residual_conductance_multiplier": 1
+    },
+    {
+      "id": "supplier-pump-improvement",
+      "title": "Illustrative lower pump failure rate",
+      "cost": 1500,
+      "rate_multiplier": 0.5,
+      "residual_conductance_multiplier": 1
+    },
+    {
+      "id": "residual-cooling-improvement",
+      "title": "Illustrative improved residual heat path",
+      "cost": 3000,
+      "rate_multiplier": 1,
+      "residual_conductance_multiplier": 2
+    }
+  ]
+}

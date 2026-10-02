@@ -55,6 +55,9 @@ The implementation provides:
 - deterministic links from controls to repository checks and evidence hashes;
 - complete preliminary FMEA screening of the controlled engineering inventory;
 - one G0–G4 assurance passport per controlled item;
+- a [connected battery-cooling example](connected-engineering.md) with exact
+  design/installed revisions, failure propagation, requirement-derived controller
+  cases, planned physical evidence, production/FRACAS links and blocked decisions;
 - a path-level impact index that identifies the controls, checks, standards and
   failure modes affected by changed bytes; and
 - fail-closed states: generated evidence cannot silently become reviewed,
@@ -138,7 +141,9 @@ python3 tools/automation/digital-assurance.py \
 ```
 
 The result lists changed paths and affected controls, checks, standards and
-failure modes. The engineering change record then decides which requirements,
+failure modes, together with dependency traversal through the connected
+engineering graph. Both previous and current relationships participate so
+removed links retain their impact. The engineering change record then decides which requirements,
 analyses, tests and G1–G4 decisions must repeat. The algorithm finds impact; it
 does not decide technical adequacy.
 
@@ -224,6 +229,7 @@ wrap this evidence; they do not create a second uncontrolled baseline.
 
 ```bash
 python3 tools/automation/digital-assurance.py --check
+python3 tools/automation/connected_assurance.py --check
 python3 tools/automation/component_assurance.py --check
 python3 engineering/subsystem_control_register.py --check
 ./osr test

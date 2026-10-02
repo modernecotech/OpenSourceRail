@@ -146,6 +146,7 @@ async function navigate(module, path = "") {
   routes.operating = `/docs/operating/?${query}`;
   routes['design-options'] = `/engineering/design-options/?${query}`;
   routes['engineering-change'] = `/engineering/changes/?${query}`;
+  routes['decision-readiness'] = `/engineering/assurance/readiness/?${query}`;
   routes.overview = `/workbench/hub/?${query}`;
   const base = spec.service === "local" ? location.origin : services[spec.service];
   frame.src = routes[module] || new URL(path || spec.path, base).href;

@@ -36,6 +36,14 @@ depot-data evidence for the same run; this is software-in-loop, not hardware.
 
 ## Operating platform
 
+**Decision readiness** opens the [subsystem qualification view](../../engineering/assurance/readiness/index.html).
+It recompiles current engineering and measurement inputs, separates six
+decision areas, and displays quantitative uncertainty, physical-test gaps,
+production-equivalence findings and changes since review. The reference cooling
+package is explicitly separate from city acceptance. The
+[qualification workflow](../certification/subsystem-qualification.md) explains
+the controlled rig, model correlation and independent-review inputs.
+
 **City execution** opens the [business operating platform](../operating/README.md) inside the shell.
 ERPNext and Frappe HR own business records and authentication. **Railway works**
 retains the OSR engineering baseline, inspections, NCRs and handback evidence.

@@ -1,0 +1,1745 @@
+{
+  "schema": "osr-connected-engineering/1",
+  "scope": "Battery-cooling vertical example. Asset, batch, production and incident identities prefixed DEMO are synthetic; no installed railway or physical test is claimed.",
+  "design_items": [
+    {
+      "id": "OSR-COOL-PUMP",
+      "title": "Battery coolant circulation pump design",
+      "revision": "A",
+      "level": "part",
+      "part_of": [
+        "OSR-COOL-LOOP"
+      ],
+      "implements_function": [
+        "FUN-CIRCULATE"
+      ],
+      "depends_on": [
+        "LM3-AUX-P010"
+      ],
+      "interfaces": {
+        "nominal_flow_l_min": "supplier-freeze-open",
+        "power_supply_v": 24,
+        "mounting": "supplier-freeze-open"
+      },
+      "decomposition_rationale": "Shaft seizure is safety significant; bearing, seal and supplier internal analysis still require review.",
+      "passport_scope": "train-product"
+    },
+    {
+      "id": "OSR-COOL-CONNECTOR",
+      "title": "Battery coolant hose connection design",
+      "revision": "A",
+      "level": "part",
+      "part_of": [
+        "OSR-COOL-LOOP"
+      ],
+      "implements_function": [
+        "FUN-CONTAIN"
+      ],
+      "decomposition_rationale": "Analyse seal loss and assembly torque error explicitly; supplier materials and torque remain open.",
+      "passport_scope": "train-product"
+    },
+    {
+      "id": "OSR-COOL-FLOW-SENSOR",
+      "title": "Coolant flow diagnostic design",
+      "revision": "A",
+      "level": "part",
+      "part_of": [
+        "OSR-COOL-LOOP"
+      ],
+      "implements_function": [
+        "FUN-DETECT"
+      ],
+      "depends_on": [
+        "LM3-AUX-P010"
+      ],
+      "decomposition_rationale": "Stuck-high reading can mask circulation loss; physical flow measurement is outside current controller model.",
+      "passport_scope": "train-product"
+    },
+    {
+      "id": "OSR-COOL-LOOP",
+      "title": "Battery cooling loop design",
+      "revision": "A",
+      "level": "subassembly",
+      "part_of": [
+        "LM3-TRC-P030"
+      ],
+      "implements_function": [
+        "FUN-REMOVE-HEAT"
+      ],
+      "depends_on": [
+        "LM3-AUX-P010"
+      ],
+      "decomposition_rationale": "Pump, hose connector and flow diagnostics decomposed for this example; chiller supplier analysis remains open.",
+      "passport_scope": "train-product"
+    },
+    {
+      "id": "OSR-RAILWAY-BOUNDARY",
+      "title": "Reference railway operational boundary",
+      "revision": "A",
+      "level": "system",
+      "part_of": [],
+      "implements_function": [
+        "FUN-RECOVER"
+      ],
+      "decomposition_rationale": "Engineering operating boundary; project route, recovery, evacuation and civil configuration remain deployment inputs."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "LM3-TRAINSET-A000",
+      "to": "OSR-RAILWAY-BOUNDARY",
+      "relation": "part_of"
+    },
+    {
+      "from": "LM3-TRC-P040",
+      "to": "FUN-STORE",
+      "relation": "implements_function"
+    },
+    {
+      "from": "LM3-CAR-A900",
+      "to": "FUN-TRACTION",
+      "relation": "implements_function"
+    },
+    {
+      "from": "LM3-TRAINSET-A000",
+      "to": "FUN-RECOVER",
+      "relation": "implements_function"
+    }
+  ],
+  "functions": [
+    {
+      "id": "FUN-CIRCULATE",
+      "title": "Circulate battery coolant",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-CONTAIN",
+      "title": "Contain coolant",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-DETECT",
+      "title": "Detect circulation loss",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-REMOVE-HEAT",
+      "title": "Remove battery heat",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-STORE",
+      "title": "Store traction energy safely",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-TRACTION",
+      "title": "Control traction availability",
+      "owner": "thermal-and-vehicle-engineering"
+    },
+    {
+      "id": "FUN-RECOVER",
+      "title": "Control safe stopping, recovery and passenger conditions",
+      "owner": "thermal-and-vehicle-engineering"
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "IF-COOL-FLOW",
+      "endpoints": [
+        "OSR-COOL-PUMP",
+        "OSR-COOL-CONNECTOR",
+        "OSR-COOL-FLOW-SENSOR",
+        "LM3-TRC-P040"
+      ],
+      "parameters": [
+        "flow-rate",
+        "pressure",
+        "coolant-temperature",
+        "leakage"
+      ],
+      "owner": "thermal-engineering"
+    },
+    {
+      "id": "IF-COOL-POWER",
+      "endpoints": [
+        "LM3-AUX-P010",
+        "OSR-COOL-PUMP",
+        "OSR-COOL-FLOW-SENSOR"
+      ],
+      "parameters": [
+        "voltage",
+        "branch-protection",
+        "common-supply-loss"
+      ],
+      "owner": "electrical-engineering"
+    },
+    {
+      "id": "IF-COOL-MOUNT",
+      "endpoints": [
+        "OSR-COOL-PUMP",
+        "LM3-HV-P030"
+      ],
+      "parameters": [
+        "mounting-pattern",
+        "vibration",
+        "service-clearance"
+      ],
+      "owner": "mechanical-engineering"
+    }
+  ],
+  "configurations": [
+    {
+      "id": "CFG-DEMO-COOL-A",
+      "deployment": "DEMO-reference-no-authorization",
+      "item_revisions": {
+        "LM3-TRC-P030": "sha256:a4aa6d43c56eab08134d2e5dcc5ce6df9fc4908b27e2ca34404d29d5e8e43dd8",
+        "LM3-TRC-P040": "sha256:165dde130eb423ac20dba527e827a81684782b9875c7810c464ac50db5567b02",
+        "LM3-HV-SA510": "sha256:e1cc3a45b55657320996836b4050522b37fcd381826fc61ec82b0531d2bcec43",
+        "LM3-CAR-A900": "sha256:957a44510ffbd3ec61fd2ac6ca08dc7f805008edf35e453b647896c08cf1334f",
+        "LM3-TRAINSET-A000": "sha256:5543a77daf1f82b362a86cdcb6f931fb061d79522d589410893bfd65a8bfd194",
+        "LM3-AUX-P010": "sha256:79cd5d3688fba16aa3f88a47f4011144787b7dad6ca56cac3280a8fcdc95747b",
+        "LM3-HV-P030": "sha256:0dd1029db4abb465e4aee651778ceaa398d26d929b7713f2ddbbd088cda89238",
+        "OSR-COOL-PUMP": "A",
+        "OSR-COOL-CONNECTOR": "A",
+        "OSR-COOL-FLOW-SENSOR": "A",
+        "OSR-COOL-LOOP": "A",
+        "OSR-RAILWAY-BOUNDARY": "A"
+      },
+      "initial_state": "normal-running at 50 C ambient, reported hottest cell 30 C; one controller evaluation",
+      "status": "synthetic-design-example"
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "DEMO-CAR-01",
+      "design_item": "LM3-CAR-A900",
+      "design_revision": "sha256:957a44510ffbd3ec61fd2ac6ca08dc7f805008edf35e453b647896c08cf1334f",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-01",
+      "serial_number": "DEMO-CAR-01-SERIAL",
+      "supplier_batch": "DEMO-CAR-BATCH-01",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example"
+    },
+    {
+      "id": "DEMO-PUMP-01",
+      "design_item": "OSR-COOL-PUMP",
+      "design_revision": "A",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-01/cooling/pump",
+      "serial_number": "DEMO-PUMP-01-SERIAL",
+      "supplier_batch": "DEMO-BATCH-A",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example",
+      "part_of": "DEMO-CAR-01"
+    },
+    {
+      "id": "DEMO-CONNECTOR-01",
+      "design_item": "OSR-COOL-CONNECTOR",
+      "design_revision": "A",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-01/cooling/connection",
+      "serial_number": "DEMO-CONNECTOR-01-SERIAL",
+      "supplier_batch": "DEMO-BATCH-A",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example",
+      "part_of": "DEMO-CAR-01"
+    },
+    {
+      "id": "DEMO-CAR-02",
+      "design_item": "LM3-CAR-A900",
+      "design_revision": "sha256:957a44510ffbd3ec61fd2ac6ca08dc7f805008edf35e453b647896c08cf1334f",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-02",
+      "serial_number": "DEMO-CAR-02-SERIAL",
+      "supplier_batch": "DEMO-CAR-BATCH-02",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example"
+    },
+    {
+      "id": "DEMO-PUMP-02",
+      "design_item": "OSR-COOL-PUMP",
+      "design_revision": "A",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-02/cooling/pump",
+      "serial_number": "DEMO-PUMP-02-SERIAL",
+      "supplier_batch": "DEMO-BATCH-B",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example",
+      "part_of": "DEMO-CAR-02"
+    },
+    {
+      "id": "DEMO-CONNECTOR-02",
+      "design_item": "OSR-COOL-CONNECTOR",
+      "design_revision": "A",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "position": "car-02/cooling/connection",
+      "serial_number": "DEMO-CONNECTOR-02-SERIAL",
+      "supplier_batch": "DEMO-BATCH-B",
+      "maintenance_history": [
+        "DEMO-baseline-no-actual-maintenance"
+      ],
+      "status": "synthetic-example",
+      "part_of": "DEMO-CAR-02"
+    }
+  ],
+  "hazards": [
+    {
+      "id": "HAZ-COOL-FIRE",
+      "consequence": "Cooling loss can contribute to battery overheating/fire; isolation and containment require physical validation.",
+      "owner": "battery-safety-engineering"
+    },
+    {
+      "id": "HAZ-COOL-STRANDED",
+      "consequence": "Traction isolation can strand a train; separation, recovery and passenger conditions require deployment evidence.",
+      "owner": "operations-safety-engineering"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-COOL-PUMP",
+      "statement": "A reported unavailable battery pump requests isolation and traction derating, with pump demand zero, in one controller evaluation.",
+      "allocated_to": [
+        "OSR-COOL-PUMP",
+        "FUN-CIRCULATE"
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true,
+        "battery_pump_ppt": 0
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-FIRE"
+      ]
+    },
+    {
+      "id": "REQ-COOL-LEAK",
+      "statement": "A reported pressure failure requests isolation and zero pump demand in one controller evaluation.",
+      "allocated_to": [
+        "OSR-COOL-CONNECTOR",
+        "FUN-CONTAIN"
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "battery_pump_ppt": 0
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-FIRE"
+      ]
+    },
+    {
+      "id": "REQ-COOL-HOT",
+      "statement": "Reported hottest-cell temperature at or above the 55 C reference trip threshold requests isolation and derating.",
+      "allocated_to": [
+        "LM3-TRC-P040",
+        "FUN-STORE"
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-FIRE"
+      ]
+    },
+    {
+      "id": "REQ-COOL-PHYSICAL",
+      "statement": "Selected supplier cooling design meets independently reviewed flow, hotspot and fault-detection limits.",
+      "allocated_to": [
+        "OSR-COOL-LOOP",
+        "FUN-REMOVE-HEAT"
+      ],
+      "acceptance_criteria": {
+        "physical_acceptance": "deployment-flow-temperature-and-latency-limits-open"
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-FIRE"
+      ]
+    },
+    {
+      "id": "REQ-COOL-TORQUE",
+      "statement": "Cooling connection installation records controlled supplier torque, calibrated tool and inspection before release.",
+      "allocated_to": [
+        "OSR-COOL-CONNECTOR"
+      ],
+      "acceptance_criteria": {
+        "torque_acceptance": "supplier-torque-and-tolerance-open"
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-FIRE"
+      ]
+    },
+    {
+      "id": "REQ-COOL-RECOVERY",
+      "statement": "Cooling isolation leads to a safe operating state with reviewed separation, passenger conditions and recovery.",
+      "allocated_to": [
+        "LM3-CAR-A900",
+        "LM3-TRAINSET-A000",
+        "FUN-RECOVER"
+      ],
+      "acceptance_criteria": {
+        "recovery_acceptance": "deployment-time-and-tenability-criteria-open"
+      },
+      "owner": "responsible-engineer-unassigned",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-COOL-STRANDED"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "MODEL-COOL-CONTROLLER",
+      "source_paths": [
+        "crates/osr-hvac/src/integrated_thermal.rs",
+        "crates/osr-hvac/examples/cooling_fault_evidence.rs"
+      ],
+      "represents": "Existing SIL-0 thermal controller demand allocation and protection requests.",
+      "calibration": "Not a calibrated heat-transfer model; reported temperatures are injected inputs.",
+      "validation_data": "Existing controller unit/property tests; no supplier or bench validation.",
+      "valid_envelope": "Boolean pump/pressure status and reported temperatures; one evaluation per scenario.",
+      "limitations": "No flow sensor or hydraulic model, physical hotspots, actuator execution, timing, charging, recovery or thermal inertia.",
+      "version": "content-hashed-source"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "SCN-COOL-PUMP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-PUMP",
+        "FM-COOL-LOOP",
+        "FM-COOL-PACK",
+        "FM-COOL-VEHICLE",
+        "FM-COOL-RAILWAY"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-PUMP"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "OSR-COOL-PUMP",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Reported pump unavailability; actual shaft-seizure detection is a bench-test obligation.",
+          "input_changes": {
+            "battery_pump_available": false
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true,
+        "battery_pump_ppt": 0
+      },
+      "validation_relationship": "Reported pump unavailability; actual shaft-seizure detection is a bench-test obligation. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "controller-executable",
+      "operating_mode": "normal-running"
+    },
+    {
+      "id": "SCN-COOL-LEAK",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-CONNECTOR",
+        "FM-COOL-TORQUE"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-LEAK"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "OSR-COOL-CONNECTOR",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Reported pressure loss; physical leakage, instrument delay and torque are unvalidated.",
+          "input_changes": {
+            "battery_circuit_pressure_ok": false
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "battery_pump_ppt": 0
+      },
+      "validation_relationship": "Reported pressure loss; physical leakage, instrument delay and torque are unvalidated. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "controller-executable",
+      "operating_mode": "normal-running"
+    },
+    {
+      "id": "SCN-COOL-HOT",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-PACK"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-HOT"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "LM3-TRC-P040",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Reported temperature at reference trip threshold; no actual heating or transient simulation.",
+          "input_changes": {
+            "battery_max_cell_temp_dc": 550
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true
+      },
+      "validation_relationship": "Reported temperature at reference trip threshold; no actual heating or transient simulation. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "controller-executable",
+      "operating_mode": "normal-running"
+    },
+    {
+      "id": "SCN-COOL-PUMP-HOT",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-PUMP",
+        "FM-COOL-PACK"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-PUMP",
+        "REQ-COOL-HOT"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "OSR-COOL-PUMP",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Combined reported hot-cell and pump fault inputs; high ambient has no calibrated thermal effect.",
+          "input_changes": {
+            "battery_pump_available": false,
+            "battery_max_cell_temp_dc": 600,
+            "ambient_temp_dc": 550
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true,
+        "battery_pump_ppt": 0
+      },
+      "validation_relationship": "Combined reported hot-cell and pump fault inputs; high ambient has no calibrated thermal effect. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "controller-executable",
+      "operating_mode": "normal-running"
+    },
+    {
+      "id": "SCN-COOL-MASKED",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-PUMP",
+        "FM-COOL-SENSOR"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "OSR-COOL-FLOW-SENSOR",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Pump seized plus flow sensor stuck high. Current controller lacks a flow diagnostic; no detection claim.",
+          "input_changes": {}
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_acceptance": "deployment-flow-temperature-and-latency-limits-open"
+      },
+      "validation_relationship": "Pump seized plus flow sensor stuck high. Current controller lacks a flow diagnostic; no detection claim. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "physical-plan-open",
+      "operating_mode": "normal-running"
+    },
+    {
+      "id": "SCN-COOL-CHARGING",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-LOOP"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "OSR-COOL-LOOP",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Loss of circulation during charging, high ambient and fouling require a validated physical model.",
+          "input_changes": {}
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_acceptance": "deployment-flow-temperature-and-latency-limits-open"
+      },
+      "validation_relationship": "Loss of circulation during charging, high ambient and fouling require a validated physical model. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "physical-plan-open",
+      "operating_mode": "charging"
+    },
+    {
+      "id": "SCN-COOL-RECOVERY",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "failure_mode_ids": [
+        "FM-COOL-VEHICLE",
+        "FM-COOL-RAILWAY"
+      ],
+      "requirement_ids": [
+        "REQ-COOL-RECOVERY"
+      ],
+      "model_id": "MODEL-COOL-CONTROLLER",
+      "initial_state": {
+        "cabin_temp_dc": 400,
+        "ambient_temp_dc": 500,
+        "cabin_setpoint_dc": 230,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "compressor_available": true,
+        "cabin_fan_available": true,
+        "battery_pump_available": true,
+        "battery_circuit_pressure_ok": true,
+        "battery_temperature_sensor_plausible": true
+      },
+      "faults": [
+        {
+          "location": "LM3-CAR-A900",
+          "onset": "before first controller evaluation",
+          "duration": "one evaluation; physical duration to be specified",
+          "magnitude": "Cooling isolation with recovery equipment unavailable; operating/evacuation evidence open.",
+          "input_changes": {}
+        }
+      ],
+      "acceptance_criteria": {
+        "recovery_acceptance": "deployment-time-and-tenability-criteria-open"
+      },
+      "validation_relationship": "Cooling isolation with recovery equipment unavailable; operating/evacuation evidence open. Bench, HIL and deployment records remain planned.",
+      "uncertainty": "Uncalibrated diagnostic inputs; physical diagnostic coverage and response delays unknown.",
+      "status": "deployment-plan-open",
+      "operating_mode": "recovery"
+    }
+  ],
+  "failure_modes": [
+    {
+      "id": "FM-COOL-PUMP",
+      "item_id": "OSR-COOL-PUMP",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-CIRCULATE",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "shaft seizes",
+      "causes": [
+        "bearing damage, contamination or rotor seizure"
+      ],
+      "mechanisms": [
+        "mechanical friction locks rotor"
+      ],
+      "local_effect": "coolant flow falls",
+      "next_higher_effect": "cooling loop loses circulation",
+      "system_effect": "battery overheating and traction isolation",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-LOOP"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-PUMP"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-PUMP",
+        "SCN-COOL-PUMP-HOT",
+        "SCN-COOL-MASKED"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-CONNECTOR",
+      "item_id": "OSR-COOL-CONNECTOR",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-CONTAIN",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "hose seal leaks",
+      "causes": [
+        "damaged seal, incorrect torque or vibration"
+      ],
+      "mechanisms": [
+        "seal preload lost"
+      ],
+      "local_effect": "coolant inventory lost",
+      "next_higher_effect": "pump starvation and loop heat-transfer loss",
+      "system_effect": "battery overheating/fire contribution",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-LOOP"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-LEAK",
+        "REQ-COOL-TORQUE"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-LEAK"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-SENSOR",
+      "item_id": "OSR-COOL-FLOW-SENSOR",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-DETECT",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "flow reading stuck high",
+      "causes": [
+        "sensor or common configuration defect"
+      ],
+      "mechanisms": [
+        "plausible stale reading masks pump fault"
+      ],
+      "local_effect": "loss of circulation remains undetected",
+      "next_higher_effect": "latent exposure to cooling loss",
+      "system_effect": "late isolation permits overheating/fire",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-LOOP"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-MASKED"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-LOOP",
+      "item_id": "OSR-COOL-LOOP",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-REMOVE-HEAT",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "circulation lost",
+      "causes": [
+        "pump seizure, leak or common LV supply loss"
+      ],
+      "mechanisms": [
+        "no effective coolant mass flow"
+      ],
+      "local_effect": "heat removal reduced",
+      "next_higher_effect": "battery temperature rises",
+      "system_effect": "battery overheating/fire or traction loss",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-PACK"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-PUMP",
+        "SCN-COOL-CHARGING"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-PACK",
+      "item_id": "LM3-TRC-P040",
+      "item_revision": "sha256:165dde130eb423ac20dba527e827a81684782b9875c7810c464ac50db5567b02",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-STORE",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "cell hotspot exceeds protected envelope",
+      "causes": [
+        "cooling loss plus battery losses"
+      ],
+      "mechanisms": [
+        "heat accumulation exceeds removal"
+      ],
+      "local_effect": "cell temperature rises",
+      "next_higher_effect": "BMS requests isolation",
+      "system_effect": "fire contribution or loss of traction",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-VEHICLE"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-HOT"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-HOT",
+        "SCN-COOL-PUMP-HOT"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-VEHICLE",
+      "item_id": "LM3-CAR-A900",
+      "item_revision": "sha256:957a44510ffbd3ec61fd2ac6ca08dc7f805008edf35e453b647896c08cf1334f",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-TRACTION",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "traction unavailable after battery protection",
+      "causes": [
+        "battery protection requests isolation"
+      ],
+      "mechanisms": [
+        "HV energy path interrupted"
+      ],
+      "local_effect": "vehicle traction derates or is lost",
+      "next_higher_effect": "train stops or cannot continue",
+      "system_effect": "train stranded between stations",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-RAILWAY"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-STRANDED"
+      },
+      "requirement_ids": [
+        "REQ-COOL-RECOVERY"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-RECOVERY"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-RAILWAY",
+      "item_id": "OSR-RAILWAY-BOUNDARY",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-RECOVER",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "safe recovery unavailable",
+      "causes": [
+        "cooling loss with unavailable recovery equipment"
+      ],
+      "mechanisms": [
+        "stranded train exposes passengers and operations"
+      ],
+      "local_effect": "railway capacity and passenger conditions degrade",
+      "next_higher_effect": "emergency response required",
+      "system_effect": "unsafe passenger conditions or loss of separation",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-STRANDED"
+      },
+      "requirement_ids": [
+        "REQ-COOL-RECOVERY"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-RECOVERY"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    },
+    {
+      "id": "FM-COOL-TORQUE",
+      "item_id": "OSR-COOL-CONNECTOR",
+      "item_revision": "A",
+      "configuration_ids": [
+        "CFG-DEMO-COOL-A"
+      ],
+      "function_id": "FUN-CONTAIN",
+      "operating_modes": [
+        "normal-running",
+        "charging",
+        "startup",
+        "shutdown",
+        "degraded-operation",
+        "recovery",
+        "evacuation",
+        "maintenance"
+      ],
+      "environment": "hot ambient, dust/fouling and vibration; envelope requires supplier qualification",
+      "initiating_circumstances": "Credible design/process fault; combined faults analysed as separate scenarios.",
+      "mode": "assembly operation leaves connection under-torqued",
+      "causes": [
+        "wrong torque instruction or uncalibrated tool"
+      ],
+      "mechanisms": [
+        "insufficient seal compression"
+      ],
+      "local_effect": "latent leakage defect introduced",
+      "next_higher_effect": "cooling loop loses coolant in service",
+      "system_effect": "battery overheating/fire contribution",
+      "affected_interfaces": [
+        "IF-COOL-FLOW",
+        "IF-COOL-POWER"
+      ],
+      "propagates_to": [
+        "FM-COOL-CONNECTOR"
+      ],
+      "detection": {
+        "mechanism": "pressure/pump availability and cell temperature; flow diagnostic not implemented",
+        "coverage_evidence": "unknown: supplier diagnostics and bench evidence open",
+        "delay": "physical detection delay unknown; controller reacts in one evaluation once informed",
+        "latent_exposure": "unknown; inspection and diagnostic intervals require review"
+      },
+      "mitigation": {
+        "action": "request derating/isolation and invoke reviewed operating procedure",
+        "response_time": "physical and target response time unverified",
+        "degraded_state": "traction limited or isolated; passenger conditions require operating controls",
+        "recovery_conditions": "fault cleared, inspected, effective corrective action and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No credible supplier rates or field population; remains unknown.",
+        "uncertainty": "Physical detection, thermal response and common-cause exposure open.",
+        "criticality": "severity-led mandatory review; RPN cannot waive review",
+        "hazard_id": "HAZ-COOL-FIRE"
+      },
+      "requirement_ids": [
+        "REQ-COOL-TORQUE"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-LEAK"
+      ],
+      "ownership": {
+        "responsible_role": "responsible-engineer-unassigned",
+        "action": "review decomposition, requirements, physical evidence and residual risk",
+        "deadline": "2026-12-01",
+        "reviewer": "unassigned",
+        "review_state": "open",
+        "residual_risk_decision": "open"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EVD-COOL-CONTROLLER",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "verification_class": "software-verification",
+      "requirement_ids": [
+        "REQ-COOL-PUMP",
+        "REQ-COOL-LEAK",
+        "REQ-COOL-HOT"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-PUMP",
+        "SCN-COOL-LEAK",
+        "SCN-COOL-HOT",
+        "SCN-COOL-PUMP-HOT"
+      ],
+      "state": "planned",
+      "limitations": "Independent review, physical results and deployment validity open; controller execution, if present, remains generated-unreviewed."
+    },
+    {
+      "id": "EVD-COOL-BENCH",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-MASKED",
+        "SCN-COOL-CHARGING"
+      ],
+      "state": "planned",
+      "limitations": "Independent review, physical results and deployment validity open; controller execution, if present, remains generated-unreviewed."
+    },
+    {
+      "id": "EVD-COOL-TORQUE",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "verification_class": "process-evidence",
+      "requirement_ids": [
+        "REQ-COOL-TORQUE"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-LEAK"
+      ],
+      "state": "planned",
+      "limitations": "Independent review, physical results and deployment validity open; controller execution, if present, remains generated-unreviewed."
+    },
+    {
+      "id": "EVD-COOL-INTEGRATION",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "REQ-COOL-RECOVERY"
+      ],
+      "scenario_ids": [
+        "SCN-COOL-RECOVERY"
+      ],
+      "state": "planned",
+      "limitations": "Independent review, physical results and deployment validity open; controller execution, if present, remains generated-unreviewed."
+    }
+  ],
+  "production_records": [
+    {
+      "id": "DEMO-PROD-CONNECTION-01",
+      "item_ids": [
+        "OSR-COOL-PUMP",
+        "OSR-COOL-CONNECTOR"
+      ],
+      "occurrence_ids": [
+        "DEMO-PUMP-01",
+        "DEMO-CONNECTOR-01"
+      ],
+      "operation": "install and torque cooling connection",
+      "requirement_ids": [
+        "REQ-COOL-TORQUE"
+      ],
+      "failure_mode_ids": [
+        "FM-COOL-TORQUE"
+      ],
+      "tool_calibration": "DEMO-calibration-record-open",
+      "inspection_hold_point": "blocked pending controlled torque and pressure-test inspection",
+      "state": "synthetic-plan-open"
+    }
+  ],
+  "incidents": [
+    {
+      "id": "DEMO-FRACAS-01",
+      "occurrence_id": "DEMO-CONNECTOR-01",
+      "failure_mode_ids": [
+        "FM-COOL-CONNECTOR",
+        "FM-COOL-TORQUE"
+      ],
+      "diagnosis": "synthetic suspected seal-preload loss; confirm root cause",
+      "corrective_action": "inspect affected batch, confirm torque method and replace defective seal",
+      "effectiveness_check": "repeat pressure test and verify recurrence monitoring; evidence open",
+      "work_order_state": "administratively-closed-example",
+      "engineering_handback": "open"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-OSR-COOL-PUMP-G1",
+      "item_id": "OSR-COOL-PUMP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G1",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-PUMP-G2",
+      "item_id": "OSR-COOL-PUMP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G2",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-PUMP-G3",
+      "item_id": "OSR-COOL-PUMP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-PUMP-G4",
+      "item_id": "OSR-COOL-PUMP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G4",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-LOOP-G1",
+      "item_id": "OSR-COOL-LOOP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G1",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-LOOP-G2",
+      "item_id": "OSR-COOL-LOOP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G2",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-LOOP-G3",
+      "item_id": "OSR-COOL-LOOP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-OSR-COOL-LOOP-G4",
+      "item_id": "OSR-COOL-LOOP",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G4",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-HV-SA510-G1",
+      "item_id": "LM3-HV-SA510",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G1",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-HV-SA510-G2",
+      "item_id": "LM3-HV-SA510",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G2",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-HV-SA510-G3",
+      "item_id": "LM3-HV-SA510",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-HV-SA510-G4",
+      "item_id": "LM3-HV-SA510",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G4",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-CAR-A900-G1",
+      "item_id": "LM3-CAR-A900",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G1",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-CAR-A900-G2",
+      "item_id": "LM3-CAR-A900",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G2",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-CAR-A900-G3",
+      "item_id": "LM3-CAR-A900",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-CAR-A900-G4",
+      "item_id": "LM3-CAR-A900",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G4",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-TRAINSET-A000-G1",
+      "item_id": "LM3-TRAINSET-A000",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G1",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-TRAINSET-A000-G2",
+      "item_id": "LM3-TRAINSET-A000",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G2",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-TRAINSET-A000-G3",
+      "item_id": "LM3-TRAINSET-A000",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    },
+    {
+      "id": "DEC-LM3-TRAINSET-A000-G4",
+      "item_id": "LM3-TRAINSET-A000",
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "gate": "G4",
+      "evidence_ids": [
+        "EVD-COOL-CONTROLLER",
+        "EVD-COOL-BENCH",
+        "EVD-COOL-TORQUE"
+      ],
+      "integration_evidence_ids": [
+        "EVD-COOL-INTEGRATION"
+      ],
+      "state": "open",
+      "owner": "deployment-reviewer-unassigned"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "OBL-COOL-APPLICABILITY",
+      "deployment_id": "DEMO-reference-no-authorization",
+      "standard_id": "IEC-60812-2018",
+      "clause_id": "unresolved-licensed-clause-selection",
+      "applicability": "open",
+      "rationale": "Methodological candidate only; deployment review and licensed clause selection must precede closure.",
+      "verification_class": "process-evidence",
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL",
+        "REQ-COOL-RECOVERY"
+      ],
+      "decision_ids": [
+        "DEC-LM3-TRAINSET-A000-G1"
+      ]
+    }
+  ]
+}

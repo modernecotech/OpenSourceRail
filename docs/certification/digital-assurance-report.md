@@ -2,7 +2,7 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `96d432d45386f7493774509272f16175a049ad47b2a3c5843f83d1b9b2255d48`
+- Design fingerprint: `3d5f2782efeb63239c3d2474b4019605f0328cc75c52c741fc5917af042b325b`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**
@@ -139,3 +139,9 @@ The JSON report contains a path-level `change_impact_index` for 61 hashed inputs
 ## Interpretation
 
 The deterministic evidence-coherence gate passed. Standards applicability, clause-level assessment, physical tests, site evidence, independent assessment and regulatory acceptance remain open.
+
+## Connected engineering
+
+The [connected engineering example](connected-engineering.md) and [generated report](connected-engineering-report.md) bind battery-cooling failure propagation, requirement criteria, controller scenarios, planned physical tests, synthetic production records and installed occurrences to exact design revisions. The JSON includes dependency traversal and explicit blocked deployment decisions.
+
+The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.

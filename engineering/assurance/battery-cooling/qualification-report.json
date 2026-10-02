@@ -1,0 +1,823 @@
+{
+  "accepted_use": null,
+  "authenticated_reviews": [],
+  "changes_since_decision": "no-authenticated-acceptance-baseline",
+  "configuration_fingerprint": "16994d915ba129db702232c91dc6e001deb72cb37d7b72b4653f633f6c82a307",
+  "configuration_id": "CFG-DEMO-COOL-A",
+  "critical_characteristics": [
+    {
+      "id": "CC-COOL-TORQUE",
+      "inspection": "record calibrated torque and pressure-test hold point",
+      "item_id": "OSR-COOL-CONNECTOR",
+      "lower": null,
+      "operation": "install coolant connection",
+      "owner": "responsible-engineer-unassigned",
+      "quantity": "torque",
+      "unit": "N*m",
+      "upper": null
+    },
+    {
+      "id": "CC-COOL-FLOW",
+      "inspection": "measure flow against approved operating points",
+      "item_id": "OSR-COOL-PUMP",
+      "lower": null,
+      "operation": "install selected pump and circuit",
+      "owner": "responsible-engineer-unassigned",
+      "quantity": "flow",
+      "unit": "L/min",
+      "upper": null
+    },
+    {
+      "id": "CC-COOL-PRESSURE",
+      "inspection": "pressure hold and leakage inspection",
+      "item_id": "OSR-COOL-CONNECTOR",
+      "lower": null,
+      "operation": "assemble and proof-test loop",
+      "owner": "responsible-engineer-unassigned",
+      "quantity": "pressure",
+      "unit": "kPa",
+      "upper": null
+    },
+    {
+      "id": "CC-COOL-SENSOR",
+      "inspection": "inject actual circulation fault and record detection",
+      "item_id": "OSR-COOL-FLOW-SENSOR",
+      "lower": null,
+      "operation": "install/calibrate flow diagnostics",
+      "owner": "responsible-engineer-unassigned",
+      "quantity": "detection-delay",
+      "unit": "s",
+      "upper": null
+    }
+  ],
+  "evidence_fingerprint": "b601d20f04b597e392a1ac30d579bf0f596b6f9fa9b0b21007b99177a095287f",
+  "interpretation": "Subsystem dossier readiness; vehicle, railway integration and deployment authorization remain separately controlled.",
+  "manufacturing_blockers": [
+    "CC-COOL-TORQUE: production limits and inspection release open",
+    "CC-COOL-FLOW: production limits and inspection release open",
+    "CC-COOL-PRESSURE: production limits and inspection release open",
+    "CC-COOL-SENSOR: production limits and inspection release open",
+    "No controlled production-equivalence records for serialised assemblies.",
+    "OSR-COOL-PUMP: replacement compatibility or instructions open"
+  ],
+  "measurement_results": [],
+  "package_id": "QP-COOLING-001",
+  "qualification_definition": {
+    "accepted_baseline_fingerprint": null,
+    "allocations": [
+      {
+        "allocated_to": [
+          "OSR-COOL-LOOP",
+          "IF-COOL-POWER",
+          "IF-COOL-FLOW"
+        ],
+        "category": "reliability",
+        "hazard_ids": [
+          "HAZ-COOL-FIRE",
+          "HAZ-COOL-STRANDED"
+        ],
+        "id": "ALLOC-COOL-reliability",
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL",
+          "REQ-COOL-RECOVERY"
+        ],
+        "review_state": "open",
+        "system_item_id": "OSR-RAILWAY-BOUNDARY",
+        "target": null,
+        "unit": "failures/h"
+      },
+      {
+        "allocated_to": [
+          "OSR-COOL-LOOP",
+          "IF-COOL-POWER",
+          "IF-COOL-FLOW"
+        ],
+        "category": "availability",
+        "hazard_ids": [
+          "HAZ-COOL-FIRE",
+          "HAZ-COOL-STRANDED"
+        ],
+        "id": "ALLOC-COOL-availability",
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL",
+          "REQ-COOL-RECOVERY"
+        ],
+        "review_state": "open",
+        "system_item_id": "OSR-RAILWAY-BOUNDARY",
+        "target": null,
+        "unit": "service-availability"
+      },
+      {
+        "allocated_to": [
+          "OSR-COOL-LOOP",
+          "IF-COOL-POWER",
+          "IF-COOL-FLOW"
+        ],
+        "category": "maintainability",
+        "hazard_ids": [
+          "HAZ-COOL-FIRE",
+          "HAZ-COOL-STRANDED"
+        ],
+        "id": "ALLOC-COOL-maintainability",
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL",
+          "REQ-COOL-RECOVERY"
+        ],
+        "review_state": "open",
+        "system_item_id": "OSR-RAILWAY-BOUNDARY",
+        "target": null,
+        "unit": "repair-hours"
+      },
+      {
+        "allocated_to": [
+          "OSR-COOL-LOOP",
+          "IF-COOL-POWER",
+          "IF-COOL-FLOW"
+        ],
+        "category": "safety",
+        "hazard_ids": [
+          "HAZ-COOL-FIRE",
+          "HAZ-COOL-STRANDED"
+        ],
+        "id": "ALLOC-COOL-safety",
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL",
+          "REQ-COOL-RECOVERY"
+        ],
+        "review_state": "open",
+        "system_item_id": "OSR-RAILWAY-BOUNDARY",
+        "target": null,
+        "unit": "hazard-exposure-budget"
+      }
+    ],
+    "assessment_approach": {
+      "agreed_reference": null,
+      "independent_assessor": null,
+      "operator": null,
+      "state": "open"
+    },
+    "common_causes": [
+      {
+        "effect": "One supply loss may disable circulation and the primary flow indication. Separate BMS protection and safe vehicle response require integration evidence.",
+        "event_id": "EV-AUX",
+        "id": "CCA-COOL-AUX",
+        "item_ids": [
+          "LM3-AUX-P010",
+          "OSR-COOL-PUMP",
+          "OSR-COOL-FLOW-SENSOR"
+        ],
+        "review_state": "open",
+        "scenario_id": "RIG-AUX"
+      },
+      {
+        "effect": "Shared configuration or calibration may mask a fault; no random software failure rate is assigned.",
+        "event_id": "EV-CONFIG",
+        "id": "CCA-COOL-CONFIG",
+        "item_ids": [
+          "OSR-COOL-FLOW-SENSOR",
+          "OSR-COOL-LOOP"
+        ],
+        "review_state": "open",
+        "scenario_id": "RIG-MASKED"
+      }
+    ],
+    "configuration_id": "CFG-DEMO-COOL-A",
+    "critical_characteristics": [
+      {
+        "id": "CC-COOL-TORQUE",
+        "inspection": "record calibrated torque and pressure-test hold point",
+        "item_id": "OSR-COOL-CONNECTOR",
+        "lower": null,
+        "operation": "install coolant connection",
+        "owner": "responsible-engineer-unassigned",
+        "quantity": "torque",
+        "unit": "N*m",
+        "upper": null
+      },
+      {
+        "id": "CC-COOL-FLOW",
+        "inspection": "measure flow against approved operating points",
+        "item_id": "OSR-COOL-PUMP",
+        "lower": null,
+        "operation": "install selected pump and circuit",
+        "owner": "responsible-engineer-unassigned",
+        "quantity": "flow",
+        "unit": "L/min",
+        "upper": null
+      },
+      {
+        "id": "CC-COOL-PRESSURE",
+        "inspection": "pressure hold and leakage inspection",
+        "item_id": "OSR-COOL-CONNECTOR",
+        "lower": null,
+        "operation": "assemble and proof-test loop",
+        "owner": "responsible-engineer-unassigned",
+        "quantity": "pressure",
+        "unit": "kPa",
+        "upper": null
+      },
+      {
+        "id": "CC-COOL-SENSOR",
+        "inspection": "inject actual circulation fault and record detection",
+        "item_id": "OSR-COOL-FLOW-SENSOR",
+        "lower": null,
+        "operation": "install/calibrate flow diagnostics",
+        "owner": "responsible-engineer-unassigned",
+        "quantity": "detection-delay",
+        "unit": "s",
+        "upper": null
+      }
+    ],
+    "id": "QP-COOLING-001",
+    "input_evidence": [],
+    "integration_evidence": [],
+    "measurement_runs": [],
+    "method_sources": {
+      "exponential-reliability": "https://www.itl.nist.gov/div898/handbook/apr/section3/apr311.htm",
+      "fault-trees": "https://s3vi.ndc.nasa.gov/ssri-kb/static/resources/Fault%20Tree%20Handbook_NASA.pdf"
+    },
+    "model_validation": {
+      "calibration_run_ids": [],
+      "review_reference": null,
+      "state": "uncalibrated",
+      "validation_run_ids": []
+    },
+    "nonconformances": [],
+    "operating_conditions": [],
+    "operational_records": [],
+    "owner": "responsible-engineer-unassigned",
+    "production_batches": [],
+    "production_process_revision": "draft-A",
+    "rams_input_path": "engineering/assurance/battery-cooling/rams-inputs.json",
+    "replacement_rules": [
+      {
+        "compatible_design_revisions": [
+          "A"
+        ],
+        "item_id": "OSR-COOL-PUMP",
+        "maintenance_instruction": null,
+        "supplier_compatibility_evidence": null
+      }
+    ],
+    "review_records": [],
+    "rig": {
+      "as_built_configuration_fingerprint": null,
+      "calibration_records": [],
+      "instrument_channels": [
+        "temperature_c",
+        "ambient_c",
+        "flow_l_min",
+        "pressure_kpa",
+        "fault_active",
+        "detected",
+        "isolation",
+        "derate"
+      ],
+      "operating_envelope": {
+        "ambient_c": null,
+        "flow_l_min": null,
+        "pressure_kpa": null,
+        "thermal_load_w": null
+      },
+      "selected_components": {
+        "OSR-COOL-CONNECTOR": null,
+        "OSR-COOL-FLOW-SENSOR": null,
+        "OSR-COOL-PUMP": null,
+        "controller": null,
+        "representative-thermal-load": null
+      },
+      "serial_number": null,
+      "specimen_serials": {
+        "OSR-COOL-CONNECTOR": null,
+        "OSR-COOL-FLOW-SENSOR": null,
+        "OSR-COOL-PUMP": null,
+        "controller": null,
+        "representative-thermal-load": null
+      }
+    },
+    "rig_safety_review": {
+      "containment": null,
+      "fault_injection_approval": null,
+      "independent_shutdown": null,
+      "reference": null
+    },
+    "schema": "osr-subsystem-qualification/1",
+    "scope": {
+      "accepted_use": null,
+      "city": null,
+      "environment": "simulation",
+      "kind": "reference"
+    },
+    "subject_id": "OSR-COOL-LOOP",
+    "tests": [
+      {
+        "fault_required": false,
+        "id": "RIG-NORMAL",
+        "limits": {
+          "max_temperature_c": null,
+          "min_flow_l_min": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": null,
+        "title": "Normal operation at allocated duty"
+      },
+      {
+        "fault_required": true,
+        "id": "RIG-PUMP",
+        "limits": {
+          "max_detection_delay_s": null,
+          "max_fault_flow_l_min": null,
+          "max_isolation_delay_s": null,
+          "max_temperature_c": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": "SCN-COOL-PUMP",
+        "title": "Pump shaft seizure / circulation loss"
+      },
+      {
+        "fault_required": true,
+        "id": "RIG-LEAK",
+        "limits": {
+          "max_detection_delay_s": null,
+          "max_isolation_delay_s": null,
+          "max_temperature_c": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": "SCN-COOL-LEAK",
+        "title": "Leak / loss of pressure"
+      },
+      {
+        "fault_required": true,
+        "id": "RIG-MASKED",
+        "limits": {
+          "max_detection_delay_s": null,
+          "max_isolation_delay_s": null,
+          "max_temperature_c": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": "SCN-COOL-MASKED",
+        "title": "Seized pump plus flow signal stuck high"
+      },
+      {
+        "fault_required": true,
+        "id": "RIG-CHARGING",
+        "limits": {
+          "max_isolation_delay_s": null,
+          "max_temperature_c": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": "SCN-COOL-CHARGING",
+        "title": "Charging with cooling loss, high ambient and fouling"
+      },
+      {
+        "fault_required": true,
+        "id": "RIG-AUX",
+        "limits": {
+          "max_detection_delay_s": null,
+          "max_isolation_delay_s": null,
+          "max_temperature_c": null
+        },
+        "minimum_duration_s": null,
+        "model_error_limit_c": null,
+        "procedure_revision": "draft-A",
+        "repeat_count": null,
+        "requirement_ids": [
+          "REQ-COOL-PHYSICAL"
+        ],
+        "scenario_id": "SCN-COOL-PUMP-HOT",
+        "title": "Loss of shared auxiliary power"
+      }
+    ],
+    "title": "Battery-cooling subsystem qualification"
+  },
+  "qualification_state": "qualification-open",
+  "quantitative_analysis": {
+    "degraded_braking": {
+      "limitations": "Constant effective deceleration and fixed delay/distance; grade, adhesion, target brake timing, uncertainty and operating authority need deployment substantiation.",
+      "maximum_speed_km_h": [
+        45.16761923499234,
+        66.17934152448353
+      ],
+      "state": "illustrative-restriction-screen"
+    },
+    "design_options": [
+      {
+        "decision": "comparison-only; uncertain supplier performance and cost require evidence",
+        "id": "baseline",
+        "illustrative_cost": 0.0,
+        "time_to_limit_s": [
+          266.8945281716327,
+          1188.0
+        ],
+        "title": "Reference pump and shared auxiliary supply",
+        "top_event_probability": [
+          1.6001151872690434e-05,
+          0.00047990400614577087
+        ]
+      },
+      {
+        "decision": "comparison-only; uncertain supplier performance and cost require evidence",
+        "id": "supplier-pump-improvement",
+        "illustrative_cost": 1500.0,
+        "time_to_limit_s": [
+          266.8945281716327,
+          1188.0
+        ],
+        "title": "Illustrative lower pump failure rate",
+        "top_event_probability": [
+          1.6000831923886312e-05,
+          0.0002799799952123201
+        ]
+      },
+      {
+        "decision": "comparison-only; uncertain supplier performance and cost require evidence",
+        "id": "residual-cooling-improvement",
+        "illustrative_cost": 3000.0,
+        "time_to_limit_s": [
+          258.54467140827836,
+          1188.0
+        ],
+        "title": "Illustrative improved residual heat path",
+        "top_event_probability": [
+          1.6001151872690434e-05,
+          0.00047990400614577087
+        ]
+      }
+    ],
+    "evidence_basis": "illustrative-assumptions-no-qualified-parameters",
+    "fault_tree": {
+      "limitations": "Independent primitive event processes with explicit shared-cause events; exponential operating failure times and independent repairs. No repair-resource competition, coverage, wear-out or systematic-defect rate inference.",
+      "minimal_cut_sets": [
+        [
+          "EV-AUX"
+        ],
+        [
+          "EV-CONFIG",
+          "EV-PUMP"
+        ],
+        [
+          "EV-FLOW",
+          "EV-LEAK"
+        ],
+        [
+          "EV-FLOW",
+          "EV-PUMP"
+        ]
+      ],
+      "mission_top_event_probability": [
+        1.6001151872690434e-05,
+        0.00047990400614577087
+      ],
+      "state": "unknown-event-inputs",
+      "steady_state_availability": [
+        0.9996700950723632,
+        0.9999979999740007
+      ],
+      "unknown_events": [
+        "EV-CONFIG"
+      ]
+    },
+    "inspection": {
+      "average_latent_exposure": [
+        1.1999904000581374e-05,
+        0.0008395297975016813
+      ],
+      "limitations": "Perfect periodic proof-test detection and restoration, constant hardware rate, uniform demand timing; actual diagnostic coverage and repair exposure remain open.",
+      "maximum_interval_h_at_upper_rate": 200.13344454527154,
+      "state": "screening-unvalidated"
+    },
+    "maintenance": {
+      "limitations": "M/M/c mean queue wait and independent Poisson replenishment pipeline with fixed mean turnaround. Crews are concurrent service teams, not roster headcount; correlated fleet outages, shifts, skills and logistics require separate modelling.",
+      "minimum_spares": [
+        1,
+        2
+      ],
+      "repair_crews": [
+        1,
+        1
+      ],
+      "state": "planning-screen"
+    },
+    "release_authority": false,
+    "thermal": {
+      "limitations": "Single lumped heat capacity and constant heat/conductance/ambient; no hydraulic, spatial, phase-change or runaway model.",
+      "predictions": [
+        {
+          "temperature_c": [
+            28.0,
+            32.0
+          ],
+          "time_s": 0
+        },
+        {
+          "temperature_c": [
+            28.681818181818183,
+            34.662503132780344
+          ],
+          "time_s": 30
+        },
+        {
+          "temperature_c": [
+            29.363636363636363,
+            37.30511218810867
+          ],
+          "time_s": 60
+        },
+        {
+          "temperature_c": [
+            30.727272727272727,
+            42.531241545548255
+          ],
+          "time_s": 120
+        },
+        {
+          "temperature_c": [
+            34.81818181818182,
+            57.74740437159232
+          ],
+          "time_s": 300
+        },
+        {
+          "temperature_c": [
+            41.63636363636364,
+            82.0
+          ],
+          "time_s": 600
+        }
+      ],
+      "some_cases_do_not_reach_limit": false,
+      "state": "screening-unvalidated",
+      "time_to_limit_s": [
+        266.8945281716327,
+        1188.0
+      ],
+      "uncertainty": "Parameter-corner sensitivity; no statistical confidence or validated hotspot bound."
+    },
+    "top_event": "Circulation and primary flow diagnostic protection unavailable; this precursor is not a quantified battery fire hazard. Independent BMS temperature protection remains a separate assessment."
+  },
+  "release_ready": false,
+  "schema": "osr-subsystem-qualification/1",
+  "scope": {
+    "accepted_use": null,
+    "city": null,
+    "environment": "simulation",
+    "kind": "reference"
+  },
+  "source_hashes": {
+    "Cargo.lock": "223abff2bbe48ea7f431e5e644929eb19880b27054516ff1b0efdc639e603dca",
+    "Cargo.toml": "7dc7b9e70f11981675767705e2f6944eca899986a11295518baf1b5582463d4c",
+    "crates/osr-hvac/Cargo.toml": "f6977e9ca4ce77b05b67d6e1b2f2121ee8e1aa521489f574429851ce40eeb42c",
+    "crates/osr-hvac/examples/cooling_fault_evidence.rs": "d4b81053096e2de564a2a35f8c703565ed451b864797b83d0b16ecf9d3507cad",
+    "crates/osr-hvac/src/integrated_thermal.rs": "55e19a3acff551ab7a6572846b458069b70a59ed0b4af1eda9723d788db6d6ed",
+    "crates/osr-hvac/src/lib.rs": "c379d0c8154163532a0a28c783d2c7ff67610fb54b22a236f9775eb5bbc5565b",
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
+    "design/component-catalogue/src/osr_mech/cad_templates/rolling_stock.py": "95034291cfe35c5caa4627173427df2463b4c91758217e6df41eb12cfdc80bda",
+    "design/component-catalogue/src/osr_mech/freecad_assembly_review.py": "4978cfd60a3c6856c848a95cbd9af450713ab9e1c5652f3aa59810f70e1de422",
+    "design/component-catalogue/src/osr_mech/freecad_fea.py": "843091d52fec6171500d2c5d37deac3431b4c5e4c07d5fd9cc0802bfeea024b1",
+    "design/component-catalogue/src/osr_mech/freecad_trainset.py": "cc74f73246e7d302cbe4fc5cea0fde00bf3e3f4202c2f9d059bad9d8a0d383e4",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/assembly.py": "cd53a52825fc83a2f8be735fbd6cc4a6c7aa1d052b02434872707d1ca2b95213",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/brake.py": "5723d096019e9b3c5e8850aafe43d6077a8ef86574f20a80b5e63de8dca6ad6c",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/frame.py": "e596a83b64a0964a5e9af8e8a157e600a48c8bd99307aefa1e4adeb900d8ba0f",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/gearbox.py": "b0743d2ba69e07ac26c1aeb1cfaa47b0ed90f75034d44a9b8dc50c8986709aa9",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/motor.py": "09337d031654eea4683038a759bcf02ba08321fec2cd1fc56c8c4713e7487050",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/suspension.py": "a0edaf3ecbbe1aca0d844b7505d1b127e739f747e1ad1c995b8f393e7ca3f740",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/wheelset.py": "8c4f2ce39da0f3a26a8b5f4936b3e3db1e616a17ba150f2a98a9f321254cc495",
+    "design/component-catalogue/src/osr_mech/rolling_stock/car_body.py": "cd61b30e717de403ad753169d813fff62fd783b6f507d72348f2173a92f0b578",
+    "design/component-catalogue/src/osr_mech/rolling_stock/cots_equipment.py": "b06db1f0513537595c9698f37d04d3646abae168fac55161d093262d785304d4",
+    "design/component-catalogue/src/osr_mech/rolling_stock/mechanical_interfaces.py": "e619a94a76ce978f0474b7af8676a1bbb521d2eac030f3861d37e604005a3304",
+    "design/component-catalogue/src/osr_mech/rolling_stock/modular_fiberglass_body.py": "298fa1ff8da49c09605cf45cf88d7262a07c0298212dbe6f197c53a46193ec4b",
+    "design/component-catalogue/src/osr_mech/rolling_stock/sensor_cowl.py": "40226abac00dd4fa219566f0c04c5a31adf46578ee3b0ab838c21b6b98b5f52b",
+    "design/component-catalogue/src/osr_mech/rolling_stock/small_components.py": "1481ec25f99a2ac28b6cd197b94fb6d107e3187ab6c6552077353df83aaee529",
+    "design/component-catalogue/src/osr_mech/rolling_stock/systems.py": "0cee6520b383ab9aafcac7dcacd1d4132ee531c208b514658fd3901be4696fcc",
+    "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "75f4814915af473aa8a33d0d725d7ee840017cc1c723e777fe6d8bc88c9fd484",
+    "engineering/analysis/rams.py": "1356e3cb1025069d45f587be80c1bf2fb13b53e19bd9f68bfe0b6ad1595da8bf",
+    "engineering/assurance/battery-cooling/controller-execution.json": "43293758808885440150d37828a2e2bb6b8d49cb2732008a98b1286c5bc942d9",
+    "engineering/assurance/battery-cooling/rams-inputs.json": "d593d6346a65fdaaf7dce8dc98a346e4035b4d841727323307be7d9644a56b62",
+    "lib/templates/connected-engineering.json": "96be9d3db4b335c16df6fb61210b5879fb36b311b0051ee9447d9f874277ad4a",
+    "lib/templates/subsystem-qualification.json": "39088990917bf6c1c3e28d7b433474bc54bd8dca619524bad1611609f7098841",
+    "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
+    "tools/automation/connected_assurance.py": "5b0d1ec7709556a5944f57c98f70ceb11e4f2d5d3a99048b0270b6f8395398ef",
+    "tools/automation/subsystem_qualification.py": "1000f819b1655457f97864e20a32ceb092ec43b688b6bd4f5119910e2b4b0ece"
+  },
+  "stages": {
+    "design_verification": {
+      "blockers": [
+        "CCA-COOL-AUX: common-cause assessment open",
+        "CCA-COOL-CONFIG: common-cause assessment open",
+        "Calibrated model and held-out validation review remain open.",
+        "RIG-AUX: model correlation tolerance unresolved",
+        "RIG-CHARGING: model correlation tolerance unresolved",
+        "RIG-LEAK: model correlation tolerance unresolved",
+        "RIG-MASKED: model correlation tolerance unresolved",
+        "RIG-NORMAL: model correlation tolerance unresolved",
+        "RIG-PUMP: model correlation tolerance unresolved"
+      ],
+      "state": "blocked"
+    },
+    "independent_review": {
+      "blockers": [
+        "Authenticated assessor decision missing.",
+        "Authenticated design-authority decision missing.",
+        "Independent review policy and signed decisions are not supplied.",
+        "Operator/assessor assessment approach is not agreed."
+      ],
+      "state": "blocked"
+    },
+    "integration": {
+      "blockers": [
+        "hil: integration evidence absent.",
+        "infrastructure: integration evidence absent.",
+        "operations: integration evidence absent.",
+        "vehicle: integration evidence absent."
+      ],
+      "state": "blocked"
+    },
+    "operating_conditions": {
+      "blockers": [
+        "Operating envelope, restrictions and handback conditions are unresolved.",
+        "Reference configuration has no deployment-specific accepted use."
+      ],
+      "state": "blocked"
+    },
+    "physical_qualification": {
+      "blockers": [
+        "CC-COOL-FLOW: production limits and inspection release open",
+        "CC-COOL-PRESSURE: production limits and inspection release open",
+        "CC-COOL-SENSOR: production limits and inspection release open",
+        "CC-COOL-TORQUE: production limits and inspection release open",
+        "Controlled rig specimen serials are missing.",
+        "Fault injection, independent shutdown and rig protection review remain open.",
+        "No controlled production-equivalence records for serialised assemblies.",
+        "OSR-COOL-PUMP: replacement compatibility or instructions open",
+        "RIG-AUX: acceptance limits, duration or repeat count unresolved",
+        "RIG-AUX: representative physical repetitions missing",
+        "RIG-CHARGING: acceptance limits, duration or repeat count unresolved",
+        "RIG-CHARGING: representative physical repetitions missing",
+        "RIG-LEAK: acceptance limits, duration or repeat count unresolved",
+        "RIG-LEAK: representative physical repetitions missing",
+        "RIG-MASKED: acceptance limits, duration or repeat count unresolved",
+        "RIG-MASKED: representative physical repetitions missing",
+        "RIG-NORMAL: acceptance limits, duration or repeat count unresolved",
+        "RIG-NORMAL: representative physical repetitions missing",
+        "RIG-PUMP: acceptance limits, duration or repeat count unresolved",
+        "RIG-PUMP: representative physical repetitions missing",
+        "Representative rig duty and environmental envelope unresolved.",
+        "Rig as-built configuration is not bound to the frozen design.",
+        "Selected components and real rig serial are missing."
+      ],
+      "state": "blocked"
+    },
+    "requirements": {
+      "blockers": [
+        "ALLOC-COOL-availability: RAMS allocation/target review open",
+        "ALLOC-COOL-maintainability: RAMS allocation/target review open",
+        "ALLOC-COOL-reliability: RAMS allocation/target review open",
+        "ALLOC-COOL-safety: RAMS allocation/target review open",
+        "REQ-COOL-PHYSICAL: requirement review remains open",
+        "REQ-COOL-RECOVERY: requirement review remains open"
+      ],
+      "state": "blocked"
+    }
+  },
+  "subject_id": "OSR-COOL-LOOP",
+  "test_plan": [
+    {
+      "fault_required": false,
+      "id": "RIG-NORMAL",
+      "limits": {
+        "max_temperature_c": null,
+        "min_flow_l_min": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": null,
+      "title": "Normal operation at allocated duty"
+    },
+    {
+      "fault_required": true,
+      "id": "RIG-PUMP",
+      "limits": {
+        "max_detection_delay_s": null,
+        "max_fault_flow_l_min": null,
+        "max_isolation_delay_s": null,
+        "max_temperature_c": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": "SCN-COOL-PUMP",
+      "title": "Pump shaft seizure / circulation loss"
+    },
+    {
+      "fault_required": true,
+      "id": "RIG-LEAK",
+      "limits": {
+        "max_detection_delay_s": null,
+        "max_isolation_delay_s": null,
+        "max_temperature_c": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": "SCN-COOL-LEAK",
+      "title": "Leak / loss of pressure"
+    },
+    {
+      "fault_required": true,
+      "id": "RIG-MASKED",
+      "limits": {
+        "max_detection_delay_s": null,
+        "max_isolation_delay_s": null,
+        "max_temperature_c": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": "SCN-COOL-MASKED",
+      "title": "Seized pump plus flow signal stuck high"
+    },
+    {
+      "fault_required": true,
+      "id": "RIG-CHARGING",
+      "limits": {
+        "max_isolation_delay_s": null,
+        "max_temperature_c": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": "SCN-COOL-CHARGING",
+      "title": "Charging with cooling loss, high ambient and fouling"
+    },
+    {
+      "fault_required": true,
+      "id": "RIG-AUX",
+      "limits": {
+        "max_detection_delay_s": null,
+        "max_isolation_delay_s": null,
+        "max_temperature_c": null
+      },
+      "minimum_duration_s": null,
+      "model_error_limit_c": null,
+      "procedure_revision": "draft-A",
+      "repeat_count": null,
+      "requirement_ids": [
+        "REQ-COOL-PHYSICAL"
+      ],
+      "scenario_id": "SCN-COOL-PUMP-HOT",
+      "title": "Loss of shared auxiliary power"
+    }
+  ],
+  "title": "Battery-cooling subsystem qualification"
+}

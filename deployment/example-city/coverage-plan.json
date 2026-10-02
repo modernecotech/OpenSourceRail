@@ -105,8 +105,8 @@
     "fuxa.validate_deployment_review",
     "gateway.GET./affected",
     "gateway.GET./controller/commands",
-    "gateway.GET./executive/decisions",
     "gateway.GET./evidence",
+    "gateway.GET./executive/decisions",
     "gateway.GET./health",
     "gateway.GET./history",
     "gateway.GET./outbox",
@@ -484,6 +484,7 @@
     "supervision.templates.vehicle-hvac.measurements.reduced.stale_seconds",
     "supervision.templates.vehicle-hvac.measurements.reduced.unit",
     "supervision.templates.vehicle-hvac.source_crates",
+    "workbench.GET./api/assurance/readiness",
     "workbench.GET./api/lifecycle/",
     "workbench.GET./api/operating/twins",
     "workbench.GET./api/portfolio",
@@ -507,6 +508,7 @@
     "workbench.setting.OSR_ERP_URL",
     "workbench.setting.OSR_FUXA_URL",
     "workbench.setting.OSR_INTEGRATION_URL",
+    "workbench.setting.OSR_QUALIFICATION_REVIEW_POLICY",
     "workbench.setting.OSR_SUPERVISION_CONFIG",
     "workbench.setting.OSR_SUPERVISION_PROFILES",
     "workbench.setting.OSR_SUPERVISION_ROOT",
@@ -631,9 +633,11 @@
     "fuxa.validate_deployment_review": "ece449c3dea18cbb46f675a722a6af53967fe5c4516ff4cbe8becbfafc803b32",
     "gateway.GET./affected": "9413f1031a1bf800e245778043dfffa56740f9f45a8a2587ed38477fbe60d0dd",
     "gateway.GET./controller/commands": "6f06b212b62bc7ef7e852b4c14f9cc897af5cc56c6796f87a024ad98a92948c8",
+    "gateway.GET./evidence": "431ead1f4bbd4265f317c1f24a37d7404ae8fe9ebaeb861bcc5cf82b8d9470cd",
     "gateway.GET./executive/decisions": "0cfad8a9cf2d9b8db0ee5926422779d323e0c1b4e8412525ebf4f6018101c325",
     "gateway.GET./health": "3bc789b6f22c0294e0b4962b22518eb0ee521102eea0f616749aab3fb30ab4bd",
     "gateway.GET./history": "137c5c6cc233a965c905413d44f0f77ba14c80efed1029248126b9897a66f0e3",
+    "gateway.GET./outbox": "84634cca958107997877663cfe26502e0b5b4b24020650cebe976d8707bfdfbd",
     "gateway.GET./snapshot": "9113e12728416fa0fc7211c5d493ffff5275c9ae0c66b8855802e39f38708efa",
     "gateway.POST./alarms/acknowledge": "5bdc4b6b931ad449fecd2c0947ce72448cda78560ba540a744e45750cb8a7cd2",
     "gateway.POST./commands": "54f8435b21f60fa020c8faf195dfdb06a6c72ec09443078942be1bb2974a663d",
@@ -645,6 +649,7 @@
     "gateway.POST./packages": "f287c40381c80daec256870bf8bc56c8b7ee692a1b4b44cd6067cc114c2c5ec8",
     "gateway.POST./packages/preview": "a6511f7d43d6953721f0684066ff793a3026ed30deb29cd2b827702384596844",
     "gateway.POST./telemetry": "79476c2df6fc4b044167bd9f9945721d30646ee808146a77bc8e532c1afa5935",
+    "gateway.POST./telemetry/batch": "e8721f6e7c8e8e426018474a724365440593f5f9b76b2e3f9538451fe3010457",
     "ops.GET./api/operating": "c4cb6df01f0eb425e04a48feb7487c386e859038ff6b69d97e9df1793a020aa7",
     "ops.GET./api/ops-auth/session": "c036fd23dd61fa491ef64e908389277a7d24e5cdd462361cfa5aa75f5a09b6fb",
     "ops.OPTIONS./api/": "805d8898673b35966c839367bf5968aaf2ccc8f8366e7a5428ea33413cf1f12f",
@@ -677,6 +682,7 @@
     "planning.tasks.procurement": "068ea02382a53952c9c05e4cb54d78038e394f46f34426d62c5e2320ba8e5725",
     "planning.tasks.programme": "af357e451110c9977838b2fa8961a143a9767054fbb18bfe0dc2a8789d790669",
     "planning.tasks.qa": "19f6601bd2376086f348b30d061d7e829ba0e272b4d0b2619ea2da826bf0b94f",
+    "supervision.fuxa_polling_scope": "6bfea6124e3d9a9b744427f49cc2e3fe6c9502149d4628b68968a28b9495c6c6",
     "supervision.historian.owner": "994d95d90c24173a29c6f7df71e5e6db74b4f7050e4b34b22d9dc67e6c491a94",
     "supervision.historian.retention_days": "b9af15c875ed15920e43c20ea57b2532c3e3b85a649b88a5a239adbcc51deea9",
     "supervision.historian.sampling_seconds": "634eefcf24948caa70afd4f9df85110f786c99fd8f7954c15a55b0d4e64e4568",
@@ -1006,6 +1012,7 @@
     "supervision.templates.vehicle-hvac.measurements.reduced.stale_seconds": "711d2412da05a2538e09ca6dfdf54991c689fc9d9d459e18a8a4a63440b0f6da",
     "supervision.templates.vehicle-hvac.measurements.reduced.unit": "2383eb1e51e0fe63b377ecc7ecb2ed5c9c71c4f555441c62a99b1f62447e4ef8",
     "supervision.templates.vehicle-hvac.source_crates": "eaf2e4f7b7d14dff4440d5f9b91dd81c9601566af2675764e8c272063b2b4385",
+    "workbench.GET./api/assurance/readiness": "9171cbce71c7d6ee9b9a8555ff67048c475d43ae3dd6fc8984bfc6b1d87256e2",
     "workbench.GET./api/lifecycle/": "f0f3b716f1d428bb4e4728a96b3f28de986b92acc513e5f92bb8fb12b1ad5724",
     "workbench.GET./api/operating/twins": "4d38ef9b3bcf1390317a4de526715423d361f860465e07b6ccef385ab2e687d4",
     "workbench.GET./api/portfolio": "51bcc19a4c97233d2f81556fb29aba55972414e1345e59b7e50f74bd35b02393",
@@ -1029,6 +1036,7 @@
     "workbench.setting.OSR_ERP_URL": "1c556d0c8b3931cc70292673eaf5447376a73b71134a9f8ec1859980649ce38d",
     "workbench.setting.OSR_FUXA_URL": "b163a6388c123b50d9e819c3318d4e7e3c430280234888c38200ca21a03ea69b",
     "workbench.setting.OSR_INTEGRATION_URL": "96c52a773b4c2bdb8ee06c31f1c5c1bc31047bf84b2b178f84d11af1c9c5285a",
+    "workbench.setting.OSR_QUALIFICATION_REVIEW_POLICY": "cfad44f01def4234e91c18d18ab3edc3d2ca5e71e7a6c2c8518c55a0f6819ba2",
     "workbench.setting.OSR_SUPERVISION_CONFIG": "b8078a467d2f1e268d4a27d0f9b05c3c1eb1fe3cf580c34d171054832461fcff",
     "workbench.setting.OSR_SUPERVISION_PROFILES": "2a712084883478190fdf1ce58a3ca3256d1d33f34a345a47643218b7930232bb",
     "workbench.setting.OSR_SUPERVISION_ROOT": "d57db2be7bc7ce01fdf1fe6309d5107005200e25971858d2597ce9031987aa57",
@@ -1047,11 +1055,7 @@
     "workflow.replenishment-scheduler": "82023cb39c22bf3032858fc93e4b0ba9bdd519705ddc13b924da0031351b3502",
     "workflow.service-sla": "ca6a225d2528934e2fe54168189662ff0e93abfe639ca2cd882a50360e4dd690",
     "workflow.tax": "8258d4b1099d11664c9e0f77718e9b82d3fbca81436a94ee7e1a661c25794065",
-    "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969",
-    "gateway.GET./evidence": "431ead1f4bbd4265f317c1f24a37d7404ae8fe9ebaeb861bcc5cf82b8d9470cd",
-    "gateway.GET./outbox": "84634cca958107997877663cfe26502e0b5b4b24020650cebe976d8707bfdfbd",
-    "gateway.POST./telemetry/batch": "e8721f6e7c8e8e426018474a724365440593f5f9b76b2e3f9538451fe3010457",
-    "supervision.fuxa_polling_scope": "6bfea6124e3d9a9b744427f49cc2e3fe6c9502149d4628b68968a28b9495c6c6"
+    "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969"
   },
   "rules": [
     {
@@ -3842,6 +3846,18 @@
       "pattern": "gateway.POST./telemetry/batch",
       "status": "partial",
       "remaining": "Atomic rollback, bounds, replay and per-member authorization have regression coverage; complete-city native batch failure and recovery scenarios remain.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.GET./api/assurance/readiness",
+      "status": "partial",
+      "remaining": "Local browser tests exercise reference scope, city switching, mismatched context and changed-evidence rejection. Map a complete example-deployment report before claiming scenario coverage; physical qualification remains open.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.setting.OSR_QUALIFICATION_REVIEW_POLICY",
+      "status": "partial",
+      "remaining": "Signature verification has isolated regression coverage. Exercise a server-configured trusted reviewer policy and invalid policy paths in the complete example deployment before claiming scenario coverage.",
       "evidence": []
     }
   ]

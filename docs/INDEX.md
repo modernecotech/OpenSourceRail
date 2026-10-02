@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4998**.
+Indexed Markdown files: **5002**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **4998**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 178 |
-| [engineering](#engineering) | 20 |
+| [docs](#docs) | 181 |
+| [engineering](#engineering) | 21 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4877,6 +4877,8 @@ Indexed Markdown files: **4998**.
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |
+| [`docs/certification/connected-engineering-report.md`](../docs/certification/connected-engineering-report.md) | Connected engineering assurance |
+| [`docs/certification/connected-engineering.md`](../docs/certification/connected-engineering.md) | Connected engineering assurance |
 | [`docs/certification/digital-assurance-report.md`](../docs/certification/digital-assurance-report.md) | Digital standards-adherence report |
 | [`docs/certification/digital-standards-adherence.md`](../docs/certification/digital-standards-adherence.md) | Digital Standards Thread |
 | [`docs/certification/distributed-onboard-control-profile.md`](../docs/certification/distributed-onboard-control-profile.md) | Distributed Onboard Control Profile |
@@ -4889,6 +4891,7 @@ Indexed Markdown files: **4998**.
 | [`docs/certification/software-resilience-report.md`](../docs/certification/software-resilience-report.md) | Deterministic Software Resilience Report |
 | [`docs/certification/software-soak-report.md`](../docs/certification/software-soak-report.md) | Deterministic Multi-Day Software Soak Report |
 | [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | Current standards applicability baseline |
+| [`docs/certification/subsystem-qualification.md`](../docs/certification/subsystem-qualification.md) | Subsystem qualification and quantitative RAMS |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-deployment-evidence.md`](../docs/city-deployment-evidence.md) | City soil inputs and deployment evidence |
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
@@ -5056,6 +5059,7 @@ Indexed Markdown files: **4998**.
 | [`engineering/analysis/deployment-summary.md`](../engineering/analysis/deployment-summary.md) | Catalogue deployment evidence |
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
+| [`engineering/assurance/battery-cooling/qualification-report.md`](../engineering/assurance/battery-cooling/qualification-report.md) | Battery-cooling qualification readiness |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |

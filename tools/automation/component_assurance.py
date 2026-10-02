@@ -72,6 +72,8 @@ def compile_register(root: Path = ROOT, config: dict | None = None) -> dict:
             scope_routes[scope] = route
 
     digital = _load_digital_assurance().compile_assurance(root)
+    connected = digital["connected_engineering"]
+    engineering_nodes = {row["id"]: row for row in connected["nodes"]}
     inventory = digital["inventory_coverage"]
     inventory_scopes = {row["scope"] for row in inventory}
     if inventory_scopes - set(scope_routes):
@@ -113,6 +115,27 @@ def compile_register(root: Path = ROOT, config: dict | None = None) -> dict:
                 "permitted_claim": "identity-and-source-baseline-recorded-only",
             }
         )
+        if controlled_id in engineering_nodes:
+            related = [row for row in connected["nodes"] if row.get("item_id") == controlled_id]
+            passports[-1]["connected_engineering"] = {
+                "design_revision": engineering_nodes[controlled_id]["revision"],
+                "part_of": engineering_nodes[controlled_id].get("part_of", []),
+                "failure_mode_ids": sorted(row["id"] for row in related if row["kind"] == "failure_modes"),
+                "installed_occurrence_ids": sorted(row["id"] for row in connected["nodes"]
+                                                   if row.get("design_item") == controlled_id),
+                "deployment_decisions": [row for row in related if row["kind"] == "decisions"],
+                "relationship_fingerprint": connected["fingerprint"],
+            }
+            qualification = digital["subsystem_qualification"]
+            configuration = engineering_nodes[qualification["configuration_id"]]
+            if controlled_id in configuration["item_revisions"]:
+                passports[-1]["supporting_subsystem_qualification"] = {
+                    "package_id":qualification["package_id"],
+                    "subject_id":qualification["subject_id"],
+                    "evidence_fingerprint":qualification["evidence_fingerprint"],
+                    "stage_states":{key:value["state"] for key,value in qualification["stages"].items()},
+                    "qualification_state":qualification["qualification_state"],
+                }
 
     for row in inventory:
         add_passport(
@@ -123,6 +146,14 @@ def compile_register(root: Path = ROOT, config: dict | None = None) -> dict:
             source=row["evidence"],
             controls=row["existing_controls"],
             boundary="Reference engineering inventory item; exact deployment use, safety classification and jurisdiction remain G1 decisions.",
+        )
+    overlay_items = [row for row in connected["nodes"] if row["kind"] == "design_items" and row.get("passport_scope")]
+    for row in overlay_items:
+        add_passport(
+            controlled_id=row["id"], title=row["title"], scope=row["passport_scope"], domain="thermal",
+            source="lib/templates/connected-engineering.json",
+            controls=[row["decomposition_rationale"]],
+            boundary="Battery-cooling design decomposition example; supplier definitions and deployment review remain open.",
         )
     for row in platform_components:
         add_passport(
@@ -170,6 +201,7 @@ def compile_register(root: Path = ROOT, config: dict | None = None) -> dict:
         "summary": {
             "controlled_items": len(passports),
             "engineering_inventory_items": len(inventory),
+            "connected_design_items": len(overlay_items),
             "platform_services": len(platform_components),
             "scopes": dict(sorted(scope_counts.items())),
             "routes": dict(sorted(route_counts.items())),
@@ -209,7 +241,7 @@ def render_markdown(report: dict) -> str:
         "",
         report["authority_boundary"]["statement"],
         "",
-        f"The register contains **{summary['controlled_items']} assurance passports**: {summary['engineering_inventory_items']} engineering inventory items and {summary['platform_services']} owner/operator platform services. Every item has a locked identity/source baseline at G0. All item-specific design, qualification, integration and independent-acceptance gates remain open; **zero items are represented as certified or released**.",
+        f"The register contains **{summary['controlled_items']} assurance passports**: {summary['engineering_inventory_items']} engineering inventory items, {summary['connected_design_items']} connected cooling design definitions and {summary['platform_services']} owner/operator platform services. Every item has a locked identity/source baseline at G0. All item-specific design, qualification, integration and independent-acceptance gates remain open; **zero items are represented as certified or released**.",
         "",
         "## One lifecycle",
         "",

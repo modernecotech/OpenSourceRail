@@ -155,6 +155,19 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/assurance/readiness":
+            from urllib.parse import parse_qs
+            from subsystem_qualification import compile_package, scoped_readiness
+            query = parse_qs(urlsplit(self.path).query)
+            try:
+                policy = os.environ.get("OSR_QUALIFICATION_REVIEW_POLICY")
+                report = compile_package(REPO_ROOT,review_policy=Path(policy) if policy else None)
+                payload = scoped_readiness(report,query.get("city",[self.bootstrap["city"]])[0],
+                                           query.get("environment",["simulation"])[0],query.get("subject",[""])[0])
+                self._send_json(200,payload)
+            except (ValueError,KeyError,OSError) as error:
+                self._send_json(409,{"error":"Qualification inputs require correction: "+str(error),"release_ready":False})
+            return
         if path == "/api/workbench/city":
             from urllib.parse import parse_qs
             from workbench_city import city_summary

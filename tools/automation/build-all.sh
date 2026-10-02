@@ -67,6 +67,8 @@ python3 tools/automation/component_rfc_readiness.py
 python3 tools/automation/operating-readiness.py
 python3 tools/automation/validate-commercial-partnership.py
 python3 tools/automation/validate-supplier-technical-support.py
+python3 tools/automation/connected_assurance.py
+python3 tools/automation/subsystem_qualification.py
 python3 tools/automation/digital-assurance.py
 python3 tools/automation/component_assurance.py
 

@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+- Added quantitative subsystem assurance and a controlled cooling-rig programme.
+  Exact Boolean fault-tree/cut-set analysis retains shared dependencies and
+  unknown systematic events; thermal, repairable availability, latent exposure,
+  degraded-braking, queue and spares screens expose their assumptions. A
+  qualification compiler checks measured CSV provenance, configuration,
+  calibration, held-out model correlation, production equivalence and signed
+  independent decisions, and exports original evidence. Workbench now shows six
+  separate decision-readiness states. Selected hardware, physical measurements
+  and deployment acceptance remain explicitly unresolved.
+
+- Added a configuration-bound battery-cooling assurance example that imports
+  the existing product hierarchy and connects specific failure propagation,
+  requirements, interfaces, controller cases, physical-test plans, synthetic
+  production/FRACAS records, batches and installed occurrences. Dependency
+  impact traverses both old and new relationships; passports expose separately
+  controlled, blocked deployment decisions. Four actual Rust controller cases
+  have raw, source-bound evidence without advancing physical acceptance.
+  Severity-5 FMEA modes now require safety review regardless of RPN; unknown
+  occurrence remains an explicit evidence gap.
+
 - Promoted digital standards adherence into a core product capability. The new
   Digital Standards Thread maintains 23 reviewed publisher/legal records, five
   assurance profiles and 16 lifecycle control objectives; maps them to 15

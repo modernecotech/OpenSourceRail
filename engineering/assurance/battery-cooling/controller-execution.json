@@ -1,0 +1,166 @@
+{
+  "command": [
+    "cargo",
+    "run",
+    "--locked",
+    "--quiet",
+    "-p",
+    "osr-hvac",
+    "--example",
+    "cooling_fault_evidence"
+  ],
+  "input_hashes": {
+    "Cargo.lock": "223abff2bbe48ea7f431e5e644929eb19880b27054516ff1b0efdc639e603dca",
+    "Cargo.toml": "7dc7b9e70f11981675767705e2f6944eca899986a11295518baf1b5582463d4c",
+    "crates/osr-hvac/Cargo.toml": "f6977e9ca4ce77b05b67d6e1b2f2121ee8e1aa521489f574429851ce40eeb42c",
+    "crates/osr-hvac/examples/cooling_fault_evidence.rs": "d4b81053096e2de564a2a35f8c703565ed451b864797b83d0b16ecf9d3507cad",
+    "crates/osr-hvac/src/integrated_thermal.rs": "55e19a3acff551ab7a6572846b458069b70a59ed0b4af1eda9723d788db6d6ed",
+    "crates/osr-hvac/src/lib.rs": "c379d0c8154163532a0a28c783d2c7ff67610fb54b22a236f9775eb5bbc5565b",
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
+    "design/component-catalogue/src/osr_mech/freecad_assembly_review.py": "4978cfd60a3c6856c848a95cbd9af450713ab9e1c5652f3aa59810f70e1de422",
+    "design/component-catalogue/src/osr_mech/freecad_fea.py": "843091d52fec6171500d2c5d37deac3431b4c5e4c07d5fd9cc0802bfeea024b1",
+    "design/component-catalogue/src/osr_mech/freecad_trainset.py": "cc74f73246e7d302cbe4fc5cea0fde00bf3e3f4202c2f9d059bad9d8a0d383e4",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/suspension.py": "a0edaf3ecbbe1aca0d844b7505d1b127e739f747e1ad1c995b8f393e7ca3f740",
+    "design/component-catalogue/src/osr_mech/rolling_stock/car_body.py": "cd61b30e717de403ad753169d813fff62fd783b6f507d72348f2173a92f0b578",
+    "design/component-catalogue/src/osr_mech/rolling_stock/systems.py": "0cee6520b383ab9aafcac7dcacd1d4132ee531c208b514658fd3901be4696fcc",
+    "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "75f4814915af473aa8a33d0d725d7ee840017cc1c723e777fe6d8bc88c9fd484",
+    "lib/templates/connected-engineering.json": "96be9d3db4b335c16df6fb61210b5879fb36b311b0051ee9447d9f874277ad4a",
+    "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
+    "tools/automation/connected_assurance.py": "5b0d1ec7709556a5944f57c98f70ceb11e4f2d5d3a99048b0270b6f8395398ef"
+  },
+  "limitations": "One controller evaluation per case. No flow sensor, transient heat transfer, timing, charging/recovery dynamics or physical validation.",
+  "raw_stderr": "",
+  "raw_stdout": "[{\"scenario_id\":\"SCN-COOL-HOT\",\"inputs\":{\"cabin_temp_dc\":400,\"ambient_temp_dc\":500,\"cabin_setpoint_dc\":230,\"battery_coolant_temp_dc\":300,\"battery_max_cell_temp_dc\":550,\"compressor_available\":true,\"cabin_fan_available\":true,\"battery_pump_available\":true,\"battery_circuit_pressure_ok\":true,\"battery_temperature_sensor_plausible\":true},\"actual\":{\"battery_mode\":\"Protect\",\"battery_chiller_ppt\":1000,\"battery_pump_ppt\":1000,\"cabin_compressor_ppt\":0,\"cabin_fan_ppt\":250,\"traction_derate_request\":true,\"battery_isolation_request\":true,\"cabin_comfort_degraded\":true}},{\"scenario_id\":\"SCN-COOL-LEAK\",\"inputs\":{\"cabin_temp_dc\":400,\"ambient_temp_dc\":500,\"cabin_setpoint_dc\":230,\"battery_coolant_temp_dc\":300,\"battery_max_cell_temp_dc\":300,\"compressor_available\":true,\"cabin_fan_available\":true,\"battery_pump_available\":true,\"battery_circuit_pressure_ok\":false,\"battery_temperature_sensor_plausible\":true},\"actual\":{\"battery_mode\":\"Protect\",\"battery_chiller_ppt\":0,\"battery_pump_ppt\":0,\"cabin_compressor_ppt\":1000,\"cabin_fan_ppt\":1000,\"traction_derate_request\":true,\"battery_isolation_request\":true,\"cabin_comfort_degraded\":false}},{\"scenario_id\":\"SCN-COOL-PUMP\",\"inputs\":{\"cabin_temp_dc\":400,\"ambient_temp_dc\":500,\"cabin_setpoint_dc\":230,\"battery_coolant_temp_dc\":300,\"battery_max_cell_temp_dc\":300,\"compressor_available\":true,\"cabin_fan_available\":true,\"battery_pump_available\":false,\"battery_circuit_pressure_ok\":true,\"battery_temperature_sensor_plausible\":true},\"actual\":{\"battery_mode\":\"Protect\",\"battery_chiller_ppt\":0,\"battery_pump_ppt\":0,\"cabin_compressor_ppt\":1000,\"cabin_fan_ppt\":1000,\"traction_derate_request\":true,\"battery_isolation_request\":true,\"cabin_comfort_degraded\":false}},{\"scenario_id\":\"SCN-COOL-PUMP-HOT\",\"inputs\":{\"cabin_temp_dc\":400,\"ambient_temp_dc\":550,\"cabin_setpoint_dc\":230,\"battery_coolant_temp_dc\":300,\"battery_max_cell_temp_dc\":600,\"compressor_available\":true,\"cabin_fan_available\":true,\"battery_pump_available\":false,\"battery_circuit_pressure_ok\":true,\"battery_temperature_sensor_plausible\":true},\"actual\":{\"battery_mode\":\"Protect\",\"battery_chiller_ppt\":0,\"battery_pump_ppt\":0,\"cabin_compressor_ppt\":1000,\"cabin_fan_ppt\":1000,\"traction_derate_request\":true,\"battery_isolation_request\":true,\"cabin_comfort_degraded\":false}}]\n",
+  "release_ready": false,
+  "results": [
+    {
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "traction_derate_request": true
+      },
+      "actual": {
+        "battery_chiller_ppt": 1000,
+        "battery_isolation_request": true,
+        "battery_mode": "Protect",
+        "battery_pump_ppt": 1000,
+        "cabin_comfort_degraded": true,
+        "cabin_compressor_ppt": 0,
+        "cabin_fan_ppt": 250,
+        "traction_derate_request": true
+      },
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "inputs": {
+        "ambient_temp_dc": 500,
+        "battery_circuit_pressure_ok": true,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 550,
+        "battery_pump_available": true,
+        "battery_temperature_sensor_plausible": true,
+        "cabin_fan_available": true,
+        "cabin_setpoint_dc": 230,
+        "cabin_temp_dc": 400,
+        "compressor_available": true
+      },
+      "passed": true,
+      "scenario_id": "SCN-COOL-HOT"
+    },
+    {
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "battery_pump_ppt": 0
+      },
+      "actual": {
+        "battery_chiller_ppt": 0,
+        "battery_isolation_request": true,
+        "battery_mode": "Protect",
+        "battery_pump_ppt": 0,
+        "cabin_comfort_degraded": false,
+        "cabin_compressor_ppt": 1000,
+        "cabin_fan_ppt": 1000,
+        "traction_derate_request": true
+      },
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "inputs": {
+        "ambient_temp_dc": 500,
+        "battery_circuit_pressure_ok": false,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "battery_pump_available": true,
+        "battery_temperature_sensor_plausible": true,
+        "cabin_fan_available": true,
+        "cabin_setpoint_dc": 230,
+        "cabin_temp_dc": 400,
+        "compressor_available": true
+      },
+      "passed": true,
+      "scenario_id": "SCN-COOL-LEAK"
+    },
+    {
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "battery_pump_ppt": 0,
+        "traction_derate_request": true
+      },
+      "actual": {
+        "battery_chiller_ppt": 0,
+        "battery_isolation_request": true,
+        "battery_mode": "Protect",
+        "battery_pump_ppt": 0,
+        "cabin_comfort_degraded": false,
+        "cabin_compressor_ppt": 1000,
+        "cabin_fan_ppt": 1000,
+        "traction_derate_request": true
+      },
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "inputs": {
+        "ambient_temp_dc": 500,
+        "battery_circuit_pressure_ok": true,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 300,
+        "battery_pump_available": false,
+        "battery_temperature_sensor_plausible": true,
+        "cabin_fan_available": true,
+        "cabin_setpoint_dc": 230,
+        "cabin_temp_dc": 400,
+        "compressor_available": true
+      },
+      "passed": true,
+      "scenario_id": "SCN-COOL-PUMP"
+    },
+    {
+      "acceptance_criteria": {
+        "battery_isolation_request": true,
+        "battery_pump_ppt": 0,
+        "traction_derate_request": true
+      },
+      "actual": {
+        "battery_chiller_ppt": 0,
+        "battery_isolation_request": true,
+        "battery_mode": "Protect",
+        "battery_pump_ppt": 0,
+        "cabin_comfort_degraded": false,
+        "cabin_compressor_ppt": 1000,
+        "cabin_fan_ppt": 1000,
+        "traction_derate_request": true
+      },
+      "configuration_id": "CFG-DEMO-COOL-A",
+      "inputs": {
+        "ambient_temp_dc": 550,
+        "battery_circuit_pressure_ok": true,
+        "battery_coolant_temp_dc": 300,
+        "battery_max_cell_temp_dc": 600,
+        "battery_pump_available": false,
+        "battery_temperature_sensor_plausible": true,
+        "cabin_fan_available": true,
+        "cabin_setpoint_dc": 230,
+        "cabin_temp_dc": 400,
+        "compressor_available": true
+      },
+      "passed": true,
+      "scenario_id": "SCN-COOL-PUMP-HOT"
+    }
+  ],
+  "schema": "osr-cooling-controller-execution/1",
+  "state": "generated-unreviewed",
+  "tool_version": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+}

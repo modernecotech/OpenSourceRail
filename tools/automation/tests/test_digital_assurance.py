@@ -96,3 +96,30 @@ def test_change_impact_reopens_mapped_controls():
     assert impact["changed_paths"] == [path]
     assert impact["decision"] == "reopen-affected-controls-and-dependent-gates"
     assert impact["impacted"]["controls"]
+
+
+def test_severity_five_requires_review_even_with_low_rpn():
+    config, fmea = sources()
+    subject = next(row for row in fmea["failure_modes"] if row["severity"] == 5)
+    subject.update(occurrence=2, detection_rating=2)
+    report = ASSURANCE.compile_assurance(ROOT, config, fmea)
+    result = next(row for row in report["failure_modes"] if row["id"] == subject["id"])
+    assert result["rpn"] == 20
+    assert result["priority"] == "mandatory-safety-review"
+    assert result["safety_review_required"] is True
+
+
+def test_unknown_occurrence_does_not_become_a_number():
+    config, fmea = sources()
+    subject = fmea["failure_modes"][0]
+    subject["occurrence"] = "unknown"
+    report = ASSURANCE.compile_assurance(ROOT, config, fmea)
+    result = next(row for row in report["failure_modes"] if row["id"] == subject["id"])
+    assert result["rpn"] is None
+    assert result["occurrence_evidence_gap"] is True
+
+
+def test_changed_path_uses_both_old_and_new_mappings():
+    previous = {"source_hashes":{"source":"old"},"change_impact_index":{"source":{"controls":["old-control"]}}}
+    current = {"source_hashes":{"source":"new"},"change_impact_index":{"source":{"controls":["new-control"]}}}
+    assert ASSURANCE.change_impact(previous, current)["impacted"]["controls"] == ["new-control","old-control"]

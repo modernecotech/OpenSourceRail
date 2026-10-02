@@ -26,6 +26,20 @@ INVENTORY_SOURCES = (
 )
 
 
+def _connected_assurance():
+    spec = importlib.util.spec_from_file_location("osr_connected_assurance", ROOT / "tools/automation/connected_assurance.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _subsystem_qualification():
+    spec = importlib.util.spec_from_file_location("osr_subsystem_qualification", ROOT / "tools/automation/subsystem_qualification.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _read(path: Path) -> dict:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
@@ -291,8 +305,10 @@ def compile_assurance(
         if any(not row.get(field) for field in required):
             raise ValueError(f"{row['id']} missing required descriptive field")
         ratings = [row.get(name) for name in ("severity", "occurrence", "detection_rating")]
-        if any(not isinstance(value, int) or not 1 <= value <= 5 for value in ratings):
-            raise ValueError(f"{row['id']} ratings must be integers from 1 to 5")
+        if any(type(value) is not int or not 1 <= value <= 5 for value in (ratings[0], ratings[2])):
+            raise ValueError(f"{row['id']} severity/detection ratings must be integers from 1 to 5")
+        if ratings[1] != "unknown" and (type(ratings[1]) is not int or not 1 <= ratings[1] <= 5):
+            raise ValueError(f"{row['id']} occurrence must be 1 to 5 or unknown")
         if not row.get("controls") or not row.get("evidence"):
             raise ValueError(f"{row['id']} requires controls and evidence")
         if row["severity"] == 5 and not row.get("physical_evidence_required"):
@@ -305,8 +321,13 @@ def compile_assurance(
             impact[value]["failure_modes"].add(row["id"])
             impact[value]["controls"].add("STD-CTRL-003")
             impact[value]["standards"].add("IEC-60812-2018")
-        rpn = ratings[0] * ratings[1] * ratings[2]
-        compiled_modes.append({**row, "rpn": rpn, "priority": "high" if rpn >= high_risk else "managed"})
+        rpn = None if ratings[1] == "unknown" else ratings[0] * ratings[1] * ratings[2]
+        priority = ("mandatory-safety-review" if ratings[0] == 5 else
+                    "evidence-gap-review" if rpn is None else
+                    "high" if rpn >= high_risk else "managed")
+        compiled_modes.append({**row, "rpn": rpn, "priority": priority,
+                               "occurrence_evidence_gap": ratings[1] == "unknown" or not row.get("occurrence_basis"),
+                               "safety_review_required": ratings[0] == 5})
         matrix[(domain, level)] += 1
     missing = [f"{domain}/{level}" for (domain, level), count in sorted(matrix.items()) if count == 0]
     if missing:
@@ -318,7 +339,12 @@ def compile_assurance(
         path = _repo_path(root, relative)
         source_hashes[relative] = _digest(path)
         impact[relative]["controls"].update({"STD-CTRL-001", "STD-CTRL-003", "STD-CTRL-016"})
-    fingerprint_payload = json.dumps({"sources": source_hashes, "evidence": evidence_hashes}, sort_keys=True, separators=(",", ":"))
+    connected = _connected_assurance().compile_thread(root, today=today)
+    source_hashes.update(connected["source_hashes"])
+    qualification = _subsystem_qualification().compile_package(root,today=today)
+    source_hashes.update(qualification["source_hashes"])
+    fingerprint_payload = json.dumps({"sources": source_hashes, "evidence": evidence_hashes,
+                                     "engineering": connected["fingerprint"]}, sort_keys=True, separators=(",", ":"))
     fingerprint = hashlib.sha256(fingerprint_payload.encode()).hexdigest()
     impact_index = {
         path: {key: sorted(values) for key, values in dimensions.items() if values}
@@ -350,6 +376,8 @@ def compile_assurance(
         "fmea_coverage": [{"domain": domain, "level": level, "count": matrix[(domain, level)]} for domain, level in sorted(matrix)],
         "failure_modes": sorted(compiled_modes, key=lambda row: row["id"]),
         "inventory_coverage": inventory,
+        "connected_engineering": connected,
+        "subsystem_qualification": qualification,
         "source_hashes": source_hashes,
         "evidence_hashes": dict(sorted(evidence_hashes.items())),
         "evidence_manifest": dict(sorted(evidence_manifest.items())),
@@ -367,14 +395,21 @@ def change_impact(previous: dict, current: dict) -> dict:
     index = current.get("change_impact_index", {})
     old_index = previous.get("change_impact_index", {})
     for path in changed:
-        for key, values in (index.get(path) or old_index.get(path) or {}).items():
+        for source_index in (index, old_index):
+            for key, values in source_index.get(path, {}).items():
+                dimensions[key].update(values)
+    engineering_impact = None
+    if previous.get("connected_engineering") and current.get("connected_engineering"):
+        engineering_impact = _connected_assurance().change_impact(previous["connected_engineering"], current["connected_engineering"])
+        for key, values in engineering_impact["impacted"].items():
             dimensions[key].update(values)
     return {
         "baseline_fingerprint": previous.get("design_fingerprint_sha256"),
         "current_fingerprint": current.get("design_fingerprint_sha256"),
         "changed_paths": changed,
         "impacted": {key: sorted(values) for key, values in sorted(dimensions.items())},
-        "decision": "reopen-affected-controls-and-dependent-gates" if changed else "no-hashed-input-change",
+        "engineering_impact": engineering_impact,
+        "decision": "reopen-affected-controls-and-dependent-gates" if changed or (engineering_impact and engineering_impact["changed_records"]) else "no-hashed-input-change",
         "release_ready": False,
     }
 
@@ -421,6 +456,9 @@ def render_markdown(report: dict) -> str:
         f"Every evidence object must carry {len(report['evidence_policy']['required_metadata'])} metadata fields. Current repository links are machine state `{report['evidence_policy']['repository_machine_state']}`; no link is silently promoted to reviewed or accepted.", "",
         f"The JSON report contains a path-level `change_impact_index` for {len(report['change_impact_index'])} hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.", "",
         "## Interpretation", "", report["interpretation"], "",
+        "## Connected engineering", "",
+        "The [connected engineering example](connected-engineering.md) and [generated report](connected-engineering-report.md) bind battery-cooling failure propagation, requirement criteria, controller scenarios, planned physical tests, synthetic production records and installed occurrences to exact design revisions. The JSON includes dependency traversal and explicit blocked deployment decisions.", "",
+        "The [subsystem qualification workflow](subsystem-qualification.md) adds quantitative RAMS screens, controlled rig measurements, model correlation, manufacturing equivalence and six separate decision-readiness states. Physical evidence and deployment decisions remain open.", "",
     ]
     return "\n".join(lines)
 

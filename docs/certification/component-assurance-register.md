@@ -4,7 +4,7 @@
 
 This model records what evidence exists, what remains open, who must decide, and which use is permitted. It does not certify a component, appoint a legal duty holder, approve a design, release manufacture or construction, authorize operation, or replace an independent assessor or competent authority.
 
-The register contains **286 assurance passports**: 279 engineering inventory items and 7 owner/operator platform services. Every item has a locked identity/source baseline at G0. All item-specific design, qualification, integration and independent-acceptance gates remain open; **zero items are represented as certified or released**.
+The register contains **290 assurance passports**: 279 engineering inventory items, 4 connected cooling design definitions and 7 owner/operator platform services. Every item has a locked identity/source baseline at G0. All item-specific design, qualification, integration and independent-acceptance gates remain open; **zero items are represented as certified or released**.
 
 ## One lifecycle
 
@@ -22,7 +22,7 @@ A pass applies only to the named item, configuration, intended use and evidence 
 
 | Route | Items | Scope | Qualification emphasis | Final decision |
 |---|---:|---|---|---|
-| `rolling-stock` | 146 | Rolling stock and onboard equipment | supplier configuration, material/process and dimensional evidence, structural, fire, electrical, EMC, environmental and endurance tests, first article and vehicle integration | product/type and vehicle acceptance route selected by the deployment jurisdiction |
+| `rolling-stock` | 150 | Rolling stock and onboard equipment | supplier configuration, material/process and dimensional evidence, structural, fire, electrical, EMC, environmental and endurance tests, first article and vehicle integration | product/type and vehicle acceptance route selected by the deployment jurisdiction |
 | `station-wayside` | 55 | Stations, charging, wayside and passenger systems | site and utility interfaces, supplier FAT, installation inspection, SAT and integrated emergency/degraded-mode tests, accessibility and handover | project, utility, building/fire and railway acceptance as applicable |
 | `civil-infrastructure` | 19 | Civil infrastructure and reusable structural types | survey and ground model, site-specific calculations, materials and temporary works, inspection/test plan, as-built survey and structural handover | competent engineer, project authority and national/local construction or railway authority |
 | `software-control` | 59 | Software, embedded evaluation and control | explicit safety classification, requirements/hazard traceability, locked source/toolchain, review, test and proof results, target timing/resources, HIL, cybersecurity and deployment evidence | software/system safety acceptance for the exact target and intended authority boundary |
@@ -34,11 +34,11 @@ Standards in each passport are **candidate applicability prompts**, not declarat
 
 | Gate | Baselined/passed | Open | Meaning |
 |---|---:|---:|---|
-| G0 — Define | 286 | 0 | Identity and source are recorded. |
-| G1 — Assure design | 0 | 286 | Item applicability, classification and assurance plan remain deployment work. |
-| G2 — Qualify implementation | 0 | 286 | Supplier, build, target, test and physical evidence remain open. |
-| G3 — Validate integration | 0 | 286 | HIL/FAT/SAT/site/commissioning evidence remains open. |
-| G4 — Accept and authorize | 0 | 286 | Independent acceptance and legal/contractual authorization remain open. |
+| G0 — Define | 290 | 0 | Identity and source are recorded. |
+| G1 — Assure design | 0 | 290 | Item applicability, classification and assurance plan remain deployment work. |
+| G2 — Qualify implementation | 0 | 290 | Supplier, build, target, test and physical evidence remain open. |
+| G3 — Validate integration | 0 | 290 | HIL/FAT/SAT/site/commissioning evidence remains open. |
+| G4 — Accept and authorize | 0 | 290 | Independent acceptance and legal/contractual authorization remain open. |
 
 ## What each passport contains
 
