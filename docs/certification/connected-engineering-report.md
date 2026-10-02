@@ -6,7 +6,7 @@ Battery-cooling vertical example. Asset, batch, production and incident identiti
 
 Relationship checks passed; reviewed physical evidence and controlled deployment decisions remain open.
 
-Design fingerprint: `fab61de3c60eaa9b4d64a712ca79a4d741cc8f07de38c1d5aadd75e3d0d73e62`. **Physical release: BLOCKED.**
+Design fingerprint: `39f7c038ae70c746c141ac96ed25b6ac33d97983af4c4b079ed8d34e156d5409`. **Physical release: BLOCKED.**
 
 ## Failure propagation
 

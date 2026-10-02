@@ -5,26 +5,557 @@
   "centroid_m": 0.7747935779816515,
   "dependency_hashes": {
     "design/component-catalogue/src/osr_mech/civil/decked_pi.py": "f85b339dcf5845649263dd26935f3b00dd9c1323fce88c9fdca396b5a152e76b",
-    "engineering/analysis/drainage_ground_design.py": "0599a15b3529fe30c9cf04bb14c56e972403e19eaa000a70d190396a6fb002b0"
+    "engineering/analysis/drainage_ground_design.py": "ead0855410bf7343eb847d48c7279b4ffef0aa55019a2b2a2449fa97b8411983",
+    "engineering/analysis/solver_results.py": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d"
   },
   "discretisation_elements": 40,
   "formula": "5 w L^4 / (384 E I)",
-  "generator_sha256": "579eb92fd5b3ec2961366a1e8019d5fd8f3936a15ab34d0d372e16af2a910a95",
+  "generator_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
   "inertia_m4": 0.1429994905772172,
   "load_basis": "bulk envelope self-weight; illustrative service additional load 20 kN/m; endpoint supports",
   "modulus_Pa": 30000000000.0,
+  "native_exchanges": [
+    {
+      "csv_path": "pi20-construction-opensees-exchange.csv",
+      "register": {
+        "criteria": {
+          "opensees": [
+            {
+              "asset_id": "Pi20",
+              "load_case_id": "construction",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "opensees": {
+            "files": {
+              "pi20-construction-opensees.out": {
+                "dofs": [
+                  2
+                ],
+                "nodes": [
+                  21
+                ],
+                "response": "disp",
+                "time_column": true
+              }
+            },
+            "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "opensees-node-recorder/1",
+            "selectors": [
+              {
+                "asset_id": "Pi20",
+                "dof": 2,
+                "load_case_id": "construction",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi20-construction-opensees.out",
+                "quantity": "displacement",
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+        "native_output_paths": [
+          "pi20-construction-opensees.out"
+        ],
+        "native_parser": {
+          "id": "opensees-node-recorder/1",
+          "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "b5128063a3088c9e5fb72223668fe54adb558d971dddc53694e6b8c51bd90279",
+          "version": "1"
+        },
+        "numerical_results_path": "pi20-construction-opensees-exchange.csv",
+        "output_hashes": {
+          "pi20-construction-opensees-exchange.csv": "a0c5e236792ecfed76a10205de50d2257e2c4cc9abae8e656b47c5a146ed77d2",
+          "pi20-construction-opensees.out": "c92c97a3bb62168f6140fa433aa8d1621ae61ab3a7742fa86fb334c039662ab3"
+        }
+      },
+      "solver": "opensees"
+    },
+    {
+      "csv_path": "pi20-construction-calculix-exchange.csv",
+      "register": {
+        "criteria": {
+          "calculix": [
+            {
+              "asset_id": "Pi20",
+              "load_case_id": "construction",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "calculix": {
+            "files": {
+              "pi20-construction.dat": {}
+            },
+            "model_sha256": "a79cb89d91e6a3a8d3feedff64bd61ba6c61394ffd88946715a3291f97db938a",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "calculix-nodal-dat/1",
+            "selectors": [
+              {
+                "asset_id": "Pi20",
+                "dof": 2,
+                "load_case_id": "construction",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi20-construction.dat",
+                "quantity": "displacement",
+                "set_name": "MID",
+                "step": 1,
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "a79cb89d91e6a3a8d3feedff64bd61ba6c61394ffd88946715a3291f97db938a",
+        "native_output_paths": [
+          "pi20-construction.dat"
+        ],
+        "native_parser": {
+          "id": "calculix-nodal-dat/1",
+          "model_sha256": "a79cb89d91e6a3a8d3feedff64bd61ba6c61394ffd88946715a3291f97db938a",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "d9d8469885ce2a00588798e29e74b8399da98084e4e06255339b5dceb9d56208",
+          "version": "1"
+        },
+        "numerical_results_path": "pi20-construction-calculix-exchange.csv",
+        "output_hashes": {
+          "pi20-construction-calculix-exchange.csv": "ca1d1e2985d57b060881fa4a0421b95b0245e576ec675e6aee947c9628595817",
+          "pi20-construction.dat": "84b3c0743fb42af89077e650e7e7a333ff005ee2449b4f3c52ebddf0e8d28996"
+        }
+      },
+      "solver": "calculix"
+    },
+    {
+      "csv_path": "pi20-service-opensees-exchange.csv",
+      "register": {
+        "criteria": {
+          "opensees": [
+            {
+              "asset_id": "Pi20",
+              "load_case_id": "service",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "opensees": {
+            "files": {
+              "pi20-service-opensees.out": {
+                "dofs": [
+                  2
+                ],
+                "nodes": [
+                  21
+                ],
+                "response": "disp",
+                "time_column": true
+              }
+            },
+            "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "opensees-node-recorder/1",
+            "selectors": [
+              {
+                "asset_id": "Pi20",
+                "dof": 2,
+                "load_case_id": "service",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi20-service-opensees.out",
+                "quantity": "displacement",
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+        "native_output_paths": [
+          "pi20-service-opensees.out"
+        ],
+        "native_parser": {
+          "id": "opensees-node-recorder/1",
+          "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "2578859a3e2f921a0ee6a790dce60a896f43469ec7962313cfcfe926546dc905",
+          "version": "1"
+        },
+        "numerical_results_path": "pi20-service-opensees-exchange.csv",
+        "output_hashes": {
+          "pi20-service-opensees-exchange.csv": "85257ace47cbcbb0dc2de8a0189b5eaa6dd87fba6366f73435ba3b0dc44504ce",
+          "pi20-service-opensees.out": "cf9b9900dcb2d094001b4332ea34ffea6acc0147e2205c3f5f11b2322ec4b2ac"
+        }
+      },
+      "solver": "opensees"
+    },
+    {
+      "csv_path": "pi20-service-calculix-exchange.csv",
+      "register": {
+        "criteria": {
+          "calculix": [
+            {
+              "asset_id": "Pi20",
+              "load_case_id": "service",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "calculix": {
+            "files": {
+              "pi20-service.dat": {}
+            },
+            "model_sha256": "73c746476f7e60027a1fe69b2915c995fc86a342865d5aebab9d00f56246c7dc",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "calculix-nodal-dat/1",
+            "selectors": [
+              {
+                "asset_id": "Pi20",
+                "dof": 2,
+                "load_case_id": "service",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi20-service.dat",
+                "quantity": "displacement",
+                "set_name": "MID",
+                "step": 1,
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "73c746476f7e60027a1fe69b2915c995fc86a342865d5aebab9d00f56246c7dc",
+        "native_output_paths": [
+          "pi20-service.dat"
+        ],
+        "native_parser": {
+          "id": "calculix-nodal-dat/1",
+          "model_sha256": "73c746476f7e60027a1fe69b2915c995fc86a342865d5aebab9d00f56246c7dc",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "95624a34f4f2feef14d086edbb3f22158e3591d26dab80b946ec84d806ea47ef",
+          "version": "1"
+        },
+        "numerical_results_path": "pi20-service-calculix-exchange.csv",
+        "output_hashes": {
+          "pi20-service-calculix-exchange.csv": "edeee2b25da20161995aae13430d8a9aac62202d7b24c9d5accde8707d918171",
+          "pi20-service.dat": "6e288ce9141ae21b6842915d35d18ddce1321c63489bfcdccfc00c702230d060"
+        }
+      },
+      "solver": "calculix"
+    },
+    {
+      "csv_path": "pi25-construction-opensees-exchange.csv",
+      "register": {
+        "criteria": {
+          "opensees": [
+            {
+              "asset_id": "Pi25",
+              "load_case_id": "construction",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "opensees": {
+            "files": {
+              "pi25-construction-opensees.out": {
+                "dofs": [
+                  2
+                ],
+                "nodes": [
+                  21
+                ],
+                "response": "disp",
+                "time_column": true
+              }
+            },
+            "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "opensees-node-recorder/1",
+            "selectors": [
+              {
+                "asset_id": "Pi25",
+                "dof": 2,
+                "load_case_id": "construction",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi25-construction-opensees.out",
+                "quantity": "displacement",
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+        "native_output_paths": [
+          "pi25-construction-opensees.out"
+        ],
+        "native_parser": {
+          "id": "opensees-node-recorder/1",
+          "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "90a0c665457252ac41c33c2f3902b97492cbb22586a2d42040ae8f7fd0604604",
+          "version": "1"
+        },
+        "numerical_results_path": "pi25-construction-opensees-exchange.csv",
+        "output_hashes": {
+          "pi25-construction-opensees-exchange.csv": "904e4b64d8ad2ba4a5d09b7910c08c4a478fc9798c76680f6748df181bfef5ab",
+          "pi25-construction-opensees.out": "aa04ec596cc099d4b20a8a10df6db3d038345dd174e717cc5766f0a54a40c5b9"
+        }
+      },
+      "solver": "opensees"
+    },
+    {
+      "csv_path": "pi25-construction-calculix-exchange.csv",
+      "register": {
+        "criteria": {
+          "calculix": [
+            {
+              "asset_id": "Pi25",
+              "load_case_id": "construction",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "calculix": {
+            "files": {
+              "pi25-construction.dat": {}
+            },
+            "model_sha256": "04aa76d9246fac3e0eb5b6ee46f17653d821953d2a148a5417055a769836a363",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "calculix-nodal-dat/1",
+            "selectors": [
+              {
+                "asset_id": "Pi25",
+                "dof": 2,
+                "load_case_id": "construction",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi25-construction.dat",
+                "quantity": "displacement",
+                "set_name": "MID",
+                "step": 1,
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "04aa76d9246fac3e0eb5b6ee46f17653d821953d2a148a5417055a769836a363",
+        "native_output_paths": [
+          "pi25-construction.dat"
+        ],
+        "native_parser": {
+          "id": "calculix-nodal-dat/1",
+          "model_sha256": "04aa76d9246fac3e0eb5b6ee46f17653d821953d2a148a5417055a769836a363",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "534624b9e858a16ddbff1a2eb9507c0063d907f4979af8a1553c3e8a5ca2f7ff",
+          "version": "1"
+        },
+        "numerical_results_path": "pi25-construction-calculix-exchange.csv",
+        "output_hashes": {
+          "pi25-construction-calculix-exchange.csv": "3d9620ba6ad0534093695e210da59c13e3f6a8c317b96f2a3b35f17f08166261",
+          "pi25-construction.dat": "93bb138cdca9ad398db6d3d78fb1037add9b630354dfdadc3bd238e48898db3d"
+        }
+      },
+      "solver": "calculix"
+    },
+    {
+      "csv_path": "pi25-service-opensees-exchange.csv",
+      "register": {
+        "criteria": {
+          "opensees": [
+            {
+              "asset_id": "Pi25",
+              "load_case_id": "service",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "opensees": {
+            "files": {
+              "pi25-service-opensees.out": {
+                "dofs": [
+                  2
+                ],
+                "nodes": [
+                  21
+                ],
+                "response": "disp",
+                "time_column": true
+              }
+            },
+            "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "opensees-node-recorder/1",
+            "selectors": [
+              {
+                "asset_id": "Pi25",
+                "dof": 2,
+                "load_case_id": "service",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi25-service-opensees.out",
+                "quantity": "displacement",
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+        "native_output_paths": [
+          "pi25-service-opensees.out"
+        ],
+        "native_parser": {
+          "id": "opensees-node-recorder/1",
+          "model_sha256": "a4a5f465c9136a70cb73c4a755986ade0690233d6c1b933654f02d10f2b04427",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "455d4404242719867aac482fec08bf8793b8ecdd255fe67cb5ac98b03b46e839",
+          "version": "1"
+        },
+        "numerical_results_path": "pi25-service-opensees-exchange.csv",
+        "output_hashes": {
+          "pi25-service-opensees-exchange.csv": "a0c9f9157c6ec39ab4a90c383a4140b63183a69445effcd40d483d0c37f00818",
+          "pi25-service-opensees.out": "31ae52eb7d7d1952356c861f347e273f6bbe75ca8b1fa77e14e24ec1e054026a"
+        }
+      },
+      "solver": "opensees"
+    },
+    {
+      "csv_path": "pi25-service-calculix-exchange.csv",
+      "register": {
+        "criteria": {
+          "calculix": [
+            {
+              "asset_id": "Pi25",
+              "load_case_id": "service",
+              "metric": "midspan_deflection",
+              "unit": "m"
+            }
+          ]
+        },
+        "native_output_spec": {
+          "calculix": {
+            "files": {
+              "pi25-service.dat": {}
+            },
+            "model_sha256": "5bc7ca9dc367706e622de041c0eb39eb9e854bed0fdc7cf059c1e96cd514fbe3",
+            "model_units": {
+              "displacement": "m"
+            },
+            "parser_id": "calculix-nodal-dat/1",
+            "selectors": [
+              {
+                "asset_id": "Pi25",
+                "dof": 2,
+                "load_case_id": "service",
+                "metric": "midspan_deflection",
+                "node_id": 21,
+                "operation": "abs",
+                "path": "pi25-service.dat",
+                "quantity": "displacement",
+                "set_name": "MID",
+                "step": 1,
+                "time": 1.0
+              }
+            ]
+          }
+        }
+      },
+      "report": {
+        "input_sha256": "5bc7ca9dc367706e622de041c0eb39eb9e854bed0fdc7cf059c1e96cd514fbe3",
+        "native_output_paths": [
+          "pi25-service.dat"
+        ],
+        "native_parser": {
+          "id": "calculix-nodal-dat/1",
+          "model_sha256": "5bc7ca9dc367706e622de041c0eb39eb9e854bed0fdc7cf059c1e96cd514fbe3",
+          "sha256": "4b88b2f5a9c822ae031497827ac18d3ef786ecd8a9c315be287c31287022152d",
+          "spec_sha256": "dbd27a9a7f4f4e1e2e26f94b2ec2e8dc74b29602d21d8388b05def7607aefffe",
+          "version": "1"
+        },
+        "numerical_results_path": "pi25-service-calculix-exchange.csv",
+        "output_hashes": {
+          "pi25-service-calculix-exchange.csv": "21b72227f24f0fcacd9725719811b2fcefbeda5899c33a4f028fcdc4a4e662a6",
+          "pi25-service.dat": "3d389f3fbed19e6e3926a7ea40ab7ad111d5936e922465c84e5566defe3afdef"
+        }
+      },
+      "solver": "calculix"
+    }
+  ],
   "opensees_version": "3.8.0",
   "output_hashes": {
+    "pi20-construction-calculix-exchange.csv": "ca1d1e2985d57b060881fa4a0421b95b0245e576ec675e6aee947c9628595817",
+    "pi20-construction-opensees-exchange.csv": "a0c5e236792ecfed76a10205de50d2257e2c4cc9abae8e656b47c5a146ed77d2",
     "pi20-construction-opensees.csv": "3a04aeb4a01abf9884c82939cf2ee409a03519a1f891c88d6a6ce7856ecd21d4",
+    "pi20-construction-opensees.out": "c92c97a3bb62168f6140fa433aa8d1621ae61ab3a7742fa86fb334c039662ab3",
     "pi20-construction.dat": "84b3c0743fb42af89077e650e7e7a333ff005ee2449b4f3c52ebddf0e8d28996",
     "pi20-construction.inp": "a79cb89d91e6a3a8d3feedff64bd61ba6c61394ffd88946715a3291f97db938a",
+    "pi20-service-calculix-exchange.csv": "edeee2b25da20161995aae13430d8a9aac62202d7b24c9d5accde8707d918171",
+    "pi20-service-opensees-exchange.csv": "85257ace47cbcbb0dc2de8a0189b5eaa6dd87fba6366f73435ba3b0dc44504ce",
     "pi20-service-opensees.csv": "2d41baf5450d2167a5594e86b95e2d8ad10ab253a447cec31c2435387f24e69a",
+    "pi20-service-opensees.out": "cf9b9900dcb2d094001b4332ea34ffea6acc0147e2205c3f5f11b2322ec4b2ac",
     "pi20-service.dat": "6e288ce9141ae21b6842915d35d18ddce1321c63489bfcdccfc00c702230d060",
     "pi20-service.inp": "73c746476f7e60027a1fe69b2915c995fc86a342865d5aebab9d00f56246c7dc",
+    "pi25-construction-calculix-exchange.csv": "3d9620ba6ad0534093695e210da59c13e3f6a8c317b96f2a3b35f17f08166261",
+    "pi25-construction-opensees-exchange.csv": "904e4b64d8ad2ba4a5d09b7910c08c4a478fc9798c76680f6748df181bfef5ab",
     "pi25-construction-opensees.csv": "d40a84c6b81249012c6044fd788a7b41d08fb13f8564187b7ae0ce57a2e2baa9",
+    "pi25-construction-opensees.out": "aa04ec596cc099d4b20a8a10df6db3d038345dd174e717cc5766f0a54a40c5b9",
     "pi25-construction.dat": "93bb138cdca9ad398db6d3d78fb1037add9b630354dfdadc3bd238e48898db3d",
     "pi25-construction.inp": "04aa76d9246fac3e0eb5b6ee46f17653d821953d2a148a5417055a769836a363",
+    "pi25-service-calculix-exchange.csv": "21b72227f24f0fcacd9725719811b2fcefbeda5899c33a4f028fcdc4a4e662a6",
+    "pi25-service-opensees-exchange.csv": "a0c9f9157c6ec39ab4a90c383a4140b63183a69445effcd40d483d0c37f00818",
     "pi25-service-opensees.csv": "a5f97119df6baaf889b305a04c3b8875b1951d5b38b717ef61591eb642c1ba5d",
+    "pi25-service-opensees.out": "31ae52eb7d7d1952356c861f347e273f6bbe75ca8b1fa77e14e24ec1e054026a",
     "pi25-service.dat": "3d389f3fbed19e6e3926a7ea40ab7ad111d5936e922465c84e5566defe3afdef",
     "pi25-service.inp": "5bc7ca9dc367706e622de041c0eb39eb9e854bed0fdc7cf059c1e96cd514fbe3"
   },

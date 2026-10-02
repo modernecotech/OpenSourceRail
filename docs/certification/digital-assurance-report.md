@@ -2,7 +2,7 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `227411b136fe9582f203b4da2f4f397fe045869a426ce92d4088105983bbb886`
+- Design fingerprint: `c60b70cf2c0e121debfb4b195e64284391d7d742f5fc11468b8138e0378fac93`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**
@@ -134,7 +134,7 @@ publisher record + deployment law + intended use
 
 Every evidence object must carry 16 metadata fields. Current repository links are machine state `generated-unreviewed`; no link is silently promoted to reviewed or accepted.
 
-The JSON report contains a path-level `change_impact_index` for 75 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
+The JSON report contains a path-level `change_impact_index` for 78 hashed inputs. Comparing reports identifies changed paths and reopens mapped controls rather than averaging them into a green parent score.
 
 ## Interpretation
 

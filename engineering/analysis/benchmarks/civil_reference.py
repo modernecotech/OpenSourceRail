@@ -16,12 +16,13 @@ import subprocess
 import tempfile
 
 from osr_mech.civil.decked_pi import section_area_m2, approx_mass_kg
+from engineering.analysis import solver_results
 
 ROOT = Path(__file__).resolve().parents[3]
 
 
 def dependencies():
-    paths = ("design/component-catalogue/src/osr_mech/civil/decked_pi.py", "engineering/analysis/drainage_ground_design.py")
+    paths = ("design/component-catalogue/src/osr_mech/civil/decked_pi.py", "engineering/analysis/drainage_ground_design.py", "engineering/analysis/solver_results.py")
     return {p: hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
 
 
@@ -39,7 +40,7 @@ def run_beams(output: Path) -> dict:
     area = section_area_m2(); centroid, inertia = section_inertia()
     modulus = 30e9; poisson = .2; count = 40
     height = math.sqrt(12*inertia/area); width = area/height
-    results = []
+    results = []; exchanges = []
     for span in (20., 25.):
         for stage, additional in (("construction", 0.), ("service", 20_000.)):
             w = approx_mass_kg(span)*9.81/span + additional
@@ -53,7 +54,10 @@ def run_beams(output: Path) -> dict:
             ops.eleLoad("-ele", *range(1,count+1), "-type", "-beamUniform", -w)
             ops.constraints("Plain"); ops.numberer("RCM"); ops.system("BandGeneral"); ops.test("NormDispIncr", 1e-12, 10)
             ops.algorithm("Linear"); ops.integrator("LoadControl", 1.); ops.analysis("Static")
+            recorder = output/f"pi{span:g}-{stage}-opensees.out"
+            ops.recorder("Node", "-file", str(recorder), "-precision", 17, "-time", "-node", count//2+1, "-dof", 2, "disp")
             if ops.analyze(1) != 0: raise RuntimeError("OpenSees elastic solve failed")
+            ops.remove("recorders")
             displacement = abs(ops.nodeDisp(count//2+1, 2))
             native = output / f"pi{span:g}-{stage}-opensees.csv"
             native.write_text("node,x_m,uy_m\n" + "".join(f"{i+1},{span*i/count:.12g},{ops.nodeDisp(i+1,2):.12g}\n" for i in range(count+1)))
@@ -77,6 +81,27 @@ def run_beams(output: Path) -> dict:
             matches = re.findall(pattern, dat, re.M)
             if len(matches) != 1: raise ValueError("expected one CalculiX midpoint displacement")
             ccx = abs(float(matches[0][1]))
+            # Exchange values are produced only by the controlled adapters.
+            for solver,native_path,input_path in (("opensees",recorder,Path(__file__)),("calculix",output/f"{job}.dat",model)):
+                input_hash = hashlib.sha256(input_path.read_bytes()).hexdigest()
+                selector = dict(asset_id=f"Pi{span:g}",load_case_id=stage,metric="midspan_deflection",path=native_path.name,
+                                node_id=count//2+1,dof=2,time=1.,operation="abs",quantity="displacement")
+                definition = {}
+                if solver == "opensees": definition = dict(nodes=[count//2+1],dofs=[2],response="disp",time_column=True)
+                else: selector.update(step=1,set_name="MID")
+                spec = dict(parser_id=solver_results.PARSERS[solver],model_sha256=input_hash,model_units={"displacement":"m"},
+                            files={native_path.name:definition},selectors=[selector])
+                register = {"criteria":{solver:[dict(asset_id=f"Pi{span:g}",load_case_id=stage,metric="midspan_deflection",unit="m")]},"native_output_spec":{solver:spec}}
+                receipt = dict(input_sha256=input_hash,native_output_paths=[native_path.name],
+                               output_hashes={native_path.name:hashlib.sha256(native_path.read_bytes()).hexdigest()},native_parser=solver_results.parser_provenance(solver,spec))
+                rows = solver_results.extract_results(receipt,output,register,solver)
+                exchange_path = output/f"{job}-{solver}-exchange.csv"
+                solver_results.write_exchange(exchange_path,rows)
+                receipt["output_hashes"][exchange_path.name]=hashlib.sha256(exchange_path.read_bytes()).hexdigest()
+                receipt["numerical_results_path"]=exchange_path.name
+                exchanges.append(dict(solver=solver,report=receipt,register=register,csv_path=exchange_path.name))
+                if not math.isclose(rows[0]["value"],displacement if solver == "opensees" else ccx,rel_tol=1e-9,abs_tol=1e-12):
+                    raise ValueError("parsed native value differs from solver response")
             error = abs(ccx/analytical - 1)
             results.append({"span_m": span, "stage": stage, "line_load_N_m": w, "analytical_deflection_m": analytical,
                 "opensees_deflection_m": displacement, "calculix_deflection_m": ccx, "calculix_relative_error": error,
@@ -88,10 +113,11 @@ def run_beams(output: Path) -> dict:
               "calculix_section": "equal area and bending inertia rectangular surrogate; shear response differs",
               "load_basis": "bulk envelope self-weight; illustrative service additional load 20 kN/m; endpoint supports",
               "formula": "5 w L^4 / (384 E I)", "discretisation_elements": count, "results": results,
+              "native_exchanges":exchanges,
               "sanity_passed": all(r["opensees_relative_error"] < 1e-6 and r["calculix_relative_error"] < .05 for r in results)}
     report["generator_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     report["dependency_hashes"] = dependencies()
-    report["output_hashes"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.iterdir()) if p.suffix in {".csv", ".inp", ".dat"}}
+    report["output_hashes"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.iterdir()) if p.suffix in {".csv", ".inp", ".dat", ".out"}}
     (output/"beam-sanity.json").write_text(json.dumps(report, indent=2, sort_keys=True)+"\n")
     if not report["sanity_passed"]: raise ValueError("elastic solver comparison failed")
     return report

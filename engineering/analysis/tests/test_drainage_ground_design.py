@@ -17,7 +17,7 @@ SWMM_FIXTURE = drainage_ground_design.REPO_ROOT / "engineering/analysis/benchmar
 
 def design(path: Path) -> None:
     path.write_text(
-        "[city]\nslug = \"test-city\"\n\n[[lines]]\nname = \"line-1\"\n\n"
+        "[city]\nslug = \"test-city\"\n\n[[lines]]\nname = \"line-1\"\nlength_m = 25\ncivil_track_count = 1\n\n"
         "[[stations]]\nid = \"station-a\"\nline = \"line-1\"\n\n"
         "[[stations]]\nid = \"station-b\"\nline = \"line-1\"\n"
     )
@@ -111,8 +111,8 @@ def test_swmm_foundation_and_authority_acceptance_path(tmp_path: Path) -> None:
     register = tmp_path / "assets.json"
     supports = [{"support_id": f"{kind}-{scope}", "scope_type": kind, "scope_id": "line-1" if scope == "line-1-end" else scope, "chainage_m": 25 if scope == "line-1-end" else 0, "zone_id": "GZ-1"} for kind, scope in (("line", "line-1"), ("line", "line-1-end"), ("station", "station-a"), ("station", "station-b"))]
     register.write_text(json.dumps({"schema": "osr-civil-assets/1", "design_sha256": sha(design_path), "review": review,
-        "assets": [{"asset_id": "SPAN-1", "line_id": "line-1", "asset_type": "span", "from_station_m": 0, "to_station_m": 25, "coverage_group": "track", "support_ids": ["line-line-1", "line-line-1-end"]}],
-        "supports": supports, "coverage_intervals": [{"line_id": "line-1", "coverage_group": "track", "from_station_m": 0, "to_station_m": 25}]}))
+        "assets": [{"asset_id": "SPAN-1", "line_id": "line-1", "asset_type": "span", "from_station_m": 0, "to_station_m": 25, "coverage_group": "track-1", "support_ids": ["line-line-1", "line-line-1-end"]}],
+        "supports": supports, "coverage_intervals": [{"line_id": "line-1", "coverage_group": "track-1", "from_station_m": 0, "to_station_m": 25}]}))
     files["civil_asset_register"] = register
     from osr_mech.civil.foundation import foundation_candidates
     candidate_ids = foundation_candidates("rock", vibration_restricted=True)["candidate_ids"]

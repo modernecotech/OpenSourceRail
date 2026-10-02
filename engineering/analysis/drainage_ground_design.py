@@ -372,7 +372,12 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         inspection["swmm_replay"] = swmm
         findings.extend(swmm_findings)
         register = json.loads(_path(received, "civil_asset_register", evidence_root).read_text())
-        findings.extend(civil_evidence.inspect_register(register, survey_control.sha256(design_path), {line["id"] for line in lines}, {station["id"] for station in stations}))
+        try:
+            station_lines, extents = civil_evidence.design_context(design_path)
+        except (KeyError, TypeError, ValueError):
+            station_lines, extents = {}, None
+            findings.append("design needs authoritative civil route lengths and track counts")
+        findings.extend(civil_evidence.inspect_register(register, survey_control.sha256(design_path), {line["id"] for line in lines}, {station["id"] for station in stations}, station_lines, extents))
         schedule, schedule_findings = inspect_foundation_schedule(
             _path(received, "foundation_ground_schedule", evidence_root), lines, stations, requirements, register
         )
@@ -439,7 +444,7 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         "authority_accepted": authority_accepted, "evidence_hashes": evidence_hashes,
         "requirements_source": survey_control.display_path(requirements_path), "requirements_sha256": survey_control.sha256(requirements_path),
         "design_source": survey_control.display_path(design_path), "design_sha256": survey_control.sha256(design_path),
-        "receipt_manifest_sha256": survey_control.sha256(manifest_path), "validator_source_hashes": {"civil_evidence.py": survey_control.sha256(Path(civil_evidence.__file__)),
+        "receipt_manifest_sha256": survey_control.sha256(manifest_path), "validator_source_hashes": {"solver_results.py": survey_control.sha256(REPO_ROOT / "engineering/analysis/solver_results.py"), "civil_evidence.py": survey_control.sha256(Path(civil_evidence.__file__)),
         "foundation.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/foundation.py"),
         "reference.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/reference.py")},
         "generator_sha256": survey_control.sha256(Path(__file__)),

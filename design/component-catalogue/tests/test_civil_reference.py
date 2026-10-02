@@ -34,7 +34,17 @@ def test_pi25_requires_complete_mass_and_actual_lift_chart():
     assert r["complete_member_mass_kg"] == pytest.approx(75937.5)
     assert not r["member_target_met"] and not r["lifting_check_passed"]
     lift["capacity_at_radius_kg"]=100000
-    assert lifting_budget(25,masses,lift)["lifting_check_passed"]
+    heavy=lifting_budget(25,masses,lift)
+    assert heavy["equipment_capacity_met"] and not heavy["overall_accepted"]
+    assert not heavy["lifting_check_passed"] and heavy["status"] == "member-target-exceeded"
+    deviation=dict(decision="accepted",engineer="designer",checker="independent checker",signed_at="2026-10-02",controlled_reference="TEST",rationale="Test heavier product",mass_budget_sha256=heavy["mass_budget_sha256"])
+    approved=lifting_budget(25,masses,lift,product_deviation=deviation)
+    assert approved["overall_accepted"] and approved["controlled_deviation_accepted"]
+    masses["net_diaphragms"]+=1
+    assert not lifting_budget(25,masses,lift,product_deviation=deviation)["overall_accepted"]
+    assert lifting_budget(20,masses,lift)["overall_accepted"]
+    lift["capacity_at_radius_kg"]=1
+    assert not lifting_budget(20,masses,lift)["overall_accepted"]
 
 
 def test_site_comparison_requires_capacity_settlement_and_review():

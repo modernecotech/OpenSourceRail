@@ -10,6 +10,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import tomllib
 
 
 def finite(value, *, minimum=None) -> float:
@@ -50,12 +51,34 @@ def controlled_path(root: Path, relative: str) -> Path:
     return resolved
 
 
-def inspect_register(value: dict, design_hash: str, line_ids: set[str], station_ids: set[str]) -> list[str]:
+def design_context(path: Path) -> tuple[dict[str, set[str]], list[dict]]:
+    """Read route extent/track count and station affiliations outside the register."""
+    data = json.loads(path.read_text()) if path.suffix == ".json" else tomllib.loads(path.read_text())
+    stations = {}
+    for row in data.get("stations", []):
+        affiliations = row.get("lines", [row.get("line", row.get("line_id"))])
+        if not isinstance(affiliations,list) or any(not isinstance(i,str) for i in affiliations if i is not None):
+            raise ValueError("invalid station line affiliations")
+        stations[row["id"]] = set(affiliations) - {None}
+    intervals = []
+    for line in data["lines"]:
+        start = finite(line.get("from_station_m", 0), minimum=0)
+        end = finite(line["length_m"], minimum=0) + start
+        tracks = line["civil_track_count"]
+        if type(tracks) is not int or tracks < 1 or end <= start: raise ValueError("invalid authoritative route extent/tracks")
+        for track in range(1,tracks+1):
+            intervals.append(dict(line_id=line.get("id",line.get("name")),coverage_group=f"track-{track}",from_station_m=start,to_station_m=end))
+    return stations,intervals
+
+
+def inspect_register(value: dict, design_hash: str, line_ids: set[str], station_ids: set[str],
+                     station_lines: dict[str, set[str]] | None = None, authoritative_extents: list[dict] | None = None,
+                     *, require_review: bool = True) -> list[str]:
     findings = []
     if value.get("schema") != "osr-civil-assets/1" or value.get("design_sha256") != design_hash:
         findings.append("civil asset register schema/design hash does not match")
     review = value.get("review", {})
-    if (review.get("decision") != "accepted" or not all(review.get(k) for k in
+    if require_review and (review.get("decision") != "accepted" or not all(review.get(k) for k in
         ("producer", "checker", "signed_at", "controlled_reference")) or review.get("producer") == review.get("checker")):
         findings.append("civil asset register needs independent accepted layout review")
     assets, supports = value.get("assets", []), value.get("supports", [])
@@ -65,6 +88,13 @@ def inspect_register(value: dict, design_hash: str, line_ids: set[str], station_
             findings.append(f"register {label} IDs empty or duplicated")
     support_ids = {row.get("support_id") for row in supports}
     support_map = {row.get("support_id"): row for row in supports}
+    shared = value.get("shared_support_relationships", [])
+    for relationship in shared:
+        if relationship.get("asset_id") not in {a.get("asset_id") for a in assets} or relationship.get("support_id") not in support_ids:
+            findings.append("shared support relationship needs explicit asset/support IDs")
+        review = relationship.get("review", {})
+        if (review.get("decision") != "accepted" or not all(review.get(k) for k in ("producer","checker","signed_at","controlled_reference")) or review.get("producer") == review.get("checker")):
+            findings.append("shared support relationship requires independent accepted review")
     for asset in assets:
         try:
             start, end = finite(asset["from_station_m"], minimum=0), finite(asset["to_station_m"], minimum=0)
@@ -72,6 +102,13 @@ def inspect_register(value: dict, design_hash: str, line_ids: set[str], station_
                 raise ValueError("invalid range")
             if asset["line_id"] not in line_ids or not asset.get("support_ids") or not set(asset["support_ids"]) <= support_ids:
                 raise ValueError("unknown line/support")
+            for identifier in asset["support_ids"]:
+                support = support_map[identifier]
+                belongs = (support["scope_type"] == "line" and support["scope_id"] == asset["line_id"]) or (
+                    support["scope_type"] == "station" and asset["line_id"] in (station_lines or {}).get(support["scope_id"], set()))
+                approvals = [r for r in shared if r.get("asset_id") == asset["asset_id"] and r.get("support_id") == identifier]
+                if not belongs and (len(approvals) != 1 or approvals[0].get("review", {}).get("decision") != "accepted"):
+                    findings.append(f"{asset['asset_id']}: support {identifier} belongs to another line/station; reviewed shared relationship missing")
             if asset["asset_type"] in {"span", "at-grade-structure"}:
                 locations = {finite(support_map[i]["chainage_m"]) for i in asset["support_ids"]}
                 if not {start,end} <= locations: raise ValueError("endpoint supports missing")
@@ -86,6 +123,16 @@ def inspect_register(value: dict, design_hash: str, line_ids: set[str], station_
         except (KeyError, TypeError, ValueError):
             findings.append(f"register support {support.get('support_id')}: invalid location")
     intervals = value.get("coverage_intervals", [])
+    if authoritative_extents is None:
+        findings.append("civil coverage needs authoritative route extents/track count outside the asset register")
+    else:
+        def extents(rows):
+            return {(r["line_id"], r["coverage_group"]): (finite(r["from_station_m"]), finite(r["to_station_m"])) for r in rows}
+        try:
+            if extents(intervals) != extents(authoritative_extents) or len(intervals) != len(authoritative_extents):
+                findings.append("register coverage differs from authoritative route extent/track count")
+        except (KeyError, ValueError, TypeError):
+            findings.append("invalid authoritative route coverage")
     if {row.get("line_id") for row in intervals} != line_ids:
         findings.append("register coverage intervals do not cover every line")
     groups = set()
@@ -172,15 +219,24 @@ def inspect_results(report: dict, root: Path, register: dict | None, solver: str
         keys = [(r["asset_id"], r["load_case_id"], r["metric"]) for r in rows]
         if set(keys) != set(expected) or len(keys) != len(expected):
             findings.append("numerical output coverage differs from required criteria")
+        try:
+            from engineering.analysis import solver_results
+        except ModuleNotFoundError:
+            import solver_results
+        native_rows = solver_results.extract_results(report,root,register,solver)
+        native_values = {(r["asset_id"],r["load_case_id"],r["metric"]): r for r in native_rows}
         for row, key in zip(rows, keys):
             criterion = expected.get(key)
             if criterion is None: continue
             actual = finite(row["value"])
+            extracted = native_values[key]
+            if row["unit"] != extracted["unit"] or not math.isclose(actual, extracted["value"], rel_tol=1e-9, abs_tol=1e-12):
+                findings.append(f"CSV/native solver output disagreement: {key}")
             limit = finite(criterion["limit"])
             op = criterion["operator"]
             passed = actual <= limit if op == "max" else actual >= limit if op == "min" else abs(actual) <= limit if op == "abs-max" else False
             if row["unit"] != criterion["unit"] or not passed:
                 findings.append(f"numerical acceptance failed: {key}")
     except (KeyError, TypeError, ValueError, OSError):
-        findings.append("numerical output or criteria missing, invalid or non-finite")
+        findings.append("numerical/native output, parser provenance or criteria missing, invalid or non-finite")
     return findings

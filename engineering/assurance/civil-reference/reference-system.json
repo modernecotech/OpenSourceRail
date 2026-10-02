@@ -3,10 +3,10 @@
   "id": "OSR-CIVIL-REF-A",
   "revision": "A",
   "status": "demonstration-awaiting-site-design-and-independent-check",
-  "scope": "Two adjacent 20 m / 25 m double-track bays, three elevated support lines and 20 m adjoining at-grade transition. SUP-65 is a ground-zone check location, not an invented bridge pier.",
+  "scope": "Layout-defined adjacent railway bays and at-grade transition; quantities and support counts are derived. SUP-65 is a ground-zone check location, not a bridge pier.",
   "asset_register": {
     "schema": "osr-civil-assets/1",
-    "design_sha256": null,
+    "design_sha256": "b53a08a3541c9b27fcb598425f1c48255cb54a91f3390bf588e5d9f1a69d2cb2",
     "review": {
       "decision": "pending",
       "producer": "OSR concept",
@@ -310,9 +310,10 @@
       "causal_chain": [
         "blocked drain",
         "saturated formation",
-        "differential settlement",
+        "foundation movement",
+        "bearing displacement",
         "track geometry deterioration",
-        "operating restriction or derailment hazard"
+        "operating restriction"
       ],
       "controls": "Accessible drains; redundant route where justified; geometry monitoring and intervention",
       "required_evidence": "Blockage/backwater replay, cleaning trial, settlement model and geometry intervention review",
@@ -413,9 +414,9 @@
     }
   ],
   "bearings": {
-    "candidate_layout": "Two bearing seats per beam end; 16 seats across four beams. Fixed/guided/free arrangements and capacities remain unselected.",
-    "seat_count": 16,
-    "schedule_status": "pending-rail-structure-interaction-and-movement-design"
+    "candidate_layout": "Layout-derived bearing seats; fixed/guided/free arrangements and capacities remain unselected.",
+    "schedule_status": "pending-rail-structure-interaction-and-movement-design",
+    "seats_per_beam_end": 2
   },
   "drainage_objects": [
     {
@@ -436,7 +437,7 @@
     {
       "id": "TRANS-01",
       "kind": "transition",
-      "definition": "20 m comparison envelope at 45\u201365 m; graded stiffness and differential settlement limits unresolved"
+      "definition": "Layout-defined at-grade comparison envelope; graded stiffness and differential settlement limits unresolved"
     }
   ],
   "construction_sequence": [
@@ -491,10 +492,6 @@
   ],
   "comparator": {
     "id": "CONVENTIONAL-I-DECK",
-    "span_options_m": [
-      20,
-      25
-    ],
     "system": "Locally manufactured prestressed I-girders with a separate railway deck",
     "girder_count": null,
     "section": null,
@@ -634,5 +631,7 @@
       "checked_date": "2026-10-02",
       "retrieval_status": "primary reference supplied; not a selected design"
     }
-  ]
+  ],
+  "route_basis_path": "engineering/assurance/civil-reference/route-basis.json",
+  "assurance_path": "engineering/assurance/civil-reference/assurance.json"
 }

@@ -113,7 +113,12 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         if prerequisite.get("authority_accepted") is not True: findings.append("drainage/ground design is not authority accepted")
         if unreviewed: findings.append("technical inputs are not checked or accepted: " + ", ".join(unreviewed))
         register = json.loads(_path(received, "civil_asset_register", evidence_root).read_text())
-        findings.extend(civil_evidence.inspect_register(register, survey_control.sha256(design_path), {line["id"] for line in lines}, {station["id"] for station in stations}))
+        try:
+            station_lines, extents = civil_evidence.design_context(design_path)
+        except (KeyError, TypeError, ValueError):
+            station_lines, extents = {}, None
+            findings.append("design needs authoritative civil route lengths and track counts")
+        findings.extend(civil_evidence.inspect_register(register, survey_control.sha256(design_path), {line["id"] for line in lines}, {station["id"] for station in stations}, station_lines, extents))
         load_register = json.loads(_path(received, "load_case_register", evidence_root).read_text())
         if load_register.get("civil_asset_register_sha256") != received["civil_asset_register"][0]["sha256"]: findings.append("load-case register is not bound to the reviewed civil asset register")
         rows, schedule_findings = inspect_schedule(_path(received, "structural_asset_schedule", evidence_root), {line["id"] for line in lines}, requirements, register)
@@ -155,7 +160,7 @@ def build_report(design_path: Path, manifest_path: Path, evidence_root: Path, re
         "evidence_hashes": evidence_hashes, "requirements_source": survey_control.display_path(requirements_path),
         "requirements_sha256": survey_control.sha256(requirements_path), "design_source": survey_control.display_path(design_path),
         "design_sha256": survey_control.sha256(design_path), "receipt_manifest_sha256": survey_control.sha256(manifest_path),
-        "validator_source_hashes": {"civil_evidence.py": survey_control.sha256(Path(civil_evidence.__file__)),
+        "validator_source_hashes": {"solver_results.py": survey_control.sha256(REPO_ROOT / "engineering/analysis/solver_results.py"), "civil_evidence.py": survey_control.sha256(Path(civil_evidence.__file__)),
         "foundation.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/foundation.py"),
         "reference.py": survey_control.sha256(REPO_ROOT / "design/component-catalogue/src/osr_mech/civil/reference.py")},
         "generator_sha256": survey_control.sha256(Path(__file__)), "technical_boundary": requirements["technical_boundary"], "acceptance_boundary": requirements["acceptance_boundary"]}

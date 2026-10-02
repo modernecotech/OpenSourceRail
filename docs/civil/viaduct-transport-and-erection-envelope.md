@@ -1,15 +1,18 @@
 # Viaduct Transport And Erection Envelope
 
-OSR-Pi25 is a controlled project-load component 25 m long, 2.9 m wide, about
-1.16 m deep and approximately 75 t at the current planning envelope. OSR-Pi20
-is approximately 60 t. Supplier optimisation will change mass, but the 3.0 m
-shipping-width and 75 t main-lift DFMA gates may not be exceeded without
-creating and approving a different product.
+The bare OSR-Pi25 envelope is **74,937.5 kg**, leaving only **62.5 kg**
+below the 75 t product target before net details. Pi20 is **59,950 kg**.
+Complete-member and hook masses remain unresolved. Use the
+[generated mass and equipment summary](../../engineering/assurance/civil-reference/transport-and-erection.md)
+and its controlled budget before selecting transport or erection plant.
+The 3.0 m shipping-width and 75 t member targets require product compliance
+or an independently reviewed deviation bound to the actual mass budget.
 
-The primary erection plant is a reusable locally fabricated portal or
-short-span launching frame with synchronized certified strand jacks and an
-approximately 80 t rated system selected against the final beam. The normal
-bay requires two main lifts.
+A portal, launching frame or certified strand-jack arrangement is an
+erection option awaiting selection and qualification. Its required capacity
+comes from complete member, rigging and dynamic demand at the reviewed
+configuration; an approximate 80 t label cannot establish suitability.
+The number and weight of lifts come from the actual asset layout.
 
 Before release, record the casting-yard route, swept path, bridge and culvert
 capacities, overhead/side clearances, pavement and temporary works,

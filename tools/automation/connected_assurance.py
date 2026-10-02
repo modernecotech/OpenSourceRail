@@ -83,22 +83,24 @@ def execution_paths(nodes: list[dict]) -> set[str]:
     return paths
 
 
-def compile_thread(root: Path = ROOT, config: dict | None = None, *, today: date | None = None) -> dict:
-    config = config if config is not None else json.loads(source(root, CONFIG).read_text())
+def compile_thread(root: Path = ROOT, config: dict | None = None, *, today: date | None = None,
+                   config_source: str = CONFIG, import_catalog: bool = True, include_controller_execution: bool = True) -> dict:
+    config = config if config is not None else json.loads(source(root, config_source).read_text())
     if config.get("schema") != "osr-connected-engineering/1":
         raise ValueError("unsupported connected engineering schema")
     today = today or date.today()
     nodes: dict[str, dict] = {}
     for kind in COLLECTIONS:
-        rows = [*import_items(root), *config.get(kind, [])] if kind == "design_items" else config.get(kind, [])
+        rows = [*(import_items(root) if import_catalog else []), *config.get(kind, [])] if kind == "design_items" else config.get(kind, [])
         for row in rows:
             identifier = row.get("id")
             if not isinstance(identifier, str) or not identifier or identifier in nodes:
                 raise ValueError(f"missing or duplicate engineering ID: {identifier}")
             nodes[identifier] = {**row, "kind": kind}
     edges: set[tuple[str, str, str]] = set()
-    hashes = {CONFIG: digest(root, CONFIG), MANIFEST: digest(root, MANIFEST),
+    hashes = {config_source: digest(root, config_source),
               "tools/automation/connected_assurance.py": digest(root, "tools/automation/connected_assurance.py")}
+    if import_catalog: hashes[MANIFEST] = digest(root, MANIFEST)
 
     def ref(identifier: str, kinds: str | tuple[str, ...]) -> dict:
         allowed = (kinds,) if isinstance(kinds, str) else kinds
@@ -391,7 +393,7 @@ def compile_thread(root: Path = ROOT, config: dict | None = None, *, today: date
         row["evaluated_state"] = "blocked"
         gaps[row["id"]].extend(row["blockers"])
 
-    if (root / EXECUTION).is_file():
+    if include_controller_execution and (root / EXECUTION).is_file():
         execution = json.loads(source(root, EXECUTION).read_text())
         hashes[EXECUTION] = digest(root, EXECUTION)
         # Review and physical validation stay open even after a successful controller run.

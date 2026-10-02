@@ -1,0 +1,2960 @@
+{
+  "schema": "osr-connected-engineering/1",
+  "scope": "Civil reference assembly, planned construction/service assurance and synthetic inspection example; no installed asset or physical qualification claimed.",
+  "design_items": [
+    {
+      "id": "CIVIL-SYSTEM",
+      "title": "Civil guideway and operational consequence",
+      "revision": "A-concept",
+      "level": "system",
+      "part_of": [],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "CIVIL-BAY",
+      "title": "Reference double-track bay assembly",
+      "revision": "A-concept",
+      "level": "assembly",
+      "part_of": [
+        "CIVIL-SYSTEM"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "CIVIL-DRAIN-SUB",
+      "title": "Drainage subassembly",
+      "revision": "A-concept",
+      "level": "subassembly",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "CIVIL-SUPPORT-SUB",
+      "title": "Support and bearing subassembly",
+      "revision": "A-concept",
+      "level": "subassembly",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "CIVIL-TRACK-SUB",
+      "title": "Track and transition subassembly",
+      "revision": "A-concept",
+      "level": "subassembly",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "PI20-T1",
+      "title": "Pi20",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "PI20-T2",
+      "title": "Pi20",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "PI25-T1",
+      "title": "Pi25",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "PI25-T2",
+      "title": "Pi25",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "TRANS-01",
+      "title": "trackform-comparison-required",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-TRACK-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "TRANS-02",
+      "title": "trackform-comparison-required",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-TRACK-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "SUP-00",
+      "title": "Support/check location at 0 m",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "SUP-20",
+      "title": "Support/check location at 20 m",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "SUP-45",
+      "title": "Support/check location at 45 m",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "SUP-65",
+      "title": "Support/check location at 65 m",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-01",
+      "title": "Pier to foundation",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-02",
+      "title": "Cap to column",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-03",
+      "title": "Girder bearings and restraints",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-04",
+      "title": "Walkway and containment attachments",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-05",
+      "title": "Track plinth and fastener anchors",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-06",
+      "title": "Drainage and utility crossings",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "C-07",
+      "title": "Jacking and bearing replacement",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-BAY"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "CATCH-01",
+      "title": "Synthetic 1 ha SWMM catchment; surveyed deck/formation catchments unresolved",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-DRAIN-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "DRAIN-01",
+      "title": "Synthetic 50 m conduit; culvert geometry, crossings and debris load unresolved",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-DRAIN-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "OUT-01",
+      "title": "Synthetic outlet; ownership, discharge consent, tailwater, erosion/scour protection and safe inspection unresolved",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-DRAIN-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "FORMATION-45",
+      "title": "Formation at transition; investigation pending",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-TRACK-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "FOUND-20",
+      "title": "Unselected foundation at SUP-20",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "BEARING-20",
+      "title": "Candidate bearing group at SUP-20",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-SUPPORT-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    },
+    {
+      "id": "TRACK-20",
+      "title": "Track geometry at adjoining bay/transition",
+      "revision": "A-concept",
+      "level": "part",
+      "part_of": [
+        "CIVIL-TRACK-SUB"
+      ],
+      "decomposition_rationale": "Controlled civil reference boundary; site sizing and physical validation remain open.",
+      "source_paths": [
+        "engineering/assurance/civil-reference/reference-system.json",
+        "engineering/assurance/civil-reference/route-basis.json",
+        "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
+        "engineering/analysis/civil_evidence.py",
+        "engineering/analysis/solver_results.py"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "id": "FUNC-CIVIL-DRAINAGE",
+      "title": "Drain water away from formation",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-FORMATION",
+      "title": "Maintain formation stiffness",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-FOUNDATION",
+      "title": "Maintain support position",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-BEARING",
+      "title": "Support and accommodate girder movement",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-TRACK",
+      "title": "Maintain railway geometry",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-OPERATION",
+      "title": "Intervene before unsafe railway operation",
+      "owner": "Engineer of record / responsible asset owner"
+    },
+    {
+      "id": "FUNC-CIVIL-CONSTRUCTION",
+      "title": "Manufacture and erect stable members",
+      "owner": "Engineer of record / responsible asset owner"
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "IF-DRAIN-FOUNDATION",
+      "endpoints": [
+        "DRAIN-01",
+        "FOUND-20"
+      ],
+      "parameters": {
+        "groundwater_and_settlement_limits": "site design required"
+      },
+      "owner": "Drainage/geotechnical engineers"
+    },
+    {
+      "id": "IF-FOUNDATION-BEARING",
+      "endpoints": [
+        "FOUND-20",
+        "BEARING-20"
+      ],
+      "parameters": {
+        "movement_limit_mm": "pending site design"
+      },
+      "owner": "Structural/geotechnical engineers"
+    },
+    {
+      "id": "IF-BEARING-TRACK",
+      "endpoints": [
+        "BEARING-20",
+        "TRACK-20"
+      ],
+      "parameters": {
+        "rail_geometry_limit_mm": "pending operator/railway design"
+      },
+      "owner": "Track engineer and operator"
+    }
+  ],
+  "configurations": [
+    {
+      "id": "OSR-CIVIL-REF-A",
+      "deployment": "Synthetic reference, no selected site",
+      "item_revisions": {
+        "BEARING-20": "sha256:8dd370aafc577788d83a6837bf82ee5e112ca1734849d57373023bc78eba57b8",
+        "C-01": "sha256:aab435d6cad5595d15d77e4dae399fc14d7ef382075b209f25734d1f86db99f0",
+        "C-02": "sha256:0be58b77dafa719db2e058bc3a3e28e19b570b95c276c12948f14032e21d9c63",
+        "C-03": "sha256:9cbbd86c2c01c3282c496f8ba72cd8eeb9431e687e2aa8a81adac00cbf20e873",
+        "C-04": "sha256:0c31b6eb1f034c4906f16f917f798f4be2d0cc1dd1ad45e833a5b0c647597fc4",
+        "C-05": "sha256:5d2a87c31411dc56ecdd58fb8a0b279e4d65f003613094e85abee1d9eca1fb3b",
+        "C-06": "sha256:6b88e76a722f74d46af93a032f5830b5ebf4aea65fbb02ab6cb6a26615cd56dd",
+        "C-07": "sha256:d90171ef17b50b54cadd871d009b33bc32ca5e15e143993739128a73acf99af5",
+        "CATCH-01": "sha256:74363322c949375e792762acef28ee547c7bbaca98a6985cb44bc7a07b0afc5b",
+        "CIVIL-BAY": "sha256:a8536651fc5bc8f1d36b715af9959bf1f0636a7b8a46a67e270c5d6dbfadbf04",
+        "CIVIL-DRAIN-SUB": "sha256:6bfe2ffcdbb7446e3ed9f24d85fc3e8578f7b84dbd4a3df99e4246bfe41672b8",
+        "CIVIL-SUPPORT-SUB": "sha256:c1df4ba4258bfd913749006df9c1fa90aea2a2371a7206a7f187c672e377996d",
+        "CIVIL-SYSTEM": "sha256:78381373b8896de63bafa12578894e7cefaa9db517c31527d5078ba8bb7f0c1b",
+        "CIVIL-TRACK-SUB": "sha256:444082895b446dfcb76c725cee1106f7968fba2d6aa3fbf563912108b20adb93",
+        "DRAIN-01": "sha256:ed05a8a66e322e11217d829bf011447955260d855cb8cab6d4d3aa3debc45444",
+        "FORMATION-45": "sha256:394f1736390c45f2615e2871fac082457ed51f77ac192359cdd49ec66da7f551",
+        "FOUND-20": "sha256:44966b25da6ffa785562d6855936c2423a3c8ef559d42081b5894ea14d05e805",
+        "OUT-01": "sha256:1b65524f5615e4d34b9ff26e9032f2f6f3ca325c3b504754defb7d5000e750f0",
+        "PI20-T1": "sha256:b02358ac289dbdd9896fe42ad55d061bd51f180f69e08428afff48b9537e4553",
+        "PI20-T2": "sha256:156922027ba958a4a40c0ce7028cc5db4e94dfeb060b6796723f8a1ab1adc8e4",
+        "PI25-T1": "sha256:18bcb038369f4a50a934b7f5bdc2a99eb290dd5e0a8399535017008fd3b38563",
+        "PI25-T2": "sha256:a52a5754e844c5d9f8483d8268580ccebc5f79bfdf5715031e06f53b7a6e4522",
+        "SUP-00": "sha256:f6d23ef558fcb494b5acc329c487b467cbe9ed456f65126de81c2694f7c6cb10",
+        "SUP-20": "sha256:abd73318ba1d5bae2471478a4217283487949a8fce788513247703d245a63b9e",
+        "SUP-45": "sha256:c9c6a2ac3108e8474674eebb70dc192ca1847e5f2de70f049d476b09a9bab0b6",
+        "SUP-65": "sha256:0a431473a70725d81d53d01b734024039a264daba9d6b5c6fb15bd8e881c89bd",
+        "TRACK-20": "sha256:6dc1db852d1363a348bab917115fc92e0874652a194e517729d4658b50f307d9",
+        "TRANS-01": "sha256:b0bd40e7979f4bf4c5ea0ad942672e7d4f9cf6d15a2c2e6c799f71b7867aeb11",
+        "TRANS-02": "sha256:f12b31f837c374b137f78aca074069101b355a155b7f2a0a47c496b65b1f4715"
+      },
+      "initial_state": {
+        "site_inputs": "unresolved",
+        "installation": "not-performed"
+      },
+      "status": "concept-not-released"
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "DEMO-CIVIL-PI20-T1",
+      "design_item": "PI20-T1",
+      "design_revision": "sha256:b02358ac289dbdd9896fe42ad55d061bd51f180f69e08428afff48b9537e4553",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "position": "Reference layout location; not installed",
+      "serial_number": "PLANNED-PI20-T1",
+      "supplier_batch": "PLANNED-NOT-PRODUCED",
+      "maintenance_history": [
+        "No installation or inspection performed"
+      ],
+      "status": "planned-synthetic"
+    },
+    {
+      "id": "DEMO-CIVIL-PI25-T1",
+      "design_item": "PI25-T1",
+      "design_revision": "sha256:18bcb038369f4a50a934b7f5bdc2a99eb290dd5e0a8399535017008fd3b38563",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "position": "Reference layout location; not installed",
+      "serial_number": "PLANNED-PI25-T1",
+      "supplier_batch": "PLANNED-NOT-PRODUCED",
+      "maintenance_history": [
+        "No installation or inspection performed"
+      ],
+      "status": "planned-synthetic"
+    },
+    {
+      "id": "DEMO-CIVIL-DRAIN-01",
+      "design_item": "DRAIN-01",
+      "design_revision": "sha256:ed05a8a66e322e11217d829bf011447955260d855cb8cab6d4d3aa3debc45444",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "position": "Reference layout location; not installed",
+      "serial_number": "PLANNED-DRAIN-01",
+      "supplier_batch": "PLANNED-NOT-PRODUCED",
+      "maintenance_history": [
+        "No installation or inspection performed"
+      ],
+      "status": "planned-synthetic"
+    }
+  ],
+  "hazards": [
+    {
+      "id": "HAZ-CF-01",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Drainage maintainer"
+    },
+    {
+      "id": "HAZ-CF-01-SATURATION",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Geotechnical engineer"
+    },
+    {
+      "id": "HAZ-CF-01-FOUNDATION",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Structural/geotechnical engineers"
+    },
+    {
+      "id": "HAZ-CF-01-BEARING",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Bridge maintainer/structural engineer"
+    },
+    {
+      "id": "HAZ-CF-01-TRACK",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Track engineer"
+    },
+    {
+      "id": "HAZ-CF-01-OPERATION",
+      "consequence": "Operating restriction; derailment hazard if intervention fails",
+      "owner": "Operator/control centre"
+    },
+    {
+      "id": "HAZ-CF-02",
+      "consequence": "dropped member or collapse",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-03",
+      "consequence": "unexpected forces or support loss",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-04",
+      "consequence": "progressive cracking or collapse",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-05",
+      "consequence": "loss of prestress or handling failure",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-06",
+      "consequence": "equipment and member collapse",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-07",
+      "consequence": "operating restriction or derailment hazard",
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "HAZ-CF-05-PI25",
+      "consequence": "loss of prestress or handling failure",
+      "owner": "Civil engineer and temporary works/asset owner"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "CF-01-REQ",
+      "statement": "Clean/inspect drain and invoke reviewed adverse-rain response",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "DRAIN-01",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Drainage maintainer",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01"
+      ]
+    },
+    {
+      "id": "CF-01-SATURATION-REQ",
+      "statement": "Inspect groundwater and formation; reassess settlement model",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "FORMATION-45",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Geotechnical engineer",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01-SATURATION"
+      ]
+    },
+    {
+      "id": "CF-01-FOUNDATION-REQ",
+      "statement": "Survey support position; impose reviewed movement intervention",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "FOUND-20",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Structural/geotechnical engineers",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01-FOUNDATION"
+      ]
+    },
+    {
+      "id": "CF-01-BEARING-REQ",
+      "statement": "Inspect bearing travel/fixity and review jacking/repair plan",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "BEARING-20",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Bridge maintainer/structural engineer",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01-BEARING"
+      ]
+    },
+    {
+      "id": "CF-01-TRACK-REQ",
+      "statement": "Measure geometry; compare approved limits; request restriction",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "TRACK-20",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Track engineer",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01-TRACK"
+      ]
+    },
+    {
+      "id": "CF-01-OPERATION-REQ",
+      "statement": "Apply restriction or stop service pending engineering handback",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "CIVIL-SYSTEM",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Operator/control centre",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-01-OPERATION"
+      ]
+    },
+    {
+      "id": "CF-02-REQ",
+      "statement": "Reviewed sling geometry, centre of gravity, temporary bracing and exclusion zone",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "PI25-T1",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-02"
+      ]
+    },
+    {
+      "id": "CF-03-REQ",
+      "statement": "Surveyed seats and movement/fixity datum; witness installation",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "C-03",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-03"
+      ]
+    },
+    {
+      "id": "CF-04-REQ",
+      "statement": "Qualified grouting procedure, mock-up, fill witness and strength hold",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "C-01",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-04"
+      ]
+    },
+    {
+      "id": "CF-05-REQ",
+      "statement": "No transfer or handling before reviewed measured strength",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "PI20-T1",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-05"
+      ]
+    },
+    {
+      "id": "CF-06-REQ",
+      "statement": "Ground investigation, outrigger/launcher foundation and temporary works review",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "SUP-20",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-06"
+      ]
+    },
+    {
+      "id": "CF-07-REQ",
+      "statement": "Scour protection, graded stiffness and drainage access",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "TRANS-01",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-07"
+      ]
+    },
+    {
+      "id": "CF-05-PI25-REQ",
+      "statement": "No transfer or handling before reviewed measured strength",
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "allocated_to": [
+        "PI25-T1",
+        "CIVIL-SYSTEM"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner",
+      "review_state": "open",
+      "hazard_ids": [
+        "HAZ-CF-05-PI25"
+      ]
+    }
+  ],
+  "failure_modes": [
+    {
+      "id": "CF-01",
+      "item_id": "DRAIN-01",
+      "item_revision": "sha256:ed05a8a66e322e11217d829bf011447955260d855cb8cab6d4d3aa3debc45444",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-DRAINAGE",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Blocked drain",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Blocked drain",
+      "next_higher_effect": "saturated formation",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of DRAIN-01",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Clean/inspect drain and invoke reviewed adverse-rain response",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01"
+      },
+      "ownership": {
+        "responsible_role": "Drainage maintainer",
+        "action": "Clean/inspect drain and invoke reviewed adverse-rain response",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [
+        "CF-01-SATURATION"
+      ],
+      "calculation_or_observation_reference": "engineering/assurance/civil-reference/calculations/drainage-sanity.json",
+      "required_response": "Clean/inspect drain and invoke reviewed adverse-rain response"
+    },
+    {
+      "id": "CF-01-SATURATION",
+      "item_id": "FORMATION-45",
+      "item_revision": "sha256:394f1736390c45f2615e2871fac082457ed51f77ac192359cdd49ec66da7f551",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-FORMATION",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Saturated formation",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Saturated formation",
+      "next_higher_effect": "foundation movement",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of FORMATION-45",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Inspect groundwater and formation; reassess settlement model",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01-SATURATION"
+      },
+      "ownership": {
+        "responsible_role": "Geotechnical engineer",
+        "action": "Inspect groundwater and formation; reassess settlement model",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-SATURATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-SATURATION-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [
+        "CF-01-FOUNDATION"
+      ],
+      "calculation_or_observation_reference": "site groundwater/formation observation and coupled settlement calculation required",
+      "required_response": "Inspect groundwater and formation; reassess settlement model"
+    },
+    {
+      "id": "CF-01-FOUNDATION",
+      "item_id": "FOUND-20",
+      "item_revision": "sha256:44966b25da6ffa785562d6855936c2423a3c8ef559d42081b5894ea14d05e805",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-FOUNDATION",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Foundation movement",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Foundation movement",
+      "next_higher_effect": "bearing displacement",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of FOUND-20",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Survey support position; impose reviewed movement intervention",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01-FOUNDATION"
+      },
+      "ownership": {
+        "responsible_role": "Structural/geotechnical engineers",
+        "action": "Survey support position; impose reviewed movement intervention",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-FOUNDATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-FOUNDATION-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [
+        "CF-01-BEARING"
+      ],
+      "calculation_or_observation_reference": "site support survey and geotechnical movement calculation required",
+      "required_response": "Survey support position; impose reviewed movement intervention"
+    },
+    {
+      "id": "CF-01-BEARING",
+      "item_id": "BEARING-20",
+      "item_revision": "sha256:8dd370aafc577788d83a6837bf82ee5e112ca1734849d57373023bc78eba57b8",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-BEARING",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Bearing displacement",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Bearing displacement",
+      "next_higher_effect": "track geometry deterioration",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of BEARING-20",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Inspect bearing travel/fixity and review jacking/repair plan",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01-BEARING"
+      },
+      "ownership": {
+        "responsible_role": "Bridge maintainer/structural engineer",
+        "action": "Inspect bearing travel/fixity and review jacking/repair plan",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-BEARING-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-BEARING-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [
+        "CF-01-TRACK"
+      ],
+      "calculation_or_observation_reference": "bearing inspection and rail-structure movement calculation required",
+      "required_response": "Inspect bearing travel/fixity and review jacking/repair plan"
+    },
+    {
+      "id": "CF-01-TRACK",
+      "item_id": "TRACK-20",
+      "item_revision": "sha256:6dc1db852d1363a348bab917115fc92e0874652a194e517729d4658b50f307d9",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-TRACK",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Track geometry deterioration",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Track geometry deterioration",
+      "next_higher_effect": "operating restriction",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of TRACK-20",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Measure geometry; compare approved limits; request restriction",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01-TRACK"
+      },
+      "ownership": {
+        "responsible_role": "Track engineer",
+        "action": "Measure geometry; compare approved limits; request restriction",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-TRACK-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-TRACK-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [
+        "CF-01-OPERATION"
+      ],
+      "calculation_or_observation_reference": "track geometry observation and adopted railway limit calculation required",
+      "required_response": "Measure geometry; compare approved limits; request restriction"
+    },
+    {
+      "id": "CF-01-OPERATION",
+      "item_id": "CIVIL-SYSTEM",
+      "item_revision": "sha256:78381373b8896de63bafa12578894e7cefaa9db517c31527d5078ba8bb7f0c1b",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-OPERATION",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Adverse rainfall, blocked drain and backwater; site conditions unresolved",
+      "initiating_circumstances": [
+        "Drain/catchment common-cause blockage or upstream propagated movement"
+      ],
+      "mode": "Unsafe operating condition",
+      "causes": [
+        "Upstream failure or unresolved physical interface"
+      ],
+      "mechanisms": [
+        "Hydraulic saturation or transmitted differential movement; site correlation required"
+      ],
+      "local_effect": "Unsafe operating condition",
+      "next_higher_effect": "operating restriction",
+      "system_effect": "Operating restriction; derailment hazard if intervention fails",
+      "detection": {
+        "mechanism": "Planned inspection/monitoring of CIVIL-SYSTEM",
+        "coverage_evidence": "No measured coverage",
+        "delay": "Unresolved; approved intervention timing required",
+        "latent_exposure": "Unmeasured between inspections"
+      },
+      "mitigation": {
+        "action": "Apply restriction or stop service pending engineering handback",
+        "response_time": "Site/operator limit required before closure",
+        "degraded_state": "Restricted or stopped operation pending engineer decision",
+        "recovery_conditions": "Effective repair and independent engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No field reliability dataset",
+        "uncertainty": "Uncalibrated causal propagation",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-01-OPERATION"
+      },
+      "ownership": {
+        "responsible_role": "Operator/control centre",
+        "action": "Apply restriction or stop service pending engineering handback",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-01-OPERATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-OPERATION-SCN"
+      ],
+      "affected_interfaces": [
+        "IF-DRAIN-FOUNDATION",
+        "IF-FOUNDATION-BEARING",
+        "IF-BEARING-TRACK"
+      ],
+      "propagates_to": [],
+      "calculation_or_observation_reference": "controlled operator decision and effectiveness check required",
+      "required_response": "Apply restriction or stop service pending engineering handback"
+    },
+    {
+      "id": "CF-02",
+      "item_id": "PI25-T1",
+      "item_revision": "sha256:18bcb038369f4a50a934b7f5bdc2a99eb290dd5e0a8399535017008fd3b38563",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Girder instability during lifting"
+      ],
+      "mode": "eccentric lifting",
+      "causes": [
+        "Girder instability during lifting"
+      ],
+      "mechanisms": [
+        "eccentric lifting",
+        "girder roll or lateral instability",
+        "dropped member or collapse"
+      ],
+      "local_effect": "eccentric lifting",
+      "next_higher_effect": "girder roll or lateral instability",
+      "system_effect": "dropped member or collapse",
+      "detection": {
+        "mechanism": "Weighed member, lift chart/radius, stability calculation and witnessed first lift",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "Reviewed sling geometry, centre of gravity, temporary bracing and exclusion zone",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-02"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Weighed member, lift chart/radius, stability calculation and witnessed first lift",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-02-REQ"
+      ],
+      "scenario_ids": [
+        "CF-02-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Weighed member, lift chart/radius, stability calculation and witnessed first lift",
+      "required_response": "Reviewed sling geometry, centre of gravity, temporary bracing and exclusion zone"
+    },
+    {
+      "id": "CF-03",
+      "item_id": "C-03",
+      "item_revision": "sha256:9cbbd86c2c01c3282c496f8ba72cd8eeb9431e687e2aa8a81adac00cbf20e873",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Incorrect bearing installation"
+      ],
+      "mode": "wrong orientation or level",
+      "causes": [
+        "Incorrect bearing installation"
+      ],
+      "mechanisms": [
+        "wrong orientation or level",
+        "restraint or loss of bearing contact",
+        "unexpected forces or support loss"
+      ],
+      "local_effect": "wrong orientation or level",
+      "next_higher_effect": "restraint or loss of bearing contact",
+      "system_effect": "unexpected forces or support loss",
+      "detection": {
+        "mechanism": "Bearing schedule, seat survey and installation inspection",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "Surveyed seats and movement/fixity datum; witness installation",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-03"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Bearing schedule, seat survey and installation inspection",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-03-REQ"
+      ],
+      "scenario_ids": [
+        "CF-03-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Bearing schedule, seat survey and installation inspection",
+      "required_response": "Surveyed seats and movement/fixity datum; witness installation"
+    },
+    {
+      "id": "CF-04",
+      "item_id": "C-01",
+      "item_revision": "sha256:aab435d6cad5595d15d77e4dae399fc14d7ef382075b209f25734d1f86db99f0",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Grout defects"
+      ],
+      "mode": "voids or incomplete engagement",
+      "causes": [
+        "Grout defects"
+      ],
+      "mechanisms": [
+        "voids or incomplete engagement",
+        "connection resistance loss",
+        "progressive cracking or collapse"
+      ],
+      "local_effect": "voids or incomplete engagement",
+      "next_higher_effect": "connection resistance loss",
+      "system_effect": "progressive cracking or collapse",
+      "detection": {
+        "mechanism": "Batch/strength records, void/engagement inspection and connection qualification",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "Qualified grouting procedure, mock-up, fill witness and strength hold",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-04"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Batch/strength records, void/engagement inspection and connection qualification",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-04-REQ"
+      ],
+      "scenario_ids": [
+        "CF-04-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Batch/strength records, void/engagement inspection and connection qualification",
+      "required_response": "Qualified grouting procedure, mock-up, fill witness and strength hold"
+    },
+    {
+      "id": "CF-05",
+      "item_id": "PI20-T1",
+      "item_revision": "sha256:b02358ac289dbdd9896fe42ad55d061bd51f180f69e08428afff48b9537e4553",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Insufficient transfer strength"
+      ],
+      "mode": "early prestress transfer",
+      "causes": [
+        "Insufficient transfer strength"
+      ],
+      "mechanisms": [
+        "early prestress transfer",
+        "anchorage/end-zone cracking",
+        "loss of prestress or handling failure"
+      ],
+      "local_effect": "early prestress transfer",
+      "next_higher_effect": "anchorage/end-zone cracking",
+      "system_effect": "loss of prestress or handling failure",
+      "detection": {
+        "mechanism": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "No transfer or handling before reviewed measured strength",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-05"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-05-REQ"
+      ],
+      "scenario_ids": [
+        "CF-05-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+      "required_response": "No transfer or handling before reviewed measured strength"
+    },
+    {
+      "id": "CF-06",
+      "item_id": "SUP-20",
+      "item_revision": "sha256:abd73318ba1d5bae2471478a4217283487949a8fce788513247703d245a63b9e",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Crane or launcher support failure"
+      ],
+      "mode": "weak support or excessive ground pressure",
+      "causes": [
+        "Crane or launcher support failure"
+      ],
+      "mechanisms": [
+        "weak support or excessive ground pressure",
+        "support settlement/overturning",
+        "equipment and member collapse"
+      ],
+      "local_effect": "weak support or excessive ground pressure",
+      "next_higher_effect": "support settlement/overturning",
+      "system_effect": "equipment and member collapse",
+      "detection": {
+        "mechanism": "Support loadcase, bearing/settlement calculations, survey and trial load",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "Ground investigation, outrigger/launcher foundation and temporary works review",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-06"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Support loadcase, bearing/settlement calculations, survey and trial load",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-06-REQ"
+      ],
+      "scenario_ids": [
+        "CF-06-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Support loadcase, bearing/settlement calculations, survey and trial load",
+      "required_response": "Ground investigation, outrigger/launcher foundation and temporary works review"
+    },
+    {
+      "id": "CF-07",
+      "item_id": "TRANS-01",
+      "item_revision": "sha256:b0bd40e7979f4bf4c5ea0ad942672e7d4f9cf6d15a2c2e6c799f71b7867aeb11",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "service"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Transition/scour deterioration"
+      ],
+      "mode": "outfall erosion or transition stiffness change",
+      "causes": [
+        "Transition/scour deterioration"
+      ],
+      "mechanisms": [
+        "outfall erosion or transition stiffness change",
+        "differential movement",
+        "track geometry deterioration",
+        "operating restriction or derailment hazard"
+      ],
+      "local_effect": "outfall erosion or transition stiffness change",
+      "next_higher_effect": "differential movement",
+      "system_effect": "operating restriction or derailment hazard",
+      "detection": {
+        "mechanism": "Flood/scour assessment, transition settlement model and inspection trigger",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "Scour protection, graded stiffness and drainage access",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-07"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Flood/scour assessment, transition settlement model and inspection trigger",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-07-REQ"
+      ],
+      "scenario_ids": [
+        "CF-07-SCN"
+      ],
+      "propagates_to": [
+        "CF-01-TRACK"
+      ],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Flood/scour assessment, transition settlement model and inspection trigger",
+      "required_response": "Scour protection, graded stiffness and drainage access"
+    },
+    {
+      "id": "CF-05-PI25",
+      "item_id": "PI25-T1",
+      "item_revision": "sha256:18bcb038369f4a50a934b7f5bdc2a99eb290dd5e0a8399535017008fd3b38563",
+      "configuration_ids": [
+        "OSR-CIVIL-REF-A"
+      ],
+      "function_id": "FUNC-CIVIL-CONSTRUCTION",
+      "operating_modes": [
+        "construction"
+      ],
+      "environment": "Construction or service reference; site inputs unresolved",
+      "initiating_circumstances": [
+        "Insufficient transfer strength"
+      ],
+      "mode": "early prestress transfer",
+      "causes": [
+        "Insufficient transfer strength"
+      ],
+      "mechanisms": [
+        "early prestress transfer",
+        "anchorage/end-zone cracking",
+        "loss of prestress or handling failure"
+      ],
+      "local_effect": "early prestress transfer",
+      "next_higher_effect": "anchorage/end-zone cracking",
+      "system_effect": "loss of prestress or handling failure",
+      "detection": {
+        "mechanism": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+        "coverage_evidence": "Not measured",
+        "delay": "Not established",
+        "latent_exposure": "Unqualified stage/inspection interval"
+      },
+      "mitigation": {
+        "action": "No transfer or handling before reviewed measured strength",
+        "response_time": "Hold before loading/operation",
+        "degraded_state": "Hold work or restrict service",
+        "recovery_conditions": "Qualified repair and engineering handback"
+      },
+      "risk": {
+        "severity": 5,
+        "occurrence": "unknown",
+        "likelihood_basis": "No physical/field reliability dataset",
+        "uncertainty": "Site design and validation missing",
+        "criticality": "Mandatory review",
+        "hazard_id": "HAZ-CF-05-PI25"
+      },
+      "ownership": {
+        "responsible_role": "Civil engineer and temporary works/asset owner",
+        "action": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+        "deadline": "2026-11-01",
+        "review_state": "open",
+        "residual_risk_decision": "Not accepted"
+      },
+      "requirement_ids": [
+        "CF-05-PI25-REQ"
+      ],
+      "scenario_ids": [
+        "CF-05-PI25-SCN"
+      ],
+      "propagates_to": [],
+      "affected_interfaces": [
+        "IF-FOUNDATION-BEARING"
+      ],
+      "calculation_or_observation_reference": "Specimen maturity/strength, transfer procedure and end-zone inspection",
+      "required_response": "No transfer or handling before reviewed measured strength"
+    }
+  ],
+  "models": [
+    {
+      "id": "MODEL-CIVIL-REFERENCE",
+      "source_paths": [
+        "engineering/analysis/benchmarks/civil_reference.py",
+        "engineering/analysis/solver_results.py",
+        "engineering/assurance/civil-reference/drainage/normal.inp",
+        "engineering/assurance/civil-reference/drainage/blocked-drain.inp",
+        "engineering/assurance/civil-reference/drainage/backwater.inp"
+      ],
+      "represents": "Synthetic hydraulic sensitivity and elastic beam exercises; subsequent soil/bearing/track effects are hypotheses requiring site calculations",
+      "calibration": "No physical calibration",
+      "validation_data": "Native software sanity records only",
+      "valid_envelope": "Synthetic input geometry and illustrative loads; site envelope unresolved",
+      "limitations": [
+        "No coupled soil/bearing/track validation",
+        "No railway or temporary-stage acceptance"
+      ],
+      "version": "A-concept"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "CF-01-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01"
+      ],
+      "requirement_ids": [
+        "CF-01-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "DRAIN-01",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-01-SATURATION-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01-SATURATION"
+      ],
+      "requirement_ids": [
+        "CF-01-SATURATION-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "FORMATION-45",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-01-FOUNDATION-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01-FOUNDATION"
+      ],
+      "requirement_ids": [
+        "CF-01-FOUNDATION-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "FOUND-20",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-01-BEARING-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01-BEARING"
+      ],
+      "requirement_ids": [
+        "CF-01-BEARING-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "BEARING-20",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-01-TRACK-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01-TRACK"
+      ],
+      "requirement_ids": [
+        "CF-01-TRACK-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "TRACK-20",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-01-OPERATION-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-01-OPERATION"
+      ],
+      "requirement_ids": [
+        "CF-01-OPERATION-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "CIVIL-SYSTEM",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-02-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-02"
+      ],
+      "requirement_ids": [
+        "CF-02-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "PI25-T1",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    },
+    {
+      "id": "CF-03-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-03"
+      ],
+      "requirement_ids": [
+        "CF-03-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "C-03",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    },
+    {
+      "id": "CF-04-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-04"
+      ],
+      "requirement_ids": [
+        "CF-04-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "C-01",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    },
+    {
+      "id": "CF-05-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-05"
+      ],
+      "requirement_ids": [
+        "CF-05-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "PI20-T1",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    },
+    {
+      "id": "CF-06-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-06"
+      ],
+      "requirement_ids": [
+        "CF-06-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "SUP-20",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    },
+    {
+      "id": "CF-07-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-07"
+      ],
+      "requirement_ids": [
+        "CF-07-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "TRANS-01",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "service"
+    },
+    {
+      "id": "CF-05-PI25-SCN",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "failure_mode_ids": [
+        "CF-05-PI25"
+      ],
+      "requirement_ids": [
+        "CF-05-PI25-REQ"
+      ],
+      "model_id": "MODEL-CIVIL-REFERENCE",
+      "initial_state": {
+        "limits": "unresolved"
+      },
+      "faults": [
+        {
+          "location": "PI25-T1",
+          "onset": "stage start/adverse condition",
+          "duration": "Until controlled intervention",
+          "magnitude": "Site value not established"
+        }
+      ],
+      "acceptance_criteria": {
+        "physical_validation_required": true,
+        "approved_site_limits_required": true,
+        "controlled_handback_required": true
+      },
+      "validation_relationship": "Planned physical/site test; synthetic models cannot close this scenario",
+      "uncertainty": "No site correlation",
+      "status": "planned-physical-validation",
+      "operating_mode": "construction"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "CF-01-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Drainage maintainer"
+    },
+    {
+      "id": "CF-01-SATURATION-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-SATURATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-SATURATION-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Geotechnical engineer"
+    },
+    {
+      "id": "CF-01-FOUNDATION-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-FOUNDATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-FOUNDATION-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Structural/geotechnical engineers"
+    },
+    {
+      "id": "CF-01-BEARING-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-BEARING-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-BEARING-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Bridge maintainer/structural engineer"
+    },
+    {
+      "id": "CF-01-TRACK-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-TRACK-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-TRACK-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Track engineer"
+    },
+    {
+      "id": "CF-01-OPERATION-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-01-OPERATION-REQ"
+      ],
+      "scenario_ids": [
+        "CF-01-OPERATION-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Operator/control centre"
+    },
+    {
+      "id": "CF-02-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-02-REQ"
+      ],
+      "scenario_ids": [
+        "CF-02-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-03-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-03-REQ"
+      ],
+      "scenario_ids": [
+        "CF-03-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-04-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-04-REQ"
+      ],
+      "scenario_ids": [
+        "CF-04-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-05-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-05-REQ"
+      ],
+      "scenario_ids": [
+        "CF-05-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-06-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-06-REQ"
+      ],
+      "scenario_ids": [
+        "CF-06-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-07-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-07-REQ"
+      ],
+      "scenario_ids": [
+        "CF-07-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    },
+    {
+      "id": "CF-05-PI25-EVIDENCE",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "verification_class": "physical-qualification",
+      "requirement_ids": [
+        "CF-05-PI25-REQ"
+      ],
+      "scenario_ids": [
+        "CF-05-PI25-SCN"
+      ],
+      "state": "planned",
+      "limitations": [
+        "No physical result, review or accepted site limits"
+      ],
+      "owner": "Civil engineer and temporary works/asset owner"
+    }
+  ],
+  "production_records": [
+    {
+      "id": "DEMO-CIVIL-MIX-PI25",
+      "item_ids": [
+        "PI25-T1"
+      ],
+      "occurrence_ids": [
+        "DEMO-CIVIL-PI25-T1"
+      ],
+      "operation": "Concrete mix, curing and prestress transfer/lifting hold",
+      "requirement_ids": [
+        "CF-05-PI25-REQ"
+      ],
+      "failure_mode_ids": [
+        "CF-05-PI25"
+      ],
+      "tool_calibration": "Required before specimen/strength measurements",
+      "inspection_hold_point": "No transfer or lifting before approved measured strength and closed NCRs",
+      "state": "planned",
+      "material_controls": {
+        "mix_revision": null,
+        "constituent_batches": [],
+        "durability_requirements": null,
+        "curing_record": null,
+        "transfer_strength_MPa": null,
+        "lifting_strength_MPa": null,
+        "test_results": [],
+        "nonconformances": [],
+        "member_id": "PI25-T1"
+      }
+    }
+  ],
+  "incidents": [
+    {
+      "id": "DEMO-CIVIL-DRAIN-INSPECTION",
+      "occurrence_id": "DEMO-CIVIL-DRAIN-01",
+      "failure_mode_ids": [
+        "CF-01",
+        "CF-01-SATURATION",
+        "CF-01-FOUNDATION",
+        "CF-01-BEARING",
+        "CF-01-TRACK",
+        "CF-01-OPERATION"
+      ],
+      "diagnosis": "Synthetic planned inspection exercise; no blockage or movement has been observed",
+      "corrective_action": "Inspect/clean drainage; resurvey support, bearing and track; reassess model and restrict operation under approved limits",
+      "effectiveness_check": "Measured post-repair drainage/geometry and model correlation required",
+      "work_order_state": "planned-not-performed",
+      "engineering_handback": "open"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "CIVIL-GATE",
+      "item_id": "CIVIL-SYSTEM",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-CIVIL-BAY",
+      "item_id": "CIVIL-BAY",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-CIVIL-DRAIN-SUB",
+      "item_id": "CIVIL-DRAIN-SUB",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-CIVIL-SUPPORT-SUB",
+      "item_id": "CIVIL-SUPPORT-SUB",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-CIVIL-TRACK-SUB",
+      "item_id": "CIVIL-TRACK-SUB",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-PI20-T1",
+      "item_id": "PI20-T1",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-05-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-PI20-T2",
+      "item_id": "PI20-T2",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-PI25-T1",
+      "item_id": "PI25-T1",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-02-EVIDENCE",
+        "CF-05-PI25-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-PI25-T2",
+      "item_id": "PI25-T2",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-TRANS-01",
+      "item_id": "TRANS-01",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-07-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-TRANS-02",
+      "item_id": "TRANS-02",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-SUP-00",
+      "item_id": "SUP-00",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-SUP-20",
+      "item_id": "SUP-20",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-06-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-SUP-45",
+      "item_id": "SUP-45",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-SUP-65",
+      "item_id": "SUP-65",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-01",
+      "item_id": "C-01",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-04-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-02",
+      "item_id": "C-02",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-03",
+      "item_id": "C-03",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-03-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-04",
+      "item_id": "C-04",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-05",
+      "item_id": "C-05",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-06",
+      "item_id": "C-06",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-C-07",
+      "item_id": "C-07",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-CATCH-01",
+      "item_id": "CATCH-01",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-DRAIN-01",
+      "item_id": "DRAIN-01",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-OUT-01",
+      "item_id": "OUT-01",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-FORMATION-45",
+      "item_id": "FORMATION-45",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-SATURATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-FOUND-20",
+      "item_id": "FOUND-20",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-FOUNDATION-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-BEARING-20",
+      "item_id": "BEARING-20",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-BEARING-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    },
+    {
+      "id": "CIVIL-GATE-TRACK-20",
+      "item_id": "TRACK-20",
+      "configuration_id": "OSR-CIVIL-REF-A",
+      "gate": "G3",
+      "evidence_ids": [
+        "CF-01-TRACK-EVIDENCE"
+      ],
+      "integration_evidence_ids": [
+        "CF-01-OPERATION-EVIDENCE"
+      ],
+      "state": "open",
+      "owner": "Civil design authority / independent checker"
+    }
+  ],
+  "obligations": [],
+  "relationships": [
+    {
+      "from": "FORMATION-45",
+      "to": "DRAIN-01",
+      "relation": "depends_on"
+    },
+    {
+      "from": "FOUND-20",
+      "to": "FORMATION-45",
+      "relation": "depends_on"
+    },
+    {
+      "from": "BEARING-20",
+      "to": "FOUND-20",
+      "relation": "depends_on"
+    },
+    {
+      "from": "TRACK-20",
+      "to": "BEARING-20",
+      "relation": "depends_on"
+    }
+  ]
+}

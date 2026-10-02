@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import math
+import hashlib
+import json
 
 from .decked_pi import approx_mass_kg
 
@@ -17,7 +19,7 @@ def nonnegative(value, name):
     return float(value)
 
 
-def lifting_budget(span_m: float, masses: dict, lift: dict, planning_target_kg=75_000.0) -> dict:
+def lifting_budget(span_m: float, masses: dict, lift: dict, planning_target_kg=75_000.0, *, product_deviation: dict | None = None) -> dict:
     """No credit for unknown mass or nominal crane tonnage.
 
     The bare 2500 kg/m3 envelope already includes a bulk density allowance.
@@ -27,6 +29,7 @@ def lifting_budget(span_m: float, masses: dict, lift: dict, planning_target_kg=7
     """
     bare = approx_mass_kg(span_m)
     target = nonnegative(planning_target_kg, "planning target")
+    if target <= 0: raise ValueError("member weight target must be positive")
     missing = [k for k in (*DETAIL_MASSES, *RIGGING_MASSES) if masses.get(k) is None]
     known = {k: nonnegative(masses[k], k) for k in (*DETAIL_MASSES, *RIGGING_MASSES) if masses.get(k) is not None}
     required_lift = ("equipment_id", "chart_reference", "configuration", "radius_m", "capacity_at_radius_kg",
@@ -39,6 +42,8 @@ def lifting_budget(span_m: float, masses: dict, lift: dict, planning_target_kg=7
               "planning_target_kg": target, "bare_margin_kg": target - bare,
               "missing_inputs": missing, "complete_member_mass_kg": None,
               "lift_demand_kg": None, "permitted_capacity_kg": None, "lifting_check_passed": False,
+              "member_target_met": None, "equipment_capacity_met": False,
+              "product_envelope_accepted": False, "controlled_deviation_accepted": False, "overall_accepted": False,
               "status": "blocked-incomplete-mass-or-lift"}
     if missing: return result
     capacity = nonnegative(lift["capacity_at_radius_kg"], "capacity")
@@ -50,9 +55,18 @@ def lifting_budget(span_m: float, masses: dict, lift: dict, planning_target_kg=7
     demand = (minimum + sum(known[k] for k in RIGGING_MASSES)) * factor
     permitted = capacity * utilisation
     if not all(math.isfinite(v) for v in (minimum, demand, permitted)): raise ValueError("mass budget overflow")
+    basis_hash = hashlib.sha256(json.dumps({"span_m":float(span_m),"target_kg":target,"masses_kg":known},sort_keys=True,separators=(",", ":")).encode()).hexdigest()
+    member_met, capacity_met = minimum <= target, demand <= permitted
+    deviation = product_deviation or {}
+    reviewed = (deviation.get("decision") == "accepted" and all(deviation.get(k) for k in ("engineer","checker","signed_at","controlled_reference","rationale"))
+                and deviation.get("engineer") != deviation.get("checker") and deviation.get("mass_budget_sha256") == basis_hash)
+    product_accepted = member_met or reviewed
+    overall = product_accepted and capacity_met
     result.update(complete_member_mass_kg=minimum, lift_demand_kg=demand, permitted_capacity_kg=permitted,
-                  member_target_met=minimum <= target, lifting_check_passed=demand <= permitted,
-                  status="configuration-check-passed" if demand <= permitted else "configuration-capacity-exceeded")
+                  mass_budget_sha256=basis_hash, member_target_met=member_met, equipment_capacity_met=capacity_met,
+                  product_envelope_accepted=product_accepted, controlled_deviation_accepted=reviewed,
+                  overall_accepted=overall, lifting_check_passed=overall,
+                  status="configuration-check-passed" if overall else "member-target-exceeded" if not product_accepted else "configuration-capacity-exceeded")
     return result
 
 

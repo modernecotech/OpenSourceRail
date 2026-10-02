@@ -2,7 +2,7 @@
 
 **Status: awaiting site design, physical evidence and independent review. Release is blocked.**
 
-The reference contains adjoining 20 m and 25 m double-track bays and a 20 m at-grade transition. It provides quantities, connection briefs, construction hold points, option comparisons and a connected civil FMEA. It is a review package for engineers and suppliers; it has no accepted construction drawings.
+The reference contains 4 beam assets with 20/25 m spans and 20 m of adjoining at-grade transition. It provides quantities, connection briefs, construction hold points, option comparisons and a connected civil FMEA. It is a review package for engineers and suppliers; it has no accepted construction drawings.
 
 ## Layout and quantities
 
@@ -15,7 +15,7 @@ The reference contains adjoining 20 m and 25 m double-track bays and a 20 m at-g
 | TRANS-01 | trackform-comparison-required | 45–65 | SUP-45, SUP-65 |
 | TRANS-02 | trackform-comparison-required | 45–65 | SUP-45, SUP-65 |
 
-Four bare beams contain **107.91 m³** of envelope concrete over **261.0 m²** of deck. Foundation, reinforcement, prestress and installed cost quantities remain unresolved. Three elevated support lines and a ground-zone check at 65 m are identified. The candidate arrangement has 16 bearing seats; capacities and fixity are unresolved.
+4 bare beams contain **107.91 m³** of envelope concrete over **261.0 m²** of deck. Foundation, reinforcement, prestress and installed cost quantities remain unresolved. 3 elevated support lines are identified. The candidate arrangement has 16 bearing seats; capacities and fixity are unresolved.
 
 ## Mass and lifting
 
@@ -30,11 +30,11 @@ Net diaphragms, bulk-density reinforcement adjustment, prestress steel, anchorag
 
 Candidate foundations: bored-shaft, pile-group. None is selected. A measured comparison must cover axial/lateral resistance, total and differential settlement, groundwater, chemistry, liquefaction/scour where relevant, utilities and installation constraints. Calcium-based treatment needs reviewed chemistry compatibility. Reinforced-soil approaches need railway deformation, stability and scour justification.
 
-Ballasted track, slipformed slab and precast panels remain explicit alternatives. Compare settlement, drainage, local material and maintenance capability, repair possessions and whole-life cost for the 20 m transition before selection.
+Ballasted track, slipformed slab and precast panels remain explicit alternatives. Compare settlement, drainage, local material and maintenance capability, repair possessions and whole-life cost for the layout-defined transition before selection.
 
 ## Conventional girder comparator
 
-Locally manufactured prestressed I-girders with a separate railway deck is retained for both spans. Supplier section, girder count, deck quantities and price are pending; no system is declared cheapest.
+Locally manufactured prestressed I-girders with a separate railway deck is retained for the 20/25 m span families. Supplier section, girder count, deck quantities and price are pending; no system is declared cheapest.
 
 - moulds and prestress beds.
 - reinforcement/end zones and transfer strength.
@@ -161,7 +161,7 @@ Adequate continuity does not establish adequate drainage. Flooding volume, surch
 
 | ID / stage | Failure chain | Controls and evidence |
 |---|---|---|
-| CF-01 / service | blocked drain → saturated formation → differential settlement → track geometry deterioration → operating restriction or derailment hazard | Accessible drains; redundant route where justified; geometry monitoring and intervention. Evidence: Blockage/backwater replay, cleaning trial, settlement model and geometry intervention review. **Open**. |
+| CF-01 / service | blocked drain → saturated formation → foundation movement → bearing displacement → track geometry deterioration → operating restriction | Accessible drains; redundant route where justified; geometry monitoring and intervention. Evidence: Blockage/backwater replay, cleaning trial, settlement model and geometry intervention review. **Open**. |
 | CF-02 / construction | eccentric lifting → girder roll or lateral instability → dropped member or collapse | Reviewed sling geometry, centre of gravity, temporary bracing and exclusion zone. Evidence: Weighed member, lift chart/radius, stability calculation and witnessed first lift. **Open**. |
 | CF-03 / construction | wrong orientation or level → restraint or loss of bearing contact → unexpected forces or support loss | Surveyed seats and movement/fixity datum; witness installation. Evidence: Bearing schedule, seat survey and installation inspection. **Open**. |
 | CF-04 / construction | voids or incomplete engagement → connection resistance loss → progressive cracking or collapse | Qualified grouting procedure, mock-up, fill witness and strength hold. Evidence: Batch/strength records, void/engagement inspection and connection qualification. **Open**. |
@@ -169,7 +169,20 @@ Adequate continuity does not establish adequate drainage. Flooding volume, surch
 | CF-06 / construction | weak support or excessive ground pressure → support settlement/overturning → equipment and member collapse | Ground investigation, outrigger/launcher foundation and temporary works review. Evidence: Support loadcase, bearing/settlement calculations, survey and trial load. **Open**. |
 | CF-07 / service | outfall erosion or transition stiffness change → differential movement → track geometry deterioration → operating restriction or derailment hazard | Scour protection, graded stiffness and drainage access. Evidence: Flood/scour assessment, transition settlement model and inspection trigger. **Open**. |
 
-[Machine-readable report](report.json) contains the typed graph and drain-change trace. It uses the existing connected-assurance traversal, including both old and new relationships. A drain change reaches saturation, settlement, geometry, operating risk, required evidence and the civil release gate. All physical and independent evidence remains missing.
+The shared schema allocates the coupled drainage chain to these planned assets and responsibilities:
+
+| Failure / asset | Owner | Calculation or observation | Required response |
+|---|---|---|---|
+| CF-01 / DRAIN-01 | Drainage maintainer | engineering/assurance/civil-reference/calculations/drainage-sanity.json | Clean/inspect drain and invoke reviewed adverse-rain response |
+| CF-01-BEARING / BEARING-20 | Bridge maintainer/structural engineer | bearing inspection and rail-structure movement calculation required | Inspect bearing travel/fixity and review jacking/repair plan |
+| CF-01-FOUNDATION / FOUND-20 | Structural/geotechnical engineers | site support survey and geotechnical movement calculation required | Survey support position; impose reviewed movement intervention |
+| CF-01-OPERATION / CIVIL-SYSTEM | Operator/control centre | controlled operator decision and effectiveness check required | Apply restriction or stop service pending engineering handback |
+| CF-01-SATURATION / FORMATION-45 | Geotechnical engineer | site groundwater/formation observation and coupled settlement calculation required | Inspect groundwater and formation; reassess settlement model |
+| CF-01-TRACK / TRACK-20 | Track engineer | track geometry observation and adopted railway limit calculation required | Measure geometry; compare approved limits; request restriction |
+
+The physical hierarchy connects parts to subassemblies, the reference bay and the civil system. Foundation–bearing–track interfaces and the saturation common cause are explicit. Planned member occurrences link concrete mix revision, constituent batches, curing, transfer/lifting strength, test records and nonconformances to the member. The planned drainage inspection links its work order, model reassessment, effectiveness check and engineering handback to the same failure chain. These templates contain no manufactured members, measured strengths or completed maintenance.
+
+[Machine-readable report](report.json) contains the typed graph and drain-change trace. It uses the existing connected-assurance traversal, including both old and new relationships. The civil assembly is validated through the same configuration, ownership, effect, mitigation, evidence and decision schema as the component example. A drain change reaches formation, foundation, bearing and track failures, required operator response and blocked civil gates. All physical and independent evidence remains missing.
 
 ## Unresolved site inputs
 
@@ -210,6 +223,7 @@ From the repository root:
 ```bash
 .venv/bin/python tools/automation/civil_reference.py --run-solvers
 .venv/bin/python tools/automation/civil_reference.py --check
+.venv/bin/python tools/automation/civil_reference.py --verify-native-replay
 ```
 
 OpenSeesPy, PySWMM and native `ccx` are needed for replay. The default compiler and `--check` validate recorded files and provenance without running native solvers. The release gates require a separately reviewed, design-hash-bound asset register, per-asset numerical outputs and accepted limits. This concept register is deliberately pending and cannot satisfy them.

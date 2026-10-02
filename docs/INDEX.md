@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5006**.
+Indexed Markdown files: **5007**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **5006**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 182 |
-| [engineering](#engineering) | 24 |
+| [engineering](#engineering) | 25 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -5064,6 +5064,7 @@ Indexed Markdown files: **5006**.
 | [`engineering/assurance/civil-reference/README.md`](../engineering/assurance/civil-reference/README.md) | Civil reference demonstration A |
 | [`engineering/assurance/civil-reference/calculations/README.md`](../engineering/assurance/civil-reference/calculations/README.md) | Civil calculation records |
 | [`engineering/assurance/civil-reference/drainage/README.md`](../engineering/assurance/civil-reference/drainage/README.md) | Synthetic drainage scenarios |
+| [`engineering/assurance/civil-reference/transport-and-erection.md`](../engineering/assurance/civil-reference/transport-and-erection.md) | Transport and erection mass summary |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |
