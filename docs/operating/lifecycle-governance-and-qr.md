@@ -74,8 +74,8 @@ Four maximum review intervals establish an operating rhythm:
 Each review records inputs, decisions, owners, resources and effectiveness. The
 structure reflects the lifecycle and management-review emphasis of
 [ISO 55001:2024](https://committee.iso.org/sites/tc251/home/projects/published/iso-55001.html),
-the documented-evidence principles in
-[ISO's ISO 9001 guidance](https://www.iso.org/files/live/sites/isoorg/files/standards/docs/en/iso_9001_2015_guidance_documented_information.pdf),
+the quality-management and documented-information requirements in
+[ISO 9001:2026](https://www.iso.org/standard/9001),
 and the project/quality controls in the
 [FTA Quality Management System Guidelines](https://www.transit.dot.gov/funding/grant-programs/capital-investments/quality-management-system-guidelines).
 Using those sources as a template basis is not ISO certification, contractual

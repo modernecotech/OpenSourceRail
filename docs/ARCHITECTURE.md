@@ -412,12 +412,12 @@ OpenSourceRail/
 
 ## 7. Safety & Certification Strategy
 
-OpenSourceRail uses the maintained [standards baseline](certification/standards-baseline.md), which distinguishes current target references from legacy transition mappings. Until a deployment-specific assessor and authority accept the evidence, SIL wording in this repository means target assurance class and hazard allocation, not certification. The approach is:
+OpenSourceRail uses the maintained [Digital Standards Thread](certification/digital-standards-adherence.md) and generated [standards baseline](certification/standards-baseline.md), which distinguish publisher metadata, deployment applicability, evidence coherence and competent acceptance. Until a deployment-specific assessor and authority accept the evidence, SIL wording in this repository means target assurance class and hazard allocation, not certification. The approach is:
 
 1. **Formal models first.** Signaling logic is expressed in a formal model (Kani, Creusot, or TLA+ where appropriate) before implementation. Refinement of the Rust implementation against the formal model is the intended assurance approach; the consensus refinement proof remains open.
 2. **Small safety kernel.** T1 binaries are aggressively minimized. Everything that can be pushed out of the safety kernel is.
-3. **Diversity by construction.** Two independent Rust implementations of each T1 function, compiled with different toolchain configurations, cross-check each other on redundant hardware. This is cheaper than the traditional "different language + different team" because the second implementation is constrained by the same formal model.
-4. **Machine-checkable safety case.** Safety arguments are written in GSN (Goal Structuring Notation) serialized as TOML, with claim → evidence links resolving to code commits, proof artifacts, and test results. CI regenerates the case on every merge; a safety case that no longer closes blocks the release.
+3. **Diverse evidence where it exists; no invented redundancy.** Property tests, bounded proofs, simulation, fault injection and selected cross-language differential checks challenge the same safety intent from different directions. Independent implementations, teams, toolchains or hardware channels are credited only when the exact released configuration provides them; they remain deployment design and assessment decisions.
+4. **Machine-checkable safety-case structure.** Safety arguments are written in GSN (Goal Structuring Notation) serialized as TOML, with claim → evidence pointers resolving to controlled sources and result records. CI rejects structurally missing or stale links. It does not turn a pointer, written harness or unaccepted result into proof that the safety case is true.
 5. **Independent assessment.** The project produces artifacts. Certification is performed per-deployment by the national authority's chosen ISA, with the owner/operator and prime integrator carrying the accepted safety case, insurance, and liability. Reference safety cases from pilot deployments are published to compound assessor familiarity across countries.
 
 ---

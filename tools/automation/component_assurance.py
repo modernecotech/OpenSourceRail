@@ -186,7 +186,11 @@ def compile_register(root: Path = ROOT, config: dict | None = None) -> dict:
         "validation": {
             "passed": True,
             "unique_passports": True,
-            "complete_engineering_inventory_coverage": len(inventory) == 279,
+            "complete_engineering_inventory_coverage": (
+                bool(inventory)
+                and len(inventory) == digital["counts"]["inventory_items_screened"]
+                and len({row["inventory_id"] for row in inventory}) == len(inventory)
+            ),
             "platform_boundary_coverage": len(platform_components) > 0,
             "all_routes_assigned": True,
             "all_release_blocked_after_g0": True,

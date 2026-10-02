@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Promoted digital standards adherence into a core product capability. The new
+  Digital Standards Thread maintains 23 reviewed publisher/legal records, five
+  assurance profiles and 16 lifecycle control objectives; maps them to 15
+  hashed repository checks, the complete engineering inventory and G0–G4
+  passports; expires stale metadata; and emits a path-level change-impact index.
+  Its machine result is explicitly evidence coherence, while clause
+  applicability, conformity, physical qualification, independent assessment
+  and authorization remain open decisions. Updated ISO 9001 from the obsolete
+  2015 guidance reference to the current 2026 edition while preserving the
+  explicit ISO 22163:2023 transition issue. Catalogue generation now detects
+  stale Baghdad/all-city metrics rather than silently rewriting them in CI.
+
 - Added a complete Baghdad concept/FEED offer built from a freshly regenerated
   nine-line city design, open topography/water screening, QGIS/GDAL civil
   package, native degraded-case simulation, SUMO timetable validation and the

@@ -1,109 +1,642 @@
 [meta]
-schema = "osr-digital-assurance/1"
-id = "osr-digital-assurance-1"
-title = "Deterministic pre-build standards and FMEA gate"
-status = "design-screening-not-certification"
+schema = "osr-digital-standards-thread/2"
+id = "osr-digital-standards-thread-2"
+title = "Deterministic digital standards-adherence thread"
+status = "evidence-coherence-not-conformity"
 standards_source = "docs/certification/standards-baseline.md"
 fmea_source = "lib/templates/system-fmea.toml"
 report_markdown = "docs/certification/digital-assurance-report.md"
 report_json = "docs/certification/digital-assurance-report.json"
+standards_reviewed_on = "2026-10-02"
+next_registry_review_due = "2026-10-31"
+standards_review_enforced = true
+required_domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations", "quality", "information", "cybersecurity"]
+required_lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
 
 [authority_boundary]
 digital_gate_required_before_build = true
 physical_release_required_before_service = true
 independent_assessment_required = true
-statement = "Passing means the named deterministic design evidence is present and internally coherent. It is not certification, standard conformity, physical validation, permission to manufacture, or permission to operate."
+statement = "Passing means the named repository evidence is present, hashed, traceable and internally coherent. It is not a clause-by-clause conformity finding, certification, physical validation, permission to manufacture, construction release or permission to operate."
 prohibited_claims = [
   "simulation replaces mandatory physical testing",
   "repository evidence is type approval",
   "routing selection is movement authority",
   "absence of conventional equipment removes protection functions",
+  "a metadata mapping proves compliance with copyrighted normative text",
+  "a machine-generated report replaces a competent or independent decision",
 ]
 
+[evidence_policy]
+required_metadata = ["stable_id", "claim", "configuration", "source_revision", "method", "acceptance_criteria", "result", "tool_and_version", "environment", "author", "reviewer", "independence", "created_at", "valid_until_or_review_trigger", "sha256", "limitations"]
+allowed_states = ["planned", "generated-unreviewed", "reviewed", "accepted-for-stated-use", "rejected", "expired", "superseded", "not-applicable-with-rationale"]
+repository_machine_state = "generated-unreviewed"
+conformity_state = "not-assessed"
+physical_release_state = "blocked"
+roll_up_rule = "A parent control cannot close while a safety-significant child, interface, common-cause dependency, stale evidence item or required independent decision remains open."
+change_rule = "A changed requirement, design source, implementation, interface, environment, tool, evidence result, standard edition or condition of use reopens the affected control and every dependent decision."
+
+[[applicability_inputs]]
+id = "APP-JURISDICTION"
+title = "Jurisdiction and competent authorities"
+required = true
+state = "deployment-input-open"
+
+[[applicability_inputs]]
+id = "APP-INTENDED-USE"
+title = "System boundary, intended use and operating concept"
+required = true
+state = "deployment-input-open"
+
+[[applicability_inputs]]
+id = "APP-LEGAL"
+title = "Railway, building, fire, accessibility, labour, privacy and environmental law"
+required = true
+state = "deployment-input-open"
+
+[[applicability_inputs]]
+id = "APP-CONTRACT"
+title = "Employer requirements, contracts, funding conditions and adopted technical rules"
+required = true
+state = "deployment-input-open"
+
+[[applicability_inputs]]
+id = "APP-CLASSIFICATION"
+title = "Safety, security, quality and asset criticality classifications"
+required = true
+state = "deployment-input-open"
+
+[[applicability_inputs]]
+id = "APP-ASSESSMENT"
+title = "Conformity modules, assessment bodies, independence and authorization route"
+required = true
+state = "deployment-input-open"
+
+# Publisher metadata and scope only: licensed normative text and a deployment
+# applicability decision are still required before any clause-level claim.
 [[standards]]
 id = "IEC-62278-1-2025"
 title = "Railway RAMS — generic process"
+publisher = "IEC"
+edition = "2025"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["system", "mechanical", "electrical", "embedded-software", "civil", "operations"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
 source_url = "https://webstore.iec.ch/en/publication/68933"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Lifecycle, system definition, RAMS requirements, change impact and safety-case traceability"
 physical_evidence = ["site validation", "commissioning", "operational demonstration", "independent assessment"]
+licensed_text_required = true
+
+[[standards]]
+id = "IEC-62278-2-2025"
+title = "Railway RAMS — systems approach to safety"
+publisher = "IEC"
+edition = "2025"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
+domains = ["system", "mechanical", "electrical", "embedded-software", "civil", "operations"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "change"]
+source_url = "https://webstore.iec.ch/en/publication/79793"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Safety process, risk assessment, requirement allocation, integrity allocation and independence"
+physical_evidence = ["independent assessment", "validation evidence", "accepted residual risk"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-62267-2009"
 title = "Automated urban guided transport safety"
+publisher = "IEC"
+edition = "2009"
+status_on_review_date = "current-publisher-record-stability-2028"
+jurisdiction = "international-reference"
 domains = ["system", "embedded-software", "operations"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "operation"]
 source_url = "https://webstore.iec.ch/en/publication/6681"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "GoA4 functional safety and degraded-operation traceability"
 physical_evidence = ["obstacle and intrusion trials", "evacuation", "rescue", "operational validation"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-62290-1-2025"
 title = "Urban guided transport command/control principles"
+publisher = "IEC"
+edition = "2025"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["system", "embedded-software", "operations"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "operation"]
 source_url = "https://webstore.iec.ch/en/publication/83773"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Continuous supervision, onboard localisation and command/control functional boundary"
 physical_evidence = ["communications coverage", "localisation calibration", "end-to-end train protection test"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-62425-2025"
 title = "Safety-related signalling electronic systems"
+publisher = "IEC"
+edition = "2025"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["electrical", "embedded-software", "system"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "change"]
 source_url = "https://webstore.iec.ch/en/publication/68909"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Safety-case structure, integrity allocation, reuse and safety-related tool boundary"
 physical_evidence = ["qualified controller", "HIL", "environmental tests", "independent safety assessment"]
+licensed_text_required = true
+
+[[standards]]
+id = "IEC-62279-2015"
+title = "Railway control and protection software"
+publisher = "IEC"
+edition = "2015"
+status_on_review_date = "current-publisher-record-stability-2030"
+jurisdiction = "international-reference"
+domains = ["embedded-software", "system"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "maintenance", "change"]
+source_url = "https://webstore.iec.ch/en/publication/22781"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Safety-related software lifecycle, competence, configuration, verification and tool evidence"
+physical_evidence = ["target-hardware integration", "timing and resource evidence", "HIL", "commissioning"]
+licensed_text_required = true
 
 [[standards]]
 id = "EN-50716-2023"
 title = "Railway software development"
+publisher = "CEN-CENELEC national adoption record"
+edition = "2023"
+status_on_review_date = "current-European-baseline-transition-from-EN-50128-and-EN-50657"
+jurisdiction = "European-or-contractual-candidate"
 domains = ["embedded-software"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "maintenance", "change"]
 source_url = "https://www.dinmedia.de/en/standard/din-en-50716/378381071"
-digital_use = "Software lifecycle, verification, configuration and tool evidence"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2026-10-31"
+digital_use = "European software lifecycle, verification, configuration and tool evidence"
 physical_evidence = ["target-hardware integration", "HIL", "commissioning"]
+licensed_text_required = true
+
+[[standards]]
+id = "IEC-62280-2014"
+title = "Safety-related communication in railway transmission systems"
+publisher = "IEC"
+edition = "2014"
+status_on_review_date = "current-publisher-record-stability-2028"
+jurisdiction = "international-reference"
+domains = ["embedded-software", "electrical", "cybersecurity", "system"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "change"]
+source_url = "https://webstore.iec.ch/en/publication/6749"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Threat and error model for safety-related communication over transmission systems"
+physical_evidence = ["production-network fault injection", "coverage and latency tests", "key and configuration evidence"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-60812-2018"
 title = "FMEA and FMECA"
-domains = ["system", "mechanical", "electrical", "embedded-software", "civil", "operations"]
+publisher = "IEC"
+edition = "2018"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
+domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations"]
+lifecycle_stages = ["risk-and-requirements", "design", "verification", "validation", "operation", "maintenance", "change"]
 source_url = "https://webstore.iec.ch/en/publication/26359"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Failure-mode identification, effects, causes, controls, ranking and maintenance"
 physical_evidence = ["supplier FMEDA", "inspection", "fault injection", "field feedback"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-62928-2017"
 title = "Onboard lithium-ion traction batteries"
+publisher = "IEC"
+edition = "2017"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["electrical", "thermal", "mechanical"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
 source_url = "https://webstore.iec.ch/en/publication/31101"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Battery design, operating limits, data exchange and test-plan traceability"
 physical_evidence = ["type tests", "routine tests", "thermal propagation", "pack and vehicle integration"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-60571-2012"
 title = "Electronic equipment on rolling stock"
+publisher = "IEC"
+edition = "2012"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["electrical", "embedded-software"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "maintenance", "change"]
 source_url = "https://webstore.iec.ch/en/publication/2514"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
 digital_use = "Electronic-equipment requirements and deterministic test mapping"
 physical_evidence = ["environmental tests", "power transients", "EMC", "target hardware"]
+licensed_text_required = true
 
 [[standards]]
 id = "IEC-61373-2026"
 title = "Rolling-stock equipment shock and vibration"
+publisher = "IEC"
+edition = "2026"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
 domains = ["mechanical", "electrical"]
+lifecycle_stages = ["risk-and-requirements", "design", "verification", "validation", "acceptance", "change"]
 source_url = "https://webstore.iec.ch/en/publication/68999"
-digital_use = "Mounting-category and load-case definition"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Mounting category, load case and permitted simulation/test-exemption traceability"
 physical_evidence = ["shock test", "random vibration test", "post-test functional inspection"]
+licensed_text_required = true
 
 [[standards]]
-id = "EN-1990"
+id = "IEC-62443-4-1-2018"
+title = "Secure product development lifecycle"
+publisher = "IEC"
+edition = "2018"
+status_on_review_date = "current-publisher-record-edition-2-under-development"
+jurisdiction = "international-reference"
+domains = ["cybersecurity", "embedded-software", "information"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "operation", "maintenance", "change", "retirement"]
+source_url = "https://webstore.iec.ch/en/publication/33615"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Secure development, verification, vulnerability, patch and end-of-life process"
+physical_evidence = ["product security assessment", "deployment hardening", "penetration testing", "patch exercise"]
+licensed_text_required = true
+
+[[standards]]
+id = "IEC-62443-4-2-2019"
+title = "Technical security requirements for IACS components"
+publisher = "IEC"
+edition = "2019 with COR1:2022"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
+domains = ["cybersecurity", "embedded-software", "electrical", "information"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "change"]
+source_url = "https://webstore.iec.ch/en/publication/34421"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Component security capability and foundational-requirement evidence mapping"
+physical_evidence = ["configured component test", "network segmentation test", "credential and update validation"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-IEC-IEEE-15288-2023"
+title = "Systems and software engineering life-cycle processes"
+publisher = "ISO/IEC/IEEE"
+edition = "2023"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "international-reference"
+domains = ["system", "quality", "information"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
+source_url = "https://www.iso.org/standard/81702.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Common system life-cycle process and acquirer/supplier information exchange framework"
+physical_evidence = ["project plans", "reviews", "verification and validation records", "transition and disposal evidence"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-9001-2026"
+title = "Quality management systems — requirements"
+publisher = "ISO"
+edition = "2026"
+status_on_review_date = "current-publisher-record-replaces-2015"
+jurisdiction = "management-system-candidate"
+domains = ["quality", "operations", "information"]
+lifecycle_stages = ["concept", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
+source_url = "https://www.iso.org/standard/9001"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2026-12-16"
+digital_use = "Organization-wide quality, documented information, operational control, performance evaluation and improvement"
+physical_evidence = ["implemented QMS", "competence records", "supplier and production records", "internal and external audit"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-22163-2023"
+title = "Railway quality management system"
+publisher = "ISO"
+edition = "2023 with Amd 1:2024"
+status_on_review_date = "current-publisher-record-references-ISO-9001-2015-transition-review-required"
+jurisdiction = "railway-quality-candidate"
+domains = ["quality", "operations", "mechanical", "electrical", "civil", "embedded-software"]
+lifecycle_stages = ["concept", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
+source_url = "https://www.iso.org/standard/79427.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2026-12-16"
+digital_use = "Railway-sector quality management, supplier, project and production evidence structure"
+physical_evidence = ["implemented railway QMS", "process audits", "supplier controls", "production and special-process qualification"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-55001-2024"
+title = "Asset management system — requirements"
+publisher = "ISO"
+edition = "2024"
+status_on_review_date = "current-publisher-record"
+jurisdiction = "management-system-candidate"
+domains = ["operations", "quality", "information"]
+lifecycle_stages = ["concept", "system-definition", "acceptance", "operation", "maintenance", "change", "retirement"]
+source_url = "https://www.iso.org/standard/83054.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Asset-management objectives, lifecycle decisions, information, performance and improvement"
+physical_evidence = ["implemented asset management system", "asset data and decisions", "audits", "field performance"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-19650-1-2018"
+title = "BIM information management — concepts and principles"
+publisher = "ISO"
+edition = "2018"
+status_on_review_date = "current-confirmed-2024-revision-under-development"
+jurisdiction = "international-reference"
+domains = ["information", "civil", "mechanical", "operations"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "acceptance", "operation", "maintenance", "change", "retirement"]
+source_url = "https://www.iso.org/standard/68078.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2026-12-31"
+digital_use = "Whole-life information management, exchange, recording, versioning and organization"
+physical_evidence = ["project information requirements", "accepted information deliveries", "as-built and asset information"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-16739-1-2024"
+title = "Industry Foundation Classes data schema"
+publisher = "ISO"
+edition = "2024"
+status_on_review_date = "current-publisher-record-replaces-2018"
+jurisdiction = "international-reference"
+domains = ["information", "civil", "mechanical", "operations"]
+lifecycle_stages = ["design", "implementation", "verification", "acceptance", "operation", "maintenance", "change"]
+source_url = "https://www.iso.org/standard/84123.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Open IFC exchange for buildings and infrastructure including railways and bridges"
+physical_evidence = ["accepted model-view and information requirements", "as-built model validation", "handover verification"]
+licensed_text_required = true
+
+[[standards]]
+id = "ISO-IEC-17025-2017"
+title = "Competence of testing and calibration laboratories"
+publisher = "ISO/IEC"
+edition = "2017"
+status_on_review_date = "current-confirmed-2023"
+jurisdiction = "conformity-assessment-candidate"
+domains = ["quality", "information", "mechanical", "electrical", "thermal", "civil"]
+lifecycle_stages = ["verification", "validation", "acceptance", "maintenance", "change"]
+source_url = "https://www.iso.org/standard/66912.html"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Competence, impartiality, method, calibration, traceability and result-record requirements for test evidence"
+physical_evidence = ["laboratory scope and accreditation where required", "method validation", "calibration traceability", "raw test records"]
+licensed_text_required = true
+
+[[standards]]
+id = "EN-1990-DEPLOYMENT"
 title = "Basis of structural design"
+publisher = "CEN national adoption selected by deployment"
+edition = "deployment-selected edition and national annex"
+status_on_review_date = "applicability-and-national-adoption-open"
+jurisdiction = "European-or-contractual-candidate"
 domains = ["civil", "mechanical"]
+lifecycle_stages = ["risk-and-requirements", "design", "verification", "validation", "acceptance", "change"]
 source_url = "https://eurocodes.jrc.ec.europa.eu/EN-Eurocodes/eurocode-basis-structural-design"
-digital_use = "Ultimate/serviceability limit-state and reliability evidence structure"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Ultimate/serviceability limit-state, reliability, durability and design-working-life evidence structure"
 physical_evidence = ["material certificates", "geotechnical investigation", "proof/load tests where specified", "as-built survey"]
+licensed_text_required = true
+
+[[standards]]
+id = "EU-CSM-402-2013"
+title = "Common safety method for risk evaluation and assessment"
+publisher = "European Union"
+edition = "Regulation 402/2013 as amended"
+status_on_review_date = "current-EU-legal-source-jurisdiction-limited"
+jurisdiction = "EU-or-contractually-adopted-only"
+domains = ["system", "operations", "quality"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "operation", "change"]
+source_url = "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32013R0402"
+source_reviewed_on = "2026-10-02"
+next_review_due = "2027-01-02"
+digital_use = "Significance, hazard record, risk acceptance principles, interfaces and independent assessment for changes when applicable"
+physical_evidence = ["proposer risk-management file", "assessment-body report", "hazard closure and accepted change"]
+licensed_text_required = false
+
+[[profiles]]
+id = "PROFILE-SYSTEM-SAFETY"
+title = "System RAMS, automation and authorization"
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "IEC-62267-2009", "IEC-62290-1-2025", "EU-CSM-402-2013"]
+decision = "Deployment safety authority and competent bodies freeze applicability and acceptance route."
+
+[[profiles]]
+id = "PROFILE-CONTROL-SOFTWARE"
+title = "Safety-related control, software and communications"
+standard_ids = ["IEC-62425-2025", "IEC-62279-2015", "EN-50716-2023", "IEC-62280-2014", "IEC-62443-4-1-2018", "IEC-62443-4-2-2019"]
+decision = "Safety classification and national/international software route are deployment decisions."
+
+[[profiles]]
+id = "PROFILE-VEHICLE-EQUIPMENT"
+title = "Vehicle equipment, battery and environment"
+standard_ids = ["IEC-62928-2017", "IEC-60571-2012", "IEC-61373-2026", "IEC-60812-2018"]
+decision = "Product and vehicle qualification require exact selected components and physical evidence."
+
+[[profiles]]
+id = "PROFILE-CIVIL-BIM"
+title = "Civil structures and lifecycle information"
+standard_ids = ["EN-1990-DEPLOYMENT", "ISO-19650-1-2018", "ISO-16739-1-2024", "IEC-60812-2018"]
+decision = "The project freezes national structural rules, annexes, survey basis and information requirements."
+
+[[profiles]]
+id = "PROFILE-QUALITY-ASSET"
+title = "Quality, laboratories, assets and system lifecycle"
+standard_ids = ["ISO-IEC-IEEE-15288-2023", "ISO-9001-2026", "ISO-22163-2023", "ISO-55001-2024", "ISO-IEC-17025-2017"]
+decision = "Organization, laboratory and certification scopes remain separately assessed."
+
+[[controls]]
+id = "STD-CTRL-001"
+title = "System boundary, intended use and applicability"
+domains = ["system", "operations", "information", "quality"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "acceptance", "change"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "ISO-IEC-IEEE-15288-2023", "EU-CSM-402-2013", "ISO-9001-2026", "ISO-22163-2023"]
+verification = ["applicability-review", "traceability", "independent-review"]
+physical_evidence_required = false
+decision_gate = "G1"
+
+[[controls]]
+id = "STD-CTRL-002"
+title = "Requirements, interfaces and bidirectional traceability"
+domains = ["system", "information", "quality"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "change"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "ISO-IEC-IEEE-15288-2023"]
+verification = ["traceability", "review", "test"]
+physical_evidence_required = true
+decision_gate = "G3"
+
+[[controls]]
+id = "STD-CTRL-003"
+title = "Hazard identification, FMEA and accepted risk"
+domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations"]
+lifecycle_stages = ["risk-and-requirements", "design", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
+standard_ids = ["IEC-62278-2-2025", "IEC-60812-2018", "EU-CSM-402-2013"]
+verification = ["analysis", "fault-injection", "independent-review"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-004"
+title = "RAMS allocation, automated-operation protection and safety case"
+domains = ["system", "embedded-software", "operations", "quality"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "operation", "maintenance"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "IEC-62267-2009", "IEC-62290-1-2025", "IEC-62425-2025"]
+verification = ["analysis", "formal-analysis", "simulation", "HIL", "field-test", "safety-case"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-005"
+title = "Safety-related software lifecycle and target evidence"
+domains = ["embedded-software", "system", "quality"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "maintenance", "change"]
+standard_ids = ["IEC-62279-2015", "EN-50716-2023", "IEC-62425-2025"]
+verification = ["review", "static-analysis", "property-test", "formal-analysis", "target-test", "HIL"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-006"
+title = "Safety communication, cybersecurity and recovery"
+domains = ["embedded-software", "electrical", "cybersecurity", "information", "operations"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
+standard_ids = ["IEC-62280-2014", "IEC-62443-4-1-2018", "IEC-62443-4-2-2019", "IEC-62425-2025"]
+verification = ["threat-analysis", "fault-injection", "security-test", "recovery-test"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-007"
+title = "Battery, thermal and rolling-stock electronic equipment"
+domains = ["electrical", "thermal", "mechanical", "embedded-software"]
+lifecycle_stages = ["risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
+standard_ids = ["IEC-62928-2017", "IEC-60571-2012", "IEC-60812-2018"]
+verification = ["analysis", "simulation", "type-test", "routine-test", "vehicle-integration"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-008"
+title = "Equipment mounting, shock and vibration"
+domains = ["mechanical", "electrical"]
+lifecycle_stages = ["risk-and-requirements", "design", "verification", "validation", "acceptance", "change"]
+standard_ids = ["IEC-61373-2026", "IEC-60812-2018"]
+verification = ["category-review", "analysis", "laboratory-test", "inspection"]
+physical_evidence_required = true
+decision_gate = "G3"
+
+[[controls]]
+id = "STD-CTRL-009"
+title = "Civil, geotechnical, hydraulic and structural design basis"
+domains = ["civil", "mechanical", "system"]
+lifecycle_stages = ["system-definition", "risk-and-requirements", "design", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
+standard_ids = ["EN-1990-DEPLOYMENT", "IEC-62278-1-2025", "IEC-60812-2018"]
+verification = ["survey", "calculation", "independent-check", "inspection", "site-test"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-010"
+title = "BIM and lifecycle information requirements"
+domains = ["information", "civil", "mechanical", "operations"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "acceptance", "operation", "maintenance", "change", "retirement"]
+standard_ids = ["ISO-19650-1-2018", "ISO-16739-1-2024", "ISO-55001-2024"]
+verification = ["schema-validation", "information-requirement-test", "handover-review"]
+physical_evidence_required = true
+decision_gate = "G3"
+
+[[controls]]
+id = "STD-CTRL-011"
+title = "Quality, supplier, manufacturing and special-process control"
+domains = ["quality", "mechanical", "electrical", "civil", "embedded-software", "operations"]
+lifecycle_stages = ["concept", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change"]
+standard_ids = ["ISO-9001-2026", "ISO-22163-2023", "ISO-IEC-IEEE-15288-2023"]
+verification = ["quality-plan", "supplier-review", "inspection", "audit"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-012"
+title = "Test method, laboratory competence and measurement traceability"
+domains = ["quality", "information", "mechanical", "electrical", "thermal", "civil"]
+lifecycle_stages = ["verification", "validation", "acceptance", "maintenance", "change"]
+standard_ids = ["ISO-IEC-17025-2017", "ISO-9001-2026"]
+verification = ["method-review", "calibration-review", "laboratory-scope-review", "raw-data-review"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-013"
+title = "Model, simulation and tool validity"
+domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "information"]
+lifecycle_stages = ["design", "implementation", "verification", "validation", "acceptance", "change"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62279-2015", "EN-50716-2023", "ISO-IEC-17025-2017"]
+verification = ["benchmark", "cross-tool-comparison", "correlation", "tool-qualification-review"]
+physical_evidence_required = true
+decision_gate = "G3"
+
+[[controls]]
+id = "STD-CTRL-014"
+title = "Verification, validation, commissioning and operational demonstration"
+domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations", "quality"]
+lifecycle_stages = ["verification", "validation", "acceptance", "operation", "maintenance", "change"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "ISO-IEC-IEEE-15288-2023", "ISO-IEC-17025-2017"]
+verification = ["test", "FAT", "SAT", "HIL", "commissioning", "trial-operation"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-015"
+title = "Asset, maintenance, competence and field-performance management"
+domains = ["operations", "quality", "information", "system"]
+lifecycle_stages = ["acceptance", "operation", "maintenance", "change", "retirement"]
+standard_ids = ["ISO-55001-2024", "ISO-9001-2026", "ISO-22163-2023", "IEC-62278-1-2025"]
+verification = ["asset-review", "maintenance-analysis", "competence-review", "field-data-review"]
+physical_evidence_required = true
+decision_gate = "G4"
+
+[[controls]]
+id = "STD-CTRL-016"
+title = "Configuration, change impact, evidence provenance and decision ledger"
+domains = ["system", "information", "quality", "operations", "embedded-software"]
+lifecycle_stages = ["concept", "system-definition", "risk-and-requirements", "design", "implementation", "verification", "validation", "acceptance", "operation", "maintenance", "change", "retirement"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62279-2015", "EN-50716-2023", "ISO-IEC-IEEE-15288-2023", "ISO-9001-2026", "ISO-22163-2023", "ISO-55001-2024", "ISO-19650-1-2018"]
+verification = ["schema-validation", "configuration-audit", "hash-comparison", "impact-analysis", "expiry-review", "independent-assessment"]
+physical_evidence_required = false
+decision_gate = "G4"
 
 [[checks]]
 id = "DA-001"
 title = "Safety requirements and hazards remain traceable"
-standard_ids = ["IEC-62278-1-2025", "IEC-62267-2009", "IEC-62425-2025"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "IEC-62267-2009", "IEC-62425-2025"]
+control_ids = ["STD-CTRL-002", "STD-CTRL-003", "STD-CTRL-004", "STD-CTRL-016"]
 domains = ["system", "operations"]
 evidence = ["docs/certification/safety-requirements.md", "docs/certification/hazard-log.md", "docs/safety-case/README.md"]
 required_digital = true
@@ -112,6 +645,7 @@ required_digital = true
 id = "DA-002"
 title = "Train separation and speed supervision remain independent of route selection"
 standard_ids = ["IEC-62267-2009", "IEC-62290-1-2025", "IEC-62425-2025"]
+control_ids = ["STD-CTRL-004", "STD-CTRL-005"]
 domains = ["system", "embedded-software"]
 evidence = ["crates/osr-onboard-routing/src/lib.rs", "crates/osr-interlocking/src/ma.rs", "crates/osr-atp/src/lib.rs"]
 required_digital = true
@@ -119,7 +653,8 @@ required_digital = true
 [[checks]]
 id = "DA-003"
 title = "Network-loss routing fails restrictively on disagreement"
-standard_ids = ["IEC-62290-1-2025", "EN-50716-2023"]
+standard_ids = ["IEC-62290-1-2025", "IEC-62279-2015", "EN-50716-2023", "IEC-62280-2014"]
+control_ids = ["STD-CTRL-004", "STD-CTRL-005", "STD-CTRL-006"]
 domains = ["embedded-software"]
 evidence = ["crates/osr-onboard-routing/tests/proptest_routing.rs", "crates/osr-onboard-routing/src/lib.rs"]
 required_digital = true
@@ -127,7 +662,8 @@ required_digital = true
 [[checks]]
 id = "DA-004"
 title = "Cabin and battery cooling allocation prioritises battery protection"
-standard_ids = ["IEC-62928-2017", "IEC-60571-2012"]
+standard_ids = ["IEC-62928-2017", "IEC-60571-2012", "IEC-60812-2018"]
+control_ids = ["STD-CTRL-003", "STD-CTRL-007"]
 domains = ["thermal", "electrical"]
 evidence = ["crates/osr-hvac/src/integrated_thermal.rs", "crates/osr-hvac/tests/proptest_integrated_thermal.rs", "docs/rfcs/0024-battery-thermal-high-ambient.md"]
 required_digital = true
@@ -135,23 +671,26 @@ required_digital = true
 [[checks]]
 id = "DA-005"
 title = "Cross-domain FMEA has component, subsystem and system coverage"
-standard_ids = ["IEC-60812-2018", "IEC-62278-1-2025"]
+standard_ids = ["IEC-60812-2018", "IEC-62278-1-2025", "IEC-62278-2-2025"]
+control_ids = ["STD-CTRL-002", "STD-CTRL-003"]
 domains = ["system", "mechanical", "electrical", "thermal", "embedded-software", "civil", "operations"]
 evidence = ["lib/templates/system-fmea.toml"]
 required_digital = true
 
 [[checks]]
 id = "DA-006"
-title = "Civil structural screens retain physical release boundary"
-standard_ids = ["EN-1990", "IEC-62278-1-2025"]
+title = "Civil structural screens retain survey and physical release boundaries"
+standard_ids = ["EN-1990-DEPLOYMENT", "IEC-62278-1-2025", "ISO-IEC-17025-2017"]
+control_ids = ["STD-CTRL-009", "STD-CTRL-012", "STD-CTRL-013", "STD-CTRL-014"]
 domains = ["civil", "mechanical"]
 evidence = ["engineering/analysis/structural_release.py", "lib/templates/structural-release-processing.toml", "docs/certification/release-gap-register.md"]
 required_digital = true
 
 [[checks]]
 id = "DA-007"
-title = "Recovery sidings, robots and single-track loops use protected movement functions"
-standard_ids = ["IEC-62267-2009", "IEC-62290-1-2025"]
+title = "Recovery sidings, robots and single-track loops retain protected movement functions"
+standard_ids = ["IEC-62267-2009", "IEC-62290-1-2025", "IEC-62425-2025"]
+control_ids = ["STD-CTRL-003", "STD-CTRL-004", "STD-CTRL-014"]
 domains = ["civil", "operations", "system"]
 evidence = ["lib/templates/corridor-resilience.toml", "docs/rfcs/0011-civil-infrastructure-design-standard.md"]
 required_digital = true
@@ -159,7 +698,8 @@ required_digital = true
 [[checks]]
 id = "DA-008"
 title = "Physical and independent-assessment gaps remain release-blocking"
-standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62928-2017", "IEC-61373-2026", "EN-1990"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62278-2-2025", "IEC-62425-2025", "IEC-62928-2017", "IEC-61373-2026", "EN-1990-DEPLOYMENT"]
+control_ids = ["STD-CTRL-007", "STD-CTRL-008", "STD-CTRL-009", "STD-CTRL-012", "STD-CTRL-014", "STD-CTRL-016"]
 domains = ["system", "mechanical", "electrical", "civil", "operations"]
 evidence = ["docs/certification/evidence-status.md", "docs/certification/release-gap-register.md", "docs/certification/pilot-signalling-profile.md"]
 required_digital = true
@@ -167,7 +707,8 @@ required_digital = true
 [[checks]]
 id = "DA-009"
 title = "Consensus restart and infrastructure faults fail closed"
-standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "EN-50716-2023"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62279-2015", "EN-50716-2023", "IEC-62280-2014"]
+control_ids = ["STD-CTRL-005", "STD-CTRL-006", "STD-CTRL-016"]
 domains = ["embedded-software", "system", "operations"]
 evidence = ["crates/osr-consensus/src/durable.rs", "crates/osr-consensus/src/fault_harness.rs", "crates/osr-consensus/tests/resilience_harness.rs", "docs/certification/software-resilience-report.md"]
 required_digital = true
@@ -175,23 +716,26 @@ required_digital = true
 [[checks]]
 id = "DA-010"
 title = "Engineering benchmarks and interchange preserve units, CRS and identity"
-standard_ids = ["IEC-62278-1-2025", "EN-50716-2023", "EN-1990", "IEC-62928-2017"]
-domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software"]
+standard_ids = ["IEC-62278-1-2025", "ISO-IEC-IEEE-15288-2023", "EN-1990-DEPLOYMENT", "IEC-62928-2017", "ISO-19650-1-2018", "ISO-16739-1-2024"]
+control_ids = ["STD-CTRL-002", "STD-CTRL-007", "STD-CTRL-009", "STD-CTRL-010", "STD-CTRL-013", "STD-CTRL-016"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software", "information"]
 evidence = ["engineering/toolchain/baseline-assurance.md", "engineering/analysis/duty_cycle.py", "engineering/toolchain/fixtures/planning-duty-cycle.json"]
 required_digital = true
 
 [[checks]]
 id = "DA-011"
 title = "Promoted component RFCs retain traceable implementation and release gaps"
-standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "IEC-62928-2017", "EN-1990"]
-domains = ["system", "mechanical", "electrical", "thermal", "civil", "operations"]
+standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "IEC-62928-2017", "EN-1990-DEPLOYMENT", "ISO-22163-2023"]
+control_ids = ["STD-CTRL-002", "STD-CTRL-003", "STD-CTRL-007", "STD-CTRL-009", "STD-CTRL-011", "STD-CTRL-016"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "operations", "quality"]
 evidence = ["lib/templates/component-rfc-packages.toml", "docs/component-rfc-readiness.md", "tools/automation/component_rfc_readiness.py"]
 required_digital = true
 
 [[checks]]
 id = "DA-012"
 title = "Multi-day normal, peak, degraded and recovery profiles retain bounded logical state"
-standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "EN-50716-2023"]
+standard_ids = ["IEC-62278-1-2025", "IEC-62425-2025", "IEC-62279-2015", "EN-50716-2023"]
+control_ids = ["STD-CTRL-004", "STD-CTRL-005", "STD-CTRL-013", "STD-CTRL-014"]
 domains = ["embedded-software", "system", "operations"]
 evidence = ["crates/osr-sim/src/soak.rs", "docs/certification/software-soak-report.md", ".github/workflows/rust-soak.yml"]
 required_digital = true
@@ -199,7 +743,26 @@ required_digital = true
 [[checks]]
 id = "DA-013"
 title = "Every controlled engineering and operational-platform item has a fail-closed assurance passport"
-standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "EN-50716-2023", "EN-1990"]
-domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software", "operations"]
+standard_ids = ["IEC-62278-1-2025", "IEC-60812-2018", "ISO-IEC-IEEE-15288-2023", "ISO-9001-2026", "ISO-22163-2023", "ISO-55001-2024"]
+control_ids = ["STD-CTRL-001", "STD-CTRL-003", "STD-CTRL-011", "STD-CTRL-015", "STD-CTRL-016"]
+domains = ["system", "mechanical", "electrical", "thermal", "civil", "embedded-software", "operations", "quality", "information"]
 evidence = ["lib/templates/component-assurance.toml", "tools/automation/component_assurance.py", "docs/certification/README.md"]
+required_digital = true
+
+[[checks]]
+id = "DA-014"
+title = "BIM federation and IDS checks use current IFC4.3 lifecycle identities"
+standard_ids = ["ISO-19650-1-2018", "ISO-16739-1-2024", "ISO-55001-2024"]
+control_ids = ["STD-CTRL-010", "STD-CTRL-016"]
+domains = ["information", "civil", "mechanical", "operations"]
+evidence = ["engineering/models/bim/reference/lm3-information-requirements.ids", "engineering/models/bim/design-detail-register.md", "engineering/model_coverage.py"]
+required_digital = true
+
+[[checks]]
+id = "DA-015"
+title = "Quality, lifecycle and laboratory evidence retain competence and approval boundaries"
+standard_ids = ["ISO-9001-2026", "ISO-22163-2023", "ISO-55001-2024", "ISO-IEC-17025-2017"]
+control_ids = ["STD-CTRL-011", "STD-CTRL-012", "STD-CTRL-015", "STD-CTRL-016"]
+domains = ["quality", "operations", "information"]
+evidence = ["deployment/erpnext/config/lifecycle-governance.json", "engineering/assurance/subsystem-control-register.md", "docs/operating/lifecycle-governance-and-qr.md"]
 required_digital = true

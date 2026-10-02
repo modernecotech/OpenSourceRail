@@ -49,18 +49,26 @@ This is a controlled sensitivity—not a vendor quotation or financing offer.
 - Run deterministic train, station, energy, wayside, point/crossing and depot
   software together.
 - Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.
+- Trace 23 publisher records through
+  16 cross-domain controls and
+  15 hashed repository checks; change impact reopens
+  affected evidence.
 
 | City Studio | Civil IFC coordination |
 |---|---|
 | ![City Studio deterministic browser acceptance](screenshots/city-studio/gui-acceptance.png) | ![Bonsai IFC4.3 civil coordination model](screenshots/civil/bonsai-ifc4x3-civil-coordination.png) |
 
-## Buildable pathway, visible gaps
+## Buildable and standards-aware
 
 Reference packages cover all 120 LM3 product
 rows, nine timed manufacturing methods, 30 mould/tooling families, modular
 rolling stock, stations, civil works, battery traction, renewable charging,
-operations and assurance. Supplier freeze, detailed drawings, proof testing,
-certification and authority approval remain explicit release gates.
+operations and assurance. The Digital Standards Thread spans
+23 publisher records,
+16 cross-domain controls and
+15 hashed repository checks. Supplier freeze,
+licensed clause assessment, detailed drawings, proof testing, certification and
+authority approval remain explicit release gates.
 
 ## Review or collaborate
 

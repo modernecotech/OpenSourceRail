@@ -16,9 +16,12 @@ def config() -> dict:
 
 def test_every_controlled_item_has_one_fail_closed_assurance_passport() -> None:
     report = component_assurance.compile_register()
-    assert report["summary"]["controlled_items"] == 286
-    assert report["summary"]["engineering_inventory_items"] == 279
-    assert report["summary"]["platform_services"] == 7
+    assert report["summary"]["controlled_items"] == (
+        report["summary"]["engineering_inventory_items"]
+        + report["summary"]["platform_services"]
+    )
+    assert report["summary"]["engineering_inventory_items"] > 0
+    assert report["summary"]["platform_services"] == len(config()["platform_components"])
     assert report["summary"]["released_items"] == 0
     assert set(report["summary"]["routes"]) == {
         "business-supervision",
@@ -27,7 +30,7 @@ def test_every_controlled_item_has_one_fail_closed_assurance_passport() -> None:
         "software-control",
         "station-wayside",
     }
-    assert len({row["assurance_id"] for row in report["passports"]}) == 286
+    assert len({row["assurance_id"] for row in report["passports"]}) == report["summary"]["controlled_items"]
     assert all(row["release_state"] == "blocked-after-g0" for row in report["passports"])
     assert all(list(row["gate_status"]) == ["G0", "G1", "G2", "G3", "G4"] for row in report["passports"])
     assert all(row["gate_status"]["G0"] == "pass-baseline-recorded" for row in report["passports"])

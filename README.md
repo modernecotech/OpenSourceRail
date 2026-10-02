@@ -25,18 +25,20 @@ This root README is the only human-facing front door; generated inventories are 
 | Product definition | **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families, 146 native FreeCAD models and matching split IFC4.3 files** linked to BOMs, methods, QA gates and release evidence. |
 | Delivery control | Finite-resource CPM, critical path, supplier/order-by planning, schedule of values, local/import cashflow, construction states, ERPNext projects, procurement, stock, manufacturing, quality, finance, HR and maintenance. |
 | Operations | Deterministic Rust simulation and evaluators, OCC applications, observation-only supervision gateway, FUXA views, history/alarms, condition-to-maintenance cases and recovery-tested Workbench integration. |
-| Assurance | **286 G0 component passports** across engineering and owner/operator platforms; unit, property, cross-language, integration, browser, Kani and long-horizon tests; IFC/IDS validation; deterministic FMEA/standards reports; explicit physical-test and approval boundaries. |
+| Assurance | A fail-closed G0–G4 passport for every controlled engineering and owner/operator item; a reviewed standards registry; cross-domain control objectives; deterministic evidence hashes and change impact; explicit physical-test, independent-assessment and approval boundaries. |
 
 The modelled civil strategy prefers simple construction—**at least 70% at grade, at most 25% elevated and at most 5% bridge, with no tunnel in the upstream reference system**—but the terrain/water planner now exposes where a real route cannot honestly keep that mix.
 
 ## Feature Highlights
 
-The brochure summarizes the project as four stages. The implementation underneath each stage is deeper:
-
 ```mermaid
 flowchart LR
   P[1. PLAN<br/>City Studio / GIS] --> E[2. ENGINEER<br/>CAD / IFC4.3 / simulation] --> D[3. DELIVER<br/>CPM / ERP / QA / manufacturing] --> O[4. OPERATE<br/>assets / SCADA views / evidence] --> R[maintain / renew] --> P
 ```
+
+## Digital standards adherence from the first design change
+
+The [Digital Standards Thread](docs/certification/digital-standards-adherence.md) connects publisher records and deployment law to controls, requirements, hazards, design items, evidence and G1–G4 decisions. CI rejects stale reviews, broken mappings and changed hashes, while its impact index identifies reassessment after change. A green result means evidence coherence—not clause conformity, physical qualification, independent assessment or legal authorization.
 
 ### 1. Plan the railway in its real city context
 

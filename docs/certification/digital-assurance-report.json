@@ -1,4 +1,42 @@
 {
+  "applicability_inputs": [
+    {
+      "id": "APP-JURISDICTION",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "Jurisdiction and competent authorities"
+    },
+    {
+      "id": "APP-INTENDED-USE",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "System boundary, intended use and operating concept"
+    },
+    {
+      "id": "APP-LEGAL",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "Railway, building, fire, accessibility, labour, privacy and environmental law"
+    },
+    {
+      "id": "APP-CONTRACT",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "Employer requirements, contracts, funding conditions and adopted technical rules"
+    },
+    {
+      "id": "APP-CLASSIFICATION",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "Safety, security, quality and asset criticality classifications"
+    },
+    {
+      "id": "APP-ASSESSMENT",
+      "required": true,
+      "state": "deployment-input-open",
+      "title": "Conformity modules, assessment bodies, independence and authorization route"
+    }
+  ],
   "authority_boundary": {
     "digital_gate_required_before_build": true,
     "independent_assessment_required": true,
@@ -7,12 +45,985 @@
       "simulation replaces mandatory physical testing",
       "repository evidence is type approval",
       "routing selection is movement authority",
-      "absence of conventional equipment removes protection functions"
+      "absence of conventional equipment removes protection functions",
+      "a metadata mapping proves compliance with copyrighted normative text",
+      "a machine-generated report replaces a competent or independent decision"
     ],
-    "statement": "Passing means the named deterministic design evidence is present and internally coherent. It is not certification, standard conformity, physical validation, permission to manufacture, or permission to operate."
+    "statement": "Passing means the named repository evidence is present, hashed, traceable and internally coherent. It is not a clause-by-clause conformity finding, certification, physical validation, permission to manufacture, construction release or permission to operate."
+  },
+  "change_impact_index": {
+    ".github/workflows/rust-soak.yml": {
+      "checks": [
+        "DA-012"
+      ],
+      "controls": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62425-2025"
+      ]
+    },
+    "Cargo.toml": {
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "crates/osr-atp/src/lib.rs": {
+      "checks": [
+        "DA-002"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-005"
+      ],
+      "failure_modes": [
+        "FMEA-SW-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-aux-power/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-ELC-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-bms/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-ELC-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-brake/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-MEC-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-consensus/src/durable.rs": {
+      "checks": [
+        "DA-009"
+      ],
+      "controls": [
+        "STD-CTRL-005",
+        "STD-CTRL-006",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-consensus/src/fault_harness.rs": {
+      "checks": [
+        "DA-009"
+      ],
+      "controls": [
+        "STD-CTRL-005",
+        "STD-CTRL-006",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-consensus/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-SW-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-consensus/tests/resilience_harness.rs": {
+      "checks": [
+        "DA-009"
+      ],
+      "controls": [
+        "STD-CTRL-005",
+        "STD-CTRL-006",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-fire-safety/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-ELC-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-hot-axle-wayside/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-MEC-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-hot-axle/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-MEC-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-hvac/src/integrated_thermal.rs": {
+      "checks": [
+        "DA-004"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-007"
+      ],
+      "failure_modes": [
+        "FMEA-THM-C01",
+        "FMEA-THM-S01"
+      ],
+      "standards": [
+        "IEC-60571-2012",
+        "IEC-60812-2018",
+        "IEC-62928-2017"
+      ]
+    },
+    "crates/osr-hvac/tests/proptest_integrated_thermal.rs": {
+      "checks": [
+        "DA-004"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-007"
+      ],
+      "failure_modes": [
+        "FMEA-THM-S01"
+      ],
+      "standards": [
+        "IEC-60571-2012",
+        "IEC-60812-2018",
+        "IEC-62928-2017"
+      ]
+    },
+    "crates/osr-interlocking/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-SW-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-interlocking/src/ma.rs": {
+      "checks": [
+        "DA-002"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-005"
+      ],
+      "failure_modes": [
+        "FMEA-SW-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-lighting/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-ELC-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-odometry/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-SW-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "crates/osr-onboard-routing/src/lib.rs": {
+      "checks": [
+        "DA-002",
+        "DA-003"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-006"
+      ],
+      "failure_modes": [
+        "FMEA-SW-C01",
+        "FMEA-SW-S01"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-60812-2018",
+        "IEC-62267-2009",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-onboard-routing/tests/proptest_routing.rs": {
+      "checks": [
+        "DA-003"
+      ],
+      "controls": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-006"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62290-1-2025"
+      ]
+    },
+    "crates/osr-sim/src/soak.rs": {
+      "checks": [
+        "DA-012"
+      ],
+      "controls": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62425-2025"
+      ]
+    },
+    "crates/osr-wayside-points/src/lib.rs": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "deployment/erpnext/config/lifecycle-governance.json": {
+      "checks": [
+        "DA-015"
+      ],
+      "controls": [
+        "STD-CTRL-011",
+        "STD-CTRL-012",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": {
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-C01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "design/component-catalogue/src/osr_mech/recovery_interface.py": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-MEC-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "docs/certification/README.md": {
+      "checks": [
+        "DA-013"
+      ],
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-011",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "docs/certification/evidence-status.md": {
+      "checks": [
+        "DA-008"
+      ],
+      "controls": [
+        "STD-CTRL-007",
+        "STD-CTRL-008",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-014",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-61373-2026",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025",
+        "IEC-62928-2017"
+      ]
+    },
+    "docs/certification/hazard-log.md": {
+      "checks": [
+        "DA-001"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-62267-2009",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "docs/certification/pilot-signalling-profile.md": {
+      "checks": [
+        "DA-008"
+      ],
+      "controls": [
+        "STD-CTRL-007",
+        "STD-CTRL-008",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-014",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-61373-2026",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025",
+        "IEC-62928-2017"
+      ]
+    },
+    "docs/certification/release-gap-register.md": {
+      "checks": [
+        "DA-006",
+        "DA-008"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-007",
+        "STD-CTRL-008",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-013",
+        "STD-CTRL-014",
+        "STD-CTRL-016"
+      ],
+      "failure_modes": [
+        "FMEA-ELC-Y01",
+        "FMEA-OPS-S01"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-61373-2026",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025",
+        "IEC-62928-2017",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "docs/certification/safety-requirements.md": {
+      "checks": [
+        "DA-001"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-016"
+      ],
+      "failure_modes": [
+        "FMEA-MEC-S01",
+        "FMEA-OPS-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62267-2009",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "docs/certification/software-resilience-report.md": {
+      "checks": [
+        "DA-009"
+      ],
+      "controls": [
+        "STD-CTRL-005",
+        "STD-CTRL-006",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62280-2014",
+        "IEC-62425-2025"
+      ]
+    },
+    "docs/certification/software-soak-report.md": {
+      "checks": [
+        "DA-012"
+      ],
+      "controls": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
+      "standards": [
+        "EN-50716-2023",
+        "IEC-62278-1-2025",
+        "IEC-62279-2015",
+        "IEC-62425-2025"
+      ]
+    },
+    "docs/component-rfc-readiness.md": {
+      "checks": [
+        "DA-011"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-011",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-22163-2023"
+      ]
+    },
+    "docs/operating/lifecycle-governance-and-qr.md": {
+      "checks": [
+        "DA-015"
+      ],
+      "controls": [
+        "STD-CTRL-011",
+        "STD-CTRL-012",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "docs/operations/README.md": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-OPS-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "docs/rfcs/0011-civil-infrastructure-design-standard.md": {
+      "checks": [
+        "DA-007"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-014"
+      ],
+      "standards": [
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "docs/rfcs/0024-battery-thermal-high-ambient.md": {
+      "checks": [
+        "DA-004"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-007"
+      ],
+      "failure_modes": [
+        "FMEA-THM-Y01"
+      ],
+      "standards": [
+        "IEC-60571-2012",
+        "IEC-60812-2018",
+        "IEC-62928-2017"
+      ]
+    },
+    "docs/safety-case/README.md": {
+      "checks": [
+        "DA-001"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-62267-2009",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "engineering/analysis/drainage_ground_design.py": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "engineering/analysis/duty_cycle.py": {
+      "checks": [
+        "DA-010"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-010",
+        "STD-CTRL-013",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "engineering/analysis/structural_release.py": {
+      "checks": [
+        "DA-006"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-Y01"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "engineering/assurance/subsystem-control-register.md": {
+      "checks": [
+        "DA-015"
+      ],
+      "controls": [
+        "STD-CTRL-011",
+        "STD-CTRL-012",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "engineering/design-options/examples/samawah-fleet20-topology/qualification.json": {
+      "controls": [
+        "STD-CTRL-003"
+      ],
+      "failure_modes": [
+        "FMEA-THM-Y01"
+      ],
+      "standards": [
+        "IEC-60812-2018"
+      ]
+    },
+    "engineering/model_coverage.py": {
+      "checks": [
+        "DA-014"
+      ],
+      "controls": [
+        "STD-CTRL-010",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-55001-2024"
+      ]
+    },
+    "engineering/models/bim/design-detail-register.md": {
+      "checks": [
+        "DA-014"
+      ],
+      "controls": [
+        "STD-CTRL-010",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-55001-2024"
+      ]
+    },
+    "engineering/models/bim/reference/lm3-information-requirements.ids": {
+      "checks": [
+        "DA-014"
+      ],
+      "controls": [
+        "STD-CTRL-010",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-55001-2024"
+      ]
+    },
+    "engineering/toolchain/baseline-assurance.md": {
+      "checks": [
+        "DA-010"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-010",
+        "STD-CTRL-013",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "engineering/toolchain/fixtures/planning-duty-cycle.json": {
+      "checks": [
+        "DA-010"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-010",
+        "STD-CTRL-013",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-16739-1-2024",
+        "ISO-19650-1-2018",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "lib/templates/component-assurance.toml": {
+      "checks": [
+        "DA-013"
+      ],
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-011",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "lib/templates/component-rfc-packages.toml": {
+      "checks": [
+        "DA-011"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-011",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-22163-2023"
+      ]
+    },
+    "lib/templates/corridor-resilience.toml": {
+      "checks": [
+        "DA-007"
+      ],
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-014",
+        "STD-CTRL-016"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-S01",
+        "FMEA-MEC-Y01",
+        "FMEA-OPS-C01",
+        "FMEA-OPS-S01"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ]
+    },
+    "lib/templates/digital-assurance.toml": {
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ]
+    },
+    "lib/templates/structural-release-processing.toml": {
+      "checks": [
+        "DA-006"
+      ],
+      "controls": [
+        "STD-CTRL-003",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
+      "failure_modes": [
+        "FMEA-CIV-C01"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "ISO-IEC-17025-2017"
+      ]
+    },
+    "lib/templates/system-fmea.toml": {
+      "checks": [
+        "DA-005"
+      ],
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025"
+      ]
+    },
+    "tools/automation/component_assurance.py": {
+      "checks": [
+        "DA-013"
+      ],
+      "controls": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-011",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-IEC-IEEE-15288-2023"
+      ]
+    },
+    "tools/automation/component_rfc_readiness.py": {
+      "checks": [
+        "DA-011"
+      ],
+      "controls": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-011",
+        "STD-CTRL-016"
+      ],
+      "standards": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-60812-2018",
+        "IEC-62278-1-2025",
+        "IEC-62928-2017",
+        "ISO-22163-2023"
+      ]
+    }
   },
   "checks": [
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "system",
         "operations"
@@ -23,16 +1034,22 @@
         "docs/safety-case/README.md"
       ],
       "id": "DA-001",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
         "IEC-62267-2009",
         "IEC-62425-2025"
       ],
-      "status": "pass",
       "title": "Safety requirements and hazards remain traceable"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-004",
+        "STD-CTRL-005"
+      ],
       "domains": [
         "system",
         "embedded-software"
@@ -43,16 +1060,22 @@
         "crates/osr-atp/src/lib.rs"
       ],
       "id": "DA-002",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62267-2009",
         "IEC-62290-1-2025",
         "IEC-62425-2025"
       ],
-      "status": "pass",
       "title": "Train separation and speed supervision remain independent of route selection"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-006"
+      ],
       "domains": [
         "embedded-software"
       ],
@@ -61,15 +1084,22 @@
         "crates/osr-onboard-routing/src/lib.rs"
       ],
       "id": "DA-003",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62290-1-2025",
-        "EN-50716-2023"
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "IEC-62280-2014"
       ],
-      "status": "pass",
       "title": "Network-loss routing fails restrictively on disagreement"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-003",
+        "STD-CTRL-007"
+      ],
       "domains": [
         "thermal",
         "electrical"
@@ -80,15 +1110,21 @@
         "docs/rfcs/0024-battery-thermal-high-ambient.md"
       ],
       "id": "DA-004",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62928-2017",
-        "IEC-60571-2012"
+        "IEC-60571-2012",
+        "IEC-60812-2018"
       ],
-      "status": "pass",
       "title": "Cabin and battery cooling allocation prioritises battery protection"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-002",
+        "STD-CTRL-003"
+      ],
       "domains": [
         "system",
         "mechanical",
@@ -102,15 +1138,23 @@
         "lib/templates/system-fmea.toml"
       ],
       "id": "DA-005",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-60812-2018",
-        "IEC-62278-1-2025"
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025"
       ],
-      "status": "pass",
       "title": "Cross-domain FMEA has component, subsystem and system coverage"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
       "domains": [
         "civil",
         "mechanical"
@@ -121,15 +1165,22 @@
         "docs/certification/release-gap-register.md"
       ],
       "id": "DA-006",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
-        "EN-1990",
-        "IEC-62278-1-2025"
+        "EN-1990-DEPLOYMENT",
+        "IEC-62278-1-2025",
+        "ISO-IEC-17025-2017"
       ],
-      "status": "pass",
-      "title": "Civil structural screens retain physical release boundary"
+      "title": "Civil structural screens retain survey and physical release boundaries"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-003",
+        "STD-CTRL-004",
+        "STD-CTRL-014"
+      ],
       "domains": [
         "civil",
         "operations",
@@ -140,15 +1191,25 @@
         "docs/rfcs/0011-civil-infrastructure-design-standard.md"
       ],
       "id": "DA-007",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62267-2009",
-        "IEC-62290-1-2025"
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
       ],
-      "status": "pass",
-      "title": "Recovery sidings, robots and single-track loops use protected movement functions"
+      "title": "Recovery sidings, robots and single-track loops retain protected movement functions"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-007",
+        "STD-CTRL-008",
+        "STD-CTRL-009",
+        "STD-CTRL-012",
+        "STD-CTRL-014",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "system",
         "mechanical",
@@ -162,18 +1223,25 @@
         "docs/certification/pilot-signalling-profile.md"
       ],
       "id": "DA-008",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
         "IEC-62425-2025",
         "IEC-62928-2017",
         "IEC-61373-2026",
-        "EN-1990"
+        "EN-1990-DEPLOYMENT"
       ],
-      "status": "pass",
       "title": "Physical and independent-assessment gaps remain release-blocking"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-005",
+        "STD-CTRL-006",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "embedded-software",
         "system",
@@ -186,23 +1254,35 @@
         "docs/certification/software-resilience-report.md"
       ],
       "id": "DA-009",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
         "IEC-62425-2025",
-        "EN-50716-2023"
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "IEC-62280-2014"
       ],
-      "status": "pass",
       "title": "Consensus restart and infrastructure faults fail closed"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-002",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-010",
+        "STD-CTRL-013",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "system",
         "mechanical",
         "electrical",
         "thermal",
         "civil",
-        "embedded-software"
+        "embedded-software",
+        "information"
       ],
       "evidence": [
         "engineering/toolchain/baseline-assurance.md",
@@ -210,24 +1290,36 @@
         "engineering/toolchain/fixtures/planning-duty-cycle.json"
       ],
       "id": "DA-010",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
-        "EN-50716-2023",
-        "EN-1990",
-        "IEC-62928-2017"
+        "ISO-IEC-IEEE-15288-2023",
+        "EN-1990-DEPLOYMENT",
+        "IEC-62928-2017",
+        "ISO-19650-1-2018",
+        "ISO-16739-1-2024"
       ],
-      "status": "pass",
       "title": "Engineering benchmarks and interchange preserve units, CRS and identity"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-002",
+        "STD-CTRL-003",
+        "STD-CTRL-007",
+        "STD-CTRL-009",
+        "STD-CTRL-011",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "system",
         "mechanical",
         "electrical",
         "thermal",
         "civil",
-        "operations"
+        "operations",
+        "quality"
       ],
       "evidence": [
         "lib/templates/component-rfc-packages.toml",
@@ -235,17 +1327,25 @@
         "tools/automation/component_rfc_readiness.py"
       ],
       "id": "DA-011",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
         "IEC-60812-2018",
         "IEC-62928-2017",
-        "EN-1990"
+        "EN-1990-DEPLOYMENT",
+        "ISO-22163-2023"
       ],
-      "status": "pass",
       "title": "Promoted component RFCs retain traceable implementation and release gaps"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-004",
+        "STD-CTRL-005",
+        "STD-CTRL-013",
+        "STD-CTRL-014"
+      ],
       "domains": [
         "embedded-software",
         "system",
@@ -257,16 +1357,25 @@
         ".github/workflows/rust-soak.yml"
       ],
       "id": "DA-012",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
         "IEC-62425-2025",
+        "IEC-62279-2015",
         "EN-50716-2023"
       ],
-      "status": "pass",
       "title": "Multi-day normal, peak, degraded and recovery profiles retain bounded logical state"
     },
     {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-001",
+        "STD-CTRL-003",
+        "STD-CTRL-011",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
       "domains": [
         "system",
         "mechanical",
@@ -274,7 +1383,9 @@
         "thermal",
         "civil",
         "embedded-software",
-        "operations"
+        "operations",
+        "quality",
+        "information"
       ],
       "evidence": [
         "lib/templates/component-assurance.toml",
@@ -282,26 +1393,678 @@
         "docs/certification/README.md"
       ],
       "id": "DA-013",
+      "machine_status": "evidence-linked-and-hashed",
       "required_digital": true,
       "standard_ids": [
         "IEC-62278-1-2025",
         "IEC-60812-2018",
-        "EN-50716-2023",
-        "EN-1990"
+        "ISO-IEC-IEEE-15288-2023",
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "ISO-55001-2024"
       ],
-      "status": "pass",
       "title": "Every controlled engineering and operational-platform item has a fail-closed assurance passport"
+    },
+    {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-010",
+        "STD-CTRL-016"
+      ],
+      "domains": [
+        "information",
+        "civil",
+        "mechanical",
+        "operations"
+      ],
+      "evidence": [
+        "engineering/models/bim/reference/lm3-information-requirements.ids",
+        "engineering/models/bim/design-detail-register.md",
+        "engineering/model_coverage.py"
+      ],
+      "id": "DA-014",
+      "machine_status": "evidence-linked-and-hashed",
+      "required_digital": true,
+      "standard_ids": [
+        "ISO-19650-1-2018",
+        "ISO-16739-1-2024",
+        "ISO-55001-2024"
+      ],
+      "title": "BIM federation and IDS checks use current IFC4.3 lifecycle identities"
+    },
+    {
+      "conformity_status": "not-assessed",
+      "control_ids": [
+        "STD-CTRL-011",
+        "STD-CTRL-012",
+        "STD-CTRL-015",
+        "STD-CTRL-016"
+      ],
+      "domains": [
+        "quality",
+        "operations",
+        "information"
+      ],
+      "evidence": [
+        "deployment/erpnext/config/lifecycle-governance.json",
+        "engineering/assurance/subsystem-control-register.md",
+        "docs/operating/lifecycle-governance-and-qr.md"
+      ],
+      "id": "DA-015",
+      "machine_status": "evidence-linked-and-hashed",
+      "required_digital": true,
+      "standard_ids": [
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-IEC-17025-2017"
+      ],
+      "title": "Quality, lifecycle and laboratory evidence retain competence and approval boundaries"
+    }
+  ],
+  "conformity_state": "not-assessed",
+  "controls": [
+    {
+      "decision_gate": "G1",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "operations",
+        "information",
+        "quality"
+      ],
+      "id": "STD-CTRL-001",
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "acceptance",
+        "change"
+      ],
+      "physical_evidence_required": false,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "ISO-IEC-IEEE-15288-2023",
+        "EU-CSM-402-2013",
+        "ISO-9001-2026",
+        "ISO-22163-2023"
+      ],
+      "title": "System boundary, intended use and applicability",
+      "verification": [
+        "applicability-review",
+        "traceability",
+        "independent-review"
+      ]
+    },
+    {
+      "decision_gate": "G3",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "information",
+        "quality"
+      ],
+      "id": "STD-CTRL-002",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "ISO-IEC-IEEE-15288-2023"
+      ],
+      "title": "Requirements, interfaces and bidirectional traceability",
+      "verification": [
+        "traceability",
+        "review",
+        "test"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "embedded-software",
+        "civil",
+        "operations"
+      ],
+      "id": "STD-CTRL-003",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-2-2025",
+        "IEC-60812-2018",
+        "EU-CSM-402-2013"
+      ],
+      "title": "Hazard identification, FMEA and accepted risk",
+      "verification": [
+        "analysis",
+        "fault-injection",
+        "independent-review"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "embedded-software",
+        "operations",
+        "quality"
+      ],
+      "id": "STD-CTRL-004",
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "IEC-62425-2025"
+      ],
+      "title": "RAMS allocation, automated-operation protection and safety case",
+      "verification": [
+        "analysis",
+        "formal-analysis",
+        "simulation",
+        "HIL",
+        "field-test",
+        "safety-case"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "embedded-software",
+        "system",
+        "quality"
+      ],
+      "id": "STD-CTRL-005",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "IEC-62425-2025"
+      ],
+      "title": "Safety-related software lifecycle and target evidence",
+      "verification": [
+        "review",
+        "static-analysis",
+        "property-test",
+        "formal-analysis",
+        "target-test",
+        "HIL"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "embedded-software",
+        "electrical",
+        "cybersecurity",
+        "information",
+        "operations"
+      ],
+      "id": "STD-CTRL-006",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62280-2014",
+        "IEC-62443-4-1-2018",
+        "IEC-62443-4-2-2019",
+        "IEC-62425-2025"
+      ],
+      "title": "Safety communication, cybersecurity and recovery",
+      "verification": [
+        "threat-analysis",
+        "fault-injection",
+        "security-test",
+        "recovery-test"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "electrical",
+        "thermal",
+        "mechanical",
+        "embedded-software"
+      ],
+      "id": "STD-CTRL-007",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62928-2017",
+        "IEC-60571-2012",
+        "IEC-60812-2018"
+      ],
+      "title": "Battery, thermal and rolling-stock electronic equipment",
+      "verification": [
+        "analysis",
+        "simulation",
+        "type-test",
+        "routine-test",
+        "vehicle-integration"
+      ]
+    },
+    {
+      "decision_gate": "G3",
+      "decision_state": "open",
+      "domains": [
+        "mechanical",
+        "electrical"
+      ],
+      "id": "STD-CTRL-008",
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-61373-2026",
+        "IEC-60812-2018"
+      ],
+      "title": "Equipment mounting, shock and vibration",
+      "verification": [
+        "category-review",
+        "analysis",
+        "laboratory-test",
+        "inspection"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "civil",
+        "mechanical",
+        "system"
+      ],
+      "id": "STD-CTRL-009",
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "EN-1990-DEPLOYMENT",
+        "IEC-62278-1-2025",
+        "IEC-60812-2018"
+      ],
+      "title": "Civil, geotechnical, hydraulic and structural design basis",
+      "verification": [
+        "survey",
+        "calculation",
+        "independent-check",
+        "inspection",
+        "site-test"
+      ]
+    },
+    {
+      "decision_gate": "G3",
+      "decision_state": "open",
+      "domains": [
+        "information",
+        "civil",
+        "mechanical",
+        "operations"
+      ],
+      "id": "STD-CTRL-010",
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "ISO-19650-1-2018",
+        "ISO-16739-1-2024",
+        "ISO-55001-2024"
+      ],
+      "title": "BIM and lifecycle information requirements",
+      "verification": [
+        "schema-validation",
+        "information-requirement-test",
+        "handover-review"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "quality",
+        "mechanical",
+        "electrical",
+        "civil",
+        "embedded-software",
+        "operations"
+      ],
+      "id": "STD-CTRL-011",
+      "lifecycle_stages": [
+        "concept",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "ISO-IEC-IEEE-15288-2023"
+      ],
+      "title": "Quality, supplier, manufacturing and special-process control",
+      "verification": [
+        "quality-plan",
+        "supplier-review",
+        "inspection",
+        "audit"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "quality",
+        "information",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "civil"
+      ],
+      "id": "STD-CTRL-012",
+      "lifecycle_stages": [
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "ISO-IEC-17025-2017",
+        "ISO-9001-2026"
+      ],
+      "title": "Test method, laboratory competence and measurement traceability",
+      "verification": [
+        "method-review",
+        "calibration-review",
+        "laboratory-scope-review",
+        "raw-data-review"
+      ]
+    },
+    {
+      "decision_gate": "G3",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "embedded-software",
+        "civil",
+        "information"
+      ],
+      "id": "STD-CTRL-013",
+      "lifecycle_stages": [
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62425-2025",
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "ISO-IEC-17025-2017"
+      ],
+      "title": "Model, simulation and tool validity",
+      "verification": [
+        "benchmark",
+        "cross-tool-comparison",
+        "correlation",
+        "tool-qualification-review"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "embedded-software",
+        "civil",
+        "operations",
+        "quality"
+      ],
+      "id": "STD-CTRL-014",
+      "lifecycle_stages": [
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "ISO-IEC-IEEE-15288-2023",
+        "ISO-IEC-17025-2017"
+      ],
+      "title": "Verification, validation, commissioning and operational demonstration",
+      "verification": [
+        "test",
+        "FAT",
+        "SAT",
+        "HIL",
+        "commissioning",
+        "trial-operation"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "operations",
+        "quality",
+        "information",
+        "system"
+      ],
+      "id": "STD-CTRL-015",
+      "lifecycle_stages": [
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "physical_evidence_required": true,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "ISO-55001-2024",
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "IEC-62278-1-2025"
+      ],
+      "title": "Asset, maintenance, competence and field-performance management",
+      "verification": [
+        "asset-review",
+        "maintenance-analysis",
+        "competence-review",
+        "field-data-review"
+      ]
+    },
+    {
+      "decision_gate": "G4",
+      "decision_state": "open",
+      "domains": [
+        "system",
+        "information",
+        "quality",
+        "operations",
+        "embedded-software"
+      ],
+      "id": "STD-CTRL-016",
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "physical_evidence_required": false,
+      "repository_state": "mapped-not-assessed",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62425-2025",
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "ISO-IEC-IEEE-15288-2023",
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-19650-1-2018"
+      ],
+      "title": "Configuration, change impact, evidence provenance and decision ledger",
+      "verification": [
+        "schema-validation",
+        "configuration-audit",
+        "hash-comparison",
+        "impact-analysis",
+        "expiry-review",
+        "independent-assessment"
+      ]
     }
   ],
   "counts": {
-    "digital_checks": 13,
+    "applicability_inputs_open": 6,
+    "control_objectives": 16,
+    "digital_checks": 15,
     "failure_modes": 18,
     "inventory_item_reviews_open": 279,
     "inventory_items_screened": 279,
     "physical_evidence_open": 18,
-    "standards": 10
+    "profiles": 5,
+    "standards": 23
   },
-  "design_fingerprint_sha256": "59f96f8fa6d71e8e6784882de0e914b48cf4d98ea9ca90d644cf2e833ab47672",
+  "design_fingerprint_sha256": "96d432d45386f7493774509272f16175a049ad47b2a3c5843f83d1b9b2255d48",
+  "digital_coherence_gate": "pass",
   "digital_gate_passed": true,
   "evidence_hashes": {
     ".github/workflows/rust-soak.yml": "fc769474c4da1e12ee2295e847f27fe60641fd49fc3ce89b3cd473fbd1e513ca",
@@ -326,17 +2089,19 @@
     "crates/osr-onboard-routing/tests/proptest_routing.rs": "ddbe06b6702f22077363210cfa8b17106c690eac14de93c1fac54033d6a26328",
     "crates/osr-sim/src/soak.rs": "9c5437b9477b86478225cd6f1417452c7071ed951bb6d5a28d2134c3cf32cca2",
     "crates/osr-wayside-points/src/lib.rs": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
+    "deployment/erpnext/config/lifecycle-governance.json": "d3bd600cf8a7052b25d04c743a717affb07843b8255dd8063ecae5351c0f5446",
     "design/component-catalogue/src/osr_mech/civil/viaduct.py": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298",
     "design/component-catalogue/src/osr_mech/recovery_interface.py": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
-    "docs/certification/README.md": "a71b446cdfa66220347a03c963517e9c407b187c305508302500aa09fbaf3dc5",
-    "docs/certification/evidence-status.md": "08d564f0a1324d58027cad6a138d980654b13f3b0fd427a1a726c9d90a23293a",
+    "docs/certification/README.md": "c7e1fdc0873573bd2db098ce0da98ebccc8d3755e1efbda8eff5e8df26ddb195",
+    "docs/certification/evidence-status.md": "d9a86f5a71f3c4924376a1abdc2bcf409f33e35b2945d1f18beb9b79870caad5",
     "docs/certification/hazard-log.md": "6b21b2a16873abb94a140b0390d399af9697c6f25799db396e731a43f6ea5d24",
     "docs/certification/pilot-signalling-profile.md": "fc6fea2c43a84e8fbb423c206e2933eaf1723e7609bbd79db56b87e7a4216a2f",
-    "docs/certification/release-gap-register.md": "375c7f78b79ba04d866bfeb71ad9d461fab97d5dab39c7d780c5dfbd7edadd26",
+    "docs/certification/release-gap-register.md": "c55a330c8971c9f3c5a7e234da27862d7a99cc35a36367566a6f95ba1d20345d",
     "docs/certification/safety-requirements.md": "b74f8f246dfe670b8854751dd9f5b9688ffe2366c727c81d5ef931e89349dfc1",
     "docs/certification/software-resilience-report.md": "0f60e2ac63a6974791ae38b2747f44b00f229cb3aa5c2b0a5126c9151a1348d8",
     "docs/certification/software-soak-report.md": "bf038990d636bec3729e2da5170a385ced1a66ec6e4311cc82ae413a08994b01",
     "docs/component-rfc-readiness.md": "d2b6ae3a5945702fa94e996dfc2e8945b2f78ad260b9620493fab605a5dd5dde",
+    "docs/operating/lifecycle-governance-and-qr.md": "8fc88ed8314109baee0fda8c3c47d985a3b8788debbb380291b93827fc05fd03",
     "docs/operations/README.md": "47367469ef5dc037ad5e2c2803e4c4382de54cf9e0e010fd198eb4df1f8c92a9",
     "docs/rfcs/0011-civil-infrastructure-design-standard.md": "582ad51c5c4f916af70f29712c1e9feb05749dc34a7cfc8eb5c0a051fa28ac0b",
     "docs/rfcs/0024-battery-thermal-high-ambient.md": "dba5fa8ecbfb85939d359a59d674591c59e53c0d0613f06fb20a7c86032e0153",
@@ -344,7 +2109,11 @@
     "engineering/analysis/drainage_ground_design.py": "f5d0bed10fc3cdf4e41ae2bff9cbb1a1061c7847fc9cb04097989c565efae50d",
     "engineering/analysis/duty_cycle.py": "4b9dfacd1b38a2dbab2574def3097505b0c4c55b7a09a8a69f91ff4a573e351c",
     "engineering/analysis/structural_release.py": "49506dd26be224e186b039a3dd709c95651dcd196e209ca9c8ece9732d9caf92",
+    "engineering/assurance/subsystem-control-register.md": "da2b78493badffbd295d4e341f699a11b2f6e3009e85180ae318de7db5c49a72",
     "engineering/design-options/examples/samawah-fleet20-topology/qualification.json": "ca8def3d3d1db7681ae32b5b78229ade66ea016c637b437a6a15843407cb39e8",
+    "engineering/model_coverage.py": "b663b66f2b3fb1eba6c70688a7501c90c89b38e1d495c798d7a89f727f61cca4",
+    "engineering/models/bim/design-detail-register.md": "913d47f7402b498ba14f1f474a6888ac65cf9143489bc5b6b78153552093a351",
+    "engineering/models/bim/reference/lm3-information-requirements.ids": "41f69038552e0b89023701aeb04a3a7c61d24998f34caf2d24f292e0dc6afd30",
     "engineering/toolchain/baseline-assurance.md": "213c7c78af534d3863d03683c4b455ea060bb441baf26239fb0ba32f06d96fb8",
     "engineering/toolchain/fixtures/planning-duty-cycle.json": "3a4974cc328e9adb44db64df43fdeb3e2841edc88bfb581a903c42a106e62525",
     "lib/templates/component-assurance.toml": "78ff7e0be3f4ac15942dfda596a1727ac12bd3403addae2a9a5c0ac0d7c14c4f",
@@ -352,8 +2121,325 @@
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
     "lib/templates/structural-release-processing.toml": "9184c082e637e45a4499d1210f9130fe33d0fc94a1ee5a9fc22b656a99c3333e",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e",
-    "tools/automation/component_assurance.py": "326470e4d503fe1d77329f8dabe9f6acf3c907b55996bfa26c2ea5e2f80c17af",
+    "tools/automation/component_assurance.py": "cc5728624bc1e8a836732b109ef7db232fbee29c49644f1a02142cea8bea8793",
     "tools/automation/component_rfc_readiness.py": "fe7f5fb7e5ec28d72be42a0b9bd19777300f58a39a0b85b98a4a91d2c3834d13"
+  },
+  "evidence_manifest": {
+    ".github/workflows/rust-soak.yml": {
+      "sha256": "fc769474c4da1e12ee2295e847f27fe60641fd49fc3ce89b3cd473fbd1e513ca",
+      "size_bytes": 1378,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-atp/src/lib.rs": {
+      "sha256": "0c5734ba6dc121f86ff24c7b35602d2dc4ac4b159bc52c83293f4a3995f5022c",
+      "size_bytes": 4132,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-aux-power/src/lib.rs": {
+      "sha256": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452",
+      "size_bytes": 12631,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-bms/src/lib.rs": {
+      "sha256": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799",
+      "size_bytes": 3170,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-brake/src/lib.rs": {
+      "sha256": "ed1a3423f371f420d6d0e6486505798fc42cced87a183f44dd2f44aa18305e72",
+      "size_bytes": 3270,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-consensus/src/durable.rs": {
+      "sha256": "82f762f94338fd4f5e666a3c2865ee3a0e022ad300bd6d756b5538a3e327afce",
+      "size_bytes": 8693,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-consensus/src/fault_harness.rs": {
+      "sha256": "4a45404678cd1d28dd155199d5ba05e3934cf196641791a85f7d5d60737b8613",
+      "size_bytes": 10968,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-consensus/src/lib.rs": {
+      "sha256": "01478b5b762ecd68a8738f55e62880cc8fc9c7c5c37c282106e10b9f2bbf90bb",
+      "size_bytes": 3521,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-consensus/tests/resilience_harness.rs": {
+      "sha256": "cfa4bc211b2b5b0582691721005e2ffa347339a393f652088574b612fee2a3ab",
+      "size_bytes": 4632,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-fire-safety/src/lib.rs": {
+      "sha256": "7b901d229cfae01086bbcf21dac9195e323a15c13881525873157b5da59c80e1",
+      "size_bytes": 16734,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-hot-axle-wayside/src/lib.rs": {
+      "sha256": "3a85e90a8d039b8b924486f41313309e758ceaf90de0c7b916f4d3028b84a0cc",
+      "size_bytes": 7262,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-hot-axle/src/lib.rs": {
+      "sha256": "c62b3fc62a09afce280b2f69cfd826d69ca0df9e5713841b161bbcb5811fb4f6",
+      "size_bytes": 11450,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-hvac/src/integrated_thermal.rs": {
+      "sha256": "55e19a3acff551ab7a6572846b458069b70a59ed0b4af1eda9723d788db6d6ed",
+      "size_bytes": 7260,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-hvac/tests/proptest_integrated_thermal.rs": {
+      "sha256": "104bcc7798df4a472a9b255baa3ca988c0499ce470eaf2048a7e2363ab4b082c",
+      "size_bytes": 1567,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-interlocking/src/lib.rs": {
+      "sha256": "6af15b551c55936f9d1d7f39ae8e21e282f0c02376c7d2aaaefc44b14da28e68",
+      "size_bytes": 1952,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-interlocking/src/ma.rs": {
+      "sha256": "f01fc9fc7e7d2e54c7c5cac69dd3c9eced42351e350161d925f095eaa9a83bab",
+      "size_bytes": 37054,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-lighting/src/lib.rs": {
+      "sha256": "8f9f4f5f54994d539e266434a7e9fce2a7590092b4cdf3b88f631a037d73c80e",
+      "size_bytes": 10513,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-odometry/src/lib.rs": {
+      "sha256": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
+      "size_bytes": 5452,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-onboard-routing/src/lib.rs": {
+      "sha256": "12d0e2ea128e1f2e63ecee909d65a374723723e1499d0225f6bf2e63124c1f2f",
+      "size_bytes": 7318,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-onboard-routing/tests/proptest_routing.rs": {
+      "sha256": "ddbe06b6702f22077363210cfa8b17106c690eac14de93c1fac54033d6a26328",
+      "size_bytes": 1464,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-sim/src/soak.rs": {
+      "sha256": "9c5437b9477b86478225cd6f1417452c7071ed951bb6d5a28d2134c3cf32cca2",
+      "size_bytes": 19991,
+      "state": "generated-unreviewed"
+    },
+    "crates/osr-wayside-points/src/lib.rs": {
+      "sha256": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
+      "size_bytes": 3183,
+      "state": "generated-unreviewed"
+    },
+    "deployment/erpnext/config/lifecycle-governance.json": {
+      "sha256": "d3bd600cf8a7052b25d04c743a717affb07843b8255dd8063ecae5351c0f5446",
+      "size_bytes": 15802,
+      "state": "generated-unreviewed"
+    },
+    "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
+      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298",
+      "size_bytes": 6700,
+      "state": "generated-unreviewed"
+    },
+    "design/component-catalogue/src/osr_mech/recovery_interface.py": {
+      "sha256": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
+      "size_bytes": 3688,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/README.md": {
+      "sha256": "c7e1fdc0873573bd2db098ce0da98ebccc8d3755e1efbda8eff5e8df26ddb195",
+      "size_bytes": 15139,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/evidence-status.md": {
+      "sha256": "d9a86f5a71f3c4924376a1abdc2bcf409f33e35b2945d1f18beb9b79870caad5",
+      "size_bytes": 5397,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/hazard-log.md": {
+      "sha256": "6b21b2a16873abb94a140b0390d399af9697c6f25799db396e731a43f6ea5d24",
+      "size_bytes": 11972,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/pilot-signalling-profile.md": {
+      "sha256": "fc6fea2c43a84e8fbb423c206e2933eaf1723e7609bbd79db56b87e7a4216a2f",
+      "size_bytes": 2666,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/release-gap-register.md": {
+      "sha256": "c55a330c8971c9f3c5a7e234da27862d7a99cc35a36367566a6f95ba1d20345d",
+      "size_bytes": 10609,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/safety-requirements.md": {
+      "sha256": "b74f8f246dfe670b8854751dd9f5b9688ffe2366c727c81d5ef931e89349dfc1",
+      "size_bytes": 13916,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/software-resilience-report.md": {
+      "sha256": "0f60e2ac63a6974791ae38b2747f44b00f229cb3aa5c2b0a5126c9151a1348d8",
+      "size_bytes": 4284,
+      "state": "generated-unreviewed"
+    },
+    "docs/certification/software-soak-report.md": {
+      "sha256": "bf038990d636bec3729e2da5170a385ced1a66ec6e4311cc82ae413a08994b01",
+      "size_bytes": 6286,
+      "state": "generated-unreviewed"
+    },
+    "docs/component-rfc-readiness.md": {
+      "sha256": "d2b6ae3a5945702fa94e996dfc2e8945b2f78ad260b9620493fab605a5dd5dde",
+      "size_bytes": 1699,
+      "state": "generated-unreviewed"
+    },
+    "docs/operating/lifecycle-governance-and-qr.md": {
+      "sha256": "8fc88ed8314109baee0fda8c3c47d985a3b8788debbb380291b93827fc05fd03",
+      "size_bytes": 9878,
+      "state": "generated-unreviewed"
+    },
+    "docs/operations/README.md": {
+      "sha256": "47367469ef5dc037ad5e2c2803e4c4382de54cf9e0e010fd198eb4df1f8c92a9",
+      "size_bytes": 4794,
+      "state": "generated-unreviewed"
+    },
+    "docs/rfcs/0011-civil-infrastructure-design-standard.md": {
+      "sha256": "582ad51c5c4f916af70f29712c1e9feb05749dc34a7cfc8eb5c0a051fa28ac0b",
+      "size_bytes": 28121,
+      "state": "generated-unreviewed"
+    },
+    "docs/rfcs/0024-battery-thermal-high-ambient.md": {
+      "sha256": "dba5fa8ecbfb85939d359a59d674591c59e53c0d0613f06fb20a7c86032e0153",
+      "size_bytes": 1740,
+      "state": "generated-unreviewed"
+    },
+    "docs/safety-case/README.md": {
+      "sha256": "85d1f3accef7e0a1326176da31aef51328a24c124d36c593f684ccba97d7293c",
+      "size_bytes": 9323,
+      "state": "generated-unreviewed"
+    },
+    "engineering/analysis/drainage_ground_design.py": {
+      "sha256": "f5d0bed10fc3cdf4e41ae2bff9cbb1a1061c7847fc9cb04097989c565efae50d",
+      "size_bytes": 21039,
+      "state": "generated-unreviewed"
+    },
+    "engineering/analysis/duty_cycle.py": {
+      "sha256": "4b9dfacd1b38a2dbab2574def3097505b0c4c55b7a09a8a69f91ff4a573e351c",
+      "size_bytes": 8012,
+      "state": "generated-unreviewed"
+    },
+    "engineering/analysis/structural_release.py": {
+      "sha256": "49506dd26be224e186b039a3dd709c95651dcd196e209ca9c8ece9732d9caf92",
+      "size_bytes": 14759,
+      "state": "generated-unreviewed"
+    },
+    "engineering/assurance/subsystem-control-register.md": {
+      "sha256": "da2b78493badffbd295d4e341f699a11b2f6e3009e85180ae318de7db5c49a72",
+      "size_bytes": 4178,
+      "state": "generated-unreviewed"
+    },
+    "engineering/design-options/examples/samawah-fleet20-topology/qualification.json": {
+      "sha256": "ca8def3d3d1db7681ae32b5b78229ade66ea016c637b437a6a15843407cb39e8",
+      "size_bytes": 76201,
+      "state": "generated-unreviewed"
+    },
+    "engineering/model_coverage.py": {
+      "sha256": "b663b66f2b3fb1eba6c70688a7501c90c89b38e1d495c798d7a89f727f61cca4",
+      "size_bytes": 13433,
+      "state": "generated-unreviewed"
+    },
+    "engineering/models/bim/design-detail-register.md": {
+      "sha256": "913d47f7402b498ba14f1f474a6888ac65cf9143489bc5b6b78153552093a351",
+      "size_bytes": 21915,
+      "state": "generated-unreviewed"
+    },
+    "engineering/models/bim/reference/lm3-information-requirements.ids": {
+      "sha256": "41f69038552e0b89023701aeb04a3a7c61d24998f34caf2d24f292e0dc6afd30",
+      "size_bytes": 24741,
+      "state": "generated-unreviewed"
+    },
+    "engineering/toolchain/baseline-assurance.md": {
+      "sha256": "213c7c78af534d3863d03683c4b455ea060bb441baf26239fb0ba32f06d96fb8",
+      "size_bytes": 1548,
+      "state": "generated-unreviewed"
+    },
+    "engineering/toolchain/fixtures/planning-duty-cycle.json": {
+      "sha256": "3a4974cc328e9adb44db64df43fdeb3e2841edc88bfb581a903c42a106e62525",
+      "size_bytes": 1386,
+      "state": "generated-unreviewed"
+    },
+    "lib/templates/component-assurance.toml": {
+      "sha256": "78ff7e0be3f4ac15942dfda596a1727ac12bd3403addae2a9a5c0ac0d7c14c4f",
+      "size_bytes": 8602,
+      "state": "generated-unreviewed"
+    },
+    "lib/templates/component-rfc-packages.toml": {
+      "sha256": "21bf490d95a1f734336153897f0132a45fcd73c8052a5db9ecda707078bd196c",
+      "size_bytes": 9926,
+      "state": "generated-unreviewed"
+    },
+    "lib/templates/corridor-resilience.toml": {
+      "sha256": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
+      "size_bytes": 2410,
+      "state": "generated-unreviewed"
+    },
+    "lib/templates/structural-release-processing.toml": {
+      "sha256": "9184c082e637e45a4499d1210f9130fe33d0fc94a1ee5a9fc22b656a99c3333e",
+      "size_bytes": 3251,
+      "state": "generated-unreviewed"
+    },
+    "lib/templates/system-fmea.toml": {
+      "sha256": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e",
+      "size_bytes": 13218,
+      "state": "generated-unreviewed"
+    },
+    "tools/automation/component_assurance.py": {
+      "sha256": "cc5728624bc1e8a836732b109ef7db232fbee29c49644f1a02142cea8bea8793",
+      "size_bytes": 14111,
+      "state": "generated-unreviewed"
+    },
+    "tools/automation/component_rfc_readiness.py": {
+      "sha256": "fe7f5fb7e5ec28d72be42a0b9bd19777300f58a39a0b85b98a4a91d2c3834d13",
+      "size_bytes": 7631,
+      "state": "generated-unreviewed"
+    }
+  },
+  "evidence_policy": {
+    "allowed_states": [
+      "planned",
+      "generated-unreviewed",
+      "reviewed",
+      "accepted-for-stated-use",
+      "rejected",
+      "expired",
+      "superseded",
+      "not-applicable-with-rationale"
+    ],
+    "change_rule": "A changed requirement, design source, implementation, interface, environment, tool, evidence result, standard edition or condition of use reopens the affected control and every dependent decision.",
+    "conformity_state": "not-assessed",
+    "physical_release_state": "blocked",
+    "repository_machine_state": "generated-unreviewed",
+    "required_metadata": [
+      "stable_id",
+      "claim",
+      "configuration",
+      "source_revision",
+      "method",
+      "acceptance_criteria",
+      "result",
+      "tool_and_version",
+      "environment",
+      "author",
+      "reviewer",
+      "independence",
+      "created_at",
+      "valid_until_or_review_trigger",
+      "sha256",
+      "limitations"
+    ],
+    "roll_up_rule": "A parent control cannot close while a safety-significant child, interface, common-cause dependency, stale evidence item or required independent decision remains open."
   },
   "failure_modes": [
     {
@@ -951,7 +3037,7 @@
       "level": "system"
     }
   ],
-  "interpretation": "The deterministic design gate passed. Physical tests, site evidence, independent assessment and regulatory acceptance remain open and cannot be replaced by this report.",
+  "interpretation": "The deterministic evidence-coherence gate passed. Standards applicability, clause-level assessment, physical tests, site evidence, independent assessment and regulatory acceptance remain open.",
   "inventory_coverage": [
     {
       "domain": "civil",
@@ -5936,15 +8022,76 @@
       "scope": "train-product"
     }
   ],
+  "profiles": [
+    {
+      "decision": "Deployment safety authority and competent bodies freeze applicability and acceptance route.",
+      "id": "PROFILE-SYSTEM-SAFETY",
+      "standard_ids": [
+        "IEC-62278-1-2025",
+        "IEC-62278-2-2025",
+        "IEC-62267-2009",
+        "IEC-62290-1-2025",
+        "EU-CSM-402-2013"
+      ],
+      "title": "System RAMS, automation and authorization"
+    },
+    {
+      "decision": "Safety classification and national/international software route are deployment decisions.",
+      "id": "PROFILE-CONTROL-SOFTWARE",
+      "standard_ids": [
+        "IEC-62425-2025",
+        "IEC-62279-2015",
+        "EN-50716-2023",
+        "IEC-62280-2014",
+        "IEC-62443-4-1-2018",
+        "IEC-62443-4-2-2019"
+      ],
+      "title": "Safety-related control, software and communications"
+    },
+    {
+      "decision": "Product and vehicle qualification require exact selected components and physical evidence.",
+      "id": "PROFILE-VEHICLE-EQUIPMENT",
+      "standard_ids": [
+        "IEC-62928-2017",
+        "IEC-60571-2012",
+        "IEC-61373-2026",
+        "IEC-60812-2018"
+      ],
+      "title": "Vehicle equipment, battery and environment"
+    },
+    {
+      "decision": "The project freezes national structural rules, annexes, survey basis and information requirements.",
+      "id": "PROFILE-CIVIL-BIM",
+      "standard_ids": [
+        "EN-1990-DEPLOYMENT",
+        "ISO-19650-1-2018",
+        "ISO-16739-1-2024",
+        "IEC-60812-2018"
+      ],
+      "title": "Civil structures and lifecycle information"
+    },
+    {
+      "decision": "Organization, laboratory and certification scopes remain separately assessed.",
+      "id": "PROFILE-QUALITY-ASSET",
+      "standard_ids": [
+        "ISO-IEC-IEEE-15288-2023",
+        "ISO-9001-2026",
+        "ISO-22163-2023",
+        "ISO-55001-2024",
+        "ISO-IEC-17025-2017"
+      ],
+      "title": "Quality, laboratories, assets and system lifecycle"
+    }
+  ],
   "release_ready": false,
-  "schema": "osr-digital-assurance/1",
+  "schema": "osr-digital-standards-thread/2",
   "source_hashes": {
     "Cargo.toml": "7dc7b9e70f11981675767705e2f6944eca899986a11295518baf1b5582463d4c",
     "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "lib/templates/corridor-resilience.toml": "aa7b1707c22719b1a7c2db53b1094b1ad148239da379e594724b3caf3ec0528f",
-    "lib/templates/digital-assurance.toml": "2ae70c0ef0307cdb2676a0cc47978953d131efd9fc07f010ba3a52288b617a83",
+    "lib/templates/digital-assurance.toml": "a886fac2c822471c03860aa3e6e7b3846fb1693fd35ee7e37a283701bc679ece",
     "lib/templates/system-fmea.toml": "1ab98b67deef6b7a5c381b5c2bc9ec3151680ead5ad6fa9c3b1426547d2f683e"
   },
   "standards": [
@@ -5958,15 +8105,71 @@
         "civil",
         "operations"
       ],
+      "edition": "2025",
       "id": "IEC-62278-1-2025",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "site validation",
         "commissioning",
         "operational demonstration",
         "independent assessment"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/68933",
+      "status_on_review_date": "current-publisher-record",
       "title": "Railway RAMS \u2014 generic process"
+    },
+    {
+      "digital_use": "Safety process, risk assessment, requirement allocation, integrity allocation and independence",
+      "domains": [
+        "system",
+        "mechanical",
+        "electrical",
+        "embedded-software",
+        "civil",
+        "operations"
+      ],
+      "edition": "2025",
+      "id": "IEC-62278-2-2025",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "independent assessment",
+        "validation evidence",
+        "accepted residual risk"
+      ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://webstore.iec.ch/en/publication/79793",
+      "status_on_review_date": "current-publisher-record",
+      "title": "Railway RAMS \u2014 systems approach to safety"
     },
     {
       "digital_use": "GoA4 functional safety and degraded-operation traceability",
@@ -5975,14 +8178,30 @@
         "embedded-software",
         "operations"
       ],
+      "edition": "2009",
       "id": "IEC-62267-2009",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "obstacle and intrusion trials",
         "evacuation",
         "rescue",
         "operational validation"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/6681",
+      "status_on_review_date": "current-publisher-record-stability-2028",
       "title": "Automated urban guided transport safety"
     },
     {
@@ -5992,13 +8211,29 @@
         "embedded-software",
         "operations"
       ],
+      "edition": "2025",
       "id": "IEC-62290-1-2025",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "communications coverage",
         "localisation calibration",
         "end-to-end train protection test"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/83773",
+      "status_on_review_date": "current-publisher-record",
       "title": "Urban guided transport command/control principles"
     },
     {
@@ -6008,29 +8243,129 @@
         "embedded-software",
         "system"
       ],
+      "edition": "2025",
       "id": "IEC-62425-2025",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "qualified controller",
         "HIL",
         "environmental tests",
         "independent safety assessment"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/68909",
+      "status_on_review_date": "current-publisher-record",
       "title": "Safety-related signalling electronic systems"
     },
     {
-      "digital_use": "Software lifecycle, verification, configuration and tool evidence",
+      "digital_use": "Safety-related software lifecycle, competence, configuration, verification and tool evidence",
+      "domains": [
+        "embedded-software",
+        "system"
+      ],
+      "edition": "2015",
+      "id": "IEC-62279-2015",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "target-hardware integration",
+        "timing and resource evidence",
+        "HIL",
+        "commissioning"
+      ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://webstore.iec.ch/en/publication/22781",
+      "status_on_review_date": "current-publisher-record-stability-2030",
+      "title": "Railway control and protection software"
+    },
+    {
+      "digital_use": "European software lifecycle, verification, configuration and tool evidence",
       "domains": [
         "embedded-software"
       ],
+      "edition": "2023",
       "id": "EN-50716-2023",
+      "jurisdiction": "European-or-contractual-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2026-10-31",
       "physical_evidence": [
         "target-hardware integration",
         "HIL",
         "commissioning"
       ],
+      "publisher": "CEN-CENELEC national adoption record",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://www.dinmedia.de/en/standard/din-en-50716/378381071",
+      "status_on_review_date": "current-European-baseline-transition-from-EN-50128-and-EN-50657",
       "title": "Railway software development"
+    },
+    {
+      "digital_use": "Threat and error model for safety-related communication over transmission systems",
+      "domains": [
+        "embedded-software",
+        "electrical",
+        "cybersecurity",
+        "system"
+      ],
+      "edition": "2014",
+      "id": "IEC-62280-2014",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "production-network fault injection",
+        "coverage and latency tests",
+        "key and configuration evidence"
+      ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://webstore.iec.ch/en/publication/6749",
+      "status_on_review_date": "current-publisher-record-stability-2028",
+      "title": "Safety-related communication in railway transmission systems"
     },
     {
       "digital_use": "Failure-mode identification, effects, causes, controls, ranking and maintenance",
@@ -6038,18 +8373,35 @@
         "system",
         "mechanical",
         "electrical",
+        "thermal",
         "embedded-software",
         "civil",
         "operations"
       ],
+      "edition": "2018",
       "id": "IEC-60812-2018",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "supplier FMEDA",
         "inspection",
         "fault injection",
         "field feedback"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/26359",
+      "status_on_review_date": "current-publisher-record",
       "title": "FMEA and FMECA"
     },
     {
@@ -6059,14 +8411,32 @@
         "thermal",
         "mechanical"
       ],
+      "edition": "2017",
       "id": "IEC-62928-2017",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "type tests",
         "routine tests",
         "thermal propagation",
         "pack and vehicle integration"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/31101",
+      "status_on_review_date": "current-publisher-record",
       "title": "Onboard lithium-ion traction batteries"
     },
     {
@@ -6075,47 +8445,495 @@
         "electrical",
         "embedded-software"
       ],
+      "edition": "2012",
       "id": "IEC-60571-2012",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "environmental tests",
         "power transients",
         "EMC",
         "target hardware"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/2514",
+      "status_on_review_date": "current-publisher-record",
       "title": "Electronic equipment on rolling stock"
     },
     {
-      "digital_use": "Mounting-category and load-case definition",
+      "digital_use": "Mounting category, load case and permitted simulation/test-exemption traceability",
       "domains": [
         "mechanical",
         "electrical"
       ],
+      "edition": "2026",
       "id": "IEC-61373-2026",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "shock test",
         "random vibration test",
         "post-test functional inspection"
       ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://webstore.iec.ch/en/publication/68999",
+      "status_on_review_date": "current-publisher-record",
       "title": "Rolling-stock equipment shock and vibration"
     },
     {
-      "digital_use": "Ultimate/serviceability limit-state and reliability evidence structure",
+      "digital_use": "Secure development, verification, vulnerability, patch and end-of-life process",
+      "domains": [
+        "cybersecurity",
+        "embedded-software",
+        "information"
+      ],
+      "edition": "2018",
+      "id": "IEC-62443-4-1-2018",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "product security assessment",
+        "deployment hardening",
+        "penetration testing",
+        "patch exercise"
+      ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://webstore.iec.ch/en/publication/33615",
+      "status_on_review_date": "current-publisher-record-edition-2-under-development",
+      "title": "Secure product development lifecycle"
+    },
+    {
+      "digital_use": "Component security capability and foundational-requirement evidence mapping",
+      "domains": [
+        "cybersecurity",
+        "embedded-software",
+        "electrical",
+        "information"
+      ],
+      "edition": "2019 with COR1:2022",
+      "id": "IEC-62443-4-2-2019",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "configured component test",
+        "network segmentation test",
+        "credential and update validation"
+      ],
+      "publisher": "IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://webstore.iec.ch/en/publication/34421",
+      "status_on_review_date": "current-publisher-record",
+      "title": "Technical security requirements for IACS components"
+    },
+    {
+      "digital_use": "Common system life-cycle process and acquirer/supplier information exchange framework",
+      "domains": [
+        "system",
+        "quality",
+        "information"
+      ],
+      "edition": "2023",
+      "id": "ISO-IEC-IEEE-15288-2023",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "project plans",
+        "reviews",
+        "verification and validation records",
+        "transition and disposal evidence"
+      ],
+      "publisher": "ISO/IEC/IEEE",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/81702.html",
+      "status_on_review_date": "current-publisher-record",
+      "title": "Systems and software engineering life-cycle processes"
+    },
+    {
+      "digital_use": "Organization-wide quality, documented information, operational control, performance evaluation and improvement",
+      "domains": [
+        "quality",
+        "operations",
+        "information"
+      ],
+      "edition": "2026",
+      "id": "ISO-9001-2026",
+      "jurisdiction": "management-system-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2026-12-16",
+      "physical_evidence": [
+        "implemented QMS",
+        "competence records",
+        "supplier and production records",
+        "internal and external audit"
+      ],
+      "publisher": "ISO",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/9001",
+      "status_on_review_date": "current-publisher-record-replaces-2015",
+      "title": "Quality management systems \u2014 requirements"
+    },
+    {
+      "digital_use": "Railway-sector quality management, supplier, project and production evidence structure",
+      "domains": [
+        "quality",
+        "operations",
+        "mechanical",
+        "electrical",
+        "civil",
+        "embedded-software"
+      ],
+      "edition": "2023 with Amd 1:2024",
+      "id": "ISO-22163-2023",
+      "jurisdiction": "railway-quality-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2026-12-16",
+      "physical_evidence": [
+        "implemented railway QMS",
+        "process audits",
+        "supplier controls",
+        "production and special-process qualification"
+      ],
+      "publisher": "ISO",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/79427.html",
+      "status_on_review_date": "current-publisher-record-references-ISO-9001-2015-transition-review-required",
+      "title": "Railway quality management system"
+    },
+    {
+      "digital_use": "Asset-management objectives, lifecycle decisions, information, performance and improvement",
+      "domains": [
+        "operations",
+        "quality",
+        "information"
+      ],
+      "edition": "2024",
+      "id": "ISO-55001-2024",
+      "jurisdiction": "management-system-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "implemented asset management system",
+        "asset data and decisions",
+        "audits",
+        "field performance"
+      ],
+      "publisher": "ISO",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/83054.html",
+      "status_on_review_date": "current-publisher-record",
+      "title": "Asset management system \u2014 requirements"
+    },
+    {
+      "digital_use": "Whole-life information management, exchange, recording, versioning and organization",
+      "domains": [
+        "information",
+        "civil",
+        "mechanical",
+        "operations"
+      ],
+      "edition": "2018",
+      "id": "ISO-19650-1-2018",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "concept",
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "implementation",
+        "verification",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change",
+        "retirement"
+      ],
+      "next_review_due": "2026-12-31",
+      "physical_evidence": [
+        "project information requirements",
+        "accepted information deliveries",
+        "as-built and asset information"
+      ],
+      "publisher": "ISO",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/68078.html",
+      "status_on_review_date": "current-confirmed-2024-revision-under-development",
+      "title": "BIM information management \u2014 concepts and principles"
+    },
+    {
+      "digital_use": "Open IFC exchange for buildings and infrastructure including railways and bridges",
+      "domains": [
+        "information",
+        "civil",
+        "mechanical",
+        "operations"
+      ],
+      "edition": "2024",
+      "id": "ISO-16739-1-2024",
+      "jurisdiction": "international-reference",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "design",
+        "implementation",
+        "verification",
+        "acceptance",
+        "operation",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "accepted model-view and information requirements",
+        "as-built model validation",
+        "handover verification"
+      ],
+      "publisher": "ISO",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/84123.html",
+      "status_on_review_date": "current-publisher-record-replaces-2018",
+      "title": "Industry Foundation Classes data schema"
+    },
+    {
+      "digital_use": "Competence, impartiality, method, calibration, traceability and result-record requirements for test evidence",
+      "domains": [
+        "quality",
+        "information",
+        "mechanical",
+        "electrical",
+        "thermal",
+        "civil"
+      ],
+      "edition": "2017",
+      "id": "ISO-IEC-17025-2017",
+      "jurisdiction": "conformity-assessment-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "verification",
+        "validation",
+        "acceptance",
+        "maintenance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "laboratory scope and accreditation where required",
+        "method validation",
+        "calibration traceability",
+        "raw test records"
+      ],
+      "publisher": "ISO/IEC",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://www.iso.org/standard/66912.html",
+      "status_on_review_date": "current-confirmed-2023",
+      "title": "Competence of testing and calibration laboratories"
+    },
+    {
+      "digital_use": "Ultimate/serviceability limit-state, reliability, durability and design-working-life evidence structure",
       "domains": [
         "civil",
         "mechanical"
       ],
-      "id": "EN-1990",
+      "edition": "deployment-selected edition and national annex",
+      "id": "EN-1990-DEPLOYMENT",
+      "jurisdiction": "European-or-contractual-candidate",
+      "licensed_text_required": true,
+      "lifecycle_stages": [
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
       "physical_evidence": [
         "material certificates",
         "geotechnical investigation",
         "proof/load tests where specified",
         "as-built survey"
       ],
+      "publisher": "CEN national adoption selected by deployment",
+      "source_reviewed_on": "2026-10-02",
       "source_url": "https://eurocodes.jrc.ec.europa.eu/EN-Eurocodes/eurocode-basis-structural-design",
+      "status_on_review_date": "applicability-and-national-adoption-open",
       "title": "Basis of structural design"
+    },
+    {
+      "digital_use": "Significance, hazard record, risk acceptance principles, interfaces and independent assessment for changes when applicable",
+      "domains": [
+        "system",
+        "operations",
+        "quality"
+      ],
+      "edition": "Regulation 402/2013 as amended",
+      "id": "EU-CSM-402-2013",
+      "jurisdiction": "EU-or-contractually-adopted-only",
+      "licensed_text_required": false,
+      "lifecycle_stages": [
+        "system-definition",
+        "risk-and-requirements",
+        "design",
+        "verification",
+        "validation",
+        "acceptance",
+        "operation",
+        "change"
+      ],
+      "next_review_due": "2027-01-02",
+      "physical_evidence": [
+        "proposer risk-management file",
+        "assessment-body report",
+        "hazard closure and accepted change"
+      ],
+      "publisher": "European Union",
+      "source_reviewed_on": "2026-10-02",
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32013R0402",
+      "status_on_review_date": "current-EU-legal-source-jurisdiction-limited",
+      "title": "Common safety method for risk evaluation and assessment"
     }
   ],
-  "status": "design-screening-not-certification"
+  "standards_registry": {
+    "control_ids": [
+      "STD-CTRL-001",
+      "STD-CTRL-002",
+      "STD-CTRL-003",
+      "STD-CTRL-004",
+      "STD-CTRL-005",
+      "STD-CTRL-006",
+      "STD-CTRL-007",
+      "STD-CTRL-008",
+      "STD-CTRL-009",
+      "STD-CTRL-010",
+      "STD-CTRL-011",
+      "STD-CTRL-012",
+      "STD-CTRL-013",
+      "STD-CTRL-014",
+      "STD-CTRL-015",
+      "STD-CTRL-016"
+    ],
+    "next_review_due": "2026-10-31",
+    "registry_current": true,
+    "registry_reviewed_on": "2026-10-02",
+    "standard_ids": [
+      "EN-1990-DEPLOYMENT",
+      "EN-50716-2023",
+      "EU-CSM-402-2013",
+      "IEC-60571-2012",
+      "IEC-60812-2018",
+      "IEC-61373-2026",
+      "IEC-62267-2009",
+      "IEC-62278-1-2025",
+      "IEC-62278-2-2025",
+      "IEC-62279-2015",
+      "IEC-62280-2014",
+      "IEC-62290-1-2025",
+      "IEC-62425-2025",
+      "IEC-62443-4-1-2018",
+      "IEC-62443-4-2-2019",
+      "IEC-62928-2017",
+      "ISO-16739-1-2024",
+      "ISO-19650-1-2018",
+      "ISO-22163-2023",
+      "ISO-55001-2024",
+      "ISO-9001-2026",
+      "ISO-IEC-17025-2017",
+      "ISO-IEC-IEEE-15288-2023"
+    ]
+  },
+  "status": "evidence-coherence-not-conformity"
 }

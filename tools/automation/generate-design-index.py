@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import tomllib
@@ -26,6 +27,9 @@ def _coverage(city_dir: Path) -> float:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="fail if the tracked catalogue index is stale")
+    args = parser.parse_args()
     public_rows: list[str] = []
     comparison_rows: list[str] = []
     complete_packages = 0
@@ -136,7 +140,7 @@ def main() -> int:
         "bundles, and exploded manufacturing CSVs remain reproducible local outputs so the",
         "Git repository stays usable. Mosul and Samawah carry the full pilot evidence scope.",
         "The [operating-readiness audit](../../docs/operating/readiness.md) uses tracked",
-        "asset registers, manifests and compact twins from all 266 cities to compile",
+        f"asset registers, manifests and compact twins from all {len(expected)} cities to compile",
         "their ERP/component profiles and family-applicable supervision packages.",
         "Planning completeness does not imply operator configuration, physical",
         "commissioning or railway release.",
@@ -189,7 +193,13 @@ def main() -> int:
         "",
         "The command refreshes the full package in the canonical `cities/catalogue/` tree.",
     ]
-    OUT.write_text("\n".join(content) + "\n")
+    expected_text = "\n".join(content) + "\n"
+    if args.check:
+        if not OUT.is_file() or OUT.read_text(encoding="utf-8") != expected_text:
+            raise SystemExit(f"stale city catalogue index: {OUT.relative_to(REPO_ROOT)}")
+        print(f"current: {OUT.relative_to(REPO_ROOT)}")
+        return 0
+    OUT.write_text(expected_text, encoding="utf-8")
     print(
         f"wrote {OUT.relative_to(REPO_ROOT)} "
         f"({len(public_rows)} public + {len(comparison_rows)} comparison city designs)"

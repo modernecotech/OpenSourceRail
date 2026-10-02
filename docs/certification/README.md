@@ -11,15 +11,26 @@ OpenSourceRail now uses one simplified model for every controlled item:
 
 **one passport per item → five gates → route-specific evidence → subsystem roll-up → one deployment safety/authorization decision**
 
-The generated [all-component assurance register](component-assurance-register.md) currently covers **286 items**:
+The companion [Digital Standards Thread](digital-standards-adherence.md) makes
+that lifecycle executable: it reviews publisher metadata, freezes open
+applicability inputs, maps standards to cross-domain controls and evidence,
+hashes the exact sources and produces a deterministic change-impact index. It
+is a primary product capability and a submission accelerator—not an automated
+certificate.
 
-- 120 train products and 26 train assemblies;
-- 45 station products and 10 station assemblies;
-- 19 reusable civil types;
-- 59 Rust crates; and
-- 7 owner/operator platform services covering Workbench, ERP/HR, supervision, FUXA, Ops Core, the AI council and lifecycle/QR identity.
+The generated [all-component assurance register](component-assurance-register.md)
+publishes the current item count directly from controlled sources and covers:
 
-All 286 have a controlled identity and source baseline at G0. Item-specific G1–G4 evidence is deliberately open, and **zero items are represented as certified or released**.
+- train products and assemblies;
+- station products and assemblies;
+- reusable civil types;
+- every Rust workspace crate; and
+- configured owner/operator platform services covering Workbench, ERP/HR,
+  supervision, FUXA, Ops Core, the AI council and lifecycle/QR identity.
+
+Every listed item has a controlled identity and source baseline at G0.
+Item-specific G1–G4 evidence is deliberately open, and **zero items are
+represented as certified or released**.
 
 ## The five gates
 
@@ -129,12 +140,12 @@ Hashes show which bytes were reviewed; they do not show that the content is corr
 
 | Layer | Repository position | Release meaning |
 |---|---|---|
-| Component identities | 286 G0 baselines recorded | Traceable, not approved |
-| Cross-domain digital checks | Deterministic report passes 13 checks and screens 279 engineering items | Pre-build coherence only |
-| Item design assurance | 286 G1 plans/open reviews | No item-specific design release claimed |
-| Implementation qualification | 286 G2 gates open | No supplier/physical/target qualification claimed |
-| Integration validation | 286 G3 gates open | No HIL/site/commissioning release claimed |
-| Independent acceptance/authorization | 286 G4 gates open | No certification or permission to operate claimed |
+| Component identities | Every generated passport has a G0 baseline | Traceable, not approved |
+| Cross-domain digital checks | Current counts and hashes are generated in the [digital report](digital-assurance-report.md) | Evidence coherence only; conformity not assessed |
+| Item design assurance | G1 item plans/reviews remain open | No item-specific design release claimed |
+| Implementation qualification | G2 gates remain open | No supplier/physical/target qualification claimed |
+| Integration validation | G3 gates remain open | No HIL/site/commissioning release claimed |
+| Independent acceptance/authorization | G4 gates remain open | No certification or permission to operate claimed |
 
 The detailed closure work is in the [release-gap register](release-gap-register.md). The concise status view is [evidence-status.md](evidence-status.md).
 

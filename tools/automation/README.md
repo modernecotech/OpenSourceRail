@@ -16,7 +16,9 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
 | [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `cities/catalogue/`; use `--from-scratch` to force source-data rebuilding |
 | [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |
-| [`generate-design-index.py`](generate-design-index.py) | Rebuild the complete city catalogue index in `cities/catalogue/README.md` |
+| [`generate-design-index.py`](generate-design-index.py) | Rebuild the complete city catalogue index in `cities/catalogue/README.md`; `--check` rejects stale metrics and rows |
+| [`digital-assurance.py`](digital-assurance.py) | Compile the Digital Standards Thread: publisher review deadlines, profiles, control coverage, FMEA/inventory screening, evidence hashes, change-impact index and generated Markdown/JSON/baseline; `--impact-from` compares a prior report |
+| [`component_assurance.py`](component_assurance.py) | Generate one fail-closed G0–G4 passport for every current engineering inventory item and configured owner/operator platform service |
 | [`generate-cost-model.py`](generate-cost-model.py) | Rebuild `docs/cost-model.md` from the CAPEX template, generated civil rate contract, finance/benefit assumptions, and rolling-stock BOM |
 | [`generate-civil-cost-model.py`](generate-civil-cost-model.py) | Convert canonical CAD quantities and reviewed benchmark shares into the generated civil planning-rate contract; `--check` detects drift |
 | [`generate-acceptance-evidence-report.py`](generate-acceptance-evidence-report.py) | Build the acceptance/accreditation evidence-basis report and matrix from the operations bundle |

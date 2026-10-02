@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **4997**.
+Indexed Markdown files: **4998**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **4997**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 177 |
+| [docs](#docs) | 178 |
 | [engineering](#engineering) | 20 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4877,7 +4877,8 @@ Indexed Markdown files: **4997**.
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |
-| [`docs/certification/digital-assurance-report.md`](../docs/certification/digital-assurance-report.md) | Deterministic Digital Assurance Report |
+| [`docs/certification/digital-assurance-report.md`](../docs/certification/digital-assurance-report.md) | Digital standards-adherence report |
+| [`docs/certification/digital-standards-adherence.md`](../docs/certification/digital-standards-adherence.md) | Digital Standards Thread |
 | [`docs/certification/distributed-onboard-control-profile.md`](../docs/certification/distributed-onboard-control-profile.md) | Distributed Onboard Control Profile |
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
 | [`docs/certification/evidence-status.md`](../docs/certification/evidence-status.md) | Evidence Status Matrix |

@@ -8,6 +8,7 @@ import html
 import json
 import runpy
 import tempfile
+import tomllib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -20,6 +21,7 @@ TRAINSET_MANIFEST = (
     REPO_ROOT
     / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json"
 )
+DIGITAL_STANDARDS = REPO_ROOT / "lib/templates/digital-assurance.toml"
 DEVELOPING_WORLD_REGIONS = {
     "central-africa",
     "east-africa",
@@ -59,6 +61,7 @@ def overview_values() -> dict[str, str]:
         raise FileNotFoundError(f"missing overview asset(s): {joined}")
     trainset = json.loads(TRAINSET_COST.read_text(encoding="utf-8"))
     trainset_manifest = json.loads(TRAINSET_MANIFEST.read_text(encoding="utf-8"))
+    standards = tomllib.loads(DIGITAL_STANDARDS.read_text(encoding="utf-8"))
     design_paths = sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml"))
     public_paths = [
         path
@@ -99,6 +102,9 @@ def overview_values() -> dict[str, str]:
         "external_avoided_per_100m": f"${100 * external_avoided / osr_total:.1f}M",
         "external_reduction": f"{external_avoided / foreign_external:.1%}",
         "trainset_product_rows": str(len(trainset_manifest["product_items"])),
+        "standards_records": str(len(standards["standards"])),
+        "standards_controls": str(len(standards["controls"])),
+        "standards_checks": str(len(standards["checks"])),
     }
 
 
@@ -182,6 +188,7 @@ def render() -> str:
         <li>Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.</li>
         <li>Run deterministic train, station, energy, wayside, point/crossing and depot software together.</li>
         <li>Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.</li>
+        <li>Trace {values['standards_records']} publisher records through {values['standards_controls']} controls and {values['standards_checks']} hashed checks; change impact reopens affected evidence.</li>
       </ul>
     </div>
     <div class="shots">
@@ -192,8 +199,8 @@ def render() -> str:
 
   <section class="foot">
     <div class="card">
-      <h2>Buildable pathway, visible gaps</h2>
-      <p>Reference packages cover all {values['trainset_product_rows']} LM3 product rows, nine timed manufacturing methods, 30 mould/tooling families, modular rolling stock, stations, civil works, battery traction, renewable charging, operations and assurance. Supplier freeze, detailed drawings, proof testing, certification and authority approval remain explicit release gates.</p>
+      <h2>Buildable and standards-aware</h2>
+      <p>Reference packages cover all {values['trainset_product_rows']} LM3 product rows plus a Digital Standards Thread spanning {values['standards_records']} publisher records, {values['standards_controls']} cross-domain controls and {values['standards_checks']} hashed repository checks. Supplier freeze, licensed clause assessment, proof testing, certification and authority approval remain explicit release gates.</p>
     </div>
     <div class="card">
       <h2>Review or collaborate</h2>
@@ -262,18 +269,26 @@ This is a controlled sensitivity—not a vendor quotation or financing offer.
 - Run deterministic train, station, energy, wayside, point/crossing and depot
   software together.
 - Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.
+- Trace {values['standards_records']} publisher records through
+  {values['standards_controls']} cross-domain controls and
+  {values['standards_checks']} hashed repository checks; change impact reopens
+  affected evidence.
 
 | City Studio | Civil IFC coordination |
 |---|---|
 | ![City Studio deterministic browser acceptance](screenshots/city-studio/gui-acceptance.png) | ![Bonsai IFC4.3 civil coordination model](screenshots/civil/bonsai-ifc4x3-civil-coordination.png) |
 
-## Buildable pathway, visible gaps
+## Buildable and standards-aware
 
 Reference packages cover all {values['trainset_product_rows']} LM3 product
 rows, nine timed manufacturing methods, 30 mould/tooling families, modular
 rolling stock, stations, civil works, battery traction, renewable charging,
-operations and assurance. Supplier freeze, detailed drawings, proof testing,
-certification and authority approval remain explicit release gates.
+operations and assurance. The Digital Standards Thread spans
+{values['standards_records']} publisher records,
+{values['standards_controls']} cross-domain controls and
+{values['standards_checks']} hashed repository checks. Supplier freeze,
+licensed clause assessment, detailed drawings, proof testing, certification and
+authority approval remain explicit release gates.
 
 ## Review or collaborate
 
