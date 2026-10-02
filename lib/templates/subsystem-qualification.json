@@ -37,8 +37,13 @@
         "HAZ-COOL-STRANDED"
       ],
       "target": null,
-      "unit": "failures/h",
-      "review_state": "open"
+      "unit": "1/h",
+      "review_state": "open",
+      "metric": "pump_failure_rate",
+      "result_path": "events.EV-PUMP.failure_rate_per_h",
+      "comparison": "<=",
+      "operating_conditions": null,
+      "uncertainty_treatment": "all-bounds"
     },
     {
       "id": "ALLOC-COOL-availability",
@@ -58,8 +63,13 @@
         "HAZ-COOL-STRANDED"
       ],
       "target": null,
-      "unit": "service-availability",
-      "review_state": "open"
+      "unit": "probability",
+      "review_state": "open",
+      "metric": "function_availability",
+      "result_path": "fault_tree.steady_state_availability",
+      "comparison": ">=",
+      "operating_conditions": null,
+      "uncertainty_treatment": "all-bounds"
     },
     {
       "id": "ALLOC-COOL-maintainability",
@@ -79,8 +89,13 @@
         "HAZ-COOL-STRANDED"
       ],
       "target": null,
-      "unit": "repair-hours",
-      "review_state": "open"
+      "unit": "h",
+      "review_state": "open",
+      "metric": "pump_mean_repair_time",
+      "result_path": "events.EV-PUMP.repair_h",
+      "comparison": "<=",
+      "operating_conditions": null,
+      "uncertainty_treatment": "all-bounds"
     },
     {
       "id": "ALLOC-COOL-safety",
@@ -100,8 +115,13 @@
         "HAZ-COOL-STRANDED"
       ],
       "target": null,
-      "unit": "hazard-exposure-budget",
-      "review_state": "open"
+      "unit": "s",
+      "review_state": "open",
+      "metric": "thermal_time_to_limit",
+      "result_path": "physical_thermal.time_to_limit_s",
+      "comparison": ">=",
+      "operating_conditions": null,
+      "uncertainty_treatment": "all-bounds"
     }
   ],
   "common_causes": [
@@ -218,7 +238,8 @@
       "procedure_revision": "draft-A",
       "limits": {
         "max_temperature_c": null,
-        "min_flow_l_min": null
+        "min_flow_l_min": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -237,7 +258,8 @@
         "max_temperature_c": null,
         "max_detection_delay_s": null,
         "max_isolation_delay_s": null,
-        "max_fault_flow_l_min": null
+        "max_fault_flow_l_min": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -245,7 +267,21 @@
         "REQ-COOL-PHYSICAL"
       ],
       "fault_required": true,
-      "repeat_count": null
+      "repeat_count": null,
+      "preconditions": {
+        "digital_state": {
+          "fault_active": 0,
+          "detected": 0,
+          "isolation": 0,
+          "derate": 0
+        },
+        "minimum_duration_s": null,
+        "min_flow_l_min": null
+      },
+      "response_sequence": [
+        "detected",
+        "isolation"
+      ]
     },
     {
       "id": "RIG-LEAK",
@@ -255,7 +291,8 @@
       "limits": {
         "max_temperature_c": null,
         "max_detection_delay_s": null,
-        "max_isolation_delay_s": null
+        "max_isolation_delay_s": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -263,7 +300,21 @@
         "REQ-COOL-PHYSICAL"
       ],
       "fault_required": true,
-      "repeat_count": null
+      "repeat_count": null,
+      "preconditions": {
+        "digital_state": {
+          "fault_active": 0,
+          "detected": 0,
+          "isolation": 0,
+          "derate": 0
+        },
+        "minimum_duration_s": null,
+        "min_flow_l_min": null
+      },
+      "response_sequence": [
+        "detected",
+        "isolation"
+      ]
     },
     {
       "id": "RIG-MASKED",
@@ -273,7 +324,8 @@
       "limits": {
         "max_temperature_c": null,
         "max_detection_delay_s": null,
-        "max_isolation_delay_s": null
+        "max_isolation_delay_s": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -281,7 +333,21 @@
         "REQ-COOL-PHYSICAL"
       ],
       "fault_required": true,
-      "repeat_count": null
+      "repeat_count": null,
+      "preconditions": {
+        "digital_state": {
+          "fault_active": 0,
+          "detected": 0,
+          "isolation": 0,
+          "derate": 0
+        },
+        "minimum_duration_s": null,
+        "min_flow_l_min": null
+      },
+      "response_sequence": [
+        "detected",
+        "isolation"
+      ]
     },
     {
       "id": "RIG-CHARGING",
@@ -290,7 +356,8 @@
       "procedure_revision": "draft-A",
       "limits": {
         "max_temperature_c": null,
-        "max_isolation_delay_s": null
+        "max_isolation_delay_s": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -298,7 +365,21 @@
         "REQ-COOL-PHYSICAL"
       ],
       "fault_required": true,
-      "repeat_count": null
+      "repeat_count": null,
+      "preconditions": {
+        "digital_state": {
+          "fault_active": 0,
+          "detected": 0,
+          "isolation": 0,
+          "derate": 0
+        },
+        "minimum_duration_s": null,
+        "min_flow_l_min": null
+      },
+      "response_sequence": [
+        "detected",
+        "isolation"
+      ]
     },
     {
       "id": "RIG-AUX",
@@ -308,7 +389,8 @@
       "limits": {
         "max_temperature_c": null,
         "max_detection_delay_s": null,
-        "max_isolation_delay_s": null
+        "max_isolation_delay_s": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
@@ -316,7 +398,21 @@
         "REQ-COOL-PHYSICAL"
       ],
       "fault_required": true,
-      "repeat_count": null
+      "repeat_count": null,
+      "preconditions": {
+        "digital_state": {
+          "fault_active": 0,
+          "detected": 0,
+          "isolation": 0,
+          "derate": 0
+        },
+        "minimum_duration_s": null,
+        "min_flow_l_min": null
+      },
+      "response_sequence": [
+        "detected",
+        "isolation"
+      ]
     }
   ],
   "measurement_runs": [],
@@ -354,5 +450,10 @@
     "independent_shutdown": null,
     "containment": null,
     "fault_injection_approval": null
+  },
+  "calibration_events": [],
+  "assurance_scope": {
+    "additional_record_ids": [],
+    "exclusions": []
   }
 }

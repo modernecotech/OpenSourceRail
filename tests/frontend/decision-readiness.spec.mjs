@@ -11,6 +11,10 @@ test('Workbench separates reference qualification from city acceptance', async (
   await expect(view.locator('#quantitative')).toContainText('Cooling-loss time');
   await expect(view.locator('#quantitative')).toContainText('Steady-state function unavailability');
   await expect(view.locator('#quantitative')).toContainText('Screening inspection interval at the upper rate');
+  await expect(view.locator('.allocation-state')).toHaveCount(4);
+  await expect(view.locator('.allocation-state').first()).toContainText('undetermined');
+  await expect(view.locator('#allocations')).toContainText('99.967%–99.9998%');
+  await expect(view.locator('#assuranceFindings')).toContainText('mandatory safety review');
   const preview=await page.context().newPage();
   await preview.goto('http://127.0.0.1:4177/engineering/assurance/readiness/?city=samawah');
   await expect(preview.locator('[data-stage]')).toHaveCount(6);

@@ -1,6 +1,3176 @@
 {
   "accepted_use": null,
+  "allocation_results": [
+    {
+      "allocation_id": "ALLOC-COOL-reliability",
+      "bounds": [
+        1e-05,
+        5e-05
+      ],
+      "comparison": "<=",
+      "metric": "pump_failure_rate",
+      "numerical_state": "undetermined",
+      "reasons": [
+        "Allocated operating conditions do not match the analysed conditions.",
+        "RAMS target, comparison or allocation review remains open.",
+        "Result uses assumptions, unknown events or an unvalidated model."
+      ],
+      "result_operating_conditions": {
+        "configuration_id": "CFG-DEMO-COOL-A",
+        "environment": "unqualified-reference",
+        "operating_modes": [
+          "illustrative-reference-study"
+        ]
+      },
+      "result_path": "events.EV-PUMP.failure_rate_per_h",
+      "state": "undetermined",
+      "target": null,
+      "uncertainty_treatment": "all-bounds",
+      "unit": "1/h"
+    },
+    {
+      "allocation_id": "ALLOC-COOL-availability",
+      "bounds": [
+        0.9996700950723632,
+        0.9999979999740007
+      ],
+      "comparison": ">=",
+      "metric": "function_availability",
+      "numerical_state": "undetermined",
+      "reasons": [
+        "Allocated operating conditions do not match the analysed conditions.",
+        "RAMS target, comparison or allocation review remains open.",
+        "Result uses assumptions, unknown events or an unvalidated model."
+      ],
+      "result_operating_conditions": {
+        "configuration_id": "CFG-DEMO-COOL-A",
+        "environment": "unqualified-reference",
+        "operating_modes": [
+          "illustrative-reference-study"
+        ]
+      },
+      "result_path": "fault_tree.steady_state_availability",
+      "state": "undetermined",
+      "target": null,
+      "uncertainty_treatment": "all-bounds",
+      "unit": "probability"
+    },
+    {
+      "allocation_id": "ALLOC-COOL-maintainability",
+      "bounds": [
+        2.0,
+        6.0
+      ],
+      "comparison": "<=",
+      "metric": "pump_mean_repair_time",
+      "numerical_state": "undetermined",
+      "reasons": [
+        "Allocated operating conditions do not match the analysed conditions.",
+        "RAMS target, comparison or allocation review remains open.",
+        "Result uses assumptions, unknown events or an unvalidated model."
+      ],
+      "result_operating_conditions": {
+        "configuration_id": "CFG-DEMO-COOL-A",
+        "environment": "unqualified-reference",
+        "operating_modes": [
+          "illustrative-reference-study"
+        ]
+      },
+      "result_path": "events.EV-PUMP.repair_h",
+      "state": "undetermined",
+      "target": null,
+      "uncertainty_treatment": "all-bounds",
+      "unit": "h"
+    },
+    {
+      "allocation_id": "ALLOC-COOL-safety",
+      "bounds": null,
+      "comparison": ">=",
+      "metric": "thermal_time_to_limit",
+      "numerical_state": "undetermined",
+      "reasons": [
+        "Allocated operating conditions do not match the analysed conditions.",
+        "RAMS target, comparison or allocation review remains open.",
+        "Quantitative result is unresolved.",
+        "Result uses assumptions, unknown events or an unvalidated model."
+      ],
+      "result_operating_conditions": {
+        "configuration_id": "CFG-DEMO-COOL-A",
+        "environment": "unqualified-reference",
+        "operating_modes": [
+          "illustrative-reference-study"
+        ]
+      },
+      "result_path": "physical_thermal.time_to_limit_s",
+      "state": "undetermined",
+      "target": null,
+      "uncertainty_treatment": "all-bounds",
+      "unit": "s"
+    }
+  ],
+  "assurance_scope": {
+    "findings": [
+      {
+        "disposition": "open",
+        "id": "fe592c560130293777d9b0e561fbc8b87c7fc6cd5552f6516f86b654dee8cbac",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "bd6841cceb30867aae84e49c1968f0e61a669f3e0b2f4945ddb319340d9b0d26",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "8c3baa6acab8ad235b44f7b5206cef6f73e33df8b1c7118d1b1a8aada2fda521",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "1ac140b8583e8203b93832754415c4dd0e56cee587d510bd5336bd80e3bbd63e",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "628a12d810971b84146389024c306ebc6695bf062b15c74ffb82e3562247b386",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "be28d9aa5a4d96a11157c95b2ac780b342192997bfcccc97e4e6d9e5760d84d6",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "9b79f088b3d959c2492fe4e3b67cd934673ff575eddd3042a29f57db3ca7f16e",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: occurrence evidence unknown",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "85754f42e22d8d17f87f6a7e47bbb0c6ab04589ff04b650050a79be0d69612ff",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "008088a7020b506633f4100fec445fe243123fe0a1ef81f8443d7595f0a35a2d",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "8b2f31f143758f8fe7c3453e6b6665b8560c0f593242cf94e35d23be3c5b801a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "77b388759213a4ac60803ddcf65f237e1877775db523a4cf719845b4c4252271",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA610/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "e8dfaa21a9e7053a1d14b17e5c29a55ee8041e6178d5cba5aa20b0b42cdb9b7e",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA620/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "53933f4ea6e6fc517c09c73839b4797424c1e44283c4e92ee736a1eef9be626a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-DOOR-SA310/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "2a6fd59c1195cc09bc5dca1f998a63faca5b002213f9f83b8c7e9f937fc1d624",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-FIX-SA340/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "682653c7a11b4315968993aa3328194fda429125426318081f92a756175866f4",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-SA510/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "96a0cf95eba51919c5f18093a136035d5ff5eb5100f89b271187fb81c78fecfd",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-INT-SA330/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "24bf6e1c3497e32ad55ff5f2c43b025907f5a67e6a9d85e4f13c5b889e13e0b0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-LGT-SA350/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "fceb3bb4c27ba0016df6425399d46602698ac718131ad89f7d3308c8233b43af",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ROOF-SA410/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "baa9f18813d51cf8680202466b975943adff11f4ff517b8f2ebb81081569960c",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SHELL-A200/G1",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "eb10ef3d606d7337d3c00188ae40b1b800034d9be589f7bbdafca5afa70b4260",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "5dfa7c65987bb4511eb81792be4612a4f2ef8eb22e12b19304147b962c8a5fa3",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-CAR-A900-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "338af354c37804bde44832593979ecc9afb7a8f0f35a0f7093d54e0b71c23b20",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "125e7a94d89335fd7cfad2f07e0ddefec8e2b26aab5db4c1bff8946087d618f2",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e169b83bd4a132a84261a1cd7ea468b85582bc2357e6d07ad957525f2f4b446f",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8cd391860505b694c1efe8a6e43f0f98f9b7427be0b9f52774b9f3638b10b522",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "2297cdc34fac91f753bc8466103c407dd26306956d05367466704fd31f78536f",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "f3555dfc27af48792dda9650fe25842986c2e83aead681464af899f0cf24a38f",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "ac32024fd21994d0f2edfd6578d5bdc210e999bc228d4d6626ea4e965a16e75c",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: occurrence evidence unknown",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "6c973cd45002b8ec4ebf230cfb4d0fc50d1223a0e09fa7bc7ec9482a993f8b4e",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3895169f04c1f1d18497cdd8b3d85a7c4dd523f03943e37a8cdf0d271a86b133",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "cc3f43d9a60a66d16278f703289e434645b5acdec2abd821b8507732093a1823",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c9299ca9aedb4c1cea0f11addf4125d29c6c6f761ef9e97b6ea361a66c81219f",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA610/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "9e4db54cc977a10f73fb15c9ce9d65c5df66b377c18b4fc4556fc7e1370567c7",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA620/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "6f1ba816af1841f18eacb1f70ef621e6fb529520231d453d09a05e5f12ce6822",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-DOOR-SA310/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "0d669540e3207d7a0b08a580112436da67edc220f599210369eeb0e2592bd372",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-FIX-SA340/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "27b66895f3b70197faaa13f2af9d3ad68da23d25ff2443d64673a7b0511ce684",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-SA510/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "9ca49af8a46ab9dddafea37b7f12fac566b3ce2e2a1991181bf5bfbbc4fb3517",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-INT-SA330/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3c1e1832db09419dfe26677a294de55a29bde85f82f7bc1e3fa111970d261e98",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-LGT-SA350/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3af34730e6d99ea07beee987d8de42637f2fe8e2e768b3acbb66cd258cbea4a0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ROOF-SA410/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "87f87ee0c1430a57c046a21fa0157e87a70cd64b9949f661af82ca58bb5b2c15",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SHELL-A200/G2",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "0054f9394b57cbe57ec455d62f535314b96d963deee3c6942f7ae0e46b6f0eae",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "387a45181acc0670f94199b1db2ef60024da49afdae3ea2f380b4283398f8e96",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "5e6634071226b591c127d7b75afb5067df2152ae77b6dd9f851d3346076d9f77",
+        "kind": "decisions",
+        "message": "prior gate decision open: G1",
+        "record_id": "DEC-LM3-CAR-A900-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3600c968c861914bd51b346a63235b1bb153bc0c4b6c9b40b70e415abeb2127b",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f6e32a17eae4274c446d1581c9d1d155e6d6bd79104714e7745606ef9a4a280d",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "2e267ac1543b6a6c1f3e700b0c92fe37bd1b0ffce0dd44e2b20cc643e0209d45",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "2581dcc2026eaa3c9f8ac78fbb5579f47713593c48c39f6b78780f7cde0842ed",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "6e18b1f2797711210b460b69afec9a57d23531c5f80629743e656924eb5dba6b",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d67c855eaefd971ab71f17b1be8838922e106cb90fb58e33c33639b3a7a26dba",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "bef47783567642285fd310f36b8f1af228d63ad429e65271bcf81cc70943e5a2",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: occurrence evidence unknown",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "a025bd20972429fcf0fa9cd54ff3942dfd397984bc291538741ef8fa93517552",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "cccba40bb84333cb8f97eaeef2fa102960213ed8ea1c4f5c6d982fa854612b3e",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "4f87848107cc6a701ea424ece315f89fca3a4d6fa630802c9bde0f043eebe245",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f5b9bb594b69ab6189809df1159f19aab0fef921ecf61c47624651cb2bcbb435",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA610/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "82c2533843e2e2ef38d131e8958163c20836d814c363b03b2b2c045b5910e6d2",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA620/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "22a9f6a06038adf21c731f3b3388b6b4f23ddcfdd248a0f96233736e4353e010",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-DOOR-SA310/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "70184f912f2397b9a2179c83dbbbb022a35024a3b3c20b3b91a18ed30311a228",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-FIX-SA340/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d071aac2a4641059acfaff8a4be3f762c192b162b6b9f2318d6edbc931d392de",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-SA510/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f52b128db6bed3e16dcad3ab07cedbde7ccbe16a66a65993ddd12774a265d9ae",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-INT-SA330/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "6c3811e43bccb51562915a9de4781c6edf279d2112ea85968b314e24a781781b",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-LGT-SA350/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "6848409e679527eca9eff52b144c80504d3f8181ef5929fb19fdc9a4265c52f8",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ROOF-SA410/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "7343e5321fd934d808603427859d099aecda7b51de32d7bbd151464ebd44110b",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SHELL-A200/G3",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "7b2defc9c2f9ff7b0a0326f24a0f5aeedac0fb49afd05f31a8c528572bdcbfd1",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e485ebca0ce0933b821b8b7f09a11f7e47eec0cfce5acc27e540357b98a1af87",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "dc4efb1f136130782c0f6c24a7be54ca0c62f0ca9e58d37f2d9d77c9c1a51c65",
+        "kind": "decisions",
+        "message": "prior gate decision open: G2",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "44c340ab39f457f1acf552c6bbf7a5702a3ae469ed4fbc04b6be6215d2220894",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-CAR-A900-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d2735e17353d336018fcf4925ce6ab48b71acbd7e4c70e71602cb972d2d6b1fd",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "a6e2715a8e42f6693af9f2f9dc92aa938d86fa1109e76cfd86149446fd104623",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "508e17873e982e38ca8d83dac62bf70ebb7741fabf325905f110f472d79d53ab",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "b24e81be8f81d072d4629cee38076875b83dc36474dd0d06b68ffd3be2376a18",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "3fb41a497613e1cd055fbfa586664a705519dd7cbe8e5ecb7ea9e9afc47ad680",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "7c472256ff38c841193b923e7cff655f35aa727fb6f1e0e8e120ad84aebe254c",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "8dc8dc43c1aa47ec13beaa0ee9503b786196c6234c734cbb4826b2f30efe92f9",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: occurrence evidence unknown",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "921d3c80ae94fe72bc853c02a6477080927d64c5527f9811cd7204a6843f95d3",
+        "kind": "decisions",
+        "message": "FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "c1257f4360dd9ccd35c867b01f0ff8928dd1b4adf66a9fc481d095f28554585a",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e46c96d1bb0532e7feed6c83274b1e70c93fb691686eddbc8b636ba375f29206",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9374957ff336d85f714c78eea51593899a09bcd1f3e3d92164874cb5b5004798",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA610/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "d7c868bb5a31bbdec4647107e43835265d3dfa4e703ff9b12eedaad3a8c3d1b0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BOG-SA620/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "c88ef111dcfd655259f7a980ebef9b2da018327922bf928924bd528b38d4812e",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-DOOR-SA310/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "5966637629f6bc833afbf1f98b49da9e379ca4431744339d0eb7cc01fc62981a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-FIX-SA340/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e572fbdb864a6ffc4f530a4db4c0703a425b682f0e7337134f88ef2c197c37a6",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-SA510/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "d222ac2b46ef9417cc83cc1fe63018de250c9393c7353484b2d966bc067e1c76",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-INT-SA330/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "09d8b22b811f062c2f7cdb5cd6e6cc41f426c7e41ba75c5ae2fcb354d4a1c4eb",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-LGT-SA350/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "492684767049313a7e508597a2c51f3d0e207fe8cd3b69855c426441258ca450",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ROOF-SA410/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "af801e67802bcfe3ef4ac72793e7afca87c466409cf50f8983c72ce05d877670",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SHELL-A200/G4",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "933fe682654d68ddb541906618ac1c9e713b1c59bc57c6822c485d363b655cf0",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "047653cc6e5acb9c59b6ad1a188e81c5f3f95516229dce9c17099ea290b100be",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "707cdc6472b287358253ba6aef45738cda85534a002f973490ce11b3d6ac7746",
+        "kind": "decisions",
+        "message": "prior gate decision open: G3",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "3e59d05754764892e35ec7abfdb12d25fe89152284b332fd2939394709e86ac5",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-CAR-A900-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "01040edf22ec89775e29f68a5d21bf2242255f0b5f1b07d0156e4cd3abdd609f",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "b04c8e26f3978c916f8abdd40b1ab824e40d0f47ddca33f4024fffa65f6a05b0",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "e3f2ba41e73ac9ea176a8da616bb01161b02ccf2d8b939546018fe451e629ca8",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "2a0373727c3c0a7fc4c99e823b007cd10ff76d7deac86e412e320e9e6ef2fec6",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "f1dfa78b71957f6e8a7bfee2d315d8b4cd9f3cd047cddae9b5ed0379bea230b5",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BDY-P050/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "1530f1c0ac30e8f0f39771e801749825c64fffedd25f311c218b368a321562fe",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P010/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "f88aabbf2af84bb03be560080d9244d514f999d2724db896792dfdb814f473f5",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P020/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "525852c4a87c5af8041b9ec342dbb09ea1bb352831041772380e389bc8d82627",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P030/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "f0f0d078d293e78c990499f200b38dd8b02e978892808282f5b516fe824d93b8",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SAF-P010/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "7f9046451f3cdc55a9a2a3f235ea442cff0dbbab987a1618a63af23d7e060707",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P030/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "900fb50f3a52502e1d33d6f49e7185cf685b8fe5427faf4d500f8809192fcca8",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P040/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "36d9f15b8b4e1fbf4846a4241cc7f02b78038ac3f6fde55e865b67d17bca3862",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P060/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "4a91cb019ec92f2c855e06274817b0e4d4701a428993bfc735ac070fbc6c0288",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P070/G1",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "b3b1446237fa172c5c4b4b1152caaac05d6f3cf015967df73d4c8374e20f1e43",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "648b2c2c413bf2e5e556082514fb80a55321b8532fa62c148a891d467e01537d",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-HV-SA510-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "17b9a5e1d2e5c948316dd0e9cb8b394a5a012122e42972b23735ec0429c245d4",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "9e4174330df4beb0880bd14d4d15f22d21ee0a91d84532b0cde0e50d24c5bb1e",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e41bea857628e39280db2ca5c6f40dc788198cdc090db9695ae2aa25f1a65abe",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b39e4ffd736adb743d256ae7c161964990c3393b256ed6c0099cd746711754c1",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b50eda605d194460b242178a50b747d22a9256c1df846b38b49d949e4f1f9183",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BDY-P050/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "4816d85c824c48e2bf531e455c65e2f348846ebe8e24769e0eb60417de1bf375",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P010/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "502bedecb605b16adfd2ffbb1d97e2e8675363af9125b97116df5c86401759ef",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P020/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "84b47d8659e21eeeffdf543d6f15f702485e67a4c14816b8a7f1282bbf8f7f8b",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P030/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "ee659096f441fccc513ab51e92a6921122b327d223f102fb03b361cd222f22ec",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SAF-P010/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "906992d70f87e6ed0cdcd9e9780dab5a3544f0fec82e81dea37cc4a4ceda9e28",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P030/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "bcaf8f6e3aa98ada5e518fe472b557af98f93d6ac79fc765dfd504fe8997da02",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P040/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "5eee67737f3ba52dc318af624f9aa69635679feb8b1c76ed7a030d4aa0cdee9c",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P060/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a7dc70446724aecea172c89041aa13f8e4bdba58ab4595198fd74d48fdd5a225",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P070/G2",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "76c34c81fd76ca3fb7aabd7c19e92db2c06a809d72fc6ed9dcc748bb0145f30e",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "d219251ae898a20c0e99f44c6f32d60b69b968421b510d46cb4f635550f876a4",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "1e9fca664f34cb41f81c807ca434935ce6ffd5ba10bdfd0b44f3fe72f5c63878",
+        "kind": "decisions",
+        "message": "prior gate decision open: G1",
+        "record_id": "DEC-LM3-HV-SA510-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a512a5cd230563d106c1cf34793966087267254ba718720554f0f157e62c639b",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "fe35173d53cd2cf8df79e7fb5614f73a75634a79307718cc3b554923ff13eb1c",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "83cb564119d4c33cb3ccd2998649362c273df0ee0d89215961a41012248a4758",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f4203e3e38d6f6250f4b806065557b180ea0f6a4aa0ee50d9997f7c89a5e5307",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "68acdcf66532adf31550f44fab44024737a847b292da853359554082d825405f",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BDY-P050/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "58574ede54842effda73bef777248ae7ac7b0b4db89c358970ac02a748456748",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P010/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "92313932efa11b531f1c77f1470de4b9b5cd079a39addace6b565763a7db9a7a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P020/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "28e8bcaa3dee0af32dd6fe3a443ac916805926fb35ae0080acee630742e26d8a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P030/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "240356bd44b99889b1da89cf6c7f5c2fecfec6f53c12dc892e924a415b5ca3b0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SAF-P010/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "c87838b1ba40f78a4f8fb7816cef06f41318fc8e8e76517c6d85e513368f5b06",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P030/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ba1e3ee7ece233cc70382c1ca34a0b5e55be515691c86c1ea290801d7996c08d",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P040/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d7a387c4f92e32c287a9ab0438ece7c96116dedb93b650c47cd443d28a8619bf",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P060/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e5c7800e0773cb6b2a82639ec7bb97ddb5b5d82470bdfb7e1550c7c198e11946",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P070/G3",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "450aaa76f2f2380e752b1331ced14bf7e0f5efec5559e8a9c3ffd5ac855bb5bd",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "7082761ec429c6dee2cb05bb50a949479ef164ddb0e02af8a869fd459bf33e3a",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d0dcb8e300c7d1ea44caf918f510a76f29c6bac0d2379030e81c8459f7d44172",
+        "kind": "decisions",
+        "message": "prior gate decision open: G2",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "92345fd07f8474fc4d5f50afe5aee0727a749c32e7d858f5f0b317a05b3eb666",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-HV-SA510-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "8cca763f8475e41091a243fe5027947d7b6bc20a4070a357306ec59b05425181",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "077d0abc27e73365c1f4f053b2798c2a798f84e7b9ff552a631b4cd052bd0c72",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "cba860dae02553587d698463d1749dce1960d5bcd1dfbf1770aac453a47c7d43",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "d2f34eb7da982483219a18d2d10592c9409bac3b6d0b84156725fe8dbb3f6490",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "1a6f9b9a8dc45b904e943eccf6abc461fdb06ca480737dfa2b3bd17bd305edb1",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-BDY-P050/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "113857276319d999933e598485c6e1c66e2075de702a814c9899a52350417c61",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P010/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "ea183e138ff2c040cb81b6c3477e590564029f9893e2830e669900df0d17b913",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P020/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "0857e5b8a733ba83518a860d56c26f568c142cd2a86c36fbde868d46ba635528",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-HV-P030/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e23952b1b7d3317eb2b511b5a8168db7744b5873740a955ec6a5caa1f158e1ef",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SAF-P010/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "4d875c2e08b4337d0f92c2eba3eeb9bf108645bdb8f4850ffc30857e0e368bca",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P030/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "0f70ab3eedf81f2a6d56e97068b552c18e6d8f4d3d6c30d284001ec7b18bf678",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P040/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "4a5e4c4d8a1dc7e590a0d2ae16eb2b1dac1996e7d08335dc6a41f1232f31b960",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P060/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "45251f1a0e3b3689950317b1267f45baf01915af66c8b062034b25453f888e7f",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-TRC-P070/G4",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "3d0d6ebbfa8cff460d45630a15a862a84293cfa2a7bc36166896b7c1d668791b",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "b51f0b6fad5e61e1bfd46fa2602aca62bf6f53db44f6ed72588c2c31ea94bf85",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "60af111f1393bd32b71d9a47a11acc0e941f3d9a671e2712b091c420aec7b452",
+        "kind": "decisions",
+        "message": "prior gate decision open: G3",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e94b1b5104051733974f9f25847c951b905e07177e3d48bb74d00cb1a1e9f680",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-HV-SA510-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "f770ae1c97eb30a08b6fd2cb29222a46a15b28abb152505249c260a0ac3bd4a4",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "62721b911bbca82b4610676e8d9d765e7c7fa805ced919c6843ff8d436edb279",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "dcefebe49f38f6510d3a270aba4b5d64827bb37b4668069dea4343b42616f424",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "fd8017c0d2cad3d72cc8f93e7a57e36567f105f12ca5a304a67e1c1e84c6f400",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "ec0698b84d7030f8c59d9b80987985caff3dc796f7d96fb0c7a33c49a1ec6592",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "75aa2d6370409fd00c28ad63db59c43596626c1d015c445a452e7c538c0004b9",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ART-SA800/G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "7c536af545e356a5581a27a351b538152cf314b13834555e587e9c241f34c287",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-CAR-A900/G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "422d36307747672845cfe90bc137ce89f03c5f19f344d8a6ae3018841061e858",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-EIF-SA650/G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "811f33d3af9d1d1b6c15a60d2b8f4dca4459fbbd6aaef6469e9dd7a84679c45e",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-END-SA700/G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "98cae4e3a23b0db619376ec2401861eab966f70e859cabf9a3a3358f599c8783",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SYS-SA900/G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "cf19b38c8135d730cb7a61dbca14577045d20c7dbcf3650c43e43a914fff258d",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "3525352da5e3439f442da7343f530f7cd37717e1a1263649bc0d6ff539e1f743",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-TRAINSET-A000-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "7c274c91e36462c8ce811e32678cdc8043978ef5788f69b00315325d65f0b333",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "ed92fd82ebb6d5c8d6db45e01cccca12d9d513477fa52b8be369128705bfc105",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "aebc0fccb092e31ee6e4e3e0252aef141ff66be793b4c46fdd016b3abdfb6e20",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e53d7c87a370fbb2b0df82d0f01e7d2f9373f7c957810af6288d9fe23944f3ff",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "d32cae8a3e84edc0a65dfac196c2f5026a8a2521cec4f46c3ad2c008e4a863ff",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3097a5bc89ba1b9f0688b39a5810054edfca0ae56db7ccab3fd1783c3f2fe709",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ART-SA800/G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "65d90b3aeac10a0ba8900750c222981c18fb445345cb61497575242d6f024078",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-CAR-A900/G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "1349f3d01bc89987b5b31987275990cea431da83d3753fae67fdb1b460805242",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-EIF-SA650/G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3738dba6d4cc42a82d1d8c0dd92772b24cd68b134d4d67568884e5702daf1913",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-END-SA700/G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8ef669f6276753f7a259c379d08aa29ce481fbee50703c607ec01c85ae6279f5",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SYS-SA900/G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "93f05d96efc1c6148ff2c8c93bf4d98448057141adafcc94556c968eb2bc4adb",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "4ac5b50a737c4ad4769ec38f69bb09c8f8369831c4ee0952c20aa968c8a2ae60",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "14b5422f96935f6f6be14bfaf0cc25d4ec85da71153b97443aa66c89e66f1ec0",
+        "kind": "decisions",
+        "message": "prior gate decision open: G1",
+        "record_id": "DEC-LM3-TRAINSET-A000-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "cd4b3838df15c126664db07b673ec762a9335dbd1e1810c93dcca2ac78ae6248",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "daf0432fe625080f07d0250a1f8aedb33060f25cd8cb2896e19fbf0b6176c3ff",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "2d0f37137e4c79a22e471fb98406412ef9121021812dd4c3fe9a271f9e21482b",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "6bf414f7c7a59dce5df2ca46e62ade9d5f5380e4e7cc91da7e5cb01175149e56",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "47237e67b9be5c9963d1335bf8bb2d8c04760acd4281460d2ecf433ed67e5d0d",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f5a335807f32aa6ad7405cf529a76ffb75529180b9cc9735cf86df11d94ad2ac",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ART-SA800/G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "241bc36399f3d9463756d7864e28b69fefb7cb7fc0f8cca455abe934473a6fba",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-CAR-A900/G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e895b31fdfa6a8985f9bf6774bf49e665677405aa106ffe5432c651f93eb3b35",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-EIF-SA650/G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "75aa963dee83e3ab0d5b9bc09d1ec72354ee021da8ec8a75bf22db01842259f0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-END-SA700/G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "eeaface48cab5fdaee92b8f8b385115e9f8895f2d58026b848570cd8a43294c3",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SYS-SA900/G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "9490832c06d44c0eb4551153b55164d679bd0606e19c8c1476930b89b6526214",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e13cefc32ecbeddf26922c4b6ee3afc2d7563b5ca3acf2c04da9ace0db2dbe02",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "67f1b5a4b36381886c36b78f832b5dda04207b00708c0ba46f026dc593ca9371",
+        "kind": "decisions",
+        "message": "prior gate decision open: G2",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "01bab8be48f66d63a8f6fc1d95c7a8203489749f8d255cecb84d06facb9bbf9f",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-TRAINSET-A000-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "142025499f29724618a144e945da38d9f31bc042a7de0353864002e0d5347fca",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "562c365710b37dbd0428d6119928e6ab41fa8cf761296488e1f1a82e381ebb27",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "dd782ed61650bfa859959d70cfad3dd0ad9ce220bb9dd74cb2101a7a4bade445",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9a7fb792bad5d2a8e2f03e35752cf7da93d96f5f5c3eb9710f5628b74d55fde8",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "40b570103318c5dafee8bc041f95c523f60adeab3d7fd160cdaeff728d4f1596",
+        "kind": "decisions",
+        "message": "REQ-COOL-RECOVERY: acceptance criteria require independent engineering review",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "7bf1c38943375195d116b5e4f517aedc3a9e07c50e33811229fa3f28b4d2ff22",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-ART-SA800/G4",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "80d4803ccac6299f7493d420e9aa7950898bf02b86b00c696f1d4d3accecd988",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-CAR-A900/G4",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "7de5c90fe3e2187558f25e61e67725b007c228bd471f7a4a15b42d55efa8f1f7",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-EIF-SA650/G4",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "0970b5392938a8bd94c4c1990da0d4d18e24de7364ddb9f8f6ff39cd2594e8ac",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-END-SA700/G4",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "b718a9fcf99f0f3969c76bd329cf85b6f914df23912da48d3fd2e729a3843fda",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-SYS-SA900/G4",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e4c96e67ae50c917ad61ab68ada8943264e26ed89c4fcf623e8e0ecdae6e4b2b",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9cc65958244fda486d20d9866d3804ebd760cf033fef014c77e041d528091903",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "6ff041256c908c7d6dbb6c12f3772e8291194a8dffcc75c93c61c52175d0e7da",
+        "kind": "decisions",
+        "message": "prior gate decision open: G3",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "fe8d9c4f5ff2998a2112b031a6fb57888a0fe6c70303669bcee6a847304ca425",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-LM3-TRAINSET-A000-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "ca53837cf1d9f5997751e5e997b6e766f3a8b2c75fea5d2e20945a2984fa728e",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "d4bbd67abd616cdb555c4885f9da1ccba4e3f79cf578d180109d05a5da8a087a",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "eb1add3f39c3f4512dfe68ec841fb6166eaf4618558eb114334a6ffb2237046c",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "1f7de63a002babc4ddbfb664ac8c6b281191af6d298add2a5d6108155f7f69c2",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "559ac94dbdcca36d85238ec202af55d385d7323d9c03e5dde0af5eec9faa1c34",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "b39342ee18fa82a3b3b775fc57885feb1732abc85edf2e58aa106f1ae7aa3c5a",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "dcac635a8460de8c6afb1ab90d04a993d54d078205a179ae7d828f9d657564d2",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "d98bbc0314db44417bd5845d7b35b3021a8bd4a686abf7fd9cfb3030a2c445c6",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "b18d7bb2052329514511b986f8232d4be4d18226e3d83f2402c151a59093ae8a",
+        "kind": "decisions",
+        "message": "REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "6694458c905dae25a0fde1424058fc9bdcc7adb0047bb225c577171044322daa",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G1",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "eab439f37ca737b701a11a44db1a43ac524ece4b3dcacc87d8f2eaeb5cd96b54",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-CONNECTOR/G1",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "e436c2744f9da75c8ffbef6d41b456ba4f2d3e2e676ac1989ba7487881722346",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-FLOW-SENSOR/G1",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "e40cfb7e27a25793706d5012043af0c8f0a0749be840e42cfc32fb48d13bcea5",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-PUMP/G1",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "868df2cc8f676cf2e0405de2ececc8d9e1640bdac672db3a169916dbd01ffc64",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "9bee24822c6195a53634b72f121ac101c08934540da813638e7a0b43c3c9b232",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-LOOP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "d2bf65dea62df8e93b24128e8915381855d353589651a530be77f1195f7c11a5",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c2b8dbd1d673c8a91b4a4f4d01398def8ccf84371ce5c34f7f1855d462b31770",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b1973580f7b76ff115fc277243978351cd29a3709bdf5ea62b555375e4a90f2d",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c1630bf3c57b6442cdd0317be5108c4ecf9110fc8717e13a8926e0c4b6e3a511",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "80c9245efd6f7422989457a895f279f438b3d7aacfdbc7e13ba93c50a51d31a2",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "78fdc60724d8efe101779f70befaa43c06b3211255a3b0d78778ac3b3cec2b0c",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "32b7c370eb83e521bca1f1c629a47c2951ca08cc973900f39b2d1346ea2571ef",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "364a60f3a6430f8081584deae15ed34c46f5ea13f03533608db3215f69fb9a90",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "31ea8424f86dfa797cd8903b9e41f6b6a7f5e2a203d65c4fd772c1e3a686f04e",
+        "kind": "decisions",
+        "message": "REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c868baa8be9f8fb7fa7c3c4df1a7906b9a733105c23e0b633d4b1b2eb188cbb7",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G2",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b44be4b300eb136be59857cf662b221fbca7ff30cb31f0d65338ae1ae05f7bc5",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-CONNECTOR/G2",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e7303bf5a635040f575d6647fc29767c4a5cff3f6beff7ace30c54cbcdbe5071",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-FLOW-SENSOR/G2",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "ee40e1e2fc8caf160da86cdaff4355179b5092aa5231f9a630c9876baf5f9816",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-PUMP/G2",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8479eae0b2dd33e3a765db12a43058072d6b0748e5dfede2fd87fd05600e303f",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "f3a8d7281d671d7a077bce59499e56d6e2832bb3cf1da94864fd358b0b4dd35f",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "f20727e9ec15956dd94d683f81dbfddfe2f354245e5e5c5ea876038716665198",
+        "kind": "decisions",
+        "message": "prior gate decision open: G1",
+        "record_id": "DEC-OSR-COOL-LOOP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "31a0feb4df6671764fd4c3e949f5d8a6fe9c11d4c8bb924b21d8c768f5200952",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "cdf580df1eda21346e32b775968c077928ecd27945a928c0106f72c09716d8b7",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "6066f5b4f55fa720397a9da1d4e24be00475ac3d8b573527e1b64ac5764da105",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "45011dd97ab788c1114e66f659e491bd8bb08755fb96fb0231eed3857fe85802",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "fa1b8154f3d50778457acbc7d984011024992c528b4ea7bf2f3f76710568d5bf",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "00e5fa901b954cc3815bb93a69f64ada5bad5d7152331e2dd8f5013b5bcd5e99",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e4b60605d8cc07300f13196f9726a5c18fd3a75b1a90eeca93305572c32f65f9",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "7e55fd18ca7bfc948293fbf999bf9692556d4a71634932b72c71c926a69abd13",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "36f9bd96f250414283ab6ff78f6d6cdde8c48abd0f85f1021eab526c96c19d14",
+        "kind": "decisions",
+        "message": "REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ef4a0009ca440fabe7ba96607f918a98ec71bf8c62b5728d062690a37873f20d",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G3",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e15aa5b93f05f7885a61cf25a3b4d3ee55e080c67d6e380a9b342e8ccb90b1db",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-CONNECTOR/G3",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f577b4584d704ca70b15e10399e630d8e5f5413bb5358748ea4c12ca5a703c9a",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-FLOW-SENSOR/G3",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "c14bd8a18f9a12d5e81deff235c29687b6059b5aea0b91a9cf0741917b9e118c",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-PUMP/G3",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "fd97df98dae7a8269f4dc59d82e0b3aa1da889283cb02663d7b3364e62c2a01c",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "062885906b4014a2666419b08c571294aee3f4e63dbb63c9e9093085b4109af1",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "96778fa58c5c963241d81a5d1293026d5de3024341008bcb7f3e4a3d1fee7b25",
+        "kind": "decisions",
+        "message": "prior gate decision open: G2",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e98b9e65e6ed20852d91c12cc5350751640655495f5239570df7750479220752",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-OSR-COOL-LOOP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "4d1532a0783153cc5f54b9fa3aa8927bab5381c95c011f8fcedc8ab4fb21d457",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "40ccdac202b60e4ade6e7d1f2119a27b5a9ff10cac42078d52c441abca26bfcc",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e1a23b109b64f1b30160edbb8eacb7a9db286708fef87d36bbcff7544be4ff68",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "80f6aa8e1fd75728991f4a52d5fe6a0f758584df97906065a5e5c1cbe6eeae53",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "fe5e1b1f1f08b0619189eb8b75152e9ee2723c53a729b0bca0851e0680745999",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "1041f6f57603d84e68397387e51a522e0bacc8e68c0660d30e6070e74a0b6673",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "40bf5b8ef27490b2b8ce93ae665684a8c7dc6f9972ba0fdf1c0c177e0698555e",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "913ba89192548e524ef8162ec542b465058d3d259564754b2b425fd619867971",
+        "kind": "decisions",
+        "message": "FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "c2c2050cb13ae7396991a4f3c016f8d9237b0dfe6e8ccecac7e102bb3bf1ab66",
+        "kind": "decisions",
+        "message": "REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "2e2f78650b173feaa0089069ec2b193c7f3e2aa1b530bd74f6ea0f2bbd00b723",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G4",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "f32378c5df72891e14b260b10425be9e2710531868c74873cf7ddc8a7656ee70",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-CONNECTOR/G4",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "6e8d710477eee8f10cf2e4707baab1bcc8110ad6099bfece0aa52c80f14406a0",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-FLOW-SENSOR/G4",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e84657c3acfd8d0690d91ff3a425c11bf41db37380557d72cf946966ba50085c",
+        "kind": "decisions",
+        "message": "child/dependency decision open: OSR-COOL-PUMP/G4",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "1e9def5eefabd01acae50f23b8fb1a96453b3a7425cad0fdc76880c91177be52",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "92cc71cbdb9d5f1c51d1b760e9f8b02e2469bfa6ee27fb368399501c9964e1e1",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "f62ffd6280f365c8a3bbb7071113e1966ca84bb20b26cd58bfc6bae35ac36ba0",
+        "kind": "decisions",
+        "message": "prior gate decision open: G3",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "998752e8ad41b247d5daeea5faf200d864151ba5b502b831b3efd94eb629a46a",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-OSR-COOL-LOOP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "1c1cf9eafb76af46cb5b65e8fc22a0915c1197a8c9a0a781dd14afe7caae560a",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "abd16a1e0a5821f074665dadbaa338098224ad6ddb16691c351835cda0d443d4",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "5a02c00b035608339b5346c7e18535849c68a2748a1cd9f3699deaffd7583248",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "b755bf4d2a0db074bc2c14ff844e7856de4aa7ed0f9621037173131ab4c89977",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "77188e3a47176c344d298194a7fcdd02aff14291426d2797270b46f28719dd3b",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "a5cd811fee7501790cfe4b9c66ba11336b677baa68780e131e5a719f5e63f88e",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "2fcab49ae5531c3832e1a0be9a1ecd5ca8a6aac3b826350175da07d965b65eda",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "f7695728c69f8a253dd02021ea17361f0298510f13a8979d6c97a763a500c809",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "cbf8d5555a16e4d42e01cdd826ec089de43b6efc3ce00876c74b353a9022d722",
+        "kind": "decisions",
+        "message": "REQ-COOL-PUMP: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "ba77e021d48fc7c5a8c327f7794bd098880a4a171becd69896bfa731995978cd",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G1",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "8fae9f456aea5ea7c614d6520f3472a089b98c23b7ac69ce096c32c89811b5ec",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "484fa5933f23e8259a70bd703ab63760bf77d7cddcebf728510dd413720f8cc7",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-PUMP-G1",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "16968f8cce66be4dfca5dc13f70027e655b70dca36cdb3a0ed99c62b28bbd95a",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "654a6c44bd199fda341ff90bb4d1bc5fbd598e09e658ae923e97592d253a8778",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3a9e750fcefbd4506d0015e0f0c08dfba79650a6329e7964201915c73b709357",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e73d8e45b7799eb90b03450ba80e705d429718971991dc6520fcf11e3b893aa6",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a9c58776bb600f51babe21b6af507b82fcf11e59e5a5782741a8d432bd43a7b5",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "826d8b8f7558575ac1e776d7686441ef27c66894eed1e07f6ed265f079455c70",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8ae2068454a0656ebe64ede2abc285f144e9cd0cd08b206d04f11ec7715c471e",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "02908a073a9ad63a9a1938d91583fed4b6ad907bf323587f2b5413b37373778b",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c3c39706e46e031812ee96985c181a7860cb6f734590d99649fb1180137e127f",
+        "kind": "decisions",
+        "message": "REQ-COOL-PUMP: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c61b15740cc56d51fe79683239f7e2ad65a77bb7e6e242c8ac7c860f6081543c",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G2",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "c825313bdb3a53c0ef797d13b9c5b47949a949f8ae4d606666656f42d5c7be39",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "031c5244cfc583d4e12b39edc1e08677e3632b2ea8715549b6b5539f75964289",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "41290bb4df5921a1815579c4d4414b5373f4e21491b4e7eabcff41c718780896",
+        "kind": "decisions",
+        "message": "prior gate decision open: G1",
+        "record_id": "DEC-OSR-COOL-PUMP-G2",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "647523faafa64a4aec3695230997d41b8b621dd9beb82888e7e098ca9adc518d",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ad63cfbaa039bd751033d0b08598f6ebb02c32242b38d27ea603269d313e458f",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ac057712c381e443150a1dd444f9385905973859c7450a4d0654006499df9451",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "2bf426ab646e67bfed8dd3a9f19619f7b0ed93d5529c5e088e3a11ea89c1b822",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "512304e15501f3258be55de7b5290c43892ef830a6039921bace793b557d5c1b",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "0d913202b3999476433c68da294f8a4d95e67fffce8ce18c796f4c83a4396d3a",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "8efc1c8a134e03e7fc1edfaae60e75d2c3fbd4ea5ea9dcaade53e69cdf983067",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ed7228d69d6898cd9608dc0cf6651fe0973051aea540a79a22fe96bd49d0d9e3",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ce2c9304b8f2c1766143d99b0d40d964ef32be84d343c59d0392a5d57b5f28bb",
+        "kind": "decisions",
+        "message": "REQ-COOL-PUMP: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "e7e65b149d1a09eb9d3b9b51235893df5bf8af1d81834e387319076240c5f5de",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G3",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "d4d8059bbf072af70bb4969c6bda5bce1929c6c53fefe0bd947ac18534a8510f",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "8544d75f53657ddfdb44fd00d4d242a94b420b7f8ca7ac7aeed0ebf16eba74ce",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "b9e9ec31e8c8aca358e2f696fab131166f99f4a0f13fdafcb6b26b4e6439f516",
+        "kind": "decisions",
+        "message": "prior gate decision open: G2",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "cf6f470061b28bb482e6e34c3c4b9cdfb69c87da065728227a9a050baa3b92b6",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-OSR-COOL-PUMP-G3",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "f026669312638eab15d4efc381799d6730c0e32c3a1f10275d3b4f9830f5289a",
+        "kind": "decisions",
+        "message": "EVD-COOL-BENCH: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "7dbf6cc356764a44d5a4cef008aa71ebc08f1bf08498c4995dfb83e01d5b9f82",
+        "kind": "decisions",
+        "message": "EVD-COOL-CONTROLLER: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "87e1b1c4d37fca65ea06220e682fc2143f38361762ea45fc07eff2c6fcf8e113",
+        "kind": "decisions",
+        "message": "EVD-COOL-INTEGRATION: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "b39d27f3e7968eb44c92fe2c84bfb53712e6ff87a68d54fca671c25281ae8d46",
+        "kind": "decisions",
+        "message": "EVD-COOL-TORQUE: evidence planned",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "ed96cfa233781433d90b8bd90e9a09dcff26adcb29111c2476abe672c76d5bac",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: failure analysis and residual risk unreviewed",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9d3eb5f2d6324083f6ba32dbea6921b89a290e6c4cebae6e4e31205c1ef5fdc7",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: mandatory safety review requires a controlled decision",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9aa85a4d291e6a6a64c3251b3b3ccdeab14207b3386d8eee74977daf9fd2082f",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: occurrence evidence unknown",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "13df912099b3daab5c01444babc08d0db2d236831e1a385963ebd886ef165afa",
+        "kind": "decisions",
+        "message": "FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "3031d42c1d8e3476a55fb02dcb512985aab6934557769fea7b81f1241e745b9d",
+        "kind": "decisions",
+        "message": "REQ-COOL-PUMP: acceptance criteria require independent engineering review",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "bc0476f92b5f475a41260413a6ae769b4fb292a6e76da2df0e98bfd9dd063fd8",
+        "kind": "decisions",
+        "message": "child/dependency decision open: LM3-AUX-P010/G4",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "2689bf38e7c9979ea49afaf39a7209076868f3e64eaf4b27d3d460fd74f62084",
+        "kind": "decisions",
+        "message": "controlled deployment acceptance is not authenticated",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "68436ba4917ab6bb0b12724538cb01e5af8501a0385c06ef21d3066f48e430ee",
+        "kind": "decisions",
+        "message": "decision open",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "1b6306317660db35fb511d4bb9d726406c16f268e1c75acf8f616b4d9bad8296",
+        "kind": "decisions",
+        "message": "prior gate decision open: G3",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "9a3acf86b18a35bf12f9f62a4440f1936912a4aefd24977b56955b61b382a3cd",
+        "kind": "decisions",
+        "message": "reviewed physical integration evidence missing",
+        "record_id": "DEC-OSR-COOL-PUMP-G4",
+        "stage": "integration"
+      },
+      {
+        "disposition": "open",
+        "id": "e08300f125eba746a5a9d9e4025c99f7f06ab86669bb5d991d1f2c3564a2ff39",
+        "kind": "incidents",
+        "message": "engineering handback and effectiveness review open",
+        "record_id": "DEMO-FRACAS-01",
+        "stage": "operating_conditions"
+      },
+      {
+        "disposition": "open",
+        "id": "b9c2a67c60d18214060e9c0789cf73f0d9b8abdc99bdb2bb1a497f3f10c587fc",
+        "kind": "evidence",
+        "message": "evidence planned",
+        "record_id": "EVD-COOL-BENCH",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "ceadaa2f67006d3183969c6f5a099e6ee6b09927a915063cb808b9e23d61cb14",
+        "kind": "evidence",
+        "message": "evidence planned",
+        "record_id": "EVD-COOL-CONTROLLER",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a72564b6da42dd4f8d489c3562b0bd4b72989b7e9329256831a8474dd3811636",
+        "kind": "evidence",
+        "message": "evidence planned",
+        "record_id": "EVD-COOL-INTEGRATION",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "49054dd2fe8377a2503a3c869e510131c7cb1f459b7d819ff170c7786c3ed6c8",
+        "kind": "evidence",
+        "message": "evidence planned",
+        "record_id": "EVD-COOL-TORQUE",
+        "stage": "physical_qualification"
+      },
+      {
+        "disposition": "open",
+        "id": "717fdfae32a11b2cf731c25886cf03e0175ae95b9a0040bffb7415a26ea8f323",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-CONNECTOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "81e303ebfe0a50aeb6ceb5404e9bcdf36b52e95faa1a74f16ccf7205284f84a9",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-CONNECTOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8f177ef8c3b15e2102d8d2f7e626f662aa039729860aced1e7ffadaa765b6f38",
+        "kind": "failure_modes",
+        "message": "mitigation lacks a verification scenario: REQ-COOL-TORQUE",
+        "record_id": "FM-COOL-CONNECTOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "8c05c0e27089758dc10139a720255b19ba82c3c0c89bf45de81d9802a6eadc39",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-CONNECTOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "1ce2112406f82c5105e100bf588289aa2f3d4c68774d075f69fcf1b60656fee0",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-CONNECTOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "113ce8bdc84b20d96ac91054a44705cde23fad4e5a6d53f97a4288b60aa4ef89",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-LOOP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e799a7a39039b844162bde103236eeae9c012f1da9def997ed176565cd77130b",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-LOOP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b4b561bbdaac0f7f389bb6da8c128a5154dd8b6892c9ee3efba4a248d4f4a282",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-LOOP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a0e31c6a417d8e2c38325005cab257cf81106ec691ade3e7a424c4d2a45b5ef2",
+        "kind": "failure_modes",
+        "message": "operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-LOOP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "053eda532b3cf2536590cdadb896d7ed9b8a0d477f4c3fe6672a503e8c225967",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-PACK",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "a12ffdde39741c30997b48a33d90805b440bbf598fbcae425a05b11c438e594b",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-PACK",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "899cb6a6e63cd2c1efd33ddb6313ba128ec4a493ef33fcdb00ef7f3ed28bad1e",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-PACK",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "e7daccdd42d86d69c957d48ff56aafcaba81ee0388c91e209390a5fbaa42a12d",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-PACK",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "ce38c1d66fddea45b53432daf2533c5963f9f1138fbb17dd2860a6edfb2767d2",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-PUMP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "34704dc0e447fce72f15c22ea7ddbb23d57d2d971c904bac84b1202fe1c95c5a",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-PUMP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "4e64db74635e18915ec16b455c788d5dab1f6f9d6aa4245260d3236c3f8c6478",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-PUMP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "5f2d2a9fa44e1408349fe605a40d96365524cad5e004bf4dfea573fbfda6ef64",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-PUMP",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "867b2cf567864fe10b9196916da7f18b21d0da5bffa1892adb224ab6bc4f23c2",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-RAILWAY",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "161f0e0427a2a4894e1d596e7cae7a295bf7aeda0a2537ab30a7350159517ec5",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-RAILWAY",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "6753c19a1acc371d5b4e251b037c74495e2885c6d870eefe110594362cfc3fdb",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-RAILWAY",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "3c3432102f7d42978dcc38db6c616fc8eb7829c44556b6664e9e5b0db013c5da",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "FM-COOL-RAILWAY",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "79ab640c17d94ef23cdc8bf40362f59c5e3f8e78825715fde00ede7e36ea36db",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-SENSOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "42ed8c2bf6b22d69f0fa2cc32f43dd38c765164e13c0e0b76492bb14c62078c0",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-SENSOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "26985d286da352e991173117f685136f051f0df5785b5d80f4daf7097fda2e54",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-SENSOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "f15798fc433c9f62eef6987f73493a086075cedb1d08611fe8761b30affe1942",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-SENSOR",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "6ebefbaffd593f266f6804e1477a4c421e6c1a511db2f754ffa3d31244f71558",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-TORQUE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "66674f78ecf4b389d295c40468c2dbf069464963f70ea5ff2dcf2e195d03d221",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-TORQUE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "7f79191c8d3f071906e082e2008eaf44cf20d1a4a98eeb00aa9b99302c39ae31",
+        "kind": "failure_modes",
+        "message": "mitigation lacks a verification scenario: REQ-COOL-TORQUE",
+        "record_id": "FM-COOL-TORQUE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "b919a659c4e46b9d86eb9829fc2ebb0cebf1d4711db019bea5fff79bcd1b3497",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-TORQUE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "f589a5b014423496553d5091fb25d3b00391fedc2de0c36d4def83646b68a213",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup",
+        "record_id": "FM-COOL-TORQUE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "392c2dd5d9209c66c6364bfe9998f890e857edf7db84ae7396323e7a39cea323",
+        "kind": "failure_modes",
+        "message": "failure analysis and residual risk unreviewed",
+        "record_id": "FM-COOL-VEHICLE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "58143e35ef130705d85c862b4809802730087a0a6841ce36fac1dc3f4a362bc1",
+        "kind": "failure_modes",
+        "message": "mandatory safety review requires a controlled decision",
+        "record_id": "FM-COOL-VEHICLE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "07fddc0e365b9f5ed1acd9e4be4301a15e0f78935a182cdc2a58592bb01a4963",
+        "kind": "failure_modes",
+        "message": "occurrence evidence unknown",
+        "record_id": "FM-COOL-VEHICLE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "31ea6b713d37c458e8178b519697de5b475e7f17d5e4046f9fbfd97c8362c319",
+        "kind": "failure_modes",
+        "message": "operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup",
+        "record_id": "FM-COOL-VEHICLE",
+        "stage": "design_verification"
+      },
+      {
+        "disposition": "open",
+        "id": "89a22e2166a07c4cb387a0a44c24f2a32c1744e2077ac5e8d9f23301a3dade67",
+        "kind": "obligations",
+        "message": "deployment applicability and clause selection open",
+        "record_id": "OBL-COOL-APPLICABILITY",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "6e2484a5b789aea56db4c7da637a0e7651ca3c2178eaecbcd590e6e05bff1511",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-HOT",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "fc6f4fb0b0ff8084eb95eddd5acab9ac417d9679dc97b66cbcc08f8aeebfa4db",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-LEAK",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "218ebdab78a69c0fa7a410281bcadcfd88ff704c576c704c7328f41dea4244e6",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-PHYSICAL",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "fce4431a54f23ac2159d7a9ea07d020876efa43f3773e2bcc1bf3a0e2e26ceaa",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-PUMP",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "e22e0482052a3e815edff0c957c572be5b700da6c12052a2d5a5acb37e2738d8",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-RECOVERY",
+        "stage": "requirements"
+      },
+      {
+        "disposition": "open",
+        "id": "7555744f4d4f25573291760a9e28beaa7ea4fbed84ceb5bd715aec7c8a8df27f",
+        "kind": "requirements",
+        "message": "acceptance criteria require independent engineering review",
+        "record_id": "REQ-COOL-TORQUE",
+        "stage": "requirements"
+      }
+    ],
+    "graph_fingerprint": "fab61de3c60eaa9b4d64a712ca79a4d741cc8f07de38c1d5aadd75e3d0d73e62",
+    "record_ids": [
+      "CFG-DEMO-COOL-A",
+      "DEC-LM3-CAR-A900-G1",
+      "DEC-LM3-CAR-A900-G2",
+      "DEC-LM3-CAR-A900-G3",
+      "DEC-LM3-CAR-A900-G4",
+      "DEC-LM3-HV-SA510-G1",
+      "DEC-LM3-HV-SA510-G2",
+      "DEC-LM3-HV-SA510-G3",
+      "DEC-LM3-HV-SA510-G4",
+      "DEC-LM3-TRAINSET-A000-G1",
+      "DEC-LM3-TRAINSET-A000-G2",
+      "DEC-LM3-TRAINSET-A000-G3",
+      "DEC-LM3-TRAINSET-A000-G4",
+      "DEC-OSR-COOL-LOOP-G1",
+      "DEC-OSR-COOL-LOOP-G2",
+      "DEC-OSR-COOL-LOOP-G3",
+      "DEC-OSR-COOL-LOOP-G4",
+      "DEC-OSR-COOL-PUMP-G1",
+      "DEC-OSR-COOL-PUMP-G2",
+      "DEC-OSR-COOL-PUMP-G3",
+      "DEC-OSR-COOL-PUMP-G4",
+      "DEMO-CAR-01",
+      "DEMO-CAR-02",
+      "DEMO-CONNECTOR-01",
+      "DEMO-CONNECTOR-02",
+      "DEMO-FRACAS-01",
+      "DEMO-PROD-CONNECTION-01",
+      "DEMO-PUMP-01",
+      "DEMO-PUMP-02",
+      "EVD-COOL-BENCH",
+      "EVD-COOL-CONTROLLER",
+      "EVD-COOL-INTEGRATION",
+      "EVD-COOL-TORQUE",
+      "FM-COOL-CONNECTOR",
+      "FM-COOL-LOOP",
+      "FM-COOL-PACK",
+      "FM-COOL-PUMP",
+      "FM-COOL-RAILWAY",
+      "FM-COOL-SENSOR",
+      "FM-COOL-TORQUE",
+      "FM-COOL-VEHICLE",
+      "FUN-CIRCULATE",
+      "FUN-CONTAIN",
+      "FUN-DETECT",
+      "FUN-RECOVER",
+      "FUN-REMOVE-HEAT",
+      "FUN-STORE",
+      "FUN-TRACTION",
+      "HAZ-COOL-FIRE",
+      "HAZ-COOL-STRANDED",
+      "IF-COOL-FLOW",
+      "IF-COOL-MOUNT",
+      "IF-COOL-POWER",
+      "LM3-AUX-P010",
+      "LM3-CAR-A900",
+      "LM3-HV-P030",
+      "LM3-HV-SA510",
+      "LM3-TRAINSET-A000",
+      "LM3-TRC-P030",
+      "LM3-TRC-P040",
+      "OBL-COOL-APPLICABILITY",
+      "OSR-COOL-CONNECTOR",
+      "OSR-COOL-FLOW-SENSOR",
+      "OSR-COOL-LOOP",
+      "OSR-COOL-PUMP",
+      "OSR-RAILWAY-BOUNDARY",
+      "REQ-COOL-HOT",
+      "REQ-COOL-LEAK",
+      "REQ-COOL-PHYSICAL",
+      "REQ-COOL-PUMP",
+      "REQ-COOL-RECOVERY",
+      "REQ-COOL-TORQUE",
+      "SCN-COOL-CHARGING",
+      "SCN-COOL-HOT",
+      "SCN-COOL-LEAK",
+      "SCN-COOL-MASKED",
+      "SCN-COOL-PUMP",
+      "SCN-COOL-PUMP-HOT",
+      "SCN-COOL-RECOVERY"
+    ],
+    "roots": [
+      "LM3-AUX-P010",
+      "OSR-COOL-CONNECTOR",
+      "OSR-COOL-FLOW-SENSOR",
+      "OSR-COOL-LOOP",
+      "OSR-COOL-PUMP"
+    ]
+  },
   "authenticated_reviews": [],
+  "calibration_impact": [],
   "changes_since_decision": "no-authenticated-acceptance-baseline",
   "configuration_fingerprint": "16994d915ba129db702232c91dc6e001deb72cb37d7b72b4653f633f6c82a307",
   "configuration_id": "CFG-DEMO-COOL-A",
@@ -50,7 +3220,7 @@
       "upper": null
     }
   ],
-  "evidence_fingerprint": "b601d20f04b597e392a1ac30d579bf0f596b6f9fa9b0b21007b99177a095287f",
+  "evidence_fingerprint": "d75007b5a43d22a9224b4ddba4bcba4b7d2807644ac93e95c625a1249374b24e",
   "interpretation": "Subsystem dossier readiness; vehicle, railway integration and deployment authorization remain separately controlled.",
   "manufacturing_blockers": [
     "CC-COOL-TORQUE: production limits and inspection release open",
@@ -72,19 +3242,24 @@
           "IF-COOL-FLOW"
         ],
         "category": "reliability",
+        "comparison": "<=",
         "hazard_ids": [
           "HAZ-COOL-FIRE",
           "HAZ-COOL-STRANDED"
         ],
         "id": "ALLOC-COOL-reliability",
+        "metric": "pump_failure_rate",
+        "operating_conditions": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL",
           "REQ-COOL-RECOVERY"
         ],
+        "result_path": "events.EV-PUMP.failure_rate_per_h",
         "review_state": "open",
         "system_item_id": "OSR-RAILWAY-BOUNDARY",
         "target": null,
-        "unit": "failures/h"
+        "uncertainty_treatment": "all-bounds",
+        "unit": "1/h"
       },
       {
         "allocated_to": [
@@ -93,19 +3268,24 @@
           "IF-COOL-FLOW"
         ],
         "category": "availability",
+        "comparison": ">=",
         "hazard_ids": [
           "HAZ-COOL-FIRE",
           "HAZ-COOL-STRANDED"
         ],
         "id": "ALLOC-COOL-availability",
+        "metric": "function_availability",
+        "operating_conditions": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL",
           "REQ-COOL-RECOVERY"
         ],
+        "result_path": "fault_tree.steady_state_availability",
         "review_state": "open",
         "system_item_id": "OSR-RAILWAY-BOUNDARY",
         "target": null,
-        "unit": "service-availability"
+        "uncertainty_treatment": "all-bounds",
+        "unit": "probability"
       },
       {
         "allocated_to": [
@@ -114,19 +3294,24 @@
           "IF-COOL-FLOW"
         ],
         "category": "maintainability",
+        "comparison": "<=",
         "hazard_ids": [
           "HAZ-COOL-FIRE",
           "HAZ-COOL-STRANDED"
         ],
         "id": "ALLOC-COOL-maintainability",
+        "metric": "pump_mean_repair_time",
+        "operating_conditions": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL",
           "REQ-COOL-RECOVERY"
         ],
+        "result_path": "events.EV-PUMP.repair_h",
         "review_state": "open",
         "system_item_id": "OSR-RAILWAY-BOUNDARY",
         "target": null,
-        "unit": "repair-hours"
+        "uncertainty_treatment": "all-bounds",
+        "unit": "h"
       },
       {
         "allocated_to": [
@@ -135,19 +3320,24 @@
           "IF-COOL-FLOW"
         ],
         "category": "safety",
+        "comparison": ">=",
         "hazard_ids": [
           "HAZ-COOL-FIRE",
           "HAZ-COOL-STRANDED"
         ],
         "id": "ALLOC-COOL-safety",
+        "metric": "thermal_time_to_limit",
+        "operating_conditions": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL",
           "REQ-COOL-RECOVERY"
         ],
+        "result_path": "physical_thermal.time_to_limit_s",
         "review_state": "open",
         "system_item_id": "OSR-RAILWAY-BOUNDARY",
         "target": null,
-        "unit": "hazard-exposure-budget"
+        "uncertainty_treatment": "all-bounds",
+        "unit": "s"
       }
     ],
     "assessment_approach": {
@@ -156,6 +3346,11 @@
       "operator": null,
       "state": "open"
     },
+    "assurance_scope": {
+      "additional_record_ids": [],
+      "exclusions": []
+    },
+    "calibration_events": [],
     "common_causes": [
       {
         "effect": "One supply loss may disable circulation and the primary flow indication. Separate BMS protection and safe vehicle response require integration evidence.",
@@ -315,6 +3510,7 @@
         "id": "RIG-NORMAL",
         "limits": {
           "max_temperature_c": null,
+          "maximum_sample_gap_s": null,
           "min_flow_l_min": null
         },
         "minimum_duration_s": null,
@@ -334,14 +3530,29 @@
           "max_detection_delay_s": null,
           "max_fault_flow_l_min": null,
           "max_isolation_delay_s": null,
-          "max_temperature_c": null
+          "max_temperature_c": null,
+          "maximum_sample_gap_s": null
         },
         "minimum_duration_s": null,
         "model_error_limit_c": null,
+        "preconditions": {
+          "digital_state": {
+            "derate": 0,
+            "detected": 0,
+            "fault_active": 0,
+            "isolation": 0
+          },
+          "min_flow_l_min": null,
+          "minimum_duration_s": null
+        },
         "procedure_revision": "draft-A",
         "repeat_count": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL"
+        ],
+        "response_sequence": [
+          "detected",
+          "isolation"
         ],
         "scenario_id": "SCN-COOL-PUMP",
         "title": "Pump shaft seizure / circulation loss"
@@ -352,14 +3563,29 @@
         "limits": {
           "max_detection_delay_s": null,
           "max_isolation_delay_s": null,
-          "max_temperature_c": null
+          "max_temperature_c": null,
+          "maximum_sample_gap_s": null
         },
         "minimum_duration_s": null,
         "model_error_limit_c": null,
+        "preconditions": {
+          "digital_state": {
+            "derate": 0,
+            "detected": 0,
+            "fault_active": 0,
+            "isolation": 0
+          },
+          "min_flow_l_min": null,
+          "minimum_duration_s": null
+        },
         "procedure_revision": "draft-A",
         "repeat_count": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL"
+        ],
+        "response_sequence": [
+          "detected",
+          "isolation"
         ],
         "scenario_id": "SCN-COOL-LEAK",
         "title": "Leak / loss of pressure"
@@ -370,14 +3596,29 @@
         "limits": {
           "max_detection_delay_s": null,
           "max_isolation_delay_s": null,
-          "max_temperature_c": null
+          "max_temperature_c": null,
+          "maximum_sample_gap_s": null
         },
         "minimum_duration_s": null,
         "model_error_limit_c": null,
+        "preconditions": {
+          "digital_state": {
+            "derate": 0,
+            "detected": 0,
+            "fault_active": 0,
+            "isolation": 0
+          },
+          "min_flow_l_min": null,
+          "minimum_duration_s": null
+        },
         "procedure_revision": "draft-A",
         "repeat_count": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL"
+        ],
+        "response_sequence": [
+          "detected",
+          "isolation"
         ],
         "scenario_id": "SCN-COOL-MASKED",
         "title": "Seized pump plus flow signal stuck high"
@@ -387,14 +3628,29 @@
         "id": "RIG-CHARGING",
         "limits": {
           "max_isolation_delay_s": null,
-          "max_temperature_c": null
+          "max_temperature_c": null,
+          "maximum_sample_gap_s": null
         },
         "minimum_duration_s": null,
         "model_error_limit_c": null,
+        "preconditions": {
+          "digital_state": {
+            "derate": 0,
+            "detected": 0,
+            "fault_active": 0,
+            "isolation": 0
+          },
+          "min_flow_l_min": null,
+          "minimum_duration_s": null
+        },
         "procedure_revision": "draft-A",
         "repeat_count": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL"
+        ],
+        "response_sequence": [
+          "detected",
+          "isolation"
         ],
         "scenario_id": "SCN-COOL-CHARGING",
         "title": "Charging with cooling loss, high ambient and fouling"
@@ -405,14 +3661,29 @@
         "limits": {
           "max_detection_delay_s": null,
           "max_isolation_delay_s": null,
-          "max_temperature_c": null
+          "max_temperature_c": null,
+          "maximum_sample_gap_s": null
         },
         "minimum_duration_s": null,
         "model_error_limit_c": null,
+        "preconditions": {
+          "digital_state": {
+            "derate": 0,
+            "detected": 0,
+            "fault_active": 0,
+            "isolation": 0
+          },
+          "min_flow_l_min": null,
+          "minimum_duration_s": null
+        },
         "procedure_revision": "draft-A",
         "repeat_count": null,
         "requirement_ids": [
           "REQ-COOL-PHYSICAL"
+        ],
+        "response_sequence": [
+          "detected",
+          "isolation"
         ],
         "scenario_id": "SCN-COOL-PUMP-HOT",
         "title": "Loss of shared auxiliary power"
@@ -528,6 +3799,11 @@
       ],
       "state": "planning-screen"
     },
+    "physical_thermal": {
+      "predictions": [],
+      "state": "input-evidence-open",
+      "time_to_limit_s": null
+    },
     "release_authority": false,
     "thermal": {
       "limitations": "Single lumped heat capacity and constant heat/conductance/ambient; no hydraulic, spatial, phase-change or runaway model.",
@@ -621,17 +3897,132 @@
     "design/component-catalogue/src/osr_mech/rolling_stock/systems.py": "0cee6520b383ab9aafcac7dcacd1d4132ee531c208b514658fd3901be4696fcc",
     "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "75f4814915af473aa8a33d0d725d7ee840017cc1c723e777fe6d8bc88c9fd484",
     "engineering/analysis/rams.py": "1356e3cb1025069d45f587be80c1bf2fb13b53e19bd9f68bfe0b6ad1595da8bf",
-    "engineering/assurance/battery-cooling/controller-execution.json": "43293758808885440150d37828a2e2bb6b8d49cb2732008a98b1286c5bc942d9",
-    "engineering/assurance/battery-cooling/rams-inputs.json": "d593d6346a65fdaaf7dce8dc98a346e4035b4d841727323307be7d9644a56b62",
+    "engineering/assurance/battery-cooling/controller-execution.json": "e53f1be0053210b00935abb1670751cd682d557300aa90dafa1e2517c00fdb87",
+    "engineering/assurance/battery-cooling/rams-inputs.json": "10873ac0388d656429c6fce590527995a969aa5e7514b096f9bbb603a1b095da",
     "lib/templates/connected-engineering.json": "96be9d3db4b335c16df6fb61210b5879fb36b311b0051ee9447d9f874277ad4a",
-    "lib/templates/subsystem-qualification.json": "39088990917bf6c1c3e28d7b433474bc54bd8dca619524bad1611609f7098841",
+    "lib/templates/subsystem-qualification.json": "25c7cbabc52f753990626e3633170dbba4eb721d58a1af59bd168495a82e9c89",
     "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
-    "tools/automation/connected_assurance.py": "5b0d1ec7709556a5944f57c98f70ceb11e4f2d5d3a99048b0270b6f8395398ef",
-    "tools/automation/subsystem_qualification.py": "1000f819b1655457f97864e20a32ceb092ec43b688b6bd4f5119910e2b4b0ece"
+    "tools/automation/connected_assurance.py": "8b6857d4bcaf6720d3bccf44da31010a94e2fb749555c2f35895067d78d9d3ef",
+    "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
   },
   "stages": {
     "design_verification": {
       "blockers": [
+        "Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: occurrence evidence unknown (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-AUX-P010/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-BOG-SA610/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-BOG-SA620/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-DOOR-SA310/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-FIX-SA340/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-HV-SA510/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-INT-SA330/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-LGT-SA350/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-ROOF-SA410/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-SHELL-A200/G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: decision open (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G2: prior gate decision open: G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-BDY-P050/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P010/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P020/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P030/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-SAF-P010/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P030/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P040/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P060/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P070/G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: decision open (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G2: prior gate decision open: G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-ART-SA800/G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-CAR-A900/G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-EIF-SA650/G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-END-SA700/G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-SYS-SA900/G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: decision open (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G2: prior gate decision open: G1 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: LM3-AUX-P010/G2 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-CONNECTOR/G2 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G2 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-PUMP/G2 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G2: prior gate decision open: G1 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: child/dependency decision open: LM3-AUX-P010/G2 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G2: prior gate decision open: G1 (open)",
+        "Assurance graph EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph FM-COOL-CONNECTOR: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-CONNECTOR: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-CONNECTOR: mitigation lacks a verification scenario: REQ-COOL-TORQUE (open)",
+        "Assurance graph FM-COOL-CONNECTOR: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-CONNECTOR: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-LOOP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-LOOP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-LOOP: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-PACK: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-PACK: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-PACK: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-PACK: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-PUMP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-PUMP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-PUMP: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-RAILWAY: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-RAILWAY: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-RAILWAY: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-RAILWAY: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
+        "Assurance graph FM-COOL-SENSOR: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-SENSOR: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-SENSOR: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-SENSOR: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-TORQUE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-TORQUE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-TORQUE: mitigation lacks a verification scenario: REQ-COOL-TORQUE (open)",
+        "Assurance graph FM-COOL-TORQUE: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-TORQUE: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph FM-COOL-VEHICLE: occurrence evidence unknown (open)",
+        "Assurance graph FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
         "CCA-COOL-AUX: common-cause assessment open",
         "CCA-COOL-CONFIG: common-cause assessment open",
         "Calibrated model and held-out validation review remain open.",
@@ -655,6 +4046,91 @@
     },
     "integration": {
       "blockers": [
+        "Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: occurrence evidence unknown (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-AUX-P010/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-BOG-SA610/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-BOG-SA620/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-DOOR-SA310/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-FIX-SA340/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-HV-SA510/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-INT-SA330/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-LGT-SA350/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-ROOF-SA410/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-SHELL-A200/G4 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: decision open (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: prior gate decision open: G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G4: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-BDY-P050/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P010/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P020/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P030/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-SAF-P010/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P030/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P040/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P060/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P070/G4 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: decision open (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: prior gate decision open: G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G4: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-ART-SA800/G4 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-CAR-A900/G4 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-EIF-SA650/G4 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-END-SA700/G4 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-SYS-SA900/G4 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: decision open (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: prior gate decision open: G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G4: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: LM3-AUX-P010/G4 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-CONNECTOR/G4 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G4 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-PUMP/G4 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: prior gate decision open: G3 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G4: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: child/dependency decision open: LM3-AUX-P010/G4 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: prior gate decision open: G3 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G4: reviewed physical integration evidence missing (open)",
         "hil: integration evidence absent.",
         "infrastructure: integration evidence absent.",
         "operations: integration evidence absent.",
@@ -664,6 +4140,7 @@
     },
     "operating_conditions": {
       "blockers": [
+        "Assurance graph DEMO-FRACAS-01: engineering handback and effectiveness review open (open)",
         "Operating envelope, restrictions and handback conditions are unresolved.",
         "Reference configuration has no deployment-specific accepted use."
       ],
@@ -671,6 +4148,94 @@
     },
     "physical_qualification": {
       "blockers": [
+        "Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: occurrence evidence unknown (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-AUX-P010/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-BOG-SA610/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-BOG-SA620/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-DOOR-SA310/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-FIX-SA340/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-HV-SA510/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-INT-SA330/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-LGT-SA350/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-ROOF-SA410/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-SHELL-A200/G3 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: decision open (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: prior gate decision open: G2 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G3: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-BDY-P050/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P010/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P020/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P030/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-SAF-P010/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P030/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P040/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P060/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P070/G3 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: decision open (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: prior gate decision open: G2 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G3: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-ART-SA800/G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-CAR-A900/G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-EIF-SA650/G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-END-SA700/G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-SYS-SA900/G3 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: decision open (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: prior gate decision open: G2 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G3: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: LM3-AUX-P010/G3 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-CONNECTOR/G3 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G3 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-PUMP/G3 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: prior gate decision open: G2 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G3: reviewed physical integration evidence missing (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: child/dependency decision open: LM3-AUX-P010/G3 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: prior gate decision open: G2 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G3: reviewed physical integration evidence missing (open)",
+        "Assurance graph EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph EVD-COOL-TORQUE: evidence planned (open)",
         "CC-COOL-FLOW: production limits and inspection release open",
         "CC-COOL-PRESSURE: production limits and inspection release open",
         "CC-COOL-SENSOR: production limits and inspection release open",
@@ -700,9 +4265,95 @@
     "requirements": {
       "blockers": [
         "ALLOC-COOL-availability: RAMS allocation/target review open",
+        "ALLOC-COOL-availability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.",
         "ALLOC-COOL-maintainability: RAMS allocation/target review open",
+        "ALLOC-COOL-maintainability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.",
         "ALLOC-COOL-reliability: RAMS allocation/target review open",
+        "ALLOC-COOL-reliability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.",
         "ALLOC-COOL-safety: RAMS allocation/target review open",
+        "ALLOC-COOL-safety: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Quantitative result is unresolved.; Result uses assumptions, unknown events or an unvalidated model.",
+        "Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: occurrence evidence unknown (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-AUX-P010/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-BOG-SA610/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-BOG-SA620/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-DOOR-SA310/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-FIX-SA340/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-HV-SA510/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-INT-SA330/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-LGT-SA350/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-ROOF-SA410/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-SHELL-A200/G1 (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-CAR-A900-G1: decision open (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-BDY-P050/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P010/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P020/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P030/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-SAF-P010/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P030/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P040/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P060/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P070/G1 (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-HV-SA510-G1: decision open (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-ART-SA800/G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-CAR-A900/G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-EIF-SA650/G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-END-SA700/G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-SYS-SA900/G1 (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-LM3-TRAINSET-A000-G1: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: LM3-AUX-P010/G1 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-CONNECTOR/G1 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G1 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-PUMP/G1 (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-LOOP-G1: decision open (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-BENCH: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-CONTROLLER: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-INTEGRATION: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-TORQUE: evidence planned (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: occurrence evidence unknown (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: child/dependency decision open: LM3-AUX-P010/G1 (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: controlled deployment acceptance is not authenticated (open)",
+        "Assurance graph DEC-OSR-COOL-PUMP-G1: decision open (open)",
+        "Assurance graph OBL-COOL-APPLICABILITY: deployment applicability and clause selection open (open)",
+        "Assurance graph REQ-COOL-HOT: acceptance criteria require independent engineering review (open)",
+        "Assurance graph REQ-COOL-LEAK: acceptance criteria require independent engineering review (open)",
+        "Assurance graph REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open)",
+        "Assurance graph REQ-COOL-PUMP: acceptance criteria require independent engineering review (open)",
+        "Assurance graph REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open)",
+        "Assurance graph REQ-COOL-TORQUE: acceptance criteria require independent engineering review (open)",
         "REQ-COOL-PHYSICAL: requirement review remains open",
         "REQ-COOL-RECOVERY: requirement review remains open"
       ],
@@ -716,6 +4367,7 @@
       "id": "RIG-NORMAL",
       "limits": {
         "max_temperature_c": null,
+        "maximum_sample_gap_s": null,
         "min_flow_l_min": null
       },
       "minimum_duration_s": null,
@@ -735,14 +4387,29 @@
         "max_detection_delay_s": null,
         "max_fault_flow_l_min": null,
         "max_isolation_delay_s": null,
-        "max_temperature_c": null
+        "max_temperature_c": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
+      "preconditions": {
+        "digital_state": {
+          "derate": 0,
+          "detected": 0,
+          "fault_active": 0,
+          "isolation": 0
+        },
+        "min_flow_l_min": null,
+        "minimum_duration_s": null
+      },
       "procedure_revision": "draft-A",
       "repeat_count": null,
       "requirement_ids": [
         "REQ-COOL-PHYSICAL"
+      ],
+      "response_sequence": [
+        "detected",
+        "isolation"
       ],
       "scenario_id": "SCN-COOL-PUMP",
       "title": "Pump shaft seizure / circulation loss"
@@ -753,14 +4420,29 @@
       "limits": {
         "max_detection_delay_s": null,
         "max_isolation_delay_s": null,
-        "max_temperature_c": null
+        "max_temperature_c": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
+      "preconditions": {
+        "digital_state": {
+          "derate": 0,
+          "detected": 0,
+          "fault_active": 0,
+          "isolation": 0
+        },
+        "min_flow_l_min": null,
+        "minimum_duration_s": null
+      },
       "procedure_revision": "draft-A",
       "repeat_count": null,
       "requirement_ids": [
         "REQ-COOL-PHYSICAL"
+      ],
+      "response_sequence": [
+        "detected",
+        "isolation"
       ],
       "scenario_id": "SCN-COOL-LEAK",
       "title": "Leak / loss of pressure"
@@ -771,14 +4453,29 @@
       "limits": {
         "max_detection_delay_s": null,
         "max_isolation_delay_s": null,
-        "max_temperature_c": null
+        "max_temperature_c": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
+      "preconditions": {
+        "digital_state": {
+          "derate": 0,
+          "detected": 0,
+          "fault_active": 0,
+          "isolation": 0
+        },
+        "min_flow_l_min": null,
+        "minimum_duration_s": null
+      },
       "procedure_revision": "draft-A",
       "repeat_count": null,
       "requirement_ids": [
         "REQ-COOL-PHYSICAL"
+      ],
+      "response_sequence": [
+        "detected",
+        "isolation"
       ],
       "scenario_id": "SCN-COOL-MASKED",
       "title": "Seized pump plus flow signal stuck high"
@@ -788,14 +4485,29 @@
       "id": "RIG-CHARGING",
       "limits": {
         "max_isolation_delay_s": null,
-        "max_temperature_c": null
+        "max_temperature_c": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
+      "preconditions": {
+        "digital_state": {
+          "derate": 0,
+          "detected": 0,
+          "fault_active": 0,
+          "isolation": 0
+        },
+        "min_flow_l_min": null,
+        "minimum_duration_s": null
+      },
       "procedure_revision": "draft-A",
       "repeat_count": null,
       "requirement_ids": [
         "REQ-COOL-PHYSICAL"
+      ],
+      "response_sequence": [
+        "detected",
+        "isolation"
       ],
       "scenario_id": "SCN-COOL-CHARGING",
       "title": "Charging with cooling loss, high ambient and fouling"
@@ -806,14 +4518,29 @@
       "limits": {
         "max_detection_delay_s": null,
         "max_isolation_delay_s": null,
-        "max_temperature_c": null
+        "max_temperature_c": null,
+        "maximum_sample_gap_s": null
       },
       "minimum_duration_s": null,
       "model_error_limit_c": null,
+      "preconditions": {
+        "digital_state": {
+          "derate": 0,
+          "detected": 0,
+          "fault_active": 0,
+          "isolation": 0
+        },
+        "min_flow_l_min": null,
+        "minimum_duration_s": null
+      },
       "procedure_revision": "draft-A",
       "repeat_count": null,
       "requirement_ids": [
         "REQ-COOL-PHYSICAL"
+      ],
+      "response_sequence": [
+        "detected",
+        "isolation"
       ],
       "scenario_id": "SCN-COOL-PUMP-HOT",
       "title": "Loss of shared auxiliary power"

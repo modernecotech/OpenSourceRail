@@ -27,6 +27,23 @@ and power interfaces. Targets remain null until responsible engineers allocate
 and review them. Operator, independent assessor and agreed assessment reference
 are explicit prerequisites.
 
+Each allocation declares an allowlisted `metric`, exact `result_path`, `unit`,
+`comparison` (`<=` or `>=`), target, review state and applicable
+`operating_conditions`. Conditions must match the linked result; mission
+probability also binds `mission_h`. The input study declares its condition
+envelope in `operating_conditions`. The current metric links cover pump failure
+rate, stationary function availability, pump mean repair time and physical
+thermal time to limit. These metrics retain their particular scope and do not
+constitute a quantified battery-fire risk or railway service-availability claim.
+
+`allocation_results` reports `met`, `not-met` or `undetermined`, with result
+bounds, numerical outcome and reasons. The required `all-bounds` treatment
+returns `met` only if the entire supported range satisfies the target, `not-met`
+if the entire range fails, and `undetermined` if it overlaps. Unsupported input
+evidence, unknown dependencies, unvalidated physical predictions, missing
+targets or mismatched units/conditions cannot establish `met`. Every result
+other than `met` remains an acceptance blocker, even after target review.
+
 ## Quantitative methods
 
 | Question | Method | Practical limits |
@@ -85,8 +102,23 @@ time_s,temperature_c,ambient_c,flow_l_min,pressure_kpa,fault_active,detected,iso
 ```
 
 Times strictly increase; values are finite; digital channels are 0/1.
-`fault_onset_s` records commanded onset. Delays use the first observed response
-after onset; absent responses remain unknown. Maximum sample gap is retained.
+`fault_onset_s` records commanded onset. Fault scenarios require pre-onset normal
+operation: inactive fault, diagnostics and protection, reviewed minimum flow
+and baseline duration. `preconditions.digital_state`, `min_flow_l_min` and
+`minimum_duration_s` declare that starting state. `response_sequence` declares
+the required ordered rising transitions after observed fault onset, normally
+diagnosis followed by isolation. A signal already asserted before the fault,
+missing baseline, absent transition, reversed order or transitions recorded in
+the same sample cannot demonstrate that sequence. Such records retain failed
+validation and null delays; an already-isolated rig does not prove fault response.
+
+Every test includes a reviewed `maximum_sample_gap_s` limit. Actual sample gaps
+must meet it, and the declared resolution cannot exceed the tightest response
+timing criterion. Normal-operation tests cannot include an injected fault or
+asserted protection. `response_validation` preserves transition times and
+findings; reported delays are observed upper bounds from commanded onset,
+without sub-sample interpolation. Sampling and baseline criteria remain null
+until competent review determines the resolution and operating state needed.
 `isolation` must mean a physical energy-isolation observation, rather than a
 controller request.
 
@@ -94,8 +126,21 @@ Each `measurement_runs` entry includes run/test ID, CSV path/hash, configuration
 fingerprint, rig and all observed component serials, physical/synthetic origin,
 operator, timezone-aware timestamp, procedure revision, fault onset,
 channel-to-instrument provenance and signal semantics. Calibration records
-include instrument ID, certificate path/hash, validity and temperature
-uncertainty. Changed/expired instruments, mismatched configuration, missing
+include instrument ID, certificate path/hash, `valid_from`, `valid_until` and
+temperature uncertainty. `performed_at` is acquisition start; CSV times are
+elapsed seconds from it. Calibration must cover the entire acquisition interval,
+including the last sample. Date-only certificate bounds include the full UTC
+day; explicit timestamps require a timezone. Later expiry does not invalidate
+a measurement that was valid at acquisition. Missing starts, future calibration,
+expiry during acquisition and changed certificate bytes remain blockers.
+
+`calibration_events` separately records retrospective instrument findings with
+ID, `instrument_id`, `discovered_at`, `affected_from`, `affected_until` and
+reference. Events match the certificate's `instrument_id` (or its record ID) and
+invalidate overlapping runs. `calibration_impact` lists the affected runs;
+non-overlapping runs retain their original calibration result. New valid
+measurements are needed to replace affected evidence; deleting a finding is not
+a revalidation process. Mismatched configuration, missing
 physical identity and unresolved/failed criteria stay blocked. Synthetic
 fixtures exercise the software and cannot qualify a physical assembly.
 
@@ -149,7 +194,25 @@ policy passed through `--review-policy`, or the server's
 `osr-subsystem-review/1`, with reviewer, authorized role, disposition,
 reference, validity date, exact evidence/configuration fingerprints and
 accepted use where appropriate. The policy enables reviewers, authorizes roles
-and pins public-key hashes. Signers must differ from executing identities.
+and pins public-key hashes. Signers must differ from the package owner, executing
+identities and exclusion authors.
+
+The qualification subject's assurance scope is derived from its contained
+components and dependencies, then followed through the graph to propagated
+failure analyses, requirements, evidence, applicability obligations and
+dependent gates. `assurance_scope.additional_record_ids` can widen this scope.
+Every relevant graph blocker feeds the corresponding readiness area and
+prevents subsystem acceptance. The report retains the complete record list,
+graph fingerprint and individually identified findings.
+
+An exclusion is a review proposal, not a way to silently remove a finding.
+`assurance_scope.exclusions` must identify the exact finding ID, record ID and
+current graph fingerprint, with rationale, accountable owner, author, distinct
+reviewer and review reference. Both authenticated assessor and design-authority
+envelopes must explicitly list the finding in `approved_exclusion_ids`; the
+assessor identity and reference must match the exclusion's accountable review.
+Missing approvals or changed baselines leave the blocker open. A scoped exclusion
+does not accept the graph's railway gate or establish a wider operating release.
 
 Integration records use `kind` values `hil`, `vehicle`, `infrastructure` and
 `operations`. Each area requires its own configuration-bound evidence; a passing

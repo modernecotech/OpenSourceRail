@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import copy
 import csv
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 import itertools
 import json
 from pathlib import Path
@@ -29,7 +29,65 @@ def require(row: dict, *fields: str) -> None:
         raise ValueError(f"{row.get('id', 'record')} missing {', '.join(fields)}")
 
 
-def measurements(root: Path, run: dict) -> tuple[list[dict], dict]:
+def response_trace(rows: list[dict], onset: float | None, test: dict | None) -> dict:
+    """Establish normal operation, fault and ordered rising responses from samples."""
+    gaps, transitions = [], {}
+    if onset is None:
+        if (test or {}).get("fault_required") or any(row["fault_active"] for row in rows):
+            gaps.append("Fault onset is missing or inconsistent with a normal-operation test.")
+        if test is not None and any(row[key] for row in rows for key in ("detected","isolation","derate")):
+            gaps.append("Normal-operation diagnostic/protection preconditions are not demonstrated.")
+        return {"state": "invalid" if gaps else "normal-operation", "blockers": gaps, "transitions_s": transitions}
+    if test is not None and not test.get("fault_required"):
+        gaps.append("Normal-operation test contains an injected fault.")
+    baseline = [row for row in rows if row["time_s"] < onset]
+    initial = (test or {}).get("preconditions", {})
+    expected = {"fault_active": 0, "detected": 0, "isolation": 0, "derate": 0}
+    expected.update(initial.get("digital_state", {}))
+    if not set(expected) <= {"fault_active", "detected", "isolation", "derate"} or any(type(value) is not int or value not in (0, 1) for value in expected.values()):
+        raise ValueError("unsupported response precondition channels or values")
+    if not baseline:
+        gaps.append("No normal-operation samples precede fault injection.")
+    elif any(row[key] != value for row in baseline for key, value in expected.items()):
+        gaps.append("Pre-fault diagnostic/protection state differs from scenario preconditions.")
+    if test is not None:
+        duration, flow = initial.get("minimum_duration_s"), initial.get("min_flow_l_min")
+        if duration is None or flow is None:
+            gaps.append("Scenario normal-operation duration/flow preconditions are unresolved.")
+        else:
+            rams.number(duration, "precondition duration", minimum=1e-12)
+            rams.number(flow, "precondition flow", minimum=1e-12)
+            if not baseline or baseline[-1]["time_s"]-baseline[0]["time_s"] < duration or any(row["flow_l_min"] < flow for row in baseline):
+                gaps.append("Normal-operation duration or flow precondition is not demonstrated.")
+    sequence = (test or {}).get("response_sequence", ["detected", "isolation"])
+    if not sequence or len(sequence)!=len(set(sequence)) or not set(sequence)<={"detected", "isolation", "derate"}:
+        raise ValueError("invalid scenario response sequence")
+    required = {"fault_active", *sequence}
+    for channel in required:
+        transitions[channel] = next((b["time_s"] for a,b in zip(rows, rows[1:])
+                                     if a[channel]==0 and b[channel]==1 and b["time_s"]>=onset), None)
+        if channel != "fault_active" and any(row[channel] for row in baseline):
+            gaps.append(f"{channel}: response was already asserted before the fault.")
+        if transitions[channel] is None:
+            gaps.append(f"{channel}: post-onset rising transition is not demonstrated.")
+    ordered = [transitions.get(channel) for channel in ["fault_active", *sequence]]
+    # Equal sample times cannot establish the claimed causal order.
+    if all(value is not None for value in ordered) and any(a>=b for a,b in zip(ordered,ordered[1:])):
+        gaps.append("Fault, diagnostic and protection transitions are not observed in the required order.")
+    if test is not None:
+        sample_limit = test.get("limits", {}).get("maximum_sample_gap_s")
+        timing = [value for key,value in test.get("limits", {}).items() if key.endswith("_delay_s") and value is not None]
+        sample_gap = max(b["time_s"]-a["time_s"] for a,b in zip(rows,rows[1:]))
+        if sample_limit is None:
+            gaps.append("Reviewed sampling resolution is unresolved.")
+        else:
+            rams.number(sample_limit,"sampling resolution",minimum=1e-12)
+            if sample_gap > sample_limit or (timing and sample_limit > min(timing)):
+                gaps.append("Sampling resolution cannot establish the fault-response timing criteria.")
+    return {"state": "invalid" if gaps else "transitions-observed", "blockers": sorted(set(gaps)), "transitions_s": transitions}
+
+
+def measurements(root: Path, run: dict, test: dict | None = None) -> tuple[list[dict], dict]:
     require(run, "id", "test_id", "raw_path", "raw_sha256", "configuration_fingerprint", "rig_serial",
             "specimen_serials", "performed_by", "performed_at", "procedure_revision", "channel_instruments", "origin")
     performed = datetime.fromisoformat(run["performed_at"].replace("Z", "+00:00"))
@@ -56,8 +114,9 @@ def measurements(root: Path, run: dict) -> tuple[list[dict], dict]:
             raise ValueError("fault onset outside measured interval")
         if not any(row["fault_active"] for row in rows) or any(row["fault_active"] and row["time_s"] < onset for row in rows):
             raise ValueError("fault record disagrees with commanded onset")
+    trace = response_trace(rows, onset, test)
     def delay(channel):
-        observed = next((row["time_s"] for row in rows if onset is not None and row["time_s"] >= onset and row[channel]), None)
+        observed = trace["transitions_s"].get(channel) if not trace["blockers"] else None
         return observed - onset if observed is not None else None
     fault_rows = [row for row in rows if row["fault_active"]]
     return rows, {"max_temperature_c":max(row["temperature_c"] for row in rows),
@@ -65,7 +124,8 @@ def measurements(root: Path, run: dict) -> tuple[list[dict], dict]:
                   "max_fault_flow_l_min":max((row["flow_l_min"] for row in fault_rows), default=None),
                   "max_detection_delay_s":delay("detected"), "max_isolation_delay_s":delay("isolation"),
                   "duration_s":rows[-1]["time_s"]-rows[0]["time_s"],
-                  "maximum_sample_gap_s":max(b["time_s"]-a["time_s"] for a,b in zip(rows,rows[1:]))}
+                  "maximum_sample_gap_s":max(b["time_s"]-a["time_s"] for a,b in zip(rows,rows[1:])),
+                  "response_validation": trace}
 
 
 def quantitative(inputs: dict) -> dict:
@@ -119,7 +179,8 @@ def quantitative(inputs: dict) -> dict:
                         "top_event_probability":analysis["mission_top_event_probability"],
                         "time_to_limit_s":rams.thermal_screen(changed_thermal,inputs["sample_times_s"])["time_to_limit_s"],
                         "decision":"comparison-only; uncertain supplier performance and cost require evidence"})
-    return {"evidence_basis":inputs["evidence_basis"], "thermal":thermal, "fault_tree":tree,
+    return {"evidence_basis":inputs["evidence_basis"], "thermal":thermal,
+            "physical_thermal":rams.thermal_screen(inputs["physical_thermal"],inputs["sample_times_s"]), "fault_tree":tree,
             "top_event":inputs["top_event"], "inspection":latent, "maintenance":logistics,
             "degraded_braking":braking, "design_options":options, "release_authority":False}
 
@@ -165,6 +226,144 @@ def authenticated_reviews(root: Path, records: list[dict], policy_path: Path | N
     return accepted, gaps
 
 
+def instant(value: str, *, end_of_day: bool = False) -> datetime:
+    """Date-only certificate bounds cover UTC days; acquisition times need offsets."""
+    if len(value)==10:
+        result=datetime.combine(date.fromisoformat(value), datetime.min.time(), timezone.utc)
+        return result+timedelta(days=1,microseconds=-1) if end_of_day else result
+    result=datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if result.tzinfo is None:
+        raise ValueError("calibration timestamps require a timezone")
+    return result.astimezone(timezone.utc)
+
+
+def calibration_period(record: dict) -> tuple[datetime, datetime] | None:
+    if not record.get("valid_from") or not record.get("valid_until"):
+        return None
+    start, end=instant(record["valid_from"]),instant(record["valid_until"],end_of_day=True)
+    if start>end:
+        raise ValueError("calibration start exceeds end")
+    return start,end
+
+
+def allocation_metrics(inputs: dict, analysis: dict, *, model_validated: bool, valid_evidence_ids: set[str]) -> dict:
+    """Allowlisted result links retain units, conditions and parameter provenance."""
+    events={row["id"]:row for row in inputs["events"]}
+    pump=events.get("EV-PUMP", {})
+    conditions=inputs.get("operating_conditions")
+    def supported(parameters):
+        return bool(parameters) and all(row.get("basis") in {"measured","supplier-data"} and row.get("evidence_ids")
+                                        and set(row["evidence_ids"])<=valid_evidence_ids for row in parameters)
+    def result(path,unit,bounds,parameters,*,context=conditions,qualified=True):
+        return {"result_path":path,"unit":unit,"bounds":bounds,"operating_conditions":context,
+                "evidence_qualified":bool(qualified and supported(parameters))}
+    metrics={}
+    for metric,field,unit in (("pump_failure_rate","failure_rate_per_h","1/h"),("pump_mean_repair_time","repair_h","h")):
+        parameter=pump.get(field)
+        if parameter:
+            bounds=rams.interval(parameter,metric,unit=unit)
+            metrics[metric]=result(f"events.EV-PUMP.{field}",unit,list(bounds) if bounds else None,[parameter])
+    tree=analysis["fault_tree"]
+    used=rams.tree_events(inputs["fault_tree"])
+    parameters=[events[identifier][field] for identifier in sorted(used) for field in ("failure_rate_per_h","repair_h")]
+    for metric,path,mission in (("function_availability","steady_state_availability",False),("mission_failure_probability","mission_top_event_probability",True)):
+        context={**conditions,"mission_h":inputs["mission_h"]} if conditions and mission else conditions
+        metrics[metric]=result("fault_tree."+path,"probability",tree.get(path),parameters,context=context,
+                               qualified=not tree.get("unknown_events") and tree["state"]!="dependency-evidence-open")
+    physical=analysis["physical_thermal"]
+    metrics["thermal_time_to_limit"]=result("physical_thermal.time_to_limit_s","s",physical.get("time_to_limit_s"),
+                                          list(inputs["physical_thermal"].values()),qualified=model_validated and not physical.get("some_cases_do_not_reach_limit"))
+    return metrics
+
+
+def assess_allocation(row: dict, metrics: dict) -> dict:
+    """Meet a target only when the complete supported uncertainty envelope meets it."""
+    result={"allocation_id":row["id"],"metric":row.get("metric"),"target":row.get("target"),
+            "unit":row.get("unit"),"comparison":row.get("comparison"),"state":"undetermined",
+            "numerical_state":"undetermined","uncertainty_treatment":"all-bounds","reasons":[]}
+    if row.get("target") is not None:
+        rams.number(row["target"],"RAMS target")
+    metric=metrics.get(row.get("metric"))
+    if metric is None:
+        result["reasons"].append("Defined metric and linked quantitative result are unresolved.")
+        return result
+    result.update(result_path=metric["result_path"],bounds=metric["bounds"],result_operating_conditions=metric["operating_conditions"])
+    if row.get("unit") != metric["unit"] or row.get("result_path") != metric["result_path"]:
+        result["reasons"].append("Metric units or result link do not match the allocation.")
+    if not row.get("operating_conditions") or row["operating_conditions"] != metric["operating_conditions"]:
+        result["reasons"].append("Allocated operating conditions do not match the analysed conditions.")
+    if row.get("uncertainty_treatment") != "all-bounds":
+        result["reasons"].append("Conservative all-bounds uncertainty treatment is required.")
+    if row.get("comparison") not in {">=","<="} or row.get("target") is None or row.get("review_state") != "reviewed":
+        result["reasons"].append("RAMS target, comparison or allocation review remains open.")
+    bounds=metric["bounds"]
+    if bounds is None:
+        result["reasons"].append("Quantitative result is unresolved.")
+    elif not result["reasons"]:
+        low,high=bounds
+        target=row["target"]
+        if metric["unit"]=="probability" and target>1:
+            raise ValueError("RAMS probability target exceeds one")
+        if row["comparison"]=="<=":
+            result["numerical_state"]="met" if high<=target else "not-met" if low>target else "undetermined"
+        else:
+            result["numerical_state"]="met" if low>=target else "not-met" if high<target else "undetermined"
+        if result["numerical_state"]=="undetermined":
+            result["reasons"].append("Uncertainty envelope overlaps the acceptance target.")
+    if not metric["evidence_qualified"]:
+        result["reasons"].append("Result uses assumptions, unknown events or an unvalidated model.")
+    if not result["reasons"]:
+        result["state"]=result["numerical_state"]
+    return result
+
+
+def assurance_findings(graph: dict, plan: dict, reviews: list[dict] | None = None) -> dict:
+    """Scope children/dependencies and their propagated assurance obligations."""
+    nodes={row["id"]:row for row in graph["nodes"]}
+    scope=plan.get("assurance_scope", {})
+    roots={plan["subject_id"], *scope.get("additional_record_ids", [])}
+    if roots-set(nodes):
+        raise ValueError("unknown qualification assurance scope record")
+    pending=list(roots)
+    while pending:
+        subject=pending.pop()
+        for edge in graph["edges"]:
+            if edge["to"]==subject and edge["relation"] in {"part_of","depends_on"} and edge["from"] not in roots:
+                roots.add(edge["from"]);pending.append(edge["from"])
+    records=set(thread.change_impact(graph,graph,sorted(roots))["trace_paths"])
+    exclusions={row["id"]:row for row in scope.get("exclusions", [])}
+    if len(exclusions)!=len(scope.get("exclusions", [])):
+        raise ValueError("duplicate assurance exclusion")
+    findings=[]
+    for identifier in sorted(records):
+        for message in sorted(set(graph["gaps"].get(identifier, []))):
+            finding_id=thread.fingerprint({"record_id":identifier,"blocker":message})
+            stage={"requirements":"requirements","obligations":"requirements","occurrences":"physical_qualification",
+                   "incidents":"operating_conditions","configurations":"design_verification"}.get(nodes[identifier]["kind"],"design_verification")
+            if nodes[identifier]["kind"]=="decisions":
+                stage={"G1":"requirements","G2":"design_verification","G3":"physical_qualification","G4":"integration"}[nodes[identifier]["gate"]]
+            if nodes[identifier]["kind"]=="evidence":
+                stage="physical_qualification" if nodes[identifier]["verification_class"] in {"physical-qualification","process-evidence"} else "design_verification"
+            disposition="open"
+            exclusion=exclusions.get(finding_id)
+            if exclusion:
+                require(exclusion,"id","record_id","rationale","accountable_owner","author","reviewer","review_reference","graph_fingerprint")
+                if exclusion["record_id"]!=identifier or exclusion["graph_fingerprint"]!=graph["fingerprint"] or exclusion["author"]==exclusion["reviewer"]:
+                    disposition="invalid-exclusion"
+                else:
+                    disposition="exclusion-proposed"
+                    approved=[row for row in reviews or [] if finding_id in row.get("approved_exclusion_ids", [])]
+                    assessor=any(row["role"]=="assessor" and row["reviewer"]==exclusion["reviewer"] and row["reference"]==exclusion["review_reference"] for row in approved)
+                    authority=any(row["role"]=="design-authority" for row in approved)
+                    if assessor and authority:
+                        disposition="excluded-by-authenticated-review"
+            findings.append({"id":finding_id,"record_id":identifier,"kind":nodes[identifier]["kind"],"message":message,
+                             "stage":stage,"disposition":disposition})
+    if set(exclusions)-{row["id"] for row in findings}:
+        raise ValueError("assurance exclusion does not identify a current scoped blocker")
+    return {"graph_fingerprint":graph["fingerprint"],"roots":sorted(roots),"record_ids":sorted(records),"findings":findings}
+
+
 def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date | None = None,
                     review_policy: Path | None = None) -> dict:
     plan = copy.deepcopy(plan if plan is not None else json.loads(thread.source(root,PLAN).read_text()))
@@ -190,11 +389,16 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
     input_evidence = {row["id"]:row for row in plan.get("input_evidence",[])}
     if len(input_evidence) != len(plan.get("input_evidence",[])):
         raise ValueError("duplicate parameter evidence IDs")
+    valid_evidence_ids = set()
     for row in input_evidence.values():
         require(row,"id","path","sha256","review_reference","valid_until")
         hashes[row["path"]] = thread.digest(root,row["path"])
         if hashes[row["path"]] != row["sha256"] or today > date.fromisoformat(row["valid_until"]):
             blockers["design_verification"].append(f"{row['id']}: parameter evidence changed or expired")
+        else:
+            valid_evidence_ids.add(row["id"])
+    if (inputs.get("operating_conditions") or {}).get("configuration_id") != cfg["id"]:
+        blockers["design_verification"].append("RAMS result operating conditions are not bound to the qualification configuration.")
     def parameter_evidence(value):
         if isinstance(value,dict):
             if value.get("basis") in {"measured","supplier-data"}:
@@ -247,9 +451,21 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
         raise ValueError("duplicate calibration instrument IDs")
     for row in instruments.values():
         hashes[row["path"]] = thread.digest(root,row["path"])
-        if hashes[row["path"]] != row["sha256"] or today > date.fromisoformat(row["valid_until"]):
-            blockers["physical_qualification"].append(f"{row['id']}: calibration expired or changed")
-    invalid_instruments = {row["id"] for row in instruments.values() if hashes[row["path"]]!=row["sha256"] or today>date.fromisoformat(row["valid_until"])}
+        if hashes[row["path"]] != row["sha256"]:
+            blockers["physical_qualification"].append(f"{row['id']}: calibration certificate changed")
+        if calibration_period(row) is None:
+            blockers["physical_qualification"].append(f"{row['id']}: calibration start/end interval is unresolved")
+    invalid_instruments = {row["id"] for row in instruments.values() if hashes[row["path"]]!=row["sha256"]}
+    calibration_events = plan.get("calibration_events", [])
+    if len({row["id"] for row in calibration_events}) != len(calibration_events):
+        raise ValueError("duplicate retrospective calibration event")
+    calibration_impact = []
+    for event in calibration_events:
+        require(event,"id","instrument_id","discovered_at","affected_from","affected_until","reference")
+        if instant(event["affected_from"]) > instant(event["affected_until"],end_of_day=True):
+            raise ValueError("retrospective calibration interval is reversed")
+        instant(event["discovered_at"])
+        calibration_impact.append({"event_id":event["id"], "instrument_id":event["instrument_id"], "affected_run_ids":[]})
     if any(value is None for value in rig["operating_envelope"].values()):
         blockers["physical_qualification"].append("Representative rig duty and environmental envelope unresolved.")
     tests = {row["id"]:row for row in plan["tests"]}
@@ -276,15 +492,16 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
     run_ids = [row["id"] for row in plan["measurement_runs"]]
     if len(run_ids) != len(set(run_ids)):
         raise ValueError("duplicate measurement run IDs")
-    results, authors = [], set()
+    results, authors = [], {plan["owner"]}
+    authors.update(row.get("author") for row in plan.get("assurance_scope", {}).get("exclusions", []))
     for run in plan["measurement_runs"]:
         if run["test_id"] not in tests:
             raise ValueError("measurement run references unknown test")
         test = tests[run["test_id"]]
-        rows, metrics = measurements(root,run)
+        rows, metrics = measurements(root,run,test)
         hashes[run["raw_path"]] = thread.digest(root,run["raw_path"])
         authors.add(run["performed_by"])
-        run_blockers = []
+        run_blockers = list(metrics["response_validation"]["blockers"])
         if run["origin"] != "physical" or str(run["rig_serial"]).startswith("DEMO"):
             run_blockers.append("Synthetic measurements cannot qualify a physical assembly.")
         if run["configuration_fingerprint"] != configuration_fingerprint or run["rig_serial"] != rig["serial_number"]:
@@ -296,7 +513,23 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
         if set(rig["instrument_channels"]) - set(run["channel_instruments"]) or any(value not in instruments for value in run["channel_instruments"].values()):
             run_blockers.append("Measurement channels lack controlled instrument provenance.")
         if set(run["channel_instruments"].values()) & invalid_instruments:
-            run_blockers.append("Measurement instruments are expired or changed.")
+            run_blockers.append("Measurement calibration certificate changed.")
+        acquisition = instant(run["performed_at"])
+        measurement_start = acquisition+timedelta(seconds=rows[0]["time_s"])
+        measurement_end = acquisition+timedelta(seconds=rows[-1]["time_s"])
+        calibration_checks = []
+        for identifier in sorted(set(run["channel_instruments"].values()) & set(instruments)):
+            instrument = instruments[identifier]
+            period = calibration_period(instrument)
+            valid = bool(period and period[0]<=measurement_start<=measurement_end<=period[1] and identifier not in invalid_instruments)
+            calibration_checks.append({"calibration_id":identifier,"valid_at_measurement":valid})
+            if not valid:
+                run_blockers.append(f"{identifier}: calibration was expired, not yet valid, changed or unresolved at measurement time.")
+            for event, impact in zip(calibration_events,calibration_impact):
+                if (event["instrument_id"] == instrument.get("instrument_id",identifier) and
+                    instant(event["affected_from"])<=measurement_end and instant(event["affected_until"],end_of_day=True)>=measurement_start):
+                    impact["affected_run_ids"].append(run["id"])
+                    run_blockers.append(f"{event['id']}: retrospective instrument validity finding affects this measurement.")
         if run.get("channel_semantics",{}).get("isolation") != "physical-energy-isolated":
             run_blockers.append("Isolation channel has not been identified as a physical energy-isolation observation.")
         for identifier, serial in run["specimen_serials"].items():
@@ -327,6 +560,7 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
                 model_error += rams.number(temperature_instrument["uncertainty_c"],"measurement temperature uncertainty")
         correlation_passed = not run_blockers and model_error is not None and test["model_error_limit_c"] is not None and model_error <= test["model_error_limit_c"]
         results.append({"run_id":run["id"],"test_id":run["test_id"],"raw_path":run["raw_path"],"metrics":metrics,
+                        "calibration_checks":calibration_checks,
                         "criteria":criteria,"blockers":run_blockers,"model_maximum_error_c":model_error,
                         "model_correlation_passed":correlation_passed,"state":"measured-unreviewed" if run["origin"] == "physical" else "synthetic-unreviewed"})
         blockers["physical_qualification"].extend(f"{run['id']}: {value}" for value in run_blockers)
@@ -400,10 +634,22 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
     if plan["scope"]["kind"] == "reference":
         blockers["operating_conditions"].append("Reference configuration has no deployment-specific accepted use.")
     analysis = quantitative(inputs)
+    metrics = allocation_metrics(inputs,analysis,model_validated=not blockers["design_verification"],valid_evidence_ids=valid_evidence_ids)
+    allocation_results = [assess_allocation(row,metrics) for row in plan["allocations"]]
+    for result in allocation_results:
+        if result["state"] != "met":
+            blockers["requirements"].append(f"{result['allocation_id']}: RAMS target {result['state']}; "+"; ".join(result["reasons"]))
     semantic_plan = {key:value for key,value in plan.items() if key not in {"review_records","accepted_baseline_fingerprint"}}
     scope_hashes = {key:value for key,value in hashes.items() if key != PLAN}
-    evidence_fingerprint = thread.fingerprint({"definition":semantic_plan,"sources":scope_hashes,"results":results})
+    scoped_findings = assurance_findings(graph,plan)
+    evidence_fingerprint = thread.fingerprint({"definition":semantic_plan,"sources":scope_hashes,"results":results,
+                                              "allocation_results":allocation_results,"assurance_scope":scoped_findings,
+                                              "calibration_impact":calibration_impact})
     reviews,review_gaps = authenticated_reviews(root,plan["review_records"],review_policy,evidence_fingerprint,configuration_fingerprint,authors,today)
+    scoped_findings = assurance_findings(graph,plan,reviews)
+    for finding in scoped_findings["findings"]:
+        if finding["disposition"] != "excluded-by-authenticated-review":
+            blockers[finding["stage"]].append(f"Assurance graph {finding['record_id']}: {finding['message']} ({finding['disposition']})")
     for record in plan["review_records"]:
         for key in ("envelope_path","signature_path"):
             hashes[record[key]] = thread.digest(root,record[key])
@@ -429,6 +675,9 @@ def compile_package(root: Path = ROOT, plan: dict | None = None, *, today: date 
             "configuration_id":cfg["id"],"configuration_fingerprint":configuration_fingerprint,"scope":plan["scope"],
             "evidence_fingerprint":evidence_fingerprint,"source_hashes":dict(sorted(hashes.items())),
             "stages":stages,"quantitative_analysis":analysis,"measurement_results":results,
+            "allocation_results":allocation_results,
+            "assurance_scope":scoped_findings,
+            "calibration_impact":calibration_impact,
             "manufacturing_blockers":manufacturing,"authenticated_reviews":reviews,
             "accepted_use":accepted_use if accepted else None,"qualification_state":"recorded-subsystem-acceptance" if accepted else "qualification-open",
             "changes_since_decision":"no-authenticated-acceptance-baseline" if not plan["accepted_baseline_fingerprint"] else
@@ -482,6 +731,15 @@ def render_markdown(report: dict) -> str:
            "| Decision area | State | Open findings |","|---|---|---|"]
     for stage,row in report["stages"].items():
         lines.append(f"| {stage.replace('_',' ')} | {row['state']} | {'; '.join(row['blockers']) or 'Evidence current for review'} |")
+    lines += ["","## RAMS allocation outcomes","","| Allocation / metric | Target | Result bounds | Outcome |","|---|---|---|---|"]
+    for row in report["allocation_results"]:
+        lines.append(f"| {row['allocation_id']} / {row['metric']} | {row['comparison']} {row['target']} {row['unit']} | {row.get('bounds')} | {row['state']} — {'; '.join(row['reasons'])} |")
+    scope=report["assurance_scope"]
+    lines += ["","## Scoped graph findings","",
+              f"Graph `{scope['graph_fingerprint']}`; {len(scope['record_ids'])} scoped records. Every scoped blocker requires closure or an authenticated, baseline-bound exclusion.","",
+              "| Record | Finding | Disposition |","|---|---|---|"]
+    for finding in scope["findings"]:
+        lines.append(f"| {finding['record_id']} | {finding['message']} | {finding['disposition']} |")
     lines += ["","## Quantitative screening","","```json",json.dumps(report["quantitative_analysis"],indent=2,sort_keys=True),"```","",
               "## Controlled rig tests","","| Test | Procedure | Acceptance inputs |","|---|---|---|"]
     for row in report["test_plan"]:

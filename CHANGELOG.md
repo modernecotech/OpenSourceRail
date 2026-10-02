@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Hardened assurance impact and qualification acceptance against the reviewed
+  prototype findings. Relationship-only and source-only changes reopen affected
+  evidence. Fault tests now require normal preconditions, ordered rising
+  responses and reviewed sampling resolution. RAMS allocations compare supported
+  uncertainty envelopes against explicit metrics, units and conditions. Scoped
+  graph safety, obligation and gate findings block qualification unless a
+  current, accountable exclusion receives authenticated approvals. Calibration
+  is checked at acquisition time, with separate retrospective instrument events.
+  Workbench and exported dossiers expose allocation outcomes and graph findings.
+
 - Added quantitative subsystem assurance and a controlled cooling-rig programme.
   Exact Boolean fault-tree/cut-set analysis retains shared dependencies and
   unknown systematic events; thermal, repairable availability, latent exposure,

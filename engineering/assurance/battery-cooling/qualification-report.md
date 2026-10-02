@@ -8,12 +8,399 @@ Quantitative screens retain their stated input evidence basis. Physical qualific
 
 | Decision area | State | Open findings |
 |---|---|---|
-| requirements | blocked | ALLOC-COOL-availability: RAMS allocation/target review open; ALLOC-COOL-maintainability: RAMS allocation/target review open; ALLOC-COOL-reliability: RAMS allocation/target review open; ALLOC-COOL-safety: RAMS allocation/target review open; REQ-COOL-PHYSICAL: requirement review remains open; REQ-COOL-RECOVERY: requirement review remains open |
-| design verification | blocked | CCA-COOL-AUX: common-cause assessment open; CCA-COOL-CONFIG: common-cause assessment open; Calibrated model and held-out validation review remain open.; RIG-AUX: model correlation tolerance unresolved; RIG-CHARGING: model correlation tolerance unresolved; RIG-LEAK: model correlation tolerance unresolved; RIG-MASKED: model correlation tolerance unresolved; RIG-NORMAL: model correlation tolerance unresolved; RIG-PUMP: model correlation tolerance unresolved |
-| physical qualification | blocked | CC-COOL-FLOW: production limits and inspection release open; CC-COOL-PRESSURE: production limits and inspection release open; CC-COOL-SENSOR: production limits and inspection release open; CC-COOL-TORQUE: production limits and inspection release open; Controlled rig specimen serials are missing.; Fault injection, independent shutdown and rig protection review remain open.; No controlled production-equivalence records for serialised assemblies.; OSR-COOL-PUMP: replacement compatibility or instructions open; RIG-AUX: acceptance limits, duration or repeat count unresolved; RIG-AUX: representative physical repetitions missing; RIG-CHARGING: acceptance limits, duration or repeat count unresolved; RIG-CHARGING: representative physical repetitions missing; RIG-LEAK: acceptance limits, duration or repeat count unresolved; RIG-LEAK: representative physical repetitions missing; RIG-MASKED: acceptance limits, duration or repeat count unresolved; RIG-MASKED: representative physical repetitions missing; RIG-NORMAL: acceptance limits, duration or repeat count unresolved; RIG-NORMAL: representative physical repetitions missing; RIG-PUMP: acceptance limits, duration or repeat count unresolved; RIG-PUMP: representative physical repetitions missing; Representative rig duty and environmental envelope unresolved.; Rig as-built configuration is not bound to the frozen design.; Selected components and real rig serial are missing. |
-| integration | blocked | hil: integration evidence absent.; infrastructure: integration evidence absent.; operations: integration evidence absent.; vehicle: integration evidence absent. |
+| requirements | blocked | ALLOC-COOL-availability: RAMS allocation/target review open; ALLOC-COOL-availability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.; ALLOC-COOL-maintainability: RAMS allocation/target review open; ALLOC-COOL-maintainability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.; ALLOC-COOL-reliability: RAMS allocation/target review open; ALLOC-COOL-reliability: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model.; ALLOC-COOL-safety: RAMS allocation/target review open; ALLOC-COOL-safety: RAMS target undetermined; Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Quantitative result is unresolved.; Result uses assumptions, unknown events or an unvalidated model.; Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G1: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open); Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open); Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: occurrence evidence unknown (open); Assurance graph DEC-LM3-CAR-A900-G1: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); Assurance graph DEC-LM3-CAR-A900-G1: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-AUX-P010/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-BOG-SA610/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-BOG-SA620/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-DOOR-SA310/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-FIX-SA340/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-HV-SA510/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-INT-SA330/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-LGT-SA350/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-ROOF-SA410/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: child/dependency decision open: LM3-SHELL-A200/G1 (open); Assurance graph DEC-LM3-CAR-A900-G1: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-CAR-A900-G1: decision open (open); Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G1: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-BDY-P050/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P010/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P020/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-HV-P030/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-SAF-P010/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P030/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P040/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P060/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: child/dependency decision open: LM3-TRC-P070/G1 (open); Assurance graph DEC-LM3-HV-SA510-G1: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-HV-SA510-G1: decision open (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-ART-SA800/G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-CAR-A900/G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-EIF-SA650/G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-END-SA700/G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: child/dependency decision open: LM3-SYS-SA900/G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-TRAINSET-A000-G1: decision open (open); Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G1: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-LOOP-G1: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-LOOP-G1: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: LM3-AUX-P010/G1 (open); Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-CONNECTOR/G1 (open); Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G1 (open); Assurance graph DEC-OSR-COOL-LOOP-G1: child/dependency decision open: OSR-COOL-PUMP/G1 (open); Assurance graph DEC-OSR-COOL-LOOP-G1: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-LOOP-G1: decision open (open); Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G1: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-PUMP-G1: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-PUMP-G1: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-PUMP-G1: child/dependency decision open: LM3-AUX-P010/G1 (open); Assurance graph DEC-OSR-COOL-PUMP-G1: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-PUMP-G1: decision open (open); Assurance graph OBL-COOL-APPLICABILITY: deployment applicability and clause selection open (open); Assurance graph REQ-COOL-HOT: acceptance criteria require independent engineering review (open); Assurance graph REQ-COOL-LEAK: acceptance criteria require independent engineering review (open); Assurance graph REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open); Assurance graph REQ-COOL-PUMP: acceptance criteria require independent engineering review (open); Assurance graph REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph REQ-COOL-TORQUE: acceptance criteria require independent engineering review (open); REQ-COOL-PHYSICAL: requirement review remains open; REQ-COOL-RECOVERY: requirement review remains open |
+| design verification | blocked | Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G2: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open); Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open); Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: occurrence evidence unknown (open); Assurance graph DEC-LM3-CAR-A900-G2: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); Assurance graph DEC-LM3-CAR-A900-G2: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-AUX-P010/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-BOG-SA610/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-BOG-SA620/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-DOOR-SA310/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-FIX-SA340/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-HV-SA510/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-INT-SA330/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-LGT-SA350/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-ROOF-SA410/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: child/dependency decision open: LM3-SHELL-A200/G2 (open); Assurance graph DEC-LM3-CAR-A900-G2: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-CAR-A900-G2: decision open (open); Assurance graph DEC-LM3-CAR-A900-G2: prior gate decision open: G1 (open); Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G2: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-BDY-P050/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P010/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P020/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-HV-P030/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-SAF-P010/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P030/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P040/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P060/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: child/dependency decision open: LM3-TRC-P070/G2 (open); Assurance graph DEC-LM3-HV-SA510-G2: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-HV-SA510-G2: decision open (open); Assurance graph DEC-LM3-HV-SA510-G2: prior gate decision open: G1 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-ART-SA800/G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-CAR-A900/G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-EIF-SA650/G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-END-SA700/G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: child/dependency decision open: LM3-SYS-SA900/G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: decision open (open); Assurance graph DEC-LM3-TRAINSET-A000-G2: prior gate decision open: G1 (open); Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G2: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-LOOP-G2: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-LOOP-G2: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: LM3-AUX-P010/G2 (open); Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-CONNECTOR/G2 (open); Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G2 (open); Assurance graph DEC-OSR-COOL-LOOP-G2: child/dependency decision open: OSR-COOL-PUMP/G2 (open); Assurance graph DEC-OSR-COOL-LOOP-G2: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-LOOP-G2: decision open (open); Assurance graph DEC-OSR-COOL-LOOP-G2: prior gate decision open: G1 (open); Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G2: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-PUMP-G2: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-PUMP-G2: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-PUMP-G2: child/dependency decision open: LM3-AUX-P010/G2 (open); Assurance graph DEC-OSR-COOL-PUMP-G2: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-PUMP-G2: decision open (open); Assurance graph DEC-OSR-COOL-PUMP-G2: prior gate decision open: G1 (open); Assurance graph EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph FM-COOL-CONNECTOR: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-CONNECTOR: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-CONNECTOR: mitigation lacks a verification scenario: REQ-COOL-TORQUE (open); Assurance graph FM-COOL-CONNECTOR: occurrence evidence unknown (open); Assurance graph FM-COOL-CONNECTOR: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-LOOP: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-LOOP: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-LOOP: occurrence evidence unknown (open); Assurance graph FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-PACK: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-PACK: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-PACK: occurrence evidence unknown (open); Assurance graph FM-COOL-PACK: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-PUMP: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-PUMP: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-PUMP: occurrence evidence unknown (open); Assurance graph FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-RAILWAY: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-RAILWAY: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-RAILWAY: occurrence evidence unknown (open); Assurance graph FM-COOL-RAILWAY: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); Assurance graph FM-COOL-SENSOR: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-SENSOR: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-SENSOR: occurrence evidence unknown (open); Assurance graph FM-COOL-SENSOR: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-TORQUE: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-TORQUE: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-TORQUE: mitigation lacks a verification scenario: REQ-COOL-TORQUE (open); Assurance graph FM-COOL-TORQUE: occurrence evidence unknown (open); Assurance graph FM-COOL-TORQUE: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open); Assurance graph FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open); Assurance graph FM-COOL-VEHICLE: occurrence evidence unknown (open); Assurance graph FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); CCA-COOL-AUX: common-cause assessment open; CCA-COOL-CONFIG: common-cause assessment open; Calibrated model and held-out validation review remain open.; RIG-AUX: model correlation tolerance unresolved; RIG-CHARGING: model correlation tolerance unresolved; RIG-LEAK: model correlation tolerance unresolved; RIG-MASKED: model correlation tolerance unresolved; RIG-NORMAL: model correlation tolerance unresolved; RIG-PUMP: model correlation tolerance unresolved |
+| physical qualification | blocked | Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G3: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open); Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open); Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: occurrence evidence unknown (open); Assurance graph DEC-LM3-CAR-A900-G3: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); Assurance graph DEC-LM3-CAR-A900-G3: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-AUX-P010/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-BOG-SA610/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-BOG-SA620/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-DOOR-SA310/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-FIX-SA340/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-HV-SA510/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-INT-SA330/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-LGT-SA350/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-ROOF-SA410/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: child/dependency decision open: LM3-SHELL-A200/G3 (open); Assurance graph DEC-LM3-CAR-A900-G3: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-CAR-A900-G3: decision open (open); Assurance graph DEC-LM3-CAR-A900-G3: prior gate decision open: G2 (open); Assurance graph DEC-LM3-CAR-A900-G3: reviewed physical integration evidence missing (open); Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G3: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-BDY-P050/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P010/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P020/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-HV-P030/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-SAF-P010/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P030/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P040/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P060/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: child/dependency decision open: LM3-TRC-P070/G3 (open); Assurance graph DEC-LM3-HV-SA510-G3: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-HV-SA510-G3: decision open (open); Assurance graph DEC-LM3-HV-SA510-G3: prior gate decision open: G2 (open); Assurance graph DEC-LM3-HV-SA510-G3: reviewed physical integration evidence missing (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-ART-SA800/G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-CAR-A900/G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-EIF-SA650/G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-END-SA700/G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: child/dependency decision open: LM3-SYS-SA900/G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: decision open (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: prior gate decision open: G2 (open); Assurance graph DEC-LM3-TRAINSET-A000-G3: reviewed physical integration evidence missing (open); Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G3: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-LOOP-G3: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-LOOP-G3: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: LM3-AUX-P010/G3 (open); Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-CONNECTOR/G3 (open); Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G3 (open); Assurance graph DEC-OSR-COOL-LOOP-G3: child/dependency decision open: OSR-COOL-PUMP/G3 (open); Assurance graph DEC-OSR-COOL-LOOP-G3: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-LOOP-G3: decision open (open); Assurance graph DEC-OSR-COOL-LOOP-G3: prior gate decision open: G2 (open); Assurance graph DEC-OSR-COOL-LOOP-G3: reviewed physical integration evidence missing (open); Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G3: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-PUMP-G3: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-PUMP-G3: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-PUMP-G3: child/dependency decision open: LM3-AUX-P010/G3 (open); Assurance graph DEC-OSR-COOL-PUMP-G3: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-PUMP-G3: decision open (open); Assurance graph DEC-OSR-COOL-PUMP-G3: prior gate decision open: G2 (open); Assurance graph DEC-OSR-COOL-PUMP-G3: reviewed physical integration evidence missing (open); Assurance graph EVD-COOL-BENCH: evidence planned (open); Assurance graph EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph EVD-COOL-TORQUE: evidence planned (open); CC-COOL-FLOW: production limits and inspection release open; CC-COOL-PRESSURE: production limits and inspection release open; CC-COOL-SENSOR: production limits and inspection release open; CC-COOL-TORQUE: production limits and inspection release open; Controlled rig specimen serials are missing.; Fault injection, independent shutdown and rig protection review remain open.; No controlled production-equivalence records for serialised assemblies.; OSR-COOL-PUMP: replacement compatibility or instructions open; RIG-AUX: acceptance limits, duration or repeat count unresolved; RIG-AUX: representative physical repetitions missing; RIG-CHARGING: acceptance limits, duration or repeat count unresolved; RIG-CHARGING: representative physical repetitions missing; RIG-LEAK: acceptance limits, duration or repeat count unresolved; RIG-LEAK: representative physical repetitions missing; RIG-MASKED: acceptance limits, duration or repeat count unresolved; RIG-MASKED: representative physical repetitions missing; RIG-NORMAL: acceptance limits, duration or repeat count unresolved; RIG-NORMAL: representative physical repetitions missing; RIG-PUMP: acceptance limits, duration or repeat count unresolved; RIG-PUMP: representative physical repetitions missing; Representative rig duty and environmental envelope unresolved.; Rig as-built configuration is not bound to the frozen design.; Selected components and real rig serial are missing. |
+| integration | blocked | Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G4: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: failure analysis and residual risk unreviewed (open); Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: mandatory safety review requires a controlled decision (open); Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: occurrence evidence unknown (open); Assurance graph DEC-LM3-CAR-A900-G4: FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup (open); Assurance graph DEC-LM3-CAR-A900-G4: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-AUX-P010/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-BOG-SA610/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-BOG-SA620/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-DOOR-SA310/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-FIX-SA340/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-HV-SA510/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-INT-SA330/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-LGT-SA350/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-ROOF-SA410/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: child/dependency decision open: LM3-SHELL-A200/G4 (open); Assurance graph DEC-LM3-CAR-A900-G4: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-CAR-A900-G4: decision open (open); Assurance graph DEC-LM3-CAR-A900-G4: prior gate decision open: G3 (open); Assurance graph DEC-LM3-CAR-A900-G4: reviewed physical integration evidence missing (open); Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G4: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-BDY-P050/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P010/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P020/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-HV-P030/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-SAF-P010/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P030/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P040/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P060/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: child/dependency decision open: LM3-TRC-P070/G4 (open); Assurance graph DEC-LM3-HV-SA510-G4: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-HV-SA510-G4: decision open (open); Assurance graph DEC-LM3-HV-SA510-G4: prior gate decision open: G3 (open); Assurance graph DEC-LM3-HV-SA510-G4: reviewed physical integration evidence missing (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: REQ-COOL-RECOVERY: acceptance criteria require independent engineering review (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-ART-SA800/G4 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-CAR-A900/G4 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-EIF-SA650/G4 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-END-SA700/G4 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: child/dependency decision open: LM3-SYS-SA900/G4 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: decision open (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: prior gate decision open: G3 (open); Assurance graph DEC-LM3-TRAINSET-A000-G4: reviewed physical integration evidence missing (open); Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G4: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-LOOP-G4: FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-LOOP-G4: REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: LM3-AUX-P010/G4 (open); Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-CONNECTOR/G4 (open); Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-FLOW-SENSOR/G4 (open); Assurance graph DEC-OSR-COOL-LOOP-G4: child/dependency decision open: OSR-COOL-PUMP/G4 (open); Assurance graph DEC-OSR-COOL-LOOP-G4: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-LOOP-G4: decision open (open); Assurance graph DEC-OSR-COOL-LOOP-G4: prior gate decision open: G3 (open); Assurance graph DEC-OSR-COOL-LOOP-G4: reviewed physical integration evidence missing (open); Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-BENCH: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-CONTROLLER: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-INTEGRATION: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G4: EVD-COOL-TORQUE: evidence planned (open); Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: failure analysis and residual risk unreviewed (open); Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: mandatory safety review requires a controlled decision (open); Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: occurrence evidence unknown (open); Assurance graph DEC-OSR-COOL-PUMP-G4: FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup (open); Assurance graph DEC-OSR-COOL-PUMP-G4: REQ-COOL-PUMP: acceptance criteria require independent engineering review (open); Assurance graph DEC-OSR-COOL-PUMP-G4: child/dependency decision open: LM3-AUX-P010/G4 (open); Assurance graph DEC-OSR-COOL-PUMP-G4: controlled deployment acceptance is not authenticated (open); Assurance graph DEC-OSR-COOL-PUMP-G4: decision open (open); Assurance graph DEC-OSR-COOL-PUMP-G4: prior gate decision open: G3 (open); Assurance graph DEC-OSR-COOL-PUMP-G4: reviewed physical integration evidence missing (open); hil: integration evidence absent.; infrastructure: integration evidence absent.; operations: integration evidence absent.; vehicle: integration evidence absent. |
 | independent review | blocked | Authenticated assessor decision missing.; Authenticated design-authority decision missing.; Independent review policy and signed decisions are not supplied.; Operator/assessor assessment approach is not agreed. |
-| operating conditions | blocked | Operating envelope, restrictions and handback conditions are unresolved.; Reference configuration has no deployment-specific accepted use. |
+| operating conditions | blocked | Assurance graph DEMO-FRACAS-01: engineering handback and effectiveness review open (open); Operating envelope, restrictions and handback conditions are unresolved.; Reference configuration has no deployment-specific accepted use. |
+
+## RAMS allocation outcomes
+
+| Allocation / metric | Target | Result bounds | Outcome |
+|---|---|---|---|
+| ALLOC-COOL-reliability / pump_failure_rate | <= None 1/h | [1e-05, 5e-05] | undetermined — Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model. |
+| ALLOC-COOL-availability / function_availability | >= None probability | [0.9996700950723632, 0.9999979999740007] | undetermined — Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model. |
+| ALLOC-COOL-maintainability / pump_mean_repair_time | <= None h | [2.0, 6.0] | undetermined — Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Result uses assumptions, unknown events or an unvalidated model. |
+| ALLOC-COOL-safety / thermal_time_to_limit | >= None s | None | undetermined — Allocated operating conditions do not match the analysed conditions.; RAMS target, comparison or allocation review remains open.; Quantitative result is unresolved.; Result uses assumptions, unknown events or an unvalidated model. |
+
+## Scoped graph findings
+
+Graph `fab61de3c60eaa9b4d64a712ca79a4d741cc8f07de38c1d5aadd75e3d0d73e62`; 79 scoped records. Every scoped blocker requires closure or an authenticated, baseline-bound exclusion.
+
+| Record | Finding | Disposition |
+|---|---|---|
+| DEC-LM3-CAR-A900-G1 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-CAR-A900-G1 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-CAR-A900-G1 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-CAR-A900-G1 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-CAR-A900-G1 | FM-COOL-VEHICLE: failure analysis and residual risk unreviewed | open |
+| DEC-LM3-CAR-A900-G1 | FM-COOL-VEHICLE: mandatory safety review requires a controlled decision | open |
+| DEC-LM3-CAR-A900-G1 | FM-COOL-VEHICLE: occurrence evidence unknown | open |
+| DEC-LM3-CAR-A900-G1 | FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| DEC-LM3-CAR-A900-G1 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-AUX-P010/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-BOG-SA610/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-BOG-SA620/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-DOOR-SA310/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-FIX-SA340/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-HV-SA510/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-INT-SA330/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-LGT-SA350/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-ROOF-SA410/G1 | open |
+| DEC-LM3-CAR-A900-G1 | child/dependency decision open: LM3-SHELL-A200/G1 | open |
+| DEC-LM3-CAR-A900-G1 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-CAR-A900-G1 | decision open | open |
+| DEC-LM3-CAR-A900-G2 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-CAR-A900-G2 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-CAR-A900-G2 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-CAR-A900-G2 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-CAR-A900-G2 | FM-COOL-VEHICLE: failure analysis and residual risk unreviewed | open |
+| DEC-LM3-CAR-A900-G2 | FM-COOL-VEHICLE: mandatory safety review requires a controlled decision | open |
+| DEC-LM3-CAR-A900-G2 | FM-COOL-VEHICLE: occurrence evidence unknown | open |
+| DEC-LM3-CAR-A900-G2 | FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| DEC-LM3-CAR-A900-G2 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-AUX-P010/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-BOG-SA610/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-BOG-SA620/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-DOOR-SA310/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-FIX-SA340/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-HV-SA510/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-INT-SA330/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-LGT-SA350/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-ROOF-SA410/G2 | open |
+| DEC-LM3-CAR-A900-G2 | child/dependency decision open: LM3-SHELL-A200/G2 | open |
+| DEC-LM3-CAR-A900-G2 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-CAR-A900-G2 | decision open | open |
+| DEC-LM3-CAR-A900-G2 | prior gate decision open: G1 | open |
+| DEC-LM3-CAR-A900-G3 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-CAR-A900-G3 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-CAR-A900-G3 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-CAR-A900-G3 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-CAR-A900-G3 | FM-COOL-VEHICLE: failure analysis and residual risk unreviewed | open |
+| DEC-LM3-CAR-A900-G3 | FM-COOL-VEHICLE: mandatory safety review requires a controlled decision | open |
+| DEC-LM3-CAR-A900-G3 | FM-COOL-VEHICLE: occurrence evidence unknown | open |
+| DEC-LM3-CAR-A900-G3 | FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| DEC-LM3-CAR-A900-G3 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-AUX-P010/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-BOG-SA610/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-BOG-SA620/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-DOOR-SA310/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-FIX-SA340/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-HV-SA510/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-INT-SA330/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-LGT-SA350/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-ROOF-SA410/G3 | open |
+| DEC-LM3-CAR-A900-G3 | child/dependency decision open: LM3-SHELL-A200/G3 | open |
+| DEC-LM3-CAR-A900-G3 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-CAR-A900-G3 | decision open | open |
+| DEC-LM3-CAR-A900-G3 | prior gate decision open: G2 | open |
+| DEC-LM3-CAR-A900-G3 | reviewed physical integration evidence missing | open |
+| DEC-LM3-CAR-A900-G4 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-CAR-A900-G4 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-CAR-A900-G4 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-CAR-A900-G4 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-CAR-A900-G4 | FM-COOL-VEHICLE: failure analysis and residual risk unreviewed | open |
+| DEC-LM3-CAR-A900-G4 | FM-COOL-VEHICLE: mandatory safety review requires a controlled decision | open |
+| DEC-LM3-CAR-A900-G4 | FM-COOL-VEHICLE: occurrence evidence unknown | open |
+| DEC-LM3-CAR-A900-G4 | FM-COOL-VEHICLE: operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| DEC-LM3-CAR-A900-G4 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-AUX-P010/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-BOG-SA610/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-BOG-SA620/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-DOOR-SA310/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-FIX-SA340/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-HV-SA510/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-INT-SA330/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-LGT-SA350/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-ROOF-SA410/G4 | open |
+| DEC-LM3-CAR-A900-G4 | child/dependency decision open: LM3-SHELL-A200/G4 | open |
+| DEC-LM3-CAR-A900-G4 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-CAR-A900-G4 | decision open | open |
+| DEC-LM3-CAR-A900-G4 | prior gate decision open: G3 | open |
+| DEC-LM3-CAR-A900-G4 | reviewed physical integration evidence missing | open |
+| DEC-LM3-HV-SA510-G1 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-HV-SA510-G1 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-HV-SA510-G1 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-HV-SA510-G1 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-BDY-P050/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-HV-P010/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-HV-P020/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-HV-P030/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-SAF-P010/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-TRC-P030/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-TRC-P040/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-TRC-P060/G1 | open |
+| DEC-LM3-HV-SA510-G1 | child/dependency decision open: LM3-TRC-P070/G1 | open |
+| DEC-LM3-HV-SA510-G1 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-HV-SA510-G1 | decision open | open |
+| DEC-LM3-HV-SA510-G2 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-HV-SA510-G2 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-HV-SA510-G2 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-HV-SA510-G2 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-BDY-P050/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-HV-P010/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-HV-P020/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-HV-P030/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-SAF-P010/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-TRC-P030/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-TRC-P040/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-TRC-P060/G2 | open |
+| DEC-LM3-HV-SA510-G2 | child/dependency decision open: LM3-TRC-P070/G2 | open |
+| DEC-LM3-HV-SA510-G2 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-HV-SA510-G2 | decision open | open |
+| DEC-LM3-HV-SA510-G2 | prior gate decision open: G1 | open |
+| DEC-LM3-HV-SA510-G3 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-HV-SA510-G3 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-HV-SA510-G3 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-HV-SA510-G3 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-BDY-P050/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-HV-P010/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-HV-P020/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-HV-P030/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-SAF-P010/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-TRC-P030/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-TRC-P040/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-TRC-P060/G3 | open |
+| DEC-LM3-HV-SA510-G3 | child/dependency decision open: LM3-TRC-P070/G3 | open |
+| DEC-LM3-HV-SA510-G3 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-HV-SA510-G3 | decision open | open |
+| DEC-LM3-HV-SA510-G3 | prior gate decision open: G2 | open |
+| DEC-LM3-HV-SA510-G3 | reviewed physical integration evidence missing | open |
+| DEC-LM3-HV-SA510-G4 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-HV-SA510-G4 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-HV-SA510-G4 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-HV-SA510-G4 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-BDY-P050/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-HV-P010/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-HV-P020/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-HV-P030/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-SAF-P010/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-TRC-P030/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-TRC-P040/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-TRC-P060/G4 | open |
+| DEC-LM3-HV-SA510-G4 | child/dependency decision open: LM3-TRC-P070/G4 | open |
+| DEC-LM3-HV-SA510-G4 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-HV-SA510-G4 | decision open | open |
+| DEC-LM3-HV-SA510-G4 | prior gate decision open: G3 | open |
+| DEC-LM3-HV-SA510-G4 | reviewed physical integration evidence missing | open |
+| DEC-LM3-TRAINSET-A000-G1 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G1 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G1 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G1 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G1 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-TRAINSET-A000-G1 | child/dependency decision open: LM3-ART-SA800/G1 | open |
+| DEC-LM3-TRAINSET-A000-G1 | child/dependency decision open: LM3-CAR-A900/G1 | open |
+| DEC-LM3-TRAINSET-A000-G1 | child/dependency decision open: LM3-EIF-SA650/G1 | open |
+| DEC-LM3-TRAINSET-A000-G1 | child/dependency decision open: LM3-END-SA700/G1 | open |
+| DEC-LM3-TRAINSET-A000-G1 | child/dependency decision open: LM3-SYS-SA900/G1 | open |
+| DEC-LM3-TRAINSET-A000-G1 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-TRAINSET-A000-G1 | decision open | open |
+| DEC-LM3-TRAINSET-A000-G2 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G2 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G2 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G2 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G2 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-TRAINSET-A000-G2 | child/dependency decision open: LM3-ART-SA800/G2 | open |
+| DEC-LM3-TRAINSET-A000-G2 | child/dependency decision open: LM3-CAR-A900/G2 | open |
+| DEC-LM3-TRAINSET-A000-G2 | child/dependency decision open: LM3-EIF-SA650/G2 | open |
+| DEC-LM3-TRAINSET-A000-G2 | child/dependency decision open: LM3-END-SA700/G2 | open |
+| DEC-LM3-TRAINSET-A000-G2 | child/dependency decision open: LM3-SYS-SA900/G2 | open |
+| DEC-LM3-TRAINSET-A000-G2 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-TRAINSET-A000-G2 | decision open | open |
+| DEC-LM3-TRAINSET-A000-G2 | prior gate decision open: G1 | open |
+| DEC-LM3-TRAINSET-A000-G3 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G3 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G3 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G3 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G3 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-TRAINSET-A000-G3 | child/dependency decision open: LM3-ART-SA800/G3 | open |
+| DEC-LM3-TRAINSET-A000-G3 | child/dependency decision open: LM3-CAR-A900/G3 | open |
+| DEC-LM3-TRAINSET-A000-G3 | child/dependency decision open: LM3-EIF-SA650/G3 | open |
+| DEC-LM3-TRAINSET-A000-G3 | child/dependency decision open: LM3-END-SA700/G3 | open |
+| DEC-LM3-TRAINSET-A000-G3 | child/dependency decision open: LM3-SYS-SA900/G3 | open |
+| DEC-LM3-TRAINSET-A000-G3 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-TRAINSET-A000-G3 | decision open | open |
+| DEC-LM3-TRAINSET-A000-G3 | prior gate decision open: G2 | open |
+| DEC-LM3-TRAINSET-A000-G3 | reviewed physical integration evidence missing | open |
+| DEC-LM3-TRAINSET-A000-G4 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G4 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G4 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G4 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-LM3-TRAINSET-A000-G4 | REQ-COOL-RECOVERY: acceptance criteria require independent engineering review | open |
+| DEC-LM3-TRAINSET-A000-G4 | child/dependency decision open: LM3-ART-SA800/G4 | open |
+| DEC-LM3-TRAINSET-A000-G4 | child/dependency decision open: LM3-CAR-A900/G4 | open |
+| DEC-LM3-TRAINSET-A000-G4 | child/dependency decision open: LM3-EIF-SA650/G4 | open |
+| DEC-LM3-TRAINSET-A000-G4 | child/dependency decision open: LM3-END-SA700/G4 | open |
+| DEC-LM3-TRAINSET-A000-G4 | child/dependency decision open: LM3-SYS-SA900/G4 | open |
+| DEC-LM3-TRAINSET-A000-G4 | controlled deployment acceptance is not authenticated | open |
+| DEC-LM3-TRAINSET-A000-G4 | decision open | open |
+| DEC-LM3-TRAINSET-A000-G4 | prior gate decision open: G3 | open |
+| DEC-LM3-TRAINSET-A000-G4 | reviewed physical integration evidence missing | open |
+| DEC-OSR-COOL-LOOP-G1 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G1 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G1 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G1 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G1 | FM-COOL-LOOP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-LOOP-G1 | FM-COOL-LOOP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-LOOP-G1 | FM-COOL-LOOP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-LOOP-G1 | FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-LOOP-G1 | REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-LOOP-G1 | child/dependency decision open: LM3-AUX-P010/G1 | open |
+| DEC-OSR-COOL-LOOP-G1 | child/dependency decision open: OSR-COOL-CONNECTOR/G1 | open |
+| DEC-OSR-COOL-LOOP-G1 | child/dependency decision open: OSR-COOL-FLOW-SENSOR/G1 | open |
+| DEC-OSR-COOL-LOOP-G1 | child/dependency decision open: OSR-COOL-PUMP/G1 | open |
+| DEC-OSR-COOL-LOOP-G1 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-LOOP-G1 | decision open | open |
+| DEC-OSR-COOL-LOOP-G2 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G2 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G2 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G2 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G2 | FM-COOL-LOOP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-LOOP-G2 | FM-COOL-LOOP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-LOOP-G2 | FM-COOL-LOOP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-LOOP-G2 | FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-LOOP-G2 | REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-LOOP-G2 | child/dependency decision open: LM3-AUX-P010/G2 | open |
+| DEC-OSR-COOL-LOOP-G2 | child/dependency decision open: OSR-COOL-CONNECTOR/G2 | open |
+| DEC-OSR-COOL-LOOP-G2 | child/dependency decision open: OSR-COOL-FLOW-SENSOR/G2 | open |
+| DEC-OSR-COOL-LOOP-G2 | child/dependency decision open: OSR-COOL-PUMP/G2 | open |
+| DEC-OSR-COOL-LOOP-G2 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-LOOP-G2 | decision open | open |
+| DEC-OSR-COOL-LOOP-G2 | prior gate decision open: G1 | open |
+| DEC-OSR-COOL-LOOP-G3 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G3 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G3 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G3 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G3 | FM-COOL-LOOP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-LOOP-G3 | FM-COOL-LOOP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-LOOP-G3 | FM-COOL-LOOP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-LOOP-G3 | FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-LOOP-G3 | REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-LOOP-G3 | child/dependency decision open: LM3-AUX-P010/G3 | open |
+| DEC-OSR-COOL-LOOP-G3 | child/dependency decision open: OSR-COOL-CONNECTOR/G3 | open |
+| DEC-OSR-COOL-LOOP-G3 | child/dependency decision open: OSR-COOL-FLOW-SENSOR/G3 | open |
+| DEC-OSR-COOL-LOOP-G3 | child/dependency decision open: OSR-COOL-PUMP/G3 | open |
+| DEC-OSR-COOL-LOOP-G3 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-LOOP-G3 | decision open | open |
+| DEC-OSR-COOL-LOOP-G3 | prior gate decision open: G2 | open |
+| DEC-OSR-COOL-LOOP-G3 | reviewed physical integration evidence missing | open |
+| DEC-OSR-COOL-LOOP-G4 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G4 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G4 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G4 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-LOOP-G4 | FM-COOL-LOOP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-LOOP-G4 | FM-COOL-LOOP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-LOOP-G4 | FM-COOL-LOOP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-LOOP-G4 | FM-COOL-LOOP: operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-LOOP-G4 | REQ-COOL-PHYSICAL: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-LOOP-G4 | child/dependency decision open: LM3-AUX-P010/G4 | open |
+| DEC-OSR-COOL-LOOP-G4 | child/dependency decision open: OSR-COOL-CONNECTOR/G4 | open |
+| DEC-OSR-COOL-LOOP-G4 | child/dependency decision open: OSR-COOL-FLOW-SENSOR/G4 | open |
+| DEC-OSR-COOL-LOOP-G4 | child/dependency decision open: OSR-COOL-PUMP/G4 | open |
+| DEC-OSR-COOL-LOOP-G4 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-LOOP-G4 | decision open | open |
+| DEC-OSR-COOL-LOOP-G4 | prior gate decision open: G3 | open |
+| DEC-OSR-COOL-LOOP-G4 | reviewed physical integration evidence missing | open |
+| DEC-OSR-COOL-PUMP-G1 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G1 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G1 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G1 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G1 | FM-COOL-PUMP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-PUMP-G1 | FM-COOL-PUMP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-PUMP-G1 | FM-COOL-PUMP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-PUMP-G1 | FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-PUMP-G1 | REQ-COOL-PUMP: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-PUMP-G1 | child/dependency decision open: LM3-AUX-P010/G1 | open |
+| DEC-OSR-COOL-PUMP-G1 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-PUMP-G1 | decision open | open |
+| DEC-OSR-COOL-PUMP-G2 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G2 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G2 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G2 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G2 | FM-COOL-PUMP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-PUMP-G2 | FM-COOL-PUMP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-PUMP-G2 | FM-COOL-PUMP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-PUMP-G2 | FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-PUMP-G2 | REQ-COOL-PUMP: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-PUMP-G2 | child/dependency decision open: LM3-AUX-P010/G2 | open |
+| DEC-OSR-COOL-PUMP-G2 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-PUMP-G2 | decision open | open |
+| DEC-OSR-COOL-PUMP-G2 | prior gate decision open: G1 | open |
+| DEC-OSR-COOL-PUMP-G3 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G3 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G3 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G3 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G3 | FM-COOL-PUMP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-PUMP-G3 | FM-COOL-PUMP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-PUMP-G3 | FM-COOL-PUMP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-PUMP-G3 | FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-PUMP-G3 | REQ-COOL-PUMP: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-PUMP-G3 | child/dependency decision open: LM3-AUX-P010/G3 | open |
+| DEC-OSR-COOL-PUMP-G3 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-PUMP-G3 | decision open | open |
+| DEC-OSR-COOL-PUMP-G3 | prior gate decision open: G2 | open |
+| DEC-OSR-COOL-PUMP-G3 | reviewed physical integration evidence missing | open |
+| DEC-OSR-COOL-PUMP-G4 | EVD-COOL-BENCH: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G4 | EVD-COOL-CONTROLLER: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G4 | EVD-COOL-INTEGRATION: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G4 | EVD-COOL-TORQUE: evidence planned | open |
+| DEC-OSR-COOL-PUMP-G4 | FM-COOL-PUMP: failure analysis and residual risk unreviewed | open |
+| DEC-OSR-COOL-PUMP-G4 | FM-COOL-PUMP: mandatory safety review requires a controlled decision | open |
+| DEC-OSR-COOL-PUMP-G4 | FM-COOL-PUMP: occurrence evidence unknown | open |
+| DEC-OSR-COOL-PUMP-G4 | FM-COOL-PUMP: operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| DEC-OSR-COOL-PUMP-G4 | REQ-COOL-PUMP: acceptance criteria require independent engineering review | open |
+| DEC-OSR-COOL-PUMP-G4 | child/dependency decision open: LM3-AUX-P010/G4 | open |
+| DEC-OSR-COOL-PUMP-G4 | controlled deployment acceptance is not authenticated | open |
+| DEC-OSR-COOL-PUMP-G4 | decision open | open |
+| DEC-OSR-COOL-PUMP-G4 | prior gate decision open: G3 | open |
+| DEC-OSR-COOL-PUMP-G4 | reviewed physical integration evidence missing | open |
+| DEMO-FRACAS-01 | engineering handback and effectiveness review open | open |
+| EVD-COOL-BENCH | evidence planned | open |
+| EVD-COOL-CONTROLLER | evidence planned | open |
+| EVD-COOL-INTEGRATION | evidence planned | open |
+| EVD-COOL-TORQUE | evidence planned | open |
+| FM-COOL-CONNECTOR | failure analysis and residual risk unreviewed | open |
+| FM-COOL-CONNECTOR | mandatory safety review requires a controlled decision | open |
+| FM-COOL-CONNECTOR | mitigation lacks a verification scenario: REQ-COOL-TORQUE | open |
+| FM-COOL-CONNECTOR | occurrence evidence unknown | open |
+| FM-COOL-CONNECTOR | operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-LOOP | failure analysis and residual risk unreviewed | open |
+| FM-COOL-LOOP | mandatory safety review requires a controlled decision | open |
+| FM-COOL-LOOP | occurrence evidence unknown | open |
+| FM-COOL-LOOP | operating context verification open: degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-PACK | failure analysis and residual risk unreviewed | open |
+| FM-COOL-PACK | mandatory safety review requires a controlled decision | open |
+| FM-COOL-PACK | occurrence evidence unknown | open |
+| FM-COOL-PACK | operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-PUMP | failure analysis and residual risk unreviewed | open |
+| FM-COOL-PUMP | mandatory safety review requires a controlled decision | open |
+| FM-COOL-PUMP | occurrence evidence unknown | open |
+| FM-COOL-PUMP | operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-RAILWAY | failure analysis and residual risk unreviewed | open |
+| FM-COOL-RAILWAY | mandatory safety review requires a controlled decision | open |
+| FM-COOL-RAILWAY | occurrence evidence unknown | open |
+| FM-COOL-RAILWAY | operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| FM-COOL-SENSOR | failure analysis and residual risk unreviewed | open |
+| FM-COOL-SENSOR | mandatory safety review requires a controlled decision | open |
+| FM-COOL-SENSOR | occurrence evidence unknown | open |
+| FM-COOL-SENSOR | operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-TORQUE | failure analysis and residual risk unreviewed | open |
+| FM-COOL-TORQUE | mandatory safety review requires a controlled decision | open |
+| FM-COOL-TORQUE | mitigation lacks a verification scenario: REQ-COOL-TORQUE | open |
+| FM-COOL-TORQUE | occurrence evidence unknown | open |
+| FM-COOL-TORQUE | operating context verification open: charging, degraded-operation, evacuation, maintenance, recovery, shutdown, startup | open |
+| FM-COOL-VEHICLE | failure analysis and residual risk unreviewed | open |
+| FM-COOL-VEHICLE | mandatory safety review requires a controlled decision | open |
+| FM-COOL-VEHICLE | occurrence evidence unknown | open |
+| FM-COOL-VEHICLE | operating context verification open: charging, degraded-operation, evacuation, maintenance, normal-running, shutdown, startup | open |
+| OBL-COOL-APPLICABILITY | deployment applicability and clause selection open | open |
+| REQ-COOL-HOT | acceptance criteria require independent engineering review | open |
+| REQ-COOL-LEAK | acceptance criteria require independent engineering review | open |
+| REQ-COOL-PHYSICAL | acceptance criteria require independent engineering review | open |
+| REQ-COOL-PUMP | acceptance criteria require independent engineering review | open |
+| REQ-COOL-RECOVERY | acceptance criteria require independent engineering review | open |
+| REQ-COOL-TORQUE | acceptance criteria require independent engineering review | open |
 
 ## Quantitative screening
 
@@ -125,6 +512,11 @@ Quantitative screens retain their stated input evidence basis. Physical qualific
     ],
     "state": "planning-screen"
   },
+  "physical_thermal": {
+    "predictions": [],
+    "state": "input-evidence-open",
+    "time_to_limit_s": null
+  },
   "release_authority": false,
   "thermal": {
     "limitations": "Single lumped heat capacity and constant heat/conductance/ambient; no hydraulic, spatial, phase-change or runaway model.",
@@ -188,9 +580,9 @@ Quantitative screens retain their stated input evidence basis. Physical qualific
 
 | Test | Procedure | Acceptance inputs |
 |---|---|---|
-| RIG-NORMAL — Normal operation at allocated duty | draft-A | max_temperature_c, min_flow_l_min; duration, repetitions and model tolerance require review |
-| RIG-PUMP — Pump shaft seizure / circulation loss | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s, max_fault_flow_l_min; duration, repetitions and model tolerance require review |
-| RIG-LEAK — Leak / loss of pressure | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s; duration, repetitions and model tolerance require review |
-| RIG-MASKED — Seized pump plus flow signal stuck high | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s; duration, repetitions and model tolerance require review |
-| RIG-CHARGING — Charging with cooling loss, high ambient and fouling | draft-A | max_temperature_c, max_isolation_delay_s; duration, repetitions and model tolerance require review |
-| RIG-AUX — Loss of shared auxiliary power | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s; duration, repetitions and model tolerance require review |
+| RIG-NORMAL — Normal operation at allocated duty | draft-A | max_temperature_c, min_flow_l_min, maximum_sample_gap_s; duration, repetitions and model tolerance require review |
+| RIG-PUMP — Pump shaft seizure / circulation loss | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s, max_fault_flow_l_min, maximum_sample_gap_s; duration, repetitions and model tolerance require review |
+| RIG-LEAK — Leak / loss of pressure | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s, maximum_sample_gap_s; duration, repetitions and model tolerance require review |
+| RIG-MASKED — Seized pump plus flow signal stuck high | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s, maximum_sample_gap_s; duration, repetitions and model tolerance require review |
+| RIG-CHARGING — Charging with cooling loss, high ambient and fouling | draft-A | max_temperature_c, max_isolation_delay_s, maximum_sample_gap_s; duration, repetitions and model tolerance require review |
+| RIG-AUX — Loss of shared auxiliary power | draft-A | max_temperature_c, max_detection_delay_s, max_isolation_delay_s, maximum_sample_gap_s; duration, repetitions and model tolerance require review |

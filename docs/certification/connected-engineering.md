@@ -96,8 +96,13 @@ boundary, controller scenarios, planned physical tests, production instructions,
 both demo cars and their serials, FRACAS and dependent G1–G4 decisions. The batch
 query reaches one demo car, its affected serials, production record and incident.
 Impact outputs include a traversal path for each affected record. Comparisons
-use both old and new relationships so a deleted link cannot hide a former
-dependant. Interface traversal is intentionally conservative; an engineer must
+compare node hashes, complete relationship records and controlled source hashes.
+Added, deleted or changed relationships seed both endpoints, even when every
+node is unchanged. Traversal uses both old and new edges so a deleted link cannot
+hide a former dependant. Source changes seed their bound records; a source with
+no recorded binding conservatively reopens all configuration, model, scenario,
+evidence and decision records. `changed_relationships`, `changed_sources` and
+`seed_reasons` retain why the review reopened. Interface traversal is intentionally conservative; an engineer must
 review applicability rather than interpret every path as a proven failure.
 
 ## What the controller evidence establishes

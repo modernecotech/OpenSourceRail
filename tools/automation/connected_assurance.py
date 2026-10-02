@@ -431,7 +431,33 @@ def change_impact(previous: dict, current: dict, seeds: list[str] | None = None)
     nodes = {row["id"]: row for row in [*previous["nodes"], *current["nodes"]]}
     changed = sorted(identifier for identifier in set(previous["node_hashes"]) | set(current["node_hashes"])
                      if previous["node_hashes"].get(identifier) != current["node_hashes"].get(identifier))
-    start = seeds if seeds is not None else changed
+    old_edges = {fingerprint(row): row for row in previous["edges"]}
+    new_edges = {fingerprint(row): row for row in current["edges"]}
+    relationships = {"added": [new_edges[key] for key in sorted(new_edges.keys() - old_edges.keys())],
+                     "removed": [old_edges[key] for key in sorted(old_edges.keys() - new_edges.keys())]}
+    changed_sources = sorted(value for value in set(previous.get("source_hashes", {})) | set(current.get("source_hashes", {}))
+                             if previous.get("source_hashes", {}).get(value) != current.get("source_hashes", {}).get(value))
+    seed_reasons: dict[str, list[str]] = defaultdict(list)
+    for identifier in changed:
+        seed_reasons[identifier].append("record changed")
+    for disposition, rows in relationships.items():
+        for row in rows:
+            for identifier in (row["from"], row["to"]):
+                seed_reasons[identifier].append(f"relationship {disposition}: {row['from']} / {row['relation']} / {row['to']}")
+    for value in changed_sources:
+        bound = {row["id"] for row in [*previous["nodes"], *current["nodes"]]
+                 if value == row.get("source") or value in row.get("source_paths", [])
+                 or value in row.get("input_hashes", {}) or value == row.get("result_path")}
+        # Compiler, build and execution sources may have no per-record path field.
+        # Unknown source scope conservatively reopens every evidence-bearing record.
+        if not bound:
+            bound = {identifier for identifier, row in nodes.items()
+                     if row["kind"] in {"configurations", "models", "scenarios", "evidence", "decisions"}}
+        for identifier in bound:
+            seed_reasons[identifier].append(f"controlled source changed: {value}")
+    for identifier in seeds or []:
+        seed_reasons[identifier].append("explicit impact seed")
+    start = sorted(seed_reasons)
     if set(start) - set(nodes):
         raise ValueError("unknown impact seed: " + ", ".join(sorted(set(start) - set(nodes))))
     adjacency: dict[str, set[str]] = defaultdict(set)
@@ -448,7 +474,9 @@ def change_impact(previous: dict, current: dict, seeds: list[str] | None = None)
     impacted: dict[str, list[str]] = defaultdict(list)
     for identifier in sorted(reasons):
         impacted[nodes[identifier]["kind"]].append(identifier)
-    return {"changed_records": changed, "seeds": sorted(start), "impacted": dict(sorted(impacted.items())),
+    return {"changed_records": changed, "changed_relationships": relationships, "changed_sources": changed_sources,
+            "seed_reasons": {key: sorted(set(value)) for key, value in sorted(seed_reasons.items())},
+            "seeds": sorted(start), "impacted": dict(sorted(impacted.items())),
             "trace_paths": dict(sorted(reasons.items())), "release_ready": False,
             "decision": "reassess-affected-evidence-assets-and-gates" if start else "no-record-change"}
 

@@ -5,7 +5,8 @@ const subject = params.get('selected_asset') || params.get('subject') || '';
 const element = (tag, text) => { const node = document.createElement(tag); node.textContent = text; return node; };
 const labels = {requirements:'Requirements & RAMS allocation',design_verification:'Design verification',physical_qualification:'Physical qualification',integration:'Integration',independent_review:'Independent review',operating_conditions:'Operating conditions'};
 const format = value => Number(value).toLocaleString('en-GB',{maximumSignificantDigits:3});
-const range = (values, unit='') => Array.isArray(values) ? `${format(values[0])}–${format(values[1])}${unit ? ' '+unit : ''}` : 'Input evidence unresolved';
+const probability = value => Number(value*100).toLocaleString('en-GB',{maximumSignificantDigits:6})+'%';
+const range = (values, unit='') => Array.isArray(values) ? (unit==='probability' ? `${probability(values[0])}–${probability(values[1])}` : `${format(values[0])}–${format(values[1])}${unit ? ' '+unit : ''}`) : 'Input evidence unresolved';
 function study(title, value, limitation) {
   const card=element('article',''); card.append(element('h3',title),element('p',value));
   card.querySelector('p').className='value';
@@ -35,6 +36,20 @@ try {
     document.querySelector('#stages').append(card);
   }
   const q=report.quantitative_analysis;
+  const allocationTable=element('table','');const allocationHeading=element('tr','');
+  for(const label of ['Allocation','Target','Predicted range','Outcome'])allocationHeading.append(element('th',label));allocationTable.append(allocationHeading);
+  for(const allocation of report.allocation_results){
+    const row=element('tr','');
+    const target=allocation.target===null ? 'Unallocated' : `${allocation.comparison} ${allocation.unit==='probability' ? probability(allocation.target) : format(allocation.target)+' '+allocation.unit}`;
+    row.append(element('td',allocation.metric.replaceAll('_',' ')),element('td',target),element('td',range(allocation.bounds,allocation.unit)));
+    const outcome=element('td',allocation.state);outcome.className='allocation-state';
+    for(const reason of allocation.reasons)outcome.append(element('p',reason));row.append(outcome);allocationTable.append(row);
+  }
+  document.querySelector('#allocations').append(allocationTable);
+  const findings=report.assurance_scope.findings;
+  const unresolved=findings.filter(row=>row.disposition!=='excluded-by-authenticated-review');
+  document.querySelector('#assuranceSummary').textContent=`${report.assurance_scope.record_ids.length} scoped records · ${unresolved.length} unresolved findings. Scope includes component dependencies, propagated failure analysis, obligations and dependent gates.`;
+  for(const finding of findings)document.querySelector('#assuranceFindings').append(element('li',`${finding.record_id}: ${finding.message} · ${finding.disposition}`));
   document.querySelector('#basis').textContent=`Evidence basis: ${q.evidence_basis.replaceAll('-',' ')}. These ranges expose input uncertainty; they are not confidence intervals.`;
   study('Cooling-loss time to temperature limit',range(q.thermal.time_to_limit_s,'seconds')+(q.thermal.some_cases_do_not_reach_limit?' · some cases never reach the limit':''),q.thermal.limitations);
   study('Combined failure exposure',range(q.fault_tree.mission_top_event_probability),`${q.top_event} ${q.fault_tree.unknown_events?.length || 0} event inputs remain unknown. Shared events appear once in each Boolean combination.`);
@@ -57,4 +72,5 @@ try {
   document.querySelector('#scope').textContent=error.message;
   document.querySelector('#acceptedUse').textContent='Acceptance unavailable';
   document.querySelector('#stages').replaceChildren();document.querySelector('#quantitative').replaceChildren();document.querySelector('#alternatives').replaceChildren();
+  document.querySelector('#allocations').replaceChildren();document.querySelector('#assuranceFindings').replaceChildren();document.querySelector('#assuranceSummary').textContent='Assurance scope unavailable';
 }

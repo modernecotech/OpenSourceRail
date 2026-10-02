@@ -165,6 +165,36 @@ def test_old_relationships_survive_removal_in_impact_review(baseline):
     assert "DEMO-PUMP-01" in impact["impacted"]["occurrences"]
 
 
+@pytest.mark.parametrize('operation', ['add', 'remove', 'change'])
+def test_relationship_only_changes_seed_both_endpoints(baseline, operation):
+    before = compile_baseline(baseline)
+    after = copy.deepcopy(before)
+    edge = next(row for row in after['edges'] if row['to']=='OSR-COOL-PUMP' and row['relation']=='depends_on')
+    if operation=='add':
+        after['edges'].append(dict(edge, relation='extra-dependency'))
+    elif operation=='remove':
+        after['edges'].remove(edge)
+    else:
+        edge['relation']='changed-dependency'
+    impact=thread.change_impact(before,after)
+    assert impact['changed_records']==[]
+    assert {edge['from'],edge['to']} <= set(impact['seeds'])
+    assert 'EVD-COOL-BENCH' in impact['impacted']['evidence']
+    assert 'DEC-LM3-TRAINSET-A000-G4' in impact['impacted']['decisions']
+    assert impact['decision']=='reassess-affected-evidence-assets-and-gates'
+
+
+def test_source_only_changes_reopen_evidence_without_node_changes(baseline):
+    before=compile_baseline(baseline)
+    after=copy.deepcopy(before)
+    after['source_hashes']['unmapped-controller-build-source']='changed'
+    impact=thread.change_impact(before,after)
+    assert impact['changed_records']==[]
+    assert impact['changed_sources']==['unmapped-controller-build-source']
+    assert 'EVD-COOL-BENCH' in impact['seeds']
+    assert thread.change_impact(before,before)['decision']=='no-record-change'
+
+
 def test_manifest_is_source_of_physical_hierarchy_and_report_is_deterministic(baseline):
     first = compile_baseline(baseline)
     second = compile_baseline(baseline)
