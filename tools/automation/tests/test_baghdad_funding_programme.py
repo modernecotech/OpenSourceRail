@@ -69,3 +69,24 @@ def test_programme_provenance_is_current_and_excludes_other_cities():
     assert not any('/Samawah/' in relative or '/Mosul/' in relative for relative in p['sources_sha256'])
     for relative, digest in p['sources_sha256'].items():
         assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == digest, relative
+
+
+def test_phased_programme_uses_same_capital_and_reports_complete_line_cashflows():
+    p = programme()
+    phases = p['phased_opening']['phases']
+    assert len(phases) == 9
+    assert sum(row['weight'] for row in phases) == pytest.approx(1)
+    for name, case in p['phased_opening']['cases'].items():
+        monthly = case['monthly']
+        metrics = case['metrics']
+        assert sum(row['capex_usd'] for row in monthly) == pytest.approx(p['total_capex_usd'])
+        assert sum(row['government_capital_received_usd'] for row in monthly) == pytest.approx(p['total_capex_usd']*.25)
+        assert case['additional_funding_required_usd'] == pytest.approx(sum(row['government_operations_and_debt_support_usd'] for row in monthly))
+        assert metrics['max_cash_balance_residual_usd'] < .01
+        assert max(metrics['final_debt_balances_native'].values()) < .01
+        assert sum(row['revenue_usd'] for row in case['annual']) == pytest.approx(sum(row['revenue_usd'] for row in monthly))
+    low = p['phased_opening']['cases']['low_demand']
+    assert low['metrics']['operations_start_month'] > 24  # new plant precedes production and line release
+    assert low['metrics']['operations_start_month'] < low['metrics']['full_network_operations_start_month']
+    assert low['additional_funding_required_usd'] < p['additional_funding_required_with_25_percent_cap_usd']
+    assert p['phased_opening']['cases']['demand_minus_40_percent']['additional_funding_required_usd'] > low['additional_funding_required_usd']

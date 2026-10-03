@@ -59,6 +59,10 @@ def validate(config: dict) -> None:
         if scope != "all-imports-pending-qualification" or not math.isclose(share + model["export_invoice_advance"], 1):
             raise ValueError("USD government cash and loan must cover the import basket exactly")
     number(model["discount_rate"], "discount_rate", maximum=1)
+    number(model.get("phased_fixed_opex_share", .25), "phased_fixed_opex_share", maximum=1)
+    lag = number(model.get("phased_commissioning_months", 3), "phased_commissioning_months")
+    if lag != int(lag):
+        raise ValueError("phased commissioning months must be a whole count")
     number(model["debt_service_reserve_months"], "debt_service_reserve_months")
     number(model["pre_ntp_working_days"], "pre_ntp_working_days")
     if not model["revenue_ramp"]:
@@ -154,7 +158,8 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
              config: dict, *, capex_factor: float = 1, demand_factor: float = 1,
              fx_factor: float = 1, commissioning_delay_months: int = 0,
              export_available: bool = True, retail_bullet: bool = False,
-             government_delay_months: int = 0, rate_increment: float = 0) -> dict:
+             government_delay_months: int = 0, rate_increment: float = 0,
+             operating_phases: list[dict] | None = None) -> dict:
     validate(config)
     for key, value in (("annual_revenue", annual_revenue_usd), ("annual_opex", annual_opex_usd),
                        ("capex_factor", capex_factor), ("demand_factor", demand_factor), ("fx_factor", fx_factor)):
@@ -163,8 +168,19 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
         raise ValueError("fx_factor must be positive")
     m = config["model"]
     construction_end = max(r["month"] for r in requirements)
-    operating_start = construction_end + 1 + commissioning_delay_months
-    operating_end = operating_start + int(m["operating_years"]) * 12
+    full_network_start = construction_end + 1 + commissioning_delay_months
+    if operating_phases is not None:
+        if not operating_phases or not math.isclose(sum(number(p["weight"], "phase weight", maximum=1) for p in operating_phases), 1, abs_tol=1e-8):
+            raise ValueError("operating phase weights must sum to one")
+        for phase in operating_phases:
+            opening = number(phase["opening_month"], "phase opening")
+            if opening != int(opening):
+                raise ValueError("phase opening must be a whole month")
+        operating_start = min(int(p["opening_month"]) for p in operating_phases)+commissioning_delay_months
+        full_network_start = max(int(p["opening_month"]) for p in operating_phases)+commissioning_delay_months
+    else:
+        operating_start = full_network_start
+    operating_end = full_network_start + int(m["operating_years"]) * 12
     end = max(operating_end, construction_end + max(int(config[t]["grace_months_from_draw"])+int(config[t]["repayment_months"]) for t in TRANCHES) + 1)
     by_month = {r["month"]: r for r in requirements}
     eligible_total = sum(r["eligible_invoice_usd"] for r in requirements) * capex_factor
@@ -249,24 +265,30 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
                         f"{name}_debt_service_usd": debt_service, f"{name}_fees_usd": fee})
         revenue = opex = 0.0
         if operating_start <= month < operating_end:
-            year = (month-operating_start)//12
-            ramp = m["revenue_ramp"][min(year, len(m["revenue_ramp"])-1)]
-            # IQD fares, non-fare revenue and domestic OPEX remain fixed nominal
-            # at the historical FX anchor; no automatic USD-indexed fare rise.
-            revenue = annual_revenue_usd/12 * demand_factor * ramp * m["iqd_per_usd"]/fx
-            opex = annual_opex_usd/12 * m["iqd_per_usd"]/fx
+            active = operating_phases or [{"opening_month": operating_start-commissioning_delay_months, "weight": 1.0}]
+            opened_weight = revenue_weight = 0.0
+            for phase in active:
+                age = month-int(phase["opening_month"])-commissioning_delay_months
+                if age >= 0:
+                    weight = float(phase["weight"])
+                    opened_weight += weight
+                    revenue_weight += weight*m["revenue_ramp"][min(age//12, len(m["revenue_ramp"])-1)]
+            fixed_share = m.get("phased_fixed_opex_share", 0.25) if operating_phases else 0
+            opex_weight = fixed_share+(1-fixed_share)*opened_weight
+            # Nominal IQD fares and local OPEX; independent ramp for each line.
+            revenue = annual_revenue_usd/12*demand_factor*revenue_weight*m["iqd_per_usd"]/fx
+            opex = annual_opex_usd/12*opex_weight*m["iqd_per_usd"]/fx
         cfads = revenue-opex
-        available = cash + cfads - service - fees
-        support = max(0, -available)
-        cash = max(0, available)
-        # Reserve is restricted and held in USD equivalent; increase only from
-        # explicit public contributions. It is released at the debt tail.
+        # Release excess restricted cash before measuring the liquidity gap.
+        # Fund the required reserve from unrestricted project cash first; only
+        # the remaining combined obligation needs additional outside support.
         desired = service * m["debt_service_reserve_months"] if operating_start <= month < operating_end else 0
         deposit = max(0, desired-reserve)
         release = max(0, reserve-desired)
         reserve += deposit-release
-        support += deposit
-        cash += release
+        available = cash + cfads - service - fees + release - deposit
+        support = max(0, -available)
+        cash = max(0, available)
         # A delayed appropriation or refused export facility stays visible as a
         # liquidity requirement. No invented refinancing/bridge line fills it.
         capital_gap = capex-sum(draws.values())-received_gov
@@ -304,6 +326,9 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
                                "closing_balance_native": l["balance"]} for l in loans[t]] for t in TRANCHES},
         "metrics": {
         "construction_cash_months": construction_end+1, "operations_start_month": operating_start,
+        "full_network_operations_start_month": full_network_start,
+        "additional_support_required_usd": sum(r["government_operations_and_debt_support_usd"] for r in monthly),
+        "final_unrestricted_cash_usd": monthly[-1]["closing_cash_usd"],
         "total_capex_usd": sum(r["capex_usd"] for r in monthly),
         "capital_sources_usd": {**{t: sum(r[f"{t}_draw_usd"] for r in monthly) for t in TRANCHES}, "government": sum(r["government_capital_scheduled_usd"] for r in monthly)},
         "government_capital_usd_cash": sum(r["government_capital_usd_cash"] for r in monthly),
@@ -326,7 +351,7 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
 
 
 def build_financing(buckets: list[dict], contracts: list[dict], revenue_cases: dict,
-                    annual_opex_usd: float, config: dict) -> dict:
+                    annual_opex_usd: float, config: dict, operating_phases: list[dict] | None = None) -> dict:
     requirements = scheduled_requirements(contracts, buckets, config)
     low = revenue_cases["low_capacity_use"]["annual_revenue_usd"]
     high = revenue_cases["high_capacity_use"]["annual_revenue_usd"]
@@ -343,13 +368,21 @@ def build_financing(buckets: list[dict], contracts: list[dict], revenue_cases: d
         "combined_downside": (low, {"capex_factor": 1.25, "demand_factor": .60, "fx_factor": 1.35, "commissioning_delay_months": 24, "rate_increment": .03}),
     }
     cases = {name: run_case(requirements, revenue, annual_opex_usd, config, **options) for name, (revenue, options) in definitions.items()}
+    phased = {}
+    if operating_phases:
+        for name, revenue, options in (("low_demand", low, {}), ("demand_minus_40_percent", low, {"demand_factor": .6}), ("commissioning_delay_two_years", low, {"commissioning_delay_months": 24})):
+            phased[name] = run_case(requirements, revenue, annual_opex_usd, config, operating_phases=operating_phases, **options)
     base = cases["base_low_demand"]
     return {"schema_version": 1, "status": "planning-uncommitted", "funding_committed": False,
         "operational_release": False, "schedule_status": "linked-to-budget-work-packages",
         "assumptions": copy.deepcopy(config), "eligible_import_components": eligible_components(buckets, config),
+        "phased_opening": {"status": "conditional-planning-sensitivity-not-accepted-opening-plan", "phases": operating_phases or [],
+            "weight_basis": "Line share of controlled trainsets; proxy for revenue and variable OPEX, not surveyed demand",
+            "fixed_opex_share": config["model"].get("phased_fixed_opex_share", .25),
+            "cases": phased},
         "base": base, "sensitivity_cases": {k: v["metrics"] for k, v in cases.items()},
-        "checks": {"ledger_reconciles": all(v["metrics"]["max_cash_balance_residual_usd"] < .01 for v in cases.values()),
-                   "debt_repaid_within_model_horizon": all(max(v["metrics"]["final_debt_balances_native"].values()) < .01 for v in cases.values())},
+        "checks": {"ledger_reconciles": all(v["metrics"]["max_cash_balance_residual_usd"] < .01 for v in [*cases.values(), *phased.values()]),
+                   "debt_repaid_within_model_horizon": all(max(v["metrics"]["final_debt_balances_native"].values()) < .01 for v in [*cases.values(), *phased.values()])},
         "limitations": [
             "Working-day milestones use 260 working days/year and 30 working days before NTP; holidays and an approved local calendar are pending.",
             "No signed Chinese loan, supplier-origin qualification, guarantee, bond mandate, bank facility, appropriation or tax/duty assessment.",
@@ -362,7 +395,7 @@ def build_financing(buckets: list[dict], contracts: list[dict], revenue_cases: d
             "Unquoted CAPEX budgets remain nominal USD planning values. IQD tranches and appropriations convert at draw-date FX; no automatic local supplier price benefit from depreciation is assumed.",
             "Income used for labour and fares is the retained country-finance planning proxy, not a verified current Iraqi household median or an agreed wage/fare contract.",
             "Government payment delays and unavailable China credit produce explicit capital cash gaps; no committed bridge credit is assumed.",
-            "Restricted DSRA targets six times current monthly service. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.",
+            "Restricted DSRA targets six times current monthly service and uses available project cash before requesting support. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.",
             "Battery renewal reserve remains inside existing rolling-stock maintenance OPEX; no second battery CAPEX is added.",
             "Demand is capacity-led, not a surveyed forecast. Passing reconciliation does not demonstrate affordability or bankability.",
         ]}

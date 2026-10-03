@@ -20,6 +20,9 @@ revenue_ramp = [0.50, 0.75, 1.0]
 # Fees, construction interest and support beyond that budget remain separate
 # funding requirements; a 25% capital contribution does not fund them.
 [city_overrides.baghdad.model]
+# Explicit sensitivity assumptions, not accepted commissioning or OPEX bids.
+phased_commissioning_months = 3
+phased_fixed_opex_share = 0.25
 government_share_of_total = 0.25
 government_usd_share_of_imports = 0.50
 export_invoice_advance = 0.50

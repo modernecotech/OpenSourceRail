@@ -4,7 +4,7 @@ Generated from current city CAPEX and procurement milestones. All facilities and
 
 This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Construction cash runs through month **62**; full-network operations start in month **62** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
+Construction cash runs through month **57**; full-network operations start in month **57** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
@@ -48,31 +48,31 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 597.90 | 0.00 | 0.00 | 11.56 | 342.03 | 0.00 |
-| 2 | 350.49 | 0.00 | 0.00 | 36.85 | 233.43 | 0.00 |
-| 3 | 26.92 | 0.00 | 0.00 | 44.53 | 56.77 | 0.00 |
-| 4 | 35.21 | 0.00 | 0.00 | 51.45 | 67.41 | 0.00 |
-| 5 | 15.92 | 0.00 | 0.00 | 54.94 | 62.15 | 0.00 |
-| 6 | 0.07 | 50.71 | 20.80 | 57.50 | 56.62 | 0.52 |
-| 7 | 0.00 | 86.20 | 24.97 | 58.26 | 3.92 | 1.05 |
-| 8 | 0.00 | 116.62 | 24.97 | 54.29 | 0.01 | 1.69 |
-| 9 | 0.00 | 121.69 | 24.97 | 44.26 | 0.00 | 2.19 |
-| 10 | 0.00 | 121.69 | 24.97 | 41.99 | 0.00 | 2.30 |
-| 11 | 0.00 | 121.69 | 24.97 | 41.57 | 0.00 | 2.33 |
-| 12 | 0.00 | 121.69 | 24.97 | 41.13 | 0.00 | 2.35 |
+| 1 | 612.12 | 0.00 | 0.00 | 12.44 | 351.17 | 0.00 |
+| 2 | 334.75 | 0.00 | 0.00 | 36.89 | 224.56 | 0.00 |
+| 3 | 35.59 | 0.00 | 0.00 | 44.84 | 60.97 | 0.00 |
+| 4 | 35.26 | 0.00 | 0.00 | 51.84 | 67.81 | 0.00 |
+| 5 | 8.80 | 15.21 | 6.24 | 55.12 | 78.37 | 0.16 |
+| 6 | 0.00 | 68.45 | 24.97 | 57.57 | 16.86 | 0.76 |
+| 7 | 0.00 | 98.88 | 24.97 | 58.31 | 0.00 | 1.27 |
+| 8 | 0.00 | 121.69 | 24.97 | 54.01 | 0.00 | 1.79 |
+| 9 | 0.00 | 121.69 | 24.97 | 44.28 | 0.00 | 2.18 |
+| 10 | 0.00 | 121.69 | 24.97 | 41.96 | 0.00 | 2.31 |
+| 11 | 0.00 | 121.69 | 24.97 | 41.45 | 0.00 | 2.33 |
+| 12 | 0.00 | 121.69 | 24.97 | 41.08 | 0.00 | 2.35 |
 | 13 | 0.00 | 121.69 | 24.97 | 41.05 | 0.00 | 2.36 |
 | 14 | 0.00 | 121.69 | 24.97 | 41.05 | 0.00 | 2.36 |
 | 15 | 0.00 | 121.69 | 24.97 | 41.05 | 0.00 | 2.36 |
 | 16 | 0.00 | 121.69 | 24.97 | 41.05 | 0.00 | 2.36 |
 | 17 | 0.00 | 121.69 | 24.97 | 41.05 | 0.00 | 2.36 |
-| 18 | 0.00 | 121.69 | 24.97 | 33.32 | 0.00 | 2.90 |
-| 19 | 0.00 | 121.69 | 24.97 | 14.82 | 0.00 | 6.53 |
-| 20 | 0.00 | 121.69 | 24.97 | 8.83 | 0.00 | 10.95 |
-| 21 | 0.00 | 121.69 | 24.97 | 3.59 | 0.00 | 26.94 |
-| 22 | 0.00 | 121.69 | 24.97 | 1.70 | 0.00 | 56.80 |
-| 23 | 0.00 | 121.69 | 24.97 | 0.87 | 0.00 | 111.41 |
-| 24 | 0.00 | 121.69 | 24.97 | 0.13 | 0.00 | 772.59 |
-| 25 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | 647818.42 |
+| 18 | 0.00 | 121.69 | 24.97 | 32.66 | 0.00 | 2.96 |
+| 19 | 0.00 | 121.69 | 24.97 | 14.79 | 0.00 | 6.54 |
+| 20 | 0.00 | 121.69 | 24.97 | 8.73 | 0.00 | 11.07 |
+| 21 | 0.00 | 121.69 | 24.97 | 3.36 | 0.00 | 28.76 |
+| 22 | 0.00 | 121.69 | 24.97 | 1.56 | 0.00 | 62.02 |
+| 23 | 0.00 | 121.69 | 24.97 | 0.67 | 0.00 | 144.94 |
+| 24 | 0.00 | 121.69 | 24.97 | 0.04 | 0.00 | 2389.00 |
+| 25 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
 | 26 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
 | 27 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
 | 28 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
@@ -82,24 +82,23 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 | 32 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
 | 33 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
 | 34 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
-| 35 | 0.00 | 121.69 | 24.97 | 0.00 | 0.00 | — |
-| 36 | 0.00 | 20.28 | 4.16 | 0.00 | 0.00 | — |
+| 35 | 0.00 | 91.27 | 18.72 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 342.03 | 0.52 | 0.00 |
-| high capacity use | 342.03 | 1.02 | 0.00 |
-| capex plus 25 percent | 427.54 | 0.42 | 0.00 |
-| demand minus 40 percent | 342.03 | 0.17 | 0.00 |
-| iqd depreciation 35 percent | 342.03 | 0.50 | 0.00 |
-| commissioning delay two years | 342.03 | 0.55 | 0.00 |
-| china credit unavailable | 340.31 | 0.60 | 5.31 |
-| four year bullet bonds | 342.03 | 0.23 | 0.00 |
-| government payment delay six months | 391.63 | 0.52 | 37.78 |
-| interest plus three points | 345.40 | 0.44 | 0.00 |
-| combined downside | 431.75 | 0.11 | 0.00 |
+| base low demand | 351.17 | 0.16 | 0.00 |
+| high capacity use | 351.17 | 0.32 | 0.00 |
+| capex plus 25 percent | 438.96 | 0.13 | 0.00 |
+| demand minus 40 percent | 351.17 | 0.05 | 0.00 |
+| iqd depreciation 35 percent | 351.17 | 0.16 | 0.00 |
+| commissioning delay two years | 351.17 | 0.15 | 0.00 |
+| china credit unavailable | 349.42 | 0.18 | 5.44 |
+| four year bullet bonds | 351.17 | 0.04 | 0.00 |
+| government payment delay six months | 367.43 | 0.16 | 38.21 |
+| interest plus three points | 354.76 | 0.14 | 0.00 |
+| combined downside | 443.45 | 0.03 | 0.00 |
 
 ## Assumptions and evidence
 
@@ -114,7 +113,7 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 - Unquoted CAPEX budgets remain nominal USD planning values. IQD tranches and appropriations convert at draw-date FX; no automatic local supplier price benefit from depreciation is assumed.
 - Income used for labour and fares is the retained country-finance planning proxy, not a verified current Iraqi household median or an agreed wage/fare contract.
 - Government payment delays and unavailable China credit produce explicit capital cash gaps; no committed bridge credit is assumed.
-- Restricted DSRA targets six times current monthly service. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.
+- Restricted DSRA targets six times current monthly service and uses available project cash before requesting support. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.
 - Battery renewal reserve remains inside existing rolling-stock maintenance OPEX; no second battery CAPEX is added.
 - Demand is capacity-led, not a surveyed forecast. Passing reconciliation does not demonstrate affordability or bankability.
 

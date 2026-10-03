@@ -540,6 +540,7 @@ def build_bundle(
             "trainset_first_article_execution": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
         },
         resource_capacity=dict(manufacturing_template.get("resource_capacity", {})),
+        resource_ready_days=dict(manufacturing_template.get("city_resource_ready_days", {}).get(slug, {})),
         previous_revisions=previous_twin_revisions,
     )
     manufacturing_tasks = project_twin["work_packages"]

@@ -168,3 +168,29 @@ def test_unqualified_import_basket_does_not_change_other_city_eligibility(config
     selected["model"]["government_usd_share_of_imports"] = .60
     with pytest.raises(ValueError, match="cover the import basket exactly"):
         validate(selected)
+
+
+def test_project_cash_funds_reserve_before_requesting_outside_support(config):
+    requirements = scheduled_requirements(*reversed(inputs()), config)
+    result = run_case(requirements, 12_000_000, 100_000, config)
+    first = result['monthly'][result['metrics']['operations_start_month']]
+    assert first['reserve_deposit_usd'] > 0
+    assert first['government_operations_and_debt_support_usd'] == 0
+    assert result['metrics']['max_cash_balance_residual_usd'] < .001
+
+
+def test_phased_revenue_ramps_per_line_without_advancing_debt_grace(config):
+    requirements = scheduled_requirements(*reversed(inputs()), config)
+    phases = [{'line': 'one', 'opening_month': 12, 'weight': .4}, {'line': 'two', 'opening_month': 54, 'weight': .6}]
+    result = run_case(requirements, 240_000, 100_000, config, operating_phases=phases)
+    base = run_case(requirements, 240_000, 100_000, config)
+    assert result['monthly'][11]['revenue_usd'] == 0
+    assert result['monthly'][12]['revenue_usd'] == pytest.approx(240_000/12*.4*.5)
+    assert result['monthly'][54]['revenue_usd'] == pytest.approx(240_000/12*(.4+.6*.5))
+    assert result['monthly'][12]['opex_usd'] == pytest.approx(100_000/12*(.25+.75*.4))
+    assert result['monthly'][12]['bank_credit_principal_native'] == base['monthly'][12]['bank_credit_principal_native']
+    assert result['metrics']['max_cash_balance_residual_usd'] < .001
+    delayed = run_case(requirements, 240_000, 100_000, config, operating_phases=phases, commissioning_delay_months=24)
+    assert delayed['monthly'][12]['revenue_usd'] == 0
+    with pytest.raises(ValueError, match='sum to one'):
+        run_case(requirements, 240_000, 100_000, config, operating_phases=phases[:1])

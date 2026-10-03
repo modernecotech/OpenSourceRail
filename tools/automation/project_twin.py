@@ -13,6 +13,7 @@ from __future__ import annotations
 from collections import defaultdict, deque
 from copy import deepcopy
 import hashlib
+import heapq
 import json
 import math
 from pathlib import Path
@@ -72,6 +73,7 @@ def build_project_twin(
     finance: dict[str, Any] | None,
     source_paths: dict[str, Path],
     resource_capacity: dict[str, Any] | None = None,
+    resource_ready_days: dict[str, int] | None = None,
     previous_revisions: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Build a complete deterministic planning twin from canonical city data."""
@@ -80,7 +82,7 @@ def build_project_twin(
     capacities = dict(DEFAULT_RESOURCE_CAPACITY)
     for key, value in (resource_capacity or {}).items():
         capacities[str(key)] = max(1, int(value))
-    cpm = apply_resource_cpm(tasks, capacities)
+    cpm = apply_resource_cpm(tasks, capacities, resource_ready_days)
 
     capex = _capex(finance)
     contracts = build_budget_contracts(tasks, capex)
@@ -190,7 +192,8 @@ def build_project_twin(
 
 
 def apply_resource_cpm(
-    tasks: list[dict[str, Any]], capacities: dict[str, int] | None = None
+    tasks: list[dict[str, Any]], capacities: dict[str, int] | None = None,
+    resource_ready_days: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     """Apply deterministic finite-resource lanes and a CPM forward/backward pass."""
 
@@ -209,25 +212,48 @@ def apply_resource_cpm(
         uid: [item for item in _refs(str(row.get("predecessor_uids", ""))) if item in by_uid]
         for uid, row in by_uid.items()
     }
-    topological = _topological_order(by_uid, explicit_predecessors)
-
+    _topological_order(by_uid, explicit_predecessors)  # Validate cycles first.
+    ready_days = resource_ready_days or {}
+    if any(int(day) != day or day < 0 for day in ready_days.values()):
+        raise ValueError("resource ready days must be nonnegative whole days")
     lane_state: dict[str, list[tuple[int, str]]] = {}
-    augmented: dict[str, list[str]] = {uid: list(explicit_predecessors[uid]) for uid in by_uid}
-    for uid in topological:
+    augmented = {uid: list(preds) for uid, preds in explicit_predecessors.items()}
+    dependents: dict[str, list[str]] = defaultdict(list)
+    remaining = {uid: len(preds) for uid, preds in explicit_predecessors.items()}
+    for uid, preds in explicit_predecessors.items():
+        for pred in preds:
+            dependents[pred].append(uid)
+
+    def candidate(uid: str) -> tuple:
         row = by_uid[uid]
         work_center = str(row.get("work_center") or row.get("package_id") or "unallocated")
         count = max(1, int(capacity.get(work_center, _integer(row.get("resource_count"), 1))))
-        lanes = lane_state.setdefault(work_center, [(-1, "") for _ in range(count)])
-        if len(lanes) < count:
-            lanes.extend([(-1, "") for _ in range(count - len(lanes))])
-        dependency_start = max(
-            (int(by_uid[pred].get("planned_finish_day", -1)) + 1 for pred in augmented[uid]),
-            default=0,
-        )
-        lane_index = min(
-            range(len(lanes)),
-            key=lambda index: (max(dependency_start, lanes[index][0] + 1), index),
-        )
+        lanes = lane_state.setdefault(work_center, [(int(ready_days.get(work_center, 0))-1, "") for _ in range(count)])
+        dependency_start = max((int(by_uid[p]["planned_finish_day"])+1 for p in explicit_predecessors[uid]), default=0)
+        lane_index = min(range(len(lanes)), key=lambda i: (max(dependency_start, lanes[i][0]+1), i))
+        start = max(dependency_start, lanes[lane_index][0]+1)
+        return (start, str(row.get("asset_id", "")), _integer(row.get("sequence"), 0), uid, lane_index)
+
+    # Keys are lower bounds: lane availability only moves forward. Revalidate
+    # stale heap entries lazily so ready work can flow through production stages
+    # without imposing a whole-fleet stage barrier or exceeding finite capacity.
+    ready = [candidate(uid) for uid, count in remaining.items() if count == 0]
+    heapq.heapify(ready)
+    topological = []
+    while ready:
+        planned = heapq.heappop(ready)
+        uid = planned[3]
+        current = candidate(uid)
+        if current != planned:
+            heapq.heappush(ready, current)
+            continue
+        topological.append(uid)
+        row = by_uid[uid]
+        work_center = str(row.get("work_center") or row.get("package_id") or "unallocated")
+        lanes = lane_state[work_center]
+        count = len(lanes)
+        lane_index = current[4]
+        dependency_start = current[0]
         available_after, resource_predecessor = lanes[lane_index]
         if resource_predecessor and resource_predecessor not in augmented[uid]:
             augmented[uid].append(resource_predecessor)
@@ -244,6 +270,10 @@ def apply_resource_cpm(
         row["resource_predecessor_uid"] = resource_predecessor
         row["schedule_predecessor_uids"] = "; ".join(augmented[uid])
         lanes[lane_index] = (finish, uid)
+        for successor in dependents[uid]:
+            remaining[successor] -= 1
+            if remaining[successor] == 0:
+                heapq.heappush(ready, candidate(successor))
 
     # Resource edges always point to an already scheduled task, so the first
     # topological order remains valid for the augmented graph.
@@ -274,7 +304,8 @@ def apply_resource_cpm(
         }
     )
     return {
-        "method": "finite-resource lane assignment followed by CPM forward/backward pass",
+        "method": "earliest-feasible ready-task dispatch with finite-resource lanes followed by CPM forward/backward pass",
+        "resource_ready_days": dict(sorted(ready_days.items())),
         "programme_working_days": programme_days,
         "critical_task_count": len(critical),
         "critical_task_uids": critical,

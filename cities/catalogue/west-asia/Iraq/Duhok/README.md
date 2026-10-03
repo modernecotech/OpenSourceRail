@@ -72,7 +72,7 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 | domestic bonds | $140 M |
 | government | $279 M |
 
-The procurement schedule requires **59 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
+The procurement schedule requires **54 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
 Peak annual government cash: **$248 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 

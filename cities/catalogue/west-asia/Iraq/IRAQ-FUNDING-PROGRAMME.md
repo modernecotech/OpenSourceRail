@@ -29,11 +29,11 @@ Eligibility sensitivity: the original named-component categories cover USD 862.1
 
 ## What the 25% government limit leaves unfunded
 
-The 25% capital contribution is **USD 1,968.96 million**. If that is also the limit on all public cash, the model leaves **USD 9,890.27 million of additional funding requirements** across the full construction, operating and debt horizon. These are interest, fees, reserve and operating/debt cash needs after modelled revenue; they are not additional approved government contributions.
+The 25% capital contribution is **USD 1,968.96 million**. If that is also the limit on all public cash, the model leaves **USD 9,786.15 million of additional funding requirements** across the full construction, operating and debt horizon. These are interest, fees, reserve and operating/debt cash needs after modelled revenue; they are not additional approved government contributions.
 
-Peak annual capital contribution is USD 304.09 million. Peak annual additional funding requirement is USD 614.15 million. If all additional support were provided publicly, conditional lifetime public cash would be USD 11,859.23 million, with a combined annual peak of USD 717.84 million. This exceeds the requested contribution and is shown only to expose the funding gap.
+Peak annual capital contribution is USD 315.50 million. Peak annual additional funding requirement is USD 602.76 million. If all additional support were provided publicly, conditional lifetime public cash would be USD 11,755.12 million, with a combined annual peak of USD 717.52 million. This exceeds the requested contribution and is shown only to expose the funding gap.
 
-Across the 60.1-year nominal model horizon, additional requirements divide into USD 9,435.79 million before Baghdad's full-network opening, USD 35.64 million during Baghdad operations/debt tail, and USD 418.83 million for plant capital financing. Principal repayment before opening is part of the pre-opening requirement. A phased revenue baseline could change this profile but has not been assumed.
+Across the 58.9-year nominal model horizon, additional requirements divide into USD 9,313.64 million before Baghdad's full-network opening, USD 53.90 million during Baghdad operations/debt tail, and USD 418.61 million for plant capital financing. Principal repayment before opening is part of the pre-opening requirement. This base withholds all fares until full-network completion; the separate phased sensitivity below tests earlier revenue. Gross additional support is a liquidity requirement over time, not net lifetime loss: later retained cash cannot repay earlier obligations without an approved bridge.
 
 The programme CSVs distinguish the capped capital contribution, additional funding requirement and conditional payment requirements. Underlying city and factory ledgers calculate the support needed to pay scheduled obligations; their positive reserve balances and completed repayments are conditional on that support being raised. They are not a cash-solvent forecast under the public cash cap. No bridge, equity investor, rollover or extra appropriation is invented to close the gap.
 
@@ -48,7 +48,7 @@ The programme CSVs distinguish the capped capital contribution, additional fundi
 
 ## Rollout and financial close
 
-Baghdad's current capital milestones span 361 calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. A phased opening, larger manufacturing capacity and phase-specific revenues need a new accepted baseline. The separate two-working-year factory assumption must be integrated with Baghdad's production and works programme.
+Baghdad's current capital milestones span 347 calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. The new Baghdad plant gates stock production for 520 working days. The separate phased sensitivity uses this integrated planning schedule; actual plant and line acceptance and a commissioned operating baseline remain pending.
 
 Required before financial close: approved sponsor and borrowing powers; appropriation limited to the agreed government contribution; a funded solution for the additional cash gap; supplier quotations and origin evidence; signed term sheets, guarantees and insurance; IQD placement/redemption plan; lender draw windows and FX access; surveyed demand/fare policy; tax, duty, land and utility pricing; accepted resource calendar and reserve covenants.
 
@@ -57,6 +57,39 @@ Required before financial close: approved sponsor and borrowing powers; appropri
 [Programme monthly cashflow](finance/baghdad-programme-monthly-cashflow.csv) · [annual cashflow](finance/baghdad-programme-annual-cashflow.csv) · [machine-readable programme](finance/baghdad-programme.json) · [Baghdad city appraisal](Baghdad/engineering/finance/FUNDING-MODEL.md) · [editable assumptions](../../../../lib/templates/iraq-funding.toml). Other Iraqi city appraisals remain standalone examples outside this programme.
 
 [IMF 2025 Article IV](https://www.imf.org/en/news/articles/2025/07/08/pr-25243-iraq-imf-executive-board-concludes-2025-article-iv-consultation) supplies the historical 2024 FX anchor, not a current dealing rate. [CBI fiscal-agent description](https://www.cbi.iq/page/26) and [Injaz issue example](https://cbi.iq/news/view/2620) support sovereign-bond context. [China Exim export buyer credit](https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html) supports the instrument concept; numeric terms and eligibility are unconfirmed assumptions.
+
+## Recalculation: conditional phased opening
+
+The earlier USD 9.890 billion result combined whole-fleet stage batching, no fares before the final capital payment and reserve deposits always funded with additional public cash. Ready-task dispatch now pipelines work within the same resource limits, gates train production on the new plant, and funds reserves from available project cash before seeking support. The full-network-only result above remains a conservative comparator.
+
+With line openings tied to completed line and shared/depot work plus a 3-month commissioning allowance, first revenue begins in **month 66**, and all nine lines operate from **month 346** after financial close. These dates are conditional planning milestones, not authorisation to run trains.
+
+Each line's controlled trainset share allocates revenue and variable OPEX; its own 50% / 75% / 100% ramp applies. From first opening, 25% of full-network OPEX is fixed and 75% scales with opened fleet. This proxy can misstate early demand, central staffing and transfer benefits; a surveyed phase-specific operating plan is required. The same nominal fares, capital total, debt terms and 25% grant apply in every case.
+
+![Phased operating cash and additional liquidity](finance/baghdad-phased-cashflows.png)
+
+| Opening / demand scenario | Additional funding beyond 25% capital, USD bn | Conditional lifetime public cash, USD bn |
+|---|---:|---:|
+| All fares after final capital payment | 9.786 | 11.755 |
+| Phased: commissioning delay two years | 8.600 | 10.569 |
+| Phased: demand minus 40 percent | 9.461 | 11.430 |
+| Phased: low demand | 8.320 | 10.289 |
+
+| Line | Planned opening month | Fleet / variable-cost share |
+|---|---:|---:|
+| line-1 | 66 | 11.43% |
+| line-2 | 105 | 12.39% |
+| line-3 | 147 | 13.00% |
+| line-4 | 179 | 10.23% |
+| line-5 | 217 | 11.79% |
+| line-6 | 258 | 13.36% |
+| line-7 | 291 | 10.11% |
+| line-8 | 328 | 12.03% |
+| line-9 | 346 | 5.66% |
+
+All these are gross nominal liquidity contributions, conditional on funding. Later operating surplus is retained and is not netted against earlier required injections. The phased city ledger ends with USD 8.252 billion of unrestricted cash; no distribution or return to the sponsor is assumed. The plant ledger has no manufacturing income/OPEX: it remains a capital-financing allowance. A 25% direct grant also does not cap sovereign IQD bond liabilities or guarantees.
+
+[Phased programme monthly cashflow](finance/baghdad-programme-phased-monthly-cashflow.csv) · [phased programme annual cashflow](finance/baghdad-programme-phased-annual-cashflow.csv)
 
 ## Comparison with the historical 148 km third-party proposal
 
@@ -76,7 +109,7 @@ The [July 2024 report](https://www.aljazeera.net/ebusiness/2024/7/26/العرا�
 
 The OSR plan has 3.49 times the route length and 2.84 times the stations. Its planning capital estimate is 56.2% below USD 18 billion. Under the requested all-USD funding scenario, USD-denominated capital funding is 90.0% lower; under an all-USD purchase scenario, imported-purchase exposure is 90.0% lower. These measure different exposures and are not interchangeable debt-service savings.
 
-The planning comparison is not a like-for-like qualified bid: route geometry, tunnelling/structures, land, utilities, taxes/duties, contingency, escalation, supplier qualification and acceptance maturity differ or remain unresolved. The older report's four-year completion expectation also differs substantially from OSR's current 361-month capital schedule. A lower capital estimate does not establish an earlier or more sustainable delivered service.
+The planning comparison is not a like-for-like qualified bid: route geometry, tunnelling/structures, land, utilities, taxes/duties, contingency, escalation, supplier qualification and acceptance maturity differ or remain unresolved. The older report's four-year completion expectation also differs substantially from OSR's current 347-month capital schedule. A lower capital estimate does not establish an earlier or more sustainable delivered service.
 
 ## Fares, population access and financial sustainability
 
@@ -84,7 +117,7 @@ The modelled average paid-trip fare is **IQD 1,317** (USD 1.01 comparison equiva
 
 Low/high capacity-use cases assume 1,138,320 / 1,821,312 paid trips/day, not unique people or surveyed demand. Low-case steady annual revenue is IQD 580.5 billion; OPEX is IQD 234.7 billion. At that trip volume, the OPEX-only neutral fare is IQD 485, with nonfare receipts held constant. It excludes capital, debt and reserve funding.
 
-In the first complete operating year, the 50% revenue ramp produces 207.7 million paid trips. Holding those trips and nonfare receipts fixed, covering OPEX, scheduled debt service and fees requires approximately **IQD 1,380 per paid trip**, excluding reserve deposits and factory debt. This is a cash threshold, not a recommended tariff; higher fares can reduce demand. Minimum annual operating DSCR before support is 0.74. Higher utilisation improves later cashflow but cannot fund the long pre-opening debt-service period. Neither this fare nor IQD denomination closes the additional funding gap shown above.
+In the first complete operating year, the 50% revenue ramp produces 207.7 million paid trips. Holding those trips and nonfare receipts fixed, covering OPEX, scheduled debt service and fees requires approximately **IQD 1,457 per paid trip**, excluding reserve deposits and factory debt. This is a cash threshold, not a recommended tariff; higher fares can reduce demand. Minimum annual operating DSCR before support is 0.05. Higher utilisation improves later cashflow but cannot fund the long pre-opening debt-service period. Neither this fare nor IQD denomination closes the additional funding gap shown above.
 
 The design retains a planning population of 9,780,429. Its **46.4% anchor-weighted coverage score** gives an indicative proxy of 4,538,119 residents. That proxy is not measured population within a real 800 m walking network: survey, population grid, station access, river crossings and feeder coverage remain unvalidated. The older report's 80% city-coverage ambition uses no published comparable denominator or access method; it cannot establish that either plan reaches more residents. The 182 stations and nine routes offer a larger network to test, not proof of superior population access.
 

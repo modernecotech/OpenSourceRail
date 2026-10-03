@@ -78,7 +78,7 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 | domestic bonds | $3.60 bn |
 | government | $1.89 bn |
 
-The procurement schedule requires **361 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
+The procurement schedule requires **347 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
 Peak annual government cash: **$687 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
@@ -87,6 +87,8 @@ Chinese export buyer credit is allocated within existing imported budgets for so
 The model includes actual scheduled draws, native-currency principal/interest, fees, revenue ramps, operating/debt support, reserve movements and downside cases. Short bullet bonds have explicit redemptions without assumed refinancing.
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) and [Baghdad-only funding programme](../IRAQ-FUNDING-PROGRAMME.md). Government capital is 25% of total CAPEX, including USD cash for half the imports; the other half uses proposed Chinese USD credit. The remaining government capital, bonds, bank credit and local cash are IQD. Full import-basket loan eligibility is an unqualified scenario assumption. Additional support is a separate unfunded requirement if public cash is capped at that contribution.
+
+Conditional phased-opening sensitivity: first / last line revenue starts in month **66 / 346** from financial close. City additional support is **$7.90 bn**, excluding the separately financed plant. Fleet-weighted revenue, independent ramps and a 25% fixed OPEX allowance require a validated phase-specific operating plan. Actual plant, depot and line acceptance remain pending.
 
 Annual operating allowance: $181 M; demand remains capacity-led.
 

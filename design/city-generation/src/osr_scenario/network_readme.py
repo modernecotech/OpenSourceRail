@@ -1074,6 +1074,10 @@ def _iraq_funding_section(finance: dict) -> list[str]:
         "Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.", "",
         "The model includes actual scheduled draws, native-currency principal/interest, fees, revenue ramps, operating/debt support, reserve movements and downside cases. Short bullet bonds have explicit redemptions without assumed refinancing.", "",
         "See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) " + programme_reference, ""])
+    phased = funding.get("phased_opening", {}).get("cases", {}).get("low_demand")
+    if phased:
+        pm = phased["metrics"]
+        out.extend([f"Conditional phased-opening sensitivity: first / last line revenue starts in month **{pm['operations_start_month']} / {pm['full_network_operations_start_month']}** from financial close. City additional support is **{_fmt_usd(pm['additional_support_required_usd'])}**, excluding the separately financed plant. Fleet-weighted revenue, independent ramps and a 25% fixed OPEX allowance require a validated phase-specific operating plan. Actual plant, depot and line acceptance remain pending.", ""])
     return out
 
 

@@ -260,3 +260,27 @@ def test_ops_core_backup_contains_verified_sqlite_and_evidence(tmp_path: Path) -
     backup.verify_backup(archive)
 
     assert archive.is_file()
+
+
+def test_resource_cpm_pipelines_ready_train_stages_and_respects_plant_availability() -> None:
+    rows = []
+    for asset in ('A', 'B', 'C'):
+        kit = _task(f'{asset}:kit')
+        body = _task(f'{asset}:body', predecessor=f'{asset}:kit')
+        kit['sequence'], body['sequence'] = 10, 20
+        rows.extend((kit, body))
+    result = apply_resource_cpm(rows, {'test cell': 1}, {'test cell': 5})
+    by_uid = {row['manufacturing_uid']: row for row in rows}
+    assert by_uid['A:kit']['planned_start_day'] == 5
+    assert by_uid['A:body']['planned_finish_day'] < by_uid['B:kit']['planned_start_day']
+    assert result['programme_working_days'] == 17
+    ordered = sorted(rows, key=lambda row: row['planned_start_day'])
+    assert all(a['planned_finish_day'] < b['planned_start_day'] for a, b in zip(ordered, ordered[1:]))
+    rerun = [dict(row) for row in reversed(rows)]
+    apply_resource_cpm(rerun, {'test cell': 1}, {'test cell': 5})
+    assert {row['manufacturing_uid']: row['planned_start_day'] for row in rerun} == {uid: row['planned_start_day'] for uid, row in by_uid.items()}
+
+
+def test_resource_cpm_rejects_cycles_before_dispatch() -> None:
+    with pytest.raises(ValueError, match='cycle'):
+        apply_resource_cpm([_task('a:kit', predecessor='b:kit'), _task('b:kit', predecessor='a:kit')])

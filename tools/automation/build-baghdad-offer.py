@@ -341,7 +341,15 @@ procurement is USD {comparison['osr_local_purchases_usd']/1e9:.3f} billion equiv
 indicative operating employment is {comparison['operating_fte']:,} FTE. Construction
 job counts require validated hours and productivity. The model leaves USD
 {programme['additional_funding_required_with_25_percent_cap_usd']/1e9:.3f} billion in additional
-cash requirements if public funding is capped at the 25% capital contribution.
+cash requirements in the full-network-only case if public funding is capped at the
+25% capital contribution. The conditional phased case reduces this to USD
+{programme['phased_opening']['cases']['low_demand']['additional_funding_required_usd']/1e9:.3f} billion,
+with first / last line openings in months
+{programme['phased_opening']['cases']['low_demand']['metrics']['operations_start_month']} /
+{programme['phased_opening']['cases']['low_demand']['metrics']['full_network_operations_start_month']}.
+These are gross nominal liquidity needs, not net lifetime loss. Opening dates
+require actual plant, depot, line and safety acceptance; fleet-based phase demand
+and the 25% fixed / 75% variable OPEX split remain planning assumptions.
 
 """
     text, count = re.subn(r"## Proposed system\n.*?(?=## Rolling stock)", system, text, flags=re.S)
@@ -589,7 +597,8 @@ cash requirements if public funding is capped at the 25% capital contribution.
     story += section("Affordable service and direct Iraqi benefits", "Sustainability appraisal")
     story += [
         p(f"Modelled average fare: IQD {comparison['fare_iqd']:,.0f} per paid trip. Thirty trips use 8% of the retained income proxy; 44 commuter trips use 11.7%. The low case assumes {comparison['annual_low_case_paid_trips']/365:,.0f} paid trips/day, not unique residents or calibrated demand. At that volume, OPEX-only neutrality requires IQD {comparison['operating_only_neutral_fare_iqd_at_low_trips']:,.0f}; this excludes debt and reserves."),
-        p(f"First complete operating year cash neutrality including debt and fees requires about IQD {comparison['first_operating_year_neutral_fare_iqd_including_debt_and_fees']:,.0f} per trip at fixed ramped demand, excluding factory debt and reserve deposits. This is a threshold, not a recommended fare. The {metrics['construction_cash_months']}-month pre-opening capital schedule leaves {money(programme['additional_funding_required_with_25_percent_cap_usd'])} in unfunded additional cash requirements under the public cap; higher fares alone cannot finance that construction-period burden."),
+        p(f"First complete operating year cash neutrality including debt and fees requires about IQD {comparison['first_operating_year_neutral_fare_iqd_including_debt_and_fees']:,.0f} per trip at fixed ramped demand, excluding factory debt and reserve deposits. This is a threshold, not a recommended fare. The full-network-only case with {metrics['construction_cash_months']} capital months leaves {money(programme['additional_funding_required_with_25_percent_cap_usd'])} in unfunded additional cash requirements under the public cap; higher fares alone cannot finance that construction-period burden."),
+        p(f"Conditional phased opening starts line revenue in month {programme['phased_opening']['cases']['low_demand']['metrics']['operations_start_month']} and reaches all lines in month {programme['phased_opening']['cases']['low_demand']['metrics']['full_network_operations_start_month']}. Programme additional liquidity needs fall to {money(programme['phased_opening']['cases']['low_demand']['additional_funding_required_usd'])}. Each line has its own revenue ramp; fleet shares proxy demand and variable OPEX, with 25% fixed OPEX from first opening. The new plant gates train production for 520 working days. Actual commissioning remains pending. Later surplus is retained: these gross cash injections are not net lifetime loss.", "Smallx"),
         p(f"Population access is unresolved: the {comparison['anchor_weighted_coverage']:.1%} anchor score applied to {comparison['planning_population']:,} planning residents yields a {comparison['anchor_based_resident_proxy']:,} resident proxy. It is not a measured 800 m walking catchment. The older reported 80% city-coverage ambition has no comparable access definition. More route kilometres and stations do not prove greater population coverage."),
         p(f"Potential Iraqi procurement is {money(comparison['osr_local_purchases_usd'])}, covering civil works, stations, train assembly, body modules, fit-out, wiring, inspection and maintenance. Imported bogies, batteries, windows, doors and tooling still need qualification. Local production can retain skills, supplier income and repair capacity; no GDP multiplier or tax recovery is booked."),
         p(f"The operating allowance is {comparison['operating_fte']:,} indicative FTE and IQD {comparison['operating_labour_annual_iqd']/1e9:.2f} billion annual labour cost. These are not manufacturing/construction job counts; validated hours, productivity, wages and local-content contracts are required. The third-party plan may also employ Iraqi civil labour."),

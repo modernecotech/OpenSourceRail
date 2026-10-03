@@ -48,6 +48,31 @@ def write_comparison_chart(summary: dict, directory: Path) -> None:
     plt.close(fig)
 
 
+def write_phasing_chart(summary: dict, directory: Path) -> None:
+    """Display timed liquidity needs separately from operating receipts."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    case = summary["phased_opening"]["cases"]["low_demand"]
+    rows = case["annual"]
+    years = [row["year"] for row in rows]
+    fig, axes = plt.subplots(2, 1, figsize=(11, 7), layout="constrained")
+    for key, label in (("revenue_usd", "Phased revenue"), ("opex_usd", "Phased OPEX"), ("debt_service_usd", "Debt service, city + plant")):
+        axes[0].plot(years, [row[key]/1e6 for row in rows], label=label)
+    for data, label in ((summary["annual"], "All fares after final capital payment"), (rows, "Conditional phased opening")):
+        axes[1].plot([row["year"] for row in data], [row["government_operations_and_debt_support_usd"]/1e6 for row in data], label=label)
+    axes[0].set_ylabel("Operating cash / service, USD m")
+    axes[1].set_ylabel("Extra liquidity required, USD m")
+    axes[1].set_xlabel("Year from assumed financial close")
+    for ax in axes:
+        ax.legend(fontsize=8)
+        ax.grid(alpha=.2)
+    fig.suptitle("Baghdad + one plant: phased receipts and additional annual liquidity")
+    fig.supxlabel("Conditional nominal planning flows; 25% capital grant excluded from extra liquidity; opening and funding uncommitted", fontsize=8)
+    fig.savefig(directory / "baghdad-phased-cashflows.png", dpi=160)
+    plt.close(fig)
+
+
 def main() -> int:
     country = ROOT / "cities/catalogue/west-asia/Iraq"
     config_path = ROOT / "lib/templates/iraq-funding.toml"
@@ -220,6 +245,38 @@ def main() -> int:
     summary["non_chinese_credit_import_fx_requirement_usd"] = imported_usd-summary["capital_sources_usd"]["chinese_export_credit"]
     if abs(government_usd-imported_usd*.5) > .01 or abs(summary["capital_sources_usd"]["chinese_export_credit"]-imported_usd*.5) > .01:
         raise ValueError("Imports must be funded 50% government USD cash and 50% USD credit")
+    phased_city = cities["Baghdad"].get("phased_opening", {})
+    phased_programme_cases = {}
+    native_keys = ("government_capital_iqd", "domestic_bonds_draw_iqd", "bank_credit_draw_iqd", "domestic_debt_service_iqd", "revenue_iqd", "opex_iqd", "additional_funding_required_iqd")
+    phased_keys = (*flow_keys, *native_keys, "reserve_deposit_usd", "reserve_release_usd")
+    for name, case in phased_city.get("cases", {}).items():
+        combined = {}
+        for ledger in (case, factory["base"]):
+            for row in ledger["monthly"]:
+                target = combined.setdefault(row["month"], {"month": row["month"], "year": row["year"], **{key: 0.0 for key in phased_keys}})
+                for key in (*flow_keys, "reserve_deposit_usd", "reserve_release_usd"):
+                    target[key] += row[key]
+                target["government_capital_iqd"] += row["government_capital_iqd_cash"]
+                target["domestic_bonds_draw_iqd"] += row["domestic_bonds_draw_native"]
+                target["bank_credit_draw_iqd"] += row["bank_credit_draw_native"]
+                target["domestic_debt_service_iqd"] += sum(row[f"{t}_{k}_native"] for t in ("domestic_bonds", "bank_credit") for k in ("interest", "principal"))
+                for key in ("revenue", "opex"):
+                    target[key+"_iqd"] += row[key+"_usd"]*row["iqd_per_usd"]
+                target["additional_funding_required_iqd"] += row["government_operations_and_debt_support_usd"]*row["iqd_per_usd"]
+        phased_monthly = [combined[m] for m in sorted(combined)]
+        phased_annual = {}
+        for row in phased_monthly:
+            target = phased_annual.setdefault(row["year"], {"year": row["year"], **{key: 0.0 for key in phased_keys}})
+            for key in phased_keys:
+                target[key] += row[key]
+        phased_programme_cases[name] = {
+            "metrics": case["metrics"], "final_city_unrestricted_cash_usd": case["metrics"]["final_unrestricted_cash_usd"], "monthly": phased_monthly, "annual": list(phased_annual.values()),
+            "additional_funding_required_usd": sum(row["government_operations_and_debt_support_usd"] for row in phased_monthly),
+            "plant_support_required_usd": summary["additional_funding_breakdown_usd"]["plant_capital_financing"],
+            "conditional_total_public_cash_required_usd": sum(row["government_capital_received_usd"]+row["government_operations_and_debt_support_usd"] for row in phased_monthly),
+        }
+    summary["phased_opening"] = {"status": phased_city.get("status"), "phases": phased_city.get("phases", []),
+        "weight_basis": phased_city.get("weight_basis"), "fixed_opex_share": phased_city.get("fixed_opex_share"), "cases": phased_programme_cases}
     directory = country / "finance"
     directory.mkdir(exist_ok=True)
     (directory / "baghdad-programme.json").write_text(json.dumps(summary, indent=2, sort_keys=True)+"\n")
@@ -228,9 +285,18 @@ def main() -> int:
             writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
+    if phased_programme_cases:
+        for period in ("monthly", "annual"):
+            rows = phased_programme_cases["low_demand"][period]
+            with (directory / f"baghdad-programme-phased-{period}-cashflow.csv").open("w", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
+                writer.writeheader()
+                writer.writerows(rows)
     for legacy in ("three-city-programme.json", "three-city-annual-cashflow.csv"):
         (directory / legacy).unlink(missing_ok=True)
     write_comparison_chart(summary, directory)
+    if phased_programme_cases:
+        write_phasing_chart(summary, directory)
     lines = ["# Baghdad-only funding programme", "", "Scope: [Baghdad](Baghdad/README.md) and one manufacturing plant sized for Baghdad. **Samawah, Mosul and every other city are excluded.** All funding is proposed and uncommitted.", "",
         "## Consolidated sources and uses", "", "Government contributes **25% of total capital uses**, including the plant and EPC. Imported purchases are split **50% government USD cash and 50% proposed Chinese USD credit**, assuming the full imported basket can qualify. That USD government cash is inside the 25% total contribution; the rest of the government contribution is IQD. The remaining balance after those two sources is split 75% domestic IQD bonds and 25% IQD bank term credit.", "",
         "| Proposed capital source | Currency | Native amount, billions | USD equivalent, million | Share of total capital |", "|---|---|---:|---:|---:|"]
@@ -244,7 +310,7 @@ def main() -> int:
         "## What the 25% government limit leaves unfunded", "",
         f"The 25% capital contribution is **USD {summary['capital_sources_usd']['government']/1e6:,.2f} million**. If that is also the limit on all public cash, the model leaves **USD {cumulative_gap/1e6:,.2f} million of additional funding requirements** across the full construction, operating and debt horizon. These are interest, fees, reserve and operating/debt cash needs after modelled revenue; they are not additional approved government contributions.", "",
         f"Peak annual capital contribution is USD {summary['peak_annual_government_capital_usd']/1e6:,.2f} million. Peak annual additional funding requirement is USD {summary['peak_annual_additional_funding_required_usd']/1e6:,.2f} million. If all additional support were provided publicly, conditional lifetime public cash would be USD {summary['conditional_total_public_cash_required_usd']/1e6:,.2f} million, with a combined annual peak of USD {summary['peak_annual_conditional_public_cash_required_usd']/1e6:,.2f} million. This exceeds the requested contribution and is shown only to expose the funding gap.", "",
-        f"Across the {len(monthly)/12:.1f}-year nominal model horizon, additional requirements divide into USD {summary['additional_funding_breakdown_usd']['baghdad_before_full_network_opening']/1e6:,.2f} million before Baghdad's full-network opening, USD {summary['additional_funding_breakdown_usd']['baghdad_operations_and_debt_tail']/1e6:,.2f} million during Baghdad operations/debt tail, and USD {summary['additional_funding_breakdown_usd']['plant_capital_financing']/1e6:,.2f} million for plant capital financing. Principal repayment before opening is part of the pre-opening requirement. A phased revenue baseline could change this profile but has not been assumed.", "",
+        f"Across the {len(monthly)/12:.1f}-year nominal model horizon, additional requirements divide into USD {summary['additional_funding_breakdown_usd']['baghdad_before_full_network_opening']/1e6:,.2f} million before Baghdad's full-network opening, USD {summary['additional_funding_breakdown_usd']['baghdad_operations_and_debt_tail']/1e6:,.2f} million during Baghdad operations/debt tail, and USD {summary['additional_funding_breakdown_usd']['plant_capital_financing']/1e6:,.2f} million for plant capital financing. Principal repayment before opening is part of the pre-opening requirement. This base withholds all fares until full-network completion; the separate phased sensitivity below tests earlier revenue. Gross additional support is a liquidity requirement over time, not net lifetime loss: later retained cash cannot repay earlier obligations without an approved bridge.", "",
         "The programme CSVs distinguish the capped capital contribution, additional funding requirement and conditional payment requirements. Underlying city and factory ledgers calculate the support needed to pay scheduled obligations; their positive reserve balances and completed repayments are conditional on that support being raised. They are not a cash-solvent forecast under the public cash cap. No bridge, equity investor, rollover or extra appropriation is invented to close the gap.", "",
         "## Cash and contractual structure", "",
         "1. An Iraqi public sponsor seeks MoF authority for proposed sovereign IQD bonds through the established MoF/CBI issuance route, subject to legal review and placement. Municipal borrowing powers are not assumed. The 25% limit is the direct capital contribution, not a limit on sovereign bond liabilities, guarantees or lifetime public exposure.",
@@ -254,7 +320,7 @@ def main() -> int:
         "5. Revenue pays OPEX first and debt service next; subsidy is excluded from DSCR. Additional support shown by the city and plant models is an unfunded requirement under the cap. The factory model covers capital financing only; manufacturing income and factory OPEX need a separate business case.",
         "6. Declined Chinese finance, delayed contributions, FX changes and bullet redemption are separately tested in the Baghdad appraisal. None creates an automatic facility or refinancing source.", "",
         "## Rollout and financial close", "",
-        f"Baghdad's current capital milestones span {cities['Baghdad']['base']['metrics']['construction_cash_months']} calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. A phased opening, larger manufacturing capacity and phase-specific revenues need a new accepted baseline. The separate two-working-year factory assumption must be integrated with Baghdad's production and works programme.", "",
+        f"Baghdad's current capital milestones span {cities['Baghdad']['base']['metrics']['construction_cash_months']} calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. The new Baghdad plant gates stock production for 520 working days. The separate phased sensitivity uses this integrated planning schedule; actual plant and line acceptance and a commissioned operating baseline remain pending.", "",
         "Required before financial close: approved sponsor and borrowing powers; appropriation limited to the agreed government contribution; a funded solution for the additional cash gap; supplier quotations and origin evidence; signed term sheets, guarantees and insurance; IQD placement/redemption plan; lender draw windows and FX access; surveyed demand/fare policy; tax, duty, land and utility pricing; accepted resource calendar and reserve covenants.", "",
         "## Model and evidence", "",
         "[Programme monthly cashflow](finance/baghdad-programme-monthly-cashflow.csv) · [annual cashflow](finance/baghdad-programme-annual-cashflow.csv) · [machine-readable programme](finance/baghdad-programme.json) · [Baghdad city appraisal](Baghdad/engineering/finance/FUNDING-MODEL.md) · [editable assumptions](../../../../lib/templates/iraq-funding.toml). Other Iraqi city appraisals remain standalone examples outside this programme.", "",
@@ -272,7 +338,7 @@ def main() -> int:
         f"| USD purchase intensity, USD m / route km | {imported_usd/route_km/1e6:.2f} | {18_000/148:.2f} under that assumption |",
         "| Contracted fares / debt terms | Planning fare and uncommitted facilities | Not established by these sources |", "",
         f"The OSR plan has {route_km/148:.2f} times the route length and {comparison['osr_stations']/64:.2f} times the stations. Its planning capital estimate is {1-summary['total_capex_usd']/18e9:.1%} below USD 18 billion. Under the requested all-USD funding scenario, USD-denominated capital funding is {1-summary['usd_denominated_capital_usd']/18e9:.1%} lower; under an all-USD purchase scenario, imported-purchase exposure is {1-imported_usd/18e9:.1%} lower. These measure different exposures and are not interchangeable debt-service savings.", "",
-        "The planning comparison is not a like-for-like qualified bid: route geometry, tunnelling/structures, land, utilities, taxes/duties, contingency, escalation, supplier qualification and acceptance maturity differ or remain unresolved. The older report's four-year completion expectation also differs substantially from OSR's current 361-month capital schedule. A lower capital estimate does not establish an earlier or more sustainable delivered service.", "",
+        f"The planning comparison is not a like-for-like qualified bid: route geometry, tunnelling/structures, land, utilities, taxes/duties, contingency, escalation, supplier qualification and acceptance maturity differ or remain unresolved. The older report's four-year completion expectation also differs substantially from OSR's current {cities['Baghdad']['base']['metrics']['construction_cash_months']}-month capital schedule. A lower capital estimate does not establish an earlier or more sustainable delivered service.", "",
         "## Fares, population access and financial sustainability", "",
         f"The modelled average paid-trip fare is **IQD {fare_iqd:,.0f}** (USD {fare_iqd/fx:.2f} comparison equivalent), denominated in IQD rather than automatically indexed to the USD loan. It derives from the retained USD {country_income:,.0f}/month income proxy, equivalent to IQD {country_income*fx:,.0f}/month at the planning anchor. Thirty paid trips consume {30*fare_iqd/(country_income*fx):.1%} of that proxy income; 44 commuter trips cost IQD {44*fare_iqd:,.0f}, or {44*fare_iqd/(country_income*fx):.1%}. This is an average-trip yield assumption, not an adopted tariff or unlimited monthly pass; concessions, transfers and family affordability need an explicit tariff and household survey.", "",
         f"Low/high capacity-use cases assume {annual_trips/365:,.0f} / {city_model['cases']['high_capacity_use']['annual_paid_trips']/365:,.0f} paid trips/day, not unique people or surveyed demand. Low-case steady annual revenue is IQD {city_model['cases']['low_capacity_use']['annual_revenue_usd']*fx/1e9:,.1f} billion; OPEX is IQD {opex*fx/1e9:,.1f} billion. At that trip volume, the OPEX-only neutral fare is IQD {operating_only_fare_iqd:,.0f}, with nonfare receipts held constant. It excludes capital, debt and reserve funding.", "",
@@ -283,6 +349,21 @@ def main() -> int:
         "Local train assembly and fabrication create work in body modules, fit-out, wiring, coatings, systems integration, inspection and maintenance while bogies, batteries, windows and doors remain imported inputs requiring supplier and process qualification. Infrastructure work supports Iraqi concrete/precast production, civil erection, stations, utilities, solar installation and supervision. Tooling, training, process qualification and supplier access can leave reusable industrial capacity, shorter repair chains and retained skills after construction. Local employment and supplier income circulate in IQD and can generate Iraqi tax receipts; no multiplier or tax recovery is booked without evidence.", "",
         f"The operating allowance supports **{city_model['workforce']['total_fte']:,} indicative FTE** with annual labour cost of IQD {city_model['workforce']['annual_labour_usd']*fx/1e9:.2f} billion. These are operating positions, not construction or manufacturing job counts. Construction employment requires validated work hours, productivity, wage rates, shift cover and local-content contracts; no fabricated job total is assigned. The third-party proposal may also use Iraqi civil labour, so its local share cannot be assumed zero.", "",
         "A sustainable appraisal must demonstrate phased service before full-network completion, realistic paid demand and affordable tariffs, funded debt/interest/reserves within the public limit, placed IQD facilities, supplier and labour qualification, lifecycle replacement funding and an accepted environmental/physical design. Current software and ledger checks establish planning consistency, not those outcomes.", ""]
+    if phased_programme_cases:
+        pc = phased_programme_cases["low_demand"]
+        pm = pc["metrics"]
+        lines.extend(["## Recalculation: conditional phased opening", "",
+            "The earlier USD 9.890 billion result combined whole-fleet stage batching, no fares before the final capital payment and reserve deposits always funded with additional public cash. Ready-task dispatch now pipelines work within the same resource limits, gates train production on the new plant, and funds reserves from available project cash before seeking support. The full-network-only result above remains a conservative comparator.", "",
+            f"With line openings tied to completed line and shared/depot work plus a {config['model']['phased_commissioning_months']}-month commissioning allowance, first revenue begins in **month {pm['operations_start_month']}**, and all nine lines operate from **month {pm['full_network_operations_start_month']}** after financial close. These dates are conditional planning milestones, not authorisation to run trains.", "",
+            "Each line's controlled trainset share allocates revenue and variable OPEX; its own 50% / 75% / 100% ramp applies. From first opening, 25% of full-network OPEX is fixed and 75% scales with opened fleet. This proxy can misstate early demand, central staffing and transfer benefits; a surveyed phase-specific operating plan is required. The same nominal fares, capital total, debt terms and 25% grant apply in every case.", "",
+            "![Phased operating cash and additional liquidity](finance/baghdad-phased-cashflows.png)", "",
+            "| Opening / demand scenario | Additional funding beyond 25% capital, USD bn | Conditional lifetime public cash, USD bn |", "|---|---:|---:|",
+            f"| All fares after final capital payment | {cumulative_gap/1e9:.3f} | {summary['conditional_total_public_cash_required_usd']/1e9:.3f} |",
+            *[f"| Phased: {name.replace('_', ' ')} | {case['additional_funding_required_usd']/1e9:.3f} | {case['conditional_total_public_cash_required_usd']/1e9:.3f} |" for name, case in phased_programme_cases.items()], "",
+            "| Line | Planned opening month | Fleet / variable-cost share |", "|---|---:|---:|",
+            *[f"| {phase['line']} | {phase['opening_month']} | {phase['weight']:.2%} |" for phase in phased_city['phases']], "",
+            f"All these are gross nominal liquidity contributions, conditional on funding. Later operating surplus is retained and is not netted against earlier required injections. The phased city ledger ends with USD {pm['final_unrestricted_cash_usd']/1e9:.3f} billion of unrestricted cash; no distribution or return to the sponsor is assumed. The plant ledger has no manufacturing income/OPEX: it remains a capital-financing allowance. A 25% direct grant also does not cap sovereign IQD bond liabilities or guarantees.", "",
+            "[Phased programme monthly cashflow](finance/baghdad-programme-phased-monthly-cashflow.csv) · [phased programme annual cashflow](finance/baghdad-programme-phased-annual-cashflow.csv)", ""])
     lines.extend(comparison_lines)
     (country / "IRAQ-FUNDING-PROGRAMME.md").write_text("\n".join(lines))
     print(f"wrote Baghdad programme: USD {summary['total_capex_usd']:,.2f}, government 25%, additional cash gap USD {cumulative_gap:,.2f}")

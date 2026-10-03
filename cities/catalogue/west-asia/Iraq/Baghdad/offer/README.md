@@ -68,8 +68,16 @@ anchor-weighted planning score, not a surveyed resident catchment. Local
 procurement is USD 6.084 billion equivalent;
 indicative operating employment is 2,350 FTE. Construction
 job counts require validated hours and productivity. The model leaves USD
-9.890 billion in additional
-cash requirements if public funding is capped at the 25% capital contribution.
+9.786 billion in additional
+cash requirements in the full-network-only case if public funding is capped at the
+25% capital contribution. The conditional phased case reduces this to USD
+8.320 billion,
+with first / last line openings in months
+66 /
+346.
+These are gross nominal liquidity needs, not net lifetime loss. Opening dates
+require actual plant, depot, line and safety acceptance; fleet-based phase demand
+and the 25% fixed / 75% variable OPEX split remain planning assumptions.
 
 ## Rolling stock and CRRC component strategy
 

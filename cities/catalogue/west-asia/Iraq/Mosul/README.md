@@ -75,9 +75,9 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 | domestic bonds | $532 M |
 | government | $1.06 bn |
 
-The procurement schedule requires **116 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
+The procurement schedule requires **104 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$465 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$430 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 

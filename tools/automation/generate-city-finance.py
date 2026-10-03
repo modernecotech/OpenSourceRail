@@ -348,7 +348,14 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             with contracts_path.open(newline="") as handle:
                 contracts = list(csv.DictReader(handle))
             try:
-                structured = build_financing(bucket_rows(capital), contracts, cases, annual_opex, config)
+                phases_path = contracts_path.with_name("funding-phase-input.csv")
+                phases = None
+                if str(model["city"]) == "baghdad" and phases_path.is_file():
+                    with phases_path.open(newline="") as phase_handle:
+                        phases = [{"line": row["line"], "opening_month": int(row["opening_month"]), "weight": float(row["weight"])} for row in csv.DictReader(phase_handle)]
+                    model["sources"]["funding_phases"] = str(phases_path.relative_to(REPO_ROOT))
+                    model["sources"]["funding_phases_sha256"] = sha256(phases_path)
+                structured = build_financing(bucket_rows(capital), contracts, cases, annual_opex, config, phases)
             except ValueError as error:
                 if "contract budgets do not reconcile" not in str(error) and "stale procurement origin" not in str(error):
                     raise
@@ -374,6 +381,14 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
             writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
+    phased = funding.get("phased_opening", {})
+    if phased.get("cases"):
+        for frequency in ("monthly", "annual"):
+            rows = phased["cases"]["low_demand"][frequency]
+            with (directory / f"funding-phased-{frequency}-cashflow.csv").open("w", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
     metrics = funding["base"]["metrics"]
     share = funding["assumptions"]["model"].get("government_share_of_total")
     contribution_note = (
@@ -416,6 +431,14 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
         "Long construction schedules can leave much of the debt already repaid by government before full-network opening. An operating DSCR above one therefore does not establish self-financing or remove the construction-period public cash burden. Uncovered capital gaps are conditional funding requirements, not actual cash receipts.", "",
         f"See [editable assumptions]({os.path.relpath(IRAQ_FUNDING_PATH, directory)}), [monthly cashflow](funding-monthly-cashflow.csv), [annual cashflow](funding-annual-cashflow.csv), and [machine-readable model](summary.json).", "",
         "The [IMF Article IV](https://www.imf.org/en/news/articles/2025/07/08/pr-25243-iraq-imf-executive-board-concludes-2025-article-iv-consultation) provides the historical FX anchor. [CBI](https://www.cbi.iq/page/26) describes its role as fiscal agent for MoF bonds. [China Exim](https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html) describes export buyer credit; numeric project terms remain assumptions.", ""])
+    if phased.get("cases"):
+        pm = phased["cases"]["low_demand"]["metrics"]
+        lines.extend(["## Conditional phased-opening sensitivity", "", "The base above withholds all fares until every capital milestone. This separate sensitivity opens completed lines after the editable commissioning lag and gates every line on shared system/depot work. The new Baghdad production plant is unavailable for its first 520 working days. Opening also requires actual civil, train, depot, power and safety acceptance, which is not established by this calculation.", "",
+            "Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.", "",
+            f"First / last planned opening: month {pm['operations_start_month']} / {pm['full_network_operations_start_month']} from financial close (month zero). City additional funding requirement: USD {pm['additional_support_required_usd']/1e6:,.2f} million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.", "",
+            "| Line | Opening month | Revenue / variable OPEX share |", "|---|---:|---:|",
+            *[f"| {p['line']} | {p['opening_month']} | {p['weight']:.2%} |" for p in phased["phases"]], "",
+            "[Phased monthly cashflow](funding-phased-monthly-cashflow.csv) · [phased annual cashflow](funding-phased-annual-cashflow.csv)", ""])
     (directory / "FUNDING-MODEL.md").write_text("\n".join(lines))
     import matplotlib
     matplotlib.use("Agg")
@@ -470,6 +493,30 @@ def refresh_funding_input(design_path: Path, slug: str) -> None:
             writer.writerow((*key, str(amount)))
         temporary = Path(handle.name)
     temporary.replace(directory / "funding-input.csv")
+    schedule = design_path.parent / "operations" / f"{slug}-manufacturing-schedule.csv"
+    if slug == "baghdad" and schedule.is_file():
+        with schedule.open(newline="") as handle:
+            tasks = list(csv.DictReader(handle))
+        config = city_funding_config(tomllib.loads(IRAQ_FUNDING_PATH.read_text()), slug)["model"]
+        shared_finish = max((int(row["planned_finish_day"]) for row in tasks if not row["line"] or row["asset_type"] == "depot"), default=0)
+        fleet_by_line = defaultdict(set)
+        finish_by_line = defaultdict(int)
+        for row in tasks:
+            line = row["line"]
+            if line:
+                finish_by_line[line] = max(finish_by_line[line], int(row["planned_finish_day"]), shared_finish)
+                if row["asset_type"] == "rolling-stock":
+                    fleet_by_line[line].add(row["asset_id"])
+        total_fleet = sum(len(assets) for assets in fleet_by_line.values())
+        if not total_fleet:
+            raise ValueError("Baghdad phase projection needs a controlled fleet")
+        with (directory / "funding-phase-input.csv").open("w", newline="") as handle:
+            writer = csv.writer(handle, lineterminator="\n")
+            writer.writerow(("line", "completion_working_day", "opening_month", "trainsets", "weight"))
+            for line, assets in sorted(fleet_by_line.items()):
+                finish = finish_by_line[line]
+                opening = int((finish+config["pre_ntp_working_days"])*12//config["working_days_per_year"])+1+int(config.get("phased_commissioning_months", 3))
+                writer.writerow((line, finish, opening, len(assets), len(assets)/total_fleet))
 
 
 def main() -> int:
