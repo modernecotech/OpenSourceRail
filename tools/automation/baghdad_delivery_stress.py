@@ -33,6 +33,21 @@ def next_slot(start, duration, outages):
     return start
 
 
+def production_duration(stage, availability, staffed_hours_factor, fixed_hold_days):
+    """Compress only staffed occupation; fixed holds occupy the bay unchanged.
+
+    Holds are conservative working-calendar equivalents pending timed process
+    routings, not a claim that curing stops at night. Unshifted totals preserve
+    the reviewed availability schedule exactly, including its rounding.
+    """
+    if not math.isfinite(staffed_hours_factor) or staffed_hours_factor < 1:
+        raise ValueError('staffed hours factor must be finite and at least one')
+    total = math.ceil(stage['cycle_working_days'] / availability)
+    if isinstance(fixed_hold_days, bool) or not isinstance(fixed_hold_days, int) or not 0 <= fixed_hold_days <= stage['cycle_working_days']:
+        raise ValueError('fixed process hold must be an integer within the unshifted cycle')
+    return fixed_hold_days + math.ceil((total - fixed_hold_days) / staffed_hours_factor)
+
+
 def schedule(tasks, factory, settings):
     """Use frozen cells, resource-lane edges and full-fleet scope; never resize."""
     stages = {s['package']: s for s in factory['stages']}
@@ -63,7 +78,8 @@ def schedule(tasks, factory, settings):
         if is_stock:
             stage = stages[row['package_id']]
             extra_hours = settings.get('production_hours_factor', 1.) if row['package_id'] in settings.get('production_shift_stages', []) else 1.
-            duration = math.ceil(stage['cycle_working_days'] / (availability * extra_hours)) * 8
+            duration = production_duration(stage, availability, extra_hours,
+                       settings.get('fixed_process_holds', {}).get(row['package_id'], 0)) * 8
             duration += (row['duration_days'] - stage['planned_occupation_days']) * 8
             release = ready
             if settings.get('temporary_first_article_ready_day'):
@@ -85,7 +101,7 @@ def schedule(tasks, factory, settings):
         if not is_stock and row['asset_type'] != 'system':
             # Productivity and investment timing are independent interventions.
             # A 1.0 factor with retained timing must be an exact identity.
-            if timing == 'earliest':
+            if timing == 'earliest' or row['asset_id'] in settings.get('early_civil_assets', []):
                 start = max([0, *[results[p]['end_hour'] for p in pred]])
             duration = max(8, math.ceil(row['duration_days'] * civil_factor) * 8)
         end = start + duration
@@ -109,6 +125,21 @@ def schedule(tasks, factory, settings):
                             asset_type=row['asset_type'], resource_pool=row['resource_pool'],
                             resource_lane=row['resource_lane'], start_hour=start, end_hour=end,
                             test_path=path_id, test_start_hour=path_start, test_end_hour=path_end)
+    # A conservative programme-wide funding stop: unfinished work and exclusive
+    # path reservations resume after the same hold. No refused source is silently
+    # replaced by liquidity credit; recovered cases require fresh placement.
+    pause = settings.get('funding_pause_days', 0)
+    pause_start = settings.get('funding_pause_start_day', 0)
+    if pause:
+        def shifted(hour, ending=False):
+            affected = hour > pause_start * 8 if ending else hour >= pause_start * 8
+            return hour + pause * 8 if affected else hour
+        for row in results.values():
+            for key in ('start_hour', 'end_hour', 'test_start_hour', 'test_end_hour'):
+                if row[key] is not None:
+                    row[key] = shifted(row[key], key in ('end_hour', 'test_end_hour'))
+        if ready >= pause_start:
+            ready += pause
     lines = []
     shared = max(r['end_hour'] for r in results.values() if not r['line'] or r['asset_type'] in ('depot', 'depots-production'))
     for line in sorted({r['line'] for r in results.values() if r['line']}):
@@ -147,7 +178,8 @@ def finance(delivery, settings, context):
         contracts.append(dict(bucket='delivery_rework_local', budget_usd=cost, imported_share=0.,
                               planned_start_day=delivery['factory_ready_day'],
                               planned_finish_day=max(p['fleet_completion_day'] for p in delivery['phases'])))
-    factory_contracts = [dict(bucket=bucket, budget_usd=cost, imported_share=share, planned_start_day=0,
+    factory_contracts = [dict(bucket=bucket, budget_usd=cost, imported_share=share,
+                              planned_start_day=settings.get('funding_pause_days', 0) if settings.get('funding_pause_start_day', 0) == 0 else 0,
                               planned_finish_day=delivery['factory_ready_day'])
                          for bucket, cost, share in (('production_plant', factory['budgeted_plant_direct_usd'], .2),
                                                      ('epc_overhead', factory['budgeted_plant_epc_usd'], .15))]
@@ -167,6 +199,22 @@ def finance(delivery, settings, context):
                                    planned_start_day=0 if settings.get('temporary_first_article_ready_day') else max(0, delivery['factory_ready_day'] - 60),
                                    planned_finish_day=settings.get('temporary_first_article_ready_day', delivery['factory_ready_day']))
                               for bucket, cost, share in (('production_plant', added_direct, .2), ('epc_overhead', added_direct * costs['epc_fraction'], .15))]
+    restart = settings.get('funding_restart_direct_usd', 0.)
+    if restart:
+        # Local remobilisation: separately priced, no additional train or
+        # manufactured USD import share. Government remains 25% of capital.
+        start = settings['funding_pause_start_day'] + settings['funding_pause_days']
+        contracts.append(dict(bucket='funding_restart_local', budget_usd=restart * (1 + costs['epc_fraction']),
+                              imported_share=0., planned_start_day=start, planned_finish_day=start + 30))
+        buckets.append(dict(bucket='funding_restart_local', total_usd=restart * (1 + costs['epc_fraction']), imported_usd=0.))
+    section = settings.get('first_section_direct_usd', 0.)
+    if section:
+        for bucket, amount, share in (('first_section_local', section * .8, 0.),
+                                      ('first_section_imports', section * .2, 1.),
+                                      ('first_section_epc', section * costs['epc_fraction'], .15)):
+            contracts.append(dict(bucket=bucket, budget_usd=amount, imported_share=share,
+                                  planned_start_day=120, planned_finish_day=settings['first_section_ready_day']))
+            buckets.append(dict(bucket=bucket, total_usd=amount, imported_usd=amount * share))
     factory_buckets = []
     for bucket in ('production_plant', 'epc_overhead'):
         rows = [c for c in factory_contracts if c['bucket'] == bucket]
@@ -188,6 +236,11 @@ def finance(delivery, settings, context):
                               factory_debt_service_usd=plant.get('debt_service_usd', 0.),
                               factory_reserve_usd=plant.get('closing_restricted_reserve_usd', 0.),
                               chinese_commitment_fee_usd=sum(r['chinese_export_credit_fees_usd'] - r['chinese_export_credit_draw_usd'] * config['chinese_export_credit']['arrangement_fee'] for r in rows)))
+        if section and settings['first_section_opening_month'] <= month < settings['first_section_support_until_month']:
+            # A short independently operated section does not activate the
+            # entire network's fixed OPEX. Its own staff/energy/maintenance
+            # budget is used until the original full-line opening.
+            operating[-1]['opex_usd'] = settings['first_section_annual_opex_usd'] / 12
     operating[0]['phases'] = delivery['phases']
     fares = options['fares']
     operating, pricing = price_operating(operating, receipts, programme['comparison']['fare_iqd'],
@@ -219,7 +272,9 @@ def finance(delivery, settings, context):
     incremental_costs = []
     for row in operating:
         month = row['month']; index = (1 + fares['opex_inflation']) ** (month // 12)
-        extra_pay = extra_nonlabour = extension = temporary = expedite = 0.
+        extra_pay = extra_nonlabour = extension = temporary = expedite = section_support = 0.
+        if section and math.floor((settings['first_section_ready_day'] + 30) * 12 / 260) <= month < settings['first_section_support_until_month']:
+            section_support = settings['first_section_support_fte'] * salary / 12 * index
         if production_start <= month < production_end:
             extra_pay = extra_production_fte * salary / 12 * recovery['extra_shift_pay_factor'] * index
             extra_nonlabour = extra_pay * recovery['extra_shift_nonlabour_fraction_of_payroll']
@@ -230,27 +285,46 @@ def finance(delivery, settings, context):
         if settings.get('delay_costs'):
             # Compare staffed span lengths, not absolute completion dates: a
             # pure start delay does not purchase the same crew-months twice.
-            if paid_extension_start <= month < production_end:
+            funding_hold = settings.get('funding_pause_days', 0)
+            if funding_hold and settings['funding_pause_start_day'] > 0 and settings['funding_pause_first_month'] <= month < settings['funding_resume_month']:
+                # Retained staff/site costs belong to the actual suspension,
+                # not both the suspension and the later completion extension.
+                extension += ((factory['direct_production_crew_fte'] + costs['factory_extended_support_fte'] + costs['civil_extended_supervision_fte']) * salary
+                              + factory['budgeted_plant_direct_usd'] * costs['plant_nonlabour_carrying_annual_fraction']
+                              + city_finance['capex_usd']['reconciled_project_total'] * costs['construction_nonlabour_prolongation_annual_fraction']) / 12 * index
+            if not funding_hold and paid_extension_start <= month < production_end:
                 extension += (factory['direct_production_crew_fte'] + costs['factory_extended_support_fte']) * salary / 12 * index
                 extension += factory['budgeted_plant_direct_usd'] * costs['plant_nonlabour_carrying_annual_fraction'] / 12 * index
-            if plant_ready_month <= month < production_start:
+            if not funding_hold and plant_ready_month <= month < production_start:
                 extension += factory['budgeted_plant_direct_usd'] * costs['plant_nonlabour_carrying_annual_fraction'] / 12 * index
-            if baseline_civil_end <= month < civil_end:
+            if not funding_hold and baseline_civil_end <= month < civil_end:
                 extension += (costs['civil_extended_supervision_fte'] * salary + city_finance['capex_usd']['reconciled_project_total'] * costs['construction_nonlabour_prolongation_annual_fraction']) / 12 * index
         if settings.get('supplier_expedite') and month == math.floor((600 + 30) * 12 / 260):
             expedite = city_finance['capex_usd']['imported_external_capital'] * recovery['supplier_expedite_fraction_of_city_imports'] * index
-        row['opex_usd'] += extra_pay + extra_nonlabour + extension + temporary + expedite
+        row['opex_usd'] += extra_pay + extra_nonlabour + extension + temporary + expedite + section_support
         if settings.get('lower_demand'):
             row['fare_revenue_usd'] *= downside['ridership_factor']
             row['nonfare_revenue_usd'] *= downside['nonfare_factor']
             row['revenue_usd'] = row['fare_revenue_usd'] + row['nonfare_revenue_usd']
         incremental_costs.append(dict(month=month, production_shift_payroll_usd=extra_pay,
                                       production_shift_nonlabour_usd=extra_nonlabour, delay_extension_usd=extension,
-                                      temporary_facility_support_usd=temporary, supplier_expedite_usd=expedite))
+                                      temporary_facility_support_usd=temporary, supplier_expedite_usd=expedite,
+                                      first_section_support_usd=section_support))
     eligible = set(options['green']['candidate_buckets'])
     capital = capital_projection(contracts + factory_contracts, config, eligible)
     for month, row in capital_projection(factory_contracts, config, eligible).items():
         capital[month].update(factory_capex=row['capex'], factory_imports=row['imports'])
+    if settings.get('funding_pause_days'):
+        first = settings['funding_pause_first_month']
+        resume = settings['funding_resume_month']
+        # A task spanning a stop must not create its 55% midpoint invoice in
+        # the suspended period. Defer every due capital use until re-placement.
+        for month in sorted(list(capital)):
+            if first <= month < resume:
+                deferred = capital.pop(month)
+                target = capital.setdefault(resume, {})
+                for key, value in deferred.items():
+                    target[key] = target.get(key, 0.) + value
     escalation = 0.
     if settings.get('capital_escalation'):
         for month, row in capital.items():
@@ -258,7 +332,8 @@ def finance(delivery, settings, context):
             escalation += row['capex'] * (factor - 1)
             for key in row:
                 row[key] *= factor
-        # Rebuild undrawn Chinese commitment fees from escalated invoice draws.
+    if settings.get('capital_escalation') or settings.get('funding_pause_days'):
+        # Rebuild undrawn Chinese commitment fees from actual invoice draws.
         for row in operating:
             month = row['month']; cohort = sorted(m for m, c in capital.items() if m // 12 == month // 12 and c['imports'] > 0)
             row['chinese_commitment_fee_usd'] = sum(.5 * capital[m]['imports'] for m in cohort if m > month) * config['chinese_export_credit']['undrawn_commitment_fee'] / 12 if cohort and month >= cohort[0] else 0.
@@ -267,9 +342,15 @@ def finance(delivery, settings, context):
                       bridge_rate=downside['gap_credit_rate'] if less_finance else liquidity['concessional_annual_rate'],
                       bridge_fee=downside['gap_credit_draw_fee'] if less_finance else liquidity['concessional_draw_fee'],
                       repayment_policy='cost_priority')
+    nominal_discount = (1 + config['model']['discount_rate']) * (1 + fares['general_price_inflation']) - 1
+    unlevered_npv = sum((r['revenue_usd'] - r['opex_usd'] - capital.get(r['month'], {}).get('capex', 0.))
+                       / (1 + nominal_discount) ** (r['month'] / 12) for r in operating)
     result['metrics'].update(incremental_test_payroll_usd=payroll,
+                             unlevered_project_npv_usd=unlevered_npv, nominal_discount_rate=nominal_discount,
                              total_capital_usd=sum(r['capex'] for r in capital.values()),
                              incremental_recovery_capital_usd=added_direct * (1 + costs['epc_fraction']),
+                             funding_restart_capital_usd=restart * (1 + costs['epc_fraction']),
+                             first_section_incremental_capital_usd=section * (1 + costs['epc_fraction']),
                              extra_production_fte=extra_production_fte, capital_escalation_usd=escalation,
                              incremental_cost_totals_usd={key: sum(r[key] for r in incremental_costs) for key in incremental_costs[0] if key != 'month'})
     result['metrics']['debt_clearance_month_without_unfunded_support'] = result['metrics']['all_debt_cleared_month'] if result['metrics']['uncovered_support_iqd'] / config['model']['iqd_per_usd'] < .02 else None
@@ -341,6 +422,14 @@ def main():
                  combined_escalation=dict(combined, delay_costs=True, capital_escalation=True),
                  combined_finance_downside=dict(combined, delay_costs=True, less_favourable_finance=True),
                  joint_downside=dict(combined, delay_costs=True, lower_demand=True, capital_escalation=True, less_favourable_finance=True, higher_opex=True))
+    cases.update(domestic_placement_interrupted_recovered=dict(funding_pause_start_day=600, funding_pause_days=130,
+                 funding_pause_first_month=29, funding_resume_month=35,
+                 funding_restart_direct_usd=risk_options['funding_gates']['restart_direct_usd'], delay_costs=True),
+                 export_credit_delayed_recovered=dict(funding_pause_start_day=0, funding_pause_days=130,
+                 funding_pause_first_month=0, funding_resume_month=6,
+                 funding_restart_direct_usd=risk_options['funding_gates']['restart_direct_usd'], delay_costs=True))
+    for settings in cases.values():
+        settings['fixed_process_holds'] = risk_options['fixed_process_holds']
     OUT.mkdir(parents=True, exist_ok=True)
     report = dict(schema='baghdad-frozen-delivery-stress-v2', status='unqualified-deterministic-planning-study',
                   financing_committed=False, operational_release=False, capacity=factory['resource_capacity'],
@@ -357,7 +446,8 @@ def main():
         write_csv(OUT / (name + '-schedule.csv'), delivery['tasks'])
         write_csv(OUT / (name + '-six-month-finance.csv'), result['semiannual'])
         write_csv(OUT / (name + '-incremental-costs.csv'), result['incremental_costs'])
-        if name in ('calendar_baseline', 'combined', 'combined_second_test_shift', 'combined_delay_costs', 'joint_downside'):
+        if name in ('calendar_baseline', 'combined', 'combined_second_test_shift', 'combined_delay_costs', 'joint_downside',
+                    'domestic_placement_interrupted_recovered', 'export_credit_delayed_recovered'):
             write_csv(OUT / (name + '-monthly-finance.csv'), result['monthly'])
         metrics = result['metrics']
         table.append(dict(case=name, first_opening_month=min(p['opening_month'] for p in delivery['phases']),
@@ -396,18 +486,23 @@ def main():
             ('Ridership, kiosks and advertising', 'OD survey, passenger demand calibration, signed concession heads, occupancy and management cost estimates', 'Transport economist / commercial lead', 'Test phase-specific paid trips and net receipts; planning population is not measured catchment'),
             ('Funding and risk allowance', 'MoF appropriation, IQD placement mandates, lender/green term sheets, capex price-date and delay cost quotes', 'Sponsor / finance lead', 'No uncovered cash placeholder may be called committed funding; hold government capital at 25% with import USD split 50:50'),
             ('Operating acceptance', 'Released hazards/interfaces, completed inspection/test plans, depot/charging/turnback fit and independently signed opening evidence', 'Operator / safety authority', 'Full allocated fleet and infrastructure acceptance precede each line opening; planning schedule cannot authorize service'))]
+    for index, entry in enumerate(qualifications, 1):
+        entry.update(work_package_id='BAG-EVID-%03d' % index,
+                     erpnext_task_subject='BAG-EVID-%03d — ' % index + entry['assumption'],
+                     accountable_owner_identity='pending-named-person',
+                     executable_package='../qualification/evidence-work-packages.json', signed_result='pending')
     write_csv(OUT / 'qualification-register.csv', qualifications)
     slow = report['cases']['combined_lower_demand']['metrics']
     joint = report['cases']['joint_downside']['metrics']
     lines += ['', '## Separate productivity from investment timing', '',
               'The corrected civil_cycles_20pct_faster case retains every rephased start floor and changes only civil occupation durations. A 1.0 multiplier is tested as an exact schedule identity, including running-path reservations and line openings. Civil_earliest_unchanged_cycles removes the spending delays at original durations; civil_earliest_20pct_faster changes both. Their costs must not be attributed to productivity alone. Earlier completion may still advance completion/retention invoices even when mobilisation timing is retained. These are diagnostic cycle assumptions with no added crews or accepted acceleration price.', '',
               '## Recovery comparisons and priced assumptions', '',
-              'Factory cells and dispatch lane order remain fixed. The test-only option uses the same two segregated paths with a second eight-hour test shift: 52 incremental staff, USD 1.5m direct lighting/training plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.', '',
+              'Factory cells and dispatch lane order remain fixed. Fixed curing, bonding, inspection and test holds are listed in baghdad-delivery-risk.toml as unqualified working-calendar equivalents. Shift compression applies only to the remaining staffed occupation; the additional 60-day first-article qualification is unchanged. At one shift the original schedule is preserved exactly. Cure elapsed hours and batch/test evidence must replace these assumed splits before adoption. The test-only option uses the same two segregated paths with a second eight-hour test shift: 52 incremental staff, USD 1.5m direct lighting/training plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.', '',
               'Use availability_75pct_costed, hiring_ramp_costed and supplier_shortage_costed as matching delay-cost baselines for their respective recovery options. Recruitment recovery funds USD 10,000 per delayed half of the 1044 production positions plus EPC and tests a six-month rather than twelve-month staffing ramp. Supplier recovery charges an assumed IQD local logistics fee of 2% of city imported invoice value, indexed to payment, and tests a shortage cut from 130 to 65 working days; this is a causal scenario assumption, not a guaranteed delivery improvement. Foreign-currency freight reimbursement and invoice eligibility need quotations. Neither purchases another train nor credits an unspecified subsidy.', '',
               'The temporary first-article option adds USD 35m direct facility/tooling and 7% EPC, ready at day 260 (12 planning months from NTP), plus 60 incremental support FTE until the permanent plant is ready. Only the already-planned prototype assembles there. Acceptance still waits for permanent bays and running paths at day 390, and series still waits for first-article qualification. All line fleets remain complete at opening. The temporary site and staff must have their own RFQs and acceptance; no shorter passenger section is folded into this option.', '',
               '## Delay costs and combined financial downside', '',
               'Original delivery-only cases remain lower-bound comparisons. Combined_delay_costs additionally prices extended direct production staffing plus 100 support FTE at the existing Iraqi labour proxy; it compares staffed span lengths so a pure start delay does not buy the same crew-months twice. Plant storage/insurance/utilities carrying uses 1% of direct plant capital per extra/idle year excluding wages. Civil prolongation adds 150 supervision FTE and nonlabour site overhead at 0.5% of city capital per year beyond baseline civil completion. All these incremental operating costs are charged monthly at 5% annual indexing; baseline train labour/materials already inside procurement are not repeated. Rework prices 83 affected trains at USD 25,000 each. Monthly incremental-cost files reconcile each allowance to the case OPEX ledger. Contingency, tax and contractor claims remain unquoted; these are not a funded risk reserve.', '',
-              'The downside ladder isolates 30% fewer paid trips plus 25% lower existing retail/advertising receipts, 5% annual capital escalation applied to each invoice at actual payment month from financial close, and weaker financing. Weaker financing removes assumed green enhancement, climate grants, development rights and additional net income, increases core coupons two percentage points, and replaces the 2%/IQD 13tn gap sensitivity with 8% credit at a 1% draw fee and IQD 4tn maximum outstanding. Chinese credit and government import cash remain USD, all domestic credit/bonds/cash IQD; government remains 25% of escalated capital. Core debt placement remains assumed; this is not a full default or denied-export-credit model.', '',
+              'The downside ladder isolates 30% fewer paid trips plus 25% lower existing retail/advertising receipts, 5% annual capital escalation applied to each invoice at actual payment month from financial close, and weaker financing. Weaker financing removes assumed green enhancement, climate grants, development rights and additional net income, increases core coupons two percentage points, and replaces the 2%/IQD 13tn gap sensitivity with 8% credit at a 1% draw fee and IQD 4tn maximum outstanding. Chinese credit and government import cash remain USD, all domestic credit/bonds/cash IQD; government remains 25% of escalated capital. Separately, domestic_placement_interrupted_recovered and export_credit_delayed_recovered stop procurement/construction/production for 130 working days and price local remobilisation plus prolongation; repayment is conditional on subsequently placing the refused debt. Permanent refusal has no opening or repayment date: see the [funding gates and evidence execution package](../qualification/README.md), including denied amounts, escrow requirements and six-month placement shortfalls. No gap facility is used to conceal a refused core source.', '',
               f"Lower demand with combined delays leaves IQD {slow['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt. Joint_downside applies all of those assumptions together and 7% rail OPEX inflation: IQD {joint['uncovered_support_iqd']/1e12:.3f}tn cumulative uncovered cash and IQD {joint['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt. Uncovered support is a balancing requirement, not an extra government appropriation, loan or cash source. Its presence blocks any unconditional repayment claim even if the simulated debt eventually amortizes. Interest totals in such cases also assume the missing cash is supplied; they do not establish an executable financed programme.", '',
               'Base fare and OPEX sensitivities remain 5% from financial close, with existing kiosks/advertising, separate receipts and each line revenue ramp included. No tickets are sold before opening. Capital escalation is absent from reference cases and explicit in the named escalation cases. Green/grant/rights and all financing availability remain uncommitted. No future national city cashflow supports Baghdad debt.', '',
               '## Evidence needed before adopting a recovery plan', '',

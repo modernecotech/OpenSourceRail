@@ -1,0 +1,345 @@
+subject,status,priority,description
+BAG-EVID-001 — Six-car production cycles and tooling,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-001"",
+  ""accountable_owner_role"": ""Factory process engineer / independent inspector"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Timed first-article travellers; mould duplication/cure tests; lifting and process layouts; vendor equipment quotes"",
+  ""acceptance_rule"": ""Prove each stage cycle and 85% availability with traceable measurements; no series before first-article acceptance"",
+  ""criteria"": [
+    {
+      ""id"": ""rs-10-material-kit-occupation"",
+      ""operator"": ""le"",
+      ""target"": 32,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-20-carbody-bogie-occupation"",
+      ""operator"": ""le"",
+      ""target"": 232,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-23-moulded-body-modules-occupation"",
+      ""operator"": ""le"",
+      ""target"": 96,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-25-clip-on-body-occupation"",
+      ""operator"": ""le"",
+      ""target"": 24,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-30-traction-battery-control-occupation"",
+      ""operator"": ""le"",
+      ""target"": 192,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-40-fitout-static-test-occupation"",
+      ""operator"": ""le"",
+      ""target"": 152,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""rs-50-dynamic-commissioning-occupation"",
+      ""operator"": ""le"",
+      ""target"": 120,
+      ""unit"": ""working-hour""
+    },
+    {
+      ""id"": ""availability"",
+      ""operator"": ""ge"",
+      ""target"": 0.85,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""first-article-qualification"",
+      ""operator"": ""ge"",
+      ""target"": 60,
+      ""unit"": ""working-day""
+    },
+    {
+      ""id"": ""fixed-hold-shift-compression"",
+      ""operator"": ""eq"",
+      ""target"": 0,
+      ""unit"": ""working-hour""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-001-result-template.json""
+}</pre>"
+"BAG-EVID-002 — Imported bogies, batteries, doors and windows",Open,High,"<pre>{
+  ""id"": ""BAG-EVID-002"",
+  ""accountable_owner_role"": ""Procurement lead / lender technical adviser"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Lot-level RFQs, origin certificates, qualified suppliers, delivery slots, warranty and lender eligibility"",
+  ""acceptance_rule"": ""Match 831 complete six-car kits, financed invoice origin and delivery calendar"",
+  ""criteria"": [
+    {
+      ""id"": ""complete-qualified-kits"",
+      ""operator"": ""eq"",
+      ""target"": 831,
+      ""unit"": ""six-car-kit""
+    },
+    {
+      ""id"": ""origin-and-invoice-coverage"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-002-result-template.json""
+}</pre>"
+BAG-EVID-003 — Staffing and extra shifts,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-003"",
+  ""accountable_owner_role"": ""Factory operator / training lead"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Iraqi wage/shift quotes, recruitment cohorts, competency and fatigue roster, measured labour-hours"",
+  ""acceptance_rule"": ""Demonstrate 1044 baseline cell positions plus option-specific incremental FTE without duplicate payroll"",
+  ""criteria"": [
+    {
+      ""id"": ""competent-baseline-cell-staff"",
+      ""operator"": ""ge"",
+      ""target"": 1044,
+      ""unit"": ""FTE""
+    },
+    {
+      ""id"": ""qualified-fatigue-roster"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-003-result-template.json""
+}</pre>"
+BAG-EVID-004 — Two segregated running paths,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-004"",
+  ""accountable_owner_role"": ""Test manager / independent assessor"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Land/geometry drawings, braking and electrical tests, safe access segregation, witnessed test duty and outage recovery"",
+  ""acceptance_rule"": ""Demonstrate 16 exclusive test-hours/train and coexistence with acceptance bay use; no shared route counted twice"",
+  ""criteria"": [
+    {
+      ""id"": ""segregated-paths"",
+      ""operator"": ""ge"",
+      ""target"": 2,
+      ""unit"": ""path""
+    },
+    {
+      ""id"": ""exclusive-running-test"",
+      ""operator"": ""ge"",
+      ""target"": 16,
+      ""unit"": ""hour/train""
+    },
+    {
+      ""id"": ""qualified-throughput"",
+      ""operator"": ""ge"",
+      ""target"": 215.17241379310346,
+      ""unit"": ""train/year""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-004-result-template.json""
+}</pre>"
+BAG-EVID-005 — Civil quantities and access,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-005"",
+  ""accountable_owner_role"": ""Civil lead / owner engineer"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Geotechnical survey, utility/land permits, precast curing/output tests, foundations and track installation records, Iraqi contractor RFQs"",
+  ""acceptance_rule"": ""Validate access and crew-lane dependencies and quantity-based rates before adopting 20% cycle improvement"",
+  ""criteria"": [
+    {
+      ""id"": ""survey-and-permit-coverage"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""accepted-quantity-and-rate-coverage"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-005-result-template.json""
+}</pre>"
+BAG-EVID-006 — Depot and temporary first-article facility,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-006"",
+  ""accountable_owner_role"": ""Industrial facilities lead"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Site fit, utilities, quarantine/HV/fire layout, equipment transfer and readiness/price quotes"",
+  ""acceptance_rule"": ""Temporary assembly ready day 260 and permanent paths day 390 are sensitivities until site acceptance"",
+  ""criteria"": [
+    {
+      ""id"": ""temporary-ready"",
+      ""operator"": ""le"",
+      ""target"": 260,
+      ""unit"": ""working-day""
+    },
+    {
+      ""id"": ""permanent-acceptance-ready"",
+      ""operator"": ""le"",
+      ""target"": 390,
+      ""unit"": ""working-day""
+    },
+    {
+      ""id"": ""transfer-and-quote-coverage"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-006-result-template.json""
+}</pre>"
+"BAG-EVID-007 — Ridership, kiosks and advertising",Open,High,"<pre>{
+  ""id"": ""BAG-EVID-007"",
+  ""accountable_owner_role"": ""Transport economist / commercial lead"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""OD survey, passenger demand calibration, signed concession heads, occupancy and management cost estimates"",
+  ""acceptance_rule"": ""Test phase-specific paid trips and net receipts; planning population is not measured catchment"",
+  ""criteria"": [
+    {
+      ""id"": ""phase-demand-calibration"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""concession-net-receipts-evidence"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-007-result-template.json""
+}</pre>"
+BAG-EVID-008 — Funding and risk allowance,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-008"",
+  ""accountable_owner_role"": ""Sponsor / finance lead"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""MoF appropriation, IQD placement mandates, lender/green term sheets, capex price-date and delay cost quotes"",
+  ""acceptance_rule"": ""No uncovered cash placeholder may be called committed funding; hold government capital at 25% with import USD split 50:50"",
+  ""criteria"": [
+    {
+      ""id"": ""all-six-month-financing-gates-covered"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""signed-native-currency-term-coverage"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""government-capital-share"",
+      ""operator"": ""eq"",
+      ""target"": 0.25,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-008-result-template.json""
+}</pre>"
+BAG-EVID-009 — Operating acceptance,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-009"",
+  ""accountable_owner_role"": ""Operator / safety authority"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Released hazards/interfaces, completed inspection/test plans, depot/charging/turnback fit and independently signed opening evidence"",
+  ""acceptance_rule"": ""Full allocated fleet and infrastructure acceptance precede each line opening; planning schedule cannot authorize service"",
+  ""criteria"": [
+    {
+      ""id"": ""open-release-hazards"",
+      ""operator"": ""eq"",
+      ""target"": 0,
+      ""unit"": ""hazard""
+    },
+    {
+      ""id"": ""allocated-full-fleet-acceptance"",
+      ""operator"": ""eq"",
+      ""target"": 831,
+      ""unit"": ""train""
+    },
+    {
+      ""id"": ""line-infrastructure-acceptance"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-009-result-template.json""
+}</pre>"
+BAG-EVID-010 — Independently operable first section,Open,High,"<pre>{
+  ""id"": ""BAG-EVID-010"",
+  ""accountable_owner_role"": ""Section design authority / operator / independent assessor"",
+  ""owner_assignment_status"": ""named-person-required"",
+  ""required_measurement"": ""Surveyed turnbacks/platforms; feeder/charger and thermal duty tests; section fleet acceptance; isolated software/wayside configuration; own maintenance/rescue access; OD calibration and signed opening dossier"",
+  ""acceptance_rule"": ""All section infrastructure and allocated trains accepted; no unresolved release hazard; operator and statutory authority release remain separate"",
+  ""criteria"": [
+    {
+      ""id"": ""accepted-section-fleet"",
+      ""operator"": ""eq"",
+      ""target"": 16,
+      ""unit"": ""train""
+    },
+    {
+      ""id"": ""clear-platform-length"",
+      ""operator"": ""ge"",
+      ""target"": 121,
+      ""unit"": ""m""
+    },
+    {
+      ""id"": ""terminal-berths-per-end"",
+      ""operator"": ""ge"",
+      ""target"": 2,
+      ""unit"": ""berth""
+    },
+    {
+      ""id"": ""feeder-power-per-end"",
+      ""operator"": ""ge"",
+      ""target"": 4000,
+      ""unit"": ""kW""
+    },
+    {
+      ""id"": ""round-trip-delivered-charge"",
+      ""operator"": ""ge"",
+      ""target"": 587.9376639999999,
+      ""unit"": ""kWh""
+    },
+    {
+      ""id"": ""independent-maintenance-rescue-acceptance"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""surveyed-section-demand"",
+      ""operator"": ""eq"",
+      ""target"": 1,
+      ""unit"": ""fraction""
+    },
+    {
+      ""id"": ""accepted-stabling-spaces"",
+      ""operator"": ""ge"",
+      ""target"": 16,
+      ""unit"": ""train-space""
+    },
+    {
+      ""id"": ""open-section-release-hazards"",
+      ""operator"": ""eq"",
+      ""target"": 0,
+      ""unit"": ""hazard""
+    }
+  ],
+  ""source_revision"": ""sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09"",
+  ""evidence_result_template"": ""BAG-EVID-010-result-template.json""
+}</pre>"

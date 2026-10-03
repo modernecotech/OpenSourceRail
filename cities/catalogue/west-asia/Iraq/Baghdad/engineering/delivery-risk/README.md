@@ -25,10 +25,10 @@ The explicit two-path calendar books 16 exclusive running hours per train at the
 | availability_75pct_test_shift_costed | 42/90 | 4.735 | 5.159 | 307 |
 | hiring_ramp_costed | 45/86 | 4.642 | 5.124 | 305 |
 | supplier_shortage_costed | 46/87 | 4.690 | 5.137 | 306 |
-| availability_75pct_structural_shift | 42/89 | 4.726 | 5.160 | 306 |
+| availability_75pct_structural_shift | 42/89 | 4.741 | 5.165 | 306 |
 | availability_75pct_electrical_shift | 42/89 | 4.700 | 5.151 | 306 |
-| availability_75pct_composite_shift | 42/89 | 4.688 | 5.147 | 306 |
-| availability_75pct_all_stage_shifts | 40/83 | 4.543 | 5.114 | 304 |
+| availability_75pct_composite_shift | 42/89 | 4.704 | 5.151 | 306 |
+| availability_75pct_all_stage_shifts | 40/83 | 4.542 | 5.114 | 304 |
 | recruitment_training_recovery | 41/83 | 4.470 | 5.083 | 303 |
 | supplier_expedite_recovery | 43/84 | 4.585 | 5.082 | 304 |
 | temporary_first_article | 36/83 | 4.422 | 5.103 | 302 |
@@ -37,6 +37,8 @@ The explicit two-path calendar books 16 exclusive running hours per train at the
 | combined_escalation | 55/106 | 7.810 | 7.060 | 354 |
 | combined_finance_downside | 55/106 | 4.000 | 10.477 | Unfunded |
 | joint_downside | 55/106 | 4.000 | 15.384 | Unfunded |
+| domestic_placement_interrupted_recovered | 47/89 | 4.500 | 5.065 | 306 |
+| export_credit_delayed_recovered | 47/89 | 4.342 | 5.012 | 304 |
 
 ## Separate productivity from investment timing
 
@@ -44,7 +46,7 @@ The corrected civil_cycles_20pct_faster case retains every rephased start floor 
 
 ## Recovery comparisons and priced assumptions
 
-Factory cells and dispatch lane order remain fixed. The test-only option uses the same two segregated paths with a second eight-hour test shift: 52 incremental staff, USD 1.5m direct lighting/training plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.
+Factory cells and dispatch lane order remain fixed. Fixed curing, bonding, inspection and test holds are listed in baghdad-delivery-risk.toml as unqualified working-calendar equivalents. Shift compression applies only to the remaining staffed occupation; the additional 60-day first-article qualification is unchanged. At one shift the original schedule is preserved exactly. Cure elapsed hours and batch/test evidence must replace these assumed splits before adoption. The test-only option uses the same two segregated paths with a second eight-hour test shift: 52 incremental staff, USD 1.5m direct lighting/training plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.
 
 Use availability_75pct_costed, hiring_ramp_costed and supplier_shortage_costed as matching delay-cost baselines for their respective recovery options. Recruitment recovery funds USD 10,000 per delayed half of the 1044 production positions plus EPC and tests a six-month rather than twelve-month staffing ramp. Supplier recovery charges an assumed IQD local logistics fee of 2% of city imported invoice value, indexed to payment, and tests a shortage cut from 130 to 65 working days; this is a causal scenario assumption, not a guaranteed delivery improvement. Foreign-currency freight reimbursement and invoice eligibility need quotations. Neither purchases another train nor credits an unspecified subsidy.
 
@@ -54,7 +56,7 @@ The temporary first-article option adds USD 35m direct facility/tooling and 7% E
 
 Original delivery-only cases remain lower-bound comparisons. Combined_delay_costs additionally prices extended direct production staffing plus 100 support FTE at the existing Iraqi labour proxy; it compares staffed span lengths so a pure start delay does not buy the same crew-months twice. Plant storage/insurance/utilities carrying uses 1% of direct plant capital per extra/idle year excluding wages. Civil prolongation adds 150 supervision FTE and nonlabour site overhead at 0.5% of city capital per year beyond baseline civil completion. All these incremental operating costs are charged monthly at 5% annual indexing; baseline train labour/materials already inside procurement are not repeated. Rework prices 83 affected trains at USD 25,000 each. Monthly incremental-cost files reconcile each allowance to the case OPEX ledger. Contingency, tax and contractor claims remain unquoted; these are not a funded risk reserve.
 
-The downside ladder isolates 30% fewer paid trips plus 25% lower existing retail/advertising receipts, 5% annual capital escalation applied to each invoice at actual payment month from financial close, and weaker financing. Weaker financing removes assumed green enhancement, climate grants, development rights and additional net income, increases core coupons two percentage points, and replaces the 2%/IQD 13tn gap sensitivity with 8% credit at a 1% draw fee and IQD 4tn maximum outstanding. Chinese credit and government import cash remain USD, all domestic credit/bonds/cash IQD; government remains 25% of escalated capital. Core debt placement remains assumed; this is not a full default or denied-export-credit model.
+The downside ladder isolates 30% fewer paid trips plus 25% lower existing retail/advertising receipts, 5% annual capital escalation applied to each invoice at actual payment month from financial close, and weaker financing. Weaker financing removes assumed green enhancement, climate grants, development rights and additional net income, increases core coupons two percentage points, and replaces the 2%/IQD 13tn gap sensitivity with 8% credit at a 1% draw fee and IQD 4tn maximum outstanding. Chinese credit and government import cash remain USD, all domestic credit/bonds/cash IQD; government remains 25% of escalated capital. Separately, domestic_placement_interrupted_recovered and export_credit_delayed_recovered stop procurement/construction/production for 130 working days and price local remobilisation plus prolongation; repayment is conditional on subsequently placing the refused debt. Permanent refusal has no opening or repayment date: see the [funding gates and evidence execution package](../qualification/README.md), including denied amounts, escrow requirements and six-month placement shortfalls. No gap facility is used to conceal a refused core source.
 
 Lower demand with combined delays leaves IQD 0.565tn terminal gap debt. Joint_downside applies all of those assumptions together and 7% rail OPEX inflation: IQD 26.862tn cumulative uncovered cash and IQD 4.000tn terminal gap debt. Uncovered support is a balancing requirement, not an extra government appropriation, loan or cash source. Its presence blocks any unconditional repayment claim even if the simulated debt eventually amortizes. Interest totals in such cases also assume the missing cash is supplied; they do not establish an executable financed programme.
 

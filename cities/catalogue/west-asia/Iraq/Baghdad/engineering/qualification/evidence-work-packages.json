@@ -1,0 +1,651 @@
+{
+  "erpnext_imported": null,
+  "erpnext_state_basis": "Deployment-specific native Task IDs and assignments are recorded in private var/erpnext import receipts",
+  "schema": "baghdad-evidence-work-packages/1",
+  "work_packages": [
+    {
+      "acceptance_criteria_sha256": "da5b29c7c1a210b4b1996839f7d615a740deba413a4ad9b71a9a80a491a6744f",
+      "acceptance_rule": "Prove each stage cycle and 85% availability with traceable measurements; no series before first-article acceptance",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Factory process engineer / independent inspector",
+      "criteria": [
+        {
+          "id": "rs-10-material-kit-occupation",
+          "operator": "le",
+          "target": 32,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-20-carbody-bogie-occupation",
+          "operator": "le",
+          "target": 232,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-23-moulded-body-modules-occupation",
+          "operator": "le",
+          "target": 96,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-25-clip-on-body-occupation",
+          "operator": "le",
+          "target": 24,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-30-traction-battery-control-occupation",
+          "operator": "le",
+          "target": 192,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-40-fitout-static-test-occupation",
+          "operator": "le",
+          "target": 152,
+          "unit": "working-hour"
+        },
+        {
+          "id": "rs-50-dynamic-commissioning-occupation",
+          "operator": "le",
+          "target": 120,
+          "unit": "working-hour"
+        },
+        {
+          "id": "availability",
+          "operator": "ge",
+          "target": 0.85,
+          "unit": "fraction"
+        },
+        {
+          "id": "first-article-qualification",
+          "operator": "ge",
+          "target": 60,
+          "unit": "working-day"
+        },
+        {
+          "id": "fixed-hold-shift-compression",
+          "operator": "eq",
+          "target": 0,
+          "unit": "working-hour"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-001 \u2014 Six-car production cycles and tooling",
+      "evidence_result_template": "BAG-EVID-001-result-template.json",
+      "id": "BAG-EVID-001",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Timed first-article travellers; mould duplication/cure tests; lifting and process layouts; vendor equipment quotes",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "9e1f2c6be7a4011bdfa0fdeaf6cde237163c912e6fb773a9e9b34c15db9eb50d",
+      "acceptance_rule": "Match 831 complete six-car kits, financed invoice origin and delivery calendar",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Procurement lead / lender technical adviser",
+      "criteria": [
+        {
+          "id": "complete-qualified-kits",
+          "operator": "eq",
+          "target": 831,
+          "unit": "six-car-kit"
+        },
+        {
+          "id": "origin-and-invoice-coverage",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-002 \u2014 Imported bogies, batteries, doors and windows",
+      "evidence_result_template": "BAG-EVID-002-result-template.json",
+      "id": "BAG-EVID-002",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Lot-level RFQs, origin certificates, qualified suppliers, delivery slots, warranty and lender eligibility",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "0bcfbda015ecf1d73a280c4c6b34a5b1314f21223b2e13032a62a42c44347e45",
+      "acceptance_rule": "Demonstrate 1044 baseline cell positions plus option-specific incremental FTE without duplicate payroll",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Factory operator / training lead",
+      "criteria": [
+        {
+          "id": "competent-baseline-cell-staff",
+          "operator": "ge",
+          "target": 1044,
+          "unit": "FTE"
+        },
+        {
+          "id": "qualified-fatigue-roster",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-003 \u2014 Staffing and extra shifts",
+      "evidence_result_template": "BAG-EVID-003-result-template.json",
+      "id": "BAG-EVID-003",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Iraqi wage/shift quotes, recruitment cohorts, competency and fatigue roster, measured labour-hours",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "4ccdda79f0c4b9cfefa5d582875a9b01e17dd314363b5a5f8a71ad5732296b33",
+      "acceptance_rule": "Demonstrate 16 exclusive test-hours/train and coexistence with acceptance bay use; no shared route counted twice",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Test manager / independent assessor",
+      "criteria": [
+        {
+          "id": "segregated-paths",
+          "operator": "ge",
+          "target": 2,
+          "unit": "path"
+        },
+        {
+          "id": "exclusive-running-test",
+          "operator": "ge",
+          "target": 16,
+          "unit": "hour/train"
+        },
+        {
+          "id": "qualified-throughput",
+          "operator": "ge",
+          "target": 215.17241379310346,
+          "unit": "train/year"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-004 \u2014 Two segregated running paths",
+      "evidence_result_template": "BAG-EVID-004-result-template.json",
+      "id": "BAG-EVID-004",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Land/geometry drawings, braking and electrical tests, safe access segregation, witnessed test duty and outage recovery",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "85b4923676495e8663bd82e8e84b53d22e7d59168cccf03584ea223a93e53b94",
+      "acceptance_rule": "Validate access and crew-lane dependencies and quantity-based rates before adopting 20% cycle improvement",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Civil lead / owner engineer",
+      "criteria": [
+        {
+          "id": "survey-and-permit-coverage",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "accepted-quantity-and-rate-coverage",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-005 \u2014 Civil quantities and access",
+      "evidence_result_template": "BAG-EVID-005-result-template.json",
+      "id": "BAG-EVID-005",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Geotechnical survey, utility/land permits, precast curing/output tests, foundations and track installation records, Iraqi contractor RFQs",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "e2a06d23834819e4ee55df815bb0a8e7fa3895af4a9d9f04190ebc54a2874889",
+      "acceptance_rule": "Temporary assembly ready day 260 and permanent paths day 390 are sensitivities until site acceptance",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Industrial facilities lead",
+      "criteria": [
+        {
+          "id": "temporary-ready",
+          "operator": "le",
+          "target": 260,
+          "unit": "working-day"
+        },
+        {
+          "id": "permanent-acceptance-ready",
+          "operator": "le",
+          "target": 390,
+          "unit": "working-day"
+        },
+        {
+          "id": "transfer-and-quote-coverage",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-006 \u2014 Depot and temporary first-article facility",
+      "evidence_result_template": "BAG-EVID-006-result-template.json",
+      "id": "BAG-EVID-006",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Site fit, utilities, quarantine/HV/fire layout, equipment transfer and readiness/price quotes",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "91d9ef59c1033ea5694617a50e0c1967e82079a98f5d178c837e507e5d53a3e5",
+      "acceptance_rule": "Test phase-specific paid trips and net receipts; planning population is not measured catchment",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Transport economist / commercial lead",
+      "criteria": [
+        {
+          "id": "phase-demand-calibration",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "concession-net-receipts-evidence",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-007 \u2014 Ridership, kiosks and advertising",
+      "evidence_result_template": "BAG-EVID-007-result-template.json",
+      "id": "BAG-EVID-007",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "OD survey, passenger demand calibration, signed concession heads, occupancy and management cost estimates",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "a7b1e2b8fca4706949848865e90dc5489bfb9ce7fc41530a6a52762c0ea381d0",
+      "acceptance_rule": "No uncovered cash placeholder may be called committed funding; hold government capital at 25% with import USD split 50:50",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Sponsor / finance lead",
+      "criteria": [
+        {
+          "id": "all-six-month-financing-gates-covered",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "signed-native-currency-term-coverage",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "government-capital-share",
+          "operator": "eq",
+          "target": 0.25,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-008 \u2014 Funding and risk allowance",
+      "evidence_result_template": "BAG-EVID-008-result-template.json",
+      "id": "BAG-EVID-008",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "MoF appropriation, IQD placement mandates, lender/green term sheets, capex price-date and delay cost quotes",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "557942c512a4e999ed74009217611550cc8b856c56e579ef22500b308980dafd",
+      "acceptance_rule": "Full allocated fleet and infrastructure acceptance precede each line opening; planning schedule cannot authorize service",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Operator / safety authority",
+      "criteria": [
+        {
+          "id": "open-release-hazards",
+          "operator": "eq",
+          "target": 0,
+          "unit": "hazard"
+        },
+        {
+          "id": "allocated-full-fleet-acceptance",
+          "operator": "eq",
+          "target": 831,
+          "unit": "train"
+        },
+        {
+          "id": "line-infrastructure-acceptance",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-009 \u2014 Operating acceptance",
+      "evidence_result_template": "BAG-EVID-009-result-template.json",
+      "id": "BAG-EVID-009",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Released hazards/interfaces, completed inspection/test plans, depot/charging/turnback fit and independently signed opening evidence",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    },
+    {
+      "acceptance_criteria_sha256": "a2d7ca4a8daab23c85f6d7a31db656efb26672aae0ec7e21926ca389a16b3fed",
+      "acceptance_rule": "All section infrastructure and allocated trains accepted; no unresolved release hazard; operator and statutory authority release remain separate",
+      "accountable_owner_identity": null,
+      "accountable_owner_role": "Section design authority / operator / independent assessor",
+      "criteria": [
+        {
+          "id": "accepted-section-fleet",
+          "operator": "eq",
+          "target": 16,
+          "unit": "train"
+        },
+        {
+          "id": "clear-platform-length",
+          "operator": "ge",
+          "target": 121,
+          "unit": "m"
+        },
+        {
+          "id": "terminal-berths-per-end",
+          "operator": "ge",
+          "target": 2,
+          "unit": "berth"
+        },
+        {
+          "id": "feeder-power-per-end",
+          "operator": "ge",
+          "target": 4000,
+          "unit": "kW"
+        },
+        {
+          "id": "round-trip-delivered-charge",
+          "operator": "ge",
+          "target": 587.9376639999999,
+          "unit": "kWh"
+        },
+        {
+          "id": "independent-maintenance-rescue-acceptance",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "surveyed-section-demand",
+          "operator": "eq",
+          "target": 1,
+          "unit": "fraction"
+        },
+        {
+          "id": "accepted-stabling-spaces",
+          "operator": "ge",
+          "target": 16,
+          "unit": "train-space"
+        },
+        {
+          "id": "open-section-release-hazards",
+          "operator": "eq",
+          "target": 0,
+          "unit": "hazard"
+        }
+      ],
+      "erpnext_doctype": "Task",
+      "erpnext_subject": "BAG-EVID-010 \u2014 Independently operable first section",
+      "evidence_result_template": "BAG-EVID-010-result-template.json",
+      "id": "BAG-EVID-010",
+      "operational_release": false,
+      "owner_assignment_status": "named-person-required",
+      "required_measurement": "Surveyed turnbacks/platforms; feeder/charger and thermal duty tests; section fleet acceptance; isolated software/wayside configuration; own maintenance/rescue access; OD calibration and signed opening dossier",
+      "required_reviewer_role": "assessor",
+      "result": null,
+      "source_revision": "sha256:f815bd7e0f62406d5c807871b4232f71396b33071b6186840d7ce90b69856f09",
+      "sources_sha256": {
+        "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/calendar_baseline-monthly-finance.csv": "9c0866cf683d5f70ea306498790094d8764d0266f41f3cffae091cd7d965d5b1",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/qualification-register.csv": "e0f50c5121b1329da0bf3aad6254e63fc698f8c5f38fc15d44e3b9147508f24c",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "154132d335fed1bf3578b40069bee38f381996f86a7538b068ee8795533f0ea8",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "422cb7a230fa3175c052b9632d4e776ec11343c5a87efb8afd695b33b0934747",
+        "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": "ebbb0086569cbadbdbd1961a631eb92c3174f0ce522ba9b07ab4a7fd40c9c05e",
+        "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": "7f148dd7bbb1cad4bfe9d699cd55ec5b93505e88c61fd15e7107d61d7d12f4d7",
+        "deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py": "eabcfc7b501c6e01abc0fb2f9c55366669bf7ddfb3fdc8b3858d350831922d09",
+        "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
+        "lib/templates/baghdad-delivery-risk.toml": "503cd37f21037ab66a009a17c8a4d8630a60305ad86cac40b37a022e01b61b6e",
+        "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
+        "lib/templates/baghdad-qualification.toml": "c0415b0f8da48277bbfd8b62f0307dc78975085603f526ee35ef2fab2804dbce",
+        "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
+        "tools/automation/baghdad_delivery_stress.py": "fc8df79b4ea9f5e798d29133f7e2459ffb36648727e725fd9026e8e0fd74e315",
+        "tools/automation/baghdad_funding_analysis.py": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146",
+        "tools/automation/baghdad_qualification.py": "49702f3ca94acaf38dd753485e4d612d2619dbe481bdf31c58f144dd69b1fbd9",
+        "tools/automation/connected_assurance.py": "2af880448b8ac73f1a493dc0ed61b3d97afad2c423197311d7ce8c83e7a1fe65",
+        "tools/automation/subsystem_qualification.py": "06358837b49cfbb34e88654e6dec9e14ef30efa9c4de8f7e843397eb936c83ac"
+      },
+      "status": "not-demonstrated"
+    }
+  ]
+}

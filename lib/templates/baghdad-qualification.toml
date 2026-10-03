@@ -1,0 +1,38 @@
+# Reference concept assumptions only; requires surveyed site, RFQs and acceptance.
+[temporary_facility]
+support_floor_fraction = 0.35
+site_to_floor_factor = 2.5
+building_usd_per_m2 = 700
+site_services_usd_per_m2 = 35
+utilities_usd = 2000000
+handling_transport_usd = 3000000
+qualification_training_usd = 2000000
+transfer_reinstall_usd = 1000000
+vendor_interface_usd = 1000000
+contingency_fraction = 0.20
+
+[first_section]
+line = "line-1"
+station_count = 5
+average_running_kmh = 40
+headway_minutes = 6
+intermediate_dwell_seconds = 120
+terminal_charging_seconds = 600
+terminal_clearance_seconds = 60
+charger_efficiency = 0.90
+minimum_soc = 0.40
+spare_fraction = 0.10
+civil_and_support_ready_day = 560
+# Complete independent support, not the distant line-6 depot.
+turnback_terminal_direct_usd = 5000000
+charging_grid_direct_usd = 8000000
+maintenance_access_direct_usd = 12000000
+controls_acceptance_direct_usd = 3000000
+section_support_fte = 60
+# Reference proxy only; do not claim measured catchment/ridership.
+demand_fraction_of_capacity_proxy = 0.50
+operating_fte = 200
+service_hours_per_day = 16
+service_days_per_year = 330
+reference_grid_usd_per_kwh = 0.10
+additional_support_asset_annual_maintenance_fraction = 0.02

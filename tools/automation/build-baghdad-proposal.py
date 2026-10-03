@@ -87,6 +87,11 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    qualification=read_json(CITY/'engineering/qualification/summary.json')
+    for relative,sha in qualification['sources_sha256'].items():
+        if digest(ROOT/relative) != sha: raise ValueError('Stale qualification source: '+relative)
+    for relative,sha in qualification['outputs_sha256'].items():
+        if digest(CITY/'engineering/qualification'/relative) != sha: raise ValueError('Changed qualification output: '+relative)
     risk=read_json(CITY/'engineering/delivery-risk/summary.json')
     for relative,sha in risk['sources_sha256'].items():
         if digest(ROOT/relative) != sha: raise ValueError('Stale delivery stress input: '+relative)
@@ -172,6 +177,7 @@ def build_narrative(d, s, p, f, n, ops, deployment):
         resilience_rows.append([risk_labels[name],f"{min(x['opening_month'] for x in case['phases'])}/{max(x['opening_month'] for x in case['phases'])}",f"{m['peak_supplemental_balance_iqd']/1e12:.3f}",f"{m['total_finance_interest_and_fees_usd']/1e9:.3f}",clearance])
     joint=resilience['cases']['joint_downside']['metrics']
     temporary=resilience['cases']['temporary_first_article']
+    section=read_json(CITY/'engineering/qualification/first-section.json')
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
     terms = tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())
@@ -297,6 +303,10 @@ Current capital milestones span {f['structured_financing']['base']['metrics']['c
 The factory's final fleet margin is only {factory_plan['infrastructure_target_working_day']-factory_plan['stock_finish_working_day']} working days; test-path throughput margin is {factory_plan['exclusive_test_path_capacity_trainsets_per_year']/factory_plan['minimum_steady_output_trainsets_per_year']-1:.2%}. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) separates civil productivity from investment timing: a 1.0 cycle multiplier preserves the complete baseline schedule, faster cycles retain the rephased start floors, and earliest construction is a separate comparison. Removing spending delays at unchanged productivity must not be called a productivity financing penalty.
 
 Recovery options price extra structural/electrical/composite or coordinated production shifts, hiring/training, supplier expediting and testing, with unchanged cell counts and indexed incremental payroll/nonlabour costs. Testing alone does not improve the 75% availability opening dates; upstream production still limits them. A separate temporary first-article facility sensitivity adds USD {temporary['metrics']['incremental_recovery_capital_usd']/1e6:.3f}m capital plus support staffing and tests first opening in month {min(x['opening_month'] for x in temporary['phases'])}; permanent acceptance paths, first-article qualification and full line fleets remain required. These options are unquoted deterministic comparisons, not adopted delivery commitments.
+
+Shift compression now excludes fixed curing/bonding/inspection holds and the additional 60-day first-article qualification. The [industrial qualification and funding-gate package](../engineering/qualification/README.md) adds a metric temporary-site layout, cell tooling/transfer interfaces, quantity-based RFQs reconciled inside the existing USD 35m direct allowance, and ten ERPNext evidence tasks with source-bound measurement templates and authenticated independent result verification. Named owners, measurements, quotations and signatures remain pending.
+
+Funding interruptions halt procurement/construction/production and defer invoices, adding local remobilisation and carrying/prolongation costs. Recovered domestic placement and delayed export credit are conditional on re-placement; permanent refusal has **no opening or debt-clearance date**, and is never filled by an automatic government or gap-loan replacement. The separate first-section study uses {section['route_km']:.3f} km and five actual line-1 stations, {section['total_trainsets']} already-planned six-car trains at six-minute headways, independent turnbacks/charging/maintenance and USD {section['extra_capital_with_epc_usd']/1e6:.2f}m extra capital. Conditional section service is month {section['conditional_opening_month']}, with surveyed demand and physical acceptance still required; the full 831-train baseline remains unchanged. Earlier small-section fares alone do not establish better finance: the study includes advanced invoices, additional support costs, phase demand deducted from later full-line receipts, and native-currency reserves/debt.
 
 Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD {joint['uncovered_support_iqd']/1e12:.3f}tn cumulative uncovered cash** and **IQD {joint['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](../engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
 
@@ -529,6 +539,9 @@ def source_inputs():
     resilience=read_json(CITY/'engineering/delivery-risk/summary.json')
     paths.update(ROOT/relative for relative in resilience['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/delivery-risk').glob('*') if p.is_file())
+    qualification=read_json(CITY/'engineering/qualification/summary.json')
+    paths.update(ROOT/relative for relative in qualification['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/qualification').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())

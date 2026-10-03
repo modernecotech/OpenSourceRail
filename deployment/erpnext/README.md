@@ -66,3 +66,17 @@ priority when creating a case. Later events preserve operator triage changes.
 Rules without a priority use `medium`; display-only rules do not create cases
 on activation or clearance unless an earlier enabled rule already routed the
 same incident.
+
+The [Baghdad qualification package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md)
+provides ten source-bound evidence Tasks, including the independently operated
+first-section option. Preview with `bench --site SITE execute
+osr_erpnext.qualification.import_tasks --kwargs '{"package_path":"/path/to/erpnext-tasks.json"}'`;
+set `"apply": True` for a reviewed local import; this installed Bench CLI parses Python literals in `--kwargs`. The importer
+creates open native Tasks and refreshes descriptions by stable subject. It
+preserves actual assignment, project, dates, priority and status when repeating
+an import; it never completes an evidence task or grants acceptance. Assign a
+named accountable person through ERP; role labels are not user assignments.
+Physical result verification uses independently supplied reviewer keys and signed
+source/criteria-bound results. Generated templates contain no measurements,
+quotations, signatures or operating release. Local task mappings belong in
+`var/erpnext/`, rather than the public proposal archive.

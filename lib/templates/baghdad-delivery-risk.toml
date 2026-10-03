@@ -29,3 +29,19 @@ core_rate_increment = 0.02
 gap_credit_rate = 0.08
 gap_credit_draw_fee = 0.01
 gap_credit_cap_iqd = 4000000000000
+
+# Occupied fixed process/inspection days; UNMEASURED conservative working-calendar
+# equivalents. Elapsed cure clocks require actual supplier routing validation.
+[fixed_process_holds]
+rs-10-material-kit = 0
+rs-20-carbody-bogie = 3
+rs-23-moulded-body-modules = 6
+rs-25-clip-on-body = 1
+rs-30-traction-battery-control = 3
+rs-40-fitout-static-test = 5
+rs-50-dynamic-commissioning = 4
+
+[funding_gates]
+# No firm placement: these stress fractions and restart price are assumptions.
+domestic_placement_fraction = 0.5
+restart_direct_usd = 10000000
