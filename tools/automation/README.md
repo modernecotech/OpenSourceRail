@@ -29,6 +29,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`audit-project-twins.py`](audit-project-twins.py) | Reconcile city family scope, source hashes, finance buckets, CPM/cashflow totals and the mechanical/civil reference evidence |
 | [`operating-readiness.py`](operating-readiness.py) | Compile every tracked city ERP/component/supervision/lifecycle-governance profile against its own asset and twin evidence, report exact on-demand and operator-owned inputs, and detect report drift |
 | [`component_rfc_readiness.py`](component_rfc_readiness.py) | Validate and render requirements, ICD, hazard, BOM/drawing, assembly, test, owner, assumption and release-blocker coverage for RFCs 0023–0027 |
+| [`build-baghdad-proposal.py`](build-baghdad-proposal.py) | Publish the complete Baghdad proposal, detailed registers and evidence archive, with a separately reconciled future Iraqi programme; `--check` validates hashes and archive integrity |
 | [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF, including current reconciled city totals, every route, and the Baghdad-only Iraqi funding appraisal; paginate long evidence rows |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
@@ -43,7 +44,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run atomic baseline assurance, smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
-| [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Consolidate Baghdad, Samawah and Mosul with one national tooling/plant budget; emit proposed Chinese credit, government, IQD bond and bank-credit sources and annual cashflow |
+| [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Reconcile Baghdad and one plant only; publish native USD/IQD capital, priced gap finance, tariff/OPEX sensitivities and monthly/six-month early repayments |
 | [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
 | [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
