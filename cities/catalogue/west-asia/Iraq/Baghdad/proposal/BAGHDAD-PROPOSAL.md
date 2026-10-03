@@ -93,9 +93,20 @@ The Baghdad operating package contains 1,862 assets, 8,012 manufacturing/verific
 
 First obtain survey and demand inputs, freeze a viable first line and plant scope, and reconcile depot and energy duties. Qualify long lead components and the first six car train, then deliver infrastructure, energy, station systems and trained operating staff in accepted phases. Each line needs its own operating and safety acceptance before fare revenue is realised.
 
-The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Earlier civil corridors can still wait for their full fleets, because they precede factory readiness and qualification. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
+The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Civil work and invoice milestones are rephased within the existing crew lanes and dependency graph. Line 1's infrastructure moves from day 219 to 682, reducing its fleet wait from 553 to 90 working days. Resources, durations and opening dates are preserved. Survey, land, utility, permit and contract approval remain necessary before deferring work. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
 
 Current capital milestones span 84 months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **41/83**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
+
+The factory's final fleet margin is only 20 working days; test-path throughput margin is 2.71%. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) tests factory delay, suppliers, hiring, rework, path outage, civil access and lower availability with the selected cells fixed. It adds explicit test-path calendars; recovery funds a second test shift, USD 1.605m capital and incremental indexed staff payroll before and after fare receipts. These are unqualified deterministic cases, not probabilities or secured funding. Civil acceleration needs casting, foundation, track, station and energy evidence; it cannot bypass train acceptance.
+
+| Frozen case | First/full month | Peak IQD gap tn | Interest/fees USD eq bn | Debt cleared month |
+| --- | --- | --- | --- | --- |
+| calendar_baseline | 41/83 | 4.461 | 5.076 | 303 |
+| availability_75pct | 42/90 | 4.713 | 5.151 | 306 |
+| availability_65pct | 45/99 | 4.978 | 5.215 | 310 |
+| combined | 55/106 | 5.229 | 5.266 | 315 |
+| combined_second_test_shift | 53/104 | 5.114 | 5.235 | 313 |
+| civil_cycles_20pct_faster | 41/82 | 5.139 | 5.332 | 306 |
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
@@ -153,7 +164,7 @@ The conditional capital grant replaces USD 25m equivalent of domestic borrowing.
 
 ## Early deficits and additional financing
 
-The independent flat price reconstruction requires USD 6.264bn gross early additional cash and retains USD 4.037bn later. Their difference is USD 2226.832m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
+The independent flat price reconstruction requires USD 6.168bn gross early additional cash and retains USD 3.941bn later. Their difference is USD 2226.818m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
 
 The candidate replaces eligible ordinary capital bonds with IQD green debt at 4% plus arrangement and 0.5% annual guarantee charges; it also tests an uncommitted USD 25m equivalent climate grant, USD 300m equivalent net development rights and USD 25m equivalent annual additional net local receipts. A green label alone changes no coupon. Grants replace eligible domestic capital borrowing; guarantees enhance credit rather than provide cash. Supplemental IQD credit at 2% and a 0.5% draw fee is capped at IQD 13tn outstanding, not treated as proven market capacity. All these conditional sources require legal, donor, investor and valuation evidence.
 
@@ -161,21 +172,21 @@ Additional routes to qualify include climate/renewable energy grants or concessi
 
 | Financing and pricing sensitivity | Peak gap IQD tn | Uncovered IQD tn | Terminal gap IQD tn |
 | --- | --- | --- | --- |
-| blended candidate | 8.300 | 0.000 | 5.336 |
-| commercial gap credit | 13.000 | 19.061 | 13.000 |
-| concessional gap credit | 10.496 | 0.000 | 8.275 |
-| fare 5pct flat costs elastic | 4.370 | 0.000 | 0.000 |
-| fare 5pct flat costs fixed demand | 3.657 | 0.000 | 0.000 |
-| fare 5pct opex 5pct | 4.705 | 0.000 | 0.000 |
-| fare 5pct opex 5pct income 2pct | 5.828 | 0.000 | 0.000 |
-| fare 5pct opex 5pct rents indexed | 4.503 | 0.000 | 0.000 |
-| fare 5pct opex 7pct | 6.038 | 0.000 | 0.000 |
-| fixed fare 5pct opex | 13.000 | 9.590 | 13.000 |
-| green concessional only | 9.601 | 0.000 | 7.639 |
-| green label only | 0.000 | 8.143 | 0.000 |
-| unfunded reference | 0.000 | 8.143 | 0.000 |
-| variable fare 5pct opex 5pct | 4.481 | 0.000 | 0.000 |
-| zero cost liquidity bound | 8.143 | 0.000 | 2.895 |
+| blended candidate | 8.074 | 0.000 | 5.153 |
+| commercial gap credit | 13.000 | 18.472 | 13.000 |
+| concessional gap credit | 10.320 | 0.000 | 8.083 |
+| fare 5pct flat costs elastic | 4.033 | 0.000 | 0.000 |
+| fare 5pct flat costs fixed demand | 3.321 | 0.000 | 0.000 |
+| fare 5pct opex 5pct | 4.362 | 0.000 | 0.000 |
+| fare 5pct opex 5pct income 2pct | 5.501 | 0.000 | 0.000 |
+| fare 5pct opex 5pct rents indexed | 4.166 | 0.000 | 0.000 |
+| fare 5pct opex 7pct | 5.723 | 0.000 | 0.000 |
+| fixed fare 5pct opex | 13.000 | 9.457 | 13.000 |
+| green concessional only | 9.386 | 0.000 | 7.455 |
+| green label only | 0.000 | 8.019 | 0.000 |
+| unfunded reference | 0.000 | 8.019 | 0.000 |
+| variable fare 5pct opex 5pct | 4.144 | 0.000 | 0.000 |
+| zero cost liquidity bound | 8.019 | 0.000 | 2.895 |
 
 ## Passenger fares and other operating income
 
@@ -196,11 +207,11 @@ The base full network operating allowance totals USD 180.567m/year equivalent, b
 
 ## Annual ticket increases and OPEX inflation
 
-The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD 1,525 at first opening and IQD 1,765 at full opening. With 5% income growth, 44 trips remain 11.7% of the income proxy. With only 2% income growth that burden reaches 26.4% at full opening and the assumed real price elasticity reduces paid trips.
+The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD 1,525 at first opening and IQD 1,765 at full opening. With 5% income growth, 44 trips remain 11.7% of the income proxy. With only 2% income growth that burden reaches **13.96%** at full opening and the assumed real price elasticity reduces paid trips.
 
-Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves IQD 0.000tn uncovered cash and IQD 13tn unpaid gap debt. Revenue inflation alone is insufficient. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
+Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves **IQD 0.000tn uncovered cash** and **IQD 0.000tn terminal unpaid gap debt**. This sensitivity still needs additional financing before later surpluses; repayment remains conditional on that funding being available. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
 
-The paired case's unlevered NPV is USD -3.593bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
+The paired case's unlevered NPV is USD -3.299bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
 
 ![Fare and OPEX sensitivities](../../finance/baghdad-fare-inflation-sensitivities.png)
 
@@ -210,14 +221,14 @@ Surplus first pays OPEX, scheduled principal, interest and fees, then debt servi
 
 | Repayment policy | All debt cleared month | Net saving vs buffered gap only USD eq m | Premium USD eq m |
 | --- | --- | --- | --- |
-| cost priority | 304 | 171.562 | 21.999 |
-| cost priority noncallable bonds | 370 | 63.957 | 4.585 |
-| cost priority zero premium | 304 | 199.789 | 0.000 |
-| gap only buffered | 370 | 0.000 | 0.000 |
-| gap then core | 307 | 8.587 | 1.404 |
-| loans then bonds | 306 | 72.999 | 6.033 |
+| cost priority | 303 | 195.029 | 23.681 |
+| cost priority noncallable bonds | 371 | 78.731 | 5.175 |
+| cost priority zero premium | 302 | 225.425 | 0.000 |
+| gap only buffered | 371 | 0.000 | 0.000 |
+| gap then core | 305 | 13.320 | 1.896 |
+| loans then bonds | 304 | 92.811 | 7.121 |
 
-Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 171.562m equivalent after premiums and clears debt in month 304 versus 370 for buffered gap only. Loans first saves USD 72.999m. All retain IQD 0.340tn operating buffer at the horizon.
+Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 195.029m equivalent after premiums and clears debt in month 303 versus 371 for buffered gap only. Loans first saves USD 92.811m. All retain IQD 0.340tn operating buffer at the horizon.
 
 Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw ages 6/12/24 months respectively. Eligible vintages are oldest first, retaining instalments and shortening maturity. Calls, notice, compensation, tax and market buyback prices need actual terms. The noncallable case makes no early bond payments; cost ordering is a heuristic rather than a globally best solution. Savings are nominal finance costs, not principal savings or present value wealth. Month numbers run from financial close, with no calendar commencement date assumed.
 
