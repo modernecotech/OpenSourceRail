@@ -1,79 +1,20 @@
-# T-OBS v2 — connector tables
+# T-OBS connector and harness design schedule
 
-All external connectors use M12 series for field-side I/O
-(matches T-ECU/S and T-ECU/A). Internal ribbon + FFC for the
-nose-cone camera + ultrasonic drive runs.
+Status: interface schedule; connector series, contact numbers and cable assemblies are not released. All external connectors need mating-half, keying, wire/contact rating, sealing, shield termination and label definitions. The former fabricated M12/PoE pinouts are withdrawn.
 
-## External connectors
-
-| Ref | Type | Purpose | Pinout |
-|---|---|---|---|
-| `J1` | M12 D-code (female, 4-pin) | 24 V power input A | `1`: VIN+; `2`: VIN−; `3`: shield; `4`: NC |
-| `J2` | M12 D-code (female, 4-pin) | 24 V power input B (redundant) | same as J1 |
-| `J3` | M12 X-code (female, 8-pin) | TSN Ethernet A to T-ECU/S | 1000BASE-T pairs 1/2, 3/4; shield on case |
-| `J4` | M12 X-code (female, 8-pin) | TSN Ethernet B to T-ECU/S | same as J3 |
-| `J5` | M12 T-code (female, 4-pin) | CAN-FD to mmWave radar | `1`: +5V_radar; `2`: CAN_H; `3`: GND; `4`: CAN_L |
-| `J6` | M12 X-code (female, 8-pin) | 1000BASE-T + 12V-PoE-class to LIDAR | TSN pairs + 12 V power contacts |
-| `J7` | M12 A-code × 2 (female, 4-pin each) | Ultrasonic transducer A bank (2 transducers — upper-left + upper-right) | `1`: DRIVE+; `2`: DRIVE−; `3`: ECHO+; `4`: ECHO− |
-| `J8` | M12 A-code × 2 (female, 4-pin each) | Ultrasonic transducer B bank (2 transducers — lower-left + lower-right) | same as J7 |
-| `J9` | 30-pin FFC (0.5 mm pitch) | MIPI-CSI to stereo camera pair | 2-lane MIPI + power; internal to nose |
-| `J10` | USB-C | Debug + OTA console on CM5 | USB 2.0 data; shell grounded |
-| `J11` | 10-pin 0.1" header | JTAG / SWD to RP2350 A | ARM Cortex-M33 debug |
-| `J12` | 10-pin 0.1" header | JTAG / SWD to RP2350 B | same as J11 |
-
-## Field-wiring checklist
-
-**Ultrasonic transducer mounting.** Four transducers per nose,
-one in each quadrant of the obstacle field:
-
-| Transducer | Mount | M12 | Aim |
-|---|---|---|---|
-| `US_UL` | Upper-left of nose cowl | J7, pair 1 | 10° above horizontal, left of centreline |
-| `US_UR` | Upper-right of nose cowl | J7, pair 2 | 10° above horizontal, right of centreline |
-| `US_LL` | Lower-left of nose cowl | J8, pair 1 | 5° below horizontal, left of centreline |
-| `US_LR` | Lower-right of nose cowl | J8, pair 2 | 5° below horizontal, right of centreline |
-
-Channels overlap; any single transducer failure is tolerated
-by the evaluator as a stale channel (fires `UltrasonicStale`
-→ EB, which is conservative). The full four-channel coverage
-is needed for the `Clear` verdict.
-
-**Radar mount.** Single TI AWR1843 module centred on the nose
-cowl, 3 m above rail head, pointed along the centreline with
-zero roll. Mounting bracket is part of the nose-cone assembly
-drawing; vendor module ships with a standard M12 T-code
-interface so the field cabling is off-the-shelf.
-
-**LIDAR mount.** Below the radar, centred, tilted 2° down for
-ground-plane detection. Protective hood for dust-storm
-sheltering — the hood adds a small window obstruction but
-matches the Middle East deployment climate where LIDAR point
-density would otherwise collapse during a haboob.
-
-**Stereo cameras.** Below the LIDAR, 500 mm baseline, both
-cameras locked in a rigid bar to preserve calibration. Angle
-matches radar (zero roll, zero tilt).
-
-## Cable lengths + derating
-
-| Interface | Max cable length | Notes |
+| Interface ID | Function | Design requirement |
 |---|---|---|
-| 24 V power | 3 m | From trainset aux bus entry to J1/J2; 1.5 mm² wire |
-| TSN Ethernet A/B | 5 m | To T-ECU/S; Cat 6a minimum, shielded |
-| CAN-FD to radar | 1 m | Radar is on the nose cowl; short run |
-| LIDAR Ethernet | 1 m | LIDAR is on the nose cowl; short run |
-| Ultrasonic | 0.5 m | Transducers are on the nose cowl; trace to AFE kept short |
-| MIPI-CSI | 150 mm | FFC only; inside the nose cavity |
+| PWR-A / PWR-B | Nominal 24 V input branches | Power-keyed connectors, individually protected; sized from corrected load/inrush/derating, not an Ethernet D-code connector |
+| NET-A / NET-B | Redundant train network | Approved Ethernet connector and full pair map; 1000BASE-T needs four data pairs; controller/switch topology remains open |
+| RAD-DATA | Radar EVM CAN | AWR1843BOOST J3 CAN adapter; vendor board revision and termination; external connector chosen separately |
+| RAD-PWR | Radar EVM supply | 5 V barrel interface; dedicated protected branch; micro USB is debug/configuration |
+| LID-DATA | HAP TX data | 100BASE-TX with the vendor cable; HAP T1 needs a different physical interface |
+| LID-PWR | HAP supply | Separate vendor 9–18 V input, 12 V reference branch; no 12 V PoE over spare Gigabit contacts |
+| US-01..04 | Ultrasonic position | Candidate-specific excitation/receive or TRIG/ECHO, level shifting and shield; raw piezo is not plug compatible |
+| CAM-L / CAM-R | Stereo CSI | CM5IO 22-pin family with the appropriate camera adapter; internal flex length and cable orientation frozen |
+| PERMIT / FEEDBACK | Channel permissions and contact monitoring | Segregated channel circuits, load/polarity truth table, test point and actuator supplier interface |
+| DEBUG-A / DEBUG-B | MCU SWD | Package/board-specific keyed debug connector; production access control |
 
-## Nose-cone integration
+Do not fabricate a harness from this table. Release a cavity-by-cavity drawing, wire cut list, ferrule/terminal/seal list, formboard and continuity/insulation test after vendor freeze. The TI EVM does not ship a standard M12 radar interface. Radar needs an RF-qualified radome; ultrasonic faces need acoustic apertures and lidar/cameras need qualified optical paths. Fixed mounting angles, bracket hole patterns and cable limits require coverage/clearance studies.
 
-The T-OBS baseboard mounts to the backplate of the nose-cone
-assembly with M4 captive nuts on a 180 × 120 mm bolt pattern.
-Sensors mount directly to the cone's inner frame; cabling
-between sensor and baseboard is < 500 mm throughout.
-
-The nose-cone panel itself is RF-transparent (polycarbonate
-+ UV stabiliser, 8 mm thick) — radar and ultrasonic see
-through it without meaningful attenuation. The cone is a
-service item with a 10-year replacement interval under the
-RFC 0013 M5 30-day inspection cycle.
+See [bench integration](../../diy-assembly/README.md) and [reference source](../../../reference-integration.json). Primary interfaces: [TI EVM guide](https://www.ti.com/lit/ug/spruim4b/spruim4b.pdf), [Livox specification](https://www.livoxtech.com/hap/specs), [CM5 hardware](https://www.raspberrypi.com/documentation/computers/compute-module.html).

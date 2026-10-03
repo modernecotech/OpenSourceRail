@@ -1,36 +1,15 @@
-# T-OBS v2 schematic specification
+# T-OBS board design requirements
 
-**Status:** v2 board-level specification. KiCad capture, gerbers,
-and board BOM are the next release artifacts.
+Status: reference integration requirements; exact supplier BOM, schematic capture, pin/connector freeze, enclosure/thermal design and qualification evidence are open. This is not sufficient information to fabricate a railway control board.
 
-## Scope
+| File | Current purpose |
+|---|---|
+| [block-diagram.md](block-diagram.md) | Functional paths and remaining common-cause boundaries |
+| [power-budget.md](power-budget.md) | Capacity calculation or required complete load study; no released converter/fuse rating |
+| [pinout-rp2350.md](pinout-rp2350.md) | Exposed-pin bench allocation or custom-board allocation requirements |
+| [connector-tables.md](connector-tables.md) | Interface/harness schedule; supplier cavities and exact connector variants open |
+| [safety-nets.md](safety-nets.md) | Hardware watchdog, permission/feedback and end-to-end fault contract |
 
-This folder holds the board-level spec (net list, pinouts,
-power budget, safety-net routing rules) for the **T-OBS v2**
-obstacle-detection ECU per [RFC 0015
-§5.2](../../../../docs/rfcs/0015-driverless-operation.md) and
-[RFC 0007 §5.5](../../../../docs/rfcs/0007-control-electronics-reference-designs.md).
+See [reference integration](../../../reference-integration.json), [host bench requirements](../../diy-assembly/README.md) and [release checklist](../../../release-checklist.md). T-ECU/S has its own carrier interface requirements; its custom pinout is not inherited by T-OBS.
 
-Canonical `light-metro-3car` fit is **2 T-OBS modules per
-trainset**, one behind each cabless nose cowl. The consist quantity
-is mirrored in [`../../../rolling-stock-integration.md`](../../../rolling-stock-integration.md)
-and BOM line E18.
-
-## Expected file set
-
-Mirroring the T-ECU/S v2 template:
-
-- `block-diagram.md` — functional block diagram.
-- `power-budget.md` — rail-by-rail current draw + headroom.
-- `pinout-rp2350.md` — safety MCU A+B pins.
-- `connector-tables.md` — external connector pinouts.
-- `safety-nets.md` — safety-critical net list with clearance
-  + routing rules.
-
-## Next release artifacts
-
-The KiCad capture should create the downstream `v2-kicad` folder,
-gerbers under `control-electronics/t-obs/gerbers/v2-rev-A/`, and a board BOM
-under `control-electronics/t-obs/bom/v2-rev-A.csv`. Any schematic/layout
-deviation from this spec should be logged beside those release
-artifacts.
+A custom-board release needs the actual KiCad schematic/layout, ERC/DRC, controlled fabrication/BOM files, supplier interfaces and instrumented bring-up/fault/thermal/EMC evidence. Create fabrication directories when those artifacts exist. Do not manufacture from historical guessed pinouts or treat passing software/library tests as hardware acceptance.

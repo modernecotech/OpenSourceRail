@@ -1,165 +1,33 @@
-# T-OBS DIY assembly
+# T-OBS bench integration design
 
-**Goal:** build the nose-cone obstacle-detection ECU (RFC 0015)
-from off-the-shelf modules. One T-OBS per trainset nose × 2
-per trainset (each end is identical).
+Status: supplier and hardware freeze open; no train operation authority. Two end assemblies represent one trainset. The component and pin schedules are in [reference-integration.json](../../reference-integration.json); the [Baghdad register](../../../engineering/data/baghdad-reference-parts.json) expands fleet quantities and missing integration parts.
 
-## Bill of materials
+| Block | Per end host | Required integration |
+|---|---:|---|
+| Pico 2 evaluator | 2 | Separately protected supply branches, hardware watchdogs and permission outputs |
+| CM5 and compatible carrier | 1 | Exact memory/storage/carrier SKU to freeze; compatible 5 V supply and camera flex cables |
+| I2C secure element | 2 | Separate local channel wiring, provisioning and credentials |
+| SPI digital isolator | 1 link | Channel A controller and channel B peripheral; correct directionality and separately powered sides |
+| External CAN-FD controller/transceiver | Per network design | Pico 2 has no native CAN-FD; a Pi HAT does not automatically connect both evaluators |
+| Radar | 1 candidate | AWR1843BOOST is an EVM; adapter harness, 5 V barrel input, micro USB debug and J3 CAN interface |
+| Lidar | 1 candidate | Select HAP TX for 100BASE-TX; separate 9–18 V power and manufacturer cable; T1 requires an automotive Ethernet adapter |
+| Stereo cameras | 2 | Rigid calibration bar and CM5IO-compatible 22-pin cable family; exact cable length to freeze |
+| Ultrasonic sensing positions | 4 | Weatherproof transducers/AFE to select; HC-SR04 is a laboratory candidate, not qualified outdoor equipment |
+| Hardware permission chain | 2 series contacts | Independent drivers/watchdog inhibition and contact feedback; relay part and failure analysis open |
+| Harness/enclosure/protection | 1 kit | Fuses, TVS/filter, DC/DCs, connectors, glands, terminals, labels, heat spreader and test points |
 
-| # | Part | SKU | Qty | Unit (USD) | Subtotal |
-|---|---|---|---|---|---|
-| 1 | Raspberry Pi Pico 2 — channel A | SC1630 | 1 | 5 | 5 |
-| 2 | Raspberry Pi Pico 2 — channel B | SC1630 | 1 | 5 | 5 |
-| 3 | Raspberry Pi CM5 8 GB Lite | SC1124 | 1 | 85 | 85 |
-| 4 | RPi CM5 IO Board | SC1125 | 1 | 35 | 35 |
-| 5 | 8-channel 24 V relay board (2oo2 AND for brake-demand to T-ECU/S) | SSR-8DC24 | 1 | 12 | 12 |
-| 6 | Adafruit USB isolator (cross-check) | Adafruit 2107 | 1 | 25 | 25 |
-| 7 | Adafruit ATECC608B × 2 | Adafruit 4374 | 2 | 4 | 8 |
-| 8 | Adafruit ADS1115 ADC × 2 (4 ultrasonic channels × 2 redundant banks) | Adafruit 1085 | 2 | 15 | 30 |
-| 9 | HC-SR04 ultrasonic transceivers (dev grade) × 4 | commodity | 4 | 2 | 8 |
-|   | — or Murata MA40H1S-R (production) × 4 | MA40H1S-R | 4 | 25 | 100 |
-| 10 | TI AWR1843BOOST 77 GHz radar eval board | AWR1843BOOST | 1 | 500 | 500 |
-| 11 | Livox HAP solid-state LIDAR (USB-C + Ethernet) | LIVOX-HAP | 1 | 1 500 | 1 500 |
-| 12 | RPi Camera Module 3 (stereo pair) | SC0872 | 2 | 35 | 70 |
-| 13 | ArduCam stereo bracket | B0203 | 1 | 18 | 18 |
-| 14 | Waveshare CAN-FD HAT (radar CAN bus to Pico + CM5) | 2-CH-CAN-FD-HAT | 1 | 28 | 28 |
-| 15 | UCTRONICS DIN rail Pi enclosure | U6277 | 1 | 25 | 25 |
-| 16 | Mean Well 24 V DIN-rail PSU | HDR-60-24 | 1 | 35 | 35 |
-| 17 | Terminal block, Phoenix UT 2.5 DIN | UT 2.5 DIN | 2 | 8 | 16 |
-| 18 | Cat 6a 1 m patch (CM5 → LIDAR) | generic | 1 | 5 | 5 |
+Historical retail subtotals are withdrawn: they excluded essential power, isolation, harness and watchdog parts and did not identify a qualified complete assembly. Unit costs stay open until the complete supplier BOM is quoted.
 
-**Subtotal (dev-grade ultrasonic): ~$2 410 per T-OBS.**
-**Subtotal (production Murata ultrasonic): ~$2 500.**
+## Bench signal path
 
-Sensors dominate the cost; compute + integration is ~$200 of
-it.
+Use the shared GPIO allocation with its pin names, not physical header numbers. A and B have separate local I2C buses and power branches. SPI peer wiring includes clock, select and correctly crossed TX/RX through a suitable isolator; a USB isolator cannot carry SPI or connect two USB device endpoints directly.
 
-## Block architecture
+HC-SR04-style modules need VCC, GND, TRIG and timed digital ECHO. Level-shift each echo to the Pico's 3.3 V domain. Capture pulse duration using timer/PIO, not an ADS1115 analog sample. Raw piezo transducers need an excitation driver, receiver/AFE and sampling/timing design; they are not interchangeable with a four-wire ranging module. Shared transducers or an application-generated fused list are common inputs; duplicating evaluators does not make them independent sensing channels.
 
-```
- ┌─ Nose-cone cavity (RF-transparent panel facing forward) ──────────┐
- │                                                                    │
- │   ┌─ HC-SR04 (or Murata MA40H1S-R) ×4 ──┐                          │
- │   │   mounted UL, UR, LL, LR quadrants   │ analog echoes           │
- │   │   3-wire each: VCC / GND / ECHO      │─────────┐               │
- │   └───────────────────────────────────────┘         │               │
- │                                                      ▼               │
- │   ┌──────────────┐   I²C   ┌────────────┐                          │
- │   │ ADS1115 A    │◄────────┤ Pico 2 A   │                          │
- │   │ (4-ch ADC)   │         │ GP2/GP3    │                          │
- │   └──────────────┘         └─────┬──────┘                          │
- │                                   │ GP29 → OBS_CLEAR_A              │
- │                                   │                                  │
- │   ┌──────────────┐   I²C   ┌────────────┐                          │
- │   │ ADS1115 B    │◄────────┤ Pico 2 B   │                          │
- │   │ (redundant)  │         │ (cross)    │                          │
- │   └──────────────┘         └─────┬──────┘                          │
- │                                   │ GP29 → OBS_CLEAR_B              │
- │                                                                     │
- │   ┌─ Cross-check via Adafruit USB isolator ──────────────┐          │
- │   │   Pico A USB-C ──── iso ──── Pico B USB-C             │          │
- │   └────────────────────────────────────────────────────────┘          │
- │                                                                     │
- │   ┌─ SainSmart 8-ch relay (2oo2 AND to T-ECU/S) ──┐                  │
- │   │  OBS_CLEAR_A ──►│ rel 1 │                     │                  │
- │   │  OBS_CLEAR_B ──►│ rel 2 │  series → T-ECU/S   │                  │
- │   └───────────────────────────────────────────────┘                  │
- │                                                                     │
- │   ┌─ TI AWR1843BOOST (radar) ──────────────┐                        │
- │   │  USB-C config · CAN-FD detections       │──── Waveshare CAN HAT │
- │   │  mounted on nose-centre                 │──── RPi CM5 I/O Board │
- │   └─────────────────────────────────────────┘                        │
- │                                                                     │
- │   ┌─ Livox HAP LIDAR ─────────────────────┐                         │
- │   │  Ethernet (1000BASE-T) + 12 V power   │──── Cat 6a to CM5       │
- │   │  mounted on nose-centre (above radar) │   IO Board LAN port     │
- │   └────────────────────────────────────────┘                         │
- │                                                                     │
- │   ┌─ Stereo camera pair ────┐                                       │
- │   │  RPi Cam Module 3 × 2   │── MIPI-CSI ── CM5 IO Board             │
- │   │  500 mm baseline        │                                       │
- │   └─────────────────────────┘                                       │
- └────────────────────────────────────────────────────────────────────┘
+Mount ultrasonic acoustic faces in qualified apertures. Do not put them behind the radar radome or claim that an 8 mm polycarbonate panel is acoustically transparent. Radar needs a tested radome; lidar and cameras need separate optical windows and contamination controls. Verify alignment, weather sealing, vibration, field overlap and stopping-distance coverage on a representative nose.
 
- ┌─ Inside train-body DIN rail cabinet ──────────────────────────────┐
- │                                                                    │
- │   Mean Well HDR-60-24 PSU: 24 V DC → 5 V (CM5) + 12 V (LIDAR)     │
- │   RPi CM5 IO Board: runs osr-obstacle-detect (sensor fusion)      │
- │   CAN-FD HAT: radar bus                                             │
- │   Terminal block: output to T-ECU/S brake-demand                    │
- └────────────────────────────────────────────────────────────────────┘
-```
+## Power and outputs
 
-## Sensor placement in the nose cowl
+Use [the power envelope](../schematics/v2-spec/power-budget.md) and [output contract](../schematics/v2-spec/safety-nets.md). No connection to actual brake or traction actuators is permitted before qualification; bench outputs drive simulated loads. Exact wire gauge, fuse, connector rating, coil suppression and contact rating follow the protection and load study.
 
-Per RFC 0015 §5.1, the four ultrasonic transducers are
-arranged in a quadrant:
-
-| Transducer | Mount | Aim |
-|---|---|---|
-| `US_UL` (upper-left)  | Top-left of nose cowl | 10° above horizontal, left of centre |
-| `US_UR` (upper-right) | Top-right of nose cowl | 10° above, right of centre |
-| `US_LL` (lower-left)  | Bottom-left | 5° below horizontal, left of centre |
-| `US_LR` (lower-right) | Bottom-right | 5° below, right of centre |
-
-The radar + LIDAR go centre-mounted with the LIDAR above the
-radar (LIDAR's 12° vertical FoV clears the radar's housing).
-Stereo cameras are below both, 500 mm apart for triangulation.
-
-## Wiring — safety-primary path
-
-Each ultrasonic transducer has ECHO and DRIVE lines routed **twice**
-— once to channel A's ADS1115, once to channel B's ADS1115.
-This provides two observation paths for bench testing, but it is not independent
-sensor redundancy: the transducer and its supply remain common causes. A single
-failure appears on both ADC paths and is fail-restrictive only if the qualified
-diagnostics detect it within the required time. The deployment safety design
-must close sensor diversity, independence, diagnostic coverage and environmental
-qualification against RFC 0015 §5.2.
-
-| Transducer pin | Channel A | Channel B |
-|---|---|---|
-| ECHO (open-collector) | ADS1115-A A0 | ADS1115-B A0 |
-| DRIVE (PWM from Pico) | Pico A GP10 | Pico B GP10 |
-| VCC | 5 V bus | 5 V bus |
-| GND | GND | GND |
-
-## Firmware + SD-card release gate
-
-No deployable T-OBS `.uf2` or CM5 image ships in v0.3.1. The intended release
-contains two channel-identified RP2350 images and one pinned CM5 image carrying
-a reviewed runner around `osr-obstacle-detect`. Those artifacts must implement
-the LIDAR/radar input drivers, final O1–O5 evaluation, peer cross-check,
-watchdog, safe-output driver, secure provisioning and rollback described here.
-Do not flash a filename copied from this document; follow the checksum-bound
-instructions issued with the eventual hardware release.
-
-## Commissioning self-test
-
-`osr-selftest --role t-obs` currently exercises the logical role manifest in
-software. A released hardware runner must extend that interface with signed
-sensor calibration, output-stage and fault-injection results before the command
-can be treated as a commissioning test.
-
-The eventual physical test must exercise every sensor in turn and validate
-O1–O5 against a known-safe baseline plus a calibration target (a reflective
-post placed at 5 m) for LIDAR and radar.
-
-## Cost-reduction notes
-
-- **Dev-grade ultrasonic (HC-SR04) is fine for bench / test
-  deployments.** Do NOT deploy to revenue service without
-  swapping to Murata MA40H1S-R or equivalent — HC-SR04's
-  temperature compensation is poor outside lab conditions and
-  the RFC 0015 safety case is built against the Murata
-  spec's MTBF.
-- **LIDAR is the biggest line item.** For a demonstration /
-  classroom deployment you can drop the LIDAR and run
-  ultrasonic-only below 40 km/h per RFC 0015 O4a, saving
-  $1 500 per T-OBS and capping mainline speed to 40 km/h.
-  Not permitted for revenue service.
-- **Stereo cameras are optional.** RFC 0015 §5.1.1 makes the
-  camera classifier a severity-escalation input only, not a
-  safety-primary. A deployment that omits it gets lower
-  false-positive rejection on windblown-debris obstacles but
-  the same safety envelope.
+Run bench tests for boot-low permission, stale/disagreeing sensor reports, both single-channel power failures, stuck-high/low heartbeat, welded contact, driver short, bus faults, reverse polarity, brownout, inrush and hot soak. Retain instrument traces and configuration hashes; the software self-test alone cannot establish those results.

@@ -9,13 +9,16 @@ The CAD parts here are planning/reference geometry for civil packages:
   over a thin alignment layer. It deliberately omits the former 220 mm
   full-width topping slab.
 
-Both panels use direct-fixation seats at the standard-urban 650 mm pitch.
+Both panels use centred direct-fixation seats at no more than the
+standard-urban 650 mm pitch (600 mm on the 6 m reference module).
 The real deployment structural design still checks concrete grade,
 reinforcement, shrinkage, drainage, stray-current protection, and local
 foundation/viaduct interaction.
 """
 
 from __future__ import annotations
+
+import math
 
 from osr_mech.cad import Box, Color, Compound, Location, Part
 
@@ -66,8 +69,23 @@ def _box(
 
 
 def _seat_x_positions(length_mm: float) -> list[float]:
-    n = int(length_mm // FASTENER_PITCH_MM) + 1
-    return [i * FASTENER_PITCH_MM for i in range(n)]
+    return direct_fixation_seat_positions(length_mm)
+
+
+def direct_fixation_seat_positions(length_mm: float = PANEL_LENGTH_MM) -> list[float]:
+    """Centre seats inside the module; repeated modules retain the same pitch.
+
+    An end-centred pad previously projected 130 mm beyond the concrete.
+    Equal cells keep both pad footprints and the joint spacing within the
+    reference envelope. Actual anchor edge distances require supplier release.
+    """
+    if not math.isfinite(length_mm) or length_mm < BASEPLATE_PAD_LENGTH_MM:
+        raise ValueError("panel length must contain a complete baseplate footprint")
+    count = math.ceil(length_mm / FASTENER_PITCH_MM)
+    pitch = length_mm / count
+    if pitch < BASEPLATE_PAD_LENGTH_MM:
+        raise ValueError("panel length cannot accommodate the seat layout")
+    return [(index + 0.5) * pitch for index in range(count)]
 
 
 def at_grade_rail_y_positions() -> tuple[float, float]:
@@ -104,6 +122,8 @@ def elevated_service_trough_y_positions() -> tuple[float]:
 def direct_fixation_seat_count(length_mm: float = PANEL_LENGTH_MM, rail_count: int = 2) -> int:
     """Number of direct-fixation rail seats in one panel."""
 
+    if type(rail_count) is not int or rail_count <= 0:
+        raise ValueError("rail count must be a positive integer")
     return len(_seat_x_positions(length_mm)) * rail_count
 
 
@@ -312,6 +332,7 @@ __all__ = [
     "at_grade_twin_rail_y_positions",
     "at_grade_slab_panel",
     "direct_fixation_seat_count",
+    "direct_fixation_seat_positions",
     "elevated_concrete_volume_m3",
     "elevated_deck_slab_panel",
     "elevated_rail_y_positions",

@@ -51,6 +51,10 @@ def test_every_baghdad_document_and_financial_case_is_included():
     ops = json.loads((CITY/'operations/baghdad-operations-manifest.json').read_text())
     payload = (CITY/'operations'/ops['file']).relative_to(ROOT).as_posix()
     assert manifest['inputs'][payload]['sha256'] == ops['compressed_sha256']
+    assert (CITY/'DETAILED-ENGINEERING.md').relative_to(ROOT).as_posix() in chapters
+    assert (CITY/'engineering/detail/register.json').relative_to(ROOT).as_posix() in inputs
+    assert 'control-electronics/reference-integration.json' in inputs
+    assert 'deployment/erpnext/compose.yaml' in inputs
     assert 'docs/rfcs/0033-tacs-runtime-and-resource-control.md' in chapters
     assert 'docs/rfcs/0032-train-centred-control.md' not in chapters
 

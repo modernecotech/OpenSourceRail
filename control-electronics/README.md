@@ -1,5 +1,11 @@
 # OpenSourceRail Control Electronics
 
+The [reference integration source](reference-integration.json) and revised
+[host bench requirements](diy-assembly/README.md) include the corrected
+power, watchdog, bus and pin interfaces. The [Baghdad detail register](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md)
+adds six-car fleet quantities and required supplier/qualification evidence.
+No complete onboard target image or qualified host BOM is released.
+
 This directory owns the physical electronic hosts for the software stack:
 processors, safety I/O, sensors, power interfaces, wiring, connectors and
 enclosures. It does not contain embedded software, rolling-stock mechanical

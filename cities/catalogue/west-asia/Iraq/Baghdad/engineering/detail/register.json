@@ -1,0 +1,1805 @@
+{
+  "city": "Baghdad",
+  "cost_model_changed": false,
+  "engineering_release": false,
+  "erp": {
+    "boundary": "Profiles/templates only; legal company, physical bindings, approved schedules, suppliers, stock and production BOMs remain deployment-owned. Reference parts are not auto-created as live ERP Items.",
+    "enabled_city_instances": [
+      {
+        "component": "training",
+        "key": "city-induction"
+      }
+    ],
+    "profile_valid": true,
+    "workflow_components": [
+      "assignment",
+      "budget",
+      "maintenance",
+      "manufacturing",
+      "quality",
+      "replenishment",
+      "service",
+      "training"
+    ]
+  },
+  "family": "metro-6car",
+  "family_profile": {
+    "battery_chemistry": "lfp",
+    "battery_nominal_voltage_v": 675,
+    "battery_normal_max_voltage_v": 740,
+    "cad_module": "osr_cad.rolling_stock.metro_6car",
+    "cars": 6,
+    "central_aux_ac_bus": false,
+    "crush_capacity": 960,
+    "hvac_design_ambient_c": 50,
+    "length_m": 111,
+    "max_speed_mps": 28,
+    "onboard_battery_kwh": 1080,
+    "onboard_battery_nameplate_kwh": 1350,
+    "passenger_capacity": 720,
+    "seat_count": 120,
+    "tare_mass_t": 204,
+    "traction_controller_count": 12,
+    "traction_peak_kw": 3600
+  },
+  "finance_model_changed": false,
+  "parts": [
+    {
+      "acceptance": "Mill certificate; weld procedure and NDT; geometry and stress-free-temperature records",
+      "basis": "route-km",
+      "group": "track",
+      "id": "TR-01",
+      "interface": "CWR neutral temperature; welds; switches and deck movement",
+      "procurement_route": "import-or-qualified-local-source",
+      "quantity_network_reference": 2066070.0000000002,
+      "quantity_per_basis": 4000,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "60E1 reference running rail",
+      "unit": "m",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Supplier system tests; anchor pullout; fatigue; insulation; installed torque",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-02",
+      "interface": "Rail profile; stiffness; electrical insulation; adjustment",
+      "procurement_route": "import-first-local-assembly-later",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 1,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Resilient direct-fixation complete seat kit",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "No mixing unqualified clips, pads or baseplates",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-03",
+      "interface": "Matched fastener system",
+      "procurement_route": "import-qualified",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 2,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Elastic clips",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Supplier ageing and stiffness tests",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-04",
+      "interface": "Hot-desert stiffness and creep",
+      "procurement_route": "import-qualified",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 1,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Rail pad / bonded resilient layer",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Electrical resistance and dimensional inspection",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-05",
+      "interface": "Gauge and rail-foot interface",
+      "procurement_route": "import-qualified",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 2,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Lateral rail insulators",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Pullout, fatigue, edge distances; approved torque",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-06",
+      "interface": "Two anchors per reference seat, subject to supplier pattern",
+      "procurement_route": "local-inserts-after-qualification",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 2,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Anchor assembly including insert, bolt and washer",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Gauge, cant, height and residual adjustment audit",
+      "basis": "rail-seat",
+      "group": "track",
+      "id": "TR-07",
+      "interface": "Supplier pad stack and adjustment range",
+      "procurement_route": "local-machining-after-qualification",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 1,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Vertical/lateral adjustment and levelling kit",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Maturity, compressive strength, insert survey, crack and lifting inspection",
+      "basis": "slab-panel",
+      "group": "track",
+      "id": "TR-08",
+      "interface": "6 x 2.9 m, 250 mm base plus twin 380 x 160 mm plinths",
+      "procurement_route": "Iraqi-precast",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 1,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "OSR-ST6 precast slab panel",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Trial mix, aggregate, cement, sulfate exposure and curing",
+      "basis": "slab-panel",
+      "group": "track",
+      "id": "TR-09",
+      "interface": "Excludes trough envelope, steel and bedding",
+      "procurement_route": "Iraqi-batching",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 5.0796,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "ST6 concrete, base and plinths only",
+      "unit": "m3",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Released bar schedule, cover, cage and batch trace",
+      "basis": "slab-panel",
+      "group": "track",
+      "id": "TR-10",
+      "interface": "150 kg/m3 allowance; bar schedule remains design-owned",
+      "procurement_route": "Iraqi-cage-fabrication",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 761.94,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "ST6 reinforcement planning allowance",
+      "unit": "kg",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Bearing contact, flow, shrinkage and trial installation",
+      "basis": "slab-panel",
+      "group": "track",
+      "id": "TR-11",
+      "interface": "30 mm reference bed over 17.4 m2; site adjustment required",
+      "procurement_route": "local-qualified-material",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 0.522,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "ST6 bedding / levelling grout",
+      "unit": "m3",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Supplier lift design, concrete release strength, certified rig and lift plan",
+      "basis": "slab-panel",
+      "group": "track",
+      "id": "TR-12",
+      "interface": "Four reference lifting points; unequal load sharing must be calculated",
+      "procurement_route": "import-qualified-local-install",
+      "quantity_network_reference": null,
+      "quantity_per_basis": 4,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "ST6 lifting sockets / engineered anchors",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Hydraulic/flood design, cleanout access and proof-flow test",
+      "basis": "route-km",
+      "group": "track",
+      "id": "TR-13",
+      "interface": "Both sides; separate cable route from drain wet section",
+      "procurement_route": "Iraqi-precast",
+      "quantity_network_reference": 1033035.0000000001,
+      "quantity_per_basis": 2000,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Drainage channel and removable cover",
+      "unit": "m",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Approved bonding study, corrosion interfaces and continuity test",
+      "basis": "project",
+      "group": "track",
+      "id": "TR-14",
+      "interface": "Battery traction still needs earth, lightning and fault-current design",
+      "procurement_route": "local-harness-import-terminals",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Rail electrical continuity bond / monitored stray-current provision",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Supplier turnout geometry, wheel passage and interlocking tests",
+      "basis": "project",
+      "group": "track",
+      "id": "TR-15",
+      "interface": "Mainline, crossings and depot throat scheduled separately",
+      "procurement_route": "mixed",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Turnout slab bearer, point drive, detection and locking kit",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Braking, thermal, seismic, settlement and fatigue analysis",
+      "basis": "project",
+      "group": "track",
+      "id": "TR-16",
+      "interface": "Not one rail expansion device per deck gap; CWR interaction required",
+      "procurement_route": "mixed",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Rail/deck expansion interface and transition section",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Survey utility approvals, flood and evacuation review",
+      "basis": "project",
+      "group": "track",
+      "id": "TR-17",
+      "interface": "Utility and emergency access, separation and protection",
+      "procurement_route": "Iraqi-manufacture",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/slab-trackforms.md",
+      "supplier_part_number": null,
+      "title": "Utility ducts, draw pits, barriers and fencing",
+      "unit": "set",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Family drawings; load cases; crash/fatigue and weld qualification",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-01",
+      "interface": "Metro-6car family loads, 18.5 m nominal module allocation",
+      "procurement_route": "Iraqi-fabrication",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Underframe and load-bearing car structure",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Laminate/fire/smoke, inserts, panel retention and removal trial",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-02",
+      "interface": "Cladding is not primary crash structure; corrosion isolation",
+      "procurement_route": "Iraqi-composite-and-metalwork",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Modular FRP cladding, end frames and service rails",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Supplier mass/duty/curve data; dynamic and braking acceptance",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-03",
+      "interface": "Axle loads, pivots, swept envelope and wheel/rail match",
+      "procurement_route": "import-first",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Powered bogie complete including frame, suspension and brakes",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Family qualification and dimensional/functional tests",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-04",
+      "interface": "Two bogies per car reference architecture",
+      "procurement_route": "import-first",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Trailer bogie complete including frame, suspension and brakes",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Axle fatigue, wheel profile, bearing life and traceability",
+      "basis": "bogie",
+      "group": "mechanical",
+      "id": "ME-05",
+      "interface": "Child content; not an extra complete-bogie purchase",
+      "procurement_route": "included-in-bogie-import",
+      "quantity_network_reference": 19944,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Wheelset including wheels, axle, bearings and axleboxes",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Torque-speed, cooling, EMC and duty map",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-06",
+      "interface": "12 sets per six-car train; 3600 kW total peak envelope",
+      "procurement_route": "import-qualified",
+      "quantity_network_reference": 9972,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Motor and traction inverter/controller set",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Cell/pack safety, BMS, containment, isolation and thermal propagation",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-07",
+      "interface": "1350 kWh gross / 1080 kWh usable per train; 675 V nominal, 740 V normal maximum",
+      "procurement_route": "import-cells-local-pack-after-qualification",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "225 kWh nameplate traction battery allocation",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Fault-current/protection selectivity, HVIL, isolation and thermal tests",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-08",
+      "interface": "800 V class does not mean 800 V nominal; insulation coordinates supplier limits",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Battery support, HV junction box, fuse, contactors and precharge",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Heat balance at 50 C ambient, pressure, vibration and leak test",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-09",
+      "interface": "Pump, chiller, heat exchanger, hoses, isolation, expansion/bleed, leak sensors",
+      "procurement_route": "local-assembly-import-pump-and-chiller",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Battery/inverter liquid cooling loop",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Brownout, transient, short-circuit and autonomy tests",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-10",
+      "interface": "Separated safety and application supplies; branch protection",
+      "procurement_route": "import-qualified-local-harness",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "HV-to-LV DC/DC and battery-backed auxiliary distribution",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Fresh-air/heat balance, dust filtration and condensate trial",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-11",
+      "interface": "50 C design ambient; no unqualified LM3 thermal reuse",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "HVAC unit, ducts, filters, condensate and mounts",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Force, obstruction, escape, locked proof and controller integration",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-12",
+      "interface": "Two double-leaf openings per side reference; Metro-6car freeze required",
+      "procurement_route": "import-qualified-local-fitting",
+      "quantity_network_reference": 19944,
+      "quantity_per_basis": 4,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Passenger door package including leaves, drive, locks and detection",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Impact, retention, leak and fire/smoke requirements",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-13",
+      "interface": "Window count depends on released car layout",
+      "procurement_route": "import-glass-local-frame",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Side glazing, window frames, seals and adhesives",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Coupler load, gangway movement, fire barrier and cable sweep",
+      "basis": "trainset",
+      "group": "mechanical",
+      "id": "ME-14",
+      "interface": "Six cars imply five intercar interfaces; end recovery couplers separate",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 4155,
+      "quantity_per_basis": 5,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Intercar coupler, gangway, jumper and air/electrical interfaces",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Recovery/lift trial and RF, optical and acoustic field tests",
+      "basis": "trainset",
+      "group": "mechanical",
+      "id": "ME-15",
+      "interface": "Rescue loads; radar radome separate from exposed ultrasonic faces",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Train-end recovery coupler and sensor cowl",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Stopping performance, degraded modes, pressure and leak tests",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-16",
+      "interface": "Includes compressor, reservoir, dryer, valves, hoses and sensors; no fixed pressure without design",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Brake supply/control and parking brake package",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Uplift, shading, isolation, bonding and maintenance access",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-17",
+      "interface": "Car-specific usable roof area and HVAC/service clearances",
+      "procurement_route": "import-panels-local-mounts",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Roof PV, MPPT, mounts and protected DC wiring",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Fixture loads, fire/smoke, lighting and accessible boarding",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-18",
+      "interface": "720 nominal passengers/120 seats per train; accessible route and door zone",
+      "procurement_route": "Iraqi-assembly",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Interior, seats, grab rails, lighting and accessibility kit",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Hazard analysis, detector coverage and integrated evacuation test",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-19",
+      "interface": "Battery and passenger-space hazards coordinated with emergency brake",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Fire detection, alarm, segregation and suppression provisions",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Formboard, crimp pull test, continuity, insulation and configuration",
+      "basis": "car",
+      "group": "mechanical",
+      "id": "ME-20",
+      "interface": "Wire IDs, terminal families, cut lengths, shields and bend limits",
+      "procurement_route": "Iraqi-harness-production",
+      "quantity_network_reference": 4986,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "HV/LV/data harness, connector and clamp schedule",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Released consumable list, shelf-life and stock policy",
+      "basis": "project",
+      "group": "mechanical",
+      "id": "ME-21",
+      "interface": "Service intervals and inventory policy; not free nor included twice",
+      "procurement_route": "mixed",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/rolling-stock/design-system.md",
+      "supplier_part_number": null,
+      "title": "Service consumables, fasteners, fluids and replacement spares",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Per-channel rails/watchdogs, relay feedback, reset and fault-injection evidence",
+      "basis": "trainset",
+      "group": "electronics",
+      "id": "EL-01",
+      "interface": "Two logical channels per host; redundancy does not itself prove independence",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "T-ECU/S end host assembly",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "CPU/RAM/storage, boot, bus, timeout and radio tests",
+      "basis": "trainset",
+      "group": "electronics",
+      "id": "EL-02",
+      "interface": "TCMS, ATO, recording, train-to-ground and comfort interfaces",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "T-ECU/A application end host assembly",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Field coverage, contamination, stale data, power and stop-distance tests",
+      "basis": "trainset",
+      "group": "electronics",
+      "id": "EL-03",
+      "interface": "Radar, HAP TX lidar, stereo, ultrasonic; bench candidates pending qualification",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "T-OBS end host and external sensor assembly",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "No native CAN/RMII assumed; external controllers and measured deadlines",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-04",
+      "interface": "Pico 2 for bench; custom RP2350 package needs separate pin allocation",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 3324,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Safety evaluator MCU channel",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Stuck high/low, late/early, reset and output inhibition tests",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-05",
+      "interface": "TPS3701 is a voltage monitor, not a watchdog",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 3324,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Independent hardware heartbeat watchdog",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Common-cause fault study; short, UV/OV, transient and thermal trials",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-06",
+      "interface": "Separate A/B protections and validated independence boundary",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 3324,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Channel power conversion and voltage monitoring branch",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Carrier topology, peripherals, cooling, storage and boot power tests",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-07",
+      "interface": "CM5-compatible 5 V carrier; exact module/carrier SKU unfrozen",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Application compute module and carrier",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Adapter harness, termination, firmware configuration and freshness test",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-08",
+      "interface": "AWR1843BOOST: 5 V barrel, micro USB, J3 CAN; no factory M12 connector",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Radar evaluation assembly and CAN interface adapter",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Vendor cable/pinout, startup/inrush and timestamp test",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-09",
+      "interface": "100BASE-TX; 9-18 V supply; no invented 12 V PoE pinout",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Lidar HAP TX candidate and data/power harness",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Stereo calibration, image timing, vibration and thermal drift",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-10",
+      "interface": "22-pin carrier CSI cable family; flex length and optical geometry frozen together",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 3324,
+      "quantity_per_basis": 2,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Stereo camera, carrier-compatible flex and rigid calibration bar",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Weatherproof candidate selection, acoustic apertures and blind-zone trial",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-11",
+      "interface": "Raw piezo needs driver/AFE; HC-SR04 uses trigger and timed digital echo",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 6648,
+      "quantity_per_basis": 4,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Ultrasonic sensing position",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Protocol age/CRC/sequence and short/open/babble fault injection",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-12",
+      "interface": "Digital isolator directionality and local channel supplies; no USB-device-to-device link",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Isolated peer cross-check SPI link",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Welded contact/driver short/stuck GPIO; fail restrictive truth table",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-13",
+      "interface": "Two channels in series, feedback contacts, watchdog inhibition",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Hardware series permission contacts and independent coil drivers",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Fuse coordination, voltage drop, hold-up, EMC and full-load test",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-14",
+      "interface": "Nominal 24 V bus; T-OBS reference 100 W supply envelope",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "HV/LV input surge protection and branch fuse assemblies",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Thermal soak, ingress, vibration and accessible replacement",
+      "basis": "t-obs",
+      "group": "electronics",
+      "id": "EL-15",
+      "interface": "Hot/dusty nose installation; no proven passive cooling claim",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 1662,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Enclosure, heat spreader, glands, vents and grounding hardware",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Budget, timing, link loss and termination study",
+      "basis": "trainset",
+      "group": "electronics",
+      "id": "EL-16",
+      "interface": "Redundant ring topology and cabling path allocation",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Train network switch, isolated CAN and external Ethernet controller set",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Spectrum authority, route coverage and link-loss tests",
+      "basis": "trainset",
+      "group": "electronics",
+      "id": "EL-17",
+      "interface": "M.2 modem needs correct USB/PCIe adapter and SIM support",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Train-to-ground radios, modem carrier, antennas and surge arresters",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Power/UPS, earthing, I/O truth table and resource-control interface",
+      "basis": "project",
+      "group": "electronics",
+      "id": "EL-18",
+      "interface": "Cabinet count requires actual field I/O and network design",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "W-SBC field cabinet and point/crossing I/O",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Local degraded service, UPS endurance and recovery",
+      "basis": "station",
+      "group": "electronics",
+      "id": "EL-19",
+      "interface": "One station host allocation; exact redundancy by station design",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": 182,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "S-SBC station host and protected UPS/network enclosure",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Restore drill, separation, performance and recovery objective",
+      "basis": "project",
+      "group": "electronics",
+      "id": "EL-20",
+      "interface": "Server count defined by availability and storage study",
+      "procurement_route": "import-electronics-Iraqi-integration",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "control-electronics/README.md",
+      "supplier_part_number": null,
+      "title": "Operator/server cluster, backup and disaster recovery",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Released loads, prestress, reinforcement, bearings, fatigue, ground and lift design",
+      "basis": "project",
+      "group": "civil-and-facilities",
+      "id": "CI-01",
+      "interface": "20/25 m bays; actual foundation zones, spans and transport",
+      "procurement_route": "Iraqi-precast-and-site",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Pi20/Pi25 beam, pier cap, column and foundation package",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Load, fall-protection, access and vibration checks",
+      "basis": "project",
+      "group": "civil-and-facilities",
+      "id": "CI-02",
+      "interface": "Clear egress, deck drainage and changeable services",
+      "procurement_route": "Iraqi-fabrication",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Walkway, barrier, cable tray and access cassette",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Surveyed gap/step and swept clearance; drainage and egress",
+      "basis": "station",
+      "group": "civil-and-facilities",
+      "id": "CI-03",
+      "interface": "Platform family, train floor and evacuation capacity",
+      "procurement_route": "Iraqi-civil-and-metalwork",
+      "quantity_network_reference": 182,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Station accessible platform, ramp/lift/stair and canopy package",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Load/hydraulic study, inspectable routing and commissioning",
+      "basis": "station",
+      "group": "civil-and-facilities",
+      "id": "CI-04",
+      "interface": "Utilities, flood levels, potable/fire water and lightning",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 182,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Station fire, water, drainage, power and earthing services",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Offline/replay/refund, fare reconciliation and privacy tests",
+      "basis": "station",
+      "group": "civil-and-facilities",
+      "id": "CI-05",
+      "interface": "Existing AFC/backoffice; payment and tariff contracts required",
+      "procurement_route": "mixed",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Ticket validators, vending, gates and settlement terminals",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Acoustic, visibility, accessibility and failover tests",
+      "basis": "station",
+      "group": "civil-and-facilities",
+      "id": "CI-06",
+      "interface": "Coverage and emergency comms; does not imply one device each",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 182,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Station PA/PIS, CCTV, help points and telecom cabinet",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Thermal/contact duty, isolation, emergency disconnect and energy simulation",
+      "basis": "site",
+      "group": "civil-and-facilities",
+      "id": "CI-07",
+      "interface": "158 sites; actual cabinet count and kW/kWh taken from site design",
+      "procurement_route": "import-core-local-assembly",
+      "quantity_network_reference": 158,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Charging contact, interlock, protection, DC/DC and site battery",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Load/handling design, permits, wastewater and site layout",
+      "basis": "project",
+      "group": "civil-and-facilities",
+      "id": "CI-08",
+      "interface": "Bays are not parking; 831 trainsets need release-backed stabling plan",
+      "procurement_route": "mixed",
+      "quantity_network_reference": null,
+      "quantity_per_basis": null,
+      "quantity_status": "project-schedule-or-supplier-freeze-required",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Depot lifts, pits, wheel service, wash and recovery equipment",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "First article, maturity calibration and repeatability records",
+      "basis": "plant",
+      "group": "civil-and-facilities",
+      "id": "CI-09",
+      "interface": "Separate slab line from beam beds; throughput and delivery route",
+      "procurement_route": "Iraqi-fabrication-import-special-tooling",
+      "quantity_network_reference": 1,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Precast plant moulds, cage jigs, batch/curing and survey tools",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Qualified operators, calibration, weld/NDT and installation trials",
+      "basis": "plant",
+      "group": "civil-and-facilities",
+      "id": "CI-10",
+      "interface": "Possession, calibration and maintainability",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 1,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Rail weld/clip/anchor tools and track survey trolley",
+      "unit": "each",
+      "unit_cost": null
+    },
+    {
+      "acceptance": "Golden configuration, calibration, test record and repair trace",
+      "basis": "plant",
+      "group": "civil-and-facilities",
+      "id": "CI-11",
+      "interface": "Production end-of-line and independent verification",
+      "procurement_route": "mixed",
+      "quantity_network_reference": 1,
+      "quantity_per_basis": 1,
+      "quantity_status": "reference-allocation-not-purchase-order",
+      "release_status": "reference-requires-design-and-supplier-freeze",
+      "source": "docs/civil/foundation-and-production-system.md",
+      "supplier_part_number": null,
+      "title": "Electrical bench, harness formboards and EMC/environmental test access",
+      "unit": "each",
+      "unit_cost": null
+    }
+  ],
+  "quantity_bases": {
+    "bogie": 9972,
+    "car": 4986,
+    "plant": 1,
+    "route-km": 516.5175,
+    "site": 158,
+    "station": 182,
+    "t-ecu-s": 1662,
+    "t-obs": 1662,
+    "trainset": 831
+  },
+  "quantity_boundary": "Net mainline reference only. Child content is nested, not additive procurement. No sidings, depot tracks, turnout deductions, cutting/weld waste, spares or method zones invented.",
+  "schema": "org.opensourcerail.baghdad-detail.v1",
+  "software_allocations": [
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "s-sbc"
+      ],
+      "name": "osr-afc"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-afc-backoffice"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "design-tooling"
+      ],
+      "name": "osr-alignment"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-analytics"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-ato"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-atp"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-aux-power"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-balise"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-bms"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-brake"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-cbm-backend"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-cbm-onboard"
+    },
+    {
+      "disposition": "tooling",
+      "hosts": [
+        "design-tooling"
+      ],
+      "name": "osr-city-studio"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc",
+        "o-srv"
+      ],
+      "name": "osr-consensus"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "all"
+      ],
+      "name": "osr-core"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "all"
+      ],
+      "name": "osr-crypto"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-derailment"
+    },
+    {
+      "disposition": "tooling",
+      "hosts": [
+        "design-tooling"
+      ],
+      "name": "osr-design"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-door-control"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-energy-site"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-event-recorder"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-fire-safety"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "o-srv",
+        "simulation"
+      ],
+      "name": "osr-gui-shared"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-historian"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-hot-axle"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-hot-axle-wayside"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-hvac"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-interlocking"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-intrusion-detect"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-level-crossing"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "o-srv",
+        "design-tooling"
+      ],
+      "name": "osr-lifecycle-identity"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-lighting"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-obs"
+      ],
+      "name": "osr-obstacle-detect"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-onboard-routing"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-passenger-assist"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-occ"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "o-srv"
+      ],
+      "name": "osr-occ-gui"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-odometry"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-pis-onboard"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "s-sbc"
+      ],
+      "name": "osr-pis-station"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "all"
+      ],
+      "name": "osr-proto"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "s-sbc"
+      ],
+      "name": "osr-psd"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "t-ecu-s",
+        "t-ecu-a",
+        "t-obs",
+        "w-sbc",
+        "s-sbc"
+      ],
+      "name": "osr-ptp"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-regen"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "o-srv",
+        "design-tooling"
+      ],
+      "name": "osr-routing"
+    },
+    {
+      "disposition": "tooling",
+      "hosts": [
+        "assurance-tooling"
+      ],
+      "name": "osr-safety-case"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "all"
+      ],
+      "name": "osr-secbus"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "t-ecu-s",
+        "t-ecu-a",
+        "t-obs",
+        "w-sbc",
+        "s-sbc"
+      ],
+      "name": "osr-selftest"
+    },
+    {
+      "disposition": "simulation",
+      "hosts": [
+        "simulation"
+      ],
+      "name": "osr-sim"
+    },
+    {
+      "disposition": "simulation",
+      "hosts": [
+        "simulation"
+      ],
+      "name": "osr-sim-gui"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "s-sbc"
+      ],
+      "name": "osr-station-scada"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "o-srv",
+        "simulation"
+      ],
+      "name": "osr-supervision-contract"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-t2g"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-a"
+      ],
+      "name": "osr-tcms"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "design-tooling"
+      ],
+      "name": "osr-runtime"
+    },
+    {
+      "disposition": "shared-library",
+      "hosts": [
+        "t-ecu-s",
+        "t-ecu-a",
+        "t-obs"
+      ],
+      "name": "osr-tcn"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "t-ecu-s"
+      ],
+      "name": "osr-traction"
+    },
+    {
+      "disposition": "deployable-endpoint",
+      "hosts": [
+        "t-ecu-s",
+        "t-ecu-a",
+        "t-obs"
+      ],
+      "name": "osr-trainset-image"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "s-sbc"
+      ],
+      "name": "osr-tvm"
+    },
+    {
+      "disposition": "composed-service",
+      "hosts": [
+        "w-sbc"
+      ],
+      "name": "osr-wayside-points"
+    }
+  ],
+  "software_boundary": "Declared composition verified against workspace, not target-driver completeness or qualified deployment. osr-runtime remains design-tooling reference.",
+  "sources_sha256": {
+    "Cargo.toml": "42d311943f81c1addb782889efa43c0c6b2d9aec66ff0efbb0611bbd8c5e93a6",
+    "cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md": "bf8fed35d827a06a37bdde58d8c85ded19a3ead49dd304671c9a6484f75804b0",
+    "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "e55afcbda947d5f6941df5a8d300f99f65d83e7389a1b5bef82f9b6f2706d3b8",
+    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "9a7990052ce22077335e65e05d20f043340fd5cdfa96394a6098ffd75bd816c3",
+    "cities/catalogue/west-asia/Iraq/Baghdad/operations/erp-components.json": "59a2e377c836e8f494c3d5e03789efbd747ce359c9c17b0f1c93c6399c7c0252",
+    "control-electronics/README.md": "c603c8a6d5ec302f87fe0ab42eecc27cce7e3f28915edbda76fe5104eae374b5",
+    "control-electronics/diy-assembly/README.md": "1ee280e022114ebacd1bbd33dcb88764861b8206fa5570b63ca2d2d2bfe20fd9",
+    "control-electronics/diy-assembly/parts-catalogue.md": "11cb1efa21471fa7f67b88e98ccaf61c9c1a0da14fc7a2d177c8bad79e2c5a20",
+    "control-electronics/diy-assembly/sd-card-images.md": "09b48482b4696d96002d4e663c7f5ab162faa599833f1ad2723f73fc6ba9675f",
+    "control-electronics/diy-assembly/tooling.md": "64db35117047488b92dff2e582697664563a4f44dd8cfddcd653350156c88a8e",
+    "control-electronics/reference-integration.json": "36b4aab12301d190ebf5e99f193650200ec718f1873b7ff6153f48a59a450c5d",
+    "control-electronics/release-checklist.md": "9dbbfa435ae8c31c625910004139456749a3797461a45e67bf185f824f239d28",
+    "control-electronics/rolling-stock-integration.md": "9ee47fafe389b00ccc9d55a1473b1634e88e2f165b966f0f2c4e1d50f0dbb8f2",
+    "control-electronics/s-sbc/README.md": "e6533ea1502ecde313af1666b3c91f9b35916afa16422275d2381c47c4f1f2aa",
+    "control-electronics/s-sbc/bring-up.md": "c11c410a8470a76a5f3a410893d1e9047ba43138fac15fbdb36ecb828d5e7e4c",
+    "control-electronics/s-sbc/diy-assembly/README.md": "82e263e4a001146c16e8325b7f637bf56e484198f504652e74c7ef608bcf5511",
+    "control-electronics/s-sbc/schematics/v2-spec/README.md": "815fd5bf9665699bf8a7fd1b365e5028c13cabcc14a27fbe94757dbb1b87cd14",
+    "control-electronics/safety-controller-selection.md": "c354166c466574c7f21380c4a95f7c7cdec60ca07012b4a31207a43a1522b645",
+    "control-electronics/t-ecu-a/README.md": "afce0e4469b7551ab64b999ed5791e4eb9606f6d5061b15acd0b030ab70886bd",
+    "control-electronics/t-ecu-a/bring-up.md": "63665d64f26361fc5de57cca2f77ee13da42eb5caf7eadce251d0d368253cffd",
+    "control-electronics/t-ecu-a/diy-assembly/README.md": "ebedf19b4bd6ddfad2d225af36ab9cbdf477ae9ab5195f594c8f72e5012d8c89",
+    "control-electronics/t-ecu-a/schematics/v2-spec/README.md": "808145eb39ae936dd3b183bea42ae433f46a2e05424fa9fcabdf9a72bdb5261a",
+    "control-electronics/t-ecu-a/schematics/v2-spec/block-diagram.md": "c9be9d3ea770204f5887b3bf6d89adf1042868eeec5ab4ebe40caefbbcb0e990",
+    "control-electronics/t-ecu-s/README.md": "1947c9ba417f44cb5a225e9c34deb85c12b2a937d84c7ef2c541ca52866b531b",
+    "control-electronics/t-ecu-s/bring-up.md": "0616fc13a533b0775bfea205114e04a62f0ccf15787f8a4caaf847911dc995f2",
+    "control-electronics/t-ecu-s/diy-assembly/README.md": "b6bddd3d3ec94b95e0a1d58c74a75c339d19560f31f262406c7999427d469bc1",
+    "control-electronics/t-ecu-s/schematics/v2-spec/README.md": "3ca8f36ff7cdeccf0b481e4c7ee1fae5cd513ff8524ee8ece54f353a29e9cb94",
+    "control-electronics/t-ecu-s/schematics/v2-spec/block-diagram.md": "eecce59af67d220519b20efad770cfbbba5ea9c9804019c3f6db3b672a15fc16",
+    "control-electronics/t-ecu-s/schematics/v2-spec/connector-tables.md": "4f88a06dd32c24ef9822e83074b024a72e762c78c084c9e85e1e6ffcb478ac73",
+    "control-electronics/t-ecu-s/schematics/v2-spec/pinout-cm5.md": "2f1ae6bf807eb7129ec47c853e796c6a46ca849ed2b7a16c0f4ef1af953f85cd",
+    "control-electronics/t-ecu-s/schematics/v2-spec/pinout-rp2350.md": "a24421759d679bf6bdbe740feebb6c826a8812e4ebc438432cf0adc8a8d2586e",
+    "control-electronics/t-ecu-s/schematics/v2-spec/power-budget.md": "3040faf123c10bc19c25397089890693187eec8798059f6225da7e7ebac5f70b",
+    "control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md": "522d6cdb6126aa565f6031c260427c9962bf3500c6cad73ca3f90f39b141e76c",
+    "control-electronics/t-obs/README.md": "6bbfa966730640e3ae3c0fa4b36f51e7c60b730728ca9545637b5a1dc7765c57",
+    "control-electronics/t-obs/diy-assembly/README.md": "e62bea79a564661c7367b57b086da9ef7647eac6e79b1401c25642a81439df22",
+    "control-electronics/t-obs/schematics/v2-spec/README.md": "c21042a20463d46feff777a19bb6c467757f59114df3dcbd3023fbe1abf830c5",
+    "control-electronics/t-obs/schematics/v2-spec/block-diagram.md": "017bc29a3ab47ab9a77563f7c8e1dac89e1fcfa3f8c179c30498511b7f7b3edb",
+    "control-electronics/t-obs/schematics/v2-spec/connector-tables.md": "5bfbd9dc0aea24bd8b54e76898d166e64c79cb52b8ff08c4ed57abf1e09c3309",
+    "control-electronics/t-obs/schematics/v2-spec/pinout-rp2350.md": "48b4ca678871955ade1abdda600159feef96eec5a10c8d54aa23711c3eb28c62",
+    "control-electronics/t-obs/schematics/v2-spec/power-budget.md": "c7589d2fba894f78fc1f6e42fb7fb7759aa10eeb4a2020400b2b957e2dc31b8c",
+    "control-electronics/t-obs/schematics/v2-spec/safety-nets.md": "369d0ebebba349cc40cc965793446aac5846ed8a566ef04920ebdbb18975b448",
+    "control-electronics/trainset-interiors.md": "2e5e549cf94fdb6429ca6ff4d04f910d3d5cf1c3acfd54613796d55a45bd7a22",
+    "control-electronics/w-sbc/README.md": "3132f8dac08b2179e60c8d89df9ac2f6314d38eceb3532f390df392f4e2ec1d8",
+    "control-electronics/w-sbc/bring-up.md": "b6628dccfedf6fea4c6baffe7de8fa3e38ab7604e3bdec5ae7d0ea8154af1ae4",
+    "control-electronics/w-sbc/diy-assembly/README.md": "de375d1dfd667bbb7cda8d62919ad7f7456ecdb157d956720703ecdc0dc47ddb",
+    "control-electronics/w-sbc/schematics/v2-spec/README.md": "c0e6c453c918a2612eda54a652103750348b658a68d65e6c1266df2e39e7b5cb",
+    "control-electronics/w-sbc/schematics/v2-spec/block-diagram.md": "b858d9c2d5a6af0fbe7870a72f4cc78f0384ad18bc977d8a6f883c96d9ca534f",
+    "crates/osr-afc-backoffice/Cargo.toml": "c1fecfd7394616282dab09044354bf240408e0d8d7306e87838ec2b427e5724d",
+    "crates/osr-afc/Cargo.toml": "0c3c1fe0594561fc66c23ff4d333b999a2af0b1372c233e14e00cb3e9eab0137",
+    "crates/osr-alignment/Cargo.toml": "f9ba9fb0dff22814c4897af7e0dfbe0a9ec1a30db94a2b40aebf1b66fa51c39b",
+    "crates/osr-analytics/Cargo.toml": "a3be8eb0c7424a81168c4b9fc5aa7d87a74d707a31d326a4ee52049c321f431c",
+    "crates/osr-ato/Cargo.toml": "5a8f71fb90534ef15de450c2cdc6ee1f1c9ad4d5a13275c7ed494e7473241426",
+    "crates/osr-atp/Cargo.toml": "4e36ec7daf39ba24879901691a5d05892411efe748949294a69bd29d94e425d4",
+    "crates/osr-aux-power/Cargo.toml": "68ac98a24b8961aac5492de09e16dfbc909b4610ff875164725223bd933a7abc",
+    "crates/osr-balise/Cargo.toml": "c24f512289e2c3a7b1ee2ca56ed2bd9facd828cc32a0e53905d556b2edab4560",
+    "crates/osr-bms/Cargo.toml": "f9ef6ffb46b4fe890d1e15b96e0ce1581d5beace587a33e77b5c8578895a5cde",
+    "crates/osr-brake/Cargo.toml": "cc93f4a2a1e9e82aab0d839390e79c8afe9851d9edd0d2972df2e446a2aaefa9",
+    "crates/osr-cbm-backend/Cargo.toml": "0c77ef769fc8fb7bb174ec52581430781463fb1d3c7561c7997e43da1d1816fb",
+    "crates/osr-cbm-onboard/Cargo.toml": "b8a30a8890176b15991e569db297a30935b5a9b30ca0d6e17b4589fdd33083e2",
+    "crates/osr-city-studio/Cargo.toml": "81d67dff492b28ea55793aff86c10c0c4caf26e85eb7847db0df06c1d8c4668a",
+    "crates/osr-consensus/Cargo.toml": "a118a895dc81296ef0ea64a3a6272ce68e26ffaf97e0d8399411e1ad4874d7be",
+    "crates/osr-core/Cargo.toml": "a3afc36c6d5a599f07fe7a06b3e7fa5c40eb7b1ee116b2207052ca7ca440586a",
+    "crates/osr-crypto/Cargo.toml": "46ace6be123f7ffa780e5b2fe2f79bc77dbbe5c52e7f6fadbe15e1c3ccd56ae9",
+    "crates/osr-derailment/Cargo.toml": "e7cc97fe34464d0dd86de7ed229887a6784b495f056f13fe40a89fc575d37848",
+    "crates/osr-design/Cargo.toml": "fb8d33b1bd4aea0b59378baa0a7d5e434b7b4b5112dd1af40e39e52e8727c447",
+    "crates/osr-door-control/Cargo.toml": "ca0c1e46cb93f0b200c2fce2d5eb70588c1f10739354d7dccaef1a6fb912c462",
+    "crates/osr-energy-site/Cargo.toml": "ecc75a73dbbd198050c8ac539ff4d2351c05aecf5dce1d09ef1c331626eb9af0",
+    "crates/osr-event-recorder/Cargo.toml": "6d19b3fc99e68dc48005e9351ede7b1e620c8e950137ac7928e2480349cfe7a4",
+    "crates/osr-fire-safety/Cargo.toml": "9412a2e8c3c65c467f3536080389c69b631d2ae45483dddf5eb3e5674802505d",
+    "crates/osr-gui-shared/Cargo.toml": "6240c6d9a9f570e75399beef946fe178a55c0f79bf8f8564fa808e8952dc604d",
+    "crates/osr-historian/Cargo.toml": "46bacf2cd2cf5ffbbb35ab2ee4d503c2a1b9cb0b78d48ce90b709438da6698c1",
+    "crates/osr-hot-axle-wayside/Cargo.toml": "b323076a7badf886e9683ca30e0597b18d98538310e48c0c52210902d8162972",
+    "crates/osr-hot-axle/Cargo.toml": "7e307f215d61479651c015bdb0ec528c74dc43a20e77bb0a62fc9780817279f0",
+    "crates/osr-hvac/Cargo.toml": "f6977e9ca4ce77b05b67d6e1b2f2121ee8e1aa521489f574429851ce40eeb42c",
+    "crates/osr-interlocking/Cargo.toml": "b75d7ed6a2fe6109996e13991c1929f3deb8abbec65ac8df0319b2540a539e04",
+    "crates/osr-intrusion-detect/Cargo.toml": "8d8fdb1a9f97c698f54c60c005d92f54480110523adc43b6feaeaf8d07127494",
+    "crates/osr-level-crossing/Cargo.toml": "e0f6c6c897d069053b1d65972d8f287a3a75af20b343855d775977da018b3924",
+    "crates/osr-lifecycle-identity/Cargo.toml": "b34368428441bd59767f85c8a94baee2c5bbc37ddb60cc707d37c270ae410f44",
+    "crates/osr-lighting/Cargo.toml": "a80334fe4acd2f47755e7cdce961564766ddada855b515c9ba8a75b84bda593e",
+    "crates/osr-obstacle-detect/Cargo.toml": "eeb54bd603adb5ab5d7f43df08b7a86faf0d9494da607076bd3dcb91bbb3bb51",
+    "crates/osr-occ-gui/Cargo.toml": "fbb204c286bae154d7800700bfc992ce5ede6a99bf798dacc7fa3658e862a504",
+    "crates/osr-occ/Cargo.toml": "e990ee874c0b808783abe2eaf151dc8368553e384539cfeb4d4765f484aada7d",
+    "crates/osr-odometry/Cargo.toml": "52a13893df6aa6a1355f19defb3637a5c45ef47b12961ac49fcff00dbed6679a",
+    "crates/osr-onboard-routing/Cargo.toml": "150002b0e218b62c093eb2ed12d0bfc0765b743c500eff89fab857ef0471a57e",
+    "crates/osr-passenger-assist/Cargo.toml": "8ae21658caa02c67a4841b2288d2d2bb89292c36d624384c118e580557ee53c8",
+    "crates/osr-pis-onboard/Cargo.toml": "50a352f74402d7395c194a1193e384836a77ff3a566c85e771d1fa0b98d57130",
+    "crates/osr-pis-station/Cargo.toml": "9a63fef565beeb78bf6eebb4fda6023c02be3527cc54ac807dbdd99cc417ed56",
+    "crates/osr-proto/Cargo.toml": "f0d95f3d7c118f6cfb11c445b375eb718dd71f1d6dcbc66f4db86ffe1fc3d7fb",
+    "crates/osr-psd/Cargo.toml": "3b58187955ed1aa32c1f49d5f9f6f3a607639ed9b67aa7eb01bfebc4a63bfc2d",
+    "crates/osr-ptp/Cargo.toml": "3317246f3057ccf60e837e73e4f7239e9c94fcb111159283147cde8dc253d95b",
+    "crates/osr-regen/Cargo.toml": "cc6fdf1212cd55052bd4acf08ee4cf4001fb11ccf924f47749a36e6593bf99b7",
+    "crates/osr-routing/Cargo.toml": "6bd4e3973513f244b34426e67bb183cad1df26fca551d2d62074788351992fb4",
+    "crates/osr-runtime/Cargo.toml": "6c925adb2aeccd6e4349d82f1e965ec5798b33fbacb6d4e853817b241f678db2",
+    "crates/osr-safety-case/Cargo.toml": "a29961d5c2f510aa7d038181245825a8e32c0e771061a7e2d79d314567541acc",
+    "crates/osr-secbus/Cargo.toml": "955e4b1f6b4532eaaab35cc1e116d8ce9b2083bd9dc569b30d6f43c961e12935",
+    "crates/osr-selftest/Cargo.toml": "81032deff020caf9abfe659c6e6fe9e0f5577f1292e56d62f80f70d736eac161",
+    "crates/osr-sim-gui/Cargo.toml": "9df48f6eee7fa51e0bf06964cc0cfe308afd49b12bbf7f6ede92fe9f8ac7d175",
+    "crates/osr-sim/Cargo.toml": "92eef5b8c71ea87283ce13375b19d7d7b14e8e295bc2c06b6f3414241d655bd4",
+    "crates/osr-station-scada/Cargo.toml": "b885bfeb93fceb2866cca7d5c4705709cf29d5588075a2e898d6f5f2020a9a05",
+    "crates/osr-supervision-contract/Cargo.toml": "6ea0fefafa6f36c37259bfefc1c39a362aac90cc8026beb3602480689b47b509",
+    "crates/osr-t2g/Cargo.toml": "da64555c28996414ca7d7470a8d39945b3c95b1f75ee785f12dbe73a527ed919",
+    "crates/osr-tcms/Cargo.toml": "75904f4971b7f0db4169af63b2901a767db99158e84b9872df3faa237e081552",
+    "crates/osr-tcn/Cargo.toml": "2dbdfc0c85fa18a9468d8e844a764d06cd8d3a42cb9a3f7a79dd0f080ef86cae",
+    "crates/osr-traction/Cargo.toml": "ab737ec81ec52213a5441e8df370c051d5dd0b864bc4bfb703121b9ca4331090",
+    "crates/osr-trainset-image/Cargo.toml": "1c9a271680d7e17a37d677302aa7fc1048f9b9355189b7ca9cabd63e32b918d0",
+    "crates/osr-tvm/Cargo.toml": "628fee337492c7be14947eafddfc915936bf57065a3eee6c7b668d74583f94d9",
+    "crates/osr-wayside-points/Cargo.toml": "838977674970dbe18c67ab07a2d5ba3c3ba8a81b78e9437e773da26430a88d10",
+    "deployment/components.toml": "01ba6e4485918a4827c079e165935707e6bf5603c5d2196576e375d836743cc7",
+    "deployment/erpnext/apps/osr_erpnext/osr_erpnext/component_catalogue.py": "56423238743500da723604f10041fa93daf7d98c04feb035bccd7f80ac86aaba",
+    "deployment/erpnext/compose.yaml": "ad7454b1061dc1f32921aca4ce175d264a4f8ec7ab4c594dd432ade5d0d7673b",
+    "deployment/erpnext/config/components.json": "265e07a2f6b909ec39ed727fb155b4e9531179db5e6fc4ac530260ebbff88e95",
+    "design/component-catalogue/src/osr_mech/civil/slab.py": "54ca57999580aaab0b9280eaa5991ed50926140f9f7abfb0812391aa8fba4837",
+    "docs/civil/foundation-and-production-system.md": "1ab6b8c9d285ba8d499585931ee4f257aea6048dade0663f8d9dda4128cff667",
+    "docs/civil/slab-trackforms.md": "4cfc64546779d623579038a389946c6edec76f40bf31ffd9b6e225932b91b1da",
+    "docs/rfcs/0007-control-electronics-reference-designs.md": "da4bf560f2fd2541e0eef3cf1f1c51b13607db55c7a0dfc35d59a4f7d51e1005",
+    "docs/rfcs/0019-diy-electronics.md": "8cb01a0893b89e80a964686b5e103f6daa05081b5f59bdea6781f0420d44236b",
+    "docs/rolling-stock/design-system.md": "631b31cd8e0640d9638ca40b0726b7e121588f63461471152a10dc32174e6303",
+    "engineering/baghdad_detail.py": "0b091e444b6cde6a222b82c34cdfa7663a367b140898f66b3a0954850a4eec58",
+    "engineering/data/baghdad-reference-parts.json": "5892d816571dcf4d47506c74e35a6c77565016afb577917d19ac763f2afed91c",
+    "lib/templates/rolling-stock.toml": "970747dff38b566799ff497a66bd9eb8372b49e129a85f7cc21ed7ab74596bd6"
+  },
+  "t_obs_power": {
+    "capacity_current_at_minimum_bus_a": 5.5169753086419755,
+    "consumption_measurement_status": "open; capacity is not sustained energy",
+    "input_current_at_minimum_bus_a": 4.41358024691358,
+    "input_envelope_w": 79.44444444444444,
+    "minimum_capacity_w": 99.30555555555556,
+    "selected_capacity_w": 100,
+    "simultaneous_output_w": 71.5
+  }
+}

@@ -29,9 +29,11 @@ See:
 
 ## Target BOM
 
-The custom-board target is carried by the rolling-stock procurement
-BOM as line E18. The DIY first article is sensor-dominated and costs
-about `$2.4k` per T-OBS module at single-unit retail.
+The historical custom-board planning allowance is carried by rolling-stock
+BOM line E18. The former ~$2.4k DIY subtotal is withdrawn as an assembled-host
+price: power, watchdogs, output feedback, harness and environmental integration
+were incomplete. Freeze and quote the complete assembly before reconciling the
+planning allowance. See [reference integration](../reference-integration.json).
 
 ## Status
 

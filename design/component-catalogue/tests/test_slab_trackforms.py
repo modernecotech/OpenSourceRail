@@ -16,6 +16,8 @@ from osr_mech.civil.slab import (
     at_grade_slab_panel,
     at_grade_twin_rail_y_positions,
     direct_fixation_seat_count,
+    direct_fixation_seat_positions,
+    BASEPLATE_PAD_LENGTH_MM,
     elevated_concrete_volume_m3,
     elevated_deck_slab_panel,
     elevated_rail_y_positions,
@@ -72,3 +74,22 @@ def test_track_panel_is_centred_on_shared_transverse_axis() -> None:
     box = track_panel().bounding_box()
     assert box.min.Y == -box.max.Y
     assert box.max.X > box.max.Y
+
+
+def test_panel_seats_fit_concrete_and_repeated_joint_pitch() -> None:
+    import pytest
+    for length in (6000.0, 6500.0, 5000.0, 260.0):
+        positions = direct_fixation_seat_positions(length)
+        assert positions[0] >= BASEPLATE_PAD_LENGTH_MM / 2
+        assert positions[-1] <= length - BASEPLATE_PAD_LENGTH_MM / 2
+        gaps = [b-a for a, b in zip(positions, positions[1:])]
+        gaps.append(length - positions[-1] + positions[0])
+        assert max(gaps) <= FASTENER_PITCH_MM
+        assert max(gaps) == pytest.approx(min(gaps))
+    assert direct_fixation_seat_positions() == [300.0+i*600 for i in range(10)]
+    for length in (0, -1, 259, float('nan'), float('inf')):
+        with pytest.raises(ValueError):
+            direct_fixation_seat_positions(length)
+    panel = at_grade_slab_panel().bounding_box()
+    assert panel.min.X >= 0
+    assert panel.max.X <= PANEL_LENGTH_MM

@@ -28,7 +28,7 @@ panel counts.
 | Base slab thickness | 250 mm |
 | Rail plinth width | 380 mm |
 | Rail plinth height above base slab | 160 mm |
-| Direct-fixation pitch | 650 mm |
+| Direct-fixation pitch | Maximum 650 mm; centred 600 mm on the 6 m reference module |
 | Rail seats per 6 m panel | 20 |
 | Nominal concrete per 6 m panel | 5.08 m3 |
 | Planning bare panel mass | 12.7 t |
@@ -54,7 +54,7 @@ concrete.
 | Alignment layer thickness | 40 mm; may be omitted by project design |
 | Rail plinth width | 380 mm |
 | Rail plinth height above base slab | 160 mm |
-| Direct-fixation pitch | 650 mm |
+| Direct-fixation pitch | Maximum 650 mm; centred 600 mm on the 6 m reference module |
 | Rail seats per 6 m panel | 20 |
 | Nominal concrete per 6 m panel | 1.38 m3 |
 
@@ -70,6 +70,24 @@ study justifies its dead weight.
 The cable/drainage trough is installed on the inner/non-egress side. The
 separate outer 1.0 m walkway/barrier cassette remains clear of service covers,
 cabinets, screen posts and other permanent obstructions.
+
+## Iraqi manufacture and complete seat kits
+
+The [Baghdad detailed engineering plan](../../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md)
+adds the local slab production route, prototype inspection, lifting/bedding
+requirements and a complete fastener child schedule. The 6 m module has ten
+seats per rail centred at 300, 900, …, 5700 mm, avoiding the former pad
+projection beyond the panel ends. Supplier anchor edge distances still require
+release. Continuous-run quantities retain the existing 650 mm planning basis;
+precast method zones use their own panel/seat installation schedule.
+
+Concrete volume and bare mass cover base/plinths only. The CAD service troughs
+are allocation envelopes; covers, drainage sections, steel, inserts, bedding and
+rigging need separate schedules. Make panels, cages, moulds, ducts and suitable
+metalwork in Iraq; source qualified fastener/anchor systems initially and qualify
+any localisation through system fatigue, stiffness, insulation and process tests.
+The catalogue does not issue a rebar schedule, mix grade, lifting approval or
+supplier drill pattern.
 
 ## FreeCAD Scene Renders
 

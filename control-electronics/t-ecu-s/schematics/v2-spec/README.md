@@ -1,57 +1,15 @@
-# T-ECU/S baseboard v2 — schematic specification
+# T-ECU-S board design requirements
 
-**Status:** v2 spec — PCB designer's input, not KiCad files yet.
-**Date:** 2026-04-22
-**Parent RFC:** [RFC 0007](../../../../docs/rfcs/0007-control-electronics-reference-designs.md)
-**Follows:** v1 bring-up runbook at
-[`control-electronics/t-ecu-s/bring-up.md`](../../bring-up.md)
+Status: reference integration requirements; exact supplier BOM, schematic capture, pin/connector freeze, enclosure/thermal design and qualification evidence are open. This is not sufficient information to fabricate a railway control board.
 
-## Scope
-
-Every signal, connector, power rail, and safety-critical net the
-v2 KiCad project needs. A PCB designer can capture the schematic
-directly from this doc; no missing information should force
-design-time guesswork.
-
-v1 delivered bring-up procedures on dev boards. **v2 is the
-first-article custom baseboard.** This doc is the input to the
-KiCad schematic capture; the `*.kicad_sch` + `*.kicad_pcb` +
-gerber files land once a reviewed schematic is produced from
-this spec.
-
-## Contents
-
-| File | Scope |
+| File | Current purpose |
 |---|---|
-| [`block-diagram.md`](block-diagram.md) | Top-level block diagram + inter-block nets |
-| [`power-budget.md`](power-budget.md) | 24 V input → every rail, with worst-case current per consumer |
-| [`pinout-rp2350.md`](pinout-rp2350.md) | Per-RP2350 pin allocation (A-channel + B-channel identical) |
-| [`pinout-cm5.md`](pinout-cm5.md) | CM5 SODIMM pinout on the baseboard |
-| [`connector-tables.md`](connector-tables.md) | Every external connector (M12, HSD Ethernet, M.2, header) with pin-by-pin function |
-| [`safety-nets.md`](safety-nets.md) | The 2oo2 cross-check, the hardware watchdog, the external AND-gate relay stage |
+| [block-diagram.md](block-diagram.md) | Functional paths and remaining common-cause boundaries |
+| [power-budget.md](power-budget.md) | Capacity calculation or required complete load study; no released converter/fuse rating |
+| [pinout-rp2350.md](pinout-rp2350.md) | Exposed-pin bench allocation or custom-board allocation requirements |
+| [connector-tables.md](connector-tables.md) | Interface/harness schedule; supplier cavities and exact connector variants open |
+| [safety-nets.md](safety-nets.md) | Hardware watchdog, permission/feedback and end-to-end fault contract |
 
-## Board envelope (from v1 spec)
+See [reference integration](../../../reference-integration.json), [host bench requirements](../../diy-assembly/README.md) and [release checklist](../../../release-checklist.md). T-ECU/S additionally carries [CM5 carrier requirements](pinout-cm5.md) in its own folder.
 
-- Dimensions: 160 × 100 mm Eurocard.
-- Layers: 4-layer FR-4, 0.15 mm trace/space, 0.3 mm min via.
-- Form factor: DIN-rail mount via flanking Phoenix-Contact DIN
-  adapters.
-- Conformal coated (MG Chemicals 419) post-assembly.
-- Connectors: M12 for field I/O on one long edge; HSD-style
-  Ethernet on the opposite long edge; M.2 slot on the CM5 side.
-
-## Revision control
-
-The v2 spec is pinned at this commit. Any deviation during
-schematic capture is logged in `deviations-log.md` alongside this
-file (created when the first deviation lands). Schematic + layout
-go under `control-electronics/t-ecu-s/schematics/v2-kicad/` once produced.
-Future Gerbers belong under `control-electronics/t-ecu-s/gerbers/v2-rev-A/` and the
-future board BOM under `control-electronics/t-ecu-s/bom/v2-rev-A.csv`; those directories
-are created only when real release artifacts exist.
-
-## Licensing
-
-This specification is CC-BY-SA 4.0 (inherits from the docs
-tree). The downstream KiCad project + gerbers + BOM will be
-CERN-OHL-S v2 per [ARCHITECTURE.md §9](../../../../docs/ARCHITECTURE.md#9-roadmap).
+A custom-board release needs the actual KiCad schematic/layout, ERC/DRC, controlled fabrication/BOM files, supplier interfaces and instrumented bring-up/fault/thermal/EMC evidence. Create fabrication directories when those artifacts exist. Do not manufacture from historical guessed pinouts or treat passing software/library tests as hardware acceptance.

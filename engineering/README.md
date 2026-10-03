@@ -12,6 +12,7 @@ component geometry.
 | [`models/bim/reference/`](models/bim/reference/) | Public IFC, IDS, BCF, validation and coordination review set |
 | [`models/digital-twins/`](models/digital-twins/) | Source-linked fabrication and construction review scenes |
 | [`assurance/`](assurance/) | Formal specifications and simulation-component coverage evidence |
+| [`baghdad_detail.py`](baghdad_detail.py) | Source-bound six-car Baghdad parts, software/ERP allocation and electronics sizing register; [design and Iraqi slab manufacture](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md) |
 | [`toolchain/`](toolchain/README.md) | Pinned external engineering applications and validation commands |
 
 Structural release calculations, surveys, ground data, supplier drawings and

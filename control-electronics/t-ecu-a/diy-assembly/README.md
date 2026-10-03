@@ -1,46 +1,21 @@
-# T-ECU/A DIY assembly
+# T-ECU-A bench assembly requirements
 
-Application-tier ECU (RFC 0007 §5). Single-redundant (not 2oo2).
-One T-ECU/A per train end of the cabless trainset (A end + B end,
-× 2 per trainset).
+Status: bench integration reference; hardware BOM, image, wiring and qualification are open. The [release checklist](../../release-checklist.md) governs the assembly. Exact SKUs and total prices are not frozen; previous retail subtotals omitted integration parts.
 
-## Bill of materials
+| Block | Required detail before assembly release |
+|---|---|
+| Compute and carrier | Exact CM5 configuration, compatible carrier, storage and cooling; 5 V input supplied correctly |
+| Field power | Approved input range, DC/DC, fuse/selectivity, surge/EMC, inrush and hold-up |
+| I/O and network | External CAN controller/transceiver where required, Ethernet switching, isolation, termination and pin map |
+| Security | Channel-local I2C secure element, provisioning and recovery process |
+| Harness/enclosure | Mating connectors, contacts, terminals, ferrules, wire cut list, clamps, labels, grounding and thermal design |
+| Output chain | Simulated loads for bench; qualified drivers, feedback and actuator interfaces before deployment |
+| Firmware/image | Real target HAL/driver mapping, immutable build, configuration/signature hashes and measured startup behaviour |
 
-| # | Part | SKU | Qty | Unit (USD) | Subtotal |
-|---|---|---|---|---|---|
-| 1 | Raspberry Pi CM5 8 GB Lite | SC1124 | 1 | 85 | 85 |
-| 2 | RPi CM5 IO Board | SC1125 | 1 | 35 | 35 |
-| 3 | Waveshare 2-CH CAN-FD HAT (HVAC + lighting buses) | 2-CH-CAN-FD-HAT | 1 | 28 | 28 |
-| 4 | Quectel RM500Q-GL M.2 5G modem | RM500Q-GL | 1 | 80 | 80 |
-| 5 | Quectel antennas 2×4 MIMO | YQ500-B7B | 1 | 35 | 35 |
-| 6 | Waveshare SX1262 LoRa HAT (TRG-2 backup radio) | SX1262-LoRa-HAT | 1 | 18 | 18 |
-| 7 | Adafruit ATECC608B trust anchor | Adafruit 4374 | 1 | 4 | 4 |
-| 8 | UCTRONICS DIN rail Pi enclosure | U6277 | 1 | 25 | 25 |
-| 9 | Mean Well HDR-60-24 DIN PSU | HDR-60-24 | 1 | 35 | 35 |
-| 10 | Phoenix terminal block | UT 2.5 DIN | 1 | 8 | 8 |
+Mean Well HDR-60-24 converts AC/high-voltage DC input to **24 V output**. It may supply a suitable isolated laboratory or mains-fed wayside setup, but cannot convert a 24 V field bus to 5 V. Onboard hosts require protected DC/DC supplies. No wiring from a mains terminal is released here.
 
-**Subtotal: ~$353 per T-ECU/A.**
+For the safety-host bench use the [validated exposed-pin allocation](../../reference-integration.json) as a proposed starting point and freeze any host-specific changes. SPI needs a digital isolator and controller/peripheral wiring; a USB isolator does not provide SPI or a direct link between two USB devices. Pico 2 GPIO30/31 and chip-package-only pins are not available on its header. Do not assume that a Pi CAN HAT independently serves both Pico channels.
 
-## What it runs
+For application/wayside/station hosts, the modem needs a compatible carrier and power/USB interface; multiple HATs require connector and pin conflict review. Size UPS, enclosure and converter loads from the complete host BOM. Application, station and wayside software disposition comes from [deployment/components.toml](../../../deployment/components.toml); TACS runtime remains a reference tooling host until qualified hardware composition is released.
 
-Per RFC 0005 §4.1 / §4.2: `osr-ato`, `osr-tcms`,
-`osr-event-recorder`, `osr-tcn`, `osr-regen`, `osr-aux-power`,
-`osr-hvac`, `osr-lighting`, `osr-pis-onboard`, `osr-hot-axle`,
-`osr-cbm-onboard`, `osr-t2g`.
-
-## Key point
-
-**T-ECU/A is not safety-critical.** A failure degrades comfort
-(HVAC, lighting, PIS), diagnostics visibility, or communications
-availability. The T-ECU/S + T-OBS + brake relay chain stays
-operational without it, so this is the simplest DIY host class:
-one Pi, three HATs, one enclosure.
-
-## Commissioning
-
-```bash
-sudo osr-selftest --role t-ecu-a
-```
-
-Exercises radios + CAN buses + ATECC608B + the application
-crate set.
+Confirm GPIO voltage domains, loss-of-power state, wiring continuity/insulation, bus timing, EMI, thermal soak, image boot and recorded self-test on the actual revision. Procurement, construction and train actuation require the released package, not this list.

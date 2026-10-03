@@ -12,8 +12,8 @@ Bulk (50+) pricing typically 20–40 % lower per unit.
 | Part | SKU | Distributor 1 | Distributor 2 | Retail (USD) |
 |---|---|---|---|---|
 | Raspberry Pi Pico 2 | SC1630 | Official Pi Foundation | Mouser, DigiKey | $5 |
-| Raspberry Pi CM5 8 GB Lite | SC1124 | Official Pi Foundation | Mouser | $85 |
-| Raspberry Pi CM5 IO Board | SC1125 | Official Pi Foundation | Pimoroni | $35 |
+| Raspberry Pi CM5 8 GB Lite | CM5 configuration/SKU pending freeze | Official Pi Foundation | Mouser | $85 |
+| Raspberry Pi CM5 IO Board | CM5IO vendor SKU pending freeze | Official Pi Foundation | Pimoroni | $35 |
 | Radxa CM5 industrial-temp | rock-cm5-industrial | Radxa store | ALLNET china | $110 |
 | Radxa CM5 IO Board | rock-cm5-io | Radxa store | ALLNET china | $40 |
 
@@ -42,7 +42,7 @@ Bulk (50+) pricing typically 20–40 % lower per unit.
 | Part | SKU | Distributor 1 | Distributor 2 | Retail (USD) |
 |---|---|---|---|---|
 | HC-SR04 ultrasonic transceiver (dev grade) | HC-SR04 | AliExpress | Amazon | $2 each |
-| Murata MA40H1S-R (production grade) | MA40H1S-R | Mouser | DigiKey | $25 each |
+| Murata MA40H1S-R (historical candidate; lifecycle and environmental qualification open) | MA40H1S-R | Mouser | DigiKey | $25 each |
 | TI AWR1843BOOST 77 GHz radar eval | AWR1843BOOST | ti.com | Mouser | $500 |
 | Livox HAP solid-state LIDAR | LIVOX-HAP | Livox direct | B&H Photo | $1500 |
 | Raspberry Pi Camera Module 3 | SC0872 | Official Pi Foundation | Mouser | $35 |
@@ -101,3 +101,7 @@ For a full Samawah deployment (10 trainsets + 30 km of track =
 legacy CBTC system at ~€50M for an equivalent network — two
 orders of magnitude difference dominated by NRE on the legacy
 side.
+
+## Interface correction, 3 October 2026
+
+This is a historical candidate/retail list, not a complete qualified procurement BOM. [Reference integration](../reference-integration.json) and revised host assembly requirements supersede earlier wiring and subtotals. Exact supplier SKUs, lifecycle and alternates require verification. A raw piezo transducer is not a plug-compatible ultrasonic ranging module; an ADS1115 is not a timed digital-echo capture device. USB isolation does not implement an SPI link. Include external heartbeat watchdogs, DC/DCs, driver feedback, connectors, fuses, harness, thermal and test hardware before quoting totals.

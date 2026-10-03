@@ -4,6 +4,19 @@
 **Date:** 2026-08-30 (v1.2 separates commodity application hosts from safety channels)
 **Depends on:** [RFC 0005 SBC Software Architecture](0005-sbc-software-architecture.md), [RFC 0006 `osr-tcn` design](0006-osr-tcn-design.md)
 
+## Hardware interface review — 3 October 2026
+
+The [revised host specifications](../../control-electronics/README.md) and
+[reference integration](../../control-electronics/reference-integration.json)
+correct the earlier draft's unverified wiring and complete-host assumptions.
+CM5 uses dual 100-pin connectors; Pico 2 needs external CAN/Ethernet controllers;
+TPS3701 is a voltage detector, not a heartbeat watchdog. T-OBS requires the
+recalculated carrier/sensor/startup envelope and a complete harness/protection
+BOM. Exact SKUs, prices, pin assignments, relay failure behaviour, cooling and
+qualification remain open. Historical custom-board cost envelopes below are
+planning allowances, not complete qualified procurement totals. Refer to
+[RFC 0019](0019-diy-electronics.md) for the corrected bench scope.
+
 ## 1. Summary
 
 This RFC fixes the custom-board reference designs for the physical
@@ -272,7 +285,7 @@ Production evaluator channels pass the same safety-controller selection gate.
 |---|---|---|
 | Ultrasonic transceivers (40 kHz, 200 µs drive, 10-bit ADC) | 4 | Close-range safety belt per RFC 0015 §5.1 |
 | CAN-FD to mmWave radar (TI AWR1843 or eq.) | 1 | All-weather long-range |
-| 1000BASE-T Ethernet to LIDAR (Livox HAP / Tele / RoboSense M1) | 1 | Mid-range 3D primary |
+| Vendor-specific Ethernet to LIDAR (HAP TX: 100BASE-TX; HAP T1: 100BASE-T1) | 1 | Candidate-specific interface; other models separately verified |
 | MIPI-CSI to stereo camera pair (IMX477 / IMX219) | 2 | Classification |
 | TSN Ethernet | 2 | TCN-E A/B back to T-ECU/S + T-ECU/A |
 | CCA-B2B to T-ECU/S | 1 | Direct brake-demand line (2oo2 AND-gate stage) |

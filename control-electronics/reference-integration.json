@@ -1,0 +1,77 @@
+{
+  "schema": "osr-electronics-reference/1",
+  "status": "bench-design-not-released",
+  "host": "t-obs",
+  "auxiliary_bus_nominal_v": 24,
+  "minimum_design_bus_v": 18,
+  "conversion_efficiency": 0.9,
+  "capacity_margin": 0.25,
+  "loads": [
+    {
+      "id": "compute-and-cameras",
+      "voltage_v": 5,
+      "power_w": 25,
+      "basis": "CM5IO 5 V/5 A carrier input envelope; includes attached cameras, not an extra camera load"
+    },
+    {
+      "id": "radar",
+      "voltage_v": 5,
+      "power_w": 12.5,
+      "basis": "TI EVM 5 V/2.5 A interface envelope; not measured sustained load"
+    },
+    {
+      "id": "lidar-startup",
+      "voltage_v": 12,
+      "power_w": 26,
+      "basis": "Livox HAP startup specification"
+    },
+    {
+      "id": "safety-and-integration",
+      "voltage_v": 3.3,
+      "power_w": 8,
+      "basis": "Engineering allowance for dual evaluators, monitoring, isolators, relays and adapters; measurement pending"
+    }
+  ],
+  "selected_reference_supply_capacity_w": 100,
+  "bench_gpio": {
+    "i2c_sda": 0,
+    "i2c_scl": 1,
+    "peer_spi_sck": 2,
+    "peer_spi_tx": 3,
+    "peer_spi_rx": 4,
+    "peer_spi_cs": 5,
+    "external_can_spi_sck": 10,
+    "external_can_spi_tx": 11,
+    "external_can_spi_rx": 12,
+    "external_can_spi_cs": 13,
+    "permission_output": 14,
+    "watchdog_heartbeat": 15,
+    "ultrasonic_trigger": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "ultrasonic_echo": [
+      20,
+      21,
+      22,
+      26
+    ]
+  },
+  "pinout_boundary": "Pico 2 bench allocation only. Custom RP2350A/B package allocation and board revision require separate freeze. CAN-FD needs external controller/transceiver; Ethernet needs external controller. ATECC608B breakout uses I2C, not SPI.",
+  "output_contract": {
+    "permission_high": "Valid fresh agreed clear verdict AND healthy local channel AND external watchdog permit",
+    "permission_low": "Boot, invalid/stale/disagreeing verdict, reset or watchdog timeout",
+    "series_contacts": 2,
+    "feedback_required": true,
+    "qualified_relay_part_number": null
+  },
+  "sources": {
+    "cm5": "https://www.raspberrypi.com/documentation/computers/compute-module.html",
+    "pico2": "https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf",
+    "radar": "https://www.ti.com/lit/ug/spruim4b/spruim4b.pdf",
+    "lidar": "https://www.livoxtech.com/hap/specs",
+    "voltage_monitor": "https://www.ti.com/product/TPS3701"
+  }
+}

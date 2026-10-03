@@ -6,6 +6,17 @@ MariaDB, Redis, workers, scheduler, websocket server and nginx frontend.
 Use the root `./osr erp` launcher. Setup, ownership, import and backup procedures
 are in the [operating platform guide](../../docs/operating/README.md).
 Secrets and local configuration live under `var/erpnext/`, outside this tree.
+
+MariaDB stores its data in the persistent `db-data` volume and temporary InnoDB
+files in a separate bounded 512 MiB `/tmp` filesystem (mode 1777). A healthy
+container and a successful `/api/method/ping` response are separate checks from
+the city planning validators. If MariaDB reports missing temporary files, retain
+the data volume and restore temporary storage; do not reinitialise the database.
+
+The [Baghdad detailed engineering register](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md)
+lists reference parts and ERP handover requirements. These rows are not live
+Items, submitted BOMs or approved Work Orders; import only a released, priced
+family MBOM with real company, warehouse, operator and supplier inputs.
 The generated [catalogue readiness report](../../docs/operating/readiness.md)
 validates all city profiles and component packages and identifies which full
 task payloads still need on-demand materialisation before import.

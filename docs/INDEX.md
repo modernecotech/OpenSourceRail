@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5036**.
+Indexed Markdown files: **5038**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **5036**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4341 |
+| [cities](#cities) | 4343 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -3416,11 +3416,13 @@ Indexed Markdown files: **5036**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md) | Amarah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md) | Amarah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md) | Amarah Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md`](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md) | Baghdad detailed engineering and Iraqi manufacturing plan |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md) | Baghdad detailed component register |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) | Baghdad financing reconciliation and six-month placement programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
@@ -4405,7 +4407,7 @@ Indexed Markdown files: **5036**.
 | File | Title |
 |---|---|
 | [`control-electronics/README.md`](../control-electronics/README.md) | OpenSourceRail Control Electronics |
-| [`control-electronics/diy-assembly/README.md`](../control-electronics/diy-assembly/README.md) | DIY plug-and-play assembly — RFC 0019 |
+| [`control-electronics/diy-assembly/README.md`](../control-electronics/diy-assembly/README.md) | Bench assembly workflow |
 | [`control-electronics/diy-assembly/parts-catalogue.md`](../control-electronics/diy-assembly/parts-catalogue.md) | DIY parts catalogue |
 | [`control-electronics/diy-assembly/sd-card-images.md`](../control-electronics/diy-assembly/sd-card-images.md) | DIY SD-card images |
 | [`control-electronics/diy-assembly/tooling.md`](../control-electronics/diy-assembly/tooling.md) | DIY assembly — tools + materials |
@@ -4413,36 +4415,36 @@ Indexed Markdown files: **5036**.
 | [`control-electronics/rolling-stock-integration.md`](../control-electronics/rolling-stock-integration.md) | Rolling-stock hardware integration |
 | [`control-electronics/s-sbc/README.md`](../control-electronics/s-sbc/README.md) | S-SBC — Station / Depot |
 | [`control-electronics/s-sbc/bring-up.md`](../control-electronics/s-sbc/bring-up.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
-| [`control-electronics/s-sbc/diy-assembly/README.md`](../control-electronics/s-sbc/diy-assembly/README.md) | S-SBC DIY assembly |
+| [`control-electronics/s-sbc/diy-assembly/README.md`](../control-electronics/s-sbc/diy-assembly/README.md) | S-SBC bench assembly requirements |
 | [`control-electronics/s-sbc/schematics/v2-spec/README.md`](../control-electronics/s-sbc/schematics/v2-spec/README.md) | S-SBC v2 schematic specification |
 | [`control-electronics/safety-controller-selection.md`](../control-electronics/safety-controller-selection.md) | Safety-controller selection gate |
 | [`control-electronics/t-ecu-a/README.md`](../control-electronics/t-ecu-a/README.md) | T-ECU/A — Train Application |
 | [`control-electronics/t-ecu-a/bring-up.md`](../control-electronics/t-ecu-a/bring-up.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
-| [`control-electronics/t-ecu-a/diy-assembly/README.md`](../control-electronics/t-ecu-a/diy-assembly/README.md) | T-ECU/A DIY assembly |
+| [`control-electronics/t-ecu-a/diy-assembly/README.md`](../control-electronics/t-ecu-a/diy-assembly/README.md) | T-ECU-A bench assembly requirements |
 | [`control-electronics/t-ecu-a/schematics/v2-spec/README.md`](../control-electronics/t-ecu-a/schematics/v2-spec/README.md) | T-ECU/A v2 schematic specification |
 | [`control-electronics/t-ecu-a/schematics/v2-spec/block-diagram.md`](../control-electronics/t-ecu-a/schematics/v2-spec/block-diagram.md) | T-ECU/A v2 — block diagram |
 | [`control-electronics/t-ecu-s/README.md`](../control-electronics/t-ecu-s/README.md) | T-ECU/S — Train Safety Kernel |
 | [`control-electronics/t-ecu-s/bring-up.md`](../control-electronics/t-ecu-s/bring-up.md) | T-ECU/S bring-up — two Raspberry Pi Pico 2 boards in 2oo2 |
-| [`control-electronics/t-ecu-s/diy-assembly/README.md`](../control-electronics/t-ecu-s/diy-assembly/README.md) | T-ECU/S DIY assembly |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/README.md`](../control-electronics/t-ecu-s/schematics/v2-spec/README.md) | T-ECU/S baseboard v2 — schematic specification |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/block-diagram.md`](../control-electronics/t-ecu-s/schematics/v2-spec/block-diagram.md) | T-ECU/S v2 — block diagram |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/connector-tables.md`](../control-electronics/t-ecu-s/schematics/v2-spec/connector-tables.md) | T-ECU/S v2 — connector pinouts |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/pinout-cm5.md`](../control-electronics/t-ecu-s/schematics/v2-spec/pinout-cm5.md) | T-ECU/S v2 — CM5 SODIMM pinout on the baseboard |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/pinout-rp2350.md`](../control-electronics/t-ecu-s/schematics/v2-spec/pinout-rp2350.md) | T-ECU/S v2 — RP2350 pin allocation (per channel) |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/power-budget.md`](../control-electronics/t-ecu-s/schematics/v2-spec/power-budget.md) | T-ECU/S v2 — power budget |
-| [`control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md`](../control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md) | T-ECU/S v2 — safety-critical nets |
+| [`control-electronics/t-ecu-s/diy-assembly/README.md`](../control-electronics/t-ecu-s/diy-assembly/README.md) | T-ECU-S bench assembly requirements |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/README.md`](../control-electronics/t-ecu-s/schematics/v2-spec/README.md) | T-ECU-S board design requirements |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/block-diagram.md`](../control-electronics/t-ecu-s/schematics/v2-spec/block-diagram.md) | T-ECU/S reference functional diagram |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/connector-tables.md`](../control-electronics/t-ecu-s/schematics/v2-spec/connector-tables.md) | T-ECU/S external interface schedule |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/pinout-cm5.md`](../control-electronics/t-ecu-s/schematics/v2-spec/pinout-cm5.md) | T-ECU/S application carrier interface requirements |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/pinout-rp2350.md`](../control-electronics/t-ecu-s/schematics/v2-spec/pinout-rp2350.md) | T-ECU/S MCU allocation requirements |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/power-budget.md`](../control-electronics/t-ecu-s/schematics/v2-spec/power-budget.md) | T-ECU/S host power design requirements |
+| [`control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md`](../control-electronics/t-ecu-s/schematics/v2-spec/safety-nets.md) | T-ECU-S hardware permission and fault contract |
 | [`control-electronics/t-obs/README.md`](../control-electronics/t-obs/README.md) | T-OBS — Train Obstacle Detection |
-| [`control-electronics/t-obs/diy-assembly/README.md`](../control-electronics/t-obs/diy-assembly/README.md) | T-OBS DIY assembly |
-| [`control-electronics/t-obs/schematics/v2-spec/README.md`](../control-electronics/t-obs/schematics/v2-spec/README.md) | T-OBS v2 schematic specification |
-| [`control-electronics/t-obs/schematics/v2-spec/block-diagram.md`](../control-electronics/t-obs/schematics/v2-spec/block-diagram.md) | T-OBS v2 — block diagram |
-| [`control-electronics/t-obs/schematics/v2-spec/connector-tables.md`](../control-electronics/t-obs/schematics/v2-spec/connector-tables.md) | T-OBS v2 — connector tables |
-| [`control-electronics/t-obs/schematics/v2-spec/pinout-rp2350.md`](../control-electronics/t-obs/schematics/v2-spec/pinout-rp2350.md) | T-OBS v2 — RP2350 A + B pinouts |
-| [`control-electronics/t-obs/schematics/v2-spec/power-budget.md`](../control-electronics/t-obs/schematics/v2-spec/power-budget.md) | T-OBS v2 — power budget |
-| [`control-electronics/t-obs/schematics/v2-spec/safety-nets.md`](../control-electronics/t-obs/schematics/v2-spec/safety-nets.md) | T-OBS v2 — safety-critical nets |
+| [`control-electronics/t-obs/diy-assembly/README.md`](../control-electronics/t-obs/diy-assembly/README.md) | T-OBS bench integration design |
+| [`control-electronics/t-obs/schematics/v2-spec/README.md`](../control-electronics/t-obs/schematics/v2-spec/README.md) | T-OBS board design requirements |
+| [`control-electronics/t-obs/schematics/v2-spec/block-diagram.md`](../control-electronics/t-obs/schematics/v2-spec/block-diagram.md) | T-OBS reference functional diagram |
+| [`control-electronics/t-obs/schematics/v2-spec/connector-tables.md`](../control-electronics/t-obs/schematics/v2-spec/connector-tables.md) | T-OBS connector and harness design schedule |
+| [`control-electronics/t-obs/schematics/v2-spec/pinout-rp2350.md`](../control-electronics/t-obs/schematics/v2-spec/pinout-rp2350.md) | T-OBS pin allocation and peripheral boundary |
+| [`control-electronics/t-obs/schematics/v2-spec/power-budget.md`](../control-electronics/t-obs/schematics/v2-spec/power-budget.md) | T-OBS reference power and thermal envelope |
+| [`control-electronics/t-obs/schematics/v2-spec/safety-nets.md`](../control-electronics/t-obs/schematics/v2-spec/safety-nets.md) | T-OBS hardware permission and fault contract |
 | [`control-electronics/trainset-interiors.md`](../control-electronics/trainset-interiors.md) | Trainset interiors and closures — COTS equipment catalogue |
 | [`control-electronics/w-sbc/README.md`](../control-electronics/w-sbc/README.md) | W-SBC — Wayside |
 | [`control-electronics/w-sbc/bring-up.md`](../control-electronics/w-sbc/bring-up.md) | W-SBC bring-up — Radxa CM5 IO Board |
-| [`control-electronics/w-sbc/diy-assembly/README.md`](../control-electronics/w-sbc/diy-assembly/README.md) | W-SBC DIY assembly |
+| [`control-electronics/w-sbc/diy-assembly/README.md`](../control-electronics/w-sbc/diy-assembly/README.md) | W-SBC bench assembly requirements |
 | [`control-electronics/w-sbc/schematics/v2-spec/README.md`](../control-electronics/w-sbc/schematics/v2-spec/README.md) | W-SBC v2 schematic specification |
 | [`control-electronics/w-sbc/schematics/v2-spec/block-diagram.md`](../control-electronics/w-sbc/schematics/v2-spec/block-diagram.md) | W-SBC v2 — block diagram |
 

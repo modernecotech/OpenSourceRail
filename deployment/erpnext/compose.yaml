@@ -20,6 +20,9 @@ services:
       MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:?Run ./osr erp init first}
     volumes:
       - db-data:/var/lib/mysql
+    # InnoDB requires writable temporary storage independently of the data volume.
+    tmpfs:
+      - /tmp:mode=1777,size=512m
     healthcheck:
       test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
       interval: 5s
