@@ -441,8 +441,13 @@ def test_readme_is_concise_local_summary_with_common_reference() -> None:
     assert "## Capital And Funding" in text
     assert "## Local Evidence" in text
     assert "## Local Files And Regeneration" in text
-    assert "External capital saved vs default turnkey sensitivity" in text
-    assert "Capital + lifetime external interest saved" in text
+    assert "## Iraq funding" in text
+    for capital_source in ("chinese export credit", "government", "domestic bonds", "bank credit"):
+        assert f"| {capital_source} |" in text
+    assert "uncommitted" in text
+    assert "Peak annual government cash" in text
+    assert "funding-monthly-cashflow.csv" in text
+    assert "funding-annual-cashflow.csv" in text
     assert "| Finance | pass |" in text
     assert "| Native simulation + degraded cases | pass |" in text
     assert "| SUMO timetable | pass |" in text

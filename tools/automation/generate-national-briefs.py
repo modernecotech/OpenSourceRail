@@ -237,6 +237,15 @@ def render_brief(
                 "",
             ]
         )
+        if country_code == "IQ":
+            # Keep catalogue-wide comparisons separate from the scheduled
+            # funding structure for the three refreshed implementation examples.
+            out = [line for line in out if not any(label in line for label in (
+                "Annual external capital draw", "Annual local capital draw",
+                "Annual public construction commitment", "Annual post-grace debt service"))]
+            position = out.index("## National Programme")
+            out[position:position] = ["## Iraq financing", "",
+                "The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled Chinese export-credit, government, IQD bond and IQD bank-credit proposal for **Baghdad, Samawah and Mosul**, including one shared plant, is in the [Iraq funding programme](IRAQ-FUNDING-PROGRAMME.md). Other Iraqi cities are outside that three-city cashflow.", ""]
         return "\n".join(out)
 
     out = [

@@ -1,5 +1,6 @@
 import hashlib
 import json
+import tomllib
 from pathlib import Path
 
 
@@ -55,5 +56,20 @@ def test_baghdad_engineering_evidence_matches_offer_baseline():
     assert package["stale_analysis_sources"] == []
     assert simulation["passed"] and simulation["resilience_passed"]
     assert len(simulation["resilience_cases"]) == 8
-    assert sumo["passed"] and sum(line["arrived_services"] for line in sumo["lines"]) == 36
-    assert gis["passed"] and gis["layers"]["civil_segments"] == 2312
+    design = tomllib.loads((city / "design.toml").read_text())
+    assert sumo["passed"] and sum(line["arrived_services"] for line in sumo["lines"]) == sum(line["scheduled_services"] for line in sumo["lines"])
+    assert gis["passed"] and gis["layers"]["civil_segments"] == len(design["civil_segments"])
+    assert package["planning_example_complete"]
+    assert not package["operational_release"]
+
+
+def test_offer_text_uses_current_configuration_and_funding():
+    city = OFFER.parent
+    design = tomllib.loads((city / "design.toml").read_text())
+    fleet = sum(row["trainset_count"] for row in design["fleets"])
+    finance = json.loads((city / "engineering/finance/summary.json").read_text())
+    text = (OFFER / "README.md").read_text()
+    assert f"{fleet} six-car trainsets" in text
+    assert f"USD {finance['capex_usd']['reconciled_project_total']/1e9:.2f} billion" in text
+    assert "uncommitted appraisal assumptions" in text
+    assert "IQD bank credit" in text

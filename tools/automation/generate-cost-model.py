@@ -158,6 +158,7 @@ def render_cost_model() -> str:
         "| Generated rolling-stock BOM CSV | `build/bom/rolling_stock_bom.csv` via `tools/automation/export-light-metro-bom.py` |",
         "| Recalculated LM3 build cost | `design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json` |",
         "| Country finance and fare assumptions | `lib/templates/country-finance.toml` |",
+        "| Schedule-linked Iraq funding assumptions, native-currency debt and downside cashflow | `lib/templates/iraq-funding.toml` and `osr_scenario/iraq_finance.py` |",
         "| Broad-benefit assumptions | `lib/templates/economic-benefits.toml` |",
         "",
         "Generated `*_eur` fields are converted reporting views at "
@@ -473,6 +474,8 @@ def render_cost_model() -> str:
         "scales with service hours, lines, revenue fleet, station archetypes, "
         "high-case paid trips, annual train-km, depots, and the RFC 0015 shift of "
         "safety staff from train cabs to OCC and platform posts.",
+        "",
+        "For Iraq, the primary [structured funding programme](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) replaces the generic uniform-construction funding screen. Chinese buyer credit is proposed only for assumed eligible component invoices; government, IQD bonds and IQD term credit fund the remainder. Monthly native-currency balances, staged draws, fees, cash reserves, public support and uncovered downside gaps are explicit. Rates and tenors are assumptions, not offers. The retained Iraq income figure is a planning proxy, not a verified current household median.",
         "",
         "The maintenance percentages are planning-cost envelopes. The actual work "
         "content and inspection intervals are controlled by "

@@ -1,11 +1,11 @@
 {
   "schema_version": "1.12",
   "city": "Mosul",
-  "validated_on": "2026-09-29",
+  "validated_on": "2026-10-03",
   "generator": "tools/automation/validate-city-simulation.py",
-  "generator_sha256": "c753136e6f7c097615919f56e8fd1fb0d6afd684365f2ddbe7de2d3d16c2cdbe",
+  "generator_sha256": "de6428ff6633f7ce9f163c92b2928d63085040329f0de9e23e9afe4520435b1e",
   "simulator_binary": "target/release/osr-sim",
-  "simulator_sha256": "b3a0c8f4b642f96f90032bff8e2a322f146bea4193bb87a8f9c68a291394b4b8",
+  "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
   "design_sha256": "5252888f89f92bf2c05a5a6dbb11c8eea2c5676f98a8ff6dfd825d210a02e53c",
   "scenario": "../../../mosul.toml",
   "scenario_sha256": "593ef80ed85ea0e43184035fc43a678161a96e41592db5c3ca0ab08fe3dde076",
@@ -101,6 +101,18 @@
   "runs": [
     {
       "label": "2-hour screenshot trace",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "593ef80ed85ea0e43184035fc43a678161a96e41592db5c3ca0ab08fe3dde076",
+          "duration_s": 7200,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "a25322c848053e5a00cdbe32b0e6c1f03ec9dbf735fc7436dd0c7af18722987d",
+        "cache_key": "b10437380ccf13a038f3fd958747de58dd6c1400209a16dd02a610052702834c",
+        "cache_reused": false
+      },
       "duration_s": 7200,
       "train_km": 6184.19773906414,
       "energy_consumed_kwh": 66499.36926269531,
@@ -287,6 +299,18 @@
     },
     {
       "label": "Full 05:30\u201302:00 service plus run-out",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "593ef80ed85ea0e43184035fc43a678161a96e41592db5c3ca0ab08fe3dde076",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "0bb17546f4bd340123158108de9bb86ab526170b2725a47563dba9289b4a1583",
+        "cache_key": "3e9d8f7c4847eeb816662513e96f3491d17352eaad3bb00f5d9eaef4b6f9db86",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80664.75287323318,
       "energy_consumed_kwh": 867397.1540222168,
@@ -492,6 +516,18 @@
   "resilience_cases": [
     {
       "label": "80% end-of-life battery capacity",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "93d0ea94197710b966cf82e177e775a046753b68ebbbdc92f5b37807a323b978",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "8bd01fde0ab777d3cae9a983c19af10718275f608cad35d1603a95791bdc868c",
+        "cache_key": "591cfbd1d6ac30843b47311403932d16300cbca6fe54698860cd4d2cbab20935",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80664.75287323318,
       "energy_consumed_kwh": 867396.266998291,
@@ -687,6 +723,18 @@
     },
     {
       "label": "maximum planning climate/HVAC duty",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "c978dd373e2d00d150c24401832555edea440359b0e712aee97eca90452c3353",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "f7fed5935e77f2d31d14548e071a88f7d1bb8768302aca6d672268827d2409c3",
+        "cache_key": "ba634a074133291f5428c0ec00738108f8a4f967284f8213b72d061c7449e9ce",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80660.25987323314,
       "energy_consumed_kwh": 975671.9808502197,
@@ -882,6 +930,18 @@
     },
     {
       "label": "50% charging-contact availability",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "7a1e91752745d8b56dae55031217a08d6ba59292ad1f6737bc6367bccdababcc",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "0bb17546f4bd340123158108de9bb86ab526170b2725a47563dba9289b4a1583",
+        "cache_key": "15288b221bad1c793cb06e91be428c512ae08faea46521c5433639fbb62f6e95",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80664.75287323318,
       "energy_consumed_kwh": 867397.1540222168,
@@ -1077,6 +1137,18 @@
     },
     {
       "label": "ten-hour all-site grid outage",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "c033a61cd150b6e3ac1173d218936f26b7437c2309f0c19c52cf845c29efb181",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "b74000e214467e1ce89aed275ea3c24fd1c3ca5058221ad32eb46b96f77319ee",
+        "cache_key": "4baefc91497c0aecfc1f9cbad7234824158d4e68c4c145ada2c56b8e7fb39a53",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 54788.33347849995,
       "energy_consumed_kwh": 589119.7832641602,
@@ -1272,6 +1344,18 @@
     },
     {
       "label": "combined 80% aged battery and maximum climate/HVAC duty",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "9d938daabeab14429a142502bda72579401a956817aeb408e9693cbfb8648e95",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "80c7d5658a8e91bfa6785d92973664fa4968805825f698afb1f56be82566e877",
+        "cache_key": "7aa9e6a1c9e9332178c38f6a9aa78d5c7c6eec7adab192705bd9d6695418c264",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80564.63587323132,
       "energy_consumed_kwh": 974515.2956542969,
@@ -1467,6 +1551,18 @@
     },
     {
       "label": "ten-hour single charging-pad outage",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "cbd83be4087da9feba81d7cfd596d4bda7f72381516a81a2a84add8f5de800ae",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "7fd4ba7dd03b09e66556ce0fea90ae85ffb8253f16e78fbc2f5341474920dcbb",
+        "cache_key": "05b5f58d042cf1cacfa9a4e9b3b00eff6703e4541264503e7f7e7e195003912d",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80664.75287323318,
       "energy_consumed_kwh": 867396.6945800781,
@@ -1662,6 +1758,18 @@
     },
     {
       "label": "consecutive missed charging stops",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "cd59cca37e1a1f913ac408357b947e44cf4d22adc5b9921d550fd1471b6120f1",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "840d5179517236a6b681a7e4a9c959514debc02621e690f27c6b195173cf9760",
+        "cache_key": "d92a2abfde27f2f2eb3b9b2028a31d8c9df13878dc6ff4743d5e5816e528108e",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80564.07987323099,
       "energy_consumed_kwh": 866313.6695556641,
@@ -1857,6 +1965,18 @@
     },
     {
       "label": "late-running shared-charger conflict",
+      "execution_receipt": {
+        "inputs": {
+          "simulator_sha256": "e1d3b149201eb21d7cc9ea1cac68a069350a9cddfd520db8ee77449da6b8a556",
+          "scenario_sha256": "9b5e23da48ab3803add96b259de6df6a69adc1099dc0d96fbcd659543cd92733",
+          "duration_s": 90000,
+          "compact_json": true,
+          "ma_check_every": 0
+        },
+        "output_sha256": "4d9c3b54a3e53b998142a6d2793a4251360f5e0627aa56d5b23b82d2afaef080",
+        "cache_key": "ec82fd0cedb99268924404becb56bb3b8bf8b53b20741771dc1eb3cde3c865a9",
+        "cache_reused": false
+      },
       "duration_s": 90000,
       "train_km": 80630.20887323174,
       "energy_consumed_kwh": 867025.7200622559,

@@ -9,6 +9,8 @@ import json
 import tomllib
 from pathlib import Path
 
+from finance_evidence import stale_finance_sources
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -34,6 +36,7 @@ def main() -> int:
             continue
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
         finance = json.loads(finance_path.read_text(encoding="utf-8"))
+        findings.extend(f"{prefix} stale finance input {item['source']}" for item in stale_finance_sources(finance, ROOT))
         family_set = {
             str(line["rolling_stock"])
             for line in design.get("lines", [])
@@ -75,6 +78,8 @@ def main() -> int:
             "planned_purchase_orders": int(totals.get("planned_purchase_orders", 0)),
         })
 
+    if args.city and not rows:
+        findings.append(f"requested city {args.city!r} was not found or lacks required summaries")
     mechanical = audit_mechanical(findings)
     civil = audit_civil(findings)
     payload = {

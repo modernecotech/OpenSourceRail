@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5012**.
+Indexed Markdown files: **5032**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5012**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4318 |
+| [cities](#cities) | 4337 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 184 |
+| [docs](#docs) | 185 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -3404,6 +3404,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md) | Amarah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md) | Amarah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md) | amarah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Amarah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/finance/FUNDING-MODEL.md) | Amarah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md) | Amarah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/soil/README.md) | Amarah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3420,6 +3421,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md) | Baghdad civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3437,6 +3439,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md) | Baqubah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md) | Baqubah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md) | baqubah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/finance/FUNDING-MODEL.md) | Baqubah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md) | Baqubah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/soil/README.md) | Baqubah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3453,6 +3456,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md) | Basra organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md) | Basra deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md) | basra depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Basra/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/finance/FUNDING-MODEL.md) | Basra — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md) | Basra operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/soil/README.md) | Basra civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3469,6 +3473,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md) | Diwaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md) | Diwaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md) | diwaniyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/finance/FUNDING-MODEL.md) | Diwaniyah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md) | Diwaniyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/soil/README.md) | Diwaniyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3485,6 +3490,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md) | Duhok organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md) | Duhok deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md) | duhok depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Duhok/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/finance/FUNDING-MODEL.md) | Duhok — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md) | Duhok operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/soil/README.md) | Duhok civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3501,6 +3507,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md) | Erbil organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md) | Erbil deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md) | erbil depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Erbil/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/finance/FUNDING-MODEL.md) | Erbil — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md) | Erbil operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/soil/README.md) | Erbil civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3517,6 +3524,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md) | Fallujah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md) | Fallujah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md) | fallujah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/finance/FUNDING-MODEL.md) | Fallujah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md) | Fallujah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/soil/README.md) | Fallujah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3533,6 +3541,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md) | Hillah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md) | Hillah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md) | hillah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Hillah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/finance/FUNDING-MODEL.md) | Hillah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md) | Hillah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/soil/README.md) | Hillah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3544,11 +3553,13 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md) | Hillah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md) | Hillah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md) | Hillah Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md`](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) | Iraq three-city funding programme |
 | [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md) | Karbala Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md) | Karbala organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md) | Karbala deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md) | karbala depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Karbala/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/finance/FUNDING-MODEL.md) | Karbala — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md) | Karbala operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/soil/README.md) | Karbala civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3565,6 +3576,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md) | Kirkuk organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md) | Kirkuk deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md) | kirkuk depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/finance/FUNDING-MODEL.md) | Kirkuk — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md) | Kirkuk operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/soil/README.md) | Kirkuk civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3581,6 +3593,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md) | Kut organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md) | Kut deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md) | kut depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Kut/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/finance/FUNDING-MODEL.md) | Kut — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md) | Kut operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/soil/README.md) | Kut civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3597,6 +3610,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md) | Mosul organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md) | Mosul deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md) | mosul depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Mosul/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/finance/FUNDING-MODEL.md) | Mosul — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md) | Mosul operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md) | Mosul civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3614,6 +3628,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md) | Najaf organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md) | Najaf deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md) | najaf depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Najaf/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/finance/FUNDING-MODEL.md) | Najaf — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md) | Najaf operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md) | Najaf civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3630,6 +3645,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md) | Nasiriyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md) | Nasiriyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md) | nasiriyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/finance/FUNDING-MODEL.md) | Nasiriyah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md) | Nasiriyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md) | Nasiriyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3646,6 +3662,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md) | Ramadi organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md) | Ramadi deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md) | ramadi depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/finance/FUNDING-MODEL.md) | Ramadi — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md) | Ramadi operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md) | Ramadi civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3663,6 +3680,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | Samawah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | samawah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/FUNDING-MODEL.md) | Samawah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) | Samawah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | Samawah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3683,6 +3701,7 @@ Indexed Markdown files: **5012**.
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md) | Sulaymaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md) | Sulaymaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md) | sulaymaniyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/finance/FUNDING-MODEL.md) | Sulaymaniyah — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md) | Sulaymaniyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/soil/README.md) | Sulaymaniyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4915,6 +4934,7 @@ Indexed Markdown files: **5012**.
 | [`docs/civil/viaduct-substructure-kit.md`](../docs/civil/viaduct-substructure-kit.md) | Viaduct pier and abutment kit |
 | [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
 | [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
+| [`docs/codebase-and-iraq-review-2026-10-03.md`](../docs/codebase-and-iraq-review-2026-10-03.md) | Codebase review and regenerated Iraqi examples — 3 October 2026 |
 | [`docs/commercial/joint-development-framework.md`](../docs/commercial/joint-development-framework.md) | Joint Development And Delivery Framework |
 | [`docs/commercial/partnership-readiness.md`](../docs/commercial/partnership-readiness.md) | Commercial Partnership Readiness |
 | [`docs/commercial/supplier-technical-support-package.md`](../docs/commercial/supplier-technical-support-package.md) | Supplier Technical-Support Package |

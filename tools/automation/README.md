@@ -29,7 +29,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`audit-project-twins.py`](audit-project-twins.py) | Reconcile city family scope, source hashes, finance buckets, CPM/cashflow totals and the mechanical/civil reference evidence |
 | [`operating-readiness.py`](operating-readiness.py) | Compile every tracked city ERP/component/supervision/lifecycle-governance profile against its own asset and twin evidence, report exact on-demand and operator-owned inputs, and detect report drift |
 | [`component_rfc_readiness.py`](component_rfc_readiness.py) | Validate and render requirements, ICD, hazard, BOM/drawing, assembly, test, owner, assumption and release-blocker coverage for RFCs 0023–0027 |
-| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF from the validated source manifest and all city models |
+| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF, including current reconciled city totals, every route, and the three-city Iraqi funding appraisals; paginate long evidence rows |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
 | [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |
@@ -43,10 +43,14 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run atomic baseline assurance, smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
+| [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Consolidate Baghdad, Samawah and Mosul with one national tooling/plant budget; emit proposed Chinese credit, government, IQD bond and bank-credit sources and annual cashflow |
+| [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
+| [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
+| [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
 | [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into human-readable `docs/portfolio-summary.md` and machine-readable `docs/portfolio-summary.json` evidence |
 | [`generate-public-overview.py`](generate-public-overview.py) | Generate and drift-check the GitHub-native Markdown brief and landscape HTML/print edition from the design catalogue and LM3 build-cost record |
-| [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
+| [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate civil, station, depot, charging and family fleet CAPEX from controlled rates; write a cost migration receipt without rewriting historical evidence hashes |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |
 | [`check-tracked-file-sizes.py`](check-tracked-file-sizes.py) | Keep useful GitHub artifacts in-tree while enforcing the 50 MiB per-file repository ceiling |
 | [`generate-lm3-first-article-work.py`](generate-lm3-first-article-work.py) | Freeze `LM3-FA-001` and export its 81 gaps with controlled closure state and evidence routes |

@@ -1057,6 +1057,21 @@ def _broad_economic_benefits_section(
     return out
 
 
+def _iraq_funding_section(finance: dict) -> list[str]:
+    funding = finance.get("structured_financing", {})
+    if "base" not in funding:
+        return ["## Iraq funding", "", "Schedule-linked funding refresh required before this example is complete.", ""]
+    metrics = funding["base"]["metrics"]
+    out = ["## Iraq funding", "", "Proposed facilities and appropriations remain uncommitted. Government funds eligible-invoice downpayments, its capital share, fees, interest, restricted reserves and cash shortfalls.", "", "| Capital source | Planning USD equivalent |", "|---|---:|"]
+    out.extend(f"| {name.replace('_', ' ')} | {_fmt_usd(value)} |" for name, value in metrics["capital_sources_usd"].items())
+    out.extend(["", f"The procurement schedule requires **{metrics['construction_cash_months']} calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.", "",
+        f"Peak annual government cash: **{_fmt_usd(metrics['peak_annual_government_cash_usd'])}**. This includes support required under the low capacity-use case; it is not a funded appropriation.", "",
+        "Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. Shared national manufacturing tooling is funded once at programme level. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.", "",
+        "The model includes actual scheduled draws, native-currency principal/interest, fees, revenue ramps, operating/debt support, reserve movements and downside cases. Short bullet bonds have explicit redemptions without assumed refinancing.", "",
+        "See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) and [three-city funding programme](../IRAQ-FUNDING-PROGRAMME.md).", ""])
+    return out
+
+
 def _funding_and_affordability_section(
     design: dict,
     scenario: dict,
@@ -2234,8 +2249,12 @@ def render_readme(
             f"{_fmt_usd(bucket.total_usd)} |"
             for bucket in headline_capital.buckets
         )
-        out.extend(
-            [
+        if stats.country_iso == "IQ":
+            out.extend([f"| **Total city programme** | **{_fmt_usd(headline_capital.total_usd)}** |", ""])
+            out.extend(_iraq_funding_section(finance))
+        else:
+            out.extend(
+              [
                 f"| **Total city programme** | **{_fmt_usd(headline_capital.total_usd)}** |",
                 "",
                 "| Local funding measure | Planning value |",
@@ -2253,12 +2272,14 @@ def render_readme(
                 f"{_fmt_usd(headline_turnkey.external_capital_avoided_usd)} |",
                 f"| Capital + lifetime external interest saved | "
                 f"{_fmt_usd(headline_turnkey.lifetime_external_financing_avoided_usd)} |",
-            ]
-        )
-        if finance:
+              ]
+            )
+        if finance and stats.country_iso != "IQ":
             out.append(
                 f"| Annual OPEX | {_fmt_usd(finance['annual_opex_usd']['total'])} / yr |"
             )
+        elif finance:
+            out.append(f"Annual operating allowance: {_fmt_usd(finance['annual_opex_usd']['total'])}; demand remains capacity-led.")
 
         out.extend(
             [
@@ -2779,14 +2800,18 @@ def render_readme(
     rust_costs = design["costs"]
     out.extend(_rich_capex_section(design, rust_costs, stats, energy_plan))
     out.extend(_construction_qa_section(rel))
-    out.extend(_funding_and_affordability_section(
+    if stats.country_iso == "IQ":
+        finance_path = design_path.parent / "engineering/finance/summary.json"
+        out.extend(_iraq_funding_section(json.loads(finance_path.read_text()) if finance_path.is_file() else {}))
+    else:
+        out.extend(_funding_and_affordability_section(
         design, scenario, rust_costs, stats, energy_plan, rel,
         daily_pax_low=practical_daily_low,
         daily_pax_high=practical_daily_high,
         practical_daily_capacity=practical_daily_capacity,
         capacity_utilization_low=capacity_utilization_low,
         capacity_utilization_high=capacity_utilization_high,
-    ))
+        ))
     out.extend(_broad_economic_benefits_section(
         design, rust_costs, stats, energy_plan, rel,
         daily_pax_low=practical_daily_low,
@@ -2829,6 +2854,10 @@ def _finalise_readme(
             sources.get(key) == hashlib.sha256(path.read_bytes()).hexdigest()
             for key, path in source_paths.items()
         )
+        for key, value in sources.items():
+            if key.endswith("_sha256") and key[:-7] in sources:
+                source = _repo_root() / sources[key[:-7]]
+                sources_current = sources_current and source.is_file() and value == hashlib.sha256(source.read_bytes()).hexdigest()
         if (
             finance.get("schema_version") != 4
             or not finance.get("passed")
@@ -2872,7 +2901,8 @@ def _finalise_readme(
             f"{_fmt_usd(capex['local_capital'])} "
             f"({float(capex['local_percentage_of_total']):.1%}) |"
         )
-        if turnkey:
+        structured = finance.get("structured_financing", {})
+        if turnkey and not structured:
             out.append(
                 f"| Default foreign-turnkey external-capital comparison | "
                 f"{_fmt_usd(turnkey['foreign_company_external_capital_usd'])}; "
@@ -2887,9 +2917,16 @@ def _finalise_readme(
             )
         out.append(f"| 15%–25% planning risk envelope | {_fmt_usd(capex['risk_envelope_15_percent'])}–{_fmt_usd(capex['risk_envelope_25_percent'])} |")
         out.append(f"| Annual OPEX | {_fmt_usd(opex['total'])} / yr |")
-        out.append(f"| Low/high project NPV at 8% | {_fmt_usd(low['project_npv_usd_at_8_percent'])} / {_fmt_usd(high['project_npv_usd_at_8_percent'])} |")
-        out.append(f"| Low/high project IRR | {irr_text} |")
-        out.append(f"| Low/high steady-state DSCR | {low['steady_state_dscr']:.2f} / {high['steady_state_dscr']:.2f} |\n")
+        if "base" in structured:
+            metrics = structured["base"]["metrics"]
+            dscr = metrics["minimum_operating_dscr_before_public_support"]
+            out.append(f"| Schedule-linked project NPV at {metrics['project_discount_rate']:.0%} | {_fmt_usd(metrics['project_npv_usd'])} |")
+            out.append(f"| Minimum operating-year DSCR before subsidy | {dscr:.2f} |" if dscr is not None else "| Operating DSCR | no debt service |")
+            out.append(f"| Funding committed | {structured['funding_committed']} |\n")
+        else:
+            out.append(f"| Low/high project NPV at 8% | {_fmt_usd(low['project_npv_usd_at_8_percent'])} / {_fmt_usd(high['project_npv_usd_at_8_percent'])} |")
+            out.append(f"| Low/high project IRR | {irr_text} |")
+            out.append(f"| Low/high steady-state DSCR | {low['steady_state_dscr']:.2f} / {high['steady_state_dscr']:.2f} |\n")
         out.append(
             "Evidence and limitations: "
             "[`engineering/finance/summary.json`](engineering/finance/summary.json).\n"

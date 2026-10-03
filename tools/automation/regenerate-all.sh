@@ -8,6 +8,7 @@
 #   tools/automation/regenerate-all.sh --only tunis,lyon  # subset (comma-separated)
 #   tools/automation/regenerate-all.sh --from-scratch   # refetch OSM and resynthesise designs
 #   tools/automation/regenerate-all.sh --resynthesise-corridors  # reroute from cached rasters
+#   tools/automation/regenerate-all.sh --resynthesise-design  # explicitly replace controlled layouts
 #
 # Reads slugs from lib/city-batches/world-sample.toml so new entries
 # get picked up automatically. One city's failure does not abort the
@@ -61,6 +62,9 @@ while [[ $# -gt 0 ]]; do
             shift ;;
         --resynthesise-corridors)
             RESYNTHESISE_CORRIDORS=true
+            shift ;;
+        --resynthesise-design)
+            RESYNTHESISE_DESIGN=true
             shift ;;
         -h|--help) usage ;;
         *) echo "error: unknown arg '$1'" >&2; usage ;;
@@ -124,5 +128,8 @@ if [[ "$FROM_SCRATCH" == true ]]; then
 fi
 if [[ "$RESYNTHESISE_CORRIDORS" == true ]]; then
     COMMAND+=(--resynthesise-corridors)
+fi
+if [[ "${RESYNTHESISE_DESIGN:-false}" == true ]]; then
+    COMMAND+=(--resynthesise-design)
 fi
 exec "${COMMAND[@]}"

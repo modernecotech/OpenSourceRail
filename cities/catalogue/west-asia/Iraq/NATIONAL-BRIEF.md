@@ -5,6 +5,10 @@ This page contains only Iraq-specific aggregation. Shared network, service, ener
 > [!IMPORTANT]
 > **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.95 B (86.9%) of external capital** and **$45.43 B of external interest**. Capital plus saved interest totals **$82.37 B**.
 
+## Iraq financing
+
+The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled Chinese export-credit, government, IQD bond and IQD bank-credit proposal for **Baghdad, Samawah and Mosul**, including one shared plant, is in the [Iraq funding programme](IRAQ-FUNDING-PROGRAMME.md). Other Iraqi cities are outside that three-city cashflow.
+
 ## National Programme
 
 | Local measure | Planning value |
@@ -23,10 +27,6 @@ This page contains only Iraq-specific aggregation. Shared network, service, ener
 |---|---:|
 | Imported / external capital | $5.56 B (23.5%) |
 | Domestic / local capital | $18.05 B (76.5%) |
-| Annual external capital draw | $1.11 B / yr |
-| Annual local capital draw | $3.61 B / yr |
-| Annual public construction commitment | $2.20 B / yr for 5 years |
-| Annual post-grace debt service | $1.62 B / yr |
 | Default foreign-turnkey external capital | $42.51 B |
 | External capital saved | $36.95 B |
 | Capital + lifetime external interest saved | $82.37 B |

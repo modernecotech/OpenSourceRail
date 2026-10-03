@@ -4,9 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import csv
+from collections import defaultdict
+from decimal import Decimal
 import hashlib
 import json
 import math
+import os
 import sys
 import tempfile
 import tomllib
@@ -43,6 +47,10 @@ from osr_scenario.capital import (  # noqa: E402
     foreign_turnkey_cases,
     funding_plan,
 )
+from osr_scenario.iraq_finance import build_financing  # noqa: E402
+
+IRAQ_FUNDING_PATH = REPO_ROOT / "lib/templates/iraq-funding.toml"
+IRAQ_MODEL_PATH = REPO_ROOT / "design/city-generation/src/osr_scenario/iraq_finance.py"
 
 
 def sha256(path: Path) -> str:
@@ -207,7 +215,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
 
     required_farebox = max(0.0, annual_opex - nonfare)
     neutral_trips = required_farebox / trip_fare if trip_fare else math.inf
-    return {
+    model = {
         "schema_version": 4,
         "city": slug,
         "status": "planning-screen",
@@ -322,6 +330,130 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "Lifetime external-interest savings use identical country financing terms for both cases and assume the foreign-turnkey external requirement is debt-financed.",
         ],
     }
+    if stats.country_iso == "IQ":
+        config = tomllib.loads(IRAQ_FUNDING_PATH.read_text())
+        contracts_path = design_path.parent / "engineering/finance/funding-input.csv"
+        for key, path in (("iraq_funding", IRAQ_FUNDING_PATH), ("iraq_finance_model", IRAQ_MODEL_PATH)):
+            model["sources"][key] = str(path.relative_to(REPO_ROOT))
+            model["sources"][key + "_sha256"] = sha256(path)
+        model["funding"]["status"] = "generic-reference-only-see-structured-financing"
+        model["primary_funding_model"] = "structured_financing"
+        model["cases_financial_basis"] = "Generic uniform-construction comparator only. Revenue/OPEX feed the primary structured model; its scheduled NPV, DSCR and public cash replace the generic financial ratios for Iraq appraisal."
+        model["limitations"] = [s for s in model["limitations"] if "exclude inflation and foreign-exchange paths" not in s]
+        model["limitations"].append("Generic cases exclude inflation and FX; structured_financing contains the primary Iraq schedule and explicit FX/delay stresses. Neither model establishes financial close.")
+        model["foreign_turnkey_comparator"]["financing_basis"] += " Generic financing reference only; not the Iraq funding proposal."
+        # Operations budgets are generated from CAPEX, then this model is
+        # refreshed. Hash the deterministic CSV, not the twin that hashes us.
+        if contracts_path.is_file():
+            with contracts_path.open(newline="") as handle:
+                contracts = list(csv.DictReader(handle))
+            try:
+                structured = build_financing(bucket_rows(capital), contracts, cases, annual_opex, config)
+            except ValueError as error:
+                if "contract budgets do not reconcile" not in str(error) and "stale procurement origin" not in str(error):
+                    raise
+                structured = {"status": "schedule-refresh-required", "schedule_status": str(error), "funding_committed": False}
+            else:
+                model["sources"]["funding_schedule"] = str(contracts_path.relative_to(REPO_ROOT))
+                model["sources"]["funding_schedule_sha256"] = sha256(contracts_path)
+                model["passed"] = all(structured["checks"].values())
+        else:
+            structured = {"status": "schedule-refresh-required", "schedule_status": "funding-input.csv missing", "funding_committed": False}
+        model["structured_financing"] = structured
+    return model
+
+
+def write_funding_artifacts(directory: Path, model: dict) -> None:
+    """Human-readable and spreadsheet outputs share the JSON calculation."""
+    funding = model.get("structured_financing", {})
+    if funding.get("schedule_status") != "linked-to-budget-work-packages":
+        return
+    for frequency in ("monthly", "annual"):
+        rows = funding["base"][frequency]
+        with (directory / f"funding-{frequency}-cashflow.csv").open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            writer.writeheader()
+            writer.writerows(rows)
+    metrics = funding["base"]["metrics"]
+    lines = [f"# {model['city'].title()} — Iraq funding appraisal", "",
+        "Generated from current city CAPEX and procurement milestones. All facilities and appropriations remain uncommitted.", "",
+        f"Construction cash runs through month **{metrics['construction_cash_months']}**; full-network operations start in month **{metrics['operations_start_month']}** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.", "",
+        "## Capital sources and uses", "", "| Capital source | USD equivalent |", "|---|---:|"]
+    lines.extend(f"| {name.replace('_', ' ')} | {value:,.2f} |" for name, value in metrics["capital_sources_usd"].items())
+    lines.extend([f"| **Total city capital uses** | **{metrics['total_capex_usd']:,.2f}** |", "",
+        "Chinese buyer credit is proposed for eligible Chinese component invoices only. The government funds the invoice downpayment and its share of the remaining budget; IQD bonds and IQD bank credit finance the rest. Government also pays financing fees, construction interest, reserve contributions and operating/debt shortfalls shown separately in the cashflow.", "",
+        "## Proposed instruments", "", "| Instrument | Currency | Rate assumed | Grace from draw | Repayment |", "|---|---|---:|---:|---:|"])
+    for name in TRANCHE_NAMES:
+        t = funding["assumptions"][name]
+        lines.append(f"| {name.replace('_', ' ')} | {t['currency']} | {t['annual_rate']:.1%} | {t['grace_months_from_draw']} months | {t['repayment_months']} months |")
+    lines.extend(["", "## Chinese component allocation", "", "These allocations divide existing imported budgets; they are not additional costs, supplier quotes or confirmed origin.", "", "| Bucket | Component | Assumed eligible invoice USD |", "|---|---|---:|"])
+    lines.extend(f"| {r['bucket']} | {r['component']} | {r['invoice_budget_usd']:,.2f} |" for r in funding["eligible_import_components"])
+    lines.extend(["", "## Annual cash requirements", "", "Year 1 begins at assumed financial close; NTP follows 30 working days later. Amounts below are USD millions. DSCR excludes subsidy; public cash includes capital, fees, interest, reserves and support.", "", "| Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |", "|---:|---:|---:|---:|---:|---:|---:|"])
+    for r in funding["base"]["annual"]:
+        dscr = r["dscr_before_public_support"]
+        lines.append(f"| {r['year']} | {r['capex_usd']/1e6:.2f} | {r['revenue_usd']/1e6:.2f} | {r['opex_usd']/1e6:.2f} | {r['debt_service_usd']/1e6:.2f} | {r['government_total_cash_usd']/1e6:.2f} | {dscr:.2f} |" if dscr is not None else f"| {r['year']} | {r['capex_usd']/1e6:.2f} | {r['revenue_usd']/1e6:.2f} | {r['opex_usd']/1e6:.2f} | 0.00 | {r['government_total_cash_usd']/1e6:.2f} | — |")
+    lines.extend(["", "## Sensitivities", "", "| Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |", "|---|---:|---:|---:|"])
+    for name, r in funding["sensitivity_cases"].items():
+        dscr = r["minimum_operating_dscr_before_public_support"]
+        lines.append(f"| {name.replace('_', ' ')} | {r['peak_annual_government_cash_usd']/1e6:.2f} | {dscr:.2f} | {r['peak_monthly_unfunded_cash_usd']/1e6:.2f} |" if dscr is not None else f"| {name} | {r['peak_annual_government_cash_usd']/1e6:.2f} | — | {r['peak_monthly_unfunded_cash_usd']/1e6:.2f} |")
+    lines.extend(["", "## Assumptions and evidence", "", *[f"- {s}" for s in funding["limitations"]], "",
+        "Long construction schedules can leave much of the debt already repaid by government before full-network opening. An operating DSCR above one therefore does not establish self-financing or remove the construction-period public cash burden. Uncovered capital gaps are conditional funding requirements, not actual cash receipts.", "",
+        f"See [editable assumptions]({os.path.relpath(IRAQ_FUNDING_PATH, directory)}), [monthly cashflow](funding-monthly-cashflow.csv), [annual cashflow](funding-annual-cashflow.csv), and [machine-readable model](summary.json).", "",
+        "The [IMF Article IV](https://www.imf.org/en/news/articles/2025/07/08/pr-25243-iraq-imf-executive-board-concludes-2025-article-iv-consultation) provides the historical FX anchor. [CBI](https://www.cbi.iq/page/26) describes its role as fiscal agent for MoF bonds. [China Exim](https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html) describes export buyer credit; numeric project terms remain assumptions.", ""])
+    (directory / "FUNDING-MODEL.md").write_text("\n".join(lines))
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    annual = funding["base"]["annual"]
+    fig, axes = plt.subplots(2, 1, figsize=(11, 7), constrained_layout=True)
+    years = [r["year"] for r in annual]
+    bottoms = [0.0] * len(annual)
+    for key, label in (("government_capital_received_usd", "Government capital"),
+                       ("chinese_export_credit_draw_usd", "Chinese export credit"),
+                       ("domestic_bonds_draw_usd", "IQD bonds"), ("bank_credit_draw_usd", "IQD bank credit")):
+        values = [r[key]/1e6 for r in annual]
+        axes[0].bar(years, values, bottom=bottoms, label=label)
+        bottoms = [a+b for a, b in zip(bottoms, values)]
+    axes[0].set_ylabel("Capital draws · USD million")
+    axes[0].legend(loc="upper right", fontsize=8)
+    for key, label in (("revenue_usd", "Revenue"), ("opex_usd", "OPEX"),
+                       ("debt_service_usd", "Debt service"), ("government_total_cash_usd", "Total public cash")):
+        axes[1].plot(years, [r[key]/1e6 for r in annual], label=label)
+    axes[1].set_ylabel("Annual cash · USD million")
+    axes[1].set_xlabel("Year from assumed financial close")
+    axes[1].legend(loc="upper right", fontsize=8)
+    axes[1].grid(alpha=.25)
+    fig.suptitle(f"{model['city'].title()} · Iraq funding appraisal\nUncommitted terms; capacity-led low-demand case")
+    fig.savefig(directory / "funding-cashflows.png", dpi=160)
+    plt.close(fig)
+
+
+TRANCHE_NAMES = ("chinese_export_credit", "domestic_bonds", "bank_credit")
+
+
+def refresh_funding_input(design_path: Path, slug: str) -> None:
+    """Persist a compact funding schedule so finance reproduces in a checkout.
+
+    Detailed locally generated operations CSVs are large and gitignored. This
+    projection keeps their actual budget/timing/origin values without asset IDs.
+    """
+    source = design_path.parent / "operations" / f"{slug}-budget-work-packages.csv"
+    if not source.is_file():
+        return  # existing controlled input supports a fresh checkout
+    totals = defaultdict(Decimal)
+    with source.open(newline="") as handle:
+        for row in csv.DictReader(handle):
+            key = tuple(row[k] for k in ("bucket", "planned_start_day", "planned_finish_day", "imported_share"))
+            totals[key] += Decimal(row["budget_usd"])
+    directory = design_path.parent / "engineering/finance"
+    directory.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", dir=directory, newline="", delete=False) as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(("bucket", "planned_start_day", "planned_finish_day", "imported_share", "budget_usd"))
+        for key, amount in sorted(totals.items()):
+            writer.writerow((*key, str(amount)))
+        temporary = Path(handle.name)
+    temporary.replace(directory / "funding-input.csv")
 
 
 def main() -> int:
@@ -332,11 +464,15 @@ def main() -> int:
     args = parser.parse_args()
     design_path = args.design.resolve()
     with design_path.open("rb") as handle:
-        slug = str(tomllib.load(handle)["city"]["slug"])
+        city = tomllib.load(handle)["city"]
+        slug = str(city["slug"])
     scenario_path = (args.scenario or design_path.parent / f"{slug}.toml").resolve()
     output = args.output or design_path.parent / "engineering/finance/summary.json"
+    if city["country"] == "IQ":
+        refresh_funding_input(design_path, slug)
     model = build_model(design_path, scenario_path)
     atomic_json(output, model)
+    write_funding_artifacts(output.parent, model)
     print(f"wrote {output}")
     return 0
 

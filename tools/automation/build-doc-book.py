@@ -15,8 +15,10 @@ embedded in the PDF.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import io
+import json
 import os
 import re
 import tomllib
@@ -316,6 +318,12 @@ def _doc_sources() -> list[SourceDoc]:
         if path.relative_to(REPO_ROOT / "cities/catalogue").parts[0] != "europe"
     ]
     add("Developing-Country Planning Briefs", country_briefs)
+    iraq = REPO_ROOT / "cities/catalogue/west-asia/Iraq"
+    iraq_funding = [iraq / "IRAQ-FUNDING-PROGRAMME.md"] + [
+        iraq / city / "engineering/finance/FUNDING-MODEL.md"
+        for city in ("Baghdad", "Samawah", "Mosul")
+    ]
+    add("Iraq Structured Funding Appraisal", [path for path in iraq_funding if path.is_file()])
 
     _validate_doc_sources(docs)
     return docs
@@ -549,7 +557,7 @@ def _table_flowable(
     for row in rows:
         while len(row) < cols:
             row.append(Paragraph("", styles["table"]))
-    table = Table(rows, colWidths=[col_width] * cols, repeatRows=1)
+    table = Table(rows, colWidths=[col_width] * cols, repeatRows=1, splitInRow=1)
     table.setStyle(
         TableStyle(
             [
@@ -586,7 +594,7 @@ def _block_quote_flowable(
             contents.append(Paragraph(prefix + _inline(children), styles["quote"]))
         elif child_type == "block_code":
             contents.append(Preformatted(child.get("raw", "").rstrip(), styles["code"], maxLineLength=120))
-    table = Table([[contents]], colWidths=[page_width])
+    table = Table([[contents]], colWidths=[page_width], splitInRow=1)
     table.setStyle(
         TableStyle(
             [
@@ -744,11 +752,14 @@ def _city_models() -> list[CityModel]:
             for fleet in fleets
         }
         route_km = sum(float(line.get("length_m", 0.0)) for line in lines) / 1000.0
-        costs = design.get("costs", {})
-        capex = float(costs.get("total_usd", float(costs.get("total_eur", 0.0)) * EUR_TO_USD))
+        finance_path = city_dir / "engineering/finance/summary.json"
+        finance = json.loads(finance_path.read_text())
+        if finance.get("sources", {}).get("design_sha256") != hashlib.sha256(design_path.read_bytes()).hexdigest():
+            raise ValueError(f"{finance_path}: finance does not match the current design")
+        capex = float(finance["capex_usd"]["reconciled_project_total"])
         map_candidates = sorted(city_dir.glob("*-network-map.png"))
         line_rows = []
-        for line in lines[:8]:
+        for line in lines:
             line_name = str(line.get("name") or line.get("id") or "?")
             length = float(line.get("length_m", 0.0)) / 1000.0
             line_rows.append(
@@ -797,7 +808,7 @@ def _simple_table(
         table_rows.append([Paragraph(html.escape(cell), style) for cell in row])
     cols = max(len(row) for row in rows)
     col_width = page_width / cols
-    table = Table(table_rows, colWidths=[col_width] * cols, repeatRows=1 if header else 0)
+    table = Table(table_rows, colWidths=[col_width] * cols, repeatRows=1 if header else 0, splitInRow=1)
     commands = [
         ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
@@ -865,7 +876,7 @@ def _city_brief_flowables(
         ["Route length", f"{model.route_km:.1f} km"],
         ["Fleet", f"{model.fleet} trainsets"],
         ["High-demand coverage", f"{model.coverage:.0%}"],
-        ["CAPEX", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km)"],
+        ["City CAPEX incl. dedicated solar", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km); shared national factory excluded"],
     ]
     flows: list = [
         Paragraph(html.escape(f"Generated City Model - {model.name}"), styles["h2"]),
@@ -945,8 +956,9 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
     page_width, page_height = A4
     left = right = 1.45 * cm
     top = bottom = 1.55 * cm
-    content_width = page_width - left - right
-    content_height = page_height - top - bottom
+    # SimpleDocTemplate's frame adds six points of padding on every edge.
+    content_width = page_width - left - right - 12
+    content_height = page_height - top - bottom - 12
 
     story: list = [
         Spacer(1, 5 * cm),

@@ -10,6 +10,7 @@ import json
 import math
 import os
 import re
+import shutil
 import subprocess
 import tempfile
 import tomllib
@@ -114,6 +115,22 @@ def run_sim(
     cpu_set: tuple[int, ...] | None = None,
 ) -> dict:
     simulator = REPO_ROOT / "target/release/osr-sim"
+    inputs = {"simulator_sha256": sha256(simulator), "scenario_sha256": sha256(scenario),
+              "duration_s": duration_s, "compact_json": True, "ma_check_every": 0}
+    cache_key = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()
+    cache_dir = REPO_ROOT / ".cache/osr-pipeline/native-runs"
+    cached_output = cache_dir / f"{cache_key}.json"
+    cached_receipt = cache_dir / f"{cache_key}.receipt.json"
+    if os.environ.get("OSR_SIM_CACHE", "1") != "0" and cached_output.is_file() and cached_receipt.is_file():
+        try:
+            receipt = json.loads(cached_receipt.read_text())
+            if receipt.get("inputs") == inputs and receipt.get("output_sha256") == sha256(cached_output):
+                result = json.loads(cached_output.read_text())
+                shutil.copyfile(cached_output, output)
+                result["execution_receipt"] = {**receipt, "cache_reused": True}
+                return result
+        except (ValueError, OSError):
+            pass  # damaged cache is never accepted as execution evidence
     command = [
         str(simulator),
         "--config", str(scenario), "--duration", str(duration_s),
@@ -128,7 +145,19 @@ def run_sim(
         check=True,
         stdout=subprocess.DEVNULL,
     )
-    return json.loads(output.read_text())
+    result = json.loads(output.read_text())
+    receipt = {"inputs": inputs, "output_sha256": sha256(output), "cache_key": cache_key}
+    if os.environ.get("OSR_SIM_CACHE", "1") != "0":
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        # Atomic files; a race can only leave a missing/mismatched receipt,
+        # which fails the validation above and causes an actual rerun.
+        for destination, content in ((cached_output, output.read_bytes()), (cached_receipt, (json.dumps(receipt, sort_keys=True)+"\n").encode())):
+            with tempfile.NamedTemporaryFile("wb", dir=cache_dir, delete=False) as handle:
+                handle.write(content)
+                temporary = Path(handle.name)
+            temporary.replace(destination)
+    result["execution_receipt"] = {**receipt, "cache_reused": False}
+    return result
 
 
 def scenario_variant(
@@ -328,6 +357,7 @@ def summarize_result(
     )
     return {
         "label": label,
+        "execution_receipt": result.get("execution_receipt"),
         "duration_s": duration,
         "train_km": result["total_train_km"],
         "energy_consumed_kwh": result["total_energy_consumed_kwh"],
@@ -691,21 +721,14 @@ station = "{station}"'''
             resilience_workers = min(
                 internal_workers, len(core_groups), len(variants)
             )
-            indexed_variants = list(enumerate(variants))
-            for start in range(0, len(indexed_variants), resilience_workers):
-                batch = indexed_variants[start:start + resilience_workers]
-                assigned = [
-                    (
-                        index,
-                        variant,
-                        core_groups[offset] if pin_internal_workers else None,
-                    )
-                    for offset, (index, variant) in enumerate(batch)
-                ]
-                with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=len(assigned)
-                ) as executor:
-                    raw_resilience.extend(executor.map(run_variant, assigned))
+            assigned = [
+                (index, variant, core_groups[index % len(core_groups)] if pin_internal_workers else None)
+                for index, variant in enumerate(variants)
+            ]
+            # One pool avoids a batch barrier when cached/short runs finish
+            # before the most demanding city fault cases.
+            with concurrent.futures.ThreadPoolExecutor(max_workers=resilience_workers) as executor:
+                raw_resilience.extend(executor.map(run_variant, assigned))
 
     schedules = doc.get("fleets", [{}])[0].get("schedule", [])
     full_run = runs[-1]

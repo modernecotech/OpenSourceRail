@@ -20,26 +20,37 @@ regulatory approval or safety certificate.
 
 ## Proposed system
 
-The planning baseline contains nine lines, 516.5 km of double track, 182
-unique stations, 23 interchange complexes and 831 six-car trainsets. The
-service plan targets a three-minute peak headway and a 05:30–02:00 operating
-day. The automated civil screen currently identifies approximately 428.3 km
-at grade, 75.8 km on viaduct/elevated structure and 12.4 km of bridge works.
-Those classifications use source-locked open geospatial, terrain and water
-data and must be replaced or confirmed by survey, utilities, property,
-geotechnical, hydraulic and vertical-alignment evidence during FEED.
+The current planning baseline contains 9 lines, 516.5 km of
+double-track route, 182 unique stations, 23 interchange
+complexes and 831 six-car trainsets. The service plan targets a three-minute
+peak headway and a 05:30–02:00 operating day. The civil screen identifies
+428.3 km at grade,
+75.8 km elevated and
+12.4 km of bridge works. Open geospatial screening
+must be confirmed by survey, property, utilities, ground, hydraulic and alignment
+evidence during FEED.
 
-The energy concept combines 158 station/depot energy sites, 52.1 MW of local
-PV, 354 MWh of stationary storage, 316 MW of connected opportunity charging
-and a planning-screen 1,018.6 MW dedicated solar plant. The zero residual
-grid/PPA result is a model outcome, not evidence that network connection,
-islanding, protection, land or operating duty has been approved.
+The energy concept includes 52.1 MW of station/depot
+PV, 354.0 MWh of storage,
+316.0 MW of connected charging and
+1018.6 MW of dedicated solar. Operating energy,
+islanding, connections, protection, land and duty remain unaccepted.
 
-The local planning estimate is USD 7.56 billion before owner-confirmed land,
-utilities, taxes/duties, escalation, financing and unresolved depot scope. Its
-USD 8 million depot allowance is specifically **not reconciled** to the physical
-stabling, workshop, energy, fire and security arrangement. The risk envelopes
-shown in the PDF are therefore the appropriate figures for early discussion.
+City planning CAPEX is USD 7.56 billion before owner-confirmed land,
+utilities, tax/duty and escalation. The $8 M depot allowance
+is **not reconciled** to surveyed stabling, workshops, energy, fire and security.
+The shared national plant is outside city CAPEX and counted once in the programme.
+
+## Iraq financing proposal
+
+The [city funding model](../engineering/finance/FUNDING-MODEL.md) and
+[three-city programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
+component invoices, government capital, IQD bonds and IQD bank credit.
+They include staged draws, native-currency principal/interest, fees, reserves,
+cash support and downside funding gaps. The rates, maturities and 85% invoice
+advance are uncommitted appraisal assumptions. The resource-constrained
+construction cash schedule is not a five-year funding promise. Monthly and
+annual ledgers and charts are generated from the same controlled model.
 
 ## Rolling stock and CRRC component strategy
 
@@ -64,9 +75,7 @@ licensing and the competent authorities' acceptance.
 
 ## Digital delivery and management system
 
-The Baghdad package already instantiates 1,862 assets, 8,012 manufacturing and
-verification tasks, 15,804 material/procurement rows, 10,785 maintenance tasks
-and 6,689 QA actions. These feed the project twin, operations portal,
+The Baghdad package already instantiates 1,862 assets, 8,012 manufacturing and verification tasks, 15,804 material/procurement rows, 10,785 maintenance tasks and 6,689 QA actions. These feed the project twin, operations portal,
 ERPNext/Frappe adapters, supervision/SCADA boundary, maintenance planning,
 controlled evidence, QR identity, and multi-model AI advisory council.
 

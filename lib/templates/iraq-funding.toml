@@ -1,0 +1,61 @@
+# Editable appraisal assumptions, not offers, mandates or committed financing.
+[model]
+as_of = "2026-10-03"
+iqd_per_usd = 1300.0
+working_days_per_year = 260
+pre_ntp_working_days = 30
+operating_years = 30
+discount_rate = 0.08
+government_share_of_remainder = 0.60
+bond_share_of_remainder = 0.30
+credit_share_of_remainder = 0.10
+export_invoice_advance = 0.85
+debt_service_reserve_months = 6
+revenue_ramp = [0.50, 0.75, 1.0]
+
+[chinese_export_credit]
+currency = "USD"
+annual_rate = 0.05
+grace_months_from_draw = 48
+repayment_months = 180
+arrangement_fee = 0.01
+undrawn_commitment_fee = 0.005
+
+[domestic_bonds]
+currency = "IQD"
+annual_rate = 0.08
+grace_months_from_draw = 24
+repayment_months = 180
+arrangement_fee = 0.005
+undrawn_commitment_fee = 0.0
+
+[bank_credit]
+currency = "IQD"
+annual_rate = 0.09
+grace_months_from_draw = 0
+repayment_months = 84
+arrangement_fee = 0.01
+undrawn_commitment_fee = 0.0
+
+# Shares of each bucket's EXISTING imported budget, never additional CAPEX.
+# No origin qualification or supplier quotation has been established.
+[eligible_imports.rolling_stock]
+bogies = 0.40
+traction_batteries = 0.30
+windows = 0.05
+doors = 0.10
+[eligible_imports.solar_plant]
+solar_panels_and_inverters = 1.0
+[eligible_imports.charging_microgrid]
+solar_panels_and_inverters = 0.35
+station_batteries = 0.40
+[eligible_imports.production_plant]
+manufacturing_tooling = 1.0
+
+[sources]
+fx = "https://www.imf.org/en/news/articles/2025/07/08/pr-25243-iraq-imf-executive-board-concludes-2025-article-iv-consultation"
+fx_basis = "IMF 2025 Article IV reports 2024 average 1300 IQD/USD; historical anchor, not a current execution quote."
+domestic_issuance = "https://www.cbi.iq/page/26"
+domestic_issue_example = "https://cbi.iq/news/view/2620"
+export_credit = "https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html"
+terms_basis = "All rates, advances, grace periods, tenors, fees and funding shares are appraisal assumptions. Source pages establish instrument context, not project eligibility or agreed terms."

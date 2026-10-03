@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 USER_DATA_ROOT="${OSR_ENGINEERING_DATA_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/opensource-rail}"
 LOCAL_BIN="${OSR_ENGINEERING_LOCAL_BIN:-$USER_DATA_ROOT/toolchains/bin}"
+export PATH="$LOCAL_BIN:$PATH"
 if [[ -n "${OSR_ENGINEERING_VENV:-}" ]]; then
     VENV_DIR="$OSR_ENGINEERING_VENV"
 elif [[ -x "$ROOT/.venv/bin/python" ]]; then

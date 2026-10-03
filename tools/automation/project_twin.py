@@ -164,6 +164,8 @@ def build_project_twin(
         "cashflow": {
             "currency": "USD",
             "basis": "schedule-of-values planning requirements; not commitments, invoices or payments",
+            "calendar_basis": "Assumed calendar-month buckets: 260 working days/year; financial close 30 working days before NTP. Approved local calendar pending.",
+            "working_days_per_year": 260,
             "milestones": cashflow_rows,
             "monthly_requirements": monthly_cashflow,
         },
@@ -405,7 +407,11 @@ def build_procurement_plan(
 def build_cashflow(
     contracts: list[dict[str, Any]], capex: dict[str, Any]
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    """Create task-linked milestone requirements and 30-day cash buckets."""
+    """Create task-linked requirements in assumed calendar-month buckets.
+
+    Task offsets remain working days. Month zero starts at financial close,
+    30 working days before NTP; 260 working days/year is a planning calendar.
+    """
 
     rows: list[dict[str, Any]] = []
     for contract in contracts:
@@ -427,7 +433,7 @@ def build_cashflow(
                     "bucket": contract["bucket"],
                     "milestone": milestone,
                     "project_day": day,
-                    "month_index": math.floor(day / 30) + 1,
+                    "month_index": math.floor((day + 30) * 12 / 260),
                     "planned_requirement_usd": value,
                     "local_requirement_usd": round(value * float(contract["local_share"]), 2),
                     "imported_requirement_usd": round(value * float(contract["imported_share"]), 2),
@@ -469,8 +475,8 @@ def build_cashflow(
         monthly_rows.append(
             {
                 "month_index": month,
-                "project_day_start": (month - 1) * 30,
-                "project_day_finish": month * 30 - 1,
+                "project_day_start": math.ceil(month * 260 / 12) - 30,
+                "project_day_finish": math.ceil((month + 1) * 260 / 12) - 31,
                 "planned_requirement_usd": planned,
                 "local_requirement_usd": round(monthly[month]["local_requirement_usd"], 2),
                 "imported_requirement_usd": round(monthly[month]["imported_requirement_usd"], 2),
@@ -535,6 +541,8 @@ def compact_summary(twin: dict[str, Any]) -> dict[str, Any]:
         },
         "cashflow": {
             "currency": "USD",
+            "calendar_basis": twin["cashflow"].get("calendar_basis"),
+            "working_days_per_year": 260,
             "total_planned_requirement_usd": round(
                 sum(row["planned_requirement_usd"] for row in monthly), 2
             ),

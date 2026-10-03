@@ -158,6 +158,7 @@ def prepare_city(
     catalog_city: dict[str, object],
     from_scratch: bool,
     resynthesise_corridors: bool,
+    resynthesise_design: bool = False,
 ) -> dict[str, object]:
     started = time.monotonic()
     city_dir = design_path.parent
@@ -219,7 +220,12 @@ def prepare_city(
         design_command.extend(
             ["--design-only", "--corridor-cache", str(corridor_cache)]
         )
-    commands.append(design_command)
+    if design_path.is_file() and not (from_scratch or resynthesise_corridors or resynthesise_design):
+        # Existing catalogue intent is the controlled input. An unchecked
+        # local corridor cache must not remove rings or replace station IDs.
+        commands.append([sys.executable, str(REPO_ROOT / "tools/automation/refresh-city-design-costs.py"), "--design", str(design_path)])
+    else:
+        commands.append(design_command)
     for command in commands:
         if "osr_osm.cli" in command:
             with OSM_FETCH_LOCK:
@@ -252,6 +258,7 @@ def prepare_city(
         }
 
     commands = [
+        [sys.executable, str(REPO_ROOT / "tools/automation/apply-city-overrides.py"), "--design", str(design_path)],
         [
             sys.executable,
             "-m",
@@ -342,7 +349,18 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
             str(REPO_ROOT / "tools/automation/generate-city-package-manifest.py"),
             "--city-dir",
             str(city_dir),
+            "--planning-example",
         ],
+    ]
+    # Funding reads deterministic procurement CSVs. Refresh it after operations
+    # have produced the current schedule, then bind the twin to final finance.
+    commands[3:3] = [
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-city-finance.py"), "--design", str(design_path)],
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-qa-maintenance-data.py"), "--design", str(design_path), "--scenario", str(scenario_path), "--out-dir", str(operations_dir)],
+    ]
+    commands[2:2] = [
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-depot-scope.py"), "--design", str(design_path)],
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-stabling-plan.py"), "--design", str(design_path)],
     ]
     for command in commands:
         return_code = run_logged(
@@ -420,6 +438,7 @@ def main() -> int:
         action="store_true",
         help="reroute corridors from cached rasters instead of reusing corridors.json",
     )
+    parser.add_argument("--resynthesise-design", action="store_true", help="explicitly replace existing controlled layout from corridor inputs; default refreshes the current design")
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
@@ -464,6 +483,7 @@ def main() -> int:
             catalog_cities[slug],
             args.from_scratch,
             args.resynthesise_corridors,
+            args.resynthesise_design,
         ),
     )
     ready = {

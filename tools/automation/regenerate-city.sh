@@ -48,7 +48,7 @@ DESIGN_PY="$REPO/design/city-generation"
 CACHE_ROOT="$REPO/.cache/osr-pipeline"
 OSM_CACHE="$CACHE_ROOT/osm"
 RASTER_CACHE="$CACHE_ROOT/rasters"
-PYTHON="${PYTHON:-python3}"
+PYTHON="${PYTHON:-${REPO}/tools/automation/osr-python}"
 CARGO_BIN="${CARGO:-cargo}"
 if ! command -v "$CARGO_BIN" >/dev/null 2>&1; then
     echo "error: cargo not found; set CARGO=/path/to/cargo" >&2
@@ -137,12 +137,17 @@ echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,an
     --country "$COUNTRY"
 
 echo "3) design synthesis → $DESIGN_DIR/design.toml"
+if [[ -f "$DESIGN_DIR/design.toml" ]]; then
+    "$PYTHON" "$REPO/tools/automation/refresh-city-design-costs.py" --design "$DESIGN_DIR/design.toml"
+else
 "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
     --slug "$SLUG" \
     --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
     --out-dir "$DESIGN_DIR"
+fi
 
 echo "4) scenario file → $DESIGN_DIR/$SLUG.toml"
+"$PYTHON" "$REPO/tools/automation/apply-city-overrides.py" --design "$DESIGN_DIR/design.toml"
 "$PYTHON" -m osr_scenario --design "$DESIGN_DIR/design.toml" \
     --out "$DESIGN_DIR/$SLUG.toml"
 
@@ -163,6 +168,12 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
 "$PYTHON" "$REPO/tools/automation/generate-depot-scope.py" \
     --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/tools/automation/generate-stabling-plan.py" \
+    --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --scenario "$DESIGN_DIR/$SLUG.toml" \
+    --out-dir "$DESIGN_DIR/operations"
+"$PYTHON" "$REPO/tools/automation/generate-city-finance.py" \
     --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \
     --design "$DESIGN_DIR/design.toml" \
@@ -191,7 +202,7 @@ echo "10) design-quality drift tests (mandatory)"
 
 echo "11) complete package manifest"
 "$PYTHON" "$REPO/tools/automation/generate-city-package-manifest.py" \
-    --city-dir "$DESIGN_DIR"
+    --city-dir "$DESIGN_DIR" --planning-example
 
 echo
 echo "Done. Output:"

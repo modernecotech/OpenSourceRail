@@ -626,6 +626,7 @@ async function main() {
     stations: selectedArtifactPreview.content.station_ids.length,
     missing: selectedArtifactPreview.content.missing_technical_roles.length,
     ogs: selectedArtifactPreview.content.opengeosys_required,
+    missingCivilRegister: selectedArtifactPreview.content.missing_technical_roles.includes("civil_asset_register"),
     technical: selectedArtifactPreview.content.technical_screen_passed,
     accepted: selectedArtifactPreview.content.authority_accepted,
   })`);
@@ -633,7 +634,8 @@ async function main() {
     drainageGroundReadiness.status === "awaiting-drainage-ground-evidence"
       && drainageGroundReadiness.lines === routeFitReadiness.lines
       && drainageGroundReadiness.stations === routeFitReadiness.stations
-      && drainageGroundReadiness.missing === 9
+      && drainageGroundReadiness.missing === 10
+      && drainageGroundReadiness.missingCivilRegister
       && !drainageGroundReadiness.ogs
       && !drainageGroundReadiness.technical
       && !drainageGroundReadiness.accepted,
@@ -645,13 +647,15 @@ async function main() {
     status: selectedArtifactPreview.content.status,
     lines: selectedArtifactPreview.content.line_ids.length,
     missing: selectedArtifactPreview.content.missing_technical_roles.length,
+    missingCivilRegister: selectedArtifactPreview.content.missing_technical_roles.includes("civil_asset_register"),
     technical: selectedArtifactPreview.content.technical_screen_passed,
     accepted: selectedArtifactPreview.content.authority_accepted,
   })`);
   assert(
     structuralReadiness.status === "awaiting-structural-evidence"
       && structuralReadiness.lines === drainageGroundReadiness.lines
-      && structuralReadiness.missing === 10
+      && structuralReadiness.missing === 11
+      && structuralReadiness.missingCivilRegister
       && !structuralReadiness.technical
       && !structuralReadiness.accepted,
     "structural GUI artifact requires per-asset solver and independent-check evidence",

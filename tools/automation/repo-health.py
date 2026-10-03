@@ -270,10 +270,19 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
             if "[deployment planning reference]" not in text:
                 findings.append(Finding(readme, "missing canonical common-planning reference"))
-            if "Imported / external capital" not in text:
-                findings.append(Finding(readme, "missing imported/external capital requirement"))
-            if "External capital saved vs default turnkey sensitivity" not in text:
-                findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
+            if design.get("city", {}).get("country") == "IQ":
+                for required_funding_text in (
+                    "## Iraq funding", "uncommitted", "chinese export credit",
+                    "domestic bonds", "bank credit", "government",
+                    "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv",
+                ):
+                    if required_funding_text not in text:
+                        findings.append(Finding(readme, f"missing structured Iraq funding disclosure: {required_funding_text}"))
+            else:
+                if "Imported / external capital" not in text:
+                    findings.append(Finding(readme, "missing imported/external capital requirement"))
+                if "External capital saved vs default turnkey sensitivity" not in text:
+                    findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
             if actual_continent != "europe":
                 if "> **Foreign-capital advantage:**" not in text:
                     findings.append(Finding(readme, "missing headline foreign-capital advantage"))

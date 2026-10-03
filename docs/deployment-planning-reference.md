@@ -103,6 +103,17 @@ materials, fabrication and services that can use domestic funding. Country
 finance parameters define construction period, debt rates, tenor and the local
 bond/equity split.
 
+For Iraq, the primary proposal is the [schedule-linked funding programme](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md).
+It assigns proposed Chinese buyer credit only to assumed eligible imported
+component invoices, then splits the remainder among government appropriations,
+IQD bonds and IQD bank credit. The [controlled assumptions](../lib/templates/iraq-funding.toml)
+remain uncommitted. Monthly native-currency debt schedules, interest on staged
+draws, fees, reserves, public support and downside cash gaps are explicit.
+Construction uses the actual resource-constrained procurement milestones under
+an assumed 260-working-day year; the generic five-year financing comparator
+does not define the Iraq construction schedule. Physical and operational release
+gates remain open even when all planning example artifacts are regenerated.
+
 The foreign-turnkey comparison is an editable like-for-like sensitivity, not a
 vendor quotation. Both cases use the same network, fleet, service, energy scope
 and financing schedule. Replace the multiplier, external share and all funding

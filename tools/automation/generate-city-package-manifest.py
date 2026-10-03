@@ -72,6 +72,17 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
         },
     }
     findings = []
+    # Also supports importlib loading in focused audit tests.
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent))
+    from finance_evidence import stale_finance_sources
+    finance_path = city_dir / "engineering/finance/summary.json"
+    if finance_path.is_file():
+        finance = json.loads(finance_path.read_text())
+        findings.extend(stale_finance_sources(finance, REPO_ROOT))
+        funding = finance.get("structured_financing")
+        if funding is not None and funding.get("schedule_status") != "linked-to-budget-work-packages":
+            findings.append({"artifact": "engineering/finance/summary.json", "source": "funding_schedule", "expected_sha256": "current schedule-linked appraisal", "recorded_sha256": funding.get("schedule_status")})
     for relative, inputs in families.items():
         path = city_dir / "engineering" / relative
         if not path.is_file():
@@ -197,6 +208,7 @@ def atomic_json(path: Path, value: object) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--city-dir", type=Path, required=True)
+    parser.add_argument("--planning-example", action="store_true", help="allow a complete documented example with explicit depot/stabling release gates still open")
     args = parser.parse_args()
     city_dir = args.city_dir.resolve()
     design_path = city_dir / "design.toml"
@@ -264,6 +276,9 @@ def main() -> int:
         city_dir / "operations/acceptance-evidence-report.md",
         city_dir / "operations" / f"{slug}-operations-manifest.json",
     ]
+    if design.get("city", {}).get("country") == "IQ":
+        required.extend(city_dir / "engineering/finance" / name for name in (
+            "FUNDING-MODEL.md", "funding-input.csv", "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv", "funding-cashflows.png"))
     local_reproducible = [
         city_dir / "engineering/gis" / f"{slug}.gpkg",
         city_dir / "operations" / f"{slug}-acceptance-evidence-matrix.csv",
@@ -320,6 +335,14 @@ def main() -> int:
 
     stale_sources = stale_analysis_sources(city_dir, slug)
     passed = not missing and not failed_summaries and not stale_sources and not local_path_files and operations_hash_current
+    documented_open_gates = {"engineering/depot-scope/summary.json", "engineering/stabling/summary.json"}
+    planning_complete = not missing and not stale_sources and not local_path_files and operations_hash_current and not (set(failed_summaries) - documented_open_gates)
+    # A physically unaccepted proposal may be a fully generated example only
+    # when its quantities/generation reconcile. Operational acceptance stays
+    # failed, and no failed selected-plan simulation is excused.
+    for relative, check in (("engineering/depot-scope/summary.json", "quantities_reconciled"), ("engineering/stabling/summary.json", "generation_passed")):
+        path = city_dir / relative
+        planning_complete = planning_complete and path.is_file() and json.loads(path.read_text()).get(check) is True
     revision = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         cwd=REPO_ROOT,
@@ -332,6 +355,9 @@ def main() -> int:
         "city": slug,
         "package_status": "screening-passed" if passed else "incomplete",
         "passed": passed,
+        "planning_example_complete": planning_complete,
+        "operational_release": False,
+        "planning_example_open_gates": sorted(set(failed_summaries) & documented_open_gates),
         "source_revision": revision or None,
         "generator": str(Path(__file__).relative_to(REPO_ROOT)),
         "generator_sha256": sha256(Path(__file__)),
@@ -384,7 +410,7 @@ def main() -> int:
         f"city-package {slug}: status={manifest['package_status']} "
         f"artifacts={len(manifest['artifacts'])} missing={len(missing)}"
     )
-    return 0 if passed else 1
+    return 0 if passed or (args.planning_example and planning_complete) else 1
 
 
 if __name__ == "__main__":

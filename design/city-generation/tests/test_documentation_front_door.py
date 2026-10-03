@@ -251,6 +251,10 @@ def test_complete_book_manifest_covers_reader_documentation() -> None:
         "tools/README.md",
         "tools/automation/README.md",
         "tools/reference-ma/README.md",
+        "cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md",
+        "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md",
+        "cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/FUNDING-MODEL.md",
+        "cities/catalogue/west-asia/Iraq/Mosul/engineering/finance/FUNDING-MODEL.md",
     }.issubset(included)
 
     for root in (
@@ -265,6 +269,10 @@ def test_complete_book_manifest_covers_reader_documentation() -> None:
         "tools",
     ):
         for path in (REPO_ROOT / root).rglob("*.md"):
+            # Browser acceptance creates disposable hidden City Studio workspaces.
+            # The reader manifest intentionally excludes hidden directories.
+            if any(part.startswith(".") for part in path.relative_to(REPO_ROOT / root).parts):
+                continue
             rel = path.relative_to(REPO_ROOT).as_posix()
             if rel not in {"docs/README.md", "docs/INDEX.md"} and ".pytest_cache" not in rel:
                 assert rel in included
@@ -297,6 +305,26 @@ def test_complete_book_manifest_covers_every_public_city_model() -> None:
     }
     assert model_paths == expected
     assert len(models) == len(expected) == 265
+    import json
+    for model in models:
+        finance = json.loads((model.path / "engineering/finance/summary.json").read_text())
+        assert model.capex == finance["capex_usd"]["reconciled_project_total"]
+        assert len(model.line_rows) == model.lines
+
+
+def test_book_can_paginate_a_table_row_taller_than_a_page() -> None:
+    from io import BytesIO
+    from reportlab.platypus import SimpleDocTemplate
+
+    builder = runpy.run_path(str(REPO_ROOT / "tools/automation/build-doc-book.py"))
+    builder["_register_fonts"]()
+    table = builder["_simple_table"](
+        [["Gate", "Findings"], ["Open qualification", "Unresolved supplier and physical evidence. " * 500]],
+        builder["_styles"](), 400,
+    )
+    output = BytesIO()
+    SimpleDocTemplate(output).build([table])
+    assert output.getvalue().startswith(b"%PDF-")
 
 
 def test_book_renderer_preserves_titles_callouts_images_and_html() -> None:

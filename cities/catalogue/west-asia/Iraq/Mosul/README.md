@@ -64,15 +64,28 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | EPC / project services | $113 M |
 | **Total city programme** | **$1.93 bn** |
 
-| Local funding measure | Planning value |
+## Iraq funding
+
+Proposed facilities and appropriations remain uncommitted. Government funds eligible-invoice downpayments, its capital share, fees, interest, restricted reserves and cash shortfalls.
+
+| Capital source | Planning USD equivalent |
 |---|---:|
-| Imported / external capital | $432 M (22.4%) |
-| Domestic / local capital | $1.50 bn (77.6%) |
-| Annual public construction commitment | $181 M / yr for 5 years |
-| Annual post-grace debt service | $133 M / yr |
-| External capital saved vs default turnkey sensitivity | $3.04 bn |
-| Capital + lifetime external interest saved | $6.77 bn |
-| Annual OPEX | $47 M / yr |
+| bank credit | $177 M |
+| chinese export credit | $152 M |
+| domestic bonds | $532 M |
+| government | $1.06 bn |
+
+The procurement schedule requires **116 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
+
+Peak annual government cash: **$465 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+
+Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. Shared national manufacturing tooling is funded once at programme level. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
+
+The model includes actual scheduled draws, native-currency principal/interest, fees, revenue ramps, operating/debt support, reserve movements and downside cases. Short bullet bonds have explicit redemptions without assumed refinancing.
+
+See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) and [three-city funding programme](../IRAQ-FUNDING-PROGRAMME.md).
+
+Annual operating allowance: $47 M; demand remains capacity-led.
 
 ## Local Evidence
 

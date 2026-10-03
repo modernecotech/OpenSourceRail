@@ -10,22 +10,21 @@ The current reference uses three static voters (five is supported by the model),
 
 ## 1. Summary
 
-OpenSourceRail replaces the centralized zone-controller model of conventional CBTC with a **distributed, replicated log of track state** maintained by wayside nodes via a consensus protocol. Each train computes its own Movement Authority (MA) from the log, cross-validated by two independent wayside nodes. This RFC specifies the log schema, the consensus protocol, the MA computation algorithm, the fault model, and the formal-verification plan.
+OpenSourceRail explores a **distributed, replicated log of track state** maintained by a static consensus group. Each train computes its own Movement Authority (MA) from validated committed state. The independent wayside witnesses described below are a proposed extension. This draft records the original schemas, algorithms and verification plan; its proposed timing, handover and witness behavior must not be read as implemented or qualified runtime behavior. RFC 0033 and the executable evidence define the current reference.
 
-The design target is **SIL-4 safety** at **<€5k per wayside site** in reference-hardware cost, with **p99 end-to-end MA update latency <200 ms**.
+Safety integrity must be allocated by the assessed hazards and deployment profile. The original sub-€5k site cost and sub-200 ms p99 latency were unverified research targets, not installed-system estimates or measurements. No SIL qualification is established by this RFC.
 
 ## 2. Motivation
 
 Conventional CBTC (Siemens Trainguard, Alstom Urbalis, Thales SelTrac) concentrates authority in a **Zone Controller (ZC)** — a redundant pair of proprietary computers per line or per large segment. The ZC:
 
-- Is a single logical point of failure. When it fails, the whole zone falls back to degraded manual operation.
-- Is a single vendor product. Swapping it out is a multi-year, eight-figure project.
-- Is opaque. Its internal state machine is not published; operators cannot inspect it; assessors re-derive correctness per certification.
-- Costs €10–50M per line, before rolling-stock ATP costs.
+- Centralises authority calculation within a defined operating area.
+- Uses deployment-specific redundant equipment, integration interfaces and recovery arrangements.
+- Requires a controlled safety case and supplier/operator integration evidence.
 
-A distributed log replaces the ZC with **N commodity wayside nodes** that collectively hold authoritative state. Any quorum-majority subset continues operating. No single failure stops service. The log is the specification: state is a function of committed entries, and the state machine is public.
+A distributed log lets **N reference voter nodes** collectively hold authoritative state. A surviving quorum can continue replication under the documented crash-fault assumptions. Service also requires valid train inputs, physical proving and both safety-output channels; loss of one required channel stops the affected function. A quorum is not a service-availability guarantee. State is a function of committed entries, and the state machine is public.
 
-This is cheaper, simpler, more resilient, and more auditable — *provided* we can prove the distributed protocol is safe. That proof is the heart of this RFC.
+Local ownership and auditability motivate the approach. Cost, availability and safety claims require matched-service comparisons and independently accepted evidence; a complete runtime refinement proof remains open.
 
 ## 3. Non-goals
 
@@ -38,7 +37,7 @@ This is cheaper, simpler, more resilient, and more auditable — *provided* we c
 
 | Term | Meaning |
 |---|---|
-| **Region** | A contiguous operating area of ~5–50 km covered by 5–20 wayside nodes in a single consensus group. |
+| **Region** | An operating area covered by one static consensus group; the reference uses three voters, with five supported by the model. Physical extent and non-voting I/O are deployment-specific. |
 | **Wayside Node (W-Node)** | SBC running the consensus + interlocking stack at a physical site (station, junction, substation). |
 | **Train Agent** | Software on a train's T-ECU that publishes position reports, computes MA, and enforces ATP. |
 | **Log** | The append-only, totally-ordered, quorum-committed sequence of facts about the region. |
@@ -138,7 +137,7 @@ From the log, any W-Node (or train agent) deterministically computes:
 
 - **Section occupancy map**: for each section, which train (if any) currently occupies it, with confidence interval.
 - **Switch state map**: for each switch, last observed position and lock status.
-- **Active routes**: set of currently granted RouteGrants that have not expired or been released.
+- **Protected routes/resources**: reservations and occupied resources retained until their clearance and release conditions are proved. Permission expiry inhibits further entry; it is not proof that a resource is empty.
 - **Speed restriction map**: keyed by section.
 - **Known trains**: registered consists and last-known positions.
 
@@ -152,15 +151,15 @@ We use **Static-Membership Raft with Fail-Restrictive Timeout** (SMRaft) — a n
 
 1. **Static membership.** Membership changes require a maintenance window; there is no online reconfiguration. This eliminates the trickiest part of Raft (joint consensus) and the hardest part of its correctness proof.
 2. **Fail-restrictive timeout.** When a node cannot confirm liveness of a quorum within `T_safe` (default 2 s), it stops emitting new RouteGrants and notifies trains via a "shrinking authority" signal. Existing MAs remain valid until their own expiry. This is the fail-safe direction.
-3. **Bounded log growth.** The log is aggressively snapshotted (every `N_snap` entries, default 10k) and old entries are pruned after snapshot durability. Train agents subscribe to live tail only.
+3. **Log capacity boundary.** Logical Raft snapshots and log truncation are unimplemented. Disk-journal checkpoint compaction retains the complete logical log; reaching the bounded reference capacity stops publication. Snapshot, replay-fence and safe truncation work needs separate evidence.
 
 SMRaft is Raft with parts removed, not added. The underlying correctness argument rides on Raft's well-studied safety proof (Ongaro's TLA+ spec, verified refinements in Ironfleet).
 
 ### 6.2 Region sizing
 
-- **5–20 nodes per region.** Below 5, fault tolerance is too thin (need to tolerate 2 simultaneous failures including scheduled maintenance). Above 20, Raft's serial leader becomes a latency bottleneck for commits.
+- **Three reference voters; five supported by the model.** Select membership from assessed failure tolerance and independent placement. Three voters tolerate one unavailable voter; five tolerate two under the quorum assumptions. Historical 5–20-node sizing is not a current default.
 - **Quorum:** `floor(N/2) + 1`. Standard Raft quorum.
-- **Node placement:** one W-Node per station or major junction. Extra nodes collocated in depot and OCC to boost quorum size without adding track-side complexity.
+- **Node placement:** independent voter power/network domains require deployment assessment. Station or junction I/O does not automatically add a voter; collocation must not be counted as independent failure tolerance.
 
 ### 6.3 Timing parameters
 
@@ -173,7 +172,7 @@ SMRaft is Raft with parts removed, not added. The underlying correctness argumen
 | `MA_refresh_period` | 500 ms | How often a train reevaluates its MA against log tail. |
 | `MA_validity_window` | 3 s | How long an MA is valid after issue. Short enough to be self-expiring, long enough to tolerate transient network hiccups. |
 
-All timing parameters are deployment-configurable but ship with conservative defaults.
+These are original planning assumptions, not qualified defaults or current measured runtime deadlines. Use the exact controlled runtime configuration and its output-lease/deadline evidence for an executable reference.
 
 ### 6.4 Leader responsibilities
 
@@ -279,7 +278,9 @@ Five properties must be proven about this function:
 
 These are the core safety properties we formally verify (§11).
 
-### 7.3 Cross-validation
+### 7.3 Proposed independent witness cross-validation
+
+This witness protocol is not implemented by the current reference. Its committed-prefix checks and paired output guards do not establish two independent wayside witnesses.
 
 The train agent subscribes to **two** independent W-Nodes. Each independently:
 
@@ -292,7 +293,7 @@ The train agent accepts the **intersection** of:
 - Primary W-Node's witness,
 - Secondary W-Node's witness.
 
-"Intersection" means: end position = minimum of the three; speed restriction = maximum of the three; validity = minimum of the three. The fail-safe direction again.
+"Intersection" means the most restrictive compatible extent, the **minimum permitted maximum speed** and the earliest validity limit. The position comparison must use a common route and direction; a minimum raw coordinate is insufficient on opposing routes.
 
 Disagreement logs an incident and degrades to the most restrictive value. Persistent disagreement (>3 cycles) triggers a service brake and notifies dispatch — this indicates either a compromised node or a bug, both of which warrant intervention.
 
@@ -313,7 +314,7 @@ This handoff is *not* consensus across regions. It's coordinated publish/subscri
 | Single W-Node crash | Occasional | Quorum holds; no operational impact. Failed node restarted, rejoins as follower. |
 | Leader crash | Occasional | Election in ~300–600 ms; brief commit pause; no MA impact if pause < `MA_VALIDITY_WINDOW`. |
 | Quorum loss (partition) | Rare | No new commits. Existing MAs expire over ~3 s; trains coast to stop. Service resumes when quorum reforms. |
-| Radio link degradation | Common | Train may miss witness messages; falls back to self-MA with reduced confidence; MA recomputation continues. Persistent loss → brake. |
+| Radio link degradation | Common | Missing/stale evidence cannot increase permission. Required-channel loss inhibits release; any degraded operation requires a separately approved profile. |
 | Position sensor failure (one modality) | Uncommon | Sensor fusion degrades gracefully; position uncertainty grows; MA shrinks proportionally. |
 | Position sensor failure (all modalities) | Rare | Train reports "position lost" to log; all other trains treat section containing unknown train as blocked; the train itself brakes to stop. |
 | Byzantine W-Node | Out of scope for v1 | See §3. |

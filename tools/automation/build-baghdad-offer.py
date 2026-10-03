@@ -5,10 +5,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 import tomllib
+
+from osr_scenario.network_readme import compute_stats, _energy_plan
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
@@ -37,7 +40,7 @@ CITY = ROOT / "cities/catalogue/west-asia/Iraq/Baghdad"
 OFFER = CITY / "offer"
 PDF = OFFER / "Baghdad-OpenSourceRail-System-Offer.pdf"
 MANIFEST = OFFER / "manifest.json"
-TODAY = date(2026, 10, 1)
+TODAY = date.fromisoformat(tomllib.loads((ROOT / "lib/templates/iraq-funding.toml").read_text())["model"]["as_of"])
 
 NAVY = colors.HexColor("#102936")
 TEAL = colors.HexColor("#0A8175")
@@ -223,7 +226,7 @@ def page_chrome(canv, doc):
     canv.setStrokeColor(colors.HexColor("#CAD5D1"))
     canv.line(18 * mm, 13 * mm, A4[0] - 18 * mm, 13 * mm)
     canv.setFillColor(GREY)
-    canv.drawString(18 * mm, 8 * mm, "Generated 1 October 2026 · Verify manifest hashes before use")
+    canv.drawString(18 * mm, 8 * mm, f"Generated {TODAY:%d %B %Y} · Verify manifest hashes before use")
     canv.drawRightString(A4[0] - 18 * mm, 8 * mm, f"Page {page}")
     canv.restoreState()
 
@@ -250,7 +253,7 @@ def build() -> None:
     package = read_json(CITY / "package-manifest.json")
 
     assert design["city"]["slug"] == "baghdad"
-    assert len(design["lines"]) == 9 and len(design["stations"]) == 182
+    assert design["lines"] and design["stations"]
     assert simulation["passed"] and simulation["resilience_passed"]
     assert len(simulation["resilience_cases"]) == 8
     assert sumo["passed"] and gis["passed"]
@@ -271,6 +274,62 @@ def build() -> None:
     arrived = sum(line["arrived_services"] for line in sumo["lines"])
     capex = finance["capex_usd"]["reconciled_project_total"]
     ops_totals = operations["totals"]
+    scenario = tomllib.loads((CITY / "baghdad.toml").read_text())
+    stats = compute_stats(design, scenario, int(design["city"]["population"]))
+    energy_plan = _energy_plan(design, scenario, stats)
+    stations = stats.unique_station_count
+    lines = len(design["lines"])
+    interchanges = len(design["interchanges"])
+    peak = sum(f["peak_count"] for f in design["fleets"])
+    spares = sum(f["spare_count"] for f in design["fleets"])
+    reserve = sum(f["cold_reserve_count"] for f in design["fleets"])
+    buckets = {r["bucket"]: r["total_usd"] for r in finance["capex_usd"]["procurement_origin_buckets"]}
+    funding = finance["structured_financing"]
+    assert funding["schedule_status"] == "linked-to-budget-work-packages"
+    offer_readme = OFFER / "README.md"
+    text = offer_readme.read_text()
+    system = f"""## Proposed system
+
+The current planning baseline contains {lines} lines, {length_km:.1f} km of
+double-track route, {stations} unique stations, {interchanges} interchange
+complexes and {fleet} six-car trainsets. The service plan targets a three-minute
+peak headway and a 05:30–02:00 operating day. The civil screen identifies
+{civil_lengths['at-grade']/1000:.1f} km at grade,
+{civil_lengths['elevated']/1000:.1f} km elevated and
+{civil_lengths['bridge']/1000:.1f} km of bridge works. Open geospatial screening
+must be confirmed by survey, property, utilities, ground, hydraulic and alignment
+evidence during FEED.
+
+The energy concept includes {energy['pv_nameplate_kw']/1000:.1f} MW of station/depot
+PV, {energy['storage_capacity_kwh']/1000:.1f} MWh of storage,
+{energy['connected_charging_power_kw']/1000:.1f} MW of connected charging and
+{energy_plan.solar_plant_kw/1000:.1f} MW of dedicated solar. Operating energy,
+islanding, connections, protection, land and duty remain unaccepted.
+
+City planning CAPEX is USD {capex/1e9:.2f} billion before owner-confirmed land,
+utilities, tax/duty and escalation. The {money(buckets['depots'])} depot allowance
+is **not reconciled** to surveyed stabling, workshops, energy, fire and security.
+The shared national plant is outside city CAPEX and counted once in the programme.
+
+## Iraq financing proposal
+
+The [city funding model](../engineering/finance/FUNDING-MODEL.md) and
+[three-city programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
+component invoices, government capital, IQD bonds and IQD bank credit.
+They include staged draws, native-currency principal/interest, fees, reserves,
+cash support and downside funding gaps. The rates, maturities and 85% invoice
+advance are uncommitted appraisal assumptions. The resource-constrained
+construction cash schedule is not a five-year funding promise. Monthly and
+annual ledgers and charts are generated from the same controlled model.
+
+"""
+    text, count = re.subn(r"## Proposed system\n.*?(?=## Rolling stock)", system, text, flags=re.S)
+    if count != 1:
+        raise ValueError("offer README needs one controlled proposed-system section")
+    text, count = re.subn(r"The Baghdad package already instantiates.*?These feed the project twin, operations portal,", f"The Baghdad package already instantiates {ops_totals['assets']:,} assets, {ops_totals['manufacturing_tasks']:,} manufacturing and verification tasks, {ops_totals['manufacturing_materials']:,} material/procurement rows, {ops_totals['maintenance_tasks']:,} maintenance tasks and {ops_totals['qa_actions']:,} QA actions. These feed the project twin, operations portal,", text, flags=re.S)
+    if count != 1:
+        raise ValueError("offer README needs one controlled operations summary")
+    offer_readme.write_text(text)
 
     doc = BaseDocTemplate(
         str(PDF), pagesize=A4, title="OpenSourceRail Baghdad System Offer",
@@ -292,7 +351,7 @@ def build() -> None:
         p("Concept and front-end engineering design offer", "OfferSub"),
         fitted_image(CITY / "baghdad-network-map.png", 174 * mm, 112 * mm),
         Spacer(1, 6 * mm),
-        Table([[p("9 lines", "CoverCard"), p("182 stations", "CoverCard"), p("516.5 km", "CoverCard"), p("831 trainsets", "CoverCard")]], colWidths=[43.5 * mm] * 4,
+        Table([[p(f"{lines} lines", "CoverCard"), p(f"{stations} stations", "CoverCard"), p(f"{length_km:.1f} km", "CoverCard"), p(f"{fleet} trainsets", "CoverCard")]], colWidths=[43.5 * mm] * 4,
               style=TableStyle([("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#173F4D")),
                                 ("BOX", (0, 0), (-1, -1), 0.5, TEAL),
                                 ("INNERGRID", (0, 0), (-1, -1), 0.5, TEAL),
@@ -300,7 +359,7 @@ def build() -> None:
                                 ("BOTTOMPADDING", (0, 0), (-1, -1), 7)])),
         Spacer(1, 6 * mm),
         p("Prepared from source-locked open geospatial data, a deterministic city design, native railway simulation, independent SUMO timetable validation and a city-specific project/operations twin.", "OfferSub"),
-        p("STATUS · PLANNING BASELINE — NOT CONSTRUCTION RELEASE · 1 OCTOBER 2026", "OfferSub"),
+        p(f"STATUS · PLANNING BASELINE — NOT CONSTRUCTION RELEASE · {TODAY:%d %B %Y}", "OfferSub"),
         PageBreak(),
     ])
 
@@ -310,7 +369,7 @@ def build() -> None:
         cards([
             (f"{length_km:.1f} km", "double-track route"),
             ("3 min", "peak headway"),
-            ("2.28 M", "practical trips/day"),
+            (f"{finance['revenue_basis']['practical_capacity_passenger_trips_per_day']/1e6:.2f} M", "practical trips/day"),
             (money(capex), "planning CAPEX"),
         ]),
         Spacer(1, 4 * mm),
@@ -319,8 +378,8 @@ def build() -> None:
         p("What Baghdad receives", "H2x"),
     ]
     story += bullet([
-        "A reproducible nine-line network baseline with 182 stations, 23 interchanges and open GIS layers.",
-        "A complete planning twin linking 1,862 assets to budget, procurement, QA, maintenance and operating records.",
+        f"A reproducible {lines}-line network baseline with {stations} stations, {interchanges} interchanges and open GIS layers.",
+        f"A complete planning twin linking {ops_totals['assets']:,} assets to budget, procurement, QA, maintenance and operating records.",
         "A six-car battery-electric fleet concept with candidate CRRC components under competitive procurement.",
         "Deterministic simulation and standards/FMEA evidence that reruns when controlled design inputs change.",
         "A staged assurance route that prevents a planning model from being misrepresented as regulatory approval.",
@@ -329,17 +388,17 @@ def build() -> None:
         p("What this document does not claim", "H2x"),
         p("It is not a bid from CRRC or any other manufacturer; not a demand forecast, land approval, utility agreement, geotechnical design, issued-for-construction package, safety certificate or financing commitment. Values remain planning screens until the named release gates close."),
         fitted_image(CITY / "engineering/screenshots/baghdad-qgis-engineering-map.png", 174 * mm, 78 * mm),
-        p("City-specific QGIS/GDAL package: 9 corridors, 182 stations, 23 interchanges and 2,312 classified civil segments.", "Smallx"),
+        p(f"City-specific QGIS/GDAL package: {lines} corridors, {stations} stations, {interchanges} interchanges and {len(design['civil_segments']):,} classified civil segments.", "Smallx"),
         PageBreak(),
     ]
 
     story += section("Network, terrain and civil concept", "Physical system")
     story += [
         cards([
-            ("428.3 km", "at grade"),
-            ("75.8 km", "elevated/viaduct"),
-            ("12.4 km", "bridge screen"),
-            ("19", "junction upgrades"),
+            (f"{civil_lengths['at-grade']/1000:.1f} km", "at grade"),
+            (f"{civil_lengths['elevated']/1000:.1f} km", "elevated/viaduct"),
+            (f"{civil_lengths['bridge']/1000:.1f} km", "bridge screen"),
+            (str(len(design['junctions'])), "junction upgrades"),
         ]),
         Spacer(1, 3 * mm),
         p("The automated designer combines OpenStreetMap transport/building/water/protected-area data with open SRTM elevation and derived slope. It rejects stations predominantly over mapped water and raises likely bridge, terrain viaduct, tight-radius and complex-junction segments for engineering review."),
@@ -351,9 +410,9 @@ def build() -> None:
         ], [34 * mm, 24 * mm, 31 * mm, 85 * mm]),
         Spacer(1, 3 * mm),
         p("Station and operating layout", "H2x"),
-        p("The plan includes 182 unique stations and 23 interchange complexes. Stations remain prohibited on mapped-water footprints in the automatic planner. Platform, access, evacuation, universal access, fire/life safety, utilities, traffic management and property interfaces require site-by-site G1 design evidence."),
+        p(f"The plan includes {stations} unique stations and {interchanges} interchange complexes. Stations remain prohibited on mapped-water footprints in the automatic planner. Platform, access, evacuation, universal access, fire/life safety, utilities, traffic management and property interfaces require site-by-site G1 design evidence."),
         p("Depot and stabling status", "H2x"),
-        callout("OPEN GATE · The design allocates 831 trainsets operationally, but physical overnight positions, track-by-track capacity, workshop circulation, power/fire separation, security and morning/evening moves are not yet surveyed. The current USD 8 M depot allowance is not reconciled and must not be treated as a final depot cost.", AMBER),
+        callout(f"OPEN GATE · The design allocates {fleet} trainsets operationally, but physical overnight positions, track-by-track capacity, workshop circulation, power/fire separation, security and morning/evening moves are not yet surveyed. The current {money(buckets['depots'])} depot allowance is not reconciled and must not be treated as a final depot cost.", AMBER),
         Spacer(1, 3 * mm),
         p("Proposed FEED action: compare at least three land-backed depot/distributed-stabling options, freeze an operator-owned fleet deployment plan, then update civil, energy, programme and cost baselines together."),
         PageBreak(),
@@ -364,9 +423,9 @@ def build() -> None:
     story += [
         cards([
             ("05:30–02:00", "operating day"),
-            ("751", "peak revenue fleet"),
-            ("71 + 9", "spare + cold reserve"),
-            ("3,952", "one-way trips/day"),
+            (str(peak), "peak revenue fleet"),
+            (f"{spares} + {reserve}", "spare + cold reserve"),
+            (f"{energy_plan.scheduled_daily_train_journeys:,.0f}", "one-way trips/day"),
         ]),
         Spacer(1, 3 * mm),
         p(f"The full native run covers 90,000 seconds and {full_run['train_km']:,.0f} train-km with zero invariant violations. Eight degraded cases—including aged batteries, maximum HVAC load, charging-contact loss, grid outage, missed charges and charger conflict—pass the present software model. SUMO independently records {arrived}/{scheduled} planned validation services arriving."),
@@ -374,11 +433,11 @@ def build() -> None:
         p("Native two-hour evidence trace; the full service-day-plus-run-out and degraded cases are retained as hashed JSON evidence.", "Smallx"),
         data_table([
             ["Energy element", "Planning baseline", "Release boundary"],
-            ["Traction demand", "2,053.8 GWh/year", "Calibrated vehicle/duty data and operator timetable"],
+            ["Traction demand", f"{energy_plan.annual_energy_kwh/1e6:,.1f} GWh/year", "Calibrated vehicle/duty data and operator timetable"],
             ["Station/depot PV", f"{energy['pv_nameplate_kw']/1000:.1f} MW", "Surveyed roofs/sites, yield, structure, protection"],
             ["Stationary storage", f"{energy['storage_capacity_kwh']/1000:.0f} MWh", "Supplier product, fire strategy, degradation and duty"],
             ["Connected charging", f"{energy['connected_charging_power_kw']/1000:.0f} MW", "Grid/interface studies, selectivity and timetable conflicts"],
-            ["Dedicated solar", "1,018.6 MW", "Land, connection, PPA/ownership and measured resource"],
+            ["Dedicated solar", f"{energy_plan.solar_plant_kw/1000:,.1f} MW", "Land, connection, PPA/ownership and measured resource"],
         ], [40 * mm, 43 * mm, 91 * mm]),
         Spacer(1, 2 * mm),
         callout("The model's zero residual grid/PPA import is a planning result. It is not proof of islanded operability or an approved grid connection; operating energy is explicitly marked unvalidated.", AMBER),
@@ -387,7 +446,7 @@ def build() -> None:
 
     story += section("Rolling stock with a candidate CRRC parts package", "Industrial system")
     story += [
-        p("The proposed fleet is 831 OpenSourceRail six-car, 111 m battery-electric trainsets. The vehicle architecture, requirements, interfaces, FMEA, maintenance identities and acceptance gates remain owner-controlled. CRRC product families are included as candidate components because CRRC publicly lists traction and electrical control equipment and vehicle components—not because a supplier has been appointed."),
+        p(f"The proposed fleet is {fleet} OpenSourceRail six-car battery-electric trainsets. The vehicle architecture, requirements, interfaces, FMEA, maintenance identities and acceptance gates remain owner-controlled. CRRC product families are included as candidate components because CRRC publicly lists traction and electrical control equipment and vehicle components—not because a supplier has been appointed."),
         data_table([
             ["Candidate package", "Potential CRRC scope", "Required acceptance evidence"],
             ["Traction", "PMSM motors; SiC/traction converters; auxiliary converters", "Duty-cycle sizing, efficiency map, thermal/EMC, HIL and first article"],
@@ -456,24 +515,31 @@ def build() -> None:
             (money(capex), "base planning total"),
             (money(capital["risk_envelope_15_percent"]), "+15% envelope"),
             (money(capital["risk_envelope_25_percent"]), "+25% envelope"),
-            ("77.1%", "modelled local capital"),
+            (f"{capital['local_percentage_of_total']:.1%}", "modelled local capital"),
         ]),
         Spacer(1, 3 * mm),
         data_table([
             ["Planning bucket", "Value", "Critical qualification"],
-            ["Civil works", money(3_894_477_344), "Survey/land/utilities/geotechnical and detailed structures"],
-            ["Stations", money(907_900_000), "Site fit, passenger/fire/accessibility and MEP design"],
-            ["Rolling stock", money(1_396_080_000), "Competitive supplier offer, qualification and support"],
-            ["Solar plant", money(814_868_712.49), "Land, grid, measured resource and commercial structure"],
-            ["Depots", money(8_000_000), "Not reconciled; replace after depot/stabling FEED"],
-            ["Other systems / EPC", money(capex - 3_894_477_344 - 907_900_000 - 1_396_080_000 - 814_868_712.49 - 8_000_000), "Control, charging, project services and integration"],
+            ["Civil works", money(buckets['civil']), "Survey/land/utilities/geotechnical and detailed structures"],
+            ["Stations", money(buckets['stations']), "Site fit, passenger/fire/accessibility and MEP design"],
+            ["Rolling stock", money(buckets['rolling_stock']), "Competitive supplier offer, qualification and support"],
+            ["Solar plant", money(buckets['solar_plant']), "Land, grid, measured resource and commercial structure"],
+            ["Depots", money(buckets['depots']), "Not reconciled; replace after depot/stabling FEED"],
+            ["Other systems / EPC", money(sum(buckets[k] for k in ('signalling', 'charging_microgrid', 'epc_overhead'))), "Control, charging, project services and integration"],
         ], [49 * mm, 32 * mm, 93 * mm]),
         Spacer(1, 3 * mm),
         fitted_image(OFFER / "screenshots/baghdad-project-twin.png", 174 * mm, 71 * mm),
         p(f"Baghdad project twin: {project['totals']['programme_working_days']:,} planning days, {project['totals']['critical_work_packages']:,} critical work packages and {project['totals']['pre_ntp_order_actions']:,} pre-NTP actions. Its status is explicitly “planning-digital-twin-not-construction-release”.", "Smallx"),
-        p("The foreign-turnkey and localisation figures are sensitivities, not received bids. Land, taxes/duties, utility relocation, escalation, financing fees and the unresolved depot correction must be owner-defined before affordability or financing decisions."),
+        p("The foreign-turnkey and localisation figures are sensitivities, not received bids. Land, taxes/duties, utility relocation, escalation and unresolved depot scope must be owner-defined before affordability decisions. Financing fees are separately modelled in the Iraq cashflow."),
         PageBreak(),
     ]
+    story += section("Iraq sources, repayments and public cash", "Structured financing appraisal")
+    metrics = funding["base"]["metrics"]
+    story += [data_table([["Capital source", "Proposed USD equivalent"], *[[k.replace('_', ' '), money(v)] for k, v in metrics["capital_sources_usd"].items()]], [104*mm, 70*mm]), Spacer(1, 3*mm),
+        fitted_image(CITY / "engineering/finance/funding-cashflows.png", 174*mm, 108*mm),
+        p(f"Construction cash spans {metrics['construction_cash_months']} assumed calendar months under the current constrained CPM. Peak annual public cash is {money(metrics['peak_annual_government_cash_usd'])}; loan repayment is tied to draw dates, not postponed until opening.", "Smallx"),
+        p("Chinese export buyer credit is proposed only for eligible Chinese PV, bogie, battery, window and door invoices. Government contributes capital and invoice downpayments; proposed IQD sovereign bonds and term bank credit fund the remainder. Tooling is allocated once to a shared national plant outside city CAPEX. Loan advance, rates, maturities and origination fees are uncommitted assumptions, not bank offers."),
+        p("Monthly ledgers separately show native-currency draws, principal, interest, fees, fare/nonfare receipts, OPEX, public support and restricted reserves. FX, demand, delay, short-bullet bonds, withheld appropriations and declined Chinese credit are stressed. Subsidy does not increase pre-support DSCR; no automatic refinancing or unlimited bridge credit is assumed."), PageBreak()]
 
     story += section("A controlled path from model to railway", "Proposed engagement")
     story += [
@@ -511,6 +577,8 @@ def build() -> None:
         Path("cities/catalogue/west-asia/Iraq/Baghdad/design.toml"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/package-manifest.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json"),
+        Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-cashflows.png"),
+        Path("lib/templates/iraq-funding.toml"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/energy/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/gis/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/validation-summary.json"),
