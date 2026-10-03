@@ -315,6 +315,8 @@ Commission a phased Baghdad feasibility package that closes the route, station, 
 
 ## Detailed schedules and source appendices
 
+The [detailed engineering plan](../DETAILED-ENGINEERING.md) and [component register](../engineering/detail/README.md) expand Baghdad's six-car mechanical interfaces, civil works, Iraqi slab manufacture, missing parts, onboard power/wiring, software host allocation and ERP handover. The register carries 69 reference part rows and all 60 Rust software allocations, with unknown prices and supplier identities left open. It corrects the ST6 seat layout and electronics interface errors; it does not release shop drawings or add unpriced components to the accepted finance totals. Local ERP recovery and planning-contract checks are recorded separately from production readiness.
+
 The following proposal annex prints every station, interchange, fleet role, energy site and the complete cost priority six month draw/repayment schedule. Civil segment chainages and junction details are in the attached registers and design. Full monthly and alternative case ledgers remain in the supporting archive and repository. Technical annexes reproduce the city survey, ground, alignment, depot, stabling, delivery, deployment, finance and acceptance reports, followed by the current shared architecture and engineering references.
 
 [Source inventory](source-inventory.csv) and [publication manifest](manifest.json) identify exact inputs and outputs. [Supporting data archive](Baghdad-Proposal-Supporting-Data.zip) includes the controlled files and complete operations payload. The editable proposal, PDF and appendix source list can be regenerated with the repository's proposal builder.
