@@ -97,16 +97,24 @@ The city-sized plant becomes available after **18 months from NTP**, followed by
 
 Current capital milestones span 84 months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **41/83**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
 
-The factory's final fleet margin is only 20 working days; test-path throughput margin is 2.71%. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) tests factory delay, suppliers, hiring, rework, path outage, civil access and lower availability with the selected cells fixed. It adds explicit test-path calendars; recovery funds a second test shift, USD 1.605m capital and incremental indexed staff payroll before and after fare receipts. These are unqualified deterministic cases, not probabilities or secured funding. Civil acceleration needs casting, foundation, track, station and energy evidence; it cannot bypass train acceptance.
+The factory's final fleet margin is only 20 working days; test-path throughput margin is 2.71%. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) separates civil productivity from investment timing: a 1.0 cycle multiplier preserves the complete baseline schedule, faster cycles retain the rephased start floors, and earliest construction is a separate comparison. Removing spending delays at unchanged productivity must not be called a productivity financing penalty.
 
-| Frozen case | First/full month | Peak IQD gap tn | Interest/fees USD eq bn | Debt cleared month |
+Recovery options price extra structural/electrical/composite or coordinated production shifts, hiring/training, supplier expediting and testing, with unchanged cell counts and indexed incremental payroll/nonlabour costs. Testing alone does not improve the 75% availability opening dates; upstream production still limits them. A separate temporary first-article facility sensitivity adds USD 37.450m capital plus support staffing and tests first opening in month 36; permanent acceptance paths, first-article qualification and full line fleets remain required. These options are unquoted deterministic comparisons, not adopted delivery commitments.
+
+Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD 26.862tn cumulative uncovered cash** and **IQD 4.000tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](../engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
+
+| Scenario | First/full month | Peak IQD gap tn | Interest/fees USD eq bn | Debt cleared month |
 | --- | --- | --- | --- | --- |
-| calendar_baseline | 41/83 | 4.461 | 5.076 | 303 |
-| availability_75pct | 42/90 | 4.713 | 5.151 | 306 |
-| availability_65pct | 45/99 | 4.978 | 5.215 | 310 |
-| combined | 55/106 | 5.229 | 5.266 | 315 |
-| combined_second_test_shift | 53/104 | 5.114 | 5.235 | 313 |
-| civil_cycles_20pct_faster | 41/82 | 5.139 | 5.332 | 306 |
+| Baseline | 41/83 | 4.461 | 5.076 | 303 |
+| Faster civil; retained starts | 41/83 | 4.465 | 5.078 | 303 |
+| Earliest civil; original cycles | 41/83 | 4.818 | 5.211 | 304 |
+| Earliest civil; faster cycles | 41/82 | 5.139 | 5.332 | 306 |
+| 75% availability, costed | 42/90 | 4.728 | 5.156 | 306 |
+| 75% availability + test shift | 42/90 | 4.735 | 5.159 | 307 |
+| 75% availability + all stages | 40/83 | 4.543 | 5.114 | 304 |
+| Temporary first-article facility | 36/83 | 4.422 | 5.103 | 302 |
+| Combined delays, costed | 55/106 | 5.308 | 5.291 | 316 |
+| Joint downside | 55/106 | 4.000 | 15.384 | Unfunded |
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
