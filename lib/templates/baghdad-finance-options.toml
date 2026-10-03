@@ -60,3 +60,32 @@ offpeak_multiplier = 0.90
 # Baseline demand uses 50% of practical capacity. No discounted-fare scenario
 # can increase modelled trips beyond 100% of that same practical capacity.
 maximum_demand_multiplier = 2.0
+
+[prepayments]
+# Compare discretionary repayments only after OPEX, scheduled debt service,
+# DSRA and this operating liquidity buffer. All rights/prices are uncommitted.
+operating_buffer_months = 3
+# Prepayments reduce outstanding principal, keep the scheduled instalment,
+# and shorten maturity. No refinancing or automatic instalment recast.
+vintage_order = "oldest draw first"
+
+[prepayments.eligible]
+bank_credit = true
+domestic_bonds = true
+chinese_export_credit = true
+green_bonds = true
+
+[prepayments.premium]
+# Explicit sensitivity costs, NOT lender quotes or Iraqi bond call terms.
+bank_credit = 0.01
+domestic_bonds = 0.02
+chinese_export_credit = 0.01
+green_bonds = 0.01
+
+[prepayments.minimum_age_months]
+# Illustrative lock-ins from each draw; avoid issuing and redeeming immediately.
+# Executable notice/call dates require actual lender and bond terms.
+bank_credit = 6
+chinese_export_credit = 12
+domestic_bonds = 24
+green_bonds = 24

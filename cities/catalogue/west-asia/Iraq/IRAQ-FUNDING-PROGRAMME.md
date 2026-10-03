@@ -38,6 +38,42 @@ Average nominal tickets move from IQD 1,681 at first opening to IQD 5,164 at ful
 
 [Paired 5% six-month financing](finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv) · [monthly tickets and affordability](finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv) · [variable-ticket six-month financing](finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv). The detailed report contains the NPV, all assumptions and downside cases.
 
+## Surplus cash and early repayment
+
+These cases use identical paired 5% fare/OPEX/income assumptions and the same conditional blended capital sources. Each pays OPEX, scheduled principal, interest and fees, then funds the debt-service reserve and a three-month current-OPEX buffer before voluntary repayment. Borrowed gap proceeds and uncovered external cash cannot fund early payments. The extra buffer remains cash held at the terminal horizon and earns no interest.
+
+Compare strategies against **buffered gap-only**, rather than attributing the buffer change to repayment savings. Loans-first pays bank credit, Chinese credit and gap credit before bonds. Cost priority pays bank (9%), ordinary bonds (8%), Chinese credit (5%), green bonds (4% plus 0.5% annual guarantee), then gap credit (2%). It is an interest-rate heuristic, not a proof of the globally best strategy.
+
+| Surplus strategy | All debt cleared, month from close | Finance cost saving vs buffered gap-only, USD equivalent m | Early-payment premiums, USD equivalent m | Peak gap debt, IQD tn | Terminal unrestricted cash, IQD tn |
+|---|---:|---:|---:|---:|---:|
+| gap only buffered | 634 | 0.000 | 0.000 | 10.917 | 77.182 |
+| gap then core | 416 | 73.287 | 2.882 | 10.917 | 77.277 |
+| loans then bonds | 415 | 189.758 | 6.791 | 10.868 | 77.429 |
+| cost priority | 414 | 293.309 | 11.311 | 10.868 | 77.563 |
+| cost priority zero premium | 414 | 308.763 | 0.000 | 10.865 | 77.583 |
+| cost priority noncallable bonds | 634 | 129.259 | 4.520 | 10.868 | 77.350 |
+
+Cost priority clears all debt in month **414**, compared with **634** for buffered gap-only. Net nominal financing savings are **USD 293.309m equivalent**, after USD 11.311m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD 0.994tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.
+
+Assumed premiums are 1% of bank/Chinese/green principal and 2% of ordinary bond principal. A minimum draw age of 6 months (bank), 12 (Chinese) and 24 (both bonds) prevents immediate issue-and-redemption. Eligible vintages are repaid oldest first; contractual instalments are kept and maturity shortens. Notice, issuer call rights, investor consent, buyback price, remaining-maturity compensation, tax and FX require actual agreements. Noncallable-bond sensitivity makes no voluntary bond payments; zero-premium sensitivity removes only the assumed premium, retaining minimum ages.
+
+| Facility | Buffered gap-only final principal payment month | Cost-priority final principal payment month | Early principal, native currency | Premium, native currency |
+|---|---:|---:|---:|---:|
+| bank credit | 430 | 352 | IQD 304.456bn | IQD 3.045bn |
+| domestic bonds | 550 | 370 | IQD 103.046bn | IQD 2.061bn |
+| chinese export credit | 574 | 358 | USD 210.568m | USD 2.106m |
+| green bonds | 634 | 370 | IQD 686.162bn | IQD 6.862bn |
+
+The gap facility's final principal payment is in month 414. Later surplus remains unrestricted cash after debt retirement. Each month's native debt balance equals prior balance plus draws minus scheduled and early principal. Each six-month closing balance is its final month's balance; payments, premiums, interest and reserve movements are period sums. Contractual repayment windows in tranche files describe the original draw terms; the actual final-payment months above incorporate early repayment.
+
+[Monthly cost-priority repayments](finance/baghdad-early-cost_priority-monthly.csv) · [six-month repayment tranches](finance/baghdad-early-cost_priority-six-month-tranches.csv) · [loans-first tranches](finance/baghdad-early-loans_then_bonds-six-month-tranches.csv) · [all six complete calculations](finance/baghdad-early-repayment.json)
+
+![Surplus repayment comparison](finance/baghdad-early-repayment.png)
+
+Loan prepayment can carry redeployment/unwind charges: the [World Bank Treasury FAQ](https://treasury.worldbank.org/en/about/unit/treasury/ibrd-financial-products/financial-products-faqs) illustrates the concept, without establishing Chinese or Iraqi loan terms. The [US Treasury buyback FAQ](https://treasurydirect.gov/help-center/faqs/buyback-faqs/) and [published purchase results](https://treasurydirect.gov/auctions/announcements-data-results/buy-backs/) illustrate issuer authority and priced buybacks rather than automatic par redemption; they do not supply an Iraqi legal mandate.
+
+This repayment allocation does not change the unlevered project NPV or validate demand. Nominal savings over several decades are not present-value gains. CAPEX escalation, FX, lifecycle replacement, floating-rate risk and the uncommitted early funding still require appraisal.
+
 ## Consolidated sources and uses
 
 Government contributes **25% of total capital uses**, including the plant and EPC. Imported purchases are split **50% government USD cash and 50% proposed Chinese USD credit**, assuming the full imported basket can qualify. That USD government cash is inside the 25% total contribution; the rest of the government contribution is IQD. The remaining balance after those two sources is split 75% domestic IQD bonds and 25% IQD bank term credit.

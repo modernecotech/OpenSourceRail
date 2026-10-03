@@ -108,6 +108,22 @@ The [paired 5% six-month schedule](../../finance/baghdad-fare_5pct_opex_5pct-six
 and [monthly prices](../../finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv)
 show those cashflows and affordability assumptions.
 
+Surplus cash now also tests early repayment after scheduled obligations,
+debt-service reserves and a three-month current-OPEX buffer. Under assumed
+call/prepayment rights, cost priority clears debt in month
+414 against month 634
+for buffered gap-only repayment, saving USD
+293.309 million equivalent
+in nominal interest and fees after USD 11.311
+million assumed premiums. The order is bank credit, ordinary bonds, Chinese
+credit, green bonds, then the cheaper gap facility; loans-first and noncallable
+bonds are separate comparisons. Native principal is deducted once; no gap draw
+funds voluntary repayment. Premiums, minimum draw ages, calls, buyback prices,
+notice and permissions need actual contracts. Government capital remains 25%.
+[Six-month early-repayment tranches](../../finance/baghdad-early-cost_priority-six-month-tranches.csv)
+and [all six strategies](../../finance/baghdad-early-repayment.json) retain the
+repayment, fees, outstanding debt, buffer and cash reconciliation.
+
 ## Rolling stock and CRRC component strategy
 
 The proposed fleet uses the OpenSourceRail six-car battery-electric platform

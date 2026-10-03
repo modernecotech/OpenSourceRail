@@ -294,6 +294,9 @@ def build() -> None:
     fx = funding["assumptions"]["model"]["iqd_per_usd"]
     indexed = independent["cases"]["fare_5pct_opex_5pct"]
     indexed_prices = independent["fare_pricing"]["fare_5pct_opex_5pct"]
+    early_cases = independent["early_repayment"]["cases"]
+    early = early_cases["cost_priority"]
+    early_base = early_cases["gap_only_buffered"]
     offer_readme = OFFER / "README.md"
     text = offer_readme.read_text()
     system = f"""## Proposed system
@@ -385,6 +388,22 @@ and higher OPEX inflation. Capital escalation and future FX changes remain open.
 The [paired 5% six-month schedule](../../finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv)
 and [monthly prices](../../finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv)
 show those cashflows and affordability assumptions.
+
+Surplus cash now also tests early repayment after scheduled obligations,
+debt-service reserves and a three-month current-OPEX buffer. Under assumed
+call/prepayment rights, cost priority clears debt in month
+{early['all_debt_cleared_month']} against month {early_base['all_debt_cleared_month']}
+for buffered gap-only repayment, saving USD
+{early['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:.3f} million equivalent
+in nominal interest and fees after USD {early['early_premiums_usd_equivalent']/1e6:.3f}
+million assumed premiums. The order is bank credit, ordinary bonds, Chinese
+credit, green bonds, then the cheaper gap facility; loans-first and noncallable
+bonds are separate comparisons. Native principal is deducted once; no gap draw
+funds voluntary repayment. Premiums, minimum draw ages, calls, buyback prices,
+notice and permissions need actual contracts. Government capital remains 25%.
+[Six-month early-repayment tranches](../../finance/baghdad-early-cost_priority-six-month-tranches.csv)
+and [all six strategies](../../finance/baghdad-early-repayment.json) retain the
+repayment, fees, outstanding debt, buffer and cash reconciliation.
 
 """
     text, count = re.subn(r"## Proposed system\n.*?(?=## Rolling stock)", system, text, flags=re.S)
@@ -647,7 +666,7 @@ show those cashflows and affordability assumptions.
                ['Station shops / kiosk leases', f"{receipts['station_retail_annual_usd']*fx/1e9:.3f}"],
                ['Advertising space', f"{receipts['station_advertising_annual_usd']*fx/1e9:.3f}"]], [95*mm, 79*mm]),
         p("These receipts already reduce the gap. Retail assumes 88% occupancy and advertising 85%; rates follow the historical income proxy. Each line's receipts ramp with opening. Tenant demand, collection losses and dedicated concession costs remain unqualified; new income must be additional and net of costs.", "Smallx"),
-        p("Six-month placement envelopes specify native government cash, Chinese loan draws, IQD bond face and unit counts, IQD bank draws, first/last repayment dates, reserve movements and supplemental liquidity. Settlement is monthly against expenditure at par; selling each entire envelope upfront would need a new interest/carry calculation."),
+        p("Six-month placement envelopes specify native government cash, Chinese loan draws, IQD bond face and unit counts, IQD bank draws, contractual repayment windows, reserve movements and supplemental liquidity. Settlement is monthly against expenditure at par; selling each entire envelope upfront would need a new interest/carry calculation."),
         data_table([['Gap-finance sensitivity', 'Peak IQD tn', 'Uncovered IQD tn', 'Unpaid at end IQD tn']] + [
             [name.replace('_', ' '), f"{independent['cases'][name]['peak_supplemental_balance_iqd']/1e12:.3f}",
              f"{independent['cases'][name]['uncovered_support_iqd']/1e12:.3f}",
@@ -672,6 +691,21 @@ show those cashflows and affordability assumptions.
         fitted_image(CITY.parent / 'finance/baghdad-fare-inflation-sensitivities.png', 174*mm, 91*mm),
         p(f"Later surplus repays the illustrative facility under paired 5% assumptions, while substantial early IQD borrowing, the candidate grant/rights receipts and fixed nominal loan terms are still required. The unlevered NPV before grants/new rights/net-receipt targets is {money(indexed['pricing_project_npv_usd_equivalent'])} at {indexed['pricing_nominal_discount_rate']:.1%} nominal discount. Distant nominal surplus is not present-value wealth.", "Smallx"),
         p("Income, occupancy and elasticity are uncalibrated; capital escalation, replacement inflation, FX, variable interest rates and concessional IQD lending need qualification. Affordable commuter/student concessions and transfer caps need explicit compensation rather than assumed free reductions.", "Smallx"), PageBreak(),
+    ]
+    story += section("Surplus cash retires loans and bonds", "Early repayment comparison")
+    story += [
+        p("The same paired 5% fare/OPEX/income case pays OPEX and scheduled debt service first, funds contractual debt-service reserves and retains three months of current OPEX. Only the remainder funds voluntary repayments; no gap draw or uncovered external cash funds early principal. All strategies below use the same buffer and revenue."),
+        data_table([['Surplus strategy', 'All debt cleared month', 'Net savings USD eq m', 'Premiums USD eq m']] + [
+            [label, str(early_cases[name]['all_debt_cleared_month']),
+             f"{early_cases[name]['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:.3f}",
+             f"{early_cases[name]['early_premiums_usd_equivalent']/1e6:.3f}"]
+            for name, label in (('gap_only_buffered', 'Gap-only with buffer'), ('gap_then_core', 'Gap first, then core'),
+                                ('loans_then_bonds', 'Loans before bonds'), ('cost_priority', 'Interest-rate priority'),
+                                ('cost_priority_noncallable_bonds', 'Priority; bonds noncallable'))], [69*mm, 35*mm, 35*mm, 35*mm]),
+        p(f"Interest-rate priority saves {money(early['net_finance_cost_saving_vs_buffered_gap_only_usd'])} nominal financing cost after {money(early['early_premiums_usd_equivalent'])} premiums. It pays bank credit (9%), ordinary bonds (8%), Chinese credit (5%), green bonds (4% plus 0.5% annual guarantee), then gap credit (2%). This heuristic is not proof of the globally best strategy. Principal is returned once and is excluded from financing savings.", "Smallx"),
+        fitted_image(CITY.parent / 'finance/baghdad-early-repayment.png', 174*mm, 90*mm),
+        p(f"Assumed premiums: 1% bank/Chinese/green, 2% ordinary bonds. Minimum draw ages: 6 months bank, 12 Chinese, 24 bonds. Eligible vintages are paid oldest first, retaining instalments and shortening maturity. Calls, investor consent, notice, market buyback price, compensation and tax need actual terms. Noncallable sensitivity forbids early bond principal. All cases retain IQD {early['terminal_operating_buffer_iqd']/1e12:.3f}tn OPEX buffer separately from terminal unrestricted cash.", "Smallx"),
+        p("Government capital stays 25%; only Chinese credit is USD debt. Full monthly and six-month ledgers reconcile draws, scheduled/early principal, premiums, interest, reserves and closing debt. Contractual tranche maturity windows describe original terms; actual early payment dates are in the comparison. Savings do not change unlevered project NPV or establish a committed facility.", "Smallx"), PageBreak(),
     ]
     story += section("A controlled path from model to railway", "Proposed engagement")
     story += [
@@ -718,6 +752,9 @@ show those cashflows and affordability assumptions.
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare-inflation-sensitivities.png"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-early-repayment.json"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority-six-month-tranches.csv"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-early-repayment.png"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-financing-comparison.png"),
         Path("cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md"),

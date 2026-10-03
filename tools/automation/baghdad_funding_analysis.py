@@ -44,6 +44,17 @@ def validate_options(options: dict) -> None:
     elasticity = options['fares']['price_elasticity']
     if isinstance(elasticity, bool) or not isinstance(elasticity, (int, float)) or not math.isfinite(elasticity) or elasticity > 0:
         raise ValueError('invalid price elasticity')
+    finite(options['prepayments']['operating_buffer_months'], 'operating_buffer_months')
+    for name in (*CORE, 'green_bonds'):
+        finite(options['prepayments']['premium'][name], name+' prepayment premium', 1)
+        age = options['prepayments']['minimum_age_months'][name]
+        finite(age, name+' prepayment age')
+        if int(age) != age:
+            raise ValueError('prepayment age must be an integer')
+        if not isinstance(options['prepayments']['eligible'][name], bool):
+            raise ValueError('prepayment eligibility must be boolean')
+    if options['prepayments']['vintage_order'] != 'oldest draw first':
+        raise ValueError('unsupported prepayment vintage order')
 
 
 def capital_projection(contracts: list[dict], config: dict, eligible: set[str]) -> dict[int, dict]:
@@ -72,19 +83,38 @@ def debt_month(vintages: list[dict], month: int, terms: dict) -> tuple[float, fl
         age = month-loan['month']
         balance = loan['balance']
         interest += balance*rate*(.5 if age == 0 else 1)
+        loan['last_interest'] = balance*rate*(.5 if age == 0 else 1)
+        loan['last_principal'] = 0.
         if age > terms['grace_months_from_draw']:
             repayment = min(balance, max(0., loan['payment']-balance*rate))
             principal += repayment
+            loan['last_principal'] = repayment
             loan['balance'] = max(0., balance-repayment)
     return interest, principal
 
 
-def add_draw(vintages: list[dict], month: int, amount: float, terms: dict) -> None:
+def add_draw(vintages: list[dict], month: int, amount: float, terms: dict, factory_share: float = 0.) -> None:
     if amount <= 0:
         return
     rate, count = float(terms['annual_rate'])/12, int(terms['repayment_months'])
     payment = amount/count if rate == 0 else amount*rate/(1-(1+rate)**(-count))
-    vintages.append({'month': month, 'balance': amount, 'payment': payment, 'principal': amount})
+    vintages.append({'month': month, 'balance': amount, 'payment': payment, 'principal': amount, 'factory_share': factory_share})
+
+
+def prepay_vintages(vintages: list[dict], native_budget: float, premium: float,
+                    month: int, minimum_age: int) -> tuple[float, float]:
+    """Reduce principal once; charge the premium from the same cash budget."""
+    principal = 0.
+    for loan in vintages:
+        if month-loan['month'] < minimum_age:
+            continue
+        amount = min(loan['balance'], max(0., native_budget/(1+premium)))
+        loan['balance'] = max(0., loan['balance']-amount)
+        native_budget = max(0., native_budget-amount*(1+premium))
+        principal += amount
+        if native_budget < 1e-8:
+            break
+    return principal, principal*premium
 
 
 def audit_component(ledger: dict, config: dict) -> dict:
@@ -113,7 +143,9 @@ def audit_component(ledger: dict, config: dict) -> dict:
 
 def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
              options: dict, *, green: str | None = None, extras: bool = False,
-             bridge_rate: float | None = None, bridge_fee: float = 0.) -> dict:
+             bridge_rate: float | None = None, bridge_fee: float = 0.,
+             repayment_policy: str | None = None, zero_premiums: bool = False,
+             noncallable_bonds: bool = False) -> dict:
     """Pool city/plant cash, keep 25% government capital, and price gap debt."""
     validate_options(options)
     model, green_config = config['model'], options['green']
@@ -128,6 +160,21 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
                            repayment_months=green_config['blended_repayment_months'],
                            arrangement_fee=green_config['arrangement_fee'])
     terms['green_bonds'] = green_terms
+    if repayment_policy not in (None, 'gap_only', 'gap_first', 'loans_first', 'cost_priority'):
+        raise ValueError('unknown repayment policy')
+    prepayments = options['prepayments']
+    premiums = {name: 0. if zero_premiums else prepayments['premium'][name] for name in terms}
+    eligible_prepay = {name: prepayments['eligible'][name] and not (noncallable_bonds and name in ('domestic_bonds', 'green_bonds')) for name in terms}
+    if repayment_policy == 'cost_priority':
+        costs = {name: loan['annual_rate']+(green_config['annual_guarantee_fee'] if name == 'green_bonds' and green == 'blended' else 0.) for name, loan in terms.items()}
+        costs['liquidity'] = bridge_rate or 0.
+        order = sorted(costs, key=lambda name: (-costs[name], name))
+    elif repayment_policy == 'loans_first':
+        order = ['bank_credit', 'chinese_export_credit', 'liquidity', 'domestic_bonds', 'green_bonds']
+    elif repayment_policy == 'gap_first':
+        order = ['liquidity', 'bank_credit', 'domestic_bonds', 'chinese_export_credit', 'green_bonds']
+    else:
+        order = ['liquidity']
     vintages = {name: [] for name in terms}
     source = options['additional_sources']
     eligible_after = sum(max(0., row['candidate_capex']-row['candidate_imports'])
@@ -138,7 +185,7 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
     phases = operating[0]['phases']
     first_open = min(p['opening_month'] for p in phases)
     full_open = max(p['opening_month'] for p in phases)
-    cash = reserve = bridge = 0.
+    cash = reserve = bridge = operating_buffer = 0.
     bridge_cap = options['liquidity']['illustrative_cap_iqd']/fx
     monthly = []
     for op in operating:
@@ -157,17 +204,23 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         green_draw = min(bonds, eligible_bonds*green_config['share_of_candidate_bonds']) if green else 0.
         draws = {'chinese_export_credit': china, 'domestic_bonds': bonds-green_draw,
                  'green_bonds': green_draw, 'bank_credit': bank}
-        debt_service = fees = principal_usd = interest_usd = 0.
+        factory_capex, factory_imports = req.get('factory_capex', 0.), req.get('factory_imports', 0.)
+        factory_residual = .75*factory_capex-.5*factory_imports
+        factory_draws = {'chinese_export_credit': .5*factory_imports, 'domestic_bonds': .75*factory_residual,
+                         'bank_credit': .25*factory_residual, 'green_bonds': 0.}
+        debt_service = fees = principal_usd = interest_usd = factory_service = 0.
         row = {'month': month, 'year': month//12+1, 'capex_usd': capex,
                'government_usd_cash': .5*imported, 'government_iqd_cash': (govt-.5*imported)*fx,
                'climate_capital_grant_iqd': grant*fx}
         for name, loan_terms in terms.items():
             conversion = 1. if loan_terms['currency'] == 'USD' else fx
-            add_draw(vintages[name], month, draws[name]*conversion, loan_terms)
+            add_draw(vintages[name], month, draws[name]*conversion, loan_terms,
+                     factory_draws[name]/draws[name] if draws[name] else 0.)
             interest, principal = debt_month(vintages[name], month, loan_terms)
             interest_usd += interest/conversion
             principal_usd += principal/conversion
             debt_service += (interest+principal)/conversion
+            factory_service += sum((v['last_interest']+v['last_principal'])*v['factory_share'] for v in vintages[name])/conversion
             fee = draws[name]*loan_terms['arrangement_fee']
             if name == 'chinese_export_credit':
                 # Separate annual project/plant facility cohorts are signed at
@@ -190,14 +243,21 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         extra_income = (source['incremental_net_local_receipts_annual_usd']/12*opened
                         if extras and first_open <= month < full_open+model['operating_years']*12 else 0.)
         revenue, opex = op['revenue_usd'], op['opex_usd']
-        desired = op['factory_reserve_usd']
+        desired = (factory_service*model['debt_service_reserve_months'] if op['factory_reserve_usd'] > 0 else 0.) if repayment_policy else op['factory_reserve_usd']
         if first_open <= month < full_open+model['operating_years']*12:
-            desired += max(0., debt_service-op['factory_debt_service_usd'])*model['debt_service_reserve_months']
+            desired += max(0., debt_service-(factory_service if repayment_policy else op['factory_debt_service_usd']))*model['debt_service_reserve_months']
         deposit, release = max(0., desired-reserve), max(0., reserve-desired)
         reserve += deposit-release
+        buffer_target = opex*prepayments['operating_buffer_months'] if repayment_policy else 0.
+        buffer_deposit, buffer_release = max(0., buffer_target-operating_buffer), max(0., operating_buffer-buffer_target)
+        operating_buffer += buffer_deposit-buffer_release
         opening_cash, opening_bridge = cash, bridge
-        available = cash+revenue+extra_income+rights-opex-debt_service-fees+release-deposit
+        available = cash+revenue+extra_income+rights-opex-debt_service-fees+release-deposit+buffer_release-buffer_deposit
         gap_draw = gap_fee = gap_interest = gap_repayment = required_support = 0.
+        early_principal = early_fees = 0.
+        for name in terms:
+            row[name+'_early_principal_native'] = 0.
+            row[name+'_early_premium_native'] = 0.
         if bridge_rate is None:
             required_support = max(0., -available)
             cash = max(0., available)
@@ -216,11 +276,30 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
                 required_support = max(0., -available)
                 cash = max(0., available)
             else:
-                gap_repayment = min(bridge, available)
-                bridge -= gap_repayment
-                cash = available-gap_repayment
+                cash = available
+        available = max(0., available)
+        if gap_draw <= 1e-8 and required_support <= 1e-8:
+            for name in order:
+                if name == 'liquidity':
+                    repayment = min(bridge, available)
+                    bridge -= repayment
+                    gap_repayment += repayment
+                    available = max(0., available-repayment)
+                elif eligible_prepay[name]:
+                    conversion = 1. if terms[name]['currency'] == 'USD' else fx
+                    repayment, premium = prepay_vintages(vintages[name], available*conversion, premiums[name],
+                                                        month, prepayments['minimum_age_months'][name])
+                    row[name+'_early_principal_native'] = repayment
+                    row[name+'_early_premium_native'] = premium
+                    early_principal += repayment/conversion
+                    early_fees += premium/conversion
+                    available = max(0., available-(repayment+premium)/conversion)
+        cash = available
+        for name in terms:
+            row[name+'_closing_balance_native'] = sum(v['balance'] for v in vintages[name])
         sources = govt+sum(draws.values())+grant+revenue+extra_income+rights+gap_draw+required_support+release
-        uses = capex+opex+debt_service+fees+gap_interest+gap_fee+gap_repayment+deposit
+        sources += buffer_release
+        uses = capex+opex+debt_service+fees+gap_interest+gap_fee+gap_repayment+deposit+buffer_deposit+early_principal+early_fees
         residual_cash = opening_cash+sources-uses-cash
         row.update(revenue_iqd=revenue*fx, opex_iqd=opex*fx,
                    fare_receipts_iqd=op.get('fare_revenue_usd', 0.)*fx,
@@ -228,12 +307,15 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
                    incremental_net_receipts_iqd=extra_income*fx, net_rights_receipts_iqd=rights*fx,
                    core_interest_usd_equivalent=interest_usd, core_principal_usd_equivalent=principal_usd,
                    core_fees_usd_equivalent=fees, core_debt_service_usd_equivalent=debt_service,
+                   early_core_principal_usd_equivalent=early_principal, early_premiums_usd_equivalent=early_fees,
                    liquidity_draw_iqd=gap_draw*fx, liquidity_interest_iqd=gap_interest*fx,
                    liquidity_draw_fee_iqd=gap_fee*fx, liquidity_repayment_iqd=gap_repayment*fx,
                    closing_liquidity_debt_iqd=bridge*fx,
                    uncovered_support_required_iqd=required_support*fx,
                    reserve_deposit_iqd_equivalent=deposit*fx, reserve_release_iqd_equivalent=release*fx,
                    closing_reserve_iqd_equivalent=reserve*fx, closing_project_cash_iqd=cash*fx,
+                   operating_buffer_deposit_iqd=buffer_deposit*fx, operating_buffer_release_iqd=buffer_release*fx,
+                   closing_operating_buffer_iqd=operating_buffer*fx,
                    cash_balance_residual_usd=residual_cash)
         monthly.append(row)
     summed = lambda key: sum(row[key] for row in monthly)
@@ -250,9 +332,18 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         'supplemental_repayments_iqd': summed('liquidity_repayment_iqd'),
         'terminal_supplemental_balance_iqd': monthly[-1]['closing_liquidity_debt_iqd'],
         'terminal_cash_iqd': monthly[-1]['closing_project_cash_iqd'],
-        'net_lifetime_operating_and_finance_gap_usd': summed('core_debt_service_usd_equivalent')+summed('core_fees_usd_equivalent')+(summed('opex_iqd')-summed('revenue_iqd'))/fx,
+        'net_lifetime_operating_and_finance_gap_usd': summed('core_debt_service_usd_equivalent')+summed('early_core_principal_usd_equivalent')+summed('core_fees_usd_equivalent')+summed('early_premiums_usd_equivalent')+(summed('opex_iqd')-summed('revenue_iqd'))/fx,
         'core_interest_usd_equivalent': summed('core_interest_usd_equivalent'),
         'core_principal_usd_equivalent': summed('core_principal_usd_equivalent'),
+        'early_core_principal_usd_equivalent': summed('early_core_principal_usd_equivalent'),
+        'early_premiums_usd_equivalent': summed('early_premiums_usd_equivalent'),
+        'terminal_operating_buffer_iqd': monthly[-1]['closing_operating_buffer_iqd'],
+        'total_finance_interest_and_fees_usd': summed('core_interest_usd_equivalent')+summed('core_fees_usd_equivalent')+summed('early_premiums_usd_equivalent')+(summed('liquidity_interest_iqd')+summed('liquidity_draw_fee_iqd'))/fx,
+        'repayment_policy': repayment_policy or 'original_gap_only_no_operating_buffer', 'repayment_order': order,
+        'operating_buffer_months': prepayments['operating_buffer_months'] if repayment_policy else 0.,
+        'early_premiums': premiums if repayment_policy else {},
+        'prepayment_eligible': eligible_prepay if repayment_policy else {},
+        'prepayment_minimum_age_months': prepayments['minimum_age_months'] if repayment_policy else {},
         'maximum_cash_residual_usd': max(abs(row['cash_balance_residual_usd']) for row in monthly),
         'government_capital_share': (summed('government_usd_cash')+summed('government_iqd_cash')/fx)/summed('capex_usd'),
         'bridge_annual_rate': bridge_rate, 'bridge_draw_fee': bridge_fee,
@@ -261,6 +352,25 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
     }
     if metrics['maximum_cash_residual_usd'] > .02:
         raise ValueError('independent cash ledger does not reconcile')
+    balances_error = 0.
+    for name in terms:
+        balance = 0.
+        for row in monthly:
+            balance += row[name+'_draw_native']-row[name+'_principal_native']-row[name+'_early_principal_native']
+            balances_error = max(balances_error, abs(balance-row[name+'_closing_balance_native'])/(1. if terms[name]['currency'] == 'USD' else fx))
+    metrics['maximum_principal_balance_residual_usd'] = balances_error
+    if balances_error > .02:
+        raise ValueError('scheduled/early principal and remaining balances do not reconcile')
+    all_debt = lambda r: r['closing_liquidity_debt_iqd']/fx+sum(r[name+'_closing_balance_native']/(1. if terms[name]['currency'] == 'USD' else fx) for name in terms)
+    outstanding = [r['month'] for r in monthly if all_debt(r) > .01]
+    metrics['all_debt_cleared_month'] = outstanding[-1]+1 if outstanding and outstanding[-1] < monthly[-1]['month'] else (0 if not outstanding and any(r['capex_usd'] for r in monthly) else None)
+    gap_paid = [r['month'] for r in monthly if r['liquidity_repayment_iqd'] > .01]
+    metrics['liquidity_final_repayment_month'] = gap_paid[-1] if gap_paid else None
+    for name in terms:
+        active = [r['month'] for r in monthly if r[name+'_closing_balance_native'] > .01]
+        metrics[name+'_last_outstanding_month'] = active[-1] if active else None
+        paid = [r['month'] for r in monthly if r[name+'_principal_native']+r[name+'_early_principal_native'] > .01]
+        metrics[name+'_final_repayment_month'] = paid[-1] if paid else None
     return {'metrics': metrics, 'monthly': monthly, 'semiannual': tranches(monthly, options, fx, terms),
             'status': 'illustrative-uncommitted-no-financial-close', 'financing_committed': False}
 
@@ -270,7 +380,7 @@ def tranches(monthly: list[dict], options: dict, fx: float = 1300., terms: dict 
     result = []
     for start in range(0, len(monthly), period):
         rows = monthly[start:start+period]
-        values = {key: (rows[-1][key] if key.startswith('closing_') else sum(row[key] for row in rows))
+        values = {key: (rows[-1][key] if (key.startswith('closing_') or key.endswith('_closing_balance_native')) else sum(row[key] for row in rows))
                   for key in monthly[0] if key not in ('month', 'year')}
         face = values['domestic_bonds_draw_native']+values['green_bonds_draw_native']
         values.update(tranche_id=f'BGD-H{start//period+1:03d}', start_month=start, end_month=rows[-1]['month'],
@@ -283,8 +393,8 @@ def tranches(monthly: list[dict], options: dict, fx: float = 1300., terms: dict 
         values['maximum_cash_balance_residual_usd'] = max(abs(row['cash_balance_residual_usd']) for row in rows)
         for name, loan in (terms or {}).items():
             active = [row['month'] for row in rows if row[name+'_draw_native'] > .01]
-            values[name+'_first_repayment_month'] = min(active)+loan['grace_months_from_draw']+1 if active else None
-            values[name+'_last_repayment_month'] = max(active)+loan['grace_months_from_draw']+loan['repayment_months'] if active else None
+            values[name+'_contractual_first_repayment_month'] = min(active)+loan['grace_months_from_draw']+1 if active else None
+            values[name+'_contractual_last_repayment_month'] = max(active)+loan['grace_months_from_draw']+loan['repayment_months'] if active else None
         result.append(values)
     return result
 
@@ -353,6 +463,9 @@ def build_analysis(programme: dict, city_funding: dict, factory_funding: dict,
         raise ValueError('independent debt/fee audit failed')
     eligible = set(options['green']['candidate_buckets'])
     capital = capital_projection(city_contracts+factory_contracts, config, eligible)
+    for month, amount in capital_projection(factory_contracts, config, eligible).items():
+        capital[month]['factory_capex'] = amount['capex']
+        capital[month]['factory_imports'] = amount['imports']
     horizon = max(len(case['monthly']) for case in components)
     operational = []
     for month in range(horizon):
@@ -402,6 +515,25 @@ def build_analysis(programme: dict, city_funding: dict, factory_funding: dict,
         case['metrics']['pricing_project_npv_usd_equivalent'] = sum((op['revenue_usd']-op['opex_usd']-capital.get(op['month'], {}).get('capex', 0.))/(1+nominal_discount)**(op['month']/12) for op in projection)
         case['metrics']['pricing_npv_basis'] = 'Unlevered capital/fare/existing-nonfare/OPEX cashflows, excluding debt, grants and new rights/net-receipt targets; nominal discount compounds the 8% real assumption with general inflation. Capital budgets remain un-escalated.'
         cases[name] = case
+    repayment_cases = {}
+    projection, pricing = price_operating(operational, receipts, programme['comparison']['fare_iqd'], config['model']['iqd_per_usd'], options,
+                                         **policies['fare_5pct_opex_5pct'])
+    strategies = {'gap_only_buffered': {'repayment_policy': 'gap_only'},
+                  'gap_then_core': {'repayment_policy': 'gap_first'},
+                  'loans_then_bonds': {'repayment_policy': 'loans_first'},
+                  'cost_priority': {'repayment_policy': 'cost_priority'},
+                  'cost_priority_zero_premium': {'repayment_policy': 'cost_priority', 'zero_premiums': True},
+                  'cost_priority_noncallable_bonds': {'repayment_policy': 'cost_priority', 'noncallable_bonds': True}}
+    for name, strategy in strategies.items():
+        case = simulate(capital, projection, config, options, green='blended', extras=True,
+                        bridge_rate=liquidity['concessional_annual_rate'], bridge_fee=liquidity['concessional_draw_fee'], **strategy)
+        case['pricing_basis'] = 'Same paired 5% tariff/OPEX/income sensitivity and blended financing; three months of current OPEX retained before discretionary payments.'
+        repayment_cases[name] = case
+    buffered_cost = repayment_cases['gap_only_buffered']['metrics']['total_finance_interest_and_fees_usd']
+    original_cost = cases['fare_5pct_opex_5pct']['metrics']['total_finance_interest_and_fees_usd']
+    for case in repayment_cases.values():
+        case['metrics']['net_finance_cost_saving_vs_buffered_gap_only_usd'] = buffered_cost-case['metrics']['total_finance_interest_and_fees_usd']
+        case['metrics']['net_finance_cost_saving_vs_original_no_buffer_usd'] = original_cost-case['metrics']['total_finance_interest_and_fees_usd']
     reference = cases['unfunded_reference']
     original_flows = programme['phased_opening']['cases']['low_demand']['monthly']
     principal = reference['metrics']['core_principal_usd_equivalent']
@@ -470,6 +602,11 @@ def build_analysis(programme: dict, city_funding: dict, factory_funding: dict,
             'reconciliation': reconciliation, 'operating_receipts': programme['operating_receipts'],
             'cases': cases, 'additional_receipts_threshold': threshold, 'fare_uplift_threshold': fare_threshold,
             'selected_pricing_sensitivity': 'fare_5pct_opex_5pct',
+            'early_repayment': {'status': 'uncommitted_prepaid_at_par_plus_assumed_premium',
+                                'cases': repayment_cases,
+                                'selected_comparison': 'cost_priority',
+                                'currency_basis': 'Chinese credit USD; every other debt IQD; historical FX unchanged',
+                                'repayment_basis': 'Oldest outstanding vintage first; keep instalment and shorten maturity. No core principal is repaid twice; no gap draw or uncovered support funds discretionary repayment. Assumed minimum ages: bank 6, Chinese 12, bonds 24 months.'},
             'limitations': [
                 'Six-month bond placement envelopes settle monthly at par; they are not advance-funded bond sales. Advance issuance changes carry, reserve and interest costs and needs a separate cash forecast.',
                 'Full unrounded placement values reconcile; illustrative IQD 1 million unit counts round upwards and are not executable orders. No auction price, investor demand or mandate is established.',
@@ -484,7 +621,41 @@ def build_analysis(programme: dict, city_funding: dict, factory_funding: dict,
                 'The reference has constant nominal fares, OPEX and FX. Dedicated pricing cases explicitly index fares, OPEX and income independently from financial close. Capital escalation, FX inflation pass-through and separate lifecycle replacement inflation remain outside this sensitivity; full nominal appraisal must include them.',
                 'Pricing cases retain fixed nominal core and gap debt terms; supplier terms, floating rates and imported OPEX exposure need qualification. New net revenue targets are held nominal rather than assumed inflation-protected.',
                 'Price elasticity is an uncalibrated response to fare relative to indexed income; no transfer, peak switching or low-income household demand survey is modelled. Off-peak trip increases are bounded by the same practical capacity, not new physical capacity.',
+                'Early repayment is a contractual sensitivity, not an exercised call right. Bank/Chinese loan eligibility, bond call or voluntary buyback rights, notice, price and premiums require actual terms. The noncallable case forbids all early bond principal. Illustrative minimum draw ages are 6 months for bank credit, 12 for Chinese credit and 24 for bonds; these are not actual covenants.',
+                'Cost priority is a coupon/guarantee-fee heuristic, not a globally optimal treasury strategy. Premiums, tax, remaining maturities, future draws and FX can change the best order; no refinancing or capital-issue cancellation is modelled.',
+                'A three-month OPEX buffer is funded before discretionary repayment in every early-policy comparison. It is retained at the terminal horizon and earns no income. Original baseline cases have no such additional buffer; savings are compared with a buffered gap-only case as well as the original.',
             ]}
+
+
+
+def early_repayment_report(analysis: dict, finance_path: str) -> list[str]:
+    group = analysis['early_repayment']; cases = group['cases']
+    selected = cases['cost_priority']['metrics']; baseline = cases['gap_only_buffered']['metrics']
+    lines = ['## Surplus cash and early repayment', '',
+        'These cases use identical paired 5% fare/OPEX/income assumptions and the same conditional blended capital sources. Each pays OPEX, scheduled principal, interest and fees, then funds the debt-service reserve and a three-month current-OPEX buffer before voluntary repayment. Borrowed gap proceeds and uncovered external cash cannot fund early payments. The extra buffer remains cash held at the terminal horizon and earns no interest.', '',
+        'Compare strategies against **buffered gap-only**, rather than attributing the buffer change to repayment savings. Loans-first pays bank credit, Chinese credit and gap credit before bonds. Cost priority pays bank (9%), ordinary bonds (8%), Chinese credit (5%), green bonds (4% plus 0.5% annual guarantee), then gap credit (2%). It is an interest-rate heuristic, not a proof of the globally best strategy.', '',
+        '| Surplus strategy | All debt cleared, month from close | Finance cost saving vs buffered gap-only, USD equivalent m | Early-payment premiums, USD equivalent m | Peak gap debt, IQD tn | Terminal unrestricted cash, IQD tn |',
+        '|---|---:|---:|---:|---:|---:|']
+    for name, case in cases.items():
+        m = case['metrics']; cleared = m['all_debt_cleared_month']
+        lines.append(f"| {name.replace('_', ' ')} | {cleared if cleared is not None else 'not cleared'} | {m['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:,.3f} | {m['early_premiums_usd_equivalent']/1e6:,.3f} | {m['peak_supplemental_balance_iqd']/1e12:,.3f} | {m['terminal_cash_iqd']/1e12:,.3f} |")
+    lines += ['',
+        f"Cost priority clears all debt in month **{selected['all_debt_cleared_month']}**, compared with **{baseline['all_debt_cleared_month']}** for buffered gap-only. Net nominal financing savings are **USD {selected['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:,.3f}m equivalent**, after USD {selected['early_premiums_usd_equivalent']/1e6:,.3f}m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD {selected['terminal_operating_buffer_iqd']/1e12:,.3f}tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.", '',
+        'Assumed premiums are 1% of bank/Chinese/green principal and 2% of ordinary bond principal. A minimum draw age of 6 months (bank), 12 (Chinese) and 24 (both bonds) prevents immediate issue-and-redemption. Eligible vintages are repaid oldest first; contractual instalments are kept and maturity shortens. Notice, issuer call rights, investor consent, buyback price, remaining-maturity compensation, tax and FX require actual agreements. Noncallable-bond sensitivity makes no voluntary bond payments; zero-premium sensitivity removes only the assumed premium, retaining minimum ages.', '',
+        '| Facility | Buffered gap-only final principal payment month | Cost-priority final principal payment month | Early principal, native currency | Premium, native currency |', '|---|---:|---:|---:|---:|']
+    for name, currency in (('bank_credit', 'IQD'), ('domestic_bonds', 'IQD'), ('chinese_export_credit', 'USD'), ('green_bonds', 'IQD')):
+        rows = cases['cost_priority']['monthly']
+        early = sum(r[name+'_early_principal_native'] for r in rows)
+        premium = sum(r[name+'_early_premium_native'] for r in rows)
+        scale = 1e9 if currency == 'IQD' else 1e6; unit = 'bn' if currency == 'IQD' else 'm'
+        lines.append(f"| {name.replace('_', ' ')} | {baseline[name+'_final_repayment_month']} | {selected[name+'_final_repayment_month']} | {currency} {early/scale:,.3f}{unit} | {currency} {premium/scale:,.3f}{unit} |")
+    lines += ['',
+        f"The gap facility's final principal payment is in month {selected['liquidity_final_repayment_month']}. Later surplus remains unrestricted cash after debt retirement. Each month's native debt balance equals prior balance plus draws minus scheduled and early principal. Each six-month closing balance is its final month's balance; payments, premiums, interest and reserve movements are period sums. Contractual repayment windows in tranche files describe the original draw terms; the actual final-payment months above incorporate early repayment.", '',
+        f"[Monthly cost-priority repayments]({finance_path}/baghdad-early-cost_priority-monthly.csv) · [six-month repayment tranches]({finance_path}/baghdad-early-cost_priority-six-month-tranches.csv) · [loans-first tranches]({finance_path}/baghdad-early-loans_then_bonds-six-month-tranches.csv) · [all six complete calculations]({finance_path}/baghdad-early-repayment.json)", '',
+        f"![Surplus repayment comparison]({finance_path}/baghdad-early-repayment.png)", '',
+        'Loan prepayment can carry redeployment/unwind charges: the [World Bank Treasury FAQ](https://treasury.worldbank.org/en/about/unit/treasury/ibrd-financial-products/financial-products-faqs) illustrates the concept, without establishing Chinese or Iraqi loan terms. The [US Treasury buyback FAQ](https://treasurydirect.gov/help-center/faqs/buyback-faqs/) and [published purchase results](https://treasurydirect.gov/auctions/announcements-data-results/buy-backs/) illustrate issuer authority and priced buybacks rather than automatic par redemption; they do not supply an Iraqi legal mandate.', '',
+        'This repayment allocation does not change the unlevered project NPV or validate demand. Nominal savings over several decades are not present-value gains. CAPEX escalation, FX, lifecycle replacement, floating-rate risk and the uncommitted early funding still require appraisal.', '']
+    return lines
 
 
 def write_outputs(analysis: dict, programme: dict, directory, country) -> None:
@@ -495,7 +666,17 @@ def write_outputs(analysis: dict, programme: dict, directory, country) -> None:
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     fx = analysis['iqd_per_usd']
-    (directory/'baghdad-finance-reconciliation.json').write_text(json.dumps(analysis, indent=2, sort_keys=True)+'\n')
+    public_analysis = dict(analysis)
+    public_analysis['early_repayment'] = {**analysis['early_repayment'],
+        'cases': {name: case['metrics'] for name, case in analysis['early_repayment']['cases'].items()},
+        'full_calculation': 'baghdad-early-repayment.json'}
+    (directory/'baghdad-finance-reconciliation.json').write_text(json.dumps(public_analysis, indent=2, sort_keys=True)+'\n')
+    (directory/'baghdad-early-repayment.json').write_text(json.dumps(analysis['early_repayment'], indent=2, sort_keys=True)+'\n')
+    for name, case in analysis['early_repayment']['cases'].items():
+        for period, rows in (('monthly', case['monthly']), ('six-month-tranches', case['semiannual'])):
+            with (directory/f'baghdad-early-{name}-{period}.csv').open('w', newline='') as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator='\n')
+                writer.writeheader(); writer.writerows(rows)
     for name, case in analysis['cases'].items():
         rows = case['semiannual']
         with (directory/f'baghdad-{name}-six-month-tranches.csv').open('w', newline='') as handle:
@@ -563,6 +744,20 @@ def write_outputs(analysis: dict, programme: dict, directory, country) -> None:
     fig.supxlabel(f'Uncommitted 2% IQD facility capped at {options_cap:.0f}tn; cash beyond cap is uncovered; rates and income growth are sensitivities', fontsize=9)
     fig.savefig(directory/'baghdad-fare-inflation-sensitivities.png', dpi=160)
     plt.close(fig)
+    fig, axes = plt.subplots(2, 1, figsize=(12, 8), layout='constrained')
+    for name, label in (('gap_only_buffered', 'Gap-only with buffer'), ('loans_then_bonds', 'Loans before bonds'), ('cost_priority', 'Interest-rate priority'), ('cost_priority_noncallable_bonds', 'Priority, noncallable bonds')):
+        rows = analysis['early_repayment']['cases'][name]['semiannual']
+        debt = [(r['chinese_export_credit_closing_balance_native']*fx+sum(r[n+'_closing_balance_native'] for n in ('bank_credit', 'domestic_bonds', 'green_bonds'))+r['closing_liquidity_debt_iqd'])/1e12 for r in rows]
+        axes[0].plot([r['end_month']/12 for r in rows], debt, label=label)
+    axes[0].set_ylabel('All outstanding debt, IQD tn equivalent'); axes[0].set_xlabel('Year from assumed close')
+    axes[0].legend(fontsize=8); axes[0].grid(alpha=.2)
+    labels = ['Gap first', 'Loans first', 'Cost priority', 'No premiums', 'Noncallable bonds']
+    names = ['gap_then_core', 'loans_then_bonds', 'cost_priority', 'cost_priority_zero_premium', 'cost_priority_noncallable_bonds']
+    axes[1].bar(labels, [analysis['early_repayment']['cases'][n]['metrics']['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6 for n in names], color='#166d77')
+    axes[1].set_ylabel('Net financing savings, USD equivalent m'); axes[1].grid(axis='y', alpha=.2); axes[1].set_axisbelow(True)
+    fig.suptitle('Surplus cash retires debt: identical three-month OPEX buffers')
+    fig.supxlabel('Uncommitted 5% fare/OPEX/income sensitivity; premiums and minimum ages assumed; nominal savings, historical FX', fontsize=9)
+    fig.savefig(directory/'baghdad-early-repayment.png', dpi=160); plt.close(fig)
     options = analysis['assumptions']; extra = options['additional_sources']; green = options['green']
     lines = ['# Baghdad financing reconciliation and six-month placement programme', '',
         'Scope: Baghdad city and one Baghdad manufacturing plant. Samawah, Mosul and every other city are excluded. Month zero is an assumed financial close, not an approved date. All financing and additional revenues remain uncommitted.', '',
@@ -631,6 +826,7 @@ def write_outputs(analysis: dict, programme: dict, directory, country) -> None:
     fare_threshold = analysis['fare_uplift_threshold']
     if fare_threshold['initial_real_fare_multiplier'] is not None:
         lines += [f"The initial real-fare multiplier required to remove both terminal debt and uncovered cash under paired 5% indices and the other blended assumptions is approximately {fare_threshold['initial_real_fare_multiplier']:.3f} times the existing baseline. This is a conditional break-even sensitivity, not a tariff recommendation; it does not guarantee the facility can be placed or that households' incomes will grow.", '']
+    lines += early_repayment_report(analysis, '../../../finance')
     lines += ['## Six-month bond sales and capital loan requirements', '',
         '![Native six-month capital funding and supplemental loan balances](../../../finance/baghdad-six-month-funding.png)', '',
         f"Each half-year is a placement/draw envelope, with monthly settlement against capital milestones. Bonds assume par proceeds and an illustrative IQD {options['model']['bond_denomination_iqd']:,.0f} denomination. Face-value requirements below use unrounded values; unit counts in CSV round upwards and separately disclose the resulting indicative face amount. Sale discounts, issuance fees and investor capacity need actual bookbuilding. Selling every half-year amount upfront changes interest/carry and grace clocks and is not simulated here.", '',
