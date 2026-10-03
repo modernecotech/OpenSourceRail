@@ -8,6 +8,7 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+import tomllib
 
 import pytest
 
@@ -15,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 CITY = ROOT / 'cities/catalogue/west-asia/Iraq/Baghdad'
 sys.path.insert(0, str(ROOT / 'tools/automation'))
 from delivery_rephasing import align_infrastructure_to_fleets
-from baghdad_delivery_stress import next_slot, schedule
+from baghdad_delivery_stress import next_slot, schedule, finance, city_funding_config
 
 
 @pytest.fixture(scope='module')
@@ -65,6 +66,48 @@ def test_path_outage_intervals_are_exclusive_and_nonpreemptive():
     assert next_slot(20, 4, [(10, 20)]) == 20
 
 
+def test_civil_productivity_identity_preserves_all_dates_paths_and_payments(payload):
+    factory=json.loads((CITY/'engineering/factory/summary.json').read_text())
+    baseline=schedule(payload['manufacturing_tasks'],factory,{})
+    identity=schedule(payload['manufacturing_tasks'],factory,{'civil_cycle_factor':1.0})
+    assert identity == baseline
+    by_uid={r['manufacturing_uid']:r for r in identity['tasks']}
+    for contract in payload['project_twin']['budget_contracts']:
+        row=by_uid[contract['manufacturing_uid']]
+        assert row['start_hour']//8 == contract['planned_start_day']
+        assert (row['end_hour']+7)//8-1 == contract['planned_finish_day']
+    faster=schedule(payload['manufacturing_tasks'],factory,{'civil_cycle_factor':.8})
+    assert all(r['start_hour'] >= by_uid[r['manufacturing_uid']]['start_hour'] for r in faster['tasks'])
+    earliest=schedule(payload['manufacturing_tasks'],factory,{'civil_timing':'earliest'})
+    assert sum(r['start_hour']!=by_uid[r['manufacturing_uid']]['start_hour'] for r in earliest['tasks']) == 1726
+    assert earliest['phases'][0]['infrastructure_completion_day'] == 219
+    assert earliest['phases'][0]['opening_month'] == baseline['phases'][0]['opening_month'] == 41
+
+
+@pytest.mark.parametrize('value',[0,-.1,1.1,float('nan'),True])
+def test_invalid_productivity_multiplier_rejected(payload,value):
+    factory=json.loads((CITY/'engineering/factory/summary.json').read_text())
+    with pytest.raises(ValueError,match='civil cycle multiplier'):
+        schedule(payload['manufacturing_tasks'],factory,{'civil_cycle_factor':value})
+
+
+def test_pure_start_delay_does_not_duplicate_baseline_staffed_months(payload):
+    factory=json.loads((CITY/'engineering/factory/summary.json').read_text())
+    programme=json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())
+    city=json.loads((CITY/'engineering/finance/summary.json').read_text())
+    city['_contracts']=payload['project_twin']['budget_contracts']
+    config=city_funding_config(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text()),'baghdad')
+    options=tomllib.loads((ROOT/'lib/templates/baghdad-finance-options.toml').read_text())
+    risk=tomllib.loads((ROOT/'lib/templates/baghdad-delivery-risk.toml').read_text())
+    settings=dict(factory_delay_days=130,delay_costs=True)
+    delivered=schedule(payload['manufacturing_tasks'],factory,settings)
+    result=finance(delivered,settings,(config,options,programme,city,factory,risk))
+    # The six-month idle interval adds site carrying; production staffed span
+    # remains the same length, so there is no duplicate direct wage extension.
+    expected=factory['budgeted_plant_direct_usd']*.01/12*sum(1.05**(month//12) for month in range(19,25))
+    assert result['metrics']['incremental_cost_totals_usd']['delay_extension_usd']==pytest.approx(expected)
+
+
 def test_published_stresses_freeze_cells_and_reconcile_every_cash_principal_balance():
     risk = CITY / 'engineering/delivery-risk'
     report = json.loads((risk / 'summary.json').read_text())
@@ -95,7 +138,7 @@ def test_published_stresses_freeze_cells_and_reconcile_every_cash_principal_bala
     first_open=min(p['opening_month'] for p in recovery['phases'])
     assert any(float(r['opex_iqd'])>0 for r in recovery_cash if int(r['month'])<first_open)
     assert max(p['opening_month'] for p in recovery['phases']) < max(p['opening_month'] for p in cases['combined']['phases'])
-    assert max(p['infrastructure_completion_day'] for p in cases['civil_cycles_20pct_faster']['phases']) < max(p['infrastructure_completion_day'] for p in cases['calendar_baseline']['phases'])
+    assert max(p['infrastructure_completion_day'] for p in cases['civil_earliest_20pct_faster']['phases']) < max(p['infrastructure_completion_day'] for p in cases['calendar_baseline']['phases'])
     intervals = defaultdict(list)
     for row in csv.DictReader((risk / 'combined-schedule.csv').open()):
         intervals[row['resource_pool'], row['resource_lane']].append((int(row['start_hour']), int(row['end_hour'])))
@@ -106,6 +149,41 @@ def test_published_stresses_freeze_cells_and_reconcile_every_cash_principal_bala
     for values in intervals.values():
         ordered = sorted(values)
         assert all(a[1] <= b[0] for a, b in zip(ordered, ordered[1:]))
+
+
+def test_recovery_costs_extensions_and_downside_cash_are_reconciled(payload):
+    risk=CITY/'engineering/delivery-risk'
+    cases=json.loads((risk/'summary.json').read_text())['cases']
+    assert [p['opening_month'] for p in cases['availability_75pct']['phases']] == [p['opening_month'] for p in cases['availability_75pct_second_test_shift']['phases']]
+    coordinated=cases['availability_75pct_all_stage_shifts']
+    assert coordinated['metrics']['incremental_recovery_capital_usd'] > 10e6
+    assert coordinated['metrics']['incremental_cost_totals_usd']['production_shift_payroll_usd'] > 20e6
+    assert max(p['opening_month'] for p in coordinated['phases']) < max(p['opening_month'] for p in cases['availability_75pct']['phases'])
+    tmp=cases['temporary_first_article']
+    assert min(p['opening_month'] for p in tmp['phases']) < 41
+    assert tmp['metrics']['incremental_recovery_capital_usd'] == pytest.approx(35e6*1.07)
+    rows=list(csv.DictReader((risk/'temporary_first_article-schedule.csv').open()))
+    proto=next(r['asset_id'] for r in sorted(rows,key=lambda r:int(r['start_hour'])) if r['asset_type']=='rolling-stock')
+    qualification=next(r for r in rows if r['asset_id']==proto and r['manufacturing_uid'].endswith('rs-50-dynamic-commissioning'))
+    assert int(qualification['start_hour']) >= 390*8
+    assert all(int(r['start_hour'])>=int(qualification['end_hour']) for r in rows if r['asset_type']=='rolling-stock' and r['asset_id']!=proto and r['manufacturing_uid'].endswith('rs-10-material-kit'))
+    baseline_cash=list(csv.DictReader((risk/'combined-monthly-finance.csv').open()))
+    extended_cash=list(csv.DictReader((risk/'combined_delay_costs-monthly-finance.csv').open()))
+    costs=list(csv.DictReader((risk/'combined_delay_costs-incremental-costs.csv').open()))
+    fx=1300.
+    for old,new,cost in zip(baseline_cash,extended_cash,costs):
+        assert (float(new['opex_iqd'])-float(old['opex_iqd']))/fx == pytest.approx(float(cost['delay_extension_usd']),abs=.0001)
+    assert sum(float(r['delay_extension_usd']) for r in costs)==pytest.approx(cases['combined_delay_costs']['metrics']['incremental_cost_totals_usd']['delay_extension_usd'])
+    downside=cases['joint_downside']['metrics']
+    assert downside['capital_escalation_usd'] > 1e9
+    assert downside['uncovered_support_iqd'] > 1e12
+    assert downside['terminal_supplemental_balance_iqd'] > 1e12
+    assert downside['debt_clearance_month_without_unfunded_support'] is None
+    no_green=cases['combined_finance_downside']['metrics']
+    assert no_green['green_bonds_iqd']==no_green['climate_grant_iqd']==no_green['net_rights_receipts_iqd']==0
+    assert no_green['uncovered_support_iqd'] > 1e12
+    assert no_green['debt_clearance_month_without_unfunded_support'] is None
+    assert all(r['status']=='not-demonstrated' and r['operational_release']=='False' for r in csv.DictReader((risk/'qualification-register.csv').open()))
 
 
 def test_narrative_facts_derive_from_current_sensitivity_and_respond_to_changes():

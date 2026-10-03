@@ -159,9 +159,19 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     factory_plan=read_json(CITY/'engineering/factory/summary.json')
     civil_one=next(x for x in factory_plan['civil_rephasing']['line_completions'] if x['line']=='line-1')
     resilience_rows=[]
-    for name in ('calendar_baseline','availability_75pct','availability_65pct','combined','combined_second_test_shift','civil_cycles_20pct_faster'):
+    risk_labels={'calendar_baseline':'Baseline', 'civil_cycles_20pct_faster':'Faster civil; retained starts',
+                 'civil_earliest_unchanged_cycles':'Earliest civil; original cycles', 'civil_earliest_20pct_faster':'Earliest civil; faster cycles',
+                 'availability_75pct_costed':'75% availability, costed', 'availability_75pct_test_shift_costed':'75% availability + test shift',
+                 'availability_75pct_all_stage_shifts':'75% availability + all stages', 'temporary_first_article':'Temporary first-article facility',
+                 'combined_delay_costs':'Combined delays, costed', 'joint_downside':'Joint downside'}
+    for name in ('calendar_baseline','civil_cycles_20pct_faster','civil_earliest_unchanged_cycles','civil_earliest_20pct_faster',
+                 'availability_75pct_costed','availability_75pct_test_shift_costed','availability_75pct_all_stage_shifts',
+                 'temporary_first_article','combined_delay_costs','joint_downside'):
         case=resilience['cases'][name];m=case['metrics']
-        resilience_rows.append([name,f"{min(x['opening_month'] for x in case['phases'])}/{max(x['opening_month'] for x in case['phases'])}",f"{m['peak_supplemental_balance_iqd']/1e12:.3f}",f"{m['total_finance_interest_and_fees_usd']/1e9:.3f}",m['all_debt_cleared_month']])
+        clearance='Unfunded' if m['uncovered_support_iqd']/1300. > .02 else ('Unpaid' if m['all_debt_cleared_month'] is None else m['all_debt_cleared_month'])
+        resilience_rows.append([risk_labels[name],f"{min(x['opening_month'] for x in case['phases'])}/{max(x['opening_month'] for x in case['phases'])}",f"{m['peak_supplemental_balance_iqd']/1e12:.3f}",f"{m['total_finance_interest_and_fees_usd']/1e9:.3f}",clearance])
+    joint=resilience['cases']['joint_downside']['metrics']
+    temporary=resilience['cases']['temporary_first_article']
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
     terms = tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())
@@ -284,9 +294,13 @@ The city-sized plant becomes available after **18 months from NTP**, followed by
 
 Current capital milestones span {f['structured_financing']['base']['metrics']['construction_cash_months']} months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **{prices['first_opening']['month']}/{prices['full_opening']['month']}**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
 
-The factory's final fleet margin is only {factory_plan['infrastructure_target_working_day']-factory_plan['stock_finish_working_day']} working days; test-path throughput margin is {factory_plan['exclusive_test_path_capacity_trainsets_per_year']/factory_plan['minimum_steady_output_trainsets_per_year']-1:.2%}. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) tests factory delay, suppliers, hiring, rework, path outage, civil access and lower availability with the selected cells fixed. It adds explicit test-path calendars; recovery funds a second test shift, USD 1.605m capital and incremental indexed staff payroll before and after fare receipts. These are unqualified deterministic cases, not probabilities or secured funding. Civil acceleration needs casting, foundation, track, station and energy evidence; it cannot bypass train acceptance.
+The factory's final fleet margin is only {factory_plan['infrastructure_target_working_day']-factory_plan['stock_finish_working_day']} working days; test-path throughput margin is {factory_plan['exclusive_test_path_capacity_trainsets_per_year']/factory_plan['minimum_steady_output_trainsets_per_year']-1:.2%}. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) separates civil productivity from investment timing: a 1.0 cycle multiplier preserves the complete baseline schedule, faster cycles retain the rephased start floors, and earliest construction is a separate comparison. Removing spending delays at unchanged productivity must not be called a productivity financing penalty.
 
-{table(['Frozen case','First/full month','Peak IQD gap tn','Interest/fees USD eq bn','Debt cleared month'],resilience_rows)}
+Recovery options price extra structural/electrical/composite or coordinated production shifts, hiring/training, supplier expediting and testing, with unchanged cell counts and indexed incremental payroll/nonlabour costs. Testing alone does not improve the 75% availability opening dates; upstream production still limits them. A separate temporary first-article facility sensitivity adds USD {temporary['metrics']['incremental_recovery_capital_usd']/1e6:.3f}m capital plus support staffing and tests first opening in month {min(x['opening_month'] for x in temporary['phases'])}; permanent acceptance paths, first-article qualification and full line fleets remain required. These options are unquoted deterministic comparisons, not adopted delivery commitments.
+
+Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD {joint['uncovered_support_iqd']/1e12:.3f}tn cumulative uncovered cash** and **IQD {joint['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](../engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
+
+{table(['Scenario','First/full month','Peak IQD gap tn','Interest/fees USD eq bn','Debt cleared month'],resilience_rows)}
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
