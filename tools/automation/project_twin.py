@@ -74,6 +74,7 @@ def build_project_twin(
     source_paths: dict[str, Path],
     resource_capacity: dict[str, Any] | None = None,
     resource_ready_days: dict[str, int] | None = None,
+    civil_rephasing_buffer_days: int | None = None,
     previous_revisions: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Build a complete deterministic planning twin from canonical city data."""
@@ -83,6 +84,12 @@ def build_project_twin(
     for key, value in (resource_capacity or {}).items():
         capacities[str(key)] = max(1, int(value))
     cpm = apply_resource_cpm(tasks, capacities, resource_ready_days)
+    rephasing = None
+    if civil_rephasing_buffer_days is not None:
+        from delivery_rephasing import align_infrastructure_to_fleets
+        rephasing = align_infrastructure_to_fleets(tasks, civil_rephasing_buffer_days)
+        cpm['critical_task_uids']=[r['manufacturing_uid'] for r in tasks if r['is_critical']]
+        cpm['critical_task_count']=len(cpm['critical_task_uids'])
 
     capex = _capex(finance)
     contracts = build_budget_contracts(tasks, capex)
@@ -159,6 +166,7 @@ def build_project_twin(
         "revisions": revisions,
         "totals": totals,
         "critical_path": cpm,
+        **({'civil_rephasing':rephasing} if rephasing else {}),
         "resource_capacity": dict(sorted(capacities.items())),
         "work_packages": tasks,
         "budget_contracts": contracts,

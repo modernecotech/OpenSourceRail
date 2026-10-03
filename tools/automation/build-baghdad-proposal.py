@@ -79,7 +79,19 @@ def usd_m(value):
     return f'{value/1e6:,.3f}'
 
 
+def financial_narrative_facts(programme):
+    calculation=programme['independent_recalculation']
+    return dict(slow_income_full_opening_burden=calculation['fare_pricing']['fare_5pct_opex_5pct_income_2pct']['full_opening']['forty_four_trips_income_share'],
+                opex_stress_terminal_gap_iqd=calculation['cases']['fare_5pct_opex_7pct']['terminal_supplemental_balance_iqd'],
+                opex_stress_uncovered_support_iqd=calculation['cases']['fare_5pct_opex_7pct']['uncovered_support_iqd'])
+
+
 def check_baseline(programme, package):
+    risk=read_json(CITY/'engineering/delivery-risk/summary.json')
+    for relative,sha in risk['sources_sha256'].items():
+        if digest(ROOT/relative) != sha: raise ValueError('Stale delivery stress input: '+relative)
+    for relative,sha in risk['outputs_sha256'].items():
+        if digest(CITY/'engineering/delivery-risk'/relative) != sha: raise ValueError('Changed delivery stress output: '+relative)
     detail=read_json(CITY/'engineering/detail/register.json')
     for relative,sha in detail['sources_sha256'].items():
         if digest(ROOT/relative) != sha:
@@ -142,6 +154,14 @@ def national_context(programme):
 def build_narrative(d, s, p, f, n, ops, deployment):
     comp = p['comparison']; rec = p['independent_recalculation']; indexed = rec['cases']['fare_5pct_opex_5pct']
     prices = rec['fare_pricing']['fare_5pct_opex_5pct']; early = rec['early_repayment']['cases']; fx = 1300.
+    narrative_facts=financial_narrative_facts(p)
+    resilience=read_json(CITY/'engineering/delivery-risk/summary.json')
+    factory_plan=read_json(CITY/'engineering/factory/summary.json')
+    civil_one=next(x for x in factory_plan['civil_rephasing']['line_completions'] if x['line']=='line-1')
+    resilience_rows=[]
+    for name in ('calendar_baseline','availability_75pct','availability_65pct','combined','combined_second_test_shift','civil_cycles_20pct_faster'):
+        case=resilience['cases'][name];m=case['metrics']
+        resilience_rows.append([name,f"{min(x['opening_month'] for x in case['phases'])}/{max(x['opening_month'] for x in case['phases'])}",f"{m['peak_supplemental_balance_iqd']/1e12:.3f}",f"{m['total_finance_interest_and_fees_usd']/1e9:.3f}",m['all_debt_cleared_month']])
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
     terms = tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())
@@ -260,9 +280,13 @@ The Baghdad operating package contains {ops['assets']:,} assets, {ops['manufactu
 
 First obtain survey and demand inputs, freeze a viable first line and plant scope, and reconcile depot and energy duties. Qualify long lead components and the first six car train, then deliver infrastructure, energy, station systems and trained operating staff in accepted phases. Each line needs its own operating and safety acceptance before fare revenue is realised.
 
-The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Earlier civil corridors can still wait for their full fleets, because they precede factory readiness and qualification. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
+The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Civil work and invoice milestones are rephased within the existing crew lanes and dependency graph. Line 1's infrastructure moves from day {civil_one['original_infrastructure_day']} to {civil_one['rephased_infrastructure_day']}, reducing its fleet wait from {civil_one['original_idle_working_days']} to {civil_one['rephased_idle_working_days']} working days. Resources, durations and opening dates are preserved. Survey, land, utility, permit and contract approval remain necessary before deferring work. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
 
 Current capital milestones span {f['structured_financing']['base']['metrics']['construction_cash_months']} months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **{prices['first_opening']['month']}/{prices['full_opening']['month']}**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
+
+The factory's final fleet margin is only {factory_plan['infrastructure_target_working_day']-factory_plan['stock_finish_working_day']} working days; test-path throughput margin is {factory_plan['exclusive_test_path_capacity_trainsets_per_year']/factory_plan['minimum_steady_output_trainsets_per_year']-1:.2%}. The [frozen-resource delivery and financing study](../engineering/delivery-risk/README.md) tests factory delay, suppliers, hiring, rework, path outage, civil access and lower availability with the selected cells fixed. It adds explicit test-path calendars; recovery funds a second test shift, USD 1.605m capital and incremental indexed staff payroll before and after fare receipts. These are unqualified deterministic cases, not probabilities or secured funding. Civil acceleration needs casting, foundation, track, station and energy evidence; it cannot bypass train acceptance.
+
+{table(['Frozen case','First/full month','Peak IQD gap tn','Interest/fees USD eq bn','Debt cleared month'],resilience_rows)}
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
@@ -310,9 +334,9 @@ The base full network operating allowance totals USD {usd_m(f['annual_opex_usd']
 
 ## Annual ticket increases and OPEX inflation
 
-The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD {prices['first_opening']['average_paid_fare_iqd']:,.0f} at first opening and IQD {prices['full_opening']['average_paid_fare_iqd']:,.0f} at full opening. With 5% income growth, 44 trips remain {prices['full_opening']['forty_four_trips_income_share']:.1%} of the income proxy. With only 2% income growth that burden reaches 26.4% at full opening and the assumed real price elasticity reduces paid trips.
+The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD {prices['first_opening']['average_paid_fare_iqd']:,.0f} at first opening and IQD {prices['full_opening']['average_paid_fare_iqd']:,.0f} at full opening. With 5% income growth, 44 trips remain {prices['full_opening']['forty_four_trips_income_share']:.1%} of the income proxy. With only 2% income growth that burden reaches **{narrative_facts['slow_income_full_opening_burden']:.2%}** at full opening and the assumed real price elasticity reduces paid trips.
 
-Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves IQD {rec['cases']['fare_5pct_opex_7pct']['uncovered_support_iqd']/1e12:.3f}tn uncovered cash and IQD 13tn unpaid gap debt. Revenue inflation alone is insufficient. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
+Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves **IQD {narrative_facts['opex_stress_uncovered_support_iqd']/1e12:.3f}tn uncovered cash** and **IQD {narrative_facts['opex_stress_terminal_gap_iqd']/1e12:.3f}tn terminal unpaid gap debt**. This sensitivity still needs additional financing before later surpluses; repayment remains conditional on that funding being available. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
 
 The paired case's unlevered NPV is USD {indexed['pricing_project_npv_usd_equivalent']/1e9:.3f}bn at {indexed['pricing_nominal_discount_rate']:.1%} nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
 
@@ -488,6 +512,9 @@ def source_inputs():
     paths.update(ROOT/relative for relative in detail['sources_sha256'])
     paths.update(CITY.glob('DETAILED-ENGINEERING.md'))
     paths.update(p for p in (CITY/'engineering/detail').glob('*') if p.is_file())
+    resilience=read_json(CITY/'engineering/delivery-risk/summary.json')
+    paths.update(ROOT/relative for relative in resilience['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/delivery-risk').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
@@ -578,6 +605,7 @@ Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; v
               'outputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in outputs},
               'archive_members':sorted(archive_members),'appendix_document_count':len(sources),
               'facts':{'baghdad_total_capex_usd':p['total_capex_usd'],'baghdad_route_km':p['comparison']['osr_route_km'],
+                       **financial_narrative_facts(p),
                        'baghdad_station_count':len(d['stations']),'baghdad_government_share':p['government_share_of_total_capital'],
                        'national_total_capital_usd':n['total_national_capital_usd'],'national_incremental_after_baghdad_usd':n['future_incremental_city_capital_after_baghdad_usd']}}
     (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')

@@ -2,7 +2,7 @@
 
 One factory is sized for **831 complete six-car trainsets / 4,986 cars**, with physical cells, crews and test paths. Facility readiness is **18 months from notice to proceed (working day 390)**, replacing the old 24-month assumption. Financial close precedes NTP by 30 working days; these are conditional offsets, not dated construction commitments.
 
-The unchanged infrastructure resource model finishes on working day **1682**. The sized flow accepts the final train on day **1662**, 20 working days earlier. Full-network commissioning therefore follows infrastructure completion, rather than waiting decades for four generic train-production slots. All **831** trains remain ordered; there is no smaller opening-fleet substitution.
+The unchanged infrastructure resource model finishes on working day **1682**. The sized flow accepts the final train on day **1662**, 20 working days earlier. Full-network commissioning therefore follows infrastructure completion, rather than waiting decades for four generic train-production slots. All **831** trains remain in the planned scope; there is no smaller opening-fleet substitution.
 
 ## Flow and physical capacity
 
@@ -20,7 +20,7 @@ Cycles explicitly represent a **whole six-car trainset**, with structural, elect
 
 The limiting steady capacity is **215.2 trainsets / 1291 cars per working year**. The resource scheduler simulates each train's linked stages, finite lanes and first-article gate. Cells are calculated from the city's fleet and the remaining infrastructure window, then increased to the first feasible balanced allocation; this is a reproducible capacity design, not a proof of minimum land or minimum cost.
 
-Production bays use a 135 m by 6.5 m envelope for the 111 m consist, not a released building module. Composite and kitting cells have separate floor assumptions. Process and support space totals **107,582 m²**. The site screen is **36.9 hectares**, including circulation/storage and **two independently segregated 2 km test paths**. These are site-reservation assumptions pending geometry, braking, fire, access, geotechnical and safe-operation design. Dynamic acceptance bays are not independent running tracks: the separate path calculation permits only **221.0 trainsets/year**, based on 16 exclusive track-hours/train and 85% path availability. A shared route cannot be counted twice.
+Production bays use a 135 m by 6.5 m envelope for the 111 m consist, not a released building module. Composite and kitting cells have separate floor assumptions. Process and support space totals **107,582 m²**. The site screen is **36.9 hectares**, including circulation/storage and **two independently segregated 2 km test paths**. These are site-reservation assumptions pending geometry, braking, fire, access, geotechnical and safe-operation design. Dynamic acceptance bays are not independent running tracks: the separate path calculation permits only **221.0 trainsets/year**, based on 16 exclusive track-hours/train and 85% path availability. A shared route cannot be counted twice. The test-path margin above limiting production is only 2.71%; the final fleet has only 20 working days of schedule margin. See the [frozen-resource disruption, costed second-shift recovery and civil acceleration study](../delivery-risk/README.md). Those stresses preserve the selected cells rather than resizing them to hide delay.
 
 Direct cell staffing totals **1,044 positions per staffed shift** before management, stores, maintenance, relief and shift coverage. It is a proposed resource requirement, not measured job creation. Manufacturing labour and materials are already in train procurement CAPEX; they are not added again to plant CAPEX or railway OPEX.
 
@@ -28,17 +28,17 @@ Direct cell staffing totals **1,044 positions per staffed shift** before managem
 
 | Line | Full fleet | Infrastructure day | Fleet day | Opening month |
 | --- | --- | --- | --- | --- |
-| line-1 | 95 | 219 | 772 | 41 |
-| line-2 | 103 | 382 | 897 | 46 |
-| line-3 | 108 | 566 | 1028 | 52 |
-| line-4 | 85 | 706 | 1130 | 57 |
-| line-5 | 98 | 917 | 1248 | 62 |
+| line-1 | 95 | 682 | 772 | 41 |
+| line-2 | 103 | 807 | 897 | 46 |
+| line-3 | 108 | 938 | 1028 | 52 |
+| line-4 | 85 | 1040 | 1130 | 57 |
+| line-5 | 98 | 1158 | 1248 | 62 |
 | line-6 | 111 | 1338 | 1383 | 69 |
-| line-7 | 84 | 1342 | 1485 | 73 |
-| line-8 | 100 | 1373 | 1605 | 79 |
+| line-7 | 84 | 1395 | 1485 | 73 |
+| line-8 | 100 | 1515 | 1605 | 79 |
 | line-9 | 47 | 1682 | 1662 | 83 |
 
-The factory completes alongside the **overall city civil programme**. Earlier corridors still wait for trains: Lines 1 and 2 have conditional infrastructure dates before the factory exists, and later early lines precede completion of their full fleet. No amount of added series bays can supply a locally built train before facility readiness, first-article qualification and its own production stages. Those early corridor dates need integrated rephasing or an explicitly funded earlier prototype/production facility; neither is silently assumed. Line priority follows infrastructure deadlines, with actual physical asset identifiers preserved.
+The factory completes alongside the **overall city civil programme**. Full-fleet openings are retained. Noncritical infrastructure now moves within its existing crew lanes and dependency graph towards fleet handover, with a 90-working-day target buffer; critical infrastructure retains its original completion dates. Line 1's infrastructure completion moves from day 219 to day 682, reducing the idle interval before its fleet from 553 to 90 working days. No rolling-stock date, task duration, resource count or opening date changes. This is a conditional investment-timing proposal: surveys, land, utilities, permits and contract dates require approval before deferring site work. [Original and rephased line reconciliation](civil-rephasing.csv) preserves both sets of dates. Line priority follows the original infrastructure requirements, with actual asset identifiers preserved.
 
 The opening calculation retains the separate three-month integrated commissioning allowance after line infrastructure, the full fleet and shared depot/control work. The 60-day first-article allowance and three-month line allowance cover different activities. Required approvals, surveys, physical tests and independent acceptance remain open; neither allowance constitutes accepted safety evidence or an approved construction calendar.
 

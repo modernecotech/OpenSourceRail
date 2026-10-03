@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import runpy
 import subprocess
 from pathlib import Path
@@ -183,8 +184,8 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     assert "turnkey external capital = turnkey price × 90%" in portfolio
     for case in ("Low", "Default", "High"):
         assert f"| {case} |" in portfolio
-    for turnkey_total in ("$407.51B", "$543.34B", "$815.02B"):
-        assert turnkey_total in portfolio
+    for case in portfolio_json['foreign_turnkey_comparator']['cases'].values():
+        assert f"${case['turnkey_total_usd']/1e9:.2f}B" in portfolio
     assert portfolio_json["schema_version"] == 1
     assert portfolio_json["scope"]["city_count"] == 265
     assert portfolio_json["scope"]["country_count"] == 43
@@ -194,9 +195,9 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
         "high",
     }
     default_case = portfolio_json["foreign_turnkey_comparator"]["cases"]["default"]
-    assert default_case["turnkey_total_usd"] == (
-        2.0 * portfolio_json["open_source_rail"]["total_capex_usd"]
-    )
+    assert math.isclose(default_case["turnkey_total_usd"],
+                        2.0 * portfolio_json["open_source_rail"]["total_capex_usd"],
+                        rel_tol=0, abs_tol=.02)  # Published totals round to cents.
     assert not (REPO_ROOT / "cities/catalogue/europe/France/NATIONAL-BRIEF.md").exists()
     lyon = (REPO_ROOT / "cities/catalogue/europe/France/Lyon/README.md").read_text()
     assert "Technical comparison only" in lyon

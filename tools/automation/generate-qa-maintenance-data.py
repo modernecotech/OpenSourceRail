@@ -547,14 +547,20 @@ def build_bundle(
             "project_twin_generator": REPO_ROOT / "tools/automation/project_twin.py",
             "trainset_cots_candidates": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
             "trainset_first_article_execution": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
-            **({"city_factory": factory_path, "factory_sizing_generator": REPO_ROOT / "tools/automation/factory_sizing.py"} if factory_plan else {}),
+            **({"city_factory": factory_path, "factory_sizing_generator": REPO_ROOT / "tools/automation/factory_sizing.py", "delivery_rephasing_generator": REPO_ROOT / "tools/automation/delivery_rephasing.py"} if factory_plan else {}),
         },
         resource_capacity=capacities,
         resource_ready_days=ready_days,
+        civil_rephasing_buffer_days=_load_toml(factory_path)['factory']['rephase_civil_buffer_working_days'] if factory_plan else None,
         previous_revisions=previous_twin_revisions,
     )
     manufacturing_tasks = project_twin["work_packages"]
     if factory_plan:
+        factory_plan['civil_rephasing']=project_twin['civil_rephasing']
+        factory_plan['original_infrastructure_deadlines']=factory_plan['infrastructure_deadlines']
+        factory_plan['infrastructure_deadlines']={r['line']:r['rephased_infrastructure_day'] for r in project_twin['civil_rephasing']['line_completions']}
+        factory_plan['original_lines_civil_complete_before_factory_ready']=factory_plan['lines_civil_complete_before_factory_ready']
+        factory_plan['lines_civil_complete_before_factory_ready']=[line for line,day in factory_plan['infrastructure_deadlines'].items() if day<factory_plan['factory_ready_working_day']]
         project_twin['factory_sizing'] = factory_plan
     totals = {
         "assets": len(assets),

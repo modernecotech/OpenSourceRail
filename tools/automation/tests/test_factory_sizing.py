@@ -95,7 +95,8 @@ def test_published_baghdad_factory_reconciles_actual_fleet_space_budget_and_sour
     assert p['budgeted_plant_direct_usd']>=p['plant_cost_envelope_usd']
     assert p['incremental_plant_capex_with_epc_usd']>0
     assert p['planning_site_m2']>p['process_and_support_floor_m2']>0
-    assert p['lines_civil_complete_before_factory_ready']==['line-1','line-2']
+    assert p['original_lines_civil_complete_before_factory_ready']==['line-1','line-2']
+    assert p['lines_civil_complete_before_factory_ready']==[]
     for relative,digest in p['sources_sha256'].items():
         assert hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()==digest
     funding=json.loads((directory.parents[2]/'finance/baghdad-programme.json').read_text())

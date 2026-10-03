@@ -99,3 +99,19 @@ def test_network_registers_preserve_complete_counts_and_optional_civil_fields():
     assert '../engineering/factory/README.md' in narrative
     assert '14 deployment gates remain open' in narrative
     assert 'future national' in narrative.lower()
+
+
+def test_financial_narrative_matches_sensitivity_results_and_manifest():
+    programme=json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())
+    calculation=programme['independent_recalculation']
+    expected=dict(slow_income_full_opening_burden=calculation['fare_pricing']['fare_5pct_opex_5pct_income_2pct']['full_opening']['forty_four_trips_income_share'],
+                  opex_stress_terminal_gap_iqd=calculation['cases']['fare_5pct_opex_7pct']['terminal_supplemental_balance_iqd'],
+                  opex_stress_uncovered_support_iqd=calculation['cases']['fare_5pct_opex_7pct']['uncovered_support_iqd'])
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    for name,value in expected.items():
+        assert data('manifest.json')['facts'][name] == value
+    assert f"**{expected['slow_income_full_opening_burden']:.2%}** at full opening" in narrative
+    assert f"**IQD {expected['opex_stress_terminal_gap_iqd']/1e12:.3f}tn terminal unpaid gap debt**" in narrative
+    assert f"**IQD {expected['opex_stress_uncovered_support_iqd']/1e12:.3f}tn uncovered cash**" in narrative
+    assert '26.4%' not in narrative and 'IQD 13tn remains unpaid' not in narrative
+    assert (CITY/'engineering/delivery-risk/summary.json').relative_to(ROOT).as_posix() in data('manifest.json')['inputs']

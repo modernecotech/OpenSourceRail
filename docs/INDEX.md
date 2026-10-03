@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5039**.
+Indexed Markdown files: **5040**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **5039**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4344 |
+| [cities](#cities) | 4345 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -3420,6 +3420,7 @@ Indexed Markdown files: **5039**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md) | Baghdad frozen-resource delivery and funding study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md) | Baghdad detailed component register |

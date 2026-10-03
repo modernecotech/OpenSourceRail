@@ -56,32 +56,32 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 837.89 | 0.00 | 0.00 | 26.52 | 240.51 | 0.00 |
-| 2 | 1037.06 | 0.00 | 0.00 | 101.45 | 366.25 | 0.00 |
-| 3 | 1226.96 | 0.00 | 0.00 | 187.54 | 500.94 | 0.00 |
-| 4 | 1388.42 | 0.00 | 0.00 | 303.88 | 658.54 | 0.00 |
-| 5 | 1329.59 | 0.00 | 0.00 | 425.33 | 764.90 | 0.00 |
-| 6 | 1161.32 | 0.00 | 0.00 | 544.89 | 841.43 | 0.00 |
-| 7 | 574.50 | 0.00 | 0.00 | 647.82 | 794.41 | 0.00 |
-| 8 | 0.00 | 223.27 | 180.57 | 677.16 | 972.43 | 0.06 |
-| 9 | 0.00 | 334.90 | 180.57 | 671.16 | 510.16 | 0.23 |
-| 10 | 0.00 | 446.53 | 180.57 | 647.31 | 365.98 | 0.41 |
-| 11 | 0.00 | 446.53 | 180.57 | 611.51 | 326.15 | 0.43 |
-| 12 | 0.00 | 446.53 | 180.57 | 570.53 | 284.05 | 0.47 |
-| 13 | 0.00 | 446.53 | 180.57 | 532.14 | 247.98 | 0.50 |
-| 14 | 0.00 | 446.53 | 180.57 | 500.42 | 224.15 | 0.53 |
+| 1 | 311.74 | 0.00 | 0.00 | 10.01 | 89.56 | 0.00 |
+| 2 | 753.10 | 0.00 | 0.00 | 51.12 | 243.29 | 0.00 |
+| 3 | 1313.82 | 0.00 | 0.00 | 127.62 | 463.19 | 0.00 |
+| 4 | 1525.14 | 0.00 | 0.00 | 246.38 | 635.93 | 0.00 |
+| 5 | 1362.01 | 0.00 | 0.00 | 370.64 | 718.56 | 0.00 |
+| 6 | 1518.19 | 0.00 | 0.00 | 503.00 | 890.76 | 0.00 |
+| 7 | 771.74 | 0.00 | 0.00 | 628.71 | 825.71 | 0.00 |
+| 8 | 0.00 | 223.27 | 180.57 | 672.38 | 970.89 | 0.06 |
+| 9 | 0.00 | 334.90 | 180.57 | 685.49 | 530.65 | 0.23 |
+| 10 | 0.00 | 446.53 | 180.57 | 667.02 | 385.86 | 0.40 |
+| 11 | 0.00 | 446.53 | 180.57 | 629.50 | 342.89 | 0.42 |
+| 12 | 0.00 | 446.53 | 180.57 | 586.71 | 300.02 | 0.45 |
+| 13 | 0.00 | 446.53 | 180.57 | 543.38 | 254.39 | 0.49 |
+| 14 | 0.00 | 446.53 | 180.57 | 502.55 | 223.01 | 0.53 |
 | 15 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
 | 16 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
 | 17 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
-| 18 | 0.00 | 446.53 | 180.57 | 477.06 | 189.97 | 0.56 |
-| 19 | 0.00 | 446.53 | 180.57 | 422.21 | 127.90 | 0.63 |
-| 20 | 0.00 | 446.53 | 180.57 | 359.78 | 57.32 | 0.74 |
-| 21 | 0.00 | 446.53 | 180.57 | 277.13 | 0.71 | 0.96 |
-| 22 | 0.00 | 446.53 | 180.57 | 191.56 | 0.00 | 1.39 |
-| 23 | 0.00 | 446.53 | 180.57 | 107.54 | 0.00 | 2.47 |
-| 24 | 0.00 | 446.53 | 180.57 | 34.75 | 0.00 | 7.65 |
-| 25 | 0.00 | 446.53 | 180.57 | 11.74 | 0.00 | 22.65 |
-| 26 | 0.00 | 446.53 | 180.57 | 1.53 | 0.00 | 174.36 |
+| 18 | 0.00 | 446.53 | 180.57 | 488.10 | 214.07 | 0.54 |
+| 19 | 0.00 | 446.53 | 180.57 | 457.87 | 171.00 | 0.58 |
+| 20 | 0.00 | 446.53 | 180.57 | 402.67 | 101.27 | 0.66 |
+| 21 | 0.00 | 446.53 | 180.57 | 319.25 | 16.36 | 0.83 |
+| 22 | 0.00 | 446.53 | 180.57 | 231.91 | 0.00 | 1.15 |
+| 23 | 0.00 | 446.53 | 180.57 | 137.96 | 0.00 | 1.93 |
+| 24 | 0.00 | 446.53 | 180.57 | 48.12 | 0.00 | 5.53 |
+| 25 | 0.00 | 446.53 | 180.57 | 17.90 | 0.00 | 14.86 |
+| 26 | 0.00 | 446.53 | 180.57 | 2.68 | 0.00 | 99.14 |
 | 27 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
 | 28 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
 | 29 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
@@ -98,17 +98,17 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 972.43 | 0.06 | 0.00 |
-| high capacity use | 846.13 | 0.25 | 0.00 |
-| capex plus 25 percent | 1226.22 | 0.05 | 0.00 |
-| demand minus 40 percent | 1061.74 | -0.07 | 0.00 |
-| iqd depreciation 35 percent | 796.84 | 0.06 | 0.00 |
-| commissioning delay two years | 920.56 | 0.07 | 0.00 |
-| china credit unavailable | 877.04 | 0.07 | 15.02 |
-| four year bullet bonds | 1574.99 | 0.04 | 0.00 |
-| government payment delay six months | 983.14 | 0.06 | 24.29 |
-| interest plus three points | 1159.45 | 0.05 | 0.00 |
-| combined downside | 1211.61 | -0.04 | 0.00 |
+| base low demand | 970.89 | 0.06 | 0.00 |
+| high capacity use | 890.76 | 0.25 | 0.00 |
+| capex plus 25 percent | 1224.29 | 0.05 | 0.00 |
+| demand minus 40 percent | 1060.20 | -0.07 | 0.00 |
+| iqd depreciation 35 percent | 808.76 | 0.06 | 0.00 |
+| commissioning delay two years | 949.83 | 0.06 | 0.00 |
+| china credit unavailable | 882.75 | 0.07 | 16.90 |
+| four year bullet bonds | 1718.28 | 0.04 | 0.00 |
+| government payment delay six months | 991.72 | 0.06 | 12.33 |
+| interest plus three points | 1162.74 | 0.05 | 0.00 |
+| combined downside | 1266.07 | -0.04 | 0.00 |
 
 ## Assumptions and evidence
 
@@ -139,7 +139,7 @@ The base above withholds all fares until every capital milestone. This separate 
 
 Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.
 
-First / last planned opening: month 41 / 83 from financial close (month zero). City additional funding requirement: USD 5,839.84 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
+First / last planned opening: month 41 / 83 from financial close (month zero). City additional funding requirement: USD 5,743.48 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
 
 | Line | Opening month | Revenue / variable OPEX share |
 |---|---:|---:|
