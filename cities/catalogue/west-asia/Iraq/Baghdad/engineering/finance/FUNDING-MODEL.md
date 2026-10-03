@@ -4,7 +4,7 @@ Generated from current city CAPEX and procurement milestones. All facilities and
 
 Government capital is **25% of total city CAPEX**, before Chinese credit is deducted. The residual after that contribution and proposed Chinese proceeds is split 75% IQD bonds / 25% IQD bank credit. Imported purchases use 50% government USD cash and 50% proposed Chinese credit, assuming full-basket eligibility is later qualified; the remaining government contribution is IQD. Financing fees, construction interest, reserves and operating/debt support are additional funding requirements, not included in the 25% capital contribution. See the [Baghdad-only programme](../../../IRAQ-FUNDING-PROGRAMME.md) for the uncovered cash requirements if no additional government cash is available.
 
-Construction cash runs through month **347**; full-network operations start in month **347** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
+Construction cash runs through month **84**; full-network operations start in month **84** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
@@ -57,80 +57,58 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
 | 1 | 837.89 | 0.00 | 0.00 | 26.52 | 240.51 | 0.00 |
-| 2 | 1035.48 | 0.00 | 0.00 | 101.43 | 365.82 | 0.00 |
-| 3 | 1065.93 | 0.00 | 0.00 | 184.61 | 456.80 | 0.00 |
-| 4 | 1057.87 | 0.00 | 0.00 | 280.67 | 550.81 | 0.00 |
-| 5 | 1001.23 | 0.00 | 0.00 | 378.01 | 633.62 | 0.00 |
-| 6 | 839.38 | 0.00 | 0.00 | 470.02 | 684.23 | 0.00 |
-| 7 | 508.67 | 0.00 | 0.00 | 551.31 | 681.10 | 0.00 |
-| 8 | 56.44 | 0.00 | 0.00 | 575.79 | 590.23 | 0.00 |
-| 9 | 55.48 | 0.00 | 0.00 | 567.71 | 581.90 | 0.00 |
-| 10 | 56.84 | 0.00 | 0.00 | 546.77 | 561.31 | 0.00 |
-| 11 | 56.23 | 0.00 | 0.00 | 521.86 | 536.23 | 0.00 |
-| 12 | 56.61 | 0.00 | 0.00 | 495.20 | 509.67 | 0.00 |
-| 13 | 56.22 | 0.00 | 0.00 | 471.29 | 485.66 | 0.00 |
-| 14 | 56.12 | 0.00 | 0.00 | 451.51 | 465.86 | 0.00 |
-| 15 | 55.63 | 0.00 | 0.00 | 450.70 | 464.93 | 0.00 |
-| 16 | 56.69 | 0.00 | 0.00 | 454.42 | 468.91 | 0.00 |
-| 17 | 56.32 | 0.00 | 0.00 | 458.14 | 472.54 | 0.00 |
-| 18 | 56.12 | 0.00 | 0.00 | 443.83 | 458.18 | 0.00 |
-| 19 | 55.70 | 0.00 | 0.00 | 392.70 | 406.95 | 0.00 |
-| 20 | 56.87 | 0.00 | 0.00 | 335.76 | 350.30 | 0.00 |
-| 21 | 56.35 | 0.00 | 0.00 | 270.71 | 285.12 | 0.00 |
-| 22 | 55.53 | 0.00 | 0.00 | 205.97 | 220.17 | 0.00 |
-| 23 | 56.70 | 0.00 | 0.00 | 146.48 | 160.98 | 0.00 |
-| 24 | 55.80 | 0.00 | 0.00 | 94.60 | 108.87 | 0.00 |
-| 25 | 56.79 | 0.00 | 0.00 | 79.21 | 93.73 | 0.00 |
-| 26 | 55.78 | 0.00 | 0.00 | 73.71 | 87.97 | 0.00 |
-| 27 | 56.43 | 0.00 | 0.00 | 72.67 | 87.10 | 0.00 |
-| 28 | 56.25 | 0.00 | 0.00 | 72.66 | 87.05 | 0.00 |
-| 29 | 28.40 | 18.61 | 15.05 | 72.16 | 111.29 | 0.05 |
-| 30 | 0.00 | 232.57 | 180.57 | 68.69 | 22.15 | 0.76 |
-| 31 | 0.00 | 344.20 | 180.57 | 64.59 | 0.00 | 2.53 |
-| 32 | 0.00 | 446.53 | 180.57 | 59.87 | 0.00 | 4.44 |
-| 33 | 0.00 | 446.53 | 180.57 | 54.96 | 0.00 | 4.84 |
-| 34 | 0.00 | 446.53 | 180.57 | 49.74 | 0.00 | 5.35 |
-| 35 | 0.00 | 446.53 | 180.57 | 44.44 | 0.00 | 5.98 |
-| 36 | 0.00 | 446.53 | 180.57 | 39.33 | 0.00 | 6.76 |
-| 37 | 0.00 | 446.53 | 180.57 | 35.37 | 0.00 | 7.52 |
-| 38 | 0.00 | 446.53 | 180.57 | 31.68 | 0.00 | 8.40 |
-| 39 | 0.00 | 446.53 | 180.57 | 27.95 | 0.00 | 9.52 |
-| 40 | 0.00 | 446.53 | 180.57 | 24.25 | 0.00 | 10.97 |
-| 41 | 0.00 | 446.53 | 180.57 | 20.53 | 0.00 | 12.96 |
-| 42 | 0.00 | 446.53 | 180.57 | 16.82 | 0.00 | 15.81 |
-| 43 | 0.00 | 446.53 | 180.57 | 13.11 | 0.00 | 20.28 |
-| 44 | 0.00 | 446.53 | 180.57 | 9.40 | 0.00 | 28.30 |
-| 45 | 0.00 | 446.53 | 180.57 | 5.69 | 0.00 | 46.77 |
-| 46 | 0.00 | 446.53 | 180.57 | 2.28 | 0.00 | 116.82 |
-| 47 | 0.00 | 446.53 | 180.57 | 0.94 | 0.00 | 281.90 |
-| 48 | 0.00 | 446.53 | 180.57 | 0.14 | 0.00 | 1924.10 |
-| 49 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 50 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 51 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 52 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 53 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 54 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 55 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 56 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 57 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 58 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
-| 59 | 0.00 | 409.32 | 165.52 | 0.00 | 0.00 | — |
+| 2 | 1037.06 | 0.00 | 0.00 | 101.45 | 366.25 | 0.00 |
+| 3 | 1226.96 | 0.00 | 0.00 | 187.54 | 500.94 | 0.00 |
+| 4 | 1388.42 | 0.00 | 0.00 | 303.88 | 658.54 | 0.00 |
+| 5 | 1329.59 | 0.00 | 0.00 | 425.33 | 764.90 | 0.00 |
+| 6 | 1161.32 | 0.00 | 0.00 | 544.89 | 841.43 | 0.00 |
+| 7 | 574.50 | 0.00 | 0.00 | 647.82 | 794.41 | 0.00 |
+| 8 | 0.00 | 223.27 | 180.57 | 677.16 | 972.43 | 0.06 |
+| 9 | 0.00 | 334.90 | 180.57 | 671.16 | 510.16 | 0.23 |
+| 10 | 0.00 | 446.53 | 180.57 | 647.31 | 365.98 | 0.41 |
+| 11 | 0.00 | 446.53 | 180.57 | 611.51 | 326.15 | 0.43 |
+| 12 | 0.00 | 446.53 | 180.57 | 570.53 | 284.05 | 0.47 |
+| 13 | 0.00 | 446.53 | 180.57 | 532.14 | 247.98 | 0.50 |
+| 14 | 0.00 | 446.53 | 180.57 | 500.42 | 224.15 | 0.53 |
+| 15 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
+| 16 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
+| 17 | 0.00 | 446.53 | 180.57 | 495.08 | 229.11 | 0.54 |
+| 18 | 0.00 | 446.53 | 180.57 | 477.06 | 189.97 | 0.56 |
+| 19 | 0.00 | 446.53 | 180.57 | 422.21 | 127.90 | 0.63 |
+| 20 | 0.00 | 446.53 | 180.57 | 359.78 | 57.32 | 0.74 |
+| 21 | 0.00 | 446.53 | 180.57 | 277.13 | 0.71 | 0.96 |
+| 22 | 0.00 | 446.53 | 180.57 | 191.56 | 0.00 | 1.39 |
+| 23 | 0.00 | 446.53 | 180.57 | 107.54 | 0.00 | 2.47 |
+| 24 | 0.00 | 446.53 | 180.57 | 34.75 | 0.00 | 7.65 |
+| 25 | 0.00 | 446.53 | 180.57 | 11.74 | 0.00 | 22.65 |
+| 26 | 0.00 | 446.53 | 180.57 | 1.53 | 0.00 | 174.36 |
+| 27 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 28 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 29 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 30 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 31 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 32 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 33 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 34 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 35 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 36 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
+| 37 | 0.00 | 446.53 | 180.57 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 684.23 | 0.05 | 0.00 |
-| high capacity use | 684.23 | 0.20 | 0.00 |
-| capex plus 25 percent | 855.29 | 0.04 | 0.00 |
-| demand minus 40 percent | 684.23 | -0.60 | 0.00 |
-| iqd depreciation 35 percent | 633.62 | 0.04 | 0.00 |
-| commissioning delay two years | 684.23 | 0.06 | 0.00 |
-| china credit unavailable | 647.91 | 0.06 | 10.63 |
-| four year bullet bonds | 1075.39 | 0.06 | 0.00 |
-| government payment delay six months | 766.02 | 0.05 | 24.29 |
-| interest plus three points | 788.92 | 0.04 | 0.00 |
-| combined downside | 896.71 | -0.34 | 0.00 |
+| base low demand | 972.43 | 0.06 | 0.00 |
+| high capacity use | 846.13 | 0.25 | 0.00 |
+| capex plus 25 percent | 1226.22 | 0.05 | 0.00 |
+| demand minus 40 percent | 1061.74 | -0.07 | 0.00 |
+| iqd depreciation 35 percent | 796.84 | 0.06 | 0.00 |
+| commissioning delay two years | 920.56 | 0.07 | 0.00 |
+| china credit unavailable | 877.04 | 0.07 | 15.02 |
+| four year bullet bonds | 1574.99 | 0.04 | 0.00 |
+| government payment delay six months | 983.14 | 0.06 | 24.29 |
+| interest plus three points | 1159.45 | 0.05 | 0.00 |
+| combined downside | 1211.61 | -0.04 | 0.00 |
 
 ## Assumptions and evidence
 
@@ -157,22 +135,22 @@ The [IMF Article IV](https://www.imf.org/en/news/articles/2025/07/08/pr-25243-ir
 
 ## Conditional phased-opening sensitivity
 
-The base above withholds all fares until every capital milestone. This separate sensitivity opens completed lines after the editable commissioning lag and gates every line on shared system/depot work. The new Baghdad production plant is unavailable for its first 520 working days. Opening also requires actual civil, train, depot, power and safety acceptance, which is not established by this calculation.
+The base above withholds all fares until every capital milestone. This separate sensitivity opens completed lines after the editable commissioning lag and gates every line on shared system/depot work. The city-sized Baghdad production plant is unavailable for its first 390 working days (18 months from NTP), followed by the scheduled first-article qualification gate. Opening also requires actual civil, train, depot, power and safety acceptance, which is not established by this calculation.
 
 Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.
 
-First / last planned opening: month 66 / 346 from financial close (month zero). City additional funding requirement: USD 7,837.13 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
+First / last planned opening: month 41 / 83 from financial close (month zero). City additional funding requirement: USD 5,839.84 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
 
 | Line | Opening month | Revenue / variable OPEX share |
 |---|---:|---:|
-| line-1 | 66 | 11.43% |
-| line-2 | 105 | 12.39% |
-| line-3 | 147 | 13.00% |
-| line-4 | 179 | 10.23% |
-| line-5 | 217 | 11.79% |
-| line-6 | 258 | 13.36% |
-| line-7 | 291 | 10.11% |
-| line-8 | 328 | 12.03% |
-| line-9 | 346 | 5.66% |
+| line-1 | 41 | 11.43% |
+| line-2 | 46 | 12.39% |
+| line-3 | 52 | 13.00% |
+| line-4 | 57 | 10.23% |
+| line-5 | 62 | 11.79% |
+| line-6 | 69 | 13.36% |
+| line-7 | 73 | 10.11% |
+| line-8 | 79 | 12.03% |
+| line-9 | 83 | 5.66% |
 
 [Phased monthly cashflow](funding-phased-monthly-cashflow.csv) · [phased annual cashflow](funding-phased-annual-cashflow.csv)

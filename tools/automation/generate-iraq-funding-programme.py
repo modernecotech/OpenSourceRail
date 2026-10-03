@@ -104,15 +104,23 @@ def main() -> int:
             raise ValueError("Baghdad finance must be regenerated with the current 25% scenario")
         source_paths.extend([path, design_path, country / name / "engineering/finance/funding-input.csv"])
     anchor = max(modules, key=modules.get)
-    factory_usd = modules[anchor] * capex["production_plant"]["per_vehicle_usd"]
+    factory_plan_path = country / "Baghdad/engineering/factory/summary.json"
+    factory_plan = json.loads(factory_plan_path.read_text())
+    for relative, digest in factory_plan['sources_sha256'].items():
+        if hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()!=digest:
+            raise ValueError('Stale factory sizing source: '+relative)
+    if factory_plan['total_trainsets']*6 != modules[anchor] or factory_plan['city']!='baghdad':
+        raise ValueError('Factory sizing must match the actual Baghdad fleet')
+    factory_usd = max(modules[anchor] * capex["production_plant"]["per_vehicle_usd"], factory_plan['plant_cost_envelope_usd'])
+    factory_ready = factory_plan['factory_ready_working_day']
+    source_paths.append(factory_plan_path)
     factory_buckets = []
     factory_contracts = []
     for bucket, amount in (("production_plant", factory_usd), ("epc_overhead", factory_usd*capex["overhead"]["epc_fraction"])):
         share = capex["procurement_origin"]["imported_share"][bucket]
         factory_buckets.append({"bucket": bucket, "total_usd": amount, "imported_usd": amount*share})
-        factory_contracts.append({"bucket": bucket, "budget_usd": amount, "imported_share": share, "planned_start_day": 0, "planned_finish_day": 520})
-    # Two working years is an explicitly separate factory planning assumption,
-    # not a commissioned facility or a vendor-backed construction programme.
+        factory_contracts.append({"bucket": bucket, "budget_usd": amount, "imported_share": share, "planned_start_day": 0, "planned_finish_day": factory_ready})
+    # Eighteen-month city-sized factory allowance, with quotations/release open.
     factory = build_financing(factory_buckets, factory_contracts,
         {"low_capacity_use": {"annual_revenue_usd": 0}, "high_capacity_use": {"annual_revenue_usd": 0}}, 0, config)
     components = {**cities, "Baghdad factory": factory}
@@ -230,7 +238,7 @@ def main() -> int:
                "included_cities": ["Baghdad"], "government_share_of_total_capital": config["model"]["government_share_of_total"],
                "calendar_basis": "Baghdad and its plant financial close at month zero; factory commissioning and city production sequencing require an accepted integrated baseline",
                "cashflow_basis": "Conditional debt/reserve payments require additional funding. Under the 25% public cash cap, that support is unfunded; modelled repayment is not a funded outcome.",
-               "factory": {"cost_usd": factory_usd, "epc_usd": factory_usd*capex["overhead"]["epc_fraction"], "anchor_city": anchor, "vehicle_modules": modules[anchor], "planning_build_working_days": 520,
+               "factory": {"cost_usd": factory_usd, "epc_usd": factory_usd*capex["overhead"]["epc_fraction"], "anchor_city": anchor, "vehicle_modules": modules[anchor], "planning_build_working_days": factory_ready,
                            "funding": factory},
                "capital_sources_usd": {k: sum(v["base"]["metrics"]["capital_sources_usd"][k] for v in components.values()) for k in factory["base"]["metrics"]["capital_sources_usd"]},
                "total_capex_usd": sum(v["base"]["metrics"]["total_capex_usd"] for v in components.values()),
@@ -346,7 +354,7 @@ def main() -> int:
         "| Proposed capital source | Currency | Native amount, billions | USD equivalent, million | Share of total capital |", "|---|---|---:|---:|---:|"]
     lines.extend(f"| {k.replace('_', ' ')} | {v['currency']} | {v['amount']/1e9:,.3f} | {v['usd_equivalent']/1e6:,.2f} | {v['usd_equivalent']/summary['total_capex_usd']:.2%} |" for k, v in summary["capital_sources_native"].items())
     lines.extend([f"| **Total capital uses** | Mixed | — | **{summary['total_capex_usd']/1e6:,.2f}** | **100%** |", "",
-        f"Baghdad city CAPEX is USD {cities['Baghdad']['base']['metrics']['total_capex_usd']/1e6:,.2f} million. The plant is counted **once** at USD {factory_usd/1e6:,.2f} million plus USD {summary['factory']['epc_usd']/1e6:,.2f} million EPC. Its sizing basis is {modules[anchor]:,} vehicle/car modules from Baghdad's controlled fleet and car count. Imported tooling receives proposed Chinese credit within that plant budget. The module rate is a planning allowance, not a qualified six-car factory bid.", "",
+        f"Baghdad city CAPEX is USD {cities['Baghdad']['base']['metrics']['total_capex_usd']/1e6:,.2f} million. The plant is counted **once** at USD {factory_usd/1e6:,.2f} million plus USD {summary['factory']['epc_usd']/1e6:,.2f} million EPC. Its sizing basis is {modules[anchor]:,} vehicle/car modules from Baghdad's controlled fleet and car count. Imported tooling receives proposed Chinese credit within that plant budget. The physical cell/floor/tooling envelope replaces the smaller module allowance where necessary; both remain unquoted engineering assumptions.", "",
         "## Currency and USD capital intensity", "", "![Funding currency and imported-purchase FX comparison](finance/baghdad-financing-comparison.png)", "",
         f"**Only Chinese credit is USD-denominated debt:** USD {summary['capital_sources_usd']['chinese_export_credit']/1e6:,.2f} million. Government additionally provides USD {government_usd/1e6:,.2f} million cash for imports. Combined USD capital funding is {summary['usd_denominated_capital_share']:.2%} of uses; **the remaining {summary['iqd_denominated_capital_share']:.2%} is IQD government cash, IQD bonds and IQD bank credit.** Revenue and local OPEX are also budgeted in IQD. At the historical planning conversion of {fx:,.0f} IQD/USD, the local government cash allowance is IQD {government_iqd/1e12:,.3f} trillion, alongside its separate USD import cash. Together they equal 25% of total capital. USD columns are comparison equivalents, not a requirement to borrow or appropriate those domestic amounts in dollars.", "",
         f"Funding currency and procurement currency differ. Estimated imported purchases total USD {imported_usd/1e6:,.2f} million ({imported_usd/summary['total_capex_usd']:.2%} of capital), including plant imports. The government supplies half directly in USD cash; proposed Chinese credit supplies half as USD debt. The full import pool, including categories beyond the initially selected solar, bogies, batteries, windows, doors and tooling, is assumed lender-eligible pending origin qualification. If that expanded basket cannot qualify, its loan funding is uncovered; it is not automatically replaced by IQD bank credit or another grant. IQD borrowing reduces the revenue/debt currency mismatch; it does not remove Chinese debt-service FX risk, imported maintenance costs, domestic interest, inflation or placement constraints.", "",
@@ -364,7 +372,7 @@ def main() -> int:
         "5. Revenue pays OPEX first and debt service next; subsidy is excluded from DSCR. Additional support shown by the city and plant models is an unfunded requirement under the cap. The factory model covers capital financing only; manufacturing income and factory OPEX need a separate business case.",
         "6. Declined Chinese finance, delayed contributions, FX changes and bullet redemption are separately tested in the Baghdad appraisal. None creates an automatic facility or refinancing source.", "",
         "## Rollout and financial close", "",
-        f"Baghdad's current capital milestones span {cities['Baghdad']['base']['metrics']['construction_cash_months']} calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. The new Baghdad plant gates stock production for 520 working days. The separate phased sensitivity uses this integrated planning schedule; actual plant and line acceptance and a commissioned operating baseline remain pending.", "",
+        f"Baghdad's current capital milestones span {cities['Baghdad']['base']['metrics']['construction_cash_months']} calendar months. Full-network fare revenue begins after all budget milestones. Lowering the capital grant increases borrowing and cash-service needs; it does not shorten this schedule. The city-sized Baghdad plant becomes available after {factory_ready} working days (18 months from NTP), followed by the separately scheduled first-article series-release gate. The separate phased sensitivity uses this integrated planning schedule; actual plant and line acceptance and a commissioned operating baseline remain pending.", "",
         "Required before financial close: approved sponsor and borrowing powers; appropriation limited to the agreed government contribution; a funded solution for the additional cash gap; supplier quotations and origin evidence; signed term sheets, guarantees and insurance; IQD placement/redemption plan; lender draw windows and FX access; surveyed demand/fare policy; tax, duty, land and utility pricing; accepted resource calendar and reserve covenants.", "",
         "## Model and evidence", "",
         "[Programme monthly cashflow](finance/baghdad-programme-monthly-cashflow.csv) · [annual cashflow](finance/baghdad-programme-annual-cashflow.csv) · [machine-readable programme](finance/baghdad-programme.json) · [Baghdad city appraisal](Baghdad/engineering/finance/FUNDING-MODEL.md) · [editable assumptions](../../../../lib/templates/iraq-funding.toml). Other Iraqi city appraisals remain standalone examples outside this programme.", "",

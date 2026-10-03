@@ -46,7 +46,7 @@ The Baghdad manufacturing plant is outside city CAPEX and counted once in the Ba
 The [city funding model](../engineering/finance/FUNDING-MODEL.md) and
 [Baghdad-only programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
 component invoices, government capital, IQD bonds and IQD bank credit.
-Government capital is 25% of total CAPEX, including **USD 896.07 million**
+Government capital is 25% of total CAPEX, including **USD 896.53 million**
 for half the imported-parts budget. Proposed Chinese USD credit covers the other
 half. Remaining government capital, bonds and bank credit are in IQD. Full import
 basket lender and supplier-origin qualification remains pending. Fees, interest, reserves and
@@ -60,21 +60,21 @@ annual ledgers and charts are generated from the same controlled model.
 The programme comparison covers the historical 148 km / USD 18 billion proposal
 against this 516.5 km / 182 station planning network.
 Total USD capital funding (government USD cash plus Chinese loan) is
-USD 1.792 billion; the rest is IQD.
+USD 1.793 billion; the rest is IQD.
 The older all-USD financing basis is the requested comparison scenario, not
 verified final contract terms. The modelled fare is IQD 1,317
 per paid trip. Population access uses a 46.4%
 anchor-weighted planning score, not a surveyed resident catchment. Local
-procurement is USD 6.084 billion equivalent;
+procurement is USD 6.087 billion equivalent;
 indicative operating employment is 2,350 FTE. Construction
 job counts require validated hours and productivity. The model leaves USD
-9.760 billion in additional
+6.697 billion in additional
 cash requirements in the full-network-only case if public funding is capped at the
 25% capital contribution. The conditional phased case reduces this to USD
-8.256 billion,
+6.265 billion,
 with first / last line openings in months
-66 /
-346.
+41 /
+83.
 These are gross nominal liquidity needs, not net lifetime loss. Opening dates
 require actual plant, depot, line and safety acceptance; fleet-based phase demand
 and the 25% fixed / 75% variable OPEX split remain planning assumptions.
@@ -82,12 +82,12 @@ and the 25% fixed / 75% variable OPEX split remain planning assumptions.
 The [independent reconciliation](../engineering/finance/FUNDING-RECONCILIATION.md)
 and [six-month bond and loan requirements](../../finance/baghdad-unfunded_reference-six-month-tranches.csv)
 separate capital from debt repayment and price additional liquidity.
-Pooling city/plant cash yields USD 8.255 billion
-gross early cash needs and USD 8.188 billion
-later retained cash: a USD 67.03 million
+Pooling city/plant cash yields USD 6.264 billion
+gross early cash needs and USD 4.037 billion
+later retained cash: a USD 2226.83 million
 net nominal deficit before gap-finance interest and fees. The illustrative
 green/concessional/grant/development mix still leaves USD
-7.231 billion
+4.105 billion
 equivalent unpaid gap debt with constant nominal fares and OPEX. It is not a funded programme.
 Steady annual tickets, shop/kiosk leases and advertising already contribute IQD
 547.3, 13.0
@@ -96,10 +96,10 @@ new revenue targets cannot count those receipts again.
 
 The separate paired sensitivity increases fares and OPEX 5% annually from
 financial close. With 5% income growth and the other blended assumptions,
-peak supplemental debt is IQD 10.774 trillion,
+peak supplemental debt is IQD 4.705 trillion,
 with no terminal unpaid facility. Average nominal tickets reach IQD
-1,681 at first opening and IQD
-5,164 at full opening; commuting
+1,525 at first opening and IQD
+1,765 at full opening; commuting
 uses 11.7% of the indexed income proxy.
 This conditional sensitivity does not demonstrate household income growth or
 placed lending. Separate cases test peak/off-peak tickets, slower income growth
@@ -111,10 +111,10 @@ show those cashflows and affordability assumptions.
 Surplus cash now also tests early repayment after scheduled obligations,
 debt-service reserves and a three-month current-OPEX buffer. Under assumed
 call/prepayment rights, cost priority clears debt in month
-414 against month 634
+304 against month 370
 for buffered gap-only repayment, saving USD
-293.309 million equivalent
-in nominal interest and fees after USD 11.311
+171.562 million equivalent
+in nominal interest and fees after USD 21.999
 million assumed premiums. The order is bank credit, ordinary bonds, Chinese
 credit, green bonds, then the cheaper gap facility; loans-first and noncallable
 bonds are separate comparisons. Native principal is deducted once; no gap draw

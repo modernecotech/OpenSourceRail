@@ -86,6 +86,12 @@ def check_baseline(programme, package):
             raise ValueError('Stale Baghdad engineering source: '+relative)
     if detail['engineering_release'] or detail['family'] != 'metro-6car':
         raise ValueError('Unexpected engineering family/release boundary')
+    factory=read_json(CITY/'engineering/factory/summary.json')
+    for relative,sha in factory['sources_sha256'].items():
+        if digest(ROOT/relative)!=sha:
+            raise ValueError('Stale Baghdad factory source: '+relative)
+    if factory['readiness_months_from_ntp']!=18 or factory['stock_finish_working_day']>factory['infrastructure_target_working_day']:
+        raise ValueError('Factory must support the 18-month facility and civil-aligned fleet programme')
     for relative, sha in programme['sources_sha256'].items():
         if digest(ROOT/relative) != sha:
             raise ValueError('Stale Baghdad financing source: '+relative)
@@ -103,7 +109,7 @@ def check_baseline(programme, package):
 
 def national_context(programme):
     cities = [national.load_city(path)[1] for path in sorted(COUNTRY.glob('*/design.toml'))]
-    factory = max(c.vehicle_modules for c in cities)*national.NATIONAL_FACTORY_PER_VEHICLE_USD
+    factory = national.factory_budget('IQ',cities)
     aggregate = national.aggregate_breakdowns([c.breakdown for c in cities], national_factory_usd=factory)
     factory_epc = factory*float(tomllib.loads((ROOT/'lib/templates/capex-costs.toml').read_text())['overhead']['epc_fraction'])
     if abs(factory-programme['factory']['cost_usd']) > .02 or abs(factory_epc-programme['factory']['epc_usd']) > .02:
@@ -254,7 +260,9 @@ The Baghdad operating package contains {ops['assets']:,} assets, {ops['manufactu
 
 First obtain survey and demand inputs, freeze a viable first line and plant scope, and reconcile depot and energy duties. Qualify long lead components and the first six car train, then deliver infrastructure, energy, station systems and trained operating staff in accepted phases. Each line needs its own operating and safety acceptance before fare revenue is realised.
 
-The current capital milestones span 347 months, based on 260 working days/year and 30 pre NTP working days. Production is constrained by the current factory/work centres; commissioning adds an explicit three month allowance. Conditional first/full network opening is month 66/346. Opening weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase specific plan. Expanding production capacity could change those dates, but needs a priced resource and funding revision; no uncosted acceleration is assumed.
+The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Earlier civil corridors can still wait for their full fleets, because they precede factory readiness and qualification. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
+
+Current capital milestones span {f['structured_financing']['base']['metrics']['construction_cash_months']} months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **{prices['first_opening']['month']}/{prices['full_opening']['month']}**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
@@ -480,6 +488,9 @@ def source_inputs():
     paths.update(ROOT/relative for relative in detail['sources_sha256'])
     paths.update(CITY.glob('DETAILED-ENGINEERING.md'))
     paths.update(p for p in (CITY/'engineering/detail').glob('*') if p.is_file())
+    factory=read_json(CITY/'engineering/factory/summary.json')
+    paths.update(ROOT/relative for relative in factory['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
     # Exact full task payload is deliberately excluded from Git outside this archive.
     ops=read_json(CITY/'operations/baghdad-operations-manifest.json');paths.add(CITY/'operations'/ops['file'])
     # Retained solver/geospatial outputs complete the evidence where materialised.

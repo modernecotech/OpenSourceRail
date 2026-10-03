@@ -490,6 +490,15 @@ def build_bundle(
     )
     _apply_rolling_stock_definition_scope(manufacturing_tasks, rolling_stock_family)
     _resolve_manufacturing_predecessors(manufacturing_tasks, assets)
+    capacities = dict(manufacturing_template.get("resource_capacity", {}))
+    ready_days = dict(manufacturing_template.get("city_resource_ready_days", {}).get(slug, {}))
+    factory_plan = None
+    factory_path = REPO_ROOT / "lib/templates" / f"{slug}-factory.toml"
+    if factory_path.is_file():
+        from factory_sizing import size_factory
+        factory_plan = size_factory(manufacturing_tasks, capacities, _load_toml(factory_path))
+        capacities.update(factory_plan['resource_capacity'])
+        ready_days = factory_plan['resource_ready_days']
     _schedule_manufacturing_tasks(manufacturing_tasks)
     manufacturing_materials = _expand_manufacturing_materials(
         manufacturing_tasks=manufacturing_tasks,
@@ -538,12 +547,15 @@ def build_bundle(
             "project_twin_generator": REPO_ROOT / "tools/automation/project_twin.py",
             "trainset_cots_candidates": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
             "trainset_first_article_execution": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+            **({"city_factory": factory_path, "factory_sizing_generator": REPO_ROOT / "tools/automation/factory_sizing.py"} if factory_plan else {}),
         },
-        resource_capacity=dict(manufacturing_template.get("resource_capacity", {})),
-        resource_ready_days=dict(manufacturing_template.get("city_resource_ready_days", {}).get(slug, {})),
+        resource_capacity=capacities,
+        resource_ready_days=ready_days,
         previous_revisions=previous_twin_revisions,
     )
     manufacturing_tasks = project_twin["work_packages"]
+    if factory_plan:
+        project_twin['factory_sizing'] = factory_plan
     totals = {
         "assets": len(assets),
         "qa_gates": len(qa_template.get("construction_qa_gate", [])),
@@ -576,6 +588,7 @@ def build_bundle(
         "manufacturing_packages": manufacturing_template.get("manufacturing_package", []),
         "civil_production": civil_production,
         "project_twin": project_twin,
+        **({"factory_sizing": factory_plan} if factory_plan else {}),
         "assets": assets,
         "manufacturing_tasks": manufacturing_tasks,
         "manufacturing_materials": manufacturing_materials,

@@ -61,9 +61,10 @@ def money(value: float) -> str:
 def _portfolio_data() -> PortfolioData:
     """Calculate capital metrics and every controlled turnkey sensitivity."""
 
-    load_city = runpy.run_path(
+    national_module = runpy.run_path(
         str(REPO_ROOT / "tools/automation/generate-national-briefs.py")
-    )["load_city"]
+    )
+    load_city = national_module["load_city"]
     grouped: dict[str, list[object]] = defaultdict(list)
     city_count = 0
     for path in sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml")):
@@ -87,7 +88,7 @@ def _portfolio_data() -> PortfolioData:
     )
     imported_shares: list[float] = []
     for code, cities in grouped.items():
-        factory = max(city.vehicle_modules for city in cities) * NATIONAL_FACTORY_PER_VEHICLE_USD
+        factory = national_module["factory_budget"](code,cities)
         national = aggregate_breakdowns(
             [city.breakdown for city in cities], national_factory_usd=factory
         )

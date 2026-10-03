@@ -92,6 +92,10 @@ def test_network_registers_preserve_complete_counts_and_optional_civil_fields():
     assert len(rows('junctions.csv')) == len(design['junctions'])
     narrative = (PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
     assert 'RFC 0033' in narrative and 'superseded' in narrative
-    assert '293.309' in narrative and '189.758' in narrative
+    analysis=json.loads((CITY.parent/'finance/baghdad-early-repayment.json').read_text())
+    for name in ('cost_priority','loans_then_bonds'):
+        assert name in analysis['cases']
+    assert '18 months from NTP' in narrative
+    assert '../engineering/factory/README.md' in narrative
     assert '14 deployment gates remain open' in narrative
     assert 'future national' in narrative.lower()

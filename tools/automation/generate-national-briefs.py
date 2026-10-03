@@ -100,6 +100,21 @@ def load_city(design_path: Path) -> tuple[str, CityCapital]:
     )
 
 
+def factory_budget(country_code: str, cities: list[CityCapital]) -> float:
+    """One plant: module allowance or the larger city-sized physical envelope."""
+    amount = max(c.vehicle_modules for c in cities)*NATIONAL_FACTORY_PER_VEHICLE_USD
+    if country_code == 'IQ':
+        path = REPO_ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json'
+        if path.is_file():
+            import json
+            plan=json.loads(path.read_text())
+            anchor=max(cities,key=lambda c:c.vehicle_modules)
+            if anchor.slug != 'baghdad' or anchor.vehicle_modules != plan['vehicle_modules']:
+                raise ValueError('Iraq factory envelope must match its Baghdad anchor fleet')
+            amount=max(amount,plan['plant_cost_envelope_usd'])
+    return amount
+
+
 def render_brief(
     country_code: str,
     country_name: str,
@@ -109,9 +124,7 @@ def render_brief(
 ) -> str:
     cities = sorted(cities, key=lambda city: (-city.population, city.name))
     anchor = max(cities, key=lambda city: city.vehicle_modules)
-    national_factory_usd = (
-        anchor.vehicle_modules * NATIONAL_FACTORY_PER_VEHICLE_USD
-    )
+    national_factory_usd = factory_budget(country_code, cities)
     national = aggregate_breakdowns(
         [city.breakdown for city in cities],
         national_factory_usd=national_factory_usd,
@@ -246,6 +259,7 @@ def render_brief(
             position = out.index("## National Programme")
             out[position:position] = ["## Iraq financing", "",
                 "The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled proposal covers **Baghdad only**, including one manufacturing plant. It uses government capital at **25% of total CAPEX**, imports split 50% government USD cash / 50% proposed Chinese USD credit, with the remaining government capital, bonds and bank credit in IQD. Full-basket Chinese eligibility remains unqualified. Additional cash requirements beyond that public contribution remain visible in the [Baghdad funding programme](IRAQ-FUNDING-PROGRAMME.md). Samawah, Mosul and every other Iraqi city are excluded from its cashflows.", ""]
+            out[position:position] = ["The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its 831 six-car trainsets to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.", ""]
         return "\n".join(out)
 
     out = [

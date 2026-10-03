@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5038**.
+Indexed Markdown files: **5039**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **5038**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4343 |
+| [cities](#cities) | 4344 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -3423,6 +3423,7 @@ Indexed Markdown files: **5038**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md) | Baghdad detailed component register |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md) | Baghdad factory sized to the city programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) | Baghdad financing reconciliation and six-month placement programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |

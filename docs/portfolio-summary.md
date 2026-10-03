@@ -9,10 +9,10 @@ Machine-readable values: [`portfolio-summary.json`](portfolio-summary.json).
 | 265-city / 43-country catalogue | Planning value | Annual construction draw across country programmes |
 |---|---:|---:|
 | External capital for imported components and machinery | **$66.55B (24.5%)** | **$10.64B/year** |
-| Local capital for domestic value | **$205.12B (75.5%)** | **$32.83B/year** |
+| Local capital for domestic value | **$205.13B (75.5%)** | **$32.84B/year** |
 | of which planned local-currency bond issuance | $164.10B | — |
-| local public equity / other domestic funding | $41.02B | — |
-| **Total national programmes** | **$271.67B** | **$43.48B/year** |
+| local public equity / other domestic funding | $41.03B | — |
+| **Total national programmes** | **$271.68B** | **$43.48B/year** |
 
 ## Foreign-turnkey sensitivity
 
@@ -26,11 +26,11 @@ external capital avoided = turnkey external capital − OpenSourceRail imports
 
 | Case | Price multiplier | Turnkey total | Turnkey external capital | External capital avoided | Capital + external interest avoided |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.5× | $407.51B | $366.76B | **$300.21B (81.9%)** | **$675.54B** |
-| Default | 2.0× | $543.34B | $489.01B | **$422.46B (86.4%)** | **$950.64B** |
-| High | 3.0× | $815.02B | $733.52B | **$666.97B (90.9%)** | **$1.50T** |
+| Low | 1.5× | $407.52B | $366.76B | **$300.21B (81.9%)** | **$675.55B** |
+| Default | 2.0× | $543.35B | $489.02B | **$422.47B (86.4%)** | **$950.65B** |
+| High | 3.0× | $815.03B | $733.53B | **$666.98B (90.9%)** | **$1.50T** |
 
-The default row is the front-page illustration at portfolio scale: $422.46B (86.4%) less external capital and $528.18B less external interest. The comparator treats all foreign-turnkey external capital as debt; the OpenSourceRail case retains its generated grant/debt split. Debt on both sides uses the same country construction periods, rates and repayment tenors.
+The default row is the front-page illustration at portfolio scale: $422.47B (86.4%) less external capital and $528.19B less external interest. The comparator treats all foreign-turnkey external capital as debt; the OpenSourceRail case retains its generated grant/debt split. Debt on both sides uses the same country construction periods, rates and repayment tenors.
 
 Individual city imported shares range from 19.0% to 27.5%. Replace the imported shares, cost multiplier and financing terms with audited supplier capability, normalized bids and signed lender terms before an investment decision.
 

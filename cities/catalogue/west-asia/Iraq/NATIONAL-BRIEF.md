@@ -3,7 +3,9 @@
 This page contains only Iraq-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.95 B (86.9%) of external capital** and **$45.43 B of external interest**. Capital plus saved interest totals **$82.37 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.95 B (86.9%) of external capital** and **$45.43 B of external interest**. Capital plus saved interest totals **$82.39 B**.
+
+The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its 831 six-car trainsets to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.
 
 ## Iraq financing
 
@@ -17,7 +19,7 @@ The catalogue-wide figures below are generic capital/benchmark aggregations. The
 | Represented population | 29,491,199 |
 | Trainsets / vehicle modules | 3,650 / 15,996 |
 | City infrastructure and fleet CAPEX | $23.30 B |
-| Shared national factory | $299.2 M |
+| Shared national factory | $303.5 M |
 | Factory sizing basis | 4,986 modules for Baghdad, then reused nationally |
 | **Total national programme** | **$23.62 B** |
 
@@ -26,10 +28,10 @@ The catalogue-wide figures below are generic capital/benchmark aggregations. The
 | Local funding measure | Planning value |
 |---|---:|
 | Imported / external capital | $5.56 B (23.5%) |
-| Domestic / local capital | $18.05 B (76.5%) |
-| Default foreign-turnkey external capital | $42.51 B |
+| Domestic / local capital | $18.06 B (76.5%) |
+| Default foreign-turnkey external capital | $42.52 B |
 | External capital saved | $36.95 B |
-| Capital + lifetime external interest saved | $82.37 B |
+| Capital + lifetime external interest saved | $82.39 B |
 
 ### Procurement-Origin Composition
 
@@ -42,9 +44,9 @@ The catalogue-wide figures below are generic capital/benchmark aggregations. The
 | Dedicated solar plants | $2.62 B | $1.18 B | $1.44 B |
 | Residual train control | $114.4 M | $57.2 M | $57.2 M |
 | Charging microgrids | $218.7 M | $87.5 M | $131.2 M |
-| EPC / project services | $1.37 B | $206.0 M | $1.17 B |
-| Shared national trainset factory | $299.2 M | $59.8 M | $239.3 M |
-| **Total** | **$23.62 B** | **$5.56 B** | **$18.05 B** |
+| EPC / project services | $1.37 B | $206.1 M | $1.17 B |
+| Shared national trainset factory | $303.5 M | $60.7 M | $242.8 M |
+| **Total** | **$23.62 B** | **$5.56 B** | **$18.06 B** |
 
 ## City Programme
 

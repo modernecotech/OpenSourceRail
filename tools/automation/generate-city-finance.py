@@ -378,7 +378,7 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
     for frequency in ("monthly", "annual"):
         rows = funding["base"][frequency]
         with (directory / f"funding-{frequency}-cashflow.csv").open("w", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
     phased = funding.get("phased_opening", {})
@@ -386,7 +386,7 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
         for frequency in ("monthly", "annual"):
             rows = phased["cases"]["low_demand"][frequency]
             with (directory / f"funding-phased-{frequency}-cashflow.csv").open("w", newline="") as handle:
-                writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
                 writer.writeheader()
                 writer.writerows(rows)
     metrics = funding["base"]["metrics"]
@@ -433,7 +433,7 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
         "The [IMF Article IV](https://www.imf.org/en/news/articles/2025/07/08/pr-25243-iraq-imf-executive-board-concludes-2025-article-iv-consultation) provides the historical FX anchor. [CBI](https://www.cbi.iq/page/26) describes its role as fiscal agent for MoF bonds. [China Exim](https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html) describes export buyer credit; numeric project terms remain assumptions.", ""])
     if phased.get("cases"):
         pm = phased["cases"]["low_demand"]["metrics"]
-        lines.extend(["## Conditional phased-opening sensitivity", "", "The base above withholds all fares until every capital milestone. This separate sensitivity opens completed lines after the editable commissioning lag and gates every line on shared system/depot work. The new Baghdad production plant is unavailable for its first 520 working days. Opening also requires actual civil, train, depot, power and safety acceptance, which is not established by this calculation.", "",
+        lines.extend(["## Conditional phased-opening sensitivity", "", "The base above withholds all fares until every capital milestone. This separate sensitivity opens completed lines after the editable commissioning lag and gates every line on shared system/depot work. The city-sized Baghdad production plant is unavailable for its first 390 working days (18 months from NTP), followed by the scheduled first-article qualification gate. Opening also requires actual civil, train, depot, power and safety acceptance, which is not established by this calculation.", "",
             "Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.", "",
             f"First / last planned opening: month {pm['operations_start_month']} / {pm['full_network_operations_start_month']} from financial close (month zero). City additional funding requirement: USD {pm['additional_support_required_usd']/1e6:,.2f} million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.", "",
             "| Line | Opening month | Revenue / variable OPEX share |", "|---|---:|---:|",

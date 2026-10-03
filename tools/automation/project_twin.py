@@ -232,7 +232,7 @@ def apply_resource_cpm(
         dependency_start = max((int(by_uid[p]["planned_finish_day"])+1 for p in explicit_predecessors[uid]), default=0)
         lane_index = min(range(len(lanes)), key=lambda i: (max(dependency_start, lanes[i][0]+1), i))
         start = max(dependency_start, lanes[lane_index][0]+1)
-        return (start, str(row.get("asset_id", "")), _integer(row.get("sequence"), 0), uid, lane_index)
+        return (start, _integer(row.get("dispatch_priority"), 0), str(row.get("asset_id", "")), _integer(row.get("sequence"), 0), uid, lane_index)
 
     # Keys are lower bounds: lane availability only moves forward. Revalidate
     # stale heap entries lazily so ready work can flow through production stages
@@ -242,7 +242,7 @@ def apply_resource_cpm(
     topological = []
     while ready:
         planned = heapq.heappop(ready)
-        uid = planned[3]
+        uid = planned[4]
         current = candidate(uid)
         if current != planned:
             heapq.heappush(ready, current)
@@ -252,7 +252,7 @@ def apply_resource_cpm(
         work_center = str(row.get("work_center") or row.get("package_id") or "unallocated")
         lanes = lane_state[work_center]
         count = len(lanes)
-        lane_index = current[4]
+        lane_index = current[5]
         dependency_start = current[0]
         available_after, resource_predecessor = lanes[lane_index]
         if resource_predecessor and resource_predecessor not in augmented[uid]:

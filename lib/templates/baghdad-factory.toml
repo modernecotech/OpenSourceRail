@@ -1,0 +1,104 @@
+# Baghdad-specific industrial sizing inputs; engineering allowances, not bids.
+# One shared plant supports Baghdad's actual six-car fleet. Future cities do not
+# consume this capacity or add capital to the Baghdad programme.
+[factory]
+city = "baghdad"
+family = "metro-6car"
+ready_months_from_ntp = 18
+working_days_per_year = 260
+shift_hours = 8
+shifts_per_day = 1
+productive_availability = 0.85
+first_article_additional_working_days = 60
+capacity_search_step_trainsets_per_day = 0.01
+trainset_bay_length_m = 135.0
+trainset_bay_width_m = 6.5
+support_floor_fraction = 0.35
+site_floor_multiplier = 2.5
+test_tracks = 2
+test_track_length_m = 2000.0
+exclusive_track_hours_per_trainset = 16.0
+test_track_land_width_m = 25.0
+
+# Whole six-car trainset occupation. Conservative engineering assumptions:
+# structural/electrical/fit-out cycles are twice the legacy template's cycles.
+# The first train is within the 831, never an additional purchased prototype.
+[[stage]]
+package = "rs-10-material-kit"
+work_center = "Baghdad trainset kitting"
+cycle_working_days = 3
+crew_per_cell = 3
+floor_m2_per_cell = 250.0
+tooling_allowance_usd_per_cell = 150000.0
+[[stage]]
+package = "rs-20-carbody-bogie"
+work_center = "Baghdad six-car structural assembly"
+cycle_working_days = 24
+crew_per_cell = 18
+tooling_allowance_usd_per_cell = 1600000.0
+[[stage]]
+package = "rs-23-moulded-body-modules"
+work_center = "Baghdad six-car composite kits"
+cycle_working_days = 10
+crew_per_cell = 8
+floor_m2_per_cell = 1200.0
+tooling_allowance_usd_per_cell = 1800000.0
+[[stage]]
+package = "rs-25-clip-on-body"
+work_center = "Baghdad six-car body installation"
+cycle_working_days = 2
+crew_per_cell = 12
+tooling_allowance_usd_per_cell = 300000.0
+[[stage]]
+package = "rs-30-traction-battery-control"
+work_center = "Baghdad six-car electrical integration"
+cycle_working_days = 20
+crew_per_cell = 12
+tooling_allowance_usd_per_cell = 1000000.0
+[[stage]]
+package = "rs-40-fitout-static-test"
+work_center = "Baghdad six-car fitout and static test"
+cycle_working_days = 16
+crew_per_cell = 12
+tooling_allowance_usd_per_cell = 750000.0
+[[stage]]
+package = "rs-50-dynamic-commissioning"
+work_center = "Baghdad trainset acceptance bays"
+cycle_working_days = 12
+crew_per_cell = 4
+tooling_allowance_usd_per_cell = 600000.0
+
+[cost_envelope]
+# Engineering budget allocation rates only; seek Iraqi contractor / vendor RFQs.
+# Manufacturing wages/materials remain inside train CAPEX, never repeated here.
+building_allowance_usd_m2 = 700.0
+serviced_site_allowance_usd_m2 = 35.0
+test_track_allowance_usd_km = 3000000.0
+shared_utilities_stores_labs_logistics_usd = 35000000.0
+design_training_qualification_usd = 20000000.0
+contingency_fraction = 0.20
+
+[[construction_phase]]
+name = "Land/access, survey, design and approvals"
+days = 60
+owner = "Sponsor and owner engineer"
+[[construction_phase]]
+name = "Mobilisation, earthworks, foundations and underground services"
+days = 70
+owner = "Local civil contractor"
+[[construction_phase]]
+name = "Factory shell, lifting structure and utility backbone"
+days = 70
+owner = "Local structural and MEP contractors"
+[[construction_phase]]
+name = "Production cells, moulds, cranes and test-track construction"
+days = 80
+owner = "Production engineer and equipment suppliers"
+[[construction_phase]]
+name = "Equipment installation, calibration, staffing and training"
+days = 70
+owner = "Factory operator and quality manager"
+[[construction_phase]]
+name = "Factory process proving, safe-work and facility acceptance"
+days = 40
+owner = "Owner engineer and independent inspectors"
