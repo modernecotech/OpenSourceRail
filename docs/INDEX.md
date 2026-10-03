@@ -3553,7 +3553,7 @@ Indexed Markdown files: **5032**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md) | Hillah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md) | Hillah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md) | Hillah Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md`](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) | Iraq three-city funding programme |
+| [`cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md`](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) | Baghdad-only funding programme |
 | [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md) | Karbala Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md) | Karbala organisation and design work |

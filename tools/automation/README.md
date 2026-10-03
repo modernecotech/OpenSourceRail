@@ -29,7 +29,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`audit-project-twins.py`](audit-project-twins.py) | Reconcile city family scope, source hashes, finance buckets, CPM/cashflow totals and the mechanical/civil reference evidence |
 | [`operating-readiness.py`](operating-readiness.py) | Compile every tracked city ERP/component/supervision/lifecycle-governance profile against its own asset and twin evidence, report exact on-demand and operator-owned inputs, and detect report drift |
 | [`component_rfc_readiness.py`](component_rfc_readiness.py) | Validate and render requirements, ICD, hazard, BOM/drawing, assembly, test, owner, assumption and release-blocker coverage for RFCs 0023–0027 |
-| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF, including current reconciled city totals, every route, and the three-city Iraqi funding appraisals; paginate long evidence rows |
+| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF, including current reconciled city totals, every route, and the Baghdad-only Iraqi funding appraisal; paginate long evidence rows |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
 | [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |

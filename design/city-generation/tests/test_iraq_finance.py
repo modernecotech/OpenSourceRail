@@ -90,3 +90,81 @@ def test_zero_rates_and_invalid_shares(config):
     config["model"]["government_share_of_remainder"] = float("nan")
     with pytest.raises(ValueError, match="finite"):
         validate(config)
+
+
+def test_baghdad_25_percent_is_total_capital_and_other_cities_unchanged(config):
+    from osr_scenario.iraq_finance import city_funding_config
+
+    selected = city_funding_config(config, "baghdad")
+    requirements = scheduled_requirements(*reversed(inputs()), selected)
+    result = run_case(requirements, 240_000, 100_000, selected)
+    sources = result["metrics"]["capital_sources_usd"]
+    assert sources["government"] == pytest.approx(250_000)
+    residual = 1_000_000 - 250_000 - sources["chinese_export_credit"]
+    assert sources["domestic_bonds"] == pytest.approx(residual * .75)
+    assert sources["bank_credit"] == pytest.approx(residual * .25)
+    assert result["metrics"]["max_cash_balance_residual_usd"] < .01
+    assert result["metrics"]["total_government_cash_usd"] > sources["government"]
+    for name in ("samawah", "mosul"):
+        standalone = city_funding_config(config, name)
+        assert "government_share_of_total" not in standalone["model"]
+        assert standalone["model"]["government_share_of_remainder"] == .60
+    assert "government_share_of_total" not in config["model"]
+
+
+def test_baghdad_declined_china_does_not_increase_government_share(config):
+    from osr_scenario.iraq_finance import city_funding_config
+
+    selected = city_funding_config(config, "baghdad")
+    requirements = scheduled_requirements(*reversed(inputs()), selected)
+    base = run_case(requirements, 0, 0, selected)
+    denied = run_case(requirements, 0, 0, selected, export_available=False)
+    for tranche in ("government", "domestic_bonds", "bank_credit"):
+        assert denied["metrics"]["capital_sources_usd"][tranche] == base["metrics"]["capital_sources_usd"][tranche]
+    assert denied["metrics"]["uncovered_export_finance_usd"] == pytest.approx(base["metrics"]["capital_sources_usd"]["chinese_export_credit"])
+
+
+def test_total_share_rejects_overallocation(config):
+    from osr_scenario.iraq_finance import city_funding_config
+
+    selected = city_funding_config(config, "baghdad")
+    selected["model"]["government_share_of_total"] = .95
+    with pytest.raises(ValueError, match="exceed capital uses"):
+        run_case(scheduled_requirements(*reversed(inputs()), selected), 0, 0, selected)
+    selected["model"]["government_share_of_total"] = 1.1
+    with pytest.raises(ValueError, match="finite"):
+        validate(selected)
+
+
+def test_baghdad_imports_split_usd_cash_and_loan_inside_25_percent(config):
+    from osr_scenario.iraq_finance import city_funding_config, eligible_components
+
+    selected = city_funding_config(config, "baghdad")
+    buckets, contracts = inputs()
+    requirements = scheduled_requirements(contracts, buckets, selected)
+    assert sum(r["invoice_budget_usd"] for r in eligible_components(buckets, selected)) == pytest.approx(350_000)
+    result = run_case(requirements, 240_000, 100_000, selected)
+    metrics = result["metrics"]
+    assert metrics["capital_sources_usd"]["chinese_export_credit"] == pytest.approx(175_000)
+    assert metrics["government_capital_usd_cash"] == pytest.approx(175_000)
+    assert metrics["government_capital_iqd_cash"] == pytest.approx(75_000*1300)
+    assert metrics["capital_sources_usd"]["government"] == pytest.approx(250_000)
+    assert sum(metrics["capital_sources_usd"].values()) == pytest.approx(1_000_000)
+    for row in result["monthly"]:
+        assert row["government_capital_usd_cash"] + row["government_capital_iqd_cash"]/row["iqd_per_usd"] == pytest.approx(row["government_capital_received_usd"])
+        assert row["chinese_export_credit_draw_usd"] == pytest.approx(.5*row["imported_purchases_usd"])
+    delayed = run_case(requirements, 0, 0, selected, government_delay_months=6)
+    assert delayed["monthly"][0]["government_capital_usd_cash"] == 0
+    assert delayed["monthly"][6]["government_capital_usd_cash"] == pytest.approx(result["monthly"][0]["government_capital_usd_cash"])
+
+
+def test_unqualified_import_basket_does_not_change_other_city_eligibility(config):
+    from osr_scenario.iraq_finance import city_funding_config, eligible_components
+
+    buckets, contracts = inputs()
+    standalone = city_funding_config(config, "mosul")
+    assert sum(r["invoice_budget_usd"] for r in eligible_components(buckets, standalone)) == pytest.approx(350_000*.85)
+    selected = city_funding_config(config, "baghdad")
+    selected["model"]["government_usd_share_of_imports"] = .60
+    with pytest.raises(ValueError, match="cover the import basket exactly"):
+        validate(selected)

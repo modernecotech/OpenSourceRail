@@ -226,7 +226,7 @@ City registers distinguish completed screening and data work from field investig
 | najaf | 292 / 328 | 15 | [soil](../../cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md) |
 | nasiriyah | 103 / 106 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md) |
 | ramadi | 81 / 87 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md) |
-| samawah | 79 / 94 | 13 | [soil](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) |
+| samawah | 79 / 94 | 12 | [soil](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) |
 | sulaymaniyah | 230 / 230 | 14 | [soil](../../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md) |
 | amman | 647 / 661 | 15 | [soil](../../cities/catalogue/west-asia/Jordan/Amman/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Jordan/Amman/engineering/deployment/README.md) |
 | aqaba | 60 / 70 | 14 | [soil](../../cities/catalogue/west-asia/Jordan/Aqaba/engineering/soil/README.md) | [register](../../cities/catalogue/west-asia/Jordan/Aqaba/engineering/deployment/README.md) |

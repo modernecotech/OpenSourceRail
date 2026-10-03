@@ -39,18 +39,37 @@ islanding, connections, protection, land and duty remain unaccepted.
 City planning CAPEX is USD 7.56 billion before owner-confirmed land,
 utilities, tax/duty and escalation. The $8 M depot allowance
 is **not reconciled** to surveyed stabling, workshops, energy, fire and security.
-The shared national plant is outside city CAPEX and counted once in the programme.
+The Baghdad manufacturing plant is outside city CAPEX and counted once in the Baghdad-only programme.
 
 ## Iraq financing proposal
 
 The [city funding model](../engineering/finance/FUNDING-MODEL.md) and
-[three-city programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
+[Baghdad-only programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
 component invoices, government capital, IQD bonds and IQD bank credit.
+Government capital is 25% of total CAPEX, including **USD 896.07 million**
+for half the imported-parts budget. Proposed Chinese USD credit covers the other
+half. Remaining government capital, bonds and bank credit are in IQD. Full import
+basket lender and supplier-origin qualification remains pending. Fees, interest, reserves and
+cash support beyond that contribution are separately disclosed funding needs.
 They include staged draws, native-currency principal/interest, fees, reserves,
-cash support and downside funding gaps. The rates, maturities and 85% invoice
+cash support and downside funding gaps. The rates, maturities and 50% invoice
 advance are uncommitted appraisal assumptions. The resource-constrained
 construction cash schedule is not a five-year funding promise. Monthly and
 annual ledgers and charts are generated from the same controlled model.
+
+The programme comparison covers the historical 148 km / USD 18 billion proposal
+against this 516.5 km / 182 station planning network.
+Total USD capital funding (government USD cash plus Chinese loan) is
+USD 1.792 billion; the rest is IQD.
+The older all-USD financing basis is the requested comparison scenario, not
+verified final contract terms. The modelled fare is IQD 1,317
+per paid trip. Population access uses a 46.4%
+anchor-weighted planning score, not a surveyed resident catchment. Local
+procurement is USD 6.084 billion equivalent;
+indicative operating employment is 2,350 FTE. Construction
+job counts require validated hours and productivity. The model leaves USD
+9.890 billion in additional
+cash requirements if public funding is capped at the 25% capital contribution.
 
 ## Rolling stock and CRRC component strategy
 

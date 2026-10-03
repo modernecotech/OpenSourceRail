@@ -286,6 +286,8 @@ def build() -> None:
     buckets = {r["bucket"]: r["total_usd"] for r in finance["capex_usd"]["procurement_origin_buckets"]}
     funding = finance["structured_financing"]
     assert funding["schedule_status"] == "linked-to-budget-work-packages"
+    programme = json.loads((CITY.parent / "finance/baghdad-programme.json").read_text())
+    comparison = programme["comparison"]
     offer_readme = OFFER / "README.md"
     text = offer_readme.read_text()
     system = f"""## Proposed system
@@ -309,18 +311,37 @@ islanding, connections, protection, land and duty remain unaccepted.
 City planning CAPEX is USD {capex/1e9:.2f} billion before owner-confirmed land,
 utilities, tax/duty and escalation. The {money(buckets['depots'])} depot allowance
 is **not reconciled** to surveyed stabling, workshops, energy, fire and security.
-The shared national plant is outside city CAPEX and counted once in the programme.
+The Baghdad manufacturing plant is outside city CAPEX and counted once in the Baghdad-only programme.
 
 ## Iraq financing proposal
 
 The [city funding model](../engineering/finance/FUNDING-MODEL.md) and
-[three-city programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
+[Baghdad-only programme](../../IRAQ-FUNDING-PROGRAMME.md) divide eligible Chinese
 component invoices, government capital, IQD bonds and IQD bank credit.
+Government capital is 25% of total CAPEX, including **USD {programme['government_capital_usd_cash']/1e6:,.2f} million**
+for half the imported-parts budget. Proposed Chinese USD credit covers the other
+half. Remaining government capital, bonds and bank credit are in IQD. Full import
+basket lender and supplier-origin qualification remains pending. Fees, interest, reserves and
+cash support beyond that contribution are separately disclosed funding needs.
 They include staged draws, native-currency principal/interest, fees, reserves,
-cash support and downside funding gaps. The rates, maturities and 85% invoice
+cash support and downside funding gaps. The rates, maturities and 50% invoice
 advance are uncommitted appraisal assumptions. The resource-constrained
 construction cash schedule is not a five-year funding promise. Monthly and
 annual ledgers and charts are generated from the same controlled model.
+
+The programme comparison covers the historical 148 km / USD 18 billion proposal
+against this {comparison['osr_route_km']:,.1f} km / {comparison['osr_stations']} station planning network.
+Total USD capital funding (government USD cash plus Chinese loan) is
+USD {programme['usd_denominated_capital_usd']/1e9:.3f} billion; the rest is IQD.
+The older all-USD financing basis is the requested comparison scenario, not
+verified final contract terms. The modelled fare is IQD {comparison['fare_iqd']:,.0f}
+per paid trip. Population access uses a {comparison['anchor_weighted_coverage']:.1%}
+anchor-weighted planning score, not a surveyed resident catchment. Local
+procurement is USD {comparison['osr_local_purchases_usd']/1e9:.3f} billion equivalent;
+indicative operating employment is {comparison['operating_fte']:,} FTE. Construction
+job counts require validated hours and productivity. The model leaves USD
+{programme['additional_funding_required_with_25_percent_cap_usd']/1e9:.3f} billion in additional
+cash requirements if public funding is capped at the 25% capital contribution.
 
 """
     text, count = re.subn(r"## Proposed system\n.*?(?=## Rolling stock)", system, text, flags=re.S)
@@ -535,12 +556,45 @@ annual ledgers and charts are generated from the same controlled model.
     ]
     story += section("Iraq sources, repayments and public cash", "Structured financing appraisal")
     metrics = funding["base"]["metrics"]
-    story += [data_table([["Capital source", "Proposed USD equivalent"], *[[k.replace('_', ' '), money(v)] for k, v in metrics["capital_sources_usd"].items()]], [104*mm, 70*mm]), Spacer(1, 3*mm),
+    native_city_sources = []
+    for key, value in metrics["capital_sources_usd"].items():
+        if key == "government":
+            native_city_sources += [["Government import cash", "USD", money(metrics["government_capital_usd_cash"])], ["Government local cash", "IQD", f"IQD {metrics['government_capital_iqd_cash']/1e12:.3f} trillion"]]
+        elif key == "chinese_export_credit":
+            native_city_sources.append(["Chinese loan", "USD", money(value)])
+        else:
+            native_city_sources.append([key.replace("_", " "), "IQD", f"IQD {value*funding['assumptions']['model']['iqd_per_usd']/1e12:.3f} trillion"])
+    story += [data_table([["City capital source", "Currency", "Proposed native amount"], *native_city_sources], [80*mm, 24*mm, 70*mm]), Spacer(1, 3*mm),
         fitted_image(CITY / "engineering/finance/funding-cashflows.png", 174*mm, 108*mm),
-        p(f"Construction cash spans {metrics['construction_cash_months']} assumed calendar months under the current constrained CPM. Peak annual public cash is {money(metrics['peak_annual_government_cash_usd'])}; loan repayment is tied to draw dates, not postponed until opening.", "Smallx"),
-        p("Chinese export buyer credit is proposed only for eligible Chinese PV, bogie, battery, window and door invoices. Government contributes capital and invoice downpayments; proposed IQD sovereign bonds and term bank credit fund the remainder. Tooling is allocated once to a shared national plant outside city CAPEX. Loan advance, rates, maturities and origination fees are uncommitted assumptions, not bank offers."),
+        p(f"Construction cash spans {metrics['construction_cash_months']} assumed calendar months under the current constrained CPM. Peak annual conditional public cash requirement is {money(metrics['peak_annual_government_cash_usd'])}; loan repayment is tied to draw dates, not postponed until opening.", "Smallx"),
+        p("The import basket is assumed eligible for proposed Chinese export credit pending supplier-origin and lender qualification. Imported purchases are split 50% government USD cash / 50% Chinese USD loan. Government capital is 25% of total uses, including invoice downpayments. Proposed IQD bonds and term bank credit split the remaining balance after government and Chinese credit 75:25. Tooling is counted once in the Baghdad-only programme outside city CAPEX. Fees, interest, reserves and later cash shortfalls remain additional unfunded requirements if public cash is limited to that contribution. Loan advance, rates, maturities and origination fees are uncommitted assumptions, not bank offers."),
         p("Monthly ledgers separately show native-currency draws, principal, interest, fees, fare/nonfare receipts, OPEX, public support and restricted reserves. FX, demand, delay, short-bullet bonds, withheld appropriations and declined Chinese credit are stressed. Subsidy does not increase pre-support DSCR; no automatic refinancing or unlimited bridge credit is assumed."), PageBreak()]
 
+    story += section("Baghdad: USD capital intensity and local industrial value", "Historical proposal comparison")
+    story += [
+        fitted_image(CITY.parent / "finance/baghdad-financing-comparison.png", 174*mm, 78*mm),
+        data_table([
+            ["Measure", "OSR plan including plant", "Historical / requested scenario"],
+            ["Route / stations", f"{comparison['osr_route_km']:.1f} km / {comparison['osr_stations']}", "148 km / 64"],
+            ["Capital USD equivalent", money(programme['total_capex_usd']), "$18 billion reported"],
+            ["USD capital funding", money(programme['usd_denominated_capital_usd']), "$18 billion assumed USD"],
+            ["Chinese USD loan", money(programme['usd_denominated_debt_principal_usd']), "Debt/government split unknown"],
+            ["Government import USD cash", money(programme['government_capital_usd_cash']), "Unknown final split"],
+            ["Remaining funding", f"IQD {(programme['total_capex_usd']-programme['usd_denominated_capital_usd'])*funding['assumptions']['model']['iqd_per_usd']/1e12:.3f} trillion", "No IQD in requested scenario"],
+        ], [57*mm, 57*mm, 60*mm]),
+        p('Sources: <link href="' + comparison["third_party"]["source_report"] + '">July 2024 report</link>; <link href="' + comparison["third_party"]["source_nic"] + '">NIC DBOMFT notice</link>.', "Smallx"),
+        p("The July 2024 report gives 148 km, seven lines, 64 stations and an estimated $18 billion. The NIC DBOMFT notice requires a bidder funding plan. Entirely USD foreign loans and government cash are the requested comparison assumption; contracted currency, fares and debt terms have not been verified. Historical and OSR planning budgets differ in scope, price date and maturity; this is not a qualified bid saving.", "Smallx"),
+        p(f"Only the Chinese loan is USD debt. Half the imports are government USD cash inside its 25% capital contribution. Remaining government cash, bonds, bank credit and local revenue use IQD. Imported-purchase FX exposure is {money(comparison['osr_imported_purchases_usd'])}; IQD debt matching reduces currency mismatch but does not remove Chinese repayment FX risk or domestic interest and placement needs.", "Smallx"), PageBreak(),
+    ]
+    story += section("Affordable service and direct Iraqi benefits", "Sustainability appraisal")
+    story += [
+        p(f"Modelled average fare: IQD {comparison['fare_iqd']:,.0f} per paid trip. Thirty trips use 8% of the retained income proxy; 44 commuter trips use 11.7%. The low case assumes {comparison['annual_low_case_paid_trips']/365:,.0f} paid trips/day, not unique residents or calibrated demand. At that volume, OPEX-only neutrality requires IQD {comparison['operating_only_neutral_fare_iqd_at_low_trips']:,.0f}; this excludes debt and reserves."),
+        p(f"First complete operating year cash neutrality including debt and fees requires about IQD {comparison['first_operating_year_neutral_fare_iqd_including_debt_and_fees']:,.0f} per trip at fixed ramped demand, excluding factory debt and reserve deposits. This is a threshold, not a recommended fare. The {metrics['construction_cash_months']}-month pre-opening capital schedule leaves {money(programme['additional_funding_required_with_25_percent_cap_usd'])} in unfunded additional cash requirements under the public cap; higher fares alone cannot finance that construction-period burden."),
+        p(f"Population access is unresolved: the {comparison['anchor_weighted_coverage']:.1%} anchor score applied to {comparison['planning_population']:,} planning residents yields a {comparison['anchor_based_resident_proxy']:,} resident proxy. It is not a measured 800 m walking catchment. The older reported 80% city-coverage ambition has no comparable access definition. More route kilometres and stations do not prove greater population coverage."),
+        p(f"Potential Iraqi procurement is {money(comparison['osr_local_purchases_usd'])}, covering civil works, stations, train assembly, body modules, fit-out, wiring, inspection and maintenance. Imported bogies, batteries, windows, doors and tooling still need qualification. Local production can retain skills, supplier income and repair capacity; no GDP multiplier or tax recovery is booked."),
+        p(f"The operating allowance is {comparison['operating_fte']:,} indicative FTE and IQD {comparison['operating_labour_annual_iqd']/1e9:.2f} billion annual labour cost. These are not manufacturing/construction job counts; validated hours, productivity, wages and local-content contracts are required. The third-party plan may also employ Iraqi civil labour."),
+        p("Sustainability requires accepted phasing, surveyed demand, an affordable tariff, funded interest/reserves and debt service within the public limit, placed IQD facilities, local supplier/process qualification and lifecycle replacement provision. Software and ledger checks do not close these decisions."), PageBreak(),
+    ]
     story += section("A controlled path from model to railway", "Proposed engagement")
     story += [
         data_table([
@@ -579,6 +633,9 @@ annual ledgers and charts are generated from the same controlled model.
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-cashflows.png"),
         Path("lib/templates/iraq-funding.toml"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-financing-comparison.png"),
+        Path("cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/energy/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/gis/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/validation-summary.json"),

@@ -7,7 +7,7 @@ This page contains only Iraq-specific aggregation. Shared network, service, ener
 
 ## Iraq financing
 
-The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled Chinese export-credit, government, IQD bond and IQD bank-credit proposal for **Baghdad, Samawah and Mosul**, including one shared plant, is in the [Iraq funding programme](IRAQ-FUNDING-PROGRAMME.md). Other Iraqi cities are outside that three-city cashflow.
+The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled proposal covers **Baghdad only**, including one manufacturing plant. It uses government capital at **25% of total CAPEX**, imports split 50% government USD cash / 50% proposed Chinese USD credit, with the remaining government capital, bonds and bank credit in IQD. Full-basket Chinese eligibility remains unqualified. Additional cash requirements beyond that public contribution remain visible in the [Baghdad funding programme](IRAQ-FUNDING-PROGRAMME.md). Samawah, Mosul and every other Iraqi city are excluded from its cashflows.
 
 ## National Programme
 

@@ -13,6 +13,18 @@ from typing import Any
 TRANCHES = ("chinese_export_credit", "domestic_bonds", "bank_credit")
 
 
+def city_funding_config(config: dict, city: str) -> dict:
+    """Apply the controlled city scenario without changing other Iraqi models."""
+    result = copy.deepcopy(config)
+    override = result.pop("city_overrides", {}).get(city, {}).get("model", {})
+    result["model"].update(override)
+    if "government_share_of_total" in result["model"]:
+        for key in ("government_share_of_remainder", "bond_share_of_remainder", "credit_share_of_remainder"):
+            result["model"].pop(key, None)
+    validate(result)
+    return result
+
+
 def number(value: Any, label: str, *, maximum: float | None = None) -> float:
     if isinstance(value, bool):
         raise ValueError(f"{label}: boolean is not a monetary assumption")
@@ -29,11 +41,23 @@ def validate(config: dict) -> None:
             raise ValueError(f"{key} must be positive")
         if key != "iqd_per_usd" and model[key] != int(model[key]):
             raise ValueError(f"{key} must be a whole count")
-    shares = [number(model[key], key, maximum=1) for key in (
-        "government_share_of_remainder", "bond_share_of_remainder", "credit_share_of_remainder")]
+    if "government_share_of_total" in model:
+        number(model["government_share_of_total"], "government_share_of_total", maximum=1)
+        shares = [number(model[key], key, maximum=1) for key in (
+            "bond_share_of_residual", "credit_share_of_residual")]
+    else:
+        shares = [number(model[key], key, maximum=1) for key in (
+            "government_share_of_remainder", "bond_share_of_remainder", "credit_share_of_remainder")]
     if not math.isclose(sum(shares), 1, abs_tol=1e-10):
         raise ValueError("remainder funding shares must sum to one")
     number(model["export_invoice_advance"], "export_invoice_advance", maximum=1)
+    scope = model.get("export_eligibility_scope", "selected-components")
+    if scope not in {"selected-components", "all-imports-pending-qualification"}:
+        raise ValueError("unknown export eligibility scope")
+    if "government_usd_share_of_imports" in model:
+        share = number(model["government_usd_share_of_imports"], "government_usd_share_of_imports", maximum=1)
+        if scope != "all-imports-pending-qualification" or not math.isclose(share + model["export_invoice_advance"], 1):
+            raise ValueError("USD government cash and loan must cover the import basket exactly")
     number(model["discount_rate"], "discount_rate", maximum=1)
     number(model["debt_service_reserve_months"], "debt_service_reserve_months")
     number(model["pre_ntp_working_days"], "pre_ntp_working_days")
@@ -65,6 +89,12 @@ def eligible_components(buckets: list[dict], config: dict) -> list[dict]:
             result.append({"bucket": bucket["bucket"], "component": component,
                            "invoice_budget_usd": imported * share,
                            "origin_status": "assumed-Chinese-pending-qualification-and-quotes"})
+        if config["model"].get("export_eligibility_scope") == "all-imports-pending-qualification":
+            remainder = imported * (1-sum(config["eligible_imports"].get(bucket["bucket"], {}).values()))
+            if remainder > .01:
+                result.append({"bucket": bucket["bucket"], "component": "other_imports_pending_lender_and_origin_qualification",
+                               "invoice_budget_usd": remainder,
+                               "origin_status": "assumed-Chinese-pending-qualification-and-quotes"})
     return result
 
 
@@ -87,6 +117,8 @@ def scheduled_requirements(contracts: list[dict], buckets: list[dict], config: d
         if not math.isclose(imported_share, expected_share, abs_tol=1e-8):
             raise ValueError(f"{bucket}: stale procurement origin share")
         eligible_share = sum(config["eligible_imports"].get(bucket, {}).values())
+        if m.get("export_eligibility_scope") == "all-imports-pending-qualification":
+            eligible_share = 1.0
         start, finish = int(contract["planned_start_day"]), int(contract["planned_finish_day"])
         if start < 0 or finish < start:
             raise ValueError("invalid working-day schedule")
@@ -95,6 +127,7 @@ def scheduled_requirements(contracts: list[dict], buckets: list[dict], config: d
             if month < 0:
                 raise ValueError("pre-NTP cash precedes financial close assumption")
             rows[month]["capex_usd"] += amount * fraction
+            rows[month]["imported_usd"] += amount * fraction * imported_share
             rows[month]["eligible_invoice_usd"] += amount * fraction * imported_share * eligible_share
     for bucket, total in totals.items():
         # Contract allocation is rounded to cents by the operations exporter.
@@ -105,6 +138,7 @@ def scheduled_requirements(contracts: list[dict], buckets: list[dict], config: d
         raise ValueError("construction funding schedule is empty")
     # Reconcile harmless contract allocation rounding to authoritative budgets.
     result[-1]["capex_usd"] += sum(totals.values()) - sum(r["capex_usd"] for r in result)
+    result[-1]["imported_usd"] += sum(b["imported_usd"] for b in buckets) - sum(r["imported_usd"] for r in result)
     target_eligible = sum(r["invoice_budget_usd"] for r in eligible_components(buckets, config))
     result[-1]["eligible_invoice_usd"] += target_eligible - sum(r["eligible_invoice_usd"] for r in result)
     return result
@@ -137,6 +171,7 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
     chinese_total = eligible_total * m["export_invoice_advance"]
     loans: dict[str, list[dict]] = {t: [] for t in TRANCHES}
     future_gov: dict[int, float] = defaultdict(float)
+    future_gov_usd: dict[int, float] = defaultdict(float)
     reserve = cash = unfunded_capital = 0.0
     monthly = []
     for month in range(end):
@@ -145,18 +180,34 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
         capex = req.get("capex_usd", 0) * capex_factor
         planned_china = req.get("eligible_invoice_usd", 0) * capex_factor * m["export_invoice_advance"]
         remainder = capex - planned_china
+        if "government_share_of_total" in m:
+            scheduled_gov = capex * m["government_share_of_total"]
+            residual = remainder - scheduled_gov
+            if residual < -.01:
+                raise ValueError("government plus planned Chinese credit exceed capital uses")
+            bonds = max(0, residual) * m["bond_share_of_residual"]
+            credit = max(0, residual) * m["credit_share_of_residual"]
+        else:
+            scheduled_gov = remainder * m["government_share_of_remainder"]
+            bonds = remainder * m["bond_share_of_remainder"]
+            credit = remainder * m["credit_share_of_remainder"]
         draws = {"chinese_export_credit": planned_china if export_available else 0,
-                 "domestic_bonds": remainder * m["bond_share_of_remainder"],
-                 "bank_credit": remainder * m["credit_share_of_remainder"]}
-        scheduled_gov = remainder * m["government_share_of_remainder"]
+                 "domestic_bonds": bonds, "bank_credit": credit}
         downpayment = req.get("eligible_invoice_usd", 0) * capex_factor * (1-m["export_invoice_advance"])
         if scheduled_gov + .01 < downpayment:
             raise ValueError("government capital share cannot cover the eligible invoice downpayment")
         future_gov[month + government_delay_months] += scheduled_gov
+        scheduled_gov_usd = req.get("imported_usd", 0) * capex_factor * m.get("government_usd_share_of_imports", 0)
+        if scheduled_gov_usd > scheduled_gov + .01:
+            raise ValueError("government USD import cash exceeds total government capital contribution")
+        future_gov_usd[month + government_delay_months] += scheduled_gov_usd
         received_gov = future_gov[month]
         row = {"month": month, "year": month // 12 + 1, "phase": "operations" if operating_start <= month < operating_end else "construction" if month < operating_start else "debt-tail",
                "iqd_per_usd": fx, "capex_usd": capex, "eligible_chinese_invoices_usd": req.get("eligible_invoice_usd", 0)*capex_factor,
-               "government_capital_scheduled_usd": scheduled_gov, "government_capital_received_usd": received_gov}
+               "government_capital_scheduled_usd": scheduled_gov, "government_capital_received_usd": received_gov,
+               "imported_purchases_usd": req.get("imported_usd", 0)*capex_factor,
+               "government_capital_usd_cash": future_gov_usd[month],
+               "government_capital_iqd_cash": (received_gov-future_gov_usd[month])*fx}
         service = fees = 0.0
         for name in TRANCHES:
             terms = config[name]
@@ -255,6 +306,9 @@ def run_case(requirements: list[dict], annual_revenue_usd: float, annual_opex_us
         "construction_cash_months": construction_end+1, "operations_start_month": operating_start,
         "total_capex_usd": sum(r["capex_usd"] for r in monthly),
         "capital_sources_usd": {**{t: sum(r[f"{t}_draw_usd"] for r in monthly) for t in TRANCHES}, "government": sum(r["government_capital_scheduled_usd"] for r in monthly)},
+        "government_capital_usd_cash": sum(r["government_capital_usd_cash"] for r in monthly),
+        "government_capital_iqd_cash": sum(r["government_capital_iqd_cash"] for r in monthly),
+        "imported_purchases_usd": sum(r["imported_purchases_usd"] for r in monthly),
         "minimum_operating_dscr_before_public_support": min(operating_dscr) if operating_dscr else None,
         "peak_annual_government_cash_usd": max(r["government_total_cash_usd"] for r in annual),
         "peak_annual_government_cash_iqd": max(r["government_total_cash_iqd"] for r in annual),
@@ -299,7 +353,7 @@ def build_financing(buckets: list[dict], contracts: list[dict], revenue_cases: d
         "limitations": [
             "Working-day milestones use 260 working days/year and 30 working days before NTP; holidays and an approved local calendar are pending.",
             "No signed Chinese loan, supplier-origin qualification, guarantee, bond mandate, bank facility, appropriation or tax/duty assessment.",
-            "Chinese origin allocations are proxies within existing imported budgets; eligible invoice advance of 85% is an assumption, not a verified lender rule.",
+            "Chinese origin and lender eligibility remain unqualified proxies. Default advance is 85%; Baghdad assumes all imports can qualify for 50% USD loan / 50% government USD cash. Additional imported categories require lender and supplier approval; neither assumption is a verified lender rule.",
             "Domestic bonds assume a proposed MoF sovereign IQD programme; municipal borrowing powers and market demand are not assumed.",
             "Long amortising domestic bonds are an appraisal target; the four-year bullet sensitivity exposes redemption without automatic refinancing.",
             "Construction cohorts need separately approved facilities. A long rollout does not imply a lender offers decades of draw availability.",
@@ -308,7 +362,7 @@ def build_financing(buckets: list[dict], contracts: list[dict], revenue_cases: d
             "Unquoted CAPEX budgets remain nominal USD planning values. IQD tranches and appropriations convert at draw-date FX; no automatic local supplier price benefit from depreciation is assumed.",
             "Income used for labour and fares is the retained country-finance planning proxy, not a verified current Iraqi household median or an agreed wage/fare contract.",
             "Government payment delays and unavailable China credit produce explicit capital cash gaps; no committed bridge credit is assumed.",
-            "Restricted DSRA targets six times current monthly service, funded by explicit government cash; future-service covenant testing is pending.",
+            "Restricted DSRA targets six times current monthly service. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.",
             "Battery renewal reserve remains inside existing rolling-stock maintenance OPEX; no second battery CAPEX is added.",
             "Demand is capacity-led, not a surveyed forecast. Passing reconciliation does not demonstrate affordability or bankability.",
         ]}

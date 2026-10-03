@@ -47,7 +47,7 @@ from osr_scenario.capital import (  # noqa: E402
     foreign_turnkey_cases,
     funding_plan,
 )
-from osr_scenario.iraq_finance import build_financing  # noqa: E402
+from osr_scenario.iraq_finance import build_financing, city_funding_config  # noqa: E402
 
 IRAQ_FUNDING_PATH = REPO_ROOT / "lib/templates/iraq-funding.toml"
 IRAQ_MODEL_PATH = REPO_ROOT / "design/city-generation/src/osr_scenario/iraq_finance.py"
@@ -331,7 +331,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         ],
     }
     if stats.country_iso == "IQ":
-        config = tomllib.loads(IRAQ_FUNDING_PATH.read_text())
+        config = city_funding_config(tomllib.loads(IRAQ_FUNDING_PATH.read_text()), str(model["city"]))
         contracts_path = design_path.parent / "engineering/finance/funding-input.csv"
         for key, path in (("iraq_funding", IRAQ_FUNDING_PATH), ("iraq_finance_model", IRAQ_MODEL_PATH)):
             model["sources"][key] = str(path.relative_to(REPO_ROOT))
@@ -375,13 +375,29 @@ def write_funding_artifacts(directory: Path, model: dict) -> None:
             writer.writeheader()
             writer.writerows(rows)
     metrics = funding["base"]["metrics"]
+    share = funding["assumptions"]["model"].get("government_share_of_total")
+    contribution_note = (
+        f"Government capital is **{share:.0%} of total city CAPEX**, before Chinese credit is deducted. "
+        "The residual after that contribution and proposed Chinese proceeds is split 75% IQD bonds / 25% IQD bank credit. "
+        "Imported purchases use 50% government USD cash and 50% proposed Chinese credit, assuming full-basket eligibility is later qualified; the remaining government contribution is IQD. Financing fees, construction interest, reserves and operating/debt support are additional funding requirements, not included in the 25% capital contribution. "
+        "See the [Baghdad-only programme](../../../IRAQ-FUNDING-PROGRAMME.md) for the uncovered cash requirements if no additional government cash is available."
+        if share is not None else "This standalone city appraisal is outside the Baghdad-only funding programme."
+    )
     lines = [f"# {model['city'].title()} — Iraq funding appraisal", "",
         "Generated from current city CAPEX and procurement milestones. All facilities and appropriations remain uncommitted.", "",
+        contribution_note, "",
         f"Construction cash runs through month **{metrics['construction_cash_months']}**; full-network operations start in month **{metrics['operations_start_month']}** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.", "",
-        "## Capital sources and uses", "", "| Capital source | USD equivalent |", "|---|---:|"]
-    lines.extend(f"| {name.replace('_', ' ')} | {value:,.2f} |" for name, value in metrics["capital_sources_usd"].items())
-    lines.extend([f"| **Total city capital uses** | **{metrics['total_capex_usd']:,.2f}** |", "",
-        "Chinese buyer credit is proposed for eligible Chinese component invoices only. The government funds the invoice downpayment and its share of the remaining budget; IQD bonds and IQD bank credit finance the rest. Government also pays financing fees, construction interest, reserve contributions and operating/debt shortfalls shown separately in the cashflow.", "",
+        "## Capital sources and uses", "", "USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds and bank credit are IQD debt. Baghdad imported purchases are funded 50% government USD cash and 50% proposed Chinese loan; the remaining government capital and local cash are IQD.** The full Baghdad import basket is assumed eligible pending supplier-origin and lender qualification. Other city appraisals retain their own assumptions. Fares and local operating payments are budgeted in IQD.", "", "| Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |", "|---|---|---:|---:|"]
+    for name, value in metrics["capital_sources_usd"].items():
+        if name == "government" and metrics.get("government_capital_usd_cash", 0):
+            lines.append(f"| government import cash | USD | {metrics['government_capital_usd_cash']:,.2f} | {metrics['government_capital_usd_cash']:,.2f} |")
+            lines.append(f"| government local cash | IQD | {metrics['government_capital_iqd_cash']:,.2f} | {value-metrics['government_capital_usd_cash']:,.2f} |")
+            continue
+        currency = "USD" if name == "chinese_export_credit" else "IQD"
+        native = value if currency == "USD" else value * funding["assumptions"]["model"]["iqd_per_usd"]
+        lines.append(f"| {name.replace('_', ' ')} | {currency} | {native:,.2f} | {value:,.2f} |")
+    lines.extend([f"| **Total city capital uses** | Mixed | — | **{metrics['total_capex_usd']:,.2f}** |", "",
+        "Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.", "",
         "## Proposed instruments", "", "| Instrument | Currency | Rate assumed | Grace from draw | Repayment |", "|---|---|---:|---:|---:|"])
     for name in TRANCHE_NAMES:
         t = funding["assumptions"][name]

@@ -2,19 +2,23 @@
 
 Generated from current city CAPEX and procurement milestones. All facilities and appropriations remain uncommitted.
 
+This standalone city appraisal is outside the Baghdad-only funding programme.
+
 Construction cash runs through month **60**; full-network operations start in month **60** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
-| Capital source | USD equivalent |
-|---|---:|
-| chinese export credit | 45,615,832.02 |
-| domestic bonds | 124,677,271.45 |
-| bank credit | 41,559,090.48 |
-| government | 249,354,542.90 |
-| **Total city capital uses** | **461,206,736.85** |
+USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds and bank credit are IQD debt. Baghdad imported purchases are funded 50% government USD cash and 50% proposed Chinese loan; the remaining government capital and local cash are IQD.** The full Baghdad import basket is assumed eligible pending supplier-origin and lender qualification. Other city appraisals retain their own assumptions. Fares and local operating payments are budgeted in IQD.
 
-Chinese buyer credit is proposed for eligible Chinese component invoices only. The government funds the invoice downpayment and its share of the remaining budget; IQD bonds and IQD bank credit finance the rest. Government also pays financing fees, construction interest, reserve contributions and operating/debt shortfalls shown separately in the cashflow.
+| Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
+|---|---|---:|---:|
+| chinese export credit | USD | 45,615,832.02 | 45,615,832.02 |
+| domestic bonds | IQD | 162,080,452,883.35 | 124,677,271.45 |
+| bank credit | IQD | 54,026,817,627.78 | 41,559,090.48 |
+| government | IQD | 324,160,905,766.70 | 249,354,542.90 |
+| **Total city capital uses** | Mixed | — | **461,206,736.85** |
+
+Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 
 ## Proposed instruments
 
@@ -100,7 +104,7 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 - Working-day milestones use 260 working days/year and 30 working days before NTP; holidays and an approved local calendar are pending.
 - No signed Chinese loan, supplier-origin qualification, guarantee, bond mandate, bank facility, appropriation or tax/duty assessment.
-- Chinese origin allocations are proxies within existing imported budgets; eligible invoice advance of 85% is an assumption, not a verified lender rule.
+- Chinese origin and lender eligibility remain unqualified proxies. Default advance is 85%; Baghdad assumes all imports can qualify for 50% USD loan / 50% government USD cash. Additional imported categories require lender and supplier approval; neither assumption is a verified lender rule.
 - Domestic bonds assume a proposed MoF sovereign IQD programme; municipal borrowing powers and market demand are not assumed.
 - Long amortising domestic bonds are an appraisal target; the four-year bullet sensitivity exposes redemption without automatic refinancing.
 - Construction cohorts need separately approved facilities. A long rollout does not imply a lender offers decades of draw availability.
@@ -109,7 +113,7 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 - Unquoted CAPEX budgets remain nominal USD planning values. IQD tranches and appropriations convert at draw-date FX; no automatic local supplier price benefit from depreciation is assumed.
 - Income used for labour and fares is the retained country-finance planning proxy, not a verified current Iraqi household median or an agreed wage/fare contract.
 - Government payment delays and unavailable China credit produce explicit capital cash gaps; no committed bridge credit is assumed.
-- Restricted DSRA targets six times current monthly service, funded by explicit government cash; future-service covenant testing is pending.
+- Restricted DSRA targets six times current monthly service. Support cash is a required contribution, not a commitment; repayments and reserve balances are conditional on it. Baghdad programme caps government capital at 25% and separately discloses the additional unfunded requirement. Future-service covenant testing is pending.
 - Battery renewal reserve remains inside existing rolling-stock maintenance OPEX; no second battery CAPEX is added.
 - Demand is capacity-led, not a surveyed forecast. Passing reconciliation does not demonstrate affordability or bankability.
 

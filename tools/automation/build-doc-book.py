@@ -321,9 +321,13 @@ def _doc_sources() -> list[SourceDoc]:
     iraq = REPO_ROOT / "cities/catalogue/west-asia/Iraq"
     iraq_funding = [iraq / "IRAQ-FUNDING-PROGRAMME.md"] + [
         iraq / city / "engineering/finance/FUNDING-MODEL.md"
-        for city in ("Baghdad", "Samawah", "Mosul")
+        for city in ("Baghdad",)
     ]
-    add("Iraq Structured Funding Appraisal", [path for path in iraq_funding if path.is_file()])
+    add("Baghdad Structured Funding Appraisal", [path for path in iraq_funding if path.is_file()])
+    add("Standalone Iraqi City Appraisals — Outside the Baghdad Programme", [
+        iraq / city / "engineering/finance/FUNDING-MODEL.md"
+        for city in ("Samawah", "Mosul")
+    ])
 
     _validate_doc_sources(docs)
     return docs

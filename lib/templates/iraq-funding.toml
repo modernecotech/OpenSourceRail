@@ -13,6 +13,21 @@ export_invoice_advance = 0.85
 debt_service_reserve_months = 6
 revenue_ramp = [0.50, 0.75, 1.0]
 
+# Baghdad-only programme: government contributes 25% of TOTAL capital uses.
+# Imports are 50% government USD cash / 50% proposed Chinese USD credit.
+# That government USD cash is inside the 25% total contribution.
+# Split the residual after all government capital and Chinese credit 3:1.
+# Fees, construction interest and support beyond that budget remain separate
+# funding requirements; a 25% capital contribution does not fund them.
+[city_overrides.baghdad.model]
+government_share_of_total = 0.25
+government_usd_share_of_imports = 0.50
+export_invoice_advance = 0.50
+# Requested import-financing scenario, not qualified supplier origin.
+export_eligibility_scope = "all-imports-pending-qualification"
+bond_share_of_residual = 0.75
+credit_share_of_residual = 0.25
+
 [chinese_export_credit]
 currency = "USD"
 annual_rate = 0.05
