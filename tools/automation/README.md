@@ -47,6 +47,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
 | [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Reconcile Baghdad and one plant only; publish native USD/IQD capital, priced gap finance, tariff/OPEX sensitivities and monthly/six-month early repayments |
+| [`baghdad_financing_redesign.py`](baghdad_financing_redesign.py) | Compare opening-linked credit, 15-year insured tenor, station rights, energy/factory/developer ledgers and consolidated appraisal; emit six-month placements and a 90-day evidence programme |
 | [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
 | [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
@@ -125,3 +126,19 @@ tools/automation/freecad-generate.sh --samawah-line-twin
 tools/automation/freecad-generate.sh --fabrication-twin
 tools/automation/bonsai-civil.sh --render
 ```
+
+## Baghdad financing redesign
+
+The [nine-case redesign](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) preserves the existing baseline and distinguishes core unlevered appraisal, company cash, public transfers and consolidated resources. New term sheets, equity, development values and public payments are sensitivities. Native ERP imports of its six evidence tasks use the existing qualification importer and preserve actual owner/status; no model run accepts those tasks.
+
+When shared debt logic changes, regenerate in dependency order:
+
+```bash
+.venv/bin/python tools/automation/generate-iraq-funding-programme.py
+.venv/bin/python tools/automation/baghdad_delivery_stress.py
+.venv/bin/python tools/automation/baghdad_qualification.py
+.venv/bin/python tools/automation/baghdad_financing_redesign.py
+.venv/bin/python tools/automation/build-baghdad-proposal.py
+```
+
+The last three tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.

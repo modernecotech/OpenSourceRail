@@ -1,0 +1,73 @@
+# Sensitivities for tendering, not lender terms, land valuations or appropriations.
+[model]
+as_of = "2026-10-03"
+programme_days = 90
+bank_amortisation_months = 240
+bond_amortisation_months = 216
+# Interest is paid during grace; the separate IQD facility funds any shortfall.
+
+[development]
+station_candidates = 15
+land_area_m2_per_site = 80000
+floor_area_ratio = 2.5
+building_cost_usd_per_m2 = 800
+# Sale proceeds are a market-test hypothesis; no ongoing rents also booked.
+gross_sale_receipts_usd = 4200000000
+sale_first_month = 60
+sale_last_month = 96
+sale_transaction_fraction = 0.05
+net_rights_usd = 1000000000
+rights_first_month = 24
+rights_tranches = 6
+private_equity_fraction = 0.25
+# In-kind opportunity cost only, never a cash funding source.
+land_opportunity_usd_per_m2 = 500
+
+[energy]
+ppa_reference_iqd_per_kwh = 104
+ppa_low_iqd_per_kwh = 65
+ppa_high_iqd_per_kwh = 143
+ppa_indexation = 0.05
+private_equity_fraction = 0.20
+# Additional actual renewal expenditure proxy above existing maintenance.
+additional_annual_renewal_fraction = 0.005
+surplus_power_sales_usd = 0
+
+[factory]
+private_equity_fraction = 0.20
+capacity_fee_usd_per_train = 250000
+manufacturing_cash_lead_months = 1
+warranty_retained_cash_fraction = 0.05
+warranty_tail_months = 12
+caretaker_fte = 15
+annual_carrying_fraction = 0.0025
+future_city_order_revenue_usd = 0
+residual_asset_sale_usd = 0
+
+[insured_green]
+# Product ceiling includes grace AND amortisation from each draw.
+maximum_total_tenor_months = 180
+illustrative_coupon = 0.06
+illustrative_annual_insurance_fee = 0.0075
+# Priced IQD conversion/on-lending allowance if foreign institutional funding
+# is used. No foreign currency liability is introduced for a domestic borrower.
+illustrative_annual_currency_conversion_cost = 0.01
+arrangement_fee = 0.01
+climate_grant_usd = 0
+
+[liquidity_allocation]
+# Total 13tn existing envelope, allocated once, no automatic company pooling.
+rail_fraction = 0.65
+energy_fraction = 0.10
+factory_fraction = 0.05
+development_fraction = 0.20
+
+[public_support]
+# Optional additional payment outside 25% capital contribution.
+annual_availability_payment_usd = 100000000
+indexation = 0.05
+
+[downside]
+development_receipts_multiplier = 0.70
+rights_receipts_multiplier = 0.50
+development_delay_months = 24

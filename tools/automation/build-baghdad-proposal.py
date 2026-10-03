@@ -87,6 +87,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    redesign=read_json(CITY/'engineering/financing-redesign/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/financing-redesign','outputs_sha256')):
+        for relative,sha in redesign[group].items():
+            if digest(base/relative) != sha: raise ValueError('Stale financing redesign: '+relative)
     qualification=read_json(CITY/'engineering/qualification/summary.json')
     for relative,sha in qualification['sources_sha256'].items():
         if digest(ROOT/relative) != sha: raise ValueError('Stale qualification source: '+relative)
@@ -178,6 +182,8 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     joint=resilience['cases']['joint_downside']['metrics']
     temporary=resilience['cases']['temporary_first_article']
     section=read_json(CITY/'engineering/qualification/first-section.json')
+    redesign=read_json(CITY/'engineering/financing-redesign/summary.json')['cases']
+    redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
     terms = tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())
@@ -345,6 +351,14 @@ The candidate replaces eligible ordinary capital bonds with IQD green debt at 4%
 Additional routes to qualify include climate/renewable energy grants or concessional finance, guaranteed IQD on lending, phased green bonds/sukuk, development rights and station land leases, telecom/fibre leases, naming rights, sponsorship, employer travel contracts and carefully priced concessions. Carbon receipts remain unbooked contingent upside. Upfront lease receipts cannot be added while the same future rents remain in revenue. Keep net proceeds after costs and any transferred liabilities; foreign development finance needs confirmed IQD on lending or a priced hedge to preserve the currency structure.
 
 {table(['Financing and pricing sensitivity','Peak gap IQD tn','Uncovered IQD tn','Terminal gap IQD tn'],cases)}
+
+## Rail, property, energy and industrial financing redesign
+
+The [nine-case financing redesign](../engineering/financing-redesign/README.md) tests opening-linked principal, longer civil amortisation, a 15-year total insured green tenor and USD 1bn-equivalent **total** station rights replacing USD 300m. Separate rail, solar, factory and developer monthly/native-currency accounts cancel PPA payments, train invoices, plant capacity fees and rights transfers on consolidation. Six-month placement envelopes and loan-vintage dates accompany every borrower. Fares/kiosks/advertising remain included; no future national order, surplus-power sale or unawarded climate grant services the integrated case.
+
+The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD {redesigned['metrics']['peak_aggregate_liquidity_iqd']/1e12:.3f}tn**, cumulative missing funding **IQD {redesigned['metrics']['uncovered_support_iqd']/1e12:.3f}tn**, and resource NPV **USD {redesigned['appraisal']['consolidated_resource_npv_usd']/1e9:.3f}bn**, or **USD {redesigned['appraisal']['consolidated_resource_npv_after_land_opportunity_usd']/1e9:.3f}bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
+
+Government remains 25% of the original rail/energy/factory capital. Import cash/Chinese credit still split 50:50 in USD; other credit, equity, fares, rights and payments are IQD. Private property construction is an additional explicitly priced scope, with its own IQD debt and equity. Optional indexed availability payments add public obligations **outside** the 25% capital limit; resource NPV cancels those government transfers. The combined downside retains delayed openings, weaker fare/nonfare demand, inflation and restricted financing, and adds weaker property sales/rights: **IQD {redweak['metrics']['uncovered_support_iqd']/1e12:.3f}tn** remains missing. Fifteen station candidates and six 90-day evidence workstreams have no invented title, valuation, investor term or named owner.
 
 ## Passenger fares and other operating income
 
@@ -542,6 +556,9 @@ def source_inputs():
     qualification=read_json(CITY/'engineering/qualification/summary.json')
     paths.update(ROOT/relative for relative in qualification['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/qualification').glob('*') if p.is_file())
+    redesign=read_json(CITY/'engineering/financing-redesign/summary.json')
+    paths.update(ROOT/relative for relative in redesign['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/financing-redesign').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())

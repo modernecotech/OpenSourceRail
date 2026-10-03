@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5041**.
+Indexed Markdown files: **5042**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **5041**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4346 |
+| [cities](#cities) | 4347 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -3427,6 +3427,7 @@ Indexed Markdown files: **5041**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md) | Baghdad factory sized to the city programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) | Baghdad financing reconciliation and six-month placement programme |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) | Baghdad financing redesign — 2026-10-03 |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md) | Baghdad qualification, funding gates and first operating section |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md) | Baghdad civil soil screening |

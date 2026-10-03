@@ -355,6 +355,9 @@ def finance(delivery, settings, context):
                              incremental_cost_totals_usd={key: sum(r[key] for r in incremental_costs) for key in incremental_costs[0] if key != 'month'})
     result['metrics']['debt_clearance_month_without_unfunded_support'] = result['metrics']['all_debt_cleared_month'] if result['metrics']['uncovered_support_iqd'] / config['model']['iqd_per_usd'] < .02 else None
     result['incremental_costs'] = incremental_costs
+    if settings.get('export_model_inputs'):
+        result['model_inputs'] = dict(capital=capital, operating=operating, contracts=contracts,
+                                    factory_contracts=factory_contracts, config=config, options=options)
     return result
 
 

@@ -85,7 +85,7 @@ def debt_month(vintages: list[dict], month: int, terms: dict) -> tuple[float, fl
         interest += balance*rate*(.5 if age == 0 else 1)
         loan['last_interest'] = balance*rate*(.5 if age == 0 else 1)
         loan['last_principal'] = 0.
-        if age > terms['grace_months_from_draw']:
+        if age > loan.get('grace_months_from_draw', terms['grace_months_from_draw']):
             repayment = min(balance, max(0., loan['payment']-balance*rate))
             principal += repayment
             loan['last_principal'] = repayment
@@ -98,7 +98,9 @@ def add_draw(vintages: list[dict], month: int, amount: float, terms: dict, facto
         return
     rate, count = float(terms['annual_rate'])/12, int(terms['repayment_months'])
     payment = amount/count if rate == 0 else amount*rate/(1-(1+rate)**(-count))
-    vintages.append({'month': month, 'balance': amount, 'payment': payment, 'principal': amount, 'factory_share': factory_share})
+    vintages.append({'month': month, 'balance': amount, 'payment': payment, 'principal': amount, 'factory_share': factory_share,
+                     'grace_months_from_draw': int(terms['grace_months_from_draw']),
+                     'repayment_months': count})
 
 
 def prepay_vintages(vintages: list[dict], native_budget: float, premium: float,
@@ -145,10 +147,27 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
              options: dict, *, green: str | None = None, extras: bool = False,
              bridge_rate: float | None = None, bridge_fee: float = 0.,
              repayment_policy: str | None = None, zero_premiums: bool = False,
-             noncallable_bonds: bool = False) -> dict:
-    """Pool city/plant cash, keep 25% government capital, and price gap debt."""
+             noncallable_bonds: bool = False, draw_terms: dict | None = None) -> dict:
+    """Price pooled gap debt; optional borrower shares/equity preserve default 25%."""
     validate_options(options)
     model, green_config = config['model'], options['green']
+    funding = config.get('capital_sources', {})
+    equity_enabled = bool(funding) or any('private_equity' in row for row in capital.values())
+    gov_share = funding.get('government_share', .25)
+    china_share = funding.get('chinese_import_share', .5)
+    gov_import_share = funding.get('government_import_share', .5)
+    bond_share = funding.get('residual_bond_share', .75)
+    for value in (gov_share, china_share, gov_import_share, bond_share):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 <= value <= 1:
+            raise ValueError('invalid capital source share')
+    draw_terms = draw_terms or {}
+    for overrides in draw_terms.values():
+        for name, override in overrides.items():
+            if name not in (*CORE, 'green_bonds') or set(override) - {'grace_months_from_draw', 'repayment_months'}:
+                raise ValueError('unsupported per-draw terms')
+            for key, value in override.items():
+                if isinstance(value, bool) or not isinstance(value, int) or value < (1 if key == 'repayment_months' else 0):
+                    raise ValueError('invalid per-draw duration')
     fx = float(model['iqd_per_usd'])
     terms = {name: dict(config[name]) for name in CORE}
     green_terms = dict(config['domestic_bonds'])
@@ -195,12 +214,17 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         candidate_capex, candidate_imports = req.get('candidate_capex', 0.), req.get('candidate_imports', 0.)
         grant = (grant_total*max(0., candidate_capex-candidate_imports)/eligible_after
                  if extras and eligible_after and month >= source['climate_grant_first_month'] else 0.)
-        govt, china = .25*capex, .5*imported
-        residual = capex-govt-china-grant
+        equity = req.get('private_equity', 0.)
+        if isinstance(equity, bool) or not isinstance(equity, (int, float)) or not math.isfinite(equity) or equity < 0:
+            raise ValueError('invalid private equity')
+        govt, china = gov_share*capex, china_share*imported
+        if govt-gov_import_share*imported < -.02:
+            raise ValueError('government import cash exceeds government capital')
+        residual = capex-govt-china-grant-equity
         if residual < -.02:
             raise ValueError('alternative capital sources exceed this month capital uses')
-        bonds, bank = .75*max(0., residual), .25*max(0., residual)
-        eligible_bonds = .75*max(0., .75*candidate_capex-.5*candidate_imports-grant)
+        bonds, bank = bond_share*max(0., residual), (1-bond_share)*max(0., residual)
+        eligible_bonds = bond_share*max(0., (1-gov_share)*candidate_capex-china_share*candidate_imports-grant-req.get('candidate_private_equity', 0.))
         green_draw = min(bonds, eligible_bonds*green_config['share_of_candidate_bonds']) if green else 0.
         draws = {'chinese_export_credit': china, 'domestic_bonds': bonds-green_draw,
                  'green_bonds': green_draw, 'bank_credit': bank}
@@ -210,11 +234,14 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
                          'bank_credit': .25*factory_residual, 'green_bonds': 0.}
         debt_service = fees = principal_usd = interest_usd = factory_service = 0.
         row = {'month': month, 'year': month//12+1, 'capex_usd': capex,
-               'government_usd_cash': .5*imported, 'government_iqd_cash': (govt-.5*imported)*fx,
+               'government_usd_cash': gov_import_share*imported, 'government_iqd_cash': (govt-gov_import_share*imported)*fx,
                'climate_capital_grant_iqd': grant*fx}
+        if equity_enabled:
+            row['private_equity_iqd'] = equity*fx
         for name, loan_terms in terms.items():
+            vintage_terms = {**loan_terms, **draw_terms.get(month, {}).get(name, {})}
             conversion = 1. if loan_terms['currency'] == 'USD' else fx
-            add_draw(vintages[name], month, draws[name]*conversion, loan_terms,
+            add_draw(vintages[name], month, draws[name]*conversion, vintage_terms,
                      factory_draws[name]/draws[name] if draws[name] else 0.)
             interest, principal = debt_month(vintages[name], month, loan_terms)
             interest_usd += interest/conversion
@@ -249,6 +276,10 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         deposit, release = max(0., desired-reserve), max(0., reserve-desired)
         reserve += deposit-release
         buffer_target = opex*prepayments['operating_buffer_months'] if repayment_policy else 0.
+        restricted = op.get('restricted_working_capital_usd', 0.)
+        if isinstance(restricted, bool) or not isinstance(restricted, (int, float)) or not math.isfinite(restricted) or restricted < 0:
+            raise ValueError('invalid restricted working capital')
+        buffer_target += restricted
         buffer_deposit, buffer_release = max(0., buffer_target-operating_buffer), max(0., operating_buffer-buffer_target)
         operating_buffer += buffer_deposit-buffer_release
         opening_cash, opening_bridge = cash, bridge
@@ -297,7 +328,7 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         cash = available
         for name in terms:
             row[name+'_closing_balance_native'] = sum(v['balance'] for v in vintages[name])
-        sources = govt+sum(draws.values())+grant+revenue+extra_income+rights+gap_draw+required_support+release
+        sources = govt+equity+sum(draws.values())+grant+revenue+extra_income+rights+gap_draw+required_support+release
         sources += buffer_release
         uses = capex+opex+debt_service+fees+gap_interest+gap_fee+gap_repayment+deposit+buffer_deposit+early_principal+early_fees
         residual_cash = opening_cash+sources-uses-cash
@@ -345,7 +376,7 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         'prepayment_eligible': eligible_prepay if repayment_policy else {},
         'prepayment_minimum_age_months': prepayments['minimum_age_months'] if repayment_policy else {},
         'maximum_cash_residual_usd': max(abs(row['cash_balance_residual_usd']) for row in monthly),
-        'government_capital_share': (summed('government_usd_cash')+summed('government_iqd_cash')/fx)/summed('capex_usd'),
+        'government_capital_share': (summed('government_usd_cash')+summed('government_iqd_cash')/fx)/summed('capex_usd') if summed('capex_usd') else 0.,
         'bridge_annual_rate': bridge_rate, 'bridge_draw_fee': bridge_fee,
         'illustrative_bridge_cap_iqd': options['liquidity']['illustrative_cap_iqd'],
         'core_final_balances_native': {name: sum(v['balance'] for v in loans) for name, loans in vintages.items()},
@@ -371,11 +402,20 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         metrics[name+'_last_outstanding_month'] = active[-1] if active else None
         paid = [r['month'] for r in monthly if r[name+'_principal_native']+r[name+'_early_principal_native'] > .01]
         metrics[name+'_final_repayment_month'] = paid[-1] if paid else None
-    return {'metrics': metrics, 'monthly': monthly, 'semiannual': tranches(monthly, options, fx, terms),
+    if equity_enabled:
+        metrics['private_equity_iqd'] = summed('private_equity_iqd')
+    result = {'metrics': metrics, 'monthly': monthly, 'semiannual': tranches(monthly, options, fx, terms, draw_terms),
             'status': 'illustrative-uncommitted-no-financial-close', 'financing_committed': False}
+    if draw_terms:
+        result['loan_vintages'] = [dict(instrument=name, currency=terms[name]['currency'], draw_month=v['month'],
+            principal_native=v['principal'], annual_rate=terms[name]['annual_rate'], grace_months=v['grace_months_from_draw'],
+            amortisation_months=v['repayment_months'], first_principal_month=v['month']+v['grace_months_from_draw']+1,
+            contractual_last_principal_month=v['month']+v['grace_months_from_draw']+v['repayment_months'])
+            for name, loans in vintages.items() for v in loans]
+    return result
 
 
-def tranches(monthly: list[dict], options: dict, fx: float = 1300., terms: dict | None = None) -> list[dict]:
+def tranches(monthly: list[dict], options: dict, fx: float = 1300., terms: dict | None = None, draw_terms: dict | None = None) -> list[dict]:
     period = int(options['model']['tranche_months'])
     result = []
     for start in range(0, len(monthly), period):
@@ -389,12 +429,12 @@ def tranches(monthly: list[dict], options: dict, fx: float = 1300., terms: dict 
                       indicative_rounded_bond_face_iqd=math.ceil(face/options['model']['bond_denomination_iqd'])*options['model']['bond_denomination_iqd'],
                       capital_reconciliation_usd=0.)
         values['capital_reconciliation_usd'] = (values['government_usd_cash']+values['chinese_export_credit_draw_native']
-            +(values['government_iqd_cash']+face+values['bank_credit_draw_native']+values['climate_capital_grant_iqd'])/fx-values['capex_usd'])
+            +(values['government_iqd_cash']+face+values['bank_credit_draw_native']+values['climate_capital_grant_iqd']+values.get('private_equity_iqd', 0.))/fx-values['capex_usd'])
         values['maximum_cash_balance_residual_usd'] = max(abs(row['cash_balance_residual_usd']) for row in rows)
         for name, loan in (terms or {}).items():
             active = [row['month'] for row in rows if row[name+'_draw_native'] > .01]
-            values[name+'_contractual_first_repayment_month'] = min(active)+loan['grace_months_from_draw']+1 if active else None
-            values[name+'_contractual_last_repayment_month'] = max(active)+loan['grace_months_from_draw']+loan['repayment_months'] if active else None
+            values[name+'_contractual_first_repayment_month'] = min(m+(draw_terms or {}).get(m, {}).get(name, {}).get('grace_months_from_draw', loan['grace_months_from_draw'])+1 for m in active) if active else None
+            values[name+'_contractual_last_repayment_month'] = max(m+(draw_terms or {}).get(m, {}).get(name, {}).get('grace_months_from_draw', loan['grace_months_from_draw'])+(draw_terms or {}).get(m, {}).get(name, {}).get('repayment_months', loan['repayment_months']) for m in active) if active else None
         result.append(values)
     return result
 

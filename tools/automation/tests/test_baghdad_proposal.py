@@ -115,3 +115,16 @@ def test_financial_narrative_matches_sensitivity_results_and_manifest():
     assert f"**IQD {expected['opex_stress_uncovered_support_iqd']/1e12:.3f}tn uncovered cash**" in narrative
     assert '26.4%' not in narrative and 'IQD 13tn remains unpaid' not in narrative
     assert (CITY/'engineering/delivery-risk/summary.json').relative_to(ROOT).as_posix() in data('manifest.json')['inputs']
+
+
+def test_financing_redesign_is_published_with_exact_integrated_results():
+    root=CITY/'engineering/financing-redesign'
+    report=json.loads((root/'summary.json').read_text())
+    inputs=set(data('manifest.json')['inputs'])
+    assert {p.relative_to(ROOT).as_posix() for p in root.glob('*') if p.is_file()} <= inputs
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    case=report['cases']['integrated']
+    assert f"IQD {case['metrics']['peak_aggregate_liquidity_iqd']/1e12:.3f}tn" in narrative
+    assert f"USD {case['appraisal']['consolidated_resource_npv_usd']/1e9:.3f}bn" in narrative
+    assert '25% capital limit' in narrative and '15-year total insured green tenor' in narrative
+    assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
