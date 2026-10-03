@@ -200,6 +200,14 @@ Additional routes to qualify include climate/renewable energy grants or concessi
 | variable fare 5pct opex 5pct | 4.144 | 0.000 | 0.000 |
 | zero cost liquidity bound | 8.019 | 0.000 | 2.895 |
 
+## Rail, property, energy and industrial financing redesign
+
+The [nine-case financing redesign](../engineering/financing-redesign/README.md) tests opening-linked principal, longer civil amortisation, a 15-year total insured green tenor and USD 1bn-equivalent **total** station rights replacing USD 300m. Separate rail, solar, factory and developer monthly/native-currency accounts cancel PPA payments, train invoices, plant capacity fees and rights transfers on consolidation. Six-month placement envelopes and loan-vintage dates accompany every borrower. Fares/kiosks/advertising remain included; no future national order, surplus-power sale or unawarded climate grant services the integrated case.
+
+The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD 8.450tn**, cumulative missing funding **IQD 0.070tn**, and resource NPV **USD -2.945bn**, or **USD -3.412bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
+
+Government remains 25% of the original rail/energy/factory capital. Import cash/Chinese credit still split 50:50 in USD; other credit, equity, fares, rights and payments are IQD. Private property construction is an additional explicitly priced scope, with its own IQD debt and equity. Optional indexed availability payments add public obligations **outside** the 25% capital limit; resource NPV cancels those government transfers. The combined downside retains delayed openings, weaker fare/nonfare demand, inflation and restricted financing, and adds weaker property sales/rights: **IQD 48.418tn** remains missing. Fifteen station candidates and six 90-day evidence workstreams have no invented title, valuation, investor term or named owner.
+
 ## Passenger fares and other operating income
 
 Base model average paid trip yield is IQD 1,317. At full steady operation, existing fares contribute IQD 547.335bn/year, shops/kiosks IQD 12.984bn and advertising IQD 20.175bn. These already reduce the funding gap. Rental occupancy is 88%, advertising 85%; prices, collection and customer demand are not verified Baghdad lease quotations. Commercial figures are gross receipts, with dedicated concession costs requiring appraisal.
