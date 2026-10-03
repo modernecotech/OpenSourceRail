@@ -1,5 +1,5 @@
 {
-  "appendix_document_count": 34,
+  "appendix_document_count": 35,
   "archive_members": [
     "Cargo.toml",
     "cities/catalogue/west-asia/Iraq/Amarah/README.md",
@@ -37,6 +37,11 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/energy/coordinated-daylight.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/energy/peak-charge-grid-only.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/energy/summary.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/cells.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/deliveries.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/line-completion.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-annual-cashflow.csv",
@@ -359,6 +364,8 @@
     "design/city-generation/src/osr_scenario/stabling_hybrid_cycles.py",
     "design/city-generation/src/osr_scenario/stabling_redistribution.py",
     "design/city-generation/src/osr_scenario/stats.py",
+    "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+    "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
     "design/component-catalogue/src/osr_mech/civil/slab.py",
     "docs/certification/distributed-onboard-control-profile.md",
     "docs/civil/foundation-and-production-system.md",
@@ -376,6 +383,7 @@
     "engineering/data/baghdad-reference-parts.json",
     "lib/templates/_INDEX.toml",
     "lib/templates/accessibility.toml",
+    "lib/templates/baghdad-factory.toml",
     "lib/templates/baghdad-finance-options.toml",
     "lib/templates/capex-costs.toml",
     "lib/templates/civil-construction-systems.toml",
@@ -433,23 +441,27 @@
     "tools/automation/baghdad_funding_analysis.py",
     "tools/automation/build-baghdad-proposal.py",
     "tools/automation/build-doc-book.py",
+    "tools/automation/factory_sizing.py",
+    "tools/automation/generate-factory-plan.py",
     "tools/automation/generate-iraq-funding-programme.py",
-    "tools/automation/generate-national-briefs.py"
+    "tools/automation/generate-national-briefs.py",
+    "tools/automation/generate-qa-maintenance-data.py",
+    "tools/automation/project_twin.py"
   ],
   "as_of": "2026-10-03",
   "baghdad_financing_scope": [
     "Baghdad"
   ],
-  "baseline_revision": "6abe031478ae9207ba680969f9a376abe4e2df7a",
+  "baseline_revision": "f01dcb6c45d08227daa8d4124539d64223736dfd",
   "document_status": "planning-proposal-not-construction-or-operating-release",
   "factory_count": 1,
   "facts": {
     "baghdad_government_share": 0.25,
     "baghdad_route_km": 516.5175,
     "baghdad_station_count": 182,
-    "baghdad_total_capex_usd": 7875844953.488,
+    "baghdad_total_capex_usd": 7880493587.213,
     "national_incremental_after_baghdad_usd": 15740085816.412342,
-    "national_total_capital_usd": 23615930769.90034
+    "national_total_capital_usd": 23620579403.625343
   },
   "inputs": {
     "Cargo.toml": {
@@ -469,12 +481,12 @@
       "sha256": "71acf9ad470088efa320f3d515f922d7977493a1004294aee48b96b562658fd1"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md": {
-      "bytes": 27863,
-      "sha256": "bf8fed35d827a06a37bdde58d8c85ded19a3ead49dd304671c9a6484f75804b0"
+      "bytes": 28213,
+      "sha256": "f6c94fa510a9e8d07f8294af3f1533077c7f1832ea43d9292fbef49eb6394d21"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/README.md": {
-      "bytes": 6680,
-      "sha256": "554194ac9238d507b01704a6daee0d6feb8321d84f9046b4edca0636237ccd3a"
+      "bytes": 6678,
+      "sha256": "79f95595d0d343ea77aa3e620490816bdc379901ab046beb85912814d893651f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/baghdad-network-map.png": {
       "bytes": 3289266,
@@ -541,12 +553,12 @@
       "sha256": "f6e64a4c51f3620f8fe38512d305ffca74c49714c9b5376b3767b7392d4e4bb5"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md": {
-      "bytes": 87681,
-      "sha256": "f78efbed85fba3835678e6f8d3ef5256d1e7d3cda6d75dc2c14b8b87aa4e17e2"
+      "bytes": 87962,
+      "sha256": "384c3716868294d80db02df09cc20bae4f2e006f04fbda723cfe8a7c0daca478"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/summary.json": {
-      "bytes": 1328231,
-      "sha256": "0d88430ce58830d83b2ab44194aae6e8b97fe030ec9213ec84989da541c8e0e7"
+      "bytes": 1329782,
+      "sha256": "1453a6dbe47ecb1d48095431ef4c2b4b69076a08dae8db621fb1a80556dd8abb"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/workforce.csv": {
       "bytes": 6663,
@@ -558,7 +570,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/summary.json": {
       "bytes": 13038,
-      "sha256": "e0498d4d9f7a31f737b9ec9e34a325aedca82288076e6026ed16d83692fd8943"
+      "sha256": "e313f2e8cc1715c0c2ed8eba3667d35655a96f1656c3969645aa44987b6cce80"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md": {
       "bytes": 3538,
@@ -578,7 +590,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/register.json": {
       "bytes": 74543,
-      "sha256": "48608c32a8130c92de66f434e94b48c8d5073251fe4b15015762f08d89e632c8"
+      "sha256": "21bd07b9e3bcf7270558e1e935f5e71e9d9cf678d4d2fc2a2c439bee30d1df34"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/slab-reference.svg": {
       "bytes": 2927,
@@ -596,45 +608,65 @@
       "bytes": 136095,
       "sha256": "91457b4e36fd56afdcc9c173abb36c34bae3ee45af761b4b39776838fc998b30"
     },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/README.md": {
+      "bytes": 9272,
+      "sha256": "dd8920715f37eb7dc9f50c6f068f795358c07bdd71e024c1289672031ec77da6"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/cells.csv": {
+      "bytes": 1028,
+      "sha256": "e5a3be56795b781a8d68fddd0edbd0ed8a4b454cd3701c741c7b881988da204b"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/deliveries.csv": {
+      "bytes": 62939,
+      "sha256": "71f1afa120fe330c7badb36ca89073bddae6dca561cd5456824615e14667a9c1"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/line-completion.csv": {
+      "bytes": 433,
+      "sha256": "ea1526aef25dc3e63c2845fe2e2efaec8e9c86df09dc19d4918c2923208eceb3"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": {
+      "bytes": 9251,
+      "sha256": "2fa25bd957dc0e699a2bc0c196dfdde64498ebf48a7e4794f97ff661e2610cb4"
+    },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md": {
-      "bytes": 13205,
-      "sha256": "4fb166d3bbda2844c2d877ae0711aa36e6d501db52fcd5a944e73d72b0ec1c31"
+      "bytes": 12141,
+      "sha256": "08ad5bef0d7e2b10880de6ddb681aa973cf6ef970a9d594b24365fc95a990d80"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md": {
-      "bytes": 34554,
-      "sha256": "6617b121aef378e4e26237079b9fa74db83f609147fd20a6f0dbd3ac72d0705d"
+      "bytes": 31500,
+      "sha256": "df2cd3a187e0903a158c69240fcad2fa6f423040baba5efd8c60733a5a5e7d2d"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-annual-cashflow.csv": {
-      "bytes": 31491,
-      "sha256": "14f3f917d2851d9a808be517dc8744170fa0c700d424f3adf4a0ee1bcdc8cd27"
+      "bytes": 18098,
+      "sha256": "d2542fe2f3a5323a0ec9f5ad832d03fb1dc98e83ab2b7cfde093f333994587b0"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-cashflows.png": {
-      "bytes": 133424,
-      "sha256": "e7233218229080aa57a14849c38fcf46029e00e572e864561a78bbbb17905a93"
+      "bytes": 134481,
+      "sha256": "3974c1a44235557c1b5bc0349b7d56023af99d328b4117437058523a37fadd6c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-input.csv": {
-      "bytes": 265017,
-      "sha256": "df2ef71097032822a5e05525f38380177e5656e6a7c63c713b8858cd2bab8c3a"
+      "bytes": 359693,
+      "sha256": "5690121bd0ce910d1a60dca088993d0e8d0131d24c20239c8c398b061d49555a"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-monthly-cashflow.csv": {
-      "bytes": 357674,
-      "sha256": "dc73a02694804a918090b2169f58c40ed5e3dd3bd0af4076a212c56c330c9f2b"
+      "bytes": 198569,
+      "sha256": "ae28dc087326143ab1df5673fb1996c671e52a1d2f9b7647d024761899127bf2"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-phase-input.csv": {
-      "bytes": 412,
-      "sha256": "61489d91c3593cce90035151106466a54bde88b32814e9eb227e519cbd9f1a48"
+      "bytes": 402,
+      "sha256": "1cbdfc10c13018fe52adb55a7dcc07d9a5c915a47b4db912729486f0724b1408"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-phased-annual-cashflow.csv": {
-      "bytes": 33789,
-      "sha256": "44d57a51a445ecada56d912ddad3f78fa2be839048378a427f7b29a465990af2"
+      "bytes": 18437,
+      "sha256": "d0d1919f9a11fadad749734ba69e220b7cf219de200a6e099cb480f8696f06db"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-phased-monthly-cashflow.csv": {
-      "bytes": 378231,
-      "sha256": "1d2c5bcfa4ede150f949b4f9f01541a7a3d0c2060ecd6d96fa93be4da20dd54d"
+      "bytes": 201351,
+      "sha256": "410e5c25a2c65a01a1deec25831d8018407d0093f606f4d3358b52f2701d37d8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": {
-      "bytes": 9070004,
-      "sha256": "f8b4ef31e0fa758ccb5c62fee7166fc0a7880ea99678d807188307f5df8319c1"
+      "bytes": 5130201,
+      "sha256": "3e92ae886e1a0c89c92028a1d06d71590d5be8f3122bc4b86be5b274cc793dc0"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/gis/baghdad.gpkg": {
       "bytes": 876544,
@@ -673,8 +705,8 @@
       "sha256": "7349a06ea9a43e2612b6d21e2668e9c44539b2a14613548ee7ca47f3f4a857c3"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/project-twin/summary.json": {
-      "bytes": 210093,
-      "sha256": "73467d1884d5a3cd0496c492b3bfd2b73ed30cc4d9130e05f9ba9a46b46b0ecc"
+      "bytes": 58384,
+      "sha256": "b109c6288ba48b7b7ab8bf642fa4a6c88726bf5247d10238ef3c70753c971376"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/ring-interchange-summary.json": {
       "bytes": 585,
@@ -861,24 +893,24 @@
       "sha256": "3011815bb5db742862a05ddcdf87cefd5ddb345113c9665482d2db5e2fe5d9af"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/Baghdad-OpenSourceRail-System-Offer.pdf": {
-      "bytes": 4620630,
-      "sha256": "069de8f6d1c3bfabe48d0b616a9514f7f258601b5df1afc724776448af42f096"
+      "bytes": 4605223,
+      "sha256": "745f2a2b100f4f269c658c49d3f14b9188a030e449d9f4988300f56bb6ce16b6"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md": {
       "bytes": 10868,
-      "sha256": "4b9d143ec6fe9447a7cc7e3b3e45930856b6107f7f6649450554480132ff08c0"
+      "sha256": "e1fce5757f6d7c3337735a8a4ec488f16ca5de3e28d94c28c97ec011879ed198"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/manifest.json": {
-      "bytes": 7268,
-      "sha256": "3e9653061f5a414930df498fe5db74b06ff1984204fc5a3fe87d1f3fb8729069"
+      "bytes": 7266,
+      "sha256": "966f803e061ba5c250223ca0020fd8989e8ae944a1f53ab4e8ff32f3dd715c73"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/screenshots/baghdad-operations-dashboard.png": {
       "bytes": 108425,
       "sha256": "077144fabf846eef720a44babd2b208bb3c711b9483db4cf7fedfa6c0b2a68bd"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/screenshots/baghdad-project-twin.png": {
-      "bytes": 149957,
-      "sha256": "a4d699d207bc459ec76e3665e866841ecd1376f0738608806f15be21023be3a7"
+      "bytes": 149313,
+      "sha256": "d8a6ae7ed7f1e7d5bc5df8b804f0fe113f6093dccffa5b98e3ba7e859867ada7"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/offer/screenshots/baghdad-qa-gates.png": {
       "bytes": 210809,
@@ -893,12 +925,12 @@
       "sha256": "f73e4cf3f826bcaea3c3b9180126316fc0dbed63a3e1efdd2e96cbbbe1f210db"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations-manifest.json": {
-      "bytes": 906,
-      "sha256": "6059e94fa8e93ea9514ebf58a7a3ade069fc50d9aa79d85537735fcdcbd55371"
+      "bytes": 904,
+      "sha256": "feae8bdd1d3cef9d52c4fb46a1055feaf5f35d1c87e205be27c34623c10640bb"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations.json.gz": {
-      "bytes": 4873475,
-      "sha256": "b3dd7433cdc33ff4b9c8b42d073879eca0fc44df8331c6b1e8d67c3d9161eea0"
+      "bytes": 4919935,
+      "sha256": "aaf59209be8a5f89ca8901b89c8d07f7ddfcd12cc629e3e3b1936a9b9cc38ef0"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/operations/erp-components.json": {
       "bytes": 93,
@@ -913,8 +945,8 @@
       "sha256": "6e7178c18bf363d0d34089b8b9c44afa5fc9fa209a9e4ebb4d1c4ad939ded6f8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/package-manifest.json": {
-      "bytes": 14549,
-      "sha256": "10cbbfa894b0609d68ad3765c7dcbd4b241d80580967ff105c4f66969bcd1931"
+      "bytes": 14547,
+      "sha256": "70c82d1778ca1821b928884e74c226a85680bf2fa33410b49e1a32e7982ec2c4"
     },
     "cities/catalogue/west-asia/Iraq/Baqubah/README.md": {
       "bytes": 6066,
@@ -1001,8 +1033,8 @@
       "sha256": "9b92bc188ea8db7ceaf60ae578127cb47185a3e951a7a982e5ed794aa8ff97ff"
     },
     "cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md": {
-      "bytes": 27764,
-      "sha256": "c5eac47b64bbab24eb44b0051dee5cfa09f549a6257c50300d4f0ad8caf1c816"
+      "bytes": 27891,
+      "sha256": "9bddce4a7fe9380745b38fbf694f04575d5fa60a4d69a71e74020d09668c5b71"
     },
     "cities/catalogue/west-asia/Iraq/Karbala/README.md": {
       "bytes": 6236,
@@ -1053,8 +1085,8 @@
       "sha256": "593ef80ed85ea0e43184035fc43a678161a96e41592db5c3ca0ab08fe3dde076"
     },
     "cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md": {
-      "bytes": 4606,
-      "sha256": "8ce313020e222a2c08343385c6cc25fe245d8e1c503c3f577dde5295bf4e5ffe"
+      "bytes": 5069,
+      "sha256": "3d0dd029058b225caab285e96a72b6ad2b920872c5fa67a68751133b56a3b532"
     },
     "cities/catalogue/west-asia/Iraq/Najaf/README.md": {
       "bytes": 6211,
@@ -1117,216 +1149,216 @@
       "sha256": "01fab829f572fa79d71ee58f3647429ec11bce77f733d01b1a751cd9d88e09e7"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-blended_candidate-monthly-finance.csv": {
-      "bytes": 463668,
-      "sha256": "5c434bc9d5b19c88749bf4aaeb93c60e9208c5fd2547f4fab7b6b7062f57b7d8"
+      "bytes": 259395,
+      "sha256": "c18c146ce73a843818919c13da2f9cf73359a7e27fc6c50755e331b0e3c04694"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-blended_candidate-six-month-tranches.csv": {
-      "bytes": 90172,
-      "sha256": "18b65eae238672be5a9525719a685d0b307aafd4612529d2d23701377b6ea429"
+      "bytes": 51242,
+      "sha256": "42adaaa98f46bebd9a8cbf317b587ebe9ff28b034113beb131a73bed8d9186a6"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-commercial_gap_credit-monthly-finance.csv": {
-      "bytes": 393434,
-      "sha256": "5b2a5bcaf4d75e98ebdd1d746026bfa139b8b5234cb7e87b64ebe339a345988d"
+      "bytes": 217559,
+      "sha256": "49cbcf239605e6f415f7746a87bd592f0054a48252fc691ac0e1efc3179f382f"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-commercial_gap_credit-six-month-tranches.csv": {
-      "bytes": 77733,
-      "sha256": "fd53330a5e6c702e216680a7884822a7e9925fe49da3b9f18f88c76e99dbc677"
+      "bytes": 43409,
+      "sha256": "cf82071da14bba5607ebc3c659735b7226d72cc6fa569dda222637fcff86868a"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-concessional_gap_credit-six-month-tranches.csv": {
-      "bytes": 78064,
-      "sha256": "f0d727a04d18f23fc0c9082c586ca77242ae6817f0ab793f57b3cf98e542f0ac"
+      "bytes": 43678,
+      "sha256": "82045a701c64b8a1e0f181d33ea27f25c0b96d25628cd3846435404ddda65700"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority-monthly.csv": {
-      "bytes": 415289,
-      "sha256": "c236fd1aca6965a0cefcdae397e59a4feb21b32d462a9c3bdbd629ccefb236ae"
+      "bytes": 239775,
+      "sha256": "192c4ec39c74ddec6e5337e4447e46312f2d3088088be7814b449dc65ea7bb24"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority-six-month-tranches.csv": {
-      "bytes": 83008,
-      "sha256": "37b7ae7127852e379eba76760155bab4594654647583139c8a05ea4f62e6eeee"
+      "bytes": 48518,
+      "sha256": "9430d86ab72b149fecc6b13f60b652b5eb5be945d1e21871f457fc6260f2a2a8"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority_noncallable_bonds-monthly.csv": {
-      "bytes": 459280,
-      "sha256": "c36b448aed1081cf201b6fe8f1cabe997bd79d0c7e6a7979001f6cb6a2fdf4f9"
+      "bytes": 258775,
+      "sha256": "ff6ddc0f7b173f76bbdd30035da193455c21bc68d1b9a2a80b67b8006cf9342c"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority_noncallable_bonds-six-month-tranches.csv": {
-      "bytes": 90529,
-      "sha256": "b01a8de9db7ab1930a7308c76fed887e8a0d220fda631b7312498a0ddb83781b"
+      "bytes": 51392,
+      "sha256": "90a04b6db411efdb19f150c7d60a00b097e67e7622657872a3b2fc5c2fab1942"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority_zero_premium-monthly.csv": {
-      "bytes": 408269,
-      "sha256": "a53a45b439d5eb66b0dc924fac252e22ab2a655b33f376c26e712f548ea6cb73"
+      "bytes": 237637,
+      "sha256": "74157c364319d30d9b7a515881c03f18a43443f7cbaba96240d47fc5c3f007d8"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-cost_priority_zero_premium-six-month-tranches.csv": {
-      "bytes": 81315,
-      "sha256": "a45a69b06811293c11e6e75c63d902d4b78519d0678e9aaef35b012c6b0e3e48"
+      "bytes": 47872,
+      "sha256": "b9974ed3912a0eb261928cbfabef83e3a0e92803b6b623c706d3a6ac75f34ae2"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-gap_only_buffered-monthly.csv": {
-      "bytes": 465148,
-      "sha256": "03323f1f92b94bbd9a943d6c41374a6fc11bafd0c8c4a7e531c77d7b0233f36f"
+      "bytes": 261485,
+      "sha256": "828e9fb5efe1523e87e62b51ffa653bb0e22084f957f68c10591fe96837c0ec7"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-gap_only_buffered-six-month-tranches.csv": {
-      "bytes": 91049,
-      "sha256": "e530b6dcc3aeb6f402baa685a1a819d5c10a04ff2913969d658037d0e22f02c1"
+      "bytes": 51589,
+      "sha256": "f00ca35c85e34fef7a47fcec41bce9ff6dc25138cdb1e8ea001670c2a8ebdc8a"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-gap_then_core-monthly.csv": {
-      "bytes": 419830,
-      "sha256": "dd17ebe69772341d4e29e92f8ad027aebd29e033844d55608bcabb7538359f9c"
+      "bytes": 252530,
+      "sha256": "a9755ce0e38f48619ca9f1d447837bb36092e2427ffe8aefaaaed9de3efb776b"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-gap_then_core-six-month-tranches.csv": {
-      "bytes": 83371,
-      "sha256": "02e9389cb1b85171726a0e72a81965e274d4dff0468699d98df8e324168edeff"
+      "bytes": 50222,
+      "sha256": "97f8dc5af84b714a6e49dcd90bbe9537aa83da8d76cc3075882a169c9497a238"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-loans_then_bonds-monthly.csv": {
-      "bytes": 421353,
-      "sha256": "25e0847a894d1c2171bcbe949ed3b4055353207ea5668086a6bafad5aef11521"
+      "bytes": 249694,
+      "sha256": "492010f5ed73ff401fe2ea6cd83bab961e7a526016eeae855bb05c17ac61761d"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-loans_then_bonds-six-month-tranches.csv": {
-      "bytes": 84006,
-      "sha256": "c2d01c5377bcbe88d9ca7ec3bcc003169d52e60eba7663a127a9c957ba69e678"
+      "bytes": 50080,
+      "sha256": "4def9ab5f987298c15b974b1d75a14b5b5f4e74845b15d0b99bc16d03696e4e3"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-repayment.json": {
-      "bytes": 16223508,
-      "sha256": "cea10df29ca4b5f0c4c71e5ca15ca5c50e309edd139b34b06de15ed943d96de6"
+      "bytes": 10035760,
+      "sha256": "39adc5f427cbfca68ea1d6fc062094e085e7c70c982f0a54435f2257770fc968"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-early-repayment.png": {
-      "bytes": 151020,
-      "sha256": "caf6d4cebc61fd61e8010d13e3e9fd84fb31ab5521d8d4a7829ceaae8181f57b"
+      "bytes": 160272,
+      "sha256": "794a26dc996eae3016de1e4a448d6795bfb1fd7a2474183b46f39113c8f30000"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare-inflation-sensitivities.png": {
-      "bytes": 199951,
-      "sha256": "d481caf9ac99951d4097341b91ca88601728ed0247862e4392f9f14ea42e6e9b"
+      "bytes": 181340,
+      "sha256": "12f8552f923b128a9cb411bc08ab3c1e1b6cb46703ccc5bfbb682ec423947ff4"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_flat_costs_elastic-monthly-prices.csv": {
-      "bytes": 124164,
-      "sha256": "44e3dc78d968b905f9225c561f9f9e4d196fe277eb9cc44c8ae660151783af55"
+      "bytes": 77620,
+      "sha256": "15ef457890b8b9437bba4bfba30ec0ff7473dd459e7dd706833230dd3d317abb"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_flat_costs_elastic-six-month-tranches.csv": {
-      "bytes": 88769,
-      "sha256": "69d6add4615ccbc49853b6ed1a2dbcc55a92afe191f6ff394cdbedc1c00c38cd"
+      "bytes": 50032,
+      "sha256": "4985926799932d3258967e0669db380c8e406bbf090c926673c3476d56a45344"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_flat_costs_fixed_demand-monthly-prices.csv": {
-      "bytes": 113790,
-      "sha256": "0f20c6192079c50e07a253929e768e2f0ec70ed91528e66593f1f3bf6938ed54"
+      "bytes": 71237,
+      "sha256": "3b4221af299d95a2a94b558c16c8c6512d2502960ffb3d8366fc95c437d5ecd6"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_flat_costs_fixed_demand-six-month-tranches.csv": {
-      "bytes": 88191,
-      "sha256": "724e6684635ae53a462fe2699bbd56eb6050eced139e1b3edb53da0c027e19c7"
+      "bytes": 49386,
+      "sha256": "2752bdc2d8b74b800375478fd7248c4e2a57a682b7d80c70afdc423a14b4a62e"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-monthly-finance.csv": {
-      "bytes": 455037,
-      "sha256": "7632ec66f8c386a1b0a4c13611b43d74a8ea4bedab8ed3d7f7e62a91b2c5423d"
+      "bytes": 254667,
+      "sha256": "14a9e0fc620dbec72d8c03d78ffce13256fb232b48588b321594ad8c7f6d81a3"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv": {
-      "bytes": 133986,
-      "sha256": "c21403e59564168e0c370ad96e127f5882de0ca93f3c815634bfd4eacf9164db"
+      "bytes": 83670,
+      "sha256": "23858dea92d04488e5b46c677a37632496a2606537401e7cf072015d50cf7e79"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv": {
-      "bytes": 88517,
-      "sha256": "514b334b9f802158b510a8a69338879994047d3385d21acca603d507f831084b"
+      "bytes": 50018,
+      "sha256": "68dce533022042d77202548624d2c9a21ed69884cfa4cc90193f964e5b383518"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct_income_2pct-monthly-prices.csv": {
-      "bytes": 143936,
-      "sha256": "669472d86098c3c06933b7ed9b0ddb04e86afdd58419b80aafe46923f35d6736"
+      "bytes": 89876,
+      "sha256": "9328a5e579b96ae34c1328ea982939654fbbc43c4c03b56a049e727db2f544c7"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct_income_2pct-six-month-tranches.csv": {
-      "bytes": 89333,
-      "sha256": "c3a57582914087672c8861254315f25ccb46c2503cbc20802943fbab67ce7e38"
+      "bytes": 50345,
+      "sha256": "45bf57344e168ab3538dce96354501e7d2480d6ecb64cf1c210b53c3e36250fa"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct_rents_indexed-monthly-prices.csv": {
-      "bytes": 133995,
-      "sha256": "6bda9dfdbdd5e62ba6e42fe6839aa42eb946c3f8c6b3950e49a66753477df123"
+      "bytes": 83780,
+      "sha256": "607ad352381718cac8ef1b65ceb0464d4f1ad54769b30af85b9a7b326b8f0862"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct_rents_indexed-six-month-tranches.csv": {
-      "bytes": 88570,
-      "sha256": "6a657500399aa092a75115dbbb029ed9baedb2c8c13469404f05c0770126681c"
+      "bytes": 49729,
+      "sha256": "db77af21acd84cd15072bd4212a12f9f74e02ef64e24ffd7d4518027fb402705"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_7pct-monthly-finance.csv": {
-      "bytes": 467283,
-      "sha256": "83e4cccf084e79b7210485bdc55aca845a40a79fea529d7e1ccca4e9b6ce3e38"
+      "bytes": 257981,
+      "sha256": "fa5c6fbec074238cbf08de56e1087d72ac10570ce790c9ad7f8261f64e1f8197"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_7pct-monthly-prices.csv": {
-      "bytes": 133945,
-      "sha256": "29bb93d80b046fee69aa5c20c44f3f7b7eed342118a5d8b3054e052e0eff11b7"
+      "bytes": 83640,
+      "sha256": "54a10b16b361ff9201b89b8e5c60d78f781a23a33483534fdd0ab95ee0caa98b"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_7pct-six-month-tranches.csv": {
-      "bytes": 90852,
-      "sha256": "efaea0a8d97e0d7a085b90ec6a6b111002027a53682b40d6ee16db86999dfd4b"
+      "bytes": 50647,
+      "sha256": "5c12ac82b6638f344a60e8cdbc9cab792095c77f40ed70bc03160ce809487c3d"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-finance-reconciliation.json": {
-      "bytes": 44180625,
-      "sha256": "23eda5c5a45f311bbb2046fee05f88cb4cfdeaecc7c2e54b87aca43058c5cf6c"
+      "bytes": 27183532,
+      "sha256": "151ffa542233492be8af1e8db2621ae69f1aef426b0c7843bd51d3bfccbb771c"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-financing-comparison.png": {
-      "bytes": 125860,
-      "sha256": "d01451beeb6a5ac329e145e962a7fa60261dbd1bef2d70acb2ab2ff25eea02b4"
+      "bytes": 126088,
+      "sha256": "d30ceb3db3c913db42e1e0ef695fea0bcd55c0bc06bf917ce6fee2b6fa5ca889"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fixed_fare_5pct_opex-monthly-prices.csv": {
-      "bytes": 135164,
-      "sha256": "2d13836216cf956ba4ba485d7f9380b8cb621e3ae9ef1bfb209ab30e4d7aeb8b"
+      "bytes": 84206,
+      "sha256": "f158f216a7c4b34b0797fc1cd202e9d158dcf943d868b5462c799e18b0df439e"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-fixed_fare_5pct_opex-six-month-tranches.csv": {
-      "bytes": 90067,
-      "sha256": "2a7c3894cda9d36f6d5d705113425ca5e8baa675c591b3b223cee034d403613d"
+      "bytes": 51542,
+      "sha256": "e44364acb69bebbd440c637fee6affcd2ae8a596b614af77afaf693b8ca92b87"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-green_concessional_only-six-month-tranches.csv": {
-      "bytes": 87205,
-      "sha256": "13f4c05c7d999ebca8bd2e57b384662bb8e41f5d723bb748ef745b8148c68465"
+      "bytes": 49600,
+      "sha256": "345e1db0479d8b4b94d0d29a0038072dbccbcc8b692184eac32d3ccafac23b7b"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-green_label_only-six-month-tranches.csv": {
-      "bytes": 79842,
-      "sha256": "8895c2f01d93cfb2516b69ccd8fda9b1a21224c490a99ccadf19e5ceb79f473d"
+      "bytes": 42692,
+      "sha256": "39b9cb65d8f9fe417cb460090fe595ca589646cf3ab74d83d16a92217e22cf75"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-phased-cashflows.png": {
-      "bytes": 169446,
-      "sha256": "3d3c05e2c5f9269ddd001578968910654a6ed611ee72fee1a571d84f54b9b9bc"
+      "bytes": 158862,
+      "sha256": "1550fee134c0aea5a06ec8957b819533b63fe45771ceca42a4be03468850b136"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-programme-annual-cashflow.csv": {
-      "bytes": 16728,
-      "sha256": "a14bfaba4f1c772b4d6c6fea2a65d10267cc452b4e3bab7d2259a7ed0445c2ab"
+      "bytes": 9717,
+      "sha256": "c2e3b54b2496e3ef5be63064a3f73f88ed1981574f5211c64e1bac9ac2a91238"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-programme-monthly-cashflow.csv": {
-      "bytes": 195020,
-      "sha256": "98c2818eb5bd52304400dfb28c01d58dba73afd4ff40743c6cad1d1829872148"
+      "bytes": 111338,
+      "sha256": "54b2a0919ed428ea1dab16a434c8f8710030b451b9609434355b72e7336410bd"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-programme-phased-annual-cashflow.csv": {
-      "bytes": 16157,
-      "sha256": "04063d3f4085ea23e982dd2be55e6f5456cc8a5c25b66ae462e358e684a4c20c"
+      "bytes": 8933,
+      "sha256": "5ec0c93c26cfecbb5dacd2c13fb30e20fc042cbeb90b40dfcedce6518ca7310a"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-programme-phased-monthly-cashflow.csv": {
-      "bytes": 186690,
-      "sha256": "13b26fe0977ba808caf4b3cafb8120785129e1bdb3bde388023df98aa5e86184"
+      "bytes": 100217,
+      "sha256": "22bca37d6d4805aa1e33e42bfecb16321628ab580ecf14be591e2d8c63d333a2"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json": {
-      "bytes": 4594343,
-      "sha256": "000f4ef79fd68eebe369a3a5f2d5c6ebf3fea62d894f5ffb266d16fa48cd13b6"
+      "bytes": 3229582,
+      "sha256": "49121fcac05110e3ebe11c67fd31fd93b4940e08079148fba33d8eef68796177"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-six-month-funding.png": {
-      "bytes": 185727,
-      "sha256": "500f4acb812efac1e4c25bba72fd3ce520c6f68384b7457f8bbddf26f6e621c4"
+      "bytes": 178413,
+      "sha256": "ccbb2d213a729dee34a61f943a8adf929a3fab76462818fbb07473c74cee5110"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-unfunded_reference-monthly-finance.csv": {
-      "bytes": 370662,
-      "sha256": "e84d3aa1038698b1a1d98ea09782be30f4c5b13e653a7cc5c770522c40d864f7"
+      "bytes": 200970,
+      "sha256": "d7011a1534c478d89a4141d0630c620ecd588edd01ea61eb759ddbcec24a8c10"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-unfunded_reference-six-month-tranches.csv": {
-      "bytes": 73662,
-      "sha256": "818c3f60bc67b374e9283101fc3004993e84b1953fd686d44d464220a263b754"
+      "bytes": 39981,
+      "sha256": "64773b74610f5f0aae2b478dc00a317f42df1bc03780a1a333d99fa6b403db6c"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-variable_fare_5pct_opex_5pct-monthly-finance.csv": {
-      "bytes": 454943,
-      "sha256": "dd88d066aa1e8cf9a5024bbf9deeb7328d5a84cee3a2c6a26d9c6a6e0c31639c"
+      "bytes": 254306,
+      "sha256": "3200c7e9ffad13c4c6786eda9ace84ff07f22c0e8b38d7885af9c9afa88fac03"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-variable_fare_5pct_opex_5pct-monthly-prices.csv": {
-      "bytes": 144540,
-      "sha256": "54c7959acf2f6deef9e6144175248034b380fd6ede1cdb80b06809d9a2d9276a"
+      "bytes": 90182,
+      "sha256": "3b1bcc4d258aa27fb423d13196169bfb51425decc1685073c0cda2e208e75278"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv": {
-      "bytes": 88511,
-      "sha256": "218b72ea69b1aef98d053fd2171d1211273507688e704a5b225dd17e89d6c3d4"
+      "bytes": 49870,
+      "sha256": "d6d1382010d3ee76b07b6f4501e66f67703d570fee17d7eb1392faa683a5eb01"
     },
     "cities/catalogue/west-asia/Iraq/finance/baghdad-zero_cost_liquidity_bound-six-month-tranches.csv": {
-      "bytes": 75317,
-      "sha256": "6af8b8cffb8c0a3af800f56fa1c69762d479aefe231c82ad25ff6ca27fb42062"
+      "bytes": 40913,
+      "sha256": "16c328ff78f40961acf93b298d959e3cace2b3d786937c50a93956eb72601ce3"
     },
     "control-electronics/README.md": {
       "bytes": 5833,
@@ -1828,6 +1860,14 @@
       "bytes": 6608,
       "sha256": "5eeebc21ad016f019578286e38e701f165f34bd9fba76b89db76e07fc15a1e1a"
     },
+    "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": {
+      "bytes": 49666,
+      "sha256": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2"
+    },
+    "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": {
+      "bytes": 10567,
+      "sha256": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e"
+    },
     "design/component-catalogue/src/osr_mech/civil/slab.py": {
       "bytes": 11153,
       "sha256": "54ca57999580aaab0b9280eaa5991ed50926140f9f7abfb0812391aa8fba4837"
@@ -1895,6 +1935,10 @@
     "lib/templates/accessibility.toml": {
       "bytes": 1415,
       "sha256": "67918800d7f986b6cce419545ac8068e9d4eaa467c51c20cebbebd266c395491"
+    },
+    "lib/templates/baghdad-factory.toml": {
+      "bytes": 3550,
+      "sha256": "f83d1053e79a6088f4f3bd1ac4c92cb9b6170d6696b62256f522def1c13fae3d"
     },
     "lib/templates/baghdad-finance-options.toml": {
       "bytes": 3534,
@@ -2025,8 +2069,8 @@
       "sha256": "a3b41173383d272949a3857fb4d8621348ff34ffc3d92cce5a2f31183e318706"
     },
     "lib/templates/manufacturing-schedule.toml": {
-      "bytes": 31090,
-      "sha256": "a3f0fe26c0e303169f4eb4124d0486161c67426f36f55615b740f865cdb6f82e"
+      "bytes": 31094,
+      "sha256": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa"
     },
     "lib/templates/owner-builder-operator-mobilisation.toml": {
       "bytes": 22167,
@@ -2117,55 +2161,71 @@
       "sha256": "60dd2fc7fcfe5c8bcd50aa5a01c799d8df2455bba6a67ca4be311444dea36146"
     },
     "tools/automation/build-baghdad-proposal.py": {
-      "bytes": 61147,
-      "sha256": "d4c65c1ab4b7b8e04b672222d7ebae45de7cdc2feb5042a31ba488a0a727039d"
+      "bytes": 62406,
+      "sha256": "58d307d8162c97b627bfe717d6b8d64caf6adf0f9cf8ae324c80981d52bd0480"
     },
     "tools/automation/build-doc-book.py": {
       "bytes": 40811,
       "sha256": "33be02b7c1c7bf362e514bc2d31a16761081852fa35ba488d59cc19e796dc9dc"
     },
+    "tools/automation/factory_sizing.py": {
+      "bytes": 10880,
+      "sha256": "7f7e4ee2d0b5e03495daf7f1d8c2868eed190bb3f90dd4d2fc2c317c8c10e34e"
+    },
+    "tools/automation/generate-factory-plan.py": {
+      "bytes": 14215,
+      "sha256": "c6832b709da2502ab90b4f2b0c99a2c0f8b73714ad27cc57e51714100fc60bb1"
+    },
     "tools/automation/generate-iraq-funding-programme.py": {
-      "bytes": 53812,
-      "sha256": "1b8757cb009c2aae0add14781be31b4511ced2f696e2c63bba52921ae2501420"
+      "bytes": 54610,
+      "sha256": "1bc10072382e06ed6f7287fbef96e8d03fe46d029d420feb955a01a79a94cdfb"
     },
     "tools/automation/generate-national-briefs.py": {
-      "bytes": 24078,
-      "sha256": "ca07417cdb55368cbbbba68b18f10408f469a208991a411a6990afe63ae0eb00"
+      "bytes": 25349,
+      "sha256": "0138f1fed33c74ecaea00a0c7e3ce431147f261a141b7bb4fc93d975519ee6b0"
+    },
+    "tools/automation/generate-qa-maintenance-data.py": {
+      "bytes": 62062,
+      "sha256": "ac21da408a100ba6b99f48921fa502244d960fae1c87c05317084b2debfaf835"
+    },
+    "tools/automation/project_twin.py": {
+      "bytes": 30474,
+      "sha256": "6a2a46ce472667f7fc2273a96273925ffa1b1895c564b7786678d41ba84159de"
     }
   },
   "national_development_status": "future-separate-not-funded",
   "outputs": {
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/BAGHDAD-PROPOSAL.md": {
-      "bytes": 37391,
-      "sha256": "bd54411454c7489fd5eff701a241caf431a238c650f05da73d99b6c505f94e30"
+      "bytes": 37841,
+      "sha256": "be0043d057d3c54a716da51bc94ca275af89054fc0f2df34525fbccbfb93b561"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/Baghdad-Proposal-Supporting-Data.zip": {
-      "bytes": 26472948,
-      "sha256": "2efae8569f5c27499bc42c1b12542ec8f6fd60a7045bffc40876eec887b9b69a"
+      "bytes": 22082901,
+      "sha256": "916f39a20f6da6317a4eb937911bdec57c3ae1d4df873973e66704c6ae5b88e9"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/Baghdad-Proposal.pdf": {
-      "bytes": 2646436,
-      "sha256": "ccc3459a047ce150a798e432be71ea11408789dd65c8f8cbc4dbdad95fda4856"
+      "bytes": 2634269,
+      "sha256": "4fad7c1dc6197f60a962de3ab14fe91d6b33f2423dd61b70413a1665c4fb81b7"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/DETAILED-SCHEDULES.md": {
-      "bytes": 45107,
-      "sha256": "d8b45e4f1d1dd3b70c7826b90c6ac0d62d3ed2c0582d9e61e6ae43aa3cabb083"
+      "bytes": 39437,
+      "sha256": "3d85ca1a3a13f612ef37c153fb3e2e997790d77c57f94685c6215919dfb7da7a"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/README.md": {
       "bytes": 2101,
       "sha256": "319c7ee9675d653443b04c3ad54de69720225757b4bc6b6286c21a2538f03612"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/appendix-sources.json": {
-      "bytes": 2418,
-      "sha256": "500b31e4852bbc09d163bc045f2ffd6b3b4eeba3c4390e9893d51a69d7dde9ef"
+      "bytes": 2493,
+      "sha256": "9867ca1b7cd7434d7daac0cbfe041923aaaa64c70a1205b928208e6a15cfe3f8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/archive-manifest.json": {
-      "bytes": 77756,
-      "sha256": "701f8e256bfae01f2b3b2f2ea7a0cbf14af790b3fd70172d46464abd4dcd6267"
+      "bytes": 79914,
+      "sha256": "7d752bfd2996faeedec414a6690e973f64bdcae122aba72c9928ad0581d80102"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/national-context.json": {
-      "bytes": 5845,
-      "sha256": "9a8d01a2724623927a5635b8d9e5f7e82135d5fff6b4987c22f006e1954b0e36"
+      "bytes": 5841,
+      "sha256": "a0b5911742d827abe6a24d67d19991f154e8560e4040f1bec6180f0928effb05"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/registers/civil-segments.csv": {
       "bytes": 98702,
@@ -2192,8 +2252,8 @@
       "sha256": "b847f927a90b3aa80ba0a2f133a578130321931ad62438449f29321cfe7c8993"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/proposal/source-inventory.csv": {
-      "bytes": 54201,
-      "sha256": "defe99c217af66142f41ee631f241b3eba8d904393d160ff364c140d9bad9bf7"
+      "bytes": 55759,
+      "sha256": "6b2ec047fa4d9a32322c5a9923d8c5cf68f3347a1d72700dc331d440374fa590"
     }
   },
   "schema_version": "1.0",

@@ -2,9 +2,9 @@
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
-The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD 7.876 billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
+The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD 7.880 billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
-The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month 66 and full operation in month 346 after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
+The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month 41 and full operation in month 83 after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
 
 ## How to read the proposal
 
@@ -18,15 +18,15 @@ The design retains a planning population of 9,780,429. The 46.4% anchor weighted
 
 | Line | Shape | Route km | Stations | Peak fleet | Total fleet | Opening month |
 | --- | --- | --- | --- | --- | --- | --- |
-| line-1 | radial | 53.822 | 19 | 86 | 95 | 66 |
-| line-2 | radial | 56.994 | 21 | 93 | 103 | 105 |
-| line-3 | radial | 55.819 | 21 | 98 | 108 | 147 |
-| line-4 | radial | 44.443 | 16 | 77 | 85 | 179 |
-| line-5 | radial | 53.737 | 18 | 89 | 98 | 217 |
-| line-6 | radial | 57.516 | 19 | 100 | 111 | 258 |
-| line-7 | radial | 43.502 | 16 | 76 | 84 | 291 |
-| line-8 | radial | 51.366 | 18 | 90 | 100 | 328 |
-| line-9 | ring | 99.317 | 34 | 42 | 47 | 346 |
+| line-1 | radial | 53.822 | 19 | 86 | 95 | 41 |
+| line-2 | radial | 56.994 | 21 | 93 | 103 | 46 |
+| line-3 | radial | 55.819 | 21 | 98 | 108 | 52 |
+| line-4 | radial | 44.443 | 16 | 77 | 85 | 57 |
+| line-5 | radial | 53.737 | 18 | 89 | 98 | 62 |
+| line-6 | radial | 57.516 | 19 | 100 | 111 | 69 |
+| line-7 | radial | 43.502 | 16 | 76 | 84 | 73 |
+| line-8 | radial | 51.366 | 18 | 90 | 100 | 79 |
+| line-9 | ring | 99.317 | 34 | 42 | 47 | 83 |
 
 ![Baghdad network](../baghdad-network-map.png)
 
@@ -68,9 +68,9 @@ The reference uses three static consensus voters and two logical protection chan
 
 ## Iraqi manufacture and local economic benefit
 
-The Baghdad plant is sized from 4,986 vehicle modules. Its base allowance is USD 299.160m plus USD 20.941m EPC, counted once outside city CAPEX. The current plant construction assumption is 520 working days before train production. Factory siting, freight access, utilities, tooling, staff, production rate, quality capacity and six car qualification require their own approved business and delivery plan.
+The Baghdad plant is sized from 4,986 vehicle modules. Its base allowance is USD 303.505m plus USD 21.245m EPC, counted once outside city CAPEX. The current plant construction assumption is 390 working days before train production. Factory siting, freight access, utilities, tooling, staff, production rate, quality capacity and six car qualification require their own approved business and delivery plan.
 
-Baghdad procurement assigns USD 6.084bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The plant appraisal covers capital financing only; manufacturing income, factory OPEX and commercial margins need a separate business case. No multiplier, tax recovery, construction job count or future national plant profit is booked as project cash without evidence. Exported components retain foreign exchange and supply chain exposure.
+Baghdad procurement assigns USD 6.087bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The plant appraisal covers capital financing only; manufacturing income, factory OPEX and commercial margins need a separate business case. No multiplier, tax recovery, construction job count or future national plant profit is booked as project cash without evidence. Exported components retain foreign exchange and supply chain exposure.
 
 ## Operating organisation and digital management
 
@@ -93,7 +93,9 @@ The Baghdad operating package contains 1,862 assets, 8,012 manufacturing/verific
 
 First obtain survey and demand inputs, freeze a viable first line and plant scope, and reconcile depot and energy duties. Qualify long lead components and the first six car train, then deliver infrastructure, energy, station systems and trained operating staff in accepted phases. Each line needs its own operating and safety acceptance before fare revenue is realised.
 
-The current capital milestones span 347 months, based on 260 working days/year and 30 pre NTP working days. Production is constrained by the current factory/work centres; commissioning adds an explicit three month allowance. Conditional first/full network opening is month 66/346. Opening weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase specific plan. Expanding production capacity could change those dates, but needs a priced resource and funding revision; no uncosted acceleration is assumed.
+The city-sized plant becomes available after **18 months from NTP**, followed by first-article qualification and finite six-car production cells. All 831 trains remain in scope. The calculated full fleet finishes alongside the overall infrastructure programme. Earlier civil corridors can still wait for their full fleets, because they precede factory readiness and qualification. See the [physical factory sizing, crews, test paths and capital reconciliation](../engineering/factory/README.md).
+
+Current capital milestones span 84 months, based on 260 working days/year and 30 pre NTP working days. Conditional first/full network opening is month **41/83**, including the separate three-month line commissioning allowance. Opening-weighted demand and the 25% fixed / 75% variable OPEX proxy require a surveyed phase-specific plan. Factory sizing and its explicit capital increase are included in the new monthly and six-month financing schedules; rates, physical qualification and delivery risk remain open.
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
@@ -109,9 +111,9 @@ The current capital milestones span 347 months, based on 260 working days/year a
 | signalling | 25.826 | 12.913 | 12.913 |
 | charging microgrid | 67.600 | 27.040 | 40.560 |
 | epc overhead | 440.992 | 66.149 | 374.843 |
-| Baghdad plant | 299.160 | 59.832 | 239.328 |
-| Plant EPC | 20.941 | 3.141 | 17.800 |
-| Total Baghdad capital | 7,875.845 | 1,792.145 | 6,083.700 |
+| Baghdad plant | 303.505 | 60.701 | 242.804 |
+| Plant EPC | 21.245 | 3.187 | 18.059 |
+| Total Baghdad capital | 7,880.494 | 1,793.060 | 6,087.434 |
 
 The city and plant total includes the plant EPC once. Budgets are unquoted planning estimates; land, utilities, taxes/duties, escalation, contingency and accepted depot/site scope require closure. Loan principal repaid later is a financing cashflow, not additional construction CAPEX. Origin shares do not establish citizenship of vendors, employment or lender eligibility.
 
@@ -119,13 +121,13 @@ The city and plant total includes the plant EPC once. Budgets are unquoted plann
 
 | Capital source | Currency | Native amount | USD equivalent m |
 | --- | --- | --- | --- |
-| bank credit | IQD | 1,628,513,577,968 | 1,252.703 |
-| chinese export credit | USD | 896,072,706 | 896.073 |
-| domestic bonds | IQD | 4,885,540,733,903 | 3,758.108 |
-| government import cash | USD | 896,072,706 | 896.073 |
-| government local cash | IQD | 1,394,755,092,103 | 1,072.889 |
+| bank credit | IQD | 1,629,498,072,786 | 1,253.460 |
+| chinese export credit | USD | 896,529,966 | 896.530 |
+| domestic bonds | IQD | 4,888,494,218,359 | 3,760.380 |
+| government import cash | USD | 896,529,966 | 896.530 |
+| government local cash | IQD | 1,395,671,459,457 | 1,073.593 |
 
-Government cash totals USD 1.969bn equivalent, exactly 25% of capital. Its USD 896.073m import cash is inside that limit. The same amount of Chinese USD debt covers the other half of imports. Remaining capital sources are IQD. Combined USD capital funding is USD 1.792bn (22.75%); IQD is 77.25%. Only Chinese credit is USD debt, while government also needs USD cash for downpayments.
+Government cash totals USD 1.970bn equivalent, exactly 25% of capital. Its USD 896.530m import cash is inside that limit. The same amount of Chinese USD debt covers the other half of imports. Remaining capital sources are IQD. Combined USD capital funding is USD 1.793bn (22.75%); IQD is 77.25%. Only Chinese credit is USD debt, while government also needs USD cash for downpayments.
 
 | Facility | Currency | Rate assumption | Grace months per draw | Amortisation months | Arrangement fee |
 | --- | --- | --- | --- | --- | --- |
@@ -139,19 +141,19 @@ The capital source table above is the reference allocation. The conditional blen
 
 | Conditional blended capital source | Currency | Native amount | USD equivalent m |
 | --- | --- | --- | --- |
-| government import cash | USD | 896,072,706 | 896.073 |
-| government local cash | IQD | 1,394,755,092,103 | 1,072.889 |
-| Chinese export credit | USD | 896,072,706 | 896.073 |
-| Ordinary IQD bonds | IQD | 3,649,501,961,698 | 2,807.309 |
+| government import cash | USD | 896,529,966 | 896.530 |
+| government local cash | IQD | 1,395,671,459,457 | 1,073.593 |
+| Chinese export credit | USD | 896,529,966 | 896.530 |
+| Ordinary IQD bonds | IQD | 3,652,455,446,154 | 2,809.581 |
 | Green IQD bonds | IQD | 1,211,663,772,206 | 932.049 |
-| Bank capital credit | IQD | 1,620,388,577,968 | 1,246.453 |
+| Bank capital credit | IQD | 1,621,373,072,787 | 1,247.210 |
 | Conditional climate capital grant | IQD | 32,500,000,000 | 25.000 |
 
 The conditional capital grant replaces USD 25m equivalent of domestic borrowing. Additional development rights and new local operating receipts enter later project cash and are not counted as construction capital a second time. Supplemental gap draws pay financing/OPEX/reserve cash needs and are separate from both capital tables.
 
 ## Early deficits and additional financing
 
-The independent flat price reconstruction requires USD 8.255bn gross early additional cash and retains USD 8.188bn later. Their difference is USD 67.027m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
+The independent flat price reconstruction requires USD 6.264bn gross early additional cash and retains USD 4.037bn later. Their difference is USD 2226.832m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
 
 The candidate replaces eligible ordinary capital bonds with IQD green debt at 4% plus arrangement and 0.5% annual guarantee charges; it also tests an uncommitted USD 25m equivalent climate grant, USD 300m equivalent net development rights and USD 25m equivalent annual additional net local receipts. A green label alone changes no coupon. Grants replace eligible domestic capital borrowing; guarantees enhance credit rather than provide cash. Supplemental IQD credit at 2% and a 0.5% draw fee is capped at IQD 13tn outstanding, not treated as proven market capacity. All these conditional sources require legal, donor, investor and valuation evidence.
 
@@ -159,21 +161,21 @@ Additional routes to qualify include climate/renewable energy grants or concessi
 
 | Financing and pricing sensitivity | Peak gap IQD tn | Uncovered IQD tn | Terminal gap IQD tn |
 | --- | --- | --- | --- |
-| blended candidate | 12.920 | 0.000 | 9.400 |
-| commercial gap credit | 13.000 | 39.260 | 13.000 |
-| concessional gap credit | 13.000 | 1.493 | 10.644 |
-| fare 5pct flat costs elastic | 9.986 | 0.000 | 0.000 |
-| fare 5pct flat costs fixed demand | 9.003 | 0.000 | 0.000 |
-| fare 5pct opex 5pct | 10.774 | 0.000 | 0.000 |
-| fare 5pct opex 5pct income 2pct | 11.734 | 0.000 | 0.000 |
-| fare 5pct opex 5pct rents indexed | 10.571 | 0.000 | 0.000 |
-| fare 5pct opex 7pct | 13.000 | 11.768 | 13.000 |
-| fixed fare 5pct opex | 13.000 | 59.644 | 13.000 |
-| green concessional only | 13.000 | 0.995 | 10.860 |
-| green label only | 0.000 | 10.732 | 0.000 |
-| unfunded reference | 0.000 | 10.732 | 0.000 |
-| variable fare 5pct opex 5pct | 10.613 | 0.000 | 0.000 |
-| zero cost liquidity bound | 10.732 | 0.000 | 0.087 |
+| blended candidate | 8.300 | 0.000 | 5.336 |
+| commercial gap credit | 13.000 | 19.061 | 13.000 |
+| concessional gap credit | 10.496 | 0.000 | 8.275 |
+| fare 5pct flat costs elastic | 4.370 | 0.000 | 0.000 |
+| fare 5pct flat costs fixed demand | 3.657 | 0.000 | 0.000 |
+| fare 5pct opex 5pct | 4.705 | 0.000 | 0.000 |
+| fare 5pct opex 5pct income 2pct | 5.828 | 0.000 | 0.000 |
+| fare 5pct opex 5pct rents indexed | 4.503 | 0.000 | 0.000 |
+| fare 5pct opex 7pct | 6.038 | 0.000 | 0.000 |
+| fixed fare 5pct opex | 13.000 | 9.590 | 13.000 |
+| green concessional only | 9.601 | 0.000 | 7.639 |
+| green label only | 0.000 | 8.143 | 0.000 |
+| unfunded reference | 0.000 | 8.143 | 0.000 |
+| variable fare 5pct opex 5pct | 4.481 | 0.000 | 0.000 |
+| zero cost liquidity bound | 8.143 | 0.000 | 2.895 |
 
 ## Passenger fares and other operating income
 
@@ -194,11 +196,11 @@ The base full network operating allowance totals USD 180.567m/year equivalent, b
 
 ## Annual ticket increases and OPEX inflation
 
-The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD 1,681 at first opening and IQD 5,164 at full opening. With 5% income growth, 44 trips remain 11.7% of the income proxy. With only 2% income growth that burden reaches 26.4% at full opening and the assumed real price elasticity reduces paid trips.
+The requested paired sensitivity indexes fares, OPEX and income 5% annually from financial close. No tickets are sold before opening. Nominal average fares are IQD 1,525 at first opening and IQD 1,765 at full opening. With 5% income growth, 44 trips remain 11.7% of the income proxy. With only 2% income growth that burden reaches 26.4% at full opening and the assumed real price elasticity reduces paid trips.
 
-Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves IQD 11.768tn uncovered cash and IQD 13tn unpaid gap debt. Revenue inflation alone is insufficient. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
+Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves IQD 0.000tn uncovered cash and IQD 13tn unpaid gap debt. Revenue inflation alone is insufficient. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
 
-The paired case's unlevered NPV is USD -4.121bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
+The paired case's unlevered NPV is USD -3.593bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
 
 ![Fare and OPEX sensitivities](../../finance/baghdad-fare-inflation-sensitivities.png)
 
@@ -208,14 +210,14 @@ Surplus first pays OPEX, scheduled principal, interest and fees, then debt servi
 
 | Repayment policy | All debt cleared month | Net saving vs buffered gap only USD eq m | Premium USD eq m |
 | --- | --- | --- | --- |
-| cost priority | 414 | 293.309 | 11.311 |
-| cost priority noncallable bonds | 634 | 129.259 | 4.520 |
-| cost priority zero premium | 414 | 308.763 | 0.000 |
-| gap only buffered | 634 | 0.000 | 0.000 |
-| gap then core | 416 | 73.287 | 2.882 |
-| loans then bonds | 415 | 189.758 | 6.791 |
+| cost priority | 304 | 171.562 | 21.999 |
+| cost priority noncallable bonds | 370 | 63.957 | 4.585 |
+| cost priority zero premium | 304 | 199.789 | 0.000 |
+| gap only buffered | 370 | 0.000 | 0.000 |
+| gap then core | 307 | 8.587 | 1.404 |
+| loans then bonds | 306 | 72.999 | 6.033 |
 
-Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 293.309m equivalent after premiums and clears debt in month 414 versus 634 for buffered gap only. Loans first saves USD 189.758m. All retain IQD 0.994tn operating buffer at the horizon.
+Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 171.562m equivalent after premiums and clears debt in month 304 versus 370 for buffered gap only. Loans first saves USD 72.999m. All retain IQD 0.340tn operating buffer at the horizon.
 
 Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw ages 6/12/24 months respectively. Eligible vintages are oldest first, retaining instalments and shortening maturity. Calls, notice, compensation, tax and market buyback prices need actual terms. The noncallable case makes no early bond payments; cost ordering is a heuristic rather than a globally best solution. Savings are nominal finance costs, not principal savings or present value wealth. Month numbers run from financial close, with no calendar commencement date assumed.
 
@@ -227,10 +229,10 @@ Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw a
 | --- | --- | --- |
 | Route km | 516.5 | 148 |
 | Lines / stations | 9 / 182 | 7 / 64 |
-| Capital USD equivalent bn | 7.876 | 18.000 reported |
-| Capital USD equivalent m / route km | 15.25 | 121.62 |
-| USD capital funding bn | 1.792 | 18.000 requested all USD scenario |
-| Chinese USD debt bn | 0.896 | Final debt and government split unverified |
+| Capital USD equivalent bn | 7.880 | 18.000 reported |
+| Capital USD equivalent m / route km | 15.26 | 121.62 |
+| USD capital funding bn | 1.793 | 18.000 requested all USD scenario |
+| Chinese USD debt bn | 0.897 | Final debt and government split unverified |
 
 The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entirely USD foreign loan/government cash basis is the requested comparator, not a verified financing contract. Under that assumption Baghdad's USD capital requirement is 90.0% lower. Distinct scope, price date, tunnelling/structures, land, utilities, qualification and schedule prevent a like for like bid saving claim. Third party fares, actual financing and comparable population access are not established. Its Iraqi labour share cannot be assumed zero.
 
@@ -261,7 +263,7 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 | Duhok | 360,000 | light-metro-3car | 57.3 | 122 | 518.450 |
 | Fallujah | 360,000 | light-metro-3car | 55.8 | 122 | 452.393 |
 
-All city capital totals sum to USD 23.296bn. Adding one shared factory at USD 299.160m and its EPC at USD 20.941m produces **USD 23.616bn equivalent** nationally. Baghdad already contains this same plant and EPC. The additional city capital beyond the Baghdad scope is therefore **USD 15.740bn**, with no second plant added. Imported/local procurement in the generic national origin model is USD 5.561bn / USD 18.055bn; this is procurement composition, not a national loan programme.
+All city capital totals sum to USD 23.296bn. Adding one shared factory at USD 303.505m and its EPC at USD 21.245m produces **USD 23.621bn equivalent** nationally. Baghdad already contains this same plant and EPC. The additional city capital beyond the Baghdad scope is therefore **USD 15.740bn**, with no second plant added. Imported/local procurement in the generic national origin model is USD 5.562bn / USD 18.058bn; this is procurement composition, not a national loan programme.
 
 No national factory expansion or replacement, intercity connection, research/training institution, shared governance or additional capital acceleration is priced. Sizing by the largest city's module order is not proof of annual production capacity. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
