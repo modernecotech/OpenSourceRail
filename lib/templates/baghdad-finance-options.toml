@@ -1,0 +1,62 @@
+# All amounts and pricing below are explicit uncommitted sensitivities.
+# No green/grant/property receipts enter the reference case.
+[model]
+as_of = "2026-10-03"
+tranche_months = 6
+bond_denomination_iqd = 1000000
+# Face-value placement at par, paid when drawn; no discount or auction success assumed.
+bond_issuance_basis = "six-month placement envelopes, monthly settlement against expenditure"
+
+[green]
+candidate_buckets = ["rolling_stock", "solar_plant", "charging_microgrid"]
+# Replace only bonds attributable to candidate project expenditures.
+share_of_candidate_bonds = 1.0
+blended_rate = 0.04
+blended_grace_months = 48
+blended_repayment_months = 240
+arrangement_fee = 0.0075
+# Paid on outstanding green principal; explicit cost of hypothetical enhancement.
+annual_guarantee_fee = 0.005
+
+[additional_sources]
+# Illustrative application/valuation targets, not GCF or developer commitments.
+climate_capital_grant_usd = 25000000
+climate_grant_first_month = 24
+# Rights payments are NET after development/transaction costs, and not prepaid
+# existing fare/rent receipts. Government land value must be separately appraised.
+net_development_rights_usd = 300000000
+rights_first_month = 24
+rights_tranches = 6
+incremental_net_local_receipts_annual_usd = 25000000
+
+[liquidity]
+commercial_annual_rate = 0.08
+commercial_draw_fee = 0.01
+concessional_annual_rate = 0.02
+concessional_draw_fee = 0.005
+currency = "IQD"
+repayment_basis = "100% cash sweep after core obligations and reserve funding; remaining balance due at model end"
+# No extra facility DSRA, undrawn commitment fee or automatic refinancing.
+# These omissions are disclosed and require term-sheet sensitivity before close.
+# Illustrative maximum outstanding IQD commitment, not a lending offer.
+illustrative_cap_iqd = 13000000000000
+
+[fares]
+# Illustrative annual indices from financial close, not Iraqi inflation forecasts.
+# No tickets are sold before opening. Launch prices therefore reflect elapsed years.
+annual_increase = 0.05
+# Used only to translate the 8% real discount assumption into a nominal rate.
+general_price_inflation = 0.05
+opex_inflation = 0.05
+opex_stress_inflation = 0.07
+income_growth = 0.05
+income_stress_growth = 0.02
+ancillary_indexation = 0.05
+# Response to fare relative to the indexed income proxy; not calibrated for Iraq.
+price_elasticity = -0.30
+peak_trip_share = 0.40
+peak_multiplier = 1.25
+offpeak_multiplier = 0.90
+# Baseline demand uses 50% of practical capacity. No discounted-fare scenario
+# can increase modelled trips beyond 100% of that same practical capacity.
+maximum_demand_multiplier = 2.0

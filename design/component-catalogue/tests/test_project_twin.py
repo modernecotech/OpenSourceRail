@@ -284,3 +284,23 @@ def test_resource_cpm_pipelines_ready_train_stages_and_respects_plant_availabili
 def test_resource_cpm_rejects_cycles_before_dispatch() -> None:
     with pytest.raises(ValueError, match='cycle'):
         apply_resource_cpm([_task('a:kit', predecessor='b:kit'), _task('b:kit', predecessor='a:kit')])
+
+
+def test_epc_overhead_follows_direct_works_instead_of_baseline_freeze() -> None:
+    from project_twin import build_budget_contracts
+    freeze, early, late = _task('SYS:freeze'), _task('TRAIN-1:kit'), _task('TRAIN-2:kit')
+    freeze['asset_type'] = 'system'
+    freeze['phase'] = 'program-control'
+    for task, start in ((freeze, 0), (early, 10), (late, 500)):
+        task['planned_start_day'] = start
+        task['planned_finish_day'] = start+1
+    contracts = build_budget_contracts([freeze, early, late], {'buckets': [
+        {'bucket': 'rolling_stock', 'total_usd': 100, 'local_share': .6, 'imported_share': .4},
+        {'bucket': 'epc_overhead', 'total_usd': 7, 'local_share': .85, 'imported_share': .15}]})
+    epc = [row for row in contracts if row['bucket'] == 'epc_overhead']
+    assert sum(row['budget_usd'] for row in epc) == 7
+    assert {row['planned_start_day'] for row in epc} == {10, 500}
+    assert all(row['asset_id'] != 'SYS' for row in epc)
+    assert sum(row['budget_usd'] for row in contracts) == 107
+    assert early['budget_bucket'] == late['budget_bucket'] == 'rolling_stock'
+    assert sum(task['epc_overhead_usd'] for task in (freeze, early, late)) == 7

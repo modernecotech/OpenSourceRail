@@ -68,16 +68,45 @@ anchor-weighted planning score, not a surveyed resident catchment. Local
 procurement is USD 6.084 billion equivalent;
 indicative operating employment is 2,350 FTE. Construction
 job counts require validated hours and productivity. The model leaves USD
-9.786 billion in additional
+9.760 billion in additional
 cash requirements in the full-network-only case if public funding is capped at the
 25% capital contribution. The conditional phased case reduces this to USD
-8.320 billion,
+8.256 billion,
 with first / last line openings in months
 66 /
 346.
 These are gross nominal liquidity needs, not net lifetime loss. Opening dates
 require actual plant, depot, line and safety acceptance; fleet-based phase demand
 and the 25% fixed / 75% variable OPEX split remain planning assumptions.
+
+The [independent reconciliation](../engineering/finance/FUNDING-RECONCILIATION.md)
+and [six-month bond and loan requirements](../../finance/baghdad-unfunded_reference-six-month-tranches.csv)
+separate capital from debt repayment and price additional liquidity.
+Pooling city/plant cash yields USD 8.255 billion
+gross early cash needs and USD 8.188 billion
+later retained cash: a USD 67.03 million
+net nominal deficit before gap-finance interest and fees. The illustrative
+green/concessional/grant/development mix still leaves USD
+7.231 billion
+equivalent unpaid gap debt with constant nominal fares and OPEX. It is not a funded programme.
+Steady annual tickets, shop/kiosk leases and advertising already contribute IQD
+547.3, 13.0
+and 20.2 billion respectively;
+new revenue targets cannot count those receipts again.
+
+The separate paired sensitivity increases fares and OPEX 5% annually from
+financial close. With 5% income growth and the other blended assumptions,
+peak supplemental debt is IQD 10.774 trillion,
+with no terminal unpaid facility. Average nominal tickets reach IQD
+1,681 at first opening and IQD
+5,164 at full opening; commuting
+uses 11.7% of the indexed income proxy.
+This conditional sensitivity does not demonstrate household income growth or
+placed lending. Separate cases test peak/off-peak tickets, slower income growth
+and higher OPEX inflation. Capital escalation and future FX changes remain open.
+The [paired 5% six-month schedule](../../finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv)
+and [monthly prices](../../finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv)
+show those cashflows and affordability assumptions.
 
 ## Rolling stock and CRRC component strategy
 

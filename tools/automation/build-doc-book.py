@@ -319,7 +319,7 @@ def _doc_sources() -> list[SourceDoc]:
     ]
     add("Developing-Country Planning Briefs", country_briefs)
     iraq = REPO_ROOT / "cities/catalogue/west-asia/Iraq"
-    iraq_funding = [iraq / "IRAQ-FUNDING-PROGRAMME.md"] + [
+    iraq_funding = [iraq / "IRAQ-FUNDING-PROGRAMME.md", iraq / "Baghdad/engineering/finance/FUNDING-RECONCILIATION.md"] + [
         iraq / city / "engineering/finance/FUNDING-MODEL.md"
         for city in ("Baghdad",)
     ]

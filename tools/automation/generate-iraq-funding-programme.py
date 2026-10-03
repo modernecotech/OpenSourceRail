@@ -12,7 +12,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "design/city-generation/src"))
 from osr_scenario.iraq_finance import build_financing, city_funding_config
+from osr_scenario.network_readme import _station_commercial_revenue_eur, _USD_TO_EUR
 from finance_evidence import stale_finance_sources
+from baghdad_funding_analysis import build_analysis, write_outputs
 
 
 def write_comparison_chart(summary: dict, directory: Path) -> None:
@@ -76,11 +78,13 @@ def write_phasing_chart(summary: dict, directory: Path) -> None:
 def main() -> int:
     country = ROOT / "cities/catalogue/west-asia/Iraq"
     config_path = ROOT / "lib/templates/iraq-funding.toml"
+    options_path = ROOT / "lib/templates/baghdad-finance-options.toml"
+    options = tomllib.loads(options_path.read_text())
     config = city_funding_config(tomllib.loads(config_path.read_text()), "baghdad")
     capex = tomllib.loads((ROOT / "lib/templates/capex-costs.toml").read_text())
     cities = {}
     city_models = {}
-    source_paths = [config_path, ROOT / "lib/templates/capex-costs.toml", Path(__file__),
+    source_paths = [options_path, Path(__file__).with_name("baghdad_funding_analysis.py"), config_path, ROOT / "lib/templates/capex-costs.toml", Path(__file__),
                     ROOT / "design/city-generation/src/osr_scenario/iraq_finance.py"]
     modules = {}
     for name in ("Baghdad",):
@@ -98,7 +102,7 @@ def main() -> int:
         modules[name] = sum(f["trainset_count"] for f in design["fleets"]) * design["costs"]["technology_basis"]["car_count"]
         if funding["assumptions"]["model"] != config["model"]:
             raise ValueError("Baghdad finance must be regenerated with the current 25% scenario")
-        source_paths.extend([path, design_path])
+        source_paths.extend([path, design_path, country / name / "engineering/finance/funding-input.csv"])
     anchor = max(modules, key=modules.get)
     factory_usd = modules[anchor] * capex["production_plant"]["per_vehicle_usd"]
     factory_buckets = []
@@ -128,6 +132,26 @@ def main() -> int:
     fare_iqd = city_model["revenue_basis"]["single_trip_fare_usd"] * fx
     annual_trips = city_model["cases"]["low_capacity_use"]["annual_paid_trips"]
     nonfare = city_model["revenue_basis"]["nonfare_revenue_usd_per_year"]
+    commercial = _station_commercial_revenue_eur(design, country_income)
+    retail_usd = commercial["retail_eur"] / _USD_TO_EUR
+    advertising_usd = commercial["ads_eur"] / _USD_TO_EUR
+    if abs(retail_usd + advertising_usd - nonfare) > .01:
+        raise ValueError("Station retail and advertising must reconcile to existing nonfare revenue")
+    operating_receipts = {
+        "farebox_annual_usd": annual_trips * city_model["revenue_basis"]["single_trip_fare_usd"],
+        "station_retail_annual_usd": retail_usd,
+        "station_advertising_annual_usd": advertising_usd,
+        "existing_nonfare_annual_usd": nonfare,
+        "total_annual_usd": annual_trips * city_model["revenue_basis"]["single_trip_fare_usd"] + nonfare,
+        "annual_paid_trips": annual_trips,
+        "planning_monthly_income_iqd": country_income * fx,
+        "rentable_sqm": commercial["rentable_sqm"],
+        "advertising_boards": commercial["ad_boards"],
+        "retail_rent_iqd_m2_month": commercial["retail_rent_usd_m2_month"] * fx,
+        "advertising_board_iqd_month": commercial["ad_board_usd_month"] * fx,
+        "retail_occupancy": .88, "advertising_occupancy": .85,
+        "basis": "Steady-state low-capacity-use planning assumptions; phased receipts follow opened-fleet shares and each line's revenue ramp. Existing shop/kiosk and advertising receipts are already included, not additional gap funding. Occupancy and income-based rental rates are uncalibrated; concession management costs and tenant demand need appraisal.",
+    }
     opex = city_model["annual_opex_usd"]["total"]
     operating_only_fare_iqd = max(0, opex-nonfare) / annual_trips * fx
     # Compare the first complete operating year against its ramped trips. This
@@ -215,7 +239,8 @@ def main() -> int:
                "peak_annual_government_capital_usd": max(r["government_cash_with_25_percent_cap_usd"] for r in annual),
                "peak_annual_additional_funding_required_usd": max(r["additional_funding_required_with_25_percent_cap_usd"] for r in annual),
                "peak_annual_conditional_public_cash_required_usd": max(r["conditional_total_public_cash_required_usd"] for r in annual),
-               "comparison": comparison, "monthly": monthly, "annual": annual, "sources_sha256": sources}
+               "comparison": comparison, "operating_receipts": operating_receipts,
+               "monthly": monthly, "annual": annual, "sources_sha256": sources}
     if abs(summary["capital_sources_usd"]["government"] - summary["total_capex_usd"] * .25) > .01:
         raise ValueError("Government capital must equal 25% of total programme uses")
     if abs(sum(summary["capital_sources_usd"].values()) - summary["total_capex_usd"]) > .01:
@@ -277,8 +302,24 @@ def main() -> int:
         }
     summary["phased_opening"] = {"status": phased_city.get("status"), "phases": phased_city.get("phases", []),
         "weight_basis": phased_city.get("weight_basis"), "fixed_opex_share": phased_city.get("fixed_opex_share"), "cases": phased_programme_cases}
+    with (country / "Baghdad/engineering/finance/funding-input.csv").open(newline="") as handle:
+        city_contracts = list(csv.DictReader(handle))
+    analysis = build_analysis(summary, cities["Baghdad"], factory, city_contracts, factory_contracts, config, options)
+    summary["independent_recalculation"] = {
+        "status": analysis["status"], "reconciliation": analysis["reconciliation"],
+        "cases": {name: case["metrics"] for name, case in analysis["cases"].items()},
+        "additional_receipts_threshold": analysis["additional_receipts_threshold"],
+        "fare_uplift_threshold": analysis["fare_uplift_threshold"],
+        "selected_pricing_sensitivity": analysis["selected_pricing_sensitivity"],
+        "fare_pricing": {name: {key: value for key, value in case["fare_policy"].items() if key != "monthly_prices"}
+                         for name, case in analysis["cases"].items() if "fare_policy" in case},
+        "full_calculation": "finance/baghdad-finance-reconciliation.json",
+        "six_month_reference": "finance/baghdad-unfunded_reference-six-month-tranches.csv",
+        "six_month_blended": "finance/baghdad-blended_candidate-six-month-tranches.csv",
+    }
     directory = country / "finance"
     directory.mkdir(exist_ok=True)
+    write_outputs(analysis, summary, directory, country)
     (directory / "baghdad-programme.json").write_text(json.dumps(summary, indent=2, sort_keys=True)+"\n")
     for period, rows in (("monthly", monthly), ("annual", annual)):
         with (directory / f"baghdad-programme-{period}-cashflow.csv").open("w", newline="") as handle:
@@ -365,6 +406,21 @@ def main() -> int:
             f"All these are gross nominal liquidity contributions, conditional on funding. Later operating surplus is retained and is not netted against earlier required injections. The phased city ledger ends with USD {pm['final_unrestricted_cash_usd']/1e9:.3f} billion of unrestricted cash; no distribution or return to the sponsor is assumed. The plant ledger has no manufacturing income/OPEX: it remains a capital-financing allowance. A 25% direct grant also does not cap sovereign IQD bond liabilities or guarantees.", "",
             "[Phased programme monthly cashflow](finance/baghdad-programme-phased-monthly-cashflow.csv) · [phased programme annual cashflow](finance/baghdad-programme-phased-annual-cashflow.csv)", ""])
     lines.extend(comparison_lines)
+    rec = analysis["reconciliation"]
+    updated = ["## Independent reconciliation, priced gap finance and six-month tranches", "",
+        f"Capital sources still total USD {rec['capital_uses_usd']/1e6:,.3f}m. The independent pooled-cash reconstruction requires USD {rec['gross_additional_liquidity_usd']/1e6:,.3f}m of gross extra cash and retains USD {rec['later_retained_cash_usd']/1e6:,.3f}m later, leaving a **USD {rec['net_lifetime_liquidity_gap_usd']/1e6:,.3f}m nominal net deficit before pricing additional gap finance**. These three amounts answer different questions. The original capital principal is repaid in the lifetime cash ledger, not added to CAPEX a second time. City EPC is now spread over direct works; the initial baseline-freeze task no longer receives the full programme overhead allowance.", "",
+        "[Detailed arithmetic and Iraqi financing routes](Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) · [six-month reference bond/loan requirements](finance/baghdad-unfunded_reference-six-month-tranches.csv) · [six-month blended candidate](finance/baghdad-blended_candidate-six-month-tranches.csv) · [independent calculation](finance/baghdad-finance-reconciliation.json).", "",
+        "Green debt replaces qualified conventional borrowing; grants replace domestic capital debt; guarantees supply credit enhancement rather than cash. The new sensitivity charges supplemental IQD funding for interest and fees, sweeps later surplus to repayment, and exposes cash beyond its illustrative IQD 13tn cap and any unpaid terminal loan. The earlier gross cash-support figures below assume external contributions; they are not a priced bridge-loan requirement.", "",
+        "| Priced gap-finance sensitivity | Gross gap draws, IQD tn | Uncovered cash, IQD tn | Unpaid terminal loan, IQD tn |", "|---|---:|---:|---:|",
+        *[f"| {name.replace('_', ' ')} | {case['metrics']['total_supplemental_draw_iqd']/1e12:.3f} | {case['metrics']['uncovered_support_iqd']/1e12:.3f} | {case['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f} |" for name, case in analysis["cases"].items()], "",
+        "The candidate mix is uncommitted: eligible IQD green bonds at an assumed 4% plus enhancement fees; USD 25m equivalent climate capital grant; USD 300m equivalent net development-rights proceeds; and USD 25m equivalent annual new net local receipts at full opening. The grant, valuation, legal powers and IQD concessional facility need evidence. Existing rents/fare receipts cannot be counted again. With constant nominal fares and OPEX, a terminal unpaid loan means that sensitivity has not achieved self-financing.", ""]
+    indexed = analysis["cases"]["fare_5pct_opex_5pct"]
+    priced = indexed["fare_policy"]
+    updated.extend(["## Additional pricing and OPEX inflation sensitivities", "",
+        f"The requested paired sensitivity increases fares and OPEX **5% annually from financial close**, while testing income growth separately. At 5% income growth and assumed -0.30 real-price elasticity, the illustrative blended case peaks at **IQD {indexed['metrics']['peak_supplemental_balance_iqd']/1e12:.3f}tn** supplemental debt and ends with IQD {indexed['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid. This can repay the priced facility under the assumptions, but still requires placed early financing, the candidate grant/rights receipts, fixed nominal debt terms and income growth. It is not a committed funding outcome.", "",
+        f"Average nominal tickets move from IQD {priced['first_opening']['average_paid_fare_iqd']:,.0f} at first opening to IQD {priced['full_opening']['average_paid_fare_iqd']:,.0f} at full opening; 44 trips remain {priced['full_opening']['forty_four_trips_income_share']:.1%} of the indexed income proxy when incomes grow 5%. Separate cases test 2% income growth, 7% OPEX inflation, peak/off-peak tiers, fixed demand, and rental indexation. Capital escalation and future FX changes remain outside these sensitivities.", "",
+        "[Paired 5% six-month financing](finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv) · [monthly tickets and affordability](finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv) · [variable-ticket six-month financing](finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv). The detailed report contains the NPV, all assumptions and downside cases.", ""])
+    lines[4:4] = updated
     (country / "IRAQ-FUNDING-PROGRAMME.md").write_text("\n".join(lines))
     print(f"wrote Baghdad programme: USD {summary['total_capex_usd']:,.2f}, government 25%, additional cash gap USD {cumulative_gap:,.2f}")
     return 0

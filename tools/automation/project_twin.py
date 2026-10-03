@@ -322,13 +322,19 @@ def build_budget_contracts(
     buckets = {str(row["bucket"]): row for row in capex.get("buckets", [])}
     by_bucket: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for task in tasks:
+        task["budget_bucket"] = ""
+        task["budget_usd"] = 0.0
+        task["epc_overhead_usd"] = 0.0
         for bucket in _task_buckets(task):
             by_bucket[bucket].append(task)
 
     contracts: list[dict[str, Any]] = []
-    for bucket_name, bucket in sorted(buckets.items()):
+    # Programme engineering/management overhead follows the direct works it
+    # supports. The baseline-freeze task is not a contract for all lifetime EPC.
+    for bucket_name, bucket in sorted(buckets.items(), key=lambda item: (item[0] == "epc_overhead", item[0])):
         candidates = sorted(
-            by_bucket.get(bucket_name, []),
+            ([row for row in tasks if float(row.get("budget_usd", 0)) > 0]
+             if bucket_name == "epc_overhead" else by_bucket.get(bucket_name, [])),
             key=lambda row: str(row["manufacturing_uid"]),
         )
         if not candidates:
@@ -337,12 +343,17 @@ def build_budget_contracts(
                 key=lambda row: str(row["manufacturing_uid"]),
             )
         total = float(bucket.get("total_usd", 0.0))
-        weights = [max(1, int(row.get("duration_days", 1))) for row in candidates]
+        weights = [float(row["budget_usd"]) if bucket_name == "epc_overhead" and float(row.get("budget_usd", 0)) > 0
+                   else max(1, int(row.get("duration_days", 1))) for row in candidates]
+        weight_total = sum(weights)
         allocated = 0.0
         for index, (task, weight) in enumerate(zip(candidates, weights)):
-            value = total - allocated if index == len(candidates) - 1 else round(total * weight / sum(weights), 2)
+            value = total - allocated if index == len(candidates) - 1 else round(total * weight / weight_total, 2)
             allocated += value
-            task["budget_bucket"] = bucket_name
+            if bucket_name != "epc_overhead" or not task["budget_bucket"]:
+                task["budget_bucket"] = bucket_name
+            if bucket_name == "epc_overhead":
+                task["epc_overhead_usd"] = round(task["epc_overhead_usd"] + value, 2)
             task["budget_usd"] = round(float(task.get("budget_usd", 0.0)) + value, 2)
             contract_id = f"{task['manufacturing_uid']}:SOV:{bucket_name}"
             contracts.append(

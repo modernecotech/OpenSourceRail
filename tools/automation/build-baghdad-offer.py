@@ -288,6 +288,12 @@ def build() -> None:
     assert funding["schedule_status"] == "linked-to-budget-work-packages"
     programme = json.loads((CITY.parent / "finance/baghdad-programme.json").read_text())
     comparison = programme["comparison"]
+    independent = programme["independent_recalculation"]
+    reconciliation = independent["reconciliation"]
+    receipts = programme["operating_receipts"]
+    fx = funding["assumptions"]["model"]["iqd_per_usd"]
+    indexed = independent["cases"]["fare_5pct_opex_5pct"]
+    indexed_prices = independent["fare_pricing"]["fare_5pct_opex_5pct"]
     offer_readme = OFFER / "README.md"
     text = offer_readme.read_text()
     system = f"""## Proposed system
@@ -350,6 +356,35 @@ with first / last line openings in months
 These are gross nominal liquidity needs, not net lifetime loss. Opening dates
 require actual plant, depot, line and safety acceptance; fleet-based phase demand
 and the 25% fixed / 75% variable OPEX split remain planning assumptions.
+
+The [independent reconciliation](../engineering/finance/FUNDING-RECONCILIATION.md)
+and [six-month bond and loan requirements](../../finance/baghdad-unfunded_reference-six-month-tranches.csv)
+separate capital from debt repayment and price additional liquidity.
+Pooling city/plant cash yields USD {reconciliation['gross_additional_liquidity_usd']/1e9:.3f} billion
+gross early cash needs and USD {reconciliation['later_retained_cash_usd']/1e9:.3f} billion
+later retained cash: a USD {reconciliation['net_lifetime_liquidity_gap_usd']/1e6:.2f} million
+net nominal deficit before gap-finance interest and fees. The illustrative
+green/concessional/grant/development mix still leaves USD
+{independent['cases']['blended_candidate']['terminal_supplemental_balance_iqd']/fx/1e9:.3f} billion
+equivalent unpaid gap debt with constant nominal fares and OPEX. It is not a funded programme.
+Steady annual tickets, shop/kiosk leases and advertising already contribute IQD
+{receipts['farebox_annual_usd']*fx/1e9:.1f}, {receipts['station_retail_annual_usd']*fx/1e9:.1f}
+and {receipts['station_advertising_annual_usd']*fx/1e9:.1f} billion respectively;
+new revenue targets cannot count those receipts again.
+
+The separate paired sensitivity increases fares and OPEX 5% annually from
+financial close. With 5% income growth and the other blended assumptions,
+peak supplemental debt is IQD {indexed['peak_supplemental_balance_iqd']/1e12:.3f} trillion,
+with no terminal unpaid facility. Average nominal tickets reach IQD
+{indexed_prices['first_opening']['average_paid_fare_iqd']:,.0f} at first opening and IQD
+{indexed_prices['full_opening']['average_paid_fare_iqd']:,.0f} at full opening; commuting
+uses {indexed_prices['full_opening']['forty_four_trips_income_share']:.1%} of the indexed income proxy.
+This conditional sensitivity does not demonstrate household income growth or
+placed lending. Separate cases test peak/off-peak tickets, slower income growth
+and higher OPEX inflation. Capital escalation and future FX changes remain open.
+The [paired 5% six-month schedule](../../finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv)
+and [monthly prices](../../finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv)
+show those cashflows and affordability assumptions.
 
 """
     text, count = re.subn(r"## Proposed system\n.*?(?=## Rolling stock)", system, text, flags=re.S)
@@ -604,6 +639,40 @@ and the 25% fixed / 75% variable OPEX split remain planning assumptions.
         p(f"The operating allowance is {comparison['operating_fte']:,} indicative FTE and IQD {comparison['operating_labour_annual_iqd']/1e9:.2f} billion annual labour cost. These are not manufacturing/construction job counts; validated hours, productivity, wages and local-content contracts are required. The third-party plan may also employ Iraqi civil labour."),
         p("Sustainability requires accepted phasing, surveyed demand, an affordable tariff, funded interest/reserves and debt service within the public limit, placed IQD facilities, local supplier/process qualification and lifecycle replacement provision. Software and ledger checks do not close these decisions."), PageBreak(),
     ]
+    story += section("Reconciled cash needs and financing alternatives", "Six-month funding programme")
+    story += [
+        p(f"Capital sources and uses remain {money(reconciliation['capital_uses_usd'])}. Independent pooled cash requires {money(reconciliation['gross_additional_liquidity_usd'])} early and retains {money(reconciliation['later_retained_cash_usd'])} later: {money(reconciliation['net_lifetime_liquidity_gap_usd'])} net nominal deficit before charging for gap finance. EPC overhead now follows direct works; capital principal repayments are not extra construction CAPEX."),
+        data_table([['Existing annual receipts', 'IQD billion, full steady operation'],
+               ['Passenger tickets', f"{receipts['farebox_annual_usd']*fx/1e9:.3f}"],
+               ['Station shops / kiosk leases', f"{receipts['station_retail_annual_usd']*fx/1e9:.3f}"],
+               ['Advertising space', f"{receipts['station_advertising_annual_usd']*fx/1e9:.3f}"]], [95*mm, 79*mm]),
+        p("These receipts already reduce the gap. Retail assumes 88% occupancy and advertising 85%; rates follow the historical income proxy. Each line's receipts ramp with opening. Tenant demand, collection losses and dedicated concession costs remain unqualified; new income must be additional and net of costs.", "Smallx"),
+        p("Six-month placement envelopes specify native government cash, Chinese loan draws, IQD bond face and unit counts, IQD bank draws, first/last repayment dates, reserve movements and supplemental liquidity. Settlement is monthly against expenditure at par; selling each entire envelope upfront would need a new interest/carry calculation."),
+        data_table([['Gap-finance sensitivity', 'Peak IQD tn', 'Uncovered IQD tn', 'Unpaid at end IQD tn']] + [
+            [name.replace('_', ' '), f"{independent['cases'][name]['peak_supplemental_balance_iqd']/1e12:.3f}",
+             f"{independent['cases'][name]['uncovered_support_iqd']/1e12:.3f}",
+             f"{independent['cases'][name]['terminal_supplemental_balance_iqd']/1e12:.3f}"]
+            for name in ('commercial_gap_credit', 'concessional_gap_credit', 'blended_candidate')], [73*mm, 30*mm, 35*mm, 36*mm]),
+        p("The illustrative IQD facility has a 13 trillion maximum outstanding balance and pays its own interest/fees. The candidate combines eligible green debt replacing conventional bonds, an uncommitted climate grant, net development-rights proceeds and new net receipts. None is a funding commitment; a green label alone changes no cashflow.", "Smallx"),
+        p(f"With constant nominal fares and OPEX, eliminating both uncovered cash and terminal debt requires about {money(independent['additional_receipts_threshold']['incremental_net_receipts_annual_usd'])}/year of genuinely new net receipts under the other blended assumptions. Indexed fares and costs are tested separately on the next page. IQD on-lending or a priced hedge is needed for foreign concessional funding to preserve the currency strategy.", "Smallx"),
+        p("Detailed calculations, full six-month CSVs and primary-source financing routes are in engineering/finance/FUNDING-RECONCILIATION.md and the Iraq finance directory."), PageBreak(),
+    ]
+    story += section("Variable tickets and indexed operating costs", "Fare and inflation sensitivities")
+    story += [
+        p("A 5% annual ticket increase is tested alongside OPEX inflation, income growth and demand response. Annual indices start at financial close; no receipts enter before opening. Peak/off-peak tiers are indicative, with a separate demand response for each tier. No tariff or inflation forecast is adopted."),
+        data_table([['Policy', 'Peak debt IQD tn', 'Uncovered IQD tn', 'End debt IQD tn']] + [
+            [label, f"{independent['cases'][name]['peak_supplemental_balance_iqd']/1e12:.3f}",
+             f"{independent['cases'][name]['uncovered_support_iqd']/1e12:.3f}",
+             f"{independent['cases'][name]['terminal_supplemental_balance_iqd']/1e12:.3f}"]
+            for name, label in (('fare_5pct_opex_5pct', 'Fares / OPEX / income +5%'),
+                                ('variable_fare_5pct_opex_5pct', 'Peak/off-peak plus 5% indices'),
+                                ('fare_5pct_opex_5pct_income_2pct', 'Fares/OPEX +5%; income +2%'),
+                                ('fare_5pct_opex_7pct', 'Fares/income +5%; OPEX +7%'))], [78*mm, 30*mm, 33*mm, 33*mm]),
+        p(f"In the paired 5% case, first-opening tickets average IQD {indexed_prices['first_opening']['average_paid_fare_iqd']:,.0f}; full-opening tickets average IQD {indexed_prices['full_opening']['average_paid_fare_iqd']:,.0f}. With matched income growth, 44 trips remain {indexed_prices['full_opening']['forty_four_trips_income_share']:.1%} of the income proxy. Slower wage growth raises that burden and reduces trips under the assumed -0.30 real-price elasticity."),
+        fitted_image(CITY.parent / 'finance/baghdad-fare-inflation-sensitivities.png', 174*mm, 91*mm),
+        p(f"Later surplus repays the illustrative facility under paired 5% assumptions, while substantial early IQD borrowing, the candidate grant/rights receipts and fixed nominal loan terms are still required. The unlevered NPV before grants/new rights/net-receipt targets is {money(indexed['pricing_project_npv_usd_equivalent'])} at {indexed['pricing_nominal_discount_rate']:.1%} nominal discount. Distant nominal surplus is not present-value wealth.", "Smallx"),
+        p("Income, occupancy and elasticity are uncalibrated; capital escalation, replacement inflation, FX, variable interest rates and concessional IQD lending need qualification. Affordable commuter/student concessions and transfer caps need explicit compensation rather than assumed free reductions.", "Smallx"), PageBreak(),
+    ]
     story += section("A controlled path from model to railway", "Proposed engagement")
     story += [
         data_table([
@@ -642,6 +711,13 @@ and the 25% fixed / 75% variable OPEX split remain planning assumptions.
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-cashflows.png"),
         Path("lib/templates/iraq-funding.toml"),
+        Path("lib/templates/baghdad-finance-options.toml"),
+        Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-finance-reconciliation.json"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-unfunded_reference-six-month-tranches.csv"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv"),
+        Path("cities/catalogue/west-asia/Iraq/finance/baghdad-fare-inflation-sensitivities.png"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-programme.json"),
         Path("cities/catalogue/west-asia/Iraq/finance/baghdad-financing-comparison.png"),
         Path("cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md"),
