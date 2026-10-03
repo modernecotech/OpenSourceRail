@@ -87,6 +87,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    equity=read_json(CITY/'engineering/equity/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/equity','outputs_sha256')):
+        for relative,sha in equity[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale Baghdad equity: '+relative)
     redesign=read_json(CITY/'engineering/financing-redesign/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/financing-redesign','outputs_sha256')):
         for relative,sha in redesign[group].items():
@@ -183,6 +187,8 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     temporary=resilience['cases']['temporary_first_article']
     section=read_json(CITY/'engineering/qualification/first-section.json')
     redesign=read_json(CITY/'engineering/financing-redesign/summary.json')['cases']
+    equity=read_json(CITY/'engineering/equity/summary.json')['cases']
+    eq=equity['primary_1000m'];eqbase=equity['government_equity_reference']
     redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
@@ -359,6 +365,16 @@ The [nine-case financing redesign](../engineering/financing-redesign/README.md) 
 The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD {redesigned['metrics']['peak_aggregate_liquidity_iqd']/1e12:.3f}tn**, cumulative missing funding **IQD {redesigned['metrics']['uncovered_support_iqd']/1e12:.3f}tn**, and resource NPV **USD {redesigned['appraisal']['consolidated_resource_npv_usd']/1e9:.3f}bn**, or **USD {redesigned['appraisal']['consolidated_resource_npv_after_land_opportunity_usd']/1e9:.3f}bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
 
 Government remains 25% of the original rail/energy/factory capital. Import cash/Chinese credit still split 50:50 in USD; other credit, equity, fares, rights and payments are IQD. Private property construction is an additional explicitly priced scope, with its own IQD debt and equity. Optional indexed availability payments add public obligations **outside** the 25% capital limit; resource NPV cancels those government transfers. The combined downside retains delayed openings, weaker fare/nonfare demand, inflation and restricted financing, and adds weaker property sales/rights: **IQD {redweak['metrics']['uncovered_support_iqd']/1e12:.3f}tn** remains missing. Fifteen station candidates and six 90-day evidence workstreams have no invented title, valuation, investor term or named owner.
+
+## Iraqi mixed joint-stock holding and staged ordinary equity
+
+The [thirteen-case ordinary-equity study](../engineering/equity/README.md) proposes a holding company with 100%-owned rail, energy, factory and station-development businesses. It replaces the prior subsidiary private equity rather than adding it twice. Government's original USD 1.970bn-equivalent cash remains 25% of original capital; converting it into shares creates **zero new money**. Same-price private subscriptions of USD 500m/1bn/2bn equivalent leave government ownership of {equity['primary_500m']['metrics']['government_ownership']:.1%}/{eq['metrics']['government_ownership']:.1%}/{equity['primary_2000m']['metrics']['government_ownership']:.1%}. IQD subscriptions, paid share registers, premium/dilution and fees are explicit. A secondary government share sale gives cash to the seller and zero to the company.
+
+The $1bn primary sensitivity requests six founder calls and a conditional later issue at month 60, with 2% fees. Monthly paid state capital constrains actual settlement; listing at that date is unproven. Against a matched tax-stressed holding reference, peak IQD liquidity falls from **{eqbase['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn to {eq['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn**. Domestic principal waits for full-network opening. Subscription failure cannot silently expand agreed six-month capital-credit placements or draw operating rescue for construction: the next unfunded invoice is withheld and no opening is reported. Whole-programme subscription delay and joint downside have separate cash/debt ledgers. Government's USD cash and Chinese USD credit remain the import split; other money remains IQD.
+
+The $1bn case's illustrative private equity return is **{eq['shareholder_returns']['iraqi_private']['equity_irr']:.2%} nominal IRR**, below the assumed 15% hurdle, with first dividend at month **{eq['metrics']['first_dividend_month']}**. Dividends require profit, cleared debt, intact reserves and no missing cash; shares have no guaranteed redemption. Tax, depreciation, property inventory, factory impairment, retained earnings and internal-charge eliminations reconcile in pro-forma accounts. The base tax sensitivity avoids assumed group loss relief; a separate aggregate-profit proxy is explicitly unqualified. Resource NPV after land remains **USD {eq['metrics']['resource_npv_after_land_usd']/1e9:.3f}bn**; changing financing does not create additional resources or financial feasibility.
+
+Current Iraqi corporate/admission rules require an accepted mandate, legal/capital approvals, eligible audited business/accounts and actual investors. The 2019 liabilities restriction also needs entity-level assessment: the consolidated screening proxy flags **{eq['metrics']['indicative_article28_threshold_failed_months']} months** in the $1bn sensitivity. The structure therefore needs capitalisation/legal resolution before execution. Incorporated status, listing approval, public-land equity valuation and independent audit are all absent. Six additional source-bound ERP evidence packages cover legal/tax, mandate, subscriptions, accounts, governance and admission. Open licences are retained; no exclusive design valuation, national train order or uncontracted export income is assumed.
 
 ## Passenger fares and other operating income
 
@@ -559,6 +575,9 @@ def source_inputs():
     redesign=read_json(CITY/'engineering/financing-redesign/summary.json')
     paths.update(ROOT/relative for relative in redesign['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/financing-redesign').glob('*') if p.is_file())
+    equity=read_json(CITY/'engineering/equity/summary.json')
+    paths.update(ROOT/relative for relative in equity['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/equity').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())

@@ -128,3 +128,14 @@ def test_financing_redesign_is_published_with_exact_integrated_results():
     assert f"USD {case['appraisal']['consolidated_resource_npv_usd']/1e9:.3f}bn" in narrative
     assert '25% capital limit' in narrative and '15-year total insured green tenor' in narrative
     assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
+
+
+def test_equity_study_is_published_without_promising_admission_or_return():
+    root=CITY/'engineering/equity'
+    c=json.loads((root/'summary.json').read_text())['cases']['primary_1000m']
+    assert {p.relative_to(ROOT).as_posix() for p in root.glob('*') if p.is_file()}<=set(data('manifest.json')['inputs'])
+    text=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    assert f"{c['shareholder_returns']['iraqi_private']['equity_irr']:.2%} nominal IRR" in text
+    assert f"month **{c['metrics']['first_dividend_month']}**" in text
+    assert 'zero new money' in text and 'listing at that date is unproven' in text
+    assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')

@@ -49,6 +49,8 @@
   "civil_completion_day": 666,
   "cold_reserve": 1,
   "conditional_opening_month": 36,
+  "degraded_charge_margin_fraction": -0.08153528330513615,
+  "degraded_charge_qualified": false,
   "energy_qualification": "Conservative HVAC thermal-kW proxy as electric load; roof PV and intermediate charging excluded; supplier duty/heat/gradient tests pending",
   "extra_capital_with_epc_usd": 29960000.0,
   "extra_direct_capital_usd": 28000000,
@@ -153,6 +155,8 @@
     "unlevered_project_npv_usd": -3341057631.2727213
   },
   "minimum_soc": 0.4,
+  "nameplate_battery_kwh": 1350.0,
+  "normal_duty_energy_margin_kwh": 354.03116800000004,
   "operating_fte": 200,
   "operations": "Two terminal berths per end; 121 m clear platform for 111 m train; segregated service roads; No.9 crossover/points and 185 m safeguarded terminal envelope pending swept-path/braking survey",
   "peak_trains": 13,
@@ -218,10 +222,12 @@
     }
   ],
   "round_trip_charge_delivered_kwh": 600.0,
+  "round_trip_charging_margin_fraction": 0.020516351883182127,
   "round_trip_energy_kwh": 587.9376639999999,
   "round_trip_minutes": 74.10079999999999,
   "route_km": 14.0336,
   "running_minutes": 42.1008,
+  "soc_basis": "Section conservative 40% floor applied to the controlled 1080 kWh usable energy; nameplate is not dispatchable energy",
   "spare_trains": 2,
   "stabling_usable_road_m": 250,
   "station_ids": [
@@ -237,5 +243,6 @@
   "terminal_grid_kw_per_end": 4000,
   "total_trainsets": 16,
   "ultimate_city_trainsets": 831,
-  "usable_battery_kwh": 1350
+  "usable_battery_kwh": 1080.0,
+  "usable_soc_window_kwh": 648.0
 }

@@ -48,6 +48,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
 | [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Reconcile Baghdad and one plant only; publish native USD/IQD capital, priced gap finance, tariff/OPEX sensitivities and monthly/six-month early repayments |
 | [`baghdad_financing_redesign.py`](baghdad_financing_redesign.py) | Compare opening-linked credit, 15-year insured tenor, station rights, energy/factory/developer ledgers and consolidated appraisal; emit six-month placements and a 90-day evidence programme |
+| [`baghdad_equity.py`](baghdad_equity.py) | Model mixed holding-company ordinary shares, staged primary/secondary cash, dilution, tax/accounts, dividends, failed issues and six-month capital gates; `--check` validates sources and outputs |
 | [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
 | [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
@@ -138,7 +139,10 @@ When shared debt logic changes, regenerate in dependency order:
 .venv/bin/python tools/automation/baghdad_delivery_stress.py
 .venv/bin/python tools/automation/baghdad_qualification.py
 .venv/bin/python tools/automation/baghdad_financing_redesign.py
+.venv/bin/python tools/automation/baghdad_equity.py
 .venv/bin/python tools/automation/build-baghdad-proposal.py
 ```
 
-The last three tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
+The last four tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
+
+The [ordinary-equity study](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/equity/README.md) proposes a 100%-owned subsidiary holding group, retaining open licences. Government shares reclassify existing money; only primary subscriptions fund company invoices. Failed subscriptions cannot expand capital-credit envelopes. Consolidated accounts, conservative separate-business tax, investor returns and an indicative Iraqi liabilities threshold remain conditional, with no accepted incorporation/admission evidence. Its six native ERP tasks use the same source-bound qualification importer.

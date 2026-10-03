@@ -87,7 +87,11 @@ def test_section_is_complete_on_its_own_and_does_not_buy_another_fleet():
     assert s['terminal_berths_per_end']==2
     assert s['terminal_grid_kw_per_end']==4000
     assert s['round_trip_charge_delivered_kwh']>s['round_trip_energy_kwh']
-    assert s['round_trip_energy_kwh']/2 <= s['usable_battery_kwh']*(1-s['minimum_soc'])
+    assert s['nameplate_battery_kwh']==1350 and s['usable_battery_kwh']==1080
+    assert s['usable_soc_window_kwh']==648
+    assert s['round_trip_energy_kwh']/2 <= s['usable_soc_window_kwh']
+    assert s['round_trip_charging_margin_fraction']<.025
+    assert s['degraded_charge_margin_fraction']<0 and not s['degraded_charge_qualified']
     assert s['conditional_opening_month']<s['full_line_opening_month']==41
     assert s['extra_capital_with_epc_usd']==29.96e6
     rows=list(csv.DictReader((OUT/'first-section-monthly-finance.csv').open()))

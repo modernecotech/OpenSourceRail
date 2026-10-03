@@ -105,7 +105,15 @@ def section_study(design, scenario, payload, factory, context, options, risk):
     charging_kw = next(r for r in scenario['stations'] if r['id']==stations[0]['id'])['charging_power_kw']
     delivered = 2*charging_kw*options['charger_efficiency']*options['terminal_charging_seconds']/3600
     berths = math.ceil((options['terminal_charging_seconds']+options['terminal_clearance_seconds'])/(options['headway_minutes']*60))
-    if delivered < duty_kwh or duty_kwh/2 > consist['battery_capacity_kwh']*(1-options['minimum_soc']):
+    profile_name = 'metro-6car'
+    profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles'][profile_name]
+    nameplate = float(profile['onboard_battery_nameplate_kwh'])
+    usable = float(profile['onboard_battery_kwh'])
+    if consist['battery_capacity_kwh'] != nameplate or not 0 < usable <= nameplate:
+        raise ValueError('Section battery differs from controlled six-car gross/usable profile')
+    battery_window = usable*(1-options['minimum_soc'])
+    charge_margin = delivered/duty_kwh-1
+    if delivered < duty_kwh or duty_kwh/2 > battery_window:
         raise ValueError('Section duty fails reference charging or usable SOC envelope')
     station_ids = {r['id'] for r in stations}
     assets = [r for r in payload['assets'] if r['line']==options['line'] and r['asset_type']!='rolling-stock'
@@ -169,7 +177,12 @@ def section_study(design, scenario, payload, factory, context, options, risk):
                 terminal_berths_per_end=berths, charger_kw_per_berth=charging_kw,
                 terminal_grid_kw_per_end=berths*charging_kw, terminal_charge_seconds=options['terminal_charging_seconds'],
                 auxiliary_proxy_kw=aux_kw, round_trip_energy_kwh=duty_kwh, round_trip_charge_delivered_kwh=delivered,
-                usable_battery_kwh=consist['battery_capacity_kwh'], minimum_soc=options['minimum_soc'],
+                nameplate_battery_kwh=nameplate, usable_battery_kwh=usable,
+                usable_soc_window_kwh=battery_window, minimum_soc=options['minimum_soc'],
+                soc_basis='Section conservative 40% floor applied to the controlled 1080 kWh usable energy; nameplate is not dispatchable energy',
+                round_trip_charging_margin_fraction=charge_margin, normal_duty_energy_margin_kwh=battery_window-duty_kwh/2,
+                degraded_charge_margin_fraction=.9*delivered/duty_kwh-1,
+                degraded_charge_qualified=False,
                 energy_qualification='Conservative HVAC thermal-kW proxy as electric load; roof PV and intermediate charging excluded; supplier duty/heat/gradient tests pending',
                 accelerated_existing_assets=sorted(asset_ids), civil_completion_day=civil_day,
                 independent_support_ready_day=support_day, fleet_completion_day=fleet_day,
@@ -343,7 +356,7 @@ def main():
            CITY.parent/'finance/baghdad-programme.json',CITY/'engineering/delivery-risk/summary.json',
            CITY/'engineering/delivery-risk/qualification-register.csv',
            CITY/'engineering/delivery-risk/calendar_baseline-monthly-finance.csv']
-    paths.extend([ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py',
+    paths.extend([ROOT/'lib/templates/rolling-stock.toml', ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext/qualification.py',
                   ROOT/'tools/automation/connected_assurance.py'])
     sources={p.relative_to(ROOT).as_posix():sha(p) for p in paths}
     opts=tomllib.loads(paths[5].read_text());risk=tomllib.loads(paths[6].read_text())
@@ -462,7 +475,7 @@ At the reference six-minute headway and 40 km/h average running speed, the round
 
 Each end needs {section['terminal_berths_per_end']} independent 121 m clear berths for the 111 m train, No.9 crossover/points, a safeguarded 185 m terminal arrangement, {section['terminal_berths_per_end']} x {section['charger_kw_per_berth']:,.0f} kW chargers and {section['terminal_grid_kw_per_end']:,.0f} kW feeder capacity. Dwell plus clearance occupies each berth for 11 minutes against a 12-minute two-berth arrival cycle. These are geometry/utility requirements pending surveyed access, swept path, braking, interlocking and electrical studies; a generic standard station cannot silently serve as the new terminal.
 
-Round-trip traction plus the conservative auxiliary proxy is {section['round_trip_energy_kwh']:.1f} kWh, compared with {section['round_trip_charge_delivered_kwh']:.1f} kWh delivered terminal charge at 90% efficiency. One-leg duty remains inside the {section['usable_battery_kwh']:,.0f} kWh usable pack with a 40% SOC floor. Roof PV and intermediate charging are excluded. The battery acceptance power, HVAC electrical demand, gradients, ambient heat, degraded charging and rescue case require measured qualification; the small energy margin is not operational robustness.
+Round-trip traction plus the conservative auxiliary proxy is {section['round_trip_energy_kwh']:.1f} kWh, compared with {section['round_trip_charge_delivered_kwh']:.1f} kWh delivered terminal charge at 90% efficiency. Battery definitions are **{section['nameplate_battery_kwh']:,.0f} kWh nameplate / {section['usable_battery_kwh']:,.0f} kWh usable** from the controlled six-car profile. The conservative section-specific 40% floor is applied to usable energy, leaving {section['usable_soc_window_kwh']:,.0f} kWh; one-leg duty fits that window. Normal charging margin is only **{section['round_trip_charging_margin_fraction']:.2%}**. A 10% reduction in delivered charging gives **{section['degraded_charge_margin_fraction']:.2%}** balance and is not qualified. Roof PV and intermediate charging are excluded. The battery acceptance power, HVAC electrical demand, gradients, ambient heat, degraded charging and rescue case require measured qualification; the small energy margin is not operational robustness.
 
 The [section RFQs](first-section-rfqs.csv) provide four incremental packages excluding already-budgeted route, station and fleet equipment. Reuse one original charger per end and add two berth chargers in total, upgrading each end to 4 MW. Independent maintenance/stabling, battery quarantine, lifting, rescue and road access avoid reliance on the distant line-6 depot. The provisional 3.5 ha maintenance site has eight stabling roads of 250 m usable length (two 111 m trains per road plus 28 m clearance) and two 135 x 6.5 m maintenance bays; site rights, turnout ladders, fire/access geometry and measured depot duty remain open. Turnback/platform adaptation USD 5m, charging/grid USD 8m, maintenance/access USD 12m and controls/acceptance USD 3m give **USD {section['extra_capital_with_epc_usd']/1e6:.2f}m including EPC**, assuming 20% imported direct scope pending RFQs. The section has its own reference {section['operating_fte']} operating FTE and USD {sum(section['reference_annual_opex_usd'].values())/1e6:.3f}m/year OPEX before indexation, replacing the whole-network fixed OPEX before month 41. It covers 16 hours/day over 330 days/year, USD 0.10/kWh grid electricity with no PV generation credit, Iraqi wage proxies, proportional existing civil/solar/signalling maintenance and train maintenance including the existing battery reserve, plus 2% maintenance on additional support assets. These cost/demand/utility assumptions need quotations and surveys. Separately, sixty temporary construction/qualification support FTE are indexed and charged from support readiness until the full line opens, then integrated into the baseline allowance; they are not counted as section operating staff. Civil/support acceptance at day 560 is an additional unqualified support-package assumption, not an existing accepted site.
 

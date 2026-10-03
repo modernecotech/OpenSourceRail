@@ -1,0 +1,43 @@
+# Hypothetical financing/accounting terms, not company formation or an offer.
+[model]
+as_of = "2026-10-03"
+nominal_share_value_iqd = 1.0
+subscription_price_iqd = 1.0
+later_primary_price_iqd = 1.2
+private_raise_targets_usd = [500000000, 1000000000, 2000000000]
+founder_fraction = 0.75
+founder_first_month = 0
+founder_tranches = 6
+founder_interval_months = 6
+later_primary_month = 60
+primary_issue_fee_fraction = 0.02
+private_iraqi_fraction = 0.70
+minimum_state_nominal_ownership = 0.25
+minimum_iraqi_ownership = 0.51
+investor_hurdle_rate = 0.15
+
+[accounting]
+# Iraq GCT headline non-oil rate; applicability/adjustments require tax opinion.
+corporate_tax_fraction = 0.15
+# Annual separate-business positive-profit stress; no parent-interest deductions,
+# group loss netting, tax refunds or carryforward relief presumed.
+rail_asset_life_years = 30
+train_asset_life_years = 20
+solar_asset_life_years = 25
+factory_asset_life_years = 20
+# Contractual sensitivity, NOT a statement of the statutory reserve requirement.
+profit_retention_fraction = 0.10
+factory_impairment_at_backlog_close = true
+terminal_asset_sale_usd = 0
+
+[downside]
+subscription_success_fraction = 0.50
+subscription_delay_months = 6
+
+[governance]
+company_status = "proposed-not-incorporated"
+listing_status = "not-applied-not-approved"
+public_mandate_accepted = false
+independent_auditor_appointed = false
+actual_shareholder_count_known = false
+land_equity_valuation_accepted = false
