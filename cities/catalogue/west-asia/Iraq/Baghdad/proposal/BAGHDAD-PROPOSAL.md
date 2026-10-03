@@ -101,6 +101,10 @@ The factory's final fleet margin is only 20 working days; test-path throughput m
 
 Recovery options price extra structural/electrical/composite or coordinated production shifts, hiring/training, supplier expediting and testing, with unchanged cell counts and indexed incremental payroll/nonlabour costs. Testing alone does not improve the 75% availability opening dates; upstream production still limits them. A separate temporary first-article facility sensitivity adds USD 37.450m capital plus support staffing and tests first opening in month 36; permanent acceptance paths, first-article qualification and full line fleets remain required. These options are unquoted deterministic comparisons, not adopted delivery commitments.
 
+Shift compression now excludes fixed curing/bonding/inspection holds and the additional 60-day first-article qualification. The [industrial qualification and funding-gate package](../engineering/qualification/README.md) adds a metric temporary-site layout, cell tooling/transfer interfaces, quantity-based RFQs reconciled inside the existing USD 35m direct allowance, and ten ERPNext evidence tasks with source-bound measurement templates and authenticated independent result verification. Named owners, measurements, quotations and signatures remain pending.
+
+Funding interruptions halt procurement/construction/production and defer invoices, adding local remobilisation and carrying/prolongation costs. Recovered domestic placement and delayed export credit are conditional on re-placement; permanent refusal has **no opening or debt-clearance date**, and is never filled by an automatic government or gap-loan replacement. The separate first-section study uses 14.034 km and five actual line-1 stations, 16 already-planned six-car trains at six-minute headways, independent turnbacks/charging/maintenance and USD 29.96m extra capital. Conditional section service is month 36, with surveyed demand and physical acceptance still required; the full 831-train baseline remains unchanged. Earlier small-section fares alone do not establish better finance: the study includes advanced invoices, additional support costs, phase demand deducted from later full-line receipts, and native-currency reserves/debt.
+
 Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD 26.862tn cumulative uncovered cash** and **IQD 4.000tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](../engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
 
 | Scenario | First/full month | Peak IQD gap tn | Interest/fees USD eq bn | Debt cleared month |
@@ -111,7 +115,7 @@ Combined delay-cost cases add extended staffing, supervision, carrying, storage/
 | Earliest civil; faster cycles | 41/82 | 5.139 | 5.332 | 306 |
 | 75% availability, costed | 42/90 | 4.728 | 5.156 | 306 |
 | 75% availability + test shift | 42/90 | 4.735 | 5.159 | 307 |
-| 75% availability + all stages | 40/83 | 4.543 | 5.114 | 304 |
+| 75% availability + all stages | 40/83 | 4.542 | 5.114 | 304 |
 | Temporary first-article facility | 36/83 | 4.422 | 5.103 | 302 |
 | Combined delays, costed | 55/106 | 5.308 | 5.291 | 316 |
 | Joint downside | 55/106 | 4.000 | 15.384 | Unfunded |
