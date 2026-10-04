@@ -47,6 +47,9 @@ def test_expansion_unit_boundary_keeps_two_bearing_lines() -> None:
     pier = viaduct_pier(8.0, continuity_role="expansion")
     assert sum(child.label == "Elastomeric/PTFE girder bearing" for child in pier.children) == 8
     assert pier_bom(8.0, continuity_role="expansion")[3].quantity == 8
+    assert pier_bom(8.0, connection_scheme="simple-span-link-slab")[3].quantity == 8
+    linked = viaduct_pier(8.0, connection_scheme="simple-span-link-slab")
+    assert len([part for part in linked.children if "bearing" in part.label.lower() and "shelf" not in part.label.lower()]) == 8
     with pytest.raises(ValueError, match="continuity role"):
         viaduct_pier(8.0, continuity_role="unknown")
 

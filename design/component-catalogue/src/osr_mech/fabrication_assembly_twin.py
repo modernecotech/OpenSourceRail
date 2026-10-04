@@ -222,7 +222,7 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
                    ("tested pier and 7 m cap", "four internal-support bearings", "two Pi25 units", "synchronized strand jacks"), "stable twin-track erected bay after two main lifts", "bearing identity/orientation, synchronization and one-line internal-support survey",
                    ("bearing schedule", "strand-jack log", "seat survey", "beam level and gap survey"), viaduct_refs),
             _stage("VIA-55", "viaduct", "Connect short semi-continuous unit", "continuity connection front", 1, "VIA-50",
-                   ("surveyed adjacent Pi spans", "released link-slab or diaphragm cage", "small closure or grouted-socket materials"), "four-span unit structurally connected at internal support", "CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
+                   ("surveyed adjacent Pi spans", "released structural continuity cage and load path", "small closure or grouted-socket materials"), "four-span unit structurally connected at internal support", "staged shared-bearing load path, CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
                    ("connection traveller", "rebar and cover record", "maturity/grout record", "waterproofing and survey acceptance"), viaduct_refs),
             _stage("VIA-60", "viaduct", "Install trackform, egress and containment", "viaduct finishing front", 2, "VIA-55",
                    ("local plinths", "track panels", "walkway and containment kits"), "released operational viaduct bay", "track, drainage, earthing and egress release",

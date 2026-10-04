@@ -1,0 +1,36 @@
+schema_version = 1
+status = "controlled-comparison-not-construction-or-delivery-budget"
+comparison_route_m = 1000.0
+tracks = 2
+movement_unit_spans = 4
+segment_length_m = 2.5
+iqd_per_usd_reference = 1300.0
+foundation_buffer_bays = [10, 15]
+selected_product = "none-pending-site-and-supplier-evidence"
+currency_rule = "Quotes retain invoice currency; USD equivalent is reporting, not a USD borrowing requirement"
+cost_rule = "Do not deduct routing penalties or apply published savings percentages to the funded baseline"
+
+[evidence]
+supplier_offers = 0
+surveyed_supports = 0
+accepted_first_articles = 0
+measured_complete_bay_cycles = 0
+independent_design_release = false
+
+[[references]]
+title = "FHWA field-cast UHPC connections"
+url = "https://www.fhwa.dot.gov/publications/research/infrastructure/structures/14084/index.cfm"
+use = "Link slabs can join simple-span decks while independent bearings remain; highway precedent only"
+checked = "2026-10-04"
+
+[[references]]
+title = "FHWA prefabricated bridge selection framework"
+url = "https://www.fhwa.dot.gov/bridge/prefab/framework.cfm"
+use = "Compare access, supplier capability, connections and the complete installation system"
+checked = "2026-10-04"
+
+[[references]]
+title = "Chennai Metro construction methods"
+url = "https://wcag.chennaimetrorail.org/technology/construction/"
+use = "Precast substructure and advance investigation are precedents, not Iraqi production rates or quotations"
+checked = "2026-10-04"

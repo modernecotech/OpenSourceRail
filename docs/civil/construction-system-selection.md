@@ -23,11 +23,16 @@ drivers in
 ## Semi-continuous reference kilometre
 
 `semi_continuous_unit_plan(1000)` resolves 40 Pi25 spans into ten four-span
-units. Thirty internal joints become reinforced link slabs or diaphragms; ten
+units. Thirty internal joints require defined connections; ten
 deck gaps remain. One bearing line at an internal unit support gives four
 bearings; a unit boundary keeps two independent lines and eight bearings. The
 complete reference kilometre therefore has 200 bearings. No kilometre-long
-continuity is implied.
+continuity is implied. The 200-bearing planning quantity requires structural
+continuity and a shared load path. Simple spans connected by link slabs retain
+320 bearings/km. The active USD 9.748m/km target is conditional on that unaccepted
+structural alternative; restoring 320 bearings gives USD 10.198m/km under the
+same cost index, before connection and other consequential costs. No quotation
+or accepted saving is established by either index.
 
 Release requires continuous-welded-rail interaction, braking/traction,
 temperature/shrinkage, seismic displacement, foundation-flexibility and

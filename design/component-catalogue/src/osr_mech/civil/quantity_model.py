@@ -78,6 +78,10 @@ def structure_quantities_per_km() -> dict[str, dict[str, float | int | bool | st
             "expansion_unit_spans": continuity.unit_spans,
             "expansion_units_per_km": continuity.units,
             "link_slabs_per_km": continuity.link_slabs,
+            # Legacy interface-count key above does not specify a link-slab design.
+            "internal_connections_per_km": continuity.link_slabs,
+            "internal_connection_scheme": continuity.connection_scheme,
+            "structural_continuity_accepted": continuity.structural_continuity_accepted,
             "deck_gaps_per_km": continuity.deck_gaps,
             "bearings_per_km": continuity.bearings,
             "internal_support_bearings": continuity.internal_support_bearings,

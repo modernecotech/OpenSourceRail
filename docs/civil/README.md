@@ -26,7 +26,7 @@ release gates are tracked in
 | [`../../design/component-catalogue/catalog/buildable-civil/inspection-and-test-plan.md`](../../design/component-catalogue/catalog/buildable-civil/inspection-and-test-plan.md) | 114 package-specific hold, witness and review characteristics covering all reusable IFC types |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
 | [`viaduct-design-basis.md`](viaduct-design-basis.md) | Rapid Viaduct Kit catalogue boundary, structural actions, geometry rules, and release evidence |
-| [`viaduct-load-model.toml`](viaduct-load-model.toml) | Machine-readable 12-axle load/action seed |
+| [`viaduct-load-model.toml`](viaduct-load-model.toml) | LM3 12-axle and Baghdad 24-axle load/action seeds; supplier spacing and distribution remain required |
 | [`viaduct-kinematic-egress-envelope.md`](viaduct-kinematic-egress-envelope.md) | Train, walkway, parapet, and straight-span curve compatibility gates |
 | [`viaduct-bearing-and-movement-schedule.md`](viaduct-bearing-and-movement-schedule.md) | Interior/end bearing counts and project movement-schedule requirements |
 | [`viaduct-transport-and-erection-envelope.md`](viaduct-transport-and-erection-envelope.md) | Permit-load transport, lifting, launcher, and temporary-stage release gates |

@@ -305,18 +305,18 @@
     }
   ],
   "design_release_ready": false,
-  "generator_sha256": "71217a8ff7c59455982d6bb77d431d259feb14a7258e7fc6aa33bc785e03eb6e",
+  "generator_sha256": "a7c05249b1c6f09f8600667bb82a005ac7c7ee3a6066ed527f4fc606c4fcc9c1",
   "input_sha256": {
     "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.toml": "0d39d717e611c29f7c9b3a65526433ae94c8008ffab4b4859003f083496d63ef",
     "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "41dd3c27de080452eb2a449acb7fd9faef4d1b1541df171e32c29e799102d26b",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/finance/summary.json": "131a6174e72715b3426ee79d47767870d107ca55d81334c9fb7149b0fffd3f9d",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/finance/summary.json": "29054b176765c1eef264a901c6c3c2ba24622fc6793651a4d0c3ba220c7506d4",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/soil/summary.json": "df4a3467ae8ffd189ff8ba35f890a67344d3ae1738096d6db32c79c059b57300",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/operations/biratnagar-operations-manifest.json": "c8f1a74a04c37b89f5dd71211c0ce015daf089e8f2920baed6fbe6239f1889ce",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/operations/biratnagar-operations-manifest.json": "5936828553baf8f1ffdbeac5d30eecaf7a5a8760b4a2e00e9ce27e72e2540bd3",
     "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json": "2cdcc7db5fed7ec2c34b52a14fde0a914407e1077715e34eeb87cd80e8a90c4a",
     "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json": "eb8181a99ad409069aeb940d8c3ce4fd402c844a75fc294b9ba40a03db135401",
-    "design/component-catalogue/src/osr_mech/civil/continuity.py": "2e4360cce64a2773d8cda52e24b5182a482b56fe4ce9081c705e2d2e6e45bffc",
+    "design/component-catalogue/src/osr_mech/civil/continuity.py": "9041270819c1e166c8e3b02a44fc8203e9bca837ce875a7037953b666cd6be59",
     "engineering/analysis/detail_checks.py": "c32265b9d1fcea24f1ea5bf866cdcaff66c42d52f7cf1ea8663c9de5f0e05201",
-    "lib/templates/civil-construction-systems.toml": "865f179f8fd8e7a42b61d02e6d38a3ab2d4aff67f16a15c3af752019eef9d17c",
+    "lib/templates/civil-construction-systems.toml": "81880e0bd4e711d62c334bd87f44f386f87ceff05f7c4a54e2964dc29c000b15",
     "lib/templates/climate.toml": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
     "lib/templates/maintenance-schedule.toml": "a3b41173383d272949a3857fb4d8621348ff34ffc3d92cce5a2f31183e318706",
     "lib/templates/manufacturing-schedule.toml": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa",
@@ -352,7 +352,7 @@
     "track-weekly": 11
   },
   "mechanical_civil": {
-    "civil_quantity_basis": "Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from the shared production/continuity templates, two tracks and two webs. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.",
+    "civil_quantity_basis": "Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from the shared production/continuity templates, two tracks and two webs. Shared bearings require an unaccepted structural continuity connection; a simple-span link slab retains independent girder-end bearings. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.",
     "climate_inputs": {
       "ambient_c_average": 26,
       "ambient_c_design": 36,
@@ -378,6 +378,7 @@
         "longest_planned_unit_m": 100.0,
         "plan": {
           "bearings": 2680,
+          "connection_scheme": "structural-continuity",
           "deck_gaps": 134,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
@@ -389,11 +390,13 @@
             "temperature and shrinkage movement analysis",
             "seismic restraint and displacement analysis",
             "foundation-flexibility and soil-structure interaction analysis",
-            "link-slab or diaphragm fatigue and waterproofing detail"
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
           ],
           "route_length_m": 13390.0,
           "span_m": 25.0,
           "spans": 536,
+          "structural_continuity_accepted": false,
           "unit_spans": 4,
           "units": 134
         },
@@ -412,6 +415,7 @@
         "longest_planned_unit_m": 100.0,
         "plan": {
           "bearings": 1496,
+          "connection_scheme": "structural-continuity",
           "deck_gaps": 75,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
@@ -423,11 +427,13 @@
             "temperature and shrinkage movement analysis",
             "seismic restraint and displacement analysis",
             "foundation-flexibility and soil-structure interaction analysis",
-            "link-slab or diaphragm fatigue and waterproofing detail"
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
           ],
           "route_length_m": 7474.4,
           "span_m": 25.0,
           "spans": 299,
+          "structural_continuity_accepted": false,
           "unit_spans": 4,
           "units": 75
         },
@@ -446,6 +452,7 @@
         "longest_planned_unit_m": 100.0,
         "plan": {
           "bearings": 1208,
+          "connection_scheme": "structural-continuity",
           "deck_gaps": 61,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
@@ -457,11 +464,13 @@
             "temperature and shrinkage movement analysis",
             "seismic restraint and displacement analysis",
             "foundation-flexibility and soil-structure interaction analysis",
-            "link-slab or diaphragm fatigue and waterproofing detail"
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
           ],
           "route_length_m": 6017.9,
           "span_m": 25.0,
           "spans": 241,
+          "structural_continuity_accepted": false,
           "unit_spans": 4,
           "units": 61
         },
@@ -471,9 +480,11 @@
     ],
     "interface_release_inputs": {
       "civil_movement": [
+        "complete deployment train axle positions and loaded distribution",
         "component temperature extremes and erection temperature",
         "measured concrete CTE/shrinkage/creep",
-        "bearing restraint, rail interaction, seismic and foundation movement",
+        "selected connection load path, construction stages and bearing restraint",
+        "rail interaction, seismic and foundation movement",
         "surveyed supports and abutment movement details"
       ],
       "cleaning": [

@@ -82,6 +82,21 @@ def test_delivery_continuation_headlines_and_all_ledgers_are_published():
     assert not manifest['facts']['delivery_continuation_budget_complete']
 
 
+def test_manufactured_viaduct_review_and_bearing_cashflow_are_published_together():
+    inputs=set(data('manifest.json')['inputs'])
+    chapters=set(data('appendix-sources.json'))
+    assert 'docs/baghdad-manufactured-viaduct-review-2026-10-04.md' in chapters
+    assert (CITY/'engineering/viaduct-comparison/README.md').relative_to(ROOT).as_posix() in chapters
+    for suffix in ('.json','-monthly.csv','-semiannual.csv'):
+        path=CITY/('engineering/delivery-closure/finance-simple_span_bearing_index'+suffix)
+        assert path.relative_to(ROOT).as_posix() in inputs
+    case=json.loads((CITY/'engineering/delivery-closure/finance-simple_span_bearing_index.json').read_text())
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    assert f"USD {case['metrics']['total_capital_usd']/1e9:.3f}bn capital" in narrative
+    assert f"IQD {case['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt" in narrative
+    assert 'complete 24-axle' in narrative
+
+
 def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_scope():
     n = data('national-context.json')
     p = json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())

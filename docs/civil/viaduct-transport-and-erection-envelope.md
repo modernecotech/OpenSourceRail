@@ -8,6 +8,13 @@ and its controlled budget before selecting transport or erection plant.
 The 3.0 m shipping-width and 75 t member targets require product compliance
 or an independently reviewed deviation bound to the actual mass budget.
 
+Compare the [Baghdad complete-package alternatives](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-comparison/README.md)
+before selecting plant. Pi20's bare mass is also only 50 kg below its 60 t
+product target; smaller is not automatically compliant. Price the extra supports,
+foundations and complete-bay cycles alongside lighter handling. Overhead delivery
+over completed spans adds construction loads and launch reactions requiring
+their own deck, pier and temporary-works analysis.
+
 A portal, launching frame or certified strand-jack arrangement is an
 erection option awaiting selection and qualification. Its required capacity
 comes from complete member, rigging and dynamic demand at the reviewed
@@ -26,7 +33,10 @@ wind limit, outrigger/crawler reactions and verified ground-bearing pressure;
 nominal crane tonnage is not accepted as proof.
 
 Where the route or worksite cannot accept Pi20/Pi25, use OSR-US match-cast
-2.5–3.0 m segments with an overhead launcher. Its release adds segment
+2.5–3.0 m segments with an overhead launcher only after verifying every transport
+constraint. The current OSR-US coordination section exceeds the primary 3 m
+shipping-width target: shorter segments do not resolve restricted width. A
+supplier redesign or reviewed oversize route is required. Its release adds segment
 geometry control, match-cast records, epoxy joints, shear keys,
 post-tensioning, grouting, launcher stages and specialist QA. The legacy
 OSR-U25-SPECIAL trough is retained only where project acoustic/containment

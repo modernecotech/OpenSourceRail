@@ -17,6 +17,7 @@ import tomllib
 from baghdad_delivery_baseline import ROOT, CITY, dispatch_energy, hourly_duty, workforce, table, trainset_reference_cost
 from baghdad_delivery_stress import schedule, finance
 from baghdad_funding_analysis import capital_projection, simulate
+from baghdad_viaduct_comparison import bearing_index_delta_contracts
 
 OUT=CITY/'engineering/delivery-closure'
 CONFIG=ROOT/'lib/templates/baghdad-delivery-closure.toml'
@@ -515,7 +516,7 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
     base_contracts=inputs['contracts']+inputs['factory_contracts'];costs=read(CITY/'engineering/finance/summary.json')['annual_opex_usd']['components']
     cases={};rate=(1+config['model']['discount_rate'])*(1+options['fares']['general_price_inflation'])-1
     line_openings={r['line']:r['opening_month'] for r in phases};first=min(line_openings.values());last=max(line_openings.values())
-    for name in ('reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound'):
+    for name in ('reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound','simple_span_bearing_index'):
         cfg=deepcopy(config);opt=deepcopy(options);contracts=deepcopy(base_contracts);op=deepcopy(inputs['operating']);is_reference=name=='reference';opening=name=='opening_fleet_supply_scaled';ppa=name=='contracted_solar'
         installed=name=='installed_energy_supply_bound'
         ppl=opening_people if opening else people;power=opening_energy if opening else energy;prepay=preopening_cash(ppl,len(op),fx,opt)
@@ -530,7 +531,11 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
                 amount-=energy_amount*c['model']['depot_energy_allowance_credit_fraction']
                 finish=(line_openings[line]-2)*260/12-30;start=max(0,finish-22*260/12)
                 contracts.append(dict(bucket='reconciled_depot',budget_usd=amount,imported_share=c['model']['depot_import_share'],planned_start_day=int(start),planned_finish_day=int(finish)))
-            extra_direct=sum(r['budget_usd'] for r in contracts if r['bucket']=='reconciled_depot')-8000000
+            if name=='simple_span_bearing_index':
+                design=tomllib.loads((CITY/'design.toml').read_text())
+                civil_cost=tomllib.loads((ROOT/'lib/templates/civil-cost-model.toml').read_text())
+                contracts+=bearing_index_delta_contracts(base_contracts,task_lines,design,civil_cost)
+            extra_direct=sum(r['budget_usd'] for r in contracts if r['bucket'] in {'reconciled_depot','bearing_index_delta'})-8000000
             extra_epc=max(0,extra_direct)*c['model']['incremental_epc_fraction']
             extra_qualification=family['qualification_reference_budget_usd']*(1-c['model']['qualification_factory_credit_fraction'])
             for bucket,amount in [('incremental_epc',extra_epc),('incremental_qualification',extra_qualification)]:
@@ -555,7 +560,7 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
                         uid=contract['manufacturing_uid'];contract['budget_usd']*=ratios[selected_task_lines[uid]]
                         contract['planned_start_day']=math.floor(timings[uid]['start_hour']/8)
                         contract['planned_finish_day']=math.ceil(timings[uid]['end_hour']/8)-1
-            cap_inclusions=[dict(bucket=r['bucket'],budget_usd=r['budget_usd']) for r in contracts if r['bucket'] in {'reconciled_depot','incremental_epc','incremental_qualification'}]
+            cap_inclusions=[dict(bucket=r['bucket'],budget_usd=r['budget_usd']) for r in contracts if r['bucket'] in {'reconciled_depot','incremental_epc','incremental_qualification','bearing_index_delta'}]
         capital=capital_projection(contracts,cfg,eligible)
         # Preserve factory draw shares used by the common reserve/fee calculation.
         for month,row in capital_projection(inputs['factory_contracts'],cfg,eligible).items():capital[month].update(factory_capex=row['capex'],factory_imports=row['imports'])
@@ -610,6 +615,8 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
         extras=name!='reconciled_without_uncommitted_income'
         result=simulate(capital,op,cfg,opt,green='blended' if extras else None,extras=extras,
             bridge_rate=opt['liquidity']['concessional_annual_rate'],bridge_fee=opt['liquidity']['concessional_draw_fee'],repayment_policy='cost_priority')
+        if name=='simple_span_bearing_index':
+            result['bearing_index_delta_contracts']=[r for r in contracts if r['bucket']=='bearing_index_delta']
         result.update(capital_components=cap_inclusions,opex_components=component_rows,
             service_basis='Original annual-netting comparator, unverified service' if is_reference else 'Installed energy/charger throughput upper bound; trip feasibility remains unaccepted' if installed else 'Conditional service requiring priced/accepted electrical upgrades',
             shareholder_distributions=dict(modelled_total_dividends_iqd=0,dividend_permission=False,
@@ -856,6 +863,8 @@ def main():
         electronics=ROOT/'control-electronics/reference-integration.json',slab_design=ROOT/'design/component-catalogue/src/osr_mech/civil/slab.py',
         finance_engine=ROOT/'design/city-generation/src/osr_scenario/iraq_finance.py')
     paths['stabling']=CITY/'engineering/stabling/summary.json'
+    paths.update(viaduct_comparison_generator=ROOT/'tools/automation/baghdad_viaduct_comparison.py',
+        civil_cost=ROOT/'lib/templates/civil-cost-model.toml')
     paths.update(erp_probe=ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext/delivery_admin.py',
         restore_probe=ROOT/'tools/automation/verify_baghdad_erp_restore.py')
     for name in ('depot-package','six-car','workforce','first-phase','scope-register'):
@@ -960,6 +969,7 @@ The native Employee attachment preview validates a controlled snapshot only. It 
 '''
     reports['SITE-ENERGY.md']+='\n[All 28 former aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
     reports['FINANCE-RECONCILIATION.md']+='\n[Opening factory replay](opening-factory-replay.json) manufactures exactly 450 planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX and civil opening dates are retained, so no earlier income or cheaper plant is invented. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.\n'
+    reports['FINANCE-RECONCILIATION.md']+='\nThe `simple_span_bearing_index` sensitivity removes the bearing reduction only from existing standard Pi25 length, then adds the declared incremental EPC once. It inherits original civil invoice dates and procurement-origin proportions as assumptions, keeps government at 25%, splits assumed imports 50% USD government cash / 50% Chinese USD credit, and retains all other funding in IQD. Monthly/six-month ledgers, interest, fees, reserves and early repayment are recalculated. This is an unquoted index counterfactual, not a bearing supplier offer; finite end effects, connection costs, actual import eligibility and consequential foundations remain unpriced. OSR-US and special segments do not inherit Pi25 bearing quantities.\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n![Line 6 storage and workshop packing study](depot-line-6.svg)\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n[Startup alternatives](startup-policy-alternatives.json) compare the existing revenue fleet with the frozen original dispatch-point set, including the five missing line-9 directions. Holding that set fixed requires five extra revenue trains and one extra spare: USD 10.08m vehicle reference, before consequential costs. Adding trains must not silently expand dispatch-point selection. Reserving fewer start points or buying trains requires a separate selected-start, cycle, turnback, depot/charging and funding replay; neither changes the baseline nor closes the existing failed gate.\n'
     reports['MAINTENANCE-RENEWALS.md']+='\n[All 26 controlled interval records](maintenance-interval-register.json) also retain station, civil/track/structures, energy, wayside, tooling, finish/joint/wash and soiling work. Condition-based tasks have no invented frequency or labour cost. [Opening-fleet reserve cash](opening-battery-reserve-monthly.csv) uses 450 trainsets and adds its own indexed shortfalls to the reduced-supply financing case.\n'
@@ -976,6 +986,6 @@ The native Employee attachment preview validates a controlled snapshot only. It 
         repository_work_packages_prepared=6,field_work_packages_accepted=0,actual_quotes=0,named_appointments=0,
         complete_delivery_budget=False,operational_release=False)
     (OUT/'summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True,allow_nan=False)+'\n')
-    print('Prepared depot/corridor cases, parts/RFQs, site shortage diagnostics, development/training capacity and seven financial sensitivities')
+    print('Prepared depot/corridor cases, parts/RFQs, site shortage diagnostics, development/training capacity and eight financial sensitivities')
 
 if __name__=='__main__':main()

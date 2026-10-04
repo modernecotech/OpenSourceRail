@@ -30,7 +30,7 @@ benchmark: **3,000,000 USD per route-km**.
 
 | Civil class | Design target | Retained benchmark | Marketplace anchors and included scope |
 |---|---:|---:|---|
-| Elevated viaduct | **9.748 M USD/km** | **12.0 M USD/km** | Broad listings remain early procurement anchors; [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) records 40 Pi25 bays, 80 beams, 30 link slabs, ten deck gaps, 200 bearings/km, trackform, walkways, zone foundations, yard, transport, erection, utilities, traffic management, checking, testing and contingency |
+| Elevated viaduct | **9.748 M USD/km** | **12.0 M USD/km** | Conditional structural-continuity index: 40 Pi25 bays, 80 beams, 30 structural connections, ten periodic deck gaps and 200 bearings/km. Simple spans with link slabs retain 320 bearings/km and give a 10.198 M USD/km index before consequential costs. [`Quantity/cost scope`](viaduct-quantity-cost-model.toml) includes trackform, walkways, zone foundations, yard, transport, erection, utilities, traffic management, checking, testing and contingency; all remain unquoted |
 | Bridge / water crossing | **18.0 M USD/km** | **18.0 M USD/km** | Bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html>; bridge-specific redesign and foundation schedules remain outstanding |
 | Elevated interchange premium | **4.5 M USD/site** | — | Uses the elevated guideway stack plus stacked-platform and approach complexity where an interchange must grade-separate |
 

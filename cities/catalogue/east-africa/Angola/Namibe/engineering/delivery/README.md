@@ -63,9 +63,9 @@ Climate: tropical-arid; 29 °C reference, 48 °C upper ambient. Cold ambient: mi
 
 Free movement alpha*L*deltaT. 8/10/12 microstrain/K are declared sensitivity cases, not measured concrete properties. Reference is the preset annual mean, not installation temperature; sunlit component temperatures and gradients require separate inputs.
 
-Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from the shared production/continuity templates, two tracks and two webs. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.
+Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from the shared production/continuity templates, two tracks and two webs. Shared bearings require an unaccepted structural continuity connection; a simple-span link slab retains independent girder-end bearings. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.
 
-| Elevated segment | Longest unit m | Bearings | Link slabs | Hot movement mm at 8 / 10 / 12 µstrain/K |
+| Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
 | line-1 0.0–20.0 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
 | line-1 8449.2–8497.4 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
@@ -97,7 +97,7 @@ The operations bundle carries these inspection/cleaning triggers, owners and req
 
 Release inputs still required:
 
-- civil movement: component temperature extremes and erection temperature; measured concrete CTE/shrinkage/creep; bearing restraint, rail interaction, seismic and foundation movement; surveyed supports and abutment movement details.
+- civil movement: complete deployment train axle positions and loaded distribution; component temperature extremes and erection temperature; measured concrete CTE/shrinkage/creep; selected connection load path, construction stages and bearing restraint; rail interaction, seismic and foundation movement; surveyed supports and abutment movement details.
 - fasteners: joint loads and fatigue spectrum; fastener grade and proof load; actual finish/lubrication torque-tension trial; preload loss, slip/separation, bearing and thread checks.
 - seals: supplier qualified compression range and ageing; actual thickness, land gap and tolerances; module thermal mismatch and vibration; water-ingress test after assembly and cleaning.
 - finishes: local exposure and substrate preparation qualification; approved product system and batch TDS limits; DFT/adhesion/cure and fire/UV/wash qualification; masking, repair and inspection records.

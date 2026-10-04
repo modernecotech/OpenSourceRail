@@ -10,16 +10,36 @@ id = "light-metro-3car"
 cars = 3
 axles = 12
 tare_mass_t = 78.75
-aw2_mass_t = 100.35
-aw3_mass_t = 107.55
+passenger_mass_kg = 75.0
+aw2_mass_t = 105.75
+aw3_mass_t = 114.75
 rolling_stock_axle_limit_t = 14.0
 car_length_m = 16.5
 bogie_wheelbase_m = 2.1
 # Positions from the leading consist datum. Four axles repeat per car.
 axle_positions_m = [1.05, 3.15, 13.35, 15.45, 17.55, 19.65, 29.85, 31.95, 34.05, 36.15, 46.35, 48.45]
+axle_positions_status = "reference geometry only; supplier moving-load definition and loaded distribution required"
+structural_release = false
+
+[deployment_trains.metro-6car]
+id = "metro-6car"
+deployment = "Baghdad"
+profile_source = "lib/templates/rolling-stock.toml:profiles.metro-6car"
+cars = 6
+axles = 24
+length_m = 111.0
+tare_mass_t = 204.0
+aw2_mass_t = 258.0
+aw3_mass_t = 276.0
+passenger_mass_kg = 75.0
+infrastructure_full_train_allowance_t = 384.0
+axle_positions_m = []
+axle_positions_status = "supplier six-car drawing required; do not repeat LM3 axle spacing"
+axle_load_distribution_status = "supplier loaded-axle distribution required; averages are not design axle loads"
+structural_release = false
 
 [actions.vertical]
-include = ["self-weight", "superimposed-dead-load", "12-axle-reference-train", "16-t-infrastructure-axle", "maintenance-vehicle", "rescue-vehicle", "dynamic-amplification"]
+include = ["self-weight", "superimposed-dead-load", "complete-deployment-train-12-axle-LM3-or-24-axle-Baghdad", "16-t-infrastructure-axle", "maintenance-vehicle", "rescue-vehicle", "dynamic-amplification"]
 
 [actions.longitudinal]
 include = ["traction", "service-braking", "emergency-braking", "bearing-friction", "rail-bridge-interaction"]

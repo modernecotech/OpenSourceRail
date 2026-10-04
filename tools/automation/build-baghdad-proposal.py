@@ -37,9 +37,15 @@ SHARED = [
     'docs/operating/city-platform.md',
     'docs/deployment-planning-reference.md',
     'docs/civil/slab-trackforms.md',
+    'docs/civil/viaduct-design-basis.md',
+    'docs/civil/viaduct-bearing-and-movement-schedule.md',
+    'docs/civil/viaduct-transport-and-erection-envelope.md',
+    'docs/civil/viaduct-first-article-test-plan.md',
+    'docs/repository-artifact-policy.md',
     'docs/baghdad-delivery-review-2026-10-04.md',
     'docs/baghdad-continuation-review-2026-10-04.md',
     'docs/baghdad-ci-controls-review-2026-10-04.md',
+    'docs/baghdad-manufactured-viaduct-review-2026-10-04.md',
 ]
 
 
@@ -90,6 +96,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    viaduct=read_json(CITY/'engineering/viaduct-comparison/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/viaduct-comparison','outputs_sha256')):
+        for relative,sha in viaduct[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale viaduct comparison: '+relative)
     closure=read_json(CITY/'engineering/delivery-closure/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/delivery-closure','outputs_sha256')):
         for relative,sha in closure[group].items():
@@ -208,6 +218,7 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     hourly=read_json(CITY/'engineering/delivery-baseline/chronological-energy.json')['cases']['synthetic_reference:owned_solar']
     closure=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
     closure_metrics=closure['metrics']
+    manufactured_viaduct=read_json(CITY/'engineering/viaduct-comparison/comparison.json')
     local_energy=read_json(CITY/'engineering/delivery-closure/site-energy.json')['cases']['reference']
     fare_trials=read_json(CITY/'engineering/delivery-closure/fare-sensitivities.json')
     rental_eq=equity['rental_medium_1000m'];coveq=equity['coverage_dividends_1000m']
@@ -297,7 +308,19 @@ The proposed civil programme starts with survey control, utilities, property and
 
 Stations require accessible approaches, platforms, passenger information, fire and evacuation design, fare equipment, retail and advertising layouts, security, sanitation and maintenance access. Platform and station access standards must be checked against the final six car envelope and passenger demand. Equipment and architecture references do not establish installed compliance.
 
-The current USD 8m depot allowance remains unreconciled to physical stabling, workshops, power, fire and security. Workshop bays cannot be counted as overnight train parking. The current policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay remain open. The depot and stabling appendices retain these failures explicitly.
+The original USD 8m depot allowance is replaced by workload-based depot packages in the integrated sensitivity described below. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The reference policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
+
+## Manufactured viaduct alternatives and installed cost
+
+The [manufactured-viaduct comparison](../engineering/viaduct-comparison/README.md) covers Pi20 and Pi25 with two bearing/connection schemes, plus an OSR-US constrained-access option. Baghdad's infrastructure load seed now explicitly requires the complete 24-axle, 111 m six-car train, with supplier axle positions and loaded distribution still unresolved. A link slab retains independent girder-end bearings; shared bearings require a checked structural continuity connection and staged load path.
+
+Every one of the {len(manufactured_viaduct['alignment_segments'])} elevated segments, including {manufactured_viaduct['special_segment_count']} exceptional segments, has a comparison record. The original elevated model separates USD {manufactured_viaduct['standard_rate_allowance_usd']/1e9:.3f}bn standard-rate allowance from USD {manufactured_viaduct['routing_penalty_usd']/1e9:.3f}bn routing penalties. Penalties discourage difficult routing; they are not supplier-priced structures or savings available merely by deletion. Realignment, station movements, ground/utility investigations and installed whole-life alternatives remain unaccepted.
+
+Retaining simple-span bearings changes the existing periodic cost index from USD {manufactured_viaduct['bearing_index_sensitivity']['current_conditional_rate_usd_per_km']/1e6:.3f}m/km to USD {manufactured_viaduct['bearing_index_sensitivity']['simple_span_link_slab_rate_usd_per_km']/1e6:.3f}m/km. The USD {manufactured_viaduct['bearing_index_sensitivity']['direct_network_delta_usd']/1e6:.3f}m uniform whole-elevated-network difference is an unadopted rate illustration; Pi bearing quantities are not transferred to OSR-US/special designs. The lower existing rate remains conditional on an unaccepted structural scheme.
+
+The separate financed sensitivity applies only to {manufactured_viaduct['bearing_index_sensitivity']['financed_pi25_only_length_m']/1000:.3f} km of standard Pi25, adding USD {manufactured_viaduct['bearing_index_sensitivity']['financed_pi25_only_direct_delta_usd']/1e6:.3f}m direct and incremental EPC once. It gives USD {manufactured_viaduct['bearing_sensitivity_finance_metrics']['total_capital_usd']/1e9:.3f}bn capital and IQD {manufactured_viaduct['bearing_sensitivity_finance_metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt, with monthly/six-month financing recalculated under the same 25% government and USD/IQD rules. Existing civil invoice dates and origin proportions are inherited assumptions. Connection, finite end effects, foundations, actual import eligibility and other consequential costs remain unpriced; the original full-fleet case is preserved as a comparator.
+
+Finite supports, unknown foundation lengths, complete member/hook mass gates, configured erection bids, per-item invoice currencies and eight production fronts are included in the supporting data. Installed-price totals remain unknown while scope is unpriced. Accepted complete double-track bays/week, first beam/pier/connection trials and independent design release must precede programme and budget selection. No literature savings or 30 m product is assumed.
 
 ## Energy and desert operation
 
@@ -651,6 +674,9 @@ def source_inputs():
     closure=read_json(CITY/'engineering/delivery-closure/summary.json')
     paths.update(ROOT/relative for relative in closure['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/delivery-closure').glob('*') if p.is_file())
+    viaduct=read_json(CITY/'engineering/viaduct-comparison/summary.json')
+    paths.update(ROOT/relative for relative in viaduct['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/viaduct-comparison').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())

@@ -34,7 +34,11 @@ and independent-check releases.
 ## Actions and design situations
 
 Use the deployment country's adopted standards and combinations. The design
-must include the complete 12-axle train, a 16 t infrastructure axle allowance,
+must include the complete deployment train: the LM3 reference has 12 axles;
+Baghdad's six-car baseline has **24 axles**. Its supplier axle positions and
+loaded axle distribution must be frozen before moving-load analysis. A 16 t
+infrastructure axle allowance does not replace the full consist loading pattern.
+Also include
 dynamic amplification, braking, traction, nosing, centrifugal force, wind on
 empty and loaded trains, derailment/containment, collision, maintenance and
 rescue vehicles, temperature, creep, shrinkage, fatigue, seismic/foundation
@@ -54,10 +58,13 @@ licensed bridge and geotechnical engineers.
 - A straight 25 m full-span unit is preferred at radii of about 300 m or more.
 - Below about 300 m, use Pi20, OSR-US, a shorter verified product, an I-girder deck,
   or realign. A 90 m system curve is exceptional elevated geometry.
-- Four normal spans form one semi-continuous unit. Internal piers carry four
-  bearings in one line; expansion-unit boundaries carry eight in two lines;
-  end supports carry four. Link slabs/diaphragms, CWR interaction, temperature,
-  braking, seismic and foundation flexibility require project analysis.
+- Four normal spans may form a semi-continuous unit. Four bearings at internal
+  piers require a checked **structural continuity connection** and its staged
+  load path. A link slab joining simply supported decks retains eight bearings
+  at internal piers; eliminating a deck joint does not eliminate bearing lines.
+  Both configurations have four bearings at end supports. Price both using the
+  [bearing schedule](viaduct-bearing-and-movement-schedule.md), including
+  connection, CWR, temperature, braking, seismic and foundation effects.
 - Parapet/containment height is measured above the finished escape walkway,
   not above the structural soffit or pre-track floor.
 - The trackform is local direct-fixation plinths over the waterproofed

@@ -12,7 +12,8 @@ CONTINUITY_RELEASE_GATES = (
     "temperature and shrinkage movement analysis",
     "seismic restraint and displacement analysis",
     "foundation-flexibility and soil-structure interaction analysis",
-    "link-slab or diaphragm fatigue and waterproofing detail",
+    "selected connection fatigue and waterproofing detail",
+    "structural continuity load path and construction stages where bearings are shared",
 )
 
 
@@ -30,6 +31,8 @@ class SemiContinuousUnitPlan:
     expansion_support_bearings: int
     maximum_unit_length_m: float
     release_gates: tuple[str, ...]
+    connection_scheme: str
+    structural_continuity_accepted: bool = False
 
 
 def semi_continuous_unit_plan(
@@ -39,10 +42,13 @@ def semi_continuous_unit_plan(
     unit_spans: int = 4,
     tracks: int = 2,
     webs_per_beam: int = 2,
+    connection_scheme: str = "structural-continuity",
 ) -> SemiContinuousUnitPlan:
     """Group transportable beams into short units and count their interfaces.
 
-    Each erected unit has one bearing line at each support. Adjacent units keep
+    The structural-continuity option has one bearing line at internal supports.
+    Simple spans with link slabs retain two independent girder-end lines.
+    Adjacent units keep
     independent bearing lines at their shared expansion support, which is why
     a four-span, twin-track kilometre has 200 bearings rather than 164.
     """
@@ -55,13 +61,15 @@ def semi_continuous_unit_plan(
         raise ValueError("semi-continuous units must contain four or five spans")
     if tracks < 1 or webs_per_beam < 1:
         raise ValueError("tracks and webs per beam must be positive")
+    if connection_scheme not in {"structural-continuity", "simple-span-link-slab"}:
+        raise ValueError("unknown connection scheme")
 
     spans = math.ceil(route_length_m / span_m)
     units = math.ceil(spans / unit_spans)
     bearings_per_line = tracks * webs_per_beam
     # Every unit owns a bearing line at both ends. At a unit boundary the two
     # lines remain separate so that the expansion joint can move.
-    bearings = (spans + units) * bearings_per_line
+    bearings = ((spans + units) if connection_scheme == "structural-continuity" else 2 * spans) * bearings_per_line
     link_slabs = spans - units
     return SemiContinuousUnitPlan(
         route_length_m=route_length_m,
@@ -72,10 +80,11 @@ def semi_continuous_unit_plan(
         link_slabs=link_slabs,
         deck_gaps=units,
         bearings=bearings,
-        internal_support_bearings=bearings_per_line,
+        internal_support_bearings=bearings_per_line if connection_scheme == "structural-continuity" else 2 * bearings_per_line,
         expansion_support_bearings=bearings_per_line * 2,
         maximum_unit_length_m=span_m * unit_spans,
         release_gates=CONTINUITY_RELEASE_GATES,
+        connection_scheme=connection_scheme,
     )
 
 

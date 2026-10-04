@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5065**.
+Indexed Markdown files: **5067**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5065**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4367 |
+| [cities](#cities) | 4368 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 188 |
+| [docs](#docs) | 189 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -3458,6 +3458,7 @@ Indexed Markdown files: **5065**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/route-station-fit-readiness.md) | Baghdad route and station fit gate |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/structural-release-readiness.md) | Baghdad structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md) | Baghdad surveyed-alignment gate |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-comparison/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-comparison/README.md) | Baghdad manufactured-viaduct comparison |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md) | Baghdad retained under-viaduct rental portfolio — 2026-10-04 |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md) | OpenSourceRail Baghdad — concept and FEED offer |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md) | Baghdad Acceptance And Accreditation Evidence Basis |
@@ -4927,6 +4928,7 @@ Indexed Markdown files: **5065**.
 | [`docs/baghdad-ci-controls-review-2026-10-04.md`](../docs/baghdad-ci-controls-review-2026-10-04.md) | Baghdad review follow-up: controls, CI and deliverable-service sensitivity |
 | [`docs/baghdad-continuation-review-2026-10-04.md`](../docs/baghdad-continuation-review-2026-10-04.md) | Baghdad continuation: physical packages and revised financial conclusion |
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
+| [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |

@@ -14,10 +14,16 @@ applicable evidence.
 | Trial lift and transport | Certified portal/launcher or actual crane load chart, rigging, radius, wind and ground-pressure release, load test where required, strain/deflection observations, transporter trial and route clearance |
 | Cap/column connection | Reinforcement and connection record, geometry, bearing-seat survey, grout/concrete acceptance, jacking interface |
 | First erected bay | Bearing identity/orientation, role-selected one/two-row survey, reactions/level, girder geometry, gaps, stability, diaphragm/end-zone inspection |
-| First semi-continuous unit | Four-span staged analysis correlation, link-slab/diaphragm cage and closure record, maturity/grout release, waterproofing, fatigue detail, CWR/braking/temperature/seismic/foundation-flexibility closure |
+| First selected connection unit | Four-span staged analysis correlation; distinguish structural continuity/shared bearings from simple spans/link slab; cage and closure record, maturity/grout release, waterproofing, fatigue detail, CWR/braking/temperature/seismic/foundation-flexibility closure |
 | Track and egress | Waterproofing, local plinth geometry, fastener proof/torque, drainage flow, 1.0 m clear walkway, 1.4 m containment datum, gap covers, earthing |
 | Structural acceptance | Correlated analysis; static/dynamic proof test if required by the design basis; residual deflection/cracking criteria; independent-check closure |
 
 Nonconformities require disposition, repaired-item acceptance, root-cause
 review, and demonstrated recurrence controls before the production hold point
 is released.
+
+Record the complete double-track bay cycle: accepted foundations and caps,
+casting/strength release, transport, both track beams or all segments, closures,
+survey and tolerance corrections, waterproofing, track/egress and acceptance.
+Include crew/equipment hours, curing delays, rejects/rework, stock buffers and
+traffic possessions. Beam lifts per day alone cannot validate the programme.

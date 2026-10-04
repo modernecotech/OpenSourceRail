@@ -40,7 +40,7 @@
   },
   "trainset_assembly_graph": {
     "source": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
-    "source_sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05",
+    "source_sha256": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "representation_basis": "one animated object per controlled product row and assembly node; quantity metadata preserves repeated occurrences",
     "product_rows": [
       {
@@ -2829,11 +2829,11 @@
           "predecessor": "VIA-50",
           "inputs": [
             "surveyed adjacent Pi spans",
-            "released link-slab or diaphragm cage",
+            "released structural continuity cage and load path",
             "small closure or grouted-socket materials"
           ],
           "output": "four-span unit structurally connected at internal support",
-          "qa_hold": "CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
+          "qa_hold": "staged shared-bearing load path, CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
           "evidence": [
             "connection traveller",
             "rebar and cover record",
@@ -3278,40 +3278,40 @@
   },
   "source_register": {
     "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json": {
-      "bytes": 274336,
-      "sha256": "f90e31c14898bb0530a317f80c6315bbb679a66c43ead91c287ac873895c2fd7"
+      "bytes": 274880,
+      "sha256": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf"
     },
     "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
-      "bytes": 123865,
-      "sha256": "1179a30e147f3569fc4ccc8ce621621cec7985f620d2c788f8da93eec9ed7c05"
+      "bytes": 124288,
+      "sha256": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703"
     },
     "design/component-catalogue/src/osr_mech/civil/construction.py": {
       "bytes": 5197,
       "sha256": "cf04a7ce7e25bc610685735b74414ed5620e0f21c7d8c83c9bd58158d68b719f"
     },
     "design/component-catalogue/src/osr_mech/civil/viaduct.py": {
-      "bytes": 6700,
-      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298"
+      "bytes": 7066,
+      "sha256": "74baaeb0eba06bd145f7366010084423a15304b059307c641a023d269b7305aa"
     },
     "design/component-catalogue/src/osr_mech/track/panel.py": {
       "bytes": 3061,
       "sha256": "1d1a606fc6b585d868da5a23854681b34b8620b89e7344c2ad913811115fa5b3"
     },
     "docs/civil/slab-trackforms.md": {
-      "bytes": 5853,
-      "sha256": "d6fa05da76cc65d1f82ac956aee26873d6954eb6e90261c87caa78117fa7a33a"
+      "bytes": 7073,
+      "sha256": "4cfc64546779d623579038a389946c6edec76f40bf31ffd9b6e225932b91b1da"
     },
     "docs/civil/viaduct-design-basis.md": {
-      "bytes": 4598,
-      "sha256": "c86cb7e5596b3621dcfb226fa9c40ec61d3ee2d0639ad1f86b252fd88b4f9517"
+      "bytes": 5079,
+      "sha256": "33638bb845294391038fc6db7a5747c89360e8d77d83604a7262237ca884aa18"
     },
     "docs/civil/viaduct-first-article-test-plan.md": {
-      "bytes": 2156,
-      "sha256": "379197f43d9621dbcd908f872146157f32d8801b5ec76715d33120bd20553057"
+      "bytes": 2610,
+      "sha256": "e7178d1a9178f9caade76a6995eabc3c0be6b2b8336d3fe8e8ae88bffca85e61"
     },
     "docs/civil/viaduct-transport-and-erection-envelope.md": {
-      "bytes": 1712,
-      "sha256": "8a61c7d6063e6787e0dcf668fe8ea01b72e5e90f0860f65fb7fa44c1fd8513e1"
+      "bytes": 2752,
+      "sha256": "e72c99ec215033681a889e12934a5754cc041d9009e9ef30a184e358ebb00f44"
     },
     "docs/rfcs/0010-station-design-standard.md": {
       "bytes": 24058,
@@ -3322,16 +3322,16 @@
       "sha256": "4ec37b586a5ed7831bbacfd750bbcd5dc6fc61684b924ddab3d3cc8d779a7dba"
     },
     "lib/templates/civil-construction-systems.toml": {
-      "bytes": 2903,
-      "sha256": "865f179f8fd8e7a42b61d02e6d38a3ab2d4aff67f16a15c3af752019eef9d17c"
+      "bytes": 3085,
+      "sha256": "81880e0bd4e711d62c334bd87f44f386f87ceff05f7c4a54e2964dc29c000b15"
     },
     "lib/templates/foundation-catalog.toml": {
       "bytes": 5534,
       "sha256": "674a98c42719573830ffb3fdecd5f65b3a427fb92961d278c42ee2f37aad3939"
     },
     "lib/templates/manufacturing-schedule.toml": {
-      "bytes": 30699,
-      "sha256": "bd32b9d9332e252a283c9df3a21f658f2ff0e2d6cc7edd18a872377b9d9c496a"
+      "bytes": 31094,
+      "sha256": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa"
     },
     "lib/templates/stations.toml": {
       "bytes": 4601,

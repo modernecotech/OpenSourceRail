@@ -19,7 +19,9 @@ These are interface and quantity envelopes, not stamped foundations.
 Assembly sequence: release survey/geotechnics and temporary works; construct
 the foundation; cast or erect the column and cap; install and survey the
 role-selected bearing line(s); lift the paired Pi-beams; then complete the
-released diaphragm or link-slab connection after the erection hold point closes.
+selected connection after the erection hold point closes. Structural continuity
+must establish the shared-bearing load path; a simple-span link slab retains two
+girder-end bearing lines. Catalogue pier geometry and BOMs support both schemes.
 
 ## Abutment EBOM
 

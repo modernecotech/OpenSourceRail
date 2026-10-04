@@ -143,18 +143,22 @@ def viaduct_pier(
     foundation: str = "interface-only",
     actual_foundation_length_m: float | None = None,
     continuity_role: str = "internal",
+    connection_scheme: str = "structural-continuity",
 ) -> Compound:
     """Shared pier for a short semi-continuous unit.
 
     Foundation selection comes from a geotechnical zone. Deep-element length
-    is never inferred from this CAD interface. Internal link-slab/diaphragm
-    supports use one bearing line; expansion-unit boundaries keep two.
+    is never inferred from this CAD interface. Shared internal bearing lines
+    require structural continuity. Simple spans with link slabs and expansion
+    boundaries retain two lines.
     """
 
     if not PIER_MIN_HEIGHT_M <= height_m <= PIER_MAX_HEIGHT_M:
         raise ValueError(f"pier height {height_m:g} m outside {PIER_MIN_HEIGHT_M:g}..{PIER_MAX_HEIGHT_M:g} m catalogue")
     if continuity_role not in {"internal", "expansion"}:
         raise ValueError("continuity role must be 'internal' or 'expansion'")
+    if connection_scheme not in {"structural-continuity", "simple-span-link-slab"}:
+        raise ValueError("unknown connection scheme")
     height_mm = height_m * 1000.0
     concrete = Color(0.70, 0.70, 0.68)
     parts = [
@@ -166,7 +170,7 @@ def viaduct_pier(
     parts.extend(
         _bearing_parts(
             height_mm + PIER_CAP_HEIGHT_MM,
-            double_bearing_line=continuity_role == "expansion",
+            double_bearing_line=continuity_role == "expansion" or connection_scheme == "simple-span-link-slab",
         )
     )
     return Compound(
@@ -200,13 +204,17 @@ def pier_bom(
     height_m: float = 8.0,
     foundation: str = "interface-only",
     continuity_role: str = "internal",
+    connection_scheme: str = "structural-continuity",
 ) -> tuple[CivilKitItem, ...]:
     if not PIER_MIN_HEIGHT_M <= height_m <= PIER_MAX_HEIGHT_M:
         raise ValueError("pier height outside catalogue")
     if continuity_role not in {"internal", "expansion"}:
         raise ValueError("continuity role must be 'internal' or 'expansion'")
-    bearing_count = 4 if continuity_role == "internal" else 8
-    bearing_lines = "one longitudinal line" if continuity_role == "internal" else "two longitudinal lines"
+    if connection_scheme not in {"structural-continuity", "simple-span-link-slab"}:
+        raise ValueError("unknown connection scheme")
+    double = continuity_role == "expansion" or connection_scheme == "simple-span-link-slab"
+    bearing_count = 8 if double else 4
+    bearing_lines = "two longitudinal lines" if double else "one longitudinal line"
     return (
         CivilKitItem("CIV-PIER-P010", f"{foundation} selected foundation interface", 1, "foundation set", "site geotechnical zone, actual length/cost, and foundation test release"),
         CivilKitItem("CIV-PIER-P020", "1.5 m × 2.0 m reinforced-concrete pier column", height_m, "vertical m", "reinforcement/seismic/collision calculation"),
@@ -232,9 +240,9 @@ PIER_ASSEMBLY_INSTRUCTIONS = (
     "release survey, utilities, geotechnical model, pile/foundation design, and temporary works",
     "select from the soil/access foundation catalogue, record actual lengths/costs, construct and test the released foundation",
     "cast/erect the standard column and precast cap; complete reinforcement, concrete, and dimensional records",
-    "install four internal-support bearings in one line, or eight at an expansion-unit boundary, and survey level, spacing, orientation, and movement axes",
-    "after span erection, complete the released reinforced diaphragm or link-slab continuity connection",
+    "install four shared bearings only for the released structural-continuity scheme; use eight for simple spans/link slabs or an expansion boundary; survey level, spacing, orientation, and movement axes",
     "erect the two single-track decked pi-beams only after substructure and lifting hold points close",
+    "after span erection, complete the selected structural connection or link slab to its released staged method; a link slab cannot release a shared-bearing load path",
 )
 
 ABUTMENT_ASSEMBLY_INSTRUCTIONS = (

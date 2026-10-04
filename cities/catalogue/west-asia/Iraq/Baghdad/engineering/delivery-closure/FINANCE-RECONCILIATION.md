@@ -11,6 +11,7 @@ These executable sensitivities preserve the original reference, then replace the
 | opening_fleet_supply_scaled | 7.420 | 1.855 | 13.000 | 6.525 | None | -4.978 |
 | contracted_solar | 7.245 | 1.811 | 13.000 | 2.862 | None | -4.759 |
 | installed_energy_supply_bound | 8.060 | 2.015 | 13.000 | 2.787 | None | -5.109 |
+| simple_span_bearing_index | 8.076 | 2.019 | 11.398 | 0.000 | None | -4.704 |
 
 The fixed-government case retains the original absolute government contribution and reallocates its USD downpayment within that ceiling. Other cases use 25% of their own capital; increased appropriation is not committed. In every case imports are funded 50% government USD/50% proposed Chinese USD credit; ordinary/green bonds, bank and gap credit remain IQD. All debt/reserve/buffer/principal/cash residuals reconcile. **Six-month bond units are placement requirements, not subscriptions.** Climate/rights/additional local income remain uncommitted in conditional cases; the dedicated case removes all these targets and green pricing benefits.
 
@@ -19,6 +20,8 @@ Opening-fleet procurement follows the 450-train supply case with 382 gross defer
 [Summary and source-bound cases](finance-summary.json) include full monthly native-currency ledgers, six-month bond/loan sale and repayment schedules, fees, grace, early principal, buffers and terminal debt/cash. Only genuine surplus after all obligations and buffers can fund contractual voluntary repayment; uncovered support cannot fund it. No new public subsidy or tariff adoption is claimed. Baseline fares and OPEX retain 5% growth and the existing elasticity/income assumptions.
 
 [Opening factory replay](opening-factory-replay.json) manufactures exactly 450 planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX and civil opening dates are retained, so no earlier income or cheaper plant is invented. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.
+
+The `simple_span_bearing_index` sensitivity removes the bearing reduction only from existing standard Pi25 length, then adds the declared incremental EPC once. It inherits original civil invoice dates and procurement-origin proportions as assumptions, keeps government at 25%, splits assumed imports 50% USD government cash / 50% Chinese USD credit, and retains all other funding in IQD. Monthly/six-month ledgers, interest, fees, reserves and early repayment are recalculated. This is an unquoted index counterfactual, not a bearing supplier offer; finite end effects, connection costs, actual import eligibility and consequential foundations remain unpriced. OSR-US and special segments do not inherit Pi25 bearing quantities.
 
 
 ## Fare/demand/affordability sensitivities

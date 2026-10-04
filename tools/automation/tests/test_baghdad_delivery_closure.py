@@ -86,7 +86,17 @@ def test_all_maintenance_intervals_and_startup_deficit_keep_evidence_open():
     assert row['additional_train_reference_capital_usd']==6*1680000
     assert row['selected_start_station_ids'] is None and not row['operational_release']
 
-@pytest.mark.parametrize('name',['reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound'])
+def test_simple_span_bearing_cash_adds_pi25_delta_and_epc_once():
+    case=read('finance-simple_span_bearing_index');full=read('finance-reconciled_full_fleet')
+    direct=sum(r['budget_usd'] for r in case['bearing_index_delta_contracts'])
+    assert direct==pytest.approx(15084180)
+    assert case['metrics']['total_capital_usd']-full['metrics']['total_capital_usd']==pytest.approx(direct*1.07)
+    assert case['metrics']['terminal_supplemental_balance_iqd']>full['metrics']['terminal_supplemental_balance_iqd']
+    assert all(not r['actual_bearing_origin_and_dates_accepted'] for r in case['bearing_index_delta_contracts'])
+    assert case['metrics']['government_capital_share']==pytest.approx(.25)
+
+
+@pytest.mark.parametrize('name',['reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound','simple_span_bearing_index'])
 def test_finance_cases_reconcile_native_capital_principal_cash_and_tranches(name):
     case=read('finance-'+name);rows=case['monthly'];totals=defaultdict_float()
     previous={k:0 for k in ('chinese_export_credit','domestic_bonds','bank_credit','green_bonds')}

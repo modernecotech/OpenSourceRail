@@ -32,6 +32,15 @@ def test_90_m_curve_rejects_25_m_straight_full_span() -> None:
     assert straight_span_chord_offset_m(25.0, 90.0) == pytest.approx(0.8723, rel=1e-3)
 
 
+def test_link_slab_requires_independent_girder_end_bearings() -> None:
+    assert required_interior_bearing_count(2, connection_scheme="simple-span-link-slab") == 8
+    with pytest.raises(ValueError, match="bearing count"):
+        assert_viaduct_envelope(ViaductEnvelopeCheck(connection_scheme="simple-span-link-slab"))
+    assert_viaduct_envelope(ViaductEnvelopeCheck(connection_scheme="simple-span-link-slab", interior_bearing_count=8))
+    with pytest.raises(ValueError, match="connection scheme"):
+        required_interior_bearing_count(connection_scheme="unqualified")
+
+
 @pytest.mark.parametrize(
     ("overrides", "message"),
     [
@@ -74,6 +83,19 @@ def test_machine_readable_viaduct_packages_parse_and_control_axle_train() -> Non
     assert loads["reference_train"]["axles"] == 12
     assert len(loads["reference_train"]["axle_positions_m"]) == 12
     assert loads["design_axle_allowance_t"] == 16.0
+    lm3 = tomllib.loads((root / "lib/templates/rolling-stock.toml").read_text())["profiles"]["light-metro-3car"]
+    assert loads["reference_train"]["aw2_mass_t"] == lm3["tare_mass_t"] + lm3["passenger_capacity"] * 0.075
+    assert loads["reference_train"]["aw3_mass_t"] == lm3["tare_mass_t"] + lm3["crush_capacity"] * 0.075
+    assert not loads["reference_train"]["structural_release"]
+    sixcar = loads["deployment_trains"]["metro-6car"]
+    profile = tomllib.loads((root / "lib/templates/rolling-stock.toml").read_text())["profiles"]["metro-6car"]
+    assert sixcar["cars"] == profile["cars"] == 6
+    assert sixcar["axles"] == profile["cars"] * 4 == 24
+    assert sixcar["length_m"] == profile["length_m"]
+    assert sixcar["tare_mass_t"] == profile["tare_mass_t"]
+    assert sixcar["aw3_mass_t"] == profile["tare_mass_t"] + profile["crush_capacity"] * 0.075
+    assert sixcar["infrastructure_full_train_allowance_t"] == 24 * loads["design_axle_allowance_t"]
+    assert sixcar["axle_positions_m"] == [] and not sixcar["structural_release"]
     assert costs["geometry"]["single_track_girders_per_route_km"] == 80
     bare_m3_per_km = section_area_m2() * 2.0 * 1_000.0
     trackform_m3_per_km = (

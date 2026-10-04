@@ -36,6 +36,14 @@ user inspect or build the system. Reproducible scratch output still belongs in
   outage, and single-pad outage cases.
 - One compact high-throughput architecture reference, Basra (`metro-6car`),
   adding a map and README without duplicating the complete acceptance bundles.
+- Baghdad's complete planning proposal, supporting-data archive, source/output
+  manifests and compact engineering/finance studies, including the manufactured
+  viaduct comparison. Each tracked file remains below 50 MiB. The supporting
+  archive preserves hash-bound ignored inputs for the clean-checkout bootstrap;
+  it is not field acceptance or an independent source of revised assumptions.
+  Current generated studies, explicitly superseded reviews and diagnostic
+  sensitivities retain distinct labels; historical prices and returns do not
+  describe a later scope.
 - The Samawah OSR-ALN fixture used by converter tests.
 - Compact FreeCAD and Blender review assemblies, including the LM3 selectable
   manufacturing-tool set; the named civil and LM3-manufacturing IFC4.3 review
@@ -49,8 +57,9 @@ user inspect or build the system. Reproducible scratch output still belongs in
 
 - Rust/Python build products, logs, caches, temporary data, and screenshots
   that are not part of the stable documentation review set.
-- Complete generated city engineering and operations packages except the
-  named Mosul and Samawah acceptance references.
+- High-volume generated city engineering and operations inputs except the
+  named Mosul/Samawah acceptance payloads and Baghdad's hash-bound supporting
+  archive. Baghdad's extracted ignored inputs remain local after bootstrap.
 - Generated BOM exports, simulation traces, release-only brochures, unnamed or
   repeated videos, CAD/BIM job outputs, and other release binaries.
 - Files that only preserve an obsolete schema, chemistry, voltage, or API name.

@@ -9,7 +9,9 @@ expansion_unit_spans = 4
 permitted_expansion_unit_spans = [4, 5]
 maximum_lift_mass_t = 75
 maximum_shipping_width_m = 3.0
-continuity = "pier_diaphragm_or_link_slab"
+continuity = "structural_connection_required_for_shared_bearing_line"
+simple_span_link_slab_internal_support_bearing_lines = 2
+shared_bearing_arrangement_accepted = false
 internal_support_bearing_lines = 1
 expansion_support_bearing_lines = 2
 full_span_u_girder = "special_only"
@@ -19,7 +21,8 @@ release_gates = [
   "braking_and_temperature",
   "seismic_movement",
   "foundation_flexibility",
-  "link_slab_or_diaphragm_fatigue",
+  "structural_connection_load_path_and_stages",
+  "connection_fatigue_and_waterproofing",
 ]
 
 [approaches]

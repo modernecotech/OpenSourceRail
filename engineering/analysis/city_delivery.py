@@ -97,12 +97,12 @@ def refinement(design, scenario, climate, soil, *, span_m=25.0, unit_spans=4):
         scenario_ambient_c=scenario.get('climate', {}).get('ambient_c'),
         thermal_basis='Free movement alpha*L*deltaT. 8/10/12 microstrain/K are declared sensitivity cases, not measured concrete properties. Reference is the preset annual mean, not installation temperature; sunlit component temperatures and gradients require separate inputs.',
         elevated_segments=segments,
-        civil_quantity_basis=f'Each elevated segment is separate; {span_m:g} m catalogue span, up to {unit_spans} spans/unit from the shared production/continuity templates, two tracks and two webs. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.',
+        civil_quantity_basis=f'Each elevated segment is separate; {span_m:g} m catalogue span, up to {unit_spans} spans/unit from the shared production/continuity templates, two tracks and two webs. Shared bearings require an unaccepted structural continuity connection; a simple-span link slab retains independent girder-end bearings. Rounded spans are a procurement screen, not surveyed support positions. Deck gaps count the existing catalogue unit interfaces; abutment details remain separate.',
         cold_temperature_missing=cold is None,
         soil_investigation_flags=soil['investigation_flag_counts'], missing_soil_profiles=soil['missing_profile_count'],
         soil_use='Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.',
         interface_release_inputs={
-            'civil_movement':['component temperature extremes and erection temperature','measured concrete CTE/shrinkage/creep','bearing restraint, rail interaction, seismic and foundation movement','surveyed supports and abutment movement details'],
+            'civil_movement':['complete deployment train axle positions and loaded distribution','component temperature extremes and erection temperature','measured concrete CTE/shrinkage/creep','selected connection load path, construction stages and bearing restraint','rail interaction, seismic and foundation movement','surveyed supports and abutment movement details'],
             'fasteners':['joint loads and fatigue spectrum','fastener grade and proof load','actual finish/lubrication torque-tension trial','preload loss, slip/separation, bearing and thread checks'],
             'seals':['supplier qualified compression range and ageing','actual thickness, land gap and tolerances','module thermal mismatch and vibration','water-ingress test after assembly and cleaning'],
             'finishes':['local exposure and substrate preparation qualification','approved product system and batch TDS limits','DFT/adhesion/cure and fire/UV/wash qualification','masking, repair and inspection records'],
@@ -182,7 +182,7 @@ def generate(city):
         lines.append(f"| {c['work_center']} | {c['peak_concurrent_resources'] if c['peak_concurrent_resources'] is not None else 'unknown'} | {c['peak_concurrent_task_slots']} | {c['peak_day']} | {c['resource_days'] if c['resource_days'] is not None else 'unknown'} | {'; '.join(c['required_skills'])} / {', '.join(c['package_ids'])} |")
     lines += ['', '## Civil and mechanical refinements', '',
         f"Climate: {detail['climate_preset']}; {climate['ambient_c_average']} °C reference, {climate['ambient_c_design']} °C upper ambient. Cold ambient: {climate.get('ambient_c_min','missing')}.", '',detail['thermal_basis'],'',detail['civil_quantity_basis'],'',
-        '| Elevated segment | Longest unit m | Bearings | Link slabs | Hot movement mm at 8 / 10 / 12 µstrain/K |', '|---|---:|---:|---:|---|']
+        '| Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |', '|---|---:|---:|---:|---|']
     for s in detail['elevated_segments']:
         lines.append(f"| {s['line']} {s['from_chainage_m']}–{s['to_chainage_m']} m | {s['longest_planned_unit_m']} | {s['plan']['bearings']} | {s['plan']['link_slabs']} | {' / '.join(str(v) for v in s['hot_movement_sensitivity_mm'].values())} |")
     if not detail['elevated_segments']: lines.append('| No elevated segments in this design | — | — | — | — |')

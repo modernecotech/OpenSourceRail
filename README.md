@@ -1,12 +1,12 @@
 # OpenSourceRail
 
+**nobody should be priced out of dignity**
+
 ## Give your city a railway it can own
 
 OpenSourceRail is an open urban-rail reference platform for countries that want to retain design authority, software, fabrication, integration, operations and maintenance capability in-country. It connects city planning, GIS, CAD/IFC, simulation, project controls, local manufacturing, ERP, equipment supervision and assurance around the same city, asset and engineering-revision identities.
 
 This is not only a route visualizer, a train model or an operations dashboard. It is a reproducible **city → design → build → operate** workflow with source data, generators, applications, engineering models and verification evidence in one public repository.
-
-This root README is the only human-facing front door; generated inventories are reference indexes, not a second navigation hierarchy.
 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
@@ -186,7 +186,7 @@ Open <http://127.0.0.1:8090/>. The local server is not an authenticated public d
 | A rolling-stock, supplier or manufacturing engineer | [LM3 reference](docs/rolling-stock/light-metro-3car/README.md), [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md), [supplier technical-support package](docs/commercial/supplier-technical-support-package.md), [CAD models](design/component-catalogue/models/cad/README.md) and [factory readiness](design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) |
 | An operator or maintainer | [Operations](docs/operations/README.md), [Workbench](docs/workbench/README.md), [connected lifecycle](docs/lifecycle/README.md) and [example-city deployment](deployment/example-city/README.md) |
 | An ERP/SCADA integrator | [Operating platform](docs/operating/README.md), [ERPNext setup](deployment/erpnext/README.md), [supervision gateway](deployment/supervision/README.md) and [embedded contract](docs/lifecycle/embedded-integration.md) |
-| A software or assurance reviewer | [Rust workspace](crates/README.md), [software architecture](docs/software-architecture-diagrams.md), [formal results](engineering/assurance/formal/results/README.md), [safety case](docs/safety-case/README.md), [assurance/authorization framework](docs/certification/README.md), [latest Baghdad controls and financial review](docs/baghdad-ci-controls-review-2026-10-04.md) and [historical codebase review](docs/codebase-and-iraq-review-2026-10-03.md) |
+| A software or assurance reviewer | [Rust workspace](crates/README.md), [software architecture](docs/software-architecture-diagrams.md), [formal results](engineering/assurance/formal/results/README.md), [safety case](docs/safety-case/README.md), [assurance/authorization framework](docs/certification/README.md), [latest Baghdad civil review](docs/baghdad-manufactured-viaduct-review-2026-10-04.md), [controls and financial review](docs/baghdad-ci-controls-review-2026-10-04.md) and [historical codebase review](docs/codebase-and-iraq-review-2026-10-03.md) |
 | A public owner, funder or delivery partner | [latest Baghdad cost/funding continuation](cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/README.md), [Baghdad-only reference funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md), [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md), [owner–builder–operator plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md), [JV/development framework](docs/commercial/joint-development-framework.md), [partnership status](docs/commercial/partnership-readiness.md) and [supplier-support status](docs/commercial/supplier-technical-support-readiness.md) |
 | A contributor | [Contributing guide](CONTRIBUTING.md), [governance](GOVERNANCE.md), [change log](CHANGELOG.md) and [release checklist](docs/releases.md) |
 
@@ -194,7 +194,7 @@ Open <http://127.0.0.1:8090/>. The local server is not an authenticated public d
 
 **Source-locked inputs → validated candidate and deterministic generators → content-addressed Git-reviewable revision → GIS/OSR-ALN/CAD/IFC/cost/simulation/project-twin outputs → independent evidence, named approval and operational baseline.**
 
-A hash proves which bytes were reviewed; it does not approve them. Generated city packages still require survey, calibrated demand, utility and ground data, supplier qualification, first-article manufacture and testing, competent engineering review and national authorization.
+This root README is the only human-facing front door. A hash proves which bytes were reviewed; it does not approve them. Generated city packages still require survey, calibrated demand, utility and ground data, supplier qualification, first-article manufacture and testing, competent engineering review and national authorization.
 
 The principal editable sources are:
 

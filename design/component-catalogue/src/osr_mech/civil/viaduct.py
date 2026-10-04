@@ -48,12 +48,14 @@ def straight_span_chord_offset_m(span_m: float, radius_m: float) -> float:
     return radius_m - math.sqrt(radius_m * radius_m - (span_m / 2.0) ** 2)
 
 
-def required_interior_bearing_count(tracks: int = 2) -> int:
-    """One bearing line beneath two continuous web lines per track."""
+def required_interior_bearing_count(tracks: int = 2, *, connection_scheme: str = "structural-continuity") -> int:
+    """Shared bearings require structural continuity; link slabs retain end lines."""
 
     if tracks < 1:
         raise ValueError("tracks must be at least one")
-    return tracks * 2
+    if connection_scheme not in {"structural-continuity", "simple-span-link-slab"}:
+        raise ValueError("unknown connection scheme")
+    return tracks * 2 * (2 if connection_scheme == "simple-span-link-slab" else 1)
 
 
 def required_expansion_support_bearing_count(tracks: int = 2) -> int:
@@ -86,6 +88,7 @@ class ViaductEnvelopeCheck:
     required_parapet_height_mm: float = DEFAULT_PARAPET_HEIGHT_ABOVE_WALKWAY_MM
     tracks: int = 2
     interior_bearing_count: int = 4
+    connection_scheme: str = "structural-continuity"
     transport_mass_kg: float | None = None
     transport_width_mm: float = DECK_WIDTH_MM
     transport_height_mm: float = OVERALL_DEPTH_MM
@@ -124,11 +127,11 @@ def viaduct_envelope_issues(check: ViaductEnvelopeCheck) -> tuple[str, ...]:
                 f"the adjustable fixation/edge allowance {check.maximum_chord_adjustment_mm:.0f} mm"
             )
 
-    required_bearings = required_interior_bearing_count(check.tracks)
+    required_bearings = required_interior_bearing_count(check.tracks, connection_scheme=check.connection_scheme)
     if check.interior_bearing_count < required_bearings:
         issues.append(
             f"interior bearing count {check.interior_bearing_count} is below "
-            f"tracks x two continuous web lines = {required_bearings}"
+            f"required {required_bearings} for {check.connection_scheme}"
         )
     if check.parapet_height_above_walkway_mm < check.required_parapet_height_mm:
         issues.append(
