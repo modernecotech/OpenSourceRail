@@ -97,6 +97,26 @@ def test_manufactured_viaduct_review_and_bearing_cashflow_are_published_together
     assert 'complete 24-axle' in narrative
 
 
+def test_latest_scope_and_every_native_cashflow_are_published():
+    summary=json.loads((CITY/'engineering/programme-recalculation/summary.json').read_text())
+    manifest=data('manifest.json')
+    inputs=set(manifest['inputs'])
+    assert manifest['facts']['programme_recalculation']==summary['finance_cases']
+    assert manifest['facts']['programme_operating_fte']==3762
+    assert manifest['facts']['programme_depot_count']==9
+    assert manifest['facts']['programme_depot_slots']==831
+    assert not manifest['facts']['programme_budget_complete']
+    for case in summary['finance_cases']:
+        for suffix in ('.json','-monthly.csv','-semiannual.csv','-contracts.csv'):
+            assert (CITY/('engineering/programme-recalculation/'+case+suffix)).relative_to(ROOT).as_posix() in inputs
+    assert 'docs/baghdad-scope-and-industrial-review-2026-10-04.md' in data('appendix-sources.json')
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    current=summary['finance_cases']['local_positive']
+    assert f"IQD {current['terminal_all_debt_iqd']/1e12:.3f}tn total debt" in narrative
+    assert f"{current['usd_capital_intensity']:.2%} USD capital intensity" in narrative
+    assert '85 defaulted draw vintages' in narrative
+
+
 def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_scope():
     n = data('national-context.json')
     p = json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())

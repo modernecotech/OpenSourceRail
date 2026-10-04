@@ -1,0 +1,203 @@
+# Controlled planning assumptions; none is a supplier quote or loan offer.
+[model]
+as_of = "2026-10-04"
+iqd_per_usd = 1300.0
+government_capital_share = 0.25
+government_import_share = 0.50
+chinese_import_share = 0.50
+incremental_epc_fraction = 0.07
+scope = "Baghdad; reusable quantity rules, no national borrowing or sales"
+
+[wages]
+median_employee_monthly_iqd = 614000.0
+observation_year = 2021
+planning_year = 2026
+annual_index_assumption = 0.05
+source = "https://www.imf.org/-/media/files/publications/cr/2023/english/1irqea2023002.pdf"
+source_basis = "2021 Labour Force Survey employee earnings, cited in IMF Country Report 23/75; not a 2026 wage observation"
+general_multiplier = 1.50
+technical_multiplier = 2.25
+supervisor_multiplier = 3.00
+senior_multiplier = 4.00
+director_multiplier = 5.00
+employer_cost_fraction = 0.25
+overtime_allowance_fraction = 0.10
+
+[stations]
+staff_per_station = 2
+normal_shifts = 2
+normal_shift_hours = 8.0
+retain_service_hours = true
+late_cover_is_additional_to_two_normal_shifts = true
+
+[depots]
+sites_per_line = 1
+store_full_line_fleet = true
+train_clearance_m = 10.0
+positions_per_track = 3
+track_centres_m = 5.0
+yard_access_multiplier = 1.8
+workshop_bay_width_m = 10.0
+bay_hours_per_train_year = 400.0
+workshop_days_year = 260
+workshop_hours_day = 16.0
+workshop_availability = 0.70
+track_usd_per_m = 250.0
+site_access_track_m = 500.0
+turnout_usd = 50000.0
+drainage_access_usd_per_m2 = 35.0
+workshop_shell_usd_per_m2 = 700.0
+workshop_equipment_usd_per_bay = 150000.0
+workshop_services_usd_per_m2 = 150.0
+yard_lighting_fire_usd_per_site = 250000.0
+landscape_office_stores_m2_per_site = 1200.0
+office_stores_usd_per_m2 = 700.0
+wash_plant_usd_per_site = 1000000.0
+wheel_lathe_usd_per_site = 1500000.0
+isolation_rescue_quarantine_usd_per_site = 600000.0
+depot_maintenance_fraction = 0.025
+import_share = 0.20
+
+[civil_policy]
+minimum_at_grade_fraction = 0.55
+maximum_elevated_fraction = 0.40
+maximum_bridge_fraction = 0.05
+preferred_elevated_radius_m = 300.0
+deck_height_m = 8.5
+maximum_gradient = 0.03
+candidate_approach_min_m = 300.0
+penalty_removal_sensitivities = [0.0, 0.25, 0.50]
+selected_alignment = false
+
+[industry]
+ready_month = 18
+first_article_inside_readiness_months = 2
+working_days_year = 260
+shift_hours = 8
+availability = 0.85
+support_staff_fraction = 0.15
+building_usd_per_m2 = 700.0
+serviced_site_usd_per_m2 = 35.0
+site_floor_multiplier = 2.5
+equipment_import_share = 0.80
+existing_train_assembly_payroll_share = 0.65
+bought_component_import_share = 1.0
+factory_support_staff_fraction = 0.15
+fixed_plant_maintenance_fraction = 0.025
+working_capital_months = 3
+supplier_delay_months = 6
+raw_price_stress_fraction = 0.25
+qualification_usd_per_product = 3000000.0
+
+[[product]]
+id = "bogie"
+parent = "M6-bogie-running-gear"
+per_car = 2
+baseline_unit_usd = 25000.0
+imported_input_usd = 6000.0
+local_material_usd = 7000.0
+person_hours = 80.0
+process_overhead_usd = 1000.0
+crew_per_cell = 4
+cell_floor_m2 = 300.0
+equipment_usd_per_cell = 600000.0
+shared_equipment_usd = 12000000.0
+local_scope = "Frames, welding, machining, assembly and rig testing; wheels, axles, bearings and selected suspension/brake parts remain imported until qualified"
+
+[[product]]
+id = "motor-inverter-set"
+parent = "M6-traction-controls"
+per_car = 2
+baseline_unit_usd = 15000.0
+imported_input_usd = 7000.0
+local_material_usd = 3000.0
+person_hours = 40.0
+process_overhead_usd = 500.0
+crew_per_cell = 3
+cell_floor_m2 = 200.0
+equipment_usd_per_cell = 500000.0
+shared_equipment_usd = 12000000.0
+local_scope = "Motor housing, winding, rotor assembly and testing; inverter, magnets and selected laminations remain imported"
+
+[[product]]
+id = "battery-225kwh-pack"
+parent = "M6-battery-modules"
+per_car = 1
+baseline_unit_usd = 45000.0
+imported_input_usd = 25250.0
+local_material_usd = 2000.0
+person_hours = 40.0
+process_overhead_usd = 2000.0
+crew_per_cell = 4
+cell_floor_m2 = 350.0
+equipment_usd_per_cell = 1200000.0
+shared_equipment_usd = 10000000.0
+local_scope = "Pack casing, busbars, cooling integration, assembly and testing; LFP cells and BMS electronics remain imported. No cell gigafactory saving assumed"
+
+[[product]]
+id = "door-cassette"
+parent = "M6-interior-doors-glazing"
+profile_quantity = "door_cassettes_per_car"
+baseline_unit_usd = 3333.3333333333335
+imported_input_usd = 800.0
+local_material_usd = 900.0
+person_hours = 12.0
+process_overhead_usd = 150.0
+crew_per_cell = 3
+cell_floor_m2 = 200.0
+equipment_usd_per_cell = 400000.0
+shared_equipment_usd = 5000000.0
+local_scope = "Panels, mechanisms, machining, assembly and test fixtures; safety controllers and selected actuators remain imported"
+
+[[product]]
+id = "window-cassette"
+parent = "M6-interior-doors-glazing"
+profile_quantity = "window_cassettes_per_car"
+baseline_unit_usd = 1111.111111111111
+imported_input_usd = 300.0
+local_material_usd = 200.0
+person_hours = 6.0
+process_overhead_usd = 100.0
+crew_per_cell = 3
+cell_floor_m2 = 250.0
+equipment_usd_per_cell = 1000000.0
+shared_equipment_usd = 8000000.0
+local_scope = "Cutting, laminating/tempering, framing and testing of imported glass feedstock; safety glazing qualification remains required"
+
+[financing]
+residual_bond_share = 0.75
+debt_service_reserve_months = 6
+operating_buffer_months = 3
+gap_rate = 0.02
+gap_draw_fee = 0.005
+gap_cap_iqd = 13000000000000.0
+commercial_gap_rate = 0.08
+senior_discount_rate = 0.134
+
+[construction]
+# Concurrent crew allowances per resource lane; local work-study/quotes required.
+civil_crew = 32
+stations_crew = 24
+charging_microgrid_crew = 8
+signalling_crew = 6
+solar_plant_crew = 24
+depots_crew = 20
+programme_crew = 6
+embedded_labour_fraction_stress = 0.20
+pay_uplift_fraction_stress = 0.50
+
+[mezzanine]
+currency = "IQD"
+share_of_domestic_residual = 0.10
+cash_coupon = 0.06
+pik_coupon = 0.04
+overdue_interest_annual_rate = 0.10
+arrangement_fee = 0.02
+maturity_months_from_draw = 180
+minimum_senior_dscr_for_junior_payment = 1.20
+rate_stress_cash_coupon = 0.10
+rate_stress_pik_coupon = 0.06
+cash_coupon_deferrable_until_maturity = true
+automatic_refinancing = false
+equity_conversion_assumed = false
+subordination = "Junior to scheduled senior debt and funded reserves; junior payments cannot use new gap borrowing or unfunded support"

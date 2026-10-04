@@ -46,6 +46,7 @@ SHARED = [
     'docs/baghdad-continuation-review-2026-10-04.md',
     'docs/baghdad-ci-controls-review-2026-10-04.md',
     'docs/baghdad-manufactured-viaduct-review-2026-10-04.md',
+    'docs/baghdad-scope-and-industrial-review-2026-10-04.md',
 ]
 
 
@@ -96,6 +97,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    revised=read_json(CITY/'engineering/programme-recalculation/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/programme-recalculation','outputs_sha256')):
+        for relative,sha in revised[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale programme recalculation: '+relative)
     viaduct=read_json(CITY/'engineering/viaduct-comparison/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/viaduct-comparison','outputs_sha256')):
         for relative,sha in viaduct[group].items():
@@ -190,6 +195,24 @@ def national_context(programme):
 
 
 def build_narrative(d, s, p, f, n, ops, deployment):
+    revised=read_json(CITY/'engineering/programme-recalculation/summary.json')
+    scope_buy=revised['finance_cases']['revised_scope_buy']
+    local=revised['finance_cases']['local_positive']
+    mezz=revised['finance_cases']['local_positive_mezzanine']
+    depot_revised=read_json(CITY/'engineering/programme-recalculation/depots.json')
+    staff_revised=read_json(CITY/'engineering/programme-recalculation/workforce.json')
+    industry_revised=read_json(CITY/'engineering/programme-recalculation/industry.json')
+    revised_rows=[[name,f"{m['total_capital_usd']/1e9:.3f}",f"{m['usd_capital_intensity']:.2%}",
+        f"{m['unfunded_support_iqd']/1e12:.3f}",f"{m['terminal_all_debt_iqd']/1e12:.3f}",m['junior_defaulted_vintages']]
+        for name,m in revised['finance_cases'].items()]
+    revised_cash=read_json(CITY/'engineering/programme-recalculation/local_positive.json')['monthly']
+    revised_sources=[[label,currency,f"{sum(r[key] for r in revised_cash):,.0f}",
+        usd_m(sum(r[key] for r in revised_cash)/(1 if currency=='USD' else 1300))]
+        for label,currency,key in (
+            ('Government import cash','USD','government_usd_cash'),('Government local cash','IQD','government_iqd_cash'),
+            ('Chinese capital credit','USD','chinese_export_credit_draw_native'),('Ordinary capital bonds','IQD','domestic_bonds_draw_native'),
+            ('Green capital bonds','IQD','green_bonds_draw_native'),('Senior bank capital credit','IQD','bank_credit_draw_native'),
+            ('Conditional climate capital grant','IQD','climate_grant_iqd'))]
     comp = p['comparison']; rec = p['independent_recalculation']; indexed = rec['cases']['fare_5pct_opex_5pct']
     prices = rec['fare_pricing']['fare_5pct_opex_5pct']; early = rec['early_repayment']['cases']; fx = 1300.
     narrative_facts=financial_narrative_facts(p)
@@ -266,9 +289,11 @@ def build_narrative(d, s, p, f, n, ops, deployment):
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
-The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD {closure_metrics['total_capital_usd']/1e9:.3f}bn capital**, before still-unpriced scope, and **IQD {closure_metrics['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+The latest [programme recalculation](../engineering/programme-recalculation/README.md) sizes **{revised['operating_fte']:,} permanent operating FTE** and **{revised['depot_count']} line-local depots** for all {revised['depot_storage_slots']} six-car trainsets. With completed components bought, revised capital is **USD {scope_buy['total_capital_usd']/1e9:.3f}bn**. The unquoted four-process local-production option gives **USD {local['total_capital_usd']/1e9:.3f}bn**, imported invoice exposure of **USD {local['imported_invoices_usd']/1e9:.3f}bn** and **{local['usd_capital_intensity']:.2%} USD capital intensity**. It still requires **IQD {local['unfunded_support_iqd']/1e12:.3f}tn unsourced support** and retains **IQD {local['terminal_all_debt_iqd']/1e12:.3f}tn total debt** at the horizon. Current indexed fares and additional-income assumptions do not repay this scope. Mezzanine defers cash pressure but leaves unpaid balloons; it is a sensitivity, not a recommended solution.
 
-The current planning network is **{comp['osr_lines']} lines, {comp['osr_route_km']:.1f} km of double track route, {comp['osr_stations']} stations and {sum(x['trainset_count'] for x in d['fleets']):,} six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD {p['total_capex_usd']/1e9:.3f} billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
+The earlier [delivery-cost continuation](../engineering/delivery-closure/README.md) remains a comparator: **USD {closure_metrics['total_capital_usd']/1e9:.3f}bn capital**, before still-unpriced scope, and **IQD {closure_metrics['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt**. The original financial schedules below likewise remain controlled reference cases. Debt clearance in an older reference is not the current feasibility conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+
+The current planning network is **{comp['osr_lines']} lines, {comp['osr_route_km']:.1f} km of double track route, {comp['osr_stations']} stations and {sum(x['trainset_count'] for x in d['fleets']):,} six car trainsets**. Original reference capital, including one final-assembly plant and its EPC, was **USD {p['total_capex_usd']/1e9:.3f} billion equivalent**; it does not include the latest scope replacement. The direct government capital contribution remains **25%** of each revised case. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
 The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month {prices['first_opening']['month']} and full operation in month {prices['full_opening']['month']} after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
 
@@ -276,7 +301,27 @@ The immediate decision proposed is to establish a sponsor, commission survey and
 
 The first part states the integrated proposal and the decisions it needs. The next part prints the detailed network registers and six month financing schedules. The technical appendices reproduce every current Baghdad Markdown report, the national brief and selected shared standards. The supporting ZIP preserves the full controlled Baghdad files, every Baghdad financing spreadsheet, the operations payload, national city design inputs and the cited shared references. The source inventory and manifest identify exact file bytes.
 
-Baghdad is the only financed city. National expansion is a future strategic option with its own budgets and approvals. Procurement origin, loan currency and reporting currency are different measures. USD equivalents use the historical model anchor of IQD {fx:,.0f}/USD; this is not a current execution quote. All prices, demand, debt terms and rights proceeds remain planning assumptions. Older generic foreign turnkey examples reproduced in source appendices are separate from the historical 148 km comparison and the scheduled Baghdad financing cases.
+Baghdad is the only financed city. National expansion is a future strategic option with its own budgets and approvals. The national totals and generic city pages retain original catalogue assumptions; the latest Baghdad study does not silently reprice or finance other cities. Procurement origin, loan currency and reporting currency are different measures. USD equivalents use the historical model anchor of IQD {fx:,.0f}/USD; this is not a current execution quote. All prices, demand, debt terms and rights proceeds remain planning assumptions. Older generic foreign turnkey examples reproduced in source appendices are separate from the historical 148 km comparison and the scheduled Baghdad financing cases.
+
+## Latest scope, local production and matched funding cases
+
+The {len(d['stations'])} stations have two concurrent staff during two normal eight-hour shifts, giving {staff_revised['station_cover']['normal_daily_shift_assignments']} daily shift assignments. The retained 20.5-hour railway also funds 4.5 hours of late cover. Weekly/leave/training/sickness cover gives {staff_revised['station_cover']['station_cover_fte']} station FTE, included in the {revised['operating_fte']} permanent railway FTE. Loaded annual payroll is IQD {revised['annual_payroll_iqd']/1e9:.3f}bn before subsequent OPEX inflation. The general pay floor is IQD {staff_revised['wage_basis']['general_monthly_floor_iqd']:,.0f}/month: 1.5 times the 2021 employee median indexed to 2026 at an assumed 5% a year. Technical/supervisor/senior/director grades use 2.25/3/4/5 times the same proxy. This is not a newly observed national median and does not change the fare-income denominator.
+
+Each line has one depot; all spare/reserve trains are included. Storage uses the actual 111 m train plus 10 m clearance; workshop bays follow bay-hour workload separately. The nine sites total USD {depot_revised['gross_reference_cost_usd']/1e6:.3f}m and replace the old USD 8m allowance once. Itemised storage/workshop/access tracks, points, civil shells, process equipment, services, wash plants, wheel lathes, stores, rescue/isolation and retained energy stock are costed. Land/title, utilities, actual foundations and installed charging/grid upgrades remain open; launch/throat conflicts need an operating replay.
+
+The order requires 9,972 bogies, 9,972 motor/inverter sets, 4,986 battery packs (1.122 GWh gross), 19,944 door cassettes and 29,916 window cassettes. Final assembly employs {industry_revised['main_factory_production_fte']} production and {industry_revised['main_factory_support_fte']} support FTE for {industry_revised['production_months']} scheduled paid months. Upstream facilities are sized to the train factory rate and price imported process machinery, local buildings/materials, residual imported inputs, qualification and their full paid establishment. Bogie fabrication, motor assembly, battery-pack assembly and door manufacture have positive whole-order margins under the unquoted assumptions. Glazing manufacture has a negative margin on Baghdad's order alone and remains bought in the four-process case. Imported cells/BMS, inverters, wheels/axles/bearings and other safety parts remain; no cell gigafactory or future national sales credit is assumed.
+
+The civil alternatives permit up to 40% elevated and screen 29.148 km of additional at-grade conversion around exceptional curves, reaching 20.32% elevated. These are candidate intervals, not a new surveyed alignment. Elevation alone removes no horizontal bend. Added viaduct and hypothetical 0/25/50% routing-penalty removal are priced separately; no hypothetical penalty removal is adopted as a saving.
+
+{table(['Matched case','CAPEX USD bn','USD intensity','Unsourced support IQD tn','Terminal all debt IQD tn','Defaulted junior vintages'],revised_rows)}
+
+All twelve cases have invoice-level capital registers, monthly native-currency cash/principal ledgers and six-month bond/loan placement schedules in the [latest study](../engineering/programme-recalculation/README.md) and supporting archive. Government is 25% of total capital, with USD machinery/input downpayments on actual invoice dates and the balance allocated as local IQD appropriation. Only Chinese credit is USD debt; bonds, senior bank/gap debt and mezzanine are IQD. Six months of senior service are reserved from the first draw, with three months of OPEX and industrial working capital. This reserve policy differs from the older reference; matched cases are the valid comparison.
+
+The following capital-only source table is for the latest four-process senior case. Fees, interest, reserve funding and gap facilities are separate cashflows; this table reconciles to capital uses only. Ordinary and green bonds are separate placements within the same total funding requirement.
+
+{table(['Latest capital source','Currency','Native amount','USD equivalent m'],revised_sources)}
+
+The proposed IQD mezzanine replaces 10% of residual domestic capital borrowing, with 6% cash coupon, 4% PIK, 2% fee and a 15-year balloon. Cash coupons require senior DSCR of 1.20, funded reserves and genuine residual cash. Deferred coupons and PIK are debt. Unpaid balloons become overdue balances with separately disclosed simple-interest sensitivity, without automatic refinancing, conversion or interest-on-arrears. The case leaves IQD {mezz['terminal_all_debt_iqd']/1e12:.3f}tn total debt and {mezz['junior_defaulted_vintages']} defaulted draw vintages. It does not improve the unlevered company NPV of USD {local['company_npv_before_finance_usd']/1e9:.3f}bn at the assumed discount rate. Grants, net development-rights receipts, green terms and concessional gap funding are uncommitted; an 8% gap-rate case exposes this dependency. Fares, fare/OPEX inflation, advertising, kiosk/rental receipts and inherited additional income are already included.
 
 ## Baghdad network and population access
 
@@ -294,7 +339,7 @@ The service concept operates 05:30 to 02:00 with a three minute protected peak h
 
 The Baghdad profile is metro 6car: {profile['cars']} cars, {profile['length_m']} m body length, {profile['passenger_capacity']} passengers at nominal planning load including {profile['seat_count']} seats, and {profile['crush_capacity']} at short duration crush load. Each train has {profile['onboard_battery_nameplate_kwh']:,.0f} kWh nameplate / {profile['onboard_battery_kwh']:,.0f} kWh usable LFP battery capacity, {profile['traction_controller_count']} traction controllers, {profile['traction_peak_kw']:,.0f} kW peak traction and a {profile['hvac_design_ambient_c']} C design ambient. These are reference profiles requiring supplier and physical qualification, not delivered fleet performance.
 
-The local industrial scope is train assembly, body modules, fit out, wiring, coatings, inspection, testing and maintenance. Imported scope includes bogies, batteries, windows, doors, solar equipment and manufacturing tooling within existing capital allowances. Chinese supplier origin and export lender eligibility need evidence for every financed item; the entire imported basket is currently an unqualified scenario. Candidate CRRC equipment remains subject to competitive supplier selection, interface and safety qualification. There is no established CRRC partnership, quotation or endorsement.
+The original industrial scope is train assembly, body modules, fit out, wiring, coatings, inspection, testing and maintenance, with completed bogies, batteries, windows and doors bought. The latest four-process option replaces selected completed imports with Chinese process machinery and residual inputs for Iraqi fabrication/assembly. Solar equipment, glazing and critical component inputs retain imports. Chinese supplier origin and export lender eligibility need evidence for every financed item; the entire imported basket is currently an unqualified scenario. Candidate CRRC equipment remains subject to competitive supplier selection, interface and safety qualification. There is no established CRRC partnership, quotation or endorsement.
 
 Shared LM3 fabrication and first article documentation is reference process evidence for a three car platform. It does not qualify Baghdad's six car consist. The national programme should qualify the shared modules and then validate each consist and its interfaces, rather than treating a shared drawing as an accepted Baghdad train.
 
@@ -308,7 +353,7 @@ The proposed civil programme starts with survey control, utilities, property and
 
 Stations require accessible approaches, platforms, passenger information, fire and evacuation design, fare equipment, retail and advertising layouts, security, sanitation and maintenance access. Platform and station access standards must be checked against the final six car envelope and passenger demand. Equipment and architecture references do not establish installed compliance.
 
-The original USD 8m depot allowance is replaced by workload-based depot packages in the integrated sensitivity described below. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The reference policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
+The original USD 8m depot allowance is replaced by the nine full-fleet line depots in the latest recalculation above. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The earlier reference policy proposed two revenue trains at selected powered stations and line-local storage for remaining fleet; the latest study gives no capacity credit to station parking. Usable tracks, charging, protected morning release, evening repositioning and repeated-day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
 
 ## Manufactured viaduct alternatives and installed cost
 
@@ -340,13 +385,13 @@ The reference uses three static consensus voters and two logical protection chan
 
 The Baghdad plant is sized from {p['factory']['vehicle_modules']:,} vehicle modules. Its base allowance is USD {usd_m(p['factory']['cost_usd'])}m plus USD {usd_m(p['factory']['epc_usd'])}m EPC, counted once outside city CAPEX. The current plant construction assumption is {p['factory']['planning_build_working_days']} working days before train production. Factory siting, freight access, utilities, tooling, staff, production rate, quality capacity and six car qualification require their own approved business and delivery plan.
 
-Baghdad procurement assigns USD {comp['osr_local_purchases_usd']/1e9:.3f}bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The plant appraisal covers capital financing only; manufacturing income, factory OPEX and commercial margins need a separate business case. No multiplier, tax recovery, construction job count or future national plant profit is booked as project cash without evidence. Exported components retain foreign exchange and supply chain exposure.
+The original procurement allocation assigns USD {comp['osr_local_purchases_usd']/1e9:.3f}bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The latest process appraisal above includes whole-order labour, factory support/maintenance and make/buy margins; manufacturing sales to other customers still need a separate business case. No multiplier, tax recovery or future national plant profit is booked as project cash without evidence. Imported machinery and residual inputs retain foreign exchange and supply-chain exposure.
 
 ## Operating organisation and digital management
 
-The funded operating allowance is {comp['operating_fte']:,} indicative full time equivalents, including OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. Annual labour allowance is IQD {comp['operating_labour_annual_iqd']/1e9:.3f}bn. It is a planning FTE and cost model rather than an accepted shift, leave or legal duty roster. Construction and factory headcount await measured work hours, crew mixes, wages and throughput.
+The latest operating establishment is {revised['operating_fte']:,} FTE with IQD {revised['annual_payroll_iqd']/1e9:.3f}bn annual loaded payroll, replacing the original {comp['operating_fte']:,} FTE / IQD {comp['operating_labour_annual_iqd']/1e9:.3f}bn allowance. It includes OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. It remains a planning workload/roster model; legal duties, appointments and competence require acceptance. Construction and factory populations are priced separately as explained above, with measured work hours, crew mixes and throughput still required.
 
-{table(['Operating group','Indicative FTE'],[[k.replace('_',' '),v] for k,v in f['workforce']['groups_fte'].items()])}
+{table(['Operating role','Required FTE','Wage grade'],[[r['role_id'],r['required_fte'],r['grade']] for r in staff_revised['roles']])}
 
 The Baghdad operating package contains {ops['assets']:,} assets, {ops['manufacturing_tasks']:,} manufacturing/verification tasks, {ops['manufacturing_materials']:,} material/procurement rows, {ops['maintenance_tasks']:,} maintenance tasks and {ops['qa_actions']:,} QA actions. These are generated planning records. Actual purchase orders, execution, measurements and accountable release evidence remain distinct. The project twin, ERPNext/Frappe integration, supervision, QR identities, maintenance and advisory AI support business work; they do not issue movement or safety release authority.
 
@@ -374,13 +419,13 @@ Combined delay-cost cases add extended staffing, supervision, carrying, storage/
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
-## Baghdad capital and procurement origin
+## Original reference capital and procurement origin
 
 {table(['Capital scope','USD eq m','Imported USD m','Local USD eq m'],cap_rows)}
 
 The city and plant total includes the plant EPC once. Budgets are unquoted planning estimates; land, utilities, taxes/duties, escalation, contingency and accepted depot/site scope require closure. Loan principal repaid later is a financing cashflow, not additional construction CAPEX. Origin shares do not establish citizenship of vendors, employment or lender eligibility.
 
-## Baghdad financing in USD and Iraqi dinars
+## Original reference financing in USD and Iraqi dinars
 
 {table(['Capital source','Currency','Native amount','USD equivalent m'],source_rows)}
 
@@ -496,14 +541,14 @@ Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw a
 
 ## Historical Baghdad metro comparison
 
-{table(['Measure','OpenSourceRail Baghdad plus plant','Historical proposal or requested comparator'],[
+{table(['Measure','Latest four-process Baghdad study','Historical proposal or requested comparator'],[
  ['Route km',f"{comp['osr_route_km']:.1f}",'148'],['Lines / stations',f"{comp['osr_lines']} / {comp['osr_stations']}",'7 / 64'],
- ['Capital USD equivalent bn',f"{p['total_capex_usd']/1e9:.3f}",'18.000 reported'],
- ['Capital USD equivalent m / route km',f"{p['total_capex_usd']/comp['osr_route_km']/1e6:.2f}",f"{18e9/148/1e6:.2f}"],
- ['USD capital funding bn',f"{p['usd_denominated_capital_usd']/1e9:.3f}",'18.000 requested all USD scenario'],
- ['Chinese USD debt bn',f"{p['usd_denominated_debt_principal_usd']/1e9:.3f}",'Final debt and government split unverified']])}
+ ['Capital USD equivalent bn',f"{local['total_capital_usd']/1e9:.3f}",'18.000 reported'],
+ ['Capital USD equivalent m / route km',f"{local['total_capital_usd']/comp['osr_route_km']/1e6:.2f}",f"{18e9/148/1e6:.2f}"],
+ ['USD capital funding bn',f"{local['imported_invoices_usd']/1e9:.3f}",'18.000 requested all USD scenario'],
+ ['Chinese USD debt bn',f"{local['chinese_usd_draw']/1e9:.3f}",'Final debt and government split unverified']])}
 
-The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entirely USD foreign loan/government cash basis is the requested comparator, not a verified financing contract. Under that assumption Baghdad's USD capital requirement is {1-p['usd_denominated_capital_usd']/18e9:.1%} lower. Distinct scope, price date, tunnelling/structures, land, utilities, qualification and schedule prevent a like for like bid saving claim. Third party fares, actual financing and comparable population access are not established. Its Iraqi labour share cannot be assumed zero.
+The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entirely USD foreign loan/government cash basis is the requested comparator, not a verified financing contract. Under that assumption the latest study's USD capital requirement is {1-local['imported_invoices_usd']/18e9:.1%} lower. Distinct scope, price date, tunnelling/structures, land, utilities, qualification and schedule prevent a like for like bid saving claim. Third party fares, actual financing and comparable population access are not established. Its Iraqi labour share cannot be assumed zero. The following retained figure illustrates the original reference allocation; the table above uses the revised study.
 
 ![USD capital comparison](../../finance/baghdad-financing-comparison.png)
 
@@ -513,7 +558,7 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 
 {table(['Future catalogue city','Planning population','Fleet family','Route km','Trainsets','City CAPEX USD eq m'],national_rows)}
 
-All city capital totals sum to USD {n['city_capital_usd']/1e9:.3f}bn. Adding one shared factory at USD {usd_m(n['shared_factory_usd'])}m and its EPC at USD {usd_m(n['shared_factory_epc_usd'])}m produces **USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent** nationally. Baghdad already contains this same plant and EPC. The additional city capital beyond the Baghdad scope is therefore **USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn**, with no second plant added. Imported/local procurement in the generic national origin model is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn; this is procurement composition, not a national loan programme.
+Original catalogue city capital totals sum to USD {n['city_capital_usd']/1e9:.3f}bn. Adding one shared factory at USD {usd_m(n['shared_factory_usd'])}m and its EPC at USD {usd_m(n['shared_factory_epc_usd'])}m produces **USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent** nationally on that original basis. Original Baghdad capital already contains this same plant and EPC. Additional city capital beyond that original Baghdad reference is **USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn**, with no second plant added. These national figures have not been repriced with Baghdad's new staffing, depot or upstream plants. Imported/local procurement in the generic national origin model is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn; this is procurement composition, not a national loan programme.
 
 No national factory expansion or replacement, intercity connection, research/training institution, shared governance or additional capital acceleration is priced. Sizing by the largest city's module order is not proof of annual production capacity. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
@@ -677,6 +722,9 @@ def source_inputs():
     viaduct=read_json(CITY/'engineering/viaduct-comparison/summary.json')
     paths.update(ROOT/relative for relative in viaduct['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/viaduct-comparison').glob('*') if p.is_file())
+    revised=read_json(CITY/'engineering/programme-recalculation/summary.json')
+    paths.update(ROOT/relative for relative in revised['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/programme-recalculation').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
@@ -713,6 +761,7 @@ def main():
     check_baseline(p,read_json(CITY/'package-manifest.json'))
     n=national_context(p);ops=read_json(CITY/'operations/baghdad-operations-manifest.json')['totals']
     continuation=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
+    revised=read_json(CITY/'engineering/programme-recalculation/summary.json')
     deployment=read_json(CITY/'engineering/deployment/summary.json')
     (OUT/'BAGHDAD-PROPOSAL.md').write_text(build_narrative(d,s,p,f,n,ops,deployment))
     (OUT/'national-context.json').write_text(json.dumps(n,indent=2,sort_keys=True)+'\n')
@@ -759,7 +808,7 @@ Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; v
     with zipfile.ZipFile(archive_path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
         for relative,path in sorted(archive_members.items()):
             entry=zipfile.ZipInfo(relative,date_time=tuple(int(v) for v in as_of.split('-'))+(0,0,0));entry.compress_type=zipfile.ZIP_DEFLATED;entry.external_attr=0o100644<<16
-            archive.writestr(entry,path.read_bytes())
+            archive.writestr(entry,path.read_bytes(),compresslevel=9)
     outputs=generated+[archive_path]
     for path in outputs:
         if path.stat().st_size>MAX_BYTES: raise ValueError('Proposal artifact exceeds repository 50 MiB limit: '+str(path))
@@ -773,6 +822,11 @@ Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; v
                        'delivery_continuation_capital_usd':continuation['metrics']['total_capital_usd'],
                        'delivery_continuation_terminal_gap_iqd':continuation['metrics']['terminal_supplemental_balance_iqd'],
                        'delivery_continuation_budget_complete':False,
+                       'programme_recalculation':revised['finance_cases'],
+                       'programme_operating_fte':revised['operating_fte'],
+                       'programme_depot_count':revised['depot_count'],
+                       'programme_depot_slots':revised['depot_storage_slots'],
+                       'programme_budget_complete':False,
                        **financial_narrative_facts(p),
                        'baghdad_station_count':len(d['stations']),'baghdad_government_share':p['government_share_of_total_capital'],
                        'national_total_capital_usd':n['total_national_capital_usd'],'national_incremental_after_baghdad_usd':n['future_incremental_city_capital_after_baghdad_usd']}}

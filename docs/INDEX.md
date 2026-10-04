@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5067**.
+Indexed Markdown files: **5069**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5067**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4368 |
+| [cities](#cities) | 4369 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 189 |
+| [docs](#docs) | 190 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -3447,6 +3447,7 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) | Baghdad financing reconciliation and six-month placement programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) | Baghdad financing redesign — 2026-10-04 |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md) | Baghdad programme recalculation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md) | Baghdad qualification, funding gates and first operating section |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/README.md) | Baghdad civil soil screening |
@@ -4929,6 +4930,7 @@ Indexed Markdown files: **5067**.
 | [`docs/baghdad-continuation-review-2026-10-04.md`](../docs/baghdad-continuation-review-2026-10-04.md) | Baghdad continuation: physical packages and revised financial conclusion |
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
+| [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |
