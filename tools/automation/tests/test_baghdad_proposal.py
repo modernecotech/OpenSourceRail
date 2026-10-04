@@ -68,6 +68,19 @@ def test_delivery_reconciliation_and_current_review_are_published():
         assert 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/'+name in inputs
     assert 'tools/automation/bootstrap_baghdad_tests.py' in inputs
 
+def test_delivery_continuation_headlines_and_all_ledgers_are_published():
+    manifest=data('manifest.json');inputs=set(manifest['inputs'])
+    for name in ('finance-reconciled_full_fleet.json','finance-reconciled_full_fleet-monthly.csv','fare-sensitivities.json','depot-line-6.svg','opening-battery-reserve-monthly.csv','maintenance-interval-register.json','erpnext-tasks.json'):
+        assert (CITY/'engineering/delivery-closure'/name).relative_to(ROOT).as_posix() in inputs
+    for name in ('tools/automation/verify_baghdad_erp_restore.py','deployment/erpnext/apps/osr_erpnext/osr_erpnext/delivery_admin.py'):
+        assert name in inputs
+    case=json.loads((CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json').read_text())
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    assert f"USD {case['metrics']['total_capital_usd']/1e9:.3f}bn capital" in narrative
+    assert f"IQD {case['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt" in narrative
+    assert manifest['facts']['delivery_continuation_capital_usd']==case['metrics']['total_capital_usd']
+    assert not manifest['facts']['delivery_continuation_budget_complete']
+
 
 def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_scope():
     n = data('national-context.json')

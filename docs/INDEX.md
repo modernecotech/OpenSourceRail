@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5053**.
+Indexed Markdown files: **5063**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5053**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4357 |
+| [cities](#cities) | 4366 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 186 |
+| [docs](#docs) | 187 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -3428,6 +3428,15 @@ Indexed Markdown files: **5053**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/RENTAL-DELIVERY.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/RENTAL-DELIVERY.md) | Rental delivery allocation sensitivities |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md) | Baghdad controlled six-car planning product |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md) | Baghdad workload, recruitment and competence pilot |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md) | Comparable standalone opening corridors |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md) | Nine depot/storage design studies and Iraqi slab manufacture |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md) | Field investigations, quotations and actual appointments |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md) | Delivery-cost financial reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/MAINTENANCE-RENEWALS.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/MAINTENANCE-RENEWALS.md) | Task-derived maintenance and reserve cash |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/README.md) | Baghdad remaining-work delivery packages |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SITE-ENERGY.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SITE-ENERGY.md) | Chronological site-limited energy and installed upgrades |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SIX-CAR-PROCUREMENT.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SIX-CAR-PROCUREMENT.md) | Six-car child parts and procurement/qualification work |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/WORKFORCE-PILOT.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/WORKFORCE-PILOT.md) | Workforce, practical training and a rest-limited pilot |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md) | Baghdad frozen-resource delivery and funding study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
@@ -4914,6 +4923,7 @@ Indexed Markdown files: **5053**.
 | [`docs/README.md`](../docs/README.md) | Technical Documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
+| [`docs/baghdad-continuation-review-2026-10-04.md`](../docs/baghdad-continuation-review-2026-10-04.md) | Baghdad continuation: physical packages and revised financial conclusion |
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |

@@ -1,0 +1,5 @@
+# Field investigations, quotations and actual appointments
+
+[Scope inclusion forms](scope-inclusion-forms.csv), [supplier requests](supplier-rfq.csv), [corridor investigations](corridor-comparison.json) and [six work packages](closure-packets.json) turn unresolved items into defined data collection and independent exit criteria. No external contact has been made. Existing USD 360,000 estimator-work budget is an unquoted closure allowance with EPC overlap unknown, not committed funding or priced boreholes/equipment tests.
+
+Repository artifacts are prepared; all six native evidence Tasks remain open, preserving actual owner/project/dates/status. Actual survey, qualified suppliers, OD/tenant enquiries, Iraqi appointments/approvals, signed finance and subscriptions remain pending. Honest nulls must be replaced by independently accepted evidence before those workstreams can close. [GAO estimating guidance](https://www.gao.gov/products/gao-20-195g) supports technical scope, WBS, data, alternatives/risk and actual-cost updates; it does not validate these rates or release the scheme.

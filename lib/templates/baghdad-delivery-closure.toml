@@ -1,0 +1,59 @@
+# All prices/durations below are editable planning assumptions, not quotations.
+[model]
+as_of = "2026-10-04"
+iqd_per_usd = 1300
+depot_import_share = 0.20
+incremental_epc_fraction = 0.07
+preopening_epc_credit_fraction = 0.0
+qualification_factory_credit_fraction = 1.0
+depot_energy_allowance_credit_fraction = 0.0
+firm_grid_expansion_capex_usd = "unpriced"
+
+[slab_factory]
+ready_month = 18
+installation_lead_months = 2
+working_days_per_year = 260
+utilisation = 0.75
+mould_cycle_working_days = 1.0
+panel_length_m = 6.0
+yard_panel_width_m = 2.9
+yard_base_thickness_m = 0.25
+plinth_width_m = 0.38
+plinth_height_m = 0.16
+fastener_pitch_max_m = 0.65
+
+[maintenance]
+# Person-hours per event; not elapsed bay time or measured work standards.
+daily_mechanical_hours = 0.30
+daily_electrical_hours = 0.25
+weekly_mechanical_hours = 2.0
+weekly_electrical_hours = 1.0
+monthly_mechanical_hours = 4.0
+monthly_electrical_hours = 4.0
+turnaround_mechanical_hours = 0.12
+turnaround_electrical_hours = 0.05
+wheel_reprofile_hours_per_wheelset = 2.0
+bogie_overhaul_hours_per_bogie = 8.0
+body_overhaul_hours_per_train = 200.0
+wheel_interval_km = 150000
+bogie_interval_km = 600000
+body_interval_years = 10
+battery_replacement_cost_usd_per_train = 270000
+initial_battery_spare_fraction = 0.02
+
+[corridors]
+paid_trip_share_of_capacity = 0.20
+income_proxy_monthly_iqd = 494000
+affordability_trip_count_monthly = 44
+maximum_income_share_sensitivity = 0.10
+base_fare_sensitivities_iqd = [1500, 1750, 2000, 2500, 3000]
+
+[mobilisation]
+# Needed for a realistic pilot roster, not accepted Iraqi labour-law limits.
+maximum_shift_hours = 8
+minimum_rest_hours = 11
+maximum_hours_rolling_7_days = 40
+pilot_service_start_hour = 5.5
+pilot_service_end_hour = 26
+pilot_days = 7
+pilot_worker_pool = 5

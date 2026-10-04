@@ -38,6 +38,7 @@ SHARED = [
     'docs/deployment-planning-reference.md',
     'docs/civil/slab-trackforms.md',
     'docs/baghdad-delivery-review-2026-10-04.md',
+    'docs/baghdad-continuation-review-2026-10-04.md',
 ]
 
 
@@ -88,6 +89,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    closure=read_json(CITY/'engineering/delivery-closure/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/delivery-closure','outputs_sha256')):
+        for relative,sha in closure[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale delivery continuation: '+relative)
     delivery=read_json(CITY/'engineering/delivery-baseline/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/delivery-baseline','outputs_sha256'),(ROOT,'external_outputs_sha256')):
         for relative,sha in delivery[group].items():
@@ -200,6 +205,10 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
     delivery=read_json(CITY/'engineering/delivery-baseline/summary.json')
     hourly=read_json(CITY/'engineering/delivery-baseline/chronological-energy.json')['cases']['synthetic_reference:owned_solar']
+    closure=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
+    closure_metrics=closure['metrics']
+    local_energy=read_json(CITY/'engineering/delivery-closure/site-energy.json')['cases']['reference']
+    fare_trials=read_json(CITY/'engineering/delivery-closure/fare-sensitivities.json')
     rental_eq=equity['rental_medium_1000m'];coveq=equity['coverage_dividends_1000m']
     eq=equity['primary_1000m'];eqbase=equity['government_equity_reference']
     redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
@@ -244,6 +253,8 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     intro = f'''# Baghdad Proposal
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
+
+The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD {closure_metrics['total_capital_usd']/1e9:.3f}bn capital**, before still-unpriced scope, and **IQD {closure_metrics['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
 
 The current planning network is **{comp['osr_lines']} lines, {comp['osr_route_km']:.1f} km of double track route, {comp['osr_stations']} stations and {sum(x['trainset_count'] for x in d['fleets']):,} six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD {p['total_capex_usd']/1e9:.3f} billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
@@ -371,7 +382,19 @@ Annual energy netting supplies no firm hourly charging guarantee. The synthetic 
 
 Reference workload cover totals **{delivery['reference_operating_fte']:,} operating FTE / USD {delivery['reference_loaded_payroll_usd']/1e6:.3f}m loaded annual pay equivalent**, against the existing budget-derived 2,350 FTE / USD 15.002m. Local pay, employer/rest terms and measured task hours remain unaccepted. Recruitment cohorts work backwards through joining, practical assessment/repeats and supervised authorisation; factory production payroll and temporary commissioning are separate. The real pilot roster has zero appointed workers and blocks every slot. Native HR/training/maintenance/manufacturing mappings and the read-only task eligibility preview preserve human work-release authority. Six additional 90-day evidence Tasks carry accountable functions, unquoted closure work budgets and independent exit criteria.
 
-Opening fleet comparisons reduce service supply and require calibrated OD/access/fares and usable corridor/dependency evidence. They do not retain unchanged fares or announce an earlier opening from fewer trains alone. This scope package must be accepted and its invoices/OPEX reconciled before any new funding or return claim. [Current review](../../../../../../docs/baghdad-delivery-review-2026-10-04.md) supersedes the historical 347-month figures; [clean-checkout test bootstrap](../../../../../../tools/automation/bootstrap_baghdad_tests.py) restores the exact archived operations input.
+Opening fleet comparisons reduce service supply and require calibrated OD/access/fares and usable corridor/dependency evidence. They do not retain unchanged fares or announce an earlier opening from fewer trains alone. The continuation now reconciles these assumptions into explicit unquoted monthly cash sensitivities. [Current review](../../../../../../docs/baghdad-delivery-review-2026-10-04.md) supersedes the historical 347-month figures; [clean-checkout test bootstrap](../../../../../../tools/automation/bootstrap_baghdad_tests.py) restores the exact archived operations input.
+
+## Latest per-site energy, funding and fare reconciliation
+
+The [new monthly and six-month funding ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md) replace allowances once and preserve the original financing reconstruction exactly. The full-fleet sensitivity has peak supplemental debt **IQD {closure_metrics['peak_supplemental_balance_iqd']/1e12:.3f}tn**, company cash NPV before finance **USD {closure['company_cash_npv_before_finance_usd']/1e9:.3f}bn**, and no debt-clear month. Government is 25% of scenario capital; a separate case fixes its original absolute contribution. Imports retain 50% government USD / 50% Chinese USD loan, with bonds, bank/gap credit and receipts in IQD. Conditional grants, rights receipts, local income and cheap gap lending remain uncommitted; removing the additional income exposes unfunded cash.
+
+Per-site reference energy requires **{local_energy['grid_import_kwh']/1e6:.1f} GWh imports**, exposes **{local_energy['unserved_kwh']/1e6:.1f} GWh unserved charging**, and prices firm energy services/owned-plant maintenance at **USD {local_energy['annual_firm_energy_cost_usd']/1e6:.3f}m/year**. Physical grid and charger upgrades remain unpriced. Buying shortage energy in the financial sensitivity does not provide a physical connection or an accepted timetable. Depot layouts label individual tracks/slots; Iraqi yard-slab mould capacity meets cumulative installation dates at assumed cycles, while plant cost and actual curing/qualification remain open. The 23 child part RFQs sit inside the eight parent allocations; all 26 maintenance intervals, practical lesson cards and rest-limited anonymous slots retain their actual evidence gates.
+
+Battery reserve contributions are already in rolling maintenance. Separate monthly restricted-cash ledgers add only inflation shortfalls at replacement, including in the 450-train opening case, and prohibit spending reserve cash on early bond/loan repayment. Reduced fleet procurement also reduces service receipts; contracted solar moves plant capital to a provider whose resource costs remain visible.
+
+{table(['Initial base fare IQD','Paid-demand multiplier','44-trip income share','Debt-clear month','Terminal gap IQD tn','Before-finance cash NPV USD bn'],[(str(r['base_fare_iqd']),f"{r['paid_demand_multiplier']:.3f}",f"{r['monthly_44_trip_income_share']:.1%}",str(r['debt_clearance_without_unfunded_support_month']),f"{r['terminal_gap_debt_iqd']/1e12:.3f}",f"{r['company_cash_npv_before_finance_usd']/1e9:.3f}") for r in fare_trials])}
+
+These fare sensitivities retain annual 5% fare/OPEX/income increases and variable pricing, with the existing uncalibrated price elasticity. Debt clearance is conditional on funding placement; a negative company cash NPV persists across these trials. The affordability share uses the historical income proxy, not disposable-income surveys. No higher fare, commercial first-corridor rank, operational release or accepted lease/loan is created by the calculation.
 
 ## Early deficits and additional financing
 
@@ -622,6 +645,9 @@ def source_inputs():
     paths.update(ROOT/relative for relative in delivery['sources_sha256'])
     paths.update(ROOT/relative for relative in delivery['external_outputs_sha256'])
     paths.update(p for p in (CITY/'engineering/delivery-baseline').glob('*') if p.is_file())
+    closure=read_json(CITY/'engineering/delivery-closure/summary.json')
+    paths.update(ROOT/relative for relative in closure['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/delivery-closure').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
@@ -657,6 +683,7 @@ def main():
     p=read_json(COUNTRY/'finance/baghdad-programme.json');f=read_json(CITY/'engineering/finance/summary.json')
     check_baseline(p,read_json(CITY/'package-manifest.json'))
     n=national_context(p);ops=read_json(CITY/'operations/baghdad-operations-manifest.json')['totals']
+    continuation=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
     deployment=read_json(CITY/'engineering/deployment/summary.json')
     (OUT/'BAGHDAD-PROPOSAL.md').write_text(build_narrative(d,s,p,f,n,ops,deployment))
     (OUT/'national-context.json').write_text(json.dumps(n,indent=2,sort_keys=True)+'\n')
@@ -666,6 +693,7 @@ def main():
     sources=[OUT/'BAGHDAD-PROPOSAL.md',OUT/'DETAILED-SCHEDULES.md',*city_docs,COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',COUNTRY/'NATIONAL-BRIEF.md',*[ROOT/p for p in SHARED]]
     (OUT/'appendix-sources.json').write_text(json.dumps([p.relative_to(ROOT).as_posix() for p in sources],indent=2)+'\n')
     as_of=max(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())['model']['as_of'],
+        read_json(CITY/'engineering/delivery-closure/summary.json')['as_of'],
         read_json(CITY/'engineering/equity/summary.json')['as_of'],read_json(CITY/'engineering/viaduct-rentals/summary.json')['as_of'])
     build_pdf(sources,as_of)
     inputs=source_inputs()
@@ -689,7 +717,7 @@ The PDF includes every current Baghdad Markdown report and selected shared stand
 
 The urban railway is a planning proposal, with physical and operating gates open. The national chapter is a future option, without national loan commitments or revenue added to Baghdad. The shared plant and its EPC are counted once. Source values and all monthly/six-month calculations retain their evidence limits.
 
-Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; validate with the same command plus `--check`. If the complete Baghdad operations payload is missing, first materialise it with `./osr city baghdad`. Solver/geospatial files retained in the workspace are included and identified in the inventory.
+Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; validate with the same command plus `--check`. If the complete Baghdad operations payload is missing, first restore the exact archived input with `.venv/bin/python tools/automation/bootstrap_baghdad_tests.py`. Solver/geospatial files retained in the workspace are included and identified in the inventory.
 '''
     (OUT/'README.md').write_text(readme)
     generated=[path for path in OUT.rglob('*') if path.is_file() and path.name not in ('Baghdad-Proposal-Supporting-Data.zip','manifest.json','archive-manifest.json')]
@@ -713,6 +741,9 @@ Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; v
               'outputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in outputs},
               'archive_members':sorted(archive_members),'appendix_document_count':len(sources),
               'facts':{'baghdad_total_capex_usd':p['total_capex_usd'],'baghdad_route_km':p['comparison']['osr_route_km'],
+                       'delivery_continuation_capital_usd':continuation['metrics']['total_capital_usd'],
+                       'delivery_continuation_terminal_gap_iqd':continuation['metrics']['terminal_supplemental_balance_iqd'],
+                       'delivery_continuation_budget_complete':False,
                        **financial_narrative_facts(p),
                        'baghdad_station_count':len(d['stations']),'baghdad_government_share':p['government_share_of_total_capital'],
                        'national_total_capital_usd':n['total_national_capital_usd'],'national_incremental_after_baghdad_usd':n['future_incremental_city_capital_after_baghdad_usd']}}

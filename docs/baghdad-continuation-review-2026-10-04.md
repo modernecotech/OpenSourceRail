@@ -1,0 +1,42 @@
+# Baghdad continuation: physical packages and revised financial conclusion
+
+The [delivery continuation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/README.md) completes the repository calculations and reviewable work packages following the [first delivery reconciliation](baghdad-delivery-review-2026-10-04.md). Surveyed designs, quotations, actual demand, appointments, subscriptions and independent field acceptance remain open. The original 831-train, nine-line programme and factory opening dates are unchanged; new cases are explicit alternatives.
+
+## Financial finding
+
+The full-fleet cost sensitivity replaces the USD 8m depot allowance with the USD 175.932m workload package and adds an explicit 7% incremental EPC allowance. Programme capital becomes **USD 8.060bn**, before still-unpriced scope. It replaces the original annual labour and solar allowances once, adds paid pre-opening mobilisation, and includes only replacement-reserve inflation shortfalls above contributions already in maintenance. Firm energy assumes physical upgrades whose capital is still unpriced.
+
+Government covers **25%, USD 2.015bn equivalent**. Its assumed imported-component downpayment is USD 913.123m; proposed Chinese credit is another USD 913.123m. Government's remaining cash, ordinary/green bonds, bank credit, supplemental credit, fares and commercial receipts are **IQD**. Total USD-denominated capital is USD 1.826bn, **22.7%** of this scenario. At the historical model FX of IQD 1,300/USD this is about 89.9% below the requested USD 18bn all-foreign-currency comparator; distinct scope, price dates and unverified financing prohibit a like-for-like bid saving claim. Imported shares and Chinese eligibility require actual supplier/invoice evidence.
+
+With existing variable pricing and annual 5% fare/OPEX/income growth, peak supplemental debt is **IQD 11.355tn**, and **IQD 7.526tn remains outstanding** at the 30-year full-network operating horizon. Before-finance company cash NPV is **USD −4.691bn** at the model's nominal discount rate. Surpluses repay USD 514.540m equivalent of eligible core principal early, after reserves/buffers and applicable call premiums, but do not eliminate the gap debt. Restricted maintenance cash cannot repay bonds or loans.
+
+The [monthly and six-month ledgers](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md) retain native currencies, bond-face/rounded-unit placement requirements, loan draws and principal/cash residuals. Conditional climate grants, rights proceeds, additional local income and cheap gap credit are uncommitted. A separate case fixes the original absolute government cash ceiling; another removes additional income and green pricing benefits. Opening-fleet and contracted-solar cases expose reduced receipts and transferred provider costs rather than treating them as free savings.
+
+An initial IQD 1,750 base-fare sensitivity clears debt at month 378 after financial close, conditional on funding placement and the assumed demand elasticity. It still has negative company cash NPV, and 44 monthly trips consume 15.6% of the historical monthly income proxy before variable-price weighting. Higher-fare trials show repayment and affordability together; no tariff or commercial first-corridor selection is adopted. Actual OD, paid transfers, disposable-income distribution and concession funding remain required.
+
+## Prepared physical and operating packages
+
+- Nine depot planning drawings label 533 storage positions, individual tracks/slots and 119 workload workshop bays. The yard-only slab production calculation meets cumulative installation deadlines using assumed mould cycles; its plant cost, curing qualification, reinforcement/foundations, turnouts, drainage, fire access and actual land remain open. Rectangular workshop packing is not an accepted accessible bay layout.
+- Twenty-three six-car child-part/RFQ rows expand eight parent allocations within USD 1.68m/train. Unknown supplier quantities, prices, masses and drawings remain null. First article, LM3 applicability and qualification/design-training overlap remain unaccepted.
+- Per-site chronological energy retains each installed storage/grid/charger limit. Reference imports are approximately 938.5GWh/year, with 6.6GWh unserved charging; firm energy services plus owned-solar maintenance cost USD 139.835m/year in the sensitivity. Synthetic allocation does not prove charger queues, charging events, outages or physical upgrade delivery.
+- Task-based rolling maintenance and all 26 controlled intervals cover vehicles, stations, civil/track/structures, energy, wayside, tooling and finishes. Separate full/opening-fleet reserve ledgers show replacement dates, inflation top-ups and restricted cash without double-counting the replacement bill.
+- Nine standalone opening-corridor cases compare operating break-even on a consistent basis; OD, actual catchments, shared dependencies and allocated debt remain unknown. Startup alternatives retain the frozen original dispatch points: line 9 needs five extra revenue trains plus one spare, USD 10.08m vehicle reference before consequential costs, or an accepted smaller dispatch-point policy. Neither alternative closes the failed startup/access gate.
+- Seven practical lesson cards and rest-limited anonymous pilot slots retain independent assessment and worker/task/location authorisation. No worker, assessor, permit or operational release is invented. Twelve scope-inclusion forms and supplier RFQs identify the remaining external inputs.
+
+## Native ERP and recovery evidence
+
+The local ERP image was rebuilt with the workforce observer and bench-only administrative probes; the activated module hashes match repository files. Six existing DL90 Task descriptions were refreshed while preserving native Task identity, owner and operator-managed status. There are 34 Baghdad evidence Tasks in total; preparing or refreshing a Task accepts no evidence.
+
+Five System Manager read probes each returned 54 permission-filtered rows from bounded native samples. The first took 0.455 seconds and subsequent samples approximately 0.008 seconds. This is a local read probe, not proof of complete-city throughput or the permissions of every production role. The workforce observer's permission and identity gates are separately tested.
+
+Native Guest calls to the read probe, recovery fingerprint and workforce administration readiness were denied. These checks changed no worker, role, assignment or work-release record.
+
+A native SQL backup was restored into a new MariaDB container with no network or published ports. Six data/schema/role/permission/File-inventory fingerprints matched; the temporary database was removed and the source database was never a restore destination. This verifies SQL recovery of the sampled inventories, not file decryption or production RTO/RPO. Private backups, import/deployment receipts, fingerprints and recovery receipts remain in ignored `var/erpnext/`; no native personal records or credentials enter the proposal archive.
+
+## Reproduction and acceptance
+
+Validation passed 1,747 Python tests and 12 subtests across city generation, components, engineering analysis, alignment/reference converters and automation. One Samawah planner test was skipped because its OSM cache is absent. Repository health, local Markdown links, source/output checks, proposal/archive checks and exact-input restoration in an empty temporary checkout passed. The full Rust, browser and target-hardware suites were not rerun for this continuation.
+
+Run the [exact-input bootstrap](../tools/automation/bootstrap_baghdad_tests.py), then the delivery baseline/continuation generators and proposal builder in the documented dependency order. Both delivery generators and the publication support `--check`. The continuation binds source and output hashes; the proposal binds every packaged source and archive member. The complete proposal includes these packages and this review.
+
+The [six work packages](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md) remain field-open. Actual owners, surveyed parcels, supplier offers, OD/affordability evidence, Iraqi approvals, investor subscriptions and accepted engineering/operating evidence must replace the null fields. The delivered repository package is not a complete investment budget or railway release.

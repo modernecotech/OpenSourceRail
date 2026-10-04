@@ -145,6 +145,7 @@ When shared debt logic changes, regenerate in dependency order:
 .venv/bin/python tools/automation/baghdad_financing_redesign.py
 .venv/bin/python tools/automation/baghdad_equity.py
 .venv/bin/python tools/automation/baghdad_delivery_baseline.py
+.venv/bin/python tools/automation/baghdad_delivery_closure.py
 .venv/bin/python tools/automation/build-baghdad-proposal.py
 ```
 
@@ -157,3 +158,7 @@ The [retained viaduct-premises package](../../cities/catalogue/west-asia/Iraq/Ba
 The [delivery reconciliation](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/README.md) exposes unresolved scope and overlap alongside quantity/rate/workload sensitivities. Run its generator after physical/finance inputs, then regenerate the proposal. `--check` validates its inputs, outputs and current-review document. Alternatives and uncalibrated risk quantiles are not adopted budgets. The native ERP workforce observer reads a private Employee authorisation attachment and checks project/task/company and read permissions; it creates no assignment or railway authority.
 
 For a fresh checkout, install the existing test/render dependencies and run `.venv/bin/python tools/automation/bootstrap_baghdad_tests.py` before `.venv/bin/python -m pytest tools/automation/tests design/component-catalogue/tests -q`. The hash-bound archive supplies the exact operations input; resynthesis is not required for tests. `--check` verifies an existing payload without writing.
+
+The [delivery continuation](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/README.md) supplies nine depot/slot drawings, yard-slab mould capacity, child-part RFQs, per-site hourly energy, all maintenance intervals, restricted renewal cash, opening corridor break-even, practical assessment forms and six reconciled finance sensitivities. `baghdad_delivery_closure.py --check` rejects changed sources or outputs. These remain unquoted alternatives with unaccepted field evidence.
+
+`verify_baghdad_erp_restore.py --backup PRIVATE.sql.gz --expected PRIVATE-fingerprint.json --receipt PRIVATE-receipt.json` restores a trusted native backup into a new network-isolated disposable MariaDB container, compares six native data/schema/permission/file-inventory fingerprints and removes the container. It never restores into the source database. Receipts contain counts/hashes, remain private and do not establish full file recovery or production RTO/RPO. The corresponding bench-only probe is `osr_erpnext.delivery_admin.recovery_fingerprint`; `read_probe` measures bounded permission-aware reads, not city-scale capacity.

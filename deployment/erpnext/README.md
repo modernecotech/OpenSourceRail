@@ -94,3 +94,9 @@ at planning and again at task start, with current resource evidence. It creates
 no assignment, permit, competence record or railway release. Keep native worker
 records and private attachments out of public exports. The six delivery evidence
 drafts use the existing Task importer and preserve actual owners/status.
+
+## Local administrative and recovery probes
+
+`bench --site SITE execute osr_erpnext.delivery_admin.read_probe` performs bounded permission-aware native schema/record reads and reports elapsed times; it does not prove city-scale throughput or staffing. `osr_erpnext.delivery_admin.recovery_fingerprint` hashes the evidence Task, DocType, role membership, permission and File inventories for comparison with an isolated SQL restore. Both require System Manager, are bench-only and create no assignments or work-release authority. Rebuild the local image to retain these modules across container recreation.
+
+Use [the isolated restore tool](../../tools/automation/verify_baghdad_erp_restore.py) with a trusted private SQL backup and matching private native fingerprint. Its temporary database has no network or published ports and is deleted after verification. SQL inventory checks complement the existing [full platform recovery procedure](../../tools/automation/platform-recovery.py); they do not prove encrypted file recovery, production RTO/RPO or field acceptance. Keep backups and receipts in ignored `var/erpnext/`.

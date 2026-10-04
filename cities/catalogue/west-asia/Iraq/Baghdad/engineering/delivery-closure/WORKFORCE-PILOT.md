@@ -1,0 +1,7 @@
+# Workforce, practical training and a rest-limited pilot
+
+The [seven lesson cards](lesson-cards.json) provide practical scenarios, prerequisites/apparatus, critical observations, assessor authority, retraining and Arabic draft instructions. Attendance, practical assessment and task/asset/location authorisation stay separate. All actual candidate/assessor outcomes and native Arabic review remain null. The draft must not become an operational rulebook through generation.
+
+[Pilot schedule](pilot-roster.json) covers 143.5 OCC hours over seven days with 5 unnamed planning positions, maximum 8-hour shifts, minimum 11-hour rest and maximum 40 hours per rolling seven days. These are editable scheduling assumptions, not accepted Iraqi employment terms. No worker identity is invented; every slot remains ineligible until real Employee/assessment/authorisation/resources and a fresh start check exist. Leave/sickness/annual relief, supervised staffing, tools/permits and independent checks remain necessary.
+
+Department/unit/role budgets, recruitment cohorts, task workload and native HR/Work Order/Job Card/Asset Maintenance/Asset Repair records remain linked to the existing workload package. Read-only administrative previews require native role/document permissions and a baseline-bound private employee packet; human work-release authority remains separate. [Frappe staffing documentation](https://docs.frappe.io/hr/staffing-plan) describes the native administration; it does not appoint Baghdad staff.
