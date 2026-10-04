@@ -165,6 +165,12 @@ def test_opening_factory_orders_match_fleet_without_earlier_income_or_factory_sa
     deadlines={r['line']:r['opening_month'] for r in baseline}
     assert all(r['opening_month']<=deadlines[r['line']] for r in factory['delivery']['phases'])
     assert factory['factory_ready_month']==18 and not factory['factory_repriced'] and not factory['accepted']
+    occupied={}
+    for row in sorted(tasks,key=lambda r:r['start_hour']):
+        if row['asset_type']!='rolling-stock':continue
+        lane=(row['resource_pool'],row['resource_lane'])
+        assert row['start_hour']>=occupied.get(lane,0),row['manufacturing_uid']
+        occupied[lane]=row['end_hour']
 
 def test_corridor_break_even_has_no_fabricated_od_or_rank():
     c=read('corridor-comparison');assert len(c['cases'])==9 and not c['first_corridor_selected']
