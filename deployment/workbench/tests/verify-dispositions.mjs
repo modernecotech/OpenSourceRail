@@ -16,6 +16,16 @@ try {
  await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
  await page.locator('[data-module=projects]').click();
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
+ // ERP's asynchronous Administrator update notice is a separate native modal.
+ // Dismiss it through its visible close button before exercising our dialogs.
+ const updateNotice=frame.locator('.modal:visible').filter({has:frame.getByText('New updates are available',{exact:true})});
+ await expect.poll(()=>frame.locator('body').evaluate(()=>Boolean(window.cur_frm?.doc?.name))).toBe(true);
+ try {await updateNotice.waitFor({state:'visible',timeout:5000});}
+ catch(error) {if(error.name!=='TimeoutError') throw error;}
+ if(await updateNotice.count()) {
+   await updateNotice.locator('.modal-header button').click();
+   await expect(updateNotice).toHaveCount(0);
+ }
  const target={kind:'work-order',document:'UI-FIXTURE-WO'};
  let proposed,recorded=false,decided=false,decision,verification,verified=false,reworkVerified=false;const calls=[];
  await page.route('**/api/method/osr_erpnext.disposition.*',async route=>{
@@ -86,8 +96,6 @@ try {
  await frame.locator('body').evaluate(()=>window.cur_dialog.set_value('due_date','2026-10-01'));
  await modal().locator('textarea[data-fieldname="rationale"]').fill('UI fixture revised engineering interfaces');
  await modal().locator('textarea[data-fieldname="references"]').fill('fixture:drawing-R2');
- // Workbench's tool frame can be taller than this small outer viewport.
- await page.locator('#moduleFrame').evaluate(el=>el.scrollIntoView({block:'end'}));
  await modal().getByRole('button',{name:'Preview proposal',exact:true}).click();
  await expect(modal()).toContainText('This records a plan and assignment.');
  await modal().getByRole('button',{name:'Record proposal',exact:true}).click();
@@ -125,10 +133,11 @@ try {
 }catch(error){
  if(page){
    await page.screenshot({path:'build/disposition-dialog-failure.png',fullPage:true});
-   console.log(await page.frameLocator('#moduleFrame').locator('body').evaluate(()=>({height:innerHeight,
+   console.log(JSON.stringify(await page.frameLocator('#moduleFrame').locator('body').evaluate(()=>({height:innerHeight,
      modals:[...document.querySelectorAll('.modal.show')].map(m=>({rect:m.getBoundingClientRect().toJSON(),
        body:m.querySelector('.modal-body').getBoundingClientRect().toJSON(),
-       button:m.querySelector('.btn-modal-primary')?.getBoundingClientRect().toJSON()}))})));
+       title:m.querySelector('.modal-title')?.textContent,
+       button:m.querySelector('.btn-modal-primary')?.getBoundingClientRect().toJSON()}))})),null,2));
  }
  throw error;
 }finally{await browser.close();}

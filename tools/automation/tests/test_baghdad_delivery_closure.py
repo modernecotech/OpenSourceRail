@@ -86,7 +86,7 @@ def test_all_maintenance_intervals_and_startup_deficit_keep_evidence_open():
     assert row['additional_train_reference_capital_usd']==6*1680000
     assert row['selected_start_station_ids'] is None and not row['operational_release']
 
-@pytest.mark.parametrize('name',['reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar'])
+@pytest.mark.parametrize('name',['reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound'])
 def test_finance_cases_reconcile_native_capital_principal_cash_and_tranches(name):
     case=read('finance-'+name);rows=case['monthly'];totals=defaultdict_float()
     previous={k:0 for k in ('chinese_export_credit','domestic_bonds','bank_credit','green_bonds')}
@@ -125,6 +125,46 @@ def test_budget_replacements_preserve_factory_and_original_reference():
     assert scenario['metrics']['total_capital_usd']-opening['metrics']['total_capital_usd']==pytest.approx(381*1680000,abs=.02)
     assert opening['deferred_expansion_fleet_funding_usd'] is None
     assert any(r['supply_income_multiplier']<1 for r in opening['opex_components'])
+
+def test_hourly_site_diagnostics_identify_bus_and_charger_limits_without_netting():
+    with (OUT/'energy-site-shortage-hours.csv').open() as f:rows=list(csv.DictReader(f))
+    sites={r['station']:r for r in read('site-energy')['cases']['reference']['sites']}
+    assert rows and all(float(r['unserved_bus_kwh'])>0 or float(r['charger_delivery_shortfall_kwh'])>0 for r in rows)
+    for station,site in sites.items():
+        assert sum(float(r['unserved_bus_kwh']) for r in rows if r['station']==station)==pytest.approx(site['unserved_kwh'])
+        assert site['generation_kwh']==pytest.approx(site['local_generation_kwh']+site['gross_utility_generation_kwh']*.95)
+        assert 0<site['installed_service_energy_fraction']<=1+1e-9
+    with (OUT/'aggregate-reference-shortage-hours.csv').open() as f:aggregate=list(csv.DictReader(f))
+    assert len(aggregate)==28
+    bound=read('finance-installed_energy_supply_bound');firm=read('finance-reconciled_full_fleet')
+    assert sum(r['fare_receipts_iqd'] for r in bound['monthly'])<sum(r['fare_receipts_iqd'] for r in firm['monthly'])
+    assert sum(r['incremental_net_receipts_iqd'] for r in bound['monthly'])<sum(r['incremental_net_receipts_iqd'] for r in firm['monthly'])
+    assert not bound['operational_release'] and not bound['shareholder_distributions']['dividend_permission']
+
+def test_development_training_capacity_precedes_operating_cohorts_and_reconciles_cash():
+    mobilisation=read('development-training-mobilisation')
+    people=json.loads((OUT.parent/'delivery-baseline/workforce.json').read_text())
+    first_join=min(r['join_month'] for r in people['recruitment_cohorts'])
+    leadership=next(r for r in mobilisation['development_posts'] if r['role_id']=='city-director')
+    assert leadership['start_month']==0 and leadership['handover_month']==41
+    assert mobilisation['training_rigs_required_month']<first_join
+    assert all(r['qualified_internal_capacity_credited']==0 for r in mobilisation['monthly'])
+    assert sum(r['existing_trainer_assessor_cash_iqd'] for r in mobilisation['monthly'])==pytest.approx(people['training_recruitment_cash_iqd']-sum(r['paid_preopening_training_iqd'] for r in people['recruitment_cohorts']))
+    assert sum(r['additional_mentor_cash_iqd']+r['additional_development_cash_iqd'] for r in mobilisation['monthly'])==pytest.approx(mobilisation['additional_preopening_cash_iqd'])
+    assert {r['role_id'] for r in mobilisation['role_coverage']}=={r['role_id'] for r in people['roles']}
+    assert any(r['minimum_external_assessor_posts']>0 for r in mobilisation['monthly'])
+    assert any(r['minimum_external_mentor_posts']>0 for r in mobilisation['monthly'])
+    assert not mobilisation['named_handover_accepted']
+
+def test_opening_factory_orders_match_fleet_without_earlier_income_or_factory_saving():
+    factory=read('opening-factory-replay');tasks=factory['delivery']['tasks']
+    stock={r['asset_id'] for r in tasks if r['asset_type']=='rolling-stock'}
+    assert len(stock)==factory['selected_trainsets']==450
+    assert len({r['asset_id'] for r in tasks if 'OPENING-EXTRA' in r['asset_id']})==1
+    baseline=json.loads((OUT.parent/'delivery-risk/summary.json').read_text())['cases']['calendar_baseline']['phases']
+    deadlines={r['line']:r['opening_month'] for r in baseline}
+    assert all(r['opening_month']<=deadlines[r['line']] for r in factory['delivery']['phases'])
+    assert factory['factory_ready_month']==18 and not factory['factory_repriced'] and not factory['accepted']
 
 def test_corridor_break_even_has_no_fabricated_od_or_rank():
     c=read('corridor-comparison');assert len(c['cases'])==9 and not c['first_corridor_selected']

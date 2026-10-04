@@ -1,0 +1,41 @@
+# Baghdad review follow-up: controls, CI and deliverable-service sensitivity
+
+The attached review examined `aff4fbc9`; the subsequent continuation already integrated depot, energy, payroll and replacement-reserve cash. This follow-up strengthens that implementation and preserves the original financing case as a comparator. None of the engineering alternatives has field acceptance or committed finance.
+
+## Financing and service
+
+The [integrated monthly and six-month ledgers](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md) now include interim development leadership from NTP and separately purchased mentoring before opening. Existing contracted teaching/assessment is scheduled once. Added development/mentoring cash is **IQD 2.582bn before inflation**. The full-fleet sensitivity has **USD 8.060bn capital**, **IQD 11.360tn peak gap debt**, **IQD 7.532tn terminal gap debt**, and **USD −4.692bn company cash NPV before finance**. Approximately **USD 515.831m equivalent** of eligible core principal is prepaid after reserves, buffers and assumed call premiums; this does not clear gap debt.
+
+Government remains **25%** of scenario capital. Imports retain **50% government USD / 50% proposed Chinese USD credit**. Remaining government cash, ordinary/green bonds, bank and gap credit, fares and commercial receipts remain **IQD**. There are no new commitments, subscriptions or guaranteed property proceeds. Existing variable fares and 5% annual fare/OPEX/income growth remain explicit assumptions. The IQD 1,750 sensitivity still clears debt in month 378, with negative company cash NPV and unverified demand/affordability.
+
+The new **installed-energy supply bound** retains existing electrical capacity, removes purchases/connection charges for the unbuilt expansion, and reduces fares, station commercial receipts and additional commercial income. Synthetic installed charger/energy throughput is about **87.27%** of allocated traction demand. Its terminal gap debt is approximately **IQD 12.967tn**, with **IQD 2.787tn uncovered support**. This is an energy-throughput upper bound; actual charging events, train circulation and a feasible timetable remain unaccepted. The firm-service case instead purchases shortage energy and requires unpriced physical upgrades. Neither may be described as a complete bankable budget or achieved service.
+
+All integrated cases model **zero dividends**. Cash left after the debt/reserve/buffer waterfall stays in the company; audited after-tax distributable profit, covenant permission and shareholder approval remain unresolved. Earlier holding-company returns describe their original scope and must not be transferred to these higher-cost sensitivities.
+
+## Engineering and mobilisation
+
+[The 28 former pooled shortage hours](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/aggregate-reference-shortage-hours.csv) remain available as a comparator. [Site-hour diagnostics](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv) trace grid/charger limits, opening/closing stored energy and generation paths. On-site PV receives no remote wheeling loss or charge. The reference has 2,194 distinct hours with at least one bus shortfall; the larger site-hour count also includes charger overload. Those counts measure different scopes.
+
+[Retained workshop sites](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/depot-package.json) explicitly require line-local covered lifting, bogie exchange, wheel servicing and body overhaul. Eight zero-bay sites still need additional facilities and quotes; mobile tools do not replace covered bays, and a disconnected central workshop provides no train-transfer route. Road transport covers removed components only. The integrated case uses workload bays at all nine sites. The five missing morning-direction requirements remain an open gate: frozen-start alternatives require either an accepted smaller start-point policy or five revenue trains plus one spare and consequential engineering/funding.
+
+[The 450-train factory replay](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/opening-factory-replay.json) removes deferred orders and rebuilds factory resource queues, including the extra line-9 spare. Manufacturing selection, procurement cash, energy, operating payroll, maintenance and battery reserves follow the lower supply. Original expansion-capable factory/depot capital and civil opening dates remain funded; no earlier receipts or cheaper plant are invented. The case still has approximately **IQD 6.525tn uncovered support**, and deferred expansion remains unfunded.
+
+[Development and training schedules](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEVELOPMENT-TRAINING.md) distinguish interim authorities, operating successors and signed handovers. Training leadership starts at month 18 and rigs must be ready by month 24, before the first operating cohorts join at month 34. Minimum purchased peak capacity is 19 teaching, 35 assessment and 90 mentoring posts, at different times. Operating recruits supply zero qualified training capacity. All 21 operating roles have lesson/coverage requirements; actual equipment, assessors, daily/rest rosters and named appointments remain absent. The anonymous OCC roster is only a pilot.
+
+The editable metro-six-car price now feeds fleet procurement and the parent BOM allocation. Workforce conversion uses its configured FX reference; publication rejects inconsistent funding/workforce/corridor FX assumptions.
+
+## Workforce controls and CI corrections
+
+The evaluator now checks task/location/asset/isolation scope, named authorised supervisors, qualified independent verifiers, correct calibrated tools and released part/revision/quantity. Duplicate stock records cannot count twice. Regression tests reject the review's combined wrong-line permit, missing supervisor and unqualified verifier example.
+
+The [native workforce preview](../deployment/erpnext/README.md) validates a private attached snapshot. `snapshot_eligible` describes that snapshot; `eligible` and `live_start_check` remain false because current authoritative revocation is unresolved. Rechecking a timestamp detects expiry, not later revocation. Human task start still requires current authoritative evidence and work-release authority. No worker or assignment was created.
+
+The six observed CI failures have corresponding changes:
+
+- The Python test environment installs PyYAML. The hash-verified bootstrap restores declared energy/GIS/SUMO inputs and preserves differing workspace data.
+- Portfolio browser expectations use the authoritative API and the UI's formatting rather than stale capital literals.
+- Disabling unused postcard default features removes the heapless-CAS dependency path containing unmaintained `atomic-polyfill` and yanked `spin`; the wire fixture remains unchanged.
+- TLC 1.8.0 is pinned to SHA256 `c2fe4e56e43bde19f213b4a7e441d037297fda733e503579623e859b79348239`, independently matched to upstream asset metadata and the [published SHA1](https://github.com/tlaplus/tlaplus/releases/tag/v1.8.0). A changed artifact must fail verification rather than run unverified.
+- Workbench uses a viewport-sized flex layout instead of an oversized minimum frame. The native test dismisses an asynchronous ERP update notice through its visible close button when present. Proposal, review and verification retain real clicks without forced clicks.
+
+Local verification includes 124 focused tests, all 43 frontend acceptance tests, native disposition clicks, the source-bound TACS twin and bounded formal execution, and the Rust dependency audit. Full repository/publication checks and fresh-checkout verification are recorded with the final publication. Passing software checks provides no construction, railway-operation or investment release.

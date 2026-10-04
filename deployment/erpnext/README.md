@@ -89,8 +89,12 @@ that anyone has been appointed or authorised. The bench-only
 `osr_erpnext.workforce.preview_assignment` accepts `project`, `task`, `employee`
 and `authorisation_file`; the private File must belong to that active Employee
 and its controlled JSON packet must match the Project baseline and Task.
-HR Manager or System Manager plus native read permissions are required. Preview
-at planning and again at task start, with current resource evidence. It creates
+HR Manager or System Manager plus native read permissions are required. This
+validates the attached snapshot: `snapshot_eligible` describes those assertions,
+while `eligible` and `live_start_check` remain false. Timestamp rechecks detect
+expiry; they do not resolve subsequent revocation of authoritative records.
+Before task start, the human work-release process must resolve current permits,
+competence, availability, calibration and stock release. The preview creates
 no assignment, permit, competence record or railway release. Keep native worker
 records and private attachments out of public exports. The six delivery evidence
 drafts use the existing Task importer and preserve actual owners/status.

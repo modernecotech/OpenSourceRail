@@ -14,7 +14,7 @@ from pathlib import Path
 import sys
 import tomllib
 
-from baghdad_delivery_baseline import ROOT, CITY, dispatch_energy, hourly_duty, workforce, table
+from baghdad_delivery_baseline import ROOT, CITY, dispatch_energy, hourly_duty, workforce, table, trainset_reference_cost
 from baghdad_delivery_stress import schedule, finance
 from baghdad_funding_analysis import capital_projection, simulate
 
@@ -32,7 +32,7 @@ def validate(c):
                 raise ValueError('Invalid assumption: '+key)
     for section,keys in {'slab_factory':['working_days_per_year','utilisation','mould_cycle_working_days','panel_length_m','fastener_pitch_max_m'],
         'maintenance':['wheel_interval_km','bogie_interval_km','body_interval_years'],
-        'mobilisation':['maximum_shift_hours','maximum_hours_rolling_7_days','pilot_worker_pool']}.items():
+        'mobilisation':['maximum_shift_hours','maximum_hours_rolling_7_days','pilot_worker_pool','trainees_per_external_mentor']}.items():
         if any(c[section][key]<=0 for key in keys):raise ValueError('Positive assumptions required: '+section)
     for key in ('depot_import_share','preopening_epc_credit_fraction','qualification_factory_credit_fraction','depot_energy_allowance_credit_fraction'):
         if not 0<=c['model'][key]<=1:raise ValueError('Invalid allocation '+key)
@@ -172,29 +172,46 @@ def site_energy(design,scenario,city_finance,baseline_config):
     cases={};lines=defaultdict(list)
     for site in scenario['sites']:lines[station_lines[site['station']]].append(site)
     for weather,yield_factor,age in [('reference',1,0),('poor',c['poor_year_yield_factor'],0),('aged10',1,10)]:
-        records=[];hourly_by_line={};annual_charging=0
+        records=[];hourly_by_line={};shortages=[];annual_charging=0
         for line in design['lines']:
             name=line['name'];energy=total*line_weights[name]/sum(line_weights.values());duty=hourly_duty(dict(lines=[line]),dict(fleets=[fleets[name]]),energy)
             pool=lines[name];weight=sum(s['charger_max_kw'] for s in pool)
             aggregates=[dict(hour=h,line=name,demand_kwh=0.,generation_kwh=0.,grid_import_kwh=0.,unserved_kwh=0.,curtailed_kwh=0.,closing_soc_kwh=0.) for h in range(8760)]
             for site in pool:
                 share=site['charger_max_kw']/weight;utility_kw=plant*line_weights[name]/sum(line_weights.values())*share
-                loads=[];generation=[]
+                loads=[];generation=[];local_generation=[];remote_generation=[]
                 for day in range(365):
                     season=1+.25*math.sin(2*math.pi*(day-80)/365)
                     poor=c['poor_spell_yield_factor'] if 5<=day<5+c['poor_spell_days'] else 1.
                     for hour in range(24):
                         loads.append(duty[hour]*share/site['charger_efficiency'])
-                        generation.append((utility_kw*(1-c['wheeling_loss_fraction'])+site['pv_nameplate_kw'])*scenario['climate']['peak_sun_hours']*c['pv_performance_ratio']*season*yield_factor*poor*sun[hour]/sun_sum)
+                        shape=scenario['climate']['peak_sun_hours']*c['pv_performance_ratio']*season*yield_factor*poor*sun[hour]/sun_sum
+                        local_generation.append(site['pv_nameplate_kw']*shape)
+                        remote_generation.append(utility_kw*shape)
+                        generation.append(local_generation[-1]+remote_generation[-1]*(1-c['wheeling_loss_fraction']))
                 rows=dispatch_energy(generation,loads,storage_kwh=site['storage_capacity_kwh'],
                     power_kw=min(site['storage_max_charge_kw'],site['storage_max_discharge_kw']),grid_kw=site['grid_import_kw'],
                     config=c,capacity_fraction=(1-c['storage_annual_degradation'])**age)
                 grid=sum(r['grid_import_kwh'] for r in rows);unserved=sum(r['unserved_kwh'] for r in rows)
                 upgrade=max(r['unserved_kwh'] for r in rows);charger_upgrade=max(0,max(loads)*site['charger_efficiency']-site['charger_max_kw'])
-                gross_utility=utility_kw/(utility_kw*(1-c['wheeling_loss_fraction'])+site['pv_nameplate_kw'])*sum(generation) if utility_kw else 0
+                gross_utility=sum(remote_generation)
+                delivered=sum(min((r['demand_kwh']-r['unserved_kwh'])*site['charger_efficiency'],site['charger_max_kw']) for r in rows)
+                for r in rows:
+                    charger_shortage=max(0,(r['demand_kwh']-r['unserved_kwh'])*site['charger_efficiency']-site['charger_max_kw'])
+                    if r['unserved_kwh']>1e-7 or charger_shortage>1e-7:
+                        shortages.append(dict(station=site['station'],line=name,hour=r['hour'],day=r['hour']//24,
+                            local_pv_kwh=local_generation[r['hour']],remote_pv_before_wheeling_kwh=remote_generation[r['hour']],
+                            demand_kwh=r['demand_kwh'],grid_limit_kw=site['grid_import_kw'],grid_import_kwh=r['grid_import_kwh'],
+                            storage_power_limit_kw=min(site['storage_max_charge_kw'],site['storage_max_discharge_kw']),
+                            opening_soc_kwh=r['opening_soc_kwh'],closing_soc_kwh=r['closing_soc_kwh'],
+                            unserved_bus_kwh=r['unserved_kwh'],charger_limit_kw=site['charger_max_kw'],
+                            charger_delivery_shortfall_kwh=charger_shortage,
+                            diagnosis='Installed charger limit' if r['unserved_kwh']<=1e-7 else 'Grid limit plus unavailable stored energy/power',
+                            accepted=False))
                 cost=(grid+unserved)*c['import_purchase_usd_per_kwh']+gross_utility*c['wheeling_usd_per_kwh']+sum(loads)*c['balancing_usd_per_kwh']+(site['grid_import_kw']+upgrade)*c['connection_usd_per_kw_year']
                 records.append(dict(station=site['station'],line=name,allocated_traction_kwh=energy*share,charging_demand_kwh=sum(loads),
-                    allocated_utility_pv_kw=utility_kw,gross_utility_generation_kwh=gross_utility,generation_kwh=sum(generation),grid_import_kwh=grid,unserved_kwh=unserved,
+                    allocated_utility_pv_kw=utility_kw,gross_utility_generation_kwh=gross_utility,local_generation_kwh=sum(local_generation),generation_kwh=sum(generation),grid_import_kwh=grid,unserved_kwh=unserved,
+                    installed_deliverable_traction_upper_bound_kwh=delivered,installed_service_energy_fraction=delivered/(energy*share),
                     curtailment_kwh=sum(r['curtailed_kwh'] for r in rows),storage_loss_kwh=sum(r['conversion_loss_kwh'] for r in rows),
                     grid_upgrade_minimum_kw=upgrade,charger_upgrade_minimum_kw=charger_upgrade,grid_and_charger_upgrade_capex_usd=None,
                     firm_purchase_topup_kwh=unserved,annual_firm_energy_services_usd=cost,
@@ -206,7 +223,10 @@ def site_energy(design,scenario,city_finance,baseline_config):
                 annual_charging+=sum(loads)
             hourly_by_line[name]=aggregates
         annual_cost=sum(r['annual_firm_energy_services_usd'] for r in records)+city_finance['annual_opex_usd']['components']['solar_plant_maintenance']
-        cases[weather]=dict(sites=records,hourly_by_line=hourly_by_line,traction_demand_kwh=total,charging_bus_demand_kwh=annual_charging,
+        cases[weather]=dict(sites=records,hourly_by_line=hourly_by_line,shortage_hours=shortages,
+            site_charger_or_bus_shortage_hour_count=len(shortages),bus_shortage_distinct_hours=len({r['hour'] for r in shortages if r['unserved_bus_kwh']>1e-7}),
+            installed_deliverable_traction_upper_bound_kwh=sum(r['installed_deliverable_traction_upper_bound_kwh'] for r in records),
+            traction_demand_kwh=total,charging_bus_demand_kwh=annual_charging,
             grid_import_kwh=sum(r['grid_import_kwh'] for r in records),unserved_kwh=sum(r['unserved_kwh'] for r in records),
             firm_purchase_topup_kwh=sum(r['firm_purchase_topup_kwh'] for r in records),annual_firm_energy_cost_usd=annual_cost,
             grid_upgrade_minimum_kw=sum(r['grid_upgrade_minimum_kw'] for r in records),
@@ -371,6 +391,68 @@ def reconstruct_inputs(paths):
         if abs(result['metrics'][key]-reference['metrics'][key])>.02:raise ValueError('Reference reconstruction differs: '+key)
     return result['model_inputs'],delivery['phases'],task_lines,programme
 
+def mobilisation_capacity(people,bc,c):
+    """Fund interim leadership and schedule purchased teaching/mentoring capacity."""
+    w=bc['workforce'];m=c['mobilisation'];first=min(r['authorised_available_month'] for r in people['recruitment_cohorts'])
+    joined=min(r['join_month'] for r in people['recruitment_cohorts'])
+    if not m['training_head_start_month']<=m['training_rigs_required_month']<=joined:
+        raise ValueError('Training leadership/rigs must precede operating cohorts')
+    roles={r['role_id']:r for r in people['roles']};head_month=m['training_head_start_month']
+    posts=[dict(role_id=k,posts=1,start_month=0,handover_month=first,
+        monthly_loaded_payroll_iqd=roles[k]['annual_loaded_payroll_iqd']/roles[k]['required_fte']/12,
+        scope='Interim development authority; operating successor trainees funded separately',named_incumbent=None,named_successor=None,
+        signed_handover=None) for k in ('city-director','chief-engineer')]
+    posts.append(dict(role_id='development-training-head',posts=1,start_month=head_month,handover_month=first,
+        monthly_loaded_payroll_iqd=w['technical_monthly_iqd']*(1+w['employer_cost_fraction']+w['overtime_allowance_fraction']),
+        scope='Training procurement, lesson/Arabic review, rig and assessor mobilisation',named_incumbent=None,named_successor=None,signed_handover=None))
+    months=defaultdict(lambda:dict(teaching_person_hours=0.,assessment_person_hours=0.,mentor_person_hours=0.,
+        existing_trainer_assessor_cash_iqd=0.,additional_mentor_cash_iqd=0.,additional_development_cash_iqd=0.))
+    hours_per_month=people['productive_hours_per_fte']/12
+    mapping={r['role_id']:('OCC' if r['department']=='occ_remote_assist' else 'STA' if r['department'] in {'station_platform','passenger_service'} else
+        'FLT' if r['department']=='fleet_maintenance' else 'CIV' if r['department']=='infrastructure_energy' else 'SUP') for r in people['roles']}
+    plans=[]
+    for cohort in people['recruitment_cohorts']:
+        learners=cohort['offers_required']*(1-w['recruitment_attrition_fraction'])
+        groups=math.ceil(learners/w['trainer_learners_per_group'])
+        teaching=groups*(w['induction_training_hours']+w['practical_training_hours'])
+        assessment=learners*(2-w['assessment_first_pass_fraction'])*w['assessment_hours']
+        for month in range(cohort['join_month'],cohort['training_complete_month']):
+            months[month]['teaching_person_hours']+=teaching/(cohort['training_complete_month']-cohort['join_month'])
+        for month in range(cohort['training_complete_month'],cohort['repeated_assessment_month']):
+            months[month]['assessment_person_hours']+=assessment/(cohort['repeated_assessment_month']-cohort['training_complete_month'])
+        for month in range(cohort['join_month'],cohort['repeated_assessment_month']):
+            months[month]['existing_trainer_assessor_cash_iqd']+=cohort['trainer_assessor_iqd']/(cohort['repeated_assessment_month']-cohort['join_month'])
+        for month in range(cohort['repeated_assessment_month'],cohort['authorised_available_month']):
+            mentor=learners*hours_per_month/m['trainees_per_external_mentor']
+            months[month]['mentor_person_hours']+=mentor
+            months[month]['additional_mentor_cash_iqd']+=mentor*(w['technical_monthly_iqd']*(1+w['employer_cost_fraction']+w['overtime_allowance_fraction'])/hours_per_month)
+        plans.append(dict(line=cohort['line'],role_id=cohort['role_id'],modules=['BAG-TRN-IND','BAG-TRN-'+mapping[cohort['role_id']]],
+            start_month=cohort['join_month'],teaching_end_month=cohort['training_complete_month'],assessment_end_month=cohort['repeated_assessment_month'],
+            supervised_end_month=cohort['authorised_available_month'],learner_groups=groups,expected_joined=learners,
+            teaching_person_hours=teaching,assessment_person_hours=assessment,actual_equipment=None,appointed_assessor=None,accepted=False))
+    for post in posts:
+        for month in range(post['start_month'],post['handover_month']):
+            months[month]['additional_development_cash_iqd']+=post['posts']*post['monthly_loaded_payroll_iqd']
+    monthly=[]
+    for month,values in sorted(months.items()):
+        monthly.append(dict(month=month,**values,
+            minimum_external_teaching_posts=math.ceil(values['teaching_person_hours']/hours_per_month),
+            minimum_external_assessor_posts=math.ceil(values['assessment_person_hours']/hours_per_month),
+            minimum_external_mentor_posts=math.ceil(values['mentor_person_hours']/hours_per_month),
+            qualified_internal_capacity_credited=0,actual_capacity_accepted=False))
+    return dict(development_posts=posts,training_rigs_required_month=m['training_rigs_required_month'],rig_capital_usd=None,
+        cohort_lesson_schedule=plans,monthly=monthly,role_coverage=[dict(role_id=r['role_id'],required_fte=r['required_fte'],
+            concurrent_posts=r['minimum_concurrent_posts'],annual_workload_person_hours=r['annual_workload_person_hours'],
+            lesson_modules=['BAG-TRN-IND','BAG-TRN-'+mapping[r['role_id']]],native_employee=None,rest_roster_accepted=False) for r in people['roles']],
+        existing_trainer_assessor_cash_iqd=sum(r['trainer_assessor_iqd'] for r in people['recruitment_cohorts']),
+        additional_preopening_cash_iqd=sum(r['additional_mentor_cash_iqd']+r['additional_development_cash_iqd'] for r in monthly),
+        named_handover_accepted=False,roster_released=False,
+        limitations=['Teaching/assessment hours schedule the existing contracted allowance; it is not charged a second time',
+            'Independent external mentors and interim leadership add cash before opening; EPC credit remains explicitly unaccepted',
+            'Operating recruits are not credited as qualified teachers, assessors or mentors',
+            'Hour-derived staffing is a minimum: rig access, competence, concurrent observation and daily/rest rosters remain unaccepted',
+            'Factory production curricula and workforce remain in factory procurement; these are operating cohorts'])
+
 def preopening_cash(people,horizon,fx,options):
     rows=[0.]*horizon
     for cohort in people['recruitment_cohorts']:
@@ -381,16 +463,64 @@ def preopening_cash(people,horizon,fx,options):
     for cohort in people['temporary_commissioning_cohorts']:
         for month in range(cohort['start_month'],cohort['end_month']):
             rows[month]+=cohort['reference_payroll_iqd']/fx/(cohort['end_month']-cohort['start_month'])
+    for row in people['development_mobilisation']['monthly']:
+        rows[row['month']]+=(row['additional_development_cash_iqd']+row['additional_mentor_cash_iqd'])/fx
     return [value*(1+options['fares']['opex_inflation'])**(month//12) for month,value in enumerate(rows)]
 
-def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_people,energy,opening_energy,first_phase,batteries,opening_batteries,c):
+def opening_factory_replay(paths,phases,settings):
+    payload=json.loads(gzip.decompress(paths['operations'].read_bytes()));original=payload['manufacturing_tasks']
+    by_line=defaultdict(dict)
+    for row in original:
+        if row['asset_type']=='rolling-stock':
+            by_line[row['line']][row['asset_id']]=min(row['planned_start_day'],by_line[row['line']].get(row['asset_id'],float('inf')))
+    selected=set();added=[];lineage={}
+    for phase in phases['lines']:
+        assets=sorted(by_line[phase['line']],key=lambda a:(by_line[phase['line']][a],a))
+        selected.update(assets[:phase['opening_trainsets']])
+        for index in range(max(0,phase['opening_trainsets']-len(assets))):
+            source=[r for r in original if r['asset_id']==assets[-1]]
+            new_id=assets[-1]+f'-OPENING-EXTRA-{index+1}'
+            uid_map={r['manufacturing_uid']:r['manufacturing_uid'].replace(r['asset_id'],new_id) for r in source}
+            for row in source:
+                clone=deepcopy(row);clone['asset_id']=new_id;clone['manufacturing_uid']=uid_map[row['manufacturing_uid']]
+                clone['planned_start_day']+=1
+                for key in ('predecessor_uids','schedule_predecessor_uids'):
+                    clone[key]=';'.join(uid_map.get(p.strip(),p.strip()) for p in row[key].split(';') if p.strip())
+                lineage[clone['manufacturing_uid']]=row['manufacturing_uid'];added.append(clone)
+    tasks=[deepcopy(r) for r in original if r['asset_type']!='rolling-stock' or r['asset_id'] in selected]+added
+    kept={r['manufacturing_uid'] for r in tasks};lanes={}
+    # Rebuild the selected factory queues; dropped procurement is not secretly
+    # manufactured through the old full-fleet resource predecessor chain.
+    for row in sorted(tasks,key=lambda r:(r['planned_start_day'],r['manufacturing_uid'])):
+        pred=[p.strip() for p in row['schedule_predecessor_uids'].split(';') if p.strip() and p.strip() in kept]
+        if row['asset_type']=='rolling-stock':
+            pred=[p for p in pred if p!=row['resource_predecessor_uid']]
+            lane=(row['resource_pool'],row['resource_lane'])
+            if lane in lanes:pred.append(lanes[lane])
+            lanes[lane]=row['manufacturing_uid']
+        row['schedule_predecessor_uids']=';'.join(dict.fromkeys(pred))
+    factory=read(paths['factory']);delivery=schedule(tasks,factory,settings)
+    return dict(delivery=delivery,added_task_lineage=lineage,
+        selected_rolling_task_uids=[r['manufacturing_uid'] for r in tasks if r['asset_type']=='rolling-stock'],
+        selected_trainsets=len(selected)+len({r['asset_id'] for r in added}),
+        retained_factory_capital_usd=factory['budgeted_plant_direct_usd']+factory['budgeted_plant_epc_usd'],
+        factory_ready_month=18,factory_repriced=False,accepted=False,
+        finance_dates_policy='Retain baseline civil opening dates; no earlier fare income credited',
+        limitations=['Planned selected asset IDs are not purchase orders or accepted train deliveries',
+            'Full expansion-capable factory/equipment retained and paid once; no invented cheaper factory',
+            'Factory queues replay selected orders and one new spare; civil scope and independent acceptance remain unchanged'])
+
+def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_people,energy,opening_energy,first_phase,batteries,opening_batteries,c,opening_factory):
     config=inputs['config'];options=inputs['options'];fx=config['model']['iqd_per_usd'];eligible=set(options['green']['candidate_buckets'])
     base_contracts=inputs['contracts']+inputs['factory_contracts'];costs=read(CITY/'engineering/finance/summary.json')['annual_opex_usd']['components']
     cases={};rate=(1+config['model']['discount_rate'])*(1+options['fares']['general_price_inflation'])-1
     line_openings={r['line']:r['opening_month'] for r in phases};first=min(line_openings.values());last=max(line_openings.values())
-    for name in ('reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar'):
+    for name in ('reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound'):
         cfg=deepcopy(config);opt=deepcopy(options);contracts=deepcopy(base_contracts);op=deepcopy(inputs['operating']);is_reference=name=='reference';opening=name=='opening_fleet_supply_scaled';ppa=name=='contracted_solar'
+        installed=name=='installed_energy_supply_bound'
         ppl=opening_people if opening else people;power=opening_energy if opening else energy;prepay=preopening_cash(ppl,len(op),fx,opt)
+        energy_ratios={p['line']:sum(r['installed_deliverable_traction_upper_bound_kwh'] for r in power['cases']['reference']['sites'] if r['line']==p['line'])/sum(r['allocated_traction_kwh'] for r in power['cases']['reference']['sites'] if r['line']==p['line']) for p in phases}
+        energy_config=tomllib.loads((ROOT/'lib/templates/baghdad-delivery-baseline.toml').read_text())['energy']
         cap_inclusions=[]
         if not is_reference:
             contracts=[r for r in contracts if r['bucket']!='depots' and not (ppa and r['bucket']=='solar_plant')]
@@ -406,14 +536,25 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
             for bucket,amount in [('incremental_epc',extra_epc),('incremental_qualification',extra_qualification)]:
                 if amount:contracts.append(dict(bucket=bucket,budget_usd=amount,imported_share=0,planned_start_day=0,planned_finish_day=18*260//12-30))
             if opening:
+                original_contracts={r['manufacturing_uid']:r for r in contracts if r['bucket']=='rolling_stock'}
+                selected=set(opening_factory['selected_rolling_task_uids'])
+                contracts=[r for r in contracts if r['bucket']!='rolling_stock' or r['manufacturing_uid'] in selected]
+                for uid,source in opening_factory['added_task_lineage'].items():
+                    if source in original_contracts:
+                        clone=deepcopy(original_contracts[source]);clone['manufacturing_uid']=uid;contracts.append(clone)
+                timings={r['manufacturing_uid']:r for r in opening_factory['delivery']['tasks']}
+                selected_task_lines={r['manufacturing_uid']:r['line'] for r in opening_factory['delivery']['tasks']}
                 line_budgets=defaultdict(float)
                 for contract in contracts:
-                    if contract['bucket']=='rolling_stock':line_budgets[task_lines[contract['manufacturing_uid']]]+=contract['budget_usd']
+                    if contract['bucket']=='rolling_stock':line_budgets[selected_task_lines[contract['manufacturing_uid']]]+=contract['budget_usd']
                 # Original task cost weights differ slightly by line. Retain invoice
                 # timing, but price the reduced fleet at the declared consist cost.
                 ratios={r['line']:r['opening_trainsets']*family['cost_allocations_reconcile_usd']/line_budgets[r['line']] for r in first_phase['lines']}
                 for contract in contracts:
-                    if contract['bucket']=='rolling_stock':contract['budget_usd']*=ratios[task_lines[contract['manufacturing_uid']]]
+                    if contract['bucket']=='rolling_stock':
+                        uid=contract['manufacturing_uid'];contract['budget_usd']*=ratios[selected_task_lines[uid]]
+                        contract['planned_start_day']=math.floor(timings[uid]['start_hour']/8)
+                        contract['planned_finish_day']=math.ceil(timings[uid]['end_hour']/8)-1
             cap_inclusions=[dict(bucket=r['bucket'],budget_usd=r['budget_usd']) for r in contracts if r['bucket'] in {'reconciled_depot','incremental_epc','incremental_qualification'}]
         capital=capital_projection(contracts,cfg,eligible)
         # Preserve factory draw shares used by the common reserve/fee calculation.
@@ -434,6 +575,8 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
             weight=cfg['model']['phased_fixed_opex_share']+(1-cfg['model']['phased_fixed_opex_share'])*opened if active else 0
             payroll=sum(pay for line,pay in line_pay.items() if month>=line_openings[line])*index/12 if active else 0
             power_annual=power['cases']['reference']['annual_firm_energy_cost_usd']
+            if installed:
+                power_annual-=sum(r['unserved_kwh']*energy_config['import_purchase_usd_per_kwh']+r['grid_upgrade_minimum_kw']*energy_config['connection_usd_per_kw_year'] for r in power['cases']['reference']['sites'])
             if ppa:
                 utility_generation=sum(r['gross_utility_generation_kwh'] for r in power['cases']['reference']['sites'])
                 power_annual+=utility_generation*.045-costs['solar_plant_maintenance']
@@ -442,17 +585,19 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
             if not is_reference:
                 additional=payroll-costs['labour']*weight*index/12+power_cash-costs['solar_plant_maintenance']*weight*index/12
                 additional+=prepay[month]*(1-c['model']['preopening_epc_credit_fraction'])+topup_by_month[month]
-                if opening:
-                    reduction=costs['rolling_stock_maintenance_including_battery_renewal_reserve']*(1-first_phase['opening_fleet']/first_phase['baseline_fleet'])
-                    additional-=reduction*weight*index/12
+                if opening or installed:
+                    if opening:
+                        reduction=costs['rolling_stock_maintenance_including_battery_renewal_reserve']*(1-first_phase['opening_fleet']/first_phase['baseline_fleet'])
+                        additional-=reduction*weight*index/12
                     ramp=cfg['model']['revenue_ramp'];denom=numerator=0.
                     for phase in phases:
                         if month>=phase['opening_month']:
                             r=next(r for r in first_phase['lines'] if r['line']==phase['line'])
                             w=phase['weight']*ramp[min((month-phase['opening_month'])//12,len(ramp)-1)]
-                            denom+=w;numerator+=w*r['opening_daily_train_km']/r['baseline_daily_train_km']
+                            denom+=w;numerator+=w*(energy_ratios[phase['line']] if installed else r['opening_daily_train_km']/r['baseline_daily_train_km'])
                     supply_ratio=numerator/denom if denom else 1.
                     for key in ('fare_revenue_usd','nonfare_revenue_usd','revenue_usd'):row[key]*=supply_ratio
+                    row['additional_income_multiplier']=supply_ratio
                 row['opex_usd']+=additional
             if not is_reference:
                 row['chinese_commitment_fee_usd']=0
@@ -466,6 +611,11 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
         result=simulate(capital,op,cfg,opt,green='blended' if extras else None,extras=extras,
             bridge_rate=opt['liquidity']['concessional_annual_rate'],bridge_fee=opt['liquidity']['concessional_draw_fee'],repayment_policy='cost_priority')
         result.update(capital_components=cap_inclusions,opex_components=component_rows,
+            service_basis='Original annual-netting comparator, unverified service' if is_reference else 'Installed energy/charger throughput upper bound; trip feasibility remains unaccepted' if installed else 'Conditional service requiring priced/accepted electrical upgrades',
+            shareholder_distributions=dict(modelled_total_dividends_iqd=0,dividend_permission=False,
+                retained_project_cash_iqd=result['metrics']['terminal_cash_iqd'],
+                company_distributable_after_tax_profit_iqd=None,
+                basis='Surpluses retained after debt/reserve/buffer waterfall; audited distributable profits, covenants and approval unresolved'),
             company_cash_npv_before_finance_usd=sum((r['revenue_usd']-r['opex_usd']-capital.get(r['month'],{}).get('capex',0))/(1+rate)**(r['month']/12) for r in op),
             nominal_discount_rate=rate,physical_energy_upgrade_capex_usd=None,unpriced_scope_included=False,
             external_provider_plant_capex_reference_usd=read(CITY/'engineering/finance/summary.json')['capex_usd']['timetable_sized_dedicated_solar'] if ppa else 0,
@@ -567,7 +717,7 @@ def startup_alternatives(design,stabling):
             baseline_revenue_trains=fleet['peak_count'],revenue_position_deficit=deficit,
             maximum_both_direction_start_stations_without_using_reserves=min(stations,fleet['peak_count']//2),
             minimum_additional_revenue_trains=deficit,additional_10_percent_spares=extra_spares,
-            additional_train_reference_capital_usd=(deficit+extra_spares)*1680000,
+            additional_train_reference_capital_usd=(deficit+extra_spares)*trainset_reference_cost(),
             selected_start_station_ids=None,turnback_charger_and_cycle_accepted=False,
             extra_depot_capacity_and_funding_usd=None,adopted=False,operational_release=False))
     return dict(cases=rows,alternatives=['Select fewer stations for two-direction startup and replay access/cycles',
@@ -725,16 +875,24 @@ def main():
     opening_d,opening_s=opening_scenario(d,s,phases);opening_finance=deepcopy(city_finance)
     opening_finance['operations_basis']['annual_train_km_including_non_revenue']*=sum(r['opening_daily_train_km'] for r in phases['lines'])/sum(r['baseline_daily_train_km'] for r in phases['lines'])
     opening_people=workforce(opening_d,opening_s,opening_finance,risk,factory,bc)
+    people['development_mobilisation']=mobilisation_capacity(people,bc,c)
+    opening_people['development_mobilisation']=mobilisation_capacity(opening_people,bc,c)
     opening_energy=site_energy(opening_d,opening_s,opening_finance,bc)
     maintenance_data=maintenance(d,s,people,city_finance,phases,c)
     opening_phases=deepcopy(phases)
     for row in opening_phases['lines']:row['baseline_daily_train_km']=row['opening_daily_train_km']
     opening_maintenance=maintenance(opening_d,opening_s,opening_people,opening_finance,opening_phases,c)
     inputs,delivery_phases,task_lines,programme=reconstruct_inputs(paths)
+    if not inputs['config']['model']['iqd_per_usd']==bc['model']['iqd_per_usd_reference']==c['model']['iqd_per_usd']:
+        raise ValueError('Reconcile financial/workforce/corridor exchange-rate assumptions before publication')
+    opening_factory=opening_factory_replay(paths,phases,deepcopy(risk['cases']['calendar_baseline']['settings']))
+    baseline_openings={p['line']:p['opening_month'] for p in delivery_phases}
+    if any(p['opening_month']>baseline_openings[p['line']] for p in opening_factory['delivery']['phases']):
+        raise ValueError('Opening-fleet factory replay misses retained civil opening dates')
     batteries=battery_cash(maintenance_data,phases,inputs['options'],len(inputs['operating']))
     opening_batteries=battery_cash(opening_maintenance,opening_phases,inputs['options'],len(inputs['operating']))
     corridors=corridor_cases(opening_d,opening_s,phases,city_finance,factory,bc,c,opening_energy,programme)
-    cases=reconciled_finance(inputs,delivery_phases,task_lines,depots,family,people,opening_people,energy,opening_energy,phases,batteries,opening_batteries,c)
+    cases=reconciled_finance(inputs,delivery_phases,task_lines,depots,family,people,opening_people,energy,opening_energy,phases,batteries,opening_batteries,c,opening_factory)
     reference=read(paths['reference'])
     for key in ('total_capital_usd','terminal_cash_iqd','peak_supplemental_balance_iqd'):
         if abs(cases['reference']['metrics'][key]-reference['metrics'][key])>.02:raise ValueError('Saved reference case changed: '+key)
@@ -751,8 +909,16 @@ def main():
     for site in layouts['sites']:
         path=OUT/('depot-'+site['line']+'.svg');path.write_text(layout_svg(site));outputs.append(path)
     save('six-car-procurement.json',bom);csvout('six-car-child-bom.csv',bom['parts'])
+    save('development-training-mobilisation.json',people['development_mobilisation'])
+    save('opening-factory-replay.json',opening_factory)
+    csvout('development-training-monthly.csv',people['development_mobilisation']['monthly'])
+    with (paths['baseline'].parent/'energy-synthetic_reference-owned_solar-hourly.csv').open() as stream:
+        aggregate_shortages=[row for row in csv.DictReader(stream) if float(row['unserved_kwh'])>1e-7]
+    csvout('aggregate-reference-shortage-hours.csv',aggregate_shortages)
     for label,model in [('full',energy),('opening',opening_energy)]:
         for weather,case in model['cases'].items():
+            shortage_rows=case.pop('shortage_hours')
+            if label=='full' and weather=='reference':csvout('energy-site-shortage-hours.csv',[{k:format(v,'.12g') if isinstance(v,float) else v for k,v in row.items()} for row in shortage_rows])
             for line,rows in case.pop('hourly_by_line').items():
                 if label=='full' and weather=='reference':csvout('energy-'+line+'-hourly.csv',rows)
             csvout('energy-'+label+'-'+weather+'-sites.csv',case['sites'])
@@ -781,6 +947,19 @@ def main():
         task_rows.append(dict(subject=work['id']+' — '+work['accountable_function'],status='Open',priority='High',description='<pre>'+html.escape(json.dumps(description,indent=2))+'</pre>'))
     save('erpnext-tasks.json',dict(doctype='Task',status='draft-import-package-not-live-records',tasks=task_rows));csvout('erpnext-task-import.csv',task_rows)
     reports=report_files(layouts,bom,energy,maintenance_data,batteries,corridors,cases,roster,packets)
+    mobilisation=people['development_mobilisation']
+    reports['DEVELOPMENT-TRAINING.md']='# Development leadership and training mobilisation\n\n'+table(
+        ['Interim function','Start month','Operating handover month','Loaded IQD/month'],
+        [(r['role_id'],r['start_month'],r['handover_month'],f"{r['monthly_loaded_payroll_iqd']:,.0f}") for r in mobilisation['development_posts']])+f'''
+
+Interim development authorities begin at NTP. The training head mobilises at month {c['mobilisation']['training_head_start_month']}; rigs must be ready by month {mobilisation['training_rigs_required_month']}, before operating cohorts join. [Cohort lesson schedules and all operating roles](development-training-mobilisation.json) distinguish teaching, initial/repeat assessment, supervised experience and handover. Named incumbents/successors, qualified assessors, equipment and signed handovers remain absent.
+
+[Monthly capacity and cash](development-training-monthly.csv) buys the existing contracted teaching/assessment allowance once. New interim leadership and external supervision add IQD {mobilisation['additional_preopening_cash_iqd']/1e9:.3f}bn before inflation, explicitly included in the integrated financing cases. Operating trainees supply zero qualified teaching/assessor/mentor capacity. These hour-derived minimum posts require actual competence, rig availability, observation ratios and daily/rest schedules; they do not establish an operating roster. The OCC pilot remains an anonymous rest-constrained example; all 21 roles have coverage and lesson requirements, with actual full rosters still unaccepted.
+
+The native Employee attachment preview validates a controlled snapshot only. It returns `snapshot_eligible` for those assertions, keeps `eligible` and `live_start_check` false, and does not resolve current authoritative revocation. Real task start requires current permits, calibration, stock release, competence, availability and human work-release authority.
+'''
+    reports['SITE-ENERGY.md']+='\n[All 28 former aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
+    reports['FINANCE-RECONCILIATION.md']+='\n[Opening factory replay](opening-factory-replay.json) manufactures exactly 450 planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX and civil opening dates are retained, so no earlier income or cheaper plant is invented. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n![Line 6 storage and workshop packing study](depot-line-6.svg)\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n[Startup alternatives](startup-policy-alternatives.json) compare the existing revenue fleet with the frozen original dispatch-point set, including the five missing line-9 directions. Holding that set fixed requires five extra revenue trains and one extra spare: USD 10.08m vehicle reference, before consequential costs. Adding trains must not silently expand dispatch-point selection. Reserving fewer start points or buying trains requires a separate selected-start, cycle, turnback, depot/charging and funding replay; neither changes the baseline nor closes the existing failed gate.\n'
     reports['MAINTENANCE-RENEWALS.md']+='\n[All 26 controlled interval records](maintenance-interval-register.json) also retain station, civil/track/structures, energy, wayside, tooling, finish/joint/wash and soiling work. Condition-based tasks have no invented frequency or labour cost. [Opening-fleet reserve cash](opening-battery-reserve-monthly.csv) uses 450 trainsets and adds its own indexed shortfalls to the reduced-supply financing case.\n'
@@ -797,6 +976,6 @@ def main():
         repository_work_packages_prepared=6,field_work_packages_accepted=0,actual_quotes=0,named_appointments=0,
         complete_delivery_budget=False,operational_release=False)
     (OUT/'summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True,allow_nan=False)+'\n')
-    print('Prepared nine depot/corridor cases, parts/RFQs, per-site energy, maintenance/reserve/roster and six financial sensitivities')
+    print('Prepared depot/corridor cases, parts/RFQs, site shortage diagnostics, development/training capacity and seven financial sensitivities')
 
 if __name__=='__main__':main()

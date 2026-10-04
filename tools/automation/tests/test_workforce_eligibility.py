@@ -16,11 +16,22 @@ NOW='2026-10-04T08:00:00+00:00'
 
 @pytest.fixture
 def packet():
-    task=dict(task_kind='battery-inspection',asset_family='metro-6car',location='line-1',method_revision='A',maximum_skill_idle_days=90,independent_verification_required=True)
+    task=dict(task_id='TASK-FIXTURE',asset_id='TRAIN-FIXTURE',isolation_scope='battery-circuit-fixture',task_kind='battery-inspection',asset_family='metro-6car',location='line-1',method_revision='A',maximum_skill_idle_days=90,independent_verification_required=True,
+        required_tools=[dict(tool_type='voltage-tester',range_min=0,range_max=1500,unit='V')],
+        required_materials=[dict(part_id='fixture-seal',revision='A',quantity=2,unit='each')])
     auth=dict(**{k:task[k] for k in ['task_kind','asset_family','location','method_revision']},assessment_record='practical-assessment-fixture',assessor='assessor-fixture',authority_record='authority-fixture',issued_by='authority-fixture',accepted=True,suspended=False,valid_from='2026-10-01T00:00:00+00:00',expires_at='2026-10-04T09:00:00+00:00',last_practical_use='2026-10-03T08:00:00+00:00')
     worker=dict(worker_id='synthetic-worker',native_employee='EMP-FIXTURE',evidence_revision='fixture-only',available=True,suspended=False,rest_checked=True,rest_compliant=True,location='line-1',authorisations=[auth])
+    auth.update(revoked=False,responsibility='perform')
     resources={key:dict(record_id=key+'-fixture',accepted=True,valid_from='2026-10-04T07:00:00+00:00',expires_at='2026-10-04T12:00:00+00:00') for key in ['access','permit','tools','materials','supervisor','verifier']}
     resources['verifier']['worker_id']='independent-synthetic-verifier'
+    for record in resources.values():record.update({k:task[k] for k in ('task_id','asset_id','asset_family','location','method_revision','isolation_scope')},revoked=False)
+    for role,resp in [('supervisor','supervise'),('verifier','verify')]:
+        resources[role].update(deepcopy(worker),worker_id='synthetic-'+role,native_employee='EMP-'+role,qualified=True)
+        resources[role]['authorisations'][0]['responsibility']=resp
+    resources['verifier'].update(independent=True,independence_record='fixture-independent-check')
+    resources['tools']['items']=[dict(tool_type='voltage-tester',range_min=0,range_max=2000,unit='V',serial_number='fixture-meter',accepted=True,revoked=False,
+        calibration_record='fixture-calibration',calibration_revoked=False,calibration_valid_from=resources['tools']['valid_from'],calibration_expires_at=resources['tools']['expires_at'])]
+    resources['materials']['items']=[dict(part_id='fixture-seal',revision='A',available_quantity=2,unit='each',release_status='Released',release_record='fixture-release',stock_record='fixture-lot',accepted=True,revoked=False)]
     return dict(worker=worker,task=task,resources=resources)
 
 def evaluate(packet,now=NOW):return assignment_eligibility(packet['worker'],packet['task'],packet['resources'],now)
@@ -54,6 +65,42 @@ def test_missing_or_expired_work_resources_block(packet,resource):
 def test_missing_timestamp_zone_is_rejected(packet):
     with pytest.raises(ValueError):evaluate(packet,'2026-10-04T08:00:00')
 
+@pytest.mark.parametrize('resource,key,value',[
+    ('permit','location','line-2'),('permit','task_id','other-task'),('permit','asset_id','other-train'),
+    ('permit','isolation_scope','other-circuit'),('access','revoked',True),('permit','revoked',None),
+    ('supervisor','worker_id',None),('supervisor','available',False),('supervisor','qualified',False),
+    ('verifier','qualified',False),('verifier','independent',False),('verifier','native_employee','EMP-FIXTURE')])
+def test_resource_scope_named_authorised_people_and_revocation_fail_closed(packet,resource,key,value):
+    packet['resources'][resource][key]=value
+    assert not evaluate(packet)['eligible']
+
+@pytest.mark.parametrize('key,value',[('tool_type','wrong-tool'),('range_max',100),('calibration_expires_at',NOW),('calibration_revoked',True),('unit','A')])
+def test_tool_type_range_calibration_and_units_are_required(packet,key,value):
+    packet['resources']['tools']['items'][0][key]=value
+    assert not evaluate(packet)['eligible']
+
+@pytest.mark.parametrize('key,value',[('revision','obsolete'),('part_id','other'),('available_quantity',1),('release_status','Draft'),('revoked',True),('available_quantity',float('nan'))])
+def test_material_part_revision_release_and_quantity_are_required(packet,key,value):
+    packet['resources']['materials']['items'][0][key]=value
+    assert not evaluate(packet)['eligible']
+
+def test_reported_false_positive_packet_is_rejected(packet):
+    packet['resources']['permit']['location']='wrong-line'
+    packet['resources']['supervisor'].pop('worker_id')
+    packet['resources']['verifier']['qualified']=False
+    assert not evaluate(packet)['eligible']
+
+def test_repeated_material_stock_does_not_count_twice(packet):
+    packet['task']['required_materials'][0]['quantity']=4
+    packet['resources']['materials']['items']*=2
+    assert not evaluate(packet)['eligible']
+
+def test_distinct_released_lots_can_meet_quantity(packet):
+    packet['task']['required_materials'][0]['quantity']=4
+    part=deepcopy(packet['resources']['materials']['items'][0]);part['stock_record']='second-lot'
+    packet['resources']['materials']['items'].append(part)
+    assert evaluate(packet)['eligible']
+
 @pytest.mark.parametrize('limit',[None,0,-1,float('inf'),float('nan'),True])
 def test_missing_or_invalid_idle_policy_blocks(packet,limit):
     packet['task']['maximum_skill_idle_days']=limit
@@ -82,7 +129,8 @@ def native(monkeypatch,packet):
 
 def test_native_observer_reads_permissions_but_never_assigns(native):
     docs,calls,packet=native;result=preview_assignment('P','T','E','F',NOW)
-    assert result['eligible'] and result['read_only'] and not result['actual_assignment_created']
+    assert result['snapshot_eligible'] and not result['eligible'] and result['read_only'] and not result['actual_assignment_created']
+    assert not result['live_start_check'] and not result['authoritative_revocation_resolved']
     assert calls==[('P','read'),('TASK-FIXTURE','read'),('EMP-FIXTURE','read'),('F','read')]
 
 @pytest.mark.parametrize('kind,field,value',[('Task','project','other'),('Task','status','Completed'),('Employee','company','other'),('Employee','status','Left'),('File','is_private',False),('File','attached_to_name','other')])

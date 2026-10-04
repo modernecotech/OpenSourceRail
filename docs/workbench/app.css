@@ -5,7 +5,8 @@
   color: #e8f0f6;
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; display: grid; grid-template-rows: auto auto auto auto auto auto 1fr; }
+body { margin: 0; min-height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+body > :not(main) { flex-shrink: 0; }
 .shell-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #111f2b; border-bottom: 1px solid #29404f; }
 .eyebrow { margin: 0; color: #72c9bd; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 h1 { margin: 2px 0 0; font-size: 22px; }
@@ -48,8 +49,8 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 .twin-progress { display: grid; gap: 5px; min-width: 180px; color: #b8cbd5; font-size: 12px; }
 .twin-progress::after { content: ""; height: 4px; grid-area: 2 / 1; background: #203b49; border-radius: 3px; }
 .twin-progress i { z-index: 1; width: 0; height: 4px; grid-area: 2 / 1; background: #64cfc0; border-radius: 3px; transition: width .2s; }
-main { min-height: 0; }
-iframe { width: 100%; height: 100%; min-height: 760px; display: block; border: 0; background: #15161c; }
+main { flex: 1; min-height: 420px; }
+iframe { width: 100%; height: 100%; display: block; border: 0; background: #15161c; }
 @media (max-width: 760px) {
   .shell-header { align-items: flex-start; gap: 10px; }
   .selectors { flex-direction: column; }

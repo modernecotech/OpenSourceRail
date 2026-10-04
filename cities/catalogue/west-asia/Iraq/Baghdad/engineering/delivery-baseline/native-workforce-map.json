@@ -5,10 +5,15 @@
     "resources": {},
     "task": {
       "asset_family": "metro-6car",
+      "asset_id": null,
       "independent_verification_required": true,
+      "isolation_scope": null,
       "location": null,
       "maximum_skill_idle_days": 90,
       "method_revision": null,
+      "required_materials": null,
+      "required_tools": null,
+      "task_id": null,
       "task_kind": null
     },
     "task_reference": null,
@@ -24,7 +29,8 @@
       "worker_id": null
     }
   },
-  "boundary": "Private controlled Employee File and native read permissions; preview grants no assignment or work release",
+  "authoritative_revocation_resolved": false,
+  "boundary": "Private controlled Employee File and native read permissions; snapshot result cannot establish live eligibility, assignment or work release",
   "dashboard_metrics": [
     "accepted-output",
     "blocked-work",
@@ -182,6 +188,7 @@
       "unit": "finance-people"
     }
   ],
+  "live_start_check": false,
   "native_record_ids": null,
   "observations_control_trains": false,
   "read_only_preview": "osr_erpnext.workforce.preview_assignment",
@@ -206,5 +213,6 @@
     "Task"
   ],
   "schema_verified_on_local_instance_as_of": "2026-10-04",
+  "snapshot_validation_only": true,
   "status": "draft-no-hiring-or-authorisation-records"
 }

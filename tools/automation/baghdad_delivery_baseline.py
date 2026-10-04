@@ -24,6 +24,9 @@ def digest(path):
 def read(path):
     return json.loads(path.read_text())
 
+def trainset_reference_cost():
+    return tomllib.loads((ROOT/'lib/templates/capex-costs.toml').read_text())['trainset_unit_usd']['metro-6car']
+
 def clock_minutes(value):
     hour, minute = map(int, value.split(':'))
     return hour*60+minute
@@ -91,6 +94,15 @@ def depot_package(design, scenario, stabling, depot_scope, config):
                 declared_workshop_bays=requirement['workshop_bays'],yard_area_m2=yard_area,
                 workshop_shell_m2=workshop_area,surveyed_land_area_m2=None,layout_accepted=False,
                 storage_positions_are_workshop_bays=False,interline_transfer_assumed=False)
+            site['heavy_maintenance_strategy']=dict(
+                method='Line-local covered lifting, bogie exchange, wheel servicing and body overhaul',
+                available_local_bays=bays,
+                required_local_bays=math.ceil(fleets[line]*c['workshop_bay_hours_per_train_year']/(c['workshop_days_per_year']*c['workshop_hours_per_day']*c['workshop_availability'])),
+                interline_train_transfer_available=False,
+                road_transfer_scope='Removed bogies/components only; no intact train road movement assumed',
+                mobile_tools_replace_covered_bays=False,
+                additional_facility_capital_usd=None if bays==0 else 0,
+                supplier_lift_and_wheel_method=None,accepted=False)
             sites.append(site)
             quantities=[('storage-track',positions*length,'m',c['track_usd_per_m'],'Running track/bed; excludes turnouts, site drainage and land'),
                 ('turnouts',tracks+2,'each',c['turnout_usd'],'Fan plus two throat points; geometry/interlocking unqualified'),
@@ -140,7 +152,9 @@ def family_baseline(design,scenario,detail,factory,config):
         ('trainline-couplers',1,'six-car system',c['trainline_couplers_kg_per_train'],70000,'Five inter-car interfaces; redundant trainline and common failure assessment'),
         ('assembly-qa-logistics',1,'consist',0,110000,'Embedded payroll, routine QA and logistics; not extra operating payroll')]
     rows=[]
+    price=trainset_reference_cost();allocation_total=sum(part[4] for part in components)
     for key,quantity,unit,mass,cost,closure in components:
+        cost=cost*price/allocation_total
         rows.append(dict(part_id='M6-'+key,quantity_per_consist=quantity,network_quantity=quantity*count,
             unit=unit,planning_mass_kg_each=mass,planning_mass_kg_per_consist=quantity*mass,
             cost_allocation_per_consist_usd=cost,rate_usd_per_unit=cost/quantity,
@@ -270,6 +284,7 @@ def chronological_energy(design,scenario,finance,config):
             'Unserved energy means the assumed service is unmet; no reduced-service case earns unchanged fares'],cases=cases)
 
 def phase_fleet(design,scenario,risk,config):
+    price=trainset_reference_cost()
     c=config['fleet'];profiles={r['line']:r for r in design['fleets']};lengths={r['name']:r['length_m']/1000 for r in design['lines']}
     openings={p['line']:p['opening_month'] for p in risk['cases']['calendar_baseline']['phases']};rows=[]
     for fleet in scenario['fleets']:
@@ -287,10 +302,10 @@ def phase_fleet(design,scenario,risk,config):
         rows.append(dict(line=fleet['line'],route_km=lengths[fleet['line']],conditional_full_line_opening_month=openings[fleet['line']],
             baseline_peak_count=current['peak_count'],baseline_trainsets=current['trainset_count'],
             opening_peak_count=peak,opening_spares=spares,opening_cold_reserves=current['cold_reserve_count'],opening_trainsets=new,
-            deferred_trainsets=max(0,current['trainset_count']-new),opening_train_capital_usd=new*1680000,
+            deferred_trainsets=max(0,current['trainset_count']-new),opening_train_capital_usd=new*price,
             additional_trainsets=max(0,new-current['trainset_count']),
-            deferred_train_capital_usd=max(0,current['trainset_count']-new)*1680000,
-            additional_train_capital_usd=max(0,new-current['trainset_count'])*1680000,
+            deferred_train_capital_usd=max(0,current['trainset_count']-new)*price,
+            additional_train_capital_usd=max(0,new-current['trainset_count'])*price,
             inferred_baseline_cycle_minutes=cycle,cycle_basis='Peak-fleet/headway inference; conflict-aware cycle and turnbacks unaccepted',
             baseline_daily_train_km=base_trips*lengths[fleet['line']],opening_daily_train_km=new_trips*lengths[fleet['line']],
             opening_daily_directional_capacity=round(new_trips*scenario['consist']['passenger_capacity']),
@@ -434,7 +449,7 @@ def workforce(design,scenario,finance,risk,factory,config):
         current_budget_fte=finance['workforce']['total_fte'],current_labour_usd=finance['workforce']['annual_labour_usd'],
         current_average_monthly_allowance_usd=finance['workforce']['annual_labour_usd']/finance['workforce']['total_fte']/12,
         reference_required_fte=sum(r['required_fte'] for r in rows),reference_annual_loaded_payroll_iqd=annual,
-        reference_annual_loaded_payroll_usd=annual/1300,reference_payroll_delta_usd=annual/1300-finance['workforce']['annual_labour_usd'],
+        reference_annual_loaded_payroll_usd=annual/config['model']['iqd_per_usd_reference'],reference_payroll_delta_usd=annual/config['model']['iqd_per_usd_reference']-finance['workforce']['annual_labour_usd'],
         productive_hours_per_fte=productive,
         training_recruitment_cash_iqd=sum(r['paid_preopening_training_iqd']+r['trainer_assessor_iqd'] for r in cohorts),
         temporary_commissioning_payroll_iqd=sum(r['reference_payroll_iqd'] for r in commissioning),temporary_commissioning_cohorts=commissioning,
@@ -771,8 +786,10 @@ def main():
         read_only_preview='osr_erpnext.workforce.preview_assignment',
         authorisation_packet=dict(project_revision=None,task_reference=None,worker=dict(worker_id=None,native_employee=None,
             evidence_revision=None,available=False,suspended=True,rest_checked=False,rest_compliant=False,location=None,authorisations=[]),
-            task=dict(task_kind=None,asset_family='metro-6car',location=None,method_revision=None,maximum_skill_idle_days=90,independent_verification_required=True),resources={}),
-        boundary='Private controlled Employee File and native read permissions; preview grants no assignment or work release',
+            task=dict(task_id=None,asset_id=None,isolation_scope=None,task_kind=None,asset_family='metro-6car',location=None,method_revision=None,maximum_skill_idle_days=90,independent_verification_required=True,
+                required_tools=None,required_materials=None),resources={}),
+        snapshot_validation_only=True,authoritative_revocation_resolved=False,live_start_check=False,
+        boundary='Private controlled Employee File and native read permissions; snapshot result cannot establish live eligibility, assignment or work release',
         dashboard_metrics=['accepted-output','blocked-work','overdue-safety-actions','staff-shortages','competence-expiry','forecast-cost'],
         attendance_is_acceptance=False,observations_control_trains=False))
     streams=[('ESTIMATE','Finance and chief engineer','Signed complete scope/rates/inclusions/exclusions and correlated cost/schedule review',15,90),

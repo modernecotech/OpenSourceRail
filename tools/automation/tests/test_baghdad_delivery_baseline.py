@@ -86,6 +86,19 @@ def test_six_car_price_mass_counts_and_factory_payroll_boundary():
     assert all(not r['lm3_credit_accepted'] and r['mass_evidence'] is None for r in s['bom'])
     assert all(r['network_person_hours']==r['reference_person_hours_per_consist']*831 and r['labour_in_train_procurement'] and r['measured_cycle_days'] is None for r in s['labour_routes'])
 
+def test_editable_price_and_fx_reconcile_in_fleet_bom_and_payroll(monkeypatch,config):
+    import baghdad_delivery_baseline as baseline
+    design=tomllib.loads((OUT.parent.parent/'design.toml').read_text());scenario=tomllib.loads((OUT.parent.parent/'baghdad.toml').read_text())
+    risk=json.loads((OUT.parent/'delivery-risk/summary.json').read_text());detail=json.loads((OUT.parent/'detail/register.json').read_text())
+    factory=json.loads((OUT.parent/'factory/summary.json').read_text());finance=json.loads((OUT.parent/'finance/summary.json').read_text())
+    monkeypatch.setattr(baseline,'trainset_reference_cost',lambda:2000000)
+    phased=baseline.phase_fleet(design,scenario,risk,config)
+    assert phased['deferred_train_capital_usd']==phased['deferred_fleet']*2000000
+    assert baseline.family_baseline(design,scenario,detail,factory,config)['cost_allocations_reconcile_usd']==pytest.approx(2000000)
+    altered=deepcopy(config);altered['model']['iqd_per_usd_reference']=1500
+    wages=baseline.workforce(design,scenario,finance,risk,factory,altered)
+    assert wages['reference_annual_loaded_payroll_usd']==pytest.approx(wages['reference_annual_loaded_payroll_iqd']/1500)
+
 def test_hourly_losses_limits_energy_conservation_and_no_free_storage(config):
     rows=dispatch_energy([100.,0.],[0.,100.],storage_kwh=100,power_kw=100,grid_kw=100,config=config['energy'])
     assert rows[0]['opening_soc_kwh']==10 and rows[0]['storage_discharge_kwh']==0

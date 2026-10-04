@@ -1,7 +1,8 @@
 """Read-only administrative eligibility preview from controlled native records.
 
 No assignment, work start, permit, competence or railway release is granted.
-Use this same preview again at task start; actual authority remains human-owned.
+This validates an attachment snapshot. Current authoritative resource revocation
+is not resolved here, so this preview cannot establish live eligibility.
 """
 import json
 from datetime import datetime, timezone
@@ -36,11 +37,14 @@ def preview_assignment(project, task, employee, authorisation_file, at_time=None
     if person.status!='Active' or not record.is_private or record.attached_to_doctype!='Employee' or record.attached_to_name!=person.name:
         frappe.throw('Use an active employee and their private controlled authorisation attachment')
     packet=json.loads(record.get_content())
-    if packet.get('project_revision')!=p.custom_osr_package_sha256 or packet.get('task_reference')!=t.name or packet.get('worker',{}).get('native_employee')!=person.name:
+    if packet.get('project_revision')!=p.custom_osr_package_sha256 or packet.get('task_reference')!=t.name or packet.get('task',{}).get('task_id')!=t.name or packet.get('worker',{}).get('native_employee')!=person.name:
         frappe.throw('Authorisation packet does not match this baseline, task and employee')
     when=at_time or datetime.now(timezone.utc).isoformat()
     result=assignment_eligibility(packet['worker'],packet['task'],packet['resources'],when)
+    result['snapshot_eligible']=result['eligible']
+    result['eligible']=False
+    result['reasons'].append('current-authoritative-resource-state-not-resolved')
     result.update(project=p.name,task=t.name,record=record.name,read_only=True,
-        actual_assignment_created=False,live_start_check=at_time is None,
-        boundary='Administrative evidence preview; human work/permit/release authority still required')
+        actual_assignment_created=False,live_start_check=False,
+        boundary='Attached snapshot validation only; current authoritative records and human work/permit/release authority still required')
     return result

@@ -44,7 +44,7 @@ distinguish implemented data recovery from production cutover acceptance.
 - ERPNext's native reorder scheduler omitted the city Project from generated
   Material Request lines. The OSR hook now derives it from the exact Item/warehouse
   rule, preserves explicit values, and rejects ambiguous or stale scope. The
-  reproducible ERP image is `osr/erpnext:15.121.2-hr15.64.0-osr13`.
+  reproducible ERP image is `osr/erpnext:15.121.2-hr15.64.0-osr14`.
 - The point-machine controller could clear a persistent drive fault when its
   cooldown expired. Active over-temperature/drive faults now refresh the latch
   and inhibit motor movement, including clock saturation. Regression tests and

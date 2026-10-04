@@ -269,6 +269,10 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         opened = sum(p['weight'] for p in phases if month >= p['opening_month'])
         extra_income = (source['incremental_net_local_receipts_annual_usd']/12*opened
                         if extras and first_open <= month < full_open+model['operating_years']*12 else 0.)
+        income_multiplier=op.get('additional_income_multiplier',1.)
+        if isinstance(income_multiplier,bool) or not isinstance(income_multiplier,(float,int)) or not math.isfinite(income_multiplier) or not 0<=income_multiplier<=1:
+            raise ValueError('Invalid additional-income service multiplier')
+        extra_income*=income_multiplier
         revenue, opex = op['revenue_usd'], op['opex_usd']
         desired = (factory_service*model['debt_service_reserve_months'] if op['factory_reserve_usd'] > 0 else 0.) if repayment_policy else op['factory_reserve_usd']
         if first_open <= month < full_open+model['operating_years']*12:

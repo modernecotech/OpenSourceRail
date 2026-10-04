@@ -22,7 +22,7 @@ MODEL = BASE + "railway-model.json"
 DEPLOYMENT = BASE + "deployment.json"
 ASSURANCE = BASE + "assurance.json"
 TLA = "engineering/assurance/formal/tla/"
-JAR_SHA256 = "b490f45c1de08e4ff9753259a00338981b9cf464f01ca9e9cd5f19f33cf0bb92"
+JAR_SHA256 = "c2fe4e56e43bde19f213b4a7e441d037297fda733e503579623e859b79348239"
 JAR_URL = "https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar"
 from tools.automation.tacs_reference import CASES as REFERENCE_CASES, DUAL_CASES, DT
 CASES = set(REFERENCE_CASES)

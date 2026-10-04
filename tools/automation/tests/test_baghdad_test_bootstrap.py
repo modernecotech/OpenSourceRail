@@ -8,7 +8,7 @@ import pytest
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'tools/automation'))
-from bootstrap_baghdad_tests import restore, CITY
+from bootstrap_baghdad_tests import restore, restore_proposal_inputs, CITY
 
 def dump(path,value):path.write_text(json.dumps(value))
 
@@ -59,3 +59,30 @@ def test_duplicate_archive_entries_are_rejected_even_with_matching_archive_recei
         with pytest.warns(UserWarning):z.writestr(target.relative_to(root).as_posix(),raw)
     dump(city/'proposal/manifest.json',dict(outputs={archive.relative_to(root).as_posix():dict(bytes=archive.stat().st_size,sha256=hashlib.sha256(archive.read_bytes()).hexdigest())}))
     with pytest.raises(ValueError,match='Duplicate'):restore(root)
+
+@pytest.fixture
+def solver_checkout(checkout):
+    root,city,target,archive,raw=checkout
+    energy=city/'engineering/energy/coordinated-daylight.json';relative=energy.relative_to(root).as_posix()
+    solver=b'{"synthetic":true,"fixture":true}'
+    with zipfile.ZipFile(archive,'a') as z:z.writestr(relative,solver)
+    manifest=json.loads((city/'proposal/manifest.json').read_text())
+    manifest['outputs'][archive.relative_to(root).as_posix()]=dict(bytes=archive.stat().st_size,sha256=hashlib.sha256(archive.read_bytes()).hexdigest())
+    manifest['inputs']={relative:dict(bytes=len(solver),sha256=hashlib.sha256(solver).hexdigest())}
+    dump(city/'proposal/manifest.json',manifest)
+    return root,city,energy,archive,solver
+
+def test_missing_ignored_solver_input_restores_exact_bytes_only(solver_checkout):
+    root,city,energy,archive,raw=solver_checkout
+    with pytest.raises(ValueError,match='missing'):restore_proposal_inputs(root,check=True)
+    assert restore_proposal_inputs(root)=='restored-hash-bound-inputs'
+    assert energy.read_bytes()==raw and restore_proposal_inputs(root,check=True)=='verified-existing'
+    assert not (root.parent/'unexpected.txt').exists()
+
+def test_solver_drift_is_preserved_and_archive_hash_is_verified(solver_checkout):
+    root,city,energy,archive,raw=solver_checkout;energy.parent.mkdir(parents=True);energy.write_bytes(b'local')
+    with pytest.raises(ValueError,match='Existing'):restore_proposal_inputs(root)
+    assert energy.read_bytes()==b'local'
+    energy.unlink();archive.write_bytes(b'corrupt')
+    with pytest.raises(ValueError,match='archive differs'):restore_proposal_inputs(root)
+    assert not energy.exists()

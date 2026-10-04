@@ -39,6 +39,7 @@ SHARED = [
     'docs/civil/slab-trackforms.md',
     'docs/baghdad-delivery-review-2026-10-04.md',
     'docs/baghdad-continuation-review-2026-10-04.md',
+    'docs/baghdad-ci-controls-review-2026-10-04.md',
 ]
 
 
@@ -391,6 +392,8 @@ The [new monthly and six-month funding ledgers](../engineering/delivery-closure/
 Per-site reference energy requires **{local_energy['grid_import_kwh']/1e6:.1f} GWh imports**, exposes **{local_energy['unserved_kwh']/1e6:.1f} GWh unserved charging**, and prices firm energy services/owned-plant maintenance at **USD {local_energy['annual_firm_energy_cost_usd']/1e6:.3f}m/year**. Physical grid and charger upgrades remain unpriced. Buying shortage energy in the financial sensitivity does not provide a physical connection or an accepted timetable. Depot layouts label individual tracks/slots; Iraqi yard-slab mould capacity meets cumulative installation dates at assumed cycles, while plant cost and actual curing/qualification remain open. The 23 child part RFQs sit inside the eight parent allocations; all 26 maintenance intervals, practical lesson cards and rest-limited anonymous slots retain their actual evidence gates.
 
 Battery reserve contributions are already in rolling maintenance. Separate monthly restricted-cash ledgers add only inflation shortfalls at replacement, including in the 450-train opening case, and prohibit spending reserve cash on early bond/loan repayment. Reduced fleet procurement also reduces service receipts; contracted solar moves plant capital to a provider whose resource costs remain visible.
+
+[Installed-site shortage diagnostics](../engineering/delivery-closure/SITE-ENERGY.md) separate local PV from wheeled generation and trace every constrained hour. The installed energy/charger throughput case reduces fare and commercial receipts; it is an upper bound until actual charging events and timetable feasibility are accepted. [Development and training mobilisation](../engineering/delivery-closure/DEVELOPMENT-TRAINING.md) funds interim authorities from NTP, schedules external teachers, assessors and mentors before opening, and retains absent real appointments and equipment as explicit gates. The 450-train factory replay removes deferred orders and rebuilds finite production queues, preserving expansion-capable plant/depot capital and civil opening dates. No earlier receipts or cheaper factory are invented. All integrated sensitivities retain zero dividends; terminal project cash is not audited distributable profit.
 
 {table(['Initial base fare IQD','Paid-demand multiplier','44-trip income share','Debt-clear month','Terminal gap IQD tn','Before-finance cash NPV USD bn'],[(str(r['base_fare_iqd']),f"{r['paid_demand_multiplier']:.3f}",f"{r['monthly_44_trip_income_share']:.1%}",str(r['debt_clearance_without_unfunded_support_month']),f"{r['terminal_gap_debt_iqd']/1e12:.3f}",f"{r['company_cash_npv_before_finance_usd']/1e9:.3f}") for r in fare_trials])}
 
