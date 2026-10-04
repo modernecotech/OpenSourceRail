@@ -16,4 +16,4 @@ The PDF includes every current Baghdad Markdown report and selected shared stand
 
 The urban railway is a planning proposal, with physical and operating gates open. The national chapter is a future option, without national loan commitments or revenue added to Baghdad. The shared plant and its EPC are counted once. Source values and all monthly/six-month calculations retain their evidence limits.
 
-Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; validate with the same command plus `--check`. If the complete Baghdad operations payload is missing, first materialise it with `./osr city baghdad`. Solver/geospatial files retained in the workspace are included and identified in the inventory.
+Regenerate with `.venv/bin/python tools/automation/build-baghdad-proposal.py`; validate with the same command plus `--check`. If the complete Baghdad operations payload is missing, first restore the exact archived input with `.venv/bin/python tools/automation/bootstrap_baghdad_tests.py`. Solver/geospatial files retained in the workspace are included and identified in the inventory.

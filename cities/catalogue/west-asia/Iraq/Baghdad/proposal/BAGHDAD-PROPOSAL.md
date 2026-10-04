@@ -2,6 +2,8 @@
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
+The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD 8.060bn capital**, before still-unpriced scope, and **IQD 7.526tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+
 The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD 7.880 billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
 The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month 41 and full operation in month 83 after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
@@ -184,7 +186,25 @@ Annual energy netting supplies no firm hourly charging guarantee. The synthetic 
 
 Reference workload cover totals **3,093 operating FTE / USD 40.703m loaded annual pay equivalent**, against the existing budget-derived 2,350 FTE / USD 15.002m. Local pay, employer/rest terms and measured task hours remain unaccepted. Recruitment cohorts work backwards through joining, practical assessment/repeats and supervised authorisation; factory production payroll and temporary commissioning are separate. The real pilot roster has zero appointed workers and blocks every slot. Native HR/training/maintenance/manufacturing mappings and the read-only task eligibility preview preserve human work-release authority. Six additional 90-day evidence Tasks carry accountable functions, unquoted closure work budgets and independent exit criteria.
 
-Opening fleet comparisons reduce service supply and require calibrated OD/access/fares and usable corridor/dependency evidence. They do not retain unchanged fares or announce an earlier opening from fewer trains alone. This scope package must be accepted and its invoices/OPEX reconciled before any new funding or return claim. [Current review](../../../../../../docs/baghdad-delivery-review-2026-10-04.md) supersedes the historical 347-month figures; [clean-checkout test bootstrap](../../../../../../tools/automation/bootstrap_baghdad_tests.py) restores the exact archived operations input.
+Opening fleet comparisons reduce service supply and require calibrated OD/access/fares and usable corridor/dependency evidence. They do not retain unchanged fares or announce an earlier opening from fewer trains alone. The continuation now reconciles these assumptions into explicit unquoted monthly cash sensitivities. [Current review](../../../../../../docs/baghdad-delivery-review-2026-10-04.md) supersedes the historical 347-month figures; [clean-checkout test bootstrap](../../../../../../tools/automation/bootstrap_baghdad_tests.py) restores the exact archived operations input.
+
+## Latest per-site energy, funding and fare reconciliation
+
+The [new monthly and six-month funding ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md) replace allowances once and preserve the original financing reconstruction exactly. The full-fleet sensitivity has peak supplemental debt **IQD 11.355tn**, company cash NPV before finance **USD -4.691bn**, and no debt-clear month. Government is 25% of scenario capital; a separate case fixes its original absolute contribution. Imports retain 50% government USD / 50% Chinese USD loan, with bonds, bank/gap credit and receipts in IQD. Conditional grants, rights receipts, local income and cheap gap lending remain uncommitted; removing the additional income exposes unfunded cash.
+
+Per-site reference energy requires **938.5 GWh imports**, exposes **6.6 GWh unserved charging**, and prices firm energy services/owned-plant maintenance at **USD 139.835m/year**. Physical grid and charger upgrades remain unpriced. Buying shortage energy in the financial sensitivity does not provide a physical connection or an accepted timetable. Depot layouts label individual tracks/slots; Iraqi yard-slab mould capacity meets cumulative installation dates at assumed cycles, while plant cost and actual curing/qualification remain open. The 23 child part RFQs sit inside the eight parent allocations; all 26 maintenance intervals, practical lesson cards and rest-limited anonymous slots retain their actual evidence gates.
+
+Battery reserve contributions are already in rolling maintenance. Separate monthly restricted-cash ledgers add only inflation shortfalls at replacement, including in the 450-train opening case, and prohibit spending reserve cash on early bond/loan repayment. Reduced fleet procurement also reduces service receipts; contracted solar moves plant capital to a provider whose resource costs remain visible.
+
+| Initial base fare IQD | Paid-demand multiplier | 44-trip income share | Debt-clear month | Terminal gap IQD tn | Before-finance cash NPV USD bn |
+| --- | --- | --- | --- | --- | --- |
+| 1500 | 0.962 | 13.4% | None | 1.213 | -4.397 |
+| 1750 | 0.918 | 15.6% | 378 | 0.000 | -4.010 |
+| 2000 | 0.882 | 17.8% | 325 | 0.000 | -3.640 |
+| 2500 | 0.825 | 22.3% | 265 | 0.000 | -2.937 |
+| 3000 | 0.781 | 26.7% | 228 | 0.000 | -2.274 |
+
+These fare sensitivities retain annual 5% fare/OPEX/income increases and variable pricing, with the existing uncalibrated price elasticity. Debt clearance is conditional on funding placement; a negative company cash NPV persists across these trials. The affordability share uses the historical income proxy, not disposable-income surveys. No higher fare, commercial first-corridor rank, operational release or accepted lease/loan is created by the calculation.
 
 ## Early deficits and additional financing
 
