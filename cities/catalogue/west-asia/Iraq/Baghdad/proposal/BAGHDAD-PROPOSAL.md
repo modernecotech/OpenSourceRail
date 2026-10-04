@@ -2,7 +2,7 @@
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
-The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD 8.060bn capital**, before still-unpriced scope, and **IQD 7.526tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD 8.060bn capital**, before still-unpriced scope, and **IQD 7.532tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
 
 The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD 7.880 billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
@@ -190,19 +190,21 @@ Opening fleet comparisons reduce service supply and require calibrated OD/access
 
 ## Latest per-site energy, funding and fare reconciliation
 
-The [new monthly and six-month funding ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md) replace allowances once and preserve the original financing reconstruction exactly. The full-fleet sensitivity has peak supplemental debt **IQD 11.355tn**, company cash NPV before finance **USD -4.691bn**, and no debt-clear month. Government is 25% of scenario capital; a separate case fixes its original absolute contribution. Imports retain 50% government USD / 50% Chinese USD loan, with bonds, bank/gap credit and receipts in IQD. Conditional grants, rights receipts, local income and cheap gap lending remain uncommitted; removing the additional income exposes unfunded cash.
+The [new monthly and six-month funding ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md) replace allowances once and preserve the original financing reconstruction exactly. The full-fleet sensitivity has peak supplemental debt **IQD 11.360tn**, company cash NPV before finance **USD -4.692bn**, and no debt-clear month. Government is 25% of scenario capital; a separate case fixes its original absolute contribution. Imports retain 50% government USD / 50% Chinese USD loan, with bonds, bank/gap credit and receipts in IQD. Conditional grants, rights receipts, local income and cheap gap lending remain uncommitted; removing the additional income exposes unfunded cash.
 
 Per-site reference energy requires **938.5 GWh imports**, exposes **6.6 GWh unserved charging**, and prices firm energy services/owned-plant maintenance at **USD 139.835m/year**. Physical grid and charger upgrades remain unpriced. Buying shortage energy in the financial sensitivity does not provide a physical connection or an accepted timetable. Depot layouts label individual tracks/slots; Iraqi yard-slab mould capacity meets cumulative installation dates at assumed cycles, while plant cost and actual curing/qualification remain open. The 23 child part RFQs sit inside the eight parent allocations; all 26 maintenance intervals, practical lesson cards and rest-limited anonymous slots retain their actual evidence gates.
 
 Battery reserve contributions are already in rolling maintenance. Separate monthly restricted-cash ledgers add only inflation shortfalls at replacement, including in the 450-train opening case, and prohibit spending reserve cash on early bond/loan repayment. Reduced fleet procurement also reduces service receipts; contracted solar moves plant capital to a provider whose resource costs remain visible.
 
+[Installed-site shortage diagnostics](../engineering/delivery-closure/SITE-ENERGY.md) separate local PV from wheeled generation and trace every constrained hour. The installed energy/charger throughput case reduces fare and commercial receipts; it is an upper bound until actual charging events and timetable feasibility are accepted. [Development and training mobilisation](../engineering/delivery-closure/DEVELOPMENT-TRAINING.md) funds interim authorities from NTP, schedules external teachers, assessors and mentors before opening, and retains absent real appointments and equipment as explicit gates. The 450-train factory replay removes deferred orders and rebuilds finite production queues, preserving expansion-capable plant/depot capital and civil opening dates. No earlier receipts or cheaper factory are invented. All integrated sensitivities retain zero dividends; terminal project cash is not audited distributable profit.
+
 | Initial base fare IQD | Paid-demand multiplier | 44-trip income share | Debt-clear month | Terminal gap IQD tn | Before-finance cash NPV USD bn |
 | --- | --- | --- | --- | --- | --- |
-| 1500 | 0.962 | 13.4% | None | 1.213 | -4.397 |
-| 1750 | 0.918 | 15.6% | 378 | 0.000 | -4.010 |
-| 2000 | 0.882 | 17.8% | 325 | 0.000 | -3.640 |
-| 2500 | 0.825 | 22.3% | 265 | 0.000 | -2.937 |
-| 3000 | 0.781 | 26.7% | 228 | 0.000 | -2.274 |
+| 1500 | 0.962 | 13.4% | None | 1.220 | -4.398 |
+| 1750 | 0.918 | 15.6% | 378 | 0.000 | -4.012 |
+| 2000 | 0.882 | 17.8% | 325 | 0.000 | -3.641 |
+| 2500 | 0.825 | 22.3% | 265 | 0.000 | -2.938 |
+| 3000 | 0.781 | 26.7% | 228 | 0.000 | -2.275 |
 
 These fare sensitivities retain annual 5% fare/OPEX/income increases and variable pricing, with the existing uncalibrated price elasticity. Debt clearance is conditional on funding placement; a negative company cash NPV persists across these trials. The affordability share uses the historical income proxy, not disposable-income surveys. No higher fare, commercial first-corridor rank, operational release or accepted lease/loan is created by the calculation.
 
