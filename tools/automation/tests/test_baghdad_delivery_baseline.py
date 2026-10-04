@@ -196,7 +196,7 @@ def test_all_sources_outputs_and_current_review_match():
     for base,key in [(ROOT,'sources_sha256'),(OUT,'outputs_sha256'),(ROOT,'external_outputs_sha256')]:
         for path,sha in s[key].items():assert hashlib.sha256((base/path).read_bytes()).hexdigest()==sha,path
     root=(ROOT/'README.md').read_text();old=(ROOT/'docs/codebase-and-iraq-review-2026-10-03.md').read_text()
-    assert 'docs/baghdad-delivery-review-2026-10-04.md' in root and 'superseded' in old[:1000]
+    assert 'docs/baghdad-ci-controls-review-2026-10-04.md' in root and 'superseded' in old[:1000]
     assert not s['complete_delivery_budget'] and not s['operational_release']
 
 def test_invalid_workforce_hours_fail_closed(config):

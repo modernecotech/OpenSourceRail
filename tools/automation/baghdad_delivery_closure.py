@@ -504,7 +504,7 @@ def opening_factory_replay(paths,phases,settings):
         selected_rolling_task_uids=[r['manufacturing_uid'] for r in tasks if r['asset_type']=='rolling-stock'],
         selected_trainsets=len(selected)+len({r['asset_id'] for r in added}),
         retained_factory_capital_usd=factory['budgeted_plant_direct_usd']+factory['budgeted_plant_epc_usd'],
-        factory_ready_month=18,factory_repriced=False,accepted=False,
+        factory_ready_month=factory['readiness_months_from_ntp'],factory_repriced=False,accepted=False,
         finance_dates_policy='Retain baseline civil opening dates; no earlier fare income credited',
         limitations=['Planned selected asset IDs are not purchase orders or accepted train deliveries',
             'Full expansion-capable factory/equipment retained and paid once; no invented cheaper factory',
