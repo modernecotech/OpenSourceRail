@@ -214,6 +214,9 @@ echo "11) complete package manifest"
 "$PYTHON" "$REPO/tools/automation/generate-city-package-manifest.py" \
     --city-dir "$DESIGN_DIR" --planning-example
 
+echo "12) refresh city catalogue index"
+"$PYTHON" "$REPO/tools/automation/generate-design-index.py"
+
 echo
 echo "Done. Output:"
 echo "  $DESIGN_DIR/"
