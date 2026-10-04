@@ -93,6 +93,15 @@ def main():
     seed=json.loads(gzip.decompress(SEED.read_bytes()));grid=json.loads(GRID.read_text());config=tomllib.loads(CONFIG.read_text())
     corridors,report=rework(seed,grid,config)
     report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),CONFIG,SEED,GRID]}
+    # Sub-micrometre libm differences across supported Python versions must
+    # not change planning-report bytes. Grid cells remain exact integers.
+    def planning_precision(value):
+        if isinstance(value,float):return round(value,6)
+        if isinstance(value,list):return [planning_precision(item) for item in value]
+        if isinstance(value,tuple):return [planning_precision(item) for item in value]
+        if isinstance(value,dict):return {key:planning_precision(item) for key,item in value.items()}
+        return value
+    report=planning_precision(report)
     files={CITY/'corridors.json':json.dumps(corridors,indent=2)+'\n',OUT/'core-realignment.json':json.dumps(report,indent=2,sort_keys=True)+'\n',CITY/'alignment-policy.toml':CONFIG.read_text()}
     for p,text in files.items():
         if args.check:
