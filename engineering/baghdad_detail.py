@@ -56,10 +56,13 @@ def build_register() -> dict:
         raise ValueError('detail register requires the Baghdad six-car family')
     profile = tomllib.loads(profile_path.read_text())['profiles']['metro-6car']
     trainsets = sum(row['trainset_count'] for row in design['fleets'])
+    # Design lengths are recorded to 0.1 m. Preserve that precision and avoid
+    # Python-version-dependent accumulation affecting every route-based part.
+    route_km = round(math.fsum(row['length_m'] for row in design['lines']) / 1000, 4)
     bases = dict(trainset=trainsets, car=trainsets*profile['cars'], bogie=trainsets*profile['cars']*2,
                  station=len(design['stations']), site=len(scenario['sites']), plant=1,
                  **{'t-obs':trainsets*2, 't-ecu-s':trainsets*2,
-                    'route-km':sum(row['length_m'] for row in design['lines'])/1000})
+                    'route-km':route_km})
     source = json.loads(PARTS.read_text())
     rows = []
     ids = set()
