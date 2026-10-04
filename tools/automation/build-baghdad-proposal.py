@@ -37,6 +37,7 @@ SHARED = [
     'docs/operating/city-platform.md',
     'docs/deployment-planning-reference.md',
     'docs/civil/slab-trackforms.md',
+    'docs/baghdad-delivery-review-2026-10-04.md',
 ]
 
 
@@ -87,6 +88,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    delivery=read_json(CITY/'engineering/delivery-baseline/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/delivery-baseline','outputs_sha256'),(ROOT,'external_outputs_sha256')):
+        for relative,sha in delivery[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale delivery reconciliation: '+relative)
     rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/viaduct-rentals','outputs_sha256')):
         for relative,sha in rentals[group].items():
@@ -193,6 +198,8 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     redesign=read_json(CITY/'engineering/financing-redesign/summary.json')['cases']
     equity=read_json(CITY/'engineering/equity/summary.json')['cases']
     rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
+    delivery=read_json(CITY/'engineering/delivery-baseline/summary.json')
+    hourly=read_json(CITY/'engineering/delivery-baseline/chronological-energy.json')['cases']['synthetic_reference:owned_solar']
     rental_eq=equity['rental_medium_1000m'];coveq=equity['coverage_dividends_1000m']
     eq=equity['primary_1000m'];eqbase=equity['government_equity_reference']
     redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
@@ -353,6 +360,18 @@ The capital source table above is the reference allocation. The conditional blen
 {table(['Conditional blended capital source','Currency','Native amount','USD equivalent m'],candidate_rows)}
 
 The conditional capital grant replaces USD 25m equivalent of domestic borrowing. Additional development rights and new local operating receipts enter later project cash and are not counted as construction capital a second time. Supplemental gap draws pay financing/OPEX/reserve cash needs and are separate from both capital tables.
+
+## Delivery estimate, physical scope and operating establishment
+
+The published original **USD {delivery['base_programme_usd']/1e9:.6f}bn equivalent** remains a planning base with **{delivery['unpriced_scope_count']} explicit unpriced scope categories**, not the amount proved sufficient to deliver service. The [delivery reconciliation](../engineering/delivery-baseline/README.md) records quantity/rate/source/currency/price-date/inclusions/exclusions/estimator/uncertainty, depot/storage alternatives, six-car BOM/mass/axle/interfaces/labour/qualification, hourly energy, demand-led fleet requirements and workload/competence. Quotations, price dates and actual accountable appointments remain pending. Existing EPC, factory contingency, training/qualification and train QA/labour are not added twice. Uncalibrated correlated cost/delay quantiles remain separate sensitivities, not approved risk budgets.
+
+The original USD 8m depot allowance does not reconcile with 298 station / 533 storage trains, eight sites with no workshop bays and 125 main-depot bays. Quantity-based alternatives price storage tracks, points, drainage/access, workshop shells/equipment, line-local inspection/rescue/isolation/quarantine and full depot PV/storage. Gross reference budgets are **USD {delivery['depot_reference_alternatives']['workload_bays']['depot_gross_reference_usd']/1e6:.3f}m** for workload bays and **USD {delivery['depot_reference_alternatives']['retained_declared_bays']['depot_gross_reference_usd']/1e6:.3f}m** retaining declared bays; land, foundations, utility diversion, installation and overlap with charging/EPC remain open. Their replacement illustrations remove the old allowance once, and neither is adopted into loans or original government funding. The existing failed morning-direction/stabling and conflict-aware access gates remain open.
+
+Annual energy netting supplies no firm hourly charging guarantee. The synthetic hourly owned-solar reference requires **{hourly['grid_import_kwh']/1e6:.1f} GWh purchases / USD {hourly['electricity_purchase_usd']/1e6:.3f}m per year**, before separately priced wheeling, balancing and connection. It also exposes **{hourly['unserved_kwh']/1e6:.3f} GWh unmet charging**, so the assumed service is not fully delivered even with aggregate pooling. Weather, charger queues, feeder rights/outages, storage ageing and actual tariffs require measured per-site replay; these are sensitivity values, not a forecast or silently updated finance allowance. Owned, contracted and hybrid options use the same duty and no export income.
+
+Reference workload cover totals **{delivery['reference_operating_fte']:,} operating FTE / USD {delivery['reference_loaded_payroll_usd']/1e6:.3f}m loaded annual pay equivalent**, against the existing budget-derived 2,350 FTE / USD 15.002m. Local pay, employer/rest terms and measured task hours remain unaccepted. Recruitment cohorts work backwards through joining, practical assessment/repeats and supervised authorisation; factory production payroll and temporary commissioning are separate. The real pilot roster has zero appointed workers and blocks every slot. Native HR/training/maintenance/manufacturing mappings and the read-only task eligibility preview preserve human work-release authority. Six additional 90-day evidence Tasks carry accountable functions, unquoted closure work budgets and independent exit criteria.
+
+Opening fleet comparisons reduce service supply and require calibrated OD/access/fares and usable corridor/dependency evidence. They do not retain unchanged fares or announce an earlier opening from fewer trains alone. This scope package must be accepted and its invoices/OPEX reconciled before any new funding or return claim. [Current review](../../../../../../docs/baghdad-delivery-review-2026-10-04.md) supersedes the historical 347-month figures; [clean-checkout test bootstrap](../../../../../../tools/automation/bootstrap_baghdad_tests.py) restores the exact archived operations input.
 
 ## Early deficits and additional financing
 
@@ -599,6 +618,10 @@ def source_inputs():
     rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
     paths.update(ROOT/relative for relative in rentals['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/viaduct-rentals').glob('*') if p.is_file())
+    delivery=read_json(CITY/'engineering/delivery-baseline/summary.json')
+    paths.update(ROOT/relative for relative in delivery['sources_sha256'])
+    paths.update(ROOT/relative for relative in delivery['external_outputs_sha256'])
+    paths.update(p for p in (CITY/'engineering/delivery-baseline').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())

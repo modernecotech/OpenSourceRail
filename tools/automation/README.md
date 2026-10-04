@@ -50,6 +50,8 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`baghdad_financing_redesign.py`](baghdad_financing_redesign.py) | Compare opening-linked credit, 15-year insured tenor, station rights, energy/factory/developer ledgers and consolidated appraisal; emit six-month placements and a 90-day evidence programme |
 | [`baghdad_equity.py`](baghdad_equity.py) | Model mixed holding-company ordinary shares, staged primary/secondary cash, dilution, tax/accounts, dividends, failed issues and six-month capital gates; `--check` validates sources and outputs |
 | [`baghdad_viaduct_rentals.py`](baghdad_viaduct_rentals.py) | Screen civil-linked retained premises, generate pilot units/parts/hazards, and price leasing, deposits, vacancy/refurbishment/tax scenarios without assuming eligibility; `--check` rejects source/output drift |
+| [`baghdad_delivery_baseline.py`](baghdad_delivery_baseline.py) | Reconcile scope, depot/stabling quantities, six-car BOM/mass/labour, hourly energy, opening fleet, workload/competence and Baghdad governance; unquoted alternatives preserve the published funding baseline |
+| [`bootstrap_baghdad_tests.py`](bootstrap_baghdad_tests.py) | Restore the exact ignored operations input from the tracked proposal archive for clean-checkout tests; rejects drift and preserves differing workspace data |
 | [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
 | [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
@@ -142,11 +144,16 @@ When shared debt logic changes, regenerate in dependency order:
 .venv/bin/python tools/automation/baghdad_viaduct_rentals.py
 .venv/bin/python tools/automation/baghdad_financing_redesign.py
 .venv/bin/python tools/automation/baghdad_equity.py
+.venv/bin/python tools/automation/baghdad_delivery_baseline.py
 .venv/bin/python tools/automation/build-baghdad-proposal.py
 ```
 
-The last five tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
+The last six tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
 
 The [ordinary-equity study](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/equity/README.md) proposes a 100%-owned subsidiary holding group, retaining open licences. Government shares reclassify existing money; only primary subscriptions fund company invoices. Failed subscriptions cannot expand capital-credit envelopes. Consolidated accounts, conservative separate-business tax, investor returns and an indicative Iraqi liabilities threshold remain conditional, with no accepted incorporation/admission evidence. Its six native ERP tasks use the same source-bound qualification importer.
 
 The [retained viaduct-premises package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md) has a civil-linked candidate register, open independent unit, 30-unit draft pilot, hazards and leasing/deposit/renewal ledgers. No area is surveyed or accepted. The large unmapped area is blocked; smaller cases feed both the ring-fenced and wholly owned financing alternatives. Equity outputs distinguish actual dividends from an unapproved coverage policy and independent terminal-cash diagnostics. Its six evidence Tasks require actual local market/engineering/quote/lease evidence; model output grants no occupancy or operating permission.
+
+The [delivery reconciliation](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/README.md) exposes unresolved scope and overlap alongside quantity/rate/workload sensitivities. Run its generator after physical/finance inputs, then regenerate the proposal. `--check` validates its inputs, outputs and current-review document. Alternatives and uncalibrated risk quantiles are not adopted budgets. The native ERP workforce observer reads a private Employee authorisation attachment and checks project/task/company and read permissions; it creates no assignment or railway authority.
+
+For a fresh checkout, install the existing test/render dependencies and run `.venv/bin/python tools/automation/bootstrap_baghdad_tests.py` before `.venv/bin/python -m pytest tools/automation/tests design/component-catalogue/tests -q`. The hash-bound archive supplies the exact operations input; resynthesis is not required for tests. `--check` verifies an existing payload without writing.

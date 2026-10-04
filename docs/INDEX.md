@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5044**.
+Indexed Markdown files: **5053**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5044**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4349 |
+| [cities](#cities) | 4357 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 185 |
+| [docs](#docs) | 186 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -3420,6 +3420,14 @@ Indexed Markdown files: **5044**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md) | Baghdad line-local depot and stabling quantity package |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md) | Baghdad delivery estimate and scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/FIRST-PHASE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/FIRST-PHASE.md) | Baghdad comparable opening fleet and corridor requirements |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/HOURLY-ENERGY.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/HOURLY-ENERGY.md) | Baghdad chronological charging-energy and cost screen |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/README.md) | Baghdad delivery reconciliation — 4 October 2026 |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/RENTAL-DELIVERY.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/RENTAL-DELIVERY.md) | Rental delivery allocation sensitivities |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md) | Baghdad controlled six-car planning product |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md) | Baghdad workload, recruitment and competence pilot |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md) | Baghdad frozen-resource delivery and funding study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
@@ -4906,6 +4914,7 @@ Indexed Markdown files: **5044**.
 | [`docs/README.md`](../docs/README.md) | Technical Documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
+| [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |

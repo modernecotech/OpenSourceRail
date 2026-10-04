@@ -1,0 +1,125 @@
+# Editable test assumptions; no surveyed quantities, quotes or employment terms.
+[model]
+as_of = "2026-10-04"
+iqd_per_usd_reference = 1300
+risk_seed = 20261004
+risk_trials = 2000
+risk_shared_fraction = 0.65
+risk_cost_low = 1.0
+risk_cost_mode = 1.15
+risk_cost_high = 1.45
+risk_delay_low_months = 0
+risk_delay_mode_months = 6
+risk_delay_high_months = 24
+construction_inflation = 0.05
+
+[depot]
+positions_per_track = 3
+track_spacing_m = 5
+access_land_multiplier = 1.8
+workshop_width_m = 10
+workshop_bay_hours_per_train_year = 400
+workshop_days_per_year = 260
+workshop_hours_per_day = 16
+workshop_availability = 0.70
+track_usd_per_m = 250
+turnout_usd = 50000
+drainage_access_usd_per_m2 = 35
+workshop_shell_usd_per_m2 = 700
+workshop_equipment_usd_per_bay = 150000
+isolation_rescue_usd_per_site = 250000
+quarantine_usd_per_site = 150000
+inspection_pad_usd_per_site = 100000
+
+[energy]
+# Synthetic hourly weather is an explicit sensitivity, never measured Baghdad weather.
+pv_performance_ratio = 0.80
+wheeling_loss_fraction = 0.05
+charger_efficiency = 0.98
+storage_charge_efficiency = 0.95
+storage_discharge_efficiency = 0.95
+storage_min_soc_fraction = 0.10
+storage_initial_soc_fraction = 0.10
+storage_annual_degradation = 0.02
+poor_year_yield_factor = 0.75
+poor_spell_days = 7
+poor_spell_yield_factor = 0.10
+import_purchase_usd_per_kwh = 0.10
+contracted_solar_usd_per_kwh = 0.045
+wheeling_usd_per_kwh = 0.01
+balancing_usd_per_kwh = 0.005
+connection_usd_per_kw_year = 10
+# Additional hybrid storage is separately priced, not assumed in existing CAPEX.
+hybrid_additional_storage_kwh = 2000000
+hybrid_additional_power_kw = 300000
+storage_usd_per_kwh = 75
+storage_power_usd_per_kw = 100
+
+[workforce]
+paid_hours_per_year = 2080
+leave_hours = 240
+training_hours = 80
+sickness_hours = 80
+travel_handover_hours = 160
+service_days = 365
+remote_assist_trains_per_post = 8
+station_team_stations_per_lead = 10
+customer_service_stations_per_post = 4
+station_cleaning_person_hours_per_day = 3
+train_cleaning_person_hours_per_day = 2
+train_mechanical_person_hours_per_year = 480
+train_electrical_person_hours_per_year = 320
+civil_person_hours_per_route_km_year = 320
+energy_person_hours_per_site_year = 600
+wayside_person_hours_per_station_year = 400
+employer_cost_fraction = 0.25
+overtime_allowance_fraction = 0.10
+frontline_monthly_iqd = 780000
+technical_monthly_iqd = 1300000
+lead_monthly_iqd = 1950000
+recruitment_attrition_fraction = 0.15
+assessment_first_pass_fraction = 0.80
+assessment_repeat_pass_fraction = 0.75
+selection_months = 2
+joining_months = 1
+training_months = 3
+assessment_months = 1
+repeat_assessment_months = 1
+supervised_experience_months = 2
+induction_training_hours = 24
+practical_training_hours = 120
+assessment_hours = 16
+trainer_hourly_iqd = 26000
+commissioning_months = 3
+commissioning_additional_specialist_posts_per_line = 12
+trainer_learners_per_group = 12
+
+[fleet]
+opening_peak_headway_minutes = 6
+opening_offpeak_headway_minutes = 12
+opening_late_headway_minutes = 15
+spare_fraction = 0.10
+expansion_load_trigger = 0.70
+expansion_observation_days = 90
+turnback_minutes = 12
+
+[sixcar]
+# Category planning allocation, not weighed/CAD/supplier mass.
+structure_kg_per_car = 13000
+bogie_running_gear_kg_per_car = 7500
+traction_kg_per_car = 2200
+battery_kg_per_car = 1450
+interior_doors_windows_kg_per_car = 7000
+thermal_roof_services_kg_per_car = 2000
+trainline_couplers_kg_per_train = 1500
+qualification_budget_usd = 12000000
+supplier_quote = "pending"
+
+[rental_delivery]
+# Unnegotiated allocation sensitivities; no subscription or signed concession.
+tenant_funded_fitout_fraction = 0.40
+tenant_rent_discount_fraction = 0.20
+concession_landlord_receipt_fraction = 0.35
+concession_landlord_opex_fraction = 0.20
+inspection_closure_interval_months = 120
+inspection_closure_months = 2

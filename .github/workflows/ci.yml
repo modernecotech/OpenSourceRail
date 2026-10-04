@@ -57,6 +57,8 @@ jobs:
           python -m pip install --requirement engineering/toolchain/ifc-python-requirements.txt
           python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
           python -m pip install pandapower==3.5.3 pvlib==0.15.2 pyproj==3.7.2
+      - name: Restore exact Baghdad operations test input
+        run: python tools/automation/bootstrap_baghdad_tests.py
       - run: python -m pytest -q design/city-generation/tests
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - name: Generate buildable product test prerequisites

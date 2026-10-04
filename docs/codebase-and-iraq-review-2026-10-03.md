@@ -1,5 +1,7 @@
 # Codebase review and regenerated Iraqi examples — 3 October 2026
 
+**Historical review — current-state Baghdad figures superseded.** The 347-month rollout, earlier factory gate, capital/funding figures and phased openings below describe the reviewed historical revision. Use the [current delivery review](baghdad-delivery-review-2026-10-04.md), [current Baghdad programme](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) and [proposal](../cities/catalogue/west-asia/Iraq/Baghdad/proposal/BAGHDAD-PROPOSAL.md) for today's source-bound figures. This document remains an audit record; its historical values are not the current estimate.
+
 Original reviewed baseline: `4951645a287b0de0d9071b473ef68c417ed9f4b5`. This reconciliation follows committed baseline `1603d0511`, retaining the earlier review findings and refreshing affected controls and financial evidence for the default `main` branch. This review combines repository-wide automated checks with inspection of the architecture, assurance boundaries, regeneration pipeline, cost models, project controls and documentation. It does not claim manual inspection of every source line or physical acceptance of a railway.
 
 The three requested cities are complete **planning examples** against the current controlled layouts and software. They contain current engineering, operations, financial and simulation evidence. Construction and operational release remain blocked by their recorded physical gates. The Iraqi funding structure is proposed and uncommitted.

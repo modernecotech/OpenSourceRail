@@ -59,6 +59,16 @@ def test_every_baghdad_document_and_financial_case_is_included():
     assert 'docs/rfcs/0032-train-centred-control.md' not in chapters
 
 
+def test_delivery_reconciliation_and_current_review_are_published():
+    manifest=data('manifest.json');inputs=set(manifest['inputs'])
+    for suffix in ('summary.json','chronological-energy.json','scope-register.json','six-car.json','workforce.json','rental-delivery-options.json','erpnext-tasks.json'):
+        assert (CITY/'engineering/delivery-baseline'/suffix).relative_to(ROOT).as_posix() in inputs
+    assert 'docs/baghdad-delivery-review-2026-10-04.md' in data('appendix-sources.json')
+    for name in ('workforce.py','workforce_rules.py'):
+        assert 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/'+name in inputs
+    assert 'tools/automation/bootstrap_baghdad_tests.py' in inputs
+
+
 def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_scope():
     n = data('national-context.json')
     p = json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())

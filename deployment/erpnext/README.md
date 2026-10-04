@@ -80,3 +80,17 @@ Physical result verification uses independently supplied reviewer keys and signe
 source/criteria-bound results. Generated templates contain no measurements,
 quotations, signatures or operating release. Local task mappings belong in
 `var/erpnext/`, rather than the public proposal archive.
+
+The [Baghdad workforce pilot](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md)
+maps workload, recruitment and practical assessment to native HR records. Run
+`bench --site SITE execute osr_erpnext.workforce.administration_readiness`
+to inspect local schemas and the caller's read permissions. This does not prove
+that anyone has been appointed or authorised. The bench-only
+`osr_erpnext.workforce.preview_assignment` accepts `project`, `task`, `employee`
+and `authorisation_file`; the private File must belong to that active Employee
+and its controlled JSON packet must match the Project baseline and Task.
+HR Manager or System Manager plus native read permissions are required. Preview
+at planning and again at task start, with current resource evidence. It creates
+no assignment, permit, competence record or railway release. Keep native worker
+records and private attachments out of public exports. The six delivery evidence
+drafts use the existing Task importer and preserve actual owners/status.
