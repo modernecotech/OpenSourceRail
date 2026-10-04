@@ -52,7 +52,19 @@ The proposed civil programme starts with survey control, utilities, property and
 
 Stations require accessible approaches, platforms, passenger information, fire and evacuation design, fare equipment, retail and advertising layouts, security, sanitation and maintenance access. Platform and station access standards must be checked against the final six car envelope and passenger demand. Equipment and architecture references do not establish installed compliance.
 
-The current USD 8m depot allowance remains unreconciled to physical stabling, workshops, power, fire and security. Workshop bays cannot be counted as overnight train parking. The current policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay remain open. The depot and stabling appendices retain these failures explicitly.
+The original USD 8m depot allowance is replaced by workload-based depot packages in the integrated sensitivity described below. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The reference policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
+
+## Manufactured viaduct alternatives and installed cost
+
+The [manufactured-viaduct comparison](../engineering/viaduct-comparison/README.md) covers Pi20 and Pi25 with two bearing/connection schemes, plus an OSR-US constrained-access option. Baghdad's infrastructure load seed now explicitly requires the complete 24-axle, 111 m six-car train, with supplier axle positions and loaded distribution still unresolved. A link slab retains independent girder-end bearings; shared bearings require a checked structural continuity connection and staged load path.
+
+Every one of the 1143 elevated segments, including 65 exceptional segments, has a comparison record. The original elevated model separates USD 0.739bn standard-rate allowance from USD 1.740bn routing penalties. Penalties discourage difficult routing; they are not supplier-priced structures or savings available merely by deletion. Realignment, station movements, ground/utility investigations and installed whole-life alternatives remain unaccepted.
+
+Retaining simple-span bearings changes the existing periodic cost index from USD 9.748m/km to USD 10.198m/km. The USD 34.115m uniform whole-elevated-network difference is an unadopted rate illustration; Pi bearing quantities are not transferred to OSR-US/special designs. The lower existing rate remains conditional on an unaccepted structural scheme.
+
+The separate financed sensitivity applies only to 33.520 km of standard Pi25, adding USD 15.084m direct and incremental EPC once. It gives USD 8.076bn capital and IQD 7.582tn terminal gap debt, with monthly/six-month financing recalculated under the same 25% government and USD/IQD rules. Existing civil invoice dates and origin proportions are inherited assumptions. Connection, finite end effects, foundations, actual import eligibility and other consequential costs remain unpriced; the original full-fleet case is preserved as a comparator.
+
+Finite supports, unknown foundation lengths, complete member/hook mass gates, configured erection bids, per-item invoice currencies and eight production fronts are included in the supporting data. Installed-price totals remain unknown while scope is unpriced. Accepted complete double-track bays/week, first beam/pier/connection trials and independent design release must precede programme and budget selection. No literature savings or 30 m product is assumed.
 
 ## Energy and desert operation
 
