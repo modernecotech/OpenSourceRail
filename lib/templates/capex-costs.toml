@@ -7,7 +7,7 @@
 
 [schema]
 version = 3
-currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur = 0.92
 
 # Planning-grade localization-first procurement assumptions. The imported
@@ -72,7 +72,8 @@ interchange = 8000000
 "layup-minimal" = 400000
 
 [depot_cost_basis]
-scope = "Workshop, inspection, defect repair, wheel and heavy-maintenance functions only; healthy trains stable and recharge overnight at powered passenger stations, so fleet-wide covered parking roads and terminal layup compounds are excluded"
+status = "historical-maintenance-only-reference"
+scope = "Retained maintenance-only depot unit benchmark. Adopted city scopes use one full-fleet depot per line, with separate storage and workload-sized workshop bays priced from city-operating-scope.toml; passenger-station parking has no capital credit. The historical distributed alternative below remains a diagnostic only."
 distributed_station_stabling = true
 
 [trainset_unit_usd]

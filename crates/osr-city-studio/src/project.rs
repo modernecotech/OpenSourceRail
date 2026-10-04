@@ -449,6 +449,7 @@ impl CityProject {
                 lat,
                 lon,
                 s_m: station.s_m,
+                junction_group: station.junction_group,
                 archetype: station
                     .archetype
                     .clone()
@@ -497,6 +498,7 @@ impl CityProject {
                 lat: station.lat,
                 lon: station.lon,
                 s_m: station.source_s_m,
+                junction_group: None,
                 archetype: station.archetype.clone(),
                 state: IntentState::Manual,
                 reason: station.reason.clone(),
@@ -3683,7 +3685,10 @@ fn snapped_route_cell(grid: &Grid, lat: f64, lon: f64, max_snap_m: f64) -> Resul
             }
             let row = row as usize;
             let col = col as usize;
-            if !grid.is_buildable(row, col) || !grid.cost_at(row, col).is_finite() {
+            if !grid.is_buildable(row, col)
+                || !grid.cost_at(row, col).is_finite()
+                || grid.excludes_station_for_water(row, col)
+            {
                 continue;
             }
             let (candidate_lat, candidate_lon) = grid.reference.rc_to_latlon(row, col);
@@ -3703,7 +3708,7 @@ fn snapped_route_cell(grid: &Grid, lat: f64, lon: f64, max_snap_m: f64) -> Resul
         .first()
         .map(|(_, row, col)| (*row, *col))
         .ok_or_else(|| {
-            anyhow!("no buildable routing cell lies within {max_snap_m:.0} m of endpoint")
+            anyhow!("no buildable dry terminal cell lies within {max_snap_m:.0} m of endpoint")
         })
 }
 
@@ -4014,7 +4019,7 @@ mod tests {
 
     use super::{
         compare_snapshots, haversine_m, is_custom_coordination_id, normalized_interval,
-        parse_minutes, station_site_assessment, validate_coordination_decision,
+        parse_minutes, snapped_route_cell, station_site_assessment, validate_coordination_decision,
         validate_custom_coordination_issue, validate_line_plan, CityProject, Grid, GridRef,
     };
     use crate::model::{
@@ -4056,6 +4061,18 @@ mod tests {
         assert!(land.station_permitted);
         assert!(!water.station_permitted);
         assert!(water.over_water);
+        assert_eq!(
+            snapped_route_cell(&grid, 0.0005, 0.0005, 0.0).unwrap(),
+            (0, 0)
+        );
+        assert_eq!(
+            snapped_route_cell(&grid, 0.0005, 0.0015, 150.0).unwrap(),
+            (0, 0)
+        );
+        assert!(snapped_route_cell(&grid, 0.0005, 0.0015, 50.0).is_err());
+        let mut blocked = grid;
+        blocked.water = Some(vec![100, 100]);
+        assert!(snapped_route_cell(&blocked, 0.0005, 0.0015, 150.0).is_err());
     }
 
     #[test]
@@ -4332,7 +4349,15 @@ mod tests {
     fn station_move_regenerates_its_line_and_day_scenario() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
-        let station_id = "line-1-0581-0418-s012247";
+        let station_id = project
+            .base
+            .stations
+            .iter()
+            .filter(|s| s.line == "line-1")
+            .nth(2)
+            .expect("interior line-1 station")
+            .id
+            .clone();
         let source = project
             .base
             .stations
@@ -4346,14 +4371,19 @@ mod tests {
             .expect("baseline weekday scenario");
         let baseline_parsed: toml::Value =
             toml::from_str(&baseline_scenario).expect("parse baseline scenario");
-        let baseline_distance = baseline_parsed["lines"]
+        let baseline_refs = baseline_parsed["lines"]
             .as_array()
             .expect("baseline lines")
             .iter()
             .find(|line| line["id"].as_str() == Some("line-1"))
             .expect("baseline line 1")["stations"]
             .as_array()
-            .expect("baseline station refs")[5]["distance_from_prev_m"]
+            .expect("baseline station refs");
+        let station_index = baseline_refs
+            .iter()
+            .position(|s| s["id"].as_str() == Some(station_id.as_str()))
+            .expect("source station ref");
+        let baseline_distance = baseline_refs[station_index]["distance_from_prev_m"]
             .as_integer()
             .expect("baseline distance");
         project.overrides.stations.push(StationOverride {
@@ -4365,7 +4395,10 @@ mod tests {
         });
         let snapshot = project.compile().expect("compile moved station");
         assert_eq!(snapshot.changes.len(), 1);
-        assert_ne!(snapshot.summary.route_km, 50.4235);
+        assert_ne!(
+            snapshot.summary.route_km,
+            baseline_snapshot.summary.route_km
+        );
 
         let network = project
             .candidate_network_geojson(&snapshot)
@@ -4397,7 +4430,7 @@ mod tests {
             .iter()
             .map(|station| station["distance_from_prev_m"].as_integer().unwrap())
             .collect::<Vec<_>>();
-        assert_ne!(distances[5], baseline_distance);
+        assert_ne!(distances[station_index], baseline_distance);
     }
 
     #[test]
@@ -4465,7 +4498,10 @@ mod tests {
         });
 
         let snapshot = project.compile().expect("compile manual station");
-        assert_eq!(snapshot.summary.station_count, 22);
+        assert_eq!(
+            snapshot.summary.station_count,
+            project.base.stations.len() + 1
+        );
         assert_eq!(snapshot.summary.manual_station_count, 1);
         assert_eq!(snapshot.summary.edited_line_count, 1);
         assert_eq!(
@@ -4475,7 +4511,13 @@ mod tests {
                 .find(|line| line.id == "line-2")
                 .expect("compiled line 2")
                 .station_count,
-            7
+            project
+                .base
+                .stations
+                .iter()
+                .filter(|s| s.line == "line-2")
+                .count()
+                + 1
         );
 
         let scenario = project
@@ -4504,7 +4546,15 @@ mod tests {
     fn retiring_generated_station_rebuilds_simulator_topology() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah");
         let mut project = CityProject::load(root).expect("load Samawah project");
-        let id = "line-2-0400-0417-s008456";
+        let id = project
+            .base
+            .stations
+            .iter()
+            .filter(|s| s.line == "line-2")
+            .nth(2)
+            .expect("interior line-2 station")
+            .id
+            .clone();
         project.overrides.stations.push(StationOverride {
             id: id.to_string(),
             state: IntentState::Retired,
@@ -4513,7 +4563,10 @@ mod tests {
             reason: "retirement test".to_string(),
         });
         let snapshot = project.compile().expect("compile retired station");
-        assert_eq!(snapshot.summary.station_count, 20);
+        assert_eq!(
+            snapshot.summary.station_count,
+            project.base.stations.len() - 1
+        );
         assert_eq!(snapshot.summary.edited_line_count, 1);
         let scenario = project
             .scenario_for_day_type("weekday", &snapshot)
@@ -4523,7 +4576,7 @@ mod tests {
             .as_array()
             .expect("station definitions")
             .iter()
-            .any(|station| station["id"].as_str() == Some(id)));
+            .any(|station| station["id"].as_str() == Some(id.as_str())));
         assert!(!parsed["lines"]
             .as_array()
             .expect("scenario lines")
@@ -4533,7 +4586,7 @@ mod tests {
             .as_array()
             .expect("line station refs")
             .iter()
-            .any(|station| station["id"].as_str() == Some(id)));
+            .any(|station| station["id"].as_str() == Some(id.as_str())));
     }
 
     #[test]
@@ -4708,7 +4761,10 @@ mod tests {
         let snapshot = project.compile().expect("compile manual line");
         assert_eq!(snapshot.lines.len(), 4);
         assert_eq!(snapshot.summary.manual_line_count, 1);
-        assert_eq!(snapshot.summary.station_count, 23);
+        assert_eq!(
+            snapshot.summary.station_count,
+            base.summary.station_count + 2
+        );
         assert_eq!(snapshot.summary.manual_station_count, 2);
         assert_eq!(snapshot.service_metrics.len(), 12);
         assert_eq!(

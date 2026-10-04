@@ -1,0 +1,43 @@
+name: city-planning
+on:
+  push:
+    branches: ['validation/planning/**']
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: Optional comma-separated city selection; empty validates the complete catalogue
+        type: string
+        default: ''
+permissions:
+  contents: read
+jobs:
+  cities:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        partition: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+    env:
+      OSR_RESILIENCE_JOBS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: cargo build --release -p osr-sim --bin osr-sim
+      - name: Run actual full-day planning screens
+        env:
+          PARTITION: ${{ matrix.partition }}
+          CITIES: ${{ inputs.cities }}
+        run: python3 tools/automation/city-planning-ci.py run --partition "$PARTITION/64" --cities "$CITIES" --jobs 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: city-planning-${{ matrix.partition }}
+          path: build/city-planning/partition/
+          if-no-files-found: error
+          retention-days: 14

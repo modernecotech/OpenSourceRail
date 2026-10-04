@@ -550,20 +550,21 @@ def _scheduled_daily_train_journeys(design: dict, scenario: dict) -> float:
 
 
 def _station_posts_per_shift(design: dict) -> float:
-    """Driverless-platform staff posts per shift by station archetype."""
-    weights = {
-        "halt": 0.25,
-        "standard": 0.50,
-        "major": 1.00,
-        "terminal": 1.00,
-        "depot-terminal": 1.50,
-        "interchange": 2.00,
-        "interchange-elevated": 2.00,
-    }
-    return sum(
-        weights.get(str(station.get("archetype", "standard")), 0.50)
-        for station in design.get("stations", [])
-    )
+    """Two covered posts per station record, including interchange platforms."""
+    return len(design.get("stations", [])) * _template_toml("city-operating-scope.toml")["workforce"]["station_posts"]
+
+
+def _workforce_payroll_usd(workforce: dict[str, int], monthly_income: float) -> float:
+    """Graded wages above the country planning-income proxy, plus employer costs.
+
+    Country income inputs are retained estimates, not newly observed employee
+    medians. Baghdad's dedicated study uses its indexed employee-wage evidence.
+    """
+    config = _template_toml("city-operating-scope.toml")
+    w = config['workforce']
+    return math.fsum(count * monthly_income * 12 * config['wage_multipliers'][role]
+                     * (1+w['employer_cost_fraction']+w['overtime_allowance_fraction'])
+                     for role, count in workforce.items())
 
 
 def _driverless_workforce_breakdown(
@@ -580,15 +581,20 @@ def _driverless_workforce_breakdown(
     No train drivers are counted: RFC 0015 moves safety presence to OCC,
     remote-assist, platform/station, and maintenance roles.
     """
-    shifts_per_day = max(1, math.ceil(service_hours_per_day / 8.0))
+    w = _template_toml("city-operating-scope.toml")['workforce']
+    productive = w['paid_hours_per_year'] - sum(w[k] for k in ('leave_hours','training_hours','sickness_hours','travel_handover_hours'))
+    if productive <= 0: raise ValueError('No productive workforce hours')
+    # Two normal eight-hour shifts plus all retained late-service hours.
+    # Annual productive hours provide weekly, leave, training and sickness cover.
+    cover = service_hours_per_day * w['service_days'] / productive
     roster_relief = 1.35
     remote_assist_posts = max(1, math.ceil(stats.revenue_fleet / 8))
     occ_posts = stats.line_count + remote_assist_posts + 2
     station_posts = _station_posts_per_shift(design)
 
     return {
-        "occ_remote_assist": math.ceil(occ_posts * shifts_per_day * roster_relief),
-        "station_platform": math.ceil(station_posts * shifts_per_day * roster_relief),
+        "occ_remote_assist": math.ceil(occ_posts * cover),
+        "station_platform": math.ceil(station_posts * cover),
         "passenger_service": math.ceil(
             (stats.line_count * 4 * roster_relief)
             + (daily_paid_trips_high / 10_000)
@@ -1188,7 +1194,7 @@ def _funding_and_affordability_section(
     #     CAPEX, or billing none even when the generated PV estate no
     #     longer covered the uplifted timetable. The row below charges
     #     only residual grid/PPA shortfall plus annual solar-plant O&M.
-    #   • labour — derived from headcount × country-median salary.
+    #   • labour — derived from role counts and graded country income proxies.
     rs_maint = 0.04 * float(costs.get("rolling_stock_eur", 0.0))
     civil_maint = 0.02 * (
         float(costs.get("civil_subtotal_eur", 0.0))
@@ -1247,16 +1253,15 @@ def _funding_and_affordability_section(
     )
     headcount = sum(workforce.values())
     monthly_income = float(fin.get("median_monthly_income_usd", 600))
-    # Salary mix: country-median × 12 × engineer-premium 1.4
-    # (mainline maintainers / dispatchers / inspectors paid 1.5–2 ×
-    # median; station staff ~1.0; weighted blend ≈ 1.4).
-    labour_usd = headcount * monthly_income * 12 * 1.4
+    # Country planning-income proxy: frontline 1.5×, technical 2.25×,
+    # supervisory 3×, with separately priced employer costs and overtime.
+    labour_usd = _workforce_payroll_usd(workforce, monthly_income)
     labour_eur = labour_usd * _USD_TO_EUR  # USD->EUR compatibility math
 
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
     # Affordability-anchored ticket pricing. The revenue case uses a
-    # monthly-pass share of country median income and solves the capacity use
+    # monthly-pass share of the country income planning proxy and solves the capacity use
     # needed after station retail + advertising revenue.
     target_pass_share = float(
         fin.get("revenue_case_monthly_pass_income_share", 0.08)
@@ -1614,8 +1619,8 @@ def _funding_and_affordability_section(
         f"{workforce['passenger_service']}, fleet maintenance "
         f"{workforce['fleet_maintenance']}, infrastructure/energy "
         f"{workforce['infrastructure_energy']}, admin/training "
-        f"{workforce['admin_training']}; no train drivers × country median × "
-        f"12 × engineer-premium 1.4 | "
+        f"{workforce['admin_training']}; country planning-income proxy × "
+        f"1.5/2.25/3 role premiums × 12, plus 35% employer/overtime allowance | "
         f"{_usd(labour_eur)} |"
     )
     out.append(
@@ -1636,12 +1641,12 @@ def _funding_and_affordability_section(
 
     out.extend(_maintenance_schedule_section(rel, stats, energy_plan))
 
-    out.append("### Ticket pricing anchored to median income\n")
+    out.append("### Ticket pricing anchored to the income planning proxy\n")
     out.append(
-        f"Country median monthly income: **${monthly_income:,.0f} USD** "
+        f"Configured monthly income planning proxy: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
         f"The revenue-forward case sets the monthly unlimited pass at "
-        f"**{target_pass_pct} of median monthly income** and pairs it with "
+        f"**{target_pass_pct} of the configured income proxy** and pairs it with "
         f"higher service uptake, more frequent trains, station retail, "
         f"and advertising. Single-trip fare is set so that 30 single trips equal one "
         f"monthly pass — a frequent commuter averaging ~50 trips / month "
@@ -1659,7 +1664,7 @@ def _funding_and_affordability_section(
     )
     out.append(
         f"| Monthly unlimited pass | "
-        f"${target_monthly_pass_usd:.2f} (~{target_pass_pct} of median monthly income) |"
+        f"${target_monthly_pass_usd:.2f} (~{target_pass_pct} of the configured income proxy) |"
     )
     out.append(
         f"| Annual pass | "
@@ -2500,19 +2505,32 @@ def render_readme(
         "rolling-stock, production-plant, maintenance, labour, and total "
         "CAPEX/OPEX figures below.\n"
     )
-    out.append("## Distributed overnight stabling\n")
-    out.append(
-        "At service close, telemetry-healthy trainsets remain at selected "
-        "powered passenger stations near their first morning departures. "
-        "Every occupied station must provide at least 150 kW low-C charging, "
-        "CCTV, remote traction isolation, protected emergency access, and an "
-        "OCC-assigned train/track slot. Sets with red defects, overdue heavy "
-        "maintenance, failed isolation, or failed security return to the "
-        "main-heavy depot. OCC verifies charge completion and remote self-test "
-        "before releasing all station-stabled sets together at service start. "
-        "The generated default therefore builds one maintenance-focused main "
-        "depot, not a parking depot at every terminus.\n"
-    )
+    full_fleet_depots = bool(design.get("depots")) and all("storage_slots" in site for site in design["depots"])
+    if full_fleet_depots:
+        out.append("## Full-fleet line-local depot requirement\n")
+        out.append(
+            f"The planning capital includes **{len(design['depots'])} depots**, one per line, "
+            f"with **{sum(site['storage_slots'] for site in design['depots'])} storage slots** "
+            "covering the complete fleet including spares. Storage tracks are separate "
+            "from workload-sized workshop bays. No passenger-platform parking credit "
+            "reduces this requirement. Accepted land, access tracks, configured yard "
+            "topology and morning launch capacity remain operator/project releases; "
+            "the retained station-stabling simulations are historical diagnostics.\n"
+        )
+    else:
+        out.append("## Distributed overnight stabling\n")
+        out.append(
+            "At service close, telemetry-healthy trainsets remain at selected "
+            "powered passenger stations near their first morning departures. "
+            "Every occupied station must provide at least 150 kW low-C charging, "
+            "CCTV, remote traction isolation, protected emergency access, and an "
+            "OCC-assigned train/track slot. Sets with red defects, overdue heavy "
+            "maintenance, failed isolation, or failed security return to the "
+            "main-heavy depot. OCC verifies charge completion and remote self-test "
+            "before releasing all station-stabled sets together at service start. "
+            "The generated default therefore builds one maintenance-focused main "
+            "depot, not a parking depot at every terminus.\n"
+        )
     ring_lines = [
         line
         for line in design.get("lines", [])
@@ -3580,8 +3598,11 @@ def _rich_capex_section(
         "planning pricing**; `*_eur` fields are explicit converted reporting "
         f"views at {_USD_TO_EUR:.2f} USD→EUR. "
         "**OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke "
-        "architectural cladding), distributed overnight stabling that reduces "
-        "depot parking and local commissioning-bay scope, at-grade depots "
+        "architectural cladding), "
+        + ("full-fleet line-local depot storage separately sized from workshop bays, "
+           if design.get("depots") and all("storage_slots" in site for site in design["depots"])
+           else "distributed overnight stabling with its retained planning depot scope, ")
+        + "at-grade depots "
         "without overhead bridge cranes, **trainset-family rolling-stock "
         "units** (for example "
         f"{_money_unit_usd(_LIGHT_METRO_3CAR_LOCAL_UNIT_USD)} per 3-car "
@@ -3675,26 +3696,34 @@ def _rich_capex_section(
     )
 
     out.append("### Depots\n")
-    out.append(
-        "At-grade workshop and inspection facilities sized for maintenance, "
-        "not fleet-wide parking. Healthy trainsets stable and recharge at "
-        "powered passenger stations overnight; depot roads retain defect, "
-        "wheel, wash, inspection, and heavy-maintenance functions.\n"
-    )
-    out.append("| Archetype | Count | Unit | Subtotal |")
-    out.append("|---|---|---|---|")
-    depot_order = ["main-heavy", "secondary-medium", "layup-minimal"]
-    for a in depot_order:
-        n = depot_counts.get(a, 0)
-        if n == 0:
-            continue
-        unit = _DEPOT_UNIT_USD.get(a, _DEPOT_UNIT_USD["main-heavy"])
+    if design.get("depots") and all("storage_slots" in site for site in design["depots"]):
+        out.append("One full-fleet planning depot per line. Storage and maintenance bays are separate; depot PV/storage equipment is included once. Land, utility and installed quotations remain open.\n")
+        out.append("| Line | Storage slots | Train length m | Workshop bays | Reference cost |")
+        out.append("|---|---:|---:|---:|---:|")
+        for site in design["depots"]:
+            out.append(f"| {site['line']} | {site['storage_slots']} | {site['train_length_m']:g} | {site['workshop_bays']} | {_money_value_usd(site['reference_cost_usd'])} |")
+        out.append(f"| **Depots subtotal** | | | | **{_money('depots')}** |\n")
+    else:
         out.append(
-            f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
+            "At-grade workshop and inspection facilities sized for maintenance, "
+            "not fleet-wide parking. Healthy trainsets stable and recharge at "
+            "powered passenger stations overnight; depot roads retain defect, "
+            "wheel, wash, inspection, and heavy-maintenance functions.\n"
         )
-    out.append(
-        f"| **Depots subtotal** | | | **{_money('depots')}** |\n"
-    )
+        out.append("| Archetype | Count | Unit | Subtotal |")
+        out.append("|---|---|---|---|")
+        depot_order = ["main-heavy", "secondary-medium", "layup-minimal"]
+        for a in depot_order:
+            n = depot_counts.get(a, 0)
+            if n == 0:
+                continue
+            unit = _DEPOT_UNIT_USD.get(a, _DEPOT_UNIT_USD["main-heavy"])
+            out.append(
+                f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
+            )
+        out.append(
+            f"| **Depots subtotal** | | | **{_money('depots')}** |\n"
+        )
 
     out.append("### Rolling stock\n")
     out.append(

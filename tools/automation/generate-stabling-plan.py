@@ -118,6 +118,13 @@ def build(design_path: Path):
                         'Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.',
                         'Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.'],
     }
+    full_storage=[dict(line=r['line'],planning_storage_slots=r['storage_slots'],physical_release=False)
+                  for r in design.get('depots',[]) if 'storage_slots' in r]
+    if full_storage:
+        report['adopted_line_depot_requirement']=full_storage
+        report['candidate_scope']='unaccepted distributed-station diagnostic; adopted planning requirement stores the full fleet in line-local depots'
+        report['policy']['healthy_fleet_location']='full fleet in line-local depots; no station-stabling capacity credited'
+        report['limitations'].append('Distributed/hybrid candidate outputs do not replace the full-fleet depot requirement or qualify actual yard, access, charging or launch capacity.')
     try:
         native = native_hybrid_candidate(candidate, hybrid)
         report['native_hybrid_candidate'] = {
@@ -132,7 +139,8 @@ def build(design_path: Path):
 
 def markdown(report):
     hybrid = report['hybrid_allocation']
-    rows = ['# Station and depot overnight allocation', '',
+    notice=('The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.' if report.get('adopted_line_depot_requirement') else 'The hybrid allocation below remains a planning candidate; physical release is open.')
+    rows = ['# Station and depot overnight allocation', '', notice, '',
             f"Plan: **{hybrid['station_trainsets']} trainsets at stations + {hybrid['depot_trainsets']} at depots = {hybrid['fleet_trainsets']} total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.", '',
             f"Allocation check: **{'PASS' if hybrid['allocation_passed'] else 'FAIL'}**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.", '',
             '| Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |', '|---|---|---|---:|---:|---:|']

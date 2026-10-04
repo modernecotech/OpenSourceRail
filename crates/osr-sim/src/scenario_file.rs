@@ -1864,8 +1864,14 @@ mod trainset_system_tests {
 
     #[test]
     fn habd_location_must_be_inside_declared_section() {
-        let source = include_str!("../../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml")
-            .replace("offset_m = 5806", "offset_m = 999999");
+        let baseline =
+            include_str!("../../../cities/catalogue/west-asia/Iraq/Samawah/samawah.toml");
+        let offset_line = baseline
+            .lines()
+            .find(|line| line.starts_with("offset_m = "))
+            .expect("actual HABD offset in the regenerated scenario");
+        let source = baseline.replacen(offset_line, "offset_m = 999999", 1);
+        assert_ne!(source, baseline);
         let error = load_scenario_from_str(&source).expect_err("invalid offset must fail");
         assert!(error.to_string().contains("must be inside"));
     }

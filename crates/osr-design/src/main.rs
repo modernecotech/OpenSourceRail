@@ -372,6 +372,11 @@ fn main() -> Result<()> {
         );
     }
 
+    let mut water_platform_moves = alignment_policy::bank_route_ends_with_limit(
+        &mut lines,
+        &bundle.grid,
+        alignment_policy::bank_endpoint_limit(&args.out_dir)?,
+    )?;
     // Per-line station placement + civil classification.
     let mut all_stations: Vec<osr_routing::station::Station> = Vec::new();
     let mut civil_per_line: Vec<Vec<osr_routing::civil::CivilSegment>> = Vec::new();
@@ -619,6 +624,55 @@ fn main() -> Result<()> {
         eprintln!("merged into {merged_count} interchange complexes");
     }
 
+    water_platform_moves.extend(alignment_policy::relocate_water_platforms_with_limit(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        alignment_policy::bank_shift_limit(&args.out_dir)?,
+    )?);
+    if !water_platform_moves.is_empty() {
+        water_platform_moves.extend(alignment_policy::fit_bank_neighbours(
+            &mut all_stations,
+            &lines,
+            &bundle.grid,
+        )?);
+        // Bank moves can create a new cross-line transfer or put two ordinary
+        // stops inside one spacing envelope. Rebuild the actual complexes and
+        // retain the higher-priority stop using the same endpoint/interchange
+        // rules as the initial layout. Never emit a wet replacement platform.
+        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        let before = all_stations.clone();
+        osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
+        osr_routing::consolidate_ring_wrap_station_clusters(
+            &mut all_stations,
+            &lines,
+            bundle.grid.reference.cell_m,
+            1200.0,
+        );
+        for removed in before.iter().filter(|old| {
+            !all_stations
+                .iter()
+                .any(|s| s.line_name == old.line_name && s.row == old.row && s.col == old.col)
+        }) {
+            water_platform_moves.push(serde_json::json!({
+                "kind": "bank-neighbour-spacing-consolidation",
+                "line": removed.line_name,
+                "removed_cell": [removed.row, removed.col],
+                "removed_chainage_m": removed.s_m,
+                "basis": "Retain endpoint/interchange priority and the 1.2 km spacing requirement after bank selection; recalculate stations, service and costs from the retained layout."
+            }));
+        }
+        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        // Geodesic merging can erase a mandatory ring/terminal pair at the
+        // edge of the grid transfer envelope. Restore group IDs for the
+        // retained dry platforms, without inserting a replacement over water.
+        osr_routing::force_ring_radial_group_ids(
+            &mut all_stations,
+            &lines,
+            bundle.grid.reference.cell_m,
+            600.0,
+        );
+    }
     let layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,
@@ -635,6 +689,16 @@ fn main() -> Result<()> {
     }
 
     fs::create_dir_all(&args.out_dir)?;
+    if !water_platform_moves.is_empty() {
+        let directory = args.out_dir.join("engineering/alignment");
+        fs::create_dir_all(&directory)?;
+        fs::write(
+            directory.join("station-site-review.json"),
+            serde_json::to_string_pretty(&serde_json::json!({
+                "schema_version": 1, "physical_release": false, "moves": water_platform_moves,
+            }))? + "\n",
+        )?;
+    }
     emit::write_all(
         &args.out_dir,
         &args.slug,

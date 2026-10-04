@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import importlib.util
 import json
 import os
 import subprocess
@@ -159,6 +160,7 @@ def prepare_city(
     from_scratch: bool,
     resynthesise_corridors: bool,
     resynthesise_design: bool = False,
+    current_design_logic: bool = False,
 ) -> dict[str, object]:
     started = time.monotonic()
     city_dir = design_path.parent
@@ -220,7 +222,12 @@ def prepare_city(
         design_command.extend(
             ["--design-only", "--corridor-cache", str(corridor_cache)]
         )
-    if slug == 'baghdad':
+    if slug != 'baghdad' and (current_design_logic or (city_dir/'alignment-policy.toml').is_file()):
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path)])
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path),'--prepare-grid'])
+        if '--design-only' not in design_command:design_command.append('--design-only')
+        commands.append(design_command)
+    elif slug == 'baghdad':
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-baghdad-alignment.py')])
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
@@ -280,6 +287,9 @@ def prepare_city(
             str(design_path),
         ],
     ]
+    if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
+        commands.insert(1,[sys.executable,str(REPO_ROOT/'tools/automation/apply-city-depot-scope.py'),'--design',str(design_path)])
+        commands.insert(2,[sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path)])
     for command in commands:
         return_code = run_logged(command, log_path)
         if return_code:
@@ -298,12 +308,23 @@ def prepare_city(
     }
 
 
-def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str, object]:
+def finish_city(slug: str, design_path: Path, resilience_jobs: int,
+                ci_directory: Path | None = None, ci_commit: str | None = None) -> dict[str, object]:
     started = time.monotonic()
     city_dir = design_path.parent
     scenario_path = city_dir / f"{slug}.toml"
     operations_dir = city_dir / "operations"
     log_path = LOG_ROOT / f"package-{slug}.log"
+    if (ci_directory is None)!=(ci_commit is None):
+        raise ValueError('CI evidence requires its artifact directory and exact commit')
+    if ci_directory is not None:
+        spec=importlib.util.spec_from_file_location('package_ci',REPO_ROOT/'tools/automation/city-planning-ci.py')
+        ci=importlib.util.module_from_spec(spec);spec.loader.exec_module(ci)
+        ci.verify(ci_directory,design_path,ci_commit)
+        if (city_dir/'engineering/simulation/validation-summary.json').read_bytes()!=(ci_directory/'validation.json').read_bytes():
+            raise ValueError('Canonical operating evidence differs from the verified CI artifact: '+slug)
+        with log_path.open('a',encoding='utf-8') as handle:
+            handle.write(f'Using verified full-day CI planning evidence from {ci_commit}; actual receipts retained.\n')
     commands = [
         [
             sys.executable,
@@ -360,6 +381,11 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
         commands[position:position]=[
             [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py')],
             [sys.executable,str(REPO_ROOT/'tools/automation/regenerate-baghdad-studies.py')]]
+    elif (city_dir/'alignment-policy.toml').is_file():
+        position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
+        commands[position:position]=[
+            [sys.executable,str(REPO_ROOT/'tools/automation/generate-city-factory-plan.py'),'--design',str(design_path)],
+            [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py'),'--design',str(design_path)]]
     # Funding reads deterministic procurement CSVs. Refresh it after operations
     # have produced the current schedule, then bind the twin to final finance.
     commands[3:3] = [
@@ -370,6 +396,8 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-depot-scope.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-stabling-plan.py"), "--design", str(design_path)],
     ]
+    if ci_directory is not None:
+        commands=commands[1:]  # The actual native suite is already verified above.
     for command in commands:
         return_code = run_logged(
             command,
@@ -447,6 +475,8 @@ def main() -> int:
         help="reroute corridors from cached rasters instead of reusing corridors.json",
     )
     parser.add_argument("--resynthesise-design", action="store_true", help="explicitly replace existing controlled layout from corridor inputs; default refreshes the current design")
+    parser.add_argument('--current-design-logic',action='store_true',help='adopt controlled elevated-core geometry and line-local full-fleet depots')
+    parser.add_argument('--prepare-only',action='store_true',help='regenerate layouts/scenarios/maps; retain an explicit incomplete batch receipt until engineering is refreshed')
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
@@ -457,7 +487,6 @@ def main() -> int:
     if unknown:
         parser.error(f"no canonical design for: {', '.join(unknown)}")
     selected = {slug: available[slug] for slug in sorted(requested)}
-    full_catalog_run = requested == set(available)
     with CATALOG.open("rb") as handle:
         catalog = tomllib.load(handle)
     catalog_cities = {
@@ -492,14 +521,21 @@ def main() -> int:
             args.from_scratch,
             args.resynthesise_corridors,
             args.resynthesise_design,
+            args.current_design_logic,
         ),
     )
     ready = {
         slug: selected[slug] for slug, result in prepared.items() if result["passed"]
     }
 
+    if args.prepare_only:
+        atomic_json(SUMMARY_PATH,dict(schema_version='2.0',phase='layouts-only-engineering-refresh-required',
+            passed=False,planning_example_complete=False,prepare_results=prepared,
+            failed_cities=sorted(set(selected)-set(ready)),prepared_city_count=len(ready),city_count=len(selected)))
+        return 0 if len(ready)==len(selected) else 1
+
     catalog_validation_return_codes: dict[str, int] = {}
-    if full_catalog_run:
+    if ready:
         catalog_validation_return_codes = {
             "station_clusters": run_logged(
                 [
@@ -564,7 +600,7 @@ def main() -> int:
     )
     failures = sorted((set(selected) - complete) | set(ignored_artifacts))
     index_return_code = 0
-    if full_catalog_run:
+    if ready:
         index_return_code = run_logged(
             [sys.executable, str(REPO_ROOT / "tools/automation/generate-design-index.py")],
             LOG_ROOT / "package-design-index.log",

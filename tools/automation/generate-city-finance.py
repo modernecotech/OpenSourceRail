@@ -22,6 +22,7 @@ CAPEX_COSTS_PATH = REPO_ROOT / "lib/templates/capex-costs.toml"
 CIVIL_COST_MODEL_PATH = REPO_ROOT / "lib/templates/civil-cost-model.toml"
 COUNTRY_FINANCE_PATH = REPO_ROOT / "lib/templates/country-finance.toml"
 CAPITAL_MODEL_PATH = REPO_ROOT / "design/city-generation/src/osr_scenario/capital.py"
+OPERATING_SCOPE_PATH = REPO_ROOT / "lib/templates/city-operating-scope.toml"
 NETWORK_FINANCE_MODEL_PATH = REPO_ROOT / "design/city-generation/src/osr_scenario/network_readme.py"
 sys.path.insert(0, str(REPO_ROOT / "design/city-generation/src"))
 
@@ -33,6 +34,7 @@ from osr_scenario.network_readme import (  # noqa: E402
     _PRACTICAL_CAPACITY_LOAD_FACTOR,
     _USD_TO_EUR,
     _driverless_workforce_breakdown,
+    _workforce_payroll_usd,
     _energy_plan,
     _load_country_finance,
     _scheduled_daily_train_journeys,
@@ -162,7 +164,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         annual_train_km=energy.annual_train_km,
         daily_paid_trips_high=daily_high,
     )
-    labour = sum(workforce.values()) * float(fin["median_monthly_income_usd"]) * 12 * 1.4
+    labour = _workforce_payroll_usd(workforce, float(fin["median_monthly_income_usd"]))
     opex_components = {
         "rolling_stock_maintenance_including_battery_renewal_reserve": rs_maint,
         "civil_station_depot_maintenance": fixed_maint,
@@ -221,14 +223,17 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "status": "planning-screen",
         "passed": True,
         "workforce": {
-            "basis": "Existing driverless operating labour allowance; indicative FTE, not an accepted roster.",
+            "basis": "Two continuously covered station posts; annual productive hours and graded country-income proxy wages. Indicative FTE, not an accepted roster.",
             "groups_fte": workforce,
             "total_fte": sum(workforce.values()),
             "annual_labour_usd": labour,
-            "annual_cost_per_fte_usd": float(fin["median_monthly_income_usd"]) * 12 * 1.4,
+            "annual_cost_per_fte_usd": labour / sum(workforce.values()) if sum(workforce.values()) else 0,
+            "monthly_country_income_proxy_usd": float(fin["median_monthly_income_usd"]),
+            "wage_multipliers": tomllib.loads(OPERATING_SCOPE_PATH.read_text())["wage_multipliers"],
+            "workforce_rules": tomllib.loads(OPERATING_SCOPE_PATH.read_text())["workforce"],
             "service_hours_per_day": energy.service_hours_per_day,
             "shift_hours": 8,
-            "relief_multiplier": 1.35,
+            "productive_hours_per_fte_year": 1520,
         },
         "sources": {
             "design": str(design_path.relative_to(REPO_ROOT)),
@@ -249,6 +254,8 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "civil_cost_model_sha256": sha256(CIVIL_COST_MODEL_PATH),
             "country_finance": str(COUNTRY_FINANCE_PATH.relative_to(REPO_ROOT)),
             "country_finance_sha256": sha256(COUNTRY_FINANCE_PATH),
+            "operating_scope": str(OPERATING_SCOPE_PATH.relative_to(REPO_ROOT)),
+            "operating_scope_sha256": sha256(OPERATING_SCOPE_PATH),
         },
         "capex_usd": {
             "authoritative_design_base": base_capex,

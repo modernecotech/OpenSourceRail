@@ -499,11 +499,23 @@ fn routing_anchors_geojson(project: &CityProject) -> Result<serde_json::Value> {
     Ok(serde_json::json!({ "type": "FeatureCollection", "features": features }))
 }
 
+fn routing_display_stride(height: usize, width: usize, cell_m: f64) -> usize {
+    let mut stride = (500.0 / cell_m).ceil().max(1.0) as usize;
+    while height
+        .div_ceil(stride)
+        .saturating_mul(width.div_ceil(stride))
+        > 10_000
+    {
+        stride += 1;
+    }
+    stride
+}
+
 fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_json::Value> {
     let bundle = routing_bundle(project)?;
     let grid = &bundle.grid;
     let reference = &grid.reference;
-    const STRIDE: usize = 5;
+    let stride = routing_display_stride(reference.height, reference.width, reference.cell_m);
     let mut features = Vec::new();
     let finite_costs = grid
         .cost
@@ -526,10 +538,10 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
         .collect::<Vec<_>>();
     let elevation_min = elevations.iter().copied().fold(f32::INFINITY, f32::min);
     let elevation_max = elevations.iter().copied().fold(f32::NEG_INFINITY, f32::max);
-    for row in (0..reference.height).step_by(STRIDE) {
-        for col in (0..reference.width).step_by(STRIDE) {
-            let row_end = (row + STRIDE).min(reference.height);
-            let col_end = (col + STRIDE).min(reference.width);
+    for row in (0..reference.height).step_by(stride) {
+        for col in (0..reference.width).step_by(stride) {
+            let row_end = (row + stride).min(reference.height);
+            let col_end = (col + stride).min(reference.width);
             let mut demand = 0.0_f32;
             let mut cost = f32::INFINITY;
             let mut buildable = 0_usize;
@@ -592,7 +604,10 @@ fn routing_surface_geojson(project: &CityProject, layer: &str) -> Result<serde_j
                     "elevation_m": elevation.map(|number| (number * 10.0).round() / 10.0),
                     "maximum_slope_percent": (maximum_slope * 10.0).round() / 10.0,
                     "water_coverage_percent": (water_percent * 10.0).round() / 10.0,
-                    "station_permitted": water_percent < 50.0,
+                    "source_cell_m": reference.cell_m,
+                    "display_cell_m": stride as f64 * reference.cell_m,
+                    "display_majority_water": water_percent >= 50.0,
+                    "point_siting_requires_source_grid": true,
                 }
             }));
         }
@@ -1090,6 +1105,21 @@ mod tests {
             Path::new(env!("CARGO_MANIFEST_DIR")).join("../../cities/workspaces/samawah"),
         )
         .expect("load Samawah project")
+    }
+
+    #[test]
+    fn display_resolution_is_bounded_independently_of_routing_resolution() {
+        assert_eq!(routing_display_stride(1000, 1000, 20.0), 25);
+        assert_eq!(routing_display_stride(1000, 1000, 100.0), 10);
+        for (height, width, cell_m) in [
+            (1334_usize, 945_usize, 20.0),
+            (5, 1, 1000.0),
+            (1, 20000, 20.0),
+        ] {
+            let stride = routing_display_stride(height, width, cell_m);
+            assert!(stride as f64 * cell_m >= 500.0);
+            assert!(height.div_ceil(stride) * width.div_ceil(stride) <= 10000);
+        }
     }
 
     #[test]

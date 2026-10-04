@@ -494,9 +494,16 @@ def build_bundle(
     ready_days = dict(manufacturing_template.get("city_resource_ready_days", {}).get(slug, {}))
     factory_plan = None
     factory_path = REPO_ROOT / "lib/templates" / f"{slug}-factory.toml"
+    generic_factory = not factory_path.is_file() and (design_path.parent/'alignment-policy.toml').is_file()
+    if generic_factory:
+        factory_path=REPO_ROOT/'lib/templates/city-factory.toml'
     if factory_path.is_file():
-        from factory_sizing import size_factory
-        factory_plan = size_factory(manufacturing_tasks, capacities, _load_toml(factory_path))
+        from factory_sizing import size_factory, configure_factory
+        factory_config=_load_toml(factory_path)
+        if generic_factory:
+            profile=_load_toml(REPO_ROOT/'lib/templates/rolling-stock.toml')['profiles'][rolling_stock_family]
+            factory_config=configure_factory(factory_config,slug,rolling_stock_family,profile)
+        factory_plan = size_factory(manufacturing_tasks, capacities, factory_config,allow_civil_delay=generic_factory)
         capacities.update(factory_plan['resource_capacity'])
         ready_days = factory_plan['resource_ready_days']
     _schedule_manufacturing_tasks(manufacturing_tasks)
@@ -551,7 +558,7 @@ def build_bundle(
         },
         resource_capacity=capacities,
         resource_ready_days=ready_days,
-        civil_rephasing_buffer_days=_load_toml(factory_path)['factory']['rephase_civil_buffer_working_days'] if factory_plan else None,
+        civil_rephasing_buffer_days=factory_config['factory']['rephase_civil_buffer_working_days'] if factory_plan else None,
         previous_revisions=previous_twin_revisions,
     )
     manufacturing_tasks = project_twin["work_packages"]

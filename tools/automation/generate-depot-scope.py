@@ -108,7 +108,9 @@ def build_report(design_path: Path) -> dict:
                 "pv_reference_usd_per_kw": pv_rate,
                 "storage_reference_usd_per_kwh": storage_rate,
                 "included_in_existing_allowance_verified": False,
-                "applied_to_city_capex": False,
+                "applied_to_city_capex": "reference_cost_usd" in depot,
+                "full_depot_equipment_priced_in_depot_capital": "reference_cost_usd" in depot,
+                "adopted_depot_reference_usd": depot.get("reference_cost_usd"),
                 "basis": "sensitivity using existing utility-PV and 500 kWh battery equipment rates; not an installed depot quotation",
                 "unpriced_scope": ["canopy/racking and foundations", "power conversion and DC distribution", "utility/protection works", "battery compound and fire separation", "installation and renewal/disposal"],
             },
@@ -137,6 +139,8 @@ def build_report(design_path: Path) -> dict:
         "workshop_bays_are_fleet_parking": False,
         "depots": depots, "initial_dispatch_requirements": allocations,
         "fleet_trainsets": sum(r["initial_trainset_count"] for r in allocations),
+        "declared_line_storage": [dict(line=d.get('line'),storage_slots=d['storage_slots'],workshop_bays=d['fleet_stalls'],
+                                       physical_release=False) for d in design.get('depots',[]) if 'storage_slots' in d],
         "passed": False, "deployment_release_ready": False,
         "open_gates": ["site PV and stationary-storage placement", "itemised depot energy budget and allowance reconciliation", "station and depot storage layouts with usable tracks", "coordinated morning starts and conflict-aware evening run-in/morning run-out"],
         "limitations": [
@@ -152,12 +156,14 @@ def build_report(design_path: Path) -> dict:
 def render_markdown(report: dict) -> str:
     lines = [f"# {report['city']} depot scope reconciliation", "",
              f"Depot energy quantities reconciled: **{'yes' if report['quantities_reconciled'] else 'no'}**. Physical/cost/stabling closure: **open**.", "",
-             "The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to storage on its own line. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.", "",
+             ("The adopted planning requirement stores the full line fleet in one line-local depot, with storage slots separate from workshop bays. See the [current line-depot requirements](../line-depots/README.md). The station/distributed-stabling candidate below remains an unaccepted diagnostic, not capacity credited to the adopted depot plan."
+              if report.get('declared_line_storage') else
+              "The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to storage on its own line. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots."), "",
              "| Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |",
              "|---|---:|---:|---:|---:|"]
     for d in report["depots"]:
         lines.append(f"| {d['station']} | {d['pv_nameplate_kw']:,.0f} | {d['storage_module_count']} / {d['storage_capacity_kwh']:,.0f} | {d['required_pv_module_area_m2']:,.1f} / {d['reference_pv_canopy_m2']:,.0f} | {d['cost_reconciliation']['additional_equipment_reference_usd']:,.0f} |")
-    lines += ["", "The equipment reference is an unapproved sensitivity using existing repository rates. It is not added to CAPEX; allowance inclusion and installed scope remain unverified.", "",
+    lines += ["", ("Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified." if report.get("declared_line_storage") else "The equipment reference is an unapproved sensitivity using existing repository rates. It is not added to CAPEX; allowance inclusion and installed scope remain unverified."), "",
               "| Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |",
               "|---|---|---:|---:|---:|---|"]
     for row in report["initial_dispatch_requirements"]:

@@ -269,6 +269,8 @@ pub struct BaseStation {
     pub anchor_name: Option<String>,
     #[serde(default)]
     pub archetype: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub junction_group: Option<usize>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -610,6 +612,8 @@ pub struct CompiledStation {
     pub lon: f64,
     pub s_m: f64,
     pub archetype: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub junction_group: Option<usize>,
     pub state: IntentState,
     pub reason: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]

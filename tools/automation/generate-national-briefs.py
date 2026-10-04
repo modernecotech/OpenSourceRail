@@ -103,6 +103,14 @@ def load_city(design_path: Path) -> tuple[str, CityCapital]:
 def factory_budget(country_code: str, cities: list[CityCapital]) -> float:
     """One plant: module allowance or the larger city-sized physical envelope."""
     amount = max(c.vehicle_modules for c in cities)*NATIONAL_FACTORY_PER_VEHICLE_USD
+    import json
+    requested={c.slug:c for c in cities}
+    for path in (REPO_ROOT/'cities/catalogue').glob('*/*/*/engineering/factory/summary.json'):
+        plan=json.loads(path.read_text());city=requested.get(plan.get('city'))
+        if city is None:continue
+        if city.vehicle_modules!=plan['vehicle_modules']:
+            raise ValueError('National factory requirement must match current city order: '+city.slug)
+        amount=max(amount,plan['plant_cost_envelope_usd'])
     if country_code == 'IQ':
         path = REPO_ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json'
         if path.is_file():
@@ -295,14 +303,14 @@ def render_brief(
         f"| Vehicle/car modules to manufacture | {modules:,} |",
         f"| City infrastructure + fleet CAPEX | {money(sum(city.breakdown.total_usd for city in cities))} |",
         f"| One shared national trainset factory | {money(national_factory_usd)} |",
-        f"| National factory sizing basis | {anchor.vehicle_modules:,} modules: largest single-city programme ({anchor.name}) |",
+        f"| National factory sizing basis | largest city-order physical envelope or module allowance; {anchor.vehicle_modules:,} modules at the largest fleet ({anchor.name}) |",
         f"| **Total national programme CAPEX** | **{money(national.total_usd)}** |",
         "",
-        "The factory is sized to the largest single-city fleet programme and reused "
+        "The budget uses the largest retained city-order physical requirement or module allowance, counted once, and assumes reuse "
         "through a phased national rollout. This avoids duplicating factory buildings, "
         "moulds, welding fixtures, metrology, commissioning equipment, and imported "
         "machinery in every city. Final factory siting requires a national freight, "
-        "power, workforce, land, and test-track study; this brief does not preselect a city.",
+        "power, workforce, land, and test-track study; this brief does not preselect a city. City-order production screens do not establish capacity for simultaneous national projects; national sequencing and shared availability remain open.",
         "",
         "## External versus local capital",
         "",

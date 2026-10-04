@@ -112,6 +112,64 @@ pub fn ingest_sample_in_place(
     sample: &CbmSample,
     params: &CbmBackendParams,
 ) -> Vec<WorkOrder> {
+    let p = osr_cbm_onboard::CbmParams::default_metro();
+    // Verify raw readings; an inconsistent worst_health label must not hide
+    // a component flag. The common nominal stream needs no temporary map.
+    if sample
+        .bearing_vib_ppt
+        .iter()
+        .all(|&v| v < p.bearing_watch_ppt)
+        && sample.motor_temp_dc.iter().all(|&v| v < p.motor_watch_dc)
+        && sample
+            .brake_pad_remaining_ppt
+            .iter()
+            .all(|&v| v > p.brake_pad_watch_ppt)
+        && sample
+            .wheel_tread_remaining_ppt
+            .iter()
+            .all(|&v| v > p.wheel_watch_ppt)
+    {
+        for (component, length) in [
+            (Component::Bearing, sample.bearing_vib_ppt.len()),
+            (Component::Motor, sample.motor_temp_dc.len()),
+            (Component::BrakePad, sample.brake_pad_remaining_ppt.len()),
+            (
+                Component::WheelTread,
+                sample.wheel_tread_remaining_ppt.len(),
+            ),
+        ] {
+            if length == 0 {
+                continue;
+            }
+            // The wire index is u16; preserve the reference map's behaviour
+            // even for an oversized vector whose indices wrap.
+            let count = length.min(usize::from(u16::MAX) + 1);
+            let key = |index| ComponentKey {
+                train_id: sample.train_id,
+                component,
+                index,
+            };
+            let mut seen = 0;
+            for (_, value) in state.components.range_mut(key(0)..=key((count - 1) as u16)) {
+                *value = ComponentState::default();
+                seen += 1;
+            }
+            if seen != count {
+                for index in 0..count {
+                    state.components.entry(key(index as u16)).or_default();
+                }
+            }
+        }
+        return Vec::new();
+    }
+    ingest_indexed_sample(state, sample, params)
+}
+
+fn ingest_indexed_sample(
+    state: &mut CbmBackendState,
+    sample: &CbmSample,
+    params: &CbmBackendParams,
+) -> Vec<WorkOrder> {
     // Rebuild per-component health for this sample, assuming a flag
     // carries the worst-seen level for that component+index.
     let mut per_index: BTreeMap<(Component, u16), ComponentHealth> = BTreeMap::new();
@@ -280,6 +338,65 @@ fn reconstruct_flags(sample: &CbmSample) -> Vec<osr_cbm_onboard::ComponentFlag> 
 mod tests {
     use super::*;
     use osr_cbm_onboard::{cbm_evaluate, CbmInputs, CbmParams};
+
+    proptest::proptest! {
+        #[test]
+        fn nominal_fast_path_matches_indexed_reference_over_changing_streams(
+            stream in proptest::collection::vec((0u8..10, 0u32..4, 0usize..16), 1..80)
+        ) {
+            let params = CbmBackendParams { watch_persistence: 3 };
+            let mut fast = CbmBackendState::default();
+            let mut reference = CbmBackendState::default();
+            for (now, (mode, train, length)) in stream.into_iter().enumerate() {
+                let mut sample = CbmSample {
+                    now_ns: now as u64, train_id: train,
+                    bearing_vib_ppt: vec![1000; length], motor_temp_dc: vec![800; length],
+                    brake_pad_remaining_ppt: vec![900; length], wheel_tread_remaining_ppt: vec![800; length],
+                    // Deliberately inconsistent labels verify raw thresholds.
+                    worst_health: if mode % 2 == 0 { ComponentHealth::Service } else { ComponentHealth::Nominal },
+                };
+                if length > 0 {
+                    match mode {
+                        1 => sample.bearing_vib_ppt[0] = 4000,
+                        2 => sample.bearing_vib_ppt[0] = 7000,
+                        3 => sample.motor_temp_dc[0] = 1400,
+                        4 => sample.motor_temp_dc[0] = 1600,
+                        5 => sample.brake_pad_remaining_ppt[0] = 300,
+                        6 => sample.brake_pad_remaining_ppt[0] = 150,
+                        7 => sample.wheel_tread_remaining_ppt[0] = 300,
+                        8 => sample.wheel_tread_remaining_ppt[0] = 150,
+                        _ => {},
+                    }
+                }
+                let actual = ingest_sample_in_place(&mut fast, &sample, &params);
+                let expected = ingest_indexed_sample(&mut reference, &sample, &params);
+                proptest::prop_assert_eq!(actual, expected);
+                proptest::prop_assert_eq!(&fast, &reference);
+            }
+        }
+    }
+
+    #[test]
+    fn nominal_fast_path_preserves_u16_index_wrap_and_unreported_component_state() {
+        let mut sample = sample_from(clean(1));
+        sample.bearing_vib_ppt = vec![1000; usize::from(u16::MAX) + 3];
+        let params = CbmBackendParams::default_depot();
+        let mut fast = CbmBackendState::default();
+        let mut reference = CbmBackendState::default();
+        for _ in 0..2 {
+            assert_eq!(
+                ingest_sample_in_place(&mut fast, &sample, &params),
+                ingest_indexed_sample(&mut reference, &sample, &params)
+            );
+            assert_eq!(fast, reference);
+        }
+        sample.bearing_vib_ppt.clear();
+        assert_eq!(
+            ingest_sample_in_place(&mut fast, &sample, &params),
+            ingest_indexed_sample(&mut reference, &sample, &params)
+        );
+        assert_eq!(fast, reference);
+    }
 
     fn sample_from(i: CbmInputs) -> CbmSample {
         cbm_evaluate(&i, &CbmParams::default_metro()).sample

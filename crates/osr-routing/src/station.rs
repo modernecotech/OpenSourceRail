@@ -877,7 +877,7 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
             .or_default()
             .insert(station.line_name.as_str());
     }
-    let multichange_r2 = (2.0 * merge_radius_m) * (2.0 * merge_radius_m);
+    let multichange_r2 = 1200.0 * 1200.0;
     for i in 0..n {
         for j in (i + 1)..n {
             if stations[i].line_name != stations[j].line_name {

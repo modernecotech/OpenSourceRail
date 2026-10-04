@@ -23,9 +23,17 @@ LOCAL_PATH = re.compile(
 STABLING_DIAGNOSTICS = {"operating-screen", "service-cycle-screen", "redistribution-study"}
 
 
-def is_stabling_diagnostic(relative: str) -> bool:
+def stabling_diagnostics(city_dir: Path) -> set[str]:
+    diagnostics=set(STABLING_DIAGNOSTICS)
+    design=city_dir/'design.toml'
+    if design.is_file() and any('storage_slots' in d for d in tomllib.loads(design.read_text()).get('depots',[])):
+        diagnostics.add('hybrid-cycle-screen')
+    return diagnostics
+
+
+def is_stabling_diagnostic(relative: str, diagnostics: set[str] | None = None) -> bool:
     path = Path(relative)
-    return path.parent.as_posix() == "engineering/stabling" and path.stem in STABLING_DIAGNOSTICS
+    return path.parent.as_posix() == "engineering/stabling" and path.stem in (STABLING_DIAGNOSTICS if diagnostics is None else diagnostics)
 
 
 def sha256(path: Path) -> str:
@@ -83,6 +91,15 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
         funding = finance.get("structured_financing")
         if funding is not None and funding.get("schedule_status") != "linked-to-budget-work-packages":
             findings.append({"artifact": "engineering/finance/summary.json", "source": "funding_schedule", "expected_sha256": "current schedule-linked appraisal", "recorded_sha256": funding.get("schedule_status")})
+    if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
+        for relative in ('alignment/core-realignment.json','alignment/station-water-screen.json','line-depots/summary.json','factory/summary.json'):
+            path=city_dir/'engineering'/relative
+            if not path.is_file():continue
+            report=json.loads(path.read_text())
+            for source,digest in report.get('sources_sha256',{}).items():
+                actual=sha256(REPO_ROOT/source) if (REPO_ROOT/source).is_file() else None
+                if actual!=digest:
+                    findings.append({'artifact':'engineering/'+relative,'source':source,'expected_sha256':actual,'recorded_sha256':digest})
     for relative, inputs in families.items():
         path = city_dir / "engineering" / relative
         if not path.is_file():
@@ -172,7 +189,7 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
             "redistribution_model": REPO_ROOT / "design/city-generation/src/osr_scenario/stabling_redistribution.py",
         }),
     ):
-        if screen_name in STABLING_DIAGNOSTICS and not include_diagnostics:
+        if screen_name in stabling_diagnostics(city_dir) and not include_diagnostics:
             continue
         screen_path = city_dir / f"engineering/stabling/{screen_name}.json"
         if not screen_path.is_file():
@@ -214,6 +231,7 @@ def main() -> int:
     design_path = city_dir / "design.toml"
     design = tomllib.loads(design_path.read_text(encoding="utf-8"))
     slug = str(design["city"]["slug"])
+    diagnostics=stabling_diagnostics(city_dir)
 
     required = [
         city_dir / "README.md",
@@ -292,12 +310,29 @@ def main() -> int:
     # Superseded station-only experiments retain provenance below, not gates.
     for screen_name in ("hybrid-cycle-screen",):
         screen = city_dir / f"engineering/stabling/{screen_name}.json"
-        if screen.is_file():
+        if screen.is_file() and screen_name not in diagnostics:
             required.extend([screen, screen.with_suffix(".md")])
+    ci_execution=city_dir/'engineering/simulation/ci-execution.json'
+    if ci_execution.is_file():
+        required.append(ci_execution)
     for line in design.get("lines", []):
         line_id = str(line.get("id") or line.get("name")).replace("-", "")
         required.append(city_dir / "engineering/alignment" / f"{slug}-{line_id}.aln.toml")
 
+    if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
+        required.extend(city_dir/relative for relative in (
+            'alignment-policy.toml','engineering/alignment/core-realignment.json',
+            'engineering/alignment/planning-grid.json','engineering/alignment/pre-rework-corridors.json.gz',
+            'engineering/alignment/planning-water-mask.bin.gz','engineering/alignment/station-water-screen.json',
+            'engineering/alignment/core-alignment-comparison.png',
+            'engineering/line-depots/summary.json','engineering/line-depots/README.md',
+            'engineering/factory/summary.json','engineering/factory/README.md'))
+        if (city_dir/'design-overrides.toml').is_file():
+            required.append(city_dir/'design-overrides.toml')
+        if (city_dir/'station-bank-policy.toml').is_file():
+            required.append(city_dir/'station-bank-policy.toml')
+        if (city_dir/'engineering/alignment/station-site-review.json').is_file():
+            required.append(city_dir/'engineering/alignment/station-site-review.json')
     missing = [str(path.relative_to(city_dir)) for path in required if not path.is_file()]
     failed_summaries: list[str] = []
     for path in required:
@@ -380,19 +415,20 @@ def main() -> int:
         },
         "missing_artifacts": missing,
         "failed_summaries": failed_summaries,
-        "selected_stabling_configuration": "line-local-station-depot",
+        "selected_stabling_configuration": "full-fleet-line-depot-planning-requirement" if "hybrid-cycle-screen" in diagnostics else "line-local-station-depot",
+        "canonical_operating_configuration": "endpoint-dispatch; depot yard and morning positioning remain open",
         "diagnostic_artifacts": {
             str(path.relative_to(city_dir)): {
                 "sha256": sha256(path),
                 "passed": json.loads(path.read_text()).get("passed"),
-                "scope": "superseded station-only experiment; not selected-plan acceptance",
+                "scope": "historical station/hybrid experiment; not adopted full-fleet depot acceptance" if "hybrid-cycle-screen" in diagnostics else "superseded station-only experiment; not selected-plan acceptance",
             }
-            for name in sorted(STABLING_DIAGNOSTICS)
+            for name in sorted(diagnostics)
             if (path := city_dir / f"engineering/stabling/{name}.json").is_file()
         },
         "diagnostic_stale_sources": [
             row for row in stale_analysis_sources(city_dir, slug, include_diagnostics=True)
-            if is_stabling_diagnostic(row["artifact"])
+            if is_stabling_diagnostic(row["artifact"],diagnostics)
         ],
         "stale_analysis_sources": stale_sources,
         "absolute_local_path_artifacts": sorted(local_path_files),

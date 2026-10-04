@@ -35,6 +35,28 @@ seat_count = 60
 crush_capacity = 480
 service_accel_mps2 = 1.0
 
+[consist.systems]
+mechanical_standard_revision = "A-DRAFT"
+door_cassettes_per_car = 4
+window_cassettes_per_car = 6
+service_rails_per_car = 8
+fastener_family_count = 4
+connector_family_count = 2
+main_light_modules_per_car = 22
+emergency_light_modules_per_car = 4
+door_threshold_light_modules_per_car = 4
+lighting_power_w_per_car = 500.0
+hvac_thermal_kw_per_car = 24.0
+
+[consist.systems.integrated_thermal]
+architecture = "common refrigerant plant with physically separated cabin-air and battery-coolant circuits"
+battery_priority = true
+battery_target_c = 28.0
+battery_derate_c = 45.0
+battery_trip_c = 55.0
+common_compressor_failure_response = "cabin fans only; traction derate; battery isolate at protection threshold"
+release_boundary = "supplier data, pressure/refrigerant safety, thermal rig, EMC, vibration and first-article tests required"
+
 [consist.roof_pv]
 nameplate_kw = 15.12
 usable_factor = 0.65
@@ -56,36 +78,25 @@ dwell_seconds = 240
 is_terminal = true
 
 [[stations]]
-id = "line-1-0829-0356-s003510"
-name = "line-1-0829-0356-s003510"
-dwell_seconds = 60
-
-[[stations]]
-id = "line-1-0738-0445-s007010"
-name = "line-1-0738-0445-s007010"
+id = "line-1-0726-0503-s006764"
+name = "line-1-0726-0503-s006764"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-1-0612-0491-s010018"
-name = "line-1-0612-0491-s010018"
+id = "line-1-0622-0590-s009787"
+name = "line-1-0622-0590-s009787"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-1-0552-0549-s012289"
-name = "line-1-0552-0549-s012289"
+id = "line-1-0542-0656-s012133"
+name = "line-1-0542-0656-s012133"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-1-0499-0632-s014484"
-name = "line-1-0499-0632-s014484"
-charging_power_kw = 500
-dwell_seconds = 240
-
-[[stations]]
-id = "line-1-0461-0724-s016691"
+id = "line-1-0461-0724-s014492"
 name = "Sir Sadiq Abbasi (Civil) Hospital"
 charging_power_kw = 500
 dwell_seconds = 240
@@ -99,70 +110,66 @@ name = "آدم واہن ریلوے اسٹیشن"
 charging_power_kw = 500
 dwell_seconds = 270
 is_terminal = true
+is_depot = true
+depot_service = true
 
 [[stations]]
-id = "line-2-0270-0420-s003496"
-name = "line-2-0270-0420-s003496"
+id = "line-2-0263-0451-s003501"
+name = "line-2-0263-0451-s003501"
 dwell_seconds = 60
 
 [[stations]]
-id = "line-2-0412-0470-s007015"
-name = "line-2-0412-0470-s007015"
+id = "line-2-0392-0541-s007002"
+name = "line-2-0392-0541-s007002"
 charging_power_kw = 500
 dwell_seconds = 270
 
 [[stations]]
-id = "line-2-0552-0549-s010701"
-name = "line-2-0552-0549-s010701"
+id = "line-2-0503-0618-s010013"
+name = "line-2-0503-0618-s010013"
 charging_power_kw = 500
 dwell_seconds = 270
 
 [[stations]]
-id = "line-2-0573-0608-s012786"
-name = "post graduate college"
-charging_power_kw = 500
-dwell_seconds = 270
-
-[[stations]]
-id = "line-2-0611-0693-s014879"
+id = "line-2-0611-0693-s012958"
 name = "Govt College of Technology"
 charging_power_kw = 500
 dwell_seconds = 270
 is_terminal = true
-depot_service = true
 
 [[stations]]
 id = "line-3-0662-0893-s000000"
 name = "IUB Hospital"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 is_terminal = true
+is_depot = true
+depot_service = true
 
 [[stations]]
-id = "line-3-0590-0720-s005541"
-name = "line-3-0590-0720-s005541"
+id = "line-3-0610-0723-s003878"
+name = "line-3-0610-0723-s003878"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 
 [[stations]]
-id = "line-3-0554-0626-s008548"
-name = "GulzarMahal"
+id = "line-3-0590-0634-s005823"
+name = "post graduate college"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 
 [[stations]]
-id = "line-3-0552-0549-s010188"
-name = "line-3-0552-0549-s010188"
+id = "line-3-0570-0544-s007789"
+name = "line-3-0570-0544-s007789"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 
 [[stations]]
-id = "line-3-0547-0439-s013275"
+id = "line-3-0547-0439-s010091"
 name = "Abbasia School"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 is_terminal = true
-depot_service = true
 
 
 
@@ -172,12 +179,10 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0962-0331-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0829-0356-s003510", distance_from_prev_m = 3509 },
-    { id = "line-1-0738-0445-s007010", distance_from_prev_m = 3500 },
-    { id = "line-1-0612-0491-s010018", distance_from_prev_m = 3007 },
-    { id = "line-1-0552-0549-s012289", distance_from_prev_m = 2271 },
-    { id = "line-1-0499-0632-s014484", distance_from_prev_m = 2195 },
-    { id = "line-1-0461-0724-s016691", distance_from_prev_m = 2206 },
+    { id = "line-1-0726-0503-s006764", distance_from_prev_m = 6763 },
+    { id = "line-1-0622-0590-s009787", distance_from_prev_m = 3023 },
+    { id = "line-1-0542-0656-s012133", distance_from_prev_m = 2346 },
+    { id = "line-1-0461-0724-s014492", distance_from_prev_m = 2359 },
 ]
 
 [[lines]]
@@ -185,11 +190,10 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0153-0365-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0270-0420-s003496", distance_from_prev_m = 3496 },
-    { id = "line-2-0412-0470-s007015", distance_from_prev_m = 3518 },
-    { id = "line-2-0552-0549-s010701", distance_from_prev_m = 3686 },
-    { id = "line-2-0573-0608-s012786", distance_from_prev_m = 2084 },
-    { id = "line-2-0611-0693-s014879", distance_from_prev_m = 2092 },
+    { id = "line-2-0263-0451-s003501", distance_from_prev_m = 3501 },
+    { id = "line-2-0392-0541-s007002", distance_from_prev_m = 3501 },
+    { id = "line-2-0503-0618-s010013", distance_from_prev_m = 3010 },
+    { id = "line-2-0611-0693-s012958", distance_from_prev_m = 2945 },
 ]
 
 [[lines]]
@@ -197,21 +201,121 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0662-0893-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0590-0720-s005541", distance_from_prev_m = 5541 },
-    { id = "line-3-0554-0626-s008548", distance_from_prev_m = 3007 },
-    { id = "line-3-0552-0549-s010188", distance_from_prev_m = 1639 },
-    { id = "line-3-0547-0439-s013275", distance_from_prev_m = 3087 },
+    { id = "line-3-0610-0723-s003878", distance_from_prev_m = 3877 },
+    { id = "line-3-0590-0634-s005823", distance_from_prev_m = 1945 },
+    { id = "line-3-0570-0544-s007789", distance_from_prev_m = 1965 },
+    { id = "line-3-0547-0439-s010091", distance_from_prev_m = 2302 },
 ]
+
+
+
+# Point machines — explicit city-design assets.
+[[switches]]
+id = "sw-line-1-0962-0331-s000000-tb"
+station = "line-1-0962-0331-s000000"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-tb"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-01"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-02"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-03"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-04"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-05"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-06"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-07"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-08"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-09"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-10"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-11"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-12"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-13"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-14"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-15"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-16"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-17"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-1-0461-0724-s014492-yd-18"
+station = "line-1-0461-0724-s014492"
+
+[[switches]]
+id = "sw-line-2-0153-0365-s000000-tb"
+station = "line-2-0153-0365-s000000"
+
+[[switches]]
+id = "sw-line-2-0611-0693-s012958-tb"
+station = "line-2-0611-0693-s012958"
+
+[[switches]]
+id = "sw-line-3-0662-0893-s000000-tb"
+station = "line-3-0662-0893-s000000"
+
+[[switches]]
+id = "sw-line-3-0547-0439-s010091-tb"
+station = "line-3-0547-0439-s010091"
+
 
 
 
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 37
+trainset_count = 43
 dispatch_points = [
     { station = "line-1-0962-0331-s000000", heading = "forward" },
-    { station = "line-1-0461-0724-s016691", heading = "reverse" },
+    { station = "line-1-0461-0724-s014492", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -226,10 +330,10 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 34
+trainset_count = 41
 dispatch_points = [
     { station = "line-2-0153-0365-s000000", heading = "forward" },
-    { station = "line-2-0611-0693-s014879", heading = "reverse" },
+    { station = "line-2-0611-0693-s012958", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -244,10 +348,10 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 29
+trainset_count = 32
 dispatch_points = [
     { station = "line-3-0662-0893-s000000", heading = "forward" },
-    { station = "line-3-0547-0439-s013275", heading = "reverse" },
+    { station = "line-3-0547-0439-s010091", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -281,7 +385,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0738-0445-s007010"
+station = "line-1-0726-0503-s006764"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -298,41 +402,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0612-0491-s010018"
-tier = "major"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0552-0549-s012289"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0499-0632-s014484"
+station = "line-1-0622-0590-s009787"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -349,7 +419,24 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0461-0724-s016691"
+station = "line-1-0542-0656-s012133"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-1-0461-0724-s014492"
 tier = "depot-main"
 pv_nameplate_kw = 5000.0
 storage_capacity_kwh = 40000.0
@@ -367,14 +454,14 @@ charger_contact_count = 2
 
 [[sites]]
 station = "line-2-0153-0365-s000000"
-tier = "terminal"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+tier = "depot-main"
+pv_nameplate_kw = 5000.0
+storage_capacity_kwh = 40000.0
+storage_max_charge_kw = 10000.0
+storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 3000.0
+grid_export_kw = 3000.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0
@@ -383,7 +470,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0412-0470-s007015"
+station = "line-2-0392-0541-s007002"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -400,15 +487,15 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0552-0549-s010701"
-tier = "interchange"
+station = "line-2-0503-0618-s010013"
+tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
 storage_max_discharge_kw = 500.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 500.0
+grid_export_kw = 500.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0
@@ -417,24 +504,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0573-0608-s012786"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-2-0611-0693-s014879"
+station = "line-2-0611-0693-s012958"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -452,14 +522,14 @@ charger_contact_count = 2
 
 [[sites]]
 station = "line-3-0662-0893-s000000"
-tier = "terminal"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+tier = "depot-main"
+pv_nameplate_kw = 5000.0
+storage_capacity_kwh = 40000.0
+storage_max_charge_kw = 10000.0
+storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 3000.0
+grid_export_kw = 3000.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0
@@ -468,7 +538,24 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0590-0720-s005541"
+station = "line-3-0610-0723-s003878"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-3-0590-0634-s005823"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -485,8 +572,8 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0554-0626-s008548"
-tier = "interchange"
+station = "line-3-0570-0544-s007789"
+tier = "major"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
@@ -502,24 +589,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0552-0549-s010188"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-3-0547-0439-s013275"
+station = "line-3-0547-0439-s010091"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

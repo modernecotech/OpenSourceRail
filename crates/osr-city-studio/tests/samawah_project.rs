@@ -9,12 +9,16 @@ fn samawah_project() -> CityProject {
 
 #[test]
 fn committed_project_compiles_without_validation_errors() {
-    let snapshot = samawah_project()
-        .compile()
-        .expect("compile Samawah project");
+    let project = samawah_project();
+    let snapshot = project.compile().expect("compile Samawah project");
     assert_eq!(snapshot.summary.validation_errors, 0);
-    assert_eq!(snapshot.summary.station_count, 21);
-    assert_eq!(snapshot.summary.locked_station_count, 3);
+    let design_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../cities/catalogue/west-asia/Iraq/Samawah/design.toml");
+    let design: osr_city_studio::model::BaseDesign =
+        toml::from_str(&std::fs::read_to_string(design_path).unwrap()).unwrap();
+    assert_eq!(snapshot.summary.station_count, design.stations.len());
+    assert_eq!(snapshot.summary.locked_station_count, 0);
+    assert!(snapshot.stations.iter().any(|s| s.junction_group.is_some()));
     assert_eq!(snapshot.summary.manual_station_count, 0);
     assert_eq!(snapshot.summary.manual_line_count, 0);
     assert_eq!(snapshot.lines.len(), 3);
@@ -32,16 +36,20 @@ fn committed_revision_is_backward_compatible_and_semantically_comparable() {
     let comparison = project
         .compare_revision("osr-1f41358e43a86600")
         .expect("compare original revision");
-    assert!(comparison.stations.is_empty());
+    assert!(comparison.stations.iter().any(|s| s.kind == "added"));
+    assert!(comparison.stations.iter().any(|s| s.kind == "removed"));
     assert!(comparison.controls.is_empty());
-    assert!(comparison.lines.is_empty());
-    assert!(comparison.services.is_empty());
+    assert!(!comparison.lines.is_empty());
+    assert!(comparison
+        .services
+        .iter()
+        .any(|service| service.kind == "modified"));
     assert_eq!(comparison.coordination.len(), 3);
     assert!(comparison
         .coordination
         .iter()
         .all(|issue| issue.kind == "added"));
-    assert_eq!(comparison.summary.station_count, 0);
+    assert_ne!(comparison.summary.station_count, 0);
     assert_eq!(comparison.summary.manual_station_count, 0);
 }
 

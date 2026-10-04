@@ -54,7 +54,7 @@ pub fn assign(
         .collect();
     let mut output = PassengerAssignment {
         method: "deterministic shortest scheduled-time all-or-nothing assignment; loads may exceed capacity".into(),
-        transfer_rule: "5-minute planning transfer only between interchange-tagged stations within 1 metre; no other proximity links".into(),
+        transfer_rule: "Interchange-tagged platforms: 5 minutes when co-located within 1 metre, or 5 minutes plus walking at 80 m/min for the same declared junction group within 700 metres. Group access paths require project verification; no other proximity links.".into(),
         ..Default::default()
     };
     let mut metrics = Vec::new();
@@ -116,15 +116,25 @@ pub fn assign(
                 let dy = (sa.lat - sb.lat) * 111_195.0;
                 let dx =
                     (sa.lon - sb.lon) * 111_195.0 * ((sa.lat + sb.lat) * 0.5).to_radians().cos();
-                if dx.hypot(dy) <= 1.0 {
+                let distance_m = dx.hypot(dy);
+                let declared_group = sa.junction_group.is_some()
+                    && sa.junction_group == sb.junction_group
+                    && distance_m <= 700.0;
+                if distance_m <= 1.0 || declared_group {
+                    let minutes = 5.0
+                        + if distance_m > 1.0 {
+                            distance_m / 80.0
+                        } else {
+                            0.0
+                        };
                     graph[a].push(Edge {
                         to: b,
-                        minutes: 5.0,
+                        minutes,
                         transfer: true,
                     });
                     graph[b].push(Edge {
                         to: a,
-                        minutes: 5.0,
+                        minutes,
                         transfer: true,
                     });
                 }
@@ -296,6 +306,7 @@ mod tests {
             lon: 0.0,
             s_m,
             archetype: if hub { "interchange" } else { "standard" }.into(),
+            junction_group: None,
             state: IntentState::Generated,
             reason: String::new(),
             site_assessment: None,
@@ -425,6 +436,44 @@ mod tests {
             "unavailable"
         );
         s[2].lat += 0.001;
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+    }
+    #[test]
+    fn declared_groups_allow_bounded_walks_without_linking_other_nearby_platforms() {
+        let (d, a) = inputs(&[("a", "d", 50)]);
+        let mut s = vec![
+            station("a", "l", 0.0, 0.0, false),
+            station("b", "l", 1000.0, 0.01, true),
+            station("c", "m", 0.0, 0.013, true),
+            station("d", "m", 1000.0, 0.02, false),
+        ];
+        let lines = [line("l", false), line("m", false)];
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+        s[1].junction_group = Some(0);
+        s[2].junction_group = Some(0);
+        let metrics = assign(&d, &lines, &s, &a, |_, _| 600).0;
+        assert_eq!(metrics[0].transfers, 1);
+        assert_eq!(metrics[0].capacity_pphpd, 600);
+        assert!((metrics[0].journey_minutes.unwrap() - (20.0 + 333.585 / 80.0)).abs() < 0.001);
+        s[2].junction_group = Some(1);
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+        s[2].junction_group = Some(0);
+        s[2].lat = 0.017;
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+        s[2].lat = 0.013;
+        s[2].archetype = "standard".into();
         assert_eq!(
             assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
             "unavailable"

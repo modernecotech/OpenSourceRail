@@ -13,13 +13,24 @@ import math
 from project_twin import apply_resource_cpm
 
 
+def configure_factory(config: dict, city: str, family: str, profile: dict) -> dict:
+    """Keep conservative reference cycles; size bays/crews to the real consist."""
+    result=deepcopy(config);f=result['factory'];cars=int(profile['cars'])
+    if cars<=0 or cars!=profile['cars']:raise ValueError('Invalid family car count')
+    f.update(city=city,family=family,cars=cars,trainset_bay_length_m=profile['length_m']+24.0)
+    for s in result['stage']:
+        s['work_center']=s['work_center'].replace('City',city).replace('six-car',family)
+        s['crew_per_cell']=max(1,math.ceil(s['crew_per_cell']*cars/6))
+    return result
+
+
 def _positive(value, name):
     if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
         raise ValueError('invalid positive factory input: '+name)
     return value
 
 
-def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
+def size_factory(tasks: list[dict], capacities: dict, config: dict, *, allow_civil_delay: bool = False) -> dict:
     """Modify rolling-stock tasks and return a physical, auditable sizing plan."""
     f = config['factory']; stages = config['stage']
     for key, value in f.items():
@@ -75,6 +86,10 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
     if set(fleets) != set(deadlines):
         raise ValueError('factory and infrastructure line scopes differ')
     count = sum(len(v) for v in fleets.values())
+    if allow_civil_delay:
+        # Short civil programmes cannot make an 18-month plant qualify earlier.
+        # Retain the physical lead time and delay the integrated opening.
+        target = max(target, serial_ready + lead + f['rephase_civil_buffer_working_days'])
     window = target+1-serial_ready-lead
     if window <= 0:
         raise ValueError('18-month factory cannot precede infrastructure target with qualification and production lead time')
@@ -84,12 +99,12 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
     for r in rs:
         s=stage_by_id[r['package_id']]
         r['work_center']=s['work_center']; r['duration_days']=cycles[r['package_id']]
-        r['duration_model']='whole-six-car-cell-cycle-with-availability'
-        r['quantity_basis']=f"{s['cycle_working_days']} productive working days / {f['productive_availability']:.0%} availability, rounded up; one complete six-car trainset"
+        r['duration_model']='whole-family-cell-cycle-with-availability'
+        r['quantity_basis']=f"{s['cycle_working_days']} productive working days / {f['productive_availability']:.0%} availability, rounded up; one complete {f['family']} trainset"
         r['work_order_title']=s['work_center']+' work package'
-        r['work_order_detail']='Whole six-car planning occupation; family-specific drawings, mould count, labour routing and measured first-article times required before manufacturing release.'
-        r['deliverables']='One six-car trainset stage accepted against the released family-specific ITP'
-        r['materials_or_inputs']='Released six-car family kit and traveller; LM3 module counts are not applied'
+        r['work_order_detail']='Whole-family planning occupation; drawings, mould count, labour routing and measured first-article times required before manufacturing release.'
+        r['deliverables']='One '+f['family']+' trainset stage accepted against the released family-specific ITP'
+        r['materials_or_inputs']='Released '+f['family']+' kit and traveller; another family BOM is not applied'
         if r['manufacturing_uid']==prototype_uid:
             r['duration_days']+=f['first_article_additional_working_days']
             r['quantity_basis']+='; plus 60-working-day first-article qualification allowance'
@@ -143,7 +158,7 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
     finishes={line:max(r['planned_finish_day'] for r in result if r['line']==line) for line in order}
     return dict(city=f['city'],family=f['family'],engineering_release=False,
         factory_ready_working_day=ready,readiness_months_from_ntp=f['ready_months_from_ntp'],
-        total_trainsets=count,vehicle_modules=count*6,
+        total_trainsets=count,vehicle_modules=count*f.get('cars',6),
         infrastructure_deadlines=dict(deadlines),infrastructure_target_working_day=target,
         serial_release_working_day=serial_ready,stock_finish_working_day=max(finishes.values()),
         line_stock_finish_working_day=finishes,line_priority=order,
@@ -163,4 +178,4 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
           'First-article, production cycles, availability, test-track duty and cell layout require measured qualification.',
           'Infra dates retain the existing conditional resource model; civil buildability, risk and calendar approval remain open.',
           'Supplier qualification, order lead times, imports/customs and funding must support the derived manufacturing rate.',
-          'No future national city consumes Baghdad capacity; expansion requires a new factory loading assessment.'])
+          'National reuse and concurrent city loads require a separate factory loading assessment.'])

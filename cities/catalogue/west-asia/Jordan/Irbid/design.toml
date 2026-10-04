@@ -46,16 +46,16 @@ late_headway_min             = 24
 [[lines]]
 name            = "line-1"
 shape           = "radial"
-length_m        = 15841.6
+length_m        = 11023.9
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-2"
 shape           = "radial"
-length_m        = 13969.6
+length_m        = 10386.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
@@ -64,94 +64,40 @@ charging_dwell_seconds = 180
 [[lines]]
 name            = "line-3"
 shape           = "radial"
-length_m        = 18869.8
+length_m        = 16362.6
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 240
+charging_dwell_seconds = 270
 
 [[civil_segments]]
 line            = "line-1"
 from_station_m  = 0.0
-to_station_m    = 20.0
+to_station_m    = 11023.9
 class           = "elevated"
-
-[[civil_segments]]
-line            = "line-1"
-from_station_m  = 20.0
-to_station_m    = 8515.2
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-1"
-from_station_m  = 8515.2
-to_station_m    = 8535.2
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-1"
-from_station_m  = 8535.2
-to_station_m    = 15841.6
-class           = "at-grade"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 0.0
-to_station_m    = 7527.2
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 7527.2
-to_station_m    = 7547.2
+to_station_m    = 10386.8
 class           = "elevated"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 7547.2
-to_station_m    = 8406.7
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 8406.7
-to_station_m    = 8434.9
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 8434.9
-to_station_m    = 8531.5
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 8531.5
-to_station_m    = 8559.8
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 8559.8
-to_station_m    = 13969.6
-class           = "at-grade"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
-to_station_m    = 5777.0
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 5777.0
-to_station_m    = 5805.2
+to_station_m    = 13401.4
 class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-3"
-from_station_m  = 5805.2
-to_station_m    = 18869.8
+from_station_m  = 13401.4
+to_station_m    = 16362.6
 class           = "at-grade"
 
 [[stations]]
@@ -166,60 +112,44 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0736-0627-s003572"
+id              = "line-1-0696-0608-s003004"
 line            = "line-1"
-lat             = 32.52215491847532
-lon             = 35.86615502635156
-s_m             = 3572.2
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0673-0623-s005189"
-line            = "line-1"
-lat             = 32.53349278695605
-lon             = 35.865302404669634
-s_m             = 5189.0
-anchor_kind     = "amenity:hospital"
+lat             = 32.52935356512975
+lon             = 35.86210507336242
+s_m             = 3004.3
+anchor_kind     = "amenity:university"
+anchor_name     = "Yarmouk University - South Campus"
 archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0555-0553-s008515"
+id              = "line-1-0552-0592-s006017"
 line            = "line-1"
-lat             = 32.554728794586616
-lon             = 35.85038152523599
-s_m             = 8515.2
-archetype       = "interchange"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-1-0471-0526-s010965"
-line            = "line-1"
-lat             = 32.56984595256092
-lon             = 35.84462632888302
-s_m             = 10965.1
+lat             = 32.5552686930857
+lon             = 35.85869458663473
+s_m             = 6016.8
+anchor_kind     = "leisure:stadium"
+anchor_name     = "Almalab Albaladi"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0402-0548-s013405"
+id              = "line-1-0432-0580-s008516"
 line            = "line-1"
-lat             = 32.5822636180398
-lon             = 35.84931574813359
-s_m             = 13405.4
+lat             = 32.576864633048984
+lon             = 35.85613672158897
+s_m             = 8516.2
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "حي اليرموك"
+anchor_name     = "حي حنينا"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0312-0567-s015842"
+id              = "line-1-0312-0567-s011024"
 line            = "line-1"
 lat             = 32.598460573012275
 lon             = 35.85336570112272
-s_m             = 15841.6
+s_m             = 11023.9
 anchor_kind     = "place:town"
 anchor_name     = "بيت رأس"
 archetype       = "terminal"
@@ -236,63 +166,42 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0620-0704-s003010"
+id              = "line-2-0681-0672-s003017"
 line            = "line-2"
-lat             = 32.54303099377317
-lon             = 35.88256799372856
-s_m             = 3009.6
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ابو غلوس إخوان للسيراميك والبورسلان"
-archetype       = "standard"
+lat             = 32.53205305762516
+lon             = 35.87574702027318
+s_m             = 3017.4
+anchor_kind     = "shop:mall"
+anchor_name     = "مجمع ابو راشد التجاري"
+archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0545-0613-s006026"
+id              = "line-2-0665-0556-s005470"
 line            = "line-2"
-lat             = 32.55652845625022
-lon             = 35.863170850464826
-s_m             = 6025.8
-anchor_kind     = "leisure:stadium"
-anchor_name     = "Almalab Albaladi"
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0555-0553-s007527"
-line            = "line-2"
-lat             = 32.554728794586616
-lon             = 35.85038152523599
-s_m             = 7527.2
-archetype       = "interchange"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-2-0578-0475-s009669"
-line            = "line-2"
-lat             = 32.550589572760316
-lon             = 35.833755402438506
-s_m             = 9668.9
+lat             = 32.534932516286936
+lon             = 35.851020991497435
+s_m             = 5469.9
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "حي القصيلة المنطقة الغربية"
-archetype       = "standard"
+anchor_name     = "حي الافراح"
+archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0577-0389-s011828"
+id              = "line-2-0650-0439-s007934"
 line            = "line-2"
-lat             = 32.55076953892668
-lon             = 35.81542403627718
-s_m             = 11828.0
+lat             = 32.537632008782346
+lon             = 35.82608180730121
+s_m             = 7934.2
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0634-0323-s013970"
+id              = "line-2-0634-0323-s010387"
 line            = "line-2"
 lat             = 32.54051146744412
 lon             = 35.80135577852546
-s_m             = 13969.6
+s_m             = 10386.8
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز صحي كفريوبا الشامل"
 archetype       = "terminal"
@@ -310,131 +219,250 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0453-0614-s003006"
+id              = "line-3-0471-0646-s003007"
 line            = "line-3"
-lat             = 32.57308534355541
-lon             = 35.86338400588531
-s_m             = 3006.2
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مركز صحي حنينا"
+lat             = 32.56984595256092
+lon             = 35.870204979340684
+s_m             = 3007.4
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "حي الصناعة"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0555-0553-s005777"
+id              = "line-3-0591-0584-s006026"
 line            = "line-3"
-lat             = 32.554728794586616
-lon             = 35.85038152523599
-s_m             = 5777.0
-archetype       = "interchange"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-3-0635-0506-s009037"
-line            = "line-3"
-lat             = 32.540331501277755
-lon             = 35.84036322047341
-s_m             = 9036.6
-archetype       = "standard"
+lat             = 32.54825001259763
+lon             = 35.85698934327089
+s_m             = 6026.4
+anchor_kind     = "public_transport:station"
+anchor_name     = "مجمع الشيخ خليل"
+archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0712-0447-s011502"
+id              = "line-3-0712-0521-s009039"
 line            = "line-3"
 lat             = 32.52647410646798
-lon             = 35.82778705066505
-s_m             = 11501.7
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى الأميرة بسمة"
+lon             = 35.84356055178061
+s_m             = 9038.6
+anchor_kind     = "tourism:attraction"
+anchor_name     = "دوار بديعة"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0808-0447-s013947"
+id              = "line-3-0858-0445-s012705"
 line            = "line-3"
-lat             = 32.50919735449735
-lon             = 35.82778705066505
-s_m             = 13947.0
-archetype       = "standard"
-platform_length_m = 59.5
+lat             = 32.50019904617932
+lon             = 35.82736073982409
+s_m             = 12705.4
+archetype       = "halt"
+platform_length_m = 55.5
 
 [[stations]]
-id              = "line-3-0944-0336-s018870"
+id              = "line-3-0944-0336-s016363"
 line            = "line-3"
 lat             = 32.484721955872295
 lon             = 35.80412679899171
-s_m             = 18869.8
+s_m             = 16362.6
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز صحي دير يوسف"
 archetype       = "depot-terminal"
 platform_length_m = 59.5
 
-[[interchanges]]
-id              = "interchange-000"
-junction_group  = 0
-lat             = 32.554728794586616
-lon             = 35.85038152523599
-lines           = ["line-1", "line-2", "line-3"]
-platforms       = ["line-1-0555-0553-s008515", "line-2-0555-0553-s007527", "line-3-0555-0553-s005777"]
-
-# [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
+# [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
-station      = "line-3-0944-0336-s018870"
-archetype    = "main-heavy"
-fleet_stalls = 17
+station = "line-1-0840-0623-s000000"
+line = "line-1"
+archetype = "main-heavy"
+fleet_stalls = 5
+storage_slots = 34
+storage_tracks = 12
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 2023.0
+workshop_bays = 5
+planning_land_area_m2 = 27953.0
+reference_cost_usd = 16456105
+site_accepted = false
+physical_release = false
+[[depots.switches]]
+id = "sw-line-1-0840-0623-s000000-tb"
+kit = "no-9-mainline"
+station = "line-1-0840-0623-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-1-0312-0567-s011024-tb"
+kit = "no-9-mainline"
+station = "line-1-0312-0567-s011024"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-2-0700-0815-s000000-tb"
+kit = "no-9-mainline"
+station = "line-2-0700-0815-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-2-0634-0323-s010387-tb"
+kit = "no-9-mainline"
+station = "line-2-0634-0323-s010387"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-3-0351-0708-s000000-tb"
+kit = "no-9-mainline"
+station = "line-3-0351-0708-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-tb"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-01"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-02"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-03"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-04"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-05"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-06"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-07"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-08"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-09"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-10"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-11"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-12"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-13"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-14"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-15"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-16"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-17"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0944-0336-s016363-yd-18"
+kit = "no-9-mainline"
+station = "line-3-0944-0336-s016363"
+side = "yard-throat"
 
-# switches — turnbacks at terminals + depot fans per RFC 0012 §9.
-switches = [
-  { id = "sw-line-1-0840-0623-s000000-tb", kit = "no-9-mainline", station = "line-1-0840-0623-s000000", side = "turnback" },
-  { id = "sw-line-1-0312-0567-s015842-tb", kit = "no-9-mainline", station = "line-1-0312-0567-s015842", side = "turnback" },
-  { id = "sw-line-2-0700-0815-s000000-tb", kit = "no-9-mainline", station = "line-2-0700-0815-s000000", side = "turnback" },
-  { id = "sw-line-2-0634-0323-s013970-tb", kit = "no-9-mainline", station = "line-2-0634-0323-s013970", side = "turnback" },
-  { id = "sw-line-3-0351-0708-s000000-tb", kit = "no-9-mainline", station = "line-3-0351-0708-s000000", side = "turnback" },
-  { id = "sw-line-3-0944-0336-s018870-tb", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "turnback" },
-  { id = "sw-line-3-0944-0336-s018870-yd-01", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-02", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-03", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-04", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-05", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-06", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-07", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-08", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-09", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-10", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-11", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-12", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-13", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-14", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-15", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-16", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-  { id = "sw-line-3-0944-0336-s018870-yd-17", kit = "no-9-mainline", station = "line-3-0944-0336-s018870", side = "yard-throat" },
-]
+[[depots]]
+station = "line-2-0700-0815-s000000"
+line = "line-2"
+archetype = "main-heavy"
+fleet_stalls = 5
+storage_slots = 34
+storage_tracks = 12
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 2023.0
+workshop_bays = 5
+planning_land_area_m2 = 27953.0
+reference_cost_usd = 16456105
+site_accepted = false
+physical_release = false
 
-# [[fleets]] — per-line fleet sizing per RFC 0014 §4.
+[[depots]]
+station = "line-3-0944-0336-s016363"
+line = "line-3"
+archetype = "main-heavy"
+fleet_stalls = 8
+storage_slots = 51
+storage_tracks = 17
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 3034.5
+workshop_bays = 8
+planning_land_area_m2 = 37770.5
+reference_cost_usd = 19401992
+site_accepted = false
+physical_release = false
+
 [[fleets]]
 line               = "line-1"
-peak_count         = 32
+peak_count         = 30
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 36
+trainset_count     = 34
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 28
-service_rotation_count = 0
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 31
-
-[[fleets]]
-line               = "line-3"
-peak_count         = 36
+peak_count         = 30
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 40
+trainset_count     = 34
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 46
+service_rotation_count = 0
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 51
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -443,41 +471,41 @@ trainset_count     = 40
 version = 2
 
 [costs]
-currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 125417799
-at_grade_eur         = 115384375
-elevated_usd         = 1410536
-elevated_eur         = 1297693
+at_grade_usd         = 7651924
+at_grade_eur         = 7039770
+elevated_usd         = 339347798
+elevated_eur         = 312199974
 bridge_usd           = 0
 bridge_eur           = 0
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 126828335
-civil_subtotal_eur   = 116682068
+civil_subtotal_usd   = 346999722
+civil_subtotal_eur   = 319239745
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 83500000
-stations_eur         = 76820000
+stations_usd         = 58600000
+stations_eur         = 53912000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 8000000
-depots_eur           = 7360000
+depots_usd           = 52314202
+depots_eur           = 48129066
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 96300000
-rolling_stock_eur    = 88596000
-# Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
+rolling_stock_usd    = 107100000
+rolling_stock_eur    = 98532000
+# Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_usd       = 2434052
-signalling_eur       = 2239328
-charging_microgrid_usd = 2250000
-charging_microgrid_eur = 2070000
+signalling_usd       = 1888666
+signalling_eur       = 1737572
+charging_microgrid_usd = 1650000
+charging_microgrid_eur = 1518000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 22351867
-epc_overhead_eur     = 20563718
-total_usd            = 341664254  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 314331114  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 39798681
+epc_overhead_eur     = 36614787
+total_usd            = 608351271  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 559683169  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -492,7 +520,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 16371000
+fleet_core_electrical_usd = 18207000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

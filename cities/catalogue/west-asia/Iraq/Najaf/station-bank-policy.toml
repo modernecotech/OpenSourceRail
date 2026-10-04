@@ -1,0 +1,8 @@
+# Explicit removal of an unserved lake tail before route and fleet quantities.
+schema_version = 1
+[platforms]
+maximum_relocation_m = 1500.0
+basis = "The lake-side line-5 crossing requires dry bank platform selection within a bounded 1.5 km corridor search. Retain spacing and transfer checks; surveyed footprint, bank stability and access remain open."
+[route_ends]
+maximum_crop_m = 4000.0
+basis = "Line-1's western endpoint is inside mapped lake water, with the first dry point about 3706 m along the corridor. Remove that unserved water tail and recalculate the shortened route, stations, fleet, civil quantities and costs. Do not retain the lake endpoint as a passenger platform."

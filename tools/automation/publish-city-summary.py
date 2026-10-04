@@ -205,12 +205,46 @@ For presentation-only updates, run `.venv/bin/python tools/automation/publish-ci
     return text.encode()
 
 
+def current_catalogue_context(design_path, baseline):
+    city=design_path.parent
+    if not (city/'alignment-policy.toml').is_file():return baseline
+    d=tomllib.loads(design_path.read_text());core=read(city/'engineering/alignment/core-realignment.json')
+    for relative,digest in core['sources_sha256'].items():
+        if sha((ROOT/relative).read_bytes())!=digest:raise ValueError('Stale alignment input: '+relative)
+    depot=read(city/'engineering/line-depots/summary.json');factory=read(city/'engineering/factory/summary.json')
+    water=read(city/'engineering/alignment/station-water-screen.json')
+    if not water['passed']:raise ValueError('Platform over mapped water in current city')
+    for report in (depot,factory,water):
+        for relative,digest in report['sources_sha256'].items():
+            if sha((ROOT/relative).read_bytes())!=digest:raise ValueError('Stale current scope input: '+relative)
+    retained=sum(run.get('geometry_basis')=='retained-raster-requires-geometry-review' for line in core['lines'] for run in line['core_runs'])
+    context=f'''
+## Current alignment, depot and production basis
+
+The central study area uses elevated land sections and straight radial tangents where the analytical controls permit; water crossings remain bridges. Core corridors change from **{core['core_original_length_m']/1000:.3f} km to {core['core_analytical_length_m']/1000:.3f} km**. {retained} core fragments retain raster geometry and require further curve review. The centre is a controlled design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. [Alignment controls](engineering/alignment/core-realignment.json).
+
+![Earlier corridors and current central alignment](engineering/alignment/core-alignment-comparison.png)
+
+All **{water['platforms_checked']} platform points** pass the retained planning water-mask screen. Platform footprints, bank stability, survey and access remain open. [Water screen](engineering/alignment/station-water-screen.json).
+
+**{depot['number_of_depots']} line-local depots** provide a planning requirement of **{depot['full_fleet_storage_slots']} full-fleet storage slots**, separate from maintenance bays. Fleet length and workload set depot quantities; PV/storage equipment is included once in depot capital. Sites, installation, land and utility quotations remain open. [Depot quantities and costs](engineering/line-depots/README.md).
+
+Station staffing uses two posts, two normal eight-hour shifts, plus cover for the actual service window, leave and training. Country income proxies are retained; basic wages start at 1.5 times that proxy, with higher technical/management grades and employer allowances. [Staff and role allocation](engineering/delivery/README.md) · [Finance](engineering/finance/FUNDING-MODEL.md). This retains country-specific planning terms and a fixed-price steady-state screen; Baghdad’s detailed indexed cashflow programme is not applied to other cities.
+
+The city-order factory requires **{factory['total_trainsets']} {factory['family']} trainsets / {factory['vehicle_modules']} cars**, with **18-month facility readiness** followed by qualification and series manufacture. Capacity follows the city order and civil deadlines; short civil programmes explicitly wait for fleet readiness. National capital counts shared factory infrastructure once; concurrent national loading and supplier commitments remain open. [Factory and integrated dates](engineering/factory/README.md).
+
+'''
+    marker='Auto-planned by'
+    i=baseline.find(marker)
+    return baseline[:i]+context+baseline[i:] if i>=0 else baseline+context
+
+
 def publish(design, scenario, output, *, check=False, allow_stale_evidence=False):
     registry=tomllib.loads(CONFIG.read_text())['city']
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
     baseline=render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)
     if not entry:
-        expected=baseline.encode()
+        expected=current_catalogue_context(design,baseline).encode()
         if check:
             if not output.is_file() or output.read_bytes()!=expected:raise ValueError('Stale catalogue README: '+str(output))
         else:output.write_bytes(expected)

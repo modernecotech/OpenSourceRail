@@ -269,11 +269,12 @@ def check_city_artifacts() -> list[Finding]:
             publisher = runpy.run_path(str(REPO_ROOT/'tools/automation/publish-city-summary.py'))
             registry = tomllib.loads(publisher['CONFIG'].read_text())['city']
             selected = any((REPO_ROOT/e['directory']).resolve()==city_dir.resolve() for e in registry)
-            if selected:
+            if selected or (city_dir/'alignment-policy.toml').is_file():
                 try:
                     publisher['publish'](design_path,scenario_path,readme,check=True)
                 except (ValueError, FileNotFoundError) as error:
                     findings.append(Finding(readme,'current publication check failed: '+str(error)))
+            if selected:
                 if '[deployment planning reference]' not in text:
                     findings.append(Finding(readme,'missing canonical common-planning reference'))
             else:
@@ -2259,9 +2260,22 @@ def check_owner_builder_operator_mobilisation() -> list[Finding]:
     return findings
 
 
+def check_current_catalogue_scope() -> list[Finding]:
+    """Require the complete regenerated scope and its source-bound census."""
+    validator = REPO_ROOT / "tools/automation/generate-catalogue-current-design-report.py"
+    completed = subprocess.run(
+        [sys.executable, str(validator), "--check"],
+        cwd=REPO_ROOT, text=True, capture_output=True, check=False,
+    )
+    if completed.returncode:
+        return [Finding(validator, (completed.stdout + completed.stderr).strip())]
+    return []
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
+    findings.extend(check_current_catalogue_scope())
     findings.extend(check_city_costs())
     findings.extend(check_procurement_origin())
     findings.extend(check_national_briefs())

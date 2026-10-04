@@ -86,7 +86,7 @@ def recalculate(path: Path) -> bool:
         * cabinet_count
     )
     stations_usd = sum(float(CAPEX["station_unit_usd"][s["archetype"]]) for s in design.get("stations", []))
-    depots_usd = sum(float(CAPEX["depot_unit_usd"][d["archetype"]]) for d in design.get("depots", []))
+    depots_usd = sum(float(d.get("reference_cost_usd", CAPEX["depot_unit_usd"][d["archetype"]])) for d in design.get("depots", []))
     rolling_stock_usd = sum(int(f["trainset_count"]) for f in design.get("fleets", [])) * float(CAPEX["trainset_unit_usd"][family])
     pre_epc_usd = stations_usd + depots_usd + rolling_stock_usd + float(costs["signalling_usd"]) + charging_microgrid_usd + civil_subtotal_usd
     epc_usd = round(pre_epc_usd * EPC_FRACTION)

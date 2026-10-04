@@ -106,3 +106,12 @@ similar_names = "allow"
 # saturating or wrapping operations where that behaviour is intentional.
 [profile.release]
 overflow-checks = true
+
+# City Studio uses the full planning rasters during interactive editing.
+# Optimise its routing and GIS work while retaining development checks and
+# debug information. Release settings and numerical rules are unchanged.
+[profile.dev.package.osr-routing]
+opt-level = 2
+
+[profile.dev.package.osr-city-studio]
+opt-level = 1
