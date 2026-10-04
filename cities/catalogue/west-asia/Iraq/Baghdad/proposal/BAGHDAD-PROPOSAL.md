@@ -2,9 +2,11 @@
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
-The latest [delivery-cost continuation](../engineering/delivery-closure/README.md) changes the feasibility conclusion. Replacing depot, staffing and firm energy assumptions gives **USD 8.060bn capital**, before still-unpriced scope, and **IQD 7.532tn unpaid gap debt** at the 30-year full-network operating horizon with current indexed fares. The original financial schedules below remain controlled reference cases. Debt clearance in an older reference is not the current delivery-cost conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+The latest [programme recalculation](../engineering/programme-recalculation/README.md) sizes **3,762 permanent operating FTE** and **9 line-local depots** for all 831 six-car trainsets. With completed components bought, revised capital is **USD 8.276bn**. The unquoted four-process local-production option gives **USD 8.141bn**, imported invoice exposure of **USD 1.964bn** and **24.12% USD capital intensity**. It still requires **IQD 0.772tn unsourced support** and retains **IQD 11.781tn total debt** at the horizon. Current indexed fares and additional-income assumptions do not repay this scope. Mezzanine defers cash pressure but leaves unpaid balloons; it is a sensitivity, not a recommended solution.
 
-The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Baghdad capital, including one manufacturing plant and its EPC, is **USD 7.880 billion equivalent**. The direct government capital contribution is **25%**. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
+The earlier [delivery-cost continuation](../engineering/delivery-closure/README.md) remains a comparator: **USD 8.060bn capital**, before still-unpriced scope, and **IQD 7.532tn unpaid gap debt**. The original financial schedules below likewise remain controlled reference cases. Debt clearance in an older reference is not the current feasibility conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
+
+The current planning network is **9 lines, 516.5 km of double track route, 182 stations and 831 six car trainsets**. Original reference capital, including one final-assembly plant and its EPC, was **USD 7.880 billion equivalent**; it does not include the latest scope replacement. The direct government capital contribution remains **25%** of each revised case. Imports are financed 50% government USD cash and 50% proposed Chinese USD credit; all remaining capital cash, bonds and bank debt are IQD.
 
 The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month 41 and full operation in month 83 after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
 
@@ -12,7 +14,48 @@ The immediate decision proposed is to establish a sponsor, commission survey and
 
 The first part states the integrated proposal and the decisions it needs. The next part prints the detailed network registers and six month financing schedules. The technical appendices reproduce every current Baghdad Markdown report, the national brief and selected shared standards. The supporting ZIP preserves the full controlled Baghdad files, every Baghdad financing spreadsheet, the operations payload, national city design inputs and the cited shared references. The source inventory and manifest identify exact file bytes.
 
-Baghdad is the only financed city. National expansion is a future strategic option with its own budgets and approvals. Procurement origin, loan currency and reporting currency are different measures. USD equivalents use the historical model anchor of IQD 1,300/USD; this is not a current execution quote. All prices, demand, debt terms and rights proceeds remain planning assumptions. Older generic foreign turnkey examples reproduced in source appendices are separate from the historical 148 km comparison and the scheduled Baghdad financing cases.
+Baghdad is the only financed city. National expansion is a future strategic option with its own budgets and approvals. The national totals and generic city pages retain original catalogue assumptions; the latest Baghdad study does not silently reprice or finance other cities. Procurement origin, loan currency and reporting currency are different measures. USD equivalents use the historical model anchor of IQD 1,300/USD; this is not a current execution quote. All prices, demand, debt terms and rights proceeds remain planning assumptions. Older generic foreign turnkey examples reproduced in source appendices are separate from the historical 148 km comparison and the scheduled Baghdad financing cases.
+
+## Latest scope, local production and matched funding cases
+
+The 182 stations have two concurrent staff during two normal eight-hour shifts, giving 728 daily shift assignments. The retained 20.5-hour railway also funds 4.5 hours of late cover. Weekly/leave/training/sickness cover gives 1800 station FTE, included in the 3762 permanent railway FTE. Loaded annual payroll is IQD 87.808bn before subsequent OPEX inflation. The general pay floor is IQD 1,175,455/month: 1.5 times the 2021 employee median indexed to 2026 at an assumed 5% a year. Technical/supervisor/senior/director grades use 2.25/3/4/5 times the same proxy. This is not a newly observed national median and does not change the fare-income denominator.
+
+Each line has one depot; all spare/reserve trains are included. Storage uses the actual 111 m train plus 10 m clearance; workshop bays follow bay-hour workload separately. The nine sites total USD 268.598m and replace the old USD 8m allowance once. Itemised storage/workshop/access tracks, points, civil shells, process equipment, services, wash plants, wheel lathes, stores, rescue/isolation and retained energy stock are costed. Land/title, utilities, actual foundations and installed charging/grid upgrades remain open; launch/throat conflicts need an operating replay.
+
+The order requires 9,972 bogies, 9,972 motor/inverter sets, 4,986 battery packs (1.122 GWh gross), 19,944 door cassettes and 29,916 window cassettes. Final assembly employs 1215 production and 183 support FTE for 60 scheduled paid months. Upstream facilities are sized to the train factory rate and price imported process machinery, local buildings/materials, residual imported inputs, qualification and their full paid establishment. Bogie fabrication, motor assembly, battery-pack assembly and door manufacture have positive whole-order margins under the unquoted assumptions. Glazing manufacture has a negative margin on Baghdad's order alone and remains bought in the four-process case. Imported cells/BMS, inverters, wheels/axles/bearings and other safety parts remain; no cell gigafactory or future national sales credit is assumed.
+
+The civil alternatives permit up to 40% elevated and screen 29.148 km of additional at-grade conversion around exceptional curves, reaching 20.32% elevated. These are candidate intervals, not a new surveyed alignment. Elevation alone removes no horizontal bend. Added viaduct and hypothetical 0/25/50% routing-penalty removal are priced separately; no hypothetical penalty removal is adopted as a saving.
+
+| Matched case | CAPEX USD bn | USD intensity | Unsourced support IQD tn | Terminal all debt IQD tn | Defaulted junior vintages |
+| --- | --- | --- | --- | --- | --- |
+| construction_wage_content_stress | 8.696 | 23.60% | 1.912 | 11.781 | 0 |
+| grade-separation-penalty-0pct | 8.379 | 23.84% | 1.269 | 11.781 | 0 |
+| grade-separation-penalty-25pct | 7.913 | 24.41% | 0.277 | 11.781 | 0 |
+| grade-separation-penalty-50pct | 7.447 | 25.01% | 0.000 | 10.774 | 0 |
+| local_all | 8.151 | 23.96% | 0.804 | 11.781 | 0 |
+| local_positive | 8.141 | 24.12% | 0.772 | 11.781 | 0 |
+| local_positive_commercial_gap | 8.141 | 24.12% | 22.151 | 13.000 | 0 |
+| local_positive_mezzanine | 8.141 | 24.12% | 0.000 | 19.019 | 85 |
+| local_positive_mezzanine_stress | 8.141 | 24.12% | 20.451 | 41.317 | 85 |
+| local_positive_raw_price_stress | 8.248 | 24.63% | 0.976 | 11.781 | 0 |
+| local_positive_supplier_delay | 8.141 | 24.12% | 0.853 | 11.734 | 0 |
+| revised_scope_buy | 8.276 | 28.00% | 0.984 | 11.781 | 0 |
+
+All twelve cases have invoice-level capital registers, monthly native-currency cash/principal ledgers and six-month bond/loan placement schedules in the [latest study](../engineering/programme-recalculation/README.md) and supporting archive. Government is 25% of total capital, with USD machinery/input downpayments on actual invoice dates and the balance allocated as local IQD appropriation. Only Chinese credit is USD debt; bonds, senior bank/gap debt and mezzanine are IQD. Six months of senior service are reserved from the first draw, with three months of OPEX and industrial working capital. This reserve policy differs from the older reference; matched cases are the valid comparison.
+
+The following capital-only source table is for the latest four-process senior case. Fees, interest, reserve funding and gap facilities are separate cashflows; this table reconciles to capital uses only. Ordinary and green bonds are separate placements within the same total funding requirement.
+
+| Latest capital source | Currency | Native amount | USD equivalent m |
+| --- | --- | --- | --- |
+| Government import cash | USD | 981,925,190 | 981.925 |
+| Government local cash | IQD | 1,369,355,612,384 | 1,053.350 |
+| Chinese capital credit | USD | 981,925,190 | 981.925 |
+| Ordinary capital bonds | IQD | 3,801,789,702,761 | 2,924.454 |
+| Green capital bonds | IQD | 1,169,639,545,510 | 899.723 |
+| Senior bank capital credit | IQD | 1,657,143,082,757 | 1,274.725 |
+| Conditional climate capital grant | IQD | 32,500,000,000 | 25.000 |
+
+The proposed IQD mezzanine replaces 10% of residual domestic capital borrowing, with 6% cash coupon, 4% PIK, 2% fee and a 15-year balloon. Cash coupons require senior DSCR of 1.20, funded reserves and genuine residual cash. Deferred coupons and PIK are debt. Unpaid balloons become overdue balances with separately disclosed simple-interest sensitivity, without automatic refinancing, conversion or interest-on-arrears. The case leaves IQD 19.019tn total debt and 85 defaulted draw vintages. It does not improve the unlevered company NPV of USD -4.734bn at the assumed discount rate. Grants, net development-rights receipts, green terms and concessional gap funding are uncommitted; an 8% gap-rate case exposes this dependency. Fares, fare/OPEX inflation, advertising, kiosk/rental receipts and inherited additional income are already included.
 
 ## Baghdad network and population access
 
@@ -40,7 +83,7 @@ The service concept operates 05:30 to 02:00 with a three minute protected peak h
 
 The Baghdad profile is metro 6car: 6 cars, 111 m body length, 720 passengers at nominal planning load including 120 seats, and 960 at short duration crush load. Each train has 1,350 kWh nameplate / 1,080 kWh usable LFP battery capacity, 12 traction controllers, 3,600 kW peak traction and a 50 C design ambient. These are reference profiles requiring supplier and physical qualification, not delivered fleet performance.
 
-The local industrial scope is train assembly, body modules, fit out, wiring, coatings, inspection, testing and maintenance. Imported scope includes bogies, batteries, windows, doors, solar equipment and manufacturing tooling within existing capital allowances. Chinese supplier origin and export lender eligibility need evidence for every financed item; the entire imported basket is currently an unqualified scenario. Candidate CRRC equipment remains subject to competitive supplier selection, interface and safety qualification. There is no established CRRC partnership, quotation or endorsement.
+The original industrial scope is train assembly, body modules, fit out, wiring, coatings, inspection, testing and maintenance, with completed bogies, batteries, windows and doors bought. The latest four-process option replaces selected completed imports with Chinese process machinery and residual inputs for Iraqi fabrication/assembly. Solar equipment, glazing and critical component inputs retain imports. Chinese supplier origin and export lender eligibility need evidence for every financed item; the entire imported basket is currently an unqualified scenario. Candidate CRRC equipment remains subject to competitive supplier selection, interface and safety qualification. There is no established CRRC partnership, quotation or endorsement.
 
 Shared LM3 fabrication and first article documentation is reference process evidence for a three car platform. It does not qualify Baghdad's six car consist. The national programme should qualify the shared modules and then validate each consist and its interfaces, rather than treating a shared drawing as an accepted Baghdad train.
 
@@ -52,7 +95,7 @@ The proposed civil programme starts with survey control, utilities, property and
 
 Stations require accessible approaches, platforms, passenger information, fire and evacuation design, fare equipment, retail and advertising layouts, security, sanitation and maintenance access. Platform and station access standards must be checked against the final six car envelope and passenger demand. Equipment and architecture references do not establish installed compliance.
 
-The original USD 8m depot allowance is replaced by workload-based depot packages in the integrated sensitivity described below. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The reference policy proposes two revenue trains at selected powered stations and line local storage for remaining fleet; usable tracks, charging, protected morning release, evening repositioning and repeated day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
+The original USD 8m depot allowance is replaced by the nine full-fleet line depots in the latest recalculation above. Surveyed land, foundation/electrical interfaces, fire/security release and supplier quotations remain open. Workshop bays cannot be counted as overnight train parking. The earlier reference policy proposed two revenue trains at selected powered stations and line-local storage for remaining fleet; the latest study gives no capacity credit to station parking. Usable tracks, charging, protected morning release, evening repositioning and repeated-day replay still require acceptance. The depot and stabling appendices retain these failures explicitly.
 
 ## Manufactured viaduct alternatives and installed cost
 
@@ -84,20 +127,35 @@ The reference uses three static consensus voters and two logical protection chan
 
 The Baghdad plant is sized from 4,986 vehicle modules. Its base allowance is USD 303.505m plus USD 21.245m EPC, counted once outside city CAPEX. The current plant construction assumption is 390 working days before train production. Factory siting, freight access, utilities, tooling, staff, production rate, quality capacity and six car qualification require their own approved business and delivery plan.
 
-Baghdad procurement assigns USD 6.087bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The plant appraisal covers capital financing only; manufacturing income, factory OPEX and commercial margins need a separate business case. No multiplier, tax recovery, construction job count or future national plant profit is booked as project cash without evidence. Exported components retain foreign exchange and supply chain exposure.
+The original procurement allocation assigns USD 6.087bn equivalent locally. This is potential local expenditure, not payroll, GDP added or a guaranteed Iraqi content ratio. Local train and infrastructure work can retain skills, supplier income, repair capacity and spares knowledge. The latest process appraisal above includes whole-order labour, factory support/maintenance and make/buy margins; manufacturing sales to other customers still need a separate business case. No multiplier, tax recovery or future national plant profit is booked as project cash without evidence. Imported machinery and residual inputs retain foreign exchange and supply-chain exposure.
 
 ## Operating organisation and digital management
 
-The funded operating allowance is 2,350 indicative full time equivalents, including OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. Annual labour allowance is IQD 19.503bn. It is a planning FTE and cost model rather than an accepted shift, leave or legal duty roster. Construction and factory headcount await measured work hours, crew mixes, wages and throughput.
+The latest operating establishment is 3,762 FTE with IQD 87.808bn annual loaded payroll, replacing the original 2,350 FTE / IQD 19.503bn allowance. It includes OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. It remains a planning workload/roster model; legal duties, appointments and competence require acceptance. Construction and factory populations are priced separately as explained above, with measured work hours, crew mixes and throughput still required.
 
-| Operating group | Indicative FTE |
-| --- | --- |
-| admin training | 33 |
-| fleet maintenance | 535 |
-| infrastructure energy | 404 |
-| occ remote assist | 426 |
-| passenger service | 231 |
-| station platform | 721 |
+| Operating role | Required FTE | Wage grade |
+| --- | --- | --- |
+| occ-lead | 5 | supervisor |
+| dispatcher | 45 | technical |
+| remote-assist | 468 | technical |
+| station-lead | 98 | supervisor |
+| platform-assistance | 900 | general |
+| customer-service | 900 | general |
+| station-cleaning | 135 | general |
+| workshop-lead | 27 | supervisor |
+| fleet-mechanical | 266 | technical |
+| fleet-electrical | 178 | technical |
+| fleet-finish-cleaning | 404 | general |
+| infrastructure-lead | 18 | supervisor |
+| civil-track | 113 | technical |
+| solar-storage | 66 | technical |
+| wayside-comms | 51 | technical |
+| city-director | 1 | director |
+| chief-engineer | 1 | senior |
+| quality-safety | 25 | senior |
+| training | 27 | senior |
+| procurement-stores | 20 | technical |
+| finance-people | 14 | technical |
 
 The Baghdad operating package contains 1,862 assets, 8,012 manufacturing/verification tasks, 15,804 material/procurement rows, 10,785 maintenance tasks and 6,689 QA actions. These are generated planning records. Actual purchase orders, execution, measurements and accountable release evidence remain distinct. The project twin, ERPNext/Frappe integration, supervision, QR identities, maintenance and advisory AI support business work; they do not issue movement or safety release authority.
 
@@ -136,7 +194,7 @@ Combined delay-cost cases add extended staffing, supervision, carrying, storage/
 
 ![Baghdad project twin](../offer/screenshots/baghdad-project-twin.png)
 
-## Baghdad capital and procurement origin
+## Original reference capital and procurement origin
 
 | Capital scope | USD eq m | Imported USD m | Local USD eq m |
 | --- | --- | --- | --- |
@@ -154,7 +212,7 @@ Combined delay-cost cases add extended staffing, supervision, carrying, storage/
 
 The city and plant total includes the plant EPC once. Budgets are unquoted planning estimates; land, utilities, taxes/duties, escalation, contingency and accepted depot/site scope require closure. Loan principal repaid later is a financing cashflow, not additional construction CAPEX. Origin shares do not establish citizenship of vendors, employment or lender eligibility.
 
-## Baghdad financing in USD and Iraqi dinars
+## Original reference financing in USD and Iraqi dinars
 
 | Capital source | Currency | Native amount | USD equivalent m |
 | --- | --- | --- | --- |
@@ -324,16 +382,16 @@ Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw a
 
 ## Historical Baghdad metro comparison
 
-| Measure | OpenSourceRail Baghdad plus plant | Historical proposal or requested comparator |
+| Measure | Latest four-process Baghdad study | Historical proposal or requested comparator |
 | --- | --- | --- |
 | Route km | 516.5 | 148 |
 | Lines / stations | 9 / 182 | 7 / 64 |
-| Capital USD equivalent bn | 7.880 | 18.000 reported |
-| Capital USD equivalent m / route km | 15.26 | 121.62 |
-| USD capital funding bn | 1.793 | 18.000 requested all USD scenario |
-| Chinese USD debt bn | 0.897 | Final debt and government split unverified |
+| Capital USD equivalent bn | 8.141 | 18.000 reported |
+| Capital USD equivalent m / route km | 15.76 | 121.62 |
+| USD capital funding bn | 1.964 | 18.000 requested all USD scenario |
+| Chinese USD debt bn | 0.982 | Final debt and government split unverified |
 
-The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entirely USD foreign loan/government cash basis is the requested comparator, not a verified financing contract. Under that assumption Baghdad's USD capital requirement is 90.0% lower. Distinct scope, price date, tunnelling/structures, land, utilities, qualification and schedule prevent a like for like bid saving claim. Third party fares, actual financing and comparable population access are not established. Its Iraqi labour share cannot be assumed zero.
+The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entirely USD foreign loan/government cash basis is the requested comparator, not a verified financing contract. Under that assumption the latest study's USD capital requirement is 89.1% lower. Distinct scope, price date, tunnelling/structures, land, utilities, qualification and schedule prevent a like for like bid saving claim. Third party fares, actual financing and comparable population access are not established. Its Iraqi labour share cannot be assumed zero. The following retained figure illustrates the original reference allocation; the table above uses the revised study.
 
 ![USD capital comparison](../../finance/baghdad-financing-comparison.png)
 
@@ -362,7 +420,7 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 | Duhok | 360,000 | light-metro-3car | 57.3 | 122 | 518.450 |
 | Fallujah | 360,000 | light-metro-3car | 55.8 | 122 | 452.393 |
 
-All city capital totals sum to USD 23.296bn. Adding one shared factory at USD 303.505m and its EPC at USD 21.245m produces **USD 23.621bn equivalent** nationally. Baghdad already contains this same plant and EPC. The additional city capital beyond the Baghdad scope is therefore **USD 15.740bn**, with no second plant added. Imported/local procurement in the generic national origin model is USD 5.562bn / USD 18.058bn; this is procurement composition, not a national loan programme.
+Original catalogue city capital totals sum to USD 23.296bn. Adding one shared factory at USD 303.505m and its EPC at USD 21.245m produces **USD 23.621bn equivalent** nationally on that original basis. Original Baghdad capital already contains this same plant and EPC. Additional city capital beyond that original Baghdad reference is **USD 15.740bn**, with no second plant added. These national figures have not been repriced with Baghdad's new staffing, depot or upstream plants. Imported/local procurement in the generic national origin model is USD 5.562bn / USD 18.058bn; this is procurement composition, not a national loan programme.
 
 No national factory expansion or replacement, intercity connection, research/training institution, shared governance or additional capital acceleration is priced. Sizing by the largest city's module order is not proof of annual production capacity. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
