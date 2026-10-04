@@ -6,6 +6,17 @@ and front-end engineering design (FEED) engagement with the relevant Iraqi and
 Baghdad authorities. It is **not** a construction release, supplier quotation,
 regulatory approval or safety certificate.
 
+## Financial scope and latest proposal
+
+This shorter offer retains the original unquoted financing comparator. Its
+repayment dates and returns do not apply to the higher-cost delivery sensitivity.
+The [complete Baghdad proposal](../proposal/README.md) and
+[integrated ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md)
+include revised depot, energy, workforce and mobilisation cash: USD
+8.060 billion capital and IQD
+7.532 trillion unpaid gap debt.
+Physical upgrades, unpriced scope and committed finance remain open.
+
 ## Offer documents
 
 - [Baghdad system offer (PDF)](Baghdad-OpenSourceRail-System-Offer.pdf)

@@ -17,15 +17,14 @@ try {
  await page.locator('[data-module=projects]').click();
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
  // ERP's asynchronous Administrator update notice is a separate native modal.
- // Dismiss it through its visible close button before exercising our dialogs.
+ // Dismiss it through its visible close button, even if it arrives mid-flow.
  const updateNotice=frame.locator('.modal:visible').filter({has:frame.getByText('New updates are available',{exact:true})});
+ let dismissedUpdateNotices=0;
  await expect.poll(()=>frame.locator('body').evaluate(()=>Boolean(window.cur_frm?.doc?.name))).toBe(true);
- try {await updateNotice.waitFor({state:'visible',timeout:5000});}
- catch(error) {if(error.name!=='TimeoutError') throw error;}
- if(await updateNotice.count()) {
-   await updateNotice.locator('.modal-header button').click();
-   await expect(updateNotice).toHaveCount(0);
- }
+ await page.addLocatorHandler(updateNotice,async notice=>{
+   await notice.locator('.modal-header .btn-modal-close').click();
+   dismissedUpdateNotices++;
+ });
  const target={kind:'work-order',document:'UI-FIXTURE-WO'};
  let proposed,recorded=false,decided=false,decision,verification,verified=false,reworkVerified=false;const calls=[];
  await page.route('**/api/method/osr_erpnext.disposition.*',async route=>{
@@ -87,6 +86,10 @@ try {
  const modal=()=>frame.locator('.modal:visible').last();
  await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
  await frame.getByText('Revision dispositions',{exact:true}).click();
+ await expect.poll(()=>frame.locator('body').evaluate(()=>window.cur_dialog?.title)).toBe('Revision dispositions');
+ // Deterministically cover the asynchronous obstruction through a real Frappe
+ // notice. This changes only browser UI, with no application/record writes.
+ await frame.locator('body').evaluate(()=>window.frappe.msgprint({title:'New updates are available',message:'UI obstruction fixture; no app or business record changed.'}));
  await modal().getByRole('button',{name:'Propose disposition',exact:true}).click();
  await expect.poll(()=>frame.locator('body').evaluate(()=>window.cur_dialog?.title)).toBe('Propose revision disposition');
  await modal().locator('select[data-fieldname="mapping"]').selectOption('UI-MAP');
@@ -129,6 +132,7 @@ try {
  await expect(modal()).toContainText('Corrective work and inspection verified');
  await expect.poll(()=>[...calls]).toEqual(['catalogue','preview','record','catalogue','preview_decision','record_decision','catalogue','execution.preview','execution.record','catalogue','execution.preview','execution.record','catalogue']);
  expect(errors).toEqual([]);
+ expect(dismissedUpdateNotices).toBeGreaterThanOrEqual(1);
  console.log('PASS native ERP disposition dialogs: typed proposal, explicit preview, independent decision and previewed native-outcome verification (mocked business replies)');
 }catch(error){
  if(page){

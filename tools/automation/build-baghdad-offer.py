@@ -287,6 +287,8 @@ def build() -> None:
     funding = finance["structured_financing"]
     assert funding["schedule_status"] == "linked-to-budget-work-packages"
     programme = json.loads((CITY.parent / "finance/baghdad-programme.json").read_text())
+    continuation = read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
+    latest = continuation['metrics']
     comparison = programme["comparison"]
     independent = programme["independent_recalculation"]
     reconciliation = independent["reconciliation"]
@@ -299,6 +301,20 @@ def build() -> None:
     early_base = early_cases["gap_only_buffered"]
     offer_readme = OFFER / "README.md"
     text = offer_readme.read_text()
+    financial_scope=f'''## Financial scope and latest proposal
+
+This shorter offer retains the original unquoted financing comparator. Its
+repayment dates and returns do not apply to the higher-cost delivery sensitivity.
+The [complete Baghdad proposal](../proposal/README.md) and
+[integrated ledgers](../engineering/delivery-closure/FINANCE-RECONCILIATION.md)
+include revised depot, energy, workforce and mobilisation cash: USD
+{latest['total_capital_usd']/1e9:.3f} billion capital and IQD
+{latest['terminal_supplemental_balance_iqd']/1e12:.3f} trillion unpaid gap debt.
+Physical upgrades, unpriced scope and committed finance remain open.
+
+'''
+    text=re.sub(r'## Financial scope and latest proposal\n.*?(?=## Offer documents)', '',text,flags=re.S)
+    text=text.replace('## Offer documents',financial_scope+'## Offer documents',1)
     system = f"""## Proposed system
 
 The current planning baseline contains {lines} lines, {length_km:.1f} km of
@@ -448,12 +464,13 @@ repayment, fees, outstanding debt, buffer and cash reconciliation.
 
     story += section("The proposition", "Executive summary")
     story += [
+        p(f"Financial scope: figures in this shorter offer retain the original unquoted comparator. Its debt-clearance dates and returns do not apply to the higher-cost delivery sensitivity. The complete Baghdad proposal and integrated ledgers show USD {latest['total_capital_usd']/1e9:.3f}bn capital and IQD {latest['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt; physical upgrades, unpriced scope and finance commitments remain open.","Calloutx"),
         p("OpenSourceRail offers Baghdad an owner-controlled way to move from city data to a buildable railway programme: route planning, topography and water screening, civil classification, fleet and energy sizing, timetable simulation, manufacturing/procurement planning, maintenance, ERP/HR workflows, SCADA boundaries and certification evidence all share one configuration baseline."),
         cards([
             (f"{length_km:.1f} km", "double-track route"),
             ("3 min", "peak headway"),
             (f"{finance['revenue_basis']['practical_capacity_passenger_trips_per_day']/1e6:.2f} M", "practical trips/day"),
-            (money(capex), "planning CAPEX"),
+            (money(capex), "original reference CAPEX"),
         ]),
         Spacer(1, 4 * mm),
         callout("Decision requested: authorize a time-boxed owner-led data validation and FEED phase—not construction—then select one priority corridor and a surveyed depot/stabling solution.", TEAL),
@@ -739,6 +756,7 @@ repayment, fees, outstanding debt, buffer and cash reconciliation.
 
     input_paths = [
         Path("tools/automation/build-baghdad-offer.py"),
+        Path("cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/finance-reconciled_full_fleet.json"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/design.toml"),
         Path("cities/catalogue/west-asia/Iraq/Baghdad/package-manifest.json"),
