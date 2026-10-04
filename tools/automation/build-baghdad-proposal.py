@@ -87,6 +87,10 @@ def financial_narrative_facts(programme):
 
 
 def check_baseline(programme, package):
+    rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
+    for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/viaduct-rentals','outputs_sha256')):
+        for relative,sha in rentals[group].items():
+            if digest(base/relative)!=sha:raise ValueError('Stale viaduct rentals: '+relative)
     equity=read_json(CITY/'engineering/equity/summary.json')
     for base,group in ((ROOT,'sources_sha256'),(CITY/'engineering/equity','outputs_sha256')):
         for relative,sha in equity[group].items():
@@ -188,6 +192,8 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     section=read_json(CITY/'engineering/qualification/first-section.json')
     redesign=read_json(CITY/'engineering/financing-redesign/summary.json')['cases']
     equity=read_json(CITY/'engineering/equity/summary.json')['cases']
+    rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
+    rental_eq=equity['rental_medium_1000m'];coveq=equity['coverage_dividends_1000m']
     eq=equity['primary_1000m'];eqbase=equity['government_equity_reference']
     redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
@@ -360,7 +366,7 @@ Additional routes to qualify include climate/renewable energy grants or concessi
 
 ## Rail, property, energy and industrial financing redesign
 
-The [nine-case financing redesign](../engineering/financing-redesign/README.md) tests opening-linked principal, longer civil amortisation, a 15-year total insured green tenor and USD 1bn-equivalent **total** station rights replacing USD 300m. Separate rail, solar, factory and developer monthly/native-currency accounts cancel PPA payments, train invoices, plant capacity fees and rights transfers on consolidation. Six-month placement envelopes and loan-vintage dates accompany every borrower. Fares/kiosks/advertising remain included; no future national order, surplus-power sale or unawarded climate grant services the integrated case.
+The [twelve-case financing redesign](../engineering/financing-redesign/README.md) tests opening-linked principal, longer civil amortisation, a 15-year total insured green tenor and USD 1bn-equivalent **total** station rights replacing USD 300m, plus three retained viaduct-rental variants. Separate rail, solar, factory and developer monthly/native-currency accounts cancel PPA payments, train invoices, plant capacity fees and rights transfers on consolidation. The rental variants add a fifth borrower with zero extra operating-gap cap and no unapproved transfers to rail. Six-month placement envelopes and loan-vintage dates accompany every borrower. Fares/kiosks/advertising remain included; no future national order, surplus-power sale or unawarded climate grant services the integrated case.
 
 The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD {redesigned['metrics']['peak_aggregate_liquidity_iqd']/1e12:.3f}tn**, cumulative missing funding **IQD {redesigned['metrics']['uncovered_support_iqd']/1e12:.3f}tn**, and resource NPV **USD {redesigned['appraisal']['consolidated_resource_npv_usd']/1e9:.3f}bn**, or **USD {redesigned['appraisal']['consolidated_resource_npv_after_land_opportunity_usd']/1e9:.3f}bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
 
@@ -368,13 +374,25 @@ Government remains 25% of the original rail/energy/factory capital. Import cash/
 
 ## Iraqi mixed joint-stock holding and staged ordinary equity
 
-The [thirteen-case ordinary-equity study](../engineering/equity/README.md) proposes a holding company with 100%-owned rail, energy, factory and station-development businesses. It replaces the prior subsidiary private equity rather than adding it twice. Government's original USD 1.970bn-equivalent cash remains 25% of original capital; converting it into shares creates **zero new money**. Same-price private subscriptions of USD 500m/1bn/2bn equivalent leave government ownership of {equity['primary_500m']['metrics']['government_ownership']:.1%}/{eq['metrics']['government_ownership']:.1%}/{equity['primary_2000m']['metrics']['government_ownership']:.1%}. IQD subscriptions, paid share registers, premium/dilution and fees are explicit. A secondary government share sale gives cash to the seller and zero to the company.
+The [eighteen-case ordinary-equity study](../engineering/equity/README.md) proposes a holding company with 100%-owned rail, energy, factory and station-development businesses, including retained viaduct premises. It replaces the prior subsidiary private equity rather than adding it twice. Government's original USD 1.970bn-equivalent cash remains 25% of original capital; converting it into shares creates **zero new money**. Same-price private subscriptions of USD 500m/1bn/2bn equivalent leave government ownership of {equity['primary_500m']['metrics']['government_ownership']:.1%}/{eq['metrics']['government_ownership']:.1%}/{equity['primary_2000m']['metrics']['government_ownership']:.1%}. IQD subscriptions, paid share registers, premium/dilution and fees are explicit. A secondary government share sale gives cash to the seller and zero to the company.
 
 The $1bn primary sensitivity requests six founder calls and a conditional later issue at month 60, with 2% fees. Monthly paid state capital constrains actual settlement; listing at that date is unproven. Against a matched tax-stressed holding reference, peak IQD liquidity falls from **{eqbase['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn to {eq['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn**. Domestic principal waits for full-network opening. Subscription failure cannot silently expand agreed six-month capital-credit placements or draw operating rescue for construction: the next unfunded invoice is withheld and no opening is reported. Whole-programme subscription delay and joint downside have separate cash/debt ledgers. Government's USD cash and Chinese USD credit remain the import split; other money remains IQD.
 
 The $1bn case's illustrative private equity return is **{eq['shareholder_returns']['iraqi_private']['equity_irr']:.2%} nominal IRR**, below the assumed 15% hurdle, with first dividend at month **{eq['metrics']['first_dividend_month']}**. Dividends require profit, cleared debt, intact reserves and no missing cash; shares have no guaranteed redemption. Tax, depreciation, property inventory, factory impairment, retained earnings and internal-charge eliminations reconcile in pro-forma accounts. The base tax sensitivity avoids assumed group loss relief; a separate aggregate-profit proxy is explicitly unqualified. Resource NPV after land remains **USD {eq['metrics']['resource_npv_after_land_usd']/1e9:.3f}bn**; changing financing does not create additional resources or financial feasibility.
 
 Current Iraqi corporate/admission rules require an accepted mandate, legal/capital approvals, eligible audited business/accounts and actual investors. The 2019 liabilities restriction also needs entity-level assessment: the consolidated screening proxy flags **{eq['metrics']['indicative_article28_threshold_failed_months']} months** in the $1bn sensitivity. The structure therefore needs capitalisation/legal resolution before execution. Incorporated status, listing approval, public-land equity valuation and independent audit are all absent. Six additional source-bound ERP evidence packages cover legal/tax, mandate, subscriptions, accounts, governance and admission. Open licences are retained; no exclusive design valuation, national train order or uncontracted export income is assumed.
+
+## Retained premises beneath suitable viaducts
+
+The [commercial-space register, open unit plan, pilot and rental model](../engineering/viaduct-rentals/README.md) links **{rentals['elevated_segment_count']:,} elevated segments / {rentals['elevated_length_m']/1000:.4f} km** to civil chainage, planning coordinates and existing track assets. A preliminary 25 m bay screen reserves approaches, support inspection zones and independent access, suggesting **{rentals['screening_area_m2']:,.0f} m²**. Confirmed eligible area remains **zero**: surveyed height/footprint, ownership, street/utility access, fire/flood/impact protection and station-sale overlap are unaccepted. The 200,000 m² illustration has {rentals['cases']['large']['unmapped_area_m2']:,.0f} m² unmapped and supplies no integrated lease cash. A 30-unit draft pilot and reusable independent 30 m² enclosure have no invented tenant, permit or live contract.
+
+The medium 100,000 m² scenario adds **USD {rentals['cases']['medium']['metrics']['total_fitout_capital_usd']/1e6:.3f}m equivalent** of indexed fit-out capital. Leasing follows civil/rail readiness, rent-free periods, occupancy ramp, tenant turnover and arrears. Occupied/vacant maintenance, insurance, 12-year refurbishment, depreciation and tax are visible. Security deposits are liabilities backed by restricted cash; they supply no revenue, capital or dividends. Existing kiosks are unchanged and station buildings assumed sold cannot also generate rent. Additional under-viaduct land/rights cost is unverified; no free land value is asserted.
+
+Before-tax incremental rental resource NPV is **USD {rentals['cases']['medium']['metrics']['resource_npv_before_tax_usd']/1e6:.3f}m**, with the lower-rent/prolonged-vacancy case **USD {rentals['cases']['medium_downside']['metrics']['resource_npv_before_tax_usd']/1e6:.3f}m**. In the wholly owned $1bn holding case, medium rents give private nominal IRR **{rental_eq['shareholder_returns']['iraqi_private']['equity_irr']:.2%}**, first dividend month **{rental_eq['metrics']['first_dividend_month']}** and peak IQD liquidity **{rental_eq['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn**. Recurring rent adds value only after its resources/costs; it does not close the multibillion-dollar financial deficit.
+
+The independent lender-policy comparison allows annual dividends with at least 1.30 historical/projected debt coverage, positive profit, completed capital, intact operating/tax/forward-service/renewal reserves and conservative leverage. These terms are unapproved and do not produce earlier distributions under the current tested assumptions: the non-rental first dividend remains **month {coveq['metrics']['first_dividend_month']}**. A separately labelled final-cash diagnostic leaves actual accounts unchanged: proportional unrestricted terminal cash raises the original $1bn private IRR from {eq['shareholder_returns']['iraqi_private']['equity_irr']:.2%} to **{eq['terminal_cash_sensitivity']['shareholder_returns']['iraqi_private']['equity_irr_with_terminal_cash']:.2%}**, with no guaranteed redemption, unvalued asset sale or quoted share-exit price.
+
+Each pilot unit carries lease/meter/inspection/use fields, civil-parent links and five common physical hazard paths. Tenant fire, flooding, impact, blocked bearing/inspection access and utility faults can affect piers, spans and railway operation; controller redundancy provides no mitigation for these hazards. Six additional native ERP evidence drafts require actual site, civil/fire, market, quote, maintenance/lease and finance evidence before occupancy or construction release.
 
 ## Passenger fares and other operating income
 
@@ -578,6 +596,9 @@ def source_inputs():
     equity=read_json(CITY/'engineering/equity/summary.json')
     paths.update(ROOT/relative for relative in equity['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/equity').glob('*') if p.is_file())
+    rentals=read_json(CITY/'engineering/viaduct-rentals/summary.json')
+    paths.update(ROOT/relative for relative in rentals['sources_sha256'])
+    paths.update(p for p in (CITY/'engineering/viaduct-rentals').glob('*') if p.is_file())
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
@@ -621,7 +642,8 @@ def main():
     city_docs=sorted(path for path in CITY.rglob('*.md') if OUT not in path.parents)
     sources=[OUT/'BAGHDAD-PROPOSAL.md',OUT/'DETAILED-SCHEDULES.md',*city_docs,COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',COUNTRY/'NATIONAL-BRIEF.md',*[ROOT/p for p in SHARED]]
     (OUT/'appendix-sources.json').write_text(json.dumps([p.relative_to(ROOT).as_posix() for p in sources],indent=2)+'\n')
-    as_of=tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())['model']['as_of']
+    as_of=max(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())['model']['as_of'],
+        read_json(CITY/'engineering/equity/summary.json')['as_of'],read_json(CITY/'engineering/viaduct-rentals/summary.json')['as_of'])
     build_pdf(sources,as_of)
     inputs=source_inputs()
     inventory=[{'path':path.relative_to(ROOT).as_posix(),**receipt(path)} for path in inputs]

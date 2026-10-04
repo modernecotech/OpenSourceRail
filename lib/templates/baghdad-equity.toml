@@ -1,6 +1,6 @@
 # Hypothetical financing/accounting terms, not company formation or an offer.
 [model]
-as_of = "2026-10-03"
+as_of = "2026-10-04"
 nominal_share_value_iqd = 1.0
 subscription_price_iqd = 1.0
 later_primary_price_iqd = 1.2
@@ -25,10 +25,20 @@ rail_asset_life_years = 30
 train_asset_life_years = 20
 solar_asset_life_years = 25
 factory_asset_life_years = 20
+rental_asset_life_years = 20
 # Contractual sensitivity, NOT a statement of the statutory reserve requirement.
 profit_retention_fraction = 0.10
 factory_impairment_at_backlog_close = true
 terminal_asset_sale_usd = 0
+
+[distributions]
+# Unapproved lender-policy sensitivity, not permission to distribute.
+minimum_trailing_dscr = 1.30
+minimum_forward_dscr = 1.30
+maximum_fraction_of_surplus = 0.50
+maximum_liabilities_to_book_equity = 3.0
+renewal_reserve_forward_months = 12
+terminal_cash_transaction_fraction = 0.0
 
 [downside]
 subscription_success_fraction = 0.50

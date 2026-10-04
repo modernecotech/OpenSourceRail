@@ -1,6 +1,6 @@
-# Baghdad financing redesign — 2026-10-03
+# Baghdad financing redesign — 2026-10-04
 
-Nine executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are 41, 46, 52, 57, 62, 69, 73, 79, 83 months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
+Twelve executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are 41, 46, 52, 57, 62, 69, 73, 79, 83 months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
 
 ## Results and what they mean
 
@@ -15,6 +15,9 @@ Nine executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 s
 | integrated_high_ppa | 8.450 | 3.512 | 7.588 | 8.401 | -2.945 |
 | integrated_public_availability | 3.684 | 0.000 | 0.000 | 5.775 | -2.945 |
 | integrated_joint_downside | 3.400 | 48.418 | 3.400 | 18.501 | -6.207 |
+| integrated_rental_small | 8.450 | 0.143 | 2.898 | 7.816 | -2.950 |
+| integrated_rental_medium | 8.450 | 0.111 | 2.898 | 7.824 | -2.928 |
+| integrated_rental_medium_downside | 8.450 | 0.517 | 2.898 | 7.863 | -2.981 |
 
 **Next financing priority:** obtain opening-linked IQD terms and independently valued station proceeds, then compare quoted PPA prices against continued ownership. The integrated high-PPA structure shifts substantial cash to the energy company while rail remains short; private equity needs an acceptable return as well as debt repayment. The tested property margin improves resource NPV before land cost, but the assumed in-kind land cost more than offsets that improvement. None of these scenarios establishes financial feasibility.
 
@@ -54,6 +57,12 @@ Energy and factory each test 20% private IQD equity. Government remains 25% of o
 At the illustrative capacity fee, factory cash remaining at contract/warranty close is **USD 6.750m** against **USD 64.950m** invested equity. The 15% equity-hurdle NPV is **USD -54.159m**. Debt repayment therefore does not establish an investable factory partnership. Developer equity-hurdle NPV is **USD -194.940m**. These close-date distribution diagnostics deduct any remaining debt and disclose missing funding; no dividend or sponsor return is assumed to be committed. Competitive pricing, equity terms and a bankable capacity contract require further work.
 
 ## Appraisal and public exposure
+
+Three retained under-viaduct rental variants add a **fifth independently financed entity** to the integrated case: small, medium and lower-rent/prolonged-vacancy medium. The [civil-linked register, pilot unit, costs, leases and hazards](../viaduct-rentals/README.md) have no accepted site/demand evidence. External rent adds revenue; actual collection follows fit-outs, physical line availability, initial rent-free periods, occupancy ramp, arrears/recovery, tenant turnover and lease-end refunds. Fit-out capital, occupied/vacant maintenance/insurance, 12-year refurbishment and a standalone 15% cash-tax proxy are included. No station sale parcel also earns rent; no existing kiosk income is duplicated. Tenant deposits are restricted cash and matching liabilities, never construction finance or revenue.
+
+The rental partner supplies 25% fit-out capital as private IQD equity and the residual is IQD bank capital, with opening-linked principal and 240-month amortisation. It has **zero new operating-gap capacity**: missing construction interest, fees or reserves remains an explicit funding requirement. The original four borrowers keep their existing allocated caps; combined cap remains 13tn. Rental transfers to rail are zero until an approved agreement exists, so rail cannot silently use the new company's cash. Each borrower exports monthly native ledgers, six-month placements and loan vintages. These ring-fenced structures are alternative to the wholly owned holding rental cases, whose subscriptions replace rather than add partner equity.
+
+Consolidated resource NPV adds collected rent less its OPEX and physical fit-out capital, before financing/tax, to the original resource case. A separately labelled after-rental-tax diagnostic deducts rental tax once; the original four businesses retain their existing before-tax basis. Additional rental-site rights/land opportunity cost is unknown, so the existing station-land subtraction is not a complete new-site appraisal. The 200,000 m² area illustration is blocked as unmapped and supplies no integrated cash.
 
 Core rail/energy/factory unlevered NPV: **USD -3.299bn**. Rail entity NPV including its PPA, capacity fees and internal rights: **USD -3.134bn**. Consolidated resource NPV including property sales/building costs and additional renewals/caretaking: **USD -2.945bn**; including land opportunity cost: **USD -3.412bn**. Debt/equity/grants are financing transfers and excluded from resource NPV; intercompany transfers cancel to the cent. Nominal discount is 13.4%, combining 8% real and 5% general inflation.
 

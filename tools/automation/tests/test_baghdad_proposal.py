@@ -139,3 +139,14 @@ def test_equity_study_is_published_without_promising_admission_or_return():
     assert f"month **{c['metrics']['first_dividend_month']}**" in text
     assert 'zero new money' in text and 'listing at that date is unproven' in text
     assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
+
+
+def test_retained_rental_evidence_and_exact_dividend_exit_comparisons_are_published():
+    root=CITY/'engineering/viaduct-rentals'
+    assert {p.relative_to(ROOT).as_posix() for p in root.glob('*') if p.is_file()}<=set(data('manifest.json')['inputs'])
+    c=json.loads((CITY/'engineering/equity/summary.json').read_text())['cases']['rental_medium_1000m']
+    narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
+    assert 'Confirmed eligible area remains **zero**' in narrative
+    assert f"{c['shareholder_returns']['iraqi_private']['equity_irr']:.2%}" in narrative
+    assert '4.22%' in narrative and 'Tenant fire' in narrative
+    assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')

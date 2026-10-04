@@ -84,9 +84,10 @@ def test_failed_subscriptions_stop_construction_without_capital_rescue(cases,nam
 
 @pytest.mark.parametrize('name',['government_grant_reference','government_equity_reference','primary_500m','primary_1000m','primary_2000m',
     'primary_1000m_premium','secondary_500m','undersubscribed_1000m','failed_later_primary','delayed_1000m',
-    'joint_downside_1000m','joint_downside_undersubscribed','aggregate_tax_proxy_1000m'])
+    'joint_downside_1000m','joint_downside_undersubscribed','aggregate_tax_proxy_1000m',
+    'coverage_dividends_1000m','rental_small_1000m','rental_medium_1000m','rental_medium_downside_1000m','rental_medium_coverage_1000m'])
 def test_independent_cash_principal_and_net_asset_reconciliation(cases,name):
-    c=cases[name];previous_cash=previous_capital=previous_reserve=previous_buffer=gap=0.
+    c=cases[name];previous_cash=previous_capital=previous_reserve=previous_buffer=previous_renewal=gap=deposit=0.
     balances={n:0. for n in CORE}
     for r in c['monthly']:
         capital=(r['government_usd_cash']+(r['government_iqd_cash']+r['private_equity_capital_use_iqd'])/1300+
@@ -98,7 +99,7 @@ def test_independent_cash_principal_and_net_asset_reconciliation(cases,name):
         uses=((r['physical_capital_iqd']+r['opex_iqd']+r['tax_iqd']+r['liquidity_interest_iqd']+r['liquidity_fees_iqd']+
             r['liquidity_repayment_iqd']+r['early_premiums_iqd']+r['total_dividend_iqd'])/1300+
             sum(sum(r[n+'_'+k+'_native'] for k in ('interest','principal','fees','early_principal'))/(1 if n=='chinese_export_credit' else 1300) for n in CORE)+
-            (r['closing_dsra_iqd']-previous_reserve+r['closing_operating_and_warranty_buffer_iqd']-previous_buffer)/1300)
+            (r['closing_dsra_iqd']-previous_reserve+r['closing_operating_and_warranty_buffer_iqd']-previous_buffer+r['closing_renewal_reserve_iqd']-previous_renewal)/1300)
         assert previous_cash+previous_capital+sources-uses==pytest.approx((r['closing_cash_iqd']+r['closing_capital_cash_iqd'])/1300,abs=.02)
         for n in CORE:
             balances[n]+=r[n+'_draw_native']-r[n+'_principal_native']-r[n+'_early_principal_native']
@@ -106,11 +107,15 @@ def test_independent_cash_principal_and_net_asset_reconciliation(cases,name):
         gap+=r['liquidity_draw_iqd']-r['liquidity_repayment_iqd']
         assert gap==pytest.approx(r['closing_liquidity_debt_iqd'],abs=.1)
         assets=sum(r[k] for k in ('closing_cash_iqd','closing_capital_cash_iqd','closing_dsra_iqd',
-            'closing_operating_and_warranty_buffer_iqd','closing_ppe_iqd','closing_property_inventory_iqd'))
+            'closing_operating_and_warranty_buffer_iqd','closing_ppe_iqd','closing_property_inventory_iqd','closing_renewal_reserve_iqd','rental_restricted_deposit_cash_iqd'))
         assert assets-r['liabilities_iqd']==pytest.approx(r['net_assets_iqd'],abs=.1)
         assert r['net_assets_iqd']-r['shareholder_book_equity_iqd']==pytest.approx(r['assumed_unfunded_support_cumulative_iqd'],abs=.1)
         previous_cash,previous_capital=r['closing_cash_iqd']/1300,r['closing_capital_cash_iqd']/1300
         previous_reserve,previous_buffer=r['closing_dsra_iqd'],r['closing_operating_and_warranty_buffer_iqd']
+        previous_renewal=r['closing_renewal_reserve_iqd']
+        deposit+=r['rental_deposit_received_iqd']-r['rental_deposit_refunded_iqd']
+        assert deposit==pytest.approx(r['rental_tenant_deposit_liability_iqd'],abs=.1)
+        assert r['rental_restricted_deposit_cash_iqd']==r['rental_tenant_deposit_liability_iqd']
     for r in c['semiannual']:assert abs(r['capital_reconciliation_usd'])<.02
 
 

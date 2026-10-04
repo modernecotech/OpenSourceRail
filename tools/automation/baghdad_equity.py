@@ -75,6 +75,7 @@ def consolidated_inputs(case, phases, factory, equity, *, delay_months=0):
             physical_capital_usd=physical, original_capital_usd=original_external, imported_capital_usd=imported,
             government_capital_usd=.25*original_external, government_usd_cash=.5*imported,
             property_build_usd=t['physical_property_build_usd'], property_sales_usd=t['gross_property_sales_usd'],
+            property_transaction_cost_usd=t['property_transaction_cost_usd'],
             rail_capital_usd=original-invoice-solar-plant, train_capital_usd=resource,
             solar_capital_usd=solar, factory_capital_usd=plant,
             factory_warranty_cash_usd=t['factory_warranty_locked_cash_usd'], consolidation_residual_usd=revenue-opex-physical-expected)
@@ -110,7 +111,8 @@ def consolidated_inputs(case, phases, factory, equity, *, delay_months=0):
 
 
 def simulate_equity(inputs, config, funding, options, target_usd, *, success=1., premium=False,
-                    government_as_equity=True, secondary=False, debt_caps=None, downside=False, later_success=None, aggregate_tax=False):
+                    government_as_equity=True, secondary=False, debt_caps=None, downside=False, later_success=None, aggregate_tax=False,
+                    distribution_policy='all-debt-repaid'):
     """Native cash, shares and book-equity ledger with annual dividend gates.
 
     Failed capital subscriptions cannot draw an operating rescue facility or
@@ -120,17 +122,18 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
     if fx!=1300:raise ValueError('source entity ledgers use 1300 IQD/USD; regenerate them before changing FX')
     if not math.isfinite(target_usd) or target_usd<0 or not 0<=success<=1 or (later_success is not None and not 0<=later_success<=1):
         raise ValueError('invalid primary target or subscription success')
+    if distribution_policy not in ('all-debt-repaid','coverage-and-reserves'):raise ValueError('Unknown dividend policy')
     phases=inputs['phases']; first=min(p['opening_month'] for p in phases); full=max(p['opening_month'] for p in phases)
     terms={name:dict(funding[name]) for name in CORE}
     if downside:
         for t in terms.values(): t['annual_rate']+=.02
-    loans={name:[] for name in CORE}; cash=capital_cash=reserve=buffer=gap=0.
+    loans={name:[] for name in CORE}; cash=capital_cash=reserve=buffer=gap=renewal_reserve=0.
     gap_rate=.08 if downside else options['liquidity']['concessional_annual_rate']
     gap_fee=.01 if downside else options['liquidity']['concessional_draw_fee']; gap_cap=4e12/fx if downside else options['liquidity']['illustrative_cap_iqd']/fx
     shares={group:0. for group in GROUPS}; cf={group:[] for group in GROUPS}
     nominal=share_premium=issue_costs=net_income=dividends_paid=0.
     cumulative_gov_cash=primary_gross=primary_net=secondary_receipts=uncovered_total=0.
-    assets={key:0. for key in ('rail','train','solar','factory')}; inventory=0.
+    assets={key:0. for key in ('rail','train','solar','factory','rental')}; inventory=0.
     property_cost=sum(r['property_build_usd'] for r in inputs['rows']); sales=sum(r['property_sales_usd'] for r in inputs['rows'])
     pending=[]; requests={}; consumed_caps={}; result=[]; stop=None
     if not secondary:
@@ -141,7 +144,7 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         month=m['later_primary_month'];requests[month]=(target_usd-founder_total,m['later_primary_price_iqd'] if premium else m['subscription_price_iqd'],'conditional-later-primary')
     if target_usd and not government_as_equity: raise ValueError('private ordinary equity case needs contributed government equity')
     factory_impairment=0.; year_profit=0.
-    year_tax_bases={name:0. for name in ('rail','energy','factory','development')}
+    year_tax_bases={name:0. for name in ('rail','energy','factory','development','retained_rentals')}
     tax_payable=next_tax=0.
     rights_tax_basis=sum(r['internal_rights_tax_cost_usd'] for r in inputs['rows'])
     for source in inputs['rows']:
@@ -205,7 +208,7 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
             t=dict(terms[name]);conversion=1 if t['currency']=='USD' else fx
             if name!='chinese_export_credit':
                 # Long-lived group borrowing: no principal before full network.
-                t.update(grace_months_from_draw=max(0,full-month-1),repayment_months=240 if name=='bank_credit' else 216)
+                t.update(grace_months_from_draw=max(0,inputs.get('domestic_principal_gate_month',full)-month-1),repayment_months=240 if name=='bank_credit' else 216)
             add_draw(loans[name],month,draws[name]*conversion,t)
             paid_interest,paid_principal=debt_month(loans[name],month,t)
             interest+=paid_interest/conversion;principal+=paid_principal/conversion
@@ -219,11 +222,12 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         depreciation=impairment=0.
         asset_depreciation={}
         for key in assets:
-            assets[key]+=source[key+'_capital_usd']
+            assets[key]+=source.get(key+'_capital_usd',0.)
             active=(month>=inputs['factory_ready_month']) if key=='factory' else month>=first
             fraction=1 if key=='factory' else opened
-            cost=sum(r[key+'_capital_usd'] for r in inputs['rows'] if r['month']<=month)
+            cost=sum(r.get(key+'_capital_usd',0.) for r in inputs['rows'] if r['month']<=month)
             dep=min(assets[key],cost/(12*a[key+'_asset_life_years'])*fraction) if active else 0.
+            if key=='rental':dep=min(assets[key],source.get('rental_depreciation_usd',0.))
             assets[key]-=dep;depreciation+=dep;asset_depreciation[key]=dep
             if key=='factory' and a['factory_impairment_at_backlog_close'] and month==inputs['factory_close_month']:
                 impairment+=assets[key];assets[key]=0.
@@ -233,14 +237,20 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         if inventory<-.02:raise ValueError('property sales exceed modelled completed inventory')
         inventory=max(0.,inventory)
         earnings_before_tax=source['revenue_usd']-source['opex_usd']-cogs-depreciation-impairment-interest-core_fees
+        cov=config['distributions'];coverage=None
+        if distribution_policy=='coverage-and-reserves':
+            coverage=coverage_test(inputs['rows'],result,source,row,next_tax,loans,terms,gap,gap_rate,month,fx,a,cov)
         desired_reserve=(interest+principal)*funding['model']['debt_service_reserve_months'] if month>=first else 0.
+        if coverage and month>=first:desired_reserve=coverage['forward_six_month_service_usd']
         deposit=desired_reserve-reserve;reserve=desired_reserve
+        desired_renewal=sum(r.get('rental_refurbishment_usd',0.) for r in inputs['rows'] if month<r['month']<=month+cov['renewal_reserve_forward_months']) if coverage else 0.
+        renewal_change=desired_renewal-renewal_reserve;renewal_reserve=desired_renewal
         desired_buffer=source['opex_usd']*options['prepayments']['operating_buffer_months']+source['factory_warranty_cash_usd']
         buffer_change=desired_buffer-buffer;buffer=desired_buffer
         # Unused primary capital remains restricted until all capital invoices.
         capital_release=capital_cash if month>max(r['month'] for r in inputs['rows'] if r['physical_capital_usd']>.01) else 0.
         capital_cash-=capital_release
-        available=cash+source['revenue_usd']-source['opex_usd']-interest-principal-core_fees-deposit-buffer_change+capital_release
+        available=cash+source['revenue_usd']-source['opex_usd']-interest-principal-core_fees-deposit-buffer_change-renewal_change+capital_release
         gap_interest=gap*gap_rate/12; available-=gap_interest
         # Pay the prior annual tax accrual: no circular debt/tax calculation.
         tax=next_tax;next_tax=0.;tax_payable-=tax
@@ -250,14 +260,19 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
             draw=min(-available/(1-gap_fee-gap_rate/24),max(0.,gap_cap-gap))
             gap_draw=draw;gap+=draw;gap_charge=draw*gap_fee;gap_interest+=draw*gap_rate/24
             available+=draw-gap_charge-draw*gap_rate/24; missing=max(0.,-available);uncovered_total+=missing;available=max(0.,available)
+        hold_for_dividend=0.
+        coverage_gate=bool(coverage and coverage['trailing_pass'] and coverage['forward_pass'] and month%12==11
+            and month>max(r['month'] for r in inputs['rows'] if r['physical_capital_usd']>.01)
+            and uncovered_total<.02 and not gap_draw and not missing and net_income-dividends_paid>0)
+        if coverage_gate:hold_for_dividend=max(0.,available)*cov['maximum_fraction_of_surplus']
         if not gap_draw and not missing:
             order=sorted((*CORE,'liquidity'),key=lambda n:-(gap_rate if n=='liquidity' else terms[n]['annual_rate']))
             for name in order:
                 if name=='liquidity':
-                    gap_repay=min(gap,available);gap-=gap_repay;available-=gap_repay
+                    gap_repay=min(gap,max(0.,available-hold_for_dividend));gap-=gap_repay;available-=gap_repay
                 elif options['prepayments']['eligible'][name]:
                     conversion=1 if terms[name]['currency']=='USD' else fx
-                    paid,charge=prepay_vintages(loans[name],available*conversion,options['prepayments']['premium'][name],month,options['prepayments']['minimum_age_months'][name])
+                    paid,charge=prepay_vintages(loans[name],max(0.,available-hold_for_dividend)*conversion,options['prepayments']['premium'][name],month,options['prepayments']['minimum_age_months'][name])
                     row[name+'_early_principal_native']=paid;early+=paid/conversion;early_fees+=charge/conversion;available-=(paid+charge)/conversion
         pretax_period=earnings_before_tax-gap_interest-gap_charge-early_fees
         year_profit+=pretax_period
@@ -266,6 +281,7 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         year_tax_bases['energy']+=tb['energy']-asset_depreciation['solar']
         year_tax_bases['factory']+=tb['factory']-asset_depreciation['factory']-impairment
         year_tax_bases['development']+=tb['development']-cogs-(rights_tax_basis*source['property_sales_usd']/sales if sales else 0.)
+        year_tax_bases['retained_rentals']+=tb.get('retained_rentals',0.)-asset_depreciation['rental']
         tax_accrual=0.
         if month%12==11 or month==inputs['rows'][-2]['month']:
             tax_base=max(0.,year_profit) if aggregate_tax else sum(max(0.,value) for value in year_tax_bases.values())
@@ -276,27 +292,48 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         dividend=0.
         all_debt=gap+sum(v['balance']/(1 if terms[n]['currency']=='USD' else fx) for n,vs in loans.items() for v in vs)
         allowed_profit=max(0.,net_income-dividends_paid-a['profit_retention_fraction']*max(0.,net_income))
-        if (month%12==11 or month==inputs['rows'][-1]['month']) and month>=first and all_debt<.01 and uncovered_total<.02 and capital_cash<.01 and sum(shares.values())>0:
+        if (month%12==11 or month==inputs['rows'][-1]['month']) and month>=first and (all_debt<.01 or coverage_gate) and uncovered_total<.02 and capital_cash<.01 and sum(shares.values())>0:
             dividend=min(max(0.,available),allowed_profit);available-=dividend;dividends_paid+=dividend
+            if distribution_policy=='coverage-and-reserves' and all_debt>=.01:
+                # Recheck profit, accrued tax and conservative book leverage.
+                available+=dividend;dividends_paid-=dividend
+                before=(nominal+share_premium-issue_costs)/fx+net_income-dividends_paid
+                leverage_cap=max(0.,before-(all_debt+tax_payable+source.get('rental_deposit_liability_usd',0.))/cov['maximum_liabilities_to_book_equity'])
+                dividend=min(dividend,hold_for_dividend,max(0.,available-tax_payable),leverage_cap)
+                available-=dividend;dividends_paid+=dividend
         cash=max(0.,available)
         dividend_groups={group:dividend*fx*shares[group]/sum(shares.values()) if sum(shares.values()) else 0. for group in GROUPS}
         for group in GROUPS:cf[group].append((month,(shareholder_investment[group]+dividend_groups[group])/fx))
         sources=govt+new_net+sum(draws.values())+source['revenue_usd']+gap_draw+missing
-        uses=capex+source['opex_usd']+interest+principal+core_fees+gap_interest+gap_charge+gap_repay+early+early_fees+tax+dividend+deposit+buffer_change
+        uses=capex+source['opex_usd']+interest+principal+core_fees+gap_interest+gap_charge+gap_repay+early+early_fees+tax+dividend+deposit+buffer_change+renewal_change
         cash_residual=opening_cash+opening_capital_cash+sources-uses-cash-capital_cash
         closing_debt=0.
         for name in CORE:
             balance=sum(v['balance'] for v in loans[name]);conversion=1 if terms[name]['currency']=='USD' else fx
             row[name+'_closing_balance_native']=balance;row.setdefault(name+'_early_principal_native',0.);closing_debt+=balance/conversion
         equity_book=(nominal+share_premium-issue_costs)/fx+net_income-dividends_paid+(cumulative_gov_cash if not government_as_equity else 0.)
-        net_assets=cash+capital_cash+reserve+buffer+sum(assets.values())+inventory-closing_debt-gap-tax_payable
+        rental_deposit=source.get('rental_deposit_liability_usd',0.)
+        deposit_cash=source.get('rental_restricted_deposit_cash_usd',0.)
+        net_assets=cash+capital_cash+reserve+buffer+renewal_reserve+deposit_cash+sum(assets.values())+inventory-closing_debt-gap-tax_payable-rental_deposit
         book_residual=net_assets-equity_book
         # Uncovered funding is a separately explicit assumed sponsor support;
         # it is NOT received equity, loan or government cash.
         book_residual-=uncovered_total
         if abs(cash_residual)>.02 or abs(book_residual)>.05:raise ValueError(f'cash/book balance fails month {month}: {cash_residual}, {book_residual}')
-        liabilities=closing_debt+gap+tax_payable
+        liabilities=closing_debt+gap+tax_payable+rental_deposit
         row.update(liabilities_iqd=liabilities*fx,
+            distribution_policy=distribution_policy,coverage_dividend_gate=coverage_gate,
+            trailing_dscr=coverage['trailing_dscr'] if coverage else None,forward_dscr=coverage['forward_dscr'] if coverage else None,
+            trailing_cfads_iqd=coverage['trailing_cfads_usd']*fx if coverage else None,
+            trailing_scheduled_service_iqd=coverage['trailing_service_usd']*fx if coverage else None,
+            forward_cfads_iqd=coverage['forward_cfads_usd']*fx if coverage else None,
+            forward_scheduled_service_iqd=coverage['forward_service_usd']*fx if coverage else None,
+            closing_renewal_reserve_iqd=renewal_reserve*fx,rental_fitout_capital_iqd=source.get('rental_capital_usd',0.)*fx,
+            rental_collected_revenue_iqd=source.get('rental_collected_revenue_usd',0.)*fx,rental_landlord_opex_iqd=source.get('rental_landlord_opex_usd',0.)*fx,
+            rental_refurbishment_iqd=source.get('rental_refurbishment_usd',0.)*fx,
+            rental_restricted_deposit_cash_iqd=deposit_cash*fx,rental_tenant_deposit_liability_iqd=rental_deposit*fx,
+            rental_deposit_received_iqd=source.get('rental_deposit_received_usd',0.)*fx,
+            rental_deposit_refunded_iqd=source.get('rental_deposit_refunded_usd',0.)*fx,
             indicative_liabilities_to_book_equity=liabilities/equity_book if equity_book>0 else None,
             indicative_article28_threshold_failed=liabilities>3*equity_book+.02,
             tax_iqd=tax*fx,tax_accrual_iqd=tax_accrual*fx,closing_tax_payable_iqd=tax_payable*fx,depreciation_iqd=depreciation*fx,factory_impairment_iqd=impairment*fx,
@@ -335,10 +372,12 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
         tax_basis='aggregate-profit-proxy-no-eligibility-established' if aggregate_tax else 'separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief',
         maximum_book_residual_usd=max((abs(r['book_balance_residual_usd']) for r in result),default=0.),
         government_cash_share_of_original_scope=.25,
+        distribution_policy=distribution_policy,terminal_unrestricted_cash_iqd=last.get('closing_cash_iqd',0.),
+        domestic_principal_gate_month=inputs.get('domestic_principal_gate_month',full),
         indicative_article28_threshold_failed_months=sum(r['indicative_article28_threshold_failed'] for r in result),
         first_indicative_article28_threshold_failed_month=next((r['month'] for r in result if r['indicative_article28_threshold_failed']),None),
         all_debt_cleared_without_unfunded_support=bool(not stop and uncovered_total<.02 and last and last['closing_liquidity_debt_iqd']<.02 and all(last[n+'_closing_balance_native']<.02 for n in CORE)))
-    return dict(status='funding-blocked-no-opening' if stop else 'conditional-uncommitted-equity-scenario',financing_committed=False,
+    case=dict(status='funding-blocked-no-opening' if stop else 'conditional-uncommitted-equity-scenario',financing_committed=False,
         company_incorporated=False,listing_approved=False,opening_month=None if stop else first,full_opening_month=None if stop else full,
         funding_stop=stop,metrics=metrics,shareholder_returns=shareholder_returns,monthly=result,
         loan_vintages=[dict(instrument=name,currency=terms[name]['currency'],
@@ -346,6 +385,81 @@ def simulate_equity(inputs, config, funding, options, target_usd, *, success=1.,
             final_contractual_principal_month=v['month']+v['grace_months_from_draw']+v['repayment_months'],**v) for name,vs in loans.items() for v in vs],
         source_equity_replaced_iqd=inputs['replaced_subsidiary_equity_iqd'],final_shares=shares,
         shareholder_cashflows={group:[dict(month=m,cashflow_usd=v,cashflow_iqd=v*fx) for m,v in flows] for group,flows in cf.items()})
+    case['terminal_cash_sensitivity']=terminal_cash_diagnostic(case,config,fx)
+    return case
+
+
+def with_rental_portfolio(inputs,portfolio):
+    if portfolio['status']!='conditional-unverified-retained-portfolio':raise ValueError('Unmapped space cannot generate group rent')
+    result=deepcopy(inputs);rent={r['month']:r for r in portfolio['monthly']}
+    for row in result['rows']:
+        r=rent.get(row['month'],{})
+        capital=r.get('physical_fitout_capital_usd',0.);receipts=r.get('rent_collected_usd',0.);cost=r.get('landlord_opex_usd',0.)
+        row['physical_capital_usd']+=capital;row['revenue_usd']+=receipts;row['opex_usd']+=cost
+        row['rental_capital_usd']=capital;row['rental_depreciation_usd']=r.get('depreciation_usd',0.)
+        row['rental_collected_revenue_usd']=receipts;row['rental_landlord_opex_usd']=cost
+        row['rental_refurbishment_usd']=r.get('refurbishment_usd',0.)
+        row['tax_operating_bases_usd']['retained_rentals']=receipts-cost
+        for key,source in [('rental_restricted_deposit_cash_usd','restricted_deposit_cash_iqd'),
+            ('rental_deposit_liability_usd','tenant_deposit_liability_iqd'),('rental_deposit_received_usd','tenant_deposit_received_iqd'),
+            ('rental_deposit_refunded_usd','tenant_deposit_refunded_iqd')]:row[key]=r.get(source,0.)/1300
+    result['rental_portfolio']=portfolio['metrics']
+    result['domestic_principal_gate_month']=max(max(p['opening_month'] for p in inputs['phases']),max(p['handover_month'] for p in portfolio['cohorts']))
+    result['replaced_subsidiary_equity_iqd']+=portfolio['metrics']['total_fitout_capital_usd']*portfolio['metrics']['hypothetical_partner_fitout_equity_fraction']*1300
+    return result
+
+
+def coverage_test(sources,previous,current,row,current_tax,loans,terms,gap,gap_rate,month,fx,accounting,covenants):
+    """Scheduled service excludes voluntary sweeps. Forecast uses current loan
+    balances with no future prepayment or new draw, and conservative tax without
+    depreciation/interest relief. Construction completion is a separate gate.
+    """
+    source={r['month']:r for r in sources};history=(previous+[dict(row,tax_iqd=current_tax*fx,
+        liquidity_interest_iqd=gap*gap_rate/12*fx,liquidity_fees_iqd=0.)])[-12:]
+    cfads=lambda r:r['revenue_usd']-r['property_sales_usd']-r['opex_usd']+r['property_transaction_cost_usd']
+    trailing_cash=sum(cfads(source[r['month']])-r['tax_iqd']/fx for r in history)
+    trailing_service=sum(sum(sum(r[n+'_'+k+'_native'] for k in ('interest','principal','fees'))/(1 if n=='chinese_export_credit' else fx) for n in CORE)
+        +(r['liquidity_interest_iqd']+r['liquidity_fees_iqd'])/fx for r in history)
+    future=[r for r in sources if month<r['month']<=month+12];shadow=deepcopy(loans);forward_service=first_six=0.
+    for r in future:
+        service=gap*gap_rate/12
+        for name in CORE:
+            interest,principal=debt_month(shadow[name],r['month'],terms[name]);service+=(interest+principal)/(1 if name=='chinese_export_credit' else fx)
+        forward_service+=service
+        if r['month']<=month+6:first_six+=service
+    # This deliberately overstates a prospective tax proxy rather than relying
+    # on unestablished group loss relief to authorise distributions.
+    forecast_tax=sum(accounting['corporate_tax_fraction']*sum(max(0.,v) for v in r['tax_operating_bases_usd'].values()) for r in future)
+    forward_cash=sum(cfads(r) for r in future)-forecast_tax
+    ratio=lambda cash,service:cash/service if service>.01 else None
+    trailing,forward=ratio(trailing_cash,trailing_service),ratio(forward_cash,forward_service)
+    passes=lambda cash,service,minimum:cash>=0 and (service<=.01 or cash/service>=minimum)
+    return dict(trailing_cfads_usd=trailing_cash,trailing_service_usd=trailing_service,trailing_dscr=trailing,
+        forward_cfads_usd=forward_cash,forward_service_usd=forward_service,forward_dscr=forward,
+        forward_six_month_service_usd=first_six,
+        trailing_pass=len(history)==12 and passes(trailing_cash,trailing_service,covenants['minimum_trailing_dscr']),
+        forward_pass=len(future)==12 and passes(forward_cash,forward_service,covenants['minimum_forward_dscr']))
+
+
+def terminal_cash_diagnostic(case,config,fx=1300):
+    m=case['metrics'];rows=case['monthly'];last=rows[-1] if rows else {}
+    eligible=bool(not case['funding_stop'] and m['uncovered_support_iqd']/fx<.02 and last)
+    nonsecurity_liabilities=(last.get('closing_liquidity_debt_iqd',0.)+last.get('closing_tax_payable_iqd',0.)+
+        sum(last.get(n+'_closing_balance_native',0.)*(fx if n=='chinese_export_credit' else 1) for n in CORE))
+    cash=max(0.,last.get('closing_cash_iqd',0.)-nonsecurity_liabilities) if eligible else 0.
+    cash*=1-config['distributions']['terminal_cash_transaction_fraction']
+    shares=case['final_shares'];total=sum(shares.values());returns={}
+    for group,flows in case['shareholder_cashflows'].items():
+        allocation=cash*shares[group]/total if total else 0.
+        copied=[(r['month'],r['cashflow_usd']) for r in flows]
+        if allocation:copied.append((last['month'],allocation/fx))
+        returns[group]=dict(hypothetical_terminal_cash_iqd=allocation,equity_irr_with_terminal_cash=equity_irr(copied) if eligible else None,
+            equity_npv_with_terminal_cash_usd=npv(copied,config['model']['investor_hurdle_rate']) if eligible else None)
+    return dict(status='conditional-unapproved-cash-return-diagnostic' if eligible else 'unavailable-incomplete-or-unfunded',
+        actual_company_distribution_iqd=0.,cash_available_after_nonsecurity_liabilities_iqd=cash,
+        restricted_tenant_cash_distributed_iqd=0.,asset_sale_usd=0.,quoted_share_exit_price=None,
+        guaranteed_redemption=False,transaction_cost_fraction=config['distributions']['terminal_cash_transaction_fraction'],
+        shareholder_returns=returns)
 
 
 def capital_caps(case):
@@ -394,6 +508,12 @@ def build_cases(config, funding, options, baseline, weak, phases, weak_phases, f
     cases['joint_downside_undersubscribed']=simulate_equity(adverse,config,funding,options,1e9,success=.5,
         downside=True,debt_caps=capital_caps(cases['joint_downside_1000m']))
     cases['aggregate_tax_proxy_1000m']=simulate_equity(normal,config,funding,options,1e9,aggregate_tax=True)
+    cases['coverage_dividends_1000m']=simulate_equity(normal,config,funding,options,1e9,distribution_policy='coverage-and-reserves')
+    for name in ('small','medium','medium_downside'):
+        rental=json.loads((CITY/'engineering/viaduct-rentals'/f'{name}.json').read_text())
+        rental_inputs=with_rental_portfolio(normal,rental)
+        cases['rental_'+name+'_1000m']=simulate_equity(rental_inputs,config,funding,options,1e9)
+        if name=='medium':cases['rental_medium_coverage_1000m']=simulate_equity(rental_inputs,config,funding,options,1e9,distribution_policy='coverage-and-reserves')
     return cases,normal
 
 
@@ -408,6 +528,8 @@ def report_text(cases,config):
     for name in ('primary_500m','primary_1000m','primary_2000m','primary_1000m_premium','secondary_500m'):
         c=cases[name];v=c['metrics']
         caps.append(f"| {name} | {v['primary_gross_equity_usd']/1e6:.1f} | {v['primary_net_equity_usd']/1e6:.1f} | {v['government_ownership']:.2%} | {v['iraqi_ownership']:.2%} | {v['secondary_seller_receipts_usd']/1e6:.1f} |")
+    exit_one=one['terminal_cash_sensitivity']
+    cov=cases['coverage_dividends_1000m'];rental=cases['rental_medium_1000m'];rcov=cases['rental_medium_coverage_1000m']
     return f'''# Baghdad mixed joint-stock holding and ordinary-equity study
 
 As of {config['model']['as_of']}. This is a proposed Iraqi holding company with **100%-owned rail, station-development, energy and manufacturing subsidiaries**, not an incorporated company, offering, approved listing or committed funding. Baghdad alone supplies the order book. Future national projects remain uncontracted and supply zero revenue, collateral and terminal sale proceeds.
@@ -445,6 +567,18 @@ Founder/anchor subscriptions request 75% in six equal calls at months 0, 6, 12, 
 Net equity displaces the residual 25% bank/75% bond capital basket, bank first in each invoice. Domestic bank principal is amortised over 240 months and bond principal over 216 months, starting no earlier than **full-network opening**. This group-wide grace is more conservative than per-line cohorts and needs actual facility documents. Reference coupons stay 9%/8%; China retains 5%, 48-month draw grace and 180-month amortisation. Interest is paid throughout construction; arrangement fees, undrawn Chinese commitment charges, prepayment lock-ins/premiums, six months of debt service reserve, three months of OPEX buffer and factory warranty cash are included. The separate IQD 2% gap sensitivity has a 0.5% draw fee and 13tn cap; downside uses 8%, 1% and 4tn. None is committed.
 
 Undersubscription and failed later issues hold the fully subscribed case's six-month capital-debt envelopes fixed. If the missing shares require capital credit beyond that envelope, the next physical invoice is withheld and the case reports **no opening**. The operating gap facility cannot cover refused capital. Already funded costs and debt remain; there is no forgiveness or assumed rescue. Resumption requires newly executable finance, rephasing, priced hold/restart and physical acceptance; resolution costs are unmodelled. The six-month delay sensitivity instead moves financial-close-to-NTP work and subscriptions together, retains fixed nominal property sales and indexes operations from close; it is a conditional whole-programme deferral, not a priced mid-construction suspension. Joint downside uses the existing 55/106-month physical stress, fare/nonfare shortfall, higher rates/inflation and weaker property sales, without uncontracted extra income.
+
+## Retained viaduct rentals, dividend policies and terminal cash
+
+The [civil-linked rental portfolio](../viaduct-rentals/README.md) adds distinct, retained under-viaduct enclosures to the existing station-area sales. No sold parcel also supplies rent; actual title/overlap, height, fire/access and local tenant demand remain unaccepted. The 200,000 m² illustration exceeds the reference geometry screen and is omitted from group funding. Smaller cases include their own IQD fit-out capital, collected rents, rent-free/occupancy ramps, arrears/write-offs, vacant costs, insurance, refurbishment and cohort depreciation. Existing kiosk income is unchanged. Cash corporate tax is calculated once inside the group model; the rental ledger's separate tax diagnostic is not added again. Tenant deposits remain matched restricted cash and liabilities, supplying zero capital or dividends. Government original cash and Chinese USD imports remain unchanged; fit-outs borrow the domestic residual and use the existing parent subscription, with no additional partner cash in this 100%-owned alternative. Rental cases extend the domestic principal gate to the latest fit-out handover if it follows full-network opening; the conditional railway opening dates remain unchanged.
+
+The medium rental case gives peak IQD gap debt **{rental['metrics']['peak_liquidity_debt_iqd']/1e12:.3f}tn**, first dividend month **{rental['metrics']['first_dividend_month']}**, private nominal IRR **{rental['shareholder_returns']['iraqi_private']['equity_irr']:.2%}** and planned before-tax resource NPV after existing station land **USD {rental['metrics']['resource_npv_after_land_usd']/1e9:.3f}bn**. Additional corridor rights/opportunity cost is unknown, so this is not a complete new-land appraisal. The lower-rent/prolonged-vacancy case retains its costs rather than assuming free premises. Annual rental resource gains and investor gains are separately quantified.
+
+Default ordinary dividends still require full debt repayment. **coverage-and-reserves is an unapproved lender-policy sensitivity**: annual distributions require 12 actual and 12 projected months of coverage at least 1.30, completed capital, cumulative distributable-profit proxy, no missing cash/current gap draw, restricted capital exhausted, intact OPEX/warranty reserves, six months of forward scheduled debt service and 12 months of upcoming rental refurbishment. CFADS excludes property-sale receipts and adds back their transaction costs; debt coverage includes scheduled interest/principal/fees and gap interest/fees, excluding voluntary principal sweeps. Forecast debt uses actual remaining vintages without future prepayment; forecast tax conservatively assumes no depreciation/interest/loss relief. No upcoming construction draw is permitted by the completion gate. The revolving gap sensitivity has no stated contractual amortisation, so its interest enters coverage and any distribution still needs an actual maturity/covenant agreement.
+
+Up to 50% of cash surplus is held for possible dividends before optional debt sweeps; the balance repays the most expensive eligible credit. Final distributions also preserve cash for accrued tax and a liabilities/book-equity ceiling of 3.0. These are conservative group proxies, not subsidiary upstream permission, a legal reserve calculation or signed lender consent. Compared with the default first dividend at {m['first_dividend_month']}, the policy case first pays in month **{cov['metrics']['first_dividend_month']}**, private IRR **{cov['shareholder_returns']['iraqi_private']['equity_irr']:.2%}**. With medium rentals, its first dividend is **{rcov['metrics']['first_dividend_month']}** and private IRR **{rcov['shareholder_returns']['iraqi_private']['equity_irr']:.2%}**. Monthly ledgers expose the actual coverage numerator/denominator, reserves, profit, dividends and debt balances. Earlier dividends reduce sweeps and can increase future finance costs; they are not new profit.
+
+The original $1bn default case ends with **USD {m['terminal_unrestricted_cash_iqd']/1300/1e9:.3f}bn-equivalent unrestricted cash**. A separately labelled **terminal_cash_sensitivity** allocates available final cash after nonsecurity debt/tax liabilities, at current proportional shares. It changes no actual dividend, company cash or share count and assumes zero transaction cost as an explicit illustration. Private IRR including this unapproved final cash return is **{exit_one['shareholder_returns']['iraqi_private']['equity_irr_with_terminal_cash']:.2%}**, versus {one['shareholder_returns']['iraqi_private']['equity_irr']:.2%} from dividends alone. Restricted deposits, reserves, unresolved funding, unvalued property/rail/factory assets and quoted share-price appreciation are excluded. Failed/unfunded cases cannot present a completed-horizon cash exit. No redemption, liquidation authority or proceeds are guaranteed; counsel must assess capital reduction, tax, transaction and continuing-service obligations before any distribution of capital. Each case exports both ordinary returns and the independent cash-only diagnostic, avoiding double counting.
 
 ## Pro-forma accounts and consolidation
 
@@ -488,7 +622,9 @@ def main():
         ROOT/'lib/templates/baghdad-equity.toml',ROOT/'lib/templates/iraq-funding.toml',ROOT/'lib/templates/baghdad-finance-options.toml',
         ROOT/'design/city-generation/src/osr_scenario/iraq_finance.py',CITY/'engineering/financing-redesign/summary.json',
         CITY/'engineering/financing-redesign/integrated.json',CITY/'engineering/financing-redesign/integrated_joint_downside.json',
-        CITY/'engineering/delivery-risk/summary.json',CITY/'engineering/factory/summary.json',CITY/'engineering/qualification/summary.json']
+        CITY/'engineering/delivery-risk/summary.json',CITY/'engineering/factory/summary.json',CITY/'engineering/qualification/summary.json',
+        ROOT/'tools/automation/baghdad_viaduct_rentals.py',CITY/'engineering/viaduct-rentals/summary.json',
+        *[CITY/'engineering/viaduct-rentals'/f'{name}.json' for name in ('small','medium','medium_downside')]]
     sources={p.relative_to(ROOT).as_posix():digest(p) for p in paths}
     revision=hashlib.sha256(json.dumps(sources,sort_keys=True).encode()).hexdigest()
     load=lambda p:json.loads(p.read_text())
@@ -531,9 +667,9 @@ def main():
     summary=dict(schema='baghdad-ordinary-equity/1',as_of=config['model']['as_of'],status='illustrative-uncommitted-not-investment-ready',
         included_cities=['Baghdad'],financing_committed=False,company_incorporated=False,listing_approved=False,operational_release=False,
         source_revision=revision,sources_sha256=sources,outputs_sha256={p.name:digest(p) for p in outputs},
-        cases={name:{key:case[key] for key in ('status','opening_month','full_opening_month','funding_stop','metrics','shareholder_returns','final_shares')} for name,case in cases.items()})
+        cases={name:{key:case[key] for key in ('status','opening_month','full_opening_month','funding_stop','metrics','shareholder_returns','final_shares','terminal_cash_sensitivity')} for name,case in cases.items()})
     (OUT/'summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True,allow_nan=False)+'\n')
-    print('Generated 13 holding-equity cases with monthly accounts, ownership/dividends, six-month funding and six draft ERP work packages')
+    print('Generated 18 holding-equity cases with retained rentals, covenant dividends, independent terminal-cash diagnostics and six ERP packages')
 
 
 if __name__=='__main__':main()

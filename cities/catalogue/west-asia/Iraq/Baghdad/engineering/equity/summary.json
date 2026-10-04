@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-03",
+  "as_of": "2026-10-04",
   "cases": {
     "aggregate_tax_proxy_1000m": {
       "final_shares": {
@@ -15,7 +15,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 2615183364677.0605,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 6357844444643.288,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 299,
         "first_indicative_article28_threshold_failed_month": 50,
@@ -37,6 +39,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "aggregate-profit-proxy-no-eligibility-established",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 5051855470724.492,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 10950255493916.574,
         "uncovered_support_iqd": 2.5425106287002563e-05
@@ -65,7 +68,130 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 5051855470724.492,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04667165793226313,
+            "equity_npv_with_terminal_cash_usd": -212482312.75682557,
+            "hypothetical_terminal_cash_iqd": 510267230933.3292
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.049059046347548096,
+            "equity_npv_with_terminal_cash_usd": -1121036039.520155,
+            "hypothetical_terminal_cash_iqd": 3350964700946.7285
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04667165793226313,
+            "equity_npv_with_terminal_cash_usd": -495792063.0992596,
+            "hypothetical_terminal_cash_iqd": 1190623538844.4346
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
+    },
+    "coverage_dividends_1000m": {
+      "final_shares": {
+        "foreign_private": 390000000000.00006,
+        "government": 2561160415844.8867,
+        "iraqi_private": 910000000000.0
+      },
+      "full_opening_month": 83,
+      "funding_stop": null,
+      "metrics": {
+        "all_debt_cleared_without_unfunded_support": true,
+        "bank_capital_iqd": 2006147846503.6018,
+        "chinese_credit_usd": 896529966.4521289,
+        "core_resource_npv_usd": -2945410843.8797193,
+        "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "coverage-and-reserves",
+        "domestic_bond_face_iqd": 6357844444643.288,
+        "domestic_principal_gate_month": 83,
+        "factory_asset_impairment_usd": 222115355.02482837,
+        "first_dividend_month": 335,
+        "first_indicative_article28_threshold_failed_month": 48,
+        "government_capital_usd": 1970123396.8037586,
+        "government_cash_share_of_original_scope": 0.25,
+        "government_equity_reclassification_new_cash_usd": 0.0,
+        "government_ownership": 0.6633136518583266,
+        "indicative_article28_threshold_failed_months": 216,
+        "iraqi_ownership": 0.898994095557498,
+        "maximum_book_residual_usd": 1.8097576685249805e-05,
+        "maximum_cash_residual_usd": 4.76837158203125e-07,
+        "peak_liquidity_debt_iqd": 2661762818515.3477,
+        "primary_gross_equity_usd": 1000000000.0,
+        "primary_issue_fees_usd": 20000000.0,
+        "primary_net_equity_usd": 980000000.0,
+        "resource_npv_after_land_usd": -3411989793.7038193,
+        "secondary_company_receipts_usd": 0.0,
+        "secondary_seller_receipts_usd": 0.0,
+        "target_primary_equity_usd": 1000000000.0,
+        "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
+        "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4894879210658.068,
+        "total_capital_usd": 10280493587.215033,
+        "total_dividends_iqd": 9537469153318.697,
+        "uncovered_support_iqd": 2.8905924409627914e-05
+      },
+      "opening_month": 41,
+      "shareholder_returns": {
+        "foreign_private": {
+          "cash_investment_usd": 300000000.00000006,
+          "cash_return_usd": 741031306.0949378,
+          "equity_irr": 0.02989989532659465,
+          "equity_npv_at_hurdle_usd": -217514233.36729997,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "government": {
+          "cash_investment_usd": 1970123396.8037584,
+          "cash_return_usd": 4866410379.672282,
+          "equity_irr": 0.03143059884365995,
+          "equity_npv_at_hurdle_usd": -1154081054.6053374,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "iraqi_private": {
+          "cash_investment_usd": 700000000.0,
+          "cash_return_usd": 1729073047.5548544,
+          "equity_irr": 0.02989989532659465,
+          "equity_npv_at_hurdle_usd": -507533211.19036657,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        }
+      },
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4894879210658.068,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.042105642834552426,
+            "equity_npv_with_terminal_cash_usd": -215329575.41930175,
+            "hypothetical_terminal_cash_iqd": 494411701809.3186
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.044188155881253244,
+            "equity_npv_with_terminal_cash_usd": -1139734235.4807887,
+            "hypothetical_terminal_cash_iqd": 3246840204627.0063
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.042105642834552426,
+            "equity_npv_with_terminal_cash_usd": -502435675.97837067,
+            "hypothetical_terminal_cash_iqd": 1153627304221.7434
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "delayed_1000m": {
       "final_shares": {
@@ -81,7 +207,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2726155424.3804827,
         "corporate_cash_tax_iqd": 3578214219620.3755,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 6357844444643.288,
+        "domestic_principal_gate_month": 89,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 323,
         "first_indicative_article28_threshold_failed_month": 55,
@@ -103,6 +231,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4979673446930.094,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 10300617279766.78,
         "uncovered_support_iqd": 1.6647391021251678e-06
@@ -131,7 +260,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4979673446930.094,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04437678170818515,
+            "equity_npv_with_terminal_cash_usd": -199734399.18844151,
+            "hypothetical_terminal_cash_iqd": 502976420335.4858
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.046598249605248276,
+            "equity_npv_with_terminal_cash_usd": -1055836929.645827,
+            "hypothetical_terminal_cash_iqd": 3303085379145.1416
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04437678170818515,
+            "equity_npv_with_terminal_cash_usd": -466046931.4396968,
+            "hypothetical_terminal_cash_iqd": 1173611647449.4666
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "failed_later_primary": {
       "final_shares": {
@@ -161,7 +317,9 @@
         "chinese_credit_usd": 690333089.6526655,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 161855263226.0825,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 4985073892443.055,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 0.0,
         "first_dividend_month": null,
         "first_indicative_article28_threshold_failed_month": 48,
@@ -183,6 +341,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 1364675996612.65,
+        "terminal_unrestricted_cash_iqd": 0.0,
         "total_capital_usd": 8002416204.393194,
         "total_dividends_iqd": 0.0,
         "uncovered_support_iqd": 4.691537469625473e-06
@@ -211,7 +370,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "funding-blocked-no-opening"
+      "status": "funding-blocked-no-opening",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 0.0,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "unavailable-incomplete-or-unfunded",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "government_equity_reference": {
       "final_shares": {
@@ -227,7 +413,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 7228494218360.167,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 371,
         "first_indicative_article28_threshold_failed_month": 0,
@@ -249,6 +437,7 @@
         "target_primary_equity_usd": 0.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 3292222407790.8257,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 6579557927513.471,
         "uncovered_support_iqd": 3.2084062695503235e-05
@@ -277,7 +466,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 3292222407790.8257,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": 0.0,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.043553935238575536,
+            "equity_npv_with_terminal_cash_usd": -1150333113.5802608,
+            "hypothetical_terminal_cash_iqd": 3292222407790.8257
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": 0.0,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "government_grant_reference": {
       "final_shares": {
@@ -293,7 +509,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 7228494218360.167,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": null,
         "first_indicative_article28_threshold_failed_month": 0,
@@ -315,6 +533,7 @@
         "target_primary_equity_usd": 0.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 9871780335304.295,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 0.0,
         "uncovered_support_iqd": 3.2084062695503235e-05
@@ -343,7 +562,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 9871780335304.295,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": 0.0,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": 0.0,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": 0.0,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "joint_downside_1000m": {
       "final_shares": {
@@ -359,7 +605,9 @@
         "chinese_credit_usd": 1111825485.1508296,
         "core_resource_npv_usd": -6207073498.799902,
         "corporate_cash_tax_iqd": 2453120308092.119,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 8306842512067.691,
+        "domestic_principal_gate_month": 106,
         "factory_asset_impairment_usd": 205290395.3813882,
         "first_dividend_month": null,
         "first_indicative_article28_threshold_failed_month": 57,
@@ -381,6 +629,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 3361853631440.477,
+        "terminal_unrestricted_cash_iqd": 0.0,
         "total_capital_usd": 12947460863.08447,
         "total_dividends_iqd": 0.0,
         "uncovered_support_iqd": 39132433972490.54
@@ -409,7 +658,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 0.0,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "unavailable-incomplete-or-unfunded",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "joint_downside_undersubscribed": {
       "final_shares": {
@@ -439,7 +715,9 @@
         "chinese_credit_usd": 6173187.701135192,
         "core_resource_npv_usd": -6207073498.799902,
         "corporate_cash_tax_iqd": 0.0,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 0.0,
+        "domestic_principal_gate_month": 106,
         "factory_asset_impairment_usd": 0.0,
         "first_dividend_month": null,
         "first_indicative_article28_threshold_failed_month": null,
@@ -461,6 +739,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 200758303.36057368,
+        "terminal_unrestricted_cash_iqd": 0.0,
         "total_capital_usd": 72192352.09846921,
         "total_dividends_iqd": 0.0,
         "uncovered_support_iqd": 2.837623469531536e-08
@@ -489,7 +768,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "funding-blocked-no-opening"
+      "status": "funding-blocked-no-opening",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 0.0,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "unavailable-incomplete-or-unfunded",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "primary_1000m": {
       "final_shares": {
@@ -505,7 +811,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 6357844444643.288,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 335,
         "first_indicative_article28_threshold_failed_month": 48,
@@ -527,6 +835,7 @@
         "target_primary_equity_usd": 1000000000,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4896670886701.711,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 9553594237711.451,
         "uncovered_support_iqd": 1.498265191912651e-05
@@ -555,7 +864,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4896670886701.711,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04215653168778821,
+            "equity_npv_with_terminal_cash_usd": -215303458.08026943,
+            "hypothetical_terminal_cash_iqd": 494592671668.5747
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04424221987252219,
+            "equity_npv_with_terminal_cash_usd": -1139562720.8784893,
+            "hypothetical_terminal_cash_iqd": 3248028647806.4624
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04215653168778821,
+            "equity_npv_with_terminal_cash_usd": -502374735.5206286,
+            "hypothetical_terminal_cash_iqd": 1154049567226.6743
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "primary_1000m_premium": {
       "final_shares": {
@@ -571,7 +907,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 6357844444643.288,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 335,
         "first_indicative_article28_threshold_failed_month": 48,
@@ -593,6 +931,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4896670886701.711,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 9553594237711.451,
         "uncovered_support_iqd": 1.498265191912651e-05
@@ -621,7 +960,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4896670886701.711,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.041226118760123165,
+            "equity_npv_with_terminal_cash_usd": -215588515.32256326,
+            "hypothetical_terminal_cash_iqd": 480728591766.0931
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04472853896054774,
+            "equity_npv_with_terminal_cash_usd": -1138612530.070843,
+            "hypothetical_terminal_cash_iqd": 3294242247481.401
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.041226118760123165,
+            "equity_npv_with_terminal_cash_usd": -503039869.0859809,
+            "hypothetical_terminal_cash_iqd": 1121700047454.217
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "primary_2000m": {
       "final_shares": {
@@ -637,7 +1003,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 5352920431032.493,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 263,
         "first_indicative_article28_threshold_failed_month": null,
@@ -659,6 +1027,7 @@
         "target_primary_equity_usd": 2000000000,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 6489285982477.23,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 12421130099691.303,
         "uncovered_support_iqd": 1.695007085800171e-05
@@ -687,7 +1056,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 6489285982477.23,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04371981589077645,
+            "equity_npv_with_terminal_cash_usd": -413609420.25268376,
+            "hypothetical_terminal_cash_iqd": 980718028215.6848
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04577536546625238,
+            "equity_npv_with_terminal_cash_usd": -1118439477.2070508,
+            "hypothetical_terminal_cash_iqd": 3220225888424.948
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04371981589077645,
+            "equity_npv_with_terminal_cash_usd": -965088647.256262,
+            "hypothetical_terminal_cash_iqd": 2288342065836.597
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "primary_500m": {
       "final_shares": {
@@ -703,7 +1099,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 6795658773896.726,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 359,
         "first_indicative_article28_threshold_failed_month": 40,
@@ -725,6 +1123,7 @@
         "target_primary_equity_usd": 500000000,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4092297214094.198,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 8047231184243.706,
         "uncovered_support_iqd": 5.145557224750519e-05
@@ -753,7 +1152,418 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4092297214094.198,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04160737803508352,
+            "equity_npv_with_terminal_cash_usd": -108938066.11173575,
+            "hypothetical_terminal_cash_iqd": 248507658730.09427
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.0436783592953115,
+            "equity_npv_with_terminal_cash_usd": -1146054053.0443645,
+            "hypothetical_terminal_cash_iqd": 3263938351660.551
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04160737803508352,
+            "equity_npv_with_terminal_cash_usd": -254188820.92738336,
+            "hypothetical_terminal_cash_iqd": 579851203703.5532
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
+    },
+    "rental_medium_1000m": {
+      "final_shares": {
+        "foreign_private": 390000000000.00006,
+        "government": 2561160415844.8867,
+        "iraqi_private": 910000000000.0
+      },
+      "full_opening_month": 83,
+      "funding_stop": null,
+      "metrics": {
+        "all_debt_cleared_without_unfunded_support": true,
+        "bank_capital_iqd": 2036437006483.3645,
+        "chinese_credit_usd": 896529966.4521289,
+        "core_resource_npv_usd": -2928166558.679062,
+        "corporate_cash_tax_iqd": 3619993204398.599,
+        "distribution_policy": "all-debt-repaid",
+        "domestic_bond_face_iqd": 6449147455665.779,
+        "domestic_principal_gate_month": 86,
+        "factory_asset_impairment_usd": 222115355.02482837,
+        "first_dividend_month": 323,
+        "first_indicative_article28_threshold_failed_month": 48,
+        "government_capital_usd": 1970123396.8037586,
+        "government_cash_share_of_original_scope": 0.25,
+        "government_equity_reclassification_new_cash_usd": 0.0,
+        "government_ownership": 0.6633136518583266,
+        "indicative_article28_threshold_failed_months": 212,
+        "iraqi_ownership": 0.898994095557498,
+        "maximum_book_residual_usd": 1.787219662219286e-05,
+        "maximum_cash_residual_usd": 4.76837158203125e-07,
+        "peak_liquidity_debt_iqd": 2645916786003.741,
+        "primary_gross_equity_usd": 1000000000.0,
+        "primary_issue_fees_usd": 20000000.0,
+        "primary_net_equity_usd": 980000000.0,
+        "resource_npv_after_land_usd": -3394745508.5031614,
+        "secondary_company_receipts_usd": 0.0,
+        "secondary_seller_receipts_usd": 0.0,
+        "target_primary_equity_usd": 1000000000.0,
+        "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
+        "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4963594497794.409,
+        "total_capital_usd": 10374026026.447536,
+        "total_dividends_iqd": 10155906737545.82,
+        "uncovered_support_iqd": 1.8009450286626816e-05
+      },
+      "opening_month": 41,
+      "shareholder_returns": {
+        "foreign_private": {
+          "cash_investment_usd": 300000000.00000006,
+          "cash_return_usd": 789081958.0457813,
+          "equity_irr": 0.032210349268875116,
+          "equity_npv_at_hurdle_usd": -216731338.19415665,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "government": {
+          "cash_investment_usd": 1970123396.8037584,
+          "cash_return_usd": 5181962758.472385,
+          "equity_irr": 0.03387316686570585,
+          "equity_npv_at_hurdle_usd": -1148939720.9458225,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "iraqi_private": {
+          "cash_investment_usd": 700000000.0,
+          "cash_return_usd": 1841191235.440156,
+          "equity_irr": 0.032210349268875116,
+          "equity_npv_at_hurdle_usd": -505706455.7863654,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        }
+      },
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4963594497794.409,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.043875915120779596,
+            "equity_npv_with_terminal_cash_usd": -214516011.5837194,
+            "hypothetical_terminal_cash_iqd": 501352351535.55096
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04606285886282324,
+            "equity_npv_with_terminal_cash_usd": -1134391498.323208,
+            "hypothetical_terminal_cash_iqd": 3292419992675.906
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.043875915120779596,
+            "equity_npv_with_terminal_cash_usd": -500537360.36201185,
+            "hypothetical_terminal_cash_iqd": 1169822153582.9521
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
+    },
+    "rental_medium_coverage_1000m": {
+      "final_shares": {
+        "foreign_private": 390000000000.00006,
+        "government": 2561160415844.8867,
+        "iraqi_private": 910000000000.0
+      },
+      "full_opening_month": 83,
+      "funding_stop": null,
+      "metrics": {
+        "all_debt_cleared_without_unfunded_support": true,
+        "bank_capital_iqd": 2036437006483.3645,
+        "chinese_credit_usd": 896529966.4521289,
+        "core_resource_npv_usd": -2928166558.679062,
+        "corporate_cash_tax_iqd": 3619993204398.599,
+        "distribution_policy": "coverage-and-reserves",
+        "domestic_bond_face_iqd": 6449147455665.779,
+        "domestic_principal_gate_month": 86,
+        "factory_asset_impairment_usd": 222115355.02482837,
+        "first_dividend_month": 323,
+        "first_indicative_article28_threshold_failed_month": 48,
+        "government_capital_usd": 1970123396.8037586,
+        "government_cash_share_of_original_scope": 0.25,
+        "government_equity_reclassification_new_cash_usd": 0.0,
+        "government_ownership": 0.6633136518583266,
+        "indicative_article28_threshold_failed_months": 213,
+        "iraqi_ownership": 0.898994095557498,
+        "maximum_book_residual_usd": 1.8571619875729084e-05,
+        "maximum_cash_residual_usd": 4.76837158203125e-07,
+        "peak_liquidity_debt_iqd": 2669361342071.296,
+        "primary_gross_equity_usd": 1000000000.0,
+        "primary_issue_fees_usd": 20000000.0,
+        "primary_net_equity_usd": 980000000.0,
+        "resource_npv_after_land_usd": -3394745508.5031614,
+        "secondary_company_receipts_usd": 0.0,
+        "secondary_seller_receipts_usd": 0.0,
+        "target_primary_equity_usd": 1000000000.0,
+        "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
+        "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4961063966688.635,
+        "total_capital_usd": 10374026026.447536,
+        "total_dividends_iqd": 10133131957593.852,
+        "uncovered_support_iqd": 4.373723641037941e-05
+      },
+      "opening_month": 41,
+      "shareholder_returns": {
+        "foreign_private": {
+          "cash_investment_usd": 300000000.00000006,
+          "cash_return_usd": 787312429.393837,
+          "equity_irr": 0.032118850220198225,
+          "equity_npv_at_hurdle_usd": -216772460.17845103,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "government": {
+          "cash_investment_usd": 1970123396.8037584,
+          "cash_return_usd": 5170342125.810685,
+          "equity_irr": 0.03377595481993245,
+          "equity_npv_at_hurdle_usd": -1149209772.2237606,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "iraqi_private": {
+          "cash_investment_usd": 700000000.0,
+          "cash_return_usd": 1837062335.2522862,
+          "equity_irr": 0.032118850220198225,
+          "equity_npv_at_hurdle_usd": -505802407.08305234,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        }
+      },
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4961063966688.635,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.043803725156267403,
+            "equity_npv_with_terminal_cash_usd": -214558262.98196968,
+            "hypothetical_terminal_cash_iqd": 501096752952.4924
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.045985966692191016,
+            "equity_npv_with_terminal_cash_usd": -1134668966.5506766,
+            "hypothetical_terminal_cash_iqd": 3290741456846.9937
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.043803725156267403,
+            "equity_npv_with_terminal_cash_usd": -500635946.9579292,
+            "hypothetical_terminal_cash_iqd": 1169225756889.1487
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
+    },
+    "rental_medium_downside_1000m": {
+      "final_shares": {
+        "foreign_private": 390000000000.00006,
+        "government": 2561160415844.8867,
+        "iraqi_private": 910000000000.0
+      },
+      "full_opening_month": 83,
+      "funding_stop": null,
+      "metrics": {
+        "all_debt_cleared_without_unfunded_support": true,
+        "bank_capital_iqd": 2036437006483.3645,
+        "chinese_credit_usd": 896529966.4521289,
+        "core_resource_npv_usd": -2980837693.751435,
+        "corporate_cash_tax_iqd": 3498637806913.893,
+        "distribution_policy": "all-debt-repaid",
+        "domestic_bond_face_iqd": 6449147455665.779,
+        "domestic_principal_gate_month": 98,
+        "factory_asset_impairment_usd": 222115355.02482837,
+        "first_dividend_month": 335,
+        "first_indicative_article28_threshold_failed_month": 48,
+        "government_capital_usd": 1970123396.8037586,
+        "government_cash_share_of_original_scope": 0.25,
+        "government_equity_reclassification_new_cash_usd": 0.0,
+        "government_ownership": 0.6633136518583266,
+        "indicative_article28_threshold_failed_months": 221,
+        "iraqi_ownership": 0.898994095557498,
+        "maximum_book_residual_usd": 1.8593971617519855e-05,
+        "maximum_cash_residual_usd": 4.76837158203125e-07,
+        "peak_liquidity_debt_iqd": 2754148968872.0967,
+        "primary_gross_equity_usd": 1000000000.0,
+        "primary_issue_fees_usd": 20000000.0,
+        "primary_net_equity_usd": 980000000.0,
+        "resource_npv_after_land_usd": -3447416643.575535,
+        "secondary_company_receipts_usd": 0.0,
+        "secondary_seller_receipts_usd": 0.0,
+        "target_primary_equity_usd": 1000000000.0,
+        "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
+        "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4865348138010.754,
+        "total_capital_usd": 10374026026.447536,
+        "total_dividends_iqd": 9271689499492.688,
+        "uncovered_support_iqd": 1.3469252735376358e-05
+      },
+      "opening_month": 41,
+      "shareholder_returns": {
+        "foreign_private": {
+          "cash_investment_usd": 300000000.00000006,
+          "cash_return_usd": 720381064.3125445,
+          "equity_irr": 0.028818229649429594,
+          "equity_npv_at_hurdle_usd": -217905723.9574231,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "government": {
+          "cash_investment_usd": 1970123396.8037584,
+          "cash_return_usd": 4730798631.388457,
+          "equity_irr": 0.030285170818905027,
+          "equity_npv_at_hurdle_usd": -1156652003.8427708,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "iraqi_private": {
+          "cash_investment_usd": 700000000.0,
+          "cash_return_usd": 1680889150.0626035,
+          "equity_irr": 0.028818229649429594,
+          "equity_npv_at_hurdle_usd": -508446689.23398715,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        }
+      },
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4865348138010.754,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04127496203677927,
+            "equity_npv_with_terminal_cash_usd": -215734246.1697098,
+            "hypothetical_terminal_cash_iqd": 491428889107.41943
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04330657454275466,
+            "equity_npv_with_terminal_cash_usd": -1142391739.8587253,
+            "hypothetical_terminal_cash_iqd": 3227251840986.023
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04127496203677927,
+            "equity_npv_with_terminal_cash_usd": -503379907.7293228,
+            "hypothetical_terminal_cash_iqd": 1146667407917.3118
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
+    },
+    "rental_small_1000m": {
+      "final_shares": {
+        "foreign_private": 390000000000.00006,
+        "government": 2561160415844.8867,
+        "iraqi_private": 910000000000.0
+      },
+      "full_opening_month": 83,
+      "funding_stop": null,
+      "metrics": {
+        "all_debt_cleared_without_unfunded_support": true,
+        "bank_capital_iqd": 2018775384400.4297,
+        "chinese_credit_usd": 896529966.4521289,
+        "core_resource_npv_usd": -2949903904.6266527,
+        "corporate_cash_tax_iqd": 3514678598932.167,
+        "distribution_policy": "all-debt-repaid",
+        "domestic_bond_face_iqd": 6395796743307.085,
+        "domestic_principal_gate_month": 86,
+        "factory_asset_impairment_usd": 222115355.02482837,
+        "first_dividend_month": 335,
+        "first_indicative_article28_threshold_failed_month": 48,
+        "government_capital_usd": 1970123396.8037586,
+        "government_cash_share_of_original_scope": 0.25,
+        "government_equity_reclassification_new_cash_usd": 0.0,
+        "government_ownership": 0.6633136518583266,
+        "indicative_article28_threshold_failed_months": 217,
+        "iraqi_ownership": 0.898994095557498,
+        "maximum_book_residual_usd": 2.3829401470720768e-05,
+        "maximum_cash_residual_usd": 9.5367431640625e-07,
+        "peak_liquidity_debt_iqd": 2676256206039.2275,
+        "primary_gross_equity_usd": 1000000000.0,
+        "primary_issue_fees_usd": 20000000.0,
+        "primary_net_equity_usd": 980000000.0,
+        "resource_npv_after_land_usd": -3416482854.4507523,
+        "secondary_company_receipts_usd": 0.0,
+        "secondary_seller_receipts_usd": 0.0,
+        "target_primary_equity_usd": 1000000000.0,
+        "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
+        "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 4903169100025.148,
+        "total_capital_usd": 10319401153.800129,
+        "total_dividends_iqd": 9612078157622.145,
+        "uncovered_support_iqd": 1.6193371266126633e-05
+      },
+      "opening_month": 41,
+      "shareholder_returns": {
+        "foreign_private": {
+          "cash_investment_usd": 300000000.00000006,
+          "cash_return_usd": 746828190.6789564,
+          "equity_irr": 0.030163510150971073,
+          "equity_npv_at_hurdle_usd": -217449021.16615555,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "government": {
+          "cash_investment_usd": 1970123396.8037584,
+          "cash_return_usd": 4904478972.83077,
+          "equity_irr": 0.0317080983780077,
+          "equity_npv_at_hurdle_usd": -1153652800.9945648,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        },
+        "iraqi_private": {
+          "cash_investment_usd": 700000000.0,
+          "cash_return_usd": 1742599111.5842314,
+          "equity_irr": 0.030163510150971073,
+          "equity_npv_at_hurdle_usd": -507381049.38769615,
+          "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
+        }
+      },
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 4903169100025.148,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.04230196191882751,
+            "equity_npv_with_terminal_cash_usd": -215260663.31629774,
+            "hypothetical_terminal_cash_iqd": 495249029582.56885
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": 0.04439496755669847,
+            "equity_npv_with_terminal_cash_usd": -1139281684.3259516,
+            "hypothetical_terminal_cash_iqd": 3252339001416.586
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.04230196191882751,
+            "equity_npv_with_terminal_cash_usd": -502274881.07136136,
+            "hypothetical_terminal_cash_iqd": 1155581069025.994
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "secondary_500m": {
       "final_shares": {
@@ -769,7 +1579,9 @@
         "chinese_credit_usd": 896529966.4521289,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 3485629192540.1333,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 7228494218360.167,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 222115355.02482837,
         "first_dividend_month": 371,
         "first_indicative_article28_threshold_failed_month": 0,
@@ -791,6 +1603,7 @@
         "target_primary_equity_usd": 0.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 0.0,
+        "terminal_unrestricted_cash_iqd": 3292222407790.8257,
         "total_capital_usd": 10280493587.215033,
         "total_dividends_iqd": 6579557927513.471,
         "uncovered_support_iqd": 3.2084062695503235e-05
@@ -819,7 +1632,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "conditional-uncommitted-equity-scenario"
+      "status": "conditional-uncommitted-equity-scenario",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 3292222407790.8257,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": 0.045547329514859736,
+            "equity_npv_with_terminal_cash_usd": -70311917.17108369,
+            "hypothetical_terminal_cash_iqd": 250661132175.67862
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": -915960056.3433151,
+            "hypothetical_terminal_cash_iqd": 2456685300538.5635
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": 0.045547329514859736,
+            "equity_npv_with_terminal_cash_usd": -164061140.0658619,
+            "hypothetical_terminal_cash_iqd": 584875975076.5834
+          }
+        },
+        "status": "conditional-unapproved-cash-return-diagnostic",
+        "transaction_cost_fraction": 0.0
+      }
     },
     "undersubscribed_1000m": {
       "final_shares": {
@@ -849,7 +1689,9 @@
         "chinese_credit_usd": 6153264.683737501,
         "core_resource_npv_usd": -2945410843.8797193,
         "corporate_cash_tax_iqd": 0.0,
+        "distribution_policy": "all-debt-repaid",
         "domestic_bond_face_iqd": 0.0,
+        "domestic_principal_gate_month": 83,
         "factory_asset_impairment_usd": 0.0,
         "first_dividend_month": null,
         "first_indicative_article28_threshold_failed_month": null,
@@ -871,6 +1713,7 @@
         "target_primary_equity_usd": 1000000000.0,
         "tax_basis": "separate-business-positive-profit-floor-no-parent-interest-or-loss-netting-relief",
         "terminal_liquidity_debt_iqd": 202776818.1355034,
+        "terminal_unrestricted_cash_iqd": 0.0,
         "total_capital_usd": 71926711.86649999,
         "total_dividends_iqd": 0.0,
         "uncovered_support_iqd": 0.0
@@ -899,7 +1742,34 @@
           "return_basis": "Ordinary dividends and explicit secondary purchase/sale; no terminal asset sale or guaranteed equity redemption"
         }
       },
-      "status": "funding-blocked-no-opening"
+      "status": "funding-blocked-no-opening",
+      "terminal_cash_sensitivity": {
+        "actual_company_distribution_iqd": 0.0,
+        "asset_sale_usd": 0.0,
+        "cash_available_after_nonsecurity_liabilities_iqd": 0.0,
+        "guaranteed_redemption": false,
+        "quoted_share_exit_price": null,
+        "restricted_tenant_cash_distributed_iqd": 0.0,
+        "shareholder_returns": {
+          "foreign_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "government": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          },
+          "iraqi_private": {
+            "equity_irr_with_terminal_cash": null,
+            "equity_npv_with_terminal_cash_usd": null,
+            "hypothetical_terminal_cash_iqd": 0.0
+          }
+        },
+        "status": "unavailable-incomplete-or-unfunded",
+        "transaction_cost_fraction": 0.0
+      }
     }
   },
   "company_incorporated": false,
@@ -910,94 +1780,124 @@
   "listing_approved": false,
   "operational_release": false,
   "outputs_sha256": {
-    "90-day-work-programme.json": "b6389e939ac9654a209d542df5e977c7ebb041727d3bebb1dc60550ac3330455",
-    "README.md": "bd17066ade860952cba374ed11cb732b7641177e5ad2a247cae72579b7a7d21e",
+    "90-day-work-programme.json": "f3c6001558d1de62f6740c0d552e70e7b4c635dfff7067512affabd9985e66ee",
+    "README.md": "30852750e4ba2a9c79fd64fc142303bc87d83aa7aa7a14a06c210d97970c16e3",
     "aggregate_tax_proxy_1000m-loan-vintages.csv": "78e7bc8d2a0525053bc9d06d5ed3c49b9af91694e9a9684c2e5f3121a91385a4",
-    "aggregate_tax_proxy_1000m-monthly.csv": "2992b2af8df6fd40ef2ac5d74167acb66e09b76e6f56b97e2e9f6bf6f859b7ea",
+    "aggregate_tax_proxy_1000m-monthly.csv": "dd0cd887d26fe2e652fb78c75d0d29af94a90874e631aecc2a4805919fd3e085",
     "aggregate_tax_proxy_1000m-shareholder-cashflows.csv": "dc4c94d7dbcf68d3c89c53e8490a0a946e32a2229b908a43c58cb302a8f8390f",
-    "aggregate_tax_proxy_1000m-six-months.csv": "74a978cfac3145089e05d2bb8e6235f6e77e0ae7c53b2caf1b8321d8d70e59ee",
-    "aggregate_tax_proxy_1000m.json": "466d65b7f5f4cc7ee93c24e4468809a278593effdad85f8f240c06d7a30cc094",
+    "aggregate_tax_proxy_1000m-six-months.csv": "698f9ab91fb4944e2f35aee5c4430011013b56a5e1323fcf8619292384a1f798",
+    "aggregate_tax_proxy_1000m.json": "780c51c14e35bafc80c7a1e6cd9e3d9a6c7c2af3a1a3a80cb95ace94811c9604",
+    "coverage_dividends_1000m-loan-vintages.csv": "78e7bc8d2a0525053bc9d06d5ed3c49b9af91694e9a9684c2e5f3121a91385a4",
+    "coverage_dividends_1000m-monthly.csv": "bc65e29cdc60814ac3871b03f102268255f5025e0bedd2b8342d6607a2b3f38c",
+    "coverage_dividends_1000m-shareholder-cashflows.csv": "2fd37c29d70c067f5523d0be45ba8bc541ea8634fee5195fdf080bc7bf7c4a06",
+    "coverage_dividends_1000m-six-months.csv": "b8a148f5849e1e37029d2b3af9a3c04dd689375b74811c9d38b3c78ed53ae821",
+    "coverage_dividends_1000m.json": "3d33aec0e735e68ddc79c374f81654984a296da23aa7a994e99922241a9e178b",
     "delayed_1000m-loan-vintages.csv": "59cc0d813e06f21d4443b26816fea4ee5a1fbf7a93ee0c5e4c8c8551d58192db",
-    "delayed_1000m-monthly.csv": "c3f13d33cfd3a15e9c6903001ea7db605adce41686aac0f68daec73955c81998",
+    "delayed_1000m-monthly.csv": "48ecd122bab2c5ee931cd70fbcfc282547db3a1797d34e9ae0194c42191ec8d4",
     "delayed_1000m-shareholder-cashflows.csv": "8673cd0cd76f29508a9b03b20949935409da312495e414772ca93be211fb3557",
-    "delayed_1000m-six-months.csv": "c11581caed3f069075af5dc38688ebc1ca0d8a39c8bc1e6ece6670281e316c95",
-    "delayed_1000m.json": "5fc6acd588c2a9edec5687df45639f3ee89ef93d2e69e67f79808721fe3973fc",
-    "erpnext-task-import.csv": "22554b1100257fadb9095d561efb76fff0eebf7dbb136aa9b8d7cf6786568c35",
-    "erpnext-tasks.json": "47a1c2b2e24d024c677910274c2662368fa8e5d457dbd673b108df6bae85ad94",
+    "delayed_1000m-six-months.csv": "5255fa893865e4edbdf5ffe42f2f957f12a7067c92d35de2d3634b45207265b0",
+    "delayed_1000m.json": "df3770643fe721a69cb22887db58d31c655a30574f29ef18d8315a95d4e794bb",
+    "erpnext-task-import.csv": "ce5b3525b33939b361de9ae9f2486dd24b0f4cd722ce8943a0eddb34459bc2fe",
+    "erpnext-tasks.json": "da4cebd2335b7b1ea5007df6d05b9c1c277b21c85646a2a7248be61cac159084",
     "failed_later_primary-loan-vintages.csv": "b2dbeadb63dd8c7fc866a4396b38eed9f8f293a51da20def9a10ef86d10e866d",
-    "failed_later_primary-monthly.csv": "ba1f9094549adfcf81eaae4e521e85419a364df794d48a03551feb73fe0ea133",
+    "failed_later_primary-monthly.csv": "3ffc1d1f4f7812fb25c7d7ecc25c76c604417f080e22ff6be5b08c711fc53a5f",
     "failed_later_primary-shareholder-cashflows.csv": "47449ef95c1b686e00499bb35e5dce2e29dca34c750bd1335e6dea73b674c3ab",
     "failed_later_primary-six-months.csv": "dffb926e9b7306f4edff72352e3d8a1214334e303e01d2dae5f47b0783c71589",
-    "failed_later_primary.json": "97c7333490fc77854124fca215f17272bde5b1df5b572ee2ff15015061f8e192",
+    "failed_later_primary.json": "c2a72ef83fe9783673ea5323d03a618841f7c78e5c7239ed4e671463bca66810",
     "government_equity_reference-loan-vintages.csv": "1eab77c6b8d97b32316b67fc2f51ec49e939e1568c3c049c49a92afee7dc39f7",
-    "government_equity_reference-monthly.csv": "6f90f47a5d9d97a18d3b799d8ab524defa9b6bfae5ac7f65ff1af9fa166b3007",
+    "government_equity_reference-monthly.csv": "d0b5a19a7bcae5dc70e346e02ae6a649612b7fda8842136fc054e02938149b77",
     "government_equity_reference-shareholder-cashflows.csv": "6da1170d9ce7cb0b78ba26c47d05cc508f013b8c8ba105783f0aacb89cecd735",
-    "government_equity_reference-six-months.csv": "9a372fc964719294fde43dd3595e303526e738ada492382a170b40e0eb739cb8",
-    "government_equity_reference.json": "199839bd99e8a3f2ea9d6911a423bd81a93486d951055aff96fc83169df8069a",
+    "government_equity_reference-six-months.csv": "4a856e0846b26a84c7fda1f41b3d5414490155e6b4947708acb98a95efc65a5c",
+    "government_equity_reference.json": "79eec6ed6a6f1762d566e7647db23ab117e154ad20b8fc7c19013d6ddd735e1a",
     "government_grant_reference-loan-vintages.csv": "1eab77c6b8d97b32316b67fc2f51ec49e939e1568c3c049c49a92afee7dc39f7",
-    "government_grant_reference-monthly.csv": "edfbdecc46a07309800d146d81f2a49a87aba7e8d61babdb5fd3d5b4bf1573e1",
+    "government_grant_reference-monthly.csv": "63b53ffbdee9a379eb91efb5445fef40818ddbdc3ccc2142cf57c487e10ad69e",
     "government_grant_reference-shareholder-cashflows.csv": "2b9cc78cbbcd078a7719836e821342688389954c60a1cfb440a01aef5f57a48b",
-    "government_grant_reference-six-months.csv": "802cf51d0d14e382c4d2eeb3631575772d456c342d0796e1194f846b254f19b4",
-    "government_grant_reference.json": "d58b6f03aa2c854df5cbbb3da0b614473c2b97ccba0bf53f11b73aa506002a88",
-    "group-resource-monthly.csv": "553153410caae563b1f054ade7fc1d7c1a9672f274f6f83ecfdb2fb77f474b71",
+    "government_grant_reference-six-months.csv": "59da6179ed1ce1e1d3e32e8f211774a74c990690de68c5c44ebcce13b1d442a9",
+    "government_grant_reference.json": "45b4d2745f7cca185459c20d4a2d34ee3cf6096facdbaea5827dc66c6a54348c",
+    "group-resource-monthly.csv": "cca5eff8f38167650101ee21f2d254e03b25208d6216013ec8c202ed5abe7632",
     "joint_downside_1000m-loan-vintages.csv": "91f226a7f8df94a4a3fd5fbcc25907d0d4f381d21008f0433ef91a598337cfc6",
-    "joint_downside_1000m-monthly.csv": "5904f7499e65afbd45c85b0da69ca2c8fb7bf97114ba8c52dbf27146514f724a",
+    "joint_downside_1000m-monthly.csv": "808e1ac86049298bbb6ec3935c94f2169032e0d5541d5aacc4c79180d4d70b70",
     "joint_downside_1000m-shareholder-cashflows.csv": "549beec96eab0d51dc9fc40e5f3bdfe36d9bb0a0fd893097786fe6d75ea2693d",
-    "joint_downside_1000m-six-months.csv": "e1d395400b2acb3c9ef8f607e531ae78a71305ff578d744cb8eca83edaeb72e0",
-    "joint_downside_1000m.json": "4487e68a0ea92f045ee418f6092dde3247f3af2a5934988c37a4b462ddc59c8e",
+    "joint_downside_1000m-six-months.csv": "932770897925ee53182e3d3d5bb8e437af31e11f870db0de0bdaef3c9c5ee8ee",
+    "joint_downside_1000m.json": "d809ba4e8f27a68455de644a68ff0a9b22eed5db802bbbe27d81de6e7d0014cb",
     "joint_downside_undersubscribed-loan-vintages.csv": "3ed506cd1d1b2e389e7ea2fde7084a4799a816dc49a69d6b0431fccd3bb795bb",
-    "joint_downside_undersubscribed-monthly.csv": "d37a798587936dc1b14d3e3d50a3aa6ac229bdecf8902eddcce432b69894f55a",
+    "joint_downside_undersubscribed-monthly.csv": "345aaad36a4fe530bc7cafb016cdab774fae176a65f874b26de8e9de64948555",
     "joint_downside_undersubscribed-shareholder-cashflows.csv": "ebd62a0aac4a1563b0451294844b00dcfee5d5ef47ffdc05c2867b2816ec4415",
     "joint_downside_undersubscribed-six-months.csv": "c2f93a2a998b17e87a6ba5bb3050deb77138be3de809dc588803aa99fe937194",
-    "joint_downside_undersubscribed.json": "cc00fde037cad6b256e08cda78d4861dc4b87cbe506c93a7076998f4ea4863c0",
+    "joint_downside_undersubscribed.json": "24f17e8feeb0419c3ad848161a0fc071e57f69f125d5da03663d09738042f62d",
     "listing-gates.json": "b959745687e85e18cb14d76822f232cd6195bf4c6b3dca5cb619bceef421cb75",
     "primary_1000m-loan-vintages.csv": "78e7bc8d2a0525053bc9d06d5ed3c49b9af91694e9a9684c2e5f3121a91385a4",
-    "primary_1000m-monthly.csv": "7ccf81b2cf47199168636db2977ebd7ff956fa8bf7cd491d0f8cbb88a1db451b",
+    "primary_1000m-monthly.csv": "0bfc3d6113fd87a144bb81e98c7ee00aa34f30a6457de3a09226401d4dd205ca",
     "primary_1000m-shareholder-cashflows.csv": "3132c3c973c448e775bea8fe65250920de256597dd799375503f33603ff4bb69",
-    "primary_1000m-six-months.csv": "1a5e4485be3e342b114660d263d9a541e7b71405cdf8ee9030744375d049be1d",
-    "primary_1000m.json": "5ead4a74fb478ea39c817ae126b992cc220858770d36f7f0cdc402543879a266",
+    "primary_1000m-six-months.csv": "7bc76221c38aedf3dff80569d3b4ccf51a041df1cc000bf156f335af096cccb7",
+    "primary_1000m.json": "5aed1a3d77e7e95ffdb55aaa80bad1083127d307735caa5b48414fe5bfa1cfd3",
     "primary_1000m_premium-loan-vintages.csv": "78e7bc8d2a0525053bc9d06d5ed3c49b9af91694e9a9684c2e5f3121a91385a4",
-    "primary_1000m_premium-monthly.csv": "d0e5b3afca18b849cd0715a578ed4a1f5d65659bbe69b35f71fbce2e7d66eae6",
+    "primary_1000m_premium-monthly.csv": "2cee4c1352d2d8bf3c6b6604bac1b6958a28f2ba021b5a54a5f935c1abf6dfdf",
     "primary_1000m_premium-shareholder-cashflows.csv": "2a9c7e5f41323602b2118f1e39aeef203084d79766c24a6f60031c402688aa37",
-    "primary_1000m_premium-six-months.csv": "507cf1bd06711e7cc28e4de1f9213d1072bc9c85627d3f46ced6c9c7c8c24527",
-    "primary_1000m_premium.json": "23828420bb05f89d380c2a7f738963d4ead1866a1e35aa4b8dc09fba37aabe2d",
+    "primary_1000m_premium-six-months.csv": "a8c87ae46a7c16cf8b6a355909c01f78f1dde93e64ebffd72f5c3751d42a6982",
+    "primary_1000m_premium.json": "eea1cebe9745f0a88cf3afaf0e94dfa7c4af56765c562f061cc06dbe6803e78d",
     "primary_2000m-loan-vintages.csv": "86e3340a2bf809258d7c063f6678848f8e181fd4a1fdbff7ad7a397727128842",
-    "primary_2000m-monthly.csv": "e253c98b2c6e9e6b6daf65bd5ac1e9f36b71316e702006dfff23b4359bce423e",
+    "primary_2000m-monthly.csv": "88420f3a3793ed358567cd73141c3df38e1c91d0344fb789047ba9ccd834a400",
     "primary_2000m-shareholder-cashflows.csv": "89961abe54884c2b19d23ff3b38cc48caf50723c4c7073f90f236f55a41bf6e6",
-    "primary_2000m-six-months.csv": "078b79941f51c72d9b5e667eff9ea2669b36f6b6e22c4d0909d4514386f14481",
-    "primary_2000m.json": "a468a2482affb168d25c0cb8dffe090c694ee983c8049296e3eb9c2415b0e0dc",
+    "primary_2000m-six-months.csv": "599c27cbc5d91e2c60db95606f55a2ab5703fc6a31329e9cba29a0ffd9a51ce9",
+    "primary_2000m.json": "4ca1d88948103ae665fa34dfb20f2fa218cc17c861dad5a0a15be8e6a74c581a",
     "primary_500m-loan-vintages.csv": "0c5f63163a5f559eebbd1791d36b379239d6468154a349d9ef5d01dde7dad888",
-    "primary_500m-monthly.csv": "c151f573644242059fdac4a6511feaef7f24c08ad2f32c9e017460757efae148",
+    "primary_500m-monthly.csv": "c38b5effeb35197cf00f3395a6f460eab6fd34ab87be3833a61dbaff1c8bd951",
     "primary_500m-shareholder-cashflows.csv": "c89fe96a38d5c30e379d52c3b2395aa866655bf61b4a6313460dce911517f1e4",
-    "primary_500m-six-months.csv": "188dbf363455eadc6c73ca4fd1ec5a232bcebce565779649ef04f8d30a83ad67",
-    "primary_500m.json": "8f921e9014ede08efa662c21302750f54753a7ecf89698d344146795560e584e",
+    "primary_500m-six-months.csv": "f33c8d43272e647746b67d78d4431a2078102d387acda712d956f0503088f454",
+    "primary_500m.json": "c996046032a346ca652589edf9fda4d8c67af045654cb85b97a7e97b942ece5e",
+    "rental_medium_1000m-loan-vintages.csv": "e8346e2f66ca851ebe86f4931dab2d1b998921cfde3cc8a36c0cf1eafecaf7a5",
+    "rental_medium_1000m-monthly.csv": "0d97b67931fad633b77d83ba6b5cd953217a2676f9f2c6394ac82f18d6200323",
+    "rental_medium_1000m-shareholder-cashflows.csv": "26fa20dbd48f1a703f18c25740e7160c940f96ec54f112c5479e4cb81399d1ab",
+    "rental_medium_1000m-six-months.csv": "a1c4c91bf017d4a88cadd8dabb5a65256b937dfeb79c6f02e12e5c6af441aa09",
+    "rental_medium_1000m.json": "53a96579b646bc3fc69a58251735260011910c2d0e1a2ec38636357f7bf3824e",
+    "rental_medium_coverage_1000m-loan-vintages.csv": "e8346e2f66ca851ebe86f4931dab2d1b998921cfde3cc8a36c0cf1eafecaf7a5",
+    "rental_medium_coverage_1000m-monthly.csv": "03b3c7ffc86ee9e9afd2f6ba3f15fa0ba89a84f4869dfe3be9f91fb7b5f56a41",
+    "rental_medium_coverage_1000m-shareholder-cashflows.csv": "40dcbaceab63295dd685f5db119373581684bc9090969525ff7c90dda9b69b42",
+    "rental_medium_coverage_1000m-six-months.csv": "b4699d4077f53d344c4d70d1b72ffe8bd8e15d24673dcdcc2f29caaeef4a07cd",
+    "rental_medium_coverage_1000m.json": "2c32b17e091a9f72e673bfdfb2a5389cfd56320fdba1fb85fd3a0cab7ff6e577",
+    "rental_medium_downside_1000m-loan-vintages.csv": "be3f628d8bff60a13b1f6301e7207bfb4601fd881b191e6a10e3db73451a1c39",
+    "rental_medium_downside_1000m-monthly.csv": "eba03c774f43bdee1aa560c88af0447348f26a98fc89cc50737b33ea379a58b4",
+    "rental_medium_downside_1000m-shareholder-cashflows.csv": "8891c2193e2b5441d9572793a4c8cd381307d8e6b3751399a643cc73dfc96fca",
+    "rental_medium_downside_1000m-six-months.csv": "d88227fc953125439339dfa406ee460a1f2295a1a912693546dc8d4443796740",
+    "rental_medium_downside_1000m.json": "3e7c6dee840880bddab35394f97a1d66b823346ccf72d0910cdfbac4ee4bc7e1",
+    "rental_small_1000m-loan-vintages.csv": "61d19b81f3aae690529a85832700ea81a9fa6dc8dd87ce7aff6938db7de056ee",
+    "rental_small_1000m-monthly.csv": "4e293fd27eeff0c0d3b29881e8521bfd73348f85d8a6bd614947639310e8d054",
+    "rental_small_1000m-shareholder-cashflows.csv": "43a5beeedcfc215f282449fe68463316da0a6cb51907d89477b99d4103111332",
+    "rental_small_1000m-six-months.csv": "0148822e45c37e0658cf63fce5aa5dd903aada4bdf70712ebe0869e39b83d9f3",
+    "rental_small_1000m.json": "dcee638e046d338654fcc9215a8cf78befcdb7bc49b6f95f1ba8194472408844",
     "secondary_500m-loan-vintages.csv": "1eab77c6b8d97b32316b67fc2f51ec49e939e1568c3c049c49a92afee7dc39f7",
-    "secondary_500m-monthly.csv": "d91343400bcc50a069b2fba0532694f9833c1a3d698a5d0beef647147261b000",
+    "secondary_500m-monthly.csv": "11a32bf9b21e3aa5e5b2912e3c83d0b8c13cfbe320a9a522180272b02bdedf9e",
     "secondary_500m-shareholder-cashflows.csv": "26c020dcc92fadfebb8fb40271813856943a71eea7a6c1dd7a390b4cf0e1845f",
-    "secondary_500m-six-months.csv": "fe5923f12f59f9cb71b4b52bf69b4f9e3c03aaceeb55a505ef9fb16b1f281ddd",
-    "secondary_500m.json": "0e07dcc29f47c20b009e72339a5f8ddf807bfc88995fd35f66e6e14076b43434",
+    "secondary_500m-six-months.csv": "32a69cc4798f40c4b6da8e6351a9788c3501137331127d5cdcb8c838033df915",
+    "secondary_500m.json": "cec1dda94b997bbec7c079a8ee311195c3848b24823a207ce761acd9bf753d41",
     "undersubscribed_1000m-loan-vintages.csv": "8d3d90ae5f67dbe87bc772ba90e41f72a0d71bf341a8aac8a3da04687564b066",
-    "undersubscribed_1000m-monthly.csv": "656b590a447aa368b476347fe68add8534711e343908875e2de2725b432e7a18",
+    "undersubscribed_1000m-monthly.csv": "b745c08d0d141000eaf2bc55fc0dff34cb83336832b7ed94687e93a9d5748800",
     "undersubscribed_1000m-shareholder-cashflows.csv": "460595c43494e8526f0db7051ff0af5cb9ff2b4c9f71867e94437138c61abde1",
     "undersubscribed_1000m-six-months.csv": "d16adce6af486be35d7aa1ac480d8d71098f35c8db7f0556ad0e2e9003905db5",
-    "undersubscribed_1000m.json": "d1a24062b4e03b6d6d8ba794825b180b49559d4cfff1964dcff170feace5551b"
+    "undersubscribed_1000m.json": "082efbae21a0b79a7e9b0861f661c7df4f8e908187c9828b71b6d623a87a92a5"
   },
   "schema": "baghdad-ordinary-equity/1",
-  "source_revision": "ac54b237ba6afef650923fe5d3675a8e9de40252f15d0c0e2523c9c3673bf73c",
+  "source_revision": "dea70c9be3f8f3f70324aedf714e5c7366fd64fb2baee463b4a084d9404ed242",
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/summary.json": "e6464e763401e7c57b1e37722c84d581bad20a83f9015b3af00aba5feafad5f1",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory/summary.json": "4d17b5bdfc774c7646a0c56cda2a115f9d97d58205a252224709b6fdbbb50091",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/integrated.json": "5624105bc92687f975295572b36653d54911665112eb535e92215199bed03c21",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/integrated_joint_downside.json": "65d5fecb6e78bf3b779bebffe2f307cc87d15734d2c68324d8ff4c1050b195b0",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/summary.json": "10b7abec0fd567e20e7e9b80462c8af092f7cec109983301e447cb2f10d6aa6a",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/summary.json": "39f94c9ef86654ce0da4d5790e13c8de7247962a731c5d0a67d1914aab7cc2f7",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/summary.json": "55aaf3481346b3dbd471c9a6400a0109d27594e76ae66cbedf2cfd232b113b6b",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/medium.json": "c3a4d8f77ec4c496d06b2b4c7d8babd1e164a37ce13e1d06e5bd1daa19770de4",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/medium_downside.json": "90c6d8dcca5fabde285d10a0fcd25c7547aa937d8873c0343a1eaabbf38b2643",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/small.json": "571c425717f53cbf1743868e57a6076dfae39013f55a5f5a95bf124788372256",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/summary.json": "4866649a70d3f6c0092ca36b3cfec12545f5706435dd268523847314d5d57bca",
     "design/city-generation/src/osr_scenario/iraq_finance.py": "9873b023c7deecfc06c7b8606d4d30b321b1476ad7315d5ebee131e8b58caa29",
-    "lib/templates/baghdad-equity.toml": "5a11e3b4f3399e42da18748f992b4752336c539816e6c970337c2bdb3dacb156",
+    "lib/templates/baghdad-equity.toml": "bc0b542d2cb1cd3b67759b63bc6dc1ee5c0872055ffc36884fc6639626222fd1",
     "lib/templates/baghdad-finance-options.toml": "deb6ed9a1914de37dee7943827c39a5d68f70f285c3267c0cf1d8e24430952d4",
     "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
-    "tools/automation/baghdad_equity.py": "04accfecdd94cdf74dd933645823c33ca7bf0f4a3d168050fa08518042ca13a5",
-    "tools/automation/baghdad_financing_redesign.py": "5e304cf3acfd3601203564c04be47dffa7beb057b81fccd22d25c3b3fb9069b8",
-    "tools/automation/baghdad_funding_analysis.py": "2a3dc323ddde48084608772459b0250d1f3579549acf2ff15bab8d80db8b34d9"
+    "tools/automation/baghdad_equity.py": "408ddea5c449706ce77761a27f6986361a103dfb9e05a5838b084f931d26cea5",
+    "tools/automation/baghdad_financing_redesign.py": "4e918de04ab39aad99346dae1446a69a6c7cc12ff702c071f746a559f8cc0e0e",
+    "tools/automation/baghdad_funding_analysis.py": "2a3dc323ddde48084608772459b0250d1f3579549acf2ff15bab8d80db8b34d9",
+    "tools/automation/baghdad_viaduct_rentals.py": "301f54c632fe8151c326a5d192152a43d2d9105b1c4dde1e93c6d5b4046b5e8e"
   },
   "status": "illustrative-uncommitted-not-investment-ready"
 }

@@ -360,7 +360,9 @@ def main():
         ROOT/'lib/templates/baghdad-delivery-risk.toml', CITY/'engineering/finance/summary.json', CITY/'engineering/factory/summary.json',
         CITY/'engineering/delivery-risk/summary.json', CITY/'engineering/qualification/summary.json',
         CITY.parent/'finance/baghdad-programme.json', CITY/'operations/baghdad-operations.json.gz', CITY/'design.toml', CITY/'baghdad.toml',
-        ROOT/'design/city-generation/src/osr_scenario/iraq_finance.py',ROOT/'design/city-generation/src/osr_scenario/network_readme.py']
+        ROOT/'design/city-generation/src/osr_scenario/iraq_finance.py',ROOT/'design/city-generation/src/osr_scenario/network_readme.py',
+        ROOT/'tools/automation/baghdad_viaduct_rentals.py',ROOT/'lib/templates/baghdad-viaduct-rentals.toml',
+        CITY/'engineering/viaduct-rentals/summary.json']
     sources = {p.relative_to(ROOT).as_posix(): digest(p) for p in paths}
     def load(path): return json.loads(path.read_text())
     redesign = tomllib.loads(paths[3].read_text()); config = city_funding_config(tomllib.loads(paths[4].read_text()), 'baghdad')
@@ -396,6 +398,10 @@ def main():
         cases[name] = split_inputs(inputs, phases, task_lines, design, scenario, city_finance, redesign, risk, settings, **kwargs)
     weak_inputs, weak_phases, weak_settings, _ = model_input('joint_downside')
     cases['integrated_joint_downside'] = split_inputs(weak_inputs, weak_phases, task_lines, design, scenario, city_finance, redesign, risk, weak_settings, downside=True)
+    rentals=tomllib.loads((ROOT/'lib/templates/baghdad-viaduct-rentals.toml').read_text())
+    for name in ('small','medium','medium_downside'):
+        portfolio=load(CITY/'engineering/viaduct-rentals'/f'{name}.json')
+        cases['integrated_rental_'+name]=retained_entity(cases['integrated'],portfolio,config,options,rentals)
     OUT.mkdir(parents=True, exist_ok=True)
     output_paths = []
     def save(name, value):
@@ -443,7 +449,59 @@ def main():
         cases={name:{key:case[key] for key in ('metrics','appraisal')} for name, case in cases.items()},
         evidence_status='All lender terms, equity, title, valuation, PPA, insurance/currency execution and subsidies pending')
     (OUT/'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True)+'\n')
-    print('Generated nine financing alternatives, company/monthly/six-month/vintage ledgers, land register and six 90-day ERP drafts')
+    print('Generated twelve financing alternatives with retained rentals, company/monthly/six-month/vintage ledgers and six ERP drafts')
+
+
+def retained_entity(baseline,portfolio,config,options,rentals):
+    """A fifth ring-fenced borrower, without invented intercompany distributions.
+
+    Security deposits are outside free project cash and matched by liabilities.
+    The existing four gap caps stay fixed; this new entity has zero gap capacity.
+    """
+    if portfolio['status']!='conditional-unverified-retained-portfolio':raise ValueError('Unmapped rental area cannot enter financing')
+    case=deepcopy(baseline);m=rentals['model'];cfg=deepcopy(config);opt=deepcopy(options)
+    cfg['capital_sources']=dict(government_share=0.,chinese_import_share=0.,government_import_share=0.,residual_bond_share=0.)
+    opt['liquidity']['illustrative_cap_iqd']=0.
+    cap={r['month']:dict(capex=r['physical_fitout_capital_usd'],imports=0.,candidate_capex=0.,candidate_imports=0.,
+        private_equity=r['physical_fitout_capital_usd']*m['private_partner_fitout_equity_fraction']) for r in portfolio['monthly'] if r['physical_fitout_capital_usd']}
+    phases=[dict(line=p['line'],opening_month=p['handover_month'],weight=p['lettable_m2']/portfolio['metrics']['target_lettable_m2']) for p in portfolio['cohorts']]
+    op=[dict(month=r['month'],revenue_usd=r['rent_collected_usd'],nonfare_revenue_usd=r['rent_collected_usd'],fare_revenue_usd=0.,
+        opex_usd=r['landlord_opex_usd']+r['standalone_cash_tax_usd'],factory_debt_service_usd=0.,factory_reserve_usd=0.,chinese_commitment_fee_usd=0.) for r in portfolio['monthly']]
+    op[0]['phases']=phases
+    terms={month:{'bank_credit':dict(grace_months_from_draw=max(0,max(p['handover_month'] for p in portfolio['cohorts']
+        if p['build_first_month']<=month<=p['build_last_month'])-month-1),repayment_months=240)} for month in cap}
+    ledger=simulate(cap,op,cfg,opt,extras=False,bridge_rate=opt['liquidity']['concessional_annual_rate'],
+        bridge_fee=opt['liquidity']['concessional_draw_fee'],repayment_policy='cost_priority',draw_terms=terms)
+    if len(ledger['monthly'])!=len(case['consolidated_monthly']):raise ValueError('Rental/rail horizons do not match')
+    for r,p in zip(ledger['monthly'],portfolio['monthly']):
+        r.update(tenant_deposit_received_iqd=p['tenant_deposit_received_iqd'],tenant_deposit_refunded_iqd=p['tenant_deposit_refunded_iqd'],
+            restricted_deposit_cash_iqd=p['restricted_deposit_cash_iqd'],tenant_deposit_liability_iqd=p['tenant_deposit_liability_iqd'],
+            rental_tax_iqd=p['standalone_cash_tax_usd']*1300,rental_refurbishment_iqd=p['refurbishment_usd']*1300)
+    ledger['status']='conditional-retained-property-after-rental-tax-no-gap-capacity'
+    case['entities']['retained_rentals']=ledger;case['rental_portfolio']=portfolio['metrics']
+    for r,p in zip(case['consolidated_monthly'],portfolio['monthly']):
+        r['consolidated_unlevered_cash_usd']+=p['unlevered_cash_before_tax_usd']
+        r['consolidated_recipient_cash_with_public_support_usd']+=p['unlevered_cash_before_tax_usd']
+        r['consolidated_after_rental_cash_tax_usd']=r['consolidated_unlevered_cash_usd']-p['standalone_cash_tax_usd']
+    for r in case['intercompany_monthly']:
+        r['retained_rental_distribution_to_rail_usd']=0.;r['rail_receipt_from_retained_rentals_usd']=0.
+    cm,lm=case['metrics'],ledger['metrics']
+    cm['total_physical_programme_capital_usd']+=lm['total_capital_usd'];cm['retained_fitout_capital_usd']=lm['total_capital_usd']
+    cm['total_private_equity_iqd']+=lm['private_equity_iqd'];cm['total_bank_capital_iqd']+=lm['bank_capital_iqd']
+    cm['uncovered_support_iqd']+=lm['uncovered_support_iqd'];cm['terminal_supplemental_balance_iqd']+=lm['terminal_supplemental_balance_iqd']
+    cm['total_finance_interest_and_fees_usd']+=lm['total_finance_interest_and_fees_usd']
+    cm['peak_aggregate_liquidity_iqd']=max(sum(e['monthly'][i]['closing_liquidity_debt_iqd'] for e in case['entities'].values()) for i in range(len(op)))
+    cm['new_rental_gap_capacity_iqd']=0.;cm['rental_security_deposits_are_income']=False
+    a=case['appraisal'];increment=portfolio['metrics']['resource_npv_before_tax_usd']
+    a['consolidated_resource_npv_usd']+=increment;a['consolidated_resource_npv_after_land_opportunity_usd']+=increment
+    a['consolidated_recipient_npv_with_public_capital_and_support_usd']+=increment
+    a['retained_rental_before_tax_incremental_npv_usd']=increment
+    a['consolidated_resource_npv_after_rental_tax_usd']=baseline['appraisal']['consolidated_resource_npv_usd']+portfolio['metrics']['standalone_resource_npv_after_tax_usd']
+    a['additional_rental_land_opportunity_cost_usd']=None
+    a['tax_status']='Original four entities before tax; retained-rental cash includes a separate 15% tax stress; group statutory tax unestablished'
+    expected=baseline['appraisal']['consolidated_resource_npv_usd']+increment
+    a['consolidation_npv_residual_usd']=npv([(r['month'],r['consolidated_unlevered_cash_usd']) for r in case['consolidated_monthly']],.134)-expected
+    return case
 
 
 def report_text(cases, phases, redesign):
@@ -458,7 +516,7 @@ def report_text(cases, phases, redesign):
     a,m = integrated['appraisal'], integrated['metrics']
     return f'''# Baghdad financing redesign — {redesign['model']['as_of']}
 
-Nine executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are {', '.join(str(p['opening_month']) for p in phases)} months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
+Twelve executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are {', '.join(str(p['opening_month']) for p in phases)} months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
 
 ## Results and what they mean
 
@@ -501,6 +559,12 @@ Energy and factory each test 20% private IQD equity. Government remains 25% of o
 At the illustrative capacity fee, factory cash remaining at contract/warranty close is **USD {integrated['entities']['factory']['metrics']['equity_distribution_assumption_usd']/1e6:.3f}m** against **USD {integrated['entities']['factory']['metrics']['private_equity_iqd']/1300/1e6:.3f}m** invested equity. The 15% equity-hurdle NPV is **USD {integrated['entities']['factory']['metrics']['equity_npv_at_15pct_orderbook_or_sale_close_usd']/1e6:.3f}m**. Debt repayment therefore does not establish an investable factory partnership. Developer equity-hurdle NPV is **USD {integrated['entities']['development']['metrics']['equity_npv_at_15pct_orderbook_or_sale_close_usd']/1e6:.3f}m**. These close-date distribution diagnostics deduct any remaining debt and disclose missing funding; no dividend or sponsor return is assumed to be committed. Competitive pricing, equity terms and a bankable capacity contract require further work.
 
 ## Appraisal and public exposure
+
+Three retained under-viaduct rental variants add a **fifth independently financed entity** to the integrated case: small, medium and lower-rent/prolonged-vacancy medium. The [civil-linked register, pilot unit, costs, leases and hazards](../viaduct-rentals/README.md) have no accepted site/demand evidence. External rent adds revenue; actual collection follows fit-outs, physical line availability, initial rent-free periods, occupancy ramp, arrears/recovery, tenant turnover and lease-end refunds. Fit-out capital, occupied/vacant maintenance/insurance, 12-year refurbishment and a standalone 15% cash-tax proxy are included. No station sale parcel also earns rent; no existing kiosk income is duplicated. Tenant deposits are restricted cash and matching liabilities, never construction finance or revenue.
+
+The rental partner supplies 25% fit-out capital as private IQD equity and the residual is IQD bank capital, with opening-linked principal and 240-month amortisation. It has **zero new operating-gap capacity**: missing construction interest, fees or reserves remains an explicit funding requirement. The original four borrowers keep their existing allocated caps; combined cap remains 13tn. Rental transfers to rail are zero until an approved agreement exists, so rail cannot silently use the new company's cash. Each borrower exports monthly native ledgers, six-month placements and loan vintages. These ring-fenced structures are alternative to the wholly owned holding rental cases, whose subscriptions replace rather than add partner equity.
+
+Consolidated resource NPV adds collected rent less its OPEX and physical fit-out capital, before financing/tax, to the original resource case. A separately labelled after-rental-tax diagnostic deducts rental tax once; the original four businesses retain their existing before-tax basis. Additional rental-site rights/land opportunity cost is unknown, so the existing station-land subtraction is not a complete new-site appraisal. The 200,000 m² area illustration is blocked as unmapped and supplies no integrated cash.
 
 Core rail/energy/factory unlevered NPV: **USD {a['core_unlevered_npv_usd']/1e9:.3f}bn**. Rail entity NPV including its PPA, capacity fees and internal rights: **USD {a['rail_entity_unlevered_npv_with_internal_payments_and_rights_usd']/1e9:.3f}bn**. Consolidated resource NPV including property sales/building costs and additional renewals/caretaking: **USD {a['consolidated_resource_npv_usd']/1e9:.3f}bn**; including land opportunity cost: **USD {a['consolidated_resource_npv_after_land_opportunity_usd']/1e9:.3f}bn**. Debt/equity/grants are financing transfers and excluded from resource NPV; intercompany transfers cancel to the cent. Nominal discount is {a['nominal_discount_rate']:.1%}, combining 8% real and 5% general inflation.
 

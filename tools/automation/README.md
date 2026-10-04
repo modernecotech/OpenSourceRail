@@ -49,6 +49,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-iraq-funding-programme.py`](generate-iraq-funding-programme.py) | Reconcile Baghdad and one plant only; publish native USD/IQD capital, priced gap finance, tariff/OPEX sensitivities and monthly/six-month early repayments |
 | [`baghdad_financing_redesign.py`](baghdad_financing_redesign.py) | Compare opening-linked credit, 15-year insured tenor, station rights, energy/factory/developer ledgers and consolidated appraisal; emit six-month placements and a 90-day evidence programme |
 | [`baghdad_equity.py`](baghdad_equity.py) | Model mixed holding-company ordinary shares, staged primary/secondary cash, dilution, tax/accounts, dividends, failed issues and six-month capital gates; `--check` validates sources and outputs |
+| [`baghdad_viaduct_rentals.py`](baghdad_viaduct_rentals.py) | Screen civil-linked retained premises, generate pilot units/parts/hazards, and price leasing, deposits, vacancy/refurbishment/tax scenarios without assuming eligibility; `--check` rejects source/output drift |
 | [`refresh-city-controls.py`](refresh-city-controls.py) | Refresh current finance, operations, project controls and documentation while preserving retained solver evidence and open release gates |
 | [`apply-city-overrides.py`](apply-city-overrides.py) | Apply controlled city operating policy before scenario emission; retains Samawah HABD configuration through synthesis |
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
@@ -130,7 +131,7 @@ tools/automation/bonsai-civil.sh --render
 
 ## Baghdad financing redesign
 
-The [nine-case redesign](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) preserves the existing baseline and distinguishes core unlevered appraisal, company cash, public transfers and consolidated resources. New term sheets, equity, development values and public payments are sensitivities. Native ERP imports of its six evidence tasks use the existing qualification importer and preserve actual owner/status; no model run accepts those tasks.
+The [twelve-case redesign](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) preserves the existing baseline and distinguishes core unlevered appraisal, company cash, public transfers and consolidated resources. New term sheets, equity, development values and public payments are sensitivities. Native ERP imports of its six evidence tasks use the existing qualification importer and preserve actual owner/status; no model run accepts those tasks.
 
 When shared debt logic changes, regenerate in dependency order:
 
@@ -138,11 +139,14 @@ When shared debt logic changes, regenerate in dependency order:
 .venv/bin/python tools/automation/generate-iraq-funding-programme.py
 .venv/bin/python tools/automation/baghdad_delivery_stress.py
 .venv/bin/python tools/automation/baghdad_qualification.py
+.venv/bin/python tools/automation/baghdad_viaduct_rentals.py
 .venv/bin/python tools/automation/baghdad_financing_redesign.py
 .venv/bin/python tools/automation/baghdad_equity.py
 .venv/bin/python tools/automation/build-baghdad-proposal.py
 ```
 
-The last four tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
+The last five tools support `--check` to reject source/output drift. Delivery stress also supports `--check`. Monthly company cash and principal balances, six-month capital funding and internal transfers must reconcile before publication. Land opportunity cost and extra availability payments remain visible outside the government's 25% original-capital contribution.
 
 The [ordinary-equity study](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/equity/README.md) proposes a 100%-owned subsidiary holding group, retaining open licences. Government shares reclassify existing money; only primary subscriptions fund company invoices. Failed subscriptions cannot expand capital-credit envelopes. Consolidated accounts, conservative separate-business tax, investor returns and an indicative Iraqi liabilities threshold remain conditional, with no accepted incorporation/admission evidence. Its six native ERP tasks use the same source-bound qualification importer.
+
+The [retained viaduct-premises package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md) has a civil-linked candidate register, open independent unit, 30-unit draft pilot, hazards and leasing/deposit/renewal ledgers. No area is surveyed or accepted. The large unmapped area is blocked; smaller cases feed both the ring-fenced and wholly owned financing alternatives. Equity outputs distinguish actual dividends from an unapproved coverage policy and independent terminal-cash diagnostics. Its six evidence Tasks require actual local market/engineering/quote/lease evidence; model output grants no occupancy or operating permission.

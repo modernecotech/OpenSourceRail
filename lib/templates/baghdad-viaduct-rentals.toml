@@ -1,0 +1,87 @@
+# Every price, eligibility and lease assumption needs Baghdad evidence.
+[model]
+as_of = "2026-10-04"
+iqd_per_usd_reference = 1300
+nominal_discount_rate = 0.134
+rent_indexation = 0.05
+opex_inflation = 0.05
+construction_inflation = 0.05
+fitout_months = 6
+rent_free_months = 3
+ramp_months = 18
+initial_occupancy_fraction_of_target = 0.25
+holding_years = 30
+arrears_fraction = 0.03
+arrears_recovery_fraction = 0.50
+arrears_recovery_lag_months = 6
+annual_tenant_turnover_fraction = 0.10
+reletting_vacancy_months = 3
+reletting_rent_free_months = 1
+deposit_months = 2
+# Occupied-unit maintenance/insurance included here; vacant units cost separately.
+occupied_landlord_cost_fraction = 0.25
+vacant_maintenance_usd_per_m2_year = 7.5
+vacant_insurance_usd_per_m2_year = 2.5
+refurbishment_interval_months = 144
+refurbishment_fraction_of_reference_fitout = 0.20
+asset_life_years = 20
+corporate_tax_fraction = 0.15
+private_partner_fitout_equity_fraction = 0.25
+# No extra government money, USD debt, operating gap capacity or land proceeds.
+additional_government_cash_usd = 0
+additional_chinese_credit_usd = 0
+additional_site_rights_cash_usd = 0
+terminal_sale_usd = 0
+
+[geometry]
+minimum_candidate_segment_m = 75
+approach_exclusion_each_end_m = 10
+planning_span_m = 25
+units_per_planning_bay = 3
+unit_internal_frontage_m = 6
+unit_internal_depth_m = 5
+wall_thickness_m = 0.2
+unit_clear_height_m = 3.2
+inspection_zone_each_bay_end_m = 2
+independent_access_width_m = 1.2
+reference_deck_width_m = 7
+pilot_units = 30
+
+[cases.small]
+target_lettable_m2 = 40000
+reference_monthly_rent_usd_per_m2 = 10
+target_occupancy = 0.70
+
+[cases.medium]
+target_lettable_m2 = 100000
+reference_monthly_rent_usd_per_m2 = 15
+target_occupancy = 0.80
+
+[cases.large]
+target_lettable_m2 = 200000
+reference_monthly_rent_usd_per_m2 = 20
+target_occupancy = 0.85
+
+[cases.medium_downside]
+target_lettable_m2 = 100000
+reference_monthly_rent_usd_per_m2 = 9
+target_occupancy = 0.55
+lease_delay_months = 12
+ramp_months = 36
+arrears_fraction = 0.08
+opex_inflation = 0.07
+
+# Allowances per complete 30 m² internal unit, not supplier quotations.
+[unit_allowances_usd]
+frame_and_walls = 5000
+ground_slab = 2000
+roof_insulation_and_acoustics = 2500
+doors_and_windows = 1600
+utilities_isolation_and_meters = 2400
+fire_and_egress_equipment = 800
+drainage = 600
+independent_foundation = 1800
+impact_protection_and_access = 900
+removable_inspection_panels = 400
+design_and_shared_services = 2000
+contingency = 1000
